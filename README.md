@@ -1,2 +1,2 @@
-DG.JSAPI
-========
+DG MAPS API 2.0
+====
