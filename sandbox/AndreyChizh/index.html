@@ -34,7 +34,7 @@
     });
 
     L.ajax({
-        url: 'http://catalog.api.2gis.ru/project/list',
+        url: 'http://catalog.api.2gis1.ru/project/list',
         data: {
             output: 'jsonp',
             key: 'ruxlih0718',
@@ -42,6 +42,9 @@
             lang: 'ru'
         },
         success: function (data, textStatus) {
+            console.log(data);
+        },
+        error: function (data) {
             console.log(data);
         }
     });
