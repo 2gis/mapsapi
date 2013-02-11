@@ -5,6 +5,8 @@
  * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
 L.ajax = function(params) {
+    'use strict';
+
     var query = '',
         head,
         script,
@@ -49,6 +51,7 @@ L.ajax = function(params) {
     script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
+    script.id = callbackId;
     script.src = resUrl;
 
     script.onerror = function(e) {
@@ -63,10 +66,12 @@ L.ajax = function(params) {
 };
 
 L.ajax.cancelCallback = function(cid) {
+    'use strict';
     if (L.ajax.callback.hasOwnProperty(cid)) {
-        delete L.ajax.callback[cid];
+        var script = document.getElementById(cid);
+        script.parentNode.removeChild(script);
+        L.ajax.callback[cid] = function() {};
     }
 };
 
 L.ajax.callback = {};
-
