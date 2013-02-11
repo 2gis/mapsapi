@@ -71,7 +71,7 @@ L.ajax.cancelCallback = function(cid) {
         script.parentNode.removeChild(script);
     }
     if (L.ajax.callback.hasOwnProperty(cid)) {
-        delete L.ajax.callback[cid];
+        L.ajax.callback[cid] = function() {};
     }
 };
 
