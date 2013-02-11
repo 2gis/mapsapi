@@ -36,8 +36,10 @@
     L.ajax({
         url: 'http://catalog.api.2gis.ru/project/list',
         data: {
-            id: 1,
-            test: 'fdfd'
+            output: 'jsonp',
+            key: 'ruxlih0718',
+            version: 1.3,
+            lang: 'ru'
         },
         success: function (data, textStatus) {
             console.log(data);
