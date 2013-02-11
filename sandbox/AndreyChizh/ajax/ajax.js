@@ -5,7 +5,8 @@
  * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
 L.ajax = function(params) {
-    var query = '';
+    var query = '',
+        resUrl;
 
     var url = params.url,
         data = params.data || {},
@@ -14,61 +15,42 @@ L.ajax = function(params) {
         error = params.error || function() {},
         complete = params.complete || function() {};
 
+
+    var head = document.getElementsByTagName('head')[0];
+    var script = L.DomUtil.create('script', '', head);
+    script.type = 'text/javascript';
+    script.async = true;
+
+    var callbackId = "dg_" + ("" + Math.random()).slice(2);
+    var callbackName = "L.ajax.callback." + callbackId;
+
+
+    if (callbackId) {
+        L.ajax.callback[callbackId] = function(data) {
+            head.removeChild(script);
+            delete L.ajax.callback[callbackId];
+            success(data);
+        };
+    }
+
     for (var param in data) {
         if (data.hasOwnProperty(param)) {
             query += encodeURIComponent(param) + '=' + encodeURIComponent(data[param]) + '&';
         }
     }
 
-
-
-
-
-
-    debugger;
-
-
-    var jsonp = function(url, cb, cbParam, callbackName) {
-        var cbName, ourl, cbSuffix, scriptNode,
-            head = document.getElementsByTagName('head')[0];
-
-
-        var cbParam = cbParam || "callback";
-        if (callbackName) {
-            cbName = callbackName;
-        } else {
-            cbSuffix = "_" + ("" + Math.random()).slice(2);
-            cbName = "L.ajax.cb." + cbSuffix;
-        }
-
-
-        scriptNode = L.DomUtil.create('script', '', head);
-        scriptNode.type = 'text/javascript';
-
-
-        if (cbSuffix) {
-            L.ajax.cb[cbSuffix] = function(data) {
-                head.removeChild(scriptNode);
-                delete L.ajax.cb[cbSuffix];
-                cb(data);
-            };
-        }
-
-
-        if (url.indexOf("?") === -1) {
-            ourl = url + "?" + cbParam + "=" + cbName;
-        } else {
-            ourl = url + "&" + cbParam + "=" + cbName;
-        }
-
-
-        scriptNode.src = ourl;
+    if (url.indexOf("?") === -1) {
+        resUrl = url + "?" + query + 'callback=' + callbackName;
+    } else {
+        resUrl = url + "&" + query + 'callback=' + callbackName;
     }
 
+    beforeSend();
+    script.src = resUrl;
+    complete();
 
-
-
+    return callbackId;
 
 };
 
-L.ajax.cb = {};
+L.ajax.callback = {};
