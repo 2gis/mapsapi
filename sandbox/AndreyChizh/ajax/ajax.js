@@ -51,13 +51,13 @@ L.ajax = function(params) {
     script.async = true;
     script.src = resUrl;
 
-    beforeSend();
-    head.appendChild(script);
-    complete();
-
     script.onerror = function(e) {
         error({ url: resUrl, event: e });
     };
+
+    beforeSend();
+    head.appendChild(script);
+    complete();
 
     return callbackId;
 };

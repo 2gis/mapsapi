@@ -44,8 +44,14 @@
         success: function (data, textStatus) {
             console.log(data);
         },
-        error: function (data) {
-            console.log(data);
+        error: function (error) {
+            console.log(error);
+        },
+        beforeSend: function() {
+            console.log('beforeSend');
+        },
+        complete: function() {
+            console.log('complete');
         }
     });
 
