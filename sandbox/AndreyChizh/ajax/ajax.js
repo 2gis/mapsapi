@@ -23,7 +23,7 @@ L.ajax = function(params) {
 
     head = document.getElementsByTagName('head')[0];
 
-    callbackId = 'id_' + ('' + Math.random()).slice(2);
+    callbackId = 'dga_' + ('' + Math.random()).slice(2);
     callbackName = 'L.ajax.callback.' + callbackId;
 
     for (var key in data) {
@@ -38,18 +38,14 @@ L.ajax = function(params) {
         resUrl = url + '&' + query + 'callback=' + callbackName;
     }
 
-    try {
-        L.ajax.callback[callbackId] = function(data) {
-            success(data);
-            var script = document.getElementById(callbackId);
-            if (script) {
-                script.parentNode.removeChild(script);
-            }
-            delete L.ajax.callback[callbackId];
-        };
-    } catch (e) {
-        error({ url: resUrl, event: e });
-    }
+    L.ajax.callback[callbackId] = function(data) {
+        success(data);
+        var script = document.getElementById(callbackId);
+        if (script) {
+            script.parentNode.removeChild(script);
+        }
+        delete L.ajax.callback[callbackId];
+    };
 
     script = document.createElement('script');
     script.type = 'text/javascript';
@@ -59,6 +55,7 @@ L.ajax = function(params) {
 
     script.onerror = function(e) {
         error({ url: resUrl, event: e });
+        script.parentNode.removeChild(script);
     };
 
     beforeSend(callbackId);

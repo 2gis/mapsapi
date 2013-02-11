@@ -34,7 +34,7 @@
     });
 
     var test = L.ajax({
-        url: 'http://catalog.api.2gis.ru/project/list',
+        url: 'http://catalog.8api.2gis.ru/project/list',
         data: {
             output: 'jsonp',
             key: 'ruxlih0718',
@@ -48,16 +48,16 @@
         error: function (error) {
             console.log(error);
         },
-        beforeSend: function() {
-            console.log('beforeSend');
+        beforeSend: function(e) {
+            console.log('beforeSend ' + e);
         },
-        complete: function() {
-            console.log('complete');
+        complete: function(e) {
+            console.log('complete ' + e);
         }
     });
 
     var test2 = L.ajax({
-        url: 'http://catalog.api.2gis.ru/project/list',
+        url: 'http://catalog.6api.2gis.ru/project/list',
         data: {
             output: 'jsonp',
             key: 'ruxlih0718',
@@ -70,11 +70,11 @@
         error: function (error) {
             console.log(error);
         },
-        beforeSend: function() {
-            console.log('beforeSend');
+        beforeSend: function(e) {
+            console.log('beforeSend ' + e);
         },
-        complete: function() {
-            console.log('complete');
+        complete: function(e) {
+            console.log('complete ' + e);
         }
     });
 
