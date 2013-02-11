@@ -66,11 +66,12 @@ L.ajax = function(params) {
 };
 
 L.ajax.cancelCallback = function(cid) {
-    'use strict';
-    if (L.ajax.callback.hasOwnProperty(cid)) {
-        var script = document.getElementById(cid);
+    var script = document.getElementById(cid);
+    if (script) {
         script.parentNode.removeChild(script);
-        L.ajax.callback[cid] = function() {};
+    }
+    if (L.ajax.callback.hasOwnProperty(cid)) {
+        delete L.ajax.callback[cid];
     }
 };
 
