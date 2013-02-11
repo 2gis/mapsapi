@@ -8,6 +8,7 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="./dist/leaflet.ie.css"/><![endif]-->
 
     <script src="./dist/leaflet-src.js"></script>
+    <script src="./ajax/ajax.js"></script>
 </head>
 <body>
 
@@ -31,6 +32,19 @@
         zoom: 13,
         layers: [dgLayer]
     });
+
+    L.ajax({
+        url: 'http://catalog.api.2gis.ru/project/list',
+        data: {
+            id: 1,
+            test: 'fdfd'
+        },
+        success: function (data, textStatus) {
+            console.log(data);
+        }
+    });
+
+
 
 </script>
 
