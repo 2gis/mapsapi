@@ -59,11 +59,12 @@ L.ajax = function(params) {
     };
 
     return callbackId;
+};
 
-    var test = function(cid) {
-        console.log(cid)
+L.ajax.cancelCallback = function(cid) {
+    if (L.ajax.callback.hasOwnProperty(cid)) {
+        delete L.ajax.callback[cid];
     }
-
 };
 
 L.ajax.callback = {};
