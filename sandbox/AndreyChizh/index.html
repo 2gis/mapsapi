@@ -43,6 +43,7 @@
         },
         success: function (data, textStatus) {
             console.log(data);
+            L.ajax.cancelCallback(test);
         },
         error: function (error) {
             console.log(error);
@@ -77,8 +78,8 @@
         }
     });
 
-    L.ajax.cancelCallback(test);
-    L.ajax.cancelCallback(test2);
+    //L.ajax.cancelCallback(test);
+    //L.ajax.cancelCallback(test2);
 
 
 </script>

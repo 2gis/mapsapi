@@ -7,12 +7,12 @@
 L.ajax = function(params) {
     'use strict';
 
-    var query = '',
-        head,
+    var head,
         script,
         callbackId,
         callbackName,
-        resUrl;
+        query = '',
+        resUrl = '';
 
     var url = params.url,
         data = params.data || {},
@@ -23,7 +23,7 @@ L.ajax = function(params) {
 
     head = document.getElementsByTagName('head')[0];
 
-    callbackId = 'dg_' + ('' + Math.random()).slice(2);
+    callbackId = 'id_' + ('' + Math.random()).slice(2);
     callbackName = 'L.ajax.callback.' + callbackId;
 
     for (var key in data) {
@@ -41,8 +41,11 @@ L.ajax = function(params) {
     try {
         L.ajax.callback[callbackId] = function(data) {
             success(data);
+            var script = document.getElementById(callbackId);
+            if (script) {
+                script.parentNode.removeChild(script);
+            }
             delete L.ajax.callback[callbackId];
-            head.removeChild(script);
         };
     } catch (e) {
         error({ url: resUrl, event: e });
@@ -58,20 +61,20 @@ L.ajax = function(params) {
         error({ url: resUrl, event: e });
     };
 
-    beforeSend();
+    beforeSend(callbackId);
     head.appendChild(script);
-    complete();
+    complete(callbackId);
 
     return callbackId;
 };
 
-L.ajax.cancelCallback = function(cid) {
-    var script = document.getElementById(cid);
+L.ajax.cancelCallback = function(callbackId) {
+    var script = document.getElementById(callbackId);
     if (script) {
         script.parentNode.removeChild(script);
     }
-    if (L.ajax.callback.hasOwnProperty(cid)) {
-        L.ajax.callback[cid] = function() {};
+    if (L.ajax.callback.hasOwnProperty(callbackId)) {
+        L.ajax.callback[callbackId] = function() {};
     }
 };
 
