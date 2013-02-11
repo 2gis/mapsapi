@@ -39,18 +39,19 @@ L.ajax = function(params) {
     try {
         L.ajax.callback[callbackId] = function(data) {
             success(data);
-            head.removeChild(script);
             delete L.ajax.callback[callbackId];
+            head.removeChild(script);
         };
     } catch (e) {
         error({ url: resUrl, event: e });
     }
 
-    beforeSend();
     script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.src = resUrl;
+
+    beforeSend();
     head.appendChild(script);
     complete();
 
@@ -68,3 +69,4 @@ L.ajax.cancelCallback = function(cid) {
 };
 
 L.ajax.callback = {};
+

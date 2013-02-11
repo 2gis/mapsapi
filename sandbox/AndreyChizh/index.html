@@ -33,8 +33,8 @@
         layers: [dgLayer]
     });
 
-    L.ajax({
-        url: 'http://catalog.api.2gis1.ru/project/list',
+    var test = L.ajax({
+        url: 'http://catalog.api.2gis.ru/project/list',
         data: {
             output: 'jsonp',
             key: 'ruxlih0718',
@@ -48,6 +48,11 @@
             console.log(data);
         }
     });
+
+    console.log(test);
+
+    //L.ajax.cancelCallback(test);
+
 
 
 
