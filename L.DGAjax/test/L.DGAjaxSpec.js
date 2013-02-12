@@ -1,11 +1,9 @@
 describe("DG AJAX", function() {
 
     it("should be return cancel callback function", function() {
+        var ajax = L.DGAjax({});
 
-        cb = L.DGAjax({});
-        console.log(cb);
-
-        expect(1).toEqual(1);
+        expect(ajax).toBeDefined();
     });
 
 });
