@@ -66,12 +66,12 @@ L.ajax = function(params) {
 };
 
 L.ajax.cancelCallback = function(callbackId) {
+    if (L.ajax.callback.hasOwnProperty(callbackId)) {
+        L.ajax.callback[callbackId] = function() {};
+    }
     var script = document.getElementById(callbackId);
     if (script) {
         script.parentNode.removeChild(script);
-    }
-    if (L.ajax.callback.hasOwnProperty(callbackId)) {
-        L.ajax.callback[callbackId] = function() {};
     }
 };
 
