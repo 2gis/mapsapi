@@ -15,7 +15,7 @@ L.DGAjax = function(params) {
         script,
         callbackId,
         callbackName,
-        url = params.url,
+        url = params.url || '',
         data = params.data || {},
         success = params.success || function() {},
         error = params.error || function() {},
