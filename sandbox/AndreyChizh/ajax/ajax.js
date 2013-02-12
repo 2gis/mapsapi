@@ -43,7 +43,7 @@ L.ajax = function(params) {
     L.ajax.callback[callbackId] = function(data) {
         success(data);
         var script = document.getElementById(callbackId);
-        if (script) {
+        if (script && script.parentNode) {
             script.parentNode.removeChild(script);
         }
         delete L.ajax.callback[callbackId];
@@ -72,7 +72,7 @@ L.ajax.cancelCallback = function(callbackId) {
         L.ajax.callback[callbackId] = function() {};
     }
     var script = document.getElementById(callbackId);
-    if (script) {
+    if (script && script.parentNode) {
         script.parentNode.removeChild(script);
     }
 };
