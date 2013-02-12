@@ -1,32 +1,31 @@
 /**
- * Leaflet AJAX
+ * Leaflet DG AJAX Plugin
  * The plugin to provide an asynchronous cross-domain HTTP (AJAX) requests.
  *
  * Version 1.0.1
  *
  * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
-L.ajax = function(params) {
+L.DGAjax = function(params) {
     'use strict';
 
     var query = '',
+        resUrl,
         head,
         script,
         callbackId,
         callbackName,
-        resUrl;
-
-    var url = params.url,
+        url = params.url || '',
         data = params.data || {},
-        beforeSend = params.beforeSend || function() {},
         success = params.success || function() {},
         error = params.error || function() {},
+        beforeSend = params.beforeSend || function() {},
         complete = params.complete || function() {};
 
     head = document.getElementsByTagName('head')[0];
 
     callbackId = 'dga_' + ('' + Math.random()).slice(2);
-    callbackName = 'L.ajax.callback.' + callbackId;
+    callbackName = 'L.DGAjax.callback.' + callbackId;
 
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
@@ -40,13 +39,10 @@ L.ajax = function(params) {
         resUrl = url + '&' + query + 'callback=' + callbackName;
     }
 
-    L.ajax.callback[callbackId] = function(data) {
+    L.DGAjax.callback[callbackId] = function(data) {
         success(data);
-        var script = document.getElementById(callbackId);
-        if (script && script.parentNode) {
-            script.parentNode.removeChild(script);
-        }
-        delete L.ajax.callback[callbackId];
+        removeScript(callbackId);
+        delete L.DGAjax.callback[callbackId];
     };
 
     script = document.createElement('script');
@@ -60,21 +56,27 @@ L.ajax = function(params) {
         script.parentNode.removeChild(script);
     };
 
-    beforeSend(callbackId);
+    beforeSend();
     head.appendChild(script);
-    complete(callbackId);
+    complete();
 
-    return callbackId;
+    function cancelCallback() {
+        removeScript(callbackId);
+        if (L.DGAjax.callback.hasOwnProperty(callbackId)) {
+            L.DGAjax.callback[callbackId] = function() {};
+        }
+    }
+
+    function removeScript(callbackId) {
+        var script = document.getElementById(callbackId);
+        if (script && script.parentNode) {
+            script.parentNode.removeChild(script);
+        }
+    }
+
+    return {
+        cancel: cancelCallback
+    };
 };
 
-L.ajax.cancelCallback = function(callbackId) {
-    if (L.ajax.callback.hasOwnProperty(callbackId)) {
-        L.ajax.callback[callbackId] = function() {};
-    }
-    var script = document.getElementById(callbackId);
-    if (script && script.parentNode) {
-        script.parentNode.removeChild(script);
-    }
-};
-
-L.ajax.callback = {};
+L.DGAjax.callback = {};
