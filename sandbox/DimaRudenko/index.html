@@ -5,14 +5,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="../dist/leaflet-src.js"></script>
-    <script src="../src/plugins/GeoClicker/GeoClicker.js"></script>
+    <script src="./dist/leaflet-src.js"></script>
 
-    <link rel="stylesheet" href="../dist/leaflet.css"/>
-    <!--[if lte IE 8]><link rel="stylesheet" href="../dist/leaflet.ie.css"/><![endif]-->
+    <link rel="stylesheet" href="./dist/leaflet.css"/>
+    <!--[if lte IE 8]><link rel="stylesheet" href="./dist/leaflet.ie.css"/><![endif]-->
 
-    <!-- дополнительные библиотеки -->
-    <script type="text/javascript" src="../dist/happen.js"></script>
+    <script src="./ProjectDetector/ProjectDetector.js"></script>
 
 </head>
 <body>
@@ -41,13 +39,20 @@
     });
 
 
-
+//console.log(map);
     L.control.scale({imperial: false}).addTo(map);
 
     var element = document.getElementById('map');
 
 
-    map.on('click',function(){console.log("click");});
+//    map.on('dragstart',function(){
+//        console.log("dragstart");
+//        map.fire("cu");
+//
+//    });
+    map.on('projectchange',function(){console.log("!!!");});
+
+  //  L.projectdetector(map);
 
 
 </script>

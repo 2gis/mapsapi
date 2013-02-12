@@ -1,0 +1,143 @@
+/* Rrose layout */
+
+.leaflet-rrose {
+    position: absolute;
+    text-align: center;
+}
+
+.leaflet-rrose-content-wrapper {
+    padding: 1px;
+    text-align: left;
+}
+
+.leaflet-rrose-content {
+    margin: 14px 20px;
+}
+
+.leaflet-rrose-tip-container {
+    margin: 0 auto;
+    width: 40px;
+    height: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.leaflet-rrose-tip-container-sse, .leaflet-rrose-tip-container-ese,
+.leaflet-rrose-tip-container-nne, .leaflet-rrose-tip-container-ene,
+.leaflet-rrose-tip-container-e {
+    margin-left: 0px;
+}
+
+.leaflet-rrose-tip-container-ssw, .leaflet-rrose-tip-container-wsw,
+.leaflet-rrose-tip-container-nnw, .leaflet-rrose-tip-container-wnw,
+.leaflet-rrose-tip-container-w {
+    margin-right: 0px;
+}
+
+.leaflet-rrose-tip {
+    width: 15px;
+    height: 15px;
+    padding: 1px;
+
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.leaflet-rrose-tip-n {
+    margin: -8px auto 0;
+}
+
+.leaflet-rrose-tip-s {
+    margin: 11px auto 0;
+}
+
+.leaflet-rrose-tip-sse, .leaflet-rrose-tip-ese {
+    margin: 11px 11px 11px -8px; overflow: hidden;
+}
+
+.leaflet-rrose-tip-ssw, .leaflet-rrose-tip-wsw {
+    margin: 11px 11px 11px 32px; overflow: hidden;
+}
+
+.leaflet-rrose-tip-nne, .leaflet-rrose-tip-ene, .leaflet-rrose-tip-e {
+    margin: -8px 11px 11px -8px; overflow: hidden;
+}
+
+.leaflet-rrose-tip-nnw, .leaflet-rrose-tip-wnw, .leaflet-rrose-tip-w {
+    margin: -8px 11px 11px 32px; overflow: hidden;
+}
+
+a.leaflet-rrose-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 5px 0 0;
+    text-align: center;
+    width: 18px;
+    height: 14px;
+    font: 16px/14px Tahoma, Verdana, sans-serif;
+    color: #c3c3c3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a.leaflet-rrose-close-button:hover {
+    color: #999;
+}
+
+.leaflet-rrose-content p {
+    margin: 18px 0;
+}
+
+.leaflet-rrose-scrolled {
+    overflow: auto;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+/* Visual appearance */
+
+.leaflet-rrose-content-wrapper, .leaflet-rrose-tip {
+    background: white;
+
+    box-shadow: 0 3px 10px #888;
+    -moz-box-shadow: 0 3px 10px #888;
+    -webkit-box-shadow: 0 3px 14px #999;
+}
+
+.leaflet-rrose-content-wrapper {
+    -moz-border-radius:    20px;
+    -webkit-border-radius: 20px;
+    border-radius:         20px;
+}
+
+.leaflet-rrose-content-wrapper-sse, .leaflet-rrose-content-wrapper-ese {
+    -moz-border-radius:    0px 20px 20px 20px;
+    -webkit-border-radius: 0px 20px 20px 20px;
+    border-radius:         0px 20px 20px 20px;
+}
+
+.leaflet-rrose-content-wrapper-ssw, .leaflet-rrose-content-wrapper-wsw {
+    -moz-border-radius:    20px 0px 20px 20px;
+    -webkit-border-radius: 20px 0px 20px 20px;
+    border-radius:         20px 0px 20px 20px;
+}
+
+.leaflet-rrose-content-wrapper-nnw, .leaflet-rrose-content-wrapper-wnw, .leaflet-rrose-content-wrapper-w {
+    -moz-border-radius:    20px 20px 0px 20px;
+    -webkit-border-radius: 20px 20px 0px 20px;
+    border-radius:         20px 20px 0px 20px;
+}
+
+.leaflet-rrose-content-wrapper-nne, .leaflet-rrose-content-wrapper-ene, .leaflet-rrose-content-wrapper-e {
+    -moz-border-radius:    20px 20px 20px 0px;
+    -webkit-border-radius: 20px 20px 20px 0px;
+    border-radius:         20px 20px 20px 0px;
+}
+
+.leaflet-rrose-content {
+    font: 12px/1.4 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
