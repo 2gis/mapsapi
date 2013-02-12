@@ -9,12 +9,12 @@
 L.ajax = function(params) {
     'use strict';
 
-    var head,
+    var query = '',
+        head,
         script,
         callbackId,
         callbackName,
-        query = '',
-        resUrl = '';
+        resUrl;
 
     var url = params.url,
         data = params.data || {},
