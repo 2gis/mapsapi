@@ -1,5 +1,7 @@
 /**
- * Leaflet AJAX Plugin
+ * Leaflet AJAX
+ * The plugin to provide an asynchronous cross-domain HTTP (AJAX) requests.
+ *
  * Version 1.0.1
  *
  * Copyright (c) 2013, 2GIS, Andrey Chizh
