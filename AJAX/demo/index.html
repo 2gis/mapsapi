@@ -27,13 +27,14 @@
         errorTileUrl: dgErrorTileUrl,
         attribution: dgAttribution
     });
+Dflayer = new L.DGtileLayer();
 
     var map = new L.Map('map', {
         center: new L.LatLng(54.980206086231, 82.898068362003),
         zoom: 13,
-        layers: [dgLayer]
+        layers: [Dflayer ]
     });
-
+    L.dglayer.addTo(map);
     L.ajax({
         url: 'http://catalog.api.2gis.ru/project/list',
         data: {
