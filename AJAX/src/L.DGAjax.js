@@ -1,12 +1,12 @@
 /**
- * Leaflet AJAX
+ * Leaflet DG AJAX Plugin
  * The plugin to provide an asynchronous cross-domain HTTP (AJAX) requests.
  *
  * Version 1.0.1
  *
  * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
-L.ajax = function(params) {
+L.DGAjax = function(params) {
     'use strict';
 
     var query = '',
@@ -26,7 +26,7 @@ L.ajax = function(params) {
     head = document.getElementsByTagName('head')[0];
 
     callbackId = 'dga_' + ('' + Math.random()).slice(2);
-    callbackName = 'L.ajax.callback.' + callbackId;
+    callbackName = 'L.DGAjax.callback.' + callbackId;
 
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
@@ -67,7 +67,7 @@ L.ajax = function(params) {
     return callbackId;
 };
 
-L.ajax.cancelCallback = function(callbackId) {
+L.DGAjax.cancelCallback = function(callbackId) {
     if (L.ajax.callback.hasOwnProperty(callbackId)) {
         L.ajax.callback[callbackId] = function() {};
     }
@@ -77,4 +77,4 @@ L.ajax.cancelCallback = function(callbackId) {
     }
 };
 
-L.ajax.callback = {};
+L.DGAjax.callback = {};

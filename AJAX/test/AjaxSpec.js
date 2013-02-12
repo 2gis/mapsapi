@@ -1,4 +1,4 @@
-describe("AJAX", function() {
+describe("DG AJAX", function() {
 
     it("should be return callback ID", function() {
 
