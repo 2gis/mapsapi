@@ -49,8 +49,9 @@
     //        map.fire("cu");
     //
     //    });
-    map.on('projectchange', function () {
-        console.log("!!!");
+
+    map.on('move', function () {
+        console.log("Bound",map.getBounds());
     });
 
 

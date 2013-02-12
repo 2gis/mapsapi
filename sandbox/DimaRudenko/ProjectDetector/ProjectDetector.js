@@ -14,33 +14,32 @@ L.ProjectDetector = L.Handler.extend({
         key:'ruxlih0718',
         version:'1.3',
         lang:'ru',
-        output:'jsonp',
-        callback:function (results) {
-            console.log(results);
-        }
+        output:'jsonp'
     },
+
     initialize:function (map) {
         this._map = map;
-        this._getProjectList();
+        this.getProjectList();
     },
 
     addHooks:function () {
         this._map
-            .on('move', this._projectChange, this);
+            .on('move', this.projectChange, this);
     },
 
     removeHooks:function () {
         this._map
-            .off('move', this._projectChange, this);
+            .off('move', this.projectChange, this);
     },
 
-    _projectChange:function () {
-        console.log("projectchange");
+    projectChange:function () {
         this._map.fire("projectchange");
     },
 
-    _getProjectList:function () {
-        var options = this.options;
+    getProjectList:function () {
+        var options = this.options,
+            self = this;
+
         L.ajax({
             url:options.url,
             data:{
@@ -49,8 +48,15 @@ L.ProjectDetector = L.Handler.extend({
                 output:options.output,
                 lang:options.lang
             },
-            success:options.callback
+            success:function (data) {
+                self.projectList = data.result;
+                self.searchCurrentProject();
+            }
         });
+    },
+
+    searchCurrentProject:function () {
+        this.currentProject = 'project';
     }
 });
 
