@@ -41,26 +41,24 @@ L.DGAjax = function(params) {
 
     L.DGAjax.callback[callbackId] = function(data) {
         success(data);
-        //debugger;
         removeScript(callbackId);
         delete L.DGAjax.callback[callbackId];
     };
 
-    script = L.DGAjax._createScript();
+    script =  document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.id = callbackId;
     script.src = resUrl;
-    script._cbk = L.DGAjax.callback[callbackId];
 
     script.onerror = function(e) {
         error({ url: resUrl, event: e });
         script.parentNode.removeChild(script);
     };
 
-    beforeSend(callbackId);
+    beforeSend();
     head.appendChild(script);
-    complete(callbackId);
+    complete();
 
     function cancelCallback() {
         removeScript(callbackId);
@@ -76,23 +74,9 @@ L.DGAjax = function(params) {
         }
     }
 
-    function getId() {
-        return callbackId;
-    }
-
     return {
-        cancel: cancelCallback,
-        getId: getId
-    };
+        cancel: cancelCallback
+    }
 };
-
-
-
-
-L.DGAjax._createScript = function() {
-    return document.createElement('script');
-}
-
-
 
 L.DGAjax.callback = {};
