@@ -5,7 +5,6 @@ Leaflet DG AJAX Plugin
 
 Copyright (c) 2013, 2GIS, Andrey Chizh
 
-
 Описание:
 
     Параметры:
