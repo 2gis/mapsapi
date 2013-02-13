@@ -6368,7 +6368,7 @@ L.Map.BoxZoom = L.Handler.extend({
 
 L.Map.addInitHook('addHandler', 'boxZoom', L.Map.BoxZoom);
 
-
+// L.Map.Keyboard AAAA
 L.Map.mergeOptions({
 	keyboard: true,
 	keyboardPanOffset: 80,

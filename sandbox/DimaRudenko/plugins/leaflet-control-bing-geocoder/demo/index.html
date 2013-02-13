@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet debug page</title>
+
+	<link rel="stylesheet" href="leaflet.css" />
+	<link rel="stylesheet" href="../Control.BingGeocoder.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="leaflet.ie.css" /><![endif]-->
+
+	<script src="leaflet.js"></script>
+	<script src="../Control.BingGeocoder.js"></script>
+	<style type="text/css">
+	#map {
+		width: 800px;
+		height: 600px;
+		border: 1px solid #ccc;
+	}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+
+	<script type="text/javascript">
+		var cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			cloudmade = new L.TileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {attribution: cloudmadeAttribution});
+
+		var map = new L.Map('map').addLayer(cloudmade).setView(new L.LatLng(48.5, 2.5), 15);
+
+		var bingGeocoder = new L.Control.BingGeocoder('your-api-key');
+
+		map.addControl(bingGeocoder);
+	</script>
+</body>
+</html>
