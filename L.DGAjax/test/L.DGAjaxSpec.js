@@ -82,5 +82,5 @@ describe("DG AJAX Module", function() {
         });
 
     });
-    
+
 });
