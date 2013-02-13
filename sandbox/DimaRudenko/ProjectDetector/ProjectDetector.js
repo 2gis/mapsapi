@@ -8,7 +8,7 @@ L.Map.mergeOptions({
     projectDetector:true
 });
 
-L.ProjectDetector = L.Handler.extend({
+L.Map.DGProjectDetector = L.Handler.extend({
     options:{
         url:'http://catalog.api.2gis.ru/project/list',
         key:'ruxlih0718',
@@ -33,7 +33,13 @@ L.ProjectDetector = L.Handler.extend({
     },
 
     projectChange:function () {
-        this._map.fire("projectchange");
+        if(!this.currentProject){
+            return;
+        }
+        if(!this.currentProject.LatLngBounds.intersects(this._map.getBounds())){
+            this.searchCurrentProject(this);
+            this._map.fire("projectchange");
+        }
     },
 
     getProjectList:function () {
@@ -49,15 +55,47 @@ L.ProjectDetector = L.Handler.extend({
                 lang:options.lang
             },
             success:function (data) {
+                for (var i = 0; i < data.result.length; i++) {
+                    data.result[i].LatLngBounds = self._boundsFromWktPolygon(data.result[i].actual_extent);
+                }
                 self.projectList = data.result;
-                self.searchCurrentProject();
+                self.searchCurrentProject(self);
             }
         });
     },
 
-    searchCurrentProject:function () {
-        this.currentProject = 'project';
+    searchCurrentProject:function (self) {
+        for (var i = 0; i < self.projectList.length; i++) {
+            if (self.projectList[i].LatLngBounds.intersects(self._map.getBounds())) {
+                self.currentProject = self.projectList[i];
+                return;
+            }
+        }
+    },
+
+    _boundsFromWktPolygon:function (wkt) {
+        var arr = /^POLYGON\((.*)\)/.exec(wkt),
+            pointsArr,
+            bracketsContent,
+            regExp = /\((.*?)\)/g,
+            southWest,
+            northEast;
+
+        wkt = wkt.replace(/, /g, ',').replace(' (', '(');
+        bracketsContent = regExp.exec(arr[1])
+        pointsArr = bracketsContent[1].split(',');
+        southWest = pointsArr[0].split(' ');
+        northEast = pointsArr[2].split(' ');
+
+        return new L.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
+            [parseFloat(northEast[1]), parseFloat(northEast[0])]
+        );
+    },
+
+    getCurrentProject:function () {
+        return this.currentProject;
     }
+
 });
 
-L.Map.addInitHook('addHandler', 'projectDetector', L.ProjectDetector);
+L.Map.addInitHook('addHandler', 'projectDetector', L.Map.DGProjectDetector);

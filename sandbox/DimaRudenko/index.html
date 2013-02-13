@@ -34,15 +34,14 @@
     });
 
     var map = new L.Map('map', {
-        center:new L.LatLng(54.980206086231, 82.898068362003),
-        zoom:13,
+        //center:new L.LatLng(54.980206086231, 82.898068362003), // nsk
+        //center:new L.LatLng(45.40764499419, 11.891231725693), //padava
+        center:new L.LatLng(53.724472871308, 91.502639244083), //абакан
+        zoom:9,
         layers:[dgLayer]
     });
 
     L.control.scale({imperial:false}).addTo(map);
-
-    var element = document.getElementById('map');
-
 
     //    map.on('dragstart',function(){
     //        console.log("dragstart");
@@ -50,9 +49,47 @@
     //
     //    });
 
-    map.on('move', function () {
-        console.log("Bound",map.getBounds());
+    map.on('projectchange', function () {
+           console.log(map.projectDetector.currentProject);
     });
+//    var latlng = new L.LatLng(50.5, 30.5);
+//    // console.log("latlng",latlng);
+//
+//    console.log("fxsfvv");
+//
+//
+//    var wkt = "POLYGON((91.1443354808024 53.9015992237795,91.826689329138 53.9015992237795,91.826689329138 53.5690755803025,91.1443354808024 53.5690755803025,91.1443354808024 53.9015992237795))";
+//
+//
+//
+//
+//
+//    var polygon = L.polygon([
+//        [53.9015992237795, 91.1443354808024],
+//        [53.5690755803025, 91.826689329138]
+//    ]).addTo(map);
+
+
+//    var bounds = map.projectDetector.getCurrentProject();
+//    console.log(bounds);
+
+    // create an orange rectangle
+    //L.rectangle(bounds, {color:"#ff7800", weight:1}).addTo(map);
+
+    // zoom the map to the rectangle bounds
+    //map.fitBounds(bounds);
+
+//    var southWest = new L.LatLng(40.712, -74.227),
+//            northEast = new L.LatLng(40.774, -74.125),
+//            bounds = new L.LatLngBounds([40.712, -74.227], [40.774, -74.125]); //southWest, northEast
+
+
+    //console.log("BBBoun", bounds);
+
+//    var latlng = new L.LatLng(50.5, 30.5);
+//    console.log("latlng", latlng);
+
+
 
 
 </script>
