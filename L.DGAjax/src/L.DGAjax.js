@@ -11,6 +11,7 @@ L.DGAjax = function(params) {
 
     var query = '',
         resUrl,
+        timer,
         head,
         script,
         callbackId,
@@ -20,7 +21,8 @@ L.DGAjax = function(params) {
         success = params.success || function() {},
         error = params.error || function() {},
         beforeSend = params.beforeSend || function() {},
-        complete = params.complete || function() {};
+        complete = params.complete || function() {},
+        timeout = params.timeout || 30000;
 
     head = document.getElementsByTagName('head')[0];
 
@@ -39,7 +41,13 @@ L.DGAjax = function(params) {
         resUrl = url + '&' + query + 'callback=' + callbackName;
     }
 
+    timer = setTimeout(function() {
+        cancelCallback();
+        error({ url: resUrl, event: 'Request timeout error' });
+    }, timeout);
+
     L.DGAjax.callback[callbackId] = function(data) {
+        clearTimeout(timer);
         success(data);
         removeScript(callbackId);
         delete L.DGAjax.callback[callbackId];
