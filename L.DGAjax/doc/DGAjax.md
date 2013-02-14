@@ -30,30 +30,30 @@ Copyright (c) 2013, 2GIS, Andrey Chizh
     Отмена запроса
     cancel();
 
-## Пример:
+## Примеры
 ### Базовое использование:
 
-        L.DGAjax({
-            url: 'http://catalog.api.2gis.ru/project/list',
-            data: {
-                output: 'jsonp',
-                key: '123456',
-                version: 1.3,
-                lang: 'ru'
-            },
-            success: function(data) {
-                console.log(data);
-            },
-            error: function(error) {
-                console.log(error);
-            },
-            beforeSend: function() {
-                console.log('beforeSend');
-            },
-            complete: function() {
-                console.log('complete');
-            }
-        });
+    L.DGAjax({
+        url: 'http://catalog.api.2gis.ru/project/list',
+        data: {
+            output: 'jsonp',
+            key: '123456',
+            version: 1.3,
+            lang: 'ru'
+        },
+        success: function(data) {
+            console.log(data);
+        },
+        error: function(error) {
+            console.log(error);
+        },
+        beforeSend: function() {
+            console.log('beforeSend');
+        },
+        complete: function() {
+            console.log('complete');
+        }
+    });
 
 ### Отмена запроса:
 
