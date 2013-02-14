@@ -1,5 +1,15 @@
 describe("DG AJAX Module", function() {
-
+    /**
+     * Проверка, что AJAX возвращаем обьект с методом отмены вызова
+     *
+     * - Проводим запрос на тестовый сервер http://127.0.0.1:3000/test
+     * - Проверяем, что вернулся объект
+     * - Проверяем, что существует метод cancel
+     *
+     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
+     * @version 2.0.0
+     * @module DGAjax
+     */
     it("should be return cancel callback function", function() {
 
         var ajax = L.DGAjax({
