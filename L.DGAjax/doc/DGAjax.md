@@ -11,7 +11,7 @@ Copyright (c) 2013, 2GIS, Andrey Chizh
 
     url      {String} URL запрашиваемой страницы
     data     {Object} Передаваемые данные
-    timeout  {Number} Время таймаут в миллисекундах
+    timeout  {Number} Время таймаута в миллисекундах
 
 ### Функции обратного вызова:
 
