@@ -1,5 +1,0 @@
-//            var bbox = results.resourceSets[0].resources[0].bbox,
-//                first = new L.LatLng(bbox[0], bbox[1]),
-//                second = new L.LatLng(bbox[2], bbox[3]),
-//                bounds = new L.LatLngBounds([first, second]);
-//            this._map.fitBounds(bounds);

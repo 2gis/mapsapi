@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project detector</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../vendors/leaflet/leaflet-src.js"></script>
+
+    <link rel="stylesheet" href="../../vendors/leaflet/leaflet.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="../../vendors/leaflet/leaflet.ie.css"/><![endif]-->
+
+    <script src="../src/L.DGAjax.js"></script>
+    <!--<script src="../../L.DGAjax/src/L.DGAjax.js"></script>-->
+    <script src="../src/ProjectDetector.js"></script>
+
+</head>
+<body>
+
+
+<div id="map" style="width: 100%; height: 300px; border: 1px solid #ccc;"></div>
+
+
+<script type="text/javascript">
+    var curentBoundsRectangle;
+    var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+            errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
+            dgAttribution = 'Map data &copy; 2012 2GIS';
+
+    var dgLayer = new L.TileLayer(dgUrl, {
+        maxZoom:18,
+        subdomains:'0123',
+        errorTileUrl:errorTileUrl,
+        attribution:dgAttribution
+    });
+
+    var map = new L.Map('map', {
+        center:new L.LatLng(53.724472871308, 91.502639244083), //абакан
+        zoom:9,
+        layers:[dgLayer]
+    });
+
+    L.control.scale({imperial:false}).addTo(map);
+
+    var rectangeleCurrentProject = function () {
+        if (curentBoundsRectangle) {
+            curentBoundsRectangle.onRemove(map);
+        }
+        var bounds = map.projectDetector.getCurrentProject().LatLngBounds;
+        curentBoundsRectangle = L.rectangle(bounds, {color:"#ff7800", weight:1}).addTo(map);
+    }
+    map.on('projectchange', function () {
+        rectangeleCurrentProject();
+    });
+
+</script>
+
+</body>
+</html>
