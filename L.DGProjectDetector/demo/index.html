@@ -23,7 +23,7 @@
 
 
 <script type="text/javascript">
-    var currentProjectBounds;
+    var currentProjectBound;
     var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
             errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
             dgAttribution = 'Map data &copy; 2012 2GIS';
@@ -44,11 +44,11 @@
     L.control.scale({imperial:false}).addTo(map);
 
     var ShowCurrentProjectBound = function () {
-        if (currentProjectBounds) {
-            currentProjectBounds.onRemove(map);
+        if (currentProjectBound) {
+            currentProjectBound.onRemove(map);
         }
         var bounds = map.projectDetector.getProject().LatLngBounds;
-        currentProjectBounds = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
+        currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
     }
 
     var ShowAllProjectsBound = function () {
