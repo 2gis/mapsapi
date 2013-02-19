@@ -1,14 +1,17 @@
 /**
  * Leaflet ProjectDetector
- * Version 1.0
- * Dima Rudenko
+ * The plugin  add custom event map, loads a list of all projects and evaluates the current project, in which the user is located.
+ *
+ * Version 1.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
 
 L.Map.mergeOptions({
     projectDetector:true
 });
 
-L.Map.DGProjectDetector = L.Handler.extend({
+L.DGProjectDetector = L.Handler.extend({
     options:{
         url:'http://catalog.api.2gis.ru/project/list',
         key:'ruxlih0718',
@@ -38,7 +41,7 @@ L.Map.DGProjectDetector = L.Handler.extend({
         }
         if (!this.project.LatLngBounds.intersects(this._map.getBounds())) {
             this._searchProject(this);
-            this._map.fire("projectchange");
+            this._map.fire("projectchange", {"getProject":L.Util.bind(this.getProject, this)});
         }
     },
 
@@ -58,34 +61,37 @@ L.Map.DGProjectDetector = L.Handler.extend({
                 for (var i = 0; i < data.result.length; i++) {
                     data.result[i].LatLngBounds = self._boundsFromWktPolygon(data.result[i].actual_extent);
                 }
-                self.projectList = data.result;
+                self.projectsList = data.result;
                 L.Util.bind(self._searchProject(), this);
-                L.Util.bind(self._map.fire("projectsloaded"), this);
+                self._map.fire("projectsloaded", {"getProjectsList":L.Util.bind(self.getProjectsList, self)});
             }
         });
     },
 
     _searchProject:function () {
-        for (var i = 0; i < this.projectList.length; i++) {
-            if (this.projectList[i].LatLngBounds.intersects(this._map.getBounds())) {
-                this.project = this.projectList[i];
+        for (var i = 0; i < this.projectsList.length; i++) {
+            if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
+                this.project = this.projectsList[i];
                 return;
             }
         }
     },
 
     _boundsFromWktPolygon:function (wkt) {
-        var arr = /^POLYGON\((.*)\)/.exec(wkt),
+        var arr,
             pointsArr,
             bracketsContent,
-            regExp = /\((.*?)\)/g,
+            regExp,
             southWest,
             northEast;
 
         wkt = wkt.replace(/, /g, ',');
         wkt.replace(' (', '(');
 
-        bracketsContent = regExp.exec(arr[1]);
+        arr = /^POLYGON\((.*)\)/.exec(wkt);
+        regExp = /\((.*?)\)/g;
+
+        bracketsContent = (regExp).exec(arr[1]);
         pointsArr = bracketsContent[1].split(',');
         southWest = pointsArr[0].split(' ');
         northEast = pointsArr[2].split(' ');
@@ -102,13 +108,14 @@ L.Map.DGProjectDetector = L.Handler.extend({
         return L.Util.extend({}, this.project);
     },
 
-    getProjectList:function () {
-        if (!this.projectList) {
+    getProjectsList:function () {
+        if (!this.projectsList) {
             return false;
         }
-        return this.projectList.slice(0);
+        //return L.Util.extend({},this.projectList);
+        return this.projectsList.slice(0);
     }
 
 });
 
-L.Map.addInitHook('addHandler', 'projectDetector', L.Map.DGProjectDetector);
+L.Map.addInitHook('addHandler', 'projectDetector', L.DGProjectDetector);
