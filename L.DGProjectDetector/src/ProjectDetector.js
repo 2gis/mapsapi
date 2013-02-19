@@ -1,6 +1,6 @@
 /**
  * Leaflet ProjectDetector
- * Version 0.0.1
+ * Version 1.0
  * Dima Rudenko
  */
 
@@ -19,30 +19,30 @@ L.Map.DGProjectDetector = L.Handler.extend({
 
     initialize:function (map) {
         this._map = map;
-        this.getProjectList();
+        this._loadProjectList();
     },
 
     addHooks:function () {
         this._map
-            .on('move', this.projectChange, this);
+            .on('move', this._projectChange, this);
     },
 
     removeHooks:function () {
         this._map
-            .off('move', this.projectChange, this);
+            .off('move', this._projectChange, this);
     },
 
-    projectChange:function () {
-        if(!this.currentProject){
+    _projectChange:function () {
+        if (!this.project) {
             return;
         }
-        if(!this.currentProject.LatLngBounds.intersects(this._map.getBounds())){
-            this.searchCurrentProject(this);
+        if (!this.project.LatLngBounds.intersects(this._map.getBounds())) {
+            this._searchProject(this);
             this._map.fire("projectchange");
         }
     },
 
-    getProjectList:function () {
+    _loadProjectList:function () {
         var options = this.options,
             self = this;
 
@@ -59,15 +59,16 @@ L.Map.DGProjectDetector = L.Handler.extend({
                     data.result[i].LatLngBounds = self._boundsFromWktPolygon(data.result[i].actual_extent);
                 }
                 self.projectList = data.result;
-                L.Util.bind(self.searchCurrentProject(),this);
+                L.Util.bind(self._searchProject(), this);
+                L.Util.bind(self._map.fire("projectsloaded"), this);
             }
         });
     },
 
-    searchCurrentProject:function () {
+    _searchProject:function () {
         for (var i = 0; i < this.projectList.length; i++) {
             if (this.projectList[i].LatLngBounds.intersects(this._map.getBounds())) {
-                this.currentProject = this.projectList[i];
+                this.project = this.projectList[i];
                 return;
             }
         }
@@ -81,7 +82,9 @@ L.Map.DGProjectDetector = L.Handler.extend({
             southWest,
             northEast;
 
-        wkt = wkt.replace(/, /g, ',').replace(' (', '(');
+        wkt = wkt.replace(/, /g, ',');
+        wkt.replace(' (', '(');
+
         bracketsContent = regExp.exec(arr[1]);
         pointsArr = bracketsContent[1].split(',');
         southWest = pointsArr[0].split(' ');
@@ -92,8 +95,18 @@ L.Map.DGProjectDetector = L.Handler.extend({
         );
     },
 
-    getCurrentProject:function () {
-        return this.currentProject;
+    getProject:function () {
+        if (!this.project) {
+            return false;
+        }
+        return L.Util.extend({}, this.project);
+    },
+
+    getProjectList:function () {
+        if (!this.projectList) {
+            return false;
+        }
+        return this.projectList.slice(0);
     }
 
 });

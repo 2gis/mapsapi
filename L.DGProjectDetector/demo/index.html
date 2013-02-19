@@ -23,7 +23,7 @@
 
 
 <script type="text/javascript">
-    var curentBoundsRectangle;
+    var currentProjectBounds;
     var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
             errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
             dgAttribution = 'Map data &copy; 2012 2GIS';
@@ -36,22 +36,38 @@
     });
 
     var map = new L.Map('map', {
-        center:new L.LatLng(53.724472871308, 91.502639244083), //абакан
+        center:new L.LatLng(53.724472871308, 91.502639244083),
         zoom:9,
         layers:[dgLayer]
     });
 
     L.control.scale({imperial:false}).addTo(map);
 
-    var rectangeleCurrentProject = function () {
-        if (curentBoundsRectangle) {
-            curentBoundsRectangle.onRemove(map);
+    var ShowCurrentProjectBound = function () {
+        if (currentProjectBounds) {
+            currentProjectBounds.onRemove(map);
         }
-        var bounds = map.projectDetector.getCurrentProject().LatLngBounds;
-        curentBoundsRectangle = L.rectangle(bounds, {color:"#ff7800", weight:1}).addTo(map);
+        var bounds = map.projectDetector.getProject().LatLngBounds;
+        currentProjectBounds = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
     }
+
+    var ShowAllProjectsBound = function () {
+        var projectList = map.projectDetector.getProjectList(),
+            bounds;
+
+        for (var i = 0; i < projectList.length; i++) {
+            bounds = projectList[i].LatLngBounds;
+            L.rectangle(bounds, {color:"#ff7800", weight:1}).addTo(map);
+        }
+    }
+
+    map.on('projectsloaded', function () {
+        ShowAllProjectsBound();
+        ShowCurrentProjectBound();
+    });
+
     map.on('projectchange', function () {
-        rectangeleCurrentProject();
+        ShowCurrentProjectBound();
     });
 
 </script>
