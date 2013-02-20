@@ -58,10 +58,16 @@ L.DGProjectDetector = L.Handler.extend({
                 lang:options.lang
             },
             success:function (data) {
-                for (var i = 0; i < data.result.length; i++) {
-                    data.result[i].LatLngBounds = self._boundsFromWktPolygon(data.result[i].actual_extent);
+                if (!data.result || (Object.prototype.toString.call( data.result ) !== '[object Array]')){
+                    return;
                 }
-                self.projectsList = data.result;
+                var projectsList = data.result,
+                    projectsListLength = projectsList.length;
+
+                for (var i = 0; i < projectsListLength; i++) {
+                    projectsList[i].LatLngBounds = self._boundsFromWktPolygon(projectsList[i].actual_extent);
+                }
+                self.projectsList = projectsList;
                 L.Util.bind(self._searchProject(), this);
                 self._map.fire("projectsloaded", {"getProjectsList":L.Util.bind(self.getProjectsList, self)});
             }
