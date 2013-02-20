@@ -58,7 +58,7 @@ L.DGProjectDetector = L.Handler.extend({
                 lang:options.lang
             },
             success:function (data) {
-                if (!data.result || (Object.prototype.toString.call( data.result ) !== '[object Array]')){
+                if (!data.result || (Object.prototype.toString.call(data.result) !== '[object Array]')) {
                     return;
                 }
                 var projectsList = data.result,
