@@ -45,11 +45,11 @@
 
 
     map.on('projectsloaded', function (e) {
-        var bound;
-        var projectList = e.getProjectsList();
+        var bound,
+            projectsList = e.getProjectsList();
 
-        for (var i = 0; i < projectList.length; i++) {
-            bound = projectList[i].LatLngBounds;
+        for (var i = 0; i < projectsList.length; i++) {
+            bound = projectsList[i].LatLngBounds;
             L.rectangle(bound, {color:"#ff7800", weight:1}).addTo(map);
         }
 
@@ -65,6 +65,15 @@
         var bounds = e.getProject().LatLngBounds;
         currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
     });
+
+
+    map.projectDetector.getAllProjects = function (projectsList) {
+        // some code using projectsList
+    }
+
+    map.projectDetector.getCurrentProject = function (currentProject) {
+        // some code using currentProject
+    }
 
 </script>
 

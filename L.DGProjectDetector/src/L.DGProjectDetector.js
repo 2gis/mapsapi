@@ -14,14 +14,18 @@ L.Map.mergeOptions({
 L.DGProjectDetector = L.Handler.extend({
     options:{
         url:'http://catalog.api.2gis.ru/project/list',
-        key:'ruxlih0718',
-        version:'1.3',
-        lang:'ru',
-        output:'jsonp'
+        data:{
+            key:'ruxlih0718',
+            version:'1.3',
+            lang:'ru',
+            output:'jsonp'
+        }
     },
 
     initialize:function (map) {
         this._map = map;
+        this.project = null;
+        this.projectsList =null;
         this._loadProjectList();
     },
 
@@ -40,7 +44,7 @@ L.DGProjectDetector = L.Handler.extend({
             return;
         }
         if (!this.project.LatLngBounds.intersects(this._map.getBounds())) {
-            this._searchProject(this);
+            this._searchProject();
             this._map.fire("projectchange", {"getProject":L.Util.bind(this.getProject, this)});
         }
     },
@@ -51,24 +55,19 @@ L.DGProjectDetector = L.Handler.extend({
 
         L.DGAjax({
             url:options.url,
-            data:{
-                key:options.key,
-                version:options.version,
-                output:options.output,
-                lang:options.lang
-            },
+            data:options.data,
             success:function (data) {
                 if (!data.result || (Object.prototype.toString.call(data.result) !== '[object Array]')) {
                     return;
                 }
-                var projectsList = data.result,
-                    projectsListLength = projectsList.length;
+                var projectsList = data.result;
 
-                for (var i = 0; i < projectsListLength; i++) {
+                for (var i = 0, leng = projectsList.length; i < leng; i++) {
                     projectsList[i].LatLngBounds = self._boundsFromWktPolygon(projectsList[i].actual_extent);
                 }
                 self.projectsList = projectsList;
-                L.Util.bind(self._searchProject(), this);
+                self._searchProject();
+                self.getAllProjects(self.getProjectsList());
                 self._map.fire("projectsloaded", {"getProjectsList":L.Util.bind(self.getProjectsList, self)});
             }
         });
@@ -78,6 +77,7 @@ L.DGProjectDetector = L.Handler.extend({
         for (var i = 0; i < this.projectsList.length; i++) {
             if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
                 this.project = this.projectsList[i];
+                this.getCurrentProject(this.getProject());
                 return;
             }
         }
@@ -118,8 +118,15 @@ L.DGProjectDetector = L.Handler.extend({
         if (!this.projectsList) {
             return false;
         }
-        //return L.Util.extend({},this.projectList);
         return this.projectsList.slice(0);
+    },
+
+    getCurrentProject:function (/*project*/) {
+        // override with rendering code
+    },
+
+    getAllProjects:function (/*projectsList*/) {
+        // override with rendering code
     }
 
 });
