@@ -1,4 +1,4 @@
-describe("DG AJAX Module", function() {
+describe("DG JSONP Module", function() {
 
     /**
      * Проверка, что срабатывает success callback при корректном ответе сервера
@@ -8,13 +8,13 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что success callback вернул ожидаемые данные
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should get a success responce", function () {
         var callback = jasmine.createSpy();
 
-        L.DGAjax({
+        L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/test',
             success: callback
         });
@@ -36,13 +36,13 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что сработал error callback
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should get a error responce on empty url", function () {
         var callback = jasmine.createSpy();
 
-        L.DGAjax({
+        L.DG.Jsonp({
             timeout: 1000,
             error: callback
         });
@@ -64,13 +64,13 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что сработал error callback
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should get a error responce on bad server request", function () {
         var callback = jasmine.createSpy();
 
-        L.DGAjax({
+        L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/',
             error: callback
         });
@@ -92,13 +92,13 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что сработал beforeSend callback
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should calls a beforeSend callback", function () {
         var callback = jasmine.createSpy();
 
-        L.DGAjax({
+        L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/test',
             beforeSend: callback
         });
@@ -120,13 +120,13 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что сработал complete callback
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should calls a complete callback", function () {
         var callback = jasmine.createSpy();
 
-        L.DGAjax({
+        L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/test',
             complete: callback
         });
@@ -149,17 +149,17 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что существует метод cancel
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should be return cancel callback method", function() {
 
-        var ajax = L.DGAjax({
+        var jsonp = L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/test'
         });
 
-        expect(ajax).toBeDefined();
-        expect(ajax.cancel).toBeDefined();
+        expect(jsonp).toBeDefined();
+        expect(jsonp.cancel).toBeDefined();
     });
 
     /**
@@ -170,18 +170,18 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что существует метод cancel
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should that the cancel callback method works", function () {
         var callback = jasmine.createSpy();
 
-        var ajax = L.DGAjax({
+        var jsonp = L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/test',
             success: callback
         });
 
-        ajax.cancel();
+        jsonp.cancel();
 
         waitsFor(function() {
             return callback.callCount === 0;
@@ -202,19 +202,19 @@ describe("DG AJAX Module", function() {
      * - Проверяем, что success callback вернули ожидаемые данные
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 2.0.0
-     * @module DGAjax
+     * @version 1.0.1
+     * @module L.DG.Jsonp
      */
     it("should that 2 callbaks are not mixed", function () {
         var callbackA = jasmine.createSpy();
         var callbackB = jasmine.createSpy();
 
-        L.DGAjax({
+        L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/testA',
             success: callbackA
         });
 
-        L.DGAjax({
+        L.DG.Jsonp({
             url: 'http://127.0.0.1:3000/testB',
             success: callbackB
         });
