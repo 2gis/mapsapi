@@ -1,4 +1,5 @@
-L.DGAjax = function (params) {
+L.DG = L.DG || {};
+L.DG.Jsonp = function (params) {
     var success = params.success || function () {
         },
         data = {"api_version":"1.3", "response_code":"200", "total":79, "result":[

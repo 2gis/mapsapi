@@ -11,9 +11,9 @@
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="../../vendors/leaflet/leaflet.ie.css"/><![endif]-->
 
-    <script src="../src/L.DGAjax.js"></script>
-    <!--<script src="../../L.DGAjax/src/L.DGAjax.js"></script>-->
-    <script src="../src/L.DGProjectDetector.js"></script>
+    <script src="../src/L.DG.Jsonp.js"></script>
+    <!--<script src="../../L.DG.Jsonp/src/L.DG.Jsonp.js"></script>-->
+    <script src="../src/L.DG.ProjectDetector.js"></script>
 
 </head>
 <body>
@@ -43,35 +43,26 @@
 
     L.control.scale({imperial:false}).addTo(map);
 
-
-    map.on('projectsloaded', function (e) {
-        var bound,
-                projectsList = e.getProjectsList();
-
-        for (var i = 0; i < projectsList.length; i++) {
-            bound = projectsList[i].LatLngBounds;
-            L.rectangle(bound, {color:"#ff7800", weight:1}).addTo(map);
-        }
-
-        bound = map.projectDetector.getProject().LatLngBounds;
-        currentProjectBound = L.rectangle(bound, {color:"#f03", weight:1}).addTo(map);
-    });
-
     map.on('projectchange', function (e) {
-        if (currentProjectBound) {
-            currentProjectBound.onRemove(map);
-        }
+        // some code using "projectchange" event
 
         var bounds = e.getProject().LatLngBounds;
         currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
     });
 
+    map.on('projectleave', function () {
+        // some code using this event
 
-    map.projectDetector.getAllProjects(function (projectsList) {
+        if (currentProjectBound) {
+            currentProjectBound.onRemove(map);
+        }
+    });
+
+    map.dgProjectDetector.getAllProjects(function (projectsList) {
         // some code using projectsList
     });
 
-    map.projectDetector.getCurrentProject(function (currentProject) {
+    map.dgProjectDetector.getCurrentProject(function (currentProject) {
         // some code using currentProject
     });
 
