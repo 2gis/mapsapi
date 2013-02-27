@@ -1,33 +1,30 @@
 /**
- * Leaflet DG AJAX Plugin
+ * Leaflet DG JSONP Plugin
  * The plugin to provide an asynchronous cross-domain HTTP (AJAX) requests.
  *
  * Version 1.0.1
  *
  * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
-L.DGAjax = function(params) {
+L.DG = L.DG || {};
+L.DG.Jsonp = function(params) {
     'use strict';
 
     var query = '',
-        resUrl,
-        timer,
-        head,
-        script,
-        callbackId,
-        callbackName,
+        resUrl, timer, head, script,
+        callbackId, callbackName,
         url = params.url || '',
         data = params.data || {},
         success = params.success || function() {},
         error = params.error || function() {},
         beforeSend = params.beforeSend || function() {},
         complete = params.complete || function() {},
-        timeout = params.timeout || 30000;
+        timeout = params.timeout || 30 * 1000;
 
     head = document.getElementsByTagName('head')[0];
 
     callbackId = 'dga_' + ('' + Math.random()).slice(2);
-    callbackName = 'L.DGAjax.callback.' + callbackId;
+    callbackName = 'L.DG.Jsonp.callback.' + callbackId;
 
     for (var key in data) {
         if (data.hasOwnProperty(key)) {
@@ -46,14 +43,14 @@ L.DGAjax = function(params) {
         error({ url: resUrl, event: 'Request timeout error' });
     }, timeout);
 
-    L.DGAjax.callback[callbackId] = function(data) {
+    L.DG.Jsonp.callback[callbackId] = function(data) {
         clearTimeout(timer);
         success(data);
         removeScript(callbackId);
-        delete L.DGAjax.callback[callbackId];
+        delete L.DG.Jsonp.callback[callbackId];
     };
 
-    script =  document.createElement('script');
+    script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
     script.id = callbackId;
@@ -70,8 +67,8 @@ L.DGAjax = function(params) {
 
     function cancelCallback() {
         removeScript(callbackId);
-        if (L.DGAjax.callback.hasOwnProperty(callbackId)) {
-            L.DGAjax.callback[callbackId] = function() {};
+        if (L.DG.Jsonp.callback.hasOwnProperty(callbackId)) {
+            L.DG.Jsonp.callback[callbackId] = function() {};
         }
     }
 
@@ -87,4 +84,4 @@ L.DGAjax = function(params) {
     }
 };
 
-L.DGAjax.callback = {};
+L.DG.Jsonp.callback = {};

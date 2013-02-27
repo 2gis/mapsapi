@@ -9,7 +9,7 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="../../vendors/leaflet/leaflet.ie.css"/><![endif]-->
 
     <script src="../../vendors/leaflet/leaflet-src.js"></script>
-    <script src="../src/L.DGAjax.js"></script>
+    <script src="../src/L.DG.Jsonp.js"></script>
 </head>
 <body>
 
@@ -34,7 +34,7 @@
         layers: [dgLayer]
     });
 
-    var cb = L.DGAjax({
+    var cb = L.DG.Jsonp({
         url: 'http://catalog.api.2gis.ru/project/list',
         data: {
             output: 'jsonp',
