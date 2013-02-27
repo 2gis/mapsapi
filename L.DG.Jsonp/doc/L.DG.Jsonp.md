@@ -22,6 +22,13 @@ Copyright (c) 2013, 2GIS, Andrey Chizh
                               В качестве аргумента передает информацию о ошибке.
     complete   {Function} Срабатывает по окончанию отправки запроса
 
+    | Название      | Тип           | Описание                                  |
+    | ------------- |:-------------:| -----------------------------------------:|
+    | success       | {Function}    | Срабатывает, если ошибок не возникло      |
+    | error         | {Function}    | Срабатывает, если произошла ошибка        |
+    | beforeSend    | {Function}    | Срабатывает перед отправкой запроса       |
+    | complete      | {Function}    | Срабатывает по окончанию отправки запроса |
+
 ### Возвращает:
 
     {Object} Объект, содержащий в себе метод отмены запроса
@@ -34,7 +41,7 @@ Copyright (c) 2013, 2GIS, Andrey Chizh
 ## Примеры
 ### Базовое использование:
 
-    L.DGAjax({
+    L.DG.Jsonp({
         url: 'http://catalog.api.2gis.ru/project/list',
         data: {
             output: 'jsonp',
@@ -58,7 +65,7 @@ Copyright (c) 2013, 2GIS, Andrey Chizh
 
 ### Отмена запроса:
 
-    var ajax = L.DGAjax({
+    var jsonp = L.DG.Jsonp({
         url: 'http://catalog.api.2gis.ru/project/list',
         data: {
             output: 'jsonp',
@@ -71,4 +78,4 @@ Copyright (c) 2013, 2GIS, Andrey Chizh
         }
     });
 
-    ajax.cancel():
+    jsonp.cancel():
