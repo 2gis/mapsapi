@@ -7,11 +7,13 @@
  * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
 
+L.DG = L.DG || {};
+
 L.Map.mergeOptions({
-    projectDetector:true
+    dgProjectDetector:true
 });
 
-L.DGProjectDetector = L.Handler.extend({
+L.DG.ProjectDetector = L.Handler.extend({
     options:{
         url:'http://catalog.api.2gis.ru/project/list',
         data:{
@@ -38,8 +40,16 @@ L.DGProjectDetector = L.Handler.extend({
     },
 
     _projectChange:function () {
-        if (this.project && this.project.LatLngBounds.intersects(this._map.getBounds())) {
-            this._searchProject();
+        if (this.projectsList) {
+            if (!this.project) {
+                this._searchProject();
+            } else {
+                if (!this.project.LatLngBounds.intersects(this._map.getBounds())) {
+                    this.project = null;
+                    this._map.fire("projectleave");
+                    this._searchProject();
+                }
+            }
         }
     },
 
@@ -47,7 +57,7 @@ L.DGProjectDetector = L.Handler.extend({
         var options = this.options,
             self = this;
 
-        L.DGAjax({
+        L.DG.Jsonp({
             url:options.url,
             data:options.data,
             success:function (data) {
@@ -62,7 +72,6 @@ L.DGProjectDetector = L.Handler.extend({
                 self.projectsList = projectsList;
                 self._searchProject();
                 self._callAllProjectsCallbacks();
-                self._map.fire("projectsloaded", {"getProjectsList":L.Util.bind(self.getProjectsList, self)});
             }
         });
     },
@@ -72,7 +81,6 @@ L.DGProjectDetector = L.Handler.extend({
             if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
                 this.project = this.projectsList[i];
                 this._callCurrentProjectsCallbacks();
-                console.log(this.project);
                 this._map.fire("projectchange", {"getProject":L.Util.bind(this.getProject, this)});
                 return;
             }
@@ -153,4 +161,4 @@ L.DGProjectDetector = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'projectDetector', L.DGProjectDetector);
+L.Map.addInitHook('addHandler', 'dgProjectDetector', L.DG.ProjectDetector);

@@ -1,6 +1,7 @@
 describe("DG Project Detector Module", function () {
     var map,
         spy;
+    L.DG = L.DG || {};
     var ajax = function (params) {
         var success = params.success || function () {
             },
@@ -20,7 +21,7 @@ describe("DG Project Detector Module", function () {
         describe("when ajax return data result", function () {
 
             beforeEach(function () {
-                L.DGAjax = ajax;
+                L.DG.Jsonp = ajax;
                 map = new L.Map(document.createElement('div'), {
                     center:new L.LatLng(54.980206086231, 82.898068362003),
                     zoom:10
@@ -34,41 +35,16 @@ describe("DG Project Detector Module", function () {
             });
 
             /**
-             * Проверка, что событие projectsloaded срабатывает при корректном ответе сервера
-             *
-             * - Проверяем, что вызвалось событие projectsloaded после загрузки данных
-             *
-             * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
-             * @module DGProjectDetector
-             */
-            it("should fire a projectsloaded event ", function () {
-                map.on('projectsloaded', spy);
-
-                waitsFor(function () {
-                    return spy.callCount === 1;
-                });
-
-                runs(function () {
-                    expect(spy).toHaveBeenCalled();
-                });
-            });
-
-            /**
              * Проверка, что событие projectchange срабатывает при смене проекта
              *
              * - Проверяем, что вызвалось событие projectchange при смене проекта
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 1.0.0
-             * @module DGProjectDetector
+             * @module L.DG.ProjectDetector
              */
             it("should fire a projectchange event ", function () {
                 map.on('projectchange', spy);
-
-                window.setTimeout(function () {
-                    map.setView([53.706875284187, 91.433050566441], 13);
-                }, 1000);
 
                 waitsFor(function () {
                     return spy.callCount === 1;
@@ -80,26 +56,28 @@ describe("DG Project Detector Module", function () {
             });
 
             /**
-             * Проверка, что метод getProjectsList() события "projectsloaded"  возвращает данные
+             * Проверка, что событие projectleave сработало
              *
-             * - Подписываемся на событие "projectsloaded"
-             * - В полученном событии вызываем метод и роверяем что значение определено
+             * - Проверяем, что вызвалось событие projectchange
+             * - Проверяем, что вызвалось событие projectleave при выходе за проект
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 1.0.0
-             * @module DGProjectDetector
+             * @module L.DG.ProjectDetector
              */
-            describe("#getProjectsList", function () {
-                it("event method should be return not empty", function () {
-                    map.on('projectsloaded', spy);
+            it("should fire a projectleave event", function () {
+                map.on('projectleave', spy);
 
-                    waitsFor(function () {
-                        return spy.callCount === 1;
-                    });
+                window.setTimeout(function () {
+                    map.setView([55.12776575426648, 81.05661392211914], 16);
+                }, 200);
 
-                    runs(function () {
-                        expect(spy.mostRecentCall.args[0].getProjectsList()).toBeDefined();
-                    });
+                waitsFor(function () {
+                    return spy.callCount === 1;
+                });
+
+                runs(function () {
+                    expect(spy).toHaveBeenCalled();
                 });
             });
 
@@ -111,15 +89,11 @@ describe("DG Project Detector Module", function () {
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 1.0.0
-             * @module DGProjectDetector
+             * @module L.DG.ProjectDetector
              */
             describe("#getProject", function () {
                 it("event method should be return correct project", function () {
                     map.on('projectchange', spy);
-
-                    window.setTimeout(function () {
-                        map.setView([53.706875284187, 91.433050566441], 13);
-                    }, 1000);
 
                     waitsFor(function () {
                         return spy.callCount === 1;
@@ -129,13 +103,75 @@ describe("DG Project Detector Module", function () {
                         var project = spy.mostRecentCall.args[0].getProject();
 
                         expect(spy).toHaveBeenCalled();
-                        expect(project.code).toContain('abakan');
+                        expect(project.code).toContain('novosibirsk');
                     });
                 });
             });
 
             /**
-             * Проверка, что переопределяемый метод getAllProjects() возвращает все проекты
+             * Проверка, что метод getCurrentProject() возвращает корректный проект
+             *
+             * - Переопределяем колбек getCurrentProject
+             * - Проверяем, что колбек вызвался
+             * - Проверяем что в колбеке лежит корректный проект
+             *
+             * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
+             * @version 1.0.0
+             * @module L.DG.ProjectDetector
+             */
+            describe("#getCurrentProject", function () {
+                it("should be return correct project", function () {
+                    map.setView([55.175230853665, 61.401336991042 ], 13);
+
+                    map.dgProjectDetector.getCurrentProject(spy);
+
+                    waitsFor(function () {
+                        return spy.callCount === 1;
+                    });
+
+                    runs(function () {
+                        var project = spy.mostRecentCall.args[0];
+                        expect(project.code).toBe("chelyabinsk");
+                    });
+                });
+            });
+
+            /**
+             * Проверка, что метод getCurrentProject() вызывает все переданные ему функции обратного вызова
+             *
+             * - Добавим в метод getCurrentProject несколько колбеков
+             * - Проверяем, что колбеки вызвались
+             * - Проверяем что в колбеках лежат корректные данные
+             *
+             * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
+             * @version 1.0.0
+             * @module L.DG.ProjectDetector
+             */
+            describe("#getCurrentProject", function () {
+                it("should be return correct project and all callback call", function () {
+                    var spy1 = jasmine.createSpy();
+                    var spy2 = jasmine.createSpy();
+
+                    map.dgProjectDetector.getCurrentProject(spy1);
+                    map.dgProjectDetector.getCurrentProject(spy2);
+
+                    waitsFor(function () {
+                        return spy1.callCount === 1;
+                    });
+
+                    runs(function () {
+                        var project1 = spy1.mostRecentCall.args[0];
+                        var project2 = spy2.mostRecentCall.args[0];
+
+                        expect(spy1).toHaveBeenCalled();
+                        expect(spy2).toHaveBeenCalled();
+                        expect(project1).toEqual(project2);
+                    });
+                });
+            });
+
+            /**
+             * Проверка, что метод getAllProjects() возвращает все проекты
              *
              * - Переопределяем колбек getAllProjects
              * - Проверяем, что колбек вызвался
@@ -147,8 +183,7 @@ describe("DG Project Detector Module", function () {
              */
             describe("#getAllProjects", function () {
                 it("should be return correct list", function () {
-
-                    map.projectDetector.getAllProjects = spy;
+                    map.dgProjectDetector.getAllProjects(spy);
 
                     waitsFor(function () {
                         return spy.callCount === 1;
@@ -156,7 +191,6 @@ describe("DG Project Detector Module", function () {
 
                     runs(function () {
                         var projectsList = spy.mostRecentCall.args[0];
-
                         expect(spy).toHaveBeenCalled();
                         expect(projectsList.length).toBe(4);
                     });
@@ -164,29 +198,35 @@ describe("DG Project Detector Module", function () {
             });
 
             /**
-             * Проверка, что переопределяемый метод getCurrentProject() возвращает корректный проект
+             * Проверка, что метод getAllProjects() вызывает все переданные ему функции обратного вызова
              *
-             * - Переопределяем колбек getCurrentProject
-             * - Проверяем, что колбек вызвался
-             * - Проверяем что в колбеке лежит корректный проект
+             * - Добавим в метод getAllProjects несколько колбеков
+             * - Проверяем, что колбеки вызвались
+             * - Проверяем что в колбеках лежат корректные данные
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 1.0.0
-             * @module DGProjectDetector
+             * @module L.DG.ProjectDetector
              */
-            describe("#getCurrentProject", function () {
-                it("should be return correct project", function () {
+            describe("#getAllProjects", function () {
+                it("should be return correct list and call all callback", function () {
+                    var spy1 = jasmine.createSpy();
+                    var spy2 = jasmine.createSpy();
 
-                    map.setView([55.175230853665, 61.401336991042 ], 13);
+                    map.dgProjectDetector.getAllProjects(spy1);
+                    map.dgProjectDetector.getAllProjects(spy2);
 
-                    map.projectDetector.getCurrentProject = spy;
                     waitsFor(function () {
-                        return spy.callCount === 1;
+                        return spy1.callCount === 1;
                     });
 
                     runs(function () {
-                        var project = spy.mostRecentCall.args[0];
-                        expect(project.code).toBe("chelyabinsk");
+                        var projectsList1 = spy1.mostRecentCall.args[0];
+                        var projectsList2 = spy2.mostRecentCall.args[0];
+
+                        expect(spy1).toHaveBeenCalled();
+                        expect(spy2).toHaveBeenCalled();
+                        expect(projectsList1).toEqual(projectsList2);
                     });
                 });
             });
@@ -222,41 +262,18 @@ describe("DG Project Detector Module", function () {
             });
 
             /**
-             * Проверка, что событие projectsloaded не вызвалось при не корректном ответе сервера
-             *
-             * - Проверяем, что не вызвалось событие projectsloaded при неверном ответе сервера
-             *
-             * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
-             * @module DGProjectDetector
-             */
-            it("not should fire a projectsloaded event ", function () {
-                map.on('projectsloaded', spy);
-
-                waitsFor(function () {
-                    return spy.callCount === 0;
-                });
-
-                runs(function () {
-                    expect(spy).not.toHaveBeenCalled();
-                });
-            });
-
-            /**
              * Проверка, что событие projectchange не вызвалось при не корректном ответе сервера
              *
              * - Проверяем, что не вызвалось событие projectchange при неверном ответе сервера
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 1.0.0
-             * @module DGProjectDetector
+             * @module L.DG.ProjectDetector
              */
             it("not should fire a projectchange event ", function () {
                 map.on('projectchange', spy);
 
-                window.setTimeout(function () {
-                    map.setView([53.706875284187, 91.433050566441], 13);
-                }, 1000);
+                map.setView([55.12776575426648, 81.05661392211914], 16);
 
                 waitsFor(function () {
                     return spy.callCount === 0;
@@ -269,48 +286,20 @@ describe("DG Project Detector Module", function () {
 
 
             /**
-             * Проверка, что переопределяемый метод getAllProjects() не вызвался при неверном ответе сервера
-             *
-             * - Переопределяем колбек getAllProjects
-             * - Проверяем, что колбек не вызвался
-             *
-             * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
-             * @module DGProjectDetector
-             */
-            describe("#getAllProjects", function () {
-                it("when getAllProjects not call ", function () {
-
-                    map.projectDetector.getAllProjects = spy;
-
-                    waitsFor(function () {
-                        return spy.callCount === 0;
-                    });
-
-                    runs(function () {
-                        expect(spy).not.toHaveBeenCalled();
-                    });
-                });
-            });
-
-            /**
-             * Проверка, что переопределяемый метод getCurrentProject() не вызвался при неверном ответе сервера
+             * Проверка, что метод getCurrentProject() не вызвался при неверном ответе сервера
              *
              * - Переопределяем колбек getCurrentProject
              * - Проверяем, что колбек не вызвался
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 1.0.0
-             * @module DGProjectDetector
+             * @module L.DG.ProjectDetector
              */
             describe("#getCurrentProject", function () {
                 it("when getCurrentProject not call ", function () {
+                    map.dgProjectDetector.getCurrentProject(spy);
 
-                    map.projectDetector.getCurrentProject = spy;
-
-                    window.setTimeout(function () {
-                        map.setView([53.706875284187, 91.433050566441], 13);
-                    }, 1000);
+                    map.setView([54.980206086231, 82.898068362003], 13);
 
                     waitsFor(function () {
                         return spy.callCount === 0;
