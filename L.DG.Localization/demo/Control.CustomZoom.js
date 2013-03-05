@@ -26,7 +26,8 @@ L.Control.CustomZoom = L.Control.Zoom.extend({
 
         map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 
-        map.on('langchange', this._updateLocale, this);
+        map.on('langchange zoomend', this._updateLocale, this);
+            //.on('zoomend', this._updateLocale, this);
 
         return container;
     },
