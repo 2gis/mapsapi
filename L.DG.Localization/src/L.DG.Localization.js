@@ -11,8 +11,7 @@
 L.DG = L.DG || {};
 L.DG.Localization = L.Class.extend({
     options:{
-        position:'topleft',
-        currentLang:"ru"
+        position:'topleft'
     },
 
     initialize:function (map) {
