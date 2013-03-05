@@ -10,8 +10,14 @@
     <link rel="stylesheet" href="../../vendors/leaflet/leaflet.css"/>
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="../../vendors/leaflet/leaflet.ie.css"/><![endif]-->
-    <script src="Control.CustomZoom.js"></script>
+
     <script src="../src/L.DG.Localization.js"></script>
+
+    <script src="Control.CustomZoom.js"></script>
+    <script src="./i18n/customZoom-ru.js"></script>
+    <script src="./i18n/customZoom-it.js"></script>
+
+
 
 </head>
 <body>
@@ -21,7 +27,7 @@
 
 
 <script type="text/javascript">
-    var currentProjectBound;
+
     var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
             errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
             dgAttribution = 'Map data &copy; 2012 2GIS';
@@ -44,6 +50,9 @@
     map.removeControl(map.zoomControl);
 
     map.addControl(new L.Control.CustomZoom({position: 'topleft'}));
+
+    //  map.locale.setLang("it");
+    //  map.locale.setLang("ru");
 
 </script>
 
