@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Localization Demo</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../vendors/leaflet/leaflet-src.js"></script>
+
+    <link rel="stylesheet" href="../../vendors/leaflet/leaflet.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="../../vendors/leaflet/leaflet.ie.css"/><![endif]-->
+
+    <script src="../src/L.DG.Localization.js"></script>
+
+    <script src="Control.CustomZoom.js"></script>
+    <script src="./i18n/customZoom-ru.js"></script>
+    <script src="./i18n/customZoom-it.js"></script>
+
+
+
+</head>
+<body>
+
+
+<div id="map" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
+
+
+<script type="text/javascript">
+
+    var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+            errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
+            dgAttribution = 'Map data &copy; 2012 2GIS';
+
+    var dgLayer = new L.TileLayer(dgUrl, {
+        maxZoom:18,
+        subdomains:'0123',
+        errorTileUrl:errorTileUrl,
+        attribution:dgAttribution
+    });
+
+    var map = new L.Map('map', {
+        center:new L.LatLng(54.980206086231, 82.898068362003),
+        zoom:10,
+        layers:[dgLayer]
+    });
+
+    L.control.scale({imperial:false}).addTo(map);
+
+    map.removeControl(map.zoomControl);
+
+    map.addControl(new L.Control.CustomZoom({position: 'topleft'}));
+
+      //map.locale.setLang("it");
+    //  map.locale.setLang("ru");
+
+</script>
+
+</body>
+</html>
