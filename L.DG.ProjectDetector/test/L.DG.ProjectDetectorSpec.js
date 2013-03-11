@@ -17,7 +17,7 @@ describe("DG Project Detector Module", function () {
         }, 200);
     };
 
-    describe("All positive test", function () {
+    describe("All positive tests", function () {
         describe("when ajax return data result", function () {
 
             beforeEach(function () {
@@ -40,7 +40,7 @@ describe("DG Project Detector Module", function () {
              * - Проверяем, что вызвалось событие projectchange при смене проекта
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             it("should fire a projectchange event ", function () {
@@ -62,7 +62,7 @@ describe("DG Project Detector Module", function () {
              * - Проверяем, что вызвалось событие projectleave при выходе за проект
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             it("should fire a projectleave event", function () {
@@ -88,7 +88,7 @@ describe("DG Project Detector Module", function () {
              * - Вызываем метод и роверяем что значение определено
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             describe("#getProject", function () {
@@ -116,7 +116,7 @@ describe("DG Project Detector Module", function () {
              * - Проверяем что в колбеке лежит корректный проект
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             describe("#getCurrentProject", function () {
@@ -144,7 +144,7 @@ describe("DG Project Detector Module", function () {
              * - Проверяем что в колбеках лежат корректные данные
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             describe("#getCurrentProject", function () {
@@ -178,8 +178,8 @@ describe("DG Project Detector Module", function () {
              * - Проверяем что в колбеке лежат корректные данные
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
-             * @module DGProjectDetector
+             * @version 2.0.0
+             * @module L.DG.ProjectDetector
              */
             describe("#getAllProjects", function () {
                 it("should be return correct list", function () {
@@ -205,7 +205,7 @@ describe("DG Project Detector Module", function () {
              * - Проверяем что в колбеках лежат корректные данные
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             describe("#getAllProjects", function () {
@@ -233,7 +233,7 @@ describe("DG Project Detector Module", function () {
         });
     });
 
-    describe("All negative test", function () {
+    describe("All negative tests", function () {
         describe("when ajax return empty data", function () {
 
             beforeEach(function () {
@@ -247,7 +247,7 @@ describe("DG Project Detector Module", function () {
                     }, 200);
                 };
 
-                L.DGAjax = ajax;
+                L.DG.Jsonp = ajax;
 
                 map = new L.Map(document.createElement('div'), {
                     center:new L.LatLng(54.980206086231, 82.898068362003),
@@ -267,7 +267,7 @@ describe("DG Project Detector Module", function () {
              * - Проверяем, что не вызвалось событие projectchange при неверном ответе сервера
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             it("not should fire a projectchange event ", function () {
@@ -292,7 +292,7 @@ describe("DG Project Detector Module", function () {
              * - Проверяем, что колбек не вызвался
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
-             * @version 1.0.0
+             * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
             describe("#getCurrentProject", function () {
