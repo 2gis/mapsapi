@@ -2,7 +2,7 @@
  * Demo plugin for testing localization.
  * Overrides L.Control.Zoom
  */
-"use strict";
+
 L.Control.CustomZoom = L.Control.Zoom.extend({
     options:{
         position:'topleft'
@@ -27,7 +27,6 @@ L.Control.CustomZoom = L.Control.Zoom.extend({
         map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 
         map.on('langchange zoomend', this._updateLocale, this);
-            //.on('zoomend', this._updateLocale, this);
 
         return container;
     },

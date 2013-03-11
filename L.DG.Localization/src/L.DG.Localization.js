@@ -6,7 +6,6 @@
  *
  * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
-"use strict";
 
 L.DG = L.DG || {};
 L.DG.Localization = L.Class.extend({
@@ -18,7 +17,7 @@ L.DG.Localization = L.Class.extend({
     _:function (msg) { // (String) || (String, args...)
         var result,
             tmpl,
-            lang = this._map.locale.getLang(),
+            lang = this._map.getLang(),
             args = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : null;
 
         if (args) {
@@ -38,22 +37,26 @@ L.DG.Localization = L.Class.extend({
         }
 
         return result ? result : msg;
-    },
-
-    setLang:function (lang) {
-        if (lang) {
-            this._map.options.currentLang = lang;
-            this._map.fire("langchange", {"lang":lang});
-        }
-    },
-
-    getLang:function () {
-        return this._map.options.currentLang;
     }
 });
 
 L.Map.mergeOptions({
     currentLang:"ru"
+});
+
+L.Map.include({
+
+    setLang: function (lang) {
+        if (lang) {
+            this.options.currentLang = lang;
+            this.fire("langchange", {"lang": lang});
+        }
+    },
+
+    getLang: function () {
+        return this.options.currentLang;
+    }
+
 });
 
 L.Map.addInitHook(function () {
