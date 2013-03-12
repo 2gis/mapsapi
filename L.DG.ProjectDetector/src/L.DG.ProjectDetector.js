@@ -71,7 +71,6 @@ L.DG.ProjectDetector = L.Handler.extend({
                 }
                 self.projectsList = projectsList;
                 self._searchProject();
-                self._callAllProjectsCallbacks();
             }
         });
     },
@@ -80,7 +79,6 @@ L.DG.ProjectDetector = L.Handler.extend({
         for (var i = 0; i < this.projectsList.length; i++) {
             if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
                 this.project = this.projectsList[i];
-                this._callCurrentProjectsCallbacks();
                 this._map.fire("projectchange", {"getProject":L.Util.bind(this.getProject, this)});
                 return;
             }
@@ -111,22 +109,6 @@ L.DG.ProjectDetector = L.Handler.extend({
         );
     },
 
-    _callAllProjectsCallbacks:function () {
-        if (this._allProjectsCallbacks) {
-            for (var i = 0, len = this._allProjectsCallbacks.length; i < len; i++) {
-                this._allProjectsCallbacks[i].call(this, this.getProjectsList());
-            }
-        }
-    },
-
-    _callCurrentProjectsCallbacks:function () {
-        if (this._currentProjectCallbacks) {
-            for (var i = 0, len = this._currentProjectCallbacks.length; i < len; i++) {
-                this._currentProjectCallbacks[i].call(this, this.getProject());
-            }
-        }
-    },
-
     getProject:function () {
         if (!this.project) {
             return false;
@@ -139,24 +121,6 @@ L.DG.ProjectDetector = L.Handler.extend({
             return false;
         }
         return this.projectsList.slice(0);
-    },
-
-    getCurrentProject:function (fn) {
-        if (typeof fn === 'function') {
-            this._currentProjectCallbacks = this._currentProjectCallbacks || [];
-            this._currentProjectCallbacks.push(fn);
-        } else {
-            return false;
-        }
-    },
-
-    getAllProjects:function (fn) {
-        if (typeof fn === 'function') {
-            this._allProjectsCallbacks = this._allProjectsCallbacks || [];
-            this._allProjectsCallbacks.push(fn);
-        } else {
-            return false;
-        }
     }
 
 });
