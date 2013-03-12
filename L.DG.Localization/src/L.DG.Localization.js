@@ -10,38 +10,40 @@
 L.DG = L.DG || {};
 L.DG.Localization = L.Class.extend({
 
-    initialize:function (map) {
+    initialize: function (map) {
         this._map = map;
     },
 
-    _:function (msg) { // (String) || (String, args...)
+    _: function (msg, argument) { // (String) || (String, argument...)
         var result,
-            tmpl,
-            lang = this._map.getLang(),
-            args = arguments.length > 1 ? Array.prototype.slice.call(arguments, 1) : null;
+            lang = this._map.getLang();
 
-        if (args) {
-            result = this.Dictionary[lang][msg];
-            for (var i = 0, len = args.length; i < len; i++) {
-                if (Object.prototype.toString.call(args[i]) === '[object Number]') {
-                    var n = args[i];
-                    result = this.Dictionary[lang][msg][n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2];
-                }
-                if (Object.prototype.toString.call(args[i]) === '[object Object]') {
-                    tmpl = args[i];
-                }
-            }
-            result = tmpl ? L.Util.template(result, tmpl) : result;
-        } else {
-            result = this.Dictionary[lang][msg];
+        if (!this.Dictionary[lang]) {
+            throw new Error('No provided current language  ' + lang);
         }
 
+        if (argument) {
+            result = this.Dictionary[lang][msg];
+
+            if (Object.prototype.toString.call(argument) === '[object Number]') {
+                var exp = this.Dictionary[lang].pluralRules(argument);
+                result = this.Dictionary[lang][msg][exp];
+                result = L.Util.template(result, {n: argument});
+            }
+            if (Object.prototype.toString.call(argument) === '[object Object]') {
+                result = L.Util.template(result, argument);
+            }
+        }
+        else {
+            result = this.Dictionary[lang][msg];
+        }
         return result ? result : msg;
     }
+
 });
 
 L.Map.mergeOptions({
-    currentLang:"ru"
+    currentLang: "ru"
 });
 
 L.Map.include({

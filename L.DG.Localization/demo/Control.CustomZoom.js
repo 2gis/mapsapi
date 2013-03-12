@@ -20,7 +20,7 @@ L.Control.CustomZoom = L.Control.Zoom.extend({
         this._map = map;
 
         this._zoomInButton = this._createButton(
-            '+', this._("Zoom in", {msg:"(" + this._("Current Zoom") + ": " + this._map.getZoom() + ")"}), zoomName + '-in', container, this._zoomIn, this);
+            '+', this._("Zoom in"), zoomName + '-in', container, this._zoomIn, this);
         this._zoomOutButton = this._createButton(
             '-', this._("Zoom out"), zoomName + '-out', container, this._zoomOut, this);
 
@@ -37,7 +37,7 @@ L.Control.CustomZoom = L.Control.Zoom.extend({
     },
 
     _updateLocale:function () {
-        this._zoomInButton.title = this._("Zoom in", {msg:"(" + this._("Current Zoom") + ": " + this._map.getZoom() + ")"});
+        this._zoomInButton.title = this._("Zoom in");
         this._zoomOutButton.title = this._("Zoom out");
         this._updateDisabled();
     }
