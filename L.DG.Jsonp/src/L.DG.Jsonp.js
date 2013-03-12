@@ -54,12 +54,14 @@ L.DG.Jsonp = function(params) {
     script.type = 'text/javascript';
     script.async = true;
     script.id = callbackId;
-    script.src = resUrl;
 
-    script.onerror = function(e) {
+    script.onerror = window.onerror = function(e) {
         error({ url: resUrl, event: e });
         script.parentNode.removeChild(script);
+        return true;
     };
+
+    script.src = resUrl;
 
     beforeSend();
     head.appendChild(script);
