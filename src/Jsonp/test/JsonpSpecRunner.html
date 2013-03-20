@@ -1,49 +1,49 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-  "http://www.w3.org/TR/html4/loose.dtd">
+        "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <title>DG AJAX Module Spec Runner</title>
+    <title>DG JSONP Module Spec Runner</title>
 
-  <link rel="shortcut icon" type="image/png" href="../../vendors/jasmine-1.3.1/jasmine_favicon.png">
-  <link rel="stylesheet" type="text/css" href="../../vendors/jasmine-1.3.1/jasmine.css">
-  <script type="text/javascript" src="../../vendors/jasmine-1.3.1/jasmine.js"></script>
-  <script type="text/javascript" src="../../vendors/jasmine-1.3.1/jasmine-html.js"></script>
+    <link rel="shortcut icon" type="image/png" href="../../vendors/jasmine/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="../../vendors/jasmine/jasmine.css">
+    <script type="text/javascript" src="../../vendors/jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="../../vendors/jasmine/jasmine-html.js"></script>
 
-  <!-- include source files here... -->
-  <script type="text/javascript" src="../../vendors/leaflet/leaflet-src.js"></script>
-  <script type="text/javascript" src="../src/Jsonp.js"></script>
+    <!-- include source files here... -->
+    <script type="text/javascript" src="../../vendors/leaflet/dist/leaflet-src.js"></script>
+    <script type="text/javascript" src="../src/Jsonp.js"></script>
 
-  <!-- include spec files here... -->
-  <script type="text/javascript" src="JsonpSpec.js"></script>
+    <!-- include spec files here... -->
+    <script type="text/javascript" src="JsonpSpec.js"></script>
 
-  <script type="text/javascript">
-    (function() {
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
+    <script type="text/javascript">
+        (function () {
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 1000;
 
-      var htmlReporter = new jasmine.HtmlReporter();
+            var htmlReporter = new jasmine.HtmlReporter();
 
-      jasmineEnv.addReporter(htmlReporter);
+            jasmineEnv.addReporter(htmlReporter);
 
-      jasmineEnv.specFilter = function(spec) {
-        return htmlReporter.specFilter(spec);
-      };
+            jasmineEnv.specFilter = function (spec) {
+                return htmlReporter.specFilter(spec);
+            };
 
-      var currentWindowOnload = window.onload;
+            var currentWindowOnload = window.onload;
 
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
-        execJasmine();
-      };
+            window.onload = function () {
+                if (currentWindowOnload) {
+                    currentWindowOnload();
+                }
+                execJasmine();
+            };
 
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
+            function execJasmine() {
+                jasmineEnv.execute();
+            }
 
-    })();
-  </script>
+        })();
+    </script>
 
 </head>
 
