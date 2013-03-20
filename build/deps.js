@@ -16,7 +16,7 @@ var deps = {
         desc: 'ProjectDetector module.'
     },
 
-    TileLayer2GIS: {
+    DGLayer: {
         src: ['TileLayer/src/TileLayer.js'],
         desc: 'TileLayer module.'
     }
