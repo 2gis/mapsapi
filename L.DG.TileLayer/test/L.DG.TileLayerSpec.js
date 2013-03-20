@@ -1,4 +1,4 @@
-describe("DG Project Detector Module", function () {
+describe("DG TileLayer Module", function () {
     var map,
         spy;
 
@@ -19,7 +19,6 @@ describe("DG Project Detector Module", function () {
      * Проверка, что метод L.dgTileLayer() возвращает экземпляр класа L.DG.TileLayer()
      *
      * - Проверяем, что созданный слой методом L.dgTileLayer() соответствует ожидаемому.
-     * - Проверяем, что это слой 2GIS
      *
      * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
      * @version 2.0.0
