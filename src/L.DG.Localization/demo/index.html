@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Leaflet DG Project detector Demo</title>
+    <title>Leaflet Localization Demo</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,19 +11,23 @@
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="../../vendors/leaflet/leaflet.ie.css"/><![endif]-->
 
-    <script src="../src/L.DG.Jsonp.js"></script>
-    <!--<script src="../../L.DG.Jsonp/src/L.DG.Jsonp.js"></script>-->
-    <script src="../src/L.DG.ProjectDetector.js"></script>
+    <script src="../src/L.DG.Localization.js"></script>
+
+    <script src="Control.CustomZoom.js"></script>
+    <script src="i18n/customZoom-ru.js"></script>
+    <script src="i18n/customZoom-it.js"></script>
+
+
 
 </head>
 <body>
 
 
-<div id="map" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
+<div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
 
 
 <script type="text/javascript">
-    var currentProjectBound;
+
     var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
             errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
             dgAttribution = 'Map data &copy; 2012 2GIS';
@@ -43,22 +47,16 @@
 
     L.control.scale({imperial:false}).addTo(map);
 
-    map.on('projectchange', function (e) {
-        // some code using "projectchange" event
+    map.removeControl(map.zoomControl);
 
-        var bounds = e.getProject().LatLngBounds;
-        currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
-    });
-
-    map.on('projectleave', function () {
-        // some code using this event
-
-        if (currentProjectBound) {
-            currentProjectBound.onRemove(map);
-        }
-    });
+    map.addControl(new L.Control.CustomZoom({position: 'topleft'}));
 
 </script>
+
+<select name="menu" size="1" onchange="map.setLang(this.options[this.selectedIndex].value)">
+    <option value="ru" selected="selected">Ru</option>
+    <option value="it">It</option>
+</select>
 
 </body>
 </html>
