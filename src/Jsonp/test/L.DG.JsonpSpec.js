@@ -9,7 +9,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should get a success responce", function () {
         var callback = jasmine.createSpy();
@@ -37,7 +37,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should get a error responce on empty url", function () {
         var callback = jasmine.createSpy();
@@ -65,7 +65,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should get a error responce on bad server request", function () {
         var callback = jasmine.createSpy();
@@ -93,7 +93,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should calls a beforeSend callback", function () {
         var callback = jasmine.createSpy();
@@ -121,7 +121,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should calls a complete callback", function () {
         var callback = jasmine.createSpy();
@@ -150,7 +150,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should be return cancel callback method", function() {
 
@@ -171,7 +171,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should that the cancel callback method works", function () {
         var callback = jasmine.createSpy();
@@ -203,7 +203,7 @@ describe("DG JSONP Module", function() {
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
      * @version 1.0.1
-     * @module L.DG.Jsonp
+     * @module Jsonp
      */
     it("should that 2 callbaks are not mixed", function () {
         var callbackA = jasmine.createSpy();
