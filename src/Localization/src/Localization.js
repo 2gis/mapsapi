@@ -14,7 +14,7 @@ L.DG.Localization = L.Class.extend({
         this._map = map;
     },
 
-    _: function (msg, argument) { // (String) || (String, argument...)
+    t: function (msg, argument) { // (String) || (String, argument...)
         var result,
             lang = this._map.getLang();
 
