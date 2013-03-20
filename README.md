@@ -9,3 +9,7 @@ DG MAPS API 2.0
 Обновить все субмодули
 
     git submodule foreach 'git checkout master && git pull origin master'
+    
+Склонить репозиторий и обновить все субмодули
+
+    git clone --recursive https://github.com/yarikos/DG.MapsAPI.git
