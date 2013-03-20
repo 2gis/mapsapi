@@ -1,5 +1,5 @@
 /**
- * Leaflet 2GIS TileLayer
+ * Leaflet DG TileLayer
  * Version 1.0.0
  *
  * Copyright (c) 2013, 2GIS, Dima Rudenko
@@ -7,10 +7,10 @@
 
 L.DG = L.DG || {};
 L.DG.TileLayer = L.TileLayer.extend({
-
     dgTileLayerUrl: 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
     options: {
-        subdomains: '0123'
+        subdomains: '0123',
+        errorTileUrl: 'http://maps.api.2gis.ru/images/nomap.png'
     },
 
     initialize: function () {
@@ -18,36 +18,28 @@ L.DG.TileLayer = L.TileLayer.extend({
             options = L.setOptions(this, this.options);
         L.TileLayer.prototype.initialize.call(this, url, options);
     }
-
-
-});
-
-
-L.Map.addInitHook(function () {
-    var layer = new L.DG.TileLayer();
-    this.whenReady(function () {
-        console.log("1 this=", this);
-      //  this.addLayer(layer);
-    },this);
-
-
-    this.on("load", function(e){
-        console.log("2 this=", e.target);
-        e.target.whenReady(function () {
-            console.log("3 this=",this);
-           // this.addLayer(layer);
-        });
-
-    });
 });
 
 L.dgTileLayer = function () {
     return new L.DG.TileLayer();
 };
 
+L.Map.mergeOptions({
+    attributionControl: false,
+    layers: [L.dgTileLayer()]
+});
 
-//this.on("load", function (e) {
-//    setTimeout(function () {
-//        L.dgTileLayer().addTo(e.target);
-//    }, 200);
-//});
+L.Map.addInitHook(function () {
+    var options = {
+        position: 'bottomright',
+        prefix: '<div class="dg-mapcopyright dg-mapcopyright_lang_ru">' +
+            '<a href="http://2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners" class="dg-mapcopyright__logolink" target="_blank" alt="ООО  ДубльГИС">' +
+            '<span class="dg-mapcopyright__logo"></span>' +
+            '</a>' +
+            '<a class="dg-link dg-mapcopyright__apilink" href="http://api.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners" target="_blank" alt="Работает на API 2ГИС"></a>' +
+            '<a class="dg-link dg-mapcopyright__license" href="http://help.2gis.ru/licensing-agreement/" target="_blank" alt="Лицензионное соглашение"></a>' +
+            '</div>'
+    };
+
+    new L.Control.Attribution(options).addTo(this);
+});
