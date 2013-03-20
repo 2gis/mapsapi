@@ -1,7 +1,28 @@
-/**
- * Created with JetBrains PhpStorm.
- * User: andreychizh
- * Date: 20.03.13
- * Time: 13:22
- * To change this template use File | Settings | File Templates.
- */
+var deps = {
+
+    JSONP: {
+        src: ['Jsonp/src/Jsonp.js'],
+        desc: 'JSONP module.',
+        heading: '2GIS modules'
+    },
+
+    Localization: {
+        src: ['Localization/src/Localization.js'],
+        desc: 'Localization module.'
+    },
+
+    ProjectDetector: {
+        src: ['ProjectDetector/src/ProjectDetector.js'],
+        desc: 'ProjectDetector module.'
+    },
+
+    TileLayer2GIS: {
+        src: ['TileLayer/src/TileLayer.js'],
+        desc: 'TileLayer module.'
+    }
+
+};
+
+if (typeof exports !== 'undefined') {
+    exports.deps = deps;
+}

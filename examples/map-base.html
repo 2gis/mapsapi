@@ -8,11 +8,33 @@
     <link rel="stylesheet" href="../vendors/leaflet/leaflet.css"/>
     <!--[if lte IE 8]><link rel="stylesheet" href="../vendors/leaflet/leaflet.ie.css"/><![endif]-->
 
-    <script src="../vendors/leaflet/leaflet-src.js"></script>
+    <script src="../dist/leaflet-src.js"></script>
 </head>
 <body>
 
 <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+
+<script type="text/javascript">
+
+    var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+            dgErrorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
+            dgAttribution = 'Map data &copy; 2012 2GIS';
+
+    var dgLayer = new L.TileLayer(dgUrl, {
+        maxZoom: 18,
+        subdomains: '0123',
+        errorTileUrl: dgErrorTileUrl,
+        attribution: dgAttribution
+    });
+
+    var map = new L.Map('map', {
+        center: new L.LatLng(54.980206086231, 82.898068362003),
+        zoom: 13,
+        layers: [dgLayer]
+    });
+
+
+</script>
 
 </body>
 </html>
