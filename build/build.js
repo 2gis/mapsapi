@@ -179,8 +179,8 @@ exports.build = function(build) {
     var minContent = minifyPackage(srcContent);
     writeFile(config.dest.min, minContent);
 
-    console.log('Uncompressed size: ' + parseInt(srcContent.length/1024, 10) + ' KB');
-    console.log('Compressed size:   ' + parseInt(minContent.length/1024, 10) + ' KB');
+    console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
+    console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
 };
 
 /**
