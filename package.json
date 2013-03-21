@@ -3,15 +3,17 @@
     "version": "2.0.0",
     "description": "Interactive 2GIS maps, based on Leaflet",
     "devDependencies": {
+        "jake": "*",
         "jshint": "*",
-        "uglify-js": "*"
+        "uglify-js": "*",
+        "watch": "*"
     },
     "scripts": {
-
+        "build" : "node ./node_modules/jake/bin/cli build"
     },
     "repository": {
         "type": "git",
         "url": "git://github.com/yarikos/DG.MapsAPI.git"
     },
-    "keywords": ["2gis", "map"]
+    "keywords": ["2gis", "map", "api"]
 }

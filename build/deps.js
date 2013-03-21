@@ -18,7 +18,7 @@ var deps = {
 
     DGLayer: {
         src: ['TileLayer/src/TileLayer.js'],
-        desc: 'TileLayer module.'
+        desc: '2GIS Tile Layer module.'
     }
 
 };
