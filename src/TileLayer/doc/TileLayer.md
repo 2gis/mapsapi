@@ -13,7 +13,7 @@ Copyright (c) 2013, 2GIS, Dima Rudenko
 
 Также создать новую копию тайлового слоя 2GIS можно так:
 
-       var dgLayer = L.dgTileLayer();
+       var dgLayer = L.DG.tileLayer();
 
 
 

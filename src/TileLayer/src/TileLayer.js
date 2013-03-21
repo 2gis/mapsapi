@@ -20,13 +20,13 @@ L.DG.TileLayer = L.TileLayer.extend({
     }
 });
 
-L.dgTileLayer = function () {
+L.DG.tileLayer = function () {
     return new L.DG.TileLayer();
 };
 
 L.Map.mergeOptions({
     attributionControl: false,
-    layers: [L.dgTileLayer()]
+    layers: [L.DG.tileLayer()]
 });
 
 L.Map.addInitHook(function () {

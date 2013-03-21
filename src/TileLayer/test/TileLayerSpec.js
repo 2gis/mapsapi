@@ -16,16 +16,16 @@ describe("DG TileLayer Module", function () {
     });
 
     /**
-     * Проверка, что метод L.dgTileLayer() возвращает экземпляр класа L.DG.TileLayer()
+     * Проверка, что метод L.DG.tileLayer() возвращает экземпляр класа L.DG.TileLayer()
      *
-     * - Проверяем, что созданный слой методом L.dgTileLayer() соответствует ожидаемому.
+     * - Проверяем, что созданный слой методом L.DG.tileLayer() соответствует ожидаемому.
      *
      * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
      * @version 2.0.0
      * @module L.DG.TileLayer
      */
-    it("when method L.dgTileLayer() return correct layer", function () {
-        var dgLayer1 = L.dgTileLayer(),
+    it("when method L.DG.tileLayer() return correct layer", function () {
+        var dgLayer1 = L.DG.tileLayer(),
             dgLayer2 = new L.DG.TileLayer();
 
         expect(dgLayer1).toEqual(dgLayer2);
@@ -59,7 +59,7 @@ describe("DG TileLayer Module", function () {
      * @module L.DG.TileLayer
      */
     it("when a automatically layer is 2gis tilelayer", function () {
-        var dgLayer = L.dgTileLayer();
+        var dgLayer = L.DG.tileLayer();
 
         map.eachLayer(function(layer){
             expect(layer.options).toEqual(dgLayer.options);
