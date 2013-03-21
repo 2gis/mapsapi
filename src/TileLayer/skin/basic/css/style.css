@@ -9,9 +9,11 @@
 }
 .dg-mapcopyright.dg-mapcopyright_lang_ru,
 .dg-mapcopyright.dg-mapcopyright_lang_it {
+    bottom: 5px;
     display:block !important;
     height:26px !important;
     position:relative !important;
+    right: 2px;
 }
 .dg-mapcopyright__logo,
 a.dg-mapcopyright__apilink,
