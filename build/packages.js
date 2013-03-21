@@ -2,14 +2,20 @@ var packages = {
 
     base: {
         name: 'Базовый',
-        modules: ['Core', 'JSONP'],
-        desc: 'Simply maps package'
+        modules: ['Core', 'TileLayer', 'ControlZoom', 'DGLayer'],
+        desc: 'Представляет собой самый базовый функционал: карта и элементы управления'
+    },
+    
+    standard: {
+        name: 'Стандарт',
+        modules: ['Core', 'TileLayer', 'ControlZoom', 'DGLayer', 'Marker', 'DivIcon', 'Popup'],
+        desc: 'Представляет собой стандартный функционал: карта, маркеры, балуны, геометрии'
     },
 
     full: {
         name: 'Полный',
         modules: [],
-        desc: 'Full maps package'
+        desc: 'Полный, максимальный пакет. Включает в себя весь функционал АПИ карт'
     }
 
 };
