@@ -6,7 +6,7 @@
         "jake": "*",
         "jshint": "*",
         "uglify-js": "*",
-        "watch": "*"
+        "colors": "*"
     },
     "scripts": {
         "build": "node ./node_modules/jake/bin/cli build",

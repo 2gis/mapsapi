@@ -14,7 +14,8 @@ var config = {
     },
 
     dest: {
-        path: './dist/dg-map-src.js'
+        src: './dist/dg-map-src.js',
+        min: './dist/dg-map.js'
     },
 
     copyrights: ['./vendors/leaflet/src/copyright.js'],

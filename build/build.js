@@ -1,5 +1,5 @@
 var fs = require('fs'),
-    watch = require('watch');
+    uglify = require('uglify-js');
 
 var config = require('./config.js').config,
     packages = require('./packages.js').packages;
@@ -87,10 +87,10 @@ function parcePackageName(build) {
  * Generates build content
  *
  * @param {Array} build
- * @param {Boolean} isCli
+ * @param {Boolean} isMsg
  * @returns {String}
  */
-function makePackage(build, isCli) {
+function makePackage(build, isMsg) {
     var modulesResult = '',
         loadModules = {},
         modulesList = parcePackageName(build);
@@ -99,7 +99,7 @@ function makePackage(build, isCli) {
         var moduleName = modulesList[i];
         var moduleContent = modules[moduleName];
 
-        if (isCli) {
+        if (isMsg) {
             console.log('  * ' + moduleName);
         }
 
@@ -113,11 +113,20 @@ function makePackage(build, isCli) {
         }
     }
 
-    if (isCli) {
-        console.log('Concatenating ' + modulesList.length + ' files...');
+    if (isMsg) {
+        console.log('Concatenating ' + modulesList.length + ' modules...');
     }
 
     return copyrights + config.intro + modulesResult + config.outro;
+}
+
+function minifyPackage(content) {
+    var min = uglify.minify(content, {
+        warnings: true,
+        fromString: true
+    }).code;
+
+    return copyrights + min;
 }
 
 /**
@@ -130,8 +139,6 @@ function writeFile(path, content) {
     fs.writeFile(path, content, function(err) {
         if(err) {
             console.log(err);
-        } else {
-            console.log("The file was saved!");
         }
     });
 }
@@ -158,17 +165,26 @@ exports.get = function(build) {
 exports.build = function(build) {
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
-    var content = makePackage(build, true);
-    writeFile(config.dest.path, content);
+
+    console.log('Build modules:');
+
+    var srcContent = makePackage(build, true);
+    writeFile(config.dest.src, srcContent);
+
+    console.log('Compressing...');
+
+    var minContent = minifyPackage(srcContent);
+    writeFile(config.dest.min, minContent);
+
+    console.log('Uncompressed size: ' + parseInt(srcContent.length/1024, 10) + ' KB');
+    console.log('Compressed size:   ' + parseInt(minContent.length/1024, 10) + ' KB');
 };
 
 /**
  * Watch (on develop mode)
  */
 exports.watch = function () {
-    watch.watchTree(__dirname + '/../src', function (f, curr, prev) {
-        console.log('Rebuild dist');
-    });
+
 };
 
 exports.test = function () {
