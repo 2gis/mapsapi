@@ -5,11 +5,9 @@
     "devDependencies": {
         "jake": "*",
         "jshint": "*",
-        "uglify-js": "*",
-        "colors": "*"
+        "uglify-js": "*"
     },
     "scripts": {
-        "build": "node ./node_modules/jake/bin/cli build",
         "test": "node ./node_modules/jake/bin/cli test"
     },
     "repository": {
