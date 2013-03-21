@@ -8420,4 +8420,340 @@ L.Map.include({
 });
 
 
+/**
+ * Leaflet DG JSONP Plugin
+ * The plugin to provide an asynchronous cross-domain HTTP (AJAX) requests.
+ *
+ * Version 1.0.1
+ *
+ * Copyright (c) 2013, 2GIS, Andrey Chizh
+ */
+L.DG = L.DG || {};
+L.DG.Jsonp = function(params) {
+    'use strict';
+
+    var query = '',
+        resUrl, timer, head, script,
+        callbackId, callbackName,
+        url = params.url || '',
+        data = params.data || {},
+        success = params.success || function() {},
+        error = params.error || function() {},
+        beforeSend = params.beforeSend || function() {},
+        complete = params.complete || function() {},
+        timeout = params.timeout || 30 * 1000;
+
+    head = document.getElementsByTagName('head')[0];
+
+    callbackId = 'dga_' + ('' + Math.random()).slice(2);
+    callbackName = 'L.DG.Jsonp.callback.' + callbackId;
+
+    for (var key in data) {
+        if (data.hasOwnProperty(key)) {
+            query += encodeURIComponent(key) + '=' + encodeURIComponent(data[key]) + '&';
+        }
+    }
+
+    if (url.indexOf('?') === -1) {
+        resUrl = url + '?' + query + 'callback=' + callbackName;
+    } else {
+        resUrl = url + '&' + query + 'callback=' + callbackName;
+    }
+
+    timer = setTimeout(function() {
+        cancelCallback();
+        error({ url: resUrl, event: 'Request timeout error' });
+    }, timeout);
+
+    L.DG.Jsonp.callback[callbackId] = function(data) {
+        clearTimeout(timer);
+        success(data);
+        removeScript(callbackId);
+        delete L.DG.Jsonp.callback[callbackId];
+    };
+
+    script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.id = callbackId;
+
+    script.onerror = window.onerror = function(e) {
+        error({ url: resUrl, event: e });
+        script.parentNode.removeChild(script);
+        return true;
+    };
+
+    script.src = resUrl;
+
+    beforeSend();
+    head.appendChild(script);
+    complete();
+
+    function cancelCallback() {
+        removeScript(callbackId);
+        if (L.DG.Jsonp.callback.hasOwnProperty(callbackId)) {
+            L.DG.Jsonp.callback[callbackId] = function() {};
+        }
+    }
+
+    function removeScript(callbackId) {
+        var script = document.getElementById(callbackId);
+        if (script && script.parentNode) {
+            script.parentNode.removeChild(script);
+        }
+    }
+
+    return {
+        cancel: cancelCallback
+    }
+};
+
+L.DG.Jsonp.callback = {};
+
+
+/**
+ * Leaflet DG Localization
+ * The plugin to provide localization.
+ *
+ * Version 1.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Dima Rudenko
+ */
+
+L.DG = L.DG || {};
+L.DG.Localization = L.Class.extend({
+
+    initialize: function (map) {
+        this._map = map;
+    },
+
+    t: function (msg, argument) { // (String) || (String, argument...)
+        var result,
+            lang = this._map.getLang();
+
+        if (!this.Dictionary[lang]) {
+            throw new Error('No provided current language  ' + lang);
+        }
+
+        if (argument) {
+            result = this.Dictionary[lang][msg];
+
+            if (Object.prototype.toString.call(argument) === '[object Number]') {
+                var exp = this.Dictionary[lang].pluralRules(argument);
+                result = this.Dictionary[lang][msg][exp];
+                result = L.Util.template(result, {n: argument});
+            }
+            if (Object.prototype.toString.call(argument) === '[object Object]') {
+                result = L.Util.template(result, argument);
+            }
+        }
+        else {
+            result = this.Dictionary[lang][msg];
+        }
+        return result ? result : msg;
+    }
+
+});
+
+L.Map.mergeOptions({
+    currentLang: "ru"
+});
+
+L.Map.include({
+
+    setLang: function (lang) {
+        if (lang) {
+            this.options.currentLang = lang;
+            this.fire("langchange", {"lang": lang});
+        }
+    },
+
+    getLang: function () {
+        return this.options.currentLang;
+    }
+
+});
+
+L.Map.addInitHook(function () {
+    if (this.options.currentLang) {
+        this.locale = new L.DG.Localization(this);
+    }
+});
+
+/**
+ * Leaflet ProjectDetector
+ * The plugin  add custom event map, loads a list of all projects and evaluates the current project, in which the user is located.
+ *
+ * Version 1.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Dima Rudenko
+ */
+
+L.DG = L.DG || {};
+
+L.Map.mergeOptions({
+    dgProjectDetector:true
+});
+
+L.DG.ProjectDetector = L.Handler.extend({
+    options:{
+        url:'http://catalog.api.2gis.ru/project/list',
+        data:{
+            key:'ruxlih0718',
+            version:'1.3',
+            lang:'ru',
+            output:'jsonp'
+        }
+    },
+
+    initialize:function (map) {
+        this._map = map;
+        this.project = null;
+        this.projectsList = null;
+        this._loadProjectList();
+    },
+
+    addHooks:function () {
+        this._map.on('move', this._projectChange, this);
+    },
+
+    removeHooks:function () {
+        this._map.off('move', this._projectChange, this);
+    },
+
+    _projectChange:function () {
+        if (this.projectsList) {
+            if (!this.project) {
+                this._searchProject();
+            } else {
+                if (!this.project.LatLngBounds.intersects(this._map.getBounds())) {
+                    this.project = null;
+                    this._map.fire("projectleave");
+                    this._searchProject();
+                }
+            }
+        }
+    },
+
+    _loadProjectList:function () {
+        var options = this.options,
+            self = this;
+
+        L.DG.Jsonp({
+            url:options.url,
+            data:options.data,
+            success:function (data) {
+                if (!data.result || (Object.prototype.toString.call(data.result) !== '[object Array]')) {
+                    return;
+                }
+                var projectsList = data.result;
+
+                for (var i = 0, len = projectsList.length; i < len; i++) {
+                    projectsList[i].LatLngBounds = self._boundsFromWktPolygon(projectsList[i].actual_extent);
+                }
+                self.projectsList = projectsList;
+                self._searchProject();
+            }
+        });
+    },
+
+    _searchProject:function () {
+        for (var i = 0; i < this.projectsList.length; i++) {
+            if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
+                this.project = this.projectsList[i];
+                this._map.fire("projectchange", {"getProject":L.Util.bind(this.getProject, this)});
+                return;
+            }
+        }
+    },
+
+    _boundsFromWktPolygon:function (wkt) {
+        var arr,
+            pointsArr,
+            bracketsContent,
+            regExp,
+            southWest,
+            northEast;
+
+        wkt = wkt.replace(/, /g, ',');
+        wkt.replace(' (', '(');
+
+        arr = /^POLYGON\((.*)\)/.exec(wkt);
+        regExp = /\((.*?)\)/g;
+
+        bracketsContent = (regExp).exec(arr[1]);
+        pointsArr = bracketsContent[1].split(',');
+        southWest = pointsArr[0].split(' ');
+        northEast = pointsArr[2].split(' ');
+
+        return new L.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
+            [parseFloat(northEast[1]), parseFloat(northEast[0])]
+        );
+    },
+
+    getProject:function () {
+        if (!this.project) {
+            return false;
+        }
+        return L.Util.extend({}, this.project);
+    },
+
+    getProjectsList:function () {
+        if (!this.projectsList) {
+            return false;
+        }
+        return this.projectsList.slice(0);
+    }
+
+});
+
+L.Map.addInitHook('addHandler', 'dgProjectDetector', L.DG.ProjectDetector);
+
+
+/**
+ * Leaflet DG TileLayer
+ * Version 1.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Dima Rudenko
+ */
+
+L.DG = L.DG || {};
+L.DG.TileLayer = L.TileLayer.extend({
+    dgTileLayerUrl: 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+    options: {
+        subdomains: '0123',
+        errorTileUrl: 'http://maps.api.2gis.ru/images/nomap.png'
+    },
+
+    initialize: function () {
+        var url = this.dgTileLayerUrl,
+            options = L.setOptions(this, this.options);
+        L.TileLayer.prototype.initialize.call(this, url, options);
+    }
+});
+
+L.DG.tileLayer = function () {
+    return new L.DG.TileLayer();
+};
+
+L.Map.mergeOptions({
+    attributionControl: false,
+    layers: [L.DG.tileLayer()]
+});
+
+L.Map.addInitHook(function () {
+    var options = {
+        position: 'bottomright',
+        prefix: '<div class="dg-mapcopyright dg-mapcopyright_lang_ru">' +
+            '<a href="http://2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners" class="dg-mapcopyright__logolink" target="_blank" alt="ООО  ДубльГИС">' +
+            '<span class="dg-mapcopyright__logo"></span>' +
+            '</a>' +
+            '<a class="dg-link dg-mapcopyright__apilink" href="http://api.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners" target="_blank" alt="Работает на API 2ГИС"></a>' +
+            '<a class="dg-link dg-mapcopyright__license" href="http://help.2gis.ru/licensing-agreement/" target="_blank" alt="Лицензионное соглашение"></a>' +
+            '</div>'
+    };
+
+    new L.Control.Attribution(options).addTo(this);
+});
+
 }(this, document));
