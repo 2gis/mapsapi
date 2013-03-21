@@ -35,7 +35,6 @@ function getModulesContent(params) {
                     modules[mod] = moduleContent;
                 }
             }
-
         }
     }
 
@@ -82,7 +81,6 @@ function parcePackageName(build) {
     }
 
     return modulesList;
-
 }
 
 /**
@@ -145,14 +143,14 @@ function writeFile(path, content) {
 exports.init = function() {
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
-}
+};
 
 /**
  * Get content (on request app)
  */
 exports.get = function(build) {
    return makePackage(build);
-}
+};
 
 /**
  * Build (on run cli script)
@@ -162,7 +160,7 @@ exports.build = function(build) {
     copyrights = getCopyrightsContent(config.copyrights);
     var content = makePackage(build, true);
     writeFile(config.dest.path, content);
-}
+};
 
 /**
  * Watch (on develop mode)
@@ -171,7 +169,7 @@ exports.watch = function () {
     watch.watchTree(__dirname + '/../src', function (f, curr, prev) {
         console.log('Rebuild dist');
     });
-}
+};
 
 
 
