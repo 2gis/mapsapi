@@ -155,8 +155,9 @@ exports.init = function() {
 /**
  * Get content (on request app)
  */
-exports.get = function(build) {
-   return makePackage(build);
+exports.get = function(build, callback) {
+    var data = makePackage(build);
+    callback(data);
 };
 
 /**
