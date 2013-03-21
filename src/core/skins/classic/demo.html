@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>2GIS API 2.0 Classic Theme Demo</title>
+
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <!-- Leaflet -->
+    <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+    <![endif]-->
+
+    <!-- Basics -->
+    <link rel="stylesheet" href="../basic/theme.css" media="all" />
+    <!-- Theme -->
+    <script src="theme.config.js"></script>
+    <link rel="stylesheet" href="theme.css" media="all" />
+
+    <!-- Demo -->
+    <style>
+        body {
+            padding: 10px;
+        }
+
+        /* Map */
+        .dg-map {
+            height: 800px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        var themeDemo = {
+            dgUrl: 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+            dgErrorTileUrl: 'http://maps.api.2gis.ru/images/nomap.png',
+            dgAttribution: 'Map data &copy; 2013 2GIS',
+
+            theme: null,
+
+            dgLayer: null,
+            map: null,
+
+            ZoomControl: null,
+
+            markerIcons: {},
+
+            marker: null,
+            markerContainer: null,
+            markerIcon: null,
+            markerAnimationTimeout: null,
+
+
+            /**
+             * Init theme
+             */
+            init: function(mapId) {
+                this.theme = apiTheme;
+                this.initMap(mapId);
+
+                this.initZoomControl();
+
+                this.initMarkersAndBalloons();
+            },
+
+            initMap: function(map) {
+                var mapContainer,
+                    mapContainerInner;
+
+                // Create layer
+                this.dgLayer = new L.TileLayer(this.dgUrl, {
+                    maxZoom         : 18,
+                    subdomains      : '0123',
+                    errorTileUrl    : this.dgErrorTileUrl,
+                    attribution     : this.dgAttribution
+                });
+
+                // Create inner div for map
+                mapContainer = (typeof map === 'object') ? map : L.DomUtil.get(map);
+                L.DomUtil.addClass(mapContainer, 'dg-map');
+                mapContainerInner = L.DomUtil.create('div', 'dg-map__inner', mapContainer);
+
+                // Initialize map
+                this.map = new L.Map(mapContainerInner, {
+                    center      : new L.LatLng(54.980206086231, 82.898068362003),
+                    zoom        : 13,
+                    layers      : [this.dgLayer],
+                    zoomControl : false
+                });
+            },
+
+            initZoomControl: function() {
+                var _this = this;
+
+                this.ZoomControl = L.Control.extend({
+                    options: {
+                        position: _this.theme.controls.zoom.position
+                    },
+
+                    onAdd: function() {
+                        var zoomContainer   = L.DomUtil.create('div', 'dg-zoom'),
+                            zoomIn          = L.DomUtil.create('div', 'dg-zoom__btn dg-zoom__in', zoomContainer),
+                            zoomOut         = L.DomUtil.create('div', 'dg-zoom__btn dg-zoom__out', zoomContainer);
+
+                        // Add labels
+                        zoomIn.innerHTML = '+';
+                        zoomOut.innerHTML = '−';
+                        // Add titles
+                        zoomIn.setAttribute('title', 'Приблизить');
+                        zoomOut.setAttribute('title', 'Отдалить');
+                        // Add hendlers
+                        L.DomEvent.addListener(zoomIn, 'click', _this.zoomInHandler, _this);
+                        L.DomEvent.addListener(zoomOut, 'click', _this.zoomOutHandler, _this);
+
+                        return zoomContainer;
+                    }
+                });
+
+                this.map.addControl(new this.ZoomControl());
+            },
+
+            initMarkersAndBalloons: function() {
+                /**
+                 * Анимированный маркер - маркер с иконкой типа L.DivIcon, 
+                 * внутри которой через атрибут html добавляется див: <div class="dg-marker dg-marker_animated"></div>, 
+                 * на который навешиваются события и который оформляется стилями.
+                 */
+                var _this = this,
+                    balloonHtml,
+                    balloonParams = {
+                        minWidth    : 50,
+                        maxWidth    : 370,
+                        offset      : new L.Point(this.theme.balloonOptions.offset[0], this.theme.balloonOptions.offset[1])
+                    },
+                    markerOptions = {
+                        html        : '<div class="dg-marker"></div>'
+                    };
+
+                balloonHtml = '<div class="dg-callout dg-geoclicker">\n\
+                    <div class="dg-geoclicker__org">Сан Сити, многофункциональный комплекс</div>\n\
+                    <div class="dg-geoclicker__address">630048, Карла Маркса площадь, 7</div>\n\
+                    <div class="dg-geoclicker__purpose">Административное здание</div>\n\
+                    <div class="dg-geoclicker__elevation">23 этажа</div>\n\
+                    <div class="dg-geoclicker__buttons">\n\
+                        <div class="dg-geoclicker__show-organizations">\n\
+                            Показать организации в здании&nbsp;<div class="dg-geoclicker__orgs">176</div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>';
+
+                L.Util.extend(markerOptions, this.theme.markersData['defaultMarker']);
+
+                this.marker = L.marker(
+                    [54.980206086231, 82.898068362003],
+                    { 
+                        icon: new L.DivIcon(markerOptions),
+                        riseOnHover: true
+                    }
+                ).addTo(this.map)
+                    .bindPopup(
+                        balloonHtml,
+                        balloonParams
+                    ).openPopup();
+
+                this.markerContainer = this.marker._icon;
+                this.markerIcon = this.markerContainer.firstChild;
+                L.DomUtil.addClass(this.markerIcon, 'dg-marker_default');
+
+                if (markerOptions.animation) {
+                    L.DomUtil.addClass(this.markerIcon, 'dg-marker_animated');
+
+                    // Add handlers
+                    L.DomEvent.addListener(this.markerIcon, 'mouseover', this.markerMousoverHandler, this);
+                    L.DomEvent.addListener(this.markerIcon, 'mouseout', this.markerMousoutHandler, this);
+                    L.DomEvent.addListener(this.markerIcon, 'mousedown', this.markerMousedownHandler, this);
+                    L.DomEvent.addListener(this.markerIcon, 'mouseup', this.markerMouseupHandler, this);
+
+                    // Add missed Leaflet marker 'mouseup'
+                    if (this.markerContainer.addEventListener) {
+                        this.markerContainer.addEventListener('mouseup', function(event) {
+                            _this.markerMouseupHandler(event, _this);
+                        });
+                    } else if (this.markerIcon.attachEvent) {
+                        this.markerIcon.attachEvent('onmouseup', function(event) {
+                            _this.markerMouseupHandler(event, _this);
+                        });
+                    }
+                }
+            },
+
+
+            /**
+             * Handlers
+             */
+            zoomInHandler: function(event) {
+                L.DomEvent.preventDefault(event);
+                L.DomEvent.stopPropagation(event);
+                this.map.zoomIn();
+            },
+
+            zoomOutHandler: function(event) {
+                L.DomEvent.preventDefault(event);
+                L.DomEvent.stopPropagation(event);
+                this.map.zoomOut();
+            },
+
+            markerMousoverHandler: function(event) {
+                clearTimeout(this.markerAnimationTimeout);
+                L.DomUtil.addClass(this.markerIcon, 'dg-marker_mouseover');
+            },
+
+            markerMousoutHandler: function(event) {
+                var _this = this;
+
+                this.markerAnimationTimeout = setTimeout(function() {
+                    L.DomUtil.removeClass(_this.markerIcon, 'dg-marker_mouseover');
+                    L.DomUtil.removeClass(_this.markerIcon, 'dg-marker_mousedown');
+                }, 100);
+            },
+
+            markerMousedownHandler: function(event) {
+                L.DomUtil.addClass(this.markerIcon, 'dg-marker_mousedown');
+            },
+
+            markerMouseupHandler: function(event, context) {
+                L.DomUtil.removeClass(this.markerIcon, 'dg-marker_mousedown');
+            }
+        };
+
+
+        themeDemo.init('map');
+    </script>
+
+</body>
+</html>
