@@ -13,12 +13,14 @@ var deps = {
 
     ProjectDetector: {
         src: ['ProjectDetector/src/ProjectDetector.js'],
-        desc: 'ProjectDetector module.'
+        desc: 'ProjectDetector module.',
+        deps: ['JSONP']
     },
 
     DGLayer: {
         src: ['TileLayer/src/TileLayer.js'],
-        desc: '2GIS Tile Layer module.'
+        desc: '2GIS Tile Layer module.',
+        deps: ['TileLayer']
     }
 
 };

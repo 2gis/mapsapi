@@ -9,7 +9,8 @@
         "watch": "*"
     },
     "scripts": {
-        "build" : "node ./node_modules/jake/bin/cli build"
+        "build": "node ./node_modules/jake/bin/cli build",
+        "test": "node ./node_modules/jake/bin/cli test"
     },
     "repository": {
         "type": "git",

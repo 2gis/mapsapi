@@ -171,6 +171,10 @@ exports.watch = function () {
     });
 };
 
+exports.test = function () {
+    console.log('Run tests');
+};
+
 
 
 

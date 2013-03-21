@@ -1,13 +1,9 @@
-
 var build = require('./build/build.js');
 
-desc('Check source for errors with JSHint');
-task('lint', build.lint);
+desc('Combine source files');
+task('build', build.build);
 
-desc('Combine and compress source files');
-task('build', ['lint'], build.build);
-
-desc('Run PhantomJS tests');
-task('test', ['lint'], build.test);
+desc('Run tests');
+task('test', build.test);
 
 task('default', ['build']);
