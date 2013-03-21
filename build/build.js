@@ -15,8 +15,7 @@ var modules,
  * @returns {Object}
  */
 function getModulesContent(params) {
-    var modules = {},
-        loadModules = {};
+    var modules = {};
 
     for (vendor in params) {
         if (params.hasOwnProperty(vendor)) {
@@ -25,18 +24,15 @@ function getModulesContent(params) {
 
             for (var mod in deps) {
                 if (deps.hasOwnProperty(mod)) {
-                    var content = '',
+                    var moduleContent = {},
                         src = deps[mod].src;
 
                     for (var i = 0, count = src.length; i < count; i++) {
                         var srcPath = path + src[i];
-                        if (!loadModules.hasOwnProperty(srcPath)) {
-                            content += fs.readFileSync(srcPath, 'utf8') + '\n\n';
-                            loadModules[srcPath] = true;
-                        }
+                        moduleContent[srcPath] = fs.readFileSync(srcPath, 'utf8') + '\n\n';
                     }
 
-                    modules[mod] = content;
+                    modules[mod] = moduleContent;
                 }
             }
 
@@ -57,7 +53,7 @@ function getCopyrightsContent(params) {
     var copyright = '';
 
     for (var i = 0, count = params.length; i < count; i++) {
-        copyright += fs.readFileSync(params[i], 'utf8') + '\n\n';
+        copyright += fs.readFileSync(params[i], 'utf8') + '\n';
     }
 
     return copyright;
@@ -97,22 +93,33 @@ function parcePackageName(build) {
  * @returns {String}
  */
 function makePackage(build, isCli) {
-    var modulesContent = '',
+    var modulesResult = '',
+        loadModules = {},
         modulesList = parcePackageName(build);
+
+    for (var i = 0, count = modulesList.length; i < count; i++) {
+        var moduleName = modulesList[i];
+        var moduleContent = modules[moduleName];
+
+        if (isCli) {
+            console.log('  * ' + moduleName);
+        }
+
+        for (var name in moduleContent) {
+            if (moduleContent.hasOwnProperty(name)) {
+                if (!loadModules[name]) {
+                    modulesResult += moduleContent[name];
+                    loadModules[name] = true;
+                }
+            }
+        }
+    }
 
     if (isCli) {
         console.log('Concatenating ' + modulesList.length + ' files...');
     }
 
-    for (var i = 0, count = modulesList.length; i < count; i++) {
-        var moduleName = modulesList[i];
-        modulesContent += modules[moduleName];
-        if (isCli) {
-            console.log('  * ' + moduleName);
-        }
-    }
-
-    return copyrights + config.intro + modulesContent + config.outro;
+    return copyrights + config.intro + modulesResult + config.outro;
 }
 
 /**
