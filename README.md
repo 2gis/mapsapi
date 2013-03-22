@@ -1,9 +1,9 @@
 DG MAPS API 2.0
 ====
 
-# Документация
-
 ## Зависимости
+
+Приложение имеет следующие зависимости:
 
 [Node.js] (желательно последняя версия)
 
@@ -16,9 +16,9 @@ npm install -g jake
 npm install
 ```
 
-## Консольные команды
+## Работа с приложением
 
-### Получить список всех команд
+### Получить список всех доступных команд
 
 ```bash
 jake -ls
@@ -32,12 +32,21 @@ jake -ls
 jake lint
 ```
 
-В случае ошибки выводит путь к файлу, номер строки, колонки и сообщение.
+В случае ошибки выводит путь к файлу, номер строки, колонки и сообщение. Например:
+
+```bash
+./src/ProjectDetector/src/ProjectDetector.js  line 13 col 23	 Missing space after ':'.
+./src/ProjectDetector/src/ProjectDetector.js	line 17 col 13	 Missing space after ':'.
+./src/ProjectDetector/src/ProjectDetector.js	line 18 col 13	 Missing space after ':'.
+```
 
 [JSHint]: http://jshint.com/docs/
 
 ### Сборка и минификация
 
+Базовая команда, результатом которой будет максимально полная сборка API:
+
 ```bash
 jake buld
 ```
+
