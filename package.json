@@ -5,7 +5,8 @@
     "devDependencies": {
         "jake": "*",
         "jshint": "*",
-        "uglify-js": "*"
+        "uglify-js": "*",
+        "optimist": "*"
     },
     "scripts": {
         "test": "node ./node_modules/jake/bin/cli test"

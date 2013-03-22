@@ -1,4 +1,5 @@
 var fs = require('fs'),
+    argv = require('optimist').argv,
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js');
 
@@ -215,8 +216,8 @@ exports.build = function() {
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
 
-    if (process.env.b || process.env.build) {
-        build = process.env.b || process.env.build;
+    if (process.env.b || process.env.m) {
+        build = process.env.b || process.env.m;
     }
 
     if (build == 'public') {
