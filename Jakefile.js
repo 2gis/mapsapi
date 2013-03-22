@@ -21,14 +21,14 @@
 var build = require('./build/build.js'),
     tests = require('./tests/tests.js');
 
-desc('Check JS files for errors');
+desc('Check JS files for errors with JSHint');
 task('lint', build.lint);
 
 desc('Combine and minify source files');
 task('build', ['lint'], build.build);
 
 desc('Rebuild and run unit tests');
-task('test', ['build'], tests.run);
+task('test', ['lint', 'build'], tests.run);
 
 desc('Rebuild dist on changes src directory');
 task('watch', build.watch);

@@ -1,9 +1,10 @@
 var fs = require('fs'),
-    jshint = require('jshint'),
+    jshint = require('jshint').JSHINT,
     uglify = require('uglify-js');
 
 var config = require('./config.js').config,
-    packages = require('./packages.js').packages;
+    packages = require('./packages.js').packages,
+    hint = require('./hint.js');
 
 var modules,
     copyrights;
@@ -115,7 +116,7 @@ function makePackage(build, isMsg) {
     }
 
     if (isMsg) {
-        console.log('Concatenating ' + modulesList.length + ' modules...');
+        console.log('\nConcatenating ' + modulesList.length + ' modules...\n');
     }
 
     return copyrights + config.intro + modulesResult + config.outro;
@@ -141,16 +142,34 @@ function writeFile(path, content) {
 }
 
 /**
- * Write file to disc
+ * Check JS files for errors
  *
- * @param {String} path
- * @param {String} content
+ * @param {Object} modules
+ * @return {Number}
  */
+function lintFiles(modules) {
+    var errorsCount = 0;
 
-function lintFiles(files) {
-    var errorsFound = 0;
+    for (mod in modules) {
+        if (modules.hasOwnProperty(mod)) {
+            var fileList = modules[mod];
+            for (file in fileList) {
+                if (fileList.hasOwnProperty(file)) {
 
-    return errorsFound;
+                    jshint(fileList[file], hint.config, hint.namespace);
+                    var errors = jshint.errors;
+
+                    for (var i = 0, count = errors.length; i < count; i++) {
+                        var e = errors[i];
+                        console.log(file + '\tline ' + e.line + ' col ' + e.character + '\t ' + e.reason);
+                        errorsCount++;
+                    }
+                }
+            }
+        }
+    }
+
+    return errorsCount;
 }
 
 
@@ -172,31 +191,46 @@ exports.get = function(build, callback) {
     callback(minContent);
 };
 
+/**
+ * Lint (CLI command)
+ */
+exports.lint = function() {
+    var errorsCount;
 
+    console.log('Check all source JS files for errors with JSHint...\n');
+
+    modules = getModulesContent(config.source);
+    errorsCount = lintFiles(modules);
+
+    console.log('\nJSHint find ' + errorsCount + ' errors.\n');
+};
 
 /**
- * Build (on run cli script)
+ * Build (CLI command)
  */
-exports.build = function(build) {
+exports.build = function() {
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
 
     console.log('Build modules:');
 
+    build = process.env.b || [];
     var srcContent = makePackage(build, true);
     writeFile(config.dest.src, srcContent);
 
-    console.log('Compressing...');
+    console.log('Compressing...\n');
 
     var minContent = minifyPackage(srcContent);
     writeFile(config.dest.min, minContent);
 
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
+
+    console.log('\nSuccessfully completed!\n');
 };
 
 /**
- * Watch (on develop mode)
+ * Watch (CLI command, on develop)
  */
 exports.watch = function () {
 
