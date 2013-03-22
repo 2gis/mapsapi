@@ -90,5 +90,8 @@ jake buld b=base
 ```
 Результатом будет 2 JS файла:
 
-  dist/dg-map-custom-src.js  (исходный код)
-  dist/dg-map-custom.js      (минимизированный файл)
+```bash
+dist/dg-map-custom-src.js  (исходный код)
+dist/dg-map-custom.js      (минимизированный файл)
+```
+
