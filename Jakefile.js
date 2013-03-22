@@ -9,17 +9,19 @@
  *   npm install -g jake
  *   npm install
  *
+ * See tasks list:
+ *   jake -ls
+ *
  * Tasks list:
  *  - lint
- *  - build (default)
+ *  - build
  *  - test
  *  - watch
- *
  */
 var build = require('./build/build.js'),
     tests = require('./tests/tests.js');
 
-desc('Check JS for errors');
+desc('Check JS files for errors');
 task('lint', build.lint);
 
 desc('Combine and minify source files');

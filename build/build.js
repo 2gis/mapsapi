@@ -1,4 +1,5 @@
 var fs = require('fs'),
+    jshint = require('jshint'),
     uglify = require('uglify-js');
 
 var config = require('./config.js').config,
@@ -139,6 +140,19 @@ function writeFile(path, content) {
     fs.writeFileSync(path, content);
 }
 
+/**
+ * Write file to disc
+ *
+ * @param {String} path
+ * @param {String} content
+ */
+
+function lintFiles(files) {
+    var errorsFound = 0;
+
+    return errorsFound;
+}
+
 
 /**
  * Init (on start app)
@@ -157,6 +171,8 @@ exports.get = function(build, callback) {
     minContent = minifyPackage(srcContent);
     callback(minContent);
 };
+
+
 
 /**
  * Build (on run cli script)
