@@ -14,7 +14,7 @@ var config = {
     },
 
     dest: {
-        full: {
+        public: {
             src: './dist/dg-map-src.js',
             min: './dist/dg-map.js'
         },

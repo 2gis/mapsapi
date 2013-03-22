@@ -210,17 +210,21 @@ exports.lint = function() {
  */
 exports.build = function() {
     var build = null,
-        dest = config.dest.full;
+        dest = config.dest.custom;
 
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
 
-    console.log('Build modules:');
-
     if (process.env.b || process.env.build) {
         build = process.env.b || process.env.build;
-        dest = config.dest.custom;
     }
+
+    if (build == 'public') {
+        dest = config.dest.public;
+        console.log('Build public GitHub full package!\n');
+    }
+
+    console.log('Build modules:');
 
     var srcContent = makePackage(build, true);
     writeFile(dest.src, srcContent);
