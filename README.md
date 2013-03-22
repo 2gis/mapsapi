@@ -50,3 +50,32 @@ jake lint
 jake buld
 ```
 
+Если необходимо задать собрать некий кастомный вариант API выполняем следующее:
+
+Сборка с указанием имен модулей:
+
+```bash
+jake buld b=Module1,Module2,Module3
+```
+где build_name - имя модулей API. 
+
+Пример:
+
+```bash
+jake buld b=Core,TileLayer,JSONP
+```
+
+Так же доступен вариант сборки API в соответствии с заранее указанным пакетам:
+
+```bash
+jake buld b=build_name
+```
+
+где build_name - имя сборки. Доступные пакеты: base, standart, full.
+Описание пакетов находится в файле build/packages.js.
+
+Пример:
+
+```bash
+jake buld b=base
+```
