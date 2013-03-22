@@ -14,8 +14,14 @@ var config = {
     },
 
     dest: {
-        src: './dist/dg-map-src.js',
-        min: './dist/dg-map.js'
+        full: {
+            src: './dist/dg-map-src.js',
+            min: './dist/dg-map.js'
+        },
+        custom: {
+            src: './dist/dg-map-custom-src.js',
+            min: './dist/dg-map-custom.js'
+        }
     },
 
     copyrights: ['./vendors/leaflet/src/copyright.js'],

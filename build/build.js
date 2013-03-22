@@ -209,19 +209,26 @@ exports.lint = function() {
  * Build (CLI command)
  */
 exports.build = function() {
+    var build = null,
+        dest = config.dest.full;
+
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
 
     console.log('Build modules:');
 
-    build = process.env.b || [];
+    if (process.env.b || process.env.build) {
+        build = process.env.b || process.env.build;
+        dest = config.dest.custom;
+    }
+
     var srcContent = makePackage(build, true);
-    writeFile(config.dest.src, srcContent);
+    writeFile(dest.src, srcContent);
 
     console.log('Compressing...\n');
 
     var minContent = minifyPackage(srcContent);
-    writeFile(config.dest.min, minContent);
+    writeFile(dest.min, minContent);
 
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
