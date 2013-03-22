@@ -136,11 +136,7 @@ function minifyPackage(content) {
  * @param {String} content
  */
 function writeFile(path, content) {
-    fs.writeFile(path, content, function(err) {
-        if(err) {
-            console.log(err);
-        }
-    });
+    fs.writeFileSync(path, content);
 }
 
 
@@ -189,12 +185,3 @@ exports.build = function(build) {
 exports.watch = function () {
 
 };
-
-exports.test = function () {
-    console.log('Run tests');
-};
-
-
-
-
-exports.build();

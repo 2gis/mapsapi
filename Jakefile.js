@@ -1,9 +1,34 @@
-var build = require('./build/build.js');
+/**
+ * Main CLI 2GIS Maps API 2.0
+ *
+ * Depending list:
+ *   node.js
+ *   npm
+ *
+ * Install of the environment:
+ *   npm install -g jake
+ *   npm install
+ *
+ * Tasks list:
+ *  - lint
+ *  - build (default)
+ *  - test
+ *  - watch
+ *
+ */
+var build = require('./build/build.js'),
+    tests = require('./tests/tests.js');
 
-desc('Combine source files');
-task('build', build.build);
+desc('Check JS for errors');
+task('lint', build.lint);
 
-desc('Run tests');
-task('test', build.test);
+desc('Combine and minify source files');
+task('build', ['lint'], build.build);
+
+desc('Rebuild and run unit tests');
+task('test', ['build'], tests.run);
+
+desc('Rebuild dist on changes src directory');
+task('watch', build.watch);
 
 task('default', ['build']);
