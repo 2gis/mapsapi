@@ -24,6 +24,15 @@ npm install
 jake -ls
 ```
 
+Результат:
+
+```bash
+jake lint      # Check JS files for errors with JSHint  
+jake build     # Combine and minify source files  
+jake test      # Rebuild and run unit tests  
+jake watch     # Rebuild dist on changes src directory  
+```
+
 ### Проверка исходных JS файлов с помощью [JSHint]
 
 Выполняет проверку всех исходных файлов проекта.
