@@ -45,8 +45,8 @@ jake lint
 
 ```bash
 ./src/ProjectDetector/src/ProjectDetector.js  line 13 col 23	 Missing space after ':'.
-./src/ProjectDetector/src/ProjectDetector.js	line 17 col 13	 Missing space after ':'.
-./src/ProjectDetector/src/ProjectDetector.js	line 18 col 13	 Missing space after ':'.
+./src/ProjectDetector/src/ProjectDetector.js  line 17 col 13	 Missing space after ':'.
+./src/ProjectDetector/src/ProjectDetector.js  line 18 col 13	 Missing space after ':'.
 ```
 
 [JSHint]: http://jshint.com/docs/
