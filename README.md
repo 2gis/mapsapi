@@ -66,7 +66,7 @@ jake buld
 ```bash
 jake buld b=Module1,Module2,Module3
 ```
-где build_name - имя модулей API. 
+где Module1,Module2,Module3 - имя модулей API. 
 
 Пример:
 
@@ -88,3 +88,7 @@ jake buld b=build_name
 ```bash
 jake buld b=base
 ```
+Результатом будет 2 JS файла:
+
+  dist/dg-map-custom-src.js  (исходный код)
+  dist/dg-map-custom.js      (минимизированный файл)
