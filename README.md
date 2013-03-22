@@ -74,6 +74,14 @@ jake buld b=Module1,Module2,Module3
 jake buld b=Core,TileLayer,JSONP
 ```
 
+Результат:
+
+```bash
+dist/dg-map-custom-src.js  (исходный код)
+dist/dg-map-custom.js      (минимизированный код)
+```
+Эти файлы находятся в игноре git-a.
+
 ##### Вариант сборки API в соответствии с заранее описаными пакетами:
 
 ```bash
@@ -88,7 +96,8 @@ jake buld b=build_name
 ```bash
 jake buld b=base
 ```
-##### Результатом будет 2 JS файла:
+
+Результат:
 
 ```bash
 dist/dg-map-custom-src.js  (исходный код)
@@ -102,7 +111,7 @@ dist/dg-map-custom.js      (минимизированный код)
 jake buld b=public
 ```
 
-##### Результатом будет 2 JS файла:
+Результат:
 
 ```bash
 dist/dg-map-src.js  (исходный код)
