@@ -64,14 +64,14 @@ jake buld
 Применяется если необходимо собрать некий кастомный вариант API.
 
 ```bash
-jake buld b=Module1,Module2,Module3
+jake buld m=Module1,Module2,Module3
 ```
 где Module1,Module2,Module3 - имя модулей API. 
 
 Пример:
 
 ```bash
-jake buld b=Core,TileLayer,JSONP
+jake buld m=Core,TileLayer,JSONP
 ```
 
 Результат:
@@ -118,3 +118,5 @@ dist/dg-map-src.js  (исходный код)
 dist/dg-map.js      (минимизированный код)
 ```
 Эти файлы находятся в индексе git-a.
+
+### Запуск тестов
