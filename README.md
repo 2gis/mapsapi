@@ -5,7 +5,7 @@ DG MAPS API 2.0
 
 Приложение имеет следующие зависимости:
 
-[Node.js] (желательно последняя версия)
+1. [Node.js]
 
 [Node.js]: http://nodejs.org/
 
@@ -32,6 +32,7 @@ jake build     # Combine and minify source files
 jake test      # Rebuild and run unit tests  
 jake watch     # Rebuild dist on changes src directory  
 ```
+
 
 ### Проверка исходных JS файлов с помощью [JSHint]
 
