@@ -1,4 +1,10 @@
 /**
+ * JSHint namespace
+ * See: http://jshint.com/docs/
+ */
+exports.namespace = { L: true };
+
+/**
  * JSHint config
  * See: http://jshint.com/docs/
  */
@@ -49,5 +55,3 @@ exports.config = {
     "white": true,
     "smarttabs": true
 };
-
-exports.namespace = {L: true};

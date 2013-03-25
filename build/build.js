@@ -13,6 +13,9 @@ var config = require('./config.js').config,
     packages = require('./packages.js').packages,
     hint = require('./hint.js');
 
+/**
+ * Global data stores
+ */
 var modules,
     copyrights;
 
@@ -58,13 +61,13 @@ function getModulesContent(params) {
  * @returns {String}
  */
 function getCopyrightsContent(params) {
-    var copyright = '';
+    var copyrights = '';
 
     for (var i = 0, count = params.length; i < count; i++) {
-        copyright += fs.readFileSync(params[i], 'utf8') + '\n';
+        copyrights += fs.readFileSync(params[i], 'utf8') + '\n';
     }
 
-    return copyright;
+    return copyrights;
 }
 
 
