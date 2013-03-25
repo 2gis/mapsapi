@@ -19,23 +19,13 @@ files = [
   'src/**/test/*Spec.js'
 ];
 
-
-//"before.js",
-//    "testacular.js"
-//], libSources, [
-//    "after.js",
-//    "happen.js",
-//    "suites/SpecHelper.js",
-//    "suites/**/*.js"
-
 // list of files to exclude
 exclude = [];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit', 'teamcity'
 // CLI --reporters progress
-reporters = ['progress'];
-
+reporters = ['dots'];
 
 // web server port
 // CLI --port 9876
@@ -85,4 +75,4 @@ plugins = [
   'karma-jasmine',
   'karma-chrome-launcher',
   'karma-firefox-launcher'
-]
+];
