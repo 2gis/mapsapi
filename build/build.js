@@ -1,5 +1,11 @@
+/**
+ * Main build script of 2GIS Maps API 2.0
+ *
+ * Version 2.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Andrey Chizh
+ */
 var fs = require('fs'),
-    argv = require('optimist').argv,
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js');
 
@@ -12,7 +18,7 @@ var modules,
 
 /**
  * Get content of all modules
- * Must run 1 time on start app or run cli script
+ * Must run only 1 time on start app or run CLI script
  *
  * @param {Object} params
  * @returns {Object}
@@ -46,7 +52,7 @@ function getModulesContent(params) {
 
 /**
  * Get content of all copyrights
- * Must run 1 time on start app or run cli script
+ * Must run only 1 time on start app or run CLI script
  *
  * @param {Object} params
  * @returns {String}
@@ -123,6 +129,12 @@ function makePackage(build, isMsg) {
     return copyrights + config.intro + modulesResult + config.outro;
 }
 
+/**
+ * Minify source files
+ *
+ * @param {String} content
+ * @return {String}
+ */
 function minifyPackage(content) {
     var min = uglify.minify(content, {
         warnings: true,
@@ -156,13 +168,12 @@ function lintFiles(modules) {
             var fileList = modules[mod];
             for (file in fileList) {
                 if (fileList.hasOwnProperty(file)) {
-
                     jshint(fileList[file], hint.config, hint.namespace);
                     var errors = jshint.errors;
 
                     for (var i = 0, count = errors.length; i < count; i++) {
                         var e = errors[i];
-                        console.log(file + '\tline ' + e.line + ' col ' + e.character + '\t ' + e.reason);
+                        console.log(file + '    line ' + e.line + ' col ' + e.character + '    ' + e.reason);
                         errorsCount++;
                     }
                 }
@@ -173,24 +184,6 @@ function lintFiles(modules) {
     return errorsCount;
 }
 
-
-/**
- * Init (on start app)
- */
-exports.init = function() {
-    modules = getModulesContent(config.source);
-    copyrights = getCopyrightsContent(config.copyrights);
-};
-
-/**
- * Get content (on request app)
- */
-exports.get = function(build, callback) {
-    var srcContent, minContent;
-    srcContent = makePackage(build);
-    minContent = minifyPackage(srcContent);
-    callback(minContent);
-};
 
 /**
  * Lint (CLI command)
@@ -246,4 +239,22 @@ exports.build = function() {
  */
 exports.watch = function () {
 
+};
+
+/**
+ * Init (web app)
+ */
+exports.init = function() {
+    modules = getModulesContent(config.source);
+    copyrights = getCopyrightsContent(config.copyrights);
+};
+
+/**
+ * Get content (web app)
+ */
+exports.get = function(build, callback) {
+    var srcContent, minContent;
+    srcContent = makePackage(build);
+    minContent = minifyPackage(srcContent);
+    callback(minContent);
 };
