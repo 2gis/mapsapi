@@ -4,19 +4,17 @@
 <head>
     <title>2GIS Maps API Test Runner</title>
 
-    <link rel="shortcut icon" type="image/png" href="../vendors/jasmine-1.3.1/jasmine_favicon.png">
-    <link rel="stylesheet" type="text/css" href="../vendors/jasmine-1.3.1/jasmine.css">
-    <script type="text/javascript" src="../vendors/jasmine-1.3.1/jasmine.js"></script>
-    <script type="text/javascript" src="../vendors/jasmine-1.3.1/jasmine-html.js"></script>
+    <link rel="stylesheet" type="text/css" href="../vendors/jasmine/jasmine.css">
+    <script type="text/javascript" src="../vendors/jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="../vendors/jasmine/jasmine-html.js"></script>
 
-    <!-- include leaflet dist -->
-    <script type="text/javascript" src="../vendors/leaflet/dist/leaflet-src.js"></script>
-
-    <!-- include source files -->
-    <script type="text/javascript" src="../src/L.DG.Jsonp.js"></script>
+    <!-- include API full dist -->
+    <script type="text/javascript" src="../dist/dg-map-custom-src.js"></script>
 
     <!-- include spec files -->
-    <script type="text/javascript" src="L.DG.JsonpSpec.js"></script>
+    <script type="text/javascript" src="../src/Jsonp/test/JsonpSpec.js"></script>
+    <script type="text/javascript" src="../src/ProjectDetector/test/ProjectDetectorSpec.js"></script>
+    <script type="text/javascript" src="../src/TileLayer/test/TileLayerSpec.js"></script>
 
     <script type="text/javascript">
         (function() {

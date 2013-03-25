@@ -1,3 +1,21 @@
+var server = require('./server.js');
+
 exports.run = function () {
-    console.log('Run tests');
+
+    server.init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //server.stop();
+
 };

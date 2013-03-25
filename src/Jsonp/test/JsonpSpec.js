@@ -15,7 +15,7 @@ describe("DG JSONP Module", function() {
         var callback = jasmine.createSpy();
 
         L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/test',
+            url: 'http://127.0.0.1:3005/test',
             success: callback
         });
 
@@ -60,7 +60,7 @@ describe("DG JSONP Module", function() {
     /**
      * Проверка, что срабатывает error callback при некорректном запросе
      *
-     * - Проводим некорректный запрос на тестовый сервер http://127.0.0.1:3000/cat (не существующий контроллер cat)
+     * - Проводим некорректный запрос на тестовый сервер http://127.0.0.1:3005/cat (не существующий контроллер cat)
      * - Проверяем, что сработал error callback
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
@@ -71,7 +71,7 @@ describe("DG JSONP Module", function() {
         var callback = jasmine.createSpy();
 
         L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/',
+            url: 'http://127.0.0.1:3005/',
             error: callback
         });
 
@@ -88,7 +88,7 @@ describe("DG JSONP Module", function() {
     /**
      * Проверка, что перед запросом происходит вызов beforeSend callback
      *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3000/test
+     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/test
      * - Проверяем, что сработал beforeSend callback
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
@@ -99,7 +99,7 @@ describe("DG JSONP Module", function() {
         var callback = jasmine.createSpy();
 
         L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/test',
+            url: 'http://127.0.0.1:3005/test',
             beforeSend: callback
         });
 
@@ -116,7 +116,7 @@ describe("DG JSONP Module", function() {
     /**
      * Проверка, что после запроса происходит вызов complete callback
      *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3000/test
+     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/test
      * - Проверяем, что сработал complete callback
      *
      * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
@@ -127,7 +127,7 @@ describe("DG JSONP Module", function() {
         var callback = jasmine.createSpy();
 
         L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/test',
+            url: 'http://127.0.0.1:3005/test',
             complete: callback
         });
 
@@ -144,7 +144,7 @@ describe("DG JSONP Module", function() {
     /**
      * Проверка, что AJAX возвращает объект с методом отмены вызова
      *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3000/ на контроллер test
+     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/ на контроллер test
      * - Проверяем, что вернулся объект
      * - Проверяем, что существует метод cancel
      *
@@ -155,7 +155,7 @@ describe("DG JSONP Module", function() {
     it("should be return cancel callback method", function() {
 
         var jsonp = L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/test'
+            url: 'http://127.0.0.1:3005/test'
         });
 
         expect(jsonp).toBeDefined();
@@ -165,7 +165,7 @@ describe("DG JSONP Module", function() {
     /**
      * Проверка, что работает метод отмены вызова
      *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3000/test
+     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/test
      * - Проверяем, что вернулся объект
      * - Проверяем, что существует метод cancel
      *
@@ -177,7 +177,7 @@ describe("DG JSONP Module", function() {
         var callback = jasmine.createSpy();
 
         var jsonp = L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/test',
+            url: 'http://127.0.0.1:3005/test',
             success: callback
         });
 
@@ -196,7 +196,7 @@ describe("DG JSONP Module", function() {
     /**
      * Проверка, что не перепутываются 2 AJAX запроса
      *
-     * - Проводим запросы на тестовый сервер http://127.0.0.1:3000/ на контроллеры testA и TestB
+     * - Проводим запросы на тестовый сервер http://127.0.0.1:3005/ на контроллеры testA и TestB
      * - Проверяем, что вернулся объект
      * - Проверяем, что сработали success callback для обоих запросов
      * - Проверяем, что success callback вернули ожидаемые данные
@@ -210,12 +210,12 @@ describe("DG JSONP Module", function() {
         var callbackB = jasmine.createSpy();
 
         L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/testA',
+            url: 'http://127.0.0.1:3005/testA',
             success: callbackA
         });
 
         L.DG.Jsonp({
-            url: 'http://127.0.0.1:3000/testB',
+            url: 'http://127.0.0.1:3005/testB',
             success: callbackB
         });
 

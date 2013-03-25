@@ -6,7 +6,7 @@
         "jake": "*",
         "jshint": "*",
         "uglify-js": "*",
-        "optimist": "*"
+        "karma": "*"
     },
     "scripts": {
         "test": "node ./node_modules/jake/bin/cli test"
