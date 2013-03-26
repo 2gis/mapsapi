@@ -19,7 +19,7 @@ DG MAPS API 2.0
 
 Подробно про установку зависимостей: [Installation environment]
 
-[Installation environment]: https://github.com/yarikos/DG.MapsAPI/wiki/Install
+[Installation environment]: https://github.com/yarikos/DG.MapsAPI/wiki/Installation-environment
 
 ## Установка окружения
 
