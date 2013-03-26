@@ -19,7 +19,7 @@ function initServer() {
 
     }).listen(3005);
 
-    console.log('Test server running on port 3005');
+    console.log('JSONP test server running on port 3005');
 }
 
 exports.init = initServer;

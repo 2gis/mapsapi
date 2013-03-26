@@ -4,15 +4,16 @@ var jsonpServer = require('./jsonpServer.js'),
     testConfig = {configFile : __dirname + '/karma.conf.js'};
 
 exports.run = function () {
-    jsonpServer.init();
+
+    console.log('Run tests...\n');
 
     testConfig.browsers = ['PhantomJS'];
 
-    if (isArgv('--chrome')) {
-        testConfig.browsers.push('Chrome');
-    }
     if (isArgv('--ff')) {
         testConfig.browsers.push('Firefox');
+    }
+    if (isArgv('--chrome')) {
+        testConfig.browsers.push('Chrome');
     }
     if (isArgv('--opera')) {
         testConfig.browsers.push('Opera');
@@ -24,6 +25,7 @@ exports.run = function () {
         testConfig.browsers.push('IE');
     }
 
+    jsonpServer.init();
     karma.server.start(testConfig);
 };
 

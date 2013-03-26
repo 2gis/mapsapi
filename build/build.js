@@ -234,7 +234,7 @@ exports.build = function() {
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
 
-    console.log('\nSuccessfully completed!\n');
+    console.log('\nBuild successfully completed!\n');
 };
 
 /**

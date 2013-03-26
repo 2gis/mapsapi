@@ -42,7 +42,7 @@ colors = true;
 // level of logging
 // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
 // CLI --log-level debug
-logLevel = LOG_INFO;
+logLevel = LOG_WARN;
 
 // enable / disable watching file and executing tests whenever any file changes
 // CLI --auto-watch --no-auto-watch
