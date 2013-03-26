@@ -12,8 +12,10 @@ DG MAPS API 2.0
 Приложение имеет следующие зависимости:
 
 1. [Node.js]
+2. [PhantomJS (для запуска unit тестов)]
 
 [Node.js]: http://nodejs.org/
+[PhantomJS (для запуска unit тестов)]: http://phantomjs.org/download.html
 
 ## Установка окружения
 
@@ -134,4 +136,4 @@ jake test
 
 Собирается билд API (dist/dg-map-custom-src.js) и запускается веб-сервер для тестирования JSONP модуля на 3005 порту.
 
-После тестовая страница (tests/run.html) запускается в PhantomJS.
+После тесты запускаются в PhantomJS.
