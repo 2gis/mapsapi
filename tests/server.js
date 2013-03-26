@@ -1,10 +1,8 @@
 var http = require('http'),
     url = require('url');
 
-var server;
-
 function initServer() {
-    server = http.createServer(function(request, response) {
+    http.createServer(function(request, response) {
 
         var requestParam = url.parse(request.url, true);
 
@@ -25,9 +23,3 @@ function initServer() {
 }
 
 exports.init = initServer;
-
-exports.stop = function() {
-    server.close(function() {
-        console.log('Test server stop');
-    })
-}

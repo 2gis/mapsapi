@@ -6,7 +6,6 @@ var server = require('./server.js'),
 exports.run = function () {
     server.init();
     karma.server.start(testConfig);
-    //server.stop();
 };
 
 exports.server = function () {

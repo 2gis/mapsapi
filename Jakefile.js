@@ -16,6 +16,7 @@
  *  - lint
  *  - build
  *  - test
+ *  - test-web
  *  - watch
  */
 var build = require('./build/build.js'),
@@ -30,8 +31,8 @@ task('build', ['lint'], build.build);
 desc('Rebuild and run unit tests');
 task('test', ['lint', 'build'], tests.run);
 
-desc('Rebuild and run server for unit tests');
-task('test-server', ['lint', 'build'], tests.server);
+desc('Rebuild and run web server for unit tests in browser');
+task('test-web', ['lint', 'build'], tests.server);
 
 desc('Rebuild dist on changes src directory');
 task('watch', build.watch);
