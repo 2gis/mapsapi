@@ -148,6 +148,7 @@ jake test --ff --chrome
 ```
 
 Доступны следующие браузеры:
+
     (default)   PhantomJS
     --chrome    Chrome
     --ff        Firefox
