@@ -7,7 +7,7 @@ DG MAPS API 2.0
 
 Текущая версия 2.0.0
 
-## Зависимости
+## Окружение и зависимости приложения
 
 Приложение имеет следующие зависимости:
 
@@ -17,11 +17,11 @@ DG MAPS API 2.0
 [Node.js]: http://nodejs.org/
 [PhantomJS (для запуска unit тестов)]: http://phantomjs.org/download.html
 
-Подробно про установку зависимостей: [Installation environment]
+Подробно про установку окружения: [Installation environment]
 
 [Installation environment]: https://github.com/yarikos/DG.MapsAPI/wiki/Installation-environment
 
-## Установка окружения
+## Установка модулей
 
 ```bash
 npm install -g jake
@@ -44,7 +44,6 @@ jake build     # Combine and minify source files
 jake test      # Rebuild and run unit tests  
 jake watch     # Rebuild dist on changes src directory  
 ```
-
 
 ### Проверка исходных JS файлов с помощью [JSHint]
 
