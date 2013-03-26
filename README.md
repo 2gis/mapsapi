@@ -140,3 +140,17 @@ jake test
 Собирается билд API (dist/dg-map-custom-src.js) и запускается веб-сервер для тестирования JSONP модуля на 3005 порту.
 
 По-умолчанию тесты запускаются в PhantomJS.
+
+##### Запуск тестов в нативных браузерах текущей операционной системы
+
+```bash
+jake test --ff --chrome
+```
+
+Доступны следующие браузеры:
+    (default)   PhantomJS
+    --chrome    Chrome
+    --ff        Firefox
+    --opera     Opera
+    --safari    Safari
+    --ie        IE (only Windows)
