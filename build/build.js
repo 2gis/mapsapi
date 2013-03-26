@@ -238,7 +238,8 @@ exports.build = function() {
 };
 
 /**
- * Watch (CLI command, on develop)
+ * Watch (CLI command)
+ * Rebuild dist on develop
  */
 exports.watch = function () {
 
