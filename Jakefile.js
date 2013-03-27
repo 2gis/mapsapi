@@ -37,4 +37,4 @@ task('test-web', ['lint', 'build'], tests.server);
 desc('Rebuild dist on changes src directory');
 task('watch', build.watch);
 
-task('default', ['build']);
+task('default', 'jake -ls');

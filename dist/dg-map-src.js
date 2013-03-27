@@ -8592,36 +8592,36 @@ L.Map.addInitHook(function () {
 L.DG = L.DG || {};
 
 L.Map.mergeOptions({
-    dgProjectDetector:true
+    dgProjectDetector: true
 });
 
 L.DG.ProjectDetector = L.Handler.extend({
-    options:{
-        url:'http://catalog.api.2gis.ru/project/list',
-        data:{
-            key:'ruxlih0718',
-            version:'1.3',
-            lang:'ru',
-            output:'jsonp'
+    options: {
+        url: 'http://catalog.api.2gis.ru/project/list',
+        data: {
+            key: 'ruxlih0718',
+            version: '1.3',
+            lang: 'ru',
+            output: 'jsonp'
         }
     },
 
-    initialize:function (map) {
+    initialize: function (map) {
         this._map = map;
         this.project = null;
         this.projectsList = null;
         this._loadProjectList();
     },
 
-    addHooks:function () {
+    addHooks: function () {
         this._map.on('move', this._projectChange, this);
     },
 
-    removeHooks:function () {
+    removeHooks: function () {
         this._map.off('move', this._projectChange, this);
     },
 
-    _projectChange:function () {
+    _projectChange: function () {
         if (this.projectsList) {
             if (!this.project) {
                 this._searchProject();
@@ -8635,14 +8635,14 @@ L.DG.ProjectDetector = L.Handler.extend({
         }
     },
 
-    _loadProjectList:function () {
+    _loadProjectList: function () {
         var options = this.options,
             self = this;
 
         L.DG.Jsonp({
-            url:options.url,
-            data:options.data,
-            success:function (data) {
+            url: options.url,
+            data: options.data,
+            success: function (data) {
                 if (!data.result || (Object.prototype.toString.call(data.result) !== '[object Array]')) {
                     return;
                 }
@@ -8657,17 +8657,17 @@ L.DG.ProjectDetector = L.Handler.extend({
         });
     },
 
-    _searchProject:function () {
+    _searchProject: function () {
         for (var i = 0; i < this.projectsList.length; i++) {
             if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
                 this.project = this.projectsList[i];
-                this._map.fire("projectchange", {"getProject":L.Util.bind(this.getProject, this)});
+                this._map.fire("projectchange", {"getProject": L.Util.bind(this.getProject, this)});
                 return;
             }
         }
     },
 
-    _boundsFromWktPolygon:function (wkt) {
+    _boundsFromWktPolygon: function (wkt) {
         var arr,
             pointsArr,
             bracketsContent,
@@ -8691,14 +8691,14 @@ L.DG.ProjectDetector = L.Handler.extend({
         );
     },
 
-    getProject:function () {
+    getProject: function () {
         if (!this.project) {
             return false;
         }
         return L.Util.extend({}, this.project);
     },
 
-    getProjectsList:function () {
+    getProjectsList: function () {
         if (!this.projectsList) {
             return false;
         }

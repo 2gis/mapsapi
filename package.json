@@ -1,19 +1,25 @@
 {
     "name": "2GIS-Maps-API-2.0",
     "version": "2.0.0",
-    "description": "Interactive 2GIS maps, based on Leaflet",
+    "description": "Interactive 2GIS maps API, based on Leaflet",
+    "keywords": ["2gis", "map", "api"],
+
+    "scripts": {
+        "test": "node ./node_modules/jake/bin/cli test"
+    },
+
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/yarikos/DG.MapsAPI.git"
+    },
+
+    "dependencies": {
+        "express": "*"
+    },
     "devDependencies": {
         "jake": "*",
         "jshint": "*",
         "uglify-js": "*",
         "karma": "*"
-    },
-    "scripts": {
-        "test": "node ./node_modules/jake/bin/cli test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/yarikos/DG.MapsAPI.git"
-    },
-    "keywords": ["2gis", "map", "api"]
+    }
 }

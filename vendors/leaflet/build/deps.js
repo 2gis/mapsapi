@@ -1,10 +1,10 @@
 var deps = {
 	Core: {
 		src: ['Leaflet.js',
-		      'core/Util.js',
-		      'core/Class.js',
-		      'core/Events.js',
-		      'core/Browser.js',
+		      'Core/Util.js',
+		      'Core/Class.js',
+		      'Core/Events.js',
+		      'Core/Browser.js',
 		      'geometry/Point.js',
 		      'geometry/Bounds.js',
 		      'geometry/Transformation.js',
@@ -19,7 +19,7 @@ var deps = {
 		      'geo/crs/CRS.EPSG3857.js',
 		      'geo/crs/CRS.EPSG4326.js',
 		      'map/Map.js'],
-		desc: 'The core of the library, including OOP, events, DOM facilities, basic units, projections (EPSG:3857 and EPSG:4326) and the base Map class.'
+		desc: 'The Core of the library, including OOP, events, DOM facilities, basic units, projections (EPSG:3857 and EPSG:4326) and the base Map class.'
 	},
 
 	EPSG3395: {
@@ -88,19 +88,19 @@ var deps = {
 		src: ['layer/vector/Path.js',
 		      'layer/vector/Path.SVG.js',
 		      'layer/vector/Path.Popup.js'],
-		desc: 'Vector rendering core (SVG-powered), enables overlaying the map with SVG paths.',
+		desc: 'Vector rendering Core (SVG-powered), enables overlaying the map with SVG paths.',
 		heading: 'Vector layers'
 	},
 
 	PathVML: {
 		src: ['layer/vector/Path.VML.js'],
-		desc: 'VML fallback for vector rendering core (IE 6-8).'
+		desc: 'VML fallback for vector rendering Core (IE 6-8).'
 	},
 
 	PathCanvas: {
 		src: ['layer/vector/canvas/Path.Canvas.js'],
 		deps: ['Path', 'Polyline', 'Polygon', 'Circle'],
-		desc: 'Canvas fallback for vector rendering core (makes it work on Android 2+).'
+		desc: 'Canvas fallback for vector rendering Core (makes it work on Android 2+).'
 	},
 
 	Polyline: {
@@ -159,7 +159,7 @@ var deps = {
 	MapDrag: {
 		src: ['dom/DomEvent.js',
 		      'dom/Draggable.js',
-		      'core/Handler.js',
+		      'Core/Handler.js',
 		      'map/handler/Map.Drag.js'],
 		desc: 'Makes the map draggable (by mouse or touch).',
 		heading: 'Interaction'
@@ -167,7 +167,7 @@ var deps = {
 
 	MouseZoom: {
 		src: ['dom/DomEvent.js',
-		      'core/Handler.js',
+		      'Core/Handler.js',
 		      'map/handler/Map.DoubleClickZoom.js',
 		      'map/handler/Map.ScrollWheelZoom.js'],
 		desc: 'Scroll wheel zoom and double click zoom on the map.'
@@ -177,7 +177,7 @@ var deps = {
 		src: ['dom/DomEvent.js',
 		      'dom/DomEvent.DoubleTap.js',
 		      'dom/DomEvent.MsTouch.js',
-		      'core/Handler.js',
+		      'Core/Handler.js',
 		      'map/handler/Map.TouchZoom.js'],
 		deps: ['MapAnimationZoom'],
 		desc: 'Enables smooth touch zooming on iOS and IE10 and double tap on iOS/IE10/Android.'
