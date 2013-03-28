@@ -112,8 +112,6 @@ function makePackage(pkg, isMsg) {
         var moduleName = modulesList[i],
             moduleContent = modules[moduleName];
 
-        console.log(moduleContent);
-
         if (isMsg) {
             if (moduleContent) {
                 countModules++;
