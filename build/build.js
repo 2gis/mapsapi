@@ -249,8 +249,8 @@ exports.init = function() {
 /**
  * Get content (web app)
  */
-exports.get = function(build, isDebug, callback) {
-    var content = makePackage(build);
+exports.get = function(pkg, isDebug, callback) {
+    var content = makePackage(pkg);
     if (!isDebug) {
         content = minifyPackage(content);
     }
