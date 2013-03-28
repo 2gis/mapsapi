@@ -33,7 +33,7 @@ npm install
 ### Получить список всех доступных команд
 
 ```bash
-grunt -ls
+grunt
 ```
 
 Результат:
@@ -42,7 +42,6 @@ grunt -ls
 grunt lint      # Check JS files for errors with JSHint  
 grunt build     # Combine and minify source files  
 grunt test      # Rebuild and run unit tests  
-grunt watch     # Rebuild dist on changes src directory  
 ```
 
 ### Проверка исходных JS файлов с помощью [JSHint]
@@ -76,14 +75,14 @@ grunt build
 Применяется если необходимо собрать некий кастомный вариант API.
 
 ```bash
-grunt build:Module1,Module2,Module3
+grunt build -m Module1,Module2,Module3
 ```
 где Module1,Module2,Module3 - имя модулей API. 
 
 Пример:
 
 ```bash
-grunt build:Core,TileLayer,JSONP
+grunt build -m Core,TileLayer,JSONP
 ```
 
 Результат:
@@ -97,16 +96,16 @@ dist/dg-map-custom.js      (минимизированный код)
 ##### Вариант сборки API в соответствии с заранее описаными пакетами:
 
 ```bash
-grunt build:build_name
+grunt build -p build_name
 ```
 
 где build_name - имя сборки. Доступные пакеты: base, standart, full.
-Описание пакетов находится в файле build/packages.js.
+Описание пакетов находится в файле build/pkgs.js.
 
 Пример:
 
 ```bash
-grunt build:base
+grunt build -p base
 ```
 
 Результат:
@@ -120,7 +119,7 @@ dist/dg-map-custom.js      (минимизированный код)
 ##### Для обновления публичных сборок (которые доступны на GitHub в папке dist) выполните следующие команды:
 
 ```bash
-grunt build:public
+grunt build -p public
 ```
 
 Результат:
