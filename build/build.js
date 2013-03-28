@@ -11,7 +11,7 @@ var fs = require('fs'),
     argv = require('optimist').argv;
 
 var config = require('./config.js').config,
-    packages = require('./pkgs.js').packages,
+    packages = require('./packs.js').packages,
     hint = require('./hintrc.js');
 
 /**
