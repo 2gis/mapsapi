@@ -14,14 +14,14 @@
     },
 
     "dependencies": {
-        "express": "*"
+        "express": "*",
+        "uglify-js": "*"
     },
     "devDependencies": {
         "grunt": "*",
         "grunt-karma": "*",
         "karma": "*",
         "jshint": "*",
-        "uglify-js": "*",
         "optimist": "*"
     }
 }
