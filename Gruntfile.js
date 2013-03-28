@@ -30,15 +30,14 @@ module.exports = function (grunt) {
     });
 
     // Combine and minify source files
-    grunt.registerTask('build', function(pkg) {
+    grunt.registerTask('build', function() {
         build.lint();
-        build.build(pkg);
+        build.build();
     });
 
     //Rebuild and run unit tests
-    grunt.registerTask('test', function(pkg) {
-        build.lint();
-        build.build(pkg);
+    grunt.registerTask('test', function() {
+        grunt.task.run('build');
         test.server();
         grunt.task.run('karma:continuous');
     });
