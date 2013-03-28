@@ -80,7 +80,7 @@ function getCopyrightsContent(params) {
 function parcePackageName(pkg) {
     var modulesList = [];
 
-    if (pkg && packages.hasOwnProperty(pkg) && packages[pkg].modules.length > 1) {
+    if (pkg && packages.hasOwnProperty(pkg)) {
         modulesList = packages[pkg].modules;
     } else if (pkg && (modules.hasOwnProperty(pkg) || pkg.indexOf(',') > 0)) {
         modulesList = pkg.split(',');
@@ -98,7 +98,7 @@ function parcePackageName(pkg) {
 /**
  * Generates build content
  *
- * @param {Array} build
+ * @param {String} pkg
  * @param {Boolean} isMsg
  * @returns {String}
  */
