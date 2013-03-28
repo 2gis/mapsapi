@@ -11,8 +11,8 @@ var fs = require('fs'),
     argv = require('optimist').argv;
 
 var config = require('./config.js').config,
-    packages = require('./packages.js').packages,
-    hint = require('./hint.js');
+    packages = require('./pkgs.js').packages,
+    hint = require('./hintrc.js');
 
 /**
  * Global data stores

@@ -56,7 +56,7 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'test/karma.conf.js',
-                browsers: test.cli(process.argv)
+                browsers: test.getBrowsers()
             },
             continuous: {
                 singleRun: true

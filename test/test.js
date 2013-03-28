@@ -1,5 +1,6 @@
 var http = require('http'),
-    url = require('url');
+    url = require('url'),
+    argv = require('optimist').argv;
 
 exports.server = function () {
     var port = 3005;
@@ -24,28 +25,24 @@ exports.server = function () {
 
 };
 
-exports.cli = function (argv) {
+exports.getBrowsers = function () {
     var browsers = ['PhantomJS'];
 
-    if (isArgv(argv, '--ff')) {
+    if (argv.hasOwnProperty('ff')) {
         browsers.push('Firefox');
     }
-    if (isArgv(argv, '--chrome')) {
+    if (argv.hasOwnProperty('chrome')) {
         browsers.push('Chrome');
     }
-    if (isArgv(argv, '--opera')) {
+    if (argv.hasOwnProperty('opera')) {
         browsers.push('Opera');
     }
-    if (isArgv(argv, '--safari')) {
+    if (argv.hasOwnProperty('safari')) {
         browsers.push('Safari');
     }
-    if (isArgv(argv, '--ie')) {
+    if (argv.hasOwnProperty('ie')) {
         browsers.push('IE');
     }
 
     return browsers;
 };
-
-function isArgv(argv, optName) {
-    return argv.indexOf(optName) !== -1;
-}
