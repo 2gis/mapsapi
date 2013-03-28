@@ -5,7 +5,7 @@ var jsonpServer = require('./jsonpServer.js'),
 
 exports.run = function () {
 
-    console.log('Run tests...\n');
+    console.log('\nRun tests...\n');
 
     testConfig.browsers = ['PhantomJS'];
 
@@ -30,7 +30,7 @@ exports.run = function () {
 };
 
 exports.server = function () {
-    server.init();
+    jsonpServer.init();
 };
 
 function isArgv(optName) {

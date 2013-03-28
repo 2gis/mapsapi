@@ -74,16 +74,16 @@ function getCopyrightsContent(params) {
 /**
  * Generates a list of modules by build name
  *
- * @param {String|Null} build
+ * @param {String|Null} pkg
  * @returns {Array}
  */
-function parcePackageName(build) {
+function parcePackageName(pkg) {
     var modulesList = [];
 
-    if (build && packages.hasOwnProperty(build) && packages[build].modules.length > 1) {
-        modulesList = packages[build].modules;
-    } else if (build && (modules.hasOwnProperty(build) || build.indexOf(',') > 0)) {
-        modulesList = build.split(',');
+    if (pkg && packages.hasOwnProperty(pkg) && packages[pkg].modules.length > 1) {
+        modulesList = packages[pkg].modules;
+    } else if (pkg && (modules.hasOwnProperty(pkg) || pkg.indexOf(',') > 0)) {
+        modulesList = pkg.split(',');
     } else {
         for (var mod in modules) {
             if (modules.hasOwnProperty(mod)) {
@@ -102,10 +102,10 @@ function parcePackageName(build) {
  * @param {Boolean} isMsg
  * @returns {String}
  */
-function makePackage(build, isMsg) {
+function makePackage(pkg, isMsg) {
     var modulesResult = '',
         loadModules = {},
-        modulesList = parcePackageName(build);
+        modulesList = parcePackageName(pkg);
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i];
@@ -205,25 +205,20 @@ exports.lint = function() {
 /**
  * Build (CLI command)
  */
-exports.build = function() {
-    var build = null,
-        dest = config.dest.custom;
+exports.build = function(pkg) {
+    var dest = config.dest.custom;
 
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
 
-    if (process.env.b || process.env.m) {
-        build = process.env.b || process.env.m;
-    }
-
-    if (build == 'public') {
+    if (pkg && pkg == 'public') {
         dest = config.dest.public;
         console.log('Build public GitHub full package!\n');
     }
 
     console.log('Build modules:');
 
-    var srcContent = makePackage(build, true);
+    var srcContent = makePackage(pkg, true);
     writeFile(dest.src, srcContent);
 
     console.log('Compressing...\n');
@@ -234,7 +229,7 @@ exports.build = function() {
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
 
-    console.log('\nBuild successfully completed!\n');
+    console.log('\nBuild successfully completed!');
 };
 
 /**
@@ -256,9 +251,10 @@ exports.init = function() {
 /**
  * Get content (web app)
  */
-exports.get = function(build, callback) {
-    var srcContent, minContent;
-    srcContent = makePackage(build);
-    minContent = minifyPackage(srcContent);
-    callback(minContent);
+exports.get = function(build, isDebug, callback) {
+    var content = makePackage(build);
+    if (!isDebug) {
+        content = minifyPackage(content);
+    }
+    callback(content);
 };

@@ -18,6 +18,8 @@
     },
     "devDependencies": {
         "jake": "*",
+        "grunt": "*",
+        "grunt-karma": "*",
         "jshint": "*",
         "uglify-js": "*",
         "karma": "*"
