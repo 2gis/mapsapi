@@ -24,16 +24,16 @@ var modules,
  * Get content of all modules
  * Must run only 1 time on start app or run CLI script
  *
- * @param {Object} params
  * @returns {Object}
  */
-function getModulesContent(params) {
-    var modules = {};
+function getModulesContent() {
+    var source = config.source,
+        modules = {};
 
-    for (vendor in params) {
-        if (params.hasOwnProperty(vendor)) {
-            var deps = params[vendor].deps,
-                path = params[vendor].path;
+    for (vendor in source) {
+        if (source.hasOwnProperty(vendor)) {
+            var deps = source[vendor].deps,
+                path = source[vendor].path;
 
             for (var mod in deps) {
                 if (deps.hasOwnProperty(mod)) {
@@ -58,14 +58,14 @@ function getModulesContent(params) {
  * Get content of all copyrights
  * Must run only 1 time on start app or run CLI script
  *
- * @param {Object} params
  * @returns {String}
  */
-function getCopyrightsContent(params) {
-    var copyrights = '';
+function getCopyrightsContent() {
+    var source = config.copyrights,
+        copyrights = '';
 
-    for (var i = 0, count = params.length; i < count; i++) {
-        copyrights += fs.readFileSync(params[i], 'utf8') + '\n';
+    for (var i = 0, count = source.length; i < count; i++) {
+        copyrights += fs.readFileSync(source[i], 'utf8') + '\n';
     }
 
     return copyrights;
@@ -111,6 +111,8 @@ function makePackage(pkg, isMsg) {
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
             moduleContent = modules[moduleName];
+
+        console.log(moduleContent);
 
         if (isMsg) {
             if (moduleContent) {
@@ -202,7 +204,7 @@ exports.lint = function() {
 
     console.log('\nCheck all source JS files for errors with JSHint...\n');
 
-    modules = getModulesContent(config.source);
+    modules = getModulesContent();
     errorsCount = lintFiles(modules);
     str = (errorsCount > 0) ? '\n' : '';
 
@@ -216,8 +218,8 @@ exports.build = function() {
     var dest = config.dest.custom,
         pkg = argv.p || argv.m || null;
 
-    modules = getModulesContent(config.source);
-    copyrights = getCopyrightsContent(config.copyrights);
+    modules = getModulesContent();
+    copyrights = getCopyrightsContent();
 
     if (pkg === 'public') {
         dest = config.dest.public;
@@ -244,8 +246,8 @@ exports.build = function() {
  * Init (web app)
  */
 exports.init = function() {
-    modules = getModulesContent(config.source);
-    copyrights = getCopyrightsContent(config.copyrights);
+    modules = getModulesContent();
+    copyrights = getCopyrightsContent();
 };
 
 /**
