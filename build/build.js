@@ -104,6 +104,7 @@ function parcePackageName(pkg) {
  */
 function makePackage(pkg, isMsg) {
     var modulesResult = '',
+        countModules = 0,
         loadModules = {},
         modulesList = parcePackageName(pkg);
 
@@ -113,6 +114,7 @@ function makePackage(pkg, isMsg) {
 
         if (isMsg) {
             if (moduleContent) {
+                countModules++;
                 console.log('  * ' + moduleName);
             } else {
                 console.log('  - ' + moduleName + ' (module not found!)');
@@ -130,7 +132,7 @@ function makePackage(pkg, isMsg) {
     }
 
     if (isMsg) {
-        console.log('\nConcatenating ' + modulesList.length + ' modules...\n');
+        console.log('\nConcatenating ' + countModules + ' modules...\n');
     }
 
     return copyrights + config.intro + modulesResult + config.outro;
