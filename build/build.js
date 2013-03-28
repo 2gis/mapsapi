@@ -112,7 +112,11 @@ function makePackage(pkg, isMsg) {
         var moduleContent = modules[moduleName];
 
         if (isMsg) {
-            console.log('  * ' + moduleName);
+            if (moduleContent) {
+                console.log('  * ' + moduleName);
+            } else {
+                console.log('  - ' + moduleName + ' (module not found!)');
+            }
         }
 
         for (var name in moduleContent) {
