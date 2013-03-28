@@ -20,7 +20,7 @@ exports.server = function () {
 
     }).listen(port);
 
-    console.log('JSONP test server running on port ' + port);
+    console.log('\nJSONP test server running on port ' + port);
 
 };
 
