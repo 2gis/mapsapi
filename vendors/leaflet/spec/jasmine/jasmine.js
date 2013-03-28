@@ -29,7 +29,7 @@ jasmine.undefined = jasmine.___undefined___;
 jasmine.VERBOSE = false;
 
 /**
- * Default interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow test running. Zero means no updates until all tests have completed.
+ * Default interval in milliseconds for event loop yields (e.g. to allow network activity or to refresh the screen with the HTML-based runner). Small values here may result in slow test running. Zero means no updates until all test have completed.
  *
  */
 jasmine.DEFAULT_UPDATE_INTERVAL = 250;
@@ -45,7 +45,7 @@ jasmine.MAX_PRETTY_PRINT_DEPTH = 40;
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
 
 /**
- * By default exceptions thrown in the context of a test are caught by jasmine so that it can run the remaining tests in the suite.
+ * By default exceptions thrown in the context of a test are caught by jasmine so that it can run the remaining test in the suite.
  * Set to false to let the exception bubble up in the browser.
  *
  */
@@ -485,7 +485,7 @@ if (isCommonJS) exports.spyOn = spyOn;
 /**
  * Creates a Jasmine spec that will be added to the current suite.
  *
- * // TODO: pending tests
+ * // TODO: pending test
  *
  * @example
  * it('should be true', function() {
@@ -589,7 +589,7 @@ if (isCommonJS) exports.afterEach = afterEach;
  *
  * Stores the description and all defined specs in the Jasmine environment as one suite of specs. Variables declared
  * are accessible by calls to beforeEach, it, and afterEach. Describe blocks can be nested, allowing for specialization
- * of setup in some tests.
+ * of setup in some test.
  *
  * @example
  * // TODO: a simple suite

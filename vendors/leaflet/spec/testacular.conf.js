@@ -42,7 +42,7 @@ colors = true;
 // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
 logLevel = LOG_WARN;
 
-// enable / disable watching file and executing tests whenever any file changes
+// enable / disable watching file and executing test whenever any file changes
 autoWatch = false;
 
 // Start these browsers, currently available:
@@ -59,5 +59,5 @@ browsers = ['PhantomJS'];
 captureTimeout = 5000;
 
 // Continuous Integration mode
-// if true, it capture browsers, run tests and exit
+// if true, it capture browsers, run test and exit
 singleRun = true;

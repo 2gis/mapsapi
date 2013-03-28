@@ -17,7 +17,7 @@ describe("DG Project Detector Module", function () {
         }, 200);
     };
 
-    describe("All positive tests", function () {
+    describe("All positive test", function () {
         describe("when ajax return data result", function () {
 
             beforeEach(function () {
@@ -110,7 +110,7 @@ describe("DG Project Detector Module", function () {
         });
     });
 
-    describe("All negative tests", function () {
+    describe("All negative test", function () {
         describe("when ajax return empty data", function () {
 
             beforeEach(function () {

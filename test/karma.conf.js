@@ -1,5 +1,5 @@
 // Sample Karma configuration file, that contain pretty much all the available options
-// It's used for running client tests on Travis (http://travis-ci.org/#!/karma-runner/karma)
+// It's used for running client test on Travis (http://travis-ci.org/#!/karma-runner/karma)
 // Most of the options can be overriden by cli arguments (see karma --help)
 //
 // For all available config options and default values, see:
@@ -44,7 +44,7 @@ colors = true;
 // CLI --log-level debug
 logLevel = LOG_WARN;
 
-// enable / disable watching file and executing tests whenever any file changes
+// enable / disable watching file and executing test whenever any file changes
 // CLI --auto-watch --no-auto-watch
 autoWatch = false;
 
@@ -63,7 +63,7 @@ browsers = ['PhantomJS'];
 // CLI --capture-timeout 5000
 captureTimeout = 15000;
 
-// Auto run tests on start (when browsers are captured) and exit
+// Auto run test on start (when browsers are captured) and exit
 // CLI --single-run --no-single-run
 singleRun = true;
 

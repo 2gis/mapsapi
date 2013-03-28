@@ -7,7 +7,8 @@
  */
 var fs = require('fs'),
     jshint = require('jshint').JSHINT,
-    uglify = require('uglify-js');
+    uglify = require('uglify-js'),
+    argv = require('optimist').argv;
 
 var config = require('./config.js').config,
     packages = require('./packages.js').packages,
@@ -69,7 +70,6 @@ function getCopyrightsContent(params) {
 
     return copyrights;
 }
-
 
 /**
  * Generates a list of modules by build name
@@ -192,26 +192,28 @@ function lintFiles(modules) {
  * Lint (CLI command)
  */
 exports.lint = function() {
-    var errorsCount;
+    var errorsCount, str;
 
-    console.log('Check all source JS files for errors with JSHint...\n');
+    console.log('\nCheck all source JS files for errors with JSHint...\n');
 
     modules = getModulesContent(config.source);
     errorsCount = lintFiles(modules);
+    str = (errorsCount > 0) ? '\n' : '';
 
-    console.log('\nJSHint find ' + errorsCount + ' errors.\n');
+    console.log(str + 'JSHint find ' + errorsCount + ' errors.\n');
 };
 
 /**
  * Build (CLI command)
  */
-exports.build = function(pkg) {
-    var dest = config.dest.custom;
+exports.build = function() {
+    var dest = config.dest.custom,
+        pkg = argv.p || argv.m || null;
 
     modules = getModulesContent(config.source);
     copyrights = getCopyrightsContent(config.copyrights);
 
-    if (pkg && pkg == 'public') {
+    if (pkg === 'public') {
         dest = config.dest.public;
         console.log('Build public GitHub full package!\n');
     }
@@ -230,14 +232,6 @@ exports.build = function(pkg) {
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
 
     console.log('\nBuild successfully completed!');
-};
-
-/**
- * Watch (CLI command)
- * Rebuild dist on develop
- */
-exports.watch = function () {
-
 };
 
 /**

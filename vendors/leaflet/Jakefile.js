@@ -20,7 +20,7 @@ task('lint', build.lint);
 desc('Combine and compress Leaflet source files');
 task('build', ['lint'], build.build);
 
-desc('Run PhantomJS tests');
+desc('Run PhantomJS test');
 task('test', ['lint'], build.test);
 
 task('default', ['build']);
