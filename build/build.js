@@ -72,7 +72,7 @@ function getCopyrightsContent(params) {
 }
 
 /**
- * Generates a list of modules by build name
+ * Generates a list of modules by pkg name
  *
  * @param {String|Null} pkg
  * @returns {Array}
@@ -109,8 +109,8 @@ function makePackage(pkg, isMsg) {
         modulesList = parcePackageName(pkg);
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
-        var moduleName = modulesList[i];
-        var moduleContent = modules[moduleName];
+        var moduleName = modulesList[i],
+            moduleContent = modules[moduleName];
 
         if (isMsg) {
             if (moduleContent) {
