@@ -26,15 +26,15 @@ function getListFileToConver(config) {
 /**
  *
  * @param {Array} list source
- * @param {String} dir sub directory
+ * @param {String} subdir path to sorce
  */
-function getContentToConver(list, dir) {
+function getContentToConver(list, subdir) {
     var sorce = [],
-        subdir = dir || '',
+        dir = subdir || '',
         listLeng = list.length;
 
     for (var i = 0; i < listLeng; i++) {
-        var fullFilePath = subdir + '/' + list[i];
+        var fullFilePath = dir + '/' + list[i];
         if (grunt.file.exists(fullFilePath)) {
             var md = {};
             md.path = list[i];
@@ -47,31 +47,30 @@ function getContentToConver(list, dir) {
 }
 
 /**
- * @param {Object} config file
- * @param {String} input  directory
- * @param {String} output directory
+ * @param {Object} config file path
+ * @param {String} rootdir  plugins
+ * @param {String} destpath convert file
  *
  * Example;
  *     generateDocumentation('menu.json', './src', './doc')
  */
 
-function generateDocumentation(config, input, output) {
+function generateDocumentation(config, rootdir, destpath) {
     var mdFileList = getListFileToConver(config);
-    var sorceToConvert = getContentToConver(mdFileList, input);
+    var sorceToConvert = getContentToConver(mdFileList, rootdir);
 
     for (var i = 0, leng = sorceToConvert.length; i < leng; i++) {
         var mdFilePath = sorceToConvert[i].path,
             htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0].toLowerCase() + '.html',
-            pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0].toLowerCase();
-        var html = marked(sorceToConvert[i].content);
-        grunt.file.write(output + '/' + pluginDirName + '/' + htmlFileName, html);
+            pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0].toLowerCase(),
+            html = marked(sorceToConvert[i].content);
+
+        grunt.file.write(destpath + '/' + pluginDirName + '/' + htmlFileName, html);
     }
+
+    var configName = config.match(/[^/]+$/)[0];
+    grunt.file.copy(config, destpath + '/' + configName);
 }
 
 
 exports.generateDocumentation = generateDocumentation;
-
-
-
-
-
