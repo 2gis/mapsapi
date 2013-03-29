@@ -21,7 +21,6 @@
     "devDependencies": {
         "grunt": "*",
         "grunt-karma": "*",
-        "karma": "*",
         "jshint": "*",
         "optimist": "*",
         "cli-color": "*",

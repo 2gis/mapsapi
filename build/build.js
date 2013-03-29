@@ -20,7 +20,7 @@ var config = require('./config.js').config,
  */
 var modules,
     copyrights,
-    errors;
+    errors = [];
 
 /**
  * CLI colors theme settings
@@ -141,7 +141,7 @@ function getModulesList(pkg, isMsg) {
         } else {
             if (isMsg) {
                 console.log(errMsg('  - ' + moduleName + ' (not found)'));
-                errors = true;
+                errors.push('Unknown modules');
             }
         }
     }
@@ -214,26 +214,22 @@ function minifyPackage(content, isDebug) {
  * @param {Object} modules
  */
 function lintFiles(modules) {
-    var modulesCount = 0,
-        filesCount = 0,
-        errorsCount = 0;
+    var errorsCount = 0;
 
-    console.log('\nCheck all source JS files for errors with JSHint...');
+    console.log('\nCheck all source JS files for errors with JSHint...\n');
 
     for (mod in modules) {
         if (modules.hasOwnProperty(mod)) {
             var fileList = modules[mod].src;
-            modulesCount++;
             for (file in fileList) {
                 if (fileList.hasOwnProperty(file)) {
-                    filesCount++;
 
                     jshint(fileList[file], hint.config, hint.namespace);
-                    var errors = jshint.errors;
+                    var errorsList = jshint.errors;
 
-                    for (var i = 0, count = errors.length; i < count; i++) {
-                        var e = errors[i];
-                        console.log(file + '    line ' + e.line + ' col ' + e.character + '    ' + e.reason);
+                    for (var i = 0, count = errorsList.length; i < count; i++) {
+                        var e = errorsList[i];
+                        console.log('  ' + file + '    line ' + e.line + ' col ' + e.character + '    ' + e.reason);
                         errorsCount++;
                     }
                 }
@@ -241,14 +237,13 @@ function lintFiles(modules) {
         }
     }
 
-    console.log('Check ' + modulesCount + ' modules (' + filesCount + ' files)\n');
-
     if (errorsCount > 0) {
         console.log(errMsg('\nJSHint find ' + errorsCount + ' errors.\n'));
-        errors = true;
+        errors.push('JSHint');
     } else {
         console.log('JSHint not find errors.\n');
     }
+
 }
 
 
@@ -287,8 +282,8 @@ exports.build = function() {
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
 
-    if (errors) {
-        console.log(errMsg('\nBuild ended with errors!'));
+    if (errors.length > 0) {
+        console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
     } else {
         console.log(okMsg('\nBuild successfully completed!'));
     }
