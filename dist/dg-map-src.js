@@ -8461,7 +8461,7 @@ L.DG.Jsonp = function (params) {
     }
 
     timer = setTimeout(function () {
-        cancelCallback()
+        cancelCallback();
         error({ url: resUrl, event: 'Request timeout error' });
     }, timeout);
 
