@@ -131,7 +131,12 @@ function makePackage(pkg, isMsg) {
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
-            moduleSrc = modules[moduleName].src;
+            moduleData = modules[moduleName],
+            moduleSrc = null;
+
+        if (moduleData) {
+            moduleSrc = moduleData.src;
+        }
 
         if (isMsg) {
             if (moduleSrc) {
