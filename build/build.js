@@ -8,7 +8,8 @@
 var fs = require('fs'),
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
-    argv = require('optimist').argv;
+    argv = require('optimist').argv,
+    clc = require('cli-color');
 
 var config = require('./config.js').config,
     packages = require('./packs.js').packages,
@@ -18,7 +19,16 @@ var config = require('./config.js').config,
  * Global data stores
  */
 var modules,
-    copyrights;
+    copyrights,
+    errors;
+
+/**
+ * CLI colors theme settings
+ * See: https://github.com/medikoo/cli-color
+ */
+var okMsg = clc.xterm(34),
+    errMsg = clc.xterm(9),
+    depsMsg = clc.xterm(27);
 
 /**
  * Get content of source files all modules
@@ -78,17 +88,20 @@ function getCopyrightsData() {
  * Generates a list of modules by pkg
  *
  * @param {String|Null} pkg
+ * @param {Boolean} isMsg
  * @returns {Array}
  */
-function getModulesList(pkg) {
-    var modulesListOrig  = [],
-        modulesList = [];
+function getModulesList(pkg, isMsg) {
+    var modulesListOrig,
+        modulesListRes = [],
+        loadedModules = {};
 
     if (pkg && packages.hasOwnProperty(pkg)) {
         modulesListOrig = packages[pkg].modules;
     } else if (pkg && (modules.hasOwnProperty(pkg) || pkg.indexOf(',') > 0)) {
         modulesListOrig = pkg.split(',');
     } else {
+        modulesListOrig = [];
         for (var mod in modules) {
             if (modules.hasOwnProperty(mod)) {
                 modulesListOrig.push(mod);
@@ -96,62 +109,72 @@ function getModulesList(pkg) {
         }
     }
 
-    modulesList = modulesListOrig;
+    if (isMsg) {
+        console.log('Build modules:');
+    }
 
-//    for (var i = 0, count = modulesListOrig.length; i < count; i++) {
-//        var moduleName = modulesListOrig[i];
-//        if (modules.hasOwnProperty(moduleName)) {
-//            if (modules[moduleName].deps) {
-//                var moduleDeps = modules[moduleName].deps;
-//                modulesList = modulesList.concat(moduleDeps);
-//            }
-//            modulesList.push(moduleName);
-//        }
-//    }
+    for (var i = 0, count = modulesListOrig.length; i < count; i++) {
+        var moduleName = modulesListOrig[i];
 
-//    console.log(modulesList);
+        if (modules.hasOwnProperty(moduleName)) {
+            if (modules[moduleName].deps) {
+                var moduleDeps = modules[moduleName].deps;
+                for (var j = 0, cnt = moduleDeps.length; j < cnt; j++) {
+                    var moduleNameDeps = moduleDeps[j];
+                    if (!loadedModules[moduleNameDeps]) {
+                        modulesListRes.push(moduleNameDeps);
+                        loadedModules[moduleNameDeps] = true;
+                        if (isMsg) {
+                            console.log(depsMsg('  + ' + moduleNameDeps + ' (deps of ' + moduleName + ')'));
+                        }
+                    }
+                }
+            }
 
-    return modulesList;
+            if (!loadedModules[moduleName]) {
+                modulesListRes.push(moduleName);
+                loadedModules[moduleName] = true;
+                if (isMsg) {
+                    console.log('  * ' + moduleName);
+                }
+            }
+        } else {
+            if (isMsg) {
+                console.log(errMsg('  - ' + moduleName + ' (not found)'));
+                errors = true;
+            }
+        }
+    }
+
+    return modulesListRes;
 }
 
 /**
  * Generates build content
  *
- * @param {String} pkg
+ * @param {Array} modulesList
  * @param {Boolean} isMsg
  * @returns {String}
  */
-function makePackage(pkg, isMsg) {
-    var modulesList,
-        result = '',
+function makePackage(modulesList, isMsg) {
+    var loadedFiles = {},
         countModules = 0,
-        loadingFiles = {};
-
-    modulesList = getModulesList(pkg);
+        result = '';
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
-            moduleData = modules[moduleName],
-            moduleSrc = null;
+            moduleData = modules[moduleName];
 
-        if (moduleData) {
-            moduleSrc = moduleData.src;
-        }
+        if (moduleData && moduleData.src) {
+            var moduleSrc = moduleData.src;
+            countModules++;
 
-        if (isMsg) {
-            if (moduleSrc) {
-                countModules++;
-                console.log('  * ' + moduleName);
-            } else {
-                console.log('  - ' + moduleName + ' (module not found!)');
-            }
-        }
-
-        for (var file in moduleSrc) {
-            if (moduleSrc.hasOwnProperty(file)) {
-                if (!loadingFiles[file]) {
-                    result += moduleSrc[file];
-                    loadingFiles[file] = true;
+            for (var file in moduleSrc) {
+                if (moduleSrc.hasOwnProperty(file)) {
+                    if (!loadedFiles[file]) {
+                        result += moduleSrc[file];
+                        loadedFiles[file] = true;
+                    }
                 }
             }
         }
@@ -184,7 +207,6 @@ function minifyPackage(content) {
  * Check JS files for errors
  *
  * @param {Object} modules
- * @return {Number}
  */
 function lintFiles(modules) {
     var errorsCount = 0;
@@ -207,7 +229,12 @@ function lintFiles(modules) {
         }
     }
 
-    return errorsCount;
+    if (errorsCount > 0) {
+        console.log(errMsg('\nJSHint find ' + errorsCount + ' errors.\n'));
+        errors = true;
+    } else {
+        console.log('JSHint not find errors.\n');
+    }
 }
 
 
@@ -220,10 +247,8 @@ exports.lint = function() {
     console.log('\nCheck all source JS files for errors with JSHint...\n');
 
     modules = getModulesData();
-    errorsCount = lintFiles(modules);
-    str = (errorsCount > 0) ? '\n' : '';
+    lintFiles(modules);
 
-    console.log(str + 'JSHint find ' + errorsCount + ' errors.\n');
 };
 
 /**
@@ -241,9 +266,8 @@ exports.build = function() {
         console.log('Build public GitHub full package!\n');
     }
 
-    console.log('Build modules:');
-
-    var srcContent = makePackage(pkg, true);
+    var modulesList = getModulesList(pkg, true);
+    var srcContent = makePackage(modulesList, true);
     fs.writeFileSync(dest.src, srcContent);
 
     console.log('Compressing...\n');
@@ -254,7 +278,12 @@ exports.build = function() {
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
 
-    console.log('\nBuild successfully completed!');
+    if (errors) {
+        console.log(errMsg('\nBuild ended with errors!'));
+    } else {
+        console.log(okMsg('\nBuild successfully completed!'));
+    }
+
 };
 
 /**
@@ -269,7 +298,8 @@ exports.init = function() {
  * Get content (web app)
  */
 exports.get = function(pkg, isDebug, callback) {
-    var content = makePackage(pkg);
+    var modulesList = getModulesList(pkg);
+    var content = makePackage(modulesList);
     if (!isDebug) {
         content = minifyPackage(content);
     }

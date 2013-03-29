@@ -23,6 +23,7 @@
         "grunt-karma": "*",
         "karma": "*",
         "jshint": "*",
-        "optimist": "*"
+        "optimist": "*",
+        "cli-color": "*"
     }
 }
