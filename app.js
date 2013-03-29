@@ -1,14 +1,16 @@
-var express = require('express');
+var express = require('express'),
+    exec = require('child_process').exec;
 
 var build = require('./build/build.js');
+
+build.init();
 
 var app = express();
 
 app.use(express.static(__dirname + '/public'));
 
-
 app.get('/js', function (req, res) {
-    var pkg = req.query.load || 'full';
+    var pkg = req.query.load || null;
     var isDebug = req.query.mode === 'debug';
 
     build.get(pkg, isDebug, function (data) {
@@ -29,5 +31,28 @@ app.get('/js', function (req, res) {
 //    });
 //});
 
-build.init();
 app.listen(3000);
+
+autoUpdate(function() {
+    console.log('Update app!');
+    build.init();
+});
+
+function autoUpdate(callback) {
+
+    setInterval(function() {
+
+        exec('git pull', function (error, stdout, stderr) {
+            if (error) {
+                return;
+            }
+
+            if (stdout.indexOf('Already up-to-date') < 0) {
+                callback();
+            }
+
+        });
+
+    }, 30 * 1000);
+
+}

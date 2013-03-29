@@ -303,8 +303,9 @@ exports.init = function() {
  * Get content (web app)
  */
 exports.get = function(pkg, isDebug, callback) {
-    var modulesList = getModulesList(pkg),
-        contentSrc = makePackage(modulesList),
-        contentRes = minifyPackage(contentSrc, isDebug);
+    var modulesList, contentSrc, contentRes;
+    modulesList = getModulesList(pkg);
+    contentSrc = makePackage(modulesList);
+    contentRes = minifyPackage(contentSrc, isDebug);
     callback(contentRes);
 };
