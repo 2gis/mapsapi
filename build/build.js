@@ -216,6 +216,8 @@ function minifyPackage(content, isDebug) {
 function lintFiles(modules) {
     var errorsCount = 0;
 
+    console.log('\nCheck all source JS files for errors with JSHint...\n');
+
     for (mod in modules) {
         if (modules.hasOwnProperty(mod)) {
             var fileList = modules[mod].src;
@@ -247,13 +249,8 @@ function lintFiles(modules) {
  * Lint (CLI command)
  */
 exports.lint = function() {
-    var errorsCount, str;
-
-    console.log('\nCheck all source JS files for errors with JSHint...\n');
-
     modules = getModulesData();
     lintFiles(modules);
-
 };
 
 /**
@@ -261,7 +258,7 @@ exports.lint = function() {
  */
 exports.build = function() {
     var dest = config.dest.custom,
-        pkg = argv.p || argv.m || null;
+        pkg = argv.p || argv.m;
 
     modules = getModulesData();
     copyrights = getCopyrightsData();
