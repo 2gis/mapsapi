@@ -153,7 +153,7 @@ function makePackage(pkg, isMsg) {
     }
 
     if (isMsg) {
-        console.log('\nConcatenating ' + count + ' modules...\n');
+        console.log('\nConcatenating ' + countModules + ' modules...\n');
     }
 
     return copyrights + config.intro + result + config.outro;
