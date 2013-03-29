@@ -191,9 +191,14 @@ function makePackage(modulesList, isMsg) {
  * Minify source files
  *
  * @param {String} content
+ * @param {Boolean} isDebug
  * @return {String}
  */
-function minifyPackage(content) {
+function minifyPackage(content, isDebug) {
+    if (isDebug) {
+        return content;
+    }
+
     var min = uglify.minify(content, {
         warnings: true,
         fromString: true
@@ -298,10 +303,8 @@ exports.init = function() {
  * Get content (web app)
  */
 exports.get = function(pkg, isDebug, callback) {
-    var modulesList = getModulesList(pkg);
-    var content = makePackage(modulesList);
-    if (!isDebug) {
-        content = minifyPackage(content);
-    }
-    callback(content);
+    var modulesList = getModulesList(pkg),
+        contentSrc = makePackage(modulesList),
+        contentRes = minifyPackage(contentSrc, isDebug);
+    callback(contentRes);
 };
