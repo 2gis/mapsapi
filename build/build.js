@@ -21,31 +21,34 @@ var modules,
     copyrights;
 
 /**
- * Get content of all modules
+ * Get content of source files all modules
  * Must run only 1 time on start app or run CLI script
  *
  * @returns {Object}
  */
-function getModulesContent() {
+function getModulesData() {
     var source = config.source,
         modules = {};
 
-    for (vendor in source) {
-        if (source.hasOwnProperty(vendor)) {
-            var deps = source[vendor].deps,
-                path = source[vendor].path;
+    for (creator in source) {
+        if (source.hasOwnProperty(creator)) {
+            var modulesList = source[creator].deps,
+                basePath = source[creator].path;
 
-            for (var mod in deps) {
-                if (deps.hasOwnProperty(mod)) {
+            for (var mod in modulesList) {
+                if (modulesList.hasOwnProperty(mod)) {
                     var moduleContent = {},
-                        src = deps[mod].src;
+                        src = modulesList[mod].src,
+                        deps = modulesList[mod].deps;
 
                     for (var i = 0, count = src.length; i < count; i++) {
-                        var srcPath = path + src[i];
+                        var srcPath = basePath + src[i];
                         moduleContent[srcPath] = fs.readFileSync(srcPath, 'utf8') + '\n\n';
                     }
 
-                    modules[mod] = moduleContent;
+                    modules[mod] = {};
+                    modules[mod].src = moduleContent;
+                    modules[mod].deps = deps;
                 }
             }
         }
@@ -55,12 +58,12 @@ function getModulesContent() {
 }
 
 /**
- * Get content of all copyrights
+ * Get content of source files all copyrights
  * Must run only 1 time on start app or run CLI script
  *
  * @returns {String}
  */
-function getCopyrightsContent() {
+function getCopyrightsData() {
     var source = config.copyrights,
         copyrights = '';
 
@@ -72,25 +75,41 @@ function getCopyrightsContent() {
 }
 
 /**
- * Generates a list of modules by pkg name
+ * Generates a list of modules by pkg
  *
  * @param {String|Null} pkg
  * @returns {Array}
  */
-function parcePackageName(pkg) {
-    var modulesList = [];
+function getModulesList(pkg) {
+    var modulesListOrig  = [],
+        modulesList = [];
 
     if (pkg && packages.hasOwnProperty(pkg)) {
-        modulesList = packages[pkg].modules;
+        modulesListOrig = packages[pkg].modules;
     } else if (pkg && (modules.hasOwnProperty(pkg) || pkg.indexOf(',') > 0)) {
-        modulesList = pkg.split(',');
+        modulesListOrig = pkg.split(',');
     } else {
         for (var mod in modules) {
             if (modules.hasOwnProperty(mod)) {
-                modulesList.push(mod);
+                modulesListOrig.push(mod);
             }
         }
     }
+
+    modulesList = modulesListOrig;
+
+//    for (var i = 0, count = modulesListOrig.length; i < count; i++) {
+//        var moduleName = modulesListOrig[i];
+//        if (modules.hasOwnProperty(moduleName)) {
+//            if (modules[moduleName].deps) {
+//                var moduleDeps = modules[moduleName].deps;
+//                modulesList = modulesList.concat(moduleDeps);
+//            }
+//            modulesList.push(moduleName);
+//        }
+//    }
+
+//    console.log(modulesList);
 
     return modulesList;
 }
@@ -103,17 +122,19 @@ function parcePackageName(pkg) {
  * @returns {String}
  */
 function makePackage(pkg, isMsg) {
-    var modulesResult = '',
+    var modulesList,
+        result = '',
         countModules = 0,
-        loadModules = {},
-        modulesList = parcePackageName(pkg);
+        loadingFiles = {};
+
+    modulesList = getModulesList(pkg);
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
-            moduleContent = modules[moduleName];
+            moduleSrc = modules[moduleName].src;
 
         if (isMsg) {
-            if (moduleContent) {
+            if (moduleSrc) {
                 countModules++;
                 console.log('  * ' + moduleName);
             } else {
@@ -121,21 +142,21 @@ function makePackage(pkg, isMsg) {
             }
         }
 
-        for (var name in moduleContent) {
-            if (moduleContent.hasOwnProperty(name)) {
-                if (!loadModules[name]) {
-                    modulesResult += moduleContent[name];
-                    loadModules[name] = true;
+        for (var file in moduleSrc) {
+            if (moduleSrc.hasOwnProperty(file)) {
+                if (!loadingFiles[file]) {
+                    result += moduleSrc[file];
+                    loadingFiles[file] = true;
                 }
             }
         }
     }
 
     if (isMsg) {
-        console.log('\nConcatenating ' + countModules + ' modules...\n');
+        console.log('\nConcatenating ' + count + ' modules...\n');
     }
 
-    return copyrights + config.intro + modulesResult + config.outro;
+    return copyrights + config.intro + result + config.outro;
 }
 
 /**
@@ -153,15 +174,6 @@ function minifyPackage(content) {
     return copyrights + min;
 }
 
-/**
- * Write file to disc
- *
- * @param {String} path
- * @param {String} content
- */
-function writeFile(path, content) {
-    fs.writeFileSync(path, content);
-}
 
 /**
  * Check JS files for errors
@@ -174,7 +186,7 @@ function lintFiles(modules) {
 
     for (mod in modules) {
         if (modules.hasOwnProperty(mod)) {
-            var fileList = modules[mod];
+            var fileList = modules[mod].src;
             for (file in fileList) {
                 if (fileList.hasOwnProperty(file)) {
                     jshint(fileList[file], hint.config, hint.namespace);
@@ -202,7 +214,7 @@ exports.lint = function() {
 
     console.log('\nCheck all source JS files for errors with JSHint...\n');
 
-    modules = getModulesContent();
+    modules = getModulesData();
     errorsCount = lintFiles(modules);
     str = (errorsCount > 0) ? '\n' : '';
 
@@ -216,8 +228,8 @@ exports.build = function() {
     var dest = config.dest.custom,
         pkg = argv.p || argv.m || null;
 
-    modules = getModulesContent();
-    copyrights = getCopyrightsContent();
+    modules = getModulesData();
+    copyrights = getCopyrightsData();
 
     if (pkg === 'public') {
         dest = config.dest.public;
@@ -227,12 +239,12 @@ exports.build = function() {
     console.log('Build modules:');
 
     var srcContent = makePackage(pkg, true);
-    writeFile(dest.src, srcContent);
+    fs.writeFileSync(dest.src, srcContent);
 
     console.log('Compressing...\n');
 
     var minContent = minifyPackage(srcContent);
-    writeFile(dest.min, minContent);
+    fs.writeFileSync(dest.min, minContent);
 
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
     console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
@@ -244,8 +256,8 @@ exports.build = function() {
  * Init (web app)
  */
 exports.init = function() {
-    modules = getModulesContent();
-    copyrights = getCopyrightsContent();
+    modules = getModulesData();
+    copyrights = getCopyrightsData();
 };
 
 /**

@@ -37,7 +37,8 @@ module.exports = function (grunt) {
 
     //Rebuild and run unit tests
     grunt.registerTask('test', function() {
-        grunt.task.run('build');
+        build.lint();
+        build.build();
         test.server();
         grunt.task.run('karma:continuous');
     });
