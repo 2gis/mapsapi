@@ -214,15 +214,20 @@ function minifyPackage(content, isDebug) {
  * @param {Object} modules
  */
 function lintFiles(modules) {
-    var errorsCount = 0;
+    var modulesCount = 0,
+        filesCount = 0,
+        errorsCount = 0;
 
-    console.log('\nCheck all source JS files for errors with JSHint...\n');
+    console.log('\nCheck all source JS files for errors with JSHint...');
 
     for (mod in modules) {
         if (modules.hasOwnProperty(mod)) {
             var fileList = modules[mod].src;
+            modulesCount++;
             for (file in fileList) {
                 if (fileList.hasOwnProperty(file)) {
+                    filesCount++;
+
                     jshint(fileList[file], hint.config, hint.namespace);
                     var errors = jshint.errors;
 
@@ -235,6 +240,8 @@ function lintFiles(modules) {
             }
         }
     }
+
+    console.log('Check ' + modulesCount + ' modules (' + filesCount + ' files)\n');
 
     if (errorsCount > 0) {
         console.log(errMsg('\nJSHint find ' + errorsCount + ' errors.\n'));
