@@ -13,6 +13,8 @@ function walkItem(menu, callback) {
     }
 }
 /**
+ * Get list all file to convert
+ *
  * @param {Object} config json
  */
 function getListFileToConver(config) {
@@ -24,9 +26,9 @@ function getListFileToConver(config) {
     return result;
 }
 /**
- *
+ * Get content of source .md files all modules
  * @param {Array} list source
- * @param {String} subdir path to sorce
+ * @param {String} subdir path to plugin
  */
 function getContentToConver(list, subdir) {
     var sorce = [],
@@ -44,6 +46,16 @@ function getContentToConver(list, subdir) {
 
     }
     return sorce;
+}
+/**
+ * Copy menu to destination folder
+ *
+ * @param {String} filepath
+ * @param {String} destpath
+ */
+function copyConfigFile(filepath, destpath){
+    var configName = filepath.match(/[^/]+$/)[0];
+    grunt.file.copy(filepath, destpath + '/' + configName);
 }
 
 /**
@@ -68,8 +80,7 @@ function generateDocumentation(config, rootdir, destpath) {
         grunt.file.write(destpath + '/' + pluginDirName + '/' + htmlFileName, html);
     }
 
-    var configName = config.match(/[^/]+$/)[0];
-    grunt.file.copy(config, destpath + '/' + configName);
+    copyConfigFile(config, destpath);
 }
 
 
