@@ -1,0 +1,110 @@
+{
+    "mapsapi": {
+        "content": {
+            "ru": {
+                "title": "API карт",
+                "uri": "doc/quickstart.html",
+                "_src":"Core/doc/Core.md",
+                "hide": false
+            }
+        },
+        "children": [
+            {
+                "content": {
+                    "ru": {
+                        "title": "Общие сведения ",
+                        "uri": "doc/glossary.html",
+                        "hide": false
+                    }
+                },
+                "children": null
+            },
+            {
+                "content": {
+                    "ru": {
+                        "title": "Быстрый старт",
+                        "uri": "doc/quickstart.html",
+                        "hide": false
+                    }
+                },
+                "children": null
+            },
+            {
+                "content": {
+                    "ru": {
+                        "title": "Руководство",
+                        "uri": "doc....",
+                        "hide": false
+                    }
+                },
+                "children": [
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Базовые классы",
+                                "uri": "doc...",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Jsonp",
+                                "uri": "doc/jsonp/jsonp.html",
+                                "_src": "Jsonp/doc/Jsonp.md",
+                                "hide": true
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "ProjectDetector",
+                                "uri": "doc/projectdetector/projectdetector.html",
+                                "_src": "ProjectDetector/doc/ProjectDetector.md",
+                                "hide": true
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "TileLayer",
+                                "uri": "doc/tilelayer/tilelayer.html",
+                                "_src": "TileLayer/doc/TileLayer.md",
+                                "hide": true
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Localization",
+                                "uri": "doc/localization/localization.html",
+                                "_src": "foo/dir/Localization.md",
+
+                                "hide": true
+                            }
+                        },
+                        "children": null
+                    }
+                ]
+            }
+        ]
+    },
+    "static":{
+        "content": {
+            "ru":{
+                "title": "Static",
+                "uri": "doc/quickstart.html",
+
+                "hide": false
+            }
+        }
+    }
+}
