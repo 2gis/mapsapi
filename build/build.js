@@ -92,16 +92,17 @@ function getCopyrightsData() {
  * @returns {Array}
  */
 function getModulesList(pkg, isMsg) {
-    var modulesListOrig,
+    var modulesListOrig = [],
         modulesListRes = [],
         loadedModules = {};
 
     if (pkg && packages.hasOwnProperty(pkg)) {
         modulesListOrig = packages[pkg].modules;
-    } else if (pkg && (modules.hasOwnProperty(pkg) || pkg.indexOf(',') > 0)) {
+    } else if (pkg && pkg.indexOf(',') > 0) {
         modulesListOrig = pkg.split(',');
+    } else if (pkg && modules.hasOwnProperty(pkg)) {
+        modulesListOrig.push(pkg);
     } else {
-        modulesListOrig = [];
         for (var mod in modules) {
             if (modules.hasOwnProperty(mod)) {
                 modulesListOrig.push(mod);
