@@ -41,6 +41,7 @@ grunt
 ```bash
 grunt lint      # Check JS files for errors with JSHint  
 grunt build     # Combine and minify source files  
+grunt doc       # Generate documentation from .md source files
 grunt test      # Rebuild and run unit tests  
 ```
 

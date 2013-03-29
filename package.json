@@ -24,6 +24,7 @@
         "karma": "*",
         "jshint": "*",
         "optimist": "*",
-        "cli-color": "*"
+        "cli-color": "*",
+        "marked": "*"
     }
 }
