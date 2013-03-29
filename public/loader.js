@@ -23,8 +23,8 @@
     var scriptURI = scripts[scripts.length-1].src;
     var url = scriptURI.split('?');
 
-    loadCSS('http://maps.api.dev.kiev.test:3000/style.css');
-    loadJS('http://maps.api.dev.kiev.test:3000/js?' + url[1]);
+    loadCSS('/style.css');
+    loadJS('/js?' + url[1]);
 
     window.L = {} || window.L;
     window.L.onLoad = function(callback) {
