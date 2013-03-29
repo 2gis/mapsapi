@@ -19,7 +19,8 @@
  */
 
 var build = require('./build/build.js'),
-    test = require('./test/test.js');
+    test = require('./test/test.js'),
+    gendoc = require('./docbuilder/gendoc.js');
 
 module.exports = function (grunt) {
     "use strict";
@@ -43,6 +44,14 @@ module.exports = function (grunt) {
         grunt.task.run('karma:continuous');
     });
 
+    // Generate documentation from source files
+    grunt.registerTask('doc', function () {
+        var menu = grunt.config.get('doc.menu'),
+            input = grunt.config.get('doc.input'),
+            output = grunt.config.get('doc.output');
+        gendoc.generateDocumentation(menu, input, output);
+    });
+
     // Default task
     grunt.registerTask('default', function() {
         grunt.log.writeln('\nTasks list:\n');
@@ -64,6 +73,11 @@ module.exports = function (grunt) {
             dev: {
                 reporters: 'dots'
             }
+        },
+        doc:{
+            menu: './src/menu.json',
+            input: './src/',
+            output: './docbuilder/doc'
         }
     });
 
