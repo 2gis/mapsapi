@@ -96,7 +96,7 @@ function getModulesList(pkg, isMsg) {
         modulesListRes = [],
         loadedModules = {};
 
-    if (pkg && packages.hasOwnProperty(pkg)) {
+    if (pkg && packages.hasOwnProperty(pkg) && packages[pkg].modules.length > 0) {
         modulesListOrig = packages[pkg].modules;
     } else if (pkg && pkg.indexOf(',') > 0) {
         modulesListOrig = pkg.split(',');
