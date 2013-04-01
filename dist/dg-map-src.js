@@ -122,6 +122,8 @@ L.Util = {
 			var value = data[key];
 			if (!data.hasOwnProperty(key)) {
 				throw new Error('No value provided for variable ' + str);
+			} else if (typeof value === 'function') {
+				value = value(data);
 			}
 			return value;
 		});
@@ -3693,6 +3695,7 @@ L.Popup = L.Class.extend({
 			        L.DomUtil.create('a', prefix + '-close-button', container);
 			closeButton.href = '#close';
 			closeButton.innerHTML = '&#215;';
+			L.DomEvent.disableClickPropagation(closeButton);
 
 			L.DomEvent.on(closeButton, 'click', this._onCloseButtonClick, this);
 		}
@@ -6412,9 +6415,14 @@ L.Map.Drag = L.Handler.extend({
 			    decelerationDuration = limitedSpeed / (options.inertiaDeceleration * ease),
 			    offset = limitedSpeedVector.multiplyBy(-decelerationDuration / 2).round();
 
-			L.Util.requestAnimFrame(function () {
-				map.panBy(offset, decelerationDuration, ease, true);
-			});
+			if (!offset.x || !offset.y) {
+				map.fire('moveend');
+
+			} else {
+				L.Util.requestAnimFrame(function () {
+					map.panBy(offset, decelerationDuration, ease, true);
+				});
+			}
 		}
 
 		if (options.maxBounds) {
@@ -7153,19 +7161,21 @@ L.Handler.MarkerDrag = L.Handler.extend({
 	addHooks: function () {
 		var icon = this._marker._icon;
 		if (!this._draggable) {
-			this._draggable = new L.Draggable(icon, icon)
-			    .on('dragstart', this._onDragStart, this)
-			    .on('drag', this._onDrag, this)
-			    .on('dragend', this._onDragEnd, this);
+			this._draggable = new L.Draggable(icon, icon);
 		}
+
+		this._draggable
+			.on('dragstart', this._onDragStart, this)
+			.on('drag', this._onDrag, this)
+			.on('dragend', this._onDragEnd, this);
 		this._draggable.enable();
 	},
 
 	removeHooks: function () {
 		this._draggable
-		    .off('dragstart', this._onDragStart)
-		    .off('drag', this._onDrag)
-		    .off('dragend', this._onDragEnd);
+			.off('dragstart', this._onDragStart)
+			.off('drag', this._onDrag)
+			.off('dragend', this._onDragEnd);
 
 		this._draggable.disable();
 	},
