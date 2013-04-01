@@ -311,7 +311,7 @@ exports.init = function() {
  * Get JS content (web app)
  *
  * @param {String|Null} pkg  Name of package, module or list of modules
- * @param {Boolean} isDebug  Is minify JS result file
+ * @param {Boolean} isDebug  Is skip minify JS result file
  * @param {Function} callback  Return JS result file
  */
 exports.getJS = function(pkg, isDebug, callback) {
@@ -326,7 +326,7 @@ exports.getJS = function(pkg, isDebug, callback) {
  * Get CSS content (web app)
  *
  * @param {String|Null} pkg  Name of package, module or list of modules
- * @param {Boolean} isDebug  Is minify CSS result file
+ * @param {Boolean} isDebug  Is skip minify CSS result file
  * @param {Function} callback  Return CSS result file
  */
 exports.getCSS = function(pkg, isDebug, callback) {
