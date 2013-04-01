@@ -1,4 +1,5 @@
 (function() {
+    'use strict';
 
     var params,
         onLoadJS = function() {};
