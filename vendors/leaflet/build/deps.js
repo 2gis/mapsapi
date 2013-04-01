@@ -232,8 +232,7 @@ var deps = {
 		src: [
 			'dom/DomEvent.js',
 			'dom/PosAnimation.js',
-			'map/anim/Map.PanAnimation.js'
-			],
+			'map/anim/Map.PanAnimation.js'],
 		desc: 'Core panning animation support.'
 	},
 

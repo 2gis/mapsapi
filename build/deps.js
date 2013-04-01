@@ -1,14 +1,20 @@
 var deps = {
 
-    JSONP: {
-        src: ['Jsonp/src/Jsonp.js'],
-        desc: 'JSONP module.',
+    DGCore: {
+        src: [],
+        desc: 'Main DG module.',
         heading: '2GIS modules'
     },
 
-    Localization: {
-        src: ['Localization/src/Localization.js'],
-        desc: 'Localization module.'
+    DGLayer: {
+        src: ['DGLayer/src/DGLayer.js'],
+        desc: '2GIS Tile Layer module.',
+        deps: ['TileLayer']
+    },
+
+    JSONP: {
+        src: ['Jsonp/src/Jsonp.js'],
+        desc: 'JSONP module.'
     },
 
     ProjectDetector: {
@@ -17,10 +23,9 @@ var deps = {
         deps: ['JSONP']
     },
 
-    DGLayer: {
-        src: ['TileLayer/src/TileLayer.js'],
-        desc: '2GIS Tile Layer module.',
-        deps: ['TileLayer']
+    Localization: {
+        src: ['Localization/src/Localization.js'],
+        desc: 'Localization module.'
     }
 
 };
