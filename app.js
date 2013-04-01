@@ -13,7 +13,7 @@ app.get('/js', function (req, res) {
     var pkg = req.query.load || null;
     var isDebug = req.query.mode === 'debug';
 
-    build.get(pkg, isDebug, function (data) {
+    build.getJS(pkg, isDebug, function (data) {
         res.set('Cache-Control', 'public, max-age=604800');
         res.set('Content-Type', 'application/x-javascript; charset=utf-8');
         res.set('X-Powered-By', '2GIS Maps API Server');
@@ -21,15 +21,17 @@ app.get('/js', function (req, res) {
     });
 });
 
-//app.get('/css', function(req, res){
-//    var pkg = req.query.load || 'full';
-//    build.get(pkg, function(data) {
-//        res.set('Cache-Control', 'public, max-age=604800');
-//        res.set('Content-Type', 'text/css');
-//        res.set('X-Powered-By', '2GIS Maps API Server');
-//        res.send(data);
-//    });
-//});
+app.get('/css', function(req, res){
+    var pkg = req.query.load || null;
+    var isDebug = req.query.mode === 'debug';
+
+    build.getCSS(pkg, isDebug, function(data) {
+        res.set('Cache-Control', 'public, max-age=604800');
+        res.set('Content-Type', 'text/css');
+        res.set('X-Powered-By', '2GIS Maps API Server');
+        res.send(data);
+    });
+});
 
 app.listen(3000);
 
@@ -39,20 +41,12 @@ autoUpdate(function() {
 });
 
 function autoUpdate(callback) {
-
     setInterval(function() {
-
         exec('git pull', function (error, stdout, stderr) {
-            if (error) {
-                return;
-            }
-
+            if (error) { return; }
             if (stdout.indexOf('Already up-to-date') < 0) {
                 callback();
             }
-
         });
-
     }, 30 * 1000);
-
 }

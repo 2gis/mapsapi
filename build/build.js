@@ -96,7 +96,7 @@ function getModulesList(pkg, isMsg) {
         modulesListRes = [],
         loadedModules = {};
 
-    // Package name with list of models on packs.js (example: 'base')
+    // Package name with no empty modules list on packs.js (example: 'base')
     if (pkg && packages.hasOwnProperty(pkg) && packages[pkg].modules.length > 0) {
         modulesListOrig = packages[pkg].modules;
 
@@ -307,9 +307,20 @@ exports.init = function() {
 };
 
 /**
- * Get content (web app)
+ * Get JS content (web app)
  */
-exports.get = function(pkg, isDebug, callback) {
+exports.getJS = function(pkg, isDebug, callback) {
+    var modulesList, contentSrc, contentRes;
+    modulesList = getModulesList(pkg);
+    contentSrc = makePackage(modulesList);
+    contentRes = minifyPackage(contentSrc, isDebug);
+    callback(contentRes);
+};
+
+/**
+ * Get CSS content (web app)
+ */
+exports.getCSS = function(pkg, isDebug, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(pkg);
     contentSrc = makePackage(modulesList);
