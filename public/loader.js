@@ -1,8 +1,8 @@
 (function() {
     'use strict';
 
-    var params,
-        onLoadJS = function() {};
+    var onLoadJS = function() {},
+        params;
 
     function loadCSS(link) {
         var css = document.createElement('link');

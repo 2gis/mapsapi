@@ -40,7 +40,7 @@ function getModulesData() {
     var source = config.source,
         modules = {};
 
-    for (creator in source) {
+    for (var creator in source) {
         if (source.hasOwnProperty(creator)) {
             var modulesList = source[creator].deps,
                 basePath = source[creator].path;
@@ -226,10 +226,10 @@ function lintFiles(modules) {
 
     console.log('\nCheck all source JS files for errors with JSHint...\n');
 
-    for (mod in modules) {
+    for (var mod in modules) {
         if (modules.hasOwnProperty(mod)) {
             var fileList = modules[mod].src;
-            for (file in fileList) {
+            for (var file in fileList) {
                 if (fileList.hasOwnProperty(file)) {
 
                     jshint(fileList[file], hint.config, hint.namespace);
