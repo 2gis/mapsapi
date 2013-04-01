@@ -1,10 +1,11 @@
 (function() {
 
     function getParams() {
-        var scripts, scriptURI;
+        var scripts, scriptURI, url;
         scripts = document.getElementsByTagName("script");
         scriptURI = scripts[scripts.length-1].src;
-        return scriptURI.split('?')[1] || '';
+        url = scriptURI.split('?');
+        return (url[1]) ? '?' + url[1]: '';
     }
 
     function loadCSS(link) {
@@ -29,8 +30,8 @@
 
     var params = getParams();
 
-    loadCSS('/style.css');
-    loadJS('/js?' + params);
+    loadCSS('/style.css' + params);
+    loadJS('/js' + params);
 
     window.L = {} || window.L;
     window.L.onLoad = function(callback) {
