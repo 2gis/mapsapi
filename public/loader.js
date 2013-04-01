@@ -23,11 +23,11 @@
         document.getElementsByTagName('head')[0].appendChild(js);
 
         js.onload = function() {
-            jsLoad();
+            onLoadJS();
         }
     }
 
-    var jsLoad = function() {};
+    var onLoadJS = function() {};
     var params = getParams();
 
     loadCSS('/style.css' + params);
@@ -35,7 +35,7 @@
 
     window.L = {} || window.L;
     window.L.onLoad = function(callback) {
-        jsLoad = callback;
+        onLoadJS = callback;
     }
 
 
