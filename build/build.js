@@ -87,8 +87,8 @@ function getCopyrightsData() {
 /**
  * Generates a list of modules by pkg
  *
- * @param {String|Null} pkg
- * @param {Boolean} isMsg
+ * @param {String|Null} pkg  Name of package, module or list of modules
+ * @param {Boolean} isMsg  Show messages on run CLI mode
  * @returns {Array}
  */
 function getModulesList(pkg, isMsg) {
@@ -161,7 +161,7 @@ function getModulesList(pkg, isMsg) {
  * Generates build content
  *
  * @param {Array} modulesList
- * @param {Boolean} isMsg
+ * @param {Boolean} isMsg  Show messages on run CLI mode
  * @returns {String}
  */
 function makePackage(modulesList, isMsg) {
@@ -198,9 +198,9 @@ function makePackage(modulesList, isMsg) {
 /**
  * Minify source files
  *
- * @param {String} content
- * @param {Boolean} isDebug
- * @return {String}
+ * @param {String} content  Source content of JS file
+ * @param {Boolean} isDebug  Is minify JS file
+ * @return {String} Result content of JS file
  */
 function minifyPackage(content, isDebug) {
     if (isDebug) {
@@ -299,7 +299,8 @@ exports.build = function() {
 };
 
 /**
- * Init (web app)
+ * Load content of all source JS files to memory (web app)
+ * Must run only 1 time on start app
  */
 exports.init = function() {
     modules = getModulesData();
@@ -308,6 +309,10 @@ exports.init = function() {
 
 /**
  * Get JS content (web app)
+ *
+ * @param {String|Null} pkg  Name of package, module or list of modules
+ * @param {Boolean} isDebug  Is minify JS result file
+ * @param {Function} callback  Return JS result file
  */
 exports.getJS = function(pkg, isDebug, callback) {
     var modulesList, contentSrc, contentRes;
@@ -319,6 +324,10 @@ exports.getJS = function(pkg, isDebug, callback) {
 
 /**
  * Get CSS content (web app)
+ *
+ * @param {String|Null} pkg  Name of package, module or list of modules
+ * @param {Boolean} isDebug  Is minify CSS result file
+ * @param {Function} callback  Return CSS result file
  */
 exports.getCSS = function(pkg, isDebug, callback) {
     var modulesList, contentSrc, contentRes;
