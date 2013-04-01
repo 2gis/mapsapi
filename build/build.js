@@ -108,7 +108,7 @@ function getModulesList(pkg, isMsg) {
     } else if (pkg && modules.hasOwnProperty(pkg)) {
         modulesListOrig.push(pkg);
 
-    // Others (example: null / full package / not correct value)
+    // Others (null / full package / not correct value)
     } else {
         for (var mod in modules) {
             if (modules.hasOwnProperty(mod)) {
