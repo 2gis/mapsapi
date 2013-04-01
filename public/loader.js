@@ -1,12 +1,7 @@
 (function() {
 
-    function getParams() {
-        var scripts, scriptURI, url;
-        scripts = document.getElementsByTagName("script");
-        scriptURI = scripts[scripts.length-1].src;
-        url = scriptURI.split('?');
-        return (url[1]) ? '?' + url[1]: '';
-    }
+    var params,
+        onLoadJS = function() {};
 
     function loadCSS(link) {
         var css = document.createElement('link');
@@ -27,16 +22,24 @@
         }
     }
 
-    var onLoadJS = function() {};
-    var params = getParams();
-
-    loadCSS('/style.css' + params);
-    loadJS('/js' + params);
-
-    window.L = {} || window.L;
-    window.L.onLoad = function(callback) {
-        onLoadJS = callback;
+    function getParams() {
+        var scripts, scriptURI, url;
+        scripts = document.getElementsByTagName("script");
+        scriptURI = scripts[scripts.length-1].src;
+        url = scriptURI.split('?');
+        return (url[1]) ? '?' + url[1]: '';
     }
 
+    function addLoaders() {
+        window.L = {} || window.L;
+        window.L.onLoad = function(callback) {
+            onLoadJS = callback;
+        }
+    }
+
+    params = getParams();
+    addLoaders();
+    loadCSS('/style.css' + params);
+    loadJS('/js' + params);
 
 })();
