@@ -42,7 +42,7 @@
 
     initLoaders();
     params = getParams();
-    loadCSS('/css' + params);
+    loadCSS('/style.css' + params);
     loadJS('/js' + params);
 
 })();
