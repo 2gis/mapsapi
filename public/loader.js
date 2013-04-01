@@ -25,9 +25,9 @@
         js.onload = function() {
             jsLoad();
         }
-
     }
 
+    var jsLoad = function() {};
     var params = getParams();
 
     loadCSS('/style.css' + params);
