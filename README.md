@@ -146,10 +146,6 @@ dist/dg-map.js      (минимизированный код)
 Пример:
 
 ```bash
-Check all source JS files for errors with JSHint...
-
-JSHint not find errors.
-
 Build modules:
   * Core
   * EPSG3395
