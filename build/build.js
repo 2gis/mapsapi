@@ -96,12 +96,19 @@ function getModulesList(pkg, isMsg) {
         modulesListRes = [],
         loadedModules = {};
 
+    // Package name with list of models on packs.js (example: 'base')
     if (pkg && packages.hasOwnProperty(pkg) && packages[pkg].modules.length > 0) {
         modulesListOrig = packages[pkg].modules;
+
+    // Modules list (example: 'Core,JSONP,TileLayer')
     } else if (pkg && pkg.indexOf(',') > 0) {
         modulesListOrig = pkg.split(',');
+
+    // Modules single (example: 'Core')
     } else if (pkg && modules.hasOwnProperty(pkg)) {
         modulesListOrig.push(pkg);
+
+    // Others (example: null or not correct value)
     } else {
         for (var mod in modules) {
             if (modules.hasOwnProperty(mod)) {
