@@ -22,7 +22,7 @@
         // @todo Add IE support
         js.onload = function() {
             onLoadJS();
-        }
+        };
     }
 
     function getParams() {
@@ -37,7 +37,7 @@
         window.L = {} || window.L;
         window.L.onLoad = function(callback) {
             onLoadJS = callback;
-        }
+        };
     }
 
     initLoaders();
