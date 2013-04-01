@@ -37,11 +37,6 @@ app.listen(3000);
 console.log("Server listening on port 3000");
 
 
-autoUpdate(function() {
-    console.log('Update app!');
-    build.init();
-});
-
 function autoUpdate(callback) {
     setInterval(function() {
         exec('git pull', function (error, stdout, stderr) {
@@ -52,3 +47,8 @@ function autoUpdate(callback) {
         });
     }, 30 * 1000);
 }
+
+autoUpdate(function() {
+    console.log('Update app!');
+    build.init();
+});
