@@ -13,10 +13,28 @@ frameworks = ['jasmine'];
 
 // list of files / patterns to load in the browser
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
-  'dist/dg-map-custom.js',
-  'src/**/test/*Spec.js'
+    JASMINE,
+    JASMINE_ADAPTER,
+
+    'vendors/leaflet/spec/before.js',
+    'vendors/leaflet/spec/testacular.js',
+
+    'dist/dg-map-custom.js',
+
+    'vendors/leaflet/spec/after.js',
+    'vendors/leaflet/spec/happen.js',
+    'vendors/leaflet/spec/suites/SpecHelper.js',
+
+    'vendors/leaflet/spec/suites/control/*Spec.js',
+    'vendors/leaflet/spec/suites/core/*Spec.js',
+    'vendors/leaflet/spec/suites/dom/*Spec.js',
+    'vendors/leaflet/spec/suites/geo/*Spec.js',
+    'vendors/leaflet/spec/suites/geometry/*Spec.js',
+//    'vendors/leaflet/spec/suites/layer/*Spec.js',
+//    'vendors/leaflet/spec/suites/map/*Spec.js',
+    'vendors/leaflet/spec/suites/*Spec.js',
+
+    'src/**/test/*Spec.js'
 ];
 
 // list of files to exclude
