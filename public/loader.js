@@ -30,15 +30,15 @@
         return (url[1]) ? '?' + url[1]: '';
     }
 
-    function addLoaders() {
+    function initLoaders() {
         window.L = {} || window.L;
         window.L.onLoad = function(callback) {
             onLoadJS = callback;
         }
     }
 
+    initLoaders();
     params = getParams();
-    addLoaders();
     loadCSS('/style.css' + params);
     loadJS('/js' + params);
 
