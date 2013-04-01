@@ -139,6 +139,70 @@ dist/dg-map.js      (минимизированный код)
 ```
 Эти файлы находятся в индексе git-a.
 
+##### Описание вывода в консоль
+
+При выполнении сборки весь процесс сопровождается выводом сообщений к консоль:
+Пример:
+
+```bash
+Check all source JS files for errors with JSHint...
+
+JSHint not find errors.
+
+Build modules:
+  * Core
+  * EPSG3395
+  * TileLayer
+  * TileLayerWMS
+  * TileLayerCanvas
+  * ImageOverlay
+  * Marker
+  * DivIcon
+  * Popup
+  * LayerGroup
+  * FeatureGroup
+  * Path
+  * PathVML
+  + Polyline (deps of PathCanvas)
+  + Polygon (deps of PathCanvas)
+  + Circle (deps of PathCanvas)
+  * PathCanvas
+  * MultiPoly
+  * Rectangle
+  * CircleMarker
+  * VectorsCanvas
+  * GeoJSON
+  * MapDrag
+  * MouseZoom
+  + MapAnimationZoom (deps of TouchZoom)
+  * TouchZoom
+  * BoxZoom
+  * Keyboard
+  * MarkerDrag
+  * ControlZoom
+  * ControlAttrib
+  * ControlScale
+  * ControlLayers
+  * AnimationPan
+  * AnimationTimer
+  * AnimationZoom
+  * Geolocation
+  * DGCore
+  * DGLayer
+  * JSONP
+  * ProjectDetector
+  * Localization
+
+Concatenating 41 modules...
+
+Compressing...
+
+Uncompressed size: 206.3 KB
+Compressed size:   115.6 KB
+
+Build successfully completed!
+```
+
 ### Запуск unit тестов
 
 Собирается свежий билд API (dist/dg-map-custom.js) и запускается веб-сервер для тестирования JSONP модуля на 3005 порту.
