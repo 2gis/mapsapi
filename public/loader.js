@@ -14,9 +14,11 @@
     function loadJS(link) {
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
+        js.setAttribute('async', true);
         js.setAttribute('src', link);
         document.getElementsByTagName('head')[0].appendChild(js);
 
+        // @todo Add IE support
         js.onload = function() {
             onLoadJS();
         }
@@ -39,7 +41,7 @@
 
     initLoaders();
     params = getParams();
-    loadCSS('/style.css' + params);
+    loadCSS('/css' + params);
     loadJS('/js' + params);
 
 })();
