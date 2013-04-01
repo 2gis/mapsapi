@@ -16,25 +16,27 @@ files = [
     JASMINE,
     JASMINE_ADAPTER,
 
+    // Leaflet test helpers (before):
     'vendors/leaflet/spec/before.js',
     'vendors/leaflet/spec/testacular.js',
 
+    // Full API dist:
     'dist/dg-map-custom.js',
 
+    // DG tests:
+    'src/Jsonp/test/*Spec.js',
+    'src/ProjectDetector/test/*Spec.js',
+//    'src/TileLayer/test/*Spec.js',
+
+    // Leaflet test helpers (after):
     'vendors/leaflet/spec/after.js',
     'vendors/leaflet/spec/happen.js',
     'vendors/leaflet/spec/suites/SpecHelper.js',
 
-    'vendors/leaflet/spec/suites/control/*Spec.js',
-    'vendors/leaflet/spec/suites/core/*Spec.js',
-    'vendors/leaflet/spec/suites/dom/*Spec.js',
-    'vendors/leaflet/spec/suites/geo/*Spec.js',
-    'vendors/leaflet/spec/suites/geometry/*Spec.js',
-//    'vendors/leaflet/spec/suites/layer/*Spec.js',
-//    'vendors/leaflet/spec/suites/map/*Spec.js',
-    'vendors/leaflet/spec/suites/*Spec.js',
+    // Leaflet tests:
+    'vendors/leaflet/spec/suites/**/*Spec.js',
+    'vendors/leaflet/spec/suites/LeafletSpec.js'
 
-    'src/**/test/*Spec.js'
 ];
 
 // list of files to exclude
