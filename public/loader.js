@@ -16,13 +16,22 @@
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('async', true);
+
+        if (js.readyState) {
+            js.onreadystatechange = function() {
+                if (js.readyState === 'loaded' || js.readyState === 'complete') {
+                    js.onreadystatechange = null;
+                    onLoadJS();
+                }
+            };
+        } else {
+            js.onload = function() {
+                onLoadJS();
+            };
+        }
+
         js.setAttribute('src', link);
         document.getElementsByTagName('head')[0].appendChild(js);
-
-        // @todo Add IE support
-        js.onload = function() {
-            onLoadJS();
-        };
     }
 
     function getParams() {
