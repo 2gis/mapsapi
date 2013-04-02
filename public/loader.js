@@ -39,7 +39,7 @@
         scripts = document.getElementsByTagName("script");
         scriptURI = scripts[scripts.length-1].src;
         url = scriptURI.split('?');
-        return (url[1]) ? '?' + url[1]: '';
+        return (url[1]) ? '?' + url[1] : '';
     }
 
     function initLoaders() {
