@@ -24,6 +24,7 @@ app.get('/js', function (req, res) {
 app.get('/css', function(req, res){
     var pkg = req.query.load || null;
     var isDebug = req.query.mode === 'debug';
+    var theme = req.query.theme || 'basic';
 
     build.getCSS(pkg, isDebug, function(data) {
         res.set('Cache-Control', 'public, max-age=604800');

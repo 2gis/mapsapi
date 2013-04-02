@@ -24,9 +24,7 @@ files = [
     'dist/dg-map-custom.js',
 
     // DG tests:
-    'src/Jsonp/test/*Spec.js',
-    'src/ProjectDetector/test/*Spec.js',
-//    'src/TileLayer/test/*Spec.js',
+    'src/**/test/*Spec.js',
 
     // Leaflet test helpers (after):
     'vendors/leaflet/spec/after.js',
@@ -40,7 +38,10 @@ files = [
 ];
 
 // list of files to exclude
-exclude = [];
+exclude = [
+    'vendors/leaflet/spec/suites/map/MapSpec.js',
+    'vendors/leaflet/spec/suites/layer/TileLayerSpec.js'
+];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit', 'teamcity'
