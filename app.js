@@ -12,6 +12,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('/js', function (req, res) {
     var pkg = req.query.load || null;
     var isDebug = req.query.mode === 'debug';
+    var theme = req.query.theme || 'basic';
 
     build.getJS(pkg, isDebug, function (data) {
         res.set('Cache-Control', 'public, max-age=604800');
@@ -35,8 +36,11 @@ app.get('/css', function(req, res){
 });
 
 app.listen(3000);
-console.log("Server listening on port 3000");
+console.log('Maps API 2.0 server listening on port 3000');
 
+
+
+///// Auto Deploy /////
 
 function autoUpdate(callback) {
     setInterval(function() {
