@@ -4,6 +4,21 @@
     var onLoadJS = function() {},
         params;
 
+    function initLoaders() {
+        window.L = {} || window.L;
+        window.L.onLoad = function(callback) {
+            onLoadJS = callback;
+        };
+    }
+
+    function getURIParams() {
+        var scripts, scriptURI, url;
+        scripts = document.getElementsByTagName("script");
+        scriptURI = scripts[scripts.length-1].src;
+        url = scriptURI.split('?');
+        return (url[1]) ? '?' + url[1] : '';
+    }
+
     function loadCSS(link) {
         var css = document.createElement('link');
         css.setAttribute('rel', 'stylesheet');
@@ -12,21 +27,20 @@
         document.getElementsByTagName('head')[0].appendChild(css);
     }
 
-    function loadJS(link) {
+    function loadJS(link, callback) {
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
-        js.setAttribute('async', true);
 
         if (js.readyState) {
             js.onreadystatechange = function() {
                 if (js.readyState === 'loaded' || js.readyState === 'complete') {
                     js.onreadystatechange = null;
-                    onLoadJS();
+                    callback();
                 }
             };
         } else {
             js.onload = function() {
-                onLoadJS();
+                callback();
             };
         }
 
@@ -34,24 +48,11 @@
         document.getElementsByTagName('head')[0].appendChild(js);
     }
 
-    function getParams() {
-        var scripts, scriptURI, url;
-        scripts = document.getElementsByTagName("script");
-        scriptURI = scripts[scripts.length-1].src;
-        url = scriptURI.split('?');
-        return (url[1]) ? '?' + url[1] : '';
-    }
-
-    function initLoaders() {
-        window.L = {} || window.L;
-        window.L.onLoad = function(callback) {
-            onLoadJS = callback;
-        };
-    }
-
     initLoaders();
-    params = getParams();
+    params = getURIParams();
     loadCSS('/style.css' + params);
-    loadJS('/js' + params);
+    loadJS('/js' + params, function() {
+        onLoadJS();
+    });
 
 })();
