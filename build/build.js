@@ -267,8 +267,12 @@ exports.lint = function() {
  * Build (CLI command)
  */
 exports.build = function() {
-    var dest = config.dest.custom,
-        pkg = argv.p || argv.m;
+    var modulesList,
+        srcContent,
+        minContent,
+        dest = config.dest.custom,
+        pkg = argv.p || argv.m || argv.pkg || argv.mod,
+        skin = argv.skin;
 
     modules = getModulesData();
     copyrights = getCopyrightsData();
@@ -278,13 +282,15 @@ exports.build = function() {
         console.log('Build public GitHub full package!\n');
     }
 
-    var modulesList = getModulesList(pkg, true);
-    var srcContent = makePackage(modulesList, true);
+    console.log('Skin: ' + skin + '\n');
+
+    modulesList = getModulesList(pkg, true);
+    srcContent = makePackage(modulesList, true);
     fs.writeFileSync(dest.src, srcContent);
 
     console.log('Compressing...\n');
 
-    var minContent = minifyPackage(srcContent);
+    minContent = minifyPackage(srcContent);
     fs.writeFileSync(dest.min, minContent);
 
     console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
@@ -305,6 +311,11 @@ exports.build = function() {
 exports.init = function() {
     modules = getModulesData();
     copyrights = getCopyrightsData();
+    if (modules && copyrights) {
+        console.log(okMsg('Load source files successfully completed'));
+    } else {
+        console.log(errMsg('Load source files ended with errors!'));
+    }
 };
 
 /**
