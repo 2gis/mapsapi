@@ -56,7 +56,7 @@
     transition: width 0.05s ease-out, margin-left 0.05s ease-out;
     width: 21px !important;
 }
-.dg-marker_default.dg-marker_animated.dg-marker_mouseover {
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover {
     background: none;
 }
 :not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover:before {

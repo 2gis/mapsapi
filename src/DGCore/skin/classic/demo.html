@@ -10,8 +10,8 @@
     <div id="map"></div>
 
     <!-- Leaflet -->
-    <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+    <script src="../../../../vendors/leaflet/dist/leaflet-src.js"></script>
+    <link rel="stylesheet" href="../../../../vendors/leaflet/dist/leaflet.css" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
     <![endif]-->
@@ -80,6 +80,9 @@
                 });
 
                 // Create inner div for map
+                if (!map) {
+                    throw new Error('Can not init map. Neither id nor div container provided');
+                }
                 mapContainer = (typeof map === 'object') ? map : L.DomUtil.get(map);
                 L.DomUtil.addClass(mapContainer, 'dg-map');
                 mapContainerInner = L.DomUtil.create('div', 'dg-map__inner', mapContainer);

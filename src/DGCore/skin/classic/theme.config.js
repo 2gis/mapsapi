@@ -2,12 +2,12 @@ var apiTheme = {
     name: 'classic',
 
     balloonOptions: {
-        offset: [139, -18]
+        offset: [139, -17]
     },
 
     markersData: {
         defaultMarker: {
-            iconSize: [15, 23],
+            iconSize: [16, 24],
             popupAnchor: [26, 27],
             animation: true
         }
