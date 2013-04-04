@@ -10,11 +10,14 @@ var app = express();
 app.use(express.static(__dirname + '/public'));
 
 app.get('/js', function (req, res) {
-    var pkg = req.query.load || null;
-    var isDebug = req.query.mode === 'debug';
-    var theme = req.query.theme || 'basic';
+    var params = {
+        pkg: req.query.load || null,
+        skin: req.query.skin,
+        isDebug: req.query.mode === 'debug',
+        isIE: req.query.ie || false
+    };
 
-    build.getJS(pkg, isDebug, function (data) {
+    build.getJS(params, function (data) {
         res.set('Cache-Control', 'public, max-age=604800');
         res.set('Content-Type', 'application/x-javascript; charset=utf-8');
         res.set('X-Powered-By', '2GIS Maps API Server');
@@ -23,11 +26,14 @@ app.get('/js', function (req, res) {
 });
 
 app.get('/css', function(req, res){
-    var pkg = req.query.load || null;
-    var isDebug = req.query.mode === 'debug';
-    var theme = req.query.theme || 'basic';
+    var params = {
+        pkg: req.query.load || null,
+        skin: req.query.skin,
+        isDebug: req.query.mode === 'debug',
+        isIE: req.query.ie || false
+    };
 
-    build.getCSS(pkg, isDebug, function(data) {
+    build.getCSS(params, function(data) {
         res.set('Cache-Control', 'public, max-age=604800');
         res.set('Content-Type', 'text/css');
         res.set('X-Powered-By', '2GIS Maps API Server');

@@ -3,11 +3,12 @@
  *
  * Version 2.0.0
  *
- * Copyright (c) 2013, 2GIS, Andrey Chizh
+ * Copyright (c) 2013, 2GIS
  */
 var fs = require('fs'),
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
+    cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color');
 
@@ -32,7 +33,7 @@ var okMsg = clc.xterm(34),
 
 /**
  * Get content of source files all modules
- * Must run only 1 time on start app or run CLI script
+ * For best performance must run only 1 time on start app or run CLI script
  *
  * @returns {Object}
  */
@@ -45,26 +46,131 @@ function getModulesData() {
             var modulesList = source[creator].deps,
                 basePath = source[creator].path;
 
-            for (var mod in modulesList) {
-                if (modulesList.hasOwnProperty(mod)) {
-                    var moduleContent = {},
-                        src = modulesList[mod].src,
-                        deps = modulesList[mod].deps;
+            for (var moduleName in modulesList) {
+                if (modulesList.hasOwnProperty(moduleName)) {
+                    var moduleConf = modulesList[moduleName];
 
-                    for (var i = 0, count = src.length; i < count; i++) {
-                        var srcPath = basePath + src[i];
-                        moduleContent[srcPath] = fs.readFileSync(srcPath, 'utf8') + '\n\n';
-                    }
+                    modules[moduleName] = {};
+                    modules[moduleName].js = proccessJs(moduleConf.src, basePath);
+                    modules[moduleName].css = proccessCss(moduleConf.css, basePath);
+                    modules[moduleName].conf = proccessSkinConf(moduleConf.src, basePath);
+                    modules[moduleName].deps = modulesList[moduleName].deps;
 
-                    modules[mod] = {};
-                    modules[mod].src = moduleContent;
-                    modules[mod].deps = deps;
+                    proccessImg();
                 }
             }
         }
     }
 
     return modules;
+}
+
+/**
+ * Get content of JS files
+ *
+ * @param {Array} srcList  List of path to JS files
+ * @param {String} basePath  Base path of JS files
+ * @returns {Object}
+ */
+function proccessJs(srcList, basePath) {
+    var jsContent = {};
+
+    if (srcList) {
+        for (var i = 0, count = srcList.length; i < count; i++) {
+            var srcPath = basePath + srcList[i];
+            if (srcPath.indexOf(config.skinVar) < 0) {
+                if (fs.existsSync(srcPath)) {
+                    jsContent[srcPath] = fs.readFileSync(srcPath, 'utf8') + '\n\n';
+                } else {
+                    console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
+                }
+            }
+        }
+    }
+
+    return jsContent;
+}
+
+/**
+ * Get content of JS skins config files
+ *
+ * @param {Array} srcList  List of path to JS files
+ * @param {String} basePath  Base path of JS files
+ * @returns {Object}
+ */
+function proccessSkinConf(srcList, basePath) {
+    var skinConfContent = {},
+        skinVar = config.skinVar;
+
+    if (srcList) {
+        for (var i = 0, count = srcList.length; i < count; i++) {
+            var srcPath = basePath + srcList[i];
+
+            if (srcPath.indexOf(skinVar) > 0) {
+                var skinsPath = srcPath.split(skinVar);
+                var skinsList = fs.readdirSync(skinsPath[0]);
+
+                for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
+                    var skinName = skinsList[j];
+                    var skinPath = skinsPath[0] + skinName + skinsPath[1];
+                    if (fs.existsSync(skinPath)) {
+                        skinConfContent[skinName] = fs.readFileSync(skinPath, 'utf8') + '\n';
+                    }
+                }
+            }
+        }
+    }
+
+    return skinConfContent;
+}
+
+/**
+ * Get content of CSS files each skins (+ IE support)
+ *
+ * @param {Object} srcConf  Config of path to CSS files
+ * @param {String} basePath  Base path of CSS files
+ * @returns {Object}
+ */
+function proccessCss(srcConf, basePath) {
+    var cssContent = {},
+        skinVar = config.skinVar;
+
+    for (var browser in srcConf) {
+        if (srcConf.hasOwnProperty(browser)) {
+            var browserCssList = srcConf[browser];
+
+            for (var i = 0, count = browserCssList.length; i < count; i++) {
+                var srcPath = basePath + browserCssList[i];
+
+                if (srcPath.indexOf(skinVar) > 0) {
+                    var skinsPath = srcPath.split(skinVar);
+                    var skinsList = fs.readdirSync(skinsPath[0]);
+
+                    for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
+                        var skinName = skinsList[j];
+                        var skinPath = skinsPath[0] + skinName + skinsPath[1];
+                        if (fs.existsSync(skinPath)) {
+                            cssContent[skinName] = cssContent[skinName] || {};
+                            cssContent[skinName][browser] = cssContent[skinName][browser] || {};
+                            cssContent[skinName][browser][skinPath] = fs.readFileSync(skinPath, 'utf8') + '\n';
+                        }
+                    }
+                } else {
+                    cssContent.basic = cssContent.basic || {};
+                    cssContent.basic[browser] = cssContent.basic[browser] || {};
+                    cssContent.basic[browser][srcPath] = fs.readFileSync(srcPath, 'utf8') + '\n';
+                }
+            }
+        }
+    }
+
+    return cssContent;
+}
+
+
+
+function proccessImg() {
+
 }
 
 /**
@@ -164,19 +270,45 @@ function getModulesList(pkg, isMsg) {
  * @param {Boolean} isMsg  Show messages on run CLI mode
  * @returns {String}
  */
-function makePackage(modulesList, isMsg) {
+function makeJSPackage(modulesList, skin, isMsg) {
     var loadedFiles = {},
         countModules = 0,
+        skin = skin || 'default',
         result = '';
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
             moduleData = modules[moduleName];
 
-        if (moduleData && moduleData.src) {
-            var moduleSrc = moduleData.src;
+        if (moduleData && moduleData.js) {
+            var moduleSrc = moduleData.js;
             countModules++;
 
+            // Load skins config (if exist) before main module code
+            if (moduleData.conf) {
+                var moduleSkins = moduleData.conf;
+                var loadSkinsList = [];
+
+                if (moduleSkins.hasOwnProperty('basic')) {
+                    loadSkinsList.push('basic');
+                }
+
+                if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('default')) {
+                    var moduleSkinName = skin || 'default';
+                    loadSkinsList.push(moduleSkinName);
+                }
+
+                for (var j = 0, cnt = loadSkinsList.length; j < cnt; j++) {
+                    var moduleSkinName = loadSkinsList[j],
+                        moduleSkinId = moduleSkinName + ':' + moduleName;
+                    if (!loadedFiles[moduleSkinId]) {
+                        result += moduleSkins[moduleSkinName];
+                        loadedFiles[moduleSkinId] = true;
+                    }
+                }
+            }
+
+            // Load main module code
             for (var file in moduleSrc) {
                 if (moduleSrc.hasOwnProperty(file)) {
                     if (!loadedFiles[file]) {
@@ -189,28 +321,141 @@ function makePackage(modulesList, isMsg) {
     }
 
     if (isMsg) {
-        console.log('\nConcatenating ' + countModules + ' modules...\n');
+        console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
     }
 
     return copyrights + config.intro + result + config.outro;
 }
 
 /**
- * Minify source files
+ * Generates build content
  *
- * @param {String} content  Source content of JS file
+ * @param {Array} modulesList
+ * @param {String} skin
+ * @param {Boolean} isIE
+ * @param {Boolean} isMsg  Show messages on run CLI mode
+ * @returns {String}
+ */
+function makeCSSPackage(modulesList, skin, isIE, isMsg) {
+    var loadedFiles = {},
+        countModules = 0,
+        skin = skin || 'default',
+        result = '';
+
+    for (var i = 0, count = modulesList.length; i < count; i++) {
+        var moduleName = modulesList[i],
+            moduleData = modules[moduleName];
+
+        if (moduleData && moduleData.css) {
+            var moduleSkins = moduleData.css;
+
+            //@TODO NEED REFACTORING :))))
+
+
+            if (moduleSkins.hasOwnProperty('basic')) {
+
+                var moduleBrowser = moduleSkins['basic'];
+
+                if (moduleBrowser.hasOwnProperty('all')) {
+                    var moduleSrc = moduleBrowser['all'];
+
+                    countModules++;
+
+                    for (var file in moduleSrc) {
+                        if (moduleSrc.hasOwnProperty(file)) {
+                            if (!loadedFiles[file]) {
+                                result += moduleSrc[file];
+                                loadedFiles[file] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (isIE && moduleBrowser.hasOwnProperty('ie')) {
+                    var moduleSrc = moduleBrowser['ie'];
+                    for (var file in moduleSrc) {
+                        if (moduleSrc.hasOwnProperty(file)) {
+                            if (!loadedFiles[file]) {
+                                result += moduleSrc[file];
+                                loadedFiles[file] = true;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('default')) {
+
+                var skinName = skin || 'default';
+                var moduleBrowser = moduleSkins[skinName];
+
+                if (moduleBrowser.hasOwnProperty('all')) {
+                    var moduleSrc = moduleBrowser['all'];
+                    for (var file in moduleSrc) {
+                        if (moduleSrc.hasOwnProperty(file)) {
+                            if (!loadedFiles[file]) {
+                                result += moduleSrc[file];
+                                loadedFiles[file] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (isIE && moduleBrowser.hasOwnProperty('ie')) {
+                    var moduleSrc = moduleBrowser['ie'];
+                    for (var file in moduleSrc) {
+                        if (moduleSrc.hasOwnProperty(file)) {
+                            if (!loadedFiles[file]) {
+                                result += moduleSrc[file];
+                                loadedFiles[file] = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (isMsg) {
+        console.log('\nConcatenating CSS in ' + countModules + ' modules...\n');
+    }
+
+    return result;
+}
+
+/**
+ * Minify JS source files
+ *
+ * @param {String} source  Source content of JS file
  * @param {Boolean} isDebug  Is minify JS file
  * @return {String} Result content of JS file
  */
-function minifyPackage(content, isDebug) {
+function minifyJSPackage(source, isDebug) {
     if (isDebug) {
-        return content;
+        return source;
     }
 
-    var min = uglify.minify(content, {
+    var min = uglify.minify(source, {
         warnings: true,
         fromString: true
     }).code;
+
+    return copyrights + min;
+}
+
+/**
+ * Minify CSS source files
+ *
+ * @param {String} source  Source content of JS file
+ * @param {Boolean} isDebug  Is minify JS file
+ * @return {String} Result content of JS file
+ */
+function minifyCSSPackage(source, isDebug) {
+    if (isDebug) {
+        return source;
+    }
+    var min = cleanCss.process(source);
 
     return copyrights + min;
 }
@@ -268,33 +513,49 @@ exports.lint = function() {
  */
 exports.build = function() {
     var modulesList,
-        srcContent,
-        minContent,
-        dest = config.dest.custom,
+        jsSrcContent,
+        jsMinContent,
+        cssSrcContent,
+        cssMinContent,
+        jsDest = config.js.custom,
+        cssDest = config.css.custom,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
         skin = argv.skin;
 
-    modules = getModulesData();
+    modules = modules || getModulesData();
     copyrights = getCopyrightsData();
 
     if (pkg === 'public') {
-        dest = config.dest.public;
+        jsDest = config.js.public;
+        cssDest = config.css.public;
         console.log('Build public GitHub full package!\n');
     }
 
     console.log('Skin: ' + skin + '\n');
 
     modulesList = getModulesList(pkg, true);
-    srcContent = makePackage(modulesList, true);
-    fs.writeFileSync(dest.src, srcContent);
 
-    console.log('Compressing...\n');
+    jsSrcContent = makeJSPackage(modulesList, skin, true);
+    cssSrcContent = makeCSSPackage(modulesList, skin, true, true);
 
-    minContent = minifyPackage(srcContent);
-    fs.writeFileSync(dest.min, minContent);
+    fs.writeFileSync(jsDest.src, jsSrcContent);
+    fs.writeFileSync(cssDest.src, cssSrcContent);
 
-    console.log('Uncompressed size: ' + (srcContent.length/1024).toFixed(1) + ' KB');
-    console.log('Compressed size:   ' + (minContent.length/1024).toFixed(1) + ' KB');
+    console.log('Compressing JS...\n');
+
+    jsMinContent = minifyJSPackage(jsSrcContent);
+    fs.writeFileSync(jsDest.min, jsMinContent);
+
+    console.log('   Uncompressed size: ' + (jsSrcContent.length/1024).toFixed(1) + ' KB');
+    console.log('   Compressed size:   ' + (jsMinContent.length/1024).toFixed(1) + ' KB');
+
+    console.log('\nCompressing CSS...\n');
+
+    cssMinContent = minifyCSSPackage(cssSrcContent);
+    fs.writeFileSync(cssDest.min, cssMinContent);
+
+    console.log('   Uncompressed size: ' + (cssSrcContent.length/1024).toFixed(1) + ' KB');
+    console.log('   Compressed size:   ' + (cssMinContent.length/1024).toFixed(1) + ' KB');
 
     if (errors.length > 0) {
         console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
@@ -321,29 +582,27 @@ exports.init = function() {
 /**
  * Get JS content (web app)
  *
- * @param {String|Null} pkg  Name of package, module or list of modules
- * @param {Boolean} isDebug  Is skip minify JS result file
+ * @param {Object} params  Params of build (pkg, debug, skin, etc)
  * @param {Function} callback  Return JS result file
  */
-exports.getJS = function(pkg, isDebug, callback) {
+exports.getJS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
-    modulesList = getModulesList(pkg);
-    contentSrc = makePackage(modulesList);
-    contentRes = minifyPackage(contentSrc, isDebug);
+    modulesList = getModulesList(params.pkg);
+    contentSrc = makeJSPackage(modulesList, params.skin);
+    contentRes = minifyJSPackage(contentSrc, params.isDebug);
     callback(contentRes);
 };
 
 /**
  * Get CSS content (web app)
  *
- * @param {String|Null} pkg  Name of package, module or list of modules
- * @param {Boolean} isDebug  Is skip minify CSS result file
+ * @param {Object} params  Params of build (pkg, debug, skin, etc)
  * @param {Function} callback  Return CSS result file
  */
-exports.getCSS = function(pkg, isDebug, callback) {
+exports.getCSS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
-    modulesList = getModulesList(pkg);
-    contentSrc = makePackage(modulesList);
-    contentRes = minifyPackage(contentSrc, isDebug);
+    modulesList = getModulesList(params.pkg);
+    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE);
+    contentRes = minifyCSSPackage(contentSrc, params.isDebug);
     callback(contentRes);
 };

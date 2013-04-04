@@ -16,7 +16,8 @@
 
     "dependencies": {
         "express": "*",
-        "uglify-js": "*"
+        "uglify-js": "*",
+        "clean-css": "*"
     },
     "devDependencies": {
         "grunt": "*",

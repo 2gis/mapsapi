@@ -1,15 +1,22 @@
 var deps = {
 
     DGCore: {
-        src: [],
         desc: 'Main DG module.',
+        src: [],
+        css: {
+            all: ['../vendors/leaflet/dist/leaflet.css'],
+            ie: ['../vendors/leaflet/dist/leaflet.ie.css']
+        },
         heading: '2GIS modules'
     },
 
     DGLayer: {
-        src: ['DGLayer/src/DGLayer.js'],
         desc: '2GIS Tile Layer module.',
-        deps: ['TileLayer']
+        src: ['DGLayer/src/DGLayer.js'],
+        css: {
+            all: ['DGLayer/skin/{skin}/css/style.css']
+        },
+        deps: ['TileLayer', 'DGCore']
     },
 
     JSONP: {
@@ -18,14 +25,14 @@ var deps = {
     },
 
     ProjectDetector: {
-        src: ['ProjectDetector/src/ProjectDetector.js'],
         desc: 'ProjectDetector module.',
+        src: ['ProjectDetector/src/ProjectDetector.js'],
         deps: ['JSONP']
     },
 
     Localization: {
-        src: ['Localization/src/Localization.js'],
-        desc: 'Localization module.'
+        desc: 'Localization module.',
+        src: ['Localization/src/Localization.js']
     }
 
 };

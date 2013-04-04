@@ -7,5 +7,7 @@ npm-debug.log
 
 dist/dg-map-custom-src.js
 dist/dg-map-custom.js
+dist/dg-map-custom-src.css
+dist/dg-map-custom.css
 
 docbuilder/doc
