@@ -8,6 +8,7 @@
 var fs = require('fs'),
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
+    cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color');
 
@@ -272,6 +273,7 @@ function getModulesList(pkg, isMsg) {
 function makeJSPackage(modulesList, skin, isMsg) {
     var loadedFiles = {},
         countModules = 0,
+        skin = skin || 'default',
         result = '';
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
@@ -337,6 +339,7 @@ function makeJSPackage(modulesList, skin, isMsg) {
 function makeCSSPackage(modulesList, skin, isIE, isMsg) {
     var loadedFiles = {},
         countModules = 0,
+        skin = skin || 'default',
         result = '';
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
@@ -346,7 +349,7 @@ function makeCSSPackage(modulesList, skin, isIE, isMsg) {
         if (moduleData && moduleData.css) {
             var moduleSkins = moduleData.css;
 
-
+            //@TODO NEED REFACTORING :))))
 
 
             if (moduleSkins.hasOwnProperty('basic')) {
@@ -418,27 +421,41 @@ function makeCSSPackage(modulesList, skin, isIE, isMsg) {
         console.log('\nConcatenating CSS in ' + countModules + ' modules...\n');
     }
 
-    //console.log(result);
-
     return result;
 }
 
 /**
- * Minify source files
+ * Minify JS source files
  *
- * @param {String} content  Source content of JS file
+ * @param {String} source  Source content of JS file
  * @param {Boolean} isDebug  Is minify JS file
  * @return {String} Result content of JS file
  */
-function minifyPackage(content, isDebug) {
+function minifyJSPackage(source, isDebug) {
     if (isDebug) {
-        return content;
+        return source;
     }
 
-    var min = uglify.minify(content, {
+    var min = uglify.minify(source, {
         warnings: true,
         fromString: true
     }).code;
+
+    return copyrights + min;
+}
+
+/**
+ * Minify CSS source files
+ *
+ * @param {String} source  Source content of JS file
+ * @param {Boolean} isDebug  Is minify JS file
+ * @return {String} Result content of JS file
+ */
+function minifyCSSPackage(source, isDebug) {
+    if (isDebug) {
+        return source;
+    }
+    var min = cleanCss.process(source);
 
     return copyrights + min;
 }
@@ -503,7 +520,7 @@ exports.build = function() {
         jsDest = config.js.custom,
         cssDest = config.css.custom,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
-        skin = argv.skin || 'default';
+        skin = argv.skin;
 
     modules = modules || getModulesData();
     copyrights = getCopyrightsData();
@@ -526,7 +543,7 @@ exports.build = function() {
 
     console.log('Compressing JS...\n');
 
-    jsMinContent = minifyPackage(jsSrcContent);
+    jsMinContent = minifyJSPackage(jsSrcContent);
     fs.writeFileSync(jsDest.min, jsMinContent);
 
     console.log('   Uncompressed size: ' + (jsSrcContent.length/1024).toFixed(1) + ' KB');
@@ -534,8 +551,7 @@ exports.build = function() {
 
     console.log('\nCompressing CSS...\n');
 
-    //cssMinContent = minifyPackage(cssSrcContent);
-    cssMinContent = cssSrcContent;
+    cssMinContent = minifyCSSPackage(cssSrcContent);
     fs.writeFileSync(cssDest.min, cssMinContent);
 
     console.log('   Uncompressed size: ' + (cssSrcContent.length/1024).toFixed(1) + ' KB');
@@ -566,29 +582,27 @@ exports.init = function() {
 /**
  * Get JS content (web app)
  *
- * @param {String|Null} pkg  Name of package, module or list of modules
- * @param {Boolean} isDebug  Is skip minify JS result file
+ * @param {Object} params  Params of build (pkg, debug, skin, etc)
  * @param {Function} callback  Return JS result file
  */
-exports.getJS = function(pkg, isDebug, callback) {
+exports.getJS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
-    modulesList = getModulesList(pkg);
-    contentSrc = makeJSPackage(modulesList, 'default');
-    contentRes = minifyPackage(contentSrc, isDebug);
+    modulesList = getModulesList(params.pkg);
+    contentSrc = makeJSPackage(modulesList, params.skin);
+    contentRes = minifyJSPackage(contentSrc, params.isDebug);
     callback(contentRes);
 };
 
 /**
  * Get CSS content (web app)
  *
- * @param {String|Null} pkg  Name of package, module or list of modules
- * @param {Boolean} isDebug  Is skip minify CSS result file
+ * @param {Object} params  Params of build (pkg, debug, skin, etc)
  * @param {Function} callback  Return CSS result file
  */
-exports.getCSS = function(pkg, isDebug, callback) {
+exports.getCSS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
-    modulesList = getModulesList(pkg);
-    contentSrc = makeCSSPackage(modulesList, 'basic');
-    //contentRes = minifyPackage(contentSrc, isDebug);
-    callback(contentSrc);
+    modulesList = getModulesList(params.pkg);
+    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE);
+    contentRes = minifyCSSPackage(contentSrc, params.isDebug);
+    callback(contentRes);
 };
