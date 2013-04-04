@@ -13,6 +13,9 @@ var deps = {
     DGLayer: {
         desc: '2GIS Tile Layer module.',
         src: ['DGLayer/src/DGLayer.js'],
+        css: {
+            all: ['DGLayer/skin/{skin}/css/style.css']
+        },
         deps: ['TileLayer', 'DGCore']
     },
 
