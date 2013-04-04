@@ -13,7 +13,7 @@ var config = {
         }
     },
 
-    dest: {
+    js: {
         public: {
             src: './dist/dg-map-src.js',
             min: './dist/dg-map.js'
@@ -23,6 +23,19 @@ var config = {
             min: './dist/dg-map-custom.js'
         }
     },
+
+    css: {
+        public: {
+            src: './dist/dg-map-src.css',
+            min: './dist/dg-map.css'
+        },
+        custom: {
+            src: './dist/dg-map-custom-src.css',
+            min: './dist/dg-map-custom.css'
+        }
+    },
+
+    skinVar: '{skin}',
 
     copyrights: ['./vendors/leaflet/src/copyright.js'],
 

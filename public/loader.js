@@ -2,7 +2,8 @@
     'use strict';
 
     var onLoadJS = function() {},
-        params;
+        paramsURI,
+        paramsIE;
 
     function initLoaders() {
         window.L = {} || window.L;
@@ -11,12 +12,20 @@
         };
     }
 
-    function getURIParams() {
+    function getParamsURI() {
         var scripts, scriptURI, url;
         scripts = document.getElementsByTagName("script");
         scriptURI = scripts[scripts.length-1].src;
         url = scriptURI.split('?');
         return (url[1]) ? '?' + url[1] : '';
+    }
+
+    function getParamsIE() {
+        var versionIE;
+        if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
+            versionIE = parseInt(RegExp.$1, 10);
+        }
+        return (versionIE && versionIE < 9) ? '&ie=true' : '';
     }
 
     function loadCSS(link) {
@@ -49,9 +58,12 @@
     }
 
     initLoaders();
-    params = getURIParams();
-    loadCSS('/style.css' + params);
-    loadJS('/js' + params, function() {
+
+    paramsURI = getParamsURI();
+    paramsIE = getParamsIE();
+
+    loadCSS('/css' + paramsURI + paramsIE);
+    loadJS('/js' + paramsURI + paramsIE, function() {
         onLoadJS();
     });
 
