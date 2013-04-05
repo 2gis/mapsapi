@@ -17,9 +17,9 @@ function walkItem(menu, callback) {
  *
  * @param {Object} config json
  */
-function getListFileToConver(config) {
-    var menu = grunt.file.readJSON(config);
-    var result = [];
+function getMdFileNames(config) {
+    var menu = grunt.file.readJSON(config),
+        result = [];
     walkItem(menu, function (filepath) {
         result.push(filepath);
     });
@@ -30,7 +30,7 @@ function getListFileToConver(config) {
  * @param {Array} list source
  * @param {String} subdir path to plugin
  */
-function getContentToConver(list, subdir) {
+function getMdFilesData(list, subdir) {
     var sorce = [],
         dir = subdir || '',
         listLeng = list.length;
@@ -53,34 +53,34 @@ function getContentToConver(list, subdir) {
  * @param {String} filepath
  * @param {String} destpath
  */
-function copyConfigFile(filepath, destpath){
+function copyConfigFile(filepath, destpath) {
     var configName = filepath.match(/[^/]+$/)[0];
     grunt.file.copy(filepath, destpath + '/' + configName);
 }
 
 /**
  * @param {Object} config file path
- * @param {String} rootdir  plugins
- * @param {String} destpath convert file
+ * @param {String} rootPath  plugins
+ * @param {String} destPath convert file
  *
  * Example;
  *     generateDocumentation('menu.json', './src', './doc')
  */
 
-function generateDocumentation(config, rootdir, destpath) {
-    var mdFileList = getListFileToConver(config);
-    var sorceToConvert = getContentToConver(mdFileList, rootdir);
+function generateDocumentation(config, rootPath, destPath) {
+    var mdFileNames = getMdFileNames(config),
+        mdData = getMdFilesData(mdFileNames, rootPath);
 
-    for (var i = 0, leng = sorceToConvert.length; i < leng; i++) {
-        var mdFilePath = sorceToConvert[i].path,
+    for (var i = 0, leng = mdData.length; i < leng; i++) {
+        var mdFilePath = mdData[i].path,
             htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0].toLowerCase() + '.html',
             pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0].toLowerCase(),
-            html = marked(sorceToConvert[i].content);
+            html = marked(mdData[i].content);
 
-        grunt.file.write(destpath + '/' + pluginDirName + '/' + htmlFileName, html);
+        grunt.file.write(destPath + '/' + pluginDirName + '/' + htmlFileName, html);
     }
 
-    copyConfigFile(config, destpath);
+    copyConfigFile(config, destPath);
 }
 
 

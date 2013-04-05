@@ -46,10 +46,8 @@ module.exports = function (grunt) {
 
     // Generate documentation from source files
     grunt.registerTask('doc', function () {
-        var menu = grunt.config.get('doc.menu'),
-            input = grunt.config.get('doc.input'),
-            output = grunt.config.get('doc.output');
-        gendoc.generateDocumentation(menu, input, output);
+        var doc = grunt.config.get("doc");
+        gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
     });
 
     // Default task

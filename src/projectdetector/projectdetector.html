@@ -1,0 +1,27 @@
+<h1>Leaflet DG Project Detector Plugin</h1>
+<p>Плагин для обнаружения текущего проекта на карте.</p>
+<p>Текущая версия 1.0.0</p>
+<p>Copyright (c) 2013, 2GIS, Dima Rudenko</p>
+<h1>Документация</h1>
+<p>Плагин добавляет новый хендлер projectDetector, и тригирит два события: &quot;projectchange&quot; и &quot;projectleave&quot;</p>
+<h2>События</h2>
+<pre><code>projectchange    Событие возникает при смене проекта.
+projectleave     Событие возникает при выходе из текущего проекта.</code></pre>
+<h3>Методы событий</h3>
+<pre><code>getProjectList  {Function}  Возвращает все доступные проекты.
+getProject      {Function}  Возвращает текущий проект.</code></pre>
+<h1>Примеры</h1>
+<h2>Событие при смене проекта:</h2>
+<pre><code>var bounds;
+map.on(&#39;projectchange&#39;, function (e) {
+    if (currentProjectBound) {
+        currentProjectBound.onRemove(map);
+    }
+
+    bounds = e.getProject().LatLngBounds;
+    currentProjectBound = L.rectangle(bounds, {color:&quot;#f03&quot;, weight:1}).addTo(map);
+});</code></pre>
+<h2>Событие на выход из проекта:</h2>
+<pre><code>map.on(&#39;projectleave&#39;, function (e) {
+   alert(&quot;Вы покинули проект.&quot;);
+});</code></pre>
