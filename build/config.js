@@ -2,6 +2,10 @@
  * Build config
  */
 var config = {
+
+    mainAppConfig: './config.main.json',
+    localAppConfig: './config.local.json',
+
     source: {
         leaflet: {
             deps: require('../vendors/leaflet/build/deps.js').deps,
@@ -41,6 +45,7 @@ var config = {
 
     intro: '(function (window, document, undefined) {\n',
     outro: '}(this, document));\n'
+
 };
 
 exports.config = config;

@@ -21,6 +21,7 @@ var config = require('./config.js').config,
  */
 var modules,
     copyrights,
+    appConfig,
     errors = [];
 
 /**
@@ -39,7 +40,9 @@ var okMsg = clc.xterm(34),
  */
 function getModulesData() {
     var source = config.source,
-        modules = {};
+        modulesData = {};
+
+    appConfig = appConfig || getAppConfig();
 
     for (var creator in source) {
         if (source.hasOwnProperty(creator)) {
@@ -50,11 +53,11 @@ function getModulesData() {
                 if (modulesList.hasOwnProperty(moduleName)) {
                     var moduleConf = modulesList[moduleName];
 
-                    modules[moduleName] = {};
-                    modules[moduleName].js = proccessJs(moduleConf.src, basePath);
-                    modules[moduleName].css = proccessCss(moduleConf.css, basePath);
-                    modules[moduleName].conf = proccessSkinConf(moduleConf.src, basePath);
-                    modules[moduleName].deps = modulesList[moduleName].deps;
+                    modulesData[moduleName] = {};
+                    modulesData[moduleName].js = proccessJs(moduleConf.src, basePath);
+                    modulesData[moduleName].css = proccessCss(moduleConf.css, basePath);
+                    modulesData[moduleName].conf = proccessSkinConf(moduleConf.src, basePath);
+                    modulesData[moduleName].deps = modulesList[moduleName].deps;
 
                     proccessImg();
                 }
@@ -62,7 +65,7 @@ function getModulesData() {
         }
     }
 
-    return modules;
+    return modulesData;
 }
 
 /**
@@ -80,7 +83,8 @@ function proccessJs(srcList, basePath) {
             var srcPath = basePath + srcList[i];
             if (srcPath.indexOf(config.skinVar) < 0) {
                 if (fs.existsSync(srcPath)) {
-                    jsContent[srcPath] = fs.readFileSync(srcPath, 'utf8') + '\n\n';
+                    var jsData = fs.readFileSync(srcPath, 'utf8') + '\n\n';
+                    jsContent[srcPath] = setParams(jsData, appConfig);
                 } else {
                     console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
                 }
@@ -114,7 +118,8 @@ function proccessSkinConf(srcList, basePath) {
                     var skinName = skinsList[j];
                     var skinPath = skinsPath[0] + skinName + skinsPath[1];
                     if (fs.existsSync(skinPath)) {
-                        skinConfContent[skinName] = fs.readFileSync(skinPath, 'utf8') + '\n';
+                        var skinConfData = fs.readFileSync(skinPath, 'utf8') + '\n';
+                        skinConfContent[skinName] = setParams(skinConfData, appConfig);
                     }
                 }
             }
@@ -150,15 +155,17 @@ function proccessCss(srcConf, basePath) {
                         var skinName = skinsList[j];
                         var skinPath = skinsPath[0] + skinName + skinsPath[1];
                         if (fs.existsSync(skinPath)) {
+                            var cssData = fs.readFileSync(skinPath, 'utf8') + '\n';
                             cssContent[skinName] = cssContent[skinName] || {};
                             cssContent[skinName][browser] = cssContent[skinName][browser] || {};
-                            cssContent[skinName][browser][skinPath] = fs.readFileSync(skinPath, 'utf8') + '\n';
+                            cssContent[skinName][browser][skinPath] = setParams(cssData, appConfig);
                         }
                     }
                 } else {
+                    var cssData = fs.readFileSync(srcPath, 'utf8') + '\n';
                     cssContent.basic = cssContent.basic || {};
                     cssContent.basic[browser] = cssContent.basic[browser] || {};
-                    cssContent.basic[browser][srcPath] = fs.readFileSync(srcPath, 'utf8') + '\n';
+                    cssContent.basic[browser][srcPath] = setParams(cssData, appConfig);
                 }
             }
         }
@@ -501,6 +508,55 @@ function lintFiles(modules) {
 
 
 /**
+ * Reeturn actual configuration for replace
+ * @returns {Object} config to replace
+ */
+function getAppConfig() {
+    var mainAppConfig = config.mainAppConfig,
+        localAppConfig = config.localAppConfig;
+
+    if (fs.existsSync(mainAppConfig)) {
+        var configMainFile = fs.readFileSync(mainAppConfig),
+            configMain = JSON.parse(configMainFile);
+
+        if (fs.existsSync(localAppConfig)) {
+            var configLocalFile = fs.readFileSync(localAppConfig),
+                configLocal = JSON.parse(configLocalFile);
+            for (var i in configLocal) {
+                configMain[i] = configLocal[i];
+            }
+        }
+
+        return config;
+    } else {
+        throw new Error("Not search file 'config.main.json' in " + mainAppConfig);
+    }
+
+}
+
+/**
+ * Replaces the content according to the configuration files
+ *
+ * Demo using:
+ *
+ * var config = getMainConfig("./src");
+ * var content = fs.readFileSync("./src/DGLayer/src/DGLayer.js", "utf8");
+ * console.log(setParams(content, config));
+ *
+ * @param {String}  content to replace
+ * @param {Object} config to replace
+ * @returns {String} modified content
+ *
+ */
+function setParams(content, config) {
+    for (var pattern in config ) {
+        content = content.replace("__" + pattern + "__", config[pattern]);
+    }
+    return content;
+}
+
+
+/**
  * Lint (CLI command)
  */
 exports.lint = function() {
@@ -520,7 +576,7 @@ exports.build = function() {
         jsDest = config.js.custom,
         cssDest = config.css.custom,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
-        skin = argv.skin;
+        skin = argv.skin || 'default';
 
     modules = modules || getModulesData();
     copyrights = getCopyrightsData();
