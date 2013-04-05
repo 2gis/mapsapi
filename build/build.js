@@ -512,26 +512,25 @@ function lintFiles(modules) {
  * @returns {Object} config to replace
  */
 function getAppConfig() {
-    var mainAppConfig = config.mainAppConfig,
-        localAppConfig = config.localAppConfig;
+    var mainConfigPath = config.mainAppConfig,
+        localConfigPath = config.localAppConfig,
+        mainConfig,
+        localConfig,
+        key;
 
-    if (fs.existsSync(mainAppConfig)) {
-        var configMainFile = fs.readFileSync(mainAppConfig),
-            configMain = JSON.parse(configMainFile);
-
-        if (fs.existsSync(localAppConfig)) {
-            var configLocalFile = fs.readFileSync(localAppConfig),
-                configLocal = JSON.parse(configLocalFile);
-            for (var i in configLocal) {
-                configMain[i] = configLocal[i];
-            }
-        }
-
-        return configMain;
-    } else {
-        throw new Error("Not search file 'config.main.json' in " + mainAppConfig);
+    if (!fs.existsSync(mainConfigPath)) {
+        throw new Error("Not search file 'config.main.json' in " + mainConfigPath);
     }
 
+        mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
+
+    if (fs.existsSync(localConfigPath)) {
+        localConfig = JSON.parse(fs.readFileSync(localConfigPath));
+        for (key in localConfig) {
+            mainConfig[key] = localConfig[key];
+        }
+    }
+    return mainConfig;
 }
 
 /**
