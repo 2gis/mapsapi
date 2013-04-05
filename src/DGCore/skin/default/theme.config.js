@@ -1,5 +1,10 @@
-var apiTheme = {
-    name: 'classic',
+/**
+ * Classic them config
+ *
+ */
+L.DG = L.DG || {};
+L.DG.configTheme = {
+    name: 'default',
 
     balloonOptions: {
         offset: [139, -17]
