@@ -492,8 +492,7 @@ function getAppConfig() {
         throw new Error("Not search file 'config.main.json' in " + mainConfigPath);
     }
 
-        mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
-
+    mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
     if (fs.existsSync(localConfigPath)) {
         localConfig = JSON.parse(fs.readFileSync(localConfigPath));
         for (key in localConfig) {
