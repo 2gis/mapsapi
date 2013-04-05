@@ -280,7 +280,6 @@ function getModulesList(pkg, isMsg) {
 function makeJSPackage(modulesList, skin, isMsg) {
     var loadedFiles = {},
         countModules = 0,
-        skin = skin || 'default',
         result = '';
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
@@ -301,10 +300,11 @@ function makeJSPackage(modulesList, skin, isMsg) {
                 }
 
                 if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('default')) {
-                    var moduleSkinName = skin || 'default';
+                    var moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : 'default';
                     loadSkinsList.push(moduleSkinName);
                 }
 
+                // Proccess list of skins
                 for (var j = 0, cnt = loadSkinsList.length; j < cnt; j++) {
                     var moduleSkinName = loadSkinsList[j],
                         moduleSkinId = moduleSkinName + ':' + moduleName;
@@ -346,7 +346,6 @@ function makeJSPackage(modulesList, skin, isMsg) {
 function makeCSSPackage(modulesList, skin, isIE, isMsg) {
     var loadedFiles = {},
         countModules = 0,
-        skin = skin || 'default',
         result = '';
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
@@ -356,76 +355,44 @@ function makeCSSPackage(modulesList, skin, isIE, isMsg) {
         if (moduleData && moduleData.css) {
             var moduleSkins = moduleData.css;
 
-            //@TODO NEED REFACTORING :))))
-
-
             if (moduleSkins.hasOwnProperty('basic')) {
-
                 var moduleBrowser = moduleSkins['basic'];
-
-                if (moduleBrowser.hasOwnProperty('all')) {
-                    var moduleSrc = moduleBrowser['all'];
-
-                    countModules++;
-
-                    for (var file in moduleSrc) {
-                        if (moduleSrc.hasOwnProperty(file)) {
-                            if (!loadedFiles[file]) {
-                                result += moduleSrc[file];
-                                loadedFiles[file] = true;
-                            }
-                        }
-                    }
-                }
-
-                if (isIE && moduleBrowser.hasOwnProperty('ie')) {
-                    var moduleSrc = moduleBrowser['ie'];
-                    for (var file in moduleSrc) {
-                        if (moduleSrc.hasOwnProperty(file)) {
-                            if (!loadedFiles[file]) {
-                                result += moduleSrc[file];
-                                loadedFiles[file] = true;
-                            }
-                        }
-                    }
-                }
-
+                proccessBrowsers(moduleBrowser);
+                countModules++;
             }
 
             if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('default')) {
-
-                var skinName = skin || 'default';
+                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : 'default';
                 var moduleBrowser = moduleSkins[skinName];
-
-                if (moduleBrowser.hasOwnProperty('all')) {
-                    var moduleSrc = moduleBrowser['all'];
-                    for (var file in moduleSrc) {
-                        if (moduleSrc.hasOwnProperty(file)) {
-                            if (!loadedFiles[file]) {
-                                result += moduleSrc[file];
-                                loadedFiles[file] = true;
-                            }
-                        }
-                    }
-                }
-
-                if (isIE && moduleBrowser.hasOwnProperty('ie')) {
-                    var moduleSrc = moduleBrowser['ie'];
-                    for (var file in moduleSrc) {
-                        if (moduleSrc.hasOwnProperty(file)) {
-                            if (!loadedFiles[file]) {
-                                result += moduleSrc[file];
-                                loadedFiles[file] = true;
-                            }
-                        }
-                    }
-                }
+                proccessBrowsers(moduleBrowser);
             }
         }
     }
 
     if (isMsg) {
-        console.log('\nConcatenating CSS in ' + countModules + ' modules...\n');
+        console.log('Concatenating CSS in ' + countModules + ' modules...\n');
+    }
+
+    function concatenateFiles(moduleSrc) {
+        for (var file in moduleSrc) {
+            if (moduleSrc.hasOwnProperty(file)) {
+                if (!loadedFiles[file]) {
+                    result += moduleSrc[file];
+                    loadedFiles[file] = true;
+                }
+            }
+        }
+    }
+
+    function proccessBrowsers(moduleBrowser) {
+        if (moduleBrowser.hasOwnProperty('all')) {
+            var moduleSrcAll = moduleBrowser['all'];
+            concatenateFiles(moduleSrcAll);
+        }
+        if (isIE && moduleBrowser.hasOwnProperty('ie')) {
+            var moduleSrcIE = moduleBrowser['ie'];
+            concatenateFiles(moduleSrcIE);
+        }
     }
 
     return result;
@@ -648,8 +615,7 @@ exports.getJS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeJSPackage(modulesList, params.skin);
-    contentRes = minifyJSPackage(contentSrc, params.isDebug);
-    console.log('Run minify JS');
+    contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };
 
@@ -663,6 +629,6 @@ exports.getCSS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE);
-    contentRes = minifyCSSPackage(contentSrc, params.isDebug);
+    contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };
