@@ -55,6 +55,7 @@ module.exports = function (grunt) {
         grunt.log.writeln('\nTasks list:\n');
         grunt.log.writeln('grunt lint     # Check JS files for errors with JSHint');
         grunt.log.writeln('grunt build    # Combine and minify source files');
+        grunt.log.writeln('grunt doc      # Generate documentation from .md files');
         grunt.log.writeln('grunt test     # Rebuild and run unit tests');
     });
 
