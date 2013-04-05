@@ -7,10 +7,10 @@
 
 L.DG = L.DG || {};
 L.DG.TileLayer = L.TileLayer.extend({
-    dgTileLayerUrl: 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+    dgTileLayerUrl: '__TILE_SERVER__',
     options: {
         subdomains: '0123',
-        errorTileUrl: 'http://maps.api.2gis.ru/images/nomap.png'
+        errorTileUrl: '__ERROR_TILE_URL__'
     },
 
     initialize: function () {

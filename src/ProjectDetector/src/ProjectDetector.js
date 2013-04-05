@@ -15,11 +15,11 @@ L.Map.mergeOptions({
 
 L.DG.ProjectDetector = L.Handler.extend({
     options: {
-        url: 'http://catalog.api.2gis.ru/project/list',
+        url: '__WEB_API_SERVER__/project/list',
         data: {
-            key: 'ruxlih0718',
-            version: '1.3',
-            lang: 'ru',
+            key: '__WEB_API_KEY__',
+            version: '__WEB_API_VERSION__',
+            lang: '__DEFAULT_LANG__',
             output: 'jsonp'
         }
     },
