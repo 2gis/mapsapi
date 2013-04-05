@@ -443,6 +443,7 @@ function minifyJSPackage(source, isDebug) {
         return source;
     }
 
+    //@todo async this blocked operation
     var min = uglify.minify(source, {
         warnings: true,
         fromString: true
@@ -462,6 +463,8 @@ function minifyCSSPackage(source, isDebug) {
     if (isDebug) {
         return source;
     }
+
+    //@todo async this blocked operation
     var min = cleanCss.process(source);
 
     return copyrights + min;
