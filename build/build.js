@@ -527,7 +527,7 @@ function getAppConfig() {
             }
         }
 
-        return config;
+        return configMain;
     } else {
         throw new Error("Not search file 'config.main.json' in " + mainAppConfig);
     }
