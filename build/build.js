@@ -649,6 +649,7 @@ exports.getJS = function(params, callback) {
     modulesList = getModulesList(params.pkg);
     contentSrc = makeJSPackage(modulesList, params.skin);
     contentRes = minifyJSPackage(contentSrc, params.isDebug);
+    console.log('Run minify JS');
     callback(contentRes);
 };
 
