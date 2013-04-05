@@ -18,7 +18,6 @@ app.get('/js', function (req, res) {
     };
 
     build.getJS(params, function (data) {
-        res.set('Cache-Control', 'public, max-age=604800');
         res.set('Content-Type', 'application/x-javascript; charset=utf-8');
         res.set('X-Powered-By', '2GIS Maps API Server');
         res.send(data);
@@ -34,7 +33,6 @@ app.get('/css', function(req, res){
     };
 
     build.getCSS(params, function(data) {
-        res.set('Cache-Control', 'public, max-age=604800');
         res.set('Content-Type', 'text/css');
         res.set('X-Powered-By', '2GIS Maps API Server');
         res.send(data);
@@ -51,7 +49,7 @@ console.log('Maps API 2.0 server listening on port 3000');
 function autoUpdate(callback) {
     setInterval(function() {
         exec('git pull', function (error, stdout, stderr) {
-            if (error) { return; }
+            if (error || stderr) { return; }
             if (stdout.indexOf('Already up-to-date') < 0) {
                 callback();
             }

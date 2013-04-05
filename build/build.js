@@ -59,7 +59,6 @@ function getModulesData() {
                     modulesData[moduleName].conf = proccessSkinConf(moduleConf.src, basePath);
                     modulesData[moduleName].deps = modulesList[moduleName].deps;
 
-                    proccessImg();
                 }
             }
         }
@@ -175,8 +174,40 @@ function proccessCss(srcConf, basePath) {
 }
 
 
+//@TODO Refactoring
 
-function proccessImg() {
+function copyImages() {
+    var source = config.source;
+    var exec = require('child_process').exec;
+
+    for (var creator in source) {
+        if (source.hasOwnProperty(creator)) {
+            var basePath = source[creator].path;
+            var modulesList = fs.readdirSync(basePath);
+
+            for (var i = 0, count = modulesList.length; i < count; i++) {
+                var moduleName = modulesList[i];
+                var skinsPath = basePath + moduleName + '/skin/';
+                if (fs.existsSync(skinsPath)) {
+                    var skinsList = fs.readdirSync(skinsPath);
+
+                    for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
+                        var skinName = skinsList[j];
+                        var skinImgPath = skinsPath + skinName + '/img';
+                        if (fs.existsSync(skinImgPath)) {
+                            exec('cp -R ' + skinImgPath + '/ ./public/img/ ', function (error, stdout, stderr) {
+                                console.log('stdout: ' + stdout);
+                                console.log('stderr: ' + stderr);
+                                if (error !== null) {
+                                    console.log('exec error: ' + error);
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }
 
@@ -555,6 +586,8 @@ exports.build = function() {
         cssDest = config.css.public;
         console.log('Build public GitHub full package!\n');
     }
+
+    copyImages();
 
     console.log('Skin: ' + skin + '\n');
 
