@@ -111,12 +111,12 @@ function proccessSkinConf(srcList, basePath) {
             var srcPath = basePath + srcList[i];
 
             if (srcPath.indexOf(skinVar) > 0) {
-                var skinsPath = srcPath.split(skinVar);
-                var skinsList = fs.readdirSync(skinsPath[0]);
+                var skinsPath = srcPath.split(skinVar),
+                    skinsList = fs.readdirSync(skinsPath[0]);
 
                 for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-                    var skinName = skinsList[j];
-                    var skinPath = skinsPath[0] + skinName + skinsPath[1];
+                    var skinName = skinsList[j],
+                        skinPath = skinsPath[0] + skinName + skinsPath[1];
                     if (fs.existsSync(skinPath)) {
                         var skinConfData = fs.readFileSync(skinPath, 'utf8') + '\n';
                         skinConfContent[skinName] = setParams(skinConfData, appConfig);
@@ -148,12 +148,12 @@ function proccessCss(srcConf, basePath) {
                 var srcPath = basePath + browserCssList[i];
 
                 if (srcPath.indexOf(skinVar) > 0) {
-                    var skinsPath = srcPath.split(skinVar);
-                    var skinsList = fs.readdirSync(skinsPath[0]);
+                    var skinsPath = srcPath.split(skinVar),
+                        skinsList = fs.readdirSync(skinsPath[0]);
 
                     for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-                        var skinName = skinsList[j];
-                        var skinPath = skinsPath[0] + skinName + skinsPath[1];
+                        var skinName = skinsList[j],
+                            skinPath = skinsPath[0] + skinName + skinsPath[1];
                         if (fs.existsSync(skinPath)) {
                             var cssData = fs.readFileSync(skinPath, 'utf8') + '\n';
                             cssContent[skinName] = cssContent[skinName] || {};
@@ -182,12 +182,12 @@ function copyImages() {
 
     for (var creator in source) {
         if (source.hasOwnProperty(creator)) {
-            var basePath = source[creator].path;
-            var modulesList = fs.readdirSync(basePath);
+            var basePath = source[creator].path,
+                modulesList = fs.readdirSync(basePath);
 
             for (var i = 0, count = modulesList.length; i < count; i++) {
-                var moduleName = modulesList[i];
-                var skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
+                var moduleName = modulesList[i],
+                    skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
                 if (fs.existsSync(skinsPath)) {
                     var skinsList = fs.readdirSync(skinsPath);
                     if (skinsList) {
@@ -200,8 +200,8 @@ function copyImages() {
 
     function proccessSkins(skinsList) {
         for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-            var skinName = skinsList[j];
-            var skinImgPath = skinsPath + skinName + '/' + config.img.dir;
+            var skinName = skinsList[j],
+                skinImgPath = skinsPath + skinName + '/' + config.img.dir;
             if (fs.existsSync(skinImgPath)) {
                 var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
                 exec(command, function (error, stdout, stderr) {
