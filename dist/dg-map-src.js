@@ -8431,6 +8431,49 @@ L.Map.include({
 
 
 /**
+ * Classic them config
+ *
+ */
+L.DG = L.DG || {};
+L.DG.configTheme = {
+    name: 'default',
+
+    balloonOptions: {
+        offset: [139, -17]
+    },
+
+    markersData: {
+        defaultMarker: {
+            iconSize: [16, 24],
+            popupAnchor: [26, 27],
+            animation: true
+        }
+    },
+
+    controls: {
+        zoom: {
+            position: 'topleft'
+        },
+        whereami: {
+            position: 'topright'
+        }
+    }
+};
+/**
+ * Leaflet DG Core
+ * Version 1.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Dima Rudenko
+ */
+
+L.Map.addInitHook(function () {
+    this.dgConfigTheme = L.DG.configTheme;
+});
+
+
+
+
+/**
  * Leaflet DG TileLayer
  * Version 1.0.0
  *
@@ -8439,7 +8482,7 @@ L.Map.include({
 
 L.DG = L.DG || {};
 L.DG.TileLayer = L.TileLayer.extend({
-    dgTileLayerUrl: 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+    dgTileLayerUrl: 'http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1',
     options: {
         subdomains: '0123',
         errorTileUrl: 'http://maps.api.2gis.ru/images/nomap.png'
@@ -8586,7 +8629,7 @@ L.DG.ProjectDetector = L.Handler.extend({
     options: {
         url: 'http://catalog.api.2gis.ru/project/list',
         data: {
-            key: 'ruxlih0718',
+            key: 'rujrdp3400',
             version: '1.3',
             lang: 'ru',
             output: 'jsonp'
@@ -8765,5 +8808,49 @@ L.Map.addInitHook(function () {
         this.locale = new L.DG.Localization(this);
     }
 });
+
+/**
+ * Leaflet DG ControlZoom
+ * Version 1.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Dima Rudenko
+ */
+
+L.DG = L.DG || {};
+L.DG.ControlZoom = L.Control.Zoom.extend({
+    initialize: function () {
+        L.Control.prototype.initialize.call(this);
+    },
+
+    onAdd: function (map) {
+        var zoomName = 'dg-zoom',
+            container = L.DomUtil.create('div', zoomName + ' leaflet-bar');
+
+        this._map = map;
+
+        this._zoomInButton = this._createButton(
+            '+', 'Zoom in', zoomName + '-in', container, this._zoomIn, this);
+        this._zoomOutButton = this._createButton(
+            '-', 'Zoom out', zoomName + '-out', container, this._zoomOut, this);
+
+        map.on('zoomend zoomlevelschange', this._updateDisabled, this);
+
+        return container;
+    }
+});
+
+L.Map.mergeOptions({
+    zoomControl: false
+});
+
+L.Map.addInitHook(function () {
+    this.dgZoomControl = new L.DG.ControlZoom();
+    this.addControl(this.dgZoomControl);
+
+});
+
+L.DG.controlZoom = function (options) {
+    return new L.DG.ControlZoom(options);
+};
 
 }(this, document));
