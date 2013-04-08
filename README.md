@@ -28,7 +28,7 @@ npm install -g grunt-cli
 npm install
 ```
 
-## Работа с приложением
+## Работа с CLI приложением
 
 ### Получить список всех доступных команд
 
@@ -234,3 +234,22 @@ grunt test --ff --chrome
     --opera     Opera
     --safari    Safari
     --ie        IE (only Windows)
+    
+## Работа с WEB приложением
+
+### Запуск
+
+```bash
+node app
+```
+
+Результат:
+
+```bash
+Load source files successfully completed
+Maps API 2.0 server listening on port 3000
+```
+
+После запуска приложение доступно по локальному адресу
+
+    http://127.0.0.1:3000/
