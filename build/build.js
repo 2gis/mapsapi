@@ -10,7 +10,8 @@ var fs = require('fs'),
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
-    clc = require('cli-color');
+    clc = require('cli-color'),
+    exec = require('child_process').exec;
 
 var config = require('./config.js').config,
     packages = require('./packs.js').packages,
@@ -80,7 +81,7 @@ function proccessJs(srcList, basePath) {
     if (srcList) {
         for (var i = 0, count = srcList.length; i < count; i++) {
             var srcPath = basePath + srcList[i];
-            if (srcPath.indexOf(config.skinVar) < 0) {
+            if (srcPath.indexOf(config.skin.var) < 0) {
                 if (fs.existsSync(srcPath)) {
                     var jsData = fs.readFileSync(srcPath, 'utf8') + '\n\n';
                     jsContent[srcPath] = setParams(jsData, appConfig);
@@ -103,7 +104,7 @@ function proccessJs(srcList, basePath) {
  */
 function proccessSkinConf(srcList, basePath) {
     var skinConfContent = {},
-        skinVar = config.skinVar;
+        skinVar = config.skin.var;
 
     if (srcList) {
         for (var i = 0, count = srcList.length; i < count; i++) {
@@ -137,7 +138,7 @@ function proccessSkinConf(srcList, basePath) {
  */
 function proccessCss(srcConf, basePath) {
     var cssContent = {},
-        skinVar = config.skinVar;
+        skinVar = config.skin.var;
 
     for (var browser in srcConf) {
         if (srcConf.hasOwnProperty(browser)) {
@@ -174,11 +175,10 @@ function proccessCss(srcConf, basePath) {
 }
 
 
-//@TODO Refactoring
-
 function copyImages() {
     var source = config.source;
-    var exec = require('child_process').exec;
+
+    cleanImgDir();
 
     for (var creator in source) {
         if (source.hasOwnProperty(creator)) {
@@ -187,23 +187,43 @@ function copyImages() {
 
             for (var i = 0, count = modulesList.length; i < count; i++) {
                 var moduleName = modulesList[i];
-                var skinsPath = basePath + moduleName + '/skin/';
+                var skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
                 if (fs.existsSync(skinsPath)) {
                     var skinsList = fs.readdirSync(skinsPath);
-
-                    for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-                        var skinName = skinsList[j];
-                        var skinImgPath = skinsPath + skinName + '/img';
-                        if (fs.existsSync(skinImgPath)) {
-                            exec('cp -R ' + skinImgPath + '/ ./public/img/ ', function (error, stdout, stderr) {
-                                if (error !== null) {
-                                    console.log('Error copy file! ' + error);
-                                }
-                            });
-                        }
+                    if (skinsList) {
+                        proccessSkins(skinsList);
                     }
                 }
             }
+        }
+    }
+
+    function proccessSkins(skinsList) {
+        for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
+            var skinName = skinsList[j];
+            var skinImgPath = skinsPath + skinName + '/' + config.img.dir;
+            if (fs.existsSync(skinImgPath)) {
+                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
+                exec(command, function (error, stdout, stderr) {
+                    if (error !== null || stderr !== null) {
+                        console.log(errMsg('Error copy image! ' + error));
+                        errors.push('Copy img');
+                    }
+                });
+            }
+        }
+    }
+
+    function cleanImgDir() {
+        var publicImgPath = config.img.dest;
+        if (fs.existsSync(publicImgPath)) {
+            var command = 'rm -rf ' + publicImgPath;
+            exec(command, function (error, stdout, stderr) {
+                if (error !== null || stderr !== null) {
+                    console.log(errMsg('Error delete public images dir! ' + error));
+                    errors.push('Clean img folder');
+                }
+            });
         }
     }
 
@@ -303,6 +323,7 @@ function getModulesList(pkg, isMsg) {
  * Generates build content
  *
  * @param {Array} modulesList
+ * @param {String} skin  Set skin for builder
  * @param {Boolean} isMsg  Show messages on run CLI mode
  * @returns {String}
  */

@@ -39,7 +39,15 @@ var config = {
         }
     },
 
-    skinVar: '{skin}',
+    img: {
+        dir: 'img',
+        dest: './public/img/'
+    },
+
+    skin: {
+        var: '{skin}',
+        dir: 'skin'
+    },
 
     copyrights: ['./vendors/leaflet/src/copyright.js'],
 
