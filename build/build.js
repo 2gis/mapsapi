@@ -196,10 +196,8 @@ function copyImages() {
                         var skinImgPath = skinsPath + skinName + '/img';
                         if (fs.existsSync(skinImgPath)) {
                             exec('cp -R ' + skinImgPath + '/ ./public/img/ ', function (error, stdout, stderr) {
-                                console.log('stdout: ' + stdout);
-                                console.log('stderr: ' + stderr);
                                 if (error !== null) {
-                                    console.log('exec error: ' + error);
+                                    console.log('Error copy file! ' + error);
                                 }
                             });
                         }
