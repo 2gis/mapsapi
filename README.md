@@ -189,13 +189,21 @@ Build modules:
   * JSONP
   * ProjectDetector
   * Localization
+  * DGControlZoom
 
-Concatenating 41 modules...
+Concatenating JS in 42 modules...
 
-Compressing...
+Concatenating CSS in 2 modules...
 
-Uncompressed size: 206.3 KB
-Compressed size:   115.6 KB
+Compressing JS...
+
+   Uncompressed size: 208.0 KB
+   Compressed size:   116.6 KB
+
+Compressing CSS...
+
+   Uncompressed size: 15.4 KB
+   Compressed size:   12.2 KB
 
 Build successfully completed!
 ```
