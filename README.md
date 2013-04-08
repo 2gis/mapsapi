@@ -11,11 +11,8 @@ DG MAPS API 2.0
 
 Приложение имеет следующие зависимости:
 
-1. [Node.js]
-2. [PhantomJS (не обязательно, только для запуска unit тестов)]
-
-[Node.js]: http://nodejs.org/
-[PhantomJS (не обязательно, только для запуска unit тестов)]: http://phantomjs.org/download.html
+1. [Node.js](http://nodejs.org/)
+2. [PhantomJS](http://phantomjs.org/download.html) (не обязательно, только для запуска unit тестов)
 
 Подробно про установку окружения: [Installation environment]
 
@@ -250,8 +247,6 @@ Load source files successfully completed
 Maps API 2.0 server listening on port 3000
 ```
 
-После запуска приложение доступно по локальному адресу
-
-    [http://127.0.0.1:3000/]
+После запуска приложение доступно по локальному адресу:
     
-[http://127.0.0.1:3000/]: http://127.0.0.1:3000/
+[http://127.0.0.1:3000/](http://127.0.0.1:3000/)
