@@ -17,7 +17,7 @@ L.DG.ControlZoom = L.Control.Zoom.extend({
 
     onAdd: function (map) {
         var zoomName = 'dg-zoom',
-            container = L.DomUtil.create('div', zoomName + ' leaflet-bar');
+            container = L.DomUtil.create('div', zoomName);
 
         this._map = map;
 
