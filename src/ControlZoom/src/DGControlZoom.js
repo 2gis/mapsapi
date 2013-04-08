@@ -7,6 +7,10 @@
 
 L.DG = L.DG || {};
 L.DG.ControlZoom = L.Control.Zoom.extend({
+    options: {
+        position: L.DG.configTheme.controls.zoom.position
+    },
+
     initialize: function () {
         L.Control.prototype.initialize.call(this);
     },
@@ -18,9 +22,9 @@ L.DG.ControlZoom = L.Control.Zoom.extend({
         this._map = map;
 
         this._zoomInButton = this._createButton(
-            '+', 'Zoom in', zoomName + '-in', container, this._zoomIn, this);
+            '+', 'Zoom in', zoomName + '__in', container, this._zoomIn, this);
         this._zoomOutButton = this._createButton(
-            '-', 'Zoom out', zoomName + '-out', container, this._zoomOut, this);
+            '-', 'Zoom out', zoomName + '__out', container, this._zoomOut, this);
 
         map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 

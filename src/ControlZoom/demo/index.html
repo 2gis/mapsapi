@@ -11,14 +11,17 @@
     <!--[if lte IE 8]>
     <link rel="stylesheet" href="../../../vendors/leaflet/dist/leaflet.ie.css"/><![endif]-->
 
-
+    <script src="../../DGCore/skin/basic/css/leaflet-reset.css"></script>
+    <link rel="stylesheet" href="../skin/default/zoom.css" media="all"/>
+    <link rel="stylesheet" href="../skin/default/map.css" media="all"/>
+    <script src="../../DGCore/skin/default/theme.config.js"></script>
     <script src="../src/DGControlZoom.js"></script>
 
 </head>
 <body>
 
 
-<div id="map" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
+<div id="map" class="dg-map__inner" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
 
 <script type="text/javascript">
     var currentProjectBound;

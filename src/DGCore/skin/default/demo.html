@@ -59,7 +59,7 @@
              * Init theme
              */
             init: function(mapId) {
-                this.theme = apiTheme;
+                this.theme = L.DG.configTheme;
                 this.initMap(mapId);
 
                 this.initZoomControl();
@@ -106,8 +106,8 @@
 
                     onAdd: function() {
                         var zoomContainer   = L.DomUtil.create('div', 'dg-zoom'),
-                            zoomIn          = L.DomUtil.create('div', 'dg-zoom__btn dg-zoom__in', zoomContainer),
-                            zoomOut         = L.DomUtil.create('div', 'dg-zoom__btn dg-zoom__out', zoomContainer);
+                            zoomIn          = L.DomUtil.create('div', 'dg-zoom__in', zoomContainer),
+                            zoomOut         = L.DomUtil.create('div', 'dg-zoom__out', zoomContainer);
 
                         // Add labels
                         zoomIn.innerHTML = '+';
