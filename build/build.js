@@ -204,7 +204,7 @@ function copyImages() {
             var skinName = skinsList[j],
                 skinImgPath = skinsPath + skinName + '/' + config.img.dir;
             if (fs.existsSync(skinImgPath)) {
-                var command = 'cp -R ' + skinImgPath + '/* ' + config.img.dest + '*';
+                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
                 exec(command, function (error, stdout, stderr) {
                     if (error !== null || stderr !== null) {
                         console.log(errMsg('Error copy image! ' + error));
