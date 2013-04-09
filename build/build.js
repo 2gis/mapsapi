@@ -37,7 +37,8 @@ var okMsg = clc.xterm(34),
  * Get content of source files all modules
  * For best performance must run only 1 time on start app or run CLI script
  *
- * @returns {Object}
+ * @return {Object}
+ *
  */
 function getModulesData() {
     var source = config.source,
@@ -287,20 +288,7 @@ function getModulesList(pkg, isMsg) {
         var moduleName = modulesListOrig[i];
 
         if (modules.hasOwnProperty(moduleName)) {
-            if (modules[moduleName].deps) {
-                var moduleDeps = modules[moduleName].deps;
-                for (var j = 0, cnt = moduleDeps.length; j < cnt; j++) {
-                    var moduleNameDeps = moduleDeps[j];
-                    if (!loadedModules[moduleNameDeps]) {
-                        modulesListRes.push(moduleNameDeps);
-                        loadedModules[moduleNameDeps] = true;
-                        if (isMsg) {
-                            console.log(depsMsg('  + ' + moduleNameDeps + ' (deps of ' + moduleName + ')'));
-                        }
-                    }
-                }
-            }
-
+            getDepsList(moduleName);
             if (!loadedModules[moduleName]) {
                 modulesListRes.push(moduleName);
                 loadedModules[moduleName] = true;
@@ -312,6 +300,25 @@ function getModulesList(pkg, isMsg) {
             if (isMsg) {
                 console.log(errMsg('  - ' + moduleName + ' (not found)'));
                 errors.push('Unknown modules');
+            }
+        }
+    }
+
+    function getDepsList(moduleName) {
+        if (modules[moduleName] && modules[moduleName].deps) {
+            var moduleDeps = modules[moduleName].deps;
+            for (var i = 0, count = moduleDeps.length; i < count; i++) {
+                var moduleNameDeps = moduleDeps[i];
+                if (modules[moduleNameDeps] && modules[moduleNameDeps].deps) {
+                    getDepsList(moduleNameDeps);
+                }
+                if (!loadedModules[moduleNameDeps]) {
+                    modulesListRes.push(moduleNameDeps);
+                    loadedModules[moduleNameDeps] = true;
+                    if (isMsg) {
+                        console.log(depsMsg('  + ' + moduleNameDeps + ' (deps of ' + moduleName + ')'));
+                    }
+                }
             }
         }
     }
