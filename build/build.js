@@ -11,25 +11,22 @@ var fs = require('fs'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
-    exec = require('child_process').exec;
-
-var config = require('./config.js').config,
+    exec = require('child_process').exec,
+    appConfig = require('./config.js').config,
     packages = require('./packs.js').packages,
-    hint = require('./hintrc.js');
-
-/**
- * Global data stores
- */
-var modules,
+    hint = require('./hintrc.js'),
+    /**
+     * Global data stores
+     */
+    modules,
     copyrights,
     appConfig,
-    errors = [];
-
-/**
- * CLI colors theme settings
- * See: https://github.com/medikoo/cli-color
- */
-var okMsg = clc.xterm(34),
+    errors = [],
+    /**
+     * CLI colors theme settings
+     * See: https://github.com/medikoo/cli-color
+     */
+    okMsg = clc.xterm(34),
     errMsg = clc.xterm(9),
     depsMsg = clc.xterm(27);
 
