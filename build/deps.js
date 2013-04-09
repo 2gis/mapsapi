@@ -3,8 +3,7 @@ var deps = {
     DGCore: {
         desc: 'Main DG module.',
         src: [
-            'DGCore/skin/{skin}/theme.config.js',
-            'DGCore/src/DGCore.js'
+            'DGCore/skin/{skin}/theme.config.js'
         ],
         css: {
             all: [
@@ -43,7 +42,10 @@ var deps = {
 
     DGControlZoom :{
         desc: '2GIS control zoom.',
-        src: ['ControlZoom/src/DGControlZoom.js'],
+        src: ['DGControlZoom/src/DGControlZoom.js'],
+        css: {
+            all: ['DGControlZoom/skin/{skin}/zoom.css']
+        },
         deps: ['ControlZoom']
     }
 
