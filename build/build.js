@@ -34,7 +34,7 @@ var fs = require('fs'),
  * Get content of source files all modules
  * For best performance must run only 1 time on start app or run CLI script
  *
- * @return {Object} Return list of modules with some content:
+ * @return {Object} Return list of modules with some data:
  *
  * {
  *   js: {
@@ -93,7 +93,7 @@ function getModulesData() {
  *
  * @param {Array} srcList  List of path to JS files
  * @param {String} basePath  Base path of JS files
- * @returns {Object}
+ * @return {Object}
  */
 function processJs(srcList, basePath) {
     var jsContent = {};
@@ -120,7 +120,7 @@ function processJs(srcList, basePath) {
  *
  * @param {Array} srcList  List of path to JS files
  * @param {String} basePath  Base path of JS files
- * @returns {Object}
+ * @return {Object}
  */
 function processSkinConf(srcList, basePath) {
     var skinConfContent = {},
@@ -154,7 +154,7 @@ function processSkinConf(srcList, basePath) {
  *
  * @param {Object} srcConf  Config of path to CSS files
  * @param {String} basePath  Base path of CSS files
- * @returns {Object}
+ * @return {Object}
  */
 function processCss(srcConf, basePath) {
     var cssContent = {},
@@ -253,7 +253,7 @@ function copyImages() {
  * Get content of source files all copyrights
  * Must run only 1 time on start app or run CLI script
  *
- * @returns {String}
+ * @return {String}
  */
 function getCopyrightsData() {
     var source = config.js.copyrights,
@@ -271,7 +271,7 @@ function getCopyrightsData() {
  *
  * @param {String|Null} pkg  Name of package, module or list of modules
  * @param {Boolean} isMsg  Show messages on run CLI mode
- * @returns {Array}
+ * @return {Array}
  */
 function getModulesList(pkg, isMsg) {
     var modulesListOrig = [],
@@ -351,7 +351,7 @@ function getModulesList(pkg, isMsg) {
  * @param {Array} modulesList
  * @param {String} skin  Set skin for builder
  * @param {Boolean} isMsg  Show messages on run CLI mode
- * @returns {String}
+ * @return {String}
  */
 function makeJSPackage(modulesList, skin, isMsg) {
     var loadedFiles = {},
@@ -417,7 +417,7 @@ function makeJSPackage(modulesList, skin, isMsg) {
  * @param {String} skin
  * @param {Boolean} isIE
  * @param {Boolean} isMsg  Show messages on run CLI mode
- * @returns {String}
+ * @return {String}
  */
 function makeCSSPackage(modulesList, skin, isIE, isMsg) {
     var loadedFiles = {},
@@ -555,7 +555,7 @@ function lintFiles(modules) {
 
 /**
  * Reeturn actual configuration for replace
- * @returns {Object} config to replace
+ * @return {Object} config to replace
  */
 function getAppConfig() {
     var mainConfigPath = config.mainAppConfig,
@@ -589,7 +589,7 @@ function getAppConfig() {
  *
  * @param {String}  content to replace
  * @param {Object} config to replace
- * @returns {String} modified content
+ * @return {String} modified content
  *
  */
 function setParams(content, config) {
