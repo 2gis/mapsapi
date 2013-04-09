@@ -44,11 +44,11 @@ var fs = require('fs'),
  *   css: {
  *       basic: {
  *           all: {
- *               './path/to/skin/css/Style1.css': 'Style1.css file connent...',
- *               './path/to/skin/css/Style2.css': 'Style2.css file connent...'
+ *               './path/to/skin/basic/css/Style1.css': 'Style1.css file connent...',
+ *               './path/to/skin/basic/css/Style2.css': 'Style2.css file connent...'
  *           },
  *           ie: {
- *               './path/to/skin/css/Style1-ie.css': 'Style1-ie.css file connent...'
+ *               './path/to/skin/basic/css/Style1-ie.css': 'Style1-ie.css file connent...'
  *           }
  *       }
  *   },
