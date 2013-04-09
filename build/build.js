@@ -37,11 +37,11 @@ var fs = require('fs'),
  * @return {Object} Return list of modules with some data:
  *
  * {
- *   js: {
+ *    js: {
  *       './path/to/src/Script1.js': 'Script1.js file connent...',
  *       './path/to/src/Script2.js': 'Script2.js file connent...'
- *   },
- *   css: {
+ *    },
+ *    css: {
  *       basic: {
  *           all: {
  *               './path/to/skin/basic/css/Style1.css': 'Style1.css file connent...',
@@ -51,11 +51,11 @@ var fs = require('fs'),
  *               './path/to/skin/basic/css/Style1-ie.css': 'Style1-ie.css file connent...'
  *           }
  *       }
- *   },
- *   conf: {
+ *    },
+ *    conf: {
  *       './path/to/skin/Config.js': 'Config.js file connent...'
- *   },
- *   deps: [ 'Module3, Module4' ]
+ *    },
+ *    deps: [ 'Module3, Module4' ]
  * }
  *
  */
