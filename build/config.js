@@ -50,8 +50,8 @@ var config = {
     },
 
     skin: {
-        var: '{skin}',
-        dir: 'skin'
+        dir: 'skin',
+        var: '{skin}'
     }
 
 };
