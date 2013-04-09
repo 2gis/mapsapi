@@ -25,6 +25,7 @@
     .dg-zoom__out {
         background: url(./images/zoom_sprite.png) -20px 0 no-repeat;
         cursor: pointer;
+        display: block;
         height: 20px;
         overflow: hidden;
         text-indent: -999px;
