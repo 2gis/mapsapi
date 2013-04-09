@@ -55,9 +55,9 @@ function getModulesData() {
                     var moduleConf = modulesList[moduleName];
 
                     modulesData[moduleName] = {};
-                    modulesData[moduleName].js = proccessJs(moduleConf.src, basePath);
-                    modulesData[moduleName].css = proccessCss(moduleConf.css, basePath);
-                    modulesData[moduleName].conf = proccessSkinConf(moduleConf.src, basePath);
+                    modulesData[moduleName].js = processJs(moduleConf.src, basePath);
+                    modulesData[moduleName].css = processCss(moduleConf.css, basePath);
+                    modulesData[moduleName].conf = processSkinConf(moduleConf.src, basePath);
                     modulesData[moduleName].deps = modulesList[moduleName].deps;
 
                 }
@@ -75,7 +75,7 @@ function getModulesData() {
  * @param {String} basePath  Base path of JS files
  * @returns {Object}
  */
-function proccessJs(srcList, basePath) {
+function processJs(srcList, basePath) {
     var jsContent = {};
 
     if (srcList) {
@@ -102,7 +102,7 @@ function proccessJs(srcList, basePath) {
  * @param {String} basePath  Base path of JS files
  * @returns {Object}
  */
-function proccessSkinConf(srcList, basePath) {
+function processSkinConf(srcList, basePath) {
     var skinConfContent = {},
         skinVar = config.skin.var;
 
@@ -136,7 +136,7 @@ function proccessSkinConf(srcList, basePath) {
  * @param {String} basePath  Base path of CSS files
  * @returns {Object}
  */
-function proccessCss(srcConf, basePath) {
+function processCss(srcConf, basePath) {
     var cssContent = {},
         skinVar = config.skin.var;
 
@@ -191,14 +191,14 @@ function copyImages() {
                 if (fs.existsSync(skinsPath)) {
                     var skinsList = fs.readdirSync(skinsPath);
                     if (skinsList) {
-                        proccessSkins(skinsList);
+                        processSkins(skinsList);
                     }
                 }
             }
         }
     }
 
-    function proccessSkins(skinsList) {
+    function processSkins(skinsList) {
         for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
             var skinName = skinsList[j],
                 skinImgPath = skinsPath + skinName + '/' + config.img.dir;
@@ -354,7 +354,7 @@ function makeJSPackage(modulesList, skin, isMsg) {
                     loadSkinsList.push(moduleSkinName);
                 }
 
-                // Proccess list of skins
+                // process list of skins
                 for (var j = 0, cnt = loadSkinsList.length; j < cnt; j++) {
                     var moduleSkinName = loadSkinsList[j],
                         moduleSkinId = moduleSkinName + ':' + moduleName;
@@ -407,14 +407,14 @@ function makeCSSPackage(modulesList, skin, isIE, isMsg) {
 
             if (moduleSkins.hasOwnProperty('basic')) {
                 var moduleBrowser = moduleSkins['basic'];
-                proccessBrowsers(moduleBrowser);
+                processBrowsers(moduleBrowser);
                 countModules++;
             }
 
             if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('default')) {
                 var skinName = moduleSkins.hasOwnProperty(skin) ? skin : 'default';
                 var moduleBrowser = moduleSkins[skinName];
-                proccessBrowsers(moduleBrowser);
+                processBrowsers(moduleBrowser);
             }
         }
     }
@@ -434,7 +434,7 @@ function makeCSSPackage(modulesList, skin, isIE, isMsg) {
         }
     }
 
-    function proccessBrowsers(moduleBrowser) {
+    function processBrowsers(moduleBrowser) {
         if (moduleBrowser.hasOwnProperty('all')) {
             var moduleSrcAll = moduleBrowser['all'];
             concatenateFiles(moduleSrcAll);
