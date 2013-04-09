@@ -288,8 +288,8 @@ function getModulesList(pkg, isMsg) {
         var moduleName = modulesListOrig[i];
 
         if (modules.hasOwnProperty(moduleName)) {
-            getDepsList(moduleName);
             if (!loadedModules[moduleName]) {
+                getDepsList(moduleName);
                 modulesListRes.push(moduleName);
                 loadedModules[moduleName] = true;
                 if (isMsg) {
