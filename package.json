@@ -25,7 +25,6 @@
         "jshint": "*",
         "optimist": "*",
         "cli-color": "*",
-        "marked": "*",
-        "wrench": "*"
+        "marked": "*"
     }
 }

@@ -205,7 +205,13 @@ function copyImages() {
             var skinName = skinsList[j],
                 skinImgPath = skinsPath + skinName + '/' + config.img.dir;
             if (fs.existsSync(skinImgPath)) {
-                wrench.copyDirSyncRecursive(skinImgPath, config.img.dest);
+                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
+                exec(command, function (error, stdout, stderr) {
+                    if (error !== null || stderr !== null) {
+                        console.log(errMsg('Error copy image! ' + error));
+                        errors.push('Copy img');
+                    }
+                });
             }
         }
     }
@@ -213,7 +219,13 @@ function copyImages() {
     function cleanImgDir() {
         var publicImgPath = config.img.dest;
         if (fs.existsSync(publicImgPath)) {
-            wrench.rmdirSyncRecursive(publicImgPath);
+            var command = 'rm -rf ' + publicImgPath;
+            exec(command, function (error, stdout, stderr) {
+                if (error !== null || stderr !== null) {
+                    console.log(errMsg('Error delete public images dir! ' + error));
+                    errors.push('Clean img folder');
+                }
+            });
         }
     }
 
