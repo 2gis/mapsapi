@@ -34,7 +34,29 @@ var fs = require('fs'),
  * Get content of source files all modules
  * For best performance must run only 1 time on start app or run CLI script
  *
- * @return {Object}
+ * @return {Object} Return list of modules with some content:
+ *
+ * {
+ *   js: {
+ *       './path/to/src/Script1.js': 'Script1.js file connent...',
+ *       './path/to/src/Script2.js': 'Script2.js file connent...'
+ *   },
+ *   css: {
+ *       basic: {
+ *           all: {
+ *               './path/to/skin/css/Style1.css': 'Style1.css file connent...',
+ *               './path/to/skin/css/Style2.css': 'Style2.css file connent...'
+ *           },
+ *           ie: {
+ *               './path/to/skin/css/Style1-ie.css': 'Style1-ie.css file connent...'
+ *           }
+ *       }
+ *   },
+ *   conf: {
+ *       './path/to/skin/Config.js': 'Config.js file connent...'
+ *   },
+ *   deps: [ 'Module3, Module4' ]
+ * }
  *
  */
 function getModulesData() {
