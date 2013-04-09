@@ -25,7 +25,12 @@ var config = {
         custom: {
             src: './dist/dg-map-custom-src.js',
             min: './dist/dg-map-custom.js'
-        }
+        },
+
+        copyrights: ['./vendors/leaflet/src/copyright.js'],
+
+        intro: '(function (window, document, undefined) {\n',
+        outro: '}(this, document));\n'
     },
 
     css: {
@@ -47,12 +52,7 @@ var config = {
     skin: {
         var: '{skin}',
         dir: 'skin'
-    },
-
-    copyrights: ['./vendors/leaflet/src/copyright.js'],
-
-    intro: '(function (window, document, undefined) {\n',
-    outro: '}(this, document));\n'
+    }
 
 };
 

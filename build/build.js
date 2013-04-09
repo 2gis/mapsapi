@@ -237,7 +237,7 @@ function copyImages() {
  * @returns {String}
  */
 function getCopyrightsData() {
-    var source = config.copyrights,
+    var source = config.js.copyrights,
         copyrights = '';
 
     for (var i = 0, count = source.length; i < count; i++) {
@@ -388,7 +388,7 @@ function makeJSPackage(modulesList, skin, isMsg) {
         console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
     }
 
-    return copyrights + config.intro + result + config.outro;
+    return copyrights + config.js.intro + result + config.js.outro;
 }
 
 /**
