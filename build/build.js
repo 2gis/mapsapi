@@ -12,7 +12,7 @@ var fs = require('fs'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
     exec = require('child_process').exec,
-    appConfig = require('./config.js').config,
+    config = require('./config.js').config,
     packages = require('./packs.js').packages,
     hint = require('./hintrc.js'),
     /**
