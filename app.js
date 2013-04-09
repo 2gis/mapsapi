@@ -1,51 +1,61 @@
+/**
+ * Web app of 2GIS Maps API 2.0
+ *
+ * Version 2.0.0
+ *
+ * Copyright (c) 2013, 2GIS
+ */
 var express = require('express'),
-    exec = require('child_process').exec;
-
-var build = require('./build/build.js');
+    exec = require('child_process').exec,
+    build = require('./build/build.js'),
+    app = express();
 
 build.init();
 
-var app = express();
-
+/**
+ * App settings
+ */
 app.use(express.static(__dirname + '/public'));
 
-app.get('/js', function (req, res) {
-    var params = {
-        pkg: req.query.load || null,
-        skin: req.query.skin,
-        isDebug: req.query.mode === 'debug',
-        isIE: req.query.ie || false
+/**
+ * Routes
+ */
+app.all(/^\/(js|css)$/, function(req, resp, next) {
+    req.params.pkg = req.query.load || null;
+    req.params.isDebug = req.query.mode === 'debug';
+    req.params.skin = req.query.skin;
+    req.params.isIE = req.query.ie || false;
+    var contentType = req.path == '/js' ? 'application/x-javascript; charset=utf-8' : 'text/css';
+    req.callback = function(response, data) {
+        response.set('Cache-Control', 'public, max-age=604800');
+        response.set('X-Powered-By', '2GIS Maps API Server');
+        response.set('Content-Type', contentType);
+        response.send(data);
     };
+    next();
+});
 
-    build.getJS(params, function (data) {
-        res.set('Content-Type', 'application/x-javascript; charset=utf-8');
-        res.set('X-Powered-By', '2GIS Maps API Server');
-        res.send(data);
+app.get('/js', function(req, res){
+    build.getJS(req.params,function(data) {
+        req.callback(res, data);
     });
 });
 
 app.get('/css', function(req, res){
-    var params = {
-        pkg: req.query.load || null,
-        skin: req.query.skin,
-        isDebug: req.query.mode === 'debug',
-        isIE: req.query.ie || false
-    };
-
-    build.getCSS(params, function(data) {
-        res.set('Content-Type', 'text/css');
-        res.set('X-Powered-By', '2GIS Maps API Server');
-        res.send(data);
+    build.getCSS(req.params, function(data) {
+        req.callback(res, data);
     });
 });
 
+/**
+ * Start app
+ */
 app.listen(3000);
 console.log('Maps API 2.0 server listening on port 3000');
 
-
-
-///// Auto Deploy /////
-
+/**
+ * Auto update
+ */
 function autoUpdate(callback) {
     setInterval(function() {
         exec('git pull', function (error, stdout, stderr) {
@@ -58,6 +68,6 @@ function autoUpdate(callback) {
 }
 
 autoUpdate(function() {
-    console.log('Update app!');
     build.init();
+    console.log('Update app!' );
 });
