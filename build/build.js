@@ -10,6 +10,7 @@ var fs = require('fs'),
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
+    wrench = require('wrench'),
     clc = require('cli-color'),
     exec = require('child_process').exec;
 
@@ -204,13 +205,7 @@ function copyImages() {
             var skinName = skinsList[j],
                 skinImgPath = skinsPath + skinName + '/' + config.img.dir;
             if (fs.existsSync(skinImgPath)) {
-                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
-                exec(command, function (error, stdout, stderr) {
-                    if (error !== null || stderr !== null) {
-                        console.log(errMsg('Error copy image! ' + error));
-                        errors.push('Copy img');
-                    }
-                });
+                wrench.copyDirSyncRecursive(skinImgPath, config.img.dest);
             }
         }
     }
@@ -218,13 +213,7 @@ function copyImages() {
     function cleanImgDir() {
         var publicImgPath = config.img.dest;
         if (fs.existsSync(publicImgPath)) {
-            var command = 'rm -rf ' + publicImgPath;
-            exec(command, function (error, stdout, stderr) {
-                if (error !== null || stderr !== null) {
-                    console.log(errMsg('Error delete public images dir! ' + error));
-                    errors.push('Clean img folder');
-                }
-            });
+            wrench.rmdirSyncRecursive(publicImgPath);
         }
     }
 
