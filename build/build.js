@@ -225,7 +225,7 @@ function copyImages() {
             if (fs.existsSync(skinImgPath)) {
                 var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
                 exec(command, function (error, stdout, stderr) {
-                    if (error !== null || stderr !== null) {
+                    if (error || stderr) {
                         console.log(errMsg('Error copy image! ' + error));
                         errors.push('Copy img');
                     }
@@ -239,7 +239,7 @@ function copyImages() {
         if (fs.existsSync(publicImgPath)) {
             var command = 'rm -rf ' + publicImgPath;
             exec(command, function (error, stdout, stderr) {
-                if (error !== null || stderr !== null) {
+                if (error || stderr) {
                     console.log(errMsg('Error delete public images dir! ' + error));
                     errors.push('Clean img folder');
                 }
