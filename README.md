@@ -14,9 +14,7 @@ DG MAPS API 2.0
 1. [Node.js](http://nodejs.org/)
 2. [PhantomJS](http://phantomjs.org/download.html) (не обязательно, только для запуска unit тестов)
 
-Подробно про установку окружения: [Installation environment]
-
-[Installation environment]: https://github.com/yarikos/DG.MapsAPI/wiki/Installation-environment
+Подробно про [установку окружения](https://github.com/yarikos/DG.MapsAPI/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BE%D0%BA%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-Maps-API-2.0)
 
 ## Установка модулей
 
