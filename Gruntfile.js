@@ -58,11 +58,11 @@ module.exports = function (grunt) {
     // Default task
     grunt.registerTask('default', function() {
         grunt.log.writeln('\nTasks list:\n');
-        grunt.log.writeln('grunt lint     # Check JS files for errors with JSHint');
-        grunt.log.writeln('grunt build    # Combine and minify source files');
-        grunt.log.writeln('grunt doc      # Generate documentation from .md files');
-        grunt.log.writeln('grunt test     # Rebuild and run unit tests');
-        grunt.log.writeln('grunt setver   # Set version API');
+        grunt.log.writeln('grunt lint        # Check JS files for errors with JSHint');
+        grunt.log.writeln('grunt build       # Combine and minify source files');
+        grunt.log.writeln('grunt doc         # Generate documentation from .md files');
+        grunt.log.writeln('grunt test        # Rebuild and run unit tests');
+        grunt.log.writeln('grunt setversion  # Set version API');
 
     });
 
