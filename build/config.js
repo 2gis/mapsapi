@@ -52,6 +52,11 @@ var config = {
     skin: {
         dir: 'skin',
         var: '{skin}'
+    },
+
+    loader: {
+        dir: './public/',
+        name: 'loader.js'
     }
 
 };

@@ -15,6 +15,7 @@ var fs = require('fs'),
     config = require('./config.js').config,
     packages = require('./packs.js').packages,
     hint = require('./hintrc.js'),
+    execSync = require('execSync'),
     /**
      * Global data stores
      */
@@ -598,6 +599,28 @@ function setParams(content, config) {
     }
     return content;
 }
+
+/**
+ * Write version api in loader.js
+ *
+ */
+exports.setVersion = function () {
+    var loaderPath = config.loader.dir,
+        loaderFileName = config.loader.name,
+        command = "git rev-parse --verify HEAD",
+        loaderContent,
+        hash;
+
+    if (!fs.existsSync(loaderPath + '/' + loaderFileName)) {
+        throw new Error("Not search file 'loader.js' in " + loaderPath);
+    }
+
+    loaderContent = fs.readFileSync(loaderPath + '/' + loaderFileName).toString();
+    hash = execSync.stdout(command);
+    loaderContent = loaderContent.replace(/'&v=[\w]{0,6}'/g, "'&v=" + hash.substr(0, 6) + "'");
+    fs.writeFileSync(loaderPath + '/' + loaderFileName, loaderContent);
+};
+
 
 
 /**

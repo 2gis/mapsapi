@@ -50,6 +50,11 @@ module.exports = function (grunt) {
         gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
     });
 
+    // Set version API in loader.js
+    grunt.registerTask('setver', function () {
+        build.setVersion();
+    });
+
     // Default task
     grunt.registerTask('default', function() {
         grunt.log.writeln('\nTasks list:\n');
@@ -57,6 +62,8 @@ module.exports = function (grunt) {
         grunt.log.writeln('grunt build    # Combine and minify source files');
         grunt.log.writeln('grunt doc      # Generate documentation from .md files');
         grunt.log.writeln('grunt test     # Rebuild and run unit tests');
+        grunt.log.writeln('grunt setver   # Set version API');
+
     });
 
 

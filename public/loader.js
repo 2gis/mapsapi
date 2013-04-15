@@ -3,7 +3,8 @@
 
     var onLoadJS = function() {},
         paramsURI,
-        paramsIE;
+        paramsIE,
+        version = '&v=88d1cc';
 
     function initLoaders() {
         window.L = {} || window.L;
@@ -61,9 +62,8 @@
 
     paramsURI = getParamsURI();
     paramsIE = getParamsIE();
-
-    loadCSS('/css' + paramsURI + paramsIE);
-    loadJS('/js' + paramsURI + paramsIE, function() {
+    loadCSS('/css' + paramsURI + paramsIE + version);
+    loadJS('/js' + paramsURI + paramsIE + version, function() {
         onLoadJS();
     });
 
