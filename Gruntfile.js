@@ -51,7 +51,7 @@ module.exports = function (grunt) {
     });
 
     // Set version API in loader.js
-    grunt.registerTask('setver', function () {
+    grunt.registerTask('setversion', function () {
         build.setVersion();
     });
 
