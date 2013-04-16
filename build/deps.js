@@ -3,12 +3,14 @@ var deps = {
     DGCore: {
         desc: 'Main DG module.',
         src: [
-            'DGCore/skin/{skin}/theme.config.js'
+            'DGCore/skin/{skin}/theme.config.js',
+            'DGCore/DGCore.js'
         ],
         css: {
             all: [
                 '../vendors/leaflet/dist/leaflet.css',
-                'DGCore/skin/basic/css/leaflet-reset.css'
+                'DGCore/skin/basic/css/leaflet-reset.css',
+                'DGCore/skin/{skin}/css/zoom.css'
             ],
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
@@ -38,15 +40,6 @@ var deps = {
     Localization: {
         desc: 'Localization module.',
         src: ['Localization/src/Localization.js']
-    },
-
-    DGControlZoom :{
-        desc: '2GIS control zoom.',
-        src: ['DGControlZoom/src/DGControlZoom.js'],
-        css: {
-            all: ['DGControlZoom/skin/{skin}/zoom.css']
-        },
-        deps: ['ControlZoom']
     }
 
 };
