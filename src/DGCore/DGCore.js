@@ -1,10 +1,16 @@
 /**
- * Leaflet ControlZoom redefinition
+ * Leaflet 2GIS redefinition
  * Version 1.0.0
  *
  * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
 
+
+
+/**
+ * Zoom 2GIS redefinition
+ *
+ */
 L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
@@ -25,6 +31,27 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     return container;
 };
 
+/**
+ * Popup 2GIS redefinition
+ *
+ */
+(function () {
+    var offsetX = L.DG.configTheme.balloonOptions.offset.x,
+        offsetY = L.DG.configTheme.balloonOptions.offset.y;
+
+    L.Popup.prototype.options = {
+        minWidth: 50,
+        maxWidth: 300,
+        maxHeight: null,
+        autoPan: true,
+        closeButton: true,
+        offset: new L.Point(offsetX, offsetY),
+        autoPanPadding: new L.Point(5, 5),
+        className: '',
+        zoomAnimation: true
+    };
+
+}());
 
 L.Popup.prototype._initLayout = function () {
     var prefix = 'leaflet-popup',

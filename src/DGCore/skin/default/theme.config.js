@@ -7,7 +7,10 @@ L.DG.configTheme = {
     name: 'default',
 
     balloonOptions: {
-        offset: [139, -17]
+        offset:{
+            x: 18,
+            y: -30
+        }
     },
 
     markersData: {
