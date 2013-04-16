@@ -617,7 +617,7 @@ exports.setVersion = function () {
 
     loaderContent = fs.readFileSync(loaderPath + '/' + loaderFileName).toString();
     hash = execSync.stdout(command);
-    loaderContent = loaderContent.replace(/'&v=[\w]{0,6}'/g, "'&v=" + hash.substr(0, 6) + "'");
+    loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})(&[\w]+=)*.*(['"]{1})/g, "$1$2" + hash.substr(0, 6) + "$3");
     fs.writeFileSync(loaderPath + '/' + loaderFileName, loaderContent);
 };
 
