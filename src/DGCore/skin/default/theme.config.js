@@ -11,11 +11,9 @@ L.DG.configTheme = {
     },
 
     markersData: {
-        defaultMarker: {
             iconSize: [16, 24],
             popupAnchor: [26, 27],
             animation: true
-        }
     },
 
     controls: {

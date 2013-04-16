@@ -143,19 +143,11 @@
                         html        : '<div class="dg-marker"></div>'
                     };
 
-                balloonHtml = '<div class="dg-callout dg-geoclicker">\n\
-                    <div class="dg-geoclicker__org">Сан Сити, многофункциональный комплекс</div>\n\
-                    <div class="dg-geoclicker__address">630048, Карла Маркса площадь, 7</div>\n\
-                    <div class="dg-geoclicker__purpose">Административное здание</div>\n\
-                    <div class="dg-geoclicker__elevation">23 этажа</div>\n\
-                    <div class="dg-geoclicker__buttons">\n\
-                        <div class="dg-geoclicker__show-organizations">\n\
-                            Показать организации в здании&nbsp;<div class="dg-geoclicker__orgs">176</div>\n\
-                        </div>\n\
-                    </div>\n\
+                balloonHtml = '<div class="dg-callout ">\n\
+                    Сан Сити, многофункциональный комплекс\n\
                 </div>';
 
-                L.Util.extend(markerOptions, this.theme.markersData['defaultMarker']);
+                L.Util.extend(markerOptions, this.theme.markersData);
 
                 this.marker = L.marker(
                     [54.980206086231, 82.898068362003],

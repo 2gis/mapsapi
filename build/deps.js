@@ -10,7 +10,9 @@ var deps = {
             all: [
                 '../vendors/leaflet/dist/leaflet.css',
                 'DGCore/skin/basic/css/leaflet-reset.css',
-                'DGCore/skin/{skin}/css/zoom.css'
+                'DGCore/skin/{skin}/css/zoom.css',
+                'DGCore/skin/{skin}/css/callout.css'
+
             ],
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
