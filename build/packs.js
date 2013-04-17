@@ -2,7 +2,7 @@ var packages = {
 
     base: {
         name: 'Базовый',
-        modules: ['Core', 'TileLayer', 'DGControlZoom', 'DGLayer'],
+        modules: ['Core', 'TileLayer', 'DGControlZoom', 'DGLayer', 'DGGeoclicker'],
         desc: 'Представляет собой самый базовый функционал: карта и элементы управления'
     },
     
