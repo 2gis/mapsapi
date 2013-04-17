@@ -1,3 +1,10 @@
+/**
+ * Leaflet DG GeoclickerHandlers
+ * Version 1.0.0
+ *
+ * Copyright (c) 2013, 2GIS, Alexey Lubchuk
+ */
+
 L.DG.GeoclickerHandlers = {
 	mappings: {
 		handler1: ["city", "street", "district", "project"],

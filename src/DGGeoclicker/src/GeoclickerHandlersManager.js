@@ -1,13 +1,13 @@
 /**
- * Leaflet DG GeoclickerHandler
+ * Leaflet DG GeoclickerHandlersManager
  * Version 1.0.0
  *
  * Copyright (c) 2013, 2GIS, Alexey Lubchuk
  */
 
 L.DG = L.DG || {};
-
-L.DG.GeoclickerHandlersManager = L.Class.extend({
+L
+.DG.GeoclickerHandlersManager = L.Class.extend({
 	handle: function(options) {
 		if (!options.response) {
 			L.DG.GeoclickerHandlers.default();	
