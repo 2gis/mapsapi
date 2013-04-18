@@ -9,11 +9,9 @@
 // base path, that will be used to resolve files and exclude
 basePath = '../';
 
-frameworks = ['mocha'];
-
 // list of files / patterns to load in the browser
 files = [
-    "../node_modules/mocha/mocha.js",
+    "node_modules/mocha/mocha.js",
     MOCHA_ADAPTER,
 
     // Leaflet test helpers (before):
