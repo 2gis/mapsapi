@@ -7,7 +7,7 @@ describe("DG TileLayer Module", function () {
             center: new L.LatLng(54.980206086231, 82.898068362003),
             zoom: 10
         });
-        spy = jasmine.createSpy();
+        spy = sinon.spy();
     });
 
     afterEach(function () {
@@ -46,7 +46,7 @@ describe("DG TileLayer Module", function () {
     it("when a tilelayer is added to a map automatically", function () {
         map.eachLayer(spy);
 
-        expect(spy.calls.length).toEqual(1);
+        expect(spy.calledOnce);
     });
 
     /**

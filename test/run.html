@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Maps API 2.0 Tests</title>
+    <link rel="stylesheet" type="text/css" href="../node_modules/mocha/mocha.css">
+    <script type="text/javascript" src="../node_modules/mocha/mocha.js"></script>
+</head>
+<body>
+<div id="mocha"></div>
+
+<!--Leaflet test helpers (before)-->
+<script type="text/javascript" src="../vendors/leaflet/spec/happen.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/sinon.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/expect.js"></script>
+
+<!--Full API dist-->
+<script type="text/javascript" src="../dist/dg-map-custom.js"></script>
+
+<script>
+    mocha.setup('bdd');
+    mocha.ignoreLeaks();
+</script>
+
+<!-- spec files -->
+<script type="text/javascript" src="../vendors/leaflet/spec/after.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/happen.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/SpecHelper.js"></script>
+
+<!-- /control -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/control/Control.LayersSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/control/Control.ScaleSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/control/Control.AttributionSpec.js"></script>
+
+<!-- /core -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/core/UtilSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/core/ClassSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/core/EventsSpec.js"></script>
+
+<!-- /geometry -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geometry/PointSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geometry/BoundsSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geometry/TransformationSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geometry/LineUtilSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geometry/PolyUtilSpec.js"></script>
+
+<!-- /geo -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geo/LatLngSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geo/LatLngBoundsSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/geo/ProjectionSpec.js"></script>
+
+<!-- /dom -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/dom/DomEventSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/dom/DomUtilSpec.js"></script>
+
+<!-- /layer -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/FeatureGroupSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/LayerGroupSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/TileLayerSpec.js"></script>
+
+<!-- /layer/vector/ -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/vector/CircleSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/vector/CircleMarkerSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/vector/PolygonSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/vector/PolylineSpec.js"></script>
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/layer/vector/PolylineGeometrySpec.js"></script>
+
+<!-- /map -->
+<script type="text/javascript" src="../vendors/leaflet/spec/suites/map/MapSpec.js"></script>
+
+<script>
+    (window.mochaPhantomJS || window.mocha).run();
+</script>
+</body>
+</html>

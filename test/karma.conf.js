@@ -24,6 +24,7 @@ files = [
 
     // DG tests:
     //'src/**/test/*Spec.js',
+    //'src/Jsonp/test/JsonpSpec.js',
 
     // Leaflet test helpers (after):
     'vendors/leaflet/spec/after.js',
@@ -31,8 +32,7 @@ files = [
     'vendors/leaflet/spec/suites/SpecHelper.js',
 
     // Leaflet tests:
-    'vendors/leaflet/spec/suites/**/*Spec.js',
-    'vendors/leaflet/spec/suites/LeafletSpec.js'
+    'vendors/leaflet/spec/suites/**/*.js'
 
 ];
 
