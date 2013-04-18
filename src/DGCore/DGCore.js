@@ -6,7 +6,6 @@
  */
 
 
-
 /**
  * Zoom 2GIS redefinition
  *
@@ -51,32 +50,32 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         zoomAnimation: true
     };
 
+    L.Popup.prototype._initLayout = function () {
+        var prefix = 'leaflet-popup',
+            containerClass = prefix + ' ' + this.options.className + ' leaflet-zoom-' +
+                (this._animated ? 'animated' : 'hide'),
+            container = this._container = L.DomUtil.create('div', containerClass),
+            closeButton;
+
+        if (this.options.closeButton) {
+            closeButton = this._closeButton =
+                L.DomUtil.create('a', prefix + '-close-button', container);
+            closeButton.href = '#close';
+            closeButton.innerHTML = '&#215;';
+            L.DomEvent.disableClickPropagation(closeButton);
+
+            L.DomEvent.on(closeButton, 'click', this._onCloseButtonClick, this);
+        }
+
+        var wrapper = this._wrapper =
+            L.DomUtil.create('div', prefix + '-content-wrapper', container);
+        L.DomEvent.disableClickPropagation(wrapper);
+
+        this._contentNode = L.DomUtil.create('div', prefix + '-content dg-callout ', wrapper);
+        L.DomEvent.on(this._contentNode, 'mousewheel', L.DomEvent.stopPropagation);
+
+        this._tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
+        this._tip = L.DomUtil.create('div', prefix + '-tip', this._tipContainer);
+    };
+
 }());
-
-L.Popup.prototype._initLayout = function () {
-    var prefix = 'leaflet-popup',
-        containerClass = prefix + ' ' + this.options.className + ' leaflet-zoom-' +
-            (this._animated ? 'animated' : 'hide'),
-        container = this._container = L.DomUtil.create('div', containerClass),
-        closeButton;
-
-    if (this.options.closeButton) {
-        closeButton = this._closeButton =
-            L.DomUtil.create('a', prefix + '-close-button', container);
-        closeButton.href = '#close';
-        closeButton.innerHTML = '&#215;';
-        L.DomEvent.disableClickPropagation(closeButton);
-
-        L.DomEvent.on(closeButton, 'click', this._onCloseButtonClick, this);
-    }
-
-    var wrapper = this._wrapper =
-        L.DomUtil.create('div', prefix + '-content-wrapper', container);
-    L.DomEvent.disableClickPropagation(wrapper);
-
-    this._contentNode = L.DomUtil.create('div', prefix + '-content dg-callout ', wrapper);
-    L.DomEvent.on(this._contentNode, 'mousewheel', L.DomEvent.stopPropagation);
-
-    this._tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
-    this._tip = L.DomUtil.create('div', prefix + '-tip', this._tipContainer);
-};
