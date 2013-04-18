@@ -46,12 +46,12 @@ L.DG.DivIcon = L.Icon.extend({
         return null;
     },
 
-    markerMousoverHandler: function (event) {
+    markerMousoverHandler: function () {
         clearTimeout(this.markerAnimationTimeout);
         L.DomUtil.addClass(this.divMarker, 'dg-marker_mouseover');
     },
 
-    markerMousoutHandler: function (event) {
+    markerMousoutHandler: function () {
         var _this = this;
 
         this.markerAnimationTimeout = setTimeout(function () {
@@ -60,11 +60,11 @@ L.DG.DivIcon = L.Icon.extend({
         }, 100);
     },
 
-    markerMousedownHandler: function (event) {
+    markerMousedownHandler: function () {
         L.DomUtil.addClass(this.divMarker, 'dg-marker_mousedown');
     },
 
-    markerMouseupHandler: function (event, context) {
+    markerMouseupHandler: function () {
         L.DomUtil.removeClass(this.divMarker, 'dg-marker_mousedown');
     }
 });
