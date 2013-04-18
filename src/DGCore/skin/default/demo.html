@@ -163,10 +163,9 @@
 
                 this.markerContainer = this.marker._icon;
                 this.markerIcon = this.markerContainer.firstChild;
-                L.DomUtil.addClass(this.markerIcon, 'dg-marker_default');
+                L.DomUtil.addClass(this.markerIcon, 'dg-marker_default dg-marker_animated');
 
                 if (markerOptions.animation) {
-                    L.DomUtil.addClass(this.markerIcon, 'dg-marker_animated');
 
                     // Add handlers
                     L.DomEvent.addListener(this.markerIcon, 'mouseover', this.markerMousoverHandler, this);

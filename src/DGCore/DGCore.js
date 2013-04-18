@@ -79,3 +79,19 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
 }());
+
+
+/**
+ * Marker 2GIS redefinition
+ *
+ */
+L.Marker.prototype.options = {
+    icon: L.DG.divIcon(),
+    title: '',
+    clickable: true,
+    draggable: false,
+    zIndexOffset: 0,
+    opacity: 1,
+    riseOnHover: false,
+    riseOffset: 250
+};

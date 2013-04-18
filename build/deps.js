@@ -11,12 +11,13 @@ var deps = {
                 '../vendors/leaflet/dist/leaflet.css',
                 'DGCore/skin/basic/css/leaflet-reset.css',
                 'DGCore/skin/{skin}/css/zoom.css',
-                'DGCore/skin/{skin}/css/callout.css'
-
+                'DGCore/skin/{skin}/css/callout.css',
+                'DGCore/skin/{skin}/css/marker.css'
             ],
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
-        heading: '2GIS modules'
+        heading: '2GIS modules',
+        deps: ['DGDivIcon']
     },
 
     DGLayer: {
@@ -42,6 +43,12 @@ var deps = {
     Localization: {
         desc: 'Localization module.',
         src: ['Localization/src/Localization.js']
+    },
+
+    DGDivIcon: {
+        desc: 'DG.DivIcon module.',
+        src: ['DGDivIcon/src/DGDivIcon.js']
+
     }
 
 };
