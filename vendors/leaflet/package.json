@@ -4,13 +4,15 @@
 	"description": "JavaScript library for mobile-friendly interactive maps",
 	"devDependencies": {
 		"jshint": "~1.1.0",
-		"testacular": "~0.6.0",
+		"mocha": "~1.9.0",
+		"karma": "~0.8.0",
 		"uglify-js": "~2.2.5",
 		"jake": "~0.5.10"
 	},
 	"main": "dist/leaflet.js",
 	"scripts": {
-		"test": "node ./node_modules/jake/bin/cli test"
+		"test": "jake test",
+		"prepublish": "jake"
 	},
 	"repository": {
 		"type": "git",

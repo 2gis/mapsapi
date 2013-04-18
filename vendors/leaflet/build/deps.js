@@ -179,7 +179,7 @@ var deps = {
 		      'dom/DomEvent.MsTouch.js',
 		      'core/Handler.js',
 		      'map/handler/Map.TouchZoom.js'],
-		deps: ['MapAnimationZoom'],
+		deps: ['AnimationZoom'],
 		desc: 'Enables smooth touch zooming on iOS and IE10 and double tap on iOS/IE10/Android.'
 	},
 
@@ -232,7 +232,8 @@ var deps = {
 		src: [
 			'dom/DomEvent.js',
 			'dom/PosAnimation.js',
-			'map/anim/Map.PanAnimation.js'],
+			'map/anim/Map.PanAnimation.js'
+			],
 		desc: 'Core panning animation support.'
 	},
 
