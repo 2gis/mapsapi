@@ -5,27 +5,21 @@ DG MAPS API 2.0
 
 Построено на базе библиотеки Leaflet.
 
-Текущая версия 2.0.0
+Текущая версия: 2.0.0
 
 ## Окружение и зависимости приложения
 
 Приложение имеет следующие зависимости:
 
 1. [Node.js](http://nodejs.org/)
-2. [PhantomJS](http://phantomjs.org/download.html) (не обязательно, только для запуска unit тестов)
+2. [Grunt](The JavaScript Task Runner) (сборка приложения, генерация документации)
+3. [PhantomJS](http://phantomjs.org/download.html) (не является обязательным, необходим только для запуска unit тестов)
 
-Подробно про [установку окружения](https://github.com/yarikos/DG.MapsAPI/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BE%D0%BA%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-Maps-API-2.0)
+[Подробно про установку окружения для разных операционных систем](https://github.com/yarikos/DG.MapsAPI/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BE%D0%BA%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-Maps-API-2.0)
 
-## Установка модулей
+## Работа с CLI приложения
 
-```bash
-npm install -g grunt-cli
-npm install
-```
-
-## Работа с CLI приложением
-
-### Получить список всех доступных команд
+##### Получить список всех доступных команд:
 
 ```bash
 grunt
@@ -40,211 +34,19 @@ grunt doc       # Generate documentation from .md source files
 grunt test      # Rebuild and run unit tests  
 ```
 
-### Проверка исходных JS файлов с помощью [JSHint]
+Подробное описание работы команд и соглашения по работе можно найти в [Документации разработчика API Карт](#)
 
-Выполняет проверку всех исходных файлов проекта.
-
-```bash
-grunt lint
-```
-
-В случае ошибки выводит путь к файлу, номер строки, колонки и сообщение. Например:
-
-```bash
-./src/ProjectDetector/src/ProjectDetector.js  line 13 col 23	 Missing space after ':'.
-./src/ProjectDetector/src/ProjectDetector.js  line 17 col 13	 Missing space after ':'.
-./src/ProjectDetector/src/ProjectDetector.js  line 18 col 13	 Missing space after ':'.
-```
-
-[JSHint]: http://jshint.com/docs/
-
-### Сборка и минификация
-
-##### Базовая команда, результатом которой будет максимально полная сборка API:
-
-```bash
-grunt build
-```
-
-Результат:
-
-```bash
-dist/dg-map-custom-src.js  (исходный код)
-dist/dg-map-custom.js      (минимизированный код)
-```
-Эти файлы находятся в игноре git-a.
-
-##### Cборка кастомного варианта API с указанием имен модулей:
-
-Применяется если необходимо собрать некий кастомный вариант API.
-
-```bash
-grunt build -m Module1,Module2,Module3
-```
-где Module1,Module2,Module3 - имя модулей API. 
-
-Пример:
-
-```bash
-grunt build -m Core,TileLayer,JSONP
-```
-
-Результат:
-
-```bash
-dist/dg-map-custom-src.js  (исходный код)
-dist/dg-map-custom.js      (минимизированный код)
-```
-Эти файлы находятся в игноре git-a.
-
-##### Cборка кастомного варианта API по заранее описаным пакетами:
-
-```bash
-grunt build -p build_name
-```
-
-где build_name - имя сборки. Доступные пакеты: base, standart, full.
-Описание пакетов находится в файле build/packs.js.
-
-Пример:
-
-```bash
-grunt build -p base
-```
-
-Результат:
-
-```bash
-dist/dg-map-custom-src.js  (исходный код)
-dist/dg-map-custom.js      (минимизированный код)
-```
-Эти файлы находятся в игноре git-a.
-
-##### Для обновления полных публичных сборок (которые доступны на GitHub в папке dist) выполните следующие команды:
-
-```bash
-grunt build -p public
-```
-
-Результат:
-
-```bash
-dist/dg-map-src.js  (исходный код)
-dist/dg-map.js      (минимизированный код)
-```
-Эти файлы находятся в индексе git-a.
-
-##### Описание вывода в консоль
-
-При выполнении сборки весь процесс сопровождается выводом сообщений к консоль.
-
-Пример:
-
-```bash
-Build modules:
-  * Core
-  * EPSG3395
-  * TileLayer
-  * TileLayerWMS
-  * TileLayerCanvas
-  * ImageOverlay
-  * Marker
-  * DivIcon
-  * Popup
-  * LayerGroup
-  * FeatureGroup
-  * Path
-  * PathVML
-  + Polyline (deps of PathCanvas)
-  + Polygon (deps of PathCanvas)
-  + Circle (deps of PathCanvas)
-  * PathCanvas
-  * MultiPoly
-  * Rectangle
-  * CircleMarker
-  * VectorsCanvas
-  * GeoJSON
-  * MapDrag
-  * MouseZoom
-  + MapAnimationZoom (deps of TouchZoom)
-  * TouchZoom
-  * BoxZoom
-  * Keyboard
-  * MarkerDrag
-  * ControlZoom
-  * ControlAttrib
-  * ControlScale
-  * ControlLayers
-  * AnimationPan
-  * AnimationTimer
-  * AnimationZoom
-  * Geolocation
-  * DGCore
-  * DGLayer
-  * JSONP
-  * ProjectDetector
-  * Localization
-  * DGControlZoom
-
-Concatenating JS in 42 modules...
-
-Concatenating CSS in 2 modules...
-
-Compressing JS...
-
-   Uncompressed size: 208.0 KB
-   Compressed size:   116.6 KB
-
-Compressing CSS...
-
-   Uncompressed size: 15.4 KB
-   Compressed size:   12.2 KB
-
-Build successfully completed!
-```
-
-### Запуск unit тестов
-
-Собирается свежий билд API (dist/dg-map-custom.js) и запускается веб-сервер для тестирования JSONP модуля на 3005 порту.
-
-Запуск тестов происходит с помощью Karma.
-
-##### Запуск unit тестов в PhantomJS (по-умолчанию)
-
-```bash
-grunt test
-```
-
-##### Запуск unit тестов в нативных браузерах текущей операционной системы
-
-```bash
-grunt test --ff --chrome
-```
-
-Доступны следующие браузеры:
-
-    (default)   PhantomJS
-    --chrome    Chrome
-    --ff        Firefox
-    --opera     Opera
-    --safari    Safari
-    --ie        IE (only Windows)
-    
-## Работа с WEB приложением
-
-### Запуск
-
-```bash
-node app
-```
-
-Результат:
-
-```bash
-Load source files successfully completed
-Maps API 2.0 server listening on port 3000
-```
-
-После запуска приложение доступно по локальному адресу:
-    
-[http://127.0.0.1:3000/](http://127.0.0.1:3000/)
+## Документация для разработчика API Карт
+* [Структура папок в репозитории](#)
+* [Сборка API Карт](#)
+ * Возможности, схема работы
+ * Конфигурация
+ * Проверка исходного кода с помощью JSHint
+ * Сборка
+ * Запуск веб-сервиса для раздачи собранного АПИ
+* [Unit-тесты](#)
+ * Структура файлов с тестами
+ * Запуск тестов
+* [Документация](#)
+ * Структура файлов с документацией
+ * Генерация документации
