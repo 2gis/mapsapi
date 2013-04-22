@@ -16,7 +16,7 @@ git clone git@github.com:yarikos/DG.MapsAPI.git mapsapi-folder
 **2. Установка окружения**
 
 1. [Node.js](http://nodejs.org/)
-2. [GruntJS](The JavaScript Task Runner)
+2. [GruntJS](http://gruntjs.com/)
 3. [PhantomJS](http://phantomjs.org/download.html) (не является обязательным, необходим только для запуска unit тестов)
 4. Устанавливаем зависимости:
 
