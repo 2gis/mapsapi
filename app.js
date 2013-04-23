@@ -54,21 +54,21 @@ app.get('/css', function(req, res){
 app.listen(3000);
 console.log('Maps API 2.0 server listening on port 3000');
 
-/**
- * Auto update
- */
-function autoUpdate(callback) {
-    setInterval(function() {
-        exec('git pull', function (error, stdout, stderr) {
-            if (error || stderr) { return; }
-            if (stdout.indexOf('Already up-to-date') < 0) {
-                callback();
-            }
-        });
-    }, 30 * 1000);
-}
-
-autoUpdate(function() {
-    build.init();
-    console.log('Update app!' );
-});
+///**
+// * Auto update
+// */
+//function autoUpdate(callback) {
+//    setInterval(function() {
+//        exec('git pull', function (error, stdout, stderr) {
+//            if (error || stderr) { return; }
+//            if (stdout.indexOf('Already up-to-date') < 0) {
+//                callback();
+//            }
+//        });
+//    }, 30 * 1000);
+//}
+//
+//autoUpdate(function() {
+//    build.init();
+//    console.log('Update app!' );
+//});
