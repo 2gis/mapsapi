@@ -16,8 +16,7 @@ L.DG.DivIcon = L.Icon.extend({
 
     createIcon: function () {
         var div = document.createElement('div'),
-            options = this.options,
-            time;
+            options = this.options;
 
         if (options.html) {
             div.innerHTML = options.html;
