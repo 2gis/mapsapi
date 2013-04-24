@@ -241,8 +241,8 @@ function copyImages() {
     function copySkinImg(skinsPath) {
         var imgList = grunt.file.expand([skinsPath + config.img.src]);
 
-        for (var j = 0, cnt = imgList.length; j < cnt; j++) {
-            var srcPath = imgList[j],
+        for (var i = 0, count = imgList.length; i < count; i++) {
+            var srcPath = imgList[i],
                 fileName = srcPath.replace(/^.*[\\\/]/, ''),
                 destPath = config.img.dest + '/' + fileName;
 
