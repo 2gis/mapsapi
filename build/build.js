@@ -3,7 +3,7 @@
  *
  * Version 2.0.0
  *
- * Copyright (c) 2013, 2GIS
+ * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
 var fs = require('fs'),
     jshint = require('jshint').JSHINT,

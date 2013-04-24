@@ -4,7 +4,7 @@
     var onLoadJS = function() {},
         baseURL,
         params,
-        version = 'v=914bc0';
+        version = 'v=24f58b';
 
     function initLoader() {
         window.L = {} || window.L;
