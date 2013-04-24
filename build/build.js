@@ -224,13 +224,12 @@ function copyImages() {
             var skinName = skinsList[j],
                 skinImgPath = skinsPath + skinName + '/' + config.img.dir;
             if (fs.existsSync(skinImgPath)) {
-                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
-                exec(command, function (error, stdout, stderr) {
-                    if (error || stderr) {
-                        console.log(errMsg('Error copy image! ' + error));
-                        errors.push('Copy img');
-                    }
-                });
+                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest,
+                    result = execSync.exec(command);
+                if (result.code !== 0) {
+                    console.log(errMsg('Error copy image! ' + result.stdout));
+                    errors.push('Copy img');
+                }
             }
         }
     }
@@ -238,13 +237,12 @@ function copyImages() {
     function cleanImgDir() {
         var publicImgPath = config.img.dest;
         if (fs.existsSync(publicImgPath)) {
-            var command = 'rm -rf ' + publicImgPath;
-            exec(command, function (error, stdout, stderr) {
-                if (error || stderr) {
-                    console.log(errMsg('Error delete public images dir! ' + error));
-                    errors.push('Clean img folder');
-                }
-            });
+            var command = 'rm -rf ' + publicImgPath,
+                result = execSync.exec(command);
+            if (result.code !== 0) {
+                console.log(errMsg('Error delete public images dir! ' + result.stdout));
+                errors.push('Clean img folder');
+            }
         }
     }
 
