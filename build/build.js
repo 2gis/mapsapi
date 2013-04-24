@@ -201,7 +201,11 @@ function processCss(srcConf, basePath) {
 function copyImages() {
     var source = config.source;
 
+    console.log('Clear public/img folder.');
+
     cleanImgDir();
+
+    console.log('Copy all images to public/img from skins.\n');
 
     for (var creator in source) {
         if (source.hasOwnProperty(creator)) {
@@ -621,7 +625,12 @@ exports.setVersion = function () {
     fs.writeFileSync(loaderPath + '/' + loaderFileName, loaderContent);
 };
 
-
+/**
+ * Copy all images (CLI command)
+ */
+exports.copyImages = function() {
+    copyImages();
+};
 
 /**
  * Lint (CLI command)
@@ -654,9 +663,9 @@ exports.build = function() {
         console.log('Build public GitHub full package!\n');
     }
 
-    copyImages();
-
     console.log('Skin: ' + skin + '\n');
+
+    copyImages();
 
     modulesList = getModulesList(pkg, true);
 
