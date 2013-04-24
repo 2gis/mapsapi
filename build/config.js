@@ -45,7 +45,7 @@ var config = {
     },
 
     img: {
-        dir: 'img',
+        src: '**/img/*',
         dest: './public/img/'
     },
 

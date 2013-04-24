@@ -11,11 +11,12 @@ var fs = require('fs'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
+    execSync = require('execSync'),
+    grunt = require('grunt'),
     exec = require('child_process').exec,
     config = require('./config.js').config,
     packages = require('./packs.js').packages,
     hint = require('./hintrc.js'),
-    execSync = require('execSync'),
     /**
      * Global data stores
      */
@@ -199,59 +200,58 @@ function processCss(srcConf, basePath) {
  * Clear img folder and copy all images from skins folder
  */
 function copyImages() {
-    var source = config.source;
+    var sourceDeps = config.source,
+        publicImgPath = config.img.dest,
+        countImg = 0;
 
     console.log('Clear public/img folder.');
 
     cleanImgDir();
 
-    console.log('Copy all images to public/img from skins.\n');
+    console.log('Copy all skins images to public/img...');
 
-    for (var creator in source) {
-        if (source.hasOwnProperty(creator)) {
-            var basePath = source[creator].path,
-                modulesList = fs.readdirSync(basePath);
+    copyImg();
 
-            for (var i = 0, count = modulesList.length; i < count; i++) {
-                var moduleName = modulesList[i],
-                    skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
-                if (fs.existsSync(skinsPath)) {
-                    var skinsList = fs.readdirSync(skinsPath);
-                    if (skinsList) {
-                        processSkins(skinsList);
+    console.log('Done. Copy ' + countImg + ' images.');
+
+    function cleanImgDir() {
+        if (grunt.file.isDir(publicImgPath)) {
+            grunt.file.delete(publicImgPath);
+            grunt.file.mkdir(publicImgPath);
+        }
+    }
+
+    function copyImg() {
+        for (var creator in sourceDeps) {
+            if (sourceDeps.hasOwnProperty(creator)) {
+                var basePath = sourceDeps[creator].path,
+                    modulesList = fs.readdirSync(basePath);
+
+                for (var i = 0, count = modulesList.length; i < count; i++) {
+                    var moduleName = modulesList[i],
+                        skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
+                    if (fs.existsSync(skinsPath)) {
+                        copySkinImg(skinsPath);
                     }
                 }
             }
         }
     }
 
-    function processSkins(skinsList) {
-        for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-            var skinName = skinsList[j],
-                skinImgPath = skinsPath + skinName + '/' + config.img.dir;
-            if (fs.existsSync(skinImgPath)) {
-                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest,
-                    result = execSync.exec(command);
-                if (result.code !== 0) {
-                    console.log(errMsg('Error copy image! ' + result.stdout));
-                    errors.push('Copy img');
-                }
+    function copySkinImg(skinsPath) {
+        var imgList = grunt.file.expand([skinsPath + config.img.src]);
+
+        for (var j = 0, cnt = imgList.length; j < cnt; j++) {
+            var srcPath = imgList[j],
+                fileName = srcPath.replace(/^.*[\\\/]/, ''),
+                destPath = config.img.dest + '/' + fileName;
+
+            if (fs.existsSync(srcPath)) {
+                grunt.file.copy(srcPath, destPath);
+                countImg++;
             }
         }
     }
-
-    function cleanImgDir() {
-        var publicImgPath = config.img.dest;
-        if (fs.existsSync(publicImgPath)) {
-            var command = 'rm -rf ' + publicImgPath,
-                result = execSync.exec(command);
-            if (result.code !== 0) {
-                console.log(errMsg('Error delete public images dir! ' + result.stdout));
-                errors.push('Clean img folder');
-            }
-        }
-    }
-
 }
 
 /**
@@ -305,7 +305,7 @@ function getModulesList(pkg, isMsg) {
     }
 
     if (isMsg) {
-        console.log('Build modules:');
+        console.log('\nBuild modules:');
     }
 
     for (var i = 0, count = modulesListOrig.length; i < count; i++) {
