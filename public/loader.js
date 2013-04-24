@@ -2,23 +2,33 @@
     'use strict';
 
     var onLoadJS = function() {},
-        paramsURI,
-        paramsIE,
-        version = '&v=3d54d1';
+        baseURL,
+        params,
+        version = 'v=3d54d1';
 
-    function initLoaders() {
+    function initLoader() {
         window.L = {} || window.L;
         window.L.onLoad = function(callback) {
             onLoadJS = callback;
         };
     }
 
-    function getParamsURI() {
-        var scripts, scriptURI, url;
+    function processURL() {
+        var scripts, scriptURL;
         scripts = document.getElementsByTagName("script");
-        scriptURI = scripts[scripts.length-1].src;
-        url = scriptURI.split('?');
-        return (url[1]) ? '?' + url[1] : '';
+        scriptURL = scripts[scripts.length-1].src;
+        return scriptURL.split('?');
+    }
+
+    function getBaseURL() {
+        var pattern = /loader.js/,
+            url = processURL();
+        return (url[0]) ? url[0].replace(pattern, "") : '/';
+    }
+
+    function getParamsURI() {
+        var url = processURL();
+        return (url[1]) ? url[1] + '&' : '';
     }
 
     function getParamsIE() {
@@ -26,7 +36,13 @@
         if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
             versionIE = parseInt(RegExp.$1, 10);
         }
-        return (versionIE && versionIE < 9) ? '&ie=true' : '';
+        return (versionIE && versionIE < 9) ? 'ie=true&' : '';
+    }
+
+    function getParams() {
+        var paramsURI = getParamsURI(),
+            paramsIE = getParamsIE();
+        return '?' + paramsURI + paramsIE + version;
     }
 
     function loadCSS(link) {
@@ -58,12 +74,13 @@
         document.getElementsByTagName('head')[0].appendChild(js);
     }
 
-    initLoaders();
+    initLoader();
 
-    paramsURI = getParamsURI();
-    paramsIE = getParamsIE();
-    loadCSS('/css' + paramsURI + paramsIE + version);
-    loadJS('/js' + paramsURI + paramsIE + version, function() {
+    baseURL = getBaseURL();
+    params = getParams();
+
+    loadCSS(baseURL + 'css' + params);
+    loadJS(baseURL + 'js' + params, function() {
         onLoadJS();
     });
 
