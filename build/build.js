@@ -195,7 +195,9 @@ function processCss(srcConf, basePath) {
     return cssContent;
 }
 
-
+/**
+ * Clear img folder and copy all images from skins folder
+ */
 function copyImages() {
     var source = config.source;
 
