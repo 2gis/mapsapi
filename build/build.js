@@ -205,13 +205,9 @@ function copyImages() {
         countImg = 0;
 
     console.log('Clear public/img folder.');
-
     cleanImgDir();
-
     console.log('Copy all skins images to public/img...');
-
     copyImg();
-
     console.log('Done. Copy ' + countImg + ' images.');
 
     function cleanImgDir() {
