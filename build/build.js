@@ -613,6 +613,7 @@ exports.setVersion = function () {
         loaderFileName = config.loader.name,
         command = "git rev-parse --verify HEAD",
         loaderContent,
+        smallHash,
         hash;
 
     if (!fs.existsSync(loaderPath + '/' + loaderFileName)) {
@@ -621,7 +622,11 @@ exports.setVersion = function () {
 
     loaderContent = fs.readFileSync(loaderPath + '/' + loaderFileName).toString();
     hash = execSync.stdout(command);
-    loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})([\w]+=)*.*(['"]{1})/g, "$1$2" + hash.substr(0, 6) + "$3");
+    smallHash = hash.substr(0, 6);
+
+    console.log('Set version of stat files: ' + smallHash + '\n');
+
+    loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})([\w]+=)*.*(['"]{1})/g, "$1$2" + smallHash + "$3");
     fs.writeFileSync(loaderPath + '/' + loaderFileName, loaderContent);
 };
 
