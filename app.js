@@ -5,19 +5,35 @@
  *
  * Copyright (c) 2013, 2GIS
  */
-var express = require('express'),
-    exec = require('child_process').exec,
-    build = require('./build/build.js'),
-    app = express();
+var http = require('http'),
+    express = require('express'),
+    build = require('./build/build.js');
+
+var app = express();
 
 build.init();
 
 /**
- * App settings
+ * General configuration of the application
  */
-app.use(express.static(__dirname + '/public'));
+app.set('env', 'production');
 app.set('port', 3000);
-app.set('host', '0.0.0.0');
+app.set('host', '127.0.0.1');
+app.use(express.static(__dirname + '/public'));
+
+/**
+ * Configuration for the "development" mode
+ */
+app.configure('development', function () {
+    console.log('Running in development mode');
+});
+
+/**
+ * Configuration for the "production" mode
+ */
+app.configure('production', function () {
+    console.log('Running in production mode');
+});
 
 /**
  * Routes
@@ -53,5 +69,6 @@ app.get('/css', function(req, res){
 /**
  * Start app
  */
-app.listen(app.get('port'), app.get('host'));
-console.log('Maps API 2.0 server listening on port: ' + app.get('port') + ' and host: ' + app.get('host'));
+http.createServer(app).listen(app.get('port'), app.get('host'), function(){
+    console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
+});
