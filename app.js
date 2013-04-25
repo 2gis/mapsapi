@@ -17,7 +17,7 @@ build.init();
  */
 app.use(express.static(__dirname + '/public'));
 app.set('port', 3000);
-app.set('host', 0.0.0.0);
+app.set('host', '0.0.0.0');
 
 /**
  * Routes
