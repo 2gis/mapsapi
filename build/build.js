@@ -732,7 +732,7 @@ exports.getJS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeJSPackage(modulesList, params.skin);
-    contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation (node-webworker or Java)
+    contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };
 
@@ -746,6 +746,6 @@ exports.getCSS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE);
-    contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation (node-webworker or Java)
+    contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };
