@@ -24,7 +24,7 @@ var app = express();
  * General configuration of the application
  */
 app.set('port', config.PORT || '3000');
-app.set('host', config.HOST || null);
+app.set('host', config.HOST || '0.0.0.0');
 app.use(express.static(__dirname + '/public'));
 
 /**
