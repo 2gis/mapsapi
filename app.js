@@ -22,20 +22,6 @@ app.set('host', '127.0.0.1');
 app.use(express.static(__dirname + '/public'));
 
 /**
- * Configuration for the "development" mode
- */
-app.configure('development', function () {
-    console.log('Running in development mode');
-});
-
-/**
- * Configuration for the "production" mode
- */
-app.configure('production', function () {
-    console.log('Running in production mode');
-});
-
-/**
  * Routes
  */
 app.all(/^\/(js|css)$/, function(req, resp, next) {
