@@ -6,17 +6,18 @@
  * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
 var fs = require('fs'),
+    path = require('path'),
+    exec = require('child_process').exec,
+    grunt = require('grunt'),
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
     execSync = require('execSync'),
-    grunt = require('grunt'),
-    exec = require('child_process').exec,
-    config = require('./config.js').config,
-    packages = require('./packs.js').packages,
-    hint = require('./hintrc.js'),
+    config = require(__dirname + '/config.js').config,
+    packages = require(__dirname + '/packs.js').packages,
+    hint = require(__dirname + '/hintrc.js'),
     /**
      * Global data stores
      */
@@ -235,11 +236,11 @@ function copyImages() {
     }
 
     function copySkinImg(skinsPath) {
-        var imgList = grunt.file.expand([skinsPath + config.img.src]);
+        var imgList = grunt.file.expand([skinsPath + config.img.pattern]);
 
         for (var i = 0, count = imgList.length; i < count; i++) {
             var srcPath = imgList[i],
-                fileName = srcPath.replace(/^.*[\\\/]/, ''),
+                fileName = path.basename(srcPath),
                 destPath = config.img.dest + '/' + fileName;
 
             if (fs.existsSync(srcPath)) {
@@ -698,6 +699,13 @@ exports.build = function() {
         console.log(okMsg('\nBuild successfully completed!'));
     }
 
+};
+
+/**
+ * Get params of app from config files (web app)
+ */
+exports.getConfig = function() {
+    return getAppConfig();
 };
 
 /**

@@ -7,18 +7,24 @@
  */
 var http = require('http'),
     express = require('express'),
-    build = require('./build/build.js');
+    build = require(__dirname + '/build/build.js'),
+    config = build.getConfig();
 
-var app = express();
-
+/**
+ * Init builder
+ */
 build.init();
+
+/**
+ * Init application
+ */
+var app = express();
 
 /**
  * General configuration of the application
  */
-app.set('env', 'production');
-app.set('port', 3000);
-app.set('host', '127.0.0.1');
+app.set('port', config.PORT || '3000');
+app.set('host', config.HOST || '127.0.0.1');
 app.use(express.static(__dirname + '/public'));
 
 /**

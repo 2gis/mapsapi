@@ -8496,7 +8496,7 @@ L.DG.DivIcon = L.Icon.extend({
     },
 
     createIcon: function () {
-        var div = this._div = document.createElement('div'),
+        var div = document.createElement('div'),
             options = this.options;
 
         if (options.html) {
@@ -8513,10 +8513,10 @@ L.DG.DivIcon = L.Icon.extend({
 
         if (L.DG.configTheme.markersData.animation) {
             L.DomEvent
-                .on(div, 'mouseover', this.markerMousoverHandler, this)
-                .on(div, 'mouseout', this.markerMousoutHandler, this)
-                .on(div, 'mousedown', this.markerMousedownHandler, this)
-                .on(div, 'mouseup', this.markerMouseupHandler, this);
+                .on(div, 'mouseover', this.markerMousoverHandler)
+                .on(div, 'mouseout', this.markerMousoutHandler)
+                .on(div, 'mousedown', this.markerMousedownHandler)
+                .on(div, 'mouseup', this.markerMouseupHandler);
         }
 
         this._setIconStyles(div, 'icon');
@@ -8528,25 +8528,25 @@ L.DG.DivIcon = L.Icon.extend({
     },
 
     markerMousoverHandler: function () {
-        clearTimeout(this.markerAnimationTimeout);
-        L.DomUtil.addClass(this.divMarker, 'dg-marker_mouseover');
+        clearTimeout(this._markerAnimationTimeout);
+        L.DomUtil.addClass(this.firstChild, 'dg-marker_mouseover');
     },
 
     markerMousoutHandler: function () {
         var _this = this;
 
-        this.markerAnimationTimeout = setTimeout(function () {
-            L.DomUtil.removeClass(_this.divMarker, 'dg-marker_mouseover');
-            L.DomUtil.removeClass(_this.divMarker, 'dg-marker_mousedown');
+        this._markerAnimationTimeout = setTimeout(function () {
+            L.DomUtil.removeClass(_this.firstChild, 'dg-marker_mouseover');
+            L.DomUtil.removeClass(_this.firstChild, 'dg-marker_mousedown');
         }, 100);
     },
 
     markerMousedownHandler: function () {
-        L.DomUtil.addClass(this.divMarker, 'dg-marker_mousedown');
+        L.DomUtil.addClass(this.firstChild, 'dg-marker_mousedown');
     },
 
     markerMouseupHandler: function () {
-        L.DomUtil.removeClass(this.divMarker, 'dg-marker_mousedown');
+        L.DomUtil.removeClass(this.firstChild, 'dg-marker_mousedown');
     }
 });
 
@@ -8609,10 +8609,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     this._map = map;
 
-    this._zoomInButton = this._createButton(
-        '+', 'Zoom in', zoomName + '__in', container, this._zoomIn, this);
-    this._zoomOutButton = this._createButton(
-        '-', 'Zoom out', zoomName + '__out', container, this._zoomOut, this);
+    this._zoomInButton = this._createButton('+', 'Zoom in', zoomName + '__in', container, this._zoomIn, this);
+    this._zoomOutButton = this._createButton('-', 'Zoom out', zoomName + '__out', container, this._zoomOut, this);
 
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 
@@ -8641,23 +8639,19 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     L.Popup.prototype._initLayout = function () {
         var prefix = 'leaflet-popup',
-            containerClass = prefix + ' ' + this.options.className + ' leaflet-zoom-' +
-                (this._animated ? 'animated' : 'hide'),
+            containerClass = prefix + ' ' + this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
             container = this._container = L.DomUtil.create('div', containerClass),
             closeButton;
 
         if (this.options.closeButton) {
-            closeButton = this._closeButton =
-                L.DomUtil.create('a', prefix + '-close-button', container);
+            closeButton = this._closeButton = L.DomUtil.create('a', prefix + '-close-button', container);
             closeButton.href = '#close';
             closeButton.innerHTML = '&#215;';
             L.DomEvent.disableClickPropagation(closeButton);
-
             L.DomEvent.on(closeButton, 'click', this._onCloseButtonClick, this);
         }
 
-        var wrapper = this._wrapper =
-            L.DomUtil.create('div', prefix + '-content-wrapper', container);
+        var wrapper = this._wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
         L.DomEvent.disableClickPropagation(wrapper);
 
         this._contentNode = L.DomUtil.create('div', prefix + '-content dg-callout ', wrapper);
