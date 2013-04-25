@@ -61,6 +61,10 @@ app.get('/css', function(req, res){
 /**
  * Start app
  */
-http.createServer(app).listen(app.get('port'), app.get('host'), function(){
-    console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
+//http.createServer(app).listen(app.get('port'), app.get('host'), function(){
+//    console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
+//});
+
+http.createServer(app).listen(app.get('port'), function(){
+    console.log('Maps API 2.0 server listening on ' + app.get('port'));
 });
