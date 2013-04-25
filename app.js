@@ -16,6 +16,8 @@ build.init();
  * App settings
  */
 app.use(express.static(__dirname + '/public'));
+app.set('port', 3000);
+app.set('host', 0.0.0.0);
 
 /**
  * Routes
@@ -51,24 +53,5 @@ app.get('/css', function(req, res){
 /**
  * Start app
  */
-app.listen(3000);
-console.log('Maps API 2.0 server listening on port 3000');
-
-///**
-// * Auto update
-// */
-//function autoUpdate(callback) {
-//    setInterval(function() {
-//        exec('git pull', function (error, stdout, stderr) {
-//            if (error || stderr) { return; }
-//            if (stdout.indexOf('Already up-to-date') < 0) {
-//                callback();
-//            }
-//        });
-//    }, 30 * 1000);
-//}
-//
-//autoUpdate(function() {
-//    build.init();
-//    console.log('Update app!' );
-//});
+app.listen(app.get('port'), app.get('host'));
+console.log('Maps API 2.0 server listening on port: ' + app.get('port') + ' and host: ' + app.get('host'));
