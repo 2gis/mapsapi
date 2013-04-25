@@ -38,7 +38,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     L.Popup.prototype.options = {
         minWidth: 50,
-        maxWidth: 300,
+        maxWidth: 310,
         maxHeight: null,
         autoPan: true,
         closeButton: true,
