@@ -276,7 +276,7 @@ function getCopyrightsData() {
  * @return {Array}
  */
 function getModulesList(pkg, isMsg) {
-    var modulesListOrig = [],
+    var modulesListOrig = ['Core'],
         modulesListRes = [],
         loadedModules = {};
 

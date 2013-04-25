@@ -47,7 +47,8 @@ var deps = {
 
     DGDivIcon: {
         desc: 'DG.DivIcon module.',
-        src: ['DGDivIcon/src/DGDivIcon.js']
+        src: ['DGDivIcon/src/DGDivIcon.js'],
+        deps: ['DivIcon']
 
     }
 
