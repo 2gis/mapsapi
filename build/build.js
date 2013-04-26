@@ -596,7 +596,9 @@ function getAppConfig() {
  */
 function setParams(content, config) {
     for (var pattern in config ) {
-        content = content.replace("__" + pattern + "__", config[pattern]);
+        var search = "__" + pattern + "__",
+            replace = config[pattern];
+        content = content.split(search).join(replace);
     }
     return content;
 }

@@ -8,7 +8,7 @@
         display: none;
     }
     .leaflet-popup-tip-container {
-        background: url('../img/dg-callout-default.png') 0 -24px no-repeat;
+        background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
         bottom: -44px;
         height: 46px;
         left: 45px;
@@ -17,7 +17,7 @@
         width: 55px;
     }
     .leaflet-container a.leaflet-popup-close-button {
-        background: url(../img/dg-callout-default.png) 0 0 no-repeat;
+        background: url(__BASE_URL__/img/dg-callout-default.png) 0 0 no-repeat;
         border-radius: 2px;
         color: #aaa;
         font-weight: 400;
@@ -29,7 +29,7 @@
         width: 24px;
     }
     .leaflet-container a.leaflet-popup-close-button:hover {
-        background: url(../img/dg-callout-default.png) -24px 0 no-repeat;
+        background: url(__BASE_URL__/img/dg-callout-default.png) -24px 0 no-repeat;
     }
 
 /* Callout styles for 2GIS markup */
