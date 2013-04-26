@@ -20,11 +20,11 @@ var deps = {
         deps: ['DGDivIcon']
     },
 
-    DGLayer: {
+    DGTileLayer: {
         desc: '2GIS Tile Layer module.',
-        src: ['DGLayer/src/DGLayer.js'],
+        src: ['DGTileLayer/src/DGTileLayer.js'],
         css: {
-            all: ['DGLayer/skin/{skin}/css/style.css']
+            all: ['DGTileLayer/skin/{skin}/css/style.css']
         },
         deps: ['TileLayer', 'DGCore']
     },

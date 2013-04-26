@@ -75,7 +75,7 @@
                             "ru": {
                                 "title": "TileLayer",
                                 "uri": "doc/tilelayer/tilelayer.html",
-                                "_src": "DGLayer/doc/DGLayer.md",
+                                "_src": "DGTileLayer/doc/DGTileLayer.md",
                                 "hide": true
                             }
                         },
