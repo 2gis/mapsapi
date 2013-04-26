@@ -31,6 +31,7 @@ app.use(express.static(__dirname + '/public'));
  * Routes
  */
 app.all(/^\/(js|css)$/, function(req, resp, next) {
+    //@todo Add validations
     req.dgParams = {};
     req.dgParams.pkg = req.query.load || null;
     req.dgParams.isDebug = req.query.mode === 'debug';
