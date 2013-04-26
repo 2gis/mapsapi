@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>2GIS Project Detector Plugin demo</title>
+    <title>2GIS Project detector plugin demo</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://maps.api.2gis.ru/2.0/loader.js?load=full&mode=debug"></script>
@@ -13,19 +13,9 @@
 <script type="text/javascript">
     L.onLoad(function () {
         var currentProjectBound,
-            dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
-            errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
-            dgAttribution = 'Map data &copy; 2012 2GIS',
-            dgLayer = new L.TileLayer(dgUrl, {
-                maxZoom:18,
-                subdomains:'0123',
-                errorTileUrl:errorTileUrl,
-                attribution:dgAttribution
-            }),
             map = new L.Map('map', {
                 center:new L.LatLng(54.980206086231, 82.898068362003),
-                zoom:10,
-                layers:[dgLayer]
+                zoom:10
             });
 
         L.control.scale({imperial:false}).addTo(map);
