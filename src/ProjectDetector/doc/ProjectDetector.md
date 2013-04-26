@@ -1,22 +1,16 @@
-Leaflet DG Project Detector Plugin
+2GIS Project Detector Plugin
 ====================================
 
-Плагин для обнаружения текущего проекта на карте.
+Проект — это агломерация, включающая крупный город и ближайшие населённые пункты.
 
-Текущая версия 1.0.0
-
-Copyright (c) 2013, 2GIS, Dima Rudenko
-
-# Документация
-
-Плагин добавляет новый хендлер projectDetector, и тригирит два события: "projectchange" и "projectleave"
+Данный плагин позволяет получить информацию о проекте, который просматривает пользователь в текущий момент времени.
 
 ## События
 
     projectchange    Событие возникает при смене проекта.
     projectleave     Событие возникает при выходе из текущего проекта.
 
-### Методы событий
+### Методы объектов событий
 
     getProjectList  {Function}  Возвращает все доступные проекты.
     getProject      {Function}  Возвращает текущий проект.
@@ -26,16 +20,11 @@ Copyright (c) 2013, 2GIS, Dima Rudenko
 
     var bounds;
     map.on('projectchange', function (e) {
-        if (currentProjectBound) {
-            currentProjectBound.onRemove(map);
-        }
-
-        bounds = e.getProject().LatLngBounds;
-        currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
+        console.log(e);
     });
 
-## Событие на выход из проекта:
+## Событие при выходе из текущего проекта:
 
     map.on('projectleave', function (e) {
-       alert("Вы покинули проект.");
+       console.log(e);
     });

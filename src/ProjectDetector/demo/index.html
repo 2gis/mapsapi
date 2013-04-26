@@ -36,7 +36,7 @@
             currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
         });
 
-        map.on('projectleave', function () {
+        map.on('projectleave', function (e) {
             // use projectleave event
             if (currentProjectBound) {
                 currentProjectBound.onRemove(map);
