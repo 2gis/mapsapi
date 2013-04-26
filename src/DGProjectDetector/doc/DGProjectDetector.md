@@ -51,13 +51,13 @@
 </table>
 
 # Примеры
-## Событие при смене проекта
+Событие projectchange:
 
     map.on('projectchange', function (e) {
         console.log(e);
     });
 
-## Событие при выходе из текущего проекта
+Событие projectleave:
 
     map.on('projectleave', function (e) {
        console.log(e);
