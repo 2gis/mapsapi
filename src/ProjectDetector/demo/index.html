@@ -4,58 +4,45 @@
     <title>Leaflet DG Project detector Demo</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="../../../vendors/leaflet/dist/leaflet-src.js"></script>
-
-    <link rel="stylesheet" href="../../../vendors/leaflet/dist/leaflet.css"/>
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="../../../vendors/leaflet/dist/leaflet.ie.css"/><![endif]-->
-
-    <script src="../src/Jsonp.js"></script>
-    <script src="../src/ProjectDetector.js"></script>
-
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?load=full&mode=debug"></script>
 </head>
 <body>
-
 
 <div id="map" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
 
 <script type="text/javascript">
-    var currentProjectBound;
-    var dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
+    L.onLoad(function () {
+        var currentProjectBound,
+            dgUrl = 'http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=4',
             errorTileUrl = 'http://maps.api.2gis.ru/images/nomap.png',
-            dgAttribution = 'Map data &copy; 2012 2GIS';
+            dgAttribution = 'Map data &copy; 2012 2GIS',
+            dgLayer = new L.TileLayer(dgUrl, {
+                maxZoom:18,
+                subdomains:'0123',
+                errorTileUrl:errorTileUrl,
+                attribution:dgAttribution
+            }),
+            map = new L.Map('map', {
+                center:new L.LatLng(54.980206086231, 82.898068362003),
+                zoom:10,
+                layers:[dgLayer]
+            });
 
-    var dgLayer = new L.TileLayer(dgUrl, {
-        maxZoom:18,
-        subdomains:'0123',
-        errorTileUrl:errorTileUrl,
-        attribution:dgAttribution
+        L.control.scale({imperial:false}).addTo(map);
+
+        map.on('projectchange', function (e) {
+            // use "projectchange" event
+            var bounds = e.getProject().LatLngBounds;
+            currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
+        });
+
+        map.on('projectleave', function () {
+            // use projectleave event
+            if (currentProjectBound) {
+                currentProjectBound.onRemove(map);
+            }
+        });
     });
-
-    var map = new L.Map('map', {
-        center:new L.LatLng(54.980206086231, 82.898068362003),
-        zoom:10,
-        layers:[dgLayer]
-    });
-
-    L.control.scale({imperial:false}).addTo(map);
-
-    map.on('projectchange', function (e) {
-        // some code using "projectchange" event
-
-        var bounds = e.getProject().LatLngBounds;
-        currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
-    });
-
-    map.on('projectleave', function () {
-        // some code using this event
-
-        if (currentProjectBound) {
-            currentProjectBound.onRemove(map);
-        }
-    });
-
 </script>
 
 </body>
