@@ -7,7 +7,7 @@
         version = 'v=e180f0';
 
     function initLoader() {
-        window.L = {} || window.L;
+        window.L = window.L || {};
         window.L.onLoad = function(callback) {
             onLoadJS = callback;
         };
