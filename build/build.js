@@ -3,19 +3,21 @@
  *
  * Version 2.0.0
  *
- * Copyright (c) 2013, 2GIS
+ * Copyright (c) 2013, 2GIS, Andrey Chizh
  */
 var fs = require('fs'),
+    path = require('path'),
+    exec = require('child_process').exec,
+    grunt = require('grunt'),
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
-    exec = require('child_process').exec,
-    config = require('./config.js').config,
-    packages = require('./packs.js').packages,
-    hint = require('./hintrc.js'),
     execSync = require('execSync'),
+    config = require(__dirname + '/config.js').config,
+    packages = require(__dirname + '/packs.js').packages,
+    hint = require(__dirname + '/hintrc.js'),
     /**
      * Global data stores
      */
@@ -195,59 +197,58 @@ function processCss(srcConf, basePath) {
     return cssContent;
 }
 
-
+/**
+ * Clear img folder and copy all images from skins folder
+ */
 function copyImages() {
-    var source = config.source;
+    var sourceDeps = config.source,
+        publicImgPath = config.img.dest,
+        countImg = 0;
 
+    console.log('Clear public/img folder.');
     cleanImgDir();
-
-    for (var creator in source) {
-        if (source.hasOwnProperty(creator)) {
-            var basePath = source[creator].path,
-                modulesList = fs.readdirSync(basePath);
-
-            for (var i = 0, count = modulesList.length; i < count; i++) {
-                var moduleName = modulesList[i],
-                    skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
-                if (fs.existsSync(skinsPath)) {
-                    var skinsList = fs.readdirSync(skinsPath);
-                    if (skinsList) {
-                        processSkins(skinsList);
-                    }
-                }
-            }
-        }
-    }
-
-    function processSkins(skinsList) {
-        for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-            var skinName = skinsList[j],
-                skinImgPath = skinsPath + skinName + '/' + config.img.dir;
-            if (fs.existsSync(skinImgPath)) {
-                var command = 'cp -R ' + skinImgPath + '/ ' + config.img.dest;
-                exec(command, function (error, stdout, stderr) {
-                    if (error || stderr) {
-                        console.log(errMsg('Error copy image! ' + error));
-                        errors.push('Copy img');
-                    }
-                });
-            }
-        }
-    }
+    console.log('Copy all skins images to public/img...');
+    copyImg();
+    console.log('Done. Copy ' + countImg + ' images.');
 
     function cleanImgDir() {
-        var publicImgPath = config.img.dest;
-        if (fs.existsSync(publicImgPath)) {
-            var command = 'rm -rf ' + publicImgPath;
-            exec(command, function (error, stdout, stderr) {
-                if (error || stderr) {
-                    console.log(errMsg('Error delete public images dir! ' + error));
-                    errors.push('Clean img folder');
-                }
-            });
+        if (grunt.file.isDir(publicImgPath)) {
+            grunt.file.delete(publicImgPath);
+            grunt.file.mkdir(publicImgPath);
         }
     }
 
+    function copyImg() {
+        for (var creator in sourceDeps) {
+            if (sourceDeps.hasOwnProperty(creator)) {
+                var basePath = sourceDeps[creator].path,
+                    modulesList = fs.readdirSync(basePath);
+
+                for (var i = 0, count = modulesList.length; i < count; i++) {
+                    var moduleName = modulesList[i],
+                        skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
+                    if (fs.existsSync(skinsPath)) {
+                        copySkinImg(skinsPath);
+                    }
+                }
+            }
+        }
+    }
+
+    function copySkinImg(skinsPath) {
+        var imgList = grunt.file.expand([skinsPath + config.img.pattern]);
+
+        for (var i = 0, count = imgList.length; i < count; i++) {
+            var srcPath = imgList[i],
+                fileName = path.basename(srcPath),
+                destPath = config.img.dest + '/' + fileName;
+
+            if (fs.existsSync(srcPath)) {
+                grunt.file.copy(srcPath, destPath);
+                countImg++;
+            }
+        }
+    }
 }
 
 /**
@@ -275,7 +276,7 @@ function getCopyrightsData() {
  * @return {Array}
  */
 function getModulesList(pkg, isMsg) {
-    var modulesListOrig = [],
+    var modulesListOrig = ['Core'],
         modulesListRes = [],
         loadedModules = {};
 
@@ -301,7 +302,7 @@ function getModulesList(pkg, isMsg) {
     }
 
     if (isMsg) {
-        console.log('Build modules:');
+        console.log('\nBuild modules:');
     }
 
     for (var i = 0, count = modulesListOrig.length; i < count; i++) {
@@ -609,6 +610,7 @@ exports.setVersion = function () {
         loaderFileName = config.loader.name,
         command = "git rev-parse --verify HEAD",
         loaderContent,
+        smallHash,
         hash;
 
     if (!fs.existsSync(loaderPath + '/' + loaderFileName)) {
@@ -617,11 +619,20 @@ exports.setVersion = function () {
 
     loaderContent = fs.readFileSync(loaderPath + '/' + loaderFileName).toString();
     hash = execSync.stdout(command);
-    loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})(&[\w]+=)*.*(['"]{1})/g, "$1$2" + hash.substr(0, 6) + "$3");
+    smallHash = hash.substr(0, 6);
+
+    console.log('Set version of stat files: ' + smallHash + '\n');
+
+    loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})([\w]+=)*.*(['"]{1})/g, "$1$2" + smallHash + "$3");
     fs.writeFileSync(loaderPath + '/' + loaderFileName, loaderContent);
 };
 
-
+/**
+ * Copy all images (CLI command)
+ */
+exports.copyImages = function() {
+    copyImages();
+};
 
 /**
  * Lint (CLI command)
@@ -654,9 +665,9 @@ exports.build = function() {
         console.log('Build public GitHub full package!\n');
     }
 
-    copyImages();
-
     console.log('Skin: ' + skin + '\n');
+
+    copyImages();
 
     modulesList = getModulesList(pkg, true);
 
@@ -691,6 +702,13 @@ exports.build = function() {
 };
 
 /**
+ * Get params of app from config files (web app)
+ */
+exports.getConfig = function() {
+    return getAppConfig();
+};
+
+/**
  * Load content of all source JS files to memory (web app)
  * Must run only 1 time on start app
  */
@@ -714,7 +732,7 @@ exports.getJS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeJSPackage(modulesList, params.skin);
-    contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation (node-webworker or Java)
+    contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };
 
@@ -728,6 +746,6 @@ exports.getCSS = function(params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE);
-    contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation (node-webworker or Java)
+    contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };

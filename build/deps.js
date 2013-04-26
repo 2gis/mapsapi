@@ -3,16 +3,21 @@ var deps = {
     DGCore: {
         desc: 'Main DG module.',
         src: [
-            'DGCore/skin/{skin}/theme.config.js'
+            'DGCore/skin/{skin}/theme.config.js',
+            'DGCore/DGCore.js'
         ],
         css: {
             all: [
                 '../vendors/leaflet/dist/leaflet.css',
-                'DGCore/skin/basic/css/leaflet-reset.css'
+                'DGCore/skin/basic/css/leaflet-reset.css',
+                'DGCore/skin/{skin}/css/zoom.css',
+                'DGCore/skin/{skin}/css/callout.css',
+                'DGCore/skin/{skin}/css/marker.css'
             ],
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
-        heading: '2GIS modules'
+        heading: '2GIS modules',
+        deps: ['DGDivIcon']
     },
 
     DGLayer: {
@@ -62,6 +67,13 @@ var deps = {
         src: ['DGGeoclicker/src/Geoclicker.js'],
         deps: ['JSONP', 'DGGeoclickerHandlersManager']
     },
+    DGDivIcon: {
+        desc: 'DG.DivIcon module.',
+        src: ['DGDivIcon/src/DGDivIcon.js'],
+        deps: ['DivIcon']
+
+    }
+
 };
 
 if (typeof exports !== 'undefined') {

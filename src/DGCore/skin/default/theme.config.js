@@ -7,15 +7,16 @@ L.DG.configTheme = {
     name: 'default',
 
     balloonOptions: {
-        offset: [139, -17]
+        offset: {
+            x: 18,
+            y: -30
+        }
     },
 
     markersData: {
-        defaultMarker: {
-            iconSize: [16, 24],
-            popupAnchor: [26, 27],
-            animation: true
-        }
+        iconSize: [16, 24],
+        popupAnchor: [40, 16],
+        animation: true
     },
 
     controls: {

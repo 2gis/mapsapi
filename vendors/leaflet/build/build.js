@@ -32,7 +32,7 @@ function getFiles(compsBase32) {
 
 	if (compsBase32) {
 		comps = parseInt(compsBase32, 32).toString(2).split('');
-		console.log('Managing dependencies...')
+		console.log('Managing dependencies...');
 	}
 
 	function addFiles(srcs) {
@@ -117,7 +117,7 @@ exports.build = function (compsBase32, buildName) {
 
 	var copy = fs.readFileSync('src/copyright.js', 'utf8'),
 	    intro = '(function (window, document, undefined) {',
-	    outro = '}(this, document));',
+	    outro = '}(window, document));',
 	    newSrc = copy + intro + combineFiles(files) + outro,
 
 	    pathPart = 'dist/leaflet' + (buildName ? '-' + buildName : ''),
@@ -156,18 +156,21 @@ exports.build = function (compsBase32, buildName) {
 };
 
 exports.test = function() {
-	var testacular = require('testacular'),
-	    testConfig = {configFile : __dirname + '/../spec/testacular.conf.js'};
+	var karma = require('karma'),
+	    testConfig = {configFile : __dirname + '/../spec/karma.conf.js'};
 
 	testConfig.browsers = ['PhantomJS'];
-	isArgv('--chrome') &&  testConfig.browsers.push('Chrome');
-	isArgv('--ff') && testConfig.browsers.push('Firefox');
 
-	// will work only with new testacular that supports code coverage (today it's in master)
-	if (isArgv('--cov')) { // temporary hack until testacular with coverage becomes stable
-		testacular = require('../node_modules/testacular/lib/index.js'); // use local testacular
+	if (isArgv('--chrome')) {
+		testConfig.browsers.push('Chrome');
+	}
+	if (isArgv('--ff')) {
+		testConfig.browsers.push('Firefox');
+	}
+
+	if (isArgv('--cov')) {
 		testConfig.preprocessors = {
-			'**/src/**/*.js': 'coverage',
+			'../src/**/*.js': 'coverage'
 		};
 		testConfig.coverageReporter = {
 			type : 'html',
@@ -176,9 +179,9 @@ exports.test = function() {
 		testConfig.reporters = ['coverage'];
 	}
 
-	testacular.server.start(testConfig);
+	karma.server.start(testConfig);
 
-	function isArgv(optName){
+	function isArgv(optName) {
 		return process.argv.indexOf(optName) !== -1;
 	}
-}
+};

@@ -2,13 +2,13 @@ var packages = {
 
     base: {
         name: 'Базовый',
-        modules: ['Core', 'TileLayer', 'DGControlZoom', 'DGLayer', 'DGGeoclicker'],
+        modules: ['Core', 'TileLayer', 'DGLayer'],
         desc: 'Представляет собой самый базовый функционал: карта и элементы управления'
     },
     
     standard: {
         name: 'Стандарт',
-        modules: ['Core', 'TileLayer', 'DGControlZoom', 'DGLayer', 'Marker', 'DivIcon', 'Popup'],
+        modules: ['Core', 'TileLayer', 'DGLayer', 'Marker', 'DivIcon', 'Popup'],
         desc: 'Представляет собой стандартный функционал: карта, маркеры, балуны, геометрии'
     },
 

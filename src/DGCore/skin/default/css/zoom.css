@@ -1,14 +1,13 @@
-/**
- * Zoom control styles
- */
+/*Zoom control styles*/
+
 .dg-zoom {
-    background: url(../images/zoom/zoom_sprite.png) -118px 0 repeat-y;
+    background: url(../img/dg-zoom-default-zoom-sprite.png) -118px 0 repeat-y;
     padding: 0 2px;
     width: 24px;
 }
 .dg-zoom:before,
 .dg-zoom:after {
-    background: url(../images/zoom/zoom_sprite.png) -80px -32px no-repeat;
+    background: url(../img/dg-zoom-default-zoom-sprite.png) -80px -32px no-repeat;
     content: '';
     display: block;
     height: 4px;
@@ -24,8 +23,9 @@
 }
     .dg-zoom__in,
     .dg-zoom__out {
-        background: url(../images/zoom/zoom_sprite.png) -20px 0 no-repeat;
+        background: url(../img/dg-zoom-default-zoom-sprite.png) -20px 0 no-repeat;
         cursor: pointer;
+        display: block;
         height: 20px;
         overflow: hidden;
         text-indent: -999px;

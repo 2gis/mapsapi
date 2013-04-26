@@ -257,7 +257,9 @@ L.Class.extend = function (props) {
 	proto._initHooks = [];
 
 	var parent = this;
+	// jshint camelcase: false
 	NewClass.__super__ = parent.prototype;
+
 	// add method for calling all hooks
 	proto.callInitHooks = function () {
 
@@ -305,7 +307,7 @@ L.Class.addInitHook = function (fn) { // (Function) || (String, args...)
  * L.Mixin.Events is used to add custom events functionality to Leaflet classes.
  */
 
-var key = '_leaflet_events';
+var eventsKey = '_leaflet_events';
 
 L.Mixin = {};
 
@@ -313,10 +315,7 @@ L.Mixin.Events = {
 
 	addEventListener: function (types, fn, context) { // (String, Function[, Object]) or (Object[, Object])
 
-		var events = this[key] = this[key] || {},
-		    contextId = context && L.stamp(context),
-		    type, i, len, evt,
-		    objKey, objLenKey, eventsObj;
+		var type;
 
 		// types can be a map of types/handlers
 		if (typeof types === 'object') {
@@ -325,37 +324,45 @@ L.Mixin.Events = {
 					this.addEventListener(type, types[type], fn);
 				}
 			}
-
 			return this;
 		}
+
+		var events = this[eventsKey] = this[eventsKey] || {},
+		    contextId = context && L.stamp(context),
+		    i, len, event, indexKey, indexLenKey, typeIndex;
 
 		// types can be a string of space-separated words
 		types = L.Util.splitWords(types);
 
 		for (i = 0, len = types.length; i < len; i++) {
-			evt = {
+			event = {
 				action: fn,
 				context: context || this
 			};
+			type = types[i];
 
-			if (contextId) {
+			if (context) {
 				// store listeners of a particular context in a separate hash (if it has an id)
 				// gives a major performance boost when removing thousands of map layers
 
-				objKey = types[i] + '_idx',
-				objLenKey = objKey + '_len',
-				eventsObj = events[objKey] = events[objKey] || {};
+				indexKey = type + '_idx',
+				indexLenKey = indexKey + '_len',
 
-				if (eventsObj[contextId]) {
-					eventsObj[contextId].push(evt);
-				} else {
-					eventsObj[contextId] = [evt];
-					events[objLenKey] = (events[objLenKey] || 0) + 1;
+				typeIndex = events[indexKey] = events[indexKey] || {};
+
+				if (!typeIndex[contextId]) {
+					typeIndex[contextId] = [];
+
+					// keep track of the number of keys in the index to quickly check if it's empty
+					events[indexLenKey] = (events[indexLenKey] || 0) + 1;
 				}
 
+				typeIndex[contextId].push(event);
+
+
 			} else {
-				events[types[i]] = events[types[i]] || [];
-				events[types[i]].push(evt);
+				events[type] = events[type] || [];
+				events[type].push(event);
 			}
 		}
 
@@ -363,16 +370,18 @@ L.Mixin.Events = {
 	},
 
 	hasEventListeners: function (type) { // (String) -> Boolean
-		return (key in this) &&
-		       (((type in this[key]) && this[key][type].length > 0) ||
-		        (this[key][type + '_idx_len'] > 0));
+		var events = this[eventsKey];
+		return !!events && ((type in events && events[type].length > 0) ||
+		                    (type + '_idx' in events && events[type + '_idx_len'] > 0));
 	},
 
-	removeEventListener: function (types, fn, context) { // (String[, Function, Object]) or (Object[, Object])
-		var events = this[key],
-		    contextId = context && L.stamp(context),
-		    type, i, len, listeners, j,
-		    objKey, objLenKey;
+	removeEventListener: function (types, fn, context) { // ([String, Function, Object]) or (Object[, Object])
+
+		if (!types) {
+			return this.clearAllEventListeners();
+		}
+
+		var type;
 
 		if (typeof types === 'object') {
 			for (type in types) {
@@ -383,33 +392,47 @@ L.Mixin.Events = {
 			return this;
 		}
 
+		var events = this[eventsKey],
+		    contextId = context && L.stamp(context),
+		    i, len, listeners, j, indexKey, indexLenKey, typeIndex;
+
 		types = L.Util.splitWords(types);
 
 		for (i = 0, len = types.length; i < len; i++) {
-			if (this.hasEventListeners(types[i])) {
+			type = types[i];
+			indexKey = type + '_idx';
+			indexLenKey = indexKey + '_len';
 
-				objKey = types[i] + '_idx';
+			typeIndex = events[indexKey];
 
-				if (contextId && events[objKey]) {
-					listeners =  events[objKey][contextId] || [];
-				} else {
-					listeners = events[types[i]] || [];
-				}
+			if (!fn) {
+				// clear all listeners for a type if function isn't specified
+				delete events[type];
+				delete events[indexKey];
 
-				for (j = listeners.length - 1; j >= 0; j--) {
-					if ((!fn || listeners[j].action === fn) && (!context || (listeners[j].context === context))) {
-						listeners.splice(j, 1);
+			} else {
+				listeners = context && typeIndex ? typeIndex[contextId] : events[type];
+
+				if (listeners) {
+					for (j = listeners.length - 1; j >= 0; j--) {
+						if ((listeners[j].action === fn) && (!context || (listeners[j].context === context))) {
+							listeners.splice(j, 1);
+						}
 					}
-				}
 
-				if (contextId && listeners.length === 0 && events[objKey] && events[objKey][contextId]) {
-					objLenKey = objKey + '_len';
-					delete events[objKey][contextId];
-					events[objLenKey] = (events[objLenKey] || 1) - 1;
+					if (context && typeIndex && (listeners.length === 0)) {
+						delete typeIndex[contextId];
+						events[indexLenKey]--;
+					}
 				}
 			}
 		}
 
+		return this;
+	},
+
+	clearAllEventListeners: function () {
+		delete this[eventsKey];
 		return this;
 	},
 
@@ -423,10 +446,12 @@ L.Mixin.Events = {
 			target: this
 		});
 
-		var listeners, i, len, eventsObj, contextId;
+		var events = this[eventsKey],
+		    listeners, i, len, typeIndex, contextId;
 
-		if (this[key][type]) {
-			listeners = this[key][type].slice();
+		if (events[type]) {
+			// make sure adding/removing listeners inside other listeners won't cause infinite loop
+			listeners = events[type].slice();
 
 			for (i = 0, len = listeners.length; i < len; i++) {
 				listeners[i].action.call(listeners[i].context || this, event);
@@ -434,17 +459,15 @@ L.Mixin.Events = {
 		}
 
 		// fire event for the context-indexed listeners as well
+		typeIndex = events[type + '_idx'];
 
-		eventsObj = this[key][type + '_idx'];
+		for (contextId in typeIndex) {
+			if (typeIndex.hasOwnProperty(contextId)) {
+				listeners = typeIndex[contextId];
 
-		if (eventsObj) {
-			for (contextId in eventsObj) {
-				if (eventsObj.hasOwnProperty(contextId)) {
-					listeners = eventsObj[contextId];
-					if (listeners) {
-						for (i = 0, len = listeners.length; i < len; i++) {
-							listeners[i].action.call(listeners[i].context || this, event);
-						}
+				if (listeners) {
+					for (i = 0, len = listeners.length; i < len; i++) {
+						listeners[i].action.call(listeners[i].context || this, event);
 					}
 				}
 			}
@@ -493,7 +516,10 @@ L.Mixin.Events.fire = L.Mixin.Events.fireEvent;
 	    any3d = !window.L_DISABLE_3D && (ie3d || webkit3d || gecko3d || opera3d) && !phantomjs;
 
 
-	var touch = !window.L_NO_TOUCH && (function () {
+	// PhantomJS has 'ontouchstart' in document.documentElement, but doesn't actually support touch.
+	// https://github.com/Leaflet/Leaflet/pull/1434#issuecomment-13843151
+
+	var touch = !window.L_NO_TOUCH && !phantomjs && (function () {
 
 		var startName = 'ontouchstart';
 
@@ -841,8 +867,8 @@ L.DomUtil = {
 			left += el.offsetLeft || 0;
 
 			//add borders
-			top += parseInt(L.DomUtil.getStyle(el, "borderTopWidth"), 10) || 0;
-			left += parseInt(L.DomUtil.getStyle(el, "borderLeftWidth"), 10) || 0;
+			top += parseInt(L.DomUtil.getStyle(el, 'borderTopWidth'), 10) || 0;
+			left += parseInt(L.DomUtil.getStyle(el, 'borderLeftWidth'), 10) || 0;
 
 			pos = L.DomUtil.getStyle(el, 'position');
 
@@ -887,7 +913,7 @@ L.DomUtil = {
 	documentIsLtr: function () {
 		if (!L.DomUtil._docIsLtrCached) {
 			L.DomUtil._docIsLtrCached = true;
-			L.DomUtil._docIsLtr = L.DomUtil.getStyle(document.body, 'direction') === "ltr";
+			L.DomUtil._docIsLtr = L.DomUtil.getStyle(document.body, 'direction') === 'ltr';
 		}
 		return L.DomUtil._docIsLtr;
 	},
@@ -923,7 +949,7 @@ L.DomUtil = {
 
 	hasClass: function (el, name) {
 		return (el.className.length > 0) &&
-		        new RegExp("(^|\\s)" + name + "(\\s|$)").test(el.className);
+		        new RegExp('(^|\\s)' + name + '(\\s|$)').test(el.className);
 	},
 
 	addClass: function (el, name) {
@@ -958,7 +984,8 @@ L.DomUtil = {
 			try {
 				filter = el.filters.item(filterName);
 			} catch (e) {
-				//Don't set opacity to 1 if we haven't already set an opacity, it isn't needed and breaks transparent pngs.
+				// don't set opacity to 1 if we haven't already set an opacity,
+				// it isn't needed and breaks transparent pngs.
 				if (value === 1) { return; }
 			}
 
@@ -1007,6 +1034,7 @@ L.DomUtil = {
 
 	setPosition: function (el, point, disable3D) { // (HTMLElement, Point[, Boolean])
 
+		// jshint camelcase: false
 		el._leaflet_pos = point;
 
 		if (!disable3D && L.Browser.any3d) {
@@ -1025,6 +1053,8 @@ L.DomUtil = {
 	getPosition: function (el) {
 		// this method is only used for elements previously positioned using setPosition,
 		// so it's safe to cache the position for performance
+
+		// jshint camelcase: false
 		return el._leaflet_pos;
 	}
 };
@@ -1482,6 +1512,17 @@ L.Map = L.Class.extend({
 		return this.setZoom(this._zoom - (delta || 1));
 	},
 
+	setZoomAround: function (latlng, zoom) {
+		var scale = this.getZoomScale(zoom),
+		    viewHalf = this.getSize().divideBy(2),
+		    containerPoint = latlng instanceof L.Point ? latlng : this.latLngToContainerPoint(latlng),
+
+		    centerOffset = containerPoint.subtract(viewHalf).multiplyBy(1 - 1 / scale),
+		    newCenter = this.containerPointToLatLng(viewHalf.add(centerOffset));
+
+		return this.setView(newCenter, zoom);
+	},
+
 	fitBounds: function (bounds) { // (LatLngBounds)
 		var zoom = this.getBoundsZoom(bounds);
 		return this.setView(L.latLngBounds(bounds).getCenter(), zoom);
@@ -1640,7 +1681,8 @@ L.Map = L.Class.extend({
 
 		if (!this._loaded) { return this; }
 
-		var offset = oldSize._subtract(this.getSize())._divideBy(2)._round();
+		var newSize = this.getSize(),
+		    offset = oldSize.subtract(newSize).divideBy(2).round();
 
 		if ((offset.x !== 0) || (offset.y !== 0)) {
 			if (animate === true) {
@@ -1653,6 +1695,10 @@ L.Map = L.Class.extend({
 				clearTimeout(this._sizeTimer);
 				this._sizeTimer = setTimeout(L.bind(this.fire, this, 'moveend'), 200);
 			}
+			this.fire('resize', {
+				oldSize: oldSize,
+				newSize: newSize
+			});
 		}
 		return this;
 	},
@@ -1857,8 +1903,10 @@ L.Map = L.Class.extend({
 	_initContainer: function (id) {
 		var container = this._container = L.DomUtil.get(id);
 
-		if (container._leaflet) {
-			throw new Error("Map container is already initialized.");
+		if (!container) {
+			throw new Error('Map container not found.');
+		} else if (container._leaflet) {
+			throw new Error('Map container is already initialized.');
 		}
 
 		container._leaflet = true;
@@ -2009,7 +2057,7 @@ L.Map = L.Class.extend({
 		}
 
 		if (oldZoomSpan !== this._getZoomSpan()) {
-			this.fire("zoomlevelschange");
+			this.fire('zoomlevelschange');
 		}
 	},
 
@@ -2494,7 +2542,7 @@ L.TileLayer = L.Class.extend({
 			this._unusedTiles = [];
 		}
 
-		this._tileContainer.innerHTML = "";
+		this._tileContainer.innerHTML = '';
 
 		if (this._animated && e && e.hard) {
 			this._clearBgBuffer();
@@ -2623,7 +2671,7 @@ L.TileLayer = L.Class.extend({
 	_removeTile: function (key) {
 		var tile = this._tiles[key];
 
-		this.fire("tileunload", {tile: tile, url: tile.src});
+		this.fire('tileunload', {tile: tile, url: tile.src});
 
 		if (this.options.reuseTiles) {
 			L.DomUtil.removeClass(tile, 'leaflet-tile-loaded');
@@ -2874,7 +2922,7 @@ L.TileLayer.WMS = L.TileLayer.extend({
 
 		    url = L.Util.template(this._url, {s: this._getSubdomain(tilePoint)});
 
-		return url + L.Util.getParamString(this.wmsParams, url) + "&bbox=" + bbox;
+		return url + L.Util.getParamString(this.wmsParams, url) + '&bbox=' + bbox;
 	},
 
 	setParams: function (params, noRedraw) {
@@ -3131,7 +3179,7 @@ L.Icon = L.Class.extend({
 
 		if (!src) {
 			if (name === 'icon') {
-				throw new Error("iconUrl not set in Icon options (see the docs).");
+				throw new Error('iconUrl not set in Icon options (see the docs).');
 			}
 			return null;
 		}
@@ -3225,7 +3273,7 @@ L.Icon.Default = L.Icon.extend({
 		var path = L.Icon.Default.imagePath;
 
 		if (!path) {
-			throw new Error("Couldn't autodetect L.Icon.Default.imagePath, set it manually.");
+			throw new Error('Couldn\'t autodetect L.Icon.Default.imagePath, set it manually.');
 		}
 
 		return path + '/marker-' + name + '.png';
@@ -3959,7 +4007,7 @@ L.LayerGroup = L.Class.extend({
 	},
 
 	addLayer: function (layer) {
-		var id = L.stamp(layer);
+		var id = this.getLayerId(layer);
 
 		this._layers[id] = layer;
 
@@ -3971,7 +4019,7 @@ L.LayerGroup = L.Class.extend({
 	},
 
 	removeLayer: function (layer) {
-		var id = L.stamp(layer);
+		var id = this.getLayerId(layer);
 
 		delete this._layers[id];
 
@@ -3985,7 +4033,7 @@ L.LayerGroup = L.Class.extend({
 	hasLayer: function (layer) {
 		if (!layer) { return false; }
 
-		var id = L.stamp(layer);
+		var id = this.getLayerId(layer);
 		return this._layers.hasOwnProperty(id);
 	},
 
@@ -4047,6 +4095,10 @@ L.LayerGroup = L.Class.extend({
 
 	setZIndex: function (zIndex) {
 		return this.invoke('setZIndex', zIndex);
+	},
+
+	getLayerId: function (layer) {
+		return L.stamp(layer);
 	}
 });
 
@@ -4068,7 +4120,7 @@ L.FeatureGroup = L.LayerGroup.extend({
 	},
 
 	addLayer: function (layer) {
-		if (this._layers[L.stamp(layer)]) {
+		if (this.hasLayer(layer)) {
 			return this;
 		}
 
@@ -4087,7 +4139,6 @@ L.FeatureGroup = L.LayerGroup.extend({
 		layer.off(L.FeatureGroup.EVENTS, this._propagateEvent, this);
 
 		L.LayerGroup.prototype.removeLayer.call(this, layer);
-
 
 		if (this._popupContent) {
 			this.invoke('unbindPopup');
@@ -5247,13 +5298,13 @@ L.Circle = L.Path.extend({
 		}
 
 		if (L.Browser.svg) {
-			return "M" + p.x + "," + (p.y - r) +
-			       "A" + r + "," + r + ",0,1,1," +
-			       (p.x - 0.1) + "," + (p.y - r) + " z";
+			return 'M' + p.x + ',' + (p.y - r) +
+			       'A' + r + ',' + r + ',0,1,1,' +
+			       (p.x - 0.1) + ',' + (p.y - r) + ' z';
 		} else {
 			p._round();
 			r = Math.round(r);
-			return "AL " + p.x + "," + p.y + " " + r + "," + r + " 0," + (65535 * 360);
+			return 'AL ' + p.x + ',' + p.y + ' ' + r + ',' + r + ' 0,' + (65535 * 360);
 		}
 	},
 
@@ -5449,12 +5500,12 @@ L.Map.include((L.Path.SVG && !window.L_PREFER_CANVAS) || !L.Browser.canvas ? {} 
 		    ctx;
 
 		if (!root) {
-			root = this._pathRoot = document.createElement("canvas");
+			root = this._pathRoot = document.createElement('canvas');
 			root.style.position = 'absolute';
 			ctx = this._canvasCtx = root.getContext('2d');
 
-			ctx.lineCap = "round";
-			ctx.lineJoin = "round";
+			ctx.lineCap = 'round';
+			ctx.lineJoin = 'round';
 
 			this._panes.overlayPane.appendChild(root);
 
@@ -5900,7 +5951,7 @@ L.DomEvent = {
 			}
 
 		} else if ('attachEvent' in obj) {
-			obj.attachEvent("on" + type, handler);
+			obj.attachEvent('on' + type, handler);
 		}
 
 		obj[key] = handler;
@@ -5933,7 +5984,7 @@ L.DomEvent = {
 				obj.removeEventListener(type, handler, false);
 			}
 		} else if ('detachEvent' in obj) {
-			obj.detachEvent("on" + type, handler);
+			obj.detachEvent('on' + type, handler);
 		}
 
 		obj[key] = null;
@@ -6037,7 +6088,8 @@ L.DomEvent = {
 
 	// this solves a bug in Android WebView where a single touch triggers two click events.
 	_filterClick: function (e, handler) {
-		var elapsed = L.DomEvent._lastClick && (e.timeStamp - L.DomEvent._lastClick);
+		var timeStamp = (e.timeStamp || e.originalEvent.timeStamp);
+		var elapsed = L.DomEvent._lastClick && (timeStamp - L.DomEvent._lastClick);
 
 		// are they closer together than 400ms yet more than 100ms?
 		// Android typically triggers them ~300ms apart while multiple listeners
@@ -6047,7 +6099,7 @@ L.DomEvent = {
 			L.DomEvent.stop(e);
 			return;
 		}
-		L.DomEvent._lastClick = e.timeStamp;
+		L.DomEvent._lastClick = timeStamp;
 
 		return handler(e);
 	}
@@ -6457,7 +6509,7 @@ L.Map.DoubleClickZoom = L.Handler.extend({
 	},
 
 	_onDoubleClick: function (e) {
-		this.setView(e.latlng, this._zoom + 1);
+		this.setZoomAround(e.containerPoint, this._zoom + 1);
 	}
 });
 
@@ -6506,34 +6558,394 @@ L.Map.ScrollWheelZoom = L.Handler.extend({
 		    delta = this._delta,
 		    zoom = map.getZoom();
 
-		delta = delta > 0 ? Math.ceil(delta) : Math.round(delta);
+		delta = delta > 0 ? Math.ceil(delta) : Math.floor(delta);
 		delta = Math.max(Math.min(delta, 4), -4);
 		delta = map._limitZoom(zoom + delta) - zoom;
 
 		this._delta = 0;
-
 		this._startTime = null;
 
 		if (!delta) { return; }
 
-		var newZoom = zoom + delta,
-		    newCenter = this._getCenterForScrollWheelZoom(newZoom);
-
-		map.setView(newCenter, newZoom);
-	},
-
-	_getCenterForScrollWheelZoom: function (newZoom) {
-		var map = this._map,
-		    scale = map.getZoomScale(newZoom),
-		    viewHalf = map.getSize()._divideBy(2),
-		    centerOffset = this._lastMousePos._subtract(viewHalf)._multiplyBy(1 - 1 / scale),
-		    newCenterPoint = map._getTopLeftPoint()._add(viewHalf)._add(centerOffset);
-
-		return map.unproject(newCenterPoint);
+		map.setZoomAround(this._lastMousePos, zoom + delta);
 	}
 });
 
 L.Map.addInitHook('addHandler', 'scrollWheelZoom', L.Map.ScrollWheelZoom);
+
+
+/*
+ * L.PosAnimation is used by Leaflet internally for pan animations.
+ */
+
+L.PosAnimation = L.Class.extend({
+	includes: L.Mixin.Events,
+
+	run: function (el, newPos, duration, easeLinearity) { // (HTMLElement, Point[, Number, Number])
+		this.stop();
+
+		this._el = el;
+		this._inProgress = true;
+
+		this.fire('start');
+
+		el.style[L.DomUtil.TRANSITION] = 'all ' + (duration || 0.25) +
+		        's cubic-bezier(0,0,' + (easeLinearity || 0.5) + ',1)';
+
+		L.DomEvent.on(el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
+		L.DomUtil.setPosition(el, newPos);
+
+		// toggle reflow, Chrome flickers for some reason if you don't do this
+		L.Util.falseFn(el.offsetWidth);
+
+		// there's no native way to track value updates of transitioned properties, so we imitate this
+		this._stepTimer = setInterval(L.bind(this.fire, this, 'step'), 50);
+	},
+
+	stop: function () {
+		if (!this._inProgress) { return; }
+
+		// if we just removed the transition property, the element would jump to its final position,
+		// so we need to make it stay at the current position
+
+		L.DomUtil.setPosition(this._el, this._getPos());
+		this._onTransitionEnd();
+		L.Util.falseFn(this._el.offsetWidth); // force reflow in case we are about to start a new animation
+	},
+
+	// you can't easily get intermediate values of properties animated with CSS3 Transitions,
+	// we need to parse computed style (in case of transform it returns matrix string)
+
+	_transformRe: /(-?[\d\.]+), (-?[\d\.]+)\)/,
+
+	_getPos: function () {
+		var left, top, matches,
+		    el = this._el,
+		    style = window.getComputedStyle(el);
+
+		if (L.Browser.any3d) {
+			matches = style[L.DomUtil.TRANSFORM].match(this._transformRe);
+			left = parseFloat(matches[1]);
+			top  = parseFloat(matches[2]);
+		} else {
+			left = parseFloat(style.left);
+			top  = parseFloat(style.top);
+		}
+
+		return new L.Point(left, top, true);
+	},
+
+	_onTransitionEnd: function () {
+		L.DomEvent.off(this._el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
+
+		if (!this._inProgress) { return; }
+		this._inProgress = false;
+
+		this._el.style[L.DomUtil.TRANSITION] = '';
+
+		clearInterval(this._stepTimer);
+
+		this.fire('step').fire('end');
+	}
+
+});
+
+
+/*
+ * Extends L.Map to handle panning animations.
+ */
+
+L.Map.include({
+
+	setView: function (center, zoom, forceReset) {
+
+		zoom = this._limitZoom(zoom);
+		center = L.latLng(center);
+
+		if (this._panAnim) {
+			this._panAnim.stop();
+		}
+
+		var zoomChanged = (this._zoom !== zoom),
+			canBeAnimated = this._loaded && !forceReset && !!this._layers;
+
+		if (canBeAnimated) {
+
+			// try animating pan or zoom
+			var animated = zoomChanged ?
+				this.options.zoomAnimation && this._animateZoomIfClose && this._animateZoomIfClose(center, zoom) :
+				this._animatePanIfClose(center);
+
+			if (animated) {
+				// prevent resize handler call, the view will refresh after animation anyway
+				clearTimeout(this._sizeTimer);
+				return this;
+			}
+		}
+
+		// animation didn't start, just reset the map view
+		this._resetView(center, zoom);
+
+		return this;
+	},
+
+	panBy: function (offset, duration, easeLinearity, noMoveStart) {
+		offset = L.point(offset).round();
+
+		// TODO add options instead of arguments to setView/panTo/panBy/etc.
+
+		if (!offset.x && !offset.y) {
+			return this;
+		}
+
+		if (!this._panAnim) {
+			this._panAnim = new L.PosAnimation();
+
+			this._panAnim.on({
+				'step': this._onPanTransitionStep,
+				'end': this._onPanTransitionEnd
+			}, this);
+		}
+
+		// don't fire movestart if animating inertia
+		if (!noMoveStart) {
+			this.fire('movestart');
+		}
+
+		L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
+
+		var newPos = this._getMapPanePos().subtract(offset);
+		this._panAnim.run(this._mapPane, newPos, duration || 0.25, easeLinearity);
+
+		return this;
+	},
+
+	_onPanTransitionStep: function () {
+		this.fire('move');
+	},
+
+	_onPanTransitionEnd: function () {
+		L.DomUtil.removeClass(this._mapPane, 'leaflet-pan-anim');
+		this.fire('moveend');
+	},
+
+	_animatePanIfClose: function (center) {
+		// difference between the new and current centers in pixels
+		var offset = this._getCenterOffset(center)._floor();
+
+		if (!this.getSize().contains(offset)) { return false; }
+
+		this.panBy(offset);
+		return true;
+	}
+});
+
+
+/*
+ * Extends L.Map to handle zoom animations.
+ */
+
+L.Map.mergeOptions({
+	zoomAnimation: L.DomUtil.TRANSITION && !L.Browser.android23 && !L.Browser.mobileOpera
+});
+
+if (L.DomUtil.TRANSITION) {
+
+	L.Map.addInitHook(function () {
+		// zoom transitions run with the same duration for all layers, so if one of transitionend events
+		// happens after starting zoom animation (propagating to the map pane), we know that it ended globally
+
+		L.DomEvent.on(this._mapPane, L.DomUtil.TRANSITION_END, this._catchTransitionEnd, this);
+	});
+}
+
+L.Map.include(!L.DomUtil.TRANSITION ? {} : {
+
+	_catchTransitionEnd: function () {
+		if (this._animatingZoom) {
+			this._onZoomTransitionEnd();
+		}
+	},
+
+	_animateZoomIfClose: function (center, zoom) {
+
+		if (this._animatingZoom) { return true; }
+
+		// offset is the pixel coords of the zoom origin relative to the current center
+		var scale = this.getZoomScale(zoom),
+		    offset = this._getCenterOffset(center)._divideBy(1 - 1 / scale),
+			origin = this._getCenterLayerPoint()._add(offset);
+
+		// only animate if the zoom origin is within one screen from the current center
+		if (!this.getSize().contains(offset)) { return false; }
+
+		this
+		    .fire('movestart')
+		    .fire('zoomstart');
+
+		this._animateZoom(center, zoom, origin, scale);
+
+		return true;
+	},
+
+	_animateZoom: function (center, zoom, origin, scale, delta, backwards) {
+
+		this._animatingZoom = true;
+
+		// put transform transition on all layers with leaflet-zoom-animated class
+		L.DomUtil.addClass(this._mapPane, 'leaflet-zoom-anim');
+
+		// remember what center/zoom to set after animation
+		this._animateToCenter = center;
+		this._animateToZoom = zoom;
+
+		// disable any dragging during animation
+		if (L.Draggable) {
+			L.Draggable._disabled = true;
+		}
+
+		this.fire('zoomanim', {
+			center: center,
+			zoom: zoom,
+			origin: origin,
+			scale: scale,
+			delta: delta,
+			backwards: backwards
+		});
+	},
+
+	_onZoomTransitionEnd: function () {
+
+		this._animatingZoom = false;
+
+		L.DomUtil.removeClass(this._mapPane, 'leaflet-zoom-anim');
+
+		this._resetView(this._animateToCenter, this._animateToZoom, true, true);
+
+		if (L.Draggable) {
+			L.Draggable._disabled = false;
+		}
+	}
+});
+
+
+/*
+	Zoom animation logic for L.TileLayer.
+*/
+
+L.TileLayer.include({
+	_animateZoom: function (e) {
+		var firstFrame = false;
+
+		if (!this._animating) {
+			this._animating = true;
+			firstFrame = true;
+		}
+
+		if (firstFrame) {
+			this._prepareBgBuffer();
+		}
+
+		var transform = L.DomUtil.TRANSFORM,
+		    bg = this._bgBuffer;
+
+		if (firstFrame) {
+			//prevent bg buffer from clearing right after zoom
+			clearTimeout(this._clearBgBufferTimer);
+
+			// hack to make sure transform is updated before running animation
+			L.Util.falseFn(bg.offsetWidth);
+		}
+
+		var scaleStr = L.DomUtil.getScaleString(e.scale, e.origin),
+		    oldTransform = bg.style[transform];
+
+		bg.style[transform] = e.backwards ?
+		        (e.delta ? L.DomUtil.getTranslateString(e.delta) : oldTransform) + ' ' + scaleStr :
+		        scaleStr + ' ' + oldTransform;
+	},
+
+	_endZoomAnim: function () {
+		var front = this._tileContainer,
+		    bg = this._bgBuffer;
+
+		front.style.visibility = '';
+		front.style.zIndex = 2;
+
+		bg.style.zIndex = 1;
+
+		// force reflow
+		L.Util.falseFn(bg.offsetWidth);
+
+		this._animating = false;
+	},
+
+	_clearBgBuffer: function () {
+		var map = this._map;
+
+		if (map && !map._animatingZoom && !map.touchZoom._zooming) {
+			this._bgBuffer.innerHTML = '';
+			this._bgBuffer.style[L.DomUtil.TRANSFORM] = '';
+		}
+	},
+
+	_prepareBgBuffer: function () {
+
+		var front = this._tileContainer,
+		    bg = this._bgBuffer;
+
+		// if foreground layer doesn't have many tiles but bg layer does,
+		// keep the existing bg layer and just zoom it some more
+
+		if (bg && this._getLoadedTilesPercentage(bg) > 0.5 &&
+		          this._getLoadedTilesPercentage(front) < 0.5) {
+
+			front.style.visibility = 'hidden';
+			this._stopLoadingImages(front);
+			return;
+		}
+
+		// prepare the buffer to become the front tile pane
+		bg.style.visibility = 'hidden';
+		bg.style[L.DomUtil.TRANSFORM] = '';
+
+		// switch out the current layer to be the new bg layer (and vice-versa)
+		this._tileContainer = bg;
+		bg = this._bgBuffer = front;
+
+		this._stopLoadingImages(bg);
+	},
+
+	_getLoadedTilesPercentage: function (container) {
+		var tiles = container.getElementsByTagName('img'),
+		    i, len, count = 0;
+
+		for (i = 0, len = tiles.length; i < len; i++) {
+			if (tiles[i].complete) {
+				count++;
+			}
+		}
+		return count / len;
+	},
+
+	// stops loading all tiles in the background layer
+	_stopLoadingImages: function (container) {
+		var tiles = Array.prototype.slice.call(container.getElementsByTagName('img')),
+		    i, len, tile;
+
+		for (i = 0, len = tiles.length; i < len; i++) {
+			tile = tiles[i];
+
+			if (!tile.complete) {
+				tile.onload = L.Util.falseFn;
+				tile.onerror = L.Util.falseFn;
+				tile.src = L.Util.emptyImageUrl;
+
+				tile.parentNode.removeChild(tile);
+			}
+		}
+	}
+});
 
 
 /*
@@ -6558,6 +6970,7 @@ L.extend(L.DomEvent, {
 
 		function onTouchStart(e) {
 			var count;
+
 			if (L.Browser.msTouch) {
 				trackedTouches.push(e.pointerId);
 				count = trackedTouches.length;
@@ -6577,7 +6990,6 @@ L.extend(L.DomEvent, {
 		}
 
 		function onTouchEnd(e) {
-			/*jshint forin:false */
 			if (L.Browser.msTouch) {
 				var idx = trackedTouches.indexOf(e.pointerId);
 				if (idx === -1) {
@@ -6588,10 +7000,11 @@ L.extend(L.DomEvent, {
 
 			if (doubleTap) {
 				if (L.Browser.msTouch) {
-					//Work around .type being readonly with MSPointer* events
+					// work around .type being readonly with MSPointer* events
 					var newTouch = { },
 						prop;
 
+					// jshint forin:false
 					for (var i in touch) {
 						prop = touch[i];
 						if (typeof prop === 'function') {
@@ -6610,25 +7023,31 @@ L.extend(L.DomEvent, {
 		obj[pre + touchstart + id] = onTouchStart;
 		obj[pre + touchend + id] = onTouchEnd;
 
-		//On msTouch we need to listen on the document otherwise a drag starting on the map and moving off screen will not come through to us
-		// so we will lose track of how many touches are ongoing
+		// on msTouch we need to listen on the document, otherwise a drag starting on the map and moving off screen
+		// will not come through to us, so we will lose track of how many touches are ongoing
 		var endElement = L.Browser.msTouch ? document.documentElement : obj;
 
 		obj.addEventListener(touchstart, onTouchStart, false);
 		endElement.addEventListener(touchend, onTouchEnd, false);
+
 		if (L.Browser.msTouch) {
 			endElement.addEventListener('MSPointerCancel', onTouchEnd, false);
 		}
+
 		return this;
 	},
 
 	removeDoubleTapListener: function (obj, id) {
 		var pre = '_leaflet_';
+
 		obj.removeEventListener(this._touchstart, obj[pre + this._touchstart + id], false);
-		(L.Browser.msTouch ? document.documentElement : obj).removeEventListener(this._touchend, obj[pre + this._touchend + id], false);
+		(L.Browser.msTouch ? document.documentElement : obj).removeEventListener(
+		        this._touchend, obj[pre + this._touchend + id], false);
+
 		if (L.Browser.msTouch) {
 			document.documentElement.removeEventListener('MSPointerCancel', obj[pre + this._touchend + id], false);
 		}
+
 		return this;
 	}
 });
@@ -6828,9 +7247,9 @@ L.Map.TouchZoom = L.Handler.extend({
 	},
 
 	_onTouchMove: function (e) {
-		if (!e.touches || e.touches.length !== 2) { return; }
-
 		var map = this._map;
+
+		if (!e.touches || e.touches.length !== 2 || !this._zooming) { return; }
 
 		var p1 = map.mouseEventToLayerPoint(e.touches[0]),
 		    p2 = map.mouseEventToLayerPoint(e.touches[1]);
@@ -6867,12 +7286,16 @@ L.Map.TouchZoom = L.Handler.extend({
 	},
 
 	_onTouchEnd: function () {
-		if (!this._moved || !this._zooming) { return; }
+		if (!this._moved || !this._zooming) {
+			this._zooming = false;
+			return;
+		}
 
 		var map = this._map;
 
 		this._zooming = false;
 		L.DomUtil.removeClass(map._mapPane, 'leaflet-touching');
+		L.Util.cancelAnimFrame(this._animRequest);
 
 		L.DomEvent
 		    .off(document, 'touchmove', this._onTouchMove)
@@ -6944,7 +7367,7 @@ L.Map.BoxZoom = L.Handler.extend({
 		    .on(document, 'keydown', this._onKeyDown, this)
 		    .preventDefault(e);
 
-		this._map.fire("boxzoomstart");
+		this._map.fire('boxzoomstart');
 	},
 
 	_onMouseMove: function (e) {
@@ -6992,7 +7415,7 @@ L.Map.BoxZoom = L.Handler.extend({
 
 		map.fitBounds(bounds);
 
-		map.fire("boxzoomend", {
+		map.fire('boxzoomend', {
 			boxZoomBounds: bounds
 		});
 	},
@@ -7040,7 +7463,7 @@ L.Map.Keyboard = L.Handler.extend({
 
 		// make the container focusable by tabbing
 		if (container.tabIndex === -1) {
-			container.tabIndex = "0";
+			container.tabIndex = '0';
 		}
 
 		L.DomEvent
@@ -7898,173 +8321,6 @@ L.control.layers = function (baseLayers, overlays, options) {
 
 
 /*
- * L.PosAnimation is used by Leaflet internally for pan animations.
- */
-
-L.PosAnimation = L.Class.extend({
-	includes: L.Mixin.Events,
-
-	run: function (el, newPos, duration, easeLinearity) { // (HTMLElement, Point[, Number, Number])
-		this.stop();
-
-		this._el = el;
-		this._inProgress = true;
-
-		this.fire('start');
-
-		el.style[L.DomUtil.TRANSITION] = 'all ' + (duration || 0.25) +
-		        's cubic-bezier(0,0,' + (easeLinearity || 0.5) + ',1)';
-
-		L.DomEvent.on(el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
-		L.DomUtil.setPosition(el, newPos);
-
-		// toggle reflow, Chrome flickers for some reason if you don't do this
-		L.Util.falseFn(el.offsetWidth);
-
-		// there's no native way to track value updates of transitioned properties, so we imitate this
-		this._stepTimer = setInterval(L.bind(this.fire, this, 'step'), 50);
-	},
-
-	stop: function () {
-		if (!this._inProgress) { return; }
-
-		// if we just removed the transition property, the element would jump to its final position,
-		// so we need to make it stay at the current position
-
-		L.DomUtil.setPosition(this._el, this._getPos());
-		this._onTransitionEnd();
-		L.Util.falseFn(this._el.offsetWidth); // force reflow in case we are about to start a new animation
-	},
-
-	// you can't easily get intermediate values of properties animated with CSS3 Transitions,
-	// we need to parse computed style (in case of transform it returns matrix string)
-
-	_transformRe: /(-?[\d\.]+), (-?[\d\.]+)\)/,
-
-	_getPos: function () {
-		var left, top, matches,
-		    el = this._el,
-		    style = window.getComputedStyle(el);
-
-		if (L.Browser.any3d) {
-			matches = style[L.DomUtil.TRANSFORM].match(this._transformRe);
-			left = parseFloat(matches[1]);
-			top  = parseFloat(matches[2]);
-		} else {
-			left = parseFloat(style.left);
-			top  = parseFloat(style.top);
-		}
-
-		return new L.Point(left, top, true);
-	},
-
-	_onTransitionEnd: function () {
-		L.DomEvent.off(this._el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
-
-		if (!this._inProgress) { return; }
-		this._inProgress = false;
-
-		this._el.style[L.DomUtil.TRANSITION] = '';
-
-		clearInterval(this._stepTimer);
-
-		this.fire('step').fire('end');
-	}
-
-});
-
-
-/*
- * Extends L.Map to handle panning animations.
- */
-
-L.Map.include({
-
-	setView: function (center, zoom, forceReset) {
-
-		zoom = this._limitZoom(zoom);
-		center = L.latLng(center);
-
-		if (this._panAnim) {
-			this._panAnim.stop();
-		}
-
-		var zoomChanged = (this._zoom !== zoom),
-			canBeAnimated = this._loaded && !forceReset && !!this._layers;
-
-		if (canBeAnimated) {
-
-			// try animating pan or zoom
-			var animated = zoomChanged ?
-				this.options.zoomAnimation && this._animateZoomIfClose && this._animateZoomIfClose(center, zoom) :
-				this._animatePanIfClose(center);
-
-			if (animated) {
-				// prevent resize handler call, the view will refresh after animation anyway
-				clearTimeout(this._sizeTimer);
-				return this;
-			}
-		}
-
-		// animation didn't start, just reset the map view
-		this._resetView(center, zoom);
-
-		return this;
-	},
-
-	panBy: function (offset, duration, easeLinearity, noMoveStart) {
-		offset = L.point(offset).round();
-
-		// TODO add options instead of arguments to setView/panTo/panBy/etc.
-
-		if (!offset.x && !offset.y) {
-			return this;
-		}
-
-		if (!this._panAnim) {
-			this._panAnim = new L.PosAnimation();
-
-			this._panAnim.on({
-				'step': this._onPanTransitionStep,
-				'end': this._onPanTransitionEnd
-			}, this);
-		}
-
-		// don't fire movestart if animating inertia
-		if (!noMoveStart) {
-			this.fire('movestart');
-		}
-
-		L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
-
-		var newPos = this._getMapPanePos().subtract(offset);
-		this._panAnim.run(this._mapPane, newPos, duration || 0.25, easeLinearity);
-
-		return this;
-	},
-
-	_onPanTransitionStep: function () {
-		this.fire('move');
-	},
-
-	_onPanTransitionEnd: function () {
-		L.DomUtil.removeClass(this._mapPane, 'leaflet-pan-anim');
-		this.fire('moveend');
-	},
-
-	_animatePanIfClose: function (center) {
-		// difference between the new and current centers in pixels
-		var offset = this._getCenterOffset(center)._floor();
-
-		if (!this.getSize().contains(offset)) { return false; }
-
-		this.panBy(offset);
-		return true;
-	}
-});
-
-
-/*
  * L.PosAnimation fallback implementation that powers Leaflet pan animations
  * in browsers that don't support CSS3 Transitions.
  */
@@ -8134,213 +8390,6 @@ L.PosAnimation = L.DomUtil.TRANSITION ? L.PosAnimation : L.PosAnimation.extend({
 
 
 /*
- * Extends L.Map to handle zoom animations.
- */
-
-L.Map.mergeOptions({
-	zoomAnimation: L.DomUtil.TRANSITION && !L.Browser.android23 && !L.Browser.mobileOpera
-});
-
-if (L.DomUtil.TRANSITION) {
-
-	L.Map.addInitHook(function () {
-		// zoom transitions run with the same duration for all layers, so if one of transitionend events
-		// happens after starting zoom animation (propagating to the map pane), we know that it ended globally
-
-		L.DomEvent.on(this._mapPane, L.DomUtil.TRANSITION_END, this._catchTransitionEnd, this);
-	});
-}
-
-L.Map.include(!L.DomUtil.TRANSITION ? {} : {
-
-	_catchTransitionEnd: function () {
-		if (this._animatingZoom) {
-			this._onZoomTransitionEnd();
-		}
-	},
-
-	_animateZoomIfClose: function (center, zoom) {
-
-		if (this._animatingZoom) { return true; }
-
-		// offset is the pixel coords of the zoom origin relative to the current center
-		var scale = this.getZoomScale(zoom),
-		    offset = this._getCenterOffset(center)._divideBy(1 - 1 / scale),
-			origin = this._getCenterLayerPoint()._add(offset);
-
-		// only animate if the zoom origin is within one screen from the current center
-		if (!this.getSize().contains(offset)) { return false; }
-
-		this
-		    .fire('movestart')
-		    .fire('zoomstart');
-
-		this._animateZoom(center, zoom, origin, scale);
-
-		return true;
-	},
-
-	_animateZoom: function (center, zoom, origin, scale, delta, backwards) {
-
-		this._animatingZoom = true;
-
-		// put transform transition on all layers with leaflet-zoom-animated class
-		L.DomUtil.addClass(this._mapPane, 'leaflet-zoom-anim');
-
-		// remember what center/zoom to set after animation
-		this._animateToCenter = center;
-		this._animateToZoom = zoom;
-
-		// disable any dragging during animation
-		if (L.Draggable) {
-			L.Draggable._disabled = true;
-		}
-
-		this.fire('zoomanim', {
-			center: center,
-			zoom: zoom,
-			origin: origin,
-			scale: scale,
-			delta: delta,
-			backwards: backwards
-		});
-	},
-
-	_onZoomTransitionEnd: function () {
-
-		this._animatingZoom = false;
-
-		L.DomUtil.removeClass(this._mapPane, 'leaflet-zoom-anim');
-
-		this._resetView(this._animateToCenter, this._animateToZoom, true, true);
-
-		if (L.Draggable) {
-			L.Draggable._disabled = false;
-		}
-	}
-});
-
-
-/*
-	Zoom animation logic for L.TileLayer.
-*/
-
-L.TileLayer.include({
-	_animateZoom: function (e) {
-		var firstFrame = false;
-
-		if (!this._animating) {
-			this._animating = true;
-			firstFrame = true;
-		}
-
-		if (firstFrame) {
-			this._prepareBgBuffer();
-		}
-
-		var transform = L.DomUtil.TRANSFORM,
-		    bg = this._bgBuffer;
-
-		if (firstFrame) {
-			//prevent bg buffer from clearing right after zoom
-			clearTimeout(this._clearBgBufferTimer);
-
-			// hack to make sure transform is updated before running animation
-			L.Util.falseFn(bg.offsetWidth);
-		}
-
-		var scaleStr = L.DomUtil.getScaleString(e.scale, e.origin),
-		    oldTransform = bg.style[transform];
-
-		bg.style[transform] = e.backwards ?
-		        (e.delta ? L.DomUtil.getTranslateString(e.delta) : oldTransform) + ' ' + scaleStr :
-		        scaleStr + ' ' + oldTransform;
-	},
-
-	_endZoomAnim: function () {
-		var front = this._tileContainer,
-		    bg = this._bgBuffer;
-
-		front.style.visibility = '';
-		front.style.zIndex = 2;
-
-		bg.style.zIndex = 1;
-
-		// force reflow
-		L.Util.falseFn(bg.offsetWidth);
-
-		this._animating = false;
-	},
-
-	_clearBgBuffer: function () {
-		var map = this._map;
-
-		if (!map._animatingZoom && !map.touchZoom._zooming) {
-			this._bgBuffer.innerHTML = '';
-			this._bgBuffer.style[L.DomUtil.TRANSFORM] = '';
-		}
-	},
-
-	_prepareBgBuffer: function () {
-
-		var front = this._tileContainer,
-		    bg = this._bgBuffer;
-
-		// if foreground layer doesn't have many tiles but bg layer does,
-		// keep the existing bg layer and just zoom it some more
-
-		if (bg && this._getLoadedTilesPercentage(bg) > 0.5 &&
-		          this._getLoadedTilesPercentage(front) < 0.5) {
-
-			front.style.visibility = 'hidden';
-			this._stopLoadingImages(front);
-			return;
-		}
-
-		// prepare the buffer to become the front tile pane
-		bg.style.visibility = 'hidden';
-		bg.style[L.DomUtil.TRANSFORM] = '';
-
-		// switch out the current layer to be the new bg layer (and vice-versa)
-		this._tileContainer = bg;
-		bg = this._bgBuffer = front;
-
-		this._stopLoadingImages(bg);
-	},
-
-	_getLoadedTilesPercentage: function (container) {
-		var tiles = container.getElementsByTagName('img'),
-		    i, len, count = 0;
-
-		for (i = 0, len = tiles.length; i < len; i++) {
-			if (tiles[i].complete) {
-				count++;
-			}
-		}
-		return count / len;
-	},
-
-	// stops loading all tiles in the background layer
-	_stopLoadingImages: function (container) {
-		var tiles = Array.prototype.slice.call(container.getElementsByTagName('img')),
-		    i, len, tile;
-
-		for (i = 0, len = tiles.length; i < len; i++) {
-			tile = tiles[i];
-
-			if (!tile.complete) {
-				tile.onload = L.Util.falseFn;
-				tile.onerror = L.Util.falseFn;
-				tile.src = L.Util.emptyImageUrl;
-
-				tile.parentNode.removeChild(tile);
-			}
-		}
-	}
-});
-
-
-/*
  * Provides L.Map with convenient shortcuts for using browser geolocation features.
  */
 
@@ -8361,7 +8410,7 @@ L.Map.include({
 		if (!navigator.geolocation) {
 			this._handleGeolocationError({
 				code: 0,
-				message: "Geolocation not supported."
+				message: 'Geolocation not supported.'
 			});
 			return this;
 		}
@@ -8388,8 +8437,8 @@ L.Map.include({
 	_handleGeolocationError: function (error) {
 		var c = error.code,
 		    message = error.message ||
-		            (c === 1 ? "permission denied" :
-		            (c === 2 ? "position unavailable" : "timeout"));
+		            (c === 1 ? 'permission denied' :
+		            (c === 2 ? 'position unavailable' : 'timeout'));
 
 		if (this._locationOptions.setView && !this._loaded) {
 			this.fitWorld();
@@ -8397,7 +8446,7 @@ L.Map.include({
 
 		this.fire('locationerror', {
 			code: c,
-			message: "Geolocation error: " + message + "."
+			message: 'Geolocation error: ' + message + '.'
 		});
 	},
 
@@ -8431,6 +8480,84 @@ L.Map.include({
 
 
 /**
+ * L.DG.DivIcon is a lightweight HTML-based icon class (as opposed to the image-based L.Icon)
+ *
+ * Version 1.0.0
+ * Copyright (c) 2013, 2GIS, Dima Rudenko
+ */
+
+L.DG = L.DG || {};
+L.DG.DivIcon = L.Icon.extend({
+    options: {
+        iconSize: [16, 24],
+        popupAnchor: [40, 16],
+        html: '<div class="dg-marker dg-marker_default dg-marker_animated"></div>',
+        className: 'leaflet-div-icon'
+    },
+
+    createIcon: function () {
+        var div = document.createElement('div'),
+            options = this.options;
+
+        if (options.html) {
+            div.innerHTML = options.html;
+        }
+
+        if (options.bgPos) {
+            div.style.backgroundPosition =
+                (-options.bgPos.x) + 'px ' + (-options.bgPos.y) + 'px';
+        }
+
+        this.divMarker = div.firstChild;
+
+
+        if (L.DG.configTheme.markersData.animation) {
+            L.DomEvent
+                .on(div, 'mouseover', this.markerMousoverHandler)
+                .on(div, 'mouseout', this.markerMousoutHandler)
+                .on(div, 'mousedown', this.markerMousedownHandler)
+                .on(div, 'mouseup', this.markerMouseupHandler);
+        }
+
+        this._setIconStyles(div, 'icon');
+        return div;
+    },
+
+    createShadow: function () {
+        return null;
+    },
+
+    markerMousoverHandler: function () {
+        clearTimeout(this._markerAnimationTimeout);
+        L.DomUtil.addClass(this.firstChild, 'dg-marker_mouseover');
+    },
+
+    markerMousoutHandler: function () {
+        var _this = this;
+
+        this._markerAnimationTimeout = setTimeout(function () {
+            L.DomUtil.removeClass(_this.firstChild, 'dg-marker_mouseover');
+            L.DomUtil.removeClass(_this.firstChild, 'dg-marker_mousedown');
+        }, 100);
+    },
+
+    markerMousedownHandler: function () {
+        L.DomUtil.addClass(this.firstChild, 'dg-marker_mousedown');
+    },
+
+    markerMouseupHandler: function () {
+        L.DomUtil.removeClass(this.firstChild, 'dg-marker_mousedown');
+    }
+});
+
+
+L.DG.divIcon = function (options) {
+    return new L.DG.DivIcon(options);
+};
+
+
+
+/**
  * Classic them config
  *
  */
@@ -8439,15 +8566,16 @@ L.DG.configTheme = {
     name: 'default',
 
     balloonOptions: {
-        offset: [139, -17]
+        offset: {
+            x: 18,
+            y: -30
+        }
     },
 
     markersData: {
-        defaultMarker: {
-            iconSize: [16, 24],
-            popupAnchor: [26, 27],
-            animation: true
-        }
+        iconSize: [16, 24],
+        popupAnchor: [40, 16],
+        animation: true
     },
 
     controls: {
@@ -8460,18 +8588,96 @@ L.DG.configTheme = {
     }
 };
 /**
- * Leaflet DG Core
+ * Leaflet 2GIS redefinition
  * Version 1.0.0
  *
  * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
 
-L.Map.addInitHook(function () {
-    this.dgConfigTheme = L.DG.configTheme;
-});
+
+/**
+ * Zoom 2GIS redefinition
+ *
+ */
+L.Control.Zoom.prototype.options = {
+    position: L.DG.configTheme.controls.zoom.position
+};
+
+L.Control.Zoom.prototype.onAdd = function (map) {
+    var zoomName = 'dg-zoom',
+        container = L.DomUtil.create('div', zoomName);
+
+    this._map = map;
+
+    this._zoomInButton = this._createButton('+', 'Zoom in', zoomName + '__in', container, this._zoomIn, this);
+    this._zoomOutButton = this._createButton('-', 'Zoom out', zoomName + '__out', container, this._zoomOut, this);
+
+    map.on('zoomend zoomlevelschange', this._updateDisabled, this);
+
+    return container;
+};
+
+/**
+ * Popup 2GIS redefinition
+ *
+ */
+(function () {
+    var offsetX = L.DG.configTheme.balloonOptions.offset.x,
+        offsetY = L.DG.configTheme.balloonOptions.offset.y;
+
+    L.Popup.prototype.options = {
+        minWidth: 50,
+        maxWidth: 300,
+        maxHeight: null,
+        autoPan: true,
+        closeButton: true,
+        offset: new L.Point(offsetX, offsetY),
+        autoPanPadding: new L.Point(5, 5),
+        className: '',
+        zoomAnimation: true
+    };
+
+    L.Popup.prototype._initLayout = function () {
+        var prefix = 'leaflet-popup',
+            containerClass = prefix + ' ' + this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
+            container = this._container = L.DomUtil.create('div', containerClass),
+            closeButton;
+
+        if (this.options.closeButton) {
+            closeButton = this._closeButton = L.DomUtil.create('a', prefix + '-close-button', container);
+            closeButton.href = '#close';
+            closeButton.innerHTML = '&#215;';
+            L.DomEvent.disableClickPropagation(closeButton);
+            L.DomEvent.on(closeButton, 'click', this._onCloseButtonClick, this);
+        }
+
+        var wrapper = this._wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
+        L.DomEvent.disableClickPropagation(wrapper);
+
+        this._contentNode = L.DomUtil.create('div', prefix + '-content dg-callout ', wrapper);
+        L.DomEvent.on(this._contentNode, 'mousewheel', L.DomEvent.stopPropagation);
+
+        this._tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
+        this._tip = L.DomUtil.create('div', prefix + '-tip', this._tipContainer);
+    };
+
+}());
 
 
-
+/**
+ * Marker 2GIS redefinition
+ *
+ */
+L.Marker.prototype.options = {
+    icon: L.DG.divIcon(),
+    title: '',
+    clickable: true,
+    draggable: false,
+    zIndexOffset: 0,
+    opacity: 1,
+    riseOnHover: false,
+    riseOffset: 250
+};
 
 /**
  * Leaflet DG TileLayer
@@ -8808,49 +9014,5 @@ L.Map.addInitHook(function () {
         this.locale = new L.DG.Localization(this);
     }
 });
-
-/**
- * Leaflet DG ControlZoom
- * Version 1.0.0
- *
- * Copyright (c) 2013, 2GIS, Dima Rudenko
- */
-
-L.DG = L.DG || {};
-L.DG.ControlZoom = L.Control.Zoom.extend({
-    initialize: function () {
-        L.Control.prototype.initialize.call(this);
-    },
-
-    onAdd: function (map) {
-        var zoomName = 'dg-zoom',
-            container = L.DomUtil.create('div', zoomName + ' leaflet-bar');
-
-        this._map = map;
-
-        this._zoomInButton = this._createButton(
-            '+', 'Zoom in', zoomName + '-in', container, this._zoomIn, this);
-        this._zoomOutButton = this._createButton(
-            '-', 'Zoom out', zoomName + '-out', container, this._zoomOut, this);
-
-        map.on('zoomend zoomlevelschange', this._updateDisabled, this);
-
-        return container;
-    }
-});
-
-L.Map.mergeOptions({
-    zoomControl: false
-});
-
-L.Map.addInitHook(function () {
-    this.dgZoomControl = new L.DG.ControlZoom();
-    this.addControl(this.dgZoomControl);
-
-});
-
-L.DG.controlZoom = function (options) {
-    return new L.DG.ControlZoom(options);
-};
 
 }(this, document));

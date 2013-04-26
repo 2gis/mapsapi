@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Leaflet Build Helper</title>
+    <title>Maps API 2.0 Build Helper</title>
 
     <script type="text/javascript" src="deps.js"></script>
 
@@ -18,240 +18,238 @@
     </script>
 
 
-	<style type="text/css">
-		body {
-			font: 12px/1.4 Verdana, sans-serif;
-			text-align: center;
-			padding: 2em 0;
-		}
-		#container {
-			text-align: left;
-			margin: 0 auto;
-			width: 780px;
-		}
-		#deplist {
-			list-style: none;
-			padding: 0;
-		}
-		#deplist li {
-			padding-top: 7px;
-			padding-bottom: 7px;
-			border-bottom: 1px solid #ddd;
-		}
-		#deplist li.heading {
-			border: none;
-			background: #ddd;
-			padding: 5px 10px;
-			margin-top: 25px;
-			border-radius: 5px;
-		}
-		#deplist input {
-			float: left;
-			margin-right: 5px;
-			display: inline;
-		}
-		#deplist label {
-			float: left;
-			width: 160px;
-			font-weight: bold;
-		}
-		#deplist div {
-			display: table-cell;
-			height: 1%;
-		}
-		#deplist .desc {
-		}
+    <style type="text/css">
+        body {
+            font: 12px/1.4 Verdana, sans-serif;
+            text-align: center;
+            padding: 2em 0;
+        }
 
-		#deplist .deps {
-			color: #777;
-		}
+        #container {
+            text-align: left;
+            margin: 0 auto;
+            width: 780px;
+        }
 
-		#command {
-			width: 100%;
-		}
-		#command2 {
-			width: 200px;
-		}
+        #deplist {
+            list-style: none;
+            padding: 0;
+        }
 
-		#toolbar {
-			padding-bottom: 10px;
-			border-bottom: 1px solid #ddd;
-		}
+        #deplist li {
+            padding-top: 7px;
+            padding-bottom: 7px;
+            border-bottom: 1px solid #ddd;
+        }
 
-		h2 {
-			margin-top: 2em;
-		}
-	</style>
+        #deplist li.heading {
+            border: none;
+            background: #ddd;
+            padding: 5px 10px;
+            margin-top: 25px;
+            border-radius: 5px;
+        }
+
+        #deplist input {
+            float: left;
+            margin-right: 5px;
+            display: inline;
+        }
+
+        #deplist label {
+            float: left;
+            width: 160px;
+            font-weight: bold;
+        }
+
+        #deplist div {
+            display: table-cell;
+            height: 1%;
+        }
+
+        #deplist .desc {
+        }
+
+        #deplist .deps {
+            color: #777;
+        }
+
+        #command,
+        #command2 {
+            width: 100%;
+        }
+
+        #toolbar {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        h2 {
+            margin-top: 2em;
+        }
+    </style>
 </head>
 <body>
-	<div id="container">
-		<h1>Leaflet Build Helper</h1>
+<div id="container">
+    <h1>Maps API 2.0 Build Helper</h1>
 
-		<p id="toolbar">
-			<a id="select-all" href="#all">Select All</a> |
-			<a id="deselect-all" href="#none">Deselect All</a>
-		</p>
+    <p id="toolbar">
+        <a id="select-all" href="#all">Select All</a> |
+        <a id="deselect-all" href="#none">Deselect All</a>
+    </p>
 
-		<ul id="deplist"></ul>
+    <ul id="deplist"></ul>
 
-		<h2>Building using Node and UglifyJS</h2>
-		<ol>
-			<li><a href="http://nodejs.org/#download">Download and install Node</a></li>
-			<li>Run this in the command line:<br />
-			<pre><code>npm install -g jake
-npm install jshint
-npm install uglify-js</code></pre></li>
-			<li>Run this command inside the Leaflet directory: <br /><input type="text" id="command2" />
-		</ol>
-		<h2>Building using Closure Compiler</h2>
-		<ol>
-			<li><a href="http://closure-compiler.googlecode.com/files/compiler-latest.zip">Download Closure Compiler</a>, extract it into <code>closure-compiler</code> directory</li>
-			<li>Run this command in the root Leaflet directory: <br /><input type="text" id="command" /></li>
-		</ol>
-	</div>
+    <h2>Building local Maps API 2.0 using Node and Grunt</h2>
+    <ol>
+        <li><a href="http://nodejs.org/#download">Download and install Node</a></li>
+        <li>Run this in the command line:<br/>
+			<pre><code>npm install -g grunt-cli
+npm install</code></pre>
+        </li>
+        <li>Run this command inside the app directory: <br/><input type="text" id="command"/>
+    </ol>
+    <h2>Get URL of custom build Maps API 2.0: </h2>
+    <ol>
+        <li>URL: <br/><input type="text" id="command2"/></li>
+    </ol>
+</div>
 
-	<script type="text/javascript">
-		var deplist = document.getElementById('deplist'),
-			commandInput = document.getElementById('command'),
-			commandInput2 = document.getElementById('command2');
+<script type="text/javascript">
+    var deplist = document.getElementById('deplist'),
+            commandInput = document.getElementById('command'),
+            commandInput2 = document.getElementById('command2');
 
-		document.getElementById('select-all').onclick = function() {
-			var checks = deplist.getElementsByTagName('input');
-			for (var i = 0; i < checks.length; i++) {
-				checks[i].checked = true;
-			}
-			updateCommand();
-			return false;
-		};
+    document.getElementById('select-all').onclick = function () {
+        var checks = deplist.getElementsByTagName('input');
+        for (var i = 0; i < checks.length; i++) {
+            checks[i].checked = true;
+        }
+        updateCommand();
+        return false;
+    };
 
-		document.getElementById('deselect-all').onclick = function() {
-			var checks = deplist.getElementsByTagName('input');
-			for (var i = 0; i < checks.length; i++) {
-				if (!checks[i].disabled) {
-					checks[i].checked = false;
-				}
-			}
-			updateCommand();
-			return false;
-		};
+    document.getElementById('deselect-all').onclick = function () {
+        var checks = deplist.getElementsByTagName('input');
+        for (var i = 0; i < checks.length; i++) {
+            if (!checks[i].disabled) {
+                checks[i].checked = false;
+            }
+        }
+        updateCommand();
+        return false;
+    };
 
-		function updateCommand() {
-			var files = {};
-			var checks = deplist.getElementsByTagName('input');
-			var compsStr = '';
+    function updateCommand() {
+        var checks = deplist.getElementsByTagName('input');
+        var compsStr = '';
 
-			for (var i = 0, len = checks.length; i < len; i++) {
-				if (checks[i].checked) {
-					var srcs = deps[checks[i].id].src;
-                    console.log(srcs);
-					for (var j = 0, len2 = srcs.length; j < len2; j++) {
-						files[srcs[j]] = true;
-					}
-					compsStr = '1' + compsStr;
-				} else {
-					compsStr = '0' + compsStr;
-				}
-			}
+        for (var i = 0, len = checks.length; i < len; i++) {
+            if (checks[i].checked) {
+                if (compsStr === '') {
+                    compsStr += checks[i].id;
+                } else {
+                    compsStr += ',' + checks[i].id;
+                }
+            }
+        }
 
-			var command = 'java -jar closure-compiler/compiler.jar ';
-			for (var src in files) {
-				command += '--js src/' + src + ' ';
-			}
-			command += '--js_output_file dist/leaflet-custom.js';
+        commandInput.value = 'grunt build --m ' + compsStr;
+        commandInput2.value = 'http://maps.api.2gis.ru/2.0/loader.js?load=' + compsStr;
+    }
 
-			commandInput.value = command;
+    function inputSelect() {
+        this.focus();
+        this.select();
+    }
+    ;
 
-			commandInput2.value = 'jake build[' + parseInt(compsStr, 2).toString(32) + ',custom]';
-		}
+    commandInput.onclick = inputSelect;
 
-		function inputSelect() {
-			this.focus();
-			this.select();
-		};
+    function onCheckboxChange() {
+        if (this.checked) {
+            var depDeps = deps[this.id].deps;
+            if (depDeps) {
+                for (var i = 0; i < depDeps.length; i++) {
+                    var check = document.getElementById(depDeps[i]);
+                    if (!check.checked) {
+                        check.checked = true;
+                        check.onchange();
+                    }
+                }
+            }
+        } else {
+            var checks = deplist.getElementsByTagName('input');
+            for (var i = 0; i < checks.length; i++) {
+                var dep = deps[checks[i].id];
+                if (!dep.deps) {
+                    continue;
+                }
+                for (var j = 0; j < dep.deps.length; j++) {
+                    if (dep.deps[j] === this.id) {
+                        if (checks[i].checked) {
+                            checks[i].checked = false;
+                            checks[i].onchange();
+                        }
+                    }
+                }
+            }
+        }
+        updateCommand();
+    }
 
-		commandInput.onclick = inputSelect;
-		commandInput2.onclick = inputSelect;
+    for (var name in deps) {
+        var li = document.createElement('li');
 
-		function onCheckboxChange() {
-			if (this.checked) {
-				var depDeps = deps[this.id].deps;
-				if (depDeps) {
-					for (var i = 0; i < depDeps.length; i++) {
-						var check = document.getElementById(depDeps[i]);
-						if (!check.checked) {
-							check.checked = true;
-							check.onchange();
-						}
-					}
-				}
-			} else {
-				var checks = deplist.getElementsByTagName('input');
-				for (var i = 0; i < checks.length; i++) {
-					var dep = deps[checks[i].id];
-					if (!dep.deps) { continue; }
-					for (var j = 0; j < dep.deps.length; j++) {
-						if (dep.deps[j] === this.id) {
-							if (checks[i].checked) {
-								checks[i].checked = false;
-								checks[i].onchange();
-							}
-						}
-					}
-				}
-			}
-			updateCommand();
-		}
+        if (deps[name].heading) {
+            var heading = document.createElement('li');
+            heading.className = 'heading';
+            heading.appendChild(document.createTextNode(deps[name].heading));
+            deplist.appendChild(heading);
+        }
 
-		for (var name in deps) {
-			var li = document.createElement('li');
+        var div = document.createElement('div');
 
-			if (deps[name].heading) {
-				var heading = document.createElement('li');
-				heading.className = 'heading';
-				heading.appendChild(document.createTextNode(deps[name].heading));
-				deplist.appendChild(heading);
-			}
+        var label = document.createElement('label');
 
-			var div = document.createElement('div');
+        var check = document.createElement('input');
+        check.type = 'checkbox';
+        check.id = name;
+        label.appendChild(check);
+        check.onchange = onCheckboxChange;
 
-			var label = document.createElement('label');
+        if (name == 'Core') {
+            check.checked = true;
+            check.disabled = true;
+        }
 
-			var check = document.createElement('input');
-			check.type = 'checkbox';
-			check.id = name;
-			label.appendChild(check);
-			check.onchange = onCheckboxChange;
+        label.appendChild(document.createTextNode(name));
+        label.htmlFor = name;
 
-			if (name == 'Core') {
-				check.checked = true;
-				check.disabled = true;
-			}
+        li.appendChild(label);
 
-			label.appendChild(document.createTextNode(name));
-			label.htmlFor = name;
+        var desc = document.createElement('span');
+        desc.className = 'desc';
+        desc.appendChild(document.createTextNode(deps[name].desc));
 
-			li.appendChild(label);
+        var depText = deps[name].deps && deps[name].deps.join(', ');
+        if (depText) {
+            var depspan = document.createElement('span');
+            depspan.className = 'deps';
+            depspan.appendChild(document.createTextNode('Deps: ' + depText));
+        }
 
-			var desc = document.createElement('span');
-			desc.className = 'desc';
-			desc.appendChild(document.createTextNode(deps[name].desc));
+        div.appendChild(desc);
+        div.appendChild(document.createElement('br'));
+        if (depText) {
+            div.appendChild(depspan);
+        }
 
-			var depText = deps[name].deps && deps[name].deps.join(', ');
-			if (depText) {
-				var depspan = document.createElement('span');
-				depspan.className = 'deps';
-				depspan.appendChild(document.createTextNode('Deps: ' + depText));
-			}
+        li.appendChild(div);
 
-			div.appendChild(desc);
-			div.appendChild(document.createElement('br'));
-			if (depText) { div.appendChild(depspan); }
-
-			li.appendChild(div);
-
-			deplist.appendChild(li);
-		}
-		updateCommand();
-	</script>
+        deplist.appendChild(li);
+    }
+    updateCommand();
+</script>
 </body>
 </html>

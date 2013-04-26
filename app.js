@@ -5,16 +5,26 @@
  *
  * Copyright (c) 2013, 2GIS
  */
-var express = require('express'),
-    exec = require('child_process').exec,
-    build = require('./build/build.js'),
-    app = express();
+var http = require('http'),
+    express = require('express'),
+    build = require(__dirname + '/build/build.js'),
+    config = build.getConfig();
 
+/**
+ * Init builder
+ */
 build.init();
 
 /**
- * App settings
+ * Init application
  */
+var app = express();
+
+/**
+ * General configuration of the application
+ */
+app.set('port', config.PORT || '3000');
+app.set('host', config.HOST || '0.0.0.0');
 app.use(express.static(__dirname + '/public'));
 
 /**
@@ -51,24 +61,10 @@ app.get('/css', function(req, res){
 /**
  * Start app
  */
-app.listen(3000);
-console.log('Maps API 2.0 server listening on port 3000');
+//http.createServer(app).listen(app.get('port'), app.get('host'), function(){
+//    console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
+//});
 
-/**
- * Auto update
- */
-function autoUpdate(callback) {
-    setInterval(function() {
-        exec('git pull', function (error, stdout, stderr) {
-            if (error || stderr) { return; }
-            if (stdout.indexOf('Already up-to-date') < 0) {
-                callback();
-            }
-        });
-    }, 30 * 1000);
-}
-
-autoUpdate(function() {
-    build.init();
-    console.log('Update app!' );
+http.createServer(app).listen(app.get('port'), function(){
+    console.log('Maps API 2.0 server listening on ' + app.get('port'));
 });

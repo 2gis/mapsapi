@@ -543,6 +543,213 @@
 	border-left: 1px solid #bbb;
 	}
 
+/*Zoom control styles*/
+
+.dg-zoom {
+    background: url(../img/dg-zoom-default-zoom-sprite.png) -118px 0 repeat-y;
+    padding: 0 2px;
+    width: 24px;
+}
+.dg-zoom:before,
+.dg-zoom:after {
+    background: url(../img/dg-zoom-default-zoom-sprite.png) -80px -32px no-repeat;
+    content: '';
+    display: block;
+    height: 4px;
+    left: 0;
+    position: absolute;
+    top: -4px;
+    width: 24px;
+}
+.dg-zoom:after {
+    background-position: -80px -35px;
+    bottom: -4px;
+    top: auto;
+}
+    .dg-zoom__in,
+    .dg-zoom__out {
+        background: url(../img/dg-zoom-default-zoom-sprite.png) -20px 0 no-repeat;
+        cursor: pointer;
+        display: block;
+        height: 20px;
+        overflow: hidden;
+        text-indent: -999px;
+        width: 20px;
+    }
+    .dg-zoom__in {
+        margin-bottom: 7px;
+    }
+    .dg-zoom__out {
+        background-position: -20px -20px;
+    }
+    .dg-zoom__in:hover {
+        background-position: -40px 0;
+    }
+    .dg-zoom__out:hover {
+        background-position: -40px -20px;
+    }
+/* Callout styles for Leaflet markup */
+.leaflet-popup-content-wrapper {
+    color: #e6e6e6;
+    margin: 0;
+    padding: 0;
+}
+    .leaflet-popup-tip {
+        display: none;
+    }
+    .leaflet-popup-tip-container {
+        background: url('../img/dg-callout-default.png') 0 -24px no-repeat;
+        bottom: -44px;
+        height: 46px;
+        left: 45px;
+        padding: 0;
+        position: absolute;
+        width: 55px;
+    }
+    .leaflet-container a.leaflet-popup-close-button {
+        background: url(../img/dg-callout-default.png) 0 0 no-repeat;
+        border-radius: 2px;
+        color: #aaa;
+        font-weight: 400;
+        height: 24px;
+        margin: 0;
+        right: -1px;
+        top: -2px;
+        padding: 0;
+        width: 24px;
+    }
+    .leaflet-container a.leaflet-popup-close-button:hover {
+        background: url(../img/dg-callout-default.png) -24px 0 no-repeat;
+    }
+
+/* Callout styles for 2GIS markup */
+.dg-callout {
+    background-color: #fff;
+    border: 1px solid #a9bbc9;
+    border-radius: 5px;
+    color: #222;
+    font-family: arial, helvetica, sans-serif;
+    font-size: 13px;
+    margin: 0;
+    padding: 17px 15px 16px;
+}
+.dg-callout img {
+    border: none;
+    margin: 0;
+}
+.dg-callout::selection {
+    background-color: #0070c0;
+}
+
+/* Geoclicker */
+.dg-geoclicker {}
+    .dg-geoclicker__org {
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 18px;
+        margin: 0 10px 6px 0;
+    }
+    .dg-geoclicker__address {
+        font-size: 15px;
+        font-weight: normal;
+        line-height: 16px;
+        margin-bottom: 2px;
+    }
+    .dg-geoclicker__purpose,
+    .dg-geoclicker__elevation {
+        color: #a0a0a0;
+        display: block;
+        font-size: 15px;
+        line-height: 16px;
+        margin-bottom: 1px;
+    }
+    .dg-geoclicker__purpose {
+        margin-bottom: 2px;
+    }
+    .dg-geoclicker__show-organizations {
+        color: rgb(0, 112, 192);
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 24px;
+    }
+        .dg-geoclicker__orgs {
+            color: rgb(160, 160, 160);
+            display: inline;
+            font-size: 10px;
+            position: relative;
+            top: -4px;
+        }
+.dg-marker {}
+.leaflet-div-icon {
+    background-color: transparent;
+    border: none;
+}
+
+/* Default marker animation */
+.dg-marker_default.dg-marker_animated {
+    background: url(../img/dg-marker-default-desktop-standard.png) center 100% no-repeat;
+    border: none;
+    bottom: 0;
+    display: block;
+    height: 32px;
+    -webkit-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    -moz-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    -o-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    -ms-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 15px !important;
+}
+:not(#so_bad) .dg-marker_default.dg-marker_animated:before,
+:not(#so_bad) .dg-marker_default.dg-marker_animated:after {
+    bottom: 0;
+    content: '';
+    display: block;
+    height: 32px;
+    left: 0;
+    position: absolute;
+    top: auto;
+}
+:not(#so_bad) .dg-marker_default.dg-marker_animated:before {
+    background: url(../img/dg-marker-default-desktop-standard-scaled.png) 0 100% no-repeat;
+    background-size: 100%;
+    opacity: 0;
+    z-index: 2;
+    width: 100%;
+}
+:not(#so_bad)  .dg-marker_default.dg-marker_animated:after {
+    background: url(../img/dg-marker-default-desktop-standard-scaled-active.png) 0 100% no-repeat;
+    background-size: 100%;
+    opacity: 0;
+    z-index: 3;
+    width: 100%;
+}
+.dg-marker_default.dg-marker_animated.dg-marker:hover,
+.dg-marker_default.dg-marker_animated.dg-marker_mousedown {
+    margin-left: -3px;
+    -webkit-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    -moz-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    -o-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    -ms-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    transition: width 0.05s ease-out, margin-left 0.05s ease-out;
+    width: 21px !important;
+}
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover {
+    background: none;
+}
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover:before {
+    opacity: 1;
+}
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover:after {
+    opacity: 0.6;
+}
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mousedown:after {
+    bottom: -1px;
+    opacity: 1;
+}
 .leaflet-container .leaflet-control-attribution {
     background-color:transparent;
     box-shadow: 0 0 5px #bbb;
