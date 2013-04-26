@@ -21,9 +21,10 @@ L.DG.Geoclicker = L.Class.extend({
         }
     },
     initialize: function(handlersManager) {
-        this._handlersManager = handlersManager;
+        this.handlersManager = handlersManager;
     },
     onMapClick: function(e) {
+        console.log(this.options);
         this.options.data.zoomlevel = e.target._zoom;
         this.options.data.q = e.latlng.lng + "," + e.latlng.lat;
         var types = this.getTypesByZoom(e.target._zoom);
@@ -36,9 +37,11 @@ L.DG.Geoclicker = L.Class.extend({
             url: this.options.url,
             data: this.options.data,
             success: function (response) {
-                self._handlersManager.handle({
+                console.log(response);
+                self.handlersManager.handle({
                     response: response,
-                    zoom: e.target._zoom
+                    zoom: e.target._zoom,
+                    allowedTypes: types
                 });
             }
         });
