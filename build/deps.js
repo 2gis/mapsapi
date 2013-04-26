@@ -34,9 +34,9 @@ var deps = {
         desc: 'JSONP module.'
     },
 
-    ProjectDetector: {
-        desc: 'ProjectDetector module.',
-        src: ['ProjectDetector/src/ProjectDetector.js'],
+    DGProjectDetector: {
+        desc: 'DGProjectDetector module.',
+        src: ['DGProjectDetector/src/DGProjectDetector.js'],
         deps: ['JSONP']
     },
 
