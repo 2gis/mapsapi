@@ -16,12 +16,12 @@
     </tr>
     <tr>
         <td>projectchange</td>
-        <td>???</td>
+        <td>ProjectEvent</td>
         <td>Возникает, когда пользователь переходит из одного проекта в другой</td>
     </tr>
     <tr>
         <td>projectleave</td>
-        <td>???</td>
+        <td>ProjectEvent</td>
         <td>Возникает, когда пользователь выходит за пределы текущего проекта</td>
     </tr>
 </table>
