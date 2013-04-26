@@ -53,7 +53,6 @@
 # Примеры
 ## Событие при смене проекта:
 
-    var bounds;
     map.on('projectchange', function (e) {
         console.log(e);
     });
