@@ -30,7 +30,7 @@ app.use(express.static(__dirname + '/public'));
 /**
  * Routes
  */
-app.all(/^\/(js|css)$/, function(req, resp, next) {
+app.all(/^\/2.0\/(js|css)$/, function(req, resp, next) {
     //@todo Add validations
     req.dgParams = {};
     req.dgParams.pkg = req.query.load || null;
@@ -47,13 +47,13 @@ app.all(/^\/(js|css)$/, function(req, resp, next) {
     next();
 });
 
-app.get('/js', function(req, res){
+app.get('/2.0/js', function(req, res){
     build.getJS(req.dgParams,function(data) {
         req.dgParams.callback(res, data);
     });
 });
 
-app.get('/css', function(req, res){
+app.get('/2.0/css', function(req, res){
     build.getCSS(req.dgParams, function(data) {
         req.dgParams.callback(res, data);
     });
