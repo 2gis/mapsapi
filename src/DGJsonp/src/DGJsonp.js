@@ -1,10 +1,6 @@
 /**
- * Leaflet DG JSONP Plugin
- * The plugin to provide an asynchronous cross-domain HTTP (AJAX) requests.
- *
- * Version 1.0.1
- *
- * Copyright (c) 2013, 2GIS, Andrey Chizh
+ * 2GIS JSONP Plugin
+ * Provides an asynchronous cross-domain HTTP (AJAX) requests
  */
 L.DG = L.DG || {};
 L.DG.Jsonp = function (params) {

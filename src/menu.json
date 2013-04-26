@@ -51,9 +51,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Jsonp",
-                                "uri": "doc/jsonp/jsonp.html",
-                                "_src": "Jsonp/doc/Jsonp.md",
+                                "title": "DGJsonp",
+                                "uri": "doc/DGjsonp/jsonp.html",
+                                "_src": "DGJsonp/doc/Jsonp.md",
                                 "hide": true
                             }
                         },
@@ -62,9 +62,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "ProjectDetector",
+                                "title": "DGProjectDetector",
                                 "uri": "doc/projectdetector/projectdetector.html",
-                                "_src": "ProjectDetector/doc/ProjectDetector.md",
+                                "_src": "DGProjectDetector/doc/ProjectDetector.md",
                                 "hide": true
                             }
                         },

@@ -29,15 +29,15 @@ var deps = {
         deps: ['TileLayer', 'DGCore']
     },
 
-    JSONP: {
-        src: ['Jsonp/src/Jsonp.js'],
+    DGJsonp: {
+        src: ['DGJsonp/src/DGJsonp.js'],
         desc: 'JSONP module.'
     },
 
     DGProjectDetector: {
         desc: 'DGProjectDetector module.',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['JSONP']
+        deps: ['DGJsonp']
     },
 
     Localization: {
