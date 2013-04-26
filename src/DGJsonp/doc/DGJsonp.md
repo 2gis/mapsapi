@@ -42,7 +42,7 @@
 </table>
 
 ## Примеры
-### Базовое использование:
+Базовое использование:
 
     L.DG.Jsonp({
         url: 'http://catalog.api.2gis.ru/project/list',
@@ -66,7 +66,7 @@
         }
     });
 
-### Отмена запроса:
+Отмена запроса:
 
     var jsonp = L.DG.Jsonp({
         url: 'http://catalog.api.2gis.ru/project/list',
