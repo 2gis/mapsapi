@@ -45,14 +45,6 @@ var deps = {
         src: ['Localization/src/Localization.js']
     },
 
-    DGControlZoom: {
-        desc: '2GIS control zoom.',
-        src: ['DGControlZoom/src/DGControlZoom.js'],
-        css: {
-            all: ['DGControlZoom/skin/{skin}/zoom.css']
-        },
-        deps: ['ControlZoom']
-    },
     DGGeoclickerHandlers: {
         desc: '2GIS Geoclicker.',
         src: ['DGGeoclicker/src/GeoclickerHandlers.js']
