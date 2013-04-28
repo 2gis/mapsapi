@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>2GIS Project detector plugin demo</title>
+    <title>DGProjectDetector demo</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://maps.api.2gis.ru/2.0/loader.js?load=full&mode=debug"></script>
@@ -12,6 +12,7 @@
 
 <script type="text/javascript">
     L.onLoad(function () {
+
         var currentProjectBound,
             map = new L.Map('map', {
                 center:new L.LatLng(54.980206086231, 82.898068362003),
@@ -21,17 +22,18 @@
         L.control.scale({imperial:false}).addTo(map);
 
         map.on('projectchange', function (e) {
-            // use "projectchange" event
+            // projectchange event
             var bounds = e.getProject().LatLngBounds;
             currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
         });
 
         map.on('projectleave', function (e) {
-            // use projectleave event
+            // projectleave event
             if (currentProjectBound) {
                 currentProjectBound.onRemove(map);
             }
         });
+
     });
 </script>
 
