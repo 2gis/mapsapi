@@ -40,9 +40,9 @@ var deps = {
         deps: ['DGJsonp']
     },
 
-    Localization: {
+    DGLocale: {
         desc: 'Localization module.',
-        src: ['Localization/src/Localization.js']
+        src: ['DGLocale/src/DGLocale.js']
     },
 
     DGDivIcon: {
