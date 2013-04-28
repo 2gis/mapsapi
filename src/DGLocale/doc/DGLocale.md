@@ -105,3 +105,27 @@
         <td>Текущий язык карты</td>
     </tr>
 </table>
+
+# Примеры
+Подмешивание (mixin) функционала локализции в пользовательский плагин:
+
+    L.DG.LocaleExample = L.Control.extend({
+        includes: L.DG.Locale,
+        ...
+    }
+
+Подписка на событие langchange:
+
+    map.on('langchange', this._updateText, this);
+
+Перевод строки на текущий язык карты:
+
+    container.innerHTML = this.t("{n} people", 16700000) + ' ' + this.t("regularly use 2GIS");
+
+Получение текущего языка карты:
+
+    map.getLang();
+
+Установка текущего языка карты:
+
+    map.setLang('ru');
