@@ -1,4 +1,7 @@
 /* Callout styles for Leaflet markup */
+.leaflet-popup {
+    left: -46px !important;
+}
 .leaflet-popup-content-wrapper {
     color: #e6e6e6;
     margin: 0;
@@ -41,7 +44,9 @@
     font-family: arial, helvetica, sans-serif;
     font-size: 13px;
     margin: 0;
+    overflow: hidden;
     padding: 17px 15px 16px;
+    word-break: break-all;
 }
 .dg-callout img {
     border: none;
