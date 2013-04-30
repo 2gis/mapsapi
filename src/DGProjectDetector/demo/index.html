@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div id="map" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
 <script type="text/javascript">
     L.onLoad(function () {
@@ -18,8 +18,6 @@
                 center:new L.LatLng(54.980206086231, 82.898068362003),
                 zoom:10
             });
-
-        L.control.scale({imperial:false}).addTo(map);
 
         map.on('projectchange', function (e) {
             // projectchange event
