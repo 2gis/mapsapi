@@ -20,29 +20,29 @@ var deps = {
         deps: ['DGDivIcon']
     },
 
-    DGLayer: {
+    DGTileLayer: {
         desc: '2GIS Tile Layer module.',
-        src: ['DGLayer/src/DGLayer.js'],
+        src: ['DGTileLayer/src/DGTileLayer.js'],
         css: {
-            all: ['DGLayer/skin/{skin}/css/style.css']
+            all: ['DGTileLayer/skin/{skin}/css/style.css']
         },
         deps: ['TileLayer', 'DGCore']
     },
 
-    JSONP: {
-        src: ['Jsonp/src/Jsonp.js'],
+    DGJsonp: {
+        src: ['DGJsonp/src/DGJsonp.js'],
         desc: 'JSONP module.'
     },
 
-    ProjectDetector: {
-        desc: 'ProjectDetector module.',
-        src: ['ProjectDetector/src/ProjectDetector.js'],
-        deps: ['JSONP']
+    DGProjectDetector: {
+        desc: 'DGProjectDetector module.',
+        src: ['DGProjectDetector/src/DGProjectDetector.js'],
+        deps: ['DGJsonp']
     },
 
-    Localization: {
+    DGLocale: {
         desc: 'Localization module.',
-        src: ['Localization/src/Localization.js']
+        src: ['DGLocale/src/DGLocale.js']
     },
 
     DGDivIcon: {
