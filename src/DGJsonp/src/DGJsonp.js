@@ -37,11 +37,13 @@ L.DG.Jsonp = function (params) {
     timer = setTimeout(function () {
         cancelCallback();
         error({ url: resUrl, event: 'Request timeout error' });
+        complete({ url: resUrl, event: 'Request timeout error' }, 'timeout');
     }, timeout);
 
     L.DG.Jsonp.callback[callbackId] = function (data) {
         clearTimeout(timer);
         success(data);
+        complete(data, 'success');
         removeScript(callbackId);
         delete L.DG.Jsonp.callback[callbackId];
     };
@@ -53,6 +55,7 @@ L.DG.Jsonp = function (params) {
 
     script.onerror = window.onerror = function (e) {
         error({ url: resUrl, event: e });
+        complete({ url: resUrl, event: e }, 'error');
         script.parentNode.removeChild(script);
         return true;
     };
@@ -61,7 +64,6 @@ L.DG.Jsonp = function (params) {
 
     beforeSend();
     head.appendChild(script);
-    complete();
 
     function cancelCallback() {
         removeScript(callbackId);
