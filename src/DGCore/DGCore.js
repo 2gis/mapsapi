@@ -20,8 +20,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     this._map = map;
 
-    this._zoomInButton = this._createButton('+', 'Zoom in', zoomName + '__in', container, this._zoomIn, this);
-    this._zoomOutButton = this._createButton('-', 'Zoom out', zoomName + '__out', container, this._zoomOut, this);
+    this._zoomInButton = this._createButton('+', 'Приблизить', zoomName + '__in', container, this._zoomIn, this);
+    this._zoomOutButton = this._createButton('-', 'Отдалить', zoomName + '__out', container, this._zoomOut, this);
 
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 
