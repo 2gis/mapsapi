@@ -26,7 +26,7 @@
 
             onAdd: function (map) {
                 this._container = L.DomUtil.create('div');
-                this._map.on('langchange', this._updateText, this);
+                this._map.on('dgLangChange', this._updateText, this);
                 this._updateText();
                 return this._container;
             },

@@ -84,7 +84,7 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td>langchange</td>
+        <td>dgLangChange</td>
         <td>LangEvent</td>
         <td>Возникает при изменении текущего языка карты.</td>
     </tr>
@@ -114,9 +114,9 @@
         ...
     }
 
-Подписка на событие langchange:
+Подписка на событие dgLangChange:
 
-    map.on('langchange', this._updateText, this);
+    map.on('dgLangChange', this._updateText, this);
 
 Перевод строки на текущий язык карты:
 

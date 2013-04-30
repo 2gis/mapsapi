@@ -46,7 +46,7 @@ L.DG.ProjectDetector = L.Handler.extend({
             } else {
                 if (!this.project.LatLngBounds.intersects(this._map.getBounds())) {
                     this.project = null;
-                    this._map.fire("projectleave");
+                    this._map.fire("dgProjectLeave");
                     this._searchProject();
                 }
             }
@@ -79,7 +79,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         for (var i = 0; i < this.projectsList.length; i++) {
             if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
                 this.project = this.projectsList[i];
-                this._map.fire("projectchange", {"getProject": L.Util.bind(this.getProject, this)});
+                this._map.fire("dgProjectChange", {"getProject": L.Util.bind(this.getProject, this)});
                 return;
             }
         }

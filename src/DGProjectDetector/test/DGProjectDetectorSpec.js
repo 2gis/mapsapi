@@ -35,31 +35,31 @@ describe("DG Project Detector Module", function () {
             });
 
             /**
-             * Проверка, что событие projectchange срабатывает при смене проекта
+             * Проверка, что событие dgProjectChange срабатывает при смене проекта
              *
-             * - Проверяем, что вызвалось событие projectchange при смене проекта
+             * - Проверяем, что вызвалось событие dgProjectChange при смене проекта
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
-            it("should fire a projectchange event ", function () {
-                map.on('projectchange', spy);
+            it("should fire a dgProjectChange event ", function () {
+                map.on('dgProjectChange', spy);
                 expect(spy.called).to.be.ok();
             });
 
             /**
-             * Проверка, что событие projectleave сработало
+             * Проверка, что событие dgProjectLeave сработало
              *
-             * - Проверяем, что вызвалось событие projectchange
-             * - Проверяем, что вызвалось событие projectleave при выходе за проект
+             * - Проверяем, что вызвалось событие dgProjectChange
+             * - Проверяем, что вызвалось событие dgProjectLeave при выходе за проект
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
-//            it("should fire a projectleave event", function () {
-//                map.on('projectleave', spy);
+//            it("should fire a dgProjectLeave event", function () {
+//                map.on('dgProjectLeave', spy);
 //
 //                window.setTimeout(function () {
 //                    map.setView([55.12776575426648, 81.05661392211914], 16);
@@ -75,9 +75,9 @@ describe("DG Project Detector Module", function () {
 //            });
 
             /**
-             * Проверка, что метод getProject() события "projectchange" возвращает корректный проект
+             * Проверка, что метод getProject() события "dgProjectChange" возвращает корректный проект
              *
-             * - Подписываемся на событие "projectchange"
+             * - Подписываемся на событие "dgProjectChange"
              * - Вызываем метод и роверяем что значение определено
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
@@ -86,7 +86,7 @@ describe("DG Project Detector Module", function () {
              */
             describe("#getProject", function () {
 //                it("event method should be return correct project", function () {
-//                    map.on('projectchange', spy);
+//                    map.on('dgProjectChange', spy);
 //
 //                    waitsFor(function () {
 //                        return spy.callCount === 1;
@@ -132,16 +132,16 @@ describe("DG Project Detector Module", function () {
             });
 
             /**
-             * Проверка, что событие projectchange не вызвалось при не корректном ответе сервера
+             * Проверка, что событие dgProjectChange не вызвалось при не корректном ответе сервера
              *
-             * - Проверяем, что не вызвалось событие projectchange при неверном ответе сервера
+             * - Проверяем, что не вызвалось событие dgProjectChange при неверном ответе сервера
              *
              * @author Dima Rudenko <dm.rudenko@2gis.kiev.ua>
              * @version 2.0.0
              * @module L.DG.ProjectDetector
              */
-//            it("not should fire a projectchange event ", function () {
-//                map.on('projectchange', spy);
+//            it("not should fire a dgProjectChange event ", function () {
+//                map.on('dgProjectChange', spy);
 //
 //                map.setView([55.12776575426648, 81.05661392211914], 16);
 //

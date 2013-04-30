@@ -42,7 +42,7 @@ L.Map.include({
     setLang: function (lang) {
         if (lang) {
             this.options.currentLang = lang;
-            this.fire("langchange", {"lang": lang});
+            this.fire("dgLangChange", {"lang": lang});
         }
     },
 
