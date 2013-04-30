@@ -47,8 +47,8 @@
     border: none;
     margin: 0;
 }
-.dg-callout::selection {
-    background-color: #0070c0;
+.dg-callout p {
+    margin: 13px 0;
 }
 
 /* Geoclicker */
