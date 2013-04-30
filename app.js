@@ -1,4 +1,5 @@
 /**
+
  * Web app of 2GIS Maps API 2.0
  *
  * Version 2.0.0
