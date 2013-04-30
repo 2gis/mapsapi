@@ -787,7 +787,7 @@ a.dg-mapcopyright__logolink {
 }
 
 .dg-mapcopyright__logo {
-    background:url("../img/dg-layer-base-copyright.png") -304px 0 no-repeat;
+    background:url("../img/dg-tilelayer-base-copyright.png") -304px 0 no-repeat;
     border:none !important;
     color:transparent !important;
     display:block !important;
@@ -801,8 +801,8 @@ a.dg-mapcopyright__logolink {
 
 a.dg-mapcopyright__apilink,
 a.dg-mapcopyright__license {
-    background-image:url("../img/dg-layer-base-copyright.png"), url("../img/dg-layer-base-copyright.png");
-    background-image:url("../img/dg-layer-base-copyright.png") \9;
+    background-image:url("../img/dg-tilelayer-base-copyright.png"), url("../img/dg-tilelayer-base-copyright.png");
+    background-image:url("../img/dg-tilelayer-base-copyright.png") \9;
     background-repeat:no-repeat !important;
     color:transparent !important;
     cursor:pointer !important;
