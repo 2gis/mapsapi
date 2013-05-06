@@ -1,17 +1,10 @@
 (function() {
     'use strict';
 
-    var onLoadJS = function() {},
+    var onLoadJs = function(){},
         baseURL,
         params,
         version = 'v=e180f0';
-
-    function initLoader() {
-        window.L = window.L || {};
-        window.L.onLoad = function(callback) {
-            onLoadJS = callback;
-        };
-    }
 
     function processURL() {
         var scripts, scriptURL;
@@ -56,32 +49,41 @@
     function loadJS(link, callback) {
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
-
+        js.setAttribute('src', link);
         if (js.readyState) {
             js.onreadystatechange = function() {
                 if (js.readyState === 'loaded' || js.readyState === 'complete') {
                     js.onreadystatechange = null;
-                    callback();
+                    onLoadJs();
                 }
             };
         } else {
             js.onload = function() {
-                callback();
+                onLoadJs();
             };
         }
-
-        js.setAttribute('src', link);
         document.getElementsByTagName('head')[0].appendChild(js);
     }
 
-    initLoader();
+    window.L = window.L || {};
+    window.L.onLoad = function(callback) {
+        onLoadJs = callback;
+    };
 
     baseURL = getBaseURL();
     params = getParams();
-
     loadCSS(baseURL + 'css' + params);
-    loadJS(baseURL + 'js' + params, function() {
-        onLoadJS();
-    });
+    // load js on document ready
+    if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', function() {
+            loadJS(baseURL + 'js' + params);
+        }, false );
+    } else if (document.attachEvent) {
+        document.attachEvent('onreadystatechange', function() {
+            if (document.readyState === 'complete') {
+                loadJS(baseURL + 'js' + params);
+            }
+        });
+    }
 
 })();
