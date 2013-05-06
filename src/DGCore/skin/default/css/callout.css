@@ -9,8 +9,8 @@
     }
     .leaflet-popup-tip-container {
         background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
-        bottom: -44px;
-        height: 46px;
+        bottom: -28px;
+        height: 30px;
         left: 45px;
         padding: 0;
         position: absolute;

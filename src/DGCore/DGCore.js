@@ -70,7 +70,9 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         this._tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
         this._tip = L.DomUtil.create('div', prefix + '-tip', this._tipContainer);
-        L.DomEvent.disableClickPropagation(this._tipContainer);
+        L.DomEvent.addListener(this._tipContainer, 'click', function(event) {
+            L.DomEvent.stopPropagation(event);
+        });
     };
 
 }());
@@ -78,7 +80,9 @@ L.Popup.include({
     _close: function () {
         var map = this._map;
 
-        L.DomUtil.removeClass(this._markerIcon, 'leaflet-marker-active');
+        if (this._markerIcon) {
+            L.DomUtil.removeClass(this._markerIcon, 'leaflet-marker-active');
+        }
 
         if (map) {
             map._popup = null;
