@@ -65,33 +65,29 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         var wrapper = this._wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
         L.DomEvent.disableClickPropagation(wrapper);
 
-        this._contentNode = L.DomUtil.create('div', prefix + '-content dg-callout ', wrapper);
+        this._contentNode = L.DomUtil.create('div', prefix + '-content ', wrapper);
         L.DomEvent.on(this._contentNode, 'mousewheel', L.DomEvent.stopPropagation);
 
         this._tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
         this._tip = L.DomUtil.create('div', prefix + '-tip', this._tipContainer);
     };
 
-    L.Popup.prototype._updatePosition = function () {
-        console.log('_updatePosition');
+    L.Popup.prototype._updateContent = function () {
+        if (!this._content) { return; }
 
-        if (!this._map) { return; }
+        var content = '<div class="dg-callout">' + this._content + '</div>';
 
-        var pos = this._map.latLngToLayerPoint(this._latlng),
-            animated = this._animated,
-            offset = this.options.offset;
-
-        if (animated) {
-            L.DomUtil.setPosition(this._container, pos);
+        if (typeof this._content === 'string') {
+            this._contentNode.innerHTML = content;
+        } else {
+            while (this._contentNode.hasChildNodes()) {
+                this._contentNode.removeChild(this._contentNode.firstChild);
+            }
+            this._contentNode.appendChild(content);
         }
-
-        this._containerBottom = -offset.y - (animated ? 0 : pos.y);
-        this._containerLeft = -45; // @unhardcode it
-
-        //Bottom position the popup in case the height of the popup changes (images loading etc)
-        this._container.style.bottom = this._containerBottom + 'px';
-        this._container.style.left = this._containerLeft + 'px';
+        this.fire('contentupdate');
     };
+
 }());
 
 

@@ -11,7 +11,8 @@
         background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
         bottom: -44px;
         height: 46px;
-        left: 45px;
+        margin-left: -18px;
+        left: 50%;
         padding: 0;
         position: absolute;
         width: 55px;
