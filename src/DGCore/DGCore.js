@@ -14,6 +14,7 @@ L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
 
+//@todo remove copypasted code from Leaflet
 L.Control.Zoom.prototype.onAdd = function (map) {
     var zoomName = 'dg-zoom',
         container = L.DomUtil.create('div', zoomName);
@@ -34,58 +35,19 @@ L.Control.Zoom.prototype.onAdd = function (map) {
  */
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
-        offsetY = L.DG.configTheme.balloonOptions.offset.y;
+        offsetY = L.DG.configTheme.balloonOptions.offset.y,
 
-    L.Popup.prototype.options = {
-        minWidth: 50,
-        maxWidth: 300,
-        maxHeight: null,
-        autoPan: true,
-        closeButton: true,
-        offset: new L.Point(offsetX, offsetY),
-        autoPanPadding: new L.Point(5, 5),
-        className: '',
-        zoomAnimation: true
-    };
+        originalSetContent = L.Popup.prototype.setContent;
 
-    L.Popup.prototype._initLayout = function () {
-        var prefix = 'leaflet-popup',
-            containerClass = prefix + ' ' + this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
-            container = this._container = L.DomUtil.create('div', containerClass),
-            closeButton;
+    L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
-        if (this.options.closeButton) {
-            closeButton = this._closeButton = L.DomUtil.create('a', prefix + '-close-button', container);
-            closeButton.href = '#close';
-            closeButton.innerHTML = '&#215;';
-            L.DomEvent.disableClickPropagation(closeButton);
-            L.DomEvent.on(closeButton, 'click', this._onCloseButtonClick, this);
-        }
-
-        var wrapper = this._wrapper = L.DomUtil.create('div', prefix + '-content-wrapper', container);
-        L.DomEvent.disableClickPropagation(wrapper);
-
-        this._contentNode = L.DomUtil.create('div', prefix + '-content ', wrapper);
-        L.DomEvent.on(this._contentNode, 'mousewheel', L.DomEvent.stopPropagation);
-
-        this._tipContainer = L.DomUtil.create('div', prefix + '-tip-container', container);
-        this._tip = L.DomUtil.create('div', prefix + '-tip', this._tipContainer);
-    };
-
-    L.Popup.prototype._updateContent = function () {
-        if (!this._content) { return; }
-
-        var content = '<div class="dg-callout">' + this._content + '</div>';
-
-        if (typeof this._content === 'string') {
-            this._contentNode.innerHTML = content;
+    L.Popup.prototype.setContent = function (content) {
+        if (typeof content === 'string') {
+            content = '<div class="dg-callout">' + content + '</div>';
         } else {
-            while (this._contentNode.hasChildNodes()) {
-                this._contentNode.removeChild(this._contentNode.firstChild);
-            }
-            this._contentNode.appendChild(content);
+            content = L.DomUtil.create('div', 'dg-callout').appendChild(content);
         }
-        this.fire('contentupdate');
+        return originalSetContent.call(this, content);
     };
 
 }());
@@ -95,13 +57,4 @@ L.Control.Zoom.prototype.onAdd = function (map) {
  * Marker 2GIS redefinition
  *
  */
-L.Marker.prototype.options = {
-    icon: L.DG.divIcon(),
-    title: '',
-    clickable: true,
-    draggable: false,
-    zIndexOffset: 0,
-    opacity: 1,
-    riseOnHover: false,
-    riseOffset: 250
-};
+L.Marker.prototype.options.icon = L.DG.divIcon();
