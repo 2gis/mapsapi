@@ -586,7 +586,7 @@ function getAppConfig() {
  * Demo using:
  *
  * var config = getMainConfig("./src");
- * var content = fs.readFileSync("./src/DGLayer/src/DGLayer.js", "utf8");
+ * var content = fs.readFileSync("./src/DGTileLayer/src/DGTileLayer.js", "utf8");
  * console.log(setParams(content, config));
  *
  * @param {String}  content to replace
