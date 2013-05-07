@@ -7,16 +7,11 @@
 
 L.DG = L.DG || {};
 L.DG.DivIcon = L.Icon.extend({
-    options: {
-        iconSize: [16, 24],
-        popupAnchor: [37, 14],
-        html: '<div class="dg-marker dg-marker_default dg-marker_animated"></div>',
-        className: 'leaflet-div-icon'
-    },
+    options: {},
 
     createIcon: function () {
         var div = document.createElement('div'),
-            options = this.options;
+            options = L.Util.extend(this.options, L.DG.configTheme.markersData);
 
         if (options.html) {
             div.innerHTML = options.html;

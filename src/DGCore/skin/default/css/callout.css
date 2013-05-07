@@ -1,7 +1,4 @@
 /* Callout styles for Leaflet markup */
-:not(#old_ie) .leaflet-popup {
-    left: -45px !important;
-}
 .leaflet-popup-content-wrapper {
     color: #e6e6e6;
     margin: 0;

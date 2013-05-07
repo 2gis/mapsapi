@@ -72,6 +72,26 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         this._tip = L.DomUtil.create('div', prefix + '-tip', this._tipContainer);
     };
 
+    L.Popup.prototype._updatePosition = function () {
+        console.log('_updatePosition');
+
+        if (!this._map) { return; }
+
+        var pos = this._map.latLngToLayerPoint(this._latlng),
+            animated = this._animated,
+            offset = this.options.offset;
+
+        if (animated) {
+            L.DomUtil.setPosition(this._container, pos);
+        }
+
+        this._containerBottom = -offset.y - (animated ? 0 : pos.y);
+        this._containerLeft = -45; // @unhardcode it
+
+        //Bottom position the popup in case the height of the popup changes (images loading etc)
+        this._container.style.bottom = this._containerBottom + 'px';
+        this._container.style.left = this._containerLeft + 'px';
+    };
 }());
 
 
