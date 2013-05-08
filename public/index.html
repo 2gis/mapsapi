@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Map Base Demo</title>
+    <title>2GIS maps api demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?load=full&mode=debug"></script>
+    <script src="http://maps.api.2gis.ru:3000/2.0/loader.js?load=full&mode=debug"></script>
 </head>
 <body>
 
 <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
 <script type="text/javascript">
-    var map;
+    var map,
+        balloonHTML;
+
     L.onLoad(function () {
         map = new L.Map('map', {
             center: new L.LatLng(54.980206086231, 82.898068362003),
             zoom: 13
         });
+        balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
+            <img src="2.0/2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
+            <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
+            (МФК «Сан Сити»), 13 этаж';
 
-        L.circle([54.980206086231, 82.898068362003], 500, {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5
-        }).addTo(map).bindPopup("Hello, NSK!");
-
-        L.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
-
+        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
     });
 
 </script>
