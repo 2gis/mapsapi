@@ -21,8 +21,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     this._map = map;
 
-    this._zoomInButton = this._createButton('+', 'Zoom in', zoomName + '__in', container, this._zoomIn, this);
-    this._zoomOutButton = this._createButton('-', 'Zoom out', zoomName + '__out', container, this._zoomOut, this);
+    this._zoomInButton = this._createButton('+', 'Приблизить', zoomName + '__in', container, this._zoomIn, this);
+    this._zoomOutButton = this._createButton('-', 'Отдалить', zoomName + '__out', container, this._zoomOut, this);
 
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 
@@ -36,7 +36,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-
         originalSetContent = L.Popup.prototype.setContent;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
@@ -47,10 +46,28 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         } else {
             content = L.DomUtil.create('div', 'dg-callout').appendChild(content);
         }
+
         return originalSetContent.call(this, content);
     };
 
 }());
+L.Popup.include({
+    _close: function () {
+        var map = this._map;
+
+        if (this._markerIcon) {
+            L.DomUtil.removeClass(this._markerIcon, 'leaflet-marker-active');
+        }
+
+        if (map) {
+            map._popup = null;
+
+            map
+                .removeLayer(this)
+                .fire('popupclose', {popup: this});
+        }
+    }
+});
 
 
 /**

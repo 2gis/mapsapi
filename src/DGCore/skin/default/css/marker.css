@@ -47,7 +47,8 @@
     width: 100%;
 }
 .dg-marker_default.dg-marker_animated.dg-marker:hover,
-.dg-marker_default.dg-marker_animated.dg-marker_mousedown {
+.dg-marker_default.dg-marker_animated.dg-marker_mousedown,
+.leaflet-marker-active .dg-marker_default.dg-marker_animated {
     margin-left: -3px;
     -webkit-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
     -moz-transition: width 0.05s ease-out, margin-left 0.05s ease-out;
@@ -56,16 +57,20 @@
     transition: width 0.05s ease-out, margin-left 0.05s ease-out;
     width: 21px !important;
 }
-:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover {
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover,
+:not(#so_bad) .leaflet-marker-active .dg-marker_default.dg-marker_animated {
     background: none;
 }
-:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover:before {
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover:before,
+:not(#so_bad) .leaflet-marker-active .dg-marker_default.dg-marker_animated:before {
     opacity: 1;
 }
-:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover:after {
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mouseover:after,
+:not(#so_bad) .leaflet-marker-active .dg-marker_default.dg-marker_animated:after {
     opacity: 0.6;
 }
-:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mousedown:after {
+:not(#so_bad) .dg-marker_default.dg-marker_animated.dg-marker_mousedown:after,
+:not(#so_bad) .leaflet-marker-active .dg-marker_default.dg-marker_animated:after {
     bottom: -1px;
     opacity: 1;
 }
