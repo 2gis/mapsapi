@@ -46,3 +46,23 @@ exports.getBrowsers = function () {
 
     return browsers;
 };
+
+exports.getReporters = function () {
+    var reporters = ['dots'];
+
+    if (argv.hasOwnProperty('reporters')) {
+        reporters = argv.reporters.split(',');;
+    }
+
+    return reporters;
+};
+
+exports.getJunitReporter = function () {
+    var junitReporter = {};
+
+    if (argv.hasOwnProperty('junitOutput')) {
+        junitReporter["outputFile"] = argv.junitOutput;
+    }
+
+    return junitReporter;
+};

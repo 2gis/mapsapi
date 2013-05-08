@@ -71,13 +71,14 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'test/karma.conf.js',
-                browsers: test.getBrowsers()
+                browsers: test.getBrowsers(),
+                reporters: test.getReporters(),
+                junitReporter: test.getJunitReporter()
             },
             continuous: {
                 singleRun: true
             },
             dev: {
-                reporters: 'dots'
             }
         },
         doc:{
