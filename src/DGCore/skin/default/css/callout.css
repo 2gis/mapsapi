@@ -1,7 +1,4 @@
 /* Callout styles for Leaflet markup */
-.leaflet-popup {
-    left: -46px !important;
-}
 .leaflet-popup-content-wrapper {
     color: #e6e6e6;
     margin: 0;
@@ -12,9 +9,10 @@
     }
     .leaflet-popup-tip-container {
         background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
-        bottom: -44px;
-        height: 46px;
-        left: 45px;
+        bottom: -28px;
+        height: 30px;
+        left: 50%;
+        margin-left: -18px;
         padding: 0;
         position: absolute;
         width: 55px;
@@ -46,14 +44,14 @@
     margin: 0;
     overflow: hidden;
     padding: 17px 15px 16px;
-    word-break: break-all;
+    word-wrap: break-word;
 }
 .dg-callout img {
     border: none;
     margin: 0;
 }
-.dg-callout::selection {
-    background-color: #0070c0;
+.dg-callout p {
+    margin: 13px 0;
 }
 
 /* Geoclicker */
