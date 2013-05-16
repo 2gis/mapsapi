@@ -3,7 +3,7 @@
 
     var onLoadJs = function(){},
         baseURL,
-        params,
+        queryString,
         version = 'v=13751b';
 
     function processURL() {
@@ -38,6 +38,26 @@
         return '?' + paramsURI + paramsIE + version;
     }
 
+    function parseQueryString(queryString) {
+        if (!queryString) {
+            return {};
+        }
+        if (queryString[0] == "?") {
+            queryString = queryString.slice(1);    
+        }
+        var paramString = queryString.split("&"),
+            length = paramString.length,
+            buffer = {},
+            param,
+            i;
+
+        for (i = 0; i < length; i++) {
+            param = paramString[i].split("=");
+            buffer[param[0]] = param[1];
+        }
+        return buffer;
+    }
+
     function loadCSS(link) {
         var css = document.createElement('link');
         css.setAttribute('rel', 'stylesheet');
@@ -70,18 +90,23 @@
         onLoadJs = callback;
     };
 
+
     baseURL = getBaseURL();
-    params = getParams();
-    loadCSS(baseURL + 'css' + params);
+    queryString = getParams();
+
+    window.loader = {};
+    window.loader.params = parseQueryString(queryString);
+    
+    loadCSS(baseURL + 'css' + queryString);
     // load js on document ready
     if (document.addEventListener) {
         document.addEventListener('DOMContentLoaded', function() {
-            loadJS(baseURL + 'js' + params);
+            loadJS(baseURL + 'js' + queryString);
         }, false );
     } else if (document.attachEvent) {
         document.attachEvent('onreadystatechange', function() {
             if (document.readyState === 'complete') {
-                loadJS(baseURL + 'js' + params);
+                loadJS(baseURL + 'js' + queryString);
             }
         });
     }
