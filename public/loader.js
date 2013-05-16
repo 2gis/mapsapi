@@ -94,8 +94,8 @@
     baseURL = getBaseURL();
     queryString = getParams();
 
-    window.loader = {};
-    window.loader.params = parseQueryString(queryString);
+    window.dgloader = {};
+    window.dgloader.params = parseQueryString(queryString);
     
     loadCSS(baseURL + 'css' + queryString);
     // load js on document ready
