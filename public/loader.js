@@ -4,7 +4,7 @@
     var onLoadJs = function(){},
         baseURL,
         params,
-        version = 'v=13751b';
+        version = 'v=aeeec5';
 
     function processURL() {
         var scripts, scriptURL;
