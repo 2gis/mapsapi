@@ -53,7 +53,7 @@
                             "ru": {
                                 "title": "DGJsonp",
                                 "uri": "doc/DGjsonp/jsonp.html",
-                                "_src": "DGJsonp/doc/Jsonp.md",
+                                "_src": "DGJsonp/doc/DGJsonp.md",
                                 "hide": true
                             }
                         },
@@ -64,7 +64,7 @@
                             "ru": {
                                 "title": "DGProjectDetector",
                                 "uri": "doc/projectdetector/projectdetector.html",
-                                "_src": "DGProjectDetector/doc/ProjectDetector.md",
+                                "_src": "DGProjectDetector/doc/DGProjectDetector.md",
                                 "hide": true
                             }
                         },
