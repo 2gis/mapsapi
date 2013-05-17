@@ -36,7 +36,7 @@ function getMdFilesData(list, subdir) {
         listLeng = list.length;
 
     for (var i = 0; i < listLeng; i++) {
-        var fullFilePath = dir + '/' + list[i];
+        var fullFilePath = dir + list[i];
         if (grunt.file.exists(fullFilePath)) {
             var md = {};
             md.path = list[i];
