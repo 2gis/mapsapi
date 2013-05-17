@@ -42,7 +42,7 @@ var deps = {
 
     DGLocale: {
         desc: 'Localization module.',
-        src: ['DGLocale/src/DGLocale.js']
+        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js']
     },
 
     DGDivIcon: {
