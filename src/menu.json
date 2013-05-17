@@ -86,7 +86,7 @@
                             "ru": {
                                 "title": "Localization",
                                 "uri": "doc/localization/localization.html",
-                                "_src": "foo/dir/Localization.md",
+                                "_src": "DGLocale/doc/DGLocale.md",
 
                                 "hide": true
                             }
