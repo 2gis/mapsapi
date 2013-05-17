@@ -25,24 +25,30 @@ L.DG.Geoclicker = L.Class.extend({
     },
     onMapClick: function(e) {
         console.log(this.options);
-        this.options.data.zoomlevel = e.target._zoom;
-        this.options.data.q = e.latlng.lng + "," + e.latlng.lat;
-        var types = this.getTypesByZoom(e.target._zoom);
+        var data = this.options.data;
+        data.zoomlevel = e.target._zoom;
+        data.q = e.latlng.lng + "," + e.latlng.lat;
+        var types = this.getTypesByZoom(data.zoomlevel);
         if (!types) {
             return;
         }
-        this.options.data.types = types.join(",");
-        var self = this;
+        data.types = types.join(",");
+        var successHandler = L.bind(this.handlersManager.handle, this);
         L.DG.Jsonp({
             url: this.options.url,
-            data: this.options.data,
+            data: data,
             success: function (response) {
                 console.log(response);
-                self.handlersManager.handle({
+                successHandler({
                     response: response,
-                    zoom: e.target._zoom,
+                    zoom: data.zoomlevel,
                     allowedTypes: types
                 });
+                // self.handlersManager.handle({
+                //     response: response,
+                //     zoom: data.zoomlevel,
+                //     allowedTypes: types
+                // });
             }
         });
     },
