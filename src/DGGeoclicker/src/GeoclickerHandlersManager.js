@@ -21,13 +21,16 @@ L.DG.GeoclickerHandlersManager = L.Class.extend({
 			L.DG.GeoclickerHandlers.default();	
 			return;	
 		}
+		if (!options.allowedTypes) {
+			L.DG.GeoclickerHandlers.default();	
+			return;	
+		}
 		var handled = false;
 		var result = options.response.result;
-		
 		for (var i = 0, count = result.length; i < count; i++) {
 			//check whether returned types are in valid list of those that we requested
-			if (!options.allowedTypes || options.allowedTypes.indexOf(result[i].type) === -1) {
-				break;
+			if (options.allowedTypes.indexOf(result[i].type) === -1) {
+				continue;
 			}
 			//check maybe we have mapping handler for this type of geoobjects
 			var mappingHandler = L.DG.GeoclickerHandlers.getMappingHandler(result[i].type);
