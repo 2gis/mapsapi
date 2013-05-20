@@ -47,16 +47,16 @@ var deps = {
 
     DGGeoclickerHandlers: {
         desc: '2GIS Geoclicker.',
-        src: ['DGGeoclicker/src/GeoclickerHandlers.js']
+        src: ['DGGeoclicker/src/DGGeoclickerHandlers.js']
     },
     DGGeoclickerHandlersManager: {
         desc: '2GIS Geoclicker.',
-        src: ['DGGeoclicker/src/GeoclickerHandlersManager.js'],
+        src: ['DGGeoclicker/src/DGGeoclickerHandlersManager.js'],
         deps: ['DGGeoclickerHandlers']
     },
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
-        src: ['DGGeoclicker/src/Geoclicker.js'],
+        src: ['DGGeoclicker/src/DGGeoclicker.js'],
         deps: ['JSONP', 'DGGeoclickerHandlersManager']
     },
     DGDivIcon: {
