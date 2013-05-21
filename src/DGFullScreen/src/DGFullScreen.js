@@ -12,17 +12,17 @@ L.Control.FullScreen = L.Control.extend({
       },
 
       onAdd: function (map) {
-
-        // Check if browser support full screen mode
-        if (!fullScreenApi.supportsFullScreen)
+        // Check if browser supports fullscreen mode
+        if (!fullScreenApi.supportsFullScreen) {
           return map.zoomControl._container;
+        }
 
         var container = L.DomUtil.create('div', this.options.containerClass);
 
         this._map = map;
         this._isFullscreen = false;
         this.fullScreenControl = container;
-        this._fullScreenButton = this._createButton(this.options.title, this.options.iconClass, container, this.toogleFullScreen, this);
+        this._fullScreenButton = this._createButton(this.options.title, this.options.iconClass, container, this.toggleFullscreen, this);
 
         return container;
       },
@@ -40,8 +40,7 @@ L.Control.FullScreen = L.Control.extend({
         return link;
       },
 
-      toogleFullScreen: function () {
-
+      toggleFullscreen: function () {
         if (!this._isFullscreen) {
           this._enterFullScreen();
         } else {
@@ -52,7 +51,6 @@ L.Control.FullScreen = L.Control.extend({
       },
 
       _enterFullScreen: function() {
-
         var container = this._map._container;
 
         // update state
