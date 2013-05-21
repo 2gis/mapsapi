@@ -1,0 +1,56 @@
+<h1>Плагин определения проекта 2GIS</h1>
+<p>Проект — это агломерация, включающая крупный город и ближайшие населённые пункты.</p>
+<p>Данный плагин позволяет получить информацию о просматриваемом в текущий момент времени проекте.</p>
+<h1>API</h1>
+<h2>События</h2>
+<table>
+    <tr>
+        <th>Событие</th>
+        <th>Объект события</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td>dgProjectChange</td>
+        <td>ProjectEvent</td>
+        <td>Возникает, когда пользователь переходит из одного проекта в другой.</td>
+    </tr>
+    <tr>
+        <td>dgProjectLeave</td>
+        <td>ProjectEvent</td>
+        <td>Возникает, когда пользователь выходит за пределы текущего проекта.</td>
+    </tr>
+</table>
+
+<h2>Объекты событий</h2>
+<h3>ProjectEvent</h3>
+<h4>Методы</h4>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Параметры</th>
+        <th>Возвращаемый тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td>getProjectList</td>
+        <td>Нет</td>
+        <td>Object</td>
+        <td>Возвращает все доступные проекты.</td>
+    </tr>
+    <tr>
+        <td>getProject</td>
+        <td>Нет</td>
+        <td>Object</td>
+        <td>Возвращает текущий проект.</td>
+    </tr>
+</table>
+
+<h1>Примеры</h1>
+<p>Подписка на событие dgProjectChange:</p>
+<pre><code>map.on(&#39;dgProjectChange&#39;, function (e) {
+    console.log(e);
+});</code></pre>
+<p>Подписка на событие dgProjectLeave:</p>
+<pre><code>map.on(&#39;dgProjectLeave&#39;, function (e) {
+   console.log(e);
+});</code></pre>
