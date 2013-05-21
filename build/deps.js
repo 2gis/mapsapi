@@ -20,6 +20,14 @@ var deps = {
         deps: ['DGDivIcon']
     },
 
+    DGFullScreen: {
+        desc: 'Full screen module.',
+        src: ['DGFullScreen/src/DGFullScreen.js'],
+        css: {
+            all: ['DGFullScreen/src/DGFullScreen.css']
+        }
+    },
+
     DGTileLayer: {
         desc: '2GIS Tile Layer module.',
         src: ['DGTileLayer/src/DGTileLayer.js'],
