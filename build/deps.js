@@ -24,7 +24,7 @@ var deps = {
         desc: 'Full screen module.',
         src: ['DGFullScreen/src/DGFullScreen.js'],
         css: {
-            all: ['DGFullScreen/src/DGFullScreen.css']
+            all: ['DGFullScreen/skin/default/css/DGFullScreen.css']
         }
     },
 
