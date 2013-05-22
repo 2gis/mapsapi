@@ -8,7 +8,7 @@ var packages = {
 
     standard: {
         name: 'Стандарт',
-        modules: ['Core', 'TileLayer', 'DGTileLayer', 'Marker', 'DivIcon', 'Popup'],
+        modules: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'DGTileLayer', 'Marker', 'DivIcon'],
         desc: 'Представляет собой стандартный функционал: карта, маркеры, балуны, геометрии'
     },
 

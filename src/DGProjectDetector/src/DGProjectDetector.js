@@ -6,6 +6,7 @@
  *
  * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
+L.DG = L.DG || {};
 
 L.Map.mergeOptions({
     dgProjectDetector: true

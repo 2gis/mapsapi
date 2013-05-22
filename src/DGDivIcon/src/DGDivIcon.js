@@ -4,6 +4,7 @@
  * Version 1.0.0
  * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
+L.DG = L.DG || {};
 
 L.DG.DivIcon = L.Icon.extend({
     options: {},

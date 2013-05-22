@@ -4,6 +4,7 @@
  *
  * Copyright (c) 2013, 2GIS, Dima Rudenko
  */
+L.DG = L.DG || {};
 
 L.DG.TileLayer = L.TileLayer.extend({
     dgTileLayerUrl: '__TILE_SERVER__',

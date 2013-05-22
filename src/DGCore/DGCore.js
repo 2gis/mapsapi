@@ -10,6 +10,12 @@
  * Zoom 2GIS redefinition
  *
  */
+L.DG = L.DG || {};
+
+L.DG.loaderParams = window.loaderBackup;
+
+delete window.loaderBackup;
+
 L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
@@ -33,6 +39,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
  * Popup 2GIS redefinition
  *
  */
+
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
