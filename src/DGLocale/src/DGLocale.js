@@ -1,7 +1,6 @@
 /**
  * Provides a localization functionality for another plugins
  */
-L.DG = L.DG || {};
 L.DG.Locale = {
     /**
      * @param {String} msg
@@ -32,7 +31,7 @@ L.DG.Locale = {
 };
 
 L.Map.mergeOptions({
-    currentLang: "ru"
+    currentLang: L.DG.loader.params.lang || "ru"
 });
 
 L.Map.include({
