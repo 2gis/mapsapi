@@ -22,7 +22,7 @@ L.DG.Geoclicker = L.Class.extend({
     },
     initialize: function(handlersManager) {
         this.handlersManager = handlersManager;
-        var loader = window.loader;
+        var loader = L.DG.loader;
         if (loader && loader.params && loader.params.lang) {
             this.options.data.lang = loader.params.lang;
         }
