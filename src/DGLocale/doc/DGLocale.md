@@ -135,7 +135,8 @@
     map.setLang('ru');
 
 Создание своих словарей на итальянском и русском языках:
-    содержимое файла lang.it.js
+
+    содержимое файла lang/it.js
 
     L.DG.LocaleExample.Dictionary.it = L.extend({
         "{n} people" : ["{n} utente", "{n} utenti"],
