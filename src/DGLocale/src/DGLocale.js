@@ -3,12 +3,7 @@
  */
 L.DG = L.DG || {};
 L.DG.Locale = {
-    /**
-     * @param {String} msg
-     * @param {Number} argument
-     * @return {String}
-     */
-    t: function (msg, argument) {
+    t: function (msg, argument) { // (String, Number) -> String
         var result,
             lang = this._map.getLang(),
             langIsset = false,
@@ -51,20 +46,14 @@ L.Map.mergeOptions({
 });
 
 L.Map.include({
-    /**
-     * @param {String} lang
-     */
-    setLang: function (lang) {
+    setLang: function (lang) { // (String)
         if (lang && Object.prototype.toString.call(lang) === "[object String]") {
             this.options.currentLang = lang;
             this.fire("dgLangChange", {"lang": lang});
         }
     },
 
-    /**
-     * @return {String}
-     */
-    getLang: function () {
+    getLang: function () { // -> String
         return this.options.currentLang;
     }
 });

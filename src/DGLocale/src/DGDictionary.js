@@ -3,7 +3,7 @@ L.DG = L.DG || {};
 L.DG.Dictionary = {};
 
 L.DG.Dictionary.ru = {
-    pluralRules: function (n) {
+    pluralRules: function (n) { // (Number)
         if (n % 10 === 1 && n % 100 !== 11) { // 1, 21
             return 0;
         }
@@ -19,7 +19,7 @@ L.DG.Dictionary.ru = {
 
 // it
 L.DG.Dictionary.it = {
-    pluralRules: function (n) {
+    pluralRules: function (n) { // (Number)
         if (n === 1) { // 1
             return 0;
         }
