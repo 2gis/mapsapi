@@ -61,7 +61,6 @@ L.DG.Jsonp = function (params) {
     };
 
     script.src = resUrl;
-
     beforeSend();
     head.appendChild(script);
 

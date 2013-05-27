@@ -1,17 +1,7 @@
 describe("DG JSONP Module", function() {
+    this.timeout(200);
 
-    /**
-     * Проверка, что срабатывает success callback при корректном ответе сервера
-     *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3000/test
-     * - Проверяем, что сработал success callback
-     * - Проверяем, что success callback вернул ожидаемые данные
-     *
-     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 1.0.1
-     * @module Jsonp
-     */
-    it("should get a success responce", function () {
+    it("should get a success responce", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test',
             success: function(data) {
@@ -21,17 +11,7 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    /**
-     * Проверка, что срабатывает error callback при отсутствии параметров url
-     *
-     * - Вызываем AJAX без задания параметров url
-     * - Проверяем, что сработал error callback
-     *
-     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 1.0.1
-     * @module Jsonp
-     */
-    it("should get a error responce on empty url", function () {
+    it("should get a error responce on empty url", function (done) {
         L.DG.Jsonp({
             timeout: 1000,
             error: function() {
@@ -40,17 +20,7 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    /**
-     * Проверка, что срабатывает error callback при некорректном запросе
-     *
-     * - Проводим некорректный запрос на тестовый сервер http://127.0.0.1:3005/cat (не существующий контроллер cat)
-     * - Проверяем, что сработал error callback
-     *
-     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 1.0.1
-     * @module Jsonp
-     */
-    it("should get a error responce on bad server request", function () {
+    it("should get a error responce on bad server request", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/',
             error: function() {
@@ -59,17 +29,7 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    /**
-     * Проверка, что перед запросом происходит вызов beforeSend callback
-     *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/test
-     * - Проверяем, что сработал beforeSend callback
-     *
-     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 1.0.1
-     * @module Jsonp
-     */
-    it("should calls a beforeSend callback", function () {
+    it("should calls a beforeSend callback", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test',
             beforeSend: function() {
@@ -78,17 +38,7 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    /**
-     * Проверка, что после запроса происходит вызов complete callback
-     *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/test
-     * - Проверяем, что сработал complete callback
-     *
-     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 1.0.1
-     * @module Jsonp
-     */
-    it("should calls a complete callback", function () {
+    it("should calls a complete callback", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test',
             complete: function() {
@@ -97,92 +47,56 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    /**
-     * Проверка, что AJAX возвращает объект с методом отмены вызова
-     *
-     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/ на контроллер test
-     * - Проверяем, что вернулся объект
-     * - Проверяем, что существует метод cancel
-     *
-     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-     * @version 1.0.1
-     * @module Jsonp
-     */
     it("should be return cancel callback method", function() {
 
         var jsonp = L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test'
         });
 
-        expect(jsonp).toBeDefined();
-        expect(jsonp.cancel).toBeDefined();
+        expect(jsonp).to.be.a('object');
+        expect(jsonp.cancel).to.be.a('function');
     });
-//
-//    /**
-//     * Проверка, что работает метод отмены вызова
-//     *
-//     * - Проводим запрос на тестовый сервер http://127.0.0.1:3005/test
-//     * - Проверяем, что вернулся объект
-//     * - Проверяем, что существует метод cancel
-//     *
-//     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-//     * @version 1.0.1
-//     * @module Jsonp
-//     */
-//    it("should that the cancel callback method works", function () {
-//        var callback = sinon.spy();
-//
-//        var jsonp = L.DG.Jsonp({
-//            url: 'http://127.0.0.1:3005/test',
-//            success: callback
-//        });
-//
-//        jsonp.cancel();
-//
-//        waitsFor(function() {
-//            return callback.callCount === 0;
-//        });
-//
-//        runs(function() {
-//            expect(callback).not.toHaveBeenCalled();
-//        });
-//
-//    });
-//
-//    /**
-//     * Проверка, что не перепутываются 2 AJAX запроса
-//     *
-//     * - Проводим запросы на тестовый сервер http://127.0.0.1:3005/ на контроллеры testA и TestB
-//     * - Проверяем, что вернулся объект
-//     * - Проверяем, что сработали success callback для обоих запросов
-//     * - Проверяем, что success callback вернули ожидаемые данные
-//     *
-//     * @author Andrey Chizh <a.chizh@2gis.kiev.ua>
-//     * @version 1.0.1
-//     * @module Jsonp
-//     */
-//    it("should that 2 callbaks are not mixed", function () {
-//        var callbackA = sinon.spy();
-//        var callbackB = sinon.spy();
-//
-//        L.DG.Jsonp({
-//            url: 'http://127.0.0.1:3005/testA',
-//            success: callbackA
-//        });
-//
-//        L.DG.Jsonp({
-//            url: 'http://127.0.0.1:3005/testB',
-//            success: callbackB
-//        });
-//
-//        waitsFor(function() {
-//            return (callbackA.callCount === 1 && callbackB.callCount === 1);
-//        });
-//
-//        runs(function() {
-//            expect(callbackA).toHaveBeenCalledWith({ pathname : 'testA' });
-//            expect(callbackB).toHaveBeenCalledWith({ pathname : 'testB' });
-//        });
-//    });
 
+    it("should prevent callback method run on cancel call", function (done) {
+        var spy = sinon.spy();
+
+        var jsonp = L.DG.Jsonp({
+            url: 'http://127.0.0.1:3005/test',
+            success: function() {
+                spy();
+            }
+        });
+
+        jsonp.cancel();
+
+        setTimeout(function () {
+           expect(spy.called).to.equal(false);
+           done();
+        }, 10);
+
+   });
+
+    it("should that 2 callbaks are not mixed", function (done) {
+        var callbackA = sinon.spy(),
+            callbackB = sinon.spy();
+
+        L.DG.Jsonp({
+            url: 'http://127.0.0.1:3005/testA',
+            success: callbackA
+        });
+
+        L.DG.Jsonp({
+            url: 'http://127.0.0.1:3005/testB',
+            success: callbackB
+        });
+
+        setTimeout(function () {
+            expect(callbackA.calledOnce).to.be.ok();
+            expect(callbackB.calledOnce).to.be.ok();
+
+            expect(callbackA.calledWith({ pathname : 'testA' })).to.be.ok();
+            expect(callbackB.calledWith({ pathname : 'testB' })).to.be.ok();
+            done();
+        }, 10);
+    });
 });
