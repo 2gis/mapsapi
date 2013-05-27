@@ -1,4 +1,12 @@
 /* Reset styles for customizing balloon */
+.leaflet-container {
+    cursor: default;
+}
+.leaflet-dragging,
+.leaflet-dragging .leaflet-clickable,
+.leaflet-dragging .leaflet-container {
+    cursor: move;
+}
 .leaflet-popup-content-wrapper {
     padding: 0;
     -webkit-border-radius: 0;
