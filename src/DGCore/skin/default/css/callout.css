@@ -1,5 +1,6 @@
 /* Callout styles for Leaflet markup */
 .leaflet-popup-content-wrapper {
+    border-width: 0;
     color: #e6e6e6;
     margin: 0;
     padding: 0;
@@ -42,7 +43,7 @@
     font-family: arial, helvetica, sans-serif;
     font-size: 13px;
     margin: 0;
-    overflow: hidden;
+    /*overflow: hidden;*/
     padding: 17px 15px 16px;
     word-wrap: break-word;
 }
