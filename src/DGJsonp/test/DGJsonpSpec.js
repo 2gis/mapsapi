@@ -1,6 +1,8 @@
 describe("DG JSONP Module", function() {
     this.timeout(500);
 
+    // Для запуска тестов модуля Jsonp с помощью DGJsonpSpecRunner нужно запустить приложение test/test.js:
+    // - node test
     it("should get a success response", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test',
