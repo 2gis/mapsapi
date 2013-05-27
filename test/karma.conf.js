@@ -23,8 +23,7 @@ files = [
     'dist/dg-map-custom.js',
 
     // DG tests:
-    //'src/**/test/*Spec.js',
-    //'src/Jsonp/test/JsonpSpec.js',
+    'src/**/test/*Spec.js',
 
     // Leaflet test helpers (after):
     'vendors/leaflet/spec/after.js',
