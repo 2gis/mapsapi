@@ -1,7 +1,7 @@
 describe("DG JSONP Module", function() {
-    this.timeout(200);
+    this.timeout(500);
 
-    it("should get a success responce", function (done) {
+    it("should get a success response", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test',
             success: function(data) {
@@ -11,16 +11,16 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    it("should get a error responce on empty url", function (done) {
+    it("should get an error response on empty url", function (done) {
         L.DG.Jsonp({
-            timeout: 1000,
+            timeout: 1,
             error: function() {
                 done();
             }
         });
     });
 
-    it("should get a error responce on bad server request", function (done) {
+    it("should get an error response on bad server request", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/',
             error: function() {
@@ -29,7 +29,7 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    it("should calls a beforeSend callback", function (done) {
+    it("should call beforeSend callback", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test',
             beforeSend: function() {
@@ -38,7 +38,7 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    it("should calls a complete callback", function (done) {
+    it("should call complete callback", function (done) {
         L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test',
             complete: function() {
@@ -47,8 +47,7 @@ describe("DG JSONP Module", function() {
         });
     });
 
-    it("should be return cancel callback method", function() {
-
+    it("should return cancel callback method", function() {
         var jsonp = L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/test'
         });
@@ -76,27 +75,31 @@ describe("DG JSONP Module", function() {
 
    });
 
-    it("should that 2 callbaks are not mixed", function (done) {
-        var callbackA = sinon.spy(),
-            callbackB = sinon.spy();
+    it("should not mixed 2 callbaks", function (done) {
+        var spyA = sinon.spy(),
+            spyB = sinon.spy();
 
-        L.DG.Jsonp({
+        var jsonp = L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/testA',
-            success: callbackA
+            success: function(resp) {
+                spyA(resp);
+            }
         });
 
-        L.DG.Jsonp({
+        var jsonp = L.DG.Jsonp({
             url: 'http://127.0.0.1:3005/testB',
-            success: callbackB
+            success: function(resp) {
+                spyB(resp);
+            }
         });
 
         setTimeout(function () {
-            expect(callbackA.calledOnce).to.be.ok();
-            expect(callbackB.calledOnce).to.be.ok();
+           expect(spyA.calledOnce).to.equal(true);
+           expect(spyA.calledWith({ pathname : 'testA' })).to.equal(true);
 
-            expect(callbackA.calledWith({ pathname : 'testA' })).to.be.ok();
-            expect(callbackB.calledWith({ pathname : 'testB' })).to.be.ok();
-            done();
-        }, 10);
+           expect(spyB.calledOnce).to.equal(true);
+           expect(spyB.calledWith({ pathname : 'testB' })).to.equal(true);
+           done();
+        }, 100);
     });
 });
