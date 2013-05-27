@@ -1,4 +1,5 @@
 /**
+
  * Web app of 2GIS Maps API 2.0
  *
  * Version 2.0.0
@@ -24,13 +25,14 @@ var app = express();
  * General configuration of the application
  */
 app.set('port', config.PORT || '3000');
-app.set('host', config.HOST || '0.0.0.0');
+app.set('host', config.HOST || null);
 app.use(express.static(__dirname + '/public'));
 
 /**
  * Routes
  */
 app.all(/^\/2.0\/(js|css)$/, function(req, resp, next) {
+    //@todo Add validations
     req.dgParams = {};
     req.dgParams.pkg = req.query.load || null;
     req.dgParams.isDebug = req.query.mode === 'debug';
@@ -61,10 +63,16 @@ app.get('/2.0/css', function(req, res){
 /**
  * Start app
  */
-//http.createServer(app).listen(app.get('port'), app.get('host'), function(){
-//    console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
-//});
+//@todo Make this code better :)
+if (app.get('host')) {
+    http.createServer(app).listen(app.get('port'), app.get('host'), function () {
+        console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
+    });
+} else {
+    http.createServer(app).listen(app.get('port'), function () {
+        console.log('Maps API 2.0 server listening on ' + app.get('port'));
+    });
+}
 
-http.createServer(app).listen(app.get('port'), function(){
-    console.log('Maps API 2.0 server listening on ' + app.get('port'));
-});
+
+

@@ -1,5 +1,6 @@
 /* Callout styles for Leaflet markup */
 .leaflet-popup-content-wrapper {
+    border-width: 0;
     color: #e6e6e6;
     margin: 0;
     padding: 0;
@@ -8,16 +9,17 @@
         display: none;
     }
     .leaflet-popup-tip-container {
-        background: url('../img/dg-callout-default.png') 0 -24px no-repeat;
-        bottom: -44px;
-        height: 46px;
-        left: 45px;
+        background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
+        bottom: -28px;
+        height: 30px;
+        left: 50%;
+        margin-left: -18px;
         padding: 0;
         position: absolute;
         width: 55px;
     }
     .leaflet-container a.leaflet-popup-close-button {
-        background: url(../img/dg-callout-default.png) 0 0 no-repeat;
+        background: url(__BASE_URL__/img/dg-callout-default.png) 0 0 no-repeat;
         border-radius: 2px;
         color: #aaa;
         font-weight: 400;
@@ -29,7 +31,7 @@
         width: 24px;
     }
     .leaflet-container a.leaflet-popup-close-button:hover {
-        background: url(../img/dg-callout-default.png) -24px 0 no-repeat;
+        background: url(__BASE_URL__/img/dg-callout-default.png) -24px 0 no-repeat;
     }
 
 /* Callout styles for 2GIS markup */
@@ -41,14 +43,16 @@
     font-family: arial, helvetica, sans-serif;
     font-size: 13px;
     margin: 0;
+    /*overflow: hidden;*/
     padding: 17px 15px 16px;
+    word-wrap: break-word;
 }
 .dg-callout img {
     border: none;
     margin: 0;
 }
-.dg-callout::selection {
-    background-color: #0070c0;
+.dg-callout p {
+    margin: 13px 0;
 }
 
 /* Geoclicker */

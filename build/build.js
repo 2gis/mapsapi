@@ -586,7 +586,7 @@ function getAppConfig() {
  * Demo using:
  *
  * var config = getMainConfig("./src");
- * var content = fs.readFileSync("./src/DGLayer/src/DGLayer.js", "utf8");
+ * var content = fs.readFileSync("./src/DGTileLayer/src/DGTileLayer.js", "utf8");
  * console.log(setParams(content, config));
  *
  * @param {String}  content to replace
@@ -596,7 +596,9 @@ function getAppConfig() {
  */
 function setParams(content, config) {
     for (var pattern in config ) {
-        content = content.replace("__" + pattern + "__", config[pattern]);
+        var search = "__" + pattern + "__",
+            replace = config[pattern];
+        content = content.split(search).join(replace);
     }
     return content;
 }
