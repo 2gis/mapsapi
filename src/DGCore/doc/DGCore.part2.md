@@ -1,10 +1,10 @@
 ## L.LatLng
 
-Represents a geographical point with a certain latitude and longitude.
+Представляет географическую точку координат с определенной широтой и долготой.
 
     var latlng = new L.LatLng(50.5, 30.5);
 
-All Leaflet methods that accept LatLng objects also accept them in a simple Array form (unless noted otherwise), so these lines are equivalent:
+Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива, то есть данные записи эквивалентны:
 
     map.panTo([50, 30]);
     map.panTo(new L.LatLng(50, 30));
