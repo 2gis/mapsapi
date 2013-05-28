@@ -1,13 +1,12 @@
 /**
- * Leaflet DG Geoclicker
- * Version 1.0.0
- *
- * Copyright (c) 2013, 2GIS, Alexey Lubchuk
+ * 2GIS Geoclicker Plugin
+ * @todo add Description here
  */
+L.Map.mergeOptions({
+    dgGeoClicker: true
+});
 
-L.DG = L.DG || {};
-
-L.DG.Geoclicker = L.Class.extend({
+L.DG.Geoclicker = L.Handler.extend({
     statics: {
         MIN_WORK_ZOOM_LEVEL: 8
     },
@@ -18,16 +17,20 @@ L.DG.Geoclicker = L.Class.extend({
             version: '__WEB_API_VERSION__',
             lang: '__DEFAULT_LANG__',
             output: 'jsonp'
-        }
+        },
+
+        handlers: new L.DG.GeoclickerHandlersManager()
     },
-    initialize: function(handlersManager) {
-        this.handlersManager = handlersManager;
-        var loader = L.DG.loader;
-        if (loader && loader.params && loader.params.lang) {
-            this.options.data.lang = loader.params.lang;
-        }
+
+    addHooks: function () {
+        this._map.on("click", this._onMapClick, this);
     },
-    onMapClick: function(e) {
+
+    removeHooks: function () {
+        this._map.off("click", this._onMapClick);
+    },
+
+    _onMapClick: function (e) {
         var zoom = e.target._zoom,
             data,
             types,
@@ -39,12 +42,12 @@ L.DG.Geoclicker = L.Class.extend({
         data = this.options.data;
         data.zoomlevel = zoom;
         data.q = e.latlng.lng + "," + e.latlng.lat;
-        types = this.getTypesByZoom(zoom);
+        types = this._getTypesByZoom(zoom);
         if (!types) {
             return;
         }
         data.types = types.join(",");
-        successHandler = L.bind(this.handlersManager.handle, this);
+        successHandler = L.bind(this.options.handlers.handle, this);
         L.DG.Jsonp({
             url: this.options.url,
             data: data,
@@ -58,7 +61,8 @@ L.DG.Geoclicker = L.Class.extend({
             }
         });
     },
-    getTypesByZoom: function(zoom) {
+
+    _getTypesByZoom: function (zoom) {
         var types = null;
 
         if (zoom >= 14 && zoom <= 18) {
@@ -78,10 +82,4 @@ L.DG.Geoclicker = L.Class.extend({
     }
 });
 
-L.Map.addInitHook(function () {
-    this.dgGeoclicker = new L.DG.Geoclicker(new L.DG.GeoclickerHandlersManager());
-    this.on("click", function(e) {
-        this.dgGeoclicker.onMapClick(e);
-    });
-});
-
+L.Map.addInitHook('addHandler', 'dgGeoClicker', L.DG.Geoclicker);
