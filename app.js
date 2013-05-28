@@ -38,7 +38,7 @@ app.all(/^\/2.0\/(js|css)$/, function(req, resp, next) {
     req.dgParams.isDebug = req.query.mode === 'debug';
     req.dgParams.skin = req.query.skin;
     req.dgParams.isIE = req.query.ie || false;
-    var contentType = (req.path == '/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
+    var contentType = (req.path == '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
     req.dgParams.callback = function(response, data) {
         response.set('Cache-Control', 'public, max-age=604800');
         response.set('X-Powered-By', '2GIS Maps API Server');
