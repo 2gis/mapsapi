@@ -1,0 +1,1649 @@
+<h4>Map</h4>
+<ul>
+<li>[Usage example][0]</li>
+<li>[Constructor][1]</li>
+<li>[Options][2]</li>
+<li>[Events][3]</li>
+</ul>
+<h4>Map Methods</h4>
+<ul>
+<li>[For modifying map state][4]</li>
+<li>[For getting map state][5]</li>
+<li>[For layers and controls][6]</li>
+<li>[Conversion methods][7]</li>
+<li>[Other methods][8]</li>
+</ul>
+<h4>Map Misc</h4>
+<ul>
+<li>[Properties][9]</li>
+<li>[Panes][10]</li>
+</ul>
+<h4>UI Layers</h4>
+<ul>
+<li>[Marker][11]</li>
+<li>[Popup][12]</li>
+</ul>
+<h4>Raster Layers</h4>
+<ul>
+<li>[TileLayer][13]</li>
+<li>[TileLayer.WMS][14]</li>
+<li>[TileLayer.Canvas][15]</li>
+<li>[ImageOverlay][16]</li>
+</ul>
+<h4>Vector Layers</h4>
+<ul>
+<li>[Path][17]</li>
+<li>[Polyline][18]</li>
+<li>[MultiPolyline][19]</li>
+<li>[Polygon][20]</li>
+<li>[MultiPolygon][21]</li>
+<li>[Rectangle][22]</li>
+<li>[Circle][23]</li>
+<li>[CircleMarker][24]</li>
+</ul>
+<h4>Other Layers</h4>
+<ul>
+<li>[LayerGroup][25]</li>
+<li>[FeatureGroup][26]</li>
+<li>[GeoJSON][27]</li>
+</ul>
+<h4>Basic Types</h4>
+<ul>
+<li>[LatLng][28]</li>
+<li>[LatLngBounds][29]</li>
+<li>[Point][30]</li>
+<li>[Bounds][31]</li>
+<li>[Icon][32]</li>
+<li>[DivIcon][33]</li>
+</ul>
+<h4>Controls</h4>
+<ul>
+<li>[Control][34]</li>
+<li>[Zoom][35]</li>
+<li>[Attribution][36]</li>
+<li>[Layers][37]</li>
+<li>[Scale][38]</li>
+</ul>
+<h4>Events</h4>
+<ul>
+<li>[Events methods][39]</li>
+<li>[Event objects][40]</li>
+</ul>
+<h4>Utility</h4>
+<ul>
+<li>[Class][41]</li>
+<li>[Browser][42]</li>
+<li>[Util][43]</li>
+<li>[Transformation][44]</li>
+<li>[LineUtil][45]</li>
+<li>[PolyUtil][46]</li>
+</ul>
+<h4>DOM Utility</h4>
+<ul>
+<li>[DomEvent][47]</li>
+<li>[DomUtil][48]</li>
+<li>[PosAnimation][49]</li>
+<li>[Draggable][50]</li>
+</ul>
+<h4>Interfaces</h4>
+<ul>
+<li>[IHandler][51]</li>
+<li>[ILayer][52]</li>
+<li>[IControl][53]</li>
+<li>[IProjection][54]</li>
+<li>[ICRS][55]</li>
+</ul>
+<h4>Misc</h4>
+<ul>
+<li>[global switches][56]</li>
+<li>[noConflict][57]</li>
+<li>[version][58]</li>
+</ul>
+<hr>
+<p>Это документация для версии <strong>Leaflet 0.5</strong>. Документацию находящююся в работе можно найти в файле <code>reference.html</code> ветки [gh-pages-master branch][59].</p>
+<h2>L.Map</h2>
+<p>Основной класс API --- используется для создания и управления картами на странице.</p>
+<h3>Пример использования</h3>
+<pre><code>// инициализация карты на элементе div &quot;map&quot; с указанием координат центра карты и уровня зума
+var map = L.map(&#39;map&#39;, {
+    center: [51.505, -0.09],
+    zoom: 13
+});</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Map</b>(
+            <nobr>&lt;HTMLElement|String&gt; <i>id</i>,</nobr>
+            <nobr>&lt;<a href="#map-options">Map options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
+
+        <td class="factory-usage">
+            <code><span class='keyword'>new</span> L.Map(<span class="comment">&hellip;</span>)</code><br />
+            <code>L.map(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает экземпляр класса карты по переданному dom элементу div (или его id) и необязательному объекту с опциями карты, описанными ниже.</td>
+    </tr>
+</table>
+
+<h3>Опции</h3>
+<table>
+    <tr>
+        <th>Опции</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>center</b></code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Задает начальный географический центр карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Начальный уровень зума.</td>
+    </tr>
+    <tr>
+        <td><code><b>layers</b></code></td>
+        <td><code><a href="#ilayer">ILayer</a>[]</code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Слои, предварительно добавленные на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>minZoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Минимальный уровень зума на карте. Перезаписывает свойство <code>minZoom</code> установленное на слоях.</td>
+    </tr>
+    <tr>
+        <td><code><b>maxZoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Максимальный уровень зума на карте. Перезаписывает свойство <code>maxZoom</code> установленное на слоях.</td>
+    </tr>
+    <tr id="map-maxbounds">
+        <td><code><b>maxBounds</b></code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Если свойство установлено, карта ограничивает область просмотра согласно заданным географическим границам, отбрасывая пользователя назад, если он пытается выйти за пределы установленных границ, а также не позволяет уменьшить зум чтобы просмотреть неразрешенные участки карты. Чтобы установить ограничения динамически, используйте метод <a href="#map-setmaxbounds">setMaxBounds</a></td>
+    </tr>
+    <tr>
+        <td><code><b>crs</b></code></td>
+        <td><code><a href="#icrs">CRS</a></code></td>
+        <td><code>L.CRS.<br/>EPSG3857</code></td>
+        <td>Для использования Coordinate Reference System. Не меняйте эту опцию, если не уверены что она значит.</td>
+    </tr>
+</table>
+
+<h4>Interaction Options</h4>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**dragging**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the map be draggable with mouse/touch or not.</p>
+<p><code>**touchZoom**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the map can be zoomed by touch-dragging with two fingers.</p>
+<p><code>**scrollWheelZoom**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the map can be zoomed by using the mouse wheel.</p>
+<p><code>**doubleClickZoom**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the map can be zoomed in by double clicking on it.</p>
+<p><code>**boxZoom**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the map can be zoomed to a rectangular area specified by dragging the mouse while pressing shift.</p>
+<p><code>**trackResize**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the map automatically handles browser window resize to update itself.</p>
+<p><code>**worldCopyJump**</code>
+<code>Boolean</code>
+<code>false</code>
+With this option enabled, the map tracks when you pan to another &quot;copy&quot; of the world and seamlessly jumps to the original one so that all overlays like markers and vector layers are still visible.</p>
+<p><code>**closePopupOnClick**</code>
+<code>Boolean</code>
+<code>true</code>
+Set it to <code>false</code> if you don&#39;t want popups to close when user clicks the map.</p>
+<h4>Keyboard Navigation Options</h4>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**keyboard**</code>
+<code>Boolean</code>
+<code>true</code>
+Makes the map focusable and allows users to navigate the map with keyboard arrows and <code>+</code>/<code>-</code> keys.</p>
+<p><code>**keyboardPanOffset**</code>
+<code>Number</code>
+<code>80</code>
+Amount of pixels to pan when pressing an arrow key.</p>
+<p><code>**keyboardZoomOffset**</code>
+<code>Number</code>
+<code>1</code>
+Number of zoom levels to change when pressing <code>+</code> or <code>-</code> key.</p>
+<h4>Panning Inertia Options</h4>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**inertia**</code>
+<code>Boolean</code>
+<code>true</code>
+If enabled, panning of the map will have an inertia effect where the map builds momentum while dragging and continues moving in the same direction for some time. Feels especially nice on touch devices.</p>
+<p><code>**inertiaDeceleration**</code>
+<code>Number</code>
+<code>3000</code>
+The rate with which the inertial movement slows down, in pixels/second2.</p>
+<p><code>**inertiaMaxSpeed**</code>
+<code>Number</code>
+<code>1500</code>
+Max speed of the inertial movement, in pixels/second.</p>
+<p><code>**inertiaThreshold**</code>
+<code>Number</code>
+<code>depends</code>
+Amount of milliseconds that should pass between stopping the movement and releasing the mouse or touch to prevent inertial movement. <code>32</code> for touch devices and <code>14</code> for the rest by default.</p>
+<h4>Control options</h4>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**zoomControl**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the [zoom control][35] is added to the map by default.</p>
+<p><code>**attributionControl**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether the [attribution control][36] is added to the map by default.</p>
+<h4>Animation options</h4>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**fadeAnimation**</code>
+<code>Boolean</code>
+depends
+Whether the tile fade animation is enabled. By default it&#39;s enabled in all browsers that support CSS3 Transitions except Android.</p>
+<p><code>**zoomAnimation**</code>
+<code>Boolean</code>
+depends
+Whether the tile zoom animation is enabled. By default it&#39;s enabled in all browsers that support CSS3 Transitions except Android.</p>
+<p><code>**markerZoomAnimation**</code>
+<code>Boolean</code>
+depends
+Whether markers animate their zoom with the zoom animation, if disabled they will disappear for the length of the animation. By default it&#39;s enabled in all browsers that support CSS3 Transitions except Android.</p>
+<h3>Events</h3>
+<p>You can subscribe to the following events using [these methods][39].
+Event
+Data
+Description</p>
+<p><code>**click**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user clicks (or taps) the map.</p>
+<p><code>**dblclick**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user double-clicks (or double-taps) the map.</p>
+<p><code>**mousedown**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user pushes the mouse button on the map.</p>
+<p><code>**mouseup**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user pushes the mouse button on the map.</p>
+<p><code>**mouseover**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse enters the map.</p>
+<p><code>**mouseout**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse leaves the map.</p>
+<p><code>**mousemove**</code>
+<code>[MouseEvent][61]</code>
+Fired while the mouse moves over the map.</p>
+<p><code>**contextmenu**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user pushes the right mouse button on the map, prevents default browser context menu from showing if there are listeners on this event.</p>
+<p><code>**focus**</code>
+<code>[Event][62]</code>
+Fired when the user focuses the map either by tabbing to it or clicking/panning.</p>
+<p><code>**blur**</code>
+<code>[Event][62]</code>
+Fired when the map looses focus.</p>
+<p><code>**preclick**</code>
+<code>[MouseEvent][61]</code>
+Fired before mouse click on the map (sometimes useful when you want something to happen on click before any existing click handlers start running).</p>
+<p><code>**load**</code>
+<code>[Event][62]</code>
+Fired when the map is initialized (when its center and zoom are set for the first time).</p>
+<p><code>**viewreset**</code>
+<code>[Event][62]</code>
+Fired when the map needs to redraw its content (this usually happens on map zoom or load). Very useful for creating custom overlays.</p>
+<p><code>**movestart**</code>
+<code>[Event][62]</code>
+Fired when the view of the map starts changing (e.g. user starts dragging the map).</p>
+<p><code>**move**</code>
+<code>[Event][62]</code>
+Fired on any movement of the map view.</p>
+<p><code>**moveend**</code>
+<code>[Event][62]</code>
+Fired when the view of the map ends changed (e.g. user stopped dragging the map).</p>
+<p><code>**dragstart**</code>
+<code>[Event][62]</code>
+Fired when the user starts dragging the map.</p>
+<p><code>**drag**</code>
+<code>[Event][62]</code>
+Fired repeatedly while the user drags the map.</p>
+<p><code>**dragend**</code>
+<code>[Event][62]</code>
+Fired when the user stops dragging the map.</p>
+<p><code>**zoomstart**</code>
+<code>[Event][62]</code>
+Fired when the map zoom is about to change (e.g. before zoom animation).</p>
+<p><code>**zoomend**</code>
+<code>[Event][62]</code>
+Fired when the map zoom changes.</p>
+<p><code>**autopanstart**</code>
+<code>[Event][62]</code>
+Fired when the map starts autopanning when opening a popup.</p>
+<p><code>**layeradd**</code>
+<code>[LayerEvent][63]</code>
+Fired when a new layer is added to the map.</p>
+<p><code>**layerremove**</code>
+<code>[LayerEvent][63]</code>
+Fired when some layer is removed from the map.</p>
+<p><code>**baselayerchange**</code>
+<code>[LayerEvent][63]</code>
+Fired when the base layer is changed through the layer control.</p>
+<p><code>**locationfound**</code>
+<code>[LocationEvent][64]</code>
+Fired when geolocation (using the [locate][65] method) went successfully.</p>
+<p><code>**locationerror**</code>
+<code>[ErrorEvent][66]</code>
+Fired when geolocation (using the [locate][67] method) failed.</p>
+<p><code>**popupopen**</code>
+<code>[PopupEvent][68]</code>
+Fired when a popup is opened (using <code>openPopup</code> method).</p>
+<p><code>**popupclose**</code>
+<code>[PopupEvent][68]</code>
+Fired when a popup is closed (using <code>closePopup</code> method).</p>
+<h3>Methods for Modifying Map State</h3>
+<p>Method
+Returns
+Description</p>
+<p>`<strong>setView</strong>(
+            &lt;[LatLng][28]&gt; <em>center</em>,</p>
+<p><Number> <em>zoom</em>,</p>
+<p><Boolean> <em>forceReset?</em> )
+<code>`this</code>
+Sets the view of the map (geographical center and zoom). If <code>forceReset</code> is set to <code>true</code>, the map is reloaded even if it&#39;s eligible for pan or zoom animation (<code>false</code> by default).</p>
+<p><code>**setZoom**(
+            &lt;Number&gt; _zoom_ )</code>
+<code>this</code>
+Sets the zoom of the map.</p>
+<p><code>**zoomIn**( &lt;Number&gt; delta? )</code>
+<code>this</code>
+Increases the zoom of the map by <code>delta</code> (<code>1</code> by default).</p>
+<p><code>**zoomOut**( &lt;Number&gt; delta? )</code>
+<code>this</code>
+Decreases the zoom of the map by <code>delta</code> (<code>1</code> by default).</p>
+<p><code>**fitBounds**(
+            &lt;[LatLngBounds][29]&gt; _bounds_ )</code>
+<code>this</code>
+Sets a map view that contains the given geographical bounds with the maximum zoom level possible.</p>
+<p><code>**fitWorld**()</code>
+<code>this</code>
+Sets a map view that mostly contains the whole world with the maximum zoom level possible.</p>
+<p><code>**panTo**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>this</code>
+Pans the map to a given center. Makes an animated pan if new center is not more than one screen away from the current one.</p>
+<p><code>**panInsideBounds**(
+            &lt;[LatLngBounds][29]&gt; _bounds_ )</code>
+<code>this</code>
+Pans the map to the closest view that would lie inside the given bounds (if it&#39;s not already).</p>
+<p><code>**panBy**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>this</code>
+Pans the map by a given number of pixels (animated).</p>
+<p><code>**invalidateSize**(
+            &lt;Boolean&gt; _animate?_ )</code>
+<code>this</code>
+Checks if the map container size changed and updates the map if so --- call it after you&#39;ve changed the map size dynamically. If <code>animate</code> is <code>true</code>, map animates the update.</p>
+<p><code>**setMaxBounds**(
+            &lt;[LatLngBounds][29]&gt; _bounds_ )</code>
+<code>this</code>
+Restricts the map view to the given bounds (see [map maxBounds][69] option).</p>
+<p><code>**locate**(
+            &lt;[Locate options][70]&gt; _options?_ )</code>
+<code>this</code>
+Tries to locate the user using the [Geolocation API][71], firing a <code>locationfound</code> event with location data on success or a <code>locationerror</code> event on failure, and optionally sets the map view to the user&#39;s location with respect to detection accuracy (or to the world view if geolocation failed). See [Locate options][70] for more details.</p>
+<p><code>**stopLocate**()</code>
+<code>this</code>
+Stops watching location previously initiated by <code>**map.locate**({watch: true})</code>.</p>
+<h3>Methods for Getting Map State</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**getCenter**()</code>
+<code>[LatLng][28]</code>
+Returns the geographical center of the map view.</p>
+<p><code>**getZoom**()</code>
+<code>Number</code>
+Returns the current zoom of the map view.</p>
+<p><code>**getMinZoom**()</code>
+<code>Number</code>
+Returns the minimum zoom level of the map.</p>
+<p><code>**getMaxZoom**()</code>
+<code>Number</code>
+Returns the maximum zoom level of the map.</p>
+<p><code>**getBounds**()</code>
+<code>[LatLngBounds][29]</code>
+Returns the LatLngBounds of the current map view.</p>
+<p>`<strong>getBoundsZoom</strong>(
+            &lt;[LatLngBounds][29]&gt; <em>bounds</em>,</p>
+<p><Boolean> <em>inside?</em> )
+<code>`Number</code>
+Returns the maximum zoom level on which the given bounds fit to the map view in its entirety. If <code>inside</code> (optional) is set to <code>true</code>, the method instead returns the minimum zoom level on which the map view fits into the given bounds in its entirety.</p>
+<p><code>**getSize**()</code>
+<code>[Point][30]</code>
+Returns the current size of the map container.</p>
+<p><code>**getPixelBounds**()</code>
+<code>Bounds</code>
+Returns the bounds of the current map view in projected pixel coordinates (sometimes useful in layer and overlay implementations).</p>
+<p><code>**getPixelOrigin**()</code>
+<code>[Point][30]</code>
+Returns the projected pixel coordinates of the top left point of the map layer (useful in custom layer and overlay implementations).</p>
+<h3>Methods for Layers and Controls</h3>
+<p>Method
+Returns
+Description</p>
+<p>`<strong>addLayer</strong>(
+            &lt;[ILayer][52]&gt; <em>layer</em>,</p>
+<p><Boolean> <em>insertAtTheBottom?</em> )
+<code>`this</code>
+Adds the given layer to the map. If optional <code>insertAtTheBottom</code> is set to <code>true</code>, the layer is inserted under all others (useful when switching base tile layers).</p>
+<p><code>**removeLayer**(
+            &lt;[ILayer][52]&gt; _layer_ )</code>
+<code>this</code>
+Removes the given layer from the map.</p>
+<p><code>**hasLayer**(
+            &lt;[ILayer][52]&gt; _layer_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the given layer is currently added to the map.</p>
+<p><code>**openPopup**(
+            &lt;[Popup][12]&gt; _popup_ )</code>
+<code>this</code>
+Opens the specified popup while closing the previously opened (to make sure only one is opened at one time for usability).</p>
+<p><code>**closePopup**()</code>
+<code>this</code>
+Closes the popup opened with [openPopup][72].</p>
+<p><code>**addControl**(
+            &lt;[IControl][53]&gt; _control_ )</code>
+<code>this</code>
+Adds the given control to the map.</p>
+<p><code>**removeControl**(
+            &lt;[IControl][53]&gt; _control_ )</code>
+<code>this</code>
+Removes the given control from the map.</p>
+<h3>Conversion Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**latLngToLayerPoint**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>[Point][30]</code>
+Returns the map layer point that corresponds to the given geographical coordinates (useful for placing overlays on the map).</p>
+<p><code>**layerPointToLatLng**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>[LatLng][28]</code>
+Returns the geographical coordinates of a given map layer point.</p>
+<p><code>**containerPointToLayerPoint**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>[Point][30]</code>
+Converts the point relative to the map container to a point relative to the map layer.</p>
+<p><code>**layerPointToContainerPoint**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>[Point][30]</code>
+Converts the point relative to the map layer to a point relative to the map container.</p>
+<p><code>**latLngToContainerPoint**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>[Point][30]</code>
+Returns the map container point that corresponds to the given geographical coordinates.</p>
+<p><code>**containerPointToLatLng**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>[LatLng][28]</code>
+Returns the geographical coordinates of a given map container point.</p>
+<p>`<strong>project</strong>(
+            &lt;[LatLng][28]&gt; <em>latlng</em>,</p>
+<p><Number> <em>zoom?</em> )
+<code>`[Point][30]</code>
+Projects the given geographical coordinates to absolute pixel coordinates for the given zoom level (current zoom level by default).</p>
+<p>`<strong>unproject</strong>(
+            &lt;[Point][30]&gt; <em>point</em>,</p>
+<p><Number> <em>zoom?</em> )
+<code>`[LatLng][28]</code>
+Projects the given absolute pixel coordinates to geographical coordinates for the given zoom level (current zoom level by default).</p>
+<p><code>**mouseEventToContainerPoint**(
+            &lt;MouseEvent&gt; _event_ )</code>
+<code>[Point][30]</code>
+Returns the pixel coordinates of a mouse click (relative to the top left corner of the map) given its event object.</p>
+<p><code>**mouseEventToLayerPoint**(
+            &lt;MouseEvent&gt; _event_ )</code>
+<code>[Point][30]</code>
+Returns the pixel coordinates of a mouse click relative to the map layer given its event object.</p>
+<p><code>**mouseEventToLatLng**(
+            &lt;MouseEvent&gt; _event_ )</code>
+<code>[LatLng][28]</code>
+Returns the geographical coordinates of the point the mouse clicked on given the click&#39;s event object.</p>
+<h3>Other Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**getContainer**()</code>
+<code>HTMLElement</code>
+Returns the container element of the map.</p>
+<p><code>**getPanes**()</code>
+<code>[MapPanes][10]</code>
+Returns an object with different map panes (to render overlays in).</p>
+<p><code>**whenReady**(
+            &lt;Function&gt; _fn_,
+            &lt;Object&gt; _context?_ )</code>
+<code>this</code>
+Runs the given callback when the map gets initialized with a place and zoom, or immediately if it happened already, optionally passing a function context.</p>
+<h3>Locate options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**watch**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code>, starts continous watching of location changes (instead of detecting it once) using W3C <code>watchPosition</code> method. You can later stop watching using <code>**map.stopLocate**()</code> method.</p>
+<p><code>**setView**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code>, automatically sets the map view to the user location with respect to detection accuracy, or to world view if geolocation failed.</p>
+<p><code>**maxZoom**</code>
+<code>Number</code>
+<code>Infinity</code>
+The maximum zoom for automatic view setting when using `setView` option.</p>
+<p><code>**timeout**</code>
+<code>Number</code>
+<code>10000</code>
+Number of millisecond to wait for a response from geolocation before firing a <code>locationerror</code> event.</p>
+<p><code>**maximumAge**</code>
+<code>Number</code>
+<code>0</code>
+Maximum age of detected location. If less than this amount of milliseconds passed since last geolocation response, <code>locate</code> will return a cached location.</p>
+<p><code>**enableHighAccuracy**</code>
+<code>Boolean</code>
+<code>false</code>
+Enables high accuracy, see [description in the W3C spec][73].</p>
+<h3>Properties</h3>
+<p>Map properties include interaction handlers that allow you to control interaction behavior in runtime, enabling or disabling certain features such as dragging or touch zoom (see [IHandler][51] methods). Example:</p>
+<pre><code>map.doubleClickZoom.disable();</code></pre>
+<p>You can also access default map controls like attribution control through map properties:</p>
+<pre><code>map.attributionControl.addAttribution(&quot;Earthquake data &amp;copy; GeoNames&quot;);</code></pre>
+<p>Property
+Type
+Description</p>
+<p><code>**dragging**</code>
+[<code>IHandler</code>][51]
+Map dragging handler (by both mouse and touch).</p>
+<p><code>**touchZoom**</code>
+[<code>IHandler</code>][51]
+Touch zoom handler.</p>
+<p><code>**doubleClickZoom**</code>
+[<code>IHandler</code>][51]
+Double click zoom handler.</p>
+<p><code>**scrollWheelZoom**</code>
+[<code>IHandler</code>][51]
+Scroll wheel zoom handler.</p>
+<p><code>**boxZoom**</code>
+[<code>IHandler</code>][51]
+Box (shift-drag with mouse) zoom handler.</p>
+<p><code>**keyboard**</code>
+[<code>IHandler</code>][51]
+Keyboard navigation handler.</p>
+<p><code>**zoomControl**</code>
+[<code>Control.Zoom</code>][35]
+Zoom control.</p>
+<p><code>**attributionControl**</code>
+[<code>Control.Attribution</code>][36]
+Attribution control.</p>
+<h3>Map Panes</h3>
+<p>An object literal (returned by [map.getPanes][74]) that contains different map panes that you can use to put your custom overlays in. The difference is mostly in zIndex order that such overlays get.
+Property
+Type
+Description</p>
+<p><code>**mapPane**</code>
+<code>HTMLElement</code>
+Pane that contains all other map panes.</p>
+<p><code>**tilePane**</code>
+<code>HTMLElement</code>
+Pane for tile layers.</p>
+<p><code>**objectsPane**</code>
+<code>HTMLElement</code>
+Pane that contains all the panes except tile pane.</p>
+<p><code>**shadowPane**</code>
+<code>HTMLElement</code>
+Pane for overlay shadows (e.g. marker shadows).</p>
+<p><code>**overlayPane**</code>
+<code>HTMLElement</code>
+Pane for overlays like polylines and polygons.</p>
+<p><code>**markerPane**</code>
+<code>HTMLElement</code>
+Pane for marker icons.</p>
+<p><code>**popupPane**</code>
+<code>HTMLElement</code>
+Pane for popups.</p>
+<h2>L.Marker</h2>
+<p>Used to put markers on the map.</p>
+<pre><code>L.marker([50.5, 30.5]).addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Marker**(
+            &lt;[LatLng][28]&gt; _latlng_,
+&lt;[Marker options][75]&gt; _options?_ )</code>
+<code>new L.Marker(…)</code>
+<code>L.marker(…)</code>
+Instantiates a Marker object given a geographical point and optionally an options object.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**icon**</code>
+<code>[L.Icon][32]</code>
+*
+Icon class to use for rendering the marker. See [Icon documentation][32] for details on how to customize the marker icon. Set to <code>new L.Icon.Default()</code> by default.</p>
+<p><code>**clickable**</code>
+<code>Boolean</code>
+<code>true</code>
+If <code>false</code>, the marker will not emit mouse events and will act as a part of the underlying map.</p>
+<p><code>**draggable**</code>
+<code>Boolean</code>
+<code>false</code>
+Whether the marker is draggable with mouse/touch or not.</p>
+<p><code>**title**</code>
+<code>String</code>
+<code>&#39;&#39;</code>
+Text for the browser tooltip that appear on marker hover (no tooltip by default).</p>
+<p><code>**zIndexOffset**</code>
+<code>Number</code>
+<code>0</code>
+By default, marker images zIndex is set automatically based on its latitude. Use this option if you want to put the marker on top of all others (or below), specifying a high value like <code>1000</code> (or high negative value, respectively).</p>
+<p><code>**opacity**</code>
+<code>Number</code>
+<code>1.0</code>
+The opacity of the marker.</p>
+<p><code>**riseOnHover**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code>, the marker will get on top of others when you hover the mouse over it.</p>
+<p><code>**riseOffset**</code>
+<code>Number</code>
+<code>250</code>
+The z-index offset used for the <code>riseOnHover</code> feature.</p>
+<h3>Events</h3>
+<p>You can subscribe to the following events using [these methods][39].
+Event
+Data
+Description</p>
+<p><code>**click**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user clicks (or taps) the marker.</p>
+<p><code>**dblclick**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user double-clicks (or double-taps) the marker.</p>
+<p><code>**mousedown**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user pushes the mouse button on the marker.</p>
+<p><code>**mouseover**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse enters the marker.</p>
+<p><code>**mouseout**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse leaves the marker.</p>
+<p><code>**contextmenu**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user right-clicks on the marker.</p>
+<p><code>**dragstart**</code>
+<code>[Event][62]</code>
+Fired when the user starts dragging the marker.</p>
+<p><code>**drag**</code>
+<code>[Event][62]</code>
+Fired repeatedly while the user drags the marker.</p>
+<p><code>**dragend**</code>
+<code>[Event][62]</code>
+Fired when the user stops dragging the marker.</p>
+<p><code>**move**</code>
+<code>[Event][62]</code>
+Fired when the marker is moved via setLatLng. New coordinate include in event arguments.</p>
+<p><code>**remove**</code>
+<code>[Event][62]</code>
+Fired when the marker is removed from the map.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addTo**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the marker to the map.</p>
+<p><code>**getLatLng**()</code>
+<code>[LatLng][28]</code>
+Returns the current geographical position of the marker.</p>
+<p><code>**setLatLng**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>this</code>
+Changes the marker position to the given point.</p>
+<p><code>**setIcon**(
+            &lt;[Icon][32]&gt; _icon_ )</code>
+<code>this</code>
+Changes the marker icon.</p>
+<p><code>**setZIndexOffset**(
+            &lt;Number&gt; _offset_ )</code>
+<code>this</code>
+Changes the [zIndex offset][77] of the marker.</p>
+<p><code>**setOpacity**(
+            &lt;Number&gt; _opacity_ )</code>
+<code>this</code>
+Changes the opacity of the marker.</p>
+<p><code>**update**()</code>
+<code>this</code>
+Updates the marker position, useful if coordinates of its <code>latLng</code> object were changed directly.</p>
+<p><code>**bindPopup**(
+            &lt;String&gt; _htmlContent_,
+&lt;[Popup options][78]&gt; _options?_ )</code>
+<code>this</code>
+Binds a popup with a particular HTML content to a click on this marker. You can also open the bound popup with the Marker [openPopup][79] method.</p>
+<p><code>**unbindPopup**()</code>
+<code>this</code>
+Unbinds the popup previously bound to the marker with <code>bindPopup</code>.</p>
+<p><code>**openPopup**()</code>
+<code>this</code>
+Opens the popup previously bound by the [bindPopup][80] method.</p>
+<p><code>**closePopup**()</code>
+<code>this</code>
+Closes the bound popup of the marker if it&#39;s opened.</p>
+<h3>Interaction handlers</h3>
+<p>Interaction handlers are properties of a marker instance that allow you to control interaction behavior in runtime, enabling or disabling certain features such as dragging (see [IHandler][51] methods). Example:</p>
+<pre><code>marker.dragging.disable();</code></pre>
+<p>Property
+Type
+Description</p>
+<p>dragging
+[<code>IHandler</code>][51]
+Marker dragging handler (by both mouse and touch).</p>
+<h2>L.Popup</h2>
+<p>Used to open popups in certain places of the map. Use [Map#openPopup][72] to open popups while making sure that only one popup is open at one time (recommended for usability), or use [Map#addLayer][81] to open as many as you want.</p>
+<h3>Usage example</h3>
+<p>If you want to just bind a popup to marker click and then open it, it&#39;s really easy:</p>
+<pre><code>marker.bindPopup(popupContent).openPopup();</code></pre>
+<p>Path overlays like polylines also have a <code>bindPopup</code> method. Here&#39;s a more complicated way to open a popup on a map:</p>
+<pre><code>var popup = L.popup()
+    .setLatLng(latlng)
+    .setContent(&#39;&lt;p&gt;Hello world!&lt;br /&gt;This is a nice popup.&lt;/p&gt;&#39;)
+    .openOn(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p>`<strong>L.Popup</strong>(
+            &lt;[Popup options][78]&gt; <em>options?</em>,</p>
+<p><object> <em>source?</em> )
+<code>`new L.Popup(…)</code>
+<code>L.popup(…)</code>
+Instantiates a Popup object given an optional options object that describes its appearance and location and an optional object that is used to tag the popup with a reference to the source object to which it refers.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**maxWidth**</code>
+<code>Number</code>
+<code>300</code>
+Max width of the popup.</p>
+<p><code>**minWidth**</code>
+<code>Number</code>
+<code>50</code>
+Min width of the popup.</p>
+<p><code>**maxHeight**</code>
+<code>Number</code>
+<code>null</code>
+If set, creates a scrollable container of the given height inside a popup if its content exceeds it.</p>
+<p><code>**autoPan**</code>
+<code>Boolean</code>
+<code>true</code>
+Set it to <code>false</code> if you don&#39;t want the map to do panning animation to fit the opened popup.</p>
+<p><code>**closeButton**</code>
+<code>Boolean</code>
+<code>true</code>
+Controls the presense of a close button in the popup.</p>
+<p><code>**offset**</code>
+<code>[Point][30]</code>
+<code>Point(0, 6)</code>
+The offset of the popup position. Useful to control the anchor of the popup when opening it on some overlays.</p>
+<p><code>**autoPanPadding**</code>
+<code>[Point][30]</code>
+<code>Point(5, 5)</code>
+The margin between the popup and the edges of the map view after autopanning was performed.</p>
+<p><code>**zoomAnimation**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether to animate the popup on zoom. Disable it if you have problems with Flash content inside popups.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addTo**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the popup to the map.</p>
+<p><code>**openOn**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the popup to the map and closes the previous one. The same as <code>map.openPopup(popup)</code>.</p>
+<p><code>**setLatLng**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>this</code>
+Sets the geographical point where the popup will open.</p>
+<p><code>**setContent**(
+            &lt;String&gt; _htmlContent_ )</code>
+<code>this</code>
+Sets the HTML content of the popup.</p>
+<h2>L.TileLayer</h2>
+<p>Used to load and display tile layers on the map, implements [ILayer][52] interface.</p>
+<h3>Usage example</h3>
+<pre><code>L.tileLayer(&#39;http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png&#39;, {
+    key: &#39;API-key&#39;,
+    styleId: 997
+}).addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.TileLayer**(
+            &lt;String&gt; _[urlTemplate][82]_,
+&lt;[TileLayer options][83]&gt; _options?_ )</code>
+<code>new L.TileLayer(…)</code>
+<code>L.tileLayer(…)</code>
+Instantiates a tile layer object given a [URL template][82] and optionally an options object.</p>
+<h3>URL template</h3>
+<p>A string of the following form:</p>
+<pre><code>&#39;http://{s}.somedomain.com/blabla/{z}/{x}/{y}.png&#39;</code></pre>
+<p><code>{s}</code> means one of the available subdomains (used sequentially to help with browser parallel requests per domain limitation; subdomain values are specified in options; <code>a</code>, <code>b</code> or <code>c</code> by default, can be omitted), <code>{z}</code> --- zoom level, <code>{x}</code> and <code>{y}</code> --- tile coordinates.</p>
+<p>You can use custom keys in the template, which will be evaluated from TileLayer options, like this:</p>
+<pre><code>L.tileLayer(&#39;http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png&#39;, {foo: &#39;bar&#39;});</code></pre>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**minZoom**</code>
+<code>Number</code>
+<code>0</code>
+Minimum zoom number.</p>
+<p><code>**maxZoom**</code>
+<code>Number</code>
+<code>18</code>
+Maximum zoom number.</p>
+<p><code>**tileSize**</code>
+<code>Number</code>
+<code>256</code>
+Tile size (width and height in pixels, assuming tiles are square).</p>
+<p><code>**subdomains**</code>
+<code>String</code> or <code>String[]</code>
+<code>&#39;abc&#39;</code>
+Subdomains of the tile service. Can be passed in the form of one string (where each letter is a subdomain name) or an array of strings.</p>
+<p><code>**errorTileUrl**</code>
+<code>String</code>
+<code>&#39;&#39;</code>
+URL to the tile image to show in place of the tile that failed to load.</p>
+<p><code>**attribution**</code>
+<code>String</code>
+<code>&#39;&#39;</code>
+e.g. &quot;(c) CloudMade&quot; --- the string used by the attribution control, describes the layer data.</p>
+<p><code>**tms**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code>, inverses Y axis numbering for tiles (turn this on for TMS services).</p>
+<p><code>**continuousWorld**</code>
+<code>Boolean</code>
+<code>false</code>
+If set to <code>true</code>, the tile coordinates won&#39;t be wrapped by world width (-180 to 180 longitude) or clamped to lie within world height (-90 to 90). Use this if you use Leaflet for maps that don&#39;t reflect the real world (e.g. game, indoor or photo maps).</p>
+<p><code>**noWrap**</code>
+<code>Boolean</code>
+<code>false</code>
+If set to <code>true</code>, the tiles just won&#39;t load outside the world width (-180 to 180 longitude) instead of repeating.</p>
+<p><code>**zoomOffset**</code>
+<code>Number</code>
+<code>0</code>
+The zoom number used in tile URLs will be offset with this value.</p>
+<p><code>**zoomReverse**</code>
+<code>Boolean</code>
+<code>false</code>
+If set to <code>true</code>, the zoom number used in tile URLs will be reversed (<code>maxZoom - zoom</code> instead of <code>zoom</code>)</p>
+<p><code>**opacity**</code>
+<code>Number</code>
+<code>1.0</code>
+The opacity of the tile layer.</p>
+<p><code>**zIndex**</code>
+<code>Number</code>
+<code>null</code>
+The explicit zIndex of the tile layer. Not set by default.</p>
+<p><code>**unloadInvisibleTiles**</code>
+<code>Boolean</code>
+depends
+If <code>true</code>, all the tiles that are not visible after panning are removed (for better performance). <code>true</code> by default on mobile WebKit, otherwise <code>false</code>.</p>
+<p><code>**updateWhenIdle**</code>
+<code>Boolean</code>
+depends
+If <code>false</code>, new tiles are loaded during panning, otherwise only after it (for better performance). <code>true</code> by default on mobile WebKit, otherwise <code>false</code>.</p>
+<p><code>**detectRetina**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code> and user is on a retina display, it will request four tiles of half the specified size and a bigger zoom level in place of one to utilize the high resolution.</p>
+<p><code>**reuseTiles**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code>, all the tiles that are not visible after panning are placed in a reuse queue from which they will be fetched when new tiles become visible (as opposed to dynamically creating new ones). This will in theory keep memory usage low and eliminate the need for reserving new memory whenever a new tile is needed.</p>
+<h3>Events</h3>
+<p>You can subscribe to the following events using [these methods][39].
+Event
+Data
+Description</p>
+<p><code>**loading**</code>
+<code>[Event][62]</code>
+Fired when the tile layer starts loading tiles.</p>
+<p><code>**load**</code>
+<code>[Event][62]</code>
+Fired when the tile layer loaded all visible tiles.</p>
+<p><code>**tileload**</code>
+<code>[Event][84]</code>
+Fired when a tile loads.</p>
+<p><code>**tileunload**</code>
+<code>[Event][84]</code>
+Fired when a tile is removed (e.g. when you have <code>unloadInvisibleTiles</code> on).</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addTo**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the layer to the map.</p>
+<p><code>**bringToFront**()</code>
+<code>this</code>
+Brings the tile layer to the top of all tile layers.</p>
+<p><code>**bringToBack**()</code>
+<code>this</code>
+Brings the tile layer to the bottom of all tile layers.</p>
+<p><code>**setOpacity**(
+            &lt;Number&gt; _opacity_ )</code>
+<code>this</code>
+Changes the opacity of the tile layer.</p>
+<p><code>**setZIndex**(
+            &lt;Number&gt; _zIndex_ )</code>
+<code>this</code>
+Sets the zIndex of the tile layer.</p>
+<p><code>**redraw**()</code>
+<code>this</code>
+Causes the layer to clear all the tiles and request them again.</p>
+<p><code>**setUrl**(
+            &lt;String&gt; _[urlTemplate][82]_ )</code>
+<code>this</code>
+Updates the layer&#39;s URL template and redraws it.</p>
+<h2>L.TileLayer.WMS</h2>
+<p>Used to display WMS services as tile layers on the map. Extends [TileLayer][13].</p>
+<h3>Usage example</h3>
+<pre><code>var nexrad = L.tileLayer.wms(&quot;http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi&quot;, {
+    layers: &#39;nexrad-n0r-900913&#39;,
+    format: &#39;image/png&#39;,
+    transparent: true,
+    attribution: &quot;Weather data © 2012 IEM Nexrad&quot;
+});</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.TileLayer.WMS**(
+            &lt;String&gt; _baseUrl_,
+            &lt;[TileLayer.WMS options][85]&gt; _options_ )</code>
+<code>new L.TileLayer.WMS(…)</code>
+<code>L.tileLayer.wms(…)</code>
+Instantiates a WMS tile layer object given a base URL of the WMS service and a WMS parameters/options object.</p>
+<h3>Options</h3>
+<p>Includes all [TileLayer options][83] and additionally:
+Option
+Type
+Default
+Description</p>
+<p><code>**layers**</code>
+<code>String</code>
+<code>&#39;&#39;</code>
+<strong>(required)</strong> Comma-separated list of WMS layers to show.</p>
+<p><code>**styles**</code>
+<code>String</code>
+<code>&#39;&#39;</code>
+Comma-separated list of WMS styles.</p>
+<p><code>**format**</code>
+<code>String</code>
+<code>&#39;image/jpeg&#39;</code>
+WMS image format (use <code>&#39;image/png&#39;</code> for layers with transparency).</p>
+<p><code>**transparent**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code>, the WMS service will return images with transparency.</p>
+<p><code>**version**</code>
+<code>String</code>
+<code>&#39;1.1.1&#39;</code>
+Version of the WMS service to use.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**setParams**(
+            &lt;[WMS parameters][85]&gt; _params_,
+            &lt;Boolean&gt; _noRedraw?_ )</code>
+<code>this</code>
+Merges an object with the new parameters and re-requests tiles on the current screen (unless <code>noRedraw</code> was set to <code>true</code>).</p>
+<h2>L.TileLayer.Canvas</h2>
+<p>Used to create Canvas-based tile layers where tiles get drawn on the browser side. Extends [TileLayer][13].</p>
+<h3>Usage example</h3>
+<pre><code>var canvasTiles = L.tileLayer.canvas();
+
+canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
+    var ctx = canvas.getContext(&#39;2d&#39;);
+    // draw something on the tile canvas
+}</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.TileLayer.Canvas**(
+            &lt;[TileLayer options][83]&gt; _options?_ )</code>
+<code>new L.TileLayer.Canvas(…)</code>
+<code>L.tileLayer.canvas(…)</code>
+Instantiates a Canvas tile layer object given an options object (optionally).</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**async**</code>
+<code>Boolean</code>
+<code>false</code>
+Indicates that tiles will be drawn asynchronously. [tileDrawn][86] method should be called for each tile after drawing completion.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**drawTile**(
+            &lt;HTMLCanvasElement&gt; _canvas_,
+            &lt;[Point][30]&gt; _tilePoint_,
+            &lt;Number&gt; _zoom_ )</code>
+<code>this</code>
+You need to define this method after creating the instance to draw tiles; <code>canvas</code> is the actual canvas tile on which you can draw, <code>tilePoint</code> represents the tile numbers, and <code>zoom</code> is the current zoom.</p>
+<p><code>**tileDrawn**( &lt;HTMLCanvasElement&gt; _canvas_ )</code>
+-
+If <code>async</code> option is defined, this function should be called for each tile after drawing completion. <code>canvas</code> is the same canvas element, that was passed to [drawTile][87].</p>
+<h2>L.ImageOverlay</h2>
+<p>Used to load and display a single image over specific bounds of the map, implements [ILayer][52] interface.</p>
+<h3>Usage example</h3>
+<pre><code>var imageUrl = &#39;http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg&#39;,
+    imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
+
+L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.ImageOverlay**(
+            &lt;String&gt; _imageUrl_,
+            &lt;[LatLngBounds][29]&gt; _bounds_,
+            &lt;[ImageOverlay options][88]&gt; _options?_ )</code>
+<code>new L.ImageOverlay(…)</code>
+<code>L.imageOverlay(…)</code>
+Instantiates an image overlay object given the URL of the image and the geographical bounds it is tied to.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**opacity**</code>
+<code>Number</code>
+<code>1.0</code>
+The opacity of the image overlay.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addTo**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the overlay to the map.</p>
+<p><code>**setOpacity**(
+            &lt;Number&gt; _opacity_ )</code>
+<code>this</code>
+Sets the opacity of the overlay.</p>
+<p><code>**bringToFront**()</code>
+<code>this</code>
+Brings the layer to the top of all overlays.</p>
+<p><code>**bringToBack**()</code>
+<code>this</code>
+Brings the layer to the bottom of all overlays.</p>
+<h2>L.Path</h2>
+<p>An abstract class that contains options and constants shared between vector overlays (Polygon, Polyline, Circle). Do not use it directly.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**stroke**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether to draw stroke along the path. Set it to <code>false</code> to disable borders on polygons or circles.</p>
+<p><code>**color**</code>
+<code>String</code>
+<code>&#39;#03f&#39;</code>
+Stroke color.</p>
+<p><code>**weight**</code>
+<code>Number</code>
+<code>5</code>
+Stroke width in pixels.</p>
+<p><code>**opacity**</code>
+<code>Number</code>
+<code>0.5</code>
+Stroke opacity.</p>
+<p><code>**fill**</code>
+<code>Boolean</code>
+depends
+Whether to fill the path with color. Set it to <code>false</code> to disable filling on polygons or circles.</p>
+<p><code>**fillColor**</code>
+<code>String</code>
+same as color
+Fill color.</p>
+<p><code>**fillOpacity**</code>
+<code>Number</code>
+<code>0.2</code>
+Fill opacity.</p>
+<p><code>**dashArray**</code>
+<code>String</code>
+<code>null</code>
+A string that defines the stroke [dash pattern][89]. Doesn&#39;t work on canvas-powered layers (e.g. Android 2).</p>
+<p><code>**clickable**</code>
+<code>Boolean</code>
+<code>true</code>
+If <code>false</code>, the vector will not emit mouse events and will act as a part of the underlying map.</p>
+<h3>Events</h3>
+<p>You can subscribe to the following events using [these methods][39].
+Event
+Data
+Description</p>
+<p><code>**click**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user clicks (or taps) the object.</p>
+<p><code>**dblclick**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user double-clicks (or double-taps) the object.</p>
+<p><code>**mousedown**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user pushes the mouse button on the object.</p>
+<p><code>**mouseover**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse enters the object.</p>
+<p><code>**mouseout**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse leaves the object.</p>
+<p><code>**contextmenu**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user pushes the right mouse button on the object, prevents default browser context menu from showing if there are listeners on this event.</p>
+<p><code>**add**</code>
+<code>[Event][62]</code>
+Fired when the path is added to the map.</p>
+<p><code>**remove**</code>
+<code>[Event][62]</code>
+Fired when the path is removed from the map.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addTo**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the layer to the map.</p>
+<p><code>**bindPopup**(
+            &lt;String&gt; _htmlContent_,
+            &lt;[Popup options][78]&gt; _options?_ )</code>
+<code>this</code>
+Binds a popup with a particular HTML content to a click on this path.</p>
+<p><code>**unbindPopup**()</code>
+<code>this</code>
+Unbinds the popup previously bound to the path with <code>bindPopup</code>.</p>
+<p><code>**openPopup**(
+            &lt;[LatLng][28]&gt; _latlng?_ )</code>
+<code>this</code>
+Opens the popup previously bound by the [bindPopup][90] method in the given point, or in one of the path&#39;s points if not specified.</p>
+<p><code>**closePopup**()</code>
+<code>this</code>
+Closes the path&#39;s bound popup if it is opened.</p>
+<p><code>**setStyle**(
+            &lt;[Path options][91]&gt; _object_ )</code>
+<code>this</code>
+Changes the appearance of a Path based on the options in the [Path options][91] object.</p>
+<p><code>**getBounds**()</code>
+<code>[LatLngBounds][29]</code>
+Returns the LatLngBounds of the path.</p>
+<p><code>**bringToFront**()</code>
+<code>this</code>
+Brings the layer to the top of all path layers.</p>
+<p><code>**bringToBack**()</code>
+<code>this</code>
+Brings the layer to the bottom of all path layers.</p>
+<p><code>**redraw**()</code>
+<code>this</code>
+Redraws the layer. Sometimes useful after you changed the coordinates that the path uses.</p>
+<h3>Static properties</h3>
+<p>Constant
+Type
+Value
+Description</p>
+<p><code>SVG</code>
+<code>Boolean</code>
+depends
+True if SVG is used for vector rendering (true for most modern browsers).</p>
+<p><code>VML</code>
+<code>Boolean</code>
+depends
+True if VML is used for vector rendering (IE 6-8).</p>
+<p><code>CANVAS</code>
+<code>Boolean</code>
+depends
+True if Canvas is used for vector rendering (Android 2). You can also force this by setting global variable <code>L_PREFER_CANVAS</code> to <code>true</code> <em>before</em> the Leaflet include on your page --- sometimes it can increase performance dramatically when rendering thousands of circle markers, but currently suffers from a bug that causes removing such layers to be extremely slow.</p>
+<p><code>CLIP_PADDING</code>
+<code>Number</code>
+<code>0.5</code> for SVG
+<code>0.02</code> for VML
+How much to extend the clip area around the map view (relative to its size, e.g. 0.5 is half the screen in each direction). Smaller values mean that you will see clipped ends of paths while you&#39;re dragging the map, and bigger values decrease drawing performance.</p>
+<h2>L.Polyline</h2>
+<p>A class for drawing polyline overlays on a map. Extends [Path][17]. Use [Map#addLayer][81] to add it to the map.</p>
+<h3>Usage example</h3>
+<pre><code>// create a red polyline from an arrays of LatLng points
+var polyline = L.polyline(latlngs, {color: &#39;red&#39;}).addTo(map);
+
+// zoom the map to the polyline
+map.fitBounds(polyline.getBounds());</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Polyline**(
+            &lt;[LatLng][28][]&gt; _latlngs_,
+            &lt;[Polyline options][92]&gt; _options?_ )</code>
+<code>new L.Polyline(…)</code>
+<code>L.polyline(…)</code>
+Instantiates a polyline object given an array of geographical points and optionally an options object.</p>
+<h3>Options</h3>
+<p>You can use [Path options][91] and additionally the following options:
+Option
+Type
+Default
+Description</p>
+<p><code>**smoothFactor**</code>
+<code>Number</code>
+<code>1.0</code>
+How much to simplify the polyline on each zoom level. More means better performance and smoother look, and less means more accurate representation.</p>
+<p><code>**noClip**</code>
+<code>Boolean</code>
+<code>false</code>
+Disabled polyline clipping.</p>
+<h3>Methods</h3>
+<p>You can use [Path methods][93] and additionally the following methods:
+Method
+Returns
+Description</p>
+<p><code>**addLatLng**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>this</code>
+Adds a given point to the polyline.</p>
+<p><code>**setLatLngs**(
+            &lt;[LatLng][28][]&gt; _latlngs_ )</code>
+<code>this</code>
+Replaces all the points in the polyline with the given array of geographical points.</p>
+<p><code>**getLatLngs**()</code>
+<code>[LatLng][28][]</code>
+Returns an array of the points in the path.</p>
+<p><code>**spliceLatLngs**(
+            &lt;Number&gt; _index_,
+            &lt;Number&gt; _pointsToRemove_,
+            &lt;[LatLng][28]&gt; _latlng?_, … )</code>
+<code>[LatLng][28][]</code>
+Allows adding, removing or replacing points in the polyline. Syntax is the same as in [Array#splice][94]. Returns the array of removed points (if any).</p>
+<p><code>**getBounds**()</code>
+<code>[LatLngBounds][29]</code>
+Returns the LatLngBounds of the polyline.</p>
+<h2>L.MultiPolyline</h2>
+<p>Extends [FeatureGroup][26] to allow creating multi-polylines (single layer that consists of several polylines that share styling/popup).</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.MultiPolyline**(
+            &lt;[LatLng][28][][]&gt; _latlngs_,
+            &lt;[Polyline options][92]&gt; _options?_ )</code>
+<code>new L.MultiPolyline(…)</code>
+<code>L.multiPolyline(…)</code>
+Instantiates a multi-polyline object given an array of arrays of geographical points (one for each individual polyline) and optionally an options object.</p>
+<h2>L.Polygon</h2>
+<p>A class for drawing polygon overlays on a map. Extends [Polyline][18]. Use [Map#addLayer][81] to add it to the map.</p>
+<p>Note that points you pass when creating a polygon shouldn&#39;t have an additional last point equal to the first one --- it&#39;s better to filter out such points.</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Polygon**(
+            &lt;[LatLng][28][]&gt; _latlngs_,
+            &lt;[Polyline options][92]&gt; _options?_ )</code>
+<code>new L.Polygon(…)</code>
+<code>L.polygon(…)</code>
+Instantiates a polygon object given an array of geographical points and optionally an options object (the same as for Polyline). You can also create a polygon with holes by passing an array of arrays of latlngs, with the first latlngs array representing the exterior ring while the remaining represent the holes inside.</p>
+<p>Polygon the same options and methods as Polyline.</p>
+<h2>L.MultiPolygon</h2>
+<p>Extends [FeatureGroup][26] to allow creating multi-polygons (single layer that consists of several polygons that share styling/popup).</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.MultiPolygon**(
+            &lt;[LatLng][28][][]&gt; _latlngs_,
+            &lt;[Polyline options][92]&gt; _options?_ )</code>
+<code>new L.MultiPolygon(…)</code>
+<code>L.multiPolygon(…)</code>
+Instantiates a multi-polyline object given an array of latlngs arrays (one for each individual polygon) and optionally an options object (the same as for MultiPolyline).</p>
+<h2>L.Rectangle</h2>
+<p>A class for drawing rectangle overlays on a map. Extends [Polygon][20]. Use [Map#addLayer][81] to add it to the map.</p>
+<h3>Usage example</h3>
+<pre><code>// define rectangle geographical bounds
+var bounds = [[54.559322, -5.767822], [56.1210604, -3.021240]];
+
+// create an orange rectangle
+L.rectangle(bounds, {color: &quot;#ff7800&quot;, weight: 1}).addTo(map);
+
+// zoom the map to the rectangle bounds
+map.fitBounds(bounds);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Rectangle**(
+            &lt;[LatLngBounds][29]&gt; _bounds_,
+            &lt;[Path options][91]&gt; _options?_ )</code>
+<code>new L.Rectangle(…)</code>
+<code>L.rectangle(…)</code>
+Instantiates a rectangle object with the given geographical bounds and optionally an options object.</p>
+<h3>Methods</h3>
+<p>You can use [Path methods][93] and additionally the following methods:
+Method
+Returns
+Description</p>
+<p><code>**setBounds**(
+            &lt;[LatLngBounds][29]&gt; _bounds_ )</code>
+<code>this</code>
+Redraws the rectangle with the passed bounds.</p>
+<h2>L.Circle</h2>
+<p>A class for drawing circle overlays on a map. Extends [Path][17]. Use [Map#addLayer][81] to add it to the map.</p>
+<pre><code>L.circle([50.5, 30.5], 200).addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Circle**(
+            &lt;[LatLng][28]&gt; _latlng_,
+            &lt;Number&gt; _radius_,
+            &lt;[Path options][91]&gt; _options?_ )</code>
+<code>new L.Circle(…)</code>
+<code>L.circle(…)</code>
+Instantiates a circle object given a geographical point, a radius in meters and optionally an options object.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**getLatLng**()</code>
+<code>[LatLng][28]</code>
+Returns the current geographical position of the circle.</p>
+<p><code>**getRadius**()</code>
+<code>Number</code>
+Returns the current radius of a circle. Units are in meters.</p>
+<p><code>**setLatLng**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>this</code>
+Sets the position of a circle to a new location.</p>
+<p><code>**setRadius**(
+            &lt;Number&gt; _radius_ )</code>
+<code>this</code>
+Sets the radius of a circle. Units are in meters.</p>
+<h2>L.CircleMarker</h2>
+<p>A circle of a fixed size with radius specified in pixels. Extends [Circle][23]. Use [Map#addLayer][81] to add it to the map.</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.CircleMarker**(
+            &lt;[LatLng][28]&gt; _latlng_,
+            &lt;[Path options][91]&gt; _options?_ )</code>
+<code>new L.CircleMarker(…)</code>
+<code>L.circleMarker(…)</code>
+Instantiates a circle marker given a geographical point and optionally an options object. The default radius is 10 and can be altered by passing a &quot;radius&quot; member in the path options object.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**setLatLng**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>this</code>
+Sets the position of a circle marker to a new location.</p>
+<p><code>**setRadius**(
+            &lt;Number&gt; _radius_ )</code>
+<code>this</code>
+Sets the radius of a circle marker. Units are in pixels.</p>
+<h2>L.LayerGroup</h2>
+<p>Used to group several layers and handle them as one. If you add it to the map, any layers added or removed from the group will be added/removed on the map as well. Implements [ILayer][52] interface.</p>
+<pre><code>L.layerGroup([marker1, marker2])
+    .addLayer(polyline)
+    .addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.LayerGroup**(
+            &lt;[ILayer][52][]&gt; _layers?_ )</code>
+<code>new L.LayerGroup(…)</code>
+<code>L.layerGroup(…)</code>
+Create a layer group, optionally given an initial set of layers.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addTo**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the group of layers to the map.</p>
+<p><code>**addLayer**(
+            &lt;[ILayer][52]&gt; _layer_ )</code>
+<code>this</code>
+Adds a given layer to the group.</p>
+<p><code>**removeLayer**(
+            &lt;[ILayer][52]&gt; _layer_ )</code>
+<code>this</code>
+Removes a given layer from the group.</p>
+<p><code>**clearLayers**()</code>
+<code>this</code>
+Removes all the layers from the group.</p>
+<p><code>**eachLayer**(
+            &lt;Function&gt; _fn_,
+            &lt;Object&gt; _context?_ )</code>
+<code>this</code>
+Iterates over the layers of the group, optionally specifying context of the iterator function.</p>
+<pre><code>group.eachLayer(function (layer) {
+    layer.bindPopup(&#39;Hello&#39;);
+});</code></pre>
+<h2>L.FeatureGroup</h2>
+<p>Extended [LayerGroup][25] that also has mouse events (propagated from members of the group) and a shared bindPopup method. Implements [ILayer][52] interface.</p>
+<pre><code>L.featureGroup([marker1, marker2, polyline])
+    .bindPopup(&#39;Hello world!&#39;)
+    .on(&#39;click&#39;, function() { alert(&#39;Clicked on a group!&#39;); })
+    .addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.FeatureGroup**(
+            &lt;[ILayer][52][]&gt; _layers?_ )</code>
+<code>new L.FeatureGroup(…)</code>
+<code>L.featureGroup(…)</code>
+Create a layer group, optionally given an initial set of layers.</p>
+<h3>Methods</h3>
+<p>Has all [LayerGroup][25] methods and additionally:
+Method
+Returns
+Description</p>
+<p><code>**bindPopup**(
+            &lt;String&gt; _htmlContent_,
+            &lt;[Popup options][78]&gt; _options?_ )</code>
+<code>this</code>
+Binds a popup with a particular HTML content to a click on any layer from the group that has a <code>bindPopup</code> method.</p>
+<p><code>**getBounds**()</code>
+<code>[LatLngBounds][29]</code>
+Returns the LatLngBounds of the Feature Group (created from bounds and coordinates of its children).</p>
+<p><code>**setStyle**(
+            &lt;[Path options][91]&gt; _style_ )</code>
+<code>this</code>
+Sets the given path options to each layer of the group that has a <code>setStyle</code> method.</p>
+<p><code>**bringToFront**()</code>
+<code>this</code>
+Brings the layer group to the top of all other layers.</p>
+<p><code>**bringToBack**()</code>
+<code>this</code>
+Brings the layer group to the bottom of all other layers.</p>
+<h3>Events</h3>
+<p>You can subscribe to the following events using [these methods][39].
+Event
+Data
+Description</p>
+<p><code>**click**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user clicks (or taps) the group.</p>
+<p><code>**dblclick**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user double-clicks (or double-taps) the group.</p>
+<p><code>**mouseover**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse enters the group.</p>
+<p><code>**mouseout**</code>
+<code>[MouseEvent][61]</code>
+Fired when the mouse leaves the group.</p>
+<p><code>**mousemove**</code>
+<code>[MouseEvent][61]</code>
+Fired while the mouse moves over the layers of the group.</p>
+<p><code>**contextmenu**</code>
+<code>[MouseEvent][61]</code>
+Fired when the user right-clicks on one of the layers.</p>
+<p><code>**layeradd**</code>
+<code>[LayerEvent][63]</code>
+Fired when a layer is added to the group.</p>
+<p><code>**layerremove**</code>
+<code>[LayerEvent][63]</code>
+Fired when a layer is removed from the map.</p>
+<h2>L.GeoJSON</h2>
+<p>Represents a [GeoJSON][95] layer. Allows you to parse GeoJSON data and display it on the map. Extends [FeatureGroup][26].</p>
+<pre><code>L.geoJson(data, {
+    style: function (feature) {
+        return {color: feature.properties.color};
+    },
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.description);
+    }
+}).addTo(map);</code></pre>
+<p>Each feature layer created by it gets a <code>feature</code> property that links to the GeoJSON feature data the layer was created from (so that you can access its properties later).</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.GeoJSON**(
+            &lt;Object&gt; _geojson?_,
+            &lt;[GeoJSON options][96]&gt; _options?_ )</code>
+<code>new L.GeoJSON(…)</code>
+<code>L.geoJson(…)</code>
+Creates a GeoJSON layer. Optionally accepts an object in [GeoJSON format][95] to display on the map (you can alternatively add it later with <code>addData</code> method) and an options object.</p>
+<h3>Options</h3>
+<p>Option
+Description</p>
+<p><code>**pointToLayer**(
+            &lt;GeoJSON&gt; _featureData_,
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+Function that will be used for creating layers for GeoJSON points (if not specified, simple markers will be created).</p>
+<p><code>**style**(
+            &lt;GeoJSON&gt; _featureData_ )</code>
+Function that will be used to get style options for vector layers created for GeoJSON features.</p>
+<p><code>**onEachFeature**(
+            &lt;GeoJSON&gt; _featureData_,
+            &lt;[ILayer][52]&gt; _layer_ )</code>
+Function that will be called on each created feature layer. Useful for attaching events and popups to features.</p>
+<p><code>**filter**(
+            &lt;GeoJSON&gt; _featureData_,
+            &lt;[ILayer][52]&gt; _layer_ )</code>
+Function that will be used to decide whether to show a feature or not.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addData**(
+            &lt;GeoJSON&gt; _data_ )</code>
+<code>Boolean</code>
+Adds a GeoJSON object to the layer.</p>
+<p><code>**setStyle**(
+            &lt;Function&gt; _[style][97]_ )</code>
+<code>this</code>
+Changes styles of GeoJSON vector layers with the given style function.</p>
+<p><code>**resetStyle**(
+            &lt;[Path][17]&gt; _layer_ )</code>
+<code>this</code>
+Resets the the given vector layer&#39;s style to the original GeoJSON style, useful for resetting style after hover events.</p>
+<h3>Static methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**geometryToLayer**(
+            &lt;GeoJSON&gt; _featureData_,
+            &lt;[Function][98]&gt; _pointToLayer?_ )</code>
+<code>[ILayer][52]</code>
+Creates a layer from a given GeoJSON feature.</p>
+<p><code>**coordsToLatlng**(
+            &lt;Array&gt; _coords_,
+            &lt;Boolean&gt; _reverse?_ )</code>
+<code>[LatLng][28]</code>
+Creates a LatLng object from an array of 2 numbers (latitude, longitude) used in GeoJSON for points. If <code>reverse</code> is set to <code>true</code>, the numbers will be interpreted as (longitude, latitude).</p>
+<p><code>**coordsToLatlngs**(
+            &lt;Array&gt; _coords_,
+            &lt;Number&gt; _levelsDeep?_,
+            &lt;Boolean&gt; _reverse?_ )</code>
+<code>Array</code>
+Creates a multidimensional array of LatLng objects from a GeoJSON coordinates array. <code>levelsDeep</code> specifies the nesting level (0 is for an array of points, 1 for an array of arrays of points, etc., 0 by default). If <code>reverse</code> is set to <code>true</code>, the numbers will be interpreted as (longitude, latitude).</p>

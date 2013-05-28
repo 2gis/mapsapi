@@ -51,9 +51,20 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Документация Leaflet",
-                                "uri": "doc/DGCore/DGCore.html",
-                                "_src": "DGCore/doc/DGCore.md",
+                                "title": "Документация Leaflet часть 1",
+                                "uri": "doc/DGCore/DGCore.part1.html",
+                                "_src": "DGCore/doc/DGCore.part1.md",
+                                "hide": true
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Документация Leaflet часть 2",
+                                "uri": "doc/DGCore/DGCore.part2.html",
+                                "_src": "DGCore/doc/DGCore.part2.md",
                                 "hide": true
                             }
                         },

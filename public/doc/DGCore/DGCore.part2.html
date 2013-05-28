@@ -1,0 +1,1454 @@
+<h2>L.LatLng</h2>
+<p>Represents a geographical point with a certain latitude and longitude.</p>
+<pre><code>var latlng = new L.LatLng(50.5, 30.5);</code></pre>
+<p>All Leaflet methods that accept LatLng objects also accept them in a simple Array form (unless noted otherwise), so these lines are equivalent:</p>
+<pre><code>map.panTo([50, 30]);
+map.panTo(new L.LatLng(50, 30));</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.LatLng**(
+            &lt;Number&gt; _latitude_,
+            &lt;Number&gt; _longitude_ )</code>
+<code>new L.LatLng(…)</code>
+<code>L.latLng(…)</code>
+<code>L.latLng([…])</code>
+Creates an object representing a geographical point with the given latitude and longitude.</p>
+<h3>Properties</h3>
+<p>Property
+Type
+Description</p>
+<p><code>**lat**</code>
+<code>Number</code>
+Latitude in degrees.</p>
+<p><code>**lng**</code>
+<code>Number</code>
+Longitude in degrees.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**distanceTo**(
+            &lt;[LatLng][28]&gt; _otherLatlng_ )</code>
+<code>Number</code>
+Returns the distance (in meters) to the given LatLng calculated using the Haversine formula. See <a href="http://en.wikipedia.org/wiki/Haversine_formula">description on wikipedia</a></p>
+<p><code>**equals**(
+            &lt;[LatLng][28]&gt; _otherLatlng_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the given LatLng point is at the same position (within a small margin of error).</p>
+<p><code>**toString**()</code>
+<code>String</code>
+Returns a string representation of the point (for debugging purposes).</p>
+<p><code>**wrap**(
+            &lt;Number&gt; _left_,
+            &lt;Number&gt; _right_ )</code>
+<code>[LatLng][28]</code>
+Returns a new <code>LatLng</code> object with the longitude wrapped around <code>left</code> and <code>right</code> boundaries (<code>-180</code> to <code>180</code> by default).</p>
+<h3>Constants</h3>
+<p>Constant
+Type
+Value
+Description</p>
+<p><code>**DEG_TO_RAD**</code>
+<code>Number</code>
+<code>Math.PI / 180</code>
+A multiplier for converting degrees into radians.</p>
+<p><code>**RAD_TO_DEG**</code>
+<code>Number</code>
+<code>180 / Math.PI</code>
+A multiplier for converting radians into degrees.</p>
+<p><code>**MAX_MARGIN**</code>
+<code>Number</code>
+<code>1.0E-9</code>
+Max margin of error for the equality check.</p>
+<h2>L.LatLngBounds</h2>
+<p>Represents a rectangular geographical area on a map.</p>
+<pre><code>var southWest = new L.LatLng(40.712, -74.227),
+    northEast = new L.LatLng(40.774, -74.125),
+    bounds = new L.LatLngBounds(southWest, northEast);</code></pre>
+<p>All Leaflet methods that accept LatLngBounds objects also accept them in a simple Array form (unless noted otherwise), so the bounds example above can be passed like this:</p>
+<pre><code>map.fitBounds([
+    [40.712, -74.227],
+    [40.774, -74.125]
+]);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.LatLngBounds**(
+            &lt;[LatLng][28]&gt; _southWest_,
+            &lt;[LatLng][28]&gt; _northEast_ )</code>
+<code>new L.LatLngBounds(…)</code>
+<code>L.latLngBounds(…)</code>
+<code>L.latLngBounds([…])</code>
+Creates a LatLngBounds object by defining south-west and north-east corners of the rectangle.</p>
+<p><code>**L.LatLngBounds**(
+            &lt;[LatLng][28][]&gt; _latlngs_ )</code>
+<code>new L.LatLngBounds(…)</code>
+<code>L.latLngBounds(…)</code>
+Creates a LatLngBounds object defined by the geographical points it contains. Very useful for zooming the map to fit a particular set of locations with <a href="#map-fitbounds">fitBounds</a>.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**extend**(
+            &lt;[LatLng][28]|[LatLngBounds][29]&gt; _latlng_ )</code>
+<code>this</code>
+Extends the bounds to contain the given point or bounds.</p>
+<p><code>**getSouthWest**()</code>
+<code>[LatLng][28]</code>
+Returns the south-west point of the bounds.</p>
+<p><code>**getNorthEast**()</code>
+<code>[LatLng][28]</code>
+Returns the north-east point of the bounds.</p>
+<p><code>**getNorthWest**()</code>
+<code>[LatLng][28]</code>
+Returns the north-west point of the bounds.</p>
+<p><code>**getSouthEast**()</code>
+<code>[LatLng][28]</code>
+Returns the south-east point of the bounds.</p>
+<p><code>**getWest**()</code>
+<code>Number</code>
+Returns the west longitude of the bounds.</p>
+<p><code>**getSouth**()</code>
+<code>Number</code>
+Returns the south latitude of the bounds.</p>
+<p><code>**getEast**()</code>
+<code>Number</code>
+Returns the east longitude of the bounds.</p>
+<p><code>**getNorth**()</code>
+<code>Number</code>
+Returns the north latitude of the bounds.</p>
+<p><code>**getCenter**()</code>
+<code>[LatLng][28]</code>
+Returns the center point of the bounds.</p>
+<p><code>**contains**(
+            &lt;[LatLngBounds][29]&gt; _otherBounds_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the rectangle contains the given one.</p>
+<p><code>**contains**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the rectangle contains the given point.</p>
+<p><code>**intersects**(
+            &lt;[LatLngBounds][29]&gt; _otherBounds_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the rectangle intersects the given bounds.</p>
+<p><code>**equals**(
+            &lt;[LatLngBounds][29]&gt; _otherBounds_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the rectangle is equivalent (within a small margin of error) to the given bounds.</p>
+<p><code>**toBBoxString**()</code>
+<code>String</code>
+Returns a string with bounding box coordinates in a <code>&#39;southwest_lng,southwest_lat,northeast_lng,northeast_lat&#39;</code> format. Useful for sending requests to web services that return geo data.</p>
+<p><code>**pad**(
+            &lt;Number&gt; _bufferRatio_ )</code>
+<code>[LatLngBounds][29]</code>
+Returns bigger bounds created by extending the current bounds by a given percentage in each direction.</p>
+<p><code>**isValid**()</code>
+<code>Boolean</code>
+Returns <code>true</code> if the bounds are properly initialized.</p>
+<h2>L.Point</h2>
+<p>Represents a point with x and y coordinates in pixels.</p>
+<pre><code>var point = new L.Point(200, 300);</code></pre>
+<p>All Leaflet methods and options that accept Point objects also accept them in a simple Array form (unless noted otherwise), so these lines are equivalent:</p>
+<pre><code>map.panBy([200, 300]);
+map.panBy(new L.Point(200, 300));</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Point**(
+            &lt;Number&gt; _x_, &lt;Number&gt; _y_,
+            &lt;Boolean&gt; _round?_ )</code>
+<code>new L.Point(…)</code>
+<code>L.point(…)</code>
+<code>L.point([…])</code>
+Creates a Point object with the given <code>x</code> and <code>y</code> coordinates. If optional <code>round</code> is set to <code>true</code>, rounds the <code>x</code> and <code>y</code> values.</p>
+<h3>Properties</h3>
+<p>Property
+Type
+Description</p>
+<p><code>**x**</code>
+<code>Number</code>
+The x coordinate.</p>
+<p><code>**y**</code>
+<code>Number</code>
+The y coordinate.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**add**(
+            &lt;[Point][30]&gt; _otherPoint_ )</code>
+<code>[Point][30]</code>
+Returns the result of addition of the current and the given points.</p>
+<p><code>**subtract**(
+            &lt;[Point][30]&gt; _otherPoint_ )</code>
+<code>[Point][30]</code>
+Returns the result of subtraction of the given point from the current.</p>
+<p><code>**multiplyBy**(
+            &lt;Number&gt; _number_ )</code>
+<code>[Point][30]</code>
+Returns the result of multiplication of the current point by the given number.</p>
+<p><code>**divideBy**(
+            &lt;Number&gt; _number_,
+            &lt;Boolean&gt; _round?_ )</code>
+<code>[Point][30]</code>
+Returns the result of division of the current point by the given number. If optional <code>round</code> is set to <code>true</code>, returns a rounded result.</p>
+<p><code>**distanceTo**(
+            &lt;[Point][30]&gt; _otherPoint_ )</code>
+<code>Number</code>
+Returns the distance between the current and the given points.</p>
+<p><code>**clone**()</code>
+<code>[Point][30]</code>
+Returns a copy of the current point.</p>
+<p><code>**round**()</code>
+<code>[Point][30]</code>
+Returns a copy of the current point with rounded coordinates.</p>
+<p><code>**equals**(
+            &lt;[Point][30]&gt; _otherPoint_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the given point has the same coordinates.</p>
+<p><code>**toString**()</code>
+<code>String</code>
+Returns a string representation of the point for debugging purposes.</p>
+<h2>L.Bounds</h2>
+<p>Represents a rectangular area in pixel coordinates.</p>
+<pre><code>var p1 = new L.Point(10, 10),
+    p2 = new L.Point(40, 60),
+    bounds = new L.Bounds(p1, p2);</code></pre>
+<p>All Leaflet methods that accept Bounds objects also accept them in a simple Array form (unless noted otherwise), so the bounds example above can be passed like this:</p>
+<pre><code>otherBounds.intersects([[10, 10], [40, 60]]);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Bounds**(
+            &lt;[Point][30]&gt; _topLeft_,
+            &lt;[Point][30]&gt; _bottomRight_ )</code>
+<code>new L.Bounds(…)</code>
+<code>L.bounds(…)</code>
+<code>L.bounds([…])</code>
+Creates a Bounds object from two coordinates (usually top-left and bottom-right corners).</p>
+<p><code>**L.Bounds**(
+            &lt;[Point][30][]&gt; _points_ )</code>
+<code>new L.Bounds(…)</code>
+<code>L.bounds(…)</code>
+Creates a Bounds object defined by the points it contains.</p>
+<h3>Properties</h3>
+<p>Property
+Type
+Description</p>
+<p><code>**min**</code>
+<code>[Point][30]</code>
+The top left corner of the rectangle.</p>
+<p><code>**max**</code>
+<code>[Point][30]</code>
+The bottom right corner of the rectangle.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**extend**(
+            &lt;[Point][30]&gt; _point_ )</code>
+-
+Extends the bounds to contain the given point.</p>
+<p><code>**getCenter**()</code>
+<code>[Point][30]</code>
+Returns the center point of the bounds.</p>
+<p><code>**contains**(
+            &lt;[Bounds][31]&gt; _otherBounds_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the rectangle contains the given one.</p>
+<p><code>**contains**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the rectangle contains the given point.</p>
+<p><code>**intersects**(
+            &lt;[Bounds][31]&gt; _otherBounds_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the rectangle intersects the given bounds.</p>
+<p><code>**isValid**()</code>
+<code>Boolean</code>
+Returns <code>true</code> if the bounds are properly initialized.</p>
+<p><code>**getSize**()</code>
+<code>[Point][30]</code>
+Returns the size of the given bounds.</p>
+<h2>L.Icon</h2>
+<p>Represents an icon to provide when creating a marker.</p>
+<pre><code>var myIcon = L.icon({
+    iconUrl: &#39;my-icon.png&#39;,
+    iconRetinaUrl: &#39;my-icon@2x.png&#39;,
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: &#39;my-icon-shadow.png&#39;,
+    shadowRetinaUrl: &#39;my-icon-shadow@2x.png&#39;,
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+
+L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
+<p><code>L.Icon.Default</code> extends <code>L.Icon</code> and is the blue icon Leaflet uses for markers by default.</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Icon**(
+            &lt;[Icon options][101]&gt; _options_ )</code>
+<code>new L.Icon(…)</code>
+<code>L.icon(…)</code>
+Creates an icon instance with the given options.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Description</p>
+<p><code>**iconUrl**</code>
+<code>String</code>
+(required) The URL to the icon image (absolute or relative to your script path).</p>
+<p><code>**iconRetinaUrl**</code>
+<code>String</code>
+The URL to a retina sized version of the icon image (absolute or relative to your script path). Used for Retina screen devices.</p>
+<p><code>**iconSize**</code>
+<code>[Point][30]</code>
+Size of the icon image in pixels.</p>
+<p><code>**iconAnchor**</code>
+<code>[Point][30]</code>
+The coordinates of the &quot;tip&quot; of the icon (relative to its top left corner). The icon will be aligned so that this point is at the marker&#39;s geographical location. Centered by default if size is specified, also can be set in CSS with negative margins.</p>
+<p><code>**shadowUrl**</code>
+<code>String</code>
+The URL to the icon shadow image. If not specified, no shadow image will be created.</p>
+<p><code>**shadowRetinaUrl**</code>
+<code>String</code>
+The URL to the retina sized version of the icon shadow image. If not specified, no shadow image will be created. Used for Retina screen devices.</p>
+<p><code>**shadowSize**</code>
+<code>[Point][30]</code>
+Size of the shadow image in pixels.</p>
+<p><code>**shadowAnchor**</code>
+<code>[Point][30]</code>
+The coordinates of the &quot;tip&quot; of the shadow (relative to its top left corner) (the same as <code>iconAnchor</code> if not specified).</p>
+<p><code>**popupAnchor**</code>
+<code>[Point][30]</code>
+The coordinates of the point from which popups will &quot;open&quot;, relative to the icon anchor.</p>
+<p><code>**className**</code>
+<code>String</code>
+A custom class name to assign to both icon and shadow images. Empty by default.</p>
+<h2>L.DivIcon</h2>
+<p>Represents a lightweight icon for markers that uses a simple <code>div</code> element instead of an image.</p>
+<pre><code>var myIcon = L.divIcon({className: &#39;my-div-icon&#39;});
+// you can set .my-div-icon styles in CSS
+
+L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
+<p>By default, it has a <code>&#39;leaflet-div-icon&#39;</code> class and is styled as a little white square with a shadow.</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.DivIcon**(
+            &lt;[DivIcon options][102]&gt; _options_ )</code>
+<code>new L.DivIcon(…)</code>
+<code>L.divIcon(…)</code>
+Creates a div icon instance with the given options.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Description</p>
+<p><code>**iconSize**</code>
+<code>[Point][30]</code>
+Size of the icon in pixels. Can be also set through CSS.</p>
+<p><code>**iconAnchor**</code>
+<code>[Point][30]</code>
+The coordinates of the &quot;tip&quot; of the icon (relative to its top left corner). The icon will be aligned so that this point is at the marker&#39;s geographical location. Centered by default if size is specified, also can be set in CSS with negative margins.</p>
+<p><code>**className**</code>
+<code>String</code>
+A custom class name to assign to the icon. <code>&#39;leaflet-div-icon&#39;</code> by default.</p>
+<p><code>**html**</code>
+<code>String</code>
+A custom HTML code to put inside the div element, empty by default.</p>
+<h2>L.Control</h2>
+<p>The base class for all Leaflet controls. Implements <a href="#icontrol">IControl</a> interface. You can add controls to the map like this:</p>
+<pre><code>control.addTo(map);
+// the same as
+map.addControl(control);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Control**(
+            &lt;[Control options][103]&gt; _options?_ )</code>
+<code>new L.Control(…)</code>
+<code>L.control(…)</code>
+Creates a control with the given options.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**position**</code>
+<code>String</code>
+<code>&#39;topright&#39;</code>
+The initial position of the control (one of the map corners). See <a href="#control-positions">control positions</a>.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**setPosition**(
+            &lt;String&gt; _position_ )</code>
+<code>this</code>
+Sets the position of the control. See <a href="#control-positions">control positions</a>.</p>
+<p><code>**getPosition**()</code>
+<code>String</code>
+Returns the current position of the control.</p>
+<p><code>**addTo**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Adds the control to the map.</p>
+<p><code>**removeFrom**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>this</code>
+Removes the control from the map.</p>
+<h3>Control Positions</h3>
+<p>Control positions (map corner to put a control to) are set using strings. Margins between controls and the map border are set with CSS, so that you can easily override them.
+Position
+Description</p>
+<p><code>&#39;topleft&#39;</code>
+Top left of the map.</p>
+<p><code>&#39;topright&#39;</code>
+Top right of the map.</p>
+<p><code>&#39;bottomleft&#39;</code>
+Bottom left of the map.</p>
+<p><code>&#39;bottomright&#39;</code>
+Bottom right of the map.</p>
+<h2>L.Control.Zoom</h2>
+<p>A basic zoom control with two buttons (zoom in and zoom out). It is put on the map by default unless you set its <code>zoomControl</code> option to <code>false</code>. Extends <a href="#control">Control</a>.</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Control.Zoom**(
+            &lt;[Control.Zoom options][105]&gt; _options?_ )</code>
+<code>new L.Control.Zoom(…)</code>
+<code>L.control.zoom(…)</code>
+Creates a zoom control.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**position**</code>
+<code>String</code>
+<code>&#39;topleft&#39;</code>
+The position of the control (one of the map corners). See <a href="#control-positions">control positions</a>.</p>
+<h2>L.Control.Attribution</h2>
+<p>The attribution control allows you to display attribution data in a small text box on a map. It is put on the map by default unless you set its <code>attributionControl</code> option to <code>false</code>, and it fetches attribution texts from layers with <code>getAttribution</code> method automatically. Extends <a href="#control">Control</a>.</p>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Control.Attribution**(
+            &lt;[Control.Attribution options][106]&gt; _options?_ )</code>
+<code>new L.Control.Attribution(…)</code>
+<code>L.control.attribution(…)</code>
+Creates an attribution control.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**position**</code>
+<code>String</code>
+<code>&#39;bottomright&#39;</code>
+The position of the control (one of the map corners). See <a href="#control-positions">control positions</a>.</p>
+<p><code>**prefix**</code>
+<code>String</code>
+<code>&#39;Powered by Leaflet&#39;</code>
+The HTML text shown before the attributions. Pass <code>false</code> to disable.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**setPrefix**(
+            &lt;String&gt; _prefix_ )</code>
+<code>this</code>
+Sets the text before the attributions.</p>
+<p><code>**addAttribution**(
+            &lt;String&gt; _text_ )</code>
+<code>this</code>
+Adds an attribution text (e.g. <code>&#39;Vector data &amp;copy; CloudMade&#39;</code>).</p>
+<p><code>**removeAttribution**(
+            &lt;String&gt; _text_ )</code>
+<code>this</code>
+Removes an attribution text.</p>
+<h2>L.Control.Layers</h2>
+<p>The layers control gives users the ability to switch between different base layers and switch overlays on/off (check out the <a href="examples/layers-control.html">detailed example</a>). Extends <a href="#control">Control</a>.</p>
+<pre><code>var baseLayers = {
+    &quot;CloudMade&quot;: cloudmade,
+    &quot;OpenStreetMap&quot;: osm
+};
+
+var overlays = {
+    &quot;Marker&quot;: marker,
+    &quot;Roads&quot;: roadsLayer
+};
+
+L.control.layers(baseLayers, overlays).addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Control.Layers**(
+            &lt;[Layer Config][108]&gt; _baseLayers?_,
+            &lt;[Layer Config][108]&gt; _overlays?_,
+            &lt;[Control.Layers options][109]&gt; _options?_ )</code>
+<code>new L.Control.Layers(…)</code>
+<code>L.control.layers(…)</code>
+Creates an attribution control with the given layers. Base layers will be switched with radio buttons, while overlays will be switched with checkboxes.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addBaseLayer**(
+            &lt;[ILayer][52]&gt; _layer_,
+            &lt;String&gt; _name_ )</code>
+<code>this</code>
+Adds a base layer (radio button entry) with the given name to the control.</p>
+<p><code>**addOverlay**(
+            &lt;[ILayer][52]&gt; _layer_,
+            &lt;String&gt; _name_ )</code>
+<code>this</code>
+Adds an overlay (checkbox entry) with the given name to the control.</p>
+<p><code>**removeLayer**(
+            &lt;[ILayer][52]&gt; _layer_ )</code>
+<code>this</code>
+Remove the given layer from the control.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**position**</code>
+<code>String</code>
+<code>&#39;topright&#39;</code>
+The position of the control (one of the map corners). See <a href="#control-positions">control positions</a>.</p>
+<p><code>**collapsed**</code>
+<code>Boolean</code>
+<code>true</code>
+If <code>true</code>, the control will be collapsed into an icon and expanded on mouse hover or touch.</p>
+<p><code>**autoZIndex**</code>
+<code>Boolean</code>
+<code>true</code>
+If <code>true</code>, the control will assign zIndexes in increasing order to all of its layers so that the order is preserved when switching them on/off.</p>
+<h3>Layer Config</h3>
+<p>An object literal with layer names as keys and layer objects as values:</p>
+<pre><code>{
+    &quot;&lt;someName1&gt;&quot;: layer1,
+    &quot;&lt;someName2&gt;&quot;: layer2
+}</code></pre>
+<p>The layer names can contain HTML, which allows you to add additional styling to the items:</p>
+<pre><code>{&quot;&lt;img src=&#39;my-layer-icon&#39; /&gt; &lt;span class=&#39;my-layer-item&#39;&gt;My Layer&lt;/span&gt;&quot;: myLayer}</code></pre>
+<h3>Events</h3>
+<p>You can subscribe to the following events on the map object using <a href="#events">these methods</a>.
+Event
+Data
+Description</p>
+<p><code>**baselayerchange**</code>
+<code>[LayerEvent][63]</code>
+Fired when the base layer is changed through the control.</p>
+<h2>L.Control.Scale</h2>
+<p>A simple scale control that shows the scale of the current center of screen in metric (m/km) and imperial (mi/ft) systems. Implements <a href="#icontrol">IControl</a> interface.</p>
+<pre><code>L.control.scale().addTo(map);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Control.Scale**(
+            &lt;[Control.Scale options][110]&gt; _options?_ )</code>
+<code>new L.Control.Scale(…)</code>
+<code>L.control.scale(…)</code>
+Creates an scale control with the given options.</p>
+<h3>Options</h3>
+<p>Option
+Type
+Default
+Description</p>
+<p><code>**position**</code>
+<code>String</code>
+<code>&#39;bottomleft&#39;</code>
+The position of the control (one of the map corners). See <a href="#control-positions">control positions</a>.</p>
+<p><code>**maxWidth**</code>
+<code>Number</code>
+<code>100</code>
+Maximum width of the control in pixels. The width is set dynamically to show round values (e.g. 100, 200, 500).</p>
+<p><code>**metric**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether to show the metric scale line (m/km).</p>
+<p><code>**imperial**</code>
+<code>Boolean</code>
+<code>true</code>
+Whether to show the imperial scale line (mi/ft).</p>
+<p><code>**updateWhenIdle**</code>
+<code>Boolean</code>
+<code>false</code>
+If <code>true</code>, the control is updated on <code>moveend</code>, otherwise it&#39;s always up-to-date (updated on <code>move</code>).</p>
+<h2>Events methods</h2>
+<p>A set of methods shared between event-powered classes (like Map). Generally, events allow you to execute some function when something happens with an object (e.g. the user clicks on the map, causing the map <code>&#39;fire&#39;</code> event).</p>
+<h3>Example</h3>
+<pre><code>map.on(&#39;click&#39;, function(e) {
+    alert(e.latlng);
+});</code></pre>
+<p>Leaflet deals with event listeners by reference, so if you want to add a listener and then remove it, define it as a function:</p>
+<pre><code>function onClick(e) { ... }
+
+map.on(&#39;click&#39;, onClick);
+map.off(&#39;click&#39;, onClick);</code></pre>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addEventListener**(
+            &lt;String&gt; _type_,
+            &lt;Function&gt; _fn_,
+            &lt;Object&gt; _context?_ )</code>
+<code>this</code>
+Adds a listener function (<code>fn</code>) to a particular event type of the object. You can optionally specify the context of the listener (object the <code>this</code> keyword will point to). You can also pass several space-separated types (e.g. <code>&#39;click dblclick&#39;</code>).</p>
+<p><code>**addEventListener**(
+            &lt;Object&gt; _eventMap_,
+            &lt;Object&gt; _context?_ )</code>
+<code>this</code>
+Adds a set of type/listener pairs, e.g. <code>{click: onClick, mousemove: onMouseMove}</code></p>
+<p><code>**removeEventListener**(
+            &lt;String&gt; _type_,
+            &lt;Function&gt; _fn?_,
+            &lt;Object&gt; _context?_ )</code>
+<code>this</code>
+Removes a previously added listener function. If no function is specified, it will remove all the listeners of that particular event from the object.</p>
+<p><code>**removeEventListener**(
+            &lt;Object&gt; _eventMap_,
+            &lt;Object&gt; _context?_ )</code>
+<code>this</code>
+Removes a set of type/listener pairs.</p>
+<p><code>**hasEventListeners**(
+            &lt;String&gt; _type_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if a particular event type has some listeners attached to it.</p>
+<p><code>**fireEvent**(
+            &lt;String&gt; _type_,
+            &lt;Object&gt; _data?_ )</code>
+<code>this</code>
+Fires an event of the specified type. You can optionally provide an data object --- the first argument of the listener function will contain its properties.</p>
+<p><code>**on**( … )</code>
+<code>this</code>
+Alias to <code>addEventListener</code>.</p>
+<p><code>**off**( … )</code>
+<code>this</code>
+Alias to <code>removeEventListener</code>.</p>
+<p><code>**fire**( … )</code>
+<code>this</code>
+Alias to <code>fireEvent</code>.</p>
+<h2>Event objects</h2>
+<p>Event object is an object that you recieve as an argument in a listener function when some event is fired, containing useful information about that event. For example:</p>
+<pre><code>map.on(&#39;click&#39;, function(e) {
+    alert(e.latlng); // e is an event object (MouseEvent in this case)
+});</code></pre>
+<h3>Event</h3>
+<p>The base event object. All other event objects contain these properties too.
+property
+type
+description</p>
+<p><code>**type**</code>
+<code>String</code>
+The event type (e.g. <code>&#39;click&#39;</code>).</p>
+<p><code>**target**</code>
+<code>Object</code>
+The object that fired the event.</p>
+<h3>MouseEvent</h3>
+<p>property
+type
+description</p>
+<p><code>**latlng**</code>
+<code>[LatLng][28]</code>
+The geographical point where the mouse event occured.</p>
+<p><code>**layerPoint**</code>
+<code>[Point][30]</code>
+Pixel coordinates of the point where the mouse event occured relative to the map layer.</p>
+<p><code>**containerPoint**</code>
+<code>[Point][30]</code>
+Pixel coordinates of the point where the mouse event occured relative to the map сontainer.</p>
+<p><code>**originalEvent**</code>
+<code>DOMMouseEvent</code>
+The original DOM mouse event fired by the browser.</p>
+<h3>LocationEvent</h3>
+<p>property
+type
+description</p>
+<p><code>**latlng**</code>
+<code>[LatLng][28]</code>
+Detected geographical location of the user.</p>
+<p><code>**bounds**</code>
+<code>[LatLngBounds][29]</code>
+Geographical bounds of the area user is located in (with respect to the accuracy of location).</p>
+<p><code>**accuracy**</code>
+<code>Number</code>
+Accuracy of location in meters.</p>
+<h3>ErrorEvent</h3>
+<p>property
+type
+description</p>
+<p><code>**message**</code>
+<code>String</code>
+Error message.</p>
+<p><code>**code**</code>
+<code>Number</code>
+Error code (if applicable).</p>
+<h3>LayerEvent</h3>
+<p>property
+type
+description</p>
+<p><code>**layer**</code>
+<code>[ILayer][52]</code>
+The layer that was added or removed.</p>
+<h3>TileEvent</h3>
+<p>property
+type
+description</p>
+<p><code>**tile**</code>
+<code>HTMLElement</code>
+The tile element (image).</p>
+<p><code>**url**</code>
+<code>String</code>
+The source URL of the tile.</p>
+<h3>GeoJSON event</h3>
+<p>property
+type
+description</p>
+<p><code>**layer**</code>
+<code>[ILayer][52]</code>
+The layer for the GeoJSON feature that is being added to the map.</p>
+<p><code>**properties**</code>
+<code>Object</code>
+GeoJSON properties of the feature.</p>
+<p><code>**geometryType**</code>
+<code>String</code>
+GeoJSON geometry type of the feature.</p>
+<p><code>**id**</code>
+<code>String</code>
+GeoJSON ID of the feature (if present).</p>
+<h3>Popup event</h3>
+<p>property
+type
+description</p>
+<p><code>**popup**</code>
+<code>[Popup][12]</code>
+The popup that was opened or closed.</p>
+<h2>L.Class</h2>
+<p><code>L.Class</code> powers the OOP facilities of Leaflet and is used to create almost all of the Leaflet classes documented here.</p>
+<p>In addition to implementing a simple classical inheritance model, it introduces several special properties for convenient code organization --- <code>options</code>, <code>includes</code> and <code>statics</code>.</p>
+<pre><code>var MyClass = L.Class.extend({
+    initialize: function (greeter) {
+        this.greeter = greeter;
+        // class constructor
+    },
+
+    greet: function (name) {
+        alert(this.greeter + &#39;, &#39; + name)
+    }
+});
+
+// create instance of MyClass, passing &quot;Hello&quot; to the constructor
+var a = new MyClass(&quot;Hello&quot;);
+
+// call greet method, alerting &quot;Hello, World&quot;
+a.greet(&quot;World&quot;);</code></pre>
+<h3>Inheritance</h3>
+<p>You use <code>L.Class.extend</code> to define new classes, but you can use the same method on any class to inherit from it:</p>
+<pre><code>var MyChildClass = MyClass.extend({
+    // ... new properties and methods
+});</code></pre>
+<p>This will create a class that inherits all methods and properties of the parent class (through a proper prototype chain), adding or overriding the ones you pass to <code>extend</code>. It will also properly react to <code>instanceof</code>:</p>
+<pre><code>var a = new MyChildClass();
+a instanceof MyChildClass; // true
+a instanceof MyClass; // true</code></pre>
+<p>You can call parent methods (including constructor) from corresponding child ones (as you do with <code>super</code> calls in other languages) by accessing parent class prototype and using JavaScript&#39;s <code>call</code> or <code>apply</code>:</p>
+<pre><code>var MyChildClass = MyClass.extend({
+    initialize: function () {
+        MyClass.prototype.initialize.call(&quot;Yo&quot;);
+    },
+
+    greet: function (name) {
+        MyClass.prototype.greet.call(this, &#39;bro &#39; + name + &#39;!&#39;);
+    }
+});
+
+var a = new MyChildClass();
+a.greet(&#39;Jason&#39;); // alerts &quot;Yo, bro Jason!&quot;</code></pre>
+<h3>Options</h3>
+<p><code>options</code> is a special property that unlike other objects that you pass to <code>extend</code> will be merged with the parent one instead of overriding it completely, which makes managing configuration of objects and default values convenient:</p>
+<pre><code>var MyClass = L.Class.extend({
+    options: {
+        myOption1: &#39;foo&#39;,
+        myOption2: &#39;bar&#39;
+    }
+});
+
+var MyChildClass = L.Class.extend({
+    options: {
+        myOption1: &#39;baz&#39;,
+        myOption3: 5
+    }
+});
+
+var a = new MyChildClass();
+a.options.myOption1; // &#39;baz&#39;
+a.options.myOption2; // &#39;bar&#39;
+a.options.myOption3; // 5</code></pre>
+<p>There&#39;s also <code>L.Util.setOptions</code>, a method for conveniently merging options passed to constructor with the defauls defines in the class:</p>
+<pre><code>var MyClass = L.Class.extend({
+    options: {
+        foo: &#39;bar&#39;,
+        bla: 5
+    },
+
+    initialize: function (options) {
+        L.Util.setOptions(this, options);
+        ...
+    }
+});
+
+var a = new MyClass({bla: 10});
+a.options; // {foo: &#39;bar&#39;, bla: 10}</code></pre>
+<h3>Includes</h3>
+<p><code>includes</code> is a special class property that merges all specified objects into the class (such objects are called mixins). A good example of this is <code>L.Mixin.Events</code> that <a href="#events">event-related methods</a> like <code>on</code>, <code>off</code> and <code>fire</code> to the class.</p>
+<pre><code> var MyMixin = {
+    foo: function () { ... },
+    bar: 5
+};
+
+var MyClass = L.Class.extend({
+    includes: MyMixin
+});
+
+var a = new MyClass();
+a.foo();</code></pre>
+<p>You can also do such includes in runtime with the <code>include</code> method:</p>
+<pre><code>**MyClass.include**(MyMixin);</code></pre>
+<h3>Statics</h3>
+<p><code>statics</code> is just a convenience property that injects specified object properties as the static properties of the class, useful for defining constants:</p>
+<pre><code>var MyClass = L.Class.extend({
+    statics: {
+        FOO: &#39;bar&#39;,
+        BLA: 5
+    }
+});
+
+MyClass.FOO; // &#39;bar&#39;</code></pre>
+<h3>Class Factories</h3>
+<p>You may have noticed that you can create Leaflet class instances in two ways --- using the <code>new</code> keyword, or using lowercase factory method:</p>
+<pre><code>new L.Map(&#39;map&#39;);
+L.map(&#39;map&#39;);</code></pre>
+<p>The second way is implemented very easily, and you can do this for your own classes:</p>
+<pre><code>L.map = function (id, options) {
+    return new L.Map(id, options);
+};</code></pre>
+<h3>Constructor Hooks</h3>
+<p>If you&#39;re a plugin developer, you often need to add additional initialization code to existing classes (e.g. editing hooks for <code>L.Polyline</code>). Leaflet comes with a way to do it easily using the <code>addInitHook</code> method:</p>
+<pre><code>MyClass.addInitHook(function () {
+    // ... do something in constructor additionally
+    // e.g. add event listeners, set custom properties etc.
+});</code></pre>
+<p>You can also use the following shortcut when you just need to make one additional method call:</p>
+<pre><code>MyClass.addInitHook(&#39;methodName&#39;, arg1, arg2, …);</code></pre>
+<h2>L.Browser</h2>
+<p>A namespace with properties for browser/feature detection used by Leaflet internally.</p>
+<pre><code>if (L.Browser.ie6) {
+    alert(&#39;Upgrade your browser, dude!&#39;);
+}</code></pre>
+<p>property
+type
+description</p>
+<p><code>**ie**</code>
+<code>Boolean</code>
+<code>true</code> for all Internet Explorer versions.</p>
+<p><code>**ie6**</code>
+<code>Boolean</code>
+<code>true</code> for Internet Explorer 6.</p>
+<p><code>**ie7**</code>
+<code>Boolean</code>
+<code>true</code> for Internet Explorer 7.</p>
+<p><code>**webkit**</code>
+<code>Boolean</code>
+<code>true</code> for webkit-based browsers like Chrome and Safari (including mobile versions).</p>
+<p><code>**webkit3d**</code>
+<code>Boolean</code>
+<code>true</code> for webkit-based browsers that support CSS 3D transformations.</p>
+<p><code>**android**</code>
+<code>Boolean</code>
+<code>true</code> for Android mobile browser.</p>
+<p><code>**android23**</code>
+<code>Boolean</code>
+<code>true</code> for old Android stock browsers (2 and 3).</p>
+<p><code>**mobile**</code>
+<code>Boolean</code>
+<code>true</code> for modern mobile browsers (including iOS Safari and different Android browsers).</p>
+<p><code>**mobileWebkit**</code>
+<code>Boolean</code>
+<code>true</code> for mobile webkit-based browsers.</p>
+<p><code>**mobileOpera**</code>
+<code>Boolean</code>
+<code>true</code> for mobile Opera.</p>
+<p><code>**touch**</code>
+<code>Boolean</code>
+<code>true</code> for all browsers on touch devices.</p>
+<p><code>**msTouch**</code>
+<code>Boolean</code>
+<code>true</code> for browsers with Microsoft touch model (e.g. IE10).</p>
+<p><code>**retina**</code>
+<code>Boolean</code>
+<code>true</code> for devices with Retina screens.</p>
+<h2>L.Util</h2>
+<p>Various utility functions, used by Leaflet internally.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**extend**(
+            &lt;Object&gt; _dest_,
+            &lt;Object&gt; _src?.._ )</code>
+<code>Object</code>
+Merges the properties of the <code>src</code> object (or multiple objects) into <code>dest</code> object and returns the latter. Has an <code>L.extend</code> shortcut.</p>
+<p><code>**bind**(
+            &lt;Function&gt; _fn_,
+            &lt;Object&gt; _obj_ )</code>
+<code>Function</code>
+Returns a function which executes function <code>fn</code> with the given scope <code>obj</code> (so that <code>this</code> keyword refers to <code>obj</code> inside the function code). Has an <code>L.bind</code> shortcut.</p>
+<p><code>**stamp**( &lt;Object&gt; _obj_ )</code>
+<code>String</code>
+Applies a unique key to the object and returns that key. Has an <code>L.stamp</code> shortcut.</p>
+<p><code>**limitExecByInterval**(
+            &lt;Function&gt; _fn_,
+            &lt;Number&gt; _time_,
+            &lt;Object&gt; _context?_ )</code>
+<code>Function</code>
+Returns a wrapper around the function <code>fn</code> that makes sure it&#39;s called not more often than a certain time interval <code>time</code>, but as fast as possible otherwise (for example, it is used for checking and requesting new tiles while dragging the map), optionally passing the scope (<code>context</code>) in which the function will be called.</p>
+<p><code>**falseFn**()</code>
+<code>Function</code>
+Returns a function which always returns <code>false</code>.</p>
+<p><code>**formatNum**(
+            &lt;Number&gt; _num_,
+            &lt;Number&gt; _digits_ )</code>
+<code>Number</code>
+Returns the number <code>num</code> rounded to <code>digits</code> decimals.</p>
+<p><code>**splitWords**(
+            &lt;String&gt; _str_ )</code>
+<code>String[]</code>
+Trims and splits the string on whitespace and returns the array of parts.</p>
+<p><code>**setOptions**(
+            &lt;Object&gt; _obj_,
+            &lt;Object&gt; _options_ )</code>
+<code>Object</code>
+Merges the given properties to the <code>options</code> of the <code>obj</code> object, returning the resulting options. See <a href="#class-options">Class options</a>. Has an <code>L.setOptions</code> shortcut.</p>
+<p><code>**getParamString**(
+            &lt;Object&gt; _obj_ )</code>
+<code>String</code>
+Converts an object into a parameter URL string, e.g. <code>{a: &quot;foo&quot;, b: &quot;bar&quot;}</code> translates to <code>&#39;?a=foo&amp;b=bar&#39;</code>.</p>
+<p><code>**template**(
+            &lt;String&gt; _str_, &lt;Object&gt; _data_ )</code>
+<code>String</code>
+Simple templating facility, creates a string by applying the values of the <code>data</code> object of a form <code>{a: &#39;foo&#39;, b: &#39;bar&#39;, …}</code> to a template string of the form <code>&#39;Hello {a}, {b}&#39;</code> --- in this example you will get <code>&#39;Hello foo, bar&#39;</code>.</p>
+<p><code>**isArray**(
+            &lt;Object&gt; _obj_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the given object is an array.</p>
+<h3>Properties</h3>
+<p>Property
+Type
+Description</p>
+<p><code>**emptyImageUrl**</code>
+<code>String</code>
+Data URI string containing a base64-encoded empty GIF image. Used as a hack to free memory from unused images on WebKit-powered mobile devices (by setting image <code>src</code> to this string).</p>
+<h2>L.Transformation</h2>
+<p>Represents an affine transformation: a set of coefficients <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> for transforming a point of a form <code>(x, y)</code> into <code>(a*x + b, c*y + d)</code> and doing the reverse. Used by Leaflet in its projections code.</p>
+<pre><code>var transformation = new L.Transformation(2, 5, -1, 10),
+    p = new L.Point(1, 2),
+    p2 = transformation.transform(p), // new L.Point(7, 8)
+    p3 = transformation.untransform(p2); // new L.Point(1, 2)</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.Transformation**(
+            &lt;Number&gt; _a_,
+            &lt;Number&gt; _b_,
+            &lt;Number&gt; _c_,
+            &lt;Number&gt; _d_ )</code>
+<code>new L.Transformation(…)</code>
+Creates a transformation object with the given coefficients.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**transform**(
+            &lt;[Point][30]&gt; _point_,
+            &lt;Number&gt; _scale?_ )</code>
+<code>[Point][30]</code>
+Returns a transformed point, optionally multiplied by the given scale. Only accepts real <code>L.Point</code> instances, not arrays.</p>
+<p><code>**untransform**(
+            &lt;[Point][30]&gt; _point_,
+            &lt;Number&gt; _scale?_ )</code>
+<code>[Point][30]</code>
+Returns the reverse transformation of the given point, optionally divided by the given scale. Only accepts real <code>L.Point</code> instances, not arrays.</p>
+<h2>L.LineUtil</h2>
+<p>Various utility functions for polyine points processing, used by Leaflet internally to make polylines lightning-fast.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**simplify**(
+            &lt;[Point][30][]&gt; _points_,
+            &lt;Number&gt; _tolerance_ )</code>
+<code>[Point][30][]</code>
+Dramatically reduces the number of points in a polyline while retaining its shape and returns a new array of simplified points. Used for a huge performance boost when processing/displaying Leaflet polylines for each zoom level and also reducing visual noise. <code>tolerance</code> affects the amount of simplification (lesser value means higher quality but slower and with more points). Also released as a separated micro-library <a href="http://mourner.github.com/simplify-js/">Simplify.js</a>.</p>
+<p><code>**pointToSegmentDistance**(
+            &lt;[Point][30]&gt; _p_,
+            &lt;[Point][30]&gt; _p1_,
+            &lt;[Point][30]&gt; _p2_ )</code>
+<code>Number</code>
+Returns the distance between point <code>p</code> and segment <code>p1</code> to <code>p2</code>.</p>
+<p><code>**closestPointOnSegment**(
+            &lt;[Point][30]&gt; _p_,
+            &lt;[Point][30]&gt; _p1_,
+            &lt;[Point][30]&gt; _p2_ )</code>
+<code>Number</code>
+Returns the closest point from a point <code>p</code> on a segment <code>p1</code> to <code>p2</code>.</p>
+<p><code>**clipSegment**(
+            &lt;[Point][30]&gt; _a_,
+            &lt;[Point][30]&gt; _b_,
+            &lt;[Bounds][31]&gt; _bounds_ )</code>
+<code>-</code>
+Clips the segment <code>a</code> to <code>b</code> by rectangular bounds (modifying the segment points directly!). Used by Leaflet to only show polyline points that are on the screen or near, increasing performance.</p>
+<h2>L.PolyUtil</h2>
+<p>Various utility functions for polygon geometries.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**clipPolygon**(
+            &lt;[Point][30][]&gt; _points_,
+            &lt;[Bounds][31]&gt; _bounds_ )</code>
+<code>[Point][30][]</code>
+Clips the polygon geometry defined by the given points by rectangular bounds. Used by Leaflet to only show polygon points that are on the screen or near, increasing performance. Note that polygon points needs different algorithm for clipping than polyline, so there&#39;s a seperate method for it.</p>
+<h2>L.DomEvent</h2>
+<p>Utility functions to work with the DOM events, used by Leaflet internally.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**addListener**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;String&gt; _type_,
+            &lt;Function&gt; _fn_,
+            &lt;Object&gt; _context?_ )</code>
+<code>this</code>
+Adds a listener <code>fn</code> to the element&#39;s DOM event of the specified type. <code>this</code> keyword inside the listener will point to <code>context</code>, or to the element if not specified.</p>
+<p><code>**removeListener**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;String&gt; _type_,
+            &lt;Function&gt; _fn_ )</code>
+<code>this</code>
+Removes an event listener from the element.</p>
+<p><code>**stopPropagation**(
+            &lt;DOMEvent&gt; _e_ )</code>
+<code>this</code>
+Stop the given event from propagation to parent elements. Used inside the listener functions:</p>
+<pre><code>L.DomEvent.addListener(div, &#39;click&#39;, function (e) {
+    L.DomEvent.stopPropagation(e);
+});</code></pre>
+<p><code>**preventDefault**(
+            &lt;DOMEvent&gt; _e_ )</code>
+<code>this</code>
+Prevents the default action of the event from happening (such as following a link in the <code>href</code> of the <code>a</code> element, or doing a <code>POST</code> request with page reload when <code>form</code> is submitted). Use it inside listener functions.</p>
+<p><code>**stop**(
+            &lt;DOMEvent&gt; _e_ )</code>
+<code>this</code>
+Does <code>stopPropagation</code> and <code>preventDefault</code> at the same time.</p>
+<p><code>**disableClickPropagation**(
+            &lt;HTMLElement&gt; _el_ )</code>
+<code>this</code>
+Adds <code>stopPropagation</code> to the element&#39;s <code>&#39;click&#39;</code>, <code>&#39;doubleclick&#39;</code>, <code>&#39;mousedown&#39;</code> and <code>&#39;touchstart&#39;</code> events.</p>
+<p><code>**getMousePosition**(
+            &lt;DOMEvent&gt; _e_,
+            &lt;HTMLElement&gt; _container?_ )</code>
+<code>[Point][30]</code>
+Gets normalized mouse position from a DOM event relative to the container or to the whole page if not specified.</p>
+<p><code>**getWheelDelta**(
+            &lt;DOMEvent&gt; _e_ )</code>
+<code>Number</code>
+Gets normalized wheel delta from a <code>mousewheel</code> DOM event.</p>
+<h2>L.DomUtil</h2>
+<p>Utility functions to work with the DOM tree, used by Leaflet internally.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**get**(
+            &lt;String or HTMLElement&gt; _id_ )</code>
+<code>HTMLElement</code>
+Returns an element with the given id if a string was passed, or just returns the element if it was passed directly.</p>
+<p><code>**getStyle**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;String&gt; _style_ )</code>
+<code>String</code>
+Returns the value for a certain style attribute on an element, including computed values or values set through CSS.</p>
+<p><code>**getViewportOffset**(
+            &lt;HTMLElement&gt; _el_ )</code>
+<a href="#point"><code>Point</code></a>
+Returns the offset to the viewport for the requested element.</p>
+<p><code>**create**(
+            &lt;String&gt; _tagName_,
+            &lt;String&gt; _className_,
+            &lt;HTMLElement&gt; _container?_ )</code>
+<code>HTMLElement</code>
+Creates an element with <code>tagName</code>, sets the <code>className</code>, and optionally appends it to <code>container</code> element.</p>
+<p><code>**disableTextSelection**()</code>
+-
+Makes sure text cannot be selected, for example during dragging.</p>
+<p><code>**enableTextSelection**()</code>
+-
+Makes text selection possible again.</p>
+<p><code>**hasClass**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;String&gt; _name_ )</code>
+<code>Boolean</code>
+Returns <code>true</code> if the element class attribute contains <code>name</code>.</p>
+<p><code>**addClass**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;String&gt; _name_ )</code>
+-
+Adds <code>name</code> to the element&#39;s class attribute.</p>
+<p><code>**removeClass**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;String&gt; _name_ )</code>
+-
+Removes <code>name</code> from the element&#39;s class attribute.</p>
+<p><code>**setOpacity**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;Number&gt; _value_ )</code>
+-
+Set the opacity of an element (including old IE support). Value must be from <code>0</code> to <code>1</code>.</p>
+<p><code>**testProp**(
+            &lt;String[]&gt; _props_ )</code>
+<code>String</code> or <code>false</code>
+Goes through the array of style names and returns the first name that is a valid style name for an element. If no such name is found, it returns <code>false</code>. Useful for vendor-prefixed styles like <code>transform</code>.</p>
+<p><code>**getTranslateString**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>String</code>
+Returns a CSS transform string to move an element by the offset provided in the given point. Uses 3D translate on WebKit for hardware-accelerated transforms and 2D on other browsers.</p>
+<p><code>**getScaleString**(
+            &lt;Number&gt; _scale_,
+            &lt;[Point][30]&gt; _origin_ )</code>
+<code>String</code>
+Returns a CSS transform string to scale an element (with the given scale origin).</p>
+<p><code>**setPosition**(
+            &lt;HTMLElement&gt; _el_,
+            &lt;[Point][30]&gt; _point_,
+            &lt;Boolean&gt; _disable3D?_ )</code>
+-
+Sets the position of an element to coordinates specified by <code>point</code>, using CSS translate or top/left positioning depending on the browser (used by Leaflet internally to position its layers). Forces top/left positioning if <code>disable3D</code> is <code>true</code>.</p>
+<p><code>**getPosition**(
+            &lt;HTMLElement&gt; _el_ )</code>
+<a href="#point">Point</a>
+Returns the coordinates of an element previously positioned with <code>setPosition</code>.</p>
+<h3>Properties</h3>
+<p>Property
+Type
+Description</p>
+<p><code>**TRANSITION**</code>
+<code>String</code>
+Vendor-prefixed transition style name (e.g. <code>&#39;webkitTransition&#39;</code> for WebKit).</p>
+<p><code>**TRANSFORM**</code>
+<code>String</code>
+Vendor-prefixed transform style name.</p>
+<h2>L.PosAnimation</h2>
+<p>Used internally for panning animations, utilizing CSS3 Transitions for modern browsers and a timer fallback for IE6-9.</p>
+<pre><code>var fx = new L.PosAnimation();
+fx.run(el, [300, 500], 0.5);</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p><code>**L.PosAnimation**()</code>
+<code>new L.PosAnimation()</code>
+Creates a PosAnimation object.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**run**(
+            &lt;HTMLElement&gt; _element_,
+&lt;[Point][30]&gt; _newPos_,
+            &lt;Number&gt; _duration?_,
+            &lt;Number&gt; _easeLinearity?_ )</code>
+<code>this</code>
+Run an animation of a given element to a new position, optionally setting duration in seconds (<code>0.25</code> by default) and easing linearity factor (3rd argument of the <a href="http://cubic-bezier.com/#0,0,.5,1">cubic bezier curve</a>, <code>0.5</code> by default)</p>
+<h3>Events</h3>
+<p>You can subscribe to the following events using <a href="#events">these methods</a>.
+Event
+Data
+Description</p>
+<p><code>**start**</code>
+<code>[Event][62]</code>
+Fired when the animation starts.</p>
+<p><code>**step**</code>
+<code>[Event][62]</code>
+Fired continuously during the animation.</p>
+<p><code>**end**</code>
+<code>[Event][62]</code>
+Fired when the animation ends.</p>
+<h2>L.Draggable</h2>
+<p>A class for making DOM elements draggable (including touch support). Used internally for map and marker dragging.</p>
+<pre><code>var draggable = new L.Draggable(elementToDrag);
+draggable.enable();</code></pre>
+<h3>Constructor</h3>
+<p>Constructor
+Usage
+Description</p>
+<p>`<strong>L.Draggable</strong>(
+            <HTMLElement> <em>element</em>,</p>
+<p><HTMLElement> <em>dragHandle?</em> )
+<code>`new L.Draggable(…)</code>
+Creates a Draggable object for moving the given element when you start dragging the <code>dragHandle</code> element (equals the element itself by default).</p>
+<h3>Events</h3>
+<p>You can subscribe to the following events using <a href="#events">these methods</a>.
+Event
+Data
+Description</p>
+<p><code>**dragstart**</code>
+<code>[Event][62]</code>
+Fired when the dragging starts.</p>
+<p><code>**predrag**</code>
+<code>[Event][62]</code>
+Fired continuously during dragging <em>before</em> each corresponding update of the element position.</p>
+<p><code>**drag**</code>
+<code>[Event][62]</code>
+Fired continuously during dragging.</p>
+<p><code>**dragend**</code>
+<code>[Event][62]</code>
+Fired when the dragging ends.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**enable**()</code>
+<code>-</code>
+Enables the dragging ability.</p>
+<p><code>**disable**()</code>
+<code>-</code>
+Disables the dragging ability.</p>
+<h2>IHandler</h2>
+<p>An interface implemented by <a href="#map-interaction-handlers">interaction handlers</a>.
+Method
+Returns
+Description</p>
+<p><code>**enable**()</code>
+-
+Enables the handler.</p>
+<p><code>**disable**()</code>
+-
+Disables the handler.</p>
+<p><code>**enabled**()</code>
+<code>Boolean</code>
+Returns <code>true</code> if the handler is enabled.</p>
+<h2>ILayer</h2>
+<p>Represents an object attached to a particular location (or a set of locations) on a map. Implemented by <a href="#tilelayer">tile layers</a>, <a href="#marker">markers</a>, <a href="#popup">popups</a>, <a href="#imageoverlay">image overlays</a>, <a href="#path">vector layers</a> and <a href="#layergroup">layer groups</a>.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**onAdd**(
+            &lt;[Map][76]&gt; _map_ )</code>
+-
+Should contain code that creates DOM elements for the overlay, adds them to <a href="#map-panes">map panes</a> where they should belong and puts listeners on relevant map events. Called on <code>map.addLayer(layer)</code>.</p>
+<p><code>**onRemove**(
+            &lt;[Map][76]&gt; _map_ )</code>
+-
+Should contain all clean up code that removes the overlay&#39;s elements from the DOM and removes listeners previously added in <code>onAdd</code>. Called on <code>map.removeLayer(layer)</code>.</p>
+<h3>Implementing Custom Layers</h3>
+<p>The most important things know about when implementing custom layers are Map <a href="#map-viewreset">viewreset</a> event and <a href="#map-latlngtolayerpoint">latLngToLayerPoint</a> method. <code>viewreset</code> is fired when the map needs to reposition its layers (e.g. on zoom), and <code>latLngToLayerPoint</code> is used to get coordinates for the layer&#39;s new position.</p>
+<p>Another event often used in layer implementations is <a href="#map-moveend">moveend</a> which fires after any movement of the map (panning, zooming, etc.).</p>
+<p>Another thing to note is that you&#39;ll usually need to add <code>leaflet-zoom-hide</code> class to the DOM elements you create for the layer so that it hides during zoom animation. Implementing zoom animation for custom layers is a complex topic and will be documented separately in future, but meanwhile you can take a look at how it&#39;s done for Leaflet layers (e.g. <code>ImageOverlay</code>) in the source.</p>
+<h3>Custom Layer Example</h3>
+<p>Here&#39;s how a custom layer implementation usually looks:</p>
+<pre><code>var MyCustomLayer = L.Class.extend({
+
+    initialize: function (latlng) {
+        // save position of the layer or any options from the constructor
+        this._latlng = latlng;
+    },
+
+    onAdd: function (map) {
+        this._map = map;
+
+        // create a DOM element and put it into one of the map panes
+        this._el = L.DomUtil.create(&#39;div&#39;, &#39;my-custom-layer leaflet-zoom-hide&#39;);
+        map.getPanes().overlayPane.appendChild(this._el);
+
+        // add a viewreset event listener for updating layer&#39;s position, do the latter
+        map.on(&#39;viewreset&#39;, this._reset, this);
+        this._reset();
+    },
+
+    onRemove: function (map) {
+        // remove layer&#39;s DOM elements and listeners
+        map.getPanes().overlayPane.removeChild(this._el);
+        map.off(&#39;viewreset&#39;, this._reset, this);
+    },
+
+    _reset: function () {
+        // update layer&#39;s position
+        var pos = this._map.latLngToLayerPoint(this._latlng);
+        L.DomUtil.setPosition(this._el, pos);
+    }
+});
+
+map.addLayer(new MyCustomLayer(latlng));</code></pre>
+<h2>IControl</h2>
+<p>Represents a UI element in one of the corners of the map. Implemented by <a href="#control-zoom">zoom</a>, <a href="#control-attribution">attribution</a>, <a href="#control-scale">scale</a> and <a href="#control-layers">layers</a> controls.</p>
+<h3>Methods</h3>
+<p>Every control in Leaflet should extend from <a href="#control">Control</a> class and additionally have the following methods:
+Method
+Returns
+Description</p>
+<p><code>**onAdd**(
+            &lt;[Map][76]&gt; _map_ )</code>
+<code>HTMLElement</code>
+Should contain code that creates all the neccessary DOM elements for the control, adds listeners on relevant map events, and returns the element containing the control. Called on <code>map.addControl(control)</code> or <code>control.addTo(map)</code>.</p>
+<p><code>**onRemove**(
+            &lt;[Map][76]&gt; _map_ )</code>
+-
+Optional, should contain all clean up code (e.g. removes control&#39;s event listeners). Called on <code>map.removeControl(control)</code> or <code>control.removeFrom(map)</code>. The control&#39;s DOM container is removed automatically.</p>
+<h3>Custom Control Example</h3>
+<pre><code>var MyControl = L.Control.extend({
+    options: {
+        position: &#39;topright&#39;
+    },
+
+    onAdd: function (map) {
+        // create the control container with a particular class name
+        var container = L.DomUtil.create(&#39;div&#39;, &#39;my-custom-control&#39;);
+
+        // ... initialize other DOM elements, add listeners, etc.
+
+        return container;
+    }
+});
+
+map.addControl(new MyControl());</code></pre>
+<p>If specify your own constructor for the control, you&#39;ll also probably want to process options properly:</p>
+<pre><code>var MyControl = L.Control.extend({
+    initialize: function (foo, options) {
+        // ...
+        L.Util.setOptions(this, options);
+    },
+    // ...
+});</code></pre>
+<p>This will allow you to pass options like <code>position</code> when creating the control instances:</p>
+<pre><code>map.addControl(new MyControl(&#39;bar&#39;, {position: &#39;bottomleft&#39;}));</code></pre>
+<h2>IProjection</h2>
+<p>An object with methods for projecting geographical coordinates of the world onto a flat surface (and back). See <a href="http://en.wikipedia.org/wiki/Map_projection">Map projection</a>.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**project**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>[Point][30]</code>
+Projects geographical coordinates into a 2D point.</p>
+<p><code>**unproject**(
+            &lt;[Point][30]&gt; _point_ )</code>
+<code>[LatLng][28]</code>
+The inverse of <code>project</code>. Projects a 2D point into geographical location.</p>
+<h3>Defined Projections</h3>
+<p>Leaflet comes with a set of already defined projections out of the box:
+Projection
+Description</p>
+<p><code>**L.Projection.SphericalMercator**</code>
+Spherical Mercator projection --- the most common projection for online maps, used by almost all free and commercial tile providers. Assumes that Earth is a sphere. Used by the <code>EPSG:3857</code> CRS.</p>
+<p><code>**L.Projection.Mercator**</code>
+Elliptical Mercator projection --- more complex than Spherical Mercator. Takes into account that Earth is a geoid, not a perfect sphere. Used by the <code>EPSG:3395</code> CRS.</p>
+<p><code>**L.Projection.LonLat**</code>
+Equirectangular, or Plate Carree projection --- the most simple projection, mostly used by GIS enthusiasts. Directly maps <code>x</code> as longitude, and <code>y</code> as latitude. Also suitable for flat worlds, e.g. game maps. Used by the <code>EPSG:3395</code> and <code>Simple</code> CRS.</p>
+<h2>ICRS</h2>
+<p>Defines coordinate reference systems for projecting geographical points into pixel (screen) coordinates and back (and to coordinates in other units for WMS services). See <a href="http://en.wikipedia.org/wiki/Coordinate_reference_system">Spatial reference system</a>.</p>
+<h3>Methods</h3>
+<p>Method
+Returns
+Description</p>
+<p><code>**latLngToPoint**(
+            &lt;[LatLng][28]&gt; _latlng_,
+            &lt;Number&gt; _zoom_ )</code>
+<code>[Point][30]</code>
+Projects geographical coordinates on a given zoom into pixel coordinates.</p>
+<p><code>**pointToLatLng**(
+            &lt;[Point][30]&gt; _point_,
+            &lt;Number&gt; _zoom_ )</code>
+<code>[LatLng][28]</code>
+The inverse of <code>latLngToPoint</code>. Projects pixel coordinates on a given zoom into geographical coordinates.</p>
+<p><code>**project**(
+            &lt;[LatLng][28]&gt; _latlng_ )</code>
+<code>[Point][30]</code>
+Projects geographical coordinates into coordinates in units accepted for this CRS (e.g. meters for <code>EPSG:3857</code>, for passing it to WMS services).</p>
+<p><code>**scale**(
+            &lt;Number&gt; _zoom_ )</code>
+<code>Number</code>
+Returns the scale used when transforming projected coordinates into pixel coordinates for a particular zoom. For example, it returns <code>256 * 2^zoom</code> for Mercator-based CRS.</p>
+<h3>Properties</h3>
+<p>Property
+Type
+Description</p>
+<p><code>**projection**</code>
+<code>[IProjection][54]</code>
+Projection that this CRS uses.</p>
+<p><code>**transformation**</code>
+<code>[Transformation][44]</code>
+Transformation that this CRS uses to turn projected coordinates into screen coordinates for a particular tile service.</p>
+<p><code>**code**</code>
+<code>String</code>
+Standard code name of the CRS passed into WMS services (e.g. <code>&#39;EPSG:3857&#39;</code>).</p>
+<h3>Defined CRS</h3>
+<p>Leaflet comes with a set of already defined CRS to use out of the box:
+Projection
+Description</p>
+<p><code>**L.CRS.EPSG3857**</code>
+The most common CRS for online maps, used by almost all free and commercial tile providers. Uses Spherical Mercator projection. Set in by default in Map&#39;s <code>crs</code> option.</p>
+<p><code>**L.CRS.EPSG4326**</code>
+A common CRS among GIS enthusiasts. Uses simple Equirectangular projection.</p>
+<p><code>**L.CRS.EPSG3395**</code>
+Rarely used by some commercial tile providers. Uses Elliptical Mercator projection.</p>
+<p><code>**L.CRS.Simple**</code>
+A simple CRS that maps longitude and latitude into <code>x</code> and <code>y</code> directly. May be used for maps of flat surfaces (e.g. game maps). Note that the <code>y</code> axis should still be inverted (going from bottom to top).</p>
+<p>If you want to use some obscure CRS not listed here, take a look at the <a href="https://github.com/kartena/Proj4Leaflet">Proj4Leaflet</a> plugin.</p>
+<h2>Global Switches</h2>
+<p>Global switches are created for rare cases and generally make Leaflet to not detect a particular browser feature even if it&#39;s there. You need to set the switch as a global variable to <code>true</code> <em>before</em> including Leaflet on the page, like this:</p>
+<pre><code>&lt;script&gt;L_PREFER_CANVAS = true;&lt;/script&gt;
+&lt;script src=&quot;leaflet.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>Switch
+Description</p>
+<p><code>**L_PREFER_CANVAS**</code>
+Forces Leaflet to use the Canvas back-end (if available) for vector layers instead of SVG. This can increase performance considerably in some cases (e.g. many thousands of circle markers on the map).</p>
+<p><code>**L_NO_TOUCH**</code>
+Forces Leaflet to not use touch events even if it detects them.</p>
+<p><code>**L_DISABLE_3D**</code>
+Forces Leaflet to not use hardware-accelerated CSS 3D transforms for positioning (which may cause glitches in some rare environments) even if they&#39;re supported.</p>
+<h2>L.noConflict()</h2>
+<p>This method restores the L global variale to the original value it had before Leaflet inclusion, and returns the real Leaflet namespace so you can put it elsewhere, like this:</p>
+<pre><code>// L points to some other library
+...
+// you include Leaflet, it replaces the L variable to Leaflet namespace
+
+var Leaflet = L.noConflict();
+// now L points to that other library again, and you can use Leaflet.Map etc.</code></pre>
+<h2>L.version</h2>
+<p>A constant that represents the Leaflet version in use.</p>
+<pre><code>L.version // returns &quot;0.5&quot; (or whatever version is currently in use)</code></pre>
