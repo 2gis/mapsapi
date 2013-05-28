@@ -1,9 +1,16 @@
 
 L.Control.FullScreen = L.Control.extend({
 
+    includes: L.DG.Locale,
+
+    statics: {
+        Dictionary: {}
+    },
+
+    _title: this.t('title'),
+
     options: {
         position: 'topright',
-        title: 'Full Screen',
         containerClass: 'maxi dg-fullscreen',
         iconClass: 'dg-fullscreen-icon'
     },
@@ -62,23 +69,25 @@ L.Control.FullScreen = L.Control.extend({
         this._map = map;
         this._isFullscreen = false;
         this.fullScreenControl = container;
-        this._fullScreenButton = this._createButton(this.options.title, this.options.iconClass, container, this.toggleFullscreen, this);
+        this._fullScreenButton = this._createButton(this._title, this.options.iconClass, container, this.toggleFullscreen, this);
 
         return container;
-      },
+    },
 
-      _createButton: function (title, className, container, fn, context) {
+    _createButton: function (title, className, container, fn, context) {
         var link = L.DomUtil.create('a', className, container);
         link.href = '#';
         link.title = title;
 
         L.DomEvent
+            .addListener(container, 'mousedown', L.DomEvent.stopPropagation)
+            .addListener(container, 'mousedown', L.DomEvent.preventDefault)
             .addListener(container, 'click', L.DomEvent.stopPropagation)
             .addListener(container, 'click', L.DomEvent.preventDefault)
             .addListener(container, 'click', fn, this);
 
         return link;
-      },
+    },
 
     toggleFullscreen: function () {
         if (!this._isFullscreen) {
@@ -249,10 +258,11 @@ L.Control.FullScreen = L.Control.extend({
                 fullScreenEventName: '',
                 prefix: ''
             },
-        browserPrefixes = 'webkit moz o ms khtml'.split(' ');
+        browserPrefixes = 'webkit moz o ms khtml'.split(' '),
+        ua = navigator.userAgent.toLowerCase();
 
-        // check for native support
-        if (typeof document.exitFullscreen != 'undefined') {
+        // check for native support exclude safari
+        if (typeof document.exitFullscreen != 'undefined' && !(ua.indexOf('safari') != -1 && ua.indexOf('chrome')  == -1)) {
             fullScreenApi.supportsFullScreen = true;
         } else {
 
