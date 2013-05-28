@@ -45,20 +45,18 @@ var deps = {
         src: ['DGLocale/src/DGLocale.js']
     },
 
-    DGGeoclickerHandlers: {
-        desc: '2GIS Geoclicker.',
-        src: ['DGGeoclicker/src/DGGeoclickerHandlers.js']
-    },
-    DGGeoclickerHandlersManager: {
-        desc: '2GIS Geoclicker.',
-        src: ['DGGeoclicker/src/DGGeoclickerHandlersManager.js'],
-        deps: ['DGGeoclickerHandlers']
-    },
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
-        src: ['DGGeoclicker/src/DGGeoclicker.js'],
-        deps: ['JSONP', 'DGGeoclickerHandlersManager']
+        src: [
+            'DGGeoclicker/src/DGGeoclicker.js',
+            'DGGeoclicker/src/lib/GeoCoder.js',
+            'DGGeoclicker/src/handlers/default.js',
+            'DGGeoclicker/src/lib/Controller.js',
+            'DGGeoclicker/src/lib/MapHandler.js'
+        ],
+        deps: ['JSONP']
     },
+
     DGDivIcon: {
         desc: 'DG.DivIcon module.',
         src: ['DGDivIcon/src/DGDivIcon.js'],
