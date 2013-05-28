@@ -10,11 +10,14 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         // if handler worked successfully, it should return true
         // default handler always should return true
         handlersSequense: {
-            default: L.DG.Geoclicker.Handlers.default,
-            district: L.DG.Geoclicker.Handlers.district,
-            house: L.DG.Geoclicker.Handlers.house
+
+            house: L.DG.Geoclicker.Handlers.handlerExample,
+            district: L.DG.Geoclicker.Handlers.handlerExample,
+            city: L.DG.Geoclicker.Handlers.handlerExample,
+
+            default: L.DG.Geoclicker.Handlers.default
 //            station_platform
-//            city
+//
 //            street
 //            district
 //            project
@@ -49,22 +52,22 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
         this._popup.hideLoader();
 
-        var i = 0;
+        if (!result) {
+            this.options.handlersSequense.default(this._popup, this._map);
+            return;
+        }
 
         while (type = this._selectHandler(result)) {
             console.log('while')
             handler = this.options.handlersSequense[type];
-            if (handler(result[type], this._popup, this._map, result)) {
+            if (handler(result[type], this._popup, this._map, type, result)) {
                 return;
             } else {
                 delete result[type];
             }
-            if (i++ > 5) {
-                return;
-            }
         }
 
-        this.options.handlersSequense.default();
+        this.options.handlersSequense.default(this._popup, this._map);
     },
 
     _selectHandler: function (result) {

@@ -3,23 +3,14 @@
  *
  */
 L.DG.Geoclicker.Handlers = {
-    default: function (res, popup, map) {
+    default: function (popup, map) {
         popup.setContent('Not found');
         return true;
     }
 };
 
-L.DG.Geoclicker.Handlers.district = function (res, popup, map) {
-    console.log('district', res)
-    popup.setContent('district<br>' + res.id);
-    return true;
-}
-
-L.DG.Geoclicker.Handlers.house = function (res, popup, map) {
-
-    console.log('house', res)
-
-    popup.setContent('house<br>' + res.id);
+L.DG.Geoclicker.Handlers.handlerExample = function (res, popup, map, type) {
+    popup.setContent(type + '<br>' + res.id);
     return true;
 }
 /*

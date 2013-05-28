@@ -28,7 +28,7 @@ L.DG.Geoclicker.GeoCoder = L.Class.extend({
                 setTimeout(function () {
 
                     callback(result);
-                }, Math.random()*3000) //@todo for debug, remove before merge
+                }, Math.random()*2000) //@todo for debug, remove before merge
             }, this)
         })
     },
