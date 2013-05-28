@@ -7,9 +7,6 @@ L.Map.mergeOptions({
 });
 
 L.DG.Geoclicker = L.Handler.extend({
-    statics: {
-        MIN_WORK_ZOOM_LEVEL: 8
-    },
     options: {
         url: '__WEB_API_SERVER__/geo/search',
         data: {
@@ -19,7 +16,9 @@ L.DG.Geoclicker = L.Handler.extend({
             output: 'jsonp'
         },
 
-        handlers: new L.DG.GeoclickerHandlersManager()
+        handlers: new L.DG.GeoclickerHandlersManager(),
+        jsonp: L.DG.Jsonp
+
     },
 
     addHooks: function () {
@@ -31,33 +30,28 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _onMapClick: function (e) {
+
         var zoom = e.target._zoom,
             data,
-            types,
-            successHandler;
+            types = this._getTypesByZoom(zoom),
+            handler = L.bind(this.options.handlers.handle, this.options.handlers);
 
-        if (zoom < L.DG.Geoclicker.MIN_WORK_ZOOM_LEVEL) {
-            return;
-        }
-        data = this.options.data;
-        data.zoomlevel = zoom;
-        data.q = e.latlng.lng + "," + e.latlng.lat;
-        types = this._getTypesByZoom(zoom);
         if (!types) {
             return;
         }
-        data.types = types.join(",");
-        successHandler = L.bind(this.options.handlers.handle, this);
-        L.DG.Jsonp({
+
+        data = L.extend(this.options.data, {
+            zoomlevel: zoom,
+            q: e.latlng.lng + "," + e.latlng.lat,
+            types: types.join(",")
+        });
+
+        this.options.jsonp({
             url: this.options.url,
             data: data,
             success: function (response) {
                 console.log(response);
-                successHandler({
-                    response: response,
-                    zoom: zoom,
-                    allowedTypes: types
-                });
+                handler(response, zoom, types);
             }
         });
     },

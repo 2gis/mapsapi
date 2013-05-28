@@ -8,49 +8,41 @@
 L.DG = L.DG || {};
 
 L.DG.GeoclickerHandlersManager = L.Class.extend({
-	handle: function(options) {
-		if (!options || !options.response) {
-			L.DG.GeoclickerHandlers.default();	
-			return;
-		} 
-		if (options.response.error_code && options.response.error_message) {
-			L.DG.GeoclickerHandlers.default();	
-			return;
-		}
-		if (!options.response.result || !options.response.result.length) {
-			L.DG.GeoclickerHandlers.default();	
-			return;	
-		}
-		if (!options.allowedTypes) {
-			L.DG.GeoclickerHandlers.default();	
-			return;	
-		}
-		var handled = false;
-		var result = options.response.result;
-		for (var i = 0, count = result.length; i < count; i++) {
-			//check whether returned types are in valid list of those that we requested
-			if (options.allowedTypes.indexOf(result[i].type) === -1) {
-				continue;
-			}
-			//check maybe we have mapping handler for this type of geoobjects
-			var mappingHandler = L.DG.GeoclickerHandlers.getMappingHandler(result[i].type);
-			if (mappingHandler) {
-				mappingHandler(result[i]);
-				handled = true;
-				continue;
-			}
-			//if there is no mapping, check in geoclicker handlers list
-			var handler = L.DG.GeoclickerHandlers[result[i].type];
-			if (handler) {
-				handled = true;
-				handler(result[i]);
-			}
-		}
-		//if no handler was found, then launch the default one
-		if (!handled) {
-			L.DG.GeoclickerHandlers.default();	
-		}
-	}
+    handle: function (response, zoom, allowedTypes) {
+        if (this._isNotValidResult(response)) {
+            console.log('result invalid')
+            L.DG.GeoclickerHandlers._default();
+            return;
+        }
+        var handled = false;
+        var result = response.result;
+        console.log('search start', result);
+        for (var i in L.DG.GeoclickerHandlers) {
+            console.log('search', i)
+            var typeInResponse = result[i] && result[i].type
+            if (allowedTypes.indexOf(i) === -1) {
+                console.log(1, allowedTypes)
+                continue;
+            }
+            console.log('allowed', i, typeInResponse)
+            if (L.DG.GeoclickerHandlers[typeInResponse]) {
+                console.log(2)
+                L.DG.GeoclickerHandlers[typeInResponse]();
+                console.log(3)
+                return;
+            }
+        }
+        console.log('search not found')
+        //if no handler was found, then launch the default one
+        if (!handled) {
+            L.DG.GeoclickerHandlers._default();
+        }
+    },
+
+    _isNotValidResult: function (response) {
+        return !response || !!response.error_code || !response.result || !response.result.length;
+    }
+
 });
 
 
