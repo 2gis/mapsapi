@@ -54,7 +54,7 @@
                                 "title": "DGJsonp",
                                 "uri": "public/doc/DGJsonp/DGJsonp.html",
                                 "_src": "DGJsonp/doc/DGJsonp.md",
-                                "hide": true
+                                "hide": false
                             }
                         },
                         "children": null
@@ -65,7 +65,7 @@
                                 "title": "DGProjectDetector",
                                 "uri": "public/doc/DGProjectDetector/DGProjectDetector.html",
                                 "_src": "DGProjectDetector/doc/DGProjectDetector.md",
-                                "hide": true
+                                "hide": false
                             }
                         },
                         "children": null
@@ -76,7 +76,7 @@
                                 "title": "DGTileLayer",
                                 "uri": "public/doc/DGTileLayer/DGTileLayer.html",
                                 "_src": "DGTileLayer/doc/DGTileLayer.md",
-                                "hide": true
+                                "hide": false
                             }
                         },
                         "children": null
@@ -88,7 +88,7 @@
                                 "uri": "public/doc/DGLocale/DGLocale.html",
                                 "_src": "DGLocale/doc/DGLocale.md",
 
-                                "hide": true
+                                "hide": false
                             }
                         },
                         "children": null
