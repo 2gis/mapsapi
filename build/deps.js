@@ -50,7 +50,8 @@ var deps = {
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
             'DGGeoclicker/src/lib/GeoCoder.js',
-            'DGGeoclicker/src/handlers/default.js',
+            'DGGeoclicker/src/handlers/Default.js',
+            'DGGeoclicker/src/handlers/House.js',
             'DGGeoclicker/src/lib/Controller.js',
             'DGGeoclicker/src/lib/MapHandler.js'
         ],

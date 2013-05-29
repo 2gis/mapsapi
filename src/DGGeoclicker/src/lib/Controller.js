@@ -11,7 +11,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         // default handler always should return true
         handlersSequence: {
 
-            house: L.DG.Geoclicker.Handlers.handlerExample,
+            house: L.DG.Geoclicker.Handlers.house,
+
             district: L.DG.Geoclicker.Handlers.handlerExample,
             city: L.DG.Geoclicker.Handlers.handlerExample,
 

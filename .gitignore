@@ -13,3 +13,5 @@ dist/dg-map-custom.css
 docbuilder/doc
 
 config.local.json
+
+public/dev*
