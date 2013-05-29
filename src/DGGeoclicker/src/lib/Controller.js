@@ -9,7 +9,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     options: {
         // if handler worked successfully, it should return true
         // default handler always should return true
-        handlersSequense: {
+        handlersSequence: {
 
             house: L.DG.Geoclicker.Handlers.handlerExample,
             district: L.DG.Geoclicker.Handlers.handlerExample,
@@ -39,7 +39,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
         var callback = L.bind(this._handleResponse, this);
 
-        this._createPopup(lat, lng);
+        this._showPopup(lat, lng);
         this._popup.showLoader();
         this._geoCoder.getLocations(lat, lng, zoom, callback);
 
@@ -47,51 +47,53 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
     _handleResponse: function (result) {
 
-
         var type, handler;
 
         this._popup.hideLoader();
 
         if (!result) {
-            this.options.handlersSequense.default(this._popup, this._map);
+            this.options.handlersSequence.default(this._popup, this._map);
             return;
         }
 
-        while (type = this._selectHandler(result)) {
-            console.log('while')
-            handler = this.options.handlersSequense[type];
-            if (handler(result[type], this._popup, this._map, type, result)) {
+        while (type = this._findHandler(result)) {
+
+            handler = this.options.handlersSequence[type];
+            if (handler(result, type, this._popup, this._map)) {
                 return;
             } else {
                 delete result[type];
             }
         }
 
-        this.options.handlersSequense.default(this._popup, this._map);
+        this.options.handlersSequence.default(this._popup, this._map);
     },
 
-    _selectHandler: function (result) {
+    _findHandler: function (result) {
         var i;
-        for (i in this.options.handlersSequense) {
+        for (i in this.options.handlersSequence) {
             if (result[i]) {
                 return i;
             }
         }
-        console.log('_selectHandler, NOT found')
     },
 
     _showLoader: function () {
-        var i = 1;
+        //@todo should this function be moved to GeoClicker View?
+        var i = 1,
+            popup = this._popup;
 
-        this._loaderTimer = setInterval(L.bind(function () {
+        function showLoader() {
             var str = 'loading.';
             if (i > 1) {
                 str += i > 2 ? '..' : '.';
             }
-            this._popup.setContent(str);
+            popup.setContent(str);
             i = i > 2 ? 1 : i + 1;
+        }
 
-        }, this), 400);
+        this._loaderTimer = setInterval(showLoader, 400);
+        showLoader();
     },
 
     _hideLoader: function () {
@@ -99,13 +101,16 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
 
-    _createPopup: function (lat, lng) {
-        this._popup = L.popup()
-            .setLatLng([lat, lng])
-            .openOn(this._map);
+    _showPopup: function (lat, lng) {
 
-        this._popup.hideLoader = L.bind(this._hideLoader, this);
-        this._popup.showLoader = L.bind(this._showLoader, this);
+        if (!this._popup) {
+            this._popup = L.popup();
+            this._popup.hideLoader = L.bind(this._hideLoader, this);
+            this._popup.showLoader = L.bind(this._showLoader, this);
+        }
+
+        this._popup.setLatLng([lat, lng])
+            .openOn(this._map);
     }
 
 })

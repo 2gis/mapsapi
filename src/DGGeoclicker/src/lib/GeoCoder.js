@@ -1,5 +1,5 @@
 /**
- *
+ * Performs Geocoding by given longitude, latitude and zoom level. Returns filtered set of results or nothing.
  *
  */
 L.DG.Geoclicker.GeoCoder = L.Class.extend({
@@ -8,30 +8,51 @@ L.DG.Geoclicker.GeoCoder = L.Class.extend({
         data: {
             key: '__WEB_API_KEY__',
             version: '__WEB_API_VERSION__',
-            lang: '__DEFAULT_LANG__',
+            lang: '__DEFAULT_LANG__', //@todo add i18n support
             output: 'jsonp'
-        }
+        },
+
+        timeoutMs: 5000
     },
 
-    getLocations: function (lat, lng, zoom, callback) { //@todo add desctiption here
+    getLocations: function (lat, lng, zoom, callback) { // (Number, Number, Number, Function)
+        // Callback will receive array of found results or void if errors occurred or nothing was found.
 
         var types = this._getTypesByZoom(zoom),
 
             query = this._createQuery(lat, lng, types, zoom);
 
-        L.DG.Jsonp({
+        this.cancelLastRequest();
+
+        this._performRequest(query, types, callback);
+
+    },
+
+    cancelLastRequest: function () {
+        if (this._lastRequest) {
+            this._lastRequest.cancel();
+        }
+    },
+
+    _performRequest: function (query, types, callback) {
+        this._lastRequest = L.DG.Jsonp({
             url: this.options.url,
             data: query,
+            timeout: this.options.timeoutMs,
             success: L.bind(function (response) {
 
                 var result = this._validateResponse(response, types);
                 setTimeout(function () {
-
                     callback(result);
-                }, Math.random()*2000) //@todo for debug, remove before merge
+                }, Math.random() * 2000) //@todo for debug, remove before merge
+            }, this),
+
+            error: L.bind(function () {
+                callback();
             }, this)
         })
     },
+
 
     _createQuery: function (lat, lng, types, zoom) {
 
@@ -53,7 +74,7 @@ L.DG.Geoclicker.GeoCoder = L.Class.extend({
         for (i in response.result) {
             item = response.result[i];
 
-            if (allowedTypes.indexOf(item.type) === -1) {
+            if (allowedTypes && allowedTypes.indexOf(item.type) === -1) {
                 continue;
             }
 

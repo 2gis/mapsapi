@@ -9,8 +9,8 @@ L.DG.Geoclicker.Handlers = {
     }
 };
 
-L.DG.Geoclicker.Handlers.handlerExample = function (res, popup, map, type) {
-    popup.setContent(type + '<br>' + res.id);
+L.DG.Geoclicker.Handlers.handlerExample = function (res, type, popup, map) {
+    popup.setContent(type + ':<br/>' + res[type].id);
     return true;
 }
 /*
