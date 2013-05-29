@@ -69,12 +69,12 @@ L.Control.FullScreen = L.Control.extend({
         this._map = map;
         this._isFullscreen = false;
         this.fullScreenControl = container;
-        this._fullScreenButton = this._createButton(this._title, this.options.iconClass, container, this.toggleFullscreen, this);
+        this._fullScreenButton = this._createButton(this._title, this.options.iconClass, container, this.toggleFullscreen);
 
         return container;
     },
 
-    _createButton: function (title, className, container, fn, context) {
+    _createButton: function (title, className, container, fn) {
         var link = L.DomUtil.create('a', className, container);
         link.href = '#';
         link.title = title;
@@ -221,7 +221,7 @@ L.Control.FullScreen = L.Control.extend({
         this._isFullscreen = false;
 
         if (!this._isLegacy) {
-            fullScreenApi.cancelFullScreen(container);
+            fullScreenApi.cancelFullScreen();
         } else {
             this._restorePosition(container);
         }
@@ -262,7 +262,7 @@ L.Control.FullScreen = L.Control.extend({
         ua = navigator.userAgent.toLowerCase();
 
         // check for native support exclude safari
-        if (typeof document.exitFullscreen != 'undefined' && !(ua.indexOf('safari') != -1 && ua.indexOf('chrome')  == -1)) {
+        if (typeof document.exitFullscreen != 'undefined') {
             fullScreenApi.supportsFullScreen = true;
         } else {
 
@@ -270,7 +270,8 @@ L.Control.FullScreen = L.Control.extend({
             for (var i = 0, il = browserPrefixes.length; i < il; i++ ) {
                 fullScreenApi.prefix = browserPrefixes[i];
 
-                if (typeof document[fullScreenApi.prefix + 'CancelFullScreen' ] != 'undefined' ) {
+                if ((typeof document[fullScreenApi.prefix + 'CancelFullScreen' ] != 'undefined') &&
+                     !(ua.indexOf('safari') != -1 && ua.indexOf('chrome')  == -1) ) {
                     fullScreenApi.supportsFullScreen = true;
                     break;
                 }
@@ -294,7 +295,7 @@ L.Control.FullScreen = L.Control.extend({
             fullScreenApi.requestFullScreen = function(el) {
                 return (this.prefix === '') ? el.requestFullscreen() : el[this.prefix + 'RequestFullScreen']();
             }
-            fullScreenApi.cancelFullScreen = function(el) {
+            fullScreenApi.cancelFullScreen = function() {
                 return (this.prefix === '') ? document.exitFullscreen() : document[this.prefix + 'CancelFullScreen']();
             }
         }
