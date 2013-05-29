@@ -34,7 +34,7 @@
                     "ru": {
                         "title": "Руководство",
                         "uri": "doc....",
-                        "hide": false
+                        "hide": true
                     }
                 },
                 "children": [
