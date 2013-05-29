@@ -73,7 +73,7 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "TileLayer",
+                                "title": "DGTileLayer",
                                 "uri": "public/doc/DGTileLayer/DGTileLayer.html",
                                 "_src": "DGTileLayer/doc/DGTileLayer.md",
                                 "hide": true
@@ -84,7 +84,7 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Localization",
+                                "title": "DGLocale",
                                 "uri": "public/doc/DGLocale/DGLocale.html",
                                 "_src": "DGLocale/doc/DGLocale.md",
 
