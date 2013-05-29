@@ -101,7 +101,7 @@
 
 ---
 
-Это документация для версии **Leaflet 0.5**. Документацию находящююся в работе можно найти в файле `reference.html` ветки [gh-pages-master branch][59].
+Документация по **Leaflet 0.5**. Документацию находящююся в работе можно найти в файле `reference.html` ветки [gh-pages-master branch][59].
 
 ## L.Map
 
@@ -130,7 +130,6 @@
         </code></td>
 
         <td class="factory-usage">
-            <code><span class='keyword'>new</span> L.Map(<span class="comment">&hellip;</span>)</code><br />
             <code>L.map(<span class="comment">&hellip;</span>)</code>
         </td>
 
@@ -191,135 +190,181 @@
     </tr>
 </table>
 
-#### Interaction Options
-Option
-Type
-Default
-Description
+#### Опции взаимодействия
 
-`**dragging**`
-`Boolean`
-`true`
-Whether the map be draggable with mouse/touch or not.
+<table>
+  <tr>
+		<th class="width140">Опция</th>
+		<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>dragging</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Разрешено ли двигать карту мышкой или при помощи касания экрана.</td>
+	</tr>
+	<tr>
+		<td><code><b>touchZoom</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Разрешено ли зумировать карту 2мя пальцами на touch устройствах.</td>
+	</tr>
+	<tr>
+		<td><code><b>scrollWheelZoom</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Разрешено ли зумировать карту колесиком мышки.</td>
+	</tr>
+	<tr>
+		<td><code><b>doubleClickZoom</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Разрешено ли зумировать карту двойным кликом мышки.</td>
+	</tr>
+	<tr>
+		<td><code><b>boxZoom</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Разрешено ли увеличивать заданную область карты. Выделяется мышью с зажатым шифтом.</td>
+	</tr>
+	<tr>
+		<td><code><b>trackResize</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Обновляется ли карта при изменении размера окна браузера.</td>
+	</tr>
+	<tr>
+		<td><code><b>worldCopyJump</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">false</span></code></td>
+		<td>Опция позволяет зациклить просмотр карты, с сохранением слоев и маркеров на ней.</td>
+	</tr>
+	<tr>
+		<td><code><b>closePopupOnClick</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Указывает закрывать ли балуны при клике на карту.</td>
+	</tr>
+</table>
 
-`**touchZoom**`
-`Boolean`
-`true`
-Whether the map can be zoomed by touch-dragging with two fingers.
+#### Навигация клавишами
 
-`**scrollWheelZoom**`
-`Boolean`
-`true`
-Whether the map can be zoomed by using the mouse wheel.
+<table>
+  <tr>
+  	<th class="width140">Опция</th>
+		<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>keyboard</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Устанавливает фокус на карту и позволяет навигироваться стрелками и кнопками <code>+</code>/<code>-</code>.</td>
+	</tr>
+	<tr>
+		<td><code><b>keyboardPanOffset</b></code></td>
+		<td><code>Number</code></td>
+		<td><code><span class="number">80</span></code></td>
+		<td>Указывает на сколько пикселей сдвинется катра при нажатии стрелки на клавиатуре.</td>
+	</tr>
+	<tr>
+		<td><code><b>keyboardZoomOffset</b></code></td>
+		<td><code>Number</code></td>
+		<td><code><span class="number">1</span></code></td>
+		<td>Указывает на сколько уровней изменится зум при нажанитии <code>+</code> или <code>-</code>.</td>
+	</tr>
+</table>
 
-`**doubleClickZoom**`
-`Boolean`
-`true`
-Whether the map can be zoomed in by double clicking on it.
 
-`**boxZoom**`
-`Boolean`
-`true`
-Whether the map can be zoomed to a rectangular area specified by dragging the mouse while pressing shift.
+#### Инерция движения карты
+<table>
+  <tr>
+    <th class="width140">Опция</th>
+		<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>inertia</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Если опция включена, создается эффект инерции при движении карты, при драгании карта продолжает движение в том же направлении какое-то время. Выглядит особенно хорошо на  touch устройствах.</td>
+	</tr>
+	<tr>
+		<td><code><b>inertiaDeceleration</b></code></td>
+		<td><code>Number</code></td>
+		<td><code><span class="number">3000</span></code></td>
+		<td>Величина, на которую замедляется движение карты, указывается в пикселях/секунду<sup>2</sup>.</td>
+	</tr>
+	<tr>
+		<td><code><b>inertiaMaxSpeed</b></code></td>
+		<td><code>Number</code></td>
+		<td><code><span class="number">1500</span></code></td>
+		<td>Максимальная скорость инерционного движения, указывается в пикселях/секунду.</td>
+	</tr>
+	<tr>
+		<td><code><b>inertiaThreshold</b></code></td>
+		<td><code>Number</code></td>
+		<td><code>depends</code></td>
+		<td>Колличество миллисекунд, которое должно пройти между остановкой движения карты и отпусканием мыши или touch, для предотвращения эффекта энерции. По умолчанию <code><span class="number">32</span></code> для touch устройств и <code><span class="number">14</span></code> для остальных.</td>
+	</tr>
+</table>
 
-`**trackResize**`
-`Boolean`
-`true`
-Whether the map automatically handles browser window resize to update itself.
 
-`**worldCopyJump**`
-`Boolean`
-`false`
-With this option enabled, the map tracks when you pan to another "copy" of the world and seamlessly jumps to the original one so that all overlays like markers and vector layers are still visible.
+#### Элементы управления
+<table>
+  <tr>
+    <th class="width140">Опция</th>
+  	<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>zoomControl</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Добавлен ли <a href="#control-zoom">элемент управления зумом</a> на карту.</td>
+	</tr>
+	<tr>
+		<td><code><b>attributionControl</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">true</span></code></td>
+		<td>Добавлен ли  <a href="#control-attribution">элемент аттрибуции</a> на карту.</td>
+	</tr>
+</table>
 
-`**closePopupOnClick**`
-`Boolean`
-`true`
-Set it to `false` if you don't want popups to close when user clicks the map.
 
-#### Keyboard Navigation Options
-Option
-Type
-Default
-Description
+#### Опции анимации
+<table>
+  <tr>
+    <th class="width140">Опция</th>
+    <th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>fadeAnimation</b></code></td>
+		<td><code>Boolean</code></td>
+		<td>depends</td>
+		<td>Включена ли анимция затухания тайлов. По умолчанию включена во всех браузерах поддерживающих CSS3 Transitions кроме Android.</td>
+	</tr>
+	<tr>
+		<td><code><b>zoomAnimation</b></code></td>
+		<td><code>Boolean</code></td>
+		<td>depends</td>
+		<td>Включена ли анимация зума тайлов. По умолчанию включена во всех браузерах поддерживающих CSS3 Transitions кроме Android.</td>
+	</tr>
+	<tr>
+		<td><code><b>markerZoomAnimation</b></code></td>
+		<td><code>Boolean</code></td>
+		<td>depends</td>
+		<td>Включена ли анимация зума маркеров при анимации зума карты, если выключена, маркеры пропадают на время анимации карты. По умолчанию включена во всех браузерах поддерживающих CSS3 Transitions кроме Android.</td>
+	</tr>
+</table>
 
-`**keyboard**`
-`Boolean`
-`true`
-Makes the map focusable and allows users to navigate the map with keyboard arrows and `+`/`-` keys.
-
-`**keyboardPanOffset**`
-`Number`
-`80`
-Amount of pixels to pan when pressing an arrow key.
-
-`**keyboardZoomOffset**`
-`Number`
-`1`
-Number of zoom levels to change when pressing `+` or `-` key.
-
-#### Panning Inertia Options
-Option
-Type
-Default
-Description
-
-`**inertia**`
-`Boolean`
-`true`
-If enabled, panning of the map will have an inertia effect where the map builds momentum while dragging and continues moving in the same direction for some time. Feels especially nice on touch devices.
-
-`**inertiaDeceleration**`
-`Number`
-`3000`
-The rate with which the inertial movement slows down, in pixels/second2.
-
-`**inertiaMaxSpeed**`
-`Number`
-`1500`
-Max speed of the inertial movement, in pixels/second.
-
-`**inertiaThreshold**`
-`Number`
-`depends`
-Amount of milliseconds that should pass between stopping the movement and releasing the mouse or touch to prevent inertial movement. `32` for touch devices and `14` for the rest by default.
-
-#### Control options
-Option
-Type
-Default
-Description
-
-`**zoomControl**`
-`Boolean`
-`true`
-Whether the [zoom control][35] is added to the map by default.
-
-`**attributionControl**`
-`Boolean`
-`true`
-Whether the [attribution control][36] is added to the map by default.
-
-#### Animation options
-Option
-Type
-Default
-Description
-
-`**fadeAnimation**`
-`Boolean`
-depends
-Whether the tile fade animation is enabled. By default it's enabled in all browsers that support CSS3 Transitions except Android.
-
-`**zoomAnimation**`
-`Boolean`
-depends
-Whether the tile zoom animation is enabled. By default it's enabled in all browsers that support CSS3 Transitions except Android.
-
-`**markerZoomAnimation**`
-`Boolean`
-depends
-Whether markers animate their zoom with the zoom animation, if disabled they will disappear for the length of the animation. By default it's enabled in all browsers that support CSS3 Transitions except Android.
 
 ### Events
 
