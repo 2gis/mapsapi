@@ -52,7 +52,7 @@
                         "content": {
                             "ru": {
                                 "title": "DGJsonp",
-                                "uri": "public/doc/DGJsonp/DGJsonp.html",
+                                "uri": "doc/DGJsonp/DGJsonp.html",
                                 "_src": "DGJsonp/doc/DGJsonp.md",
                                 "hide": false
                             }
@@ -63,7 +63,7 @@
                         "content": {
                             "ru": {
                                 "title": "DGProjectDetector",
-                                "uri": "public/doc/DGProjectDetector/DGProjectDetector.html",
+                                "uri": "doc/DGProjectDetector/DGProjectDetector.html",
                                 "_src": "DGProjectDetector/doc/DGProjectDetector.md",
                                 "hide": false
                             }
@@ -74,7 +74,7 @@
                         "content": {
                             "ru": {
                                 "title": "DGTileLayer",
-                                "uri": "public/doc/DGTileLayer/DGTileLayer.html",
+                                "uri": "doc/DGTileLayer/DGTileLayer.html",
                                 "_src": "DGTileLayer/doc/DGTileLayer.md",
                                 "hide": false
                             }
@@ -85,7 +85,7 @@
                         "content": {
                             "ru": {
                                 "title": "DGLocale",
-                                "uri": "public/doc/DGLocale/DGLocale.html",
+                                "uri": "doc/DGLocale/DGLocale.html",
                                 "_src": "DGLocale/doc/DGLocale.md",
 
                                 "hide": false
