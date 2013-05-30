@@ -875,41 +875,51 @@
     </tr>
 </table>
 
-### Locate options
-Option
-Type
-Default
-Description
-
-`**watch**`
-`Boolean`
-`false`
-If `true`, starts continous watching of location changes (instead of detecting it once) using W3C `watchPosition` method. You can later stop watching using `**map.stopLocate**()` method.
-
-`**setView**`
-`Boolean`
-`false`
-If `true`, automatically sets the map view to the user location with respect to detection accuracy, or to world view if geolocation failed.
-
-`**maxZoom**`
-`Number`
-`Infinity`
-The maximum zoom for automatic view setting when using \`setView\` option.
-
-`**timeout**`
-`Number`
-`10000`
-Number of millisecond to wait for a response from geolocation before firing a `locationerror` event.
-
-`**maximumAge**`
-`Number`
-`0`
-Maximum age of detected location. If less than this amount of milliseconds passed since last geolocation response, `locate` will return a cached location.
-
-`**enableHighAccuracy**`
-`Boolean`
-`false`
-Enables high accuracy, see [description in the W3C spec][73].
+### Опции локации
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>watch</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если <code><span class="literal">true</span></code>, постоянно отслеживает изменения локации (вместо определения локации однажны) используя W3C метод <code>watchPosition</code>. Можно остановить отслеживание вызвав метод <code><b>map.stopLocate</b>()</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>setView</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если <code><span class="literal">true</span></code>, автоматически устанавливает область просмотра карты в точку локации пользователя, в соотвествии с точностью определения. В случае ошибки поиска, отображаетcя карта мира.</td>
+    </tr>
+    <tr>
+        <td><code><b>maxZoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">Infinity</span></code></td>
+        <td>Задает максимальный зум, в случае автоматического перемещения карты (если включена опция `setView`).</td>
+    </tr>
+    <tr>
+        <td><code><b>timeout</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">10000</span></code></td>
+        <td>Колличество миллисекунд ожидания ответа геолокации перед тем как вызовется событие <code>locationerror</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>maximumAge</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">0</span></code></td>
+        <td>Максимальный "возраст" данных локации. Если с момента последнего поиска прошло меньше времени, чем указанно в этой опции, данные вернутся из кеша.</td>
+    </tr>
+    <tr>
+        <td><code><b>enableHighAccuracy</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Включает high accuracy, смотри <a href="http://dev.w3.org/geo/api/spec-source.html#high-accuracy">описание в W3C спецификации</a>.</td>
+    </tr>
+</table>
 
 ### Properties
 
