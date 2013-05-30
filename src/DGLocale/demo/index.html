@@ -12,6 +12,7 @@
 <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
 <script type="text/javascript">
+    var map;
     L.onLoad(function () {
 
        // plugin code
@@ -36,6 +37,7 @@
             },
 
             _updateText:function () {
+                debugger;
                 this._container.innerHTML = '<h1>' + this.t("{n} people", 16700000) + ' ' + this.t("regularly use 2GIS") + '</h1>';
             }
         });
@@ -53,7 +55,7 @@
         }, L.DG.Dictionary.ru);
                 
         //{APP_CORE}/src/{Plugin}/demo/index.html           
-        var map = new L.Map('map', {
+        map = new L.Map('map', {
             center: new L.LatLng(54.980206086231, 82.898068362003),
             zoom: 13
         });
