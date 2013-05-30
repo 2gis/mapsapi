@@ -686,51 +686,69 @@
     </tr>
 </table>
 
-### Methods for Layers and Controls
-Method
-Returns
-Description
+### Методы Слоев и Элементов упаравления
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr id="map-addlayer">
+        <td><code><b>addLayer</b>(
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i>,</nobr>
+            <nobr>&lt;Boolean&gt; <i>insertAtTheBottom?</i> )</nobr>
+        </code></td>
 
-`**addLayer**(
-            <[ILayer][52]> _layer_,
-<Boolean> _insertAtTheBottom?_ )
-`
-`this`
-Adds the given layer to the map. If optional `insertAtTheBottom` is set to `true`, the layer is inserted under all others (useful when switching base tile layers).
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет переданный слой на карту. Если опция <code>insertAtTheBottom</code> установлена в <code><span class="literal">true</span></code>, слой добавляется поверх остальных.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeLayer</b>(
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+        </code></td>
 
-`**removeLayer**(
-            <[ILayer][52]> _layer_ )
-`
-`this`
-Removes the given layer from the map.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Удаляет переданные слои с карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>hasLayer</b>(
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+        </code></td>
 
-`**hasLayer**(
-            <[ILayer][52]> _layer_ )
-`
-`Boolean`
-Returns `true` if the given layer is currently added to the map.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code><span class="literal">true</span></code> если переданный слой в данный момент добавлен на карту.</td>
+    </tr>
 
-`**openPopup**(
-            <[Popup][12]> _popup_ )
-`
-`this`
-Opens the specified popup while closing the previously opened (to make sure only one is opened at one time for usability).
+    <tr id="map-openpopup">
+        <td><code><b>openPopup</b>(
+            <nobr>&lt;<a href="#popup">Popup</a>&gt; <i>popup</i> )</nobr>
+        </code></td>
 
-`**closePopup**()`
-`this`
-Closes the popup opened with [openPopup][72].
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Показывает указанный балун, предварительно спрятав все открытые. (только один балун может быть открыт в определнный момент времени, по причинам юзабилити).</td>
+    </tr>
+    <tr id="map-closepopup">
+        <td><code><b>closePopup</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Закрывает балун, открытый с помощью <a href="#map-openpopup">openPopup</a>.</td>
+    </tr>
+    <tr id="map-addcontrol">
+        <td><code><b>addControl</b>(
+            <nobr>&lt;<a href="#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
+        </code></td>
 
-`**addControl**(
-            <[IControl][53]> _control_ )
-`
-`this`
-Adds the given control to the map.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет переданный элемент управления на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeControl</b>(
+            <nobr>&lt;<a href="#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
+        </code></td>
 
-`**removeControl**(
-            <[IControl][53]> _control_ )
-`
-`this`
-Removes the given control from the map.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Удаляет элемент управления с карты.</td>
+    </tr>
+</table>
 
 ### Conversion Methods
 Method
