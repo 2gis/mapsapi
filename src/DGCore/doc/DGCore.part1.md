@@ -849,24 +849,31 @@
     </tr>
 </table>
 
-### Other Methods
-Method
-Returns
-Description
-
-`**getContainer**()`
-`HTMLElement`
-Returns the container element of the map.
-
-`**getPanes**()`
-`[MapPanes][10]`
-Returns an object with different map panes (to render overlays in).
-
-`**whenReady**(
-            <Function> _fn_,
-            <Object> _context?_ )`
-`this`
-Runs the given callback when the map gets initialized with a place and zoom, or immediately if it happened already, optionally passing a function context.
+### Другие методы
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>getContainer</b>()</code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Возвращает контейнер элемента карты.</td>
+    </tr>
+    <tr id="map-getpanes">
+        <td><code><b>getPanes</b>()</code></td>
+        <td><code><a href="#map-panes">MapPanes</a></code></td>
+        <td>Возвращает объект с  map panes (to render overlays in).</td>
+    </tr>
+    <tr id="map-whenready">
+        <td><code><b>whenReady</b>(
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr></code></td>
+        <td><code>this</code></td>
+        <td>Выполняет переданный колбек после того как карта инициализировалась или сразу, если она была инициализирована раньше. Опцинально можно передать контекст исполнения.</td>
+    </tr>
+</table>
 
 ### Locate options
 Option
