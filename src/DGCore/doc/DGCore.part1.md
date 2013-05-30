@@ -750,78 +750,104 @@
     </tr>
 </table>
 
-### Conversion Methods
-Method
-Returns
-Description
+### Методы преобразования
+<table>
+    <tr>
+        <th class="width200">Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latLngToLayerPoint</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**latLngToLayerPoint**(
-            <[LatLng][28]> _latlng_ )
-`
-`[Point][30]`
-Returns the map layer point that corresponds to the given geographical coordinates (useful for placing overlays on the map).
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает точку на карте которая соотвествует переданным координатам (полезно при размещении overlays на карте).</td>
+    </tr>
+    <tr>
+        <td><code><b>layerPointToLatLng</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**layerPointToLatLng**(
-            <[Point][30]> _point_ )
-`
-`[LatLng][28]`
-Returns the geographical coordinates of a given map layer point.
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает герграфические координаты переданной точки карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>containerPointToLayerPoint</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**containerPointToLayerPoint**(
-            <[Point][30]> _point_ )
-`
-`[Point][30]`
-Converts the point relative to the map container to a point relative to the map layer.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Конвертирует point контейнера карты в point слоя карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>layerPointToContainerPoint</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**layerPointToContainerPoint**(
-            <[Point][30]> _point_ )
-`
-`[Point][30]`
-Converts the point relative to the map layer to a point relative to the map container.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Конвертирует point слоя карты в point контейнера карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>latLngToContainerPoint</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**latLngToContainerPoint**(
-            <[LatLng][28]> _latlng_ )
-`
-`[Point][30]`
-Returns the map container point that corresponds to the given geographical coordinates.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает point контейнера карты соотвествующей географическим координатам.</td>
+    </tr>
+    <tr>
+        <td><code><b>containerPointToLatLng</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**containerPointToLatLng**(
-            <[Point][30]> _point_ )
-`
-`[LatLng][28]`
-Returns the geographical coordinates of a given map container point.
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает географические координаты переданной point контейнера.</td>
+    </tr>
+    <tr>
+        <td><code><b>project</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
+            <nobr>&lt;Number&gt; <i>zoom?</i> )</nobr>
+        </code></td>
 
-`**project**(
-            <[LatLng][28]> _latlng_,
-<Number> _zoom?_ )
-`
-`[Point][30]`
-Projects the given geographical coordinates to absolute pixel coordinates for the given zoom level (current zoom level by default).
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Проецирует переданные географические координаты в абсолютное значение координат в пикселях для переданного уровня зума (текущий уровень зума используется по умолчанию).</td>
+    </tr>
+    <tr>
+        <td><code><b>unproject</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i>,</nobr>
+            <nobr>&lt;Number&gt; <i>zoom?</i> )</nobr>
+        </code></td>
 
-`**unproject**(
-            <[Point][30]> _point_,
-<Number> _zoom?_ )
-`
-`[LatLng][28]`
-Projects the given absolute pixel coordinates to geographical coordinates for the given zoom level (current zoom level by default).
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Проецирует переданное абсолютное значение координат в пикселях в географические координаты для переданного уровня зума (текущий уровень зума используется по умолчанию).</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseEventToContainerPoint</b>(
+            <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
+        </code></td>
 
-`**mouseEventToContainerPoint**(
-            <MouseEvent> _event_ )
-`
-`[Point][30]`
-Returns the pixel coordinates of a mouse click (relative to the top left corner of the map) given its event object.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает пиксельные координаты клика мыши (относительно левого верхнего угла карты), переданного объектом event.</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseEventToLayerPoint</b>(
+            <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
+        </code></td>
 
-`**mouseEventToLayerPoint**(
-            <MouseEvent> _event_ )
-`
-`[Point][30]`
-Returns the pixel coordinates of a mouse click relative to the map layer given its event object.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает пиксельные координаты клика мышью по слою, переданного объектом event.
+    </tr>
+    <tr>
+        <td><code><b>mouseEventToLatLng</b>(
+            <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
+        </code></td>
 
-`**mouseEventToLatLng**(
-            <MouseEvent> _event_ )
-`
-`[LatLng][28]`
-Returns the geographical coordinates of the point the mouse clicked on given the click's event object.
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает географические координаты точки клика мышью, переданного объектом event.</td>
+    </tr>
+</table>
 
 ### Other Methods
 Method
