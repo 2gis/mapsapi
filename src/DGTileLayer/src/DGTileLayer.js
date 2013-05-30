@@ -24,6 +24,10 @@ L.DG.tileLayer = function () {
     return new L.DG.TileLayer();
 };
 
+L.Map.mergeOptions({
+    attributionControl: false
+});
+
 L.Map.addInitHook(function () {
     var options = {
         position: 'bottomright',
@@ -37,7 +41,6 @@ L.Map.addInitHook(function () {
     };
 
     new L.Control.Attribution(options).addTo(this);
-    this.options.attributionControl = false;
     this.options.layers = [L.DG.tileLayer()];
 });
 
