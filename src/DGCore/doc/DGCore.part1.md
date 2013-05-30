@@ -921,51 +921,63 @@
     </tr>
 </table>
 
-### Properties
+### Свойства
 
-Map properties include interaction handlers that allow you to control interaction behavior in runtime, enabling or disabling certain features such as dragging or touch zoom (see [IHandler][51] methods). Example:
+Свойства карты включают в себя обработчиков взаимодействия, которые позволяют конролировать интерактивное поведение, подключение и отключение опредленных возможностей карты такие как зум, touch-события (смотри методы [IHandler][51]). Например:
 
     map.doubleClickZoom.disable();
 
-You can also access default map controls like attribution control through map properties:
+Вы также можете получить доступ к дефолтным элементам управления карты, таким как копирайт, через свойства карты:
 
     map.attributionControl.addAttribution("Earthquake data &copy; GeoNames");
 
-Property
-Type
-Description
-
-`**dragging**`
-[`IHandler`][51]
-Map dragging handler (by both mouse and touch).
-
-`**touchZoom**`
-[`IHandler`][51]
-Touch zoom handler.
-
-`**doubleClickZoom**`
-[`IHandler`][51]
-Double click zoom handler.
-
-`**scrollWheelZoom**`
-[`IHandler`][51]
-Scroll wheel zoom handler.
-
-`**boxZoom**`
-[`IHandler`][51]
-Box (shift-drag with mouse) zoom handler.
-
-`**keyboard**`
-[`IHandler`][51]
-Keyboard navigation handler.
-
-`**zoomControl**`
-[`Control.Zoom`][35]
-Zoom control.
-
-`**attributionControl**`
-[`Control.Attribution`][36]
-Attribution control.
+<table>
+    <tr>
+        <th class="minwidth">Свойство</th>
+        <th class="minwidth">Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>dragging</b></code></td>
+        <td><a href="#ihandler"><code>IHandler</code></a></td>
+        <td>Обработчик драга карты (мышкой и touch).</td>
+    </tr>
+    <tr>
+        <td><code><b>touchZoom</b></code></td>
+        <td><a href="#ihandler"><code>IHandler</code></a></td>
+        <td>Обработчик touch-зума.</td>
+    </tr>
+    <tr>
+        <td><code><b>doubleClickZoom</b></code></td>
+        <td><a href="#ihandler"><code>IHandler</code></a></td>
+        <td>Обработчик зума по двойному клику.</td>
+    </tr>
+    <tr>
+        <td><code><b>scrollWheelZoom</b></code></td>
+        <td><a href="#ihandler"><code>IHandler</code></a></td>
+        <td>Обработчик зума по скролу.</td>
+    </tr>
+    <tr>
+        <td><code><b>boxZoom</b></code></td>
+        <td><a href="#ihandler"><code>IHandler</code></a></td>
+        <td>Обработчик вox-зума (shift+выделение мышкой).</td>
+    </tr>
+    <tr>
+        <td><code><b>keyboard</b></code></td>
+        <td><a href="#ihandler"><code>IHandler</code></a></td>
+        <td>Обработчк навигации клавиатурой.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomControl</b></code></td>
+        <td><a href="#control-zoom"><code>Control.Zoom</code></a></td>
+        <td>Элемент управления - зум.</td>
+    </tr>
+    <tr>
+        <td><code><b>attributionControl</b></code></td>
+        <td><a href="#control-attribution"><code>Control.Attribution</code></a></td>
+        <td>Элемент управления - копирайт.</td>
+    </tr>
+</table>
 
 ### Map Panes
 
