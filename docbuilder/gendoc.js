@@ -36,7 +36,7 @@ function getMdFilesData(list, subdir) {
         listLeng = list.length;
 
     for (var i = 0; i < listLeng; i++) {
-        var fullFilePath = dir + '/' + list[i];
+        var fullFilePath = dir + list[i];
         if (grunt.file.exists(fullFilePath)) {
             var md = {};
             md.path = list[i];
@@ -73,8 +73,8 @@ function generateDocumentation(config, rootPath, destPath) {
 
     for (var i = 0, leng = mdData.length; i < leng; i++) {
         var mdFilePath = mdData[i].path,
-            htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0].toLowerCase() + '.html',
-            pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0].toLowerCase(),
+            htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
+            pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
             html = marked(mdData[i].content);
 
         grunt.file.write(destPath + '/' + pluginDirName + '/' + htmlFileName, html);
