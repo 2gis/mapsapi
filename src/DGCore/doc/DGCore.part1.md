@@ -627,49 +627,64 @@
     </tr>
 </table>
 
-### Methods for Getting Map State
-Method
-Returns
-Description
+### Методы чтения состояния карты
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>getCenter</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает географический центр области обзора карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>getZoom</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает текущий зум карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>getMinZoom</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает минимальный уровень зума карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>getMaxZoom</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает максимальный уровень зума карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>getBounds</b>()</code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Возвращает <a href="#latlngbounds">LatLngBounds</a> текущей области обзора карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>getBoundsZoom</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i>,</nobr>
+            <nobr>&lt;Boolean&gt; <i>inside?</i> )</nobr>
+        </code></td>
 
-`**getCenter**()`
-`[LatLng][28]`
-Returns the geographical center of the map view.
+        <td><code>Number</code></td>
 
-`**getZoom**()`
-`Number`
-Returns the current zoom of the map view.
-
-`**getMinZoom**()`
-`Number`
-Returns the minimum zoom level of the map.
-
-`**getMaxZoom**()`
-`Number`
-Returns the maximum zoom level of the map.
-
-`**getBounds**()`
-`[LatLngBounds][29]`
-Returns the LatLngBounds of the current map view.
-
-`**getBoundsZoom**(
-            <[LatLngBounds][29]> _bounds_,
-<Boolean> _inside?_ )
-`
-`Number`
-Returns the maximum zoom level on which the given bounds fit to the map view in its entirety. If `inside` (optional) is set to `true`, the method instead returns the minimum zoom level on which the map view fits into the given bounds in its entirety.
-
-`**getSize**()`
-`[Point][30]`
-Returns the current size of the map container.
-
-`**getPixelBounds**()`
-`Bounds`
-Returns the bounds of the current map view in projected pixel coordinates (sometimes useful in layer and overlay implementations).
-
-`**getPixelOrigin**()`
-`[Point][30]`
-Returns the projected pixel coordinates of the top left point of the map layer (useful in custom layer and overlay implementations).
+        <td>Возвращает максимальный уровень зума при котором заданные границы полностью входят в область просмотра карты. Если опция <code>inside</code> установлена в  <code><span class="literal">true</span></code>, метод возвращает минимальный уровень зума с теми же условиями.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSize</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает текущий размер контейнера карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPixelBounds</b>()</code></td>
+        <td><code>Bounds</code></td>
+        <td>Возвращает проекцию координат текущей области просмотра карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPixelOrigin</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает проекцию координат левой верхней точки слоя карты.</td>
+    </tr>
+</table>
 
 ### Methods for Layers and Controls
 Method
