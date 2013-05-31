@@ -1111,133 +1111,175 @@
     </tr>
 </table>
 
-### Events
+### События
 
-You can subscribe to the following events using [these methods][39].
-Event
-Data
-Description
+Можно подписать на события используя [эти методы][39].
+<table>
+    <tr>
+        <th class="width100">Событие</th>
+        <th class="width100">Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>click</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается по клику на маркере.</td>
+    </tr>
+    <tr>
+        <td><code><b>dblclick</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при двойном клике на маркере.</td>
+    </tr>
+    <tr>
+        <td><code><b>mousedown</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при нажатии кнопки мыши на маркере.</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseover</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при наведении курсора мыши на маркер.</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseout</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается когда курсор мыши покидает область маркера.</td>
+    </tr>
+    <tr>
+        <td><code><b>contextmenu</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при нажатии правой кнопки мыши на маркере.</td>
+    </tr>
+    <tr>
+        <td><code><b>dragstart</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается когда пользователь начинает тянуть маркер.</td>
+    </tr>
+    <tr>
+        <td><code><b>drag</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается постоянно во время перетягивания маркера.</td>
+    </tr>
+    <tr>
+        <td><code><b>dragend</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается когда пользователь прекращает перетягивание маркера.</td>
+    </tr>
+    <tr>
+        <td><code><b>move</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается при передвижении маркера с помощью метода setLatLng.</td>
+    </tr>
+    <tr>
+        <td><code><b>remove</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается при удалении маркера с карты.</td>
+    </tr>
+</table>
 
-`**click**`
-`[MouseEvent][61]`
-Fired when the user clicks (or taps) the marker.
+### Методы
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**dblclick**`
-`[MouseEvent][61]`
-Fired when the user double-clicks (or double-taps) the marker.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет маркер на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>getLatLng</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает текущие геокоординаты маркера.</td>
+    </tr>
+    <tr>
+        <td><code><b>setLatLng</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**mousedown**`
-`[MouseEvent][61]`
-Fired when the user pushes the mouse button on the marker.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Меняет координаты маркера на переданные.</td>
+    </tr>
+    <tr>
+        <td><code><b>setIcon</b>(
+            <nobr>&lt;<a href="#icon">Icon</a>&gt; <i>icon</i> )</nobr>
+        </code></td>
 
-`**mouseover**`
-`[MouseEvent][61]`
-Fired when the mouse enters the marker.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Меняет иконку маркера.</td>
+    </tr>
+    <tr>
+        <td><code><b>setZIndexOffset</b>(
+            <nobr>&lt;Number&gt; <i>offset</i> )</nobr>
+        </code></td>
 
-`**mouseout**`
-`[MouseEvent][61]`
-Fired when the mouse leaves the marker.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Меняет свойство маркера <a href="#marker-zindexoffset">zIndex offset</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>setOpacity</b>(
+            <nobr>&lt;Number&gt; <i>opacity</i> )</nobr>
+        </code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Меняет прозрачность маркера.</td>
+    </tr>
+    <tr>
+        <td><code><b>update</b>()</nobr>
+        </code></td>
 
-`**contextmenu**`
-`[MouseEvent][61]`
-Fired when the user right-clicks on the marker.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Обновляет позиционирование маркера, полезно в случае если <code>latLng</code> маркера были изменены напрямую.</td>
+    </tr>
+    <tr id="marker-bindpopup">
+        <td><code><b>bindPopup</b>(
+            <nobr>&lt;String&gt; <i>htmlContent</i>,</nobr>
+            <nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**dragstart**`
-`[Event][62]`
-Fired when the user starts dragging the marker.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Прикрепляет к маркеру балун, с определенным HTML содержимым. Балун отобразится при клике на маркер.</td>
+    </tr>
+    <tr id="marker-unbindpopup">
+        <td><code><b>unbindPopup</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Отвязывает балун от маркера.</td>
+    </tr>
+    <tr id="marker-openpopup">
+        <td><code><b>openPopup</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Открывает балун, предварительно присоединенный с помощью метода <a href="#marker-bindpopup">bindPopup</a>.</td>
+    </tr>
+    <tr id="marker-closepopup">
+        <td><code><b>closePopup</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Закрвает балун, если тот был открыт.</td>
+    </tr>
+</table>
 
-`**drag**`
-`[Event][62]`
-Fired repeatedly while the user drags the marker.
+### Обработчики взаимодействия
 
-`**dragend**`
-`[Event][62]`
-Fired when the user stops dragging the marker.
-
-`**move**`
-`[Event][62]`
-Fired when the marker is moved via setLatLng. New coordinate include in event arguments.
-
-`**remove**`
-`[Event][62]`
-Fired when the marker is removed from the map.
-
-### Methods
-Method
-Returns
-Description
-
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the marker to the map.
-
-`**getLatLng**()`
-`[LatLng][28]`
-Returns the current geographical position of the marker.
-
-`**setLatLng**(
-            <[LatLng][28]> _latlng_ )
-`
-`this`
-Changes the marker position to the given point.
-
-`**setIcon**(
-            <[Icon][32]> _icon_ )
-`
-`this`
-Changes the marker icon.
-
-`**setZIndexOffset**(
-            <Number> _offset_ )
-`
-`this`
-Changes the [zIndex offset][77] of the marker.
-
-`**setOpacity**(
-            <Number> _opacity_ )
-`
-`this`
-Changes the opacity of the marker.
-
-`**update**()
-        `
-`this`
-Updates the marker position, useful if coordinates of its `latLng` object were changed directly.
-
-`**bindPopup**(
-            <String> _htmlContent_,
-<[Popup options][78]> _options?_ )
-`
-`this`
-Binds a popup with a particular HTML content to a click on this marker. You can also open the bound popup with the Marker [openPopup][79] method.
-
-`**unbindPopup**()`
-`this`
-Unbinds the popup previously bound to the marker with `bindPopup`.
-
-`**openPopup**()`
-`this`
-Opens the popup previously bound by the [bindPopup][80] method.
-
-`**closePopup**()`
-`this`
-Closes the bound popup of the marker if it's opened.
-
-### Interaction handlers
-
-Interaction handlers are properties of a marker instance that allow you to control interaction behavior in runtime, enabling or disabling certain features such as dragging (see [IHandler][51] methods). Example:
+Свойства маокера включают в себя обработчики взаимодействия, которые позволяют конролировать интерактивное поведение, подключение и отключение опредленных возможностей таких как драг (смотри методы [IHandler][51]). Например:
 
     marker.dragging.disable();
 
-Property
-Type
-Description
+<table>
+    <tr>
+        <th class="width100">Property</th>
+        <th class="width100">Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>dragging</td>
+        <td><a href="#ihandler"><code>IHandler</code></a></td>
+        <td>Обработчик драга маркера.</td>
+    </tr>
+</table>
 
-dragging
-[`IHandler`][51]
-Marker dragging handler (by both mouse and touch).
 
 ## L.Popup
 
