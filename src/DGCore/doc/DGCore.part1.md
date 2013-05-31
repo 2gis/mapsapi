@@ -1027,68 +1027,89 @@
 
 ## L.Marker
 
-Used to put markers on the map.
+Используется для добавления маркеров на карту.
 
     L.marker([50.5, 30.5]).addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width200">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Marker</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
+            <nobr>&lt;<a href="#marker-options">Marker options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.Marker**(
-            <[LatLng][28]> _latlng_,
-<[Marker options][75]> _options?_ )
-`
-`new L.Marker(…)`
-`L.marker(…)`
-Instantiates a Marker object given a geographical point and optionally an options object.
+        <td class="factory-usage">
+            <code>L.marker(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>Создает объект Marker по переданным географическим координатам и необязательному объекту опций.</td>
+    </tr>
+</table>
 
-`**icon**`
-`[L.Icon][32]`
-\*
-Icon class to use for rendering the marker. See [Icon documentation][32] for details on how to customize the marker icon. Set to `new L.Icon.Default()` by default.
 
-`**clickable**`
-`Boolean`
-`true`
-If `false`, the marker will not emit mouse events and will act as a part of the underlying map.
-
-`**draggable**`
-`Boolean`
-`false`
-Whether the marker is draggable with mouse/touch or not.
-
-`**title**`
-`String`
-`''`
-Text for the browser tooltip that appear on marker hover (no tooltip by default).
-
-`**zIndexOffset**`
-`Number`
-`0`
-By default, marker images zIndex is set automatically based on its latitude. Use this option if you want to put the marker on top of all others (or below), specifying a high value like `1000` (or high negative value, respectively).
-
-`**opacity**`
-`Number`
-`1.0`
-The opacity of the marker.
-
-`**riseOnHover**`
-`Boolean`
-`false`
-If `true`, the marker will get on top of others when you hover the mouse over it.
-
-`**riseOffset**`
-`Number`
-`250`
-The z-index offset used for the `riseOnHover` feature.
+### Опции
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>icon</b></code></td>
+        <td><code><a href="#icon">L.Icon</a></code></td>
+        <td>*</td>
+        <td>Класс Icon используется для отрисовки маркера. Смотри подробное описание настройки иконки - <a href="#icon">Icon documentation</a>. По умолчанию используется <code>new L.Icon.Default()</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>clickable</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">true</span></code></td>
+        <td>Если значение <code><span class="literal">false</span></code>, обработчик клика по маркеру не вызывается.</td>
+    </tr>
+    <tr>
+        <td><code><b>draggable</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Возможно ли перетаскивать маркер по карте.</td>
+    </tr>
+    <tr>
+        <td><code><b>title</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">''</span></code></td>
+        <td>Текст для отображения тултипа при наведении курсора на маркер (по умолчанию не ототбражается).</td>
+    </tr>
+    <tr id="marker-zindexoffset">
+        <td><code><b>zIndexOffset</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">0</span></code></td>
+        <td>По умолчанию, изображению маркера свойство z-index устнавливается автоматически, исходя из его координат. Используйте эту опцию если хотите разместить маркер поверх всех остальных (или снизу), указав наивысшее значние (или нивысшее отрицательное, соответсвенно).</td>
+    </tr>
+    <tr>
+        <td><code><b>opacity</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">1.0</span></code></td>
+        <td>Прозрачность маркера.</td>
+    </tr>
+    <tr>
+        <td><code><b>riseOnHover</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если значение <code><span class="literal">true</span></code>, маркер отобразится поверх остальных при наведении на него мышкой.</td>
+    </tr>
+    <tr>
+        <td><code><b>riseOffset</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">250</span></code></td>
+        <td>Позволяет задать шаг z-index при использовании <code>riseOnHover</code>.</td>
+    </tr>
+</table>
 
 ### Events
 
