@@ -4,7 +4,8 @@
  */
 L.DG.Geoclicker.GeoCoder = L.Class.extend({
     options: {
-        url: '__WEB_API_SERVER__/geo/search',
+        urlGeo: '__WEB_API_SERVER__/geo/search',
+        urlAdvanced: '__WEB_API_SERVER__/advanced',
         data: {
             key: '__WEB_API_KEY__',
             version: '__WEB_API_VERSION__',
@@ -28,18 +29,51 @@ L.DG.Geoclicker.GeoCoder = L.Class.extend({
 
     },
 
+    getFirms: function (id, page, callback) {
+        console.log('getFirms')
+        page = page || 1;
+        var query = L.extend(this.options.data, {
+            criteria: JSON.stringify({//@todo use cross-browser JSON.stringify
+                what: {
+                    id: id,
+                    type: "house"
+                },
+                types: ["firm"],
+                sort: "relevance",
+                page: page,
+                filters: {project_id: 1} //@todo use project ID from project-detector
+            })
+        });
+
+        this.cancelLastRequest();
+
+        this._performRequest(query, '', function (res) {
+            if (res.response_code == 200 && res.results && res.results.firm && res.results.firm.results && res.results.firm.results.length) {
+                callback(res.results.firm.results)
+            } else {
+                callback();
+            }
+        }, true);
+
+    },
+
     cancelLastRequest: function () {
         if (this._lastRequest) {
             this._lastRequest.cancel();
         }
     },
 
-    _performRequest: function (query, types, callback) {
+    _performRequest: function (query, types, callback, firm) { //@todo remove firm
+
         this._lastRequest = L.DG.Jsonp({
-            url: this.options.url,
+            url: firm ? this.options.urlAdvanced : this.options.urlGeo,
             data: query,
             timeout: this.options.timeoutMs,
             success: L.bind(function (response) {
+                if (firm) {
+                    callback(response)
+                    return
+                }
 
                 var result = this._validateResponse(response, types);
                 setTimeout(function () {

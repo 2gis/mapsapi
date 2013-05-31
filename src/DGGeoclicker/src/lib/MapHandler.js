@@ -2,8 +2,6 @@
  *
  *
  */
-
-
 L.Map.mergeOptions({
     dgGeoClicker: true
 });
@@ -30,7 +28,7 @@ L.DG.Geoclicker.MapHandler = L.Handler.extend({
             lng = e.latlng.lng,
             lat = e.latlng.lat;
 
-        this._controller.handle(lat, lng, zoom);
+        this._controller.handleClick(lat, lng, zoom);
     }
 });
 
