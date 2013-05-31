@@ -1549,97 +1549,120 @@
         <td><code><b>zIndex</b></code></td>
         <td><code>Number</code></td>
         <td><code><span class="literal">null</span></code></td>
-        <td>The explicit zIndex of the tile layer. Not set by default.</td>
+        <td>Указывает zIndex тайлового слоя. Не установлен по умолчанию.</td>
     </tr>
     <tr>
         <td><code><b>unloadInvisibleTiles</b></code></td>
         <td><code>Boolean</code></td>
         <td>depends</td>
-        <td>If <code><span class="literal">true</span></code>, all the tiles that are not visible after panning are removed (for better performance). <code><span class="literal">true</span></code> by default on mobile WebKit, otherwise <code><span class="literal">false</span></code>.</td>
+        <td>Если установлено значение <code><span class="literal">true</span></code>, все тайлы которые выходят за область видимости после любого перемешения карты удаляются (для лучшей производительности). <code><span class="literal">true</span></code> по умолчанию для мобильного WebKit, в остальных случаях <code><span class="literal">false</span></code>.</td>
     </tr>
     <tr>
         <td><code><b>updateWhenIdle</b></code></td>
         <td><code>Boolean</code></td>
         <td>depends</td>
-        <td>If <code><span class="literal">false</span></code>, new tiles are loaded during panning, otherwise only after it (for better performance). <code><span class="literal">true</span></code> by default on mobile WebKit, otherwise <code><span class="literal">false</span></code>.</td>
+        <td>Если установлено значение <code><span class="literal">false</span></code>, новые тайлы подгружаются во время перетягивания карты, иначе только по завершению перетягивания (для лучшей производительности). <code><span class="literal">true</span></code> по умолчанию для мобильного WebKit, в остальных случаях <code><span class="literal">false</span></code>.</td>
     </tr>
     <tr>
         <td><code><b>detectRetina</b></code></td>
         <td><code><code>Boolean</code></code></td>
         <td><code><span class="literal">false</span></code></td>
-        <td>If <code><span class="literal">true</span></code> and user is on a retina display, it will request four tiles of half the specified size and a bigger zoom level in place of one to utilize the high resolution.</td>
+        <td>Если установлено значение <code><span class="literal">true</span></code> и у пользователя retina дисплей, it will request four tiles of half the specified size and a bigger zoom level in place of one to utilize the high resolution.</td>
     </tr>
     <tr>
         <td><code><b>reuseTiles</b></code></td>
         <td><code><code>Boolean</code></code></td>
         <td><code><span class="literal">false</span></code></td>
-        <td>If <code><span class="literal">true</span></code>, all the tiles that are not visible after panning are placed in a reuse queue from which they will be fetched when new tiles become visible (as opposed to dynamically creating new ones). This will in theory keep memory usage low and eliminate the need for reserving new memory whenever a new tile is needed.</td>
+        <td>Если установлено значение <code><span class="literal">true</span></code>, все тайлы которые невидны после перемешения карты добавляется в очередь переиспользования, из которой они будут взяты, если опять попадут в область видимости. В теории это сокращает объем используемой памяти.</td>
     </tr>
 </table>
 
-### Events
+### События
 
-You can subscribe to the following events using [these methods][39].
-Event
-Data
-Description
+Можно подписать на события используя [эти методы][39].
+<table>
+    <tr>
+        <th class="width100">Событие</th>
+        <th class="width100">Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>loading</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается когда тайловый слой начинает загрузку тайлов.</td>
+    </tr>
+    <tr>
+        <td><code><b>load</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается когда тайловый слой завершил загрузку всех видимых тайлов.</td>
+    </tr>
+    <tr>
+        <td><code><b>tileload</b></code></td>
+        <td><code><a href="#tile-event">Event</a></code>
+        <td>Вызывается когда тайл загружается.</td>
+    </tr>
+    <tr>
+        <td><code><b>tileunload</b></code></td>
+        <td><code><a href="#tile-event">Event</a></code>
+        <td>Вызывается при удалении тайла (т.е. при включенном режиме <code>unloadInvisibleTiles</code>).</td>
+    </tr>
+</table>
 
-`**loading**`
-`[Event][62]`
-Fired when the tile layer starts loading tiles.
 
-`**load**`
-`[Event][62]`
-Fired when the tile layer loaded all visible tiles.
+### Методы
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**tileload**`
-`[Event][84]`
-Fired when a tile loads.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет слой на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToFront</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Отображает тайловый слой поверх всех остальных слоев.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToBack</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Отображает тайловый слой снизу остальных слоев.</td>
+    </tr>
+    <tr>
+        <td><code><b>setOpacity</b>(
+            <nobr>&lt;Number&gt; <i>opacity</i> )</nobr>
+        </code></td>
 
-`**tileunload**`
-`[Event][84]`
-Fired when a tile is removed (e.g. when you have `unloadInvisibleTiles` on).
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Изменяет прозрачность тайлового слоя.</td>
+    </tr>
+    <tr>
+        <td><code><b>setZIndex</b>(
+            <nobr>&lt;Number&gt; <i>zIndex</i> )</nobr>
+        </code></td>
 
-### Methods
-Method
-Returns
-Description
-
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the layer to the map.
-
-`**bringToFront**()`
-`this`
-Brings the tile layer to the top of all tile layers.
-
-`**bringToBack**()`
-`this`
-Brings the tile layer to the bottom of all tile layers.
-
-`**setOpacity**(
-            <Number> _opacity_ )
-`
-`this`
-Changes the opacity of the tile layer.
-
-`**setZIndex**(
-            <Number> _zIndex_ )
-`
-`this`
-Sets the zIndex of the tile layer.
-
-`**redraw**()`
-`this`
-Causes the layer to clear all the tiles and request them again.
-
-`**setUrl**(
-            <String> _[urlTemplate][82]_ )
-`
-`this`
-Updates the layer's URL template and redraws it.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает z-index тайлового слоя.</td>
+    </tr>
+    <tr>
+        <td><code><b>redraw</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Очищает все текущие тайлы и запрашивает новые.</td>
+    </tr>
+    <tr>
+        <td><code><b>setUrl</b>(
+            <nobr>&lt;String&gt; <i><a href="#url-template">urlTemplate</a></i> )</nobr>
+        </code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Обновляет URL темлейта и перерсовывает его.</td>
+    </tr>
+</table>
 
 ## L.TileLayer.WMS
 
