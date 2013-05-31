@@ -11,6 +11,6 @@
 
    `var fullScreen = new L.Control.FullScreen();`
 
-Затем добавить его на карту (map — объект карты):
+Затем добавить его на карту:
 
   `fullScreen.addTo(map);`
