@@ -1422,130 +1422,160 @@
 
 ## L.TileLayer
 
-Used to load and display tile layers on the map, implements [ILayer][52] interface.
+Используется для загрузки и ототбражения тайлового слоя на карте, реализует интерфейс [ILayer][52].
 
-### Usage example
+### Примеры использования
 
     L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
         key: 'API-key',
         styleId: 997
     }).addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width250">Constructor</th>
+        <th>Usage</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td><code><b>L.TileLayer</b>(
+            <nobr>&lt;String&gt; <i><a href="#url-template">urlTemplate</a></i>,</nobr>
+            <nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.TileLayer**(
-            <String> _[urlTemplate][82]_,
-<[TileLayer options][83]> _options?_ )
-`
-`new L.TileLayer(…)`
-`L.tileLayer(…)`
-Instantiates a tile layer object given a [URL template][82] and optionally an options object.
+        <td class="factory-usage">
+            <code>L.tileLayer(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### URL template
+        <td>Создает объект слоя тайлов по переданному <a href="#url-template">URL шаблону</a> опциональному объекту настроек.</td>
+    </tr>
+</table>
 
-A string of the following form:
+
+### URL шаблон
+
+Строка следующего вида:
 
     'http://{s}.somedomain.com/blabla/{z}/{x}/{y}.png'
 
-`{s}` means one of the available subdomains (used sequentially to help with browser parallel requests per domain limitation; subdomain values are specified in options; `a`, `b` or `c` by default, can be omitted), `{z}` --- zoom level, `{x}` and `{y}` --- tile coordinates.
+`{s}` один из доступных субдоменов (используется поочередно, чтобы браузер загружал ресурсы паралельно, согласно ограничению доменов; значения указаны в опциях; `a`, `b` или `c` по умочанию), `{z}` --- уровень зума, `{x}` и `{y}` --- координаты тайлов.
 
-You can use custom keys in the template, which will be evaluated from TileLayer options, like this:
+Вы можете использовать собственные ключи в шаблонах, которые будут доступны из TileLayer options, например так:
 
     L.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
 
-### Options
-Option
-Type
-Default
-Description
-
-`**minZoom**`
-`Number`
-`0`
-Minimum zoom number.
-
-`**maxZoom**`
-`Number`
-`18`
-Maximum zoom number.
-
-`**tileSize**`
-`Number`
-`256`
-Tile size (width and height in pixels, assuming tiles are square).
-
-`**subdomains**`
-`String` or `String[]`
-`'abc'`
-Subdomains of the tile service. Can be passed in the form of one string (where each letter is a subdomain name) or an array of strings.
-
-`**errorTileUrl**`
-`String`
-`''`
-URL to the tile image to show in place of the tile that failed to load.
-
-`**attribution**`
-`String`
-`''`
-e.g. "(c) CloudMade" --- the string used by the attribution control, describes the layer data.
-
-`**tms**`
-`Boolean`
-`false`
-If `true`, inverses Y axis numbering for tiles (turn this on for TMS services).
-
-`**continuousWorld**`
-`Boolean`
-`false`
-If set to `true`, the tile coordinates won't be wrapped by world width (-180 to 180 longitude) or clamped to lie within world height (-90 to 90). Use this if you use Leaflet for maps that don't reflect the real world (e.g. game, indoor or photo maps).
-
-`**noWrap**`
-`Boolean`
-`false`
-If set to `true`, the tiles just won't load outside the world width (-180 to 180 longitude) instead of repeating.
-
-`**zoomOffset**`
-`Number`
-`0`
-The zoom number used in tile URLs will be offset with this value.
-
-`**zoomReverse**`
-`Boolean`
-`false`
-If set to `true`, the zoom number used in tile URLs will be reversed (`maxZoom - zoom` instead of `zoom`)
-
-`**opacity**`
-`Number`
-`1.0`
-The opacity of the tile layer.
-
-`**zIndex**`
-`Number`
-`null`
-The explicit zIndex of the tile layer. Not set by default.
-
-`**unloadInvisibleTiles**`
-`Boolean`
-depends
-If `true`, all the tiles that are not visible after panning are removed (for better performance). `true` by default on mobile WebKit, otherwise `false`.
-
-`**updateWhenIdle**`
-`Boolean`
-depends
-If `false`, new tiles are loaded during panning, otherwise only after it (for better performance). `true` by default on mobile WebKit, otherwise `false`.
-
-`**detectRetina**`
-``Boolean``
-`false`
-If `true` and user is on a retina display, it will request four tiles of half the specified size and a bigger zoom level in place of one to utilize the high resolution.
-
-`**reuseTiles**`
-``Boolean``
-`false`
-If `true`, all the tiles that are not visible after panning are placed in a reuse queue from which they will be fetched when new tiles become visible (as opposed to dynamically creating new ones). This will in theory keep memory usage low and eliminate the need for reserving new memory whenever a new tile is needed.
+### Опции
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>minZoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">0</span></code></td>
+        <td>Минимальный уровень зума.</td>
+    </tr>
+    <tr>
+        <td><code><b>maxZoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">18</span></code></td>
+        <td>Максимальный уровень зума.</td>
+    </tr>
+    <tr>
+        <td><code><b>tileSize</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">256</span></code></td>
+        <td>Размер тайла (ширина и высота в пикселях, предполагается что тайл квадратный).</td>
+    </tr>
+    <tr>
+        <td><code><b>subdomains</b></code></td>
+        <td><code>String</code> or <code>String[]</code></td>
+        <td><code><span class="string">'abc'</span></code></td>
+        <td>Субдомены тайлового сервиса. Могут передаваться одной строкой (где каждая буква имя субдомена) или массивом строк.</td>
+    </tr>
+    <tr>
+        <td><code><b>errorTileUrl</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">''</span></code></td>
+        <td>URL к тайл изображению, которое отображается в случае ошибки загрузки тайла.</td>
+    </tr>
+    <tr>
+        <td><code><b>attribution</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">''</span></code></td>
+        <td>Здесь указывается копирайт-информация.</td>
+    </tr>
+    <tr>
+        <td><code><b>tms</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если установлено значение <code><span class="literal">true</span></code>, делает инверсию нумерации оси Y для тайлов (включите для TMS сервисов).</td>
+    </tr>
+    <tr>
+        <td><code><b>continuousWorld</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если установлено значение <code><span class="literal">true</span></code>, координаты тайлов не будут "заворачиваться" по ширине мира (-180 до 180 широты) или высоте (-90 дл 90). Полезно, если вы используете Leaflet собственных карт, не отображающих реальный мир (т.е. игры, помещения или фото карты).</td>
+    </tr>
+    <tr>
+        <td><code><b>noWrap</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если установлено значение <code><span class="literal">true</span></code>, тайлы не будут загружаться за пределами ширины мира (-180 до 180 широты).</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomOffset</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">0</span></code></td>
+        <td>Уровень зума указанный в URL тайлов будет смещен на это переданное значение.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomReverse</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если установлено значение <code><span class="literal">true</span></code>, уровень зума указанный в URL тайла будет реверсирован (<code>maxZoom - zoom</code> вместо <code>zoom</code>)</td>
+    </tr>
+    <tr>
+        <td><code><b>opacity</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">1.0</span></code></td>
+        <td>Прозрачность слоя тайлов.</td>
+    </tr>
+    <tr>
+        <td><code><b>zIndex</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>The explicit zIndex of the tile layer. Not set by default.</td>
+    </tr>
+    <tr>
+        <td><code><b>unloadInvisibleTiles</b></code></td>
+        <td><code>Boolean</code></td>
+        <td>depends</td>
+        <td>If <code><span class="literal">true</span></code>, all the tiles that are not visible after panning are removed (for better performance). <code><span class="literal">true</span></code> by default on mobile WebKit, otherwise <code><span class="literal">false</span></code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>updateWhenIdle</b></code></td>
+        <td><code>Boolean</code></td>
+        <td>depends</td>
+        <td>If <code><span class="literal">false</span></code>, new tiles are loaded during panning, otherwise only after it (for better performance). <code><span class="literal">true</span></code> by default on mobile WebKit, otherwise <code><span class="literal">false</span></code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>detectRetina</b></code></td>
+        <td><code><code>Boolean</code></code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>If <code><span class="literal">true</span></code> and user is on a retina display, it will request four tiles of half the specified size and a bigger zoom level in place of one to utilize the high resolution.</td>
+    </tr>
+    <tr>
+        <td><code><b>reuseTiles</b></code></td>
+        <td><code><code>Boolean</code></code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>If <code><span class="literal">true</span></code>, all the tiles that are not visible after panning are placed in a reuse queue from which they will be fetched when new tiles become visible (as opposed to dynamically creating new ones). This will in theory keep memory usage low and eliminate the need for reserving new memory whenever a new tile is needed.</td>
+    </tr>
+</table>
 
 ### Events
 
