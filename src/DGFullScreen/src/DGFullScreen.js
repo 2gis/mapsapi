@@ -56,27 +56,26 @@ L.DG.FullScreen = L.Control.extend({
     },
 
     onAdd: function (map) {
-        var title = this.t('title');
 
         // Check if browser supports native fullscreen API
         if (!fullScreenApi.supportsFullScreen) {
             this._isLegacy = true;
         }
 
-        var container = L.DomUtil.create('div', this.options.containerClass);
+        var container = L.DomUtil.create('a', this.options.containerClass);
+        container.title = this.t('title');;
 
         this._map = map;
         this._isFullscreen = false;
         this.fullScreenControl = container;
-        this._fullScreenButton = this._createButton(title, this.options.iconClass, container, this.toggleFullscreen);
+        this._fullScreenButton = this._createButton(this.options.iconClass, container, this.toggleFullscreen);
 
         return container;
     },
 
-    _createButton: function (title, className, container, fn) {
+    _createButton: function (className, container, fn) {
         var link = L.DomUtil.create('a', className, container);
         link.href = '#';
-        link.title = title;
 
         L.DomEvent
             .addListener(container, 'mousedown', L.DomEvent.stopPropagation)
