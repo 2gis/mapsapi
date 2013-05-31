@@ -1,13 +1,11 @@
 
-L.Control.FullScreen = L.Control.extend({
+L.DG.FullScreen = L.Control.extend({
 
     includes: L.DG.Locale,
 
     statics: {
         Dictionary: {}
     },
-
-    _title: this.t('title'),
 
     options: {
         position: 'topright',
@@ -58,6 +56,7 @@ L.Control.FullScreen = L.Control.extend({
     },
 
     onAdd: function (map) {
+        var title = this.t('title');
 
         // Check if browser supports native fullscreen API
         if (!fullScreenApi.supportsFullScreen) {
@@ -69,7 +68,7 @@ L.Control.FullScreen = L.Control.extend({
         this._map = map;
         this._isFullscreen = false;
         this.fullScreenControl = container;
-        this._fullScreenButton = this._createButton(this._title, this.options.iconClass, container, this.toggleFullscreen);
+        this._fullScreenButton = this._createButton(title, this.options.iconClass, container, this.toggleFullscreen);
 
         return container;
     },
@@ -239,8 +238,8 @@ L.Control.FullScreen = L.Control.extend({
       }
     });
 
-    L.control.fullscreen = function (options) {
-        return new L.Control.FullScreen(options);
+    L.DG.fullscreen = function (options) {
+        return new L.DG.FullScreen(options);
     };
 
     /*

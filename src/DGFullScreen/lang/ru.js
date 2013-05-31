@@ -1,3 +1,3 @@
-L.DG.LocaleExample.Dictionary.ru = L.extend({
+L.DG.FullScreen.Dictionary.ru = {
     "title" : "Развернуть"
-}, L.DG.Dictionary.ru);
+};

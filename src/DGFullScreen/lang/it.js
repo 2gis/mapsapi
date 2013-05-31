@@ -1,3 +1,3 @@
-L.DG.LocaleExample.Dictionary.it = L.extend({
+L.DG.FullScreen.Dictionary.it = {
     "title" : "Espandi"
-}, L.DG.Dictionary.it);
+};
