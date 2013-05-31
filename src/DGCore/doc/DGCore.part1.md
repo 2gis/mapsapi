@@ -979,40 +979,51 @@
     </tr>
 </table>
 
-### Map Panes
+### Панели карты
 
-An object literal (returned by [map.getPanes][74]) that contains different map panes that you can use to put your custom overlays in. The difference is mostly in zIndex order that such overlays get.
-Property
-Type
-Description
-
-`**mapPane**`
-`HTMLElement`
-Pane that contains all other map panes.
-
-`**tilePane**`
-`HTMLElement`
-Pane for tile layers.
-
-`**objectsPane**`
-`HTMLElement`
-Pane that contains all the panes except tile pane.
-
-`**shadowPane**`
-`HTMLElement`
-Pane for overlay shadows (e.g. marker shadows).
-
-`**overlayPane**`
-`HTMLElement`
-Pane for overlays like polylines and polygons.
-
-`**markerPane**`
-`HTMLElement`
-Pane for marker icons.
-
-`**popupPane**`
-`HTMLElement`
-Pane for popups.
+Объект (возвращаемый [map.getPanes][74]) содержит различные панели карты, которые можно использовать для своих слоев. Основное отличие в параметре zIndex, определяющем очередь наложения.
+<table>
+    <tr>
+        <th class="width100">Свойство</th>
+        <th class="width100">Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>mapPane</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Панель, которая содержит все остальные панели карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>tilePane</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Панель для слоя тайлов.</td>
+    </tr>
+    <tr>
+        <td><code><b>objectsPane</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Панель, которая содержит все панели, кроме тайловой.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowPane</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Панель для наложения теней.</td>
+    </tr>
+    <tr>
+        <td><code><b>overlayPane</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Панель для наложения геометрий, полилайнов и полигонов.</td>
+    </tr>
+    <tr>
+        <td><code><b>markerPane</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Панель для иконок маркеров.</td>
+    </tr>
+    <tr>
+        <td><code><b>popupPane</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Панель для балунов.</td>
+    </tr>
+</table>
 
 ## L.Marker
 
