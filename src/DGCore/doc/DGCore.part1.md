@@ -1283,110 +1283,142 @@
 
 ## L.Popup
 
-Used to open popups in certain places of the map. Use [Map\#openPopup][72] to open popups while making sure that only one popup is open at one time (recommended for usability), or use [Map\#addLayer][81] to open as many as you want.
+Используется для отображения балунов в определенных местах карты. Используйте [Map\#openPopup][72] для ототбражения балунов, одновременно открытым может быть только один балун, или [Map\#addLayer][81] для отображения любого колличества балунов.
 
-### Usage example
+### Пример использования
 
-If you want to just bind a popup to marker click and then open it, it's really easy:
+Добавить отображения балуна по клику на маркер очень легко:
 
     marker.bindPopup(popupContent).openPopup();
 
-Path overlays like polylines also have a `bindPopup` method. Here's a more complicated way to open a popup on a map:
+У дополнительных слоев, таких как полилайны также есть метод `bindPopup`. Вот более сложный пример ототбражения балуна:
 
     var popup = L.popup()
         .setLatLng(latlng)
         .setContent('<p>Hello world!<br />This is a nice popup.</p>')
         .openOn(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Popup</b>(
+            <nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i>,</nobr>
+            <nobr>&lt;object&gt; <i>source?</i> )</nobr>
+        </code></td>
 
-`**L.Popup**(
-            <[Popup options][78]> _options?_,
-<object> _source?_ )
-`
-`new L.Popup(…)`
-`L.popup(…)`
-Instantiates a Popup object given an optional options object that describes its appearance and location and an optional object that is used to tag the popup with a reference to the source object to which it refers.
+        <td class="factory-usage">
+            <code>L.popup(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>Создает объект типа Popup по переданным объету опций, описывающему внешний вид и расположение балуна и объекту указывающих привязку балуна к элементу карты.</td>
+    </tr>
+</table>
 
-`**maxWidth**`
-`Number`
-`300`
-Max width of the popup.
+### Опции
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>maxWidth</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">300</span></code></td>
+        <td>Максимальная ширина балуна.</td>
+    </tr>
+    <tr>
+        <td><code><b>minWidth</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">50</span></code></td>
+        <td>Минимальная ширина балуна.</td>
+    </tr>
+    <tr>
+        <td><code><b>maxHeight</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Если значение установлено, создается контейнер указанной высоты со скроллом, в случае если контент балуна превышает заданную высоту.</td>
+    </tr>
+    <tr>
+        <td><code><b>autoPan</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">true</span></code></td>
+        <td>Установите значение в <code><span class="literal">false</span></code> если не хотите чтобы карта автоматически сдвигалась для полного отображения балуна.</td>
+    </tr>
+    <tr>
+        <td><code><b>closeButton</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">true</span></code></td>
+        <td>Отвечает за отображение кнопки закрытия балуна.</td>
+    </tr>
+    <tr>
+        <td><code><b>offset</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td><code><nobr>Point(<span class="number">0</span>, <span class="number">6</span>)</nobr>
+        </code></td>
+        <td>Устанавливает отступ позиции балуна. Полезно для контроля ножки балуна при показе на определенных слоях.</td>
+    </tr>
+    <tr>
+        <td><code><b>autoPanPadding</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td><code><nobr>Point(<span class="number">5</span>, <span class="number">5</span>)</nobr>
+        </code></td>
+        <td>Задает расстояние от края балуна до границы просмотра карты при автосдвиге.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomAnimation</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">true</span></code></td>
+        <td>Указывает анимировать ли балун при зуме. Отключите, если есть проблемы с отображением Flash контента внутри балуна.</td>
+    </tr>
+</table>
 
-`**minWidth**`
-`Number`
-`50`
-Min width of the popup.
+### Методы
+<table>
+    <tr>
+        <th class="width250">Метод</th>
+        <th class="minwidth">Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**maxHeight**`
-`Number`
-`null`
-If set, creates a scrollable container of the given height inside a popup if its content exceeds it.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет балун на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>openOn</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**autoPan**`
-`Boolean`
-`true`
-Set it to `false` if you don't want the map to do panning animation to fit the opened popup.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет балун на карту, предварительно закрыв остальные. Аналогично <code>map.openPopup(popup)</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>setLatLng</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**closeButton**`
-`Boolean`
-`true`
-Controls the presense of a close button in the popup.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает географические координаты точки открытия балуна.</td>
+    </tr>
+    <tr>
+        <td><code><b>setContent</b>(
+            <nobr>&lt;String&gt; <i>htmlContent</i> )</nobr>
+        </code></td>
 
-`**offset**`
-`[Point][30]`
-`Point(0, 6)
-`
-The offset of the popup position. Useful to control the anchor of the popup when opening it on some overlays.
-
-`**autoPanPadding**`
-`[Point][30]`
-`Point(5, 5)
-`
-The margin between the popup and the edges of the map view after autopanning was performed.
-
-`**zoomAnimation**`
-`Boolean`
-`true`
-Whether to animate the popup on zoom. Disable it if you have problems with Flash content inside popups.
-
-### Methods
-Method
-Returns
-Description
-
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the popup to the map.
-
-`**openOn**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the popup to the map and closes the previous one. The same as `map.openPopup(popup)`.
-
-`**setLatLng**(
-            <[LatLng][28]> _latlng_ )
-`
-`this`
-Sets the geographical point where the popup will open.
-
-`**setContent**(
-            <String> _htmlContent_ )
-`
-`this`
-Sets the HTML content of the popup.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Задает HTML контент балуна.</td>
+    </tr>
+</table>
 
 ## L.TileLayer
 
