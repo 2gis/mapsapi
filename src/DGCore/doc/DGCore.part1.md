@@ -2244,99 +2244,141 @@
 
 ## L.MultiPolyline
 
-Extends [FeatureGroup][26] to allow creating multi-polylines (single layer that consists of several polylines that share styling/popup).
+Расширяет [FeatureGroup][26] и позволяет создавать мультиполилайны (один слой содержащий несколько полилайнов у которых общий стиль/балун).
 
 ### Constructor
-Constructor
-Usage
-Description
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.MultiPolyline</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
+            <nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.MultiPolyline**(
-            <[LatLng][28][][]> _latlngs_,
-            <[Polyline options][92]> _options?_ )
-`
-`new L.MultiPolyline(…)`
-`L.multiPolyline(…)`
-Instantiates a multi-polyline object given an array of arrays of geographical points (one for each individual polyline) and optionally an options object.
+        <td class="factory-usage">
+            <code>L.multiPolyline(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает объект мульти-полилайна по переданному массиву массивов географических точек и массиву настроек (опциональный).</td>
+    </tr>
+</table>
+
 
 ## L.Polygon
 
-A class for drawing polygon overlays on a map. Extends [Polyline][18]. Use [Map\#addLayer][81] to add it to the map.
+Класс для рисования полигонов поверх карты. Расширяет [Polyline][18]. Использует [Map\#addLayer][81] для добавления на карту.
 
-Note that points you pass when creating a polygon shouldn't have an additional last point equal to the first one --- it's better to filter out such points.
+Обратите внимание что среди точек которые передаются для создания полигона не должно быть дополнительной точки, которая совпадает с первой.
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Polygon</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
+            <nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.Polygon**(
-            <[LatLng][28][]> _latlngs_,
-            <[Polyline options][92]> _options?_ )
-`
-`new L.Polygon(…)`
-`L.polygon(…)`
-Instantiates a polygon object given an array of geographical points and optionally an options object (the same as for Polyline). You can also create a polygon with holes by passing an array of arrays of latlngs, with the first latlngs array representing the exterior ring while the remaining represent the holes inside.
+        <td class="factory-usage">
+            <code>L.polygon(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-Polygon the same options and methods as Polyline.
+        <td>Создает объект полигона по переданному массиву географическиъ точек и объекту настроек (опциональный). Возможно также создать полигон с дырами, передав массив массивов latlngs, первый latlngs массив отвечает за внешние границы, остальные описывают дыру внутри.</td>
+    </tr>
+</table>
+
+У полигона те же опции и методы что и у полилайна.
 
 ## L.MultiPolygon
 
-Extends [FeatureGroup][26] to allow creating multi-polygons (single layer that consists of several polygons that share styling/popup).
+Расширяет [FeatureGroup][26] позволяя создавать мульти-полигоны (один слой содержащий несколько полигонов которые имеют общий стиль/балун).
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.MultiPolygon</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
+            <nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.MultiPolygon**(
-            <[LatLng][28][][]> _latlngs_,
-            <[Polyline options][92]> _options?_ )
-`
-`new L.MultiPolygon(…)`
-`L.multiPolygon(…)`
-Instantiates a multi-polyline object given an array of latlngs arrays (one for each individual polygon) and optionally an options object (the same as for MultiPolyline).
+        <td class="factory-usage">
+            <code>L.multiPolygon(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает объект Instantiates a multi-polyline object given an array of latlngs arrays (one for each individual polygon) and optionally an options object (the same as for MultiPolyline).</td>
+    </tr>
+</table>
+
 
 ## L.Rectangle
 
-A class for drawing rectangle overlays on a map. Extends [Polygon][20]. Use [Map\#addLayer][81] to add it to the map.
+Класс для рисования прямоугольников поверх карты. Расширяет [Polygon][20]. Используйте [Map\#addLayer][81] для добавления на карту.
 
-### Usage example
+### Пример использования
 
-    // define rectangle geographical bounds
+    // задать географические границы прямоугольника
     var bounds = [[54.559322, -5.767822], [56.1210604, -3.021240]];
 
-    // create an orange rectangle
+    // создать оранжевый прямоугольник
     L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
 
-    // zoom the map to the rectangle bounds
+    // приблизить карту для отображения прямоугольника
     map.fitBounds(bounds);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width250">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Rectangle</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
+            <nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.Rectangle**(
-            <[LatLngBounds][29]> _bounds_,
-            <[Path options][91]> _options?_ )
-`
-`new L.Rectangle(…)`
-`L.rectangle(…)`
-Instantiates a rectangle object with the given geographical bounds and optionally an options object.
+        <td class="factory-usage">
+            <code>L.rectangle(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Methods
+        <td>Создает объект прямоугольника по переданым географическим границам и объекту настроек (опциональный).</td>
+    </tr>
+</table>
 
-You can use [Path methods][93] and additionally the following methods:
-Method
-Returns
-Description
 
-`**setBounds**(
-            <[LatLngBounds][29]> _bounds_ )
-`
-`this`
-Redraws the rectangle with the passed bounds.
+### Методы
+
+Возможно использование [Path methods][93] и дополнительно следующих методов:
+<table>
+    <tr>
+        <th class="width250">Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setBounds</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
+            </code>
+        </td>
+
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Перерисовывает прямоугольник согласно переданных границ.</td>
+    </tr>
+</table>
 
 ## L.Circle
 
