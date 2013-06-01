@@ -1914,178 +1914,229 @@
 
 ## L.Path
 
-An abstract class that contains options and constants shared between vector overlays (Polygon, Polyline, Circle). Do not use it directly.
+Абстрактный класс который содержит опции и константы доступные в векторных допслоях (Polygon, Polyline, Circle). Не используйте их напрямую.
 
-### Options
-Option
-Type
-Default
-Description
+### Опции
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th class="minwidth">По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>stroke</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">true</span></code></td>
+        <td>Рисовать ли границу фигуры. Установите значение в <code><span class="literal">false</span></code> чтобы отключить границы на полигонах или кругах.</td>
+    </tr>
+    <tr>
+        <td><code><b>color</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'#03f'</span></code></td>
+        <td>Цвет границы.</td>
+    </tr>
+    <tr>
+        <td><code><b>weight</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">5</span></code></td>
+        <td>Ширина границы в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>opacity</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">0.5</span></code></td>
+        <td>Прозрачность границы.</td>
+    </tr>
+    <tr>
+        <td><code><b>fill</b></code></td>
+        <td><code>Boolean</code></td>
+        <td>depends</td>
+        <td>Заливать ли геометрии цветом. Установите значение в <code><span class="literal">false</span></code> чтобы отключить заполнение полигонов и кругов.</td>
+    </tr>
+    <tr>
+        <td><code><b>fillColor</b></code></td>
+        <td><code>String</code></td>
+        <td>same as color</td>
+        <td>Цвет заливки.</td>
+    </tr>
+    <tr>
+        <td><code><b>fillOpacity</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">0.2</span></code></td>
+        <td>Прозрачность заливки.</td>
+    </tr>
+    <tr>
+        <td><code><b>dashArray</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="literal">null</span></code></td>
+        <td>Строка определяющая <a href="https://developer.mozilla.org/en/SVG/Attribute/stroke-dasharray">шаблон границы</a>. Не работает на canvas слоях (т.е. Android 2).</td>
+    </tr>
+    <tr>
+        <td><code><b>clickable</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">true</span></code></td>
+        <td>Если установлено значение <code><span class="literal">false</span></code>, геометрия не обрабатывает события мышки.</td>
+    </tr>
+</table>
 
-`**stroke**`
-`Boolean`
-`true`
-Whether to draw stroke along the path. Set it to `false` to disable borders on polygons or circles.
+### События
 
-`**color**`
-`String`
-`'#03f'`
-Stroke color.
+Можно подписать на события используя [эти методы][39].
+<table>
+    <tr>
+        <th class="width100">Событие</th>
+        <th class="width100">Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>click</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при клике или тапе на объект.</td>
+    </tr>
+    <tr>
+        <td><code><b>dblclick</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при двойном клике или двойном тапе на объект.</td>
+    </tr>
+    <tr>
+        <td><code><b>mousedown</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается когда пользователь нажимает кнопку мыши на объекте.</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseover</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается когда курсор мыши заходит в область объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseout</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается когда курсор мыши покидает область объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>contextmenu</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при нажатии правой кнопкой мыши на объекте, предотвращает появление стандартного контекстного меню браузера.</td>
+    </tr>
+    <tr>
+        <td><code><b>add</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается при добавлении геометрии на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>remove</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Вызывается при удалении геометрии с карты.</td>
+    </tr>
+</table>
 
-`**weight**`
-`Number`
-`5`
-Stroke width in pixels.
+### Методы
+<table>
+    <tr>
+        <th class="width250">Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**opacity**`
-`Number`
-`0.5`
-Stroke opacity.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет слой на карту.</td>
+    </tr>
+    <tr id="path-bindpopup">
+        <td><code><b>bindPopup</b>(
+            <nobr>&lt;String&gt; <i>htmlContent</i></nobr>,
+            <nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**fill**`
-`Boolean`
-depends
-Whether to fill the path with color. Set it to `false` to disable filling on polygons or circles.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Привязывает отображение балуна с HTML контентом по клику на геометрию.</td>
+    </tr>
+    <tr id="path-unbindpopup">
+        <td><code><b>unbindPopup</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Отключает отображение балуна с HTML контентом по клику на геометрию.</td>
+    </tr>
+    <tr id="path-openpopup">
+        <td><code><b>openPopup</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng?</i> )</nobr>
+        </code></td>
 
-`**fillColor**`
-`String`
-same as color
-Fill color.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Открывате балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a> в указанной точке.</td>
+    </tr>
+    <tr id="path-closepopup">
+        <td><code><b>closePopup</b>()</code></td>
 
-`**fillOpacity**`
-`Number`
-`0.2`
-Fill opacity.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Закрывает балун, привязанный к геометрии, если тот был открыть.</td>
+    </tr>
+    <tr id="path-setstyle">
+        <td><code><b>setStyle</b>(
+            <nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>object</i> )</nobr>
+        </code></td>
 
-`**dashArray**`
-`String`
-`null`
-A string that defines the stroke [dash pattern][89]. Doesn't work on canvas-powered layers (e.g. Android 2).
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Изменяет внешний вид геометрии указанный в объекте<a href="#path-options">Path options</a>.</td>
+    </tr>
+    <tr id="path-getbounds">
+        <td><code><b>getBounds</b>()</code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Возвращает LatLngBounds геометрии.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToFront</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Позиционирует слой поверх всех остальных слоев.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToBack</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Позиционирует слой за всеми остальными слоями.</td>
+    </tr>
+    <tr>
+        <td><code><b>redraw</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Перерисовывает слой. Полезно в случае если вы изменили координаты которые описывают геометрию.</td>
+    </tr>
+</table>
 
-`**clickable**`
-`Boolean`
-`true`
-If `false`, the vector will not emit mouse events and will act as a part of the underlying map.
-
-### Events
-
-You can subscribe to the following events using [these methods][39].
-Event
-Data
-Description
-
-`**click**`
-`[MouseEvent][61]`
-Fired when the user clicks (or taps) the object.
-
-`**dblclick**`
-`[MouseEvent][61]`
-Fired when the user double-clicks (or double-taps) the object.
-
-`**mousedown**`
-`[MouseEvent][61]`
-Fired when the user pushes the mouse button on the object.
-
-`**mouseover**`
-`[MouseEvent][61]`
-Fired when the mouse enters the object.
-
-`**mouseout**`
-`[MouseEvent][61]`
-Fired when the mouse leaves the object.
-
-`**contextmenu**`
-`[MouseEvent][61]`
-Fired when the user pushes the right mouse button on the object, prevents default browser context menu from showing if there are listeners on this event.
-
-`**add**`
-`[Event][62]`
-Fired when the path is added to the map.
-
-`**remove**`
-`[Event][62]`
-Fired when the path is removed from the map.
-
-### Methods
-Method
-Returns
-Description
-
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the layer to the map.
-
-`**bindPopup**(
-            <String> _htmlContent_,
-            <[Popup options][78]> _options?_ )
-`
-`this`
-Binds a popup with a particular HTML content to a click on this path.
-
-`**unbindPopup**()`
-`this`
-Unbinds the popup previously bound to the path with `bindPopup`.
-
-`**openPopup**(
-            <[LatLng][28]> _latlng?_ )
-`
-`this`
-Opens the popup previously bound by the [bindPopup][90] method in the given point, or in one of the path's points if not specified.
-
-`**closePopup**()`
-`this`
-Closes the path's bound popup if it is opened.
-
-`**setStyle**(
-            <[Path options][91]> _object_ )
-`
-`this`
-Changes the appearance of a Path based on the options in the [Path options][91] object.
-
-`**getBounds**()`
-`[LatLngBounds][29]`
-Returns the LatLngBounds of the path.
-
-`**bringToFront**()`
-`this`
-Brings the layer to the top of all path layers.
-
-`**bringToBack**()`
-`this`
-Brings the layer to the bottom of all path layers.
-
-`**redraw**()`
-`this`
-Redraws the layer. Sometimes useful after you changed the coordinates that the path uses.
-
-### Static properties
-Constant
-Type
-Value
-Description
-
-`SVG`
-`Boolean`
-depends
-True if SVG is used for vector rendering (true for most modern browsers).
-
-`VML`
-`Boolean`
-depends
-True if VML is used for vector rendering (IE 6-8).
-
-`CANVAS`
-`Boolean`
-depends
-True if Canvas is used for vector rendering (Android 2). You can also force this by setting global variable `L_PREFER_CANVAS` to `true` _before_ the Leaflet include on your page --- sometimes it can increase performance dramatically when rendering thousands of circle markers, but currently suffers from a bug that causes removing such layers to be extremely slow.
-
-`CLIP_PADDING`
-`Number`
-`0.5` for SVG
-`0.02` for VML
-How much to extend the clip area around the map view (relative to its size, e.g. 0.5 is half the screen in each direction). Smaller values mean that you will see clipped ends of paths while you're dragging the map, and bigger values decrease drawing performance.
+### Статические свойства
+<table>
+    <tr>
+        <th>Константа</th>
+        <th>Тип</th>
+        <th>Значение</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code>SVG</code></td>
+        <td><code>Boolean</code></td>
+        <td>depends</td>
+        <td>True если для рендеринга вектора используется SVG (true в большинстве современных браузеров).</td>
+    </tr>
+    <tr>
+        <td><code>VML</code></td>
+        <td><code>Boolean</code></td>
+        <td>depends</td>
+        <td>True если для рендеринга вектора используется VML (IE 6-8).</td>
+    </tr>
+    <tr>
+        <td><code>CANVAS</code></td>
+        <td><code>Boolean</code></td>
+        <td>depends</td>
+        <td>True если для рендеринга вектора используется Canvas (Android 2). Можно прямо указать значение глобальной перменной <code>L_PREFER_CANVAS</code> равное <code><span class="literal">true</span></code> <em>перед/em> подключением Leaflet на страницу — иногда это помогает заметно улучшить производительность при отрисовке множества маркеров, но в данный момент существует баг, не позволящий улучшить производительность подобным способом.</td>
+    </tr>
+    <tr>
+        <td><code>CLIP_PADDING</code></td>
+        <td><code>Number</code></td>
+        <td><nobr><code><span class="number">0.5</span></code> for SVG</nobr><br /><nobr><code><span class="number">0.02</span></code> for VML</nobr></td>
+        <td>Указывает насколько сильно расширять clip-область вокруг области просмотра карты. Маленькие значения означают что вы увидите обрезанные геометрии при перетягивании, большие увеличат скорость отрисовки.</td>
+    </tr>
+</table>
 
 ## L.Polyline
 
