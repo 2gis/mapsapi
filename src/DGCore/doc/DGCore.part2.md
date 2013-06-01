@@ -9,19 +9,18 @@
     map.panTo([50, 30]);
     map.panTo(new L.LatLng(50, 30));
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+Конструктор
+Использование
+Описание
 
 `**L.LatLng**(
             <Number> _latitude_,
             <Number> _longitude_ )
 `
-`new L.LatLng(…)`
 `L.latLng(…)`
 `L.latLng([…])`
-Creates an object representing a geographical point with the given latitude and longitude.
+Создает объект, представляющий географическую точку с определенной широтой и долготой.
 
 ### Properties
 Property
