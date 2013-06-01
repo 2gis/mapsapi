@@ -1,6 +1,6 @@
 ## L.LatLng
 
-Представляет географическую точку координат с определенной широтой и долготой.
+Географическая точка координат с определенной широтой и долготой.
 
     var latlng = new L.LatLng(50.5, 30.5);
 
@@ -86,7 +86,7 @@
 
 ## L.LatLngBounds
 
-Представляет прямоугольную географическую область на карте.
+Прямоугольная географическая область на карте.
 
     var southWest = new L.LatLng(40.712, -74.227),
         northEast = new L.LatLng(40.774, -74.125),
@@ -164,35 +164,38 @@ LatLngBounds
 
 `**getCenter**()`
 `[LatLng][28]`
-Returns the center point of the bounds.
+Возвращает центральную точку прямоугольной области.
 
 `**contains**(
             <[LatLngBounds][29]> _otherBounds_ )
 `
 `Boolean`
-Returns `true` if the rectangle contains the given one.
+Возвращает `true`, если текущий прямоугольник содержит внутри себя переданный прямоугольник.
 
 `**contains**(
             <[LatLng][28]> _latlng_ )
 `
 `Boolean`
 Returns `true` if the rectangle contains the given point.
+Возвращает `true`, если прямоугольник содержит внутри себя переданную точку.
+
 
 `**intersects**(
             <[LatLngBounds][29]> _otherBounds_ )
 `
 `Boolean`
 Returns `true` if the rectangle intersects the given bounds.
+Возвращает `true`, если текущий прямоугольник пересекается с переданным прямоугольником.
 
 `**equals**(
             <[LatLngBounds][29]> _otherBounds_ )
 `
 `Boolean`
-Returns `true` if the rectangle is equivalent (within a small margin of error) to the given bounds.
+Возвращает `true`, если текущий прямоугольник эквивалентен (с небольшой погрешностью) переданному прямоугольнику.
 
 `**toBBoxString**()`
 `String`
-Returns a string with bounding box coordinates in a `'southwest_lng,southwest_lat,northeast_lng,northeast_lat'` format. Useful for sending requests to web services that return geo data.
+Возвращает строку с координатами границ в формате `'southwest_lng,southwest_lat,northeast_lng,northeast_lat'`. Удобно использовать для отправки запросов к веб-сервисам, возвращающим геоданные.
 
 `**pad**(
             <Number> _bufferRatio_ )
