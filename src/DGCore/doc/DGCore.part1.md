@@ -1666,7 +1666,7 @@
 
 ## L.TileLayer.WMS
 
-Used to display WMS services as tile layers on the map. Extends [TileLayer][13].
+Испльзуется для отображения WMS сервисов как тайловый слой карты. Расширяет [TileLayer][13].
 
 ### Usage example
 
@@ -1677,63 +1677,86 @@ Used to display WMS services as tile layers on the map. Extends [TileLayer][13].
         attribution: "Weather data © 2012 IEM Nexrad"
     });
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width250">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.TileLayer.WMS</b>(
+            <nobr>&lt;String&gt; <i>baseUrl</i></nobr>,
+            <nobr>&lt;<a href="#tilelayer-wms-options">TileLayer.WMS options</a>&gt; <i>options</i> )</nobr>
+        </code></td>
 
-`**L.TileLayer.WMS**(
-            <String> _baseUrl_,
-            <[TileLayer.WMS options][85]> _options_ )
-`
-`new L.TileLayer.WMS(…)`
-`L.tileLayer.wms(…)`
-Instantiates a WMS tile layer object given a base URL of the WMS service and a WMS parameters/options object.
+        <td class="factory-usage">
+            <code>L.tileLayer.wms(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Options
+        <td>Создает объект WMS тайлового слоя по переданному URL WMS-сервиса и объекту опций.</td>
+    </tr>
+</table>
 
-Includes all [TileLayer options][83] and additionally:
-Option
-Type
-Default
-Description
 
-`**layers**`
-`String`
-`''`
-**(required)** Comma-separated list of WMS layers to show.
+### Опции
 
-`**styles**`
-`String`
-`''`
-Comma-separated list of WMS styles.
+Включает все опции [TileLayer options][83] и дополнительные:
+<table>
+    <tr>
+        <th class="width100">Опция</th>
+        <th class="width100">Тип</th>
+        <th class="width100">По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>layers</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">''</span></code></td>
+        <td><b>(обязательная)</b> Список WMS слоев которые необходимо отобразить, разделенных запятой.</td>
+    </tr>
+    <tr>
+        <td><code><b>styles</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">''</span></code></td>
+        <td>WMS стилей, разделенный запятой.</td>
+    </tr>
+    <tr>
+        <td><code><b>format</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'image/jpeg'</span></code></td>
+        <td>Формат WMS-изображений (используйте <code><span class="string">'image/png'</span></code> для слоев с прозрачностью).</td>
+    </tr>
+    <tr>
+        <td><code><b>transparent</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если установлено значение <code><span class="literal">true</span></code>, WMS сервис вернет изображения с прозрачностью.</td>
+    </tr>
+    <tr>
+        <td><code><b>version</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'1.1.1'</span></code></td>
+        <td>Указывает какую версию WMS сервиса использовать.</td>
+    </tr>
+</table>
 
-`**format**`
-`String`
-`'image/jpeg'`
-WMS image format (use `'image/png'` for layers with transparency).
-
-`**transparent**`
-`Boolean`
-`false`
-If `true`, the WMS service will return images with transparency.
-
-`**version**`
-`String`
-`'1.1.1'`
-Version of the WMS service to use.
-
-### Methods
-Method
-Returns
-Description
-
-`**setParams**(
-            <[WMS parameters][85]> _params_,
-            <Boolean> _noRedraw?_ )
-`
-`this`
-Merges an object with the new parameters and re-requests tiles on the current screen (unless `noRedraw` was set to `true`).
+### Методы
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setParams</b>(
+            <nobr>&lt;<a href="#tilelayer-wms-options">WMS parameters</a>&gt; <i>params</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>noRedraw?</i> )</nobr>
+        </code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Мержит объект с новыми параметрами и перезапрашивает тайлы текущего скрина(если только <code>noRedraw</code> не установлен в <code><span class="literal">true</span></code>).</td>
+    </tr>
+</table>
 
 ## L.TileLayer.Canvas
 
