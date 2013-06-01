@@ -1830,64 +1830,87 @@
 
 ## L.ImageOverlay
 
-Used to load and display a single image over specific bounds of the map, implements [ILayer][52] interface.
+Используется для загрузки и отображаения одного конкретного изображения за границами карты, реализует интерфейс [ILayer][52].
 
-### Usage example
+### Пример использования
 
     var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
         imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
 
     L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width250">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.ImageOverlay</b>(
+            <nobr>&lt;String&gt; <i>imageUrl</i></nobr>,
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
+            <nobr>&lt;<a href="#imageoverlay-options">ImageOverlay options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.ImageOverlay**(
-            <String> _imageUrl_,
-            <[LatLngBounds][29]> _bounds_,
-            <[ImageOverlay options][88]> _options?_ )
-`
-`new L.ImageOverlay(…)`
-`L.imageOverlay(…)`
-Instantiates an image overlay object given the URL of the image and the geographical bounds it is tied to.
+        <td class="factory-usage">
+            <code>L.imageOverlay(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>Создает объект изображения дополнительного слоя по переданному URL адресу и географическим координатам к которым оно привязано.</td>
+    </tr>
+</table>
 
-`**opacity**`
-`Number`
-`1.0`
-The opacity of the image overlay.
+### Опции
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th class="minwidth">По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>opacity</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">1.0</span></code></td>
+        <td>Прозрачность допслоя.</td>
+    </tr>
+</table>
 
-### Methods
-Method
-Returns
-Description
+### Методы
+<table>
+    <tr>
+        <th class="width250">Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the overlay to the map.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет допслой на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>setOpacity</b>(
+            <nobr>&lt;Number&gt; <i>opacity</i> )</nobr>
+        </code></td>
 
-`**setOpacity**(
-            <Number> _opacity_ )
-`
-`this`
-Sets the opacity of the overlay.
-
-`**bringToFront**()`
-`this`
-Brings the layer to the top of all overlays.
-
-`**bringToBack**()`
-`this`
-Brings the layer to the bottom of all overlays.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает прозрачность допслоя.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToFront</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Позиционирует слой поверх остальных.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToBack</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Позиционирует слой за всеми осталными.</td>
+    </tr>
+</table>
 
 ## L.Path
 
