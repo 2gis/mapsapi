@@ -22,87 +22,87 @@
 `L.latLng([…])`
 Создает объект, представляющий географическую точку с определенной широтой и долготой.
 
-### Properties
-Property
-Type
-Description
+### Свойства
+Свойство
+Тип
+Описание
 
 `**lat**`
 `Number`
-Latitude in degrees.
+Широта в градусах.
 
 `**lng**`
 `Number`
-Longitude in degrees.
+Долгота в градусах.
 
-### Methods
-Method
-Returns
-Description
+### Методы
+Метод
+Возвращает
+Описание
 
 `**distanceTo**(
             <[LatLng][28]> _otherLatlng_ )
 `
 `Number`
-Returns the distance (in meters) to the given LatLng calculated using the Haversine formula. See [description on wikipedia][99]
+Возвращает расстояние (в метрах) до данной широты и долготы, рассчитывается по формуле Haversine. См. [описание в wikipedia][99]
 
 `**equals**(
             <[LatLng][28]> _otherLatlng_ )
 `
 `Boolean`
-Returns `true` if the given LatLng point is at the same position (within a small margin of error).
+Возвращает Returns `true`, если данная широта и долгота находится в той же позиции (с небольшой погрешностью).
 
 `**toString**()`
 `String`
-Returns a string representation of the point (for debugging purposes).
+Возвращает строковое представление точки (для отладки).
 
 `**wrap**(
             <Number> _left_,
             <Number> _right_ )
 `
 `[LatLng][28]`
-Returns a new `LatLng` object with the longitude wrapped around `left` and `right` boundaries (`-180` to `180` by default).
+@todo Returns a new `LatLng` object with the longitude wrapped around `left` and `right` boundaries (`-180` to `180` by default).
 
 ### Constants
-Constant
-Type
-Value
-Description
+Константа
+Тип
+Значение
+Описание
 
 `**DEG_TO_RAD**`
 `Number`
 `Math.PI / 180`
-A multiplier for converting degrees into radians.
+Коэффициент для конвертирования градусов в радианы.
 
 `**RAD_TO_DEG**`
 `Number`
 `180 / Math.PI`
-A multiplier for converting radians into degrees.
+Коэффициент для конвертирования радиан в градусы.
 
 `**MAX_MARGIN**`
 `Number`
 `1.0E-9`
-Max margin of error for the equality check.
+Максимальная погрешность для проверки равенства.
 
 ## L.LatLngBounds
 
-Represents a rectangular geographical area on a map.
+Представляет прямоугольную географическую область на карте.
 
     var southWest = new L.LatLng(40.712, -74.227),
         northEast = new L.LatLng(40.774, -74.125),
         bounds = new L.LatLngBounds(southWest, northEast);
 
-All Leaflet methods that accept LatLngBounds objects also accept them in a simple Array form (unless noted otherwise), so the bounds example above can be passed like this:
+Все методы, которые принимают объекты LatLngBounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
 
     map.fitBounds([
         [40.712, -74.227],
         [40.774, -74.125]
     ]);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+LatLngBounds
+Использование
+Описание
 
 `**L.LatLngBounds**(
             <[LatLng][28]> _southWest_,
@@ -110,57 +110,57 @@ Description
 `new L.LatLngBounds(…)`
 `L.latLngBounds(…)`
 `L.latLngBounds([…])`
-Creates a LatLngBounds object by defining south-west and north-east corners of the rectangle.
+Создает объект LatLngBounds с определенными юго-западным и северо-восточным углами прямоугольника.
 
 `**L.LatLngBounds**(
             <[LatLng][28][]> _latlngs_ )
 `
 `new L.LatLngBounds(…)`
 `L.latLngBounds(…)`
-Creates a LatLngBounds object defined by the geographical points it contains. Very useful for zooming the map to fit a particular set of locations with [fitBounds][100].
+Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода [fitBounds][100].
 
 ### Methods
-Method
-Returns
-Description
+Метод
+Возвращает
+Описание
 
 `**extend**(
             <[LatLng][28]|[LatLngBounds][29]> _latlng_ )
 `
 `this`
-Extends the bounds to contain the given point or bounds.
+Расширяет границы таким образом, чтобы в них входила переданная точка или границы.
 
 `**getSouthWest**()`
 `[LatLng][28]`
-Returns the south-west point of the bounds.
+Возвращает юго-западную точку границ.
 
 `**getNorthEast**()`
 `[LatLng][28]`
-Returns the north-east point of the bounds.
+Возвращает северо-восточную точку границ.
 
 `**getNorthWest**()`
 `[LatLng][28]`
-Returns the north-west point of the bounds.
+Возвращает северо-западную точку границ.
 
 `**getSouthEast**()`
 `[LatLng][28]`
-Returns the south-east point of the bounds.
+Возвращает юго-восточную точку границ.
 
 `**getWest**()`
 `Number`
-Returns the west longitude of the bounds.
+Возвращает западную долготу границ.
 
 `**getSouth**()`
 `Number`
-Returns the south latitude of the bounds.
+Возвращает южную широту границ.
 
 `**getEast**()`
 `Number`
-Returns the east longitude of the bounds.
+Возвращает восточную долготу границ.
 
 `**getNorth**()`
 `Number`
-Returns the north latitude of the bounds.
+Возвращает северную широту границ.
 
 `**getCenter**()`
 `[LatLng][28]`
