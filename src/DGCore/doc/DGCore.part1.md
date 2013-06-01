@@ -1760,56 +1760,73 @@
 
 ## L.TileLayer.Canvas
 
-Used to create Canvas-based tile layers where tiles get drawn on the browser side. Extends [TileLayer][13].
+Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет [TileLayer][13].
 
-### Usage example
+### Пример использования
 
     var canvasTiles = L.tileLayer.canvas();
 
     canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
         var ctx = canvas.getContext('2d');
-        // draw something on the tile canvas
+        // отрисовываем тайл
     }
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width200">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.TileLayer.Canvas</b>(
+            <nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
+        <td class="factory-usage">
+            <code>L.tileLayer.canvas(<span class="comment">&hellip;</span>)</code>
+        </td>
+        <td>Создает объект Canvas-тайлового слоя по переданному объекту параметров (опциональный).</td>
+    </tr>
+</table>
 
-`**L.TileLayer.Canvas**(
-            <[TileLayer options][83]> _options?_ )
-`
-`new L.TileLayer.Canvas(…)`
-`L.tileLayer.canvas(…)`
-Instantiates a Canvas tile layer object given an options object (optionally).
+### Опции
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>async</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Указывает что тайлы должны отрисовываться асинхронно. Метод <a href="#tilelayer-canvas-tiledrawn">tileDrawn</a> должен быть вызван для каждого тайла после завершения отрисовки.</td>
+    </tr>
+</table>
 
-### Options
-Option
-Type
-Default
-Description
-
-`**async**`
-`Boolean`
-`false`
-Indicates that tiles will be drawn asynchronously. [tileDrawn][86] method should be called for each tile after drawing completion.
-
-### Methods
-Method
-Returns
-Description
-
-`**drawTile**(
-            <HTMLCanvasElement> _canvas_,
-            <[Point][30]> _tilePoint_,
-            <Number> _zoom_ )
-`
-`this`
-You need to define this method after creating the instance to draw tiles; `canvas` is the actual canvas tile on which you can draw, `tilePoint` represents the tile numbers, and `zoom` is the current zoom.
-
-`**tileDrawn**( <HTMLCanvasElement> _canvas_ )`
--
-If `async` option is defined, this function should be called for each tile after drawing completion. `canvas` is the same canvas element, that was passed to [drawTile][87].
+### Методы
+<table>
+    <tr>
+        <th class="width200">Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr id = "tilelayer-canvas-drawtile">
+        <td><code><b>drawTile</b>(
+            <nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>tilePoint</i></nobr>,
+            <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+        </code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Чтобы отрисовать тайлы, нужно определить этот метод после создания инстанса объекта; <code>canvas</code> непосредственно элемент canvas на котором будут отрисовываться тайлы, <code>tilePoint</code> номера тайлов, и <code>zoom</code> текущий уровень зума.</td>
+    </tr>
+    <tr id="tilelayer-canvas-tiledrawn">
+        <td><code><b>tileDrawn</b>( <nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr> )</code></td>
+        <td>-</td>
+        <td>Если опция <code>async</code> задана, эту функцию нужно вызывать каждый раз после отрисовки тайла. <code>canvas</code> тот же элемент, что передается в <a href="#tilelayer-canvas-drawtile">drawTile</a>.</td>
+    </tr>
+</table>
 
 ## L.ImageOverlay
 
