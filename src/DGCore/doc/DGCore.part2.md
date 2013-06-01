@@ -63,7 +63,7 @@
 `[LatLng][28]`
 @todo Returns a new `LatLng` object with the longitude wrapped around `left` and `right` boundaries (`-180` to `180` by default).
 
-### Constants
+### Константы
 Константа
 Тип
 Значение
@@ -100,7 +100,7 @@
     ]);
 
 ### Конструктор
-LatLngBounds
+Конструктор
 Использование
 Описание
 
@@ -176,7 +176,6 @@ LatLngBounds
             <[LatLng][28]> _latlng_ )
 `
 `Boolean`
-Returns `true` if the rectangle contains the given point.
 Возвращает `true`, если прямоугольник содержит внутри себя переданную точку.
 
 
@@ -184,7 +183,6 @@ Returns `true` if the rectangle contains the given point.
             <[LatLngBounds][29]> _otherBounds_ )
 `
 `Boolean`
-Returns `true` if the rectangle intersects the given bounds.
 Возвращает `true`, если текущий прямоугольник пересекается с переданным прямоугольником.
 
 `**equals**(
@@ -201,12 +199,13 @@ Returns `true` if the rectangle intersects the given bounds.
             <Number> _bufferRatio_ )
 `
 `[LatLngBounds][29]`
-Returns bigger bounds created by extending the current bounds by a given percentage in each direction.
+Возвращает большие границы, созданные путем расширения текущих границ на заданный процент в каждом направлении.
 
 `**isValid**()
         `
 `Boolean`
 Returns `true` if the bounds are properly initialized.
+Возвращает `true`, если если свойства границ инициализированы.
 
 ## L.Point
 
