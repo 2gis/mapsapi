@@ -2382,82 +2382,116 @@
 
 ## L.Circle
 
-A class for drawing circle overlays on a map. Extends [Path][17]. Use [Map\#addLayer][81] to add it to the map.
+Класс для рисования круга поверх карты. Расширяет [Path][17]. Используйте [Map\#addLayer][81] для добавления слоя на карту.
 
     L.circle([50.5, 30.5], 200).addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Circle</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+            <nobr>&lt;Number&gt; <i>radius</i></nobr>,
+            <nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.Circle**(
-            <[LatLng][28]> _latlng_,
-            <Number> _radius_,
-            <[Path options][91]> _options?_ )
-`
-`new L.Circle(…)`
-`L.circle(…)`
-Instantiates a circle object given a geographical point, a radius in meters and optionally an options object.
+        <td class="factory-usage">
+            <code>L.circle(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Methods
-Method
-Returns
-Description
+        <td>Создает объект круга по переданной географической точке, радиуса в метрах и объекту настроек (опциональный).</td>
+    </tr>
+</table>
 
-`**getLatLng**()`
-`[LatLng][28]`
-Returns the current geographical position of the circle.
+### Методы
+<table>
+    <tr>
+        <th class="width200">Метод</th>
+        <th class="minwidth">Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>getLatLng</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает текущую географическую позицию круга.</td>
+    </tr>
+    <tr>
+        <td><code><b>getRadius</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает текущий радиус круга, значение в метрах.</td>
+    </tr>
+    <tr>
+        <td><code><b>setLatLng</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**getRadius**()`
-`Number`
-Returns the current radius of a circle. Units are in meters.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает новое положение круга.</td>
+    </tr>
+    <tr>
+        <td><code><b>setRadius</b>(
+            <nobr>&lt;Number&gt; <i>radius</i> )</nobr>
+        </code></td>
 
-`**setLatLng**(
-            <[LatLng][28]> _latlng_ )
-`
-`this`
-Sets the position of a circle to a new location.
-
-`**setRadius**(
-            <Number> _radius_ )
-`
-`this`
-Sets the radius of a circle. Units are in meters.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает радиус круга, значение в метрах.</td>
+    </tr>
+</table>
 
 ## L.CircleMarker
 
-A circle of a fixed size with radius specified in pixels. Extends [Circle][23]. Use [Map\#addLayer][81] to add it to the map.
+Круг фиксированного размера с радиусом указанным в пикселях. Расширяет [Circle][23]. Используйте [Map\#addLayer][81] для добавления на карту.
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width200">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.CircleMarker</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+            <nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.CircleMarker**(
-            <[LatLng][28]> _latlng_,
-            <[Path options][91]> _options?_ )
-`
-`new L.CircleMarker(…)`
-`L.circleMarker(…)`
-Instantiates a circle marker given a geographical point and optionally an options object. The default radius is 10 and can be altered by passing a "radius" member in the path options object.
+        <td class="factory-usage">
+            <code>L.circleMarker(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Methods
-Method
-Returns
-Description
+        <td>Создает объект circle marker по переданной географической точке и объекту настроек (опциональный). Значение радиуса по умолчанию 10 пикселей.</td>
+    </tr>
+</table>
 
-`**setLatLng**(
-            <[LatLng][28]> _latlng_ )
-`
-`this`
-Sets the position of a circle marker to a new location.
+### Методы
+<table>
+    <tr>
+        <th class="width200">Метод</th>
+        <th class="minwidth">Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setLatLng</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**setRadius**(
-            <Number> _radius_ )
-`
-`this`
-Sets the radius of a circle marker. Units are in pixels.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает позицию для marker.</td>
+    </tr>
+    <tr>
+        <td><code><b>setRadius</b>(
+            <nobr>&lt;Number&gt; <i>radius</i> )</nobr>
+        </code></td>
+
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает радиус circle marker, значение в пикселях.</td>
+    </tr>
+</table>
 
 ## L.LayerGroup
 
