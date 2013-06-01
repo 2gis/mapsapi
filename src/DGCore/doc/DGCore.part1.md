@@ -2140,81 +2140,107 @@
 
 ## L.Polyline
 
-A class for drawing polyline overlays on a map. Extends [Path][17]. Use [Map\#addLayer][81] to add it to the map.
+Класс для отрисовки полилайнов поверх карты. Расширяет [Path][17]. Используйте [Map\#addLayer][81] для добавления на карту.
 
-### Usage example
+### Примеры использования
 
-    // create a red polyline from an arrays of LatLng points
+    // создайте красный полилайн из массива LatLng точек
     var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 
-    // zoom the map to the polyline
+    // приблизьте карту для просмотра полилайна
     map.fitBounds(polyline.getBounds());
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width250">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Polyline</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
+            <nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.Polyline**(
-            <[LatLng][28][]> _latlngs_,
-            <[Polyline options][92]> _options?_ )
-`
-`new L.Polyline(…)`
-`L.polyline(…)`
-Instantiates a polyline object given an array of geographical points and optionally an options object.
+        <td class="factory-usage">
+            <code>L.polyline(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Options
+        <td>Создает объект полилайна по переданному массиву географических точек и объекту настроек (опциональный).</td>
+    </tr>
+</table>
 
-You can use [Path options][91] and additionally the following options:
-Option
-Type
-Default
-Description
+### Опции
 
-`**smoothFactor**`
-`Number`
-`1.0`
-How much to simplify the polyline on each zoom level. More means better performance and smoother look, and less means more accurate representation.
+Возможно использование [Path options][91] и дополнительных опций:
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>smoothFactor</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">1.0</span></code></td>
+        <td>Насколько упрощать отображение полилайна на каждом уровне зума. Большее значние означает лучшую производительность и более гладкий вид, меньшее - более точная отрисовка.</td>
+    </tr>
+    <tr>
+        <td><code><b>noClip</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Отключает обрезание полилайна.</td>
+    </tr>
+</table>
 
-`**noClip**`
-`Boolean`
-`false`
-Disabled polyline clipping.
+### Методы
 
-### Methods
+Возможно использование [Path options][93] и дополнительных методов:
+<table>
+    <tr>
+        <th class="width250">Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addLatLng</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-You can use [Path methods][93] and additionally the following methods:
-Method
-Returns
-Description
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет переданную точку в полилайн.</td>
+    </tr>
+    <tr>
+        <td><code><b>setLatLngs</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i> )</nobr>
+        </code></td>
 
-`**addLatLng**(
-            <[LatLng][28]> _latlng_ )
-`
-`this`
-Adds a given point to the polyline.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Заменяет все точки полилайна массивом переданных географических точек.</td>
+    </tr>
+    <tr>
+        <td><code><b>getLatLngs</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a>[]</code></td>
+        <td>Возвращает массив точек геометрии.</td>
+    </tr>
+    <tr>
+        <td><code><b>spliceLatLngs</b>(
+            <nobr>&lt;Number&gt; <i>index</i></nobr>,
+            <nobr>&lt;Number&gt; <i>pointsToRemove</i></nobr>,
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng?</i>, &hellip; )</nobr>
+        </code></td>
 
-`**setLatLngs**(
-            <[LatLng][28][]> _latlngs_ )
-`
-`this`
-Replaces all the points in the polyline with the given array of geographical points.
-
-`**getLatLngs**()`
-`[LatLng][28][]`
-Returns an array of the points in the path.
-
-`**spliceLatLngs**(
-            <Number> _index_,
-            <Number> _pointsToRemove_,
-            <[LatLng][28]> _latlng?_, … )
-`
-`[LatLng][28][]`
-Allows adding, removing or replacing points in the polyline. Syntax is the same as in [Array\#splice][94]. Returns the array of removed points (if any).
-
-`**getBounds**()`
-`[LatLngBounds][29]`
-Returns the LatLngBounds of the polyline.
+        <td><code><a href="#latlng">LatLng</a>[]</code></td>
+        <td>Позволяет добавлять, удалять или заменять точки в полилайне. Синтаксис аналогичен <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/splice">Array#splice</a>. Возвращает массив удаленных точек.</td>
+    </tr>
+    <tr id="path-getbounds">
+        <td><code><b>getBounds</b>()</code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Возвращает LatLngBounds полилайна.</td>
+    </tr>
+</table>
 
 ## L.MultiPolyline
 
