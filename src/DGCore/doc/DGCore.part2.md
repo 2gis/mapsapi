@@ -226,7 +226,7 @@
         </code></td>
 
         <td><code>Boolean</code></td>
-        <td>Returns <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
     </tr>
     <tr>
         <td><code><b>contains</b>(
@@ -450,19 +450,84 @@
 </table>
 
 ### Свойства
-Property
-Type
-Description
 
-`**min**`
-`[Point][30]`
-The top left corner of the rectangle.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>min</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Левый верхний угол прямоугольника.</td>
+    </tr>
+    <tr>
+        <td><code><b>max</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Правый нижний угол прямоугольника.</td>
+    </tr>
+</table>
 
-`**max**`
-`[Point][30]`
-The bottom right corner of the rectangle.
+### Методы
 
-### Methods
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Расширяет границы таким образом, чтобы в них входила переданная точка.</td>
+    </tr>
+    <tr>
+        <td><code><b>getCenter</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает центральную точку прямоугольной области.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если прямоугольник содержит внутри себя переданную точку.</td>
+    </tr>
+    <tr>
+        <td><code><b>intersects</b>(
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник пересекается с переданным прямоугольником.</td>
+    </tr>
+    <tr>
+        <td><code><b>isValid</b>()</code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если если свойства границ инициализированы.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSize</b>()</code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает размер прямоугольника.</td>
+    </tr>
+</table>
+
 Method
 Returns
 Description
