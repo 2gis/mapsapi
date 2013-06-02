@@ -2,12 +2,15 @@
  *
  */
 
-L.DG.Geoclicker.Handlers.House = L.Class.extend({
+L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
 
-    initialize: function (controller, popup) {
-        this._popup = popup;
-        this.controller = controller;
+    statics: {
+        Dictionary: {
+            ru: {"Show all organisations in this building": 'Показать все организации в здании'},
+            it: {"Show all organisations in this building": '(it)Показать все организации в здании'}
+        }
     },
+
 
     handle: function (results) {
 
@@ -51,7 +54,7 @@ L.DG.Geoclicker.Handlers.House = L.Class.extend({
         }
 
         if (attrs.firmcount > 0) {
-            data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">Показать все организации в здании (' + attrs.firmcount + ')</a>';
+            data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show all organisations in this building") + ' (' + attrs.firmcount + ')</a>';
         }
 
 
@@ -81,7 +84,7 @@ L.DG.Geoclicker.Handlers.House = L.Class.extend({
 
         this._page = 1;
 
-        this.controller._webApi.firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this)); //@todo encapsulations hack (controller._webApi.firmsInHouse) - fix
+        this._controller._webApi.firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this)); //@todo encapsulations hack (controller._webApi.firmsInHouse) - fix
     },
 
     _handlePaging: function () {
@@ -89,7 +92,7 @@ L.DG.Geoclicker.Handlers.House = L.Class.extend({
         //this._popup.showLoaderPaging();
         this._page++;
 
-        this.controller._geoCoder.getFirms(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
+        this._controller._geoCoder.getFirms(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
     },
 
     _handleFirmsLoadingEnd: function (results) {

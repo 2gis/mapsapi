@@ -13,10 +13,10 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
             house: L.DG.Geoclicker.Handlers.House,
 
-            district: L.DG.Geoclicker.Handlers.handlerExample,
-            city: L.DG.Geoclicker.Handlers.handlerExample,
+            district: L.DG.Geoclicker.Handlers.HandlerExample,
+            city: L.DG.Geoclicker.Handlers.HandlerExample,
 
-            default: L.DG.Geoclicker.Handlers.default
+            default: L.DG.Geoclicker.Handlers.Default
 //            station_platform
 //
 //            street
@@ -76,7 +76,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._popup.hideLoader();
 
         if (!result) {
-            this.options.handlersSequence.default(this._popup, this._map);
+            this._ensureHandlerIsInit('default');
+            this._handlers.default.handle();
             return;
         }
 
@@ -90,7 +91,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             }
         }
 
-        this.options.handlersSequence.default(this._popup, this._map);
+        this._ensureHandlerIsInit('default');
+        this._handlers.default.handle();
     },
 
     _findHandler: function (result) {
