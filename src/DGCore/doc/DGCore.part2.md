@@ -881,156 +881,75 @@
     </tr>
 </table>
 
-## L.Control.Layers
-
-The layers control gives users the ability to switch between different base layers and switch overlays on/off (check out the [detailed example][107]). Extends [Control][34].
-
-    var baseLayers = {
-        "CloudMade": cloudmade,
-        "OpenStreetMap": osm
-    };
-
-    var overlays = {
-        "Marker": marker,
-        "Roads": roadsLayer
-    };
-
-    L.control.layers(baseLayers, overlays).addTo(map);
-
-### Constructor
-Constructor
-Usage
-Description
-
-`**L.Control.Layers**(
-            <[Layer Config][108]> _baseLayers?_,
-            <[Layer Config][108]> _overlays?_,
-            <[Control.Layers options][109]> _options?_ )
-`
-`new L.Control.Layers(…)`
-`L.control.layers(…)`
-Creates an attribution control with the given layers. Base layers will be switched with radio buttons, while overlays will be switched with checkboxes.
-
-### Methods
-Method
-Returns
-Description
-
-`**addBaseLayer**(
-            <[ILayer][52]> _layer_,
-            <String> _name_ )
-`
-`this`
-Adds a base layer (radio button entry) with the given name to the control.
-
-`**addOverlay**(
-            <[ILayer][52]> _layer_,
-            <String> _name_ )
-`
-`this`
-Adds an overlay (checkbox entry) with the given name to the control.
-
-`**removeLayer**(
-            <[ILayer][52]> _layer_ )
-`
-`this`
-Remove the given layer from the control.
-
-### Options
-Option
-Type
-Default
-Description
-
-`**position**`
-`String`
-`'topright'`
-The position of the control (one of the map corners). See [control positions][104].
-
-`**collapsed**`
-`Boolean`
-`true`
-If `true`, the control will be collapsed into an icon and expanded on mouse hover or touch.
-
-`**autoZIndex**`
-`Boolean`
-`true`
-If `true`, the control will assign zIndexes in increasing order to all of its layers so that the order is preserved when switching them on/off.
-
-### Layer Config
-
-An object literal with layer names as keys and layer objects as values:
-
-    {
-        "<someName1>": layer1,
-        "<someName2>": layer2
-    }
-
-The layer names can contain HTML, which allows you to add additional styling to the items:
-
-    {"<img src='my-layer-icon' /> <span class='my-layer-item'>My Layer</span>": myLayer}
-
-### Events
-
-You can subscribe to the following events on the map object using [these methods][39].
-Event
-Data
-Description
-
-`**baselayerchange**`
-`[LayerEvent][63]`
-Fired when the base layer is changed through the control.
-
 ## L.Control.Scale
 
-A simple scale control that shows the scale of the current center of screen in metric (m/km) and imperial (mi/ft) systems. Implements [IControl][53] interface.
+Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Реализует интерфейс [IControl][53].
 
     L.control.scale().addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Control.Scale**(
-            <[Control.Scale options][110]> _options?_ )
-`
-`new L.Control.Scale(…)`
-`L.control.scale(…)`
-Creates an scale control with the given options.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control.Scale</b>(
+            <nobr>&lt;<a href="#control-scale-options">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>
+            <code>L.control.scale(&hellip;)</code>
+        </td>
 
-`**position**`
-`String`
-`'bottomleft'`
-The position of the control (one of the map corners). See [control positions][104].
+        <td>Создает индикатор масштаба с переданными опциями.</td>
+    </tr>
+</table>
 
-`**maxWidth**`
-`Number`
-`100`
-Maximum width of the control in pixels. The width is set dynamically to show round values (e.g. 100, 200, 500).
+### Опции
 
-`**metric**`
-`Boolean`
-`true`
-Whether to show the metric scale line (m/km).
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'bottomleft'</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>maxWidth</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">100</span></code></td>
+        <td>Максимальная ширина элемента в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>metric</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code></td>
+        <td>Включает или отключает метрическую систему измерений (метры, километры).</td>
+    </tr>
+    <tr>
+        <td><code><b>imperial</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code></td>
+        <td>Включает или отключает английскую систему измерений (мили, футы).</td>
+    </tr>
+    <tr>
+        <td><code><b>updateWhenIdle</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если <code>true</code>, тогда элемент обновляется при событии <code>moveend</code>, иначе всегда будет отображена актуальная информация (обновляется при событии <code>move</code>).</td>
+    </tr>
+</table>
 
-`**imperial**`
-`Boolean`
-`true`
-Whether to show the imperial scale line (mi/ft).
-
-`**updateWhenIdle**`
-`Boolean`
-`false`
-If `true`, the control is updated on `moveend`, otherwise it's always up-to-date (updated on `move`).
-
-## Events methods
+## Методы событий
 
 A set of methods shared between event-powered classes (like Map). Generally, events allow you to execute some function when something happens with an object (e.g. the user clicks on the map, causing the map `'fire'` event).
 
