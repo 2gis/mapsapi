@@ -530,7 +530,7 @@
 
 ## L.Icon
 
-Represents an icon to provide when creating a marker.
+Иконка маркера.
 
     var myIcon = L.icon({
         iconUrl: 'my-icon.png',
@@ -546,19 +546,27 @@ Represents an icon to provide when creating a marker.
 
     L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
-`L.Icon.Default` extends `L.Icon` and is the blue icon Leaflet uses for markers by default.
+### Конструктор
 
-### Constructor
-Constructor
-Usage
-Description
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Icon</b>(
+            <nobr>&lt;<a href="#icon-options">Icon options</a>&gt; <i>options</i> )</nobr>
+        </code></td>
 
-`**L.Icon**(
-            <[Icon options][101]> _options_ )
-`
-`new L.Icon(…)`
-`L.icon(…)`
-Creates an icon instance with the given options.
+        <td class="factory-usage">
+            <code><span class='keyword'>new</span> L.Icon(<span class="comment">&hellip;</span>)</code><br />
+            <code>L.icon(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает объект иконки с переданными опциями.</td>
+    </tr>
+</table>
 
 ### Options
 Option
