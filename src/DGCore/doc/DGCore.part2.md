@@ -528,46 +528,6 @@
     </tr>
 </table>
 
-Method
-Returns
-Description
-
-`**extend**(
-            <[Point][30]> _point_ )
-`
--
-Extends the bounds to contain the given point.
-
-`**getCenter**()`
-`[Point][30]`
-Returns the center point of the bounds.
-
-`**contains**(
-            <[Bounds][31]> _otherBounds_ )
-`
-`Boolean`
-Returns `true` if the rectangle contains the given one.
-
-`**contains**(
-            <[Point][30]> _point_ )
-`
-`Boolean`
-Returns `true` if the rectangle contains the given point.
-
-`**intersects**(
-            <[Bounds][31]> _otherBounds_ )
-`
-`Boolean`
-Returns `true` if the rectangle intersects the given bounds.
-
-`**isValid**()`
-`Boolean`
-Returns `true` if the bounds are properly initialized.
-
-`**getSize**()`
-`[Point][30]`
-Returns the size of the given bounds.
-
 ## L.Icon
 
 Represents an icon to provide when creating a marker.
