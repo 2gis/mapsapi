@@ -127,24 +127,37 @@
     ]);
 
 ### Конструктор
-Конструктор
-Использование
-Описание
 
-`**L.LatLngBounds**(
-            <[LatLng][28]> _southWest_,
-            <[LatLng][28]> _northEast_ )`
-`new L.LatLngBounds(…)`
-`L.latLngBounds(…)`
-`L.latLngBounds([…])`
-Создает объект LatLngBounds с определенными юго-западным и северо-восточным углами прямоугольника.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td>
+            <code><b>L.LatLngBounds</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>southWest</i></nobr>,
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>northEast</i></nobr> )</code>
+        </td>
 
-`**L.LatLngBounds**(
-            <[LatLng][28][]> _latlngs_ )
-`
-`new L.LatLngBounds(…)`
-`L.latLngBounds(…)`
-Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода [fitBounds][100].
+        <td>
+            <code>L.latLngBounds(&hellip;)</code><br />
+            <code>L.latLngBounds([&hellip;])</code>
+        </td>
+
+        <td>Создает объект LatLngBounds с определенными юго-западным и северо-восточным углами прямоугольника.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.LatLngBounds</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlng</i> )</nobr>
+        </code></td>
+        <td>
+            <code>L.latLngBounds(&hellip;)</code>
+        </td>
+        <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="#map-fitbounds">fitBounds</a>.</td>
+    </tr>
+</table>
 
 ### Методы
 Метод
