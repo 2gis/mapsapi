@@ -777,66 +777,99 @@
 
 ### Позиции элементов управления
 
-Control positions (map corner to put a control to) are set using strings. Margins between controls and the map border are set with CSS, so that you can easily override them.
-Position
-Description
+Позиции элементов управления (углы карты, в которых располагаются элементы) устанавливаются с помощью строк. Отступы между границами карты и элементами управления можно установить с помощью CSS.
 
-`'topleft'`
-Top left of the map.
-
-`'topright'`
-Top right of the map.
-
-`'bottomleft'`
-Bottom left of the map.
-
-`'bottomright'`
-Bottom right of the map.
+<table>
+    <tr>
+        <th>Позиция</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code>'topleft'</code></td>
+        <td>Верхний левый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>'topright'</code></td>
+        <td>Верхний правый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>'bottomleft'</code></td>
+        <td>Нижний левый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>'bottomright'</code></td>
+        <td>Нижний правый угол карты.</td>
+    </tr>
+</table>
 
 ## L.Control.Zoom
 
-A basic zoom control with two buttons (zoom in and zoom out). It is put on the map by default unless you set its `zoomControl` option to `false`. Extends [Control][34].
+Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если опция карты `zoomControl` не установлена в `false`. Расширяет [Control][34].
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Control.Zoom**(
-            <[Control.Zoom options][105]> _options?_ )
-`
-`new L.Control.Zoom(…)`
-`L.control.zoom(…)`
-Creates a zoom control.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control.Zoom</b>(
+            <nobr>&lt;<a href="#control-zoom-options">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>
+            <code>L.control.zoom(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-`**position**`
-`String`
-`'topleft'`
-The position of the control (one of the map corners). See [control positions][104].
+        <td>Создает элемент управления масштабом.</td>
+    </tr>
+</table>
+
+### Опции
+
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'topleft'</span></td>
+        <td>Позиция элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+</table>
 
 ## L.Control.Attribution
 
-The attribution control allows you to display attribution data in a small text box on a map. It is put on the map by default unless you set its `attributionControl` option to `false`, and it fetches attribution texts from layers with `getAttribution` method automatically. Extends [Control][34].
+Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет [Control][34].
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Control.Attribution**(
-            <[Control.Attribution options][106]> _options?_ )
-`
-`new L.Control.Attribution(…)`
-`L.control.attribution(…)`
-Creates an attribution control.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control.Attribution</b>(
+            <nobr>&lt;<a href="#control-attribution-options">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-### Options
+        <td>
+            <code>L.control.attribution(&hellip;)</code>
+        </td>
+
+        <td>Создает элемент атрибутики.</td>
+    </tr>
+</table>
+
+### Опции
 Option
 Type
 Default
