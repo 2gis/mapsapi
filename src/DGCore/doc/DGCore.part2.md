@@ -625,77 +625,42 @@
     <tr>
         <td><code><b>className</b></code></td>
         <td><code>String</code>
-        <td>Значение css-свойства <code>class</code>, которое будет присвоено изображениям иконки и тени. По умолчанию пустое.</td>
+        <td>Значение класса, которое будет присвоено изображениям иконки и тени. По умолчанию пустое.</td>
     </tr>
 </table>
 
-
-Option
-Type
-Description
-
-`**iconUrl**`
-`String`
-(required) The URL to the icon image (absolute or relative to your script path).
-
-`**iconRetinaUrl**`
-`String`
-The URL to a retina sized version of the icon image (absolute or relative to your script path). Used for Retina screen devices.
-
-`**iconSize**`
-`[Point][30]`
-Size of the icon image in pixels.
-
-`**iconAnchor**`
-`[Point][30]`
-The coordinates of the "tip" of the icon (relative to its top left corner). The icon will be aligned so that this point is at the marker's geographical location. Centered by default if size is specified, also can be set in CSS with negative margins.
-
-`**shadowUrl**`
-`String`
-The URL to the icon shadow image. If not specified, no shadow image will be created.
-
-`**shadowRetinaUrl**`
-`String`
-The URL to the retina sized version of the icon shadow image. If not specified, no shadow image will be created. Used for Retina screen devices.
-
-`**shadowSize**`
-`[Point][30]`
-Size of the shadow image in pixels.
-
-`**shadowAnchor**`
-`[Point][30]`
-The coordinates of the "tip" of the shadow (relative to its top left corner) (the same as `iconAnchor` if not specified).
-
-`**popupAnchor**`
-`[Point][30]`
-The coordinates of the point from which popups will "open", relative to the icon anchor.
-
-`**className**`
-`String`
-A custom class name to assign to both icon and shadow images. Empty by default.
-
 ## L.DivIcon
 
-Represents a lightweight icon for markers that uses a simple `div` element instead of an image.
+Простая иконка для маркеров, которые используют простой элемент `div` вместо изображения.
 
     var myIcon = L.divIcon({className: 'my-div-icon'});
-    // you can set .my-div-icon styles in CSS
+    // вы можете установить стиль класса .my-div-icon в CSS
 
     L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
-By default, it has a `'leaflet-div-icon'` class and is styled as a little white square with a shadow.
+По умолчанию установлен класс `'leaflet-div-icon'`, который стилизирован как маленький белый квадрат с тенью. 
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.DivIcon**(
-            <[DivIcon options][102]> _options_ )
-`
-`new L.DivIcon(…)`
-`L.divIcon(…)`
-Creates a div icon instance with the given options.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.DivIcon</b>(
+            <nobr>&lt;<a href="#divicon-options">DivIcon options</a>&gt; <i>options</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>new L.DivIcon(<span class="comment">&hellip;</span>)</code><br />
+            <code>L.divIcon(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает объект <code>L.DivIcon</code> с переданными опциями.</td>
+    </tr>
+</table>
 
 ### Options
 Option
