@@ -300,28 +300,34 @@
         </code></td>
 
         <td>
-            <code>new L.Point(&hellip;)</code><br />
             <code>L.point(&hellip;)</code><br />
             <code>L.point([&hellip;])</code>
         </td>
 
-        <td>Создает объект Point с координатами <code>x</code> и <code>y</code>. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда координаты <code>x</code> и <code>y</code> будут округлены.</td>
+        <td>Создает объект Point с координатами <code>x</code> и <code>y</code>. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда координаты будут округлены.</td>
     </tr>
 </table>
 
 
-### Properties
-Property
-Type
-Description
+### Свойства
 
-`**x**`
-`Number`
-The x coordinate.
-
-`**y**`
-`Number`
-The y coordinate.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>x</b></code></td>
+        <td><code>Number</code></td>
+        <td>Координата x.</td>
+    </tr>
+    <tr>
+        <td><code><b>y</b></code></td>
+        <td><code>Number</code></td>
+        <td>Координата y.</td>
+    </tr>
+</table>
 
 ### Methods
 Method
