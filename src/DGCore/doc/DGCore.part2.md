@@ -10,6 +10,7 @@
     map.panTo(new L.LatLng(50, 30));
 
 ### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -31,50 +32,55 @@
 </table>
 
 ### Свойства
+
 <table>
-    <tr><th></th><th></th><th></th></tr>
-    <tr><td></td><td></td><td></td></tr>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>lat</b></code></td>
+        <td><code>Number</code></td>
+        <td>Широта в градусах.</td>
+    </tr>
+    <tr>
+        <td><code><b>lng</b></code></td>
+        <td><code>Number</code></td>
+        <td>Долгота в градусах.</td>
+    </tr>
 </table>
 
-Свойство
-Тип
-Описание
-
-`**lat**`
-`Number`
-Широта в градусах.
-
-`**lng**`
-`Number`
-Долгота в градусах.
-
 ### Методы
-Метод
-Возвращает
-Описание
 
-`**distanceTo**(
-            <[LatLng][28]> _otherLatlng_ )
-`
-`Number`
-Возвращает расстояние (в метрах) до данной широты и долготы, рассчитывается по формуле Haversine. См. [описание в wikipedia][99]
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>distanceTo</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+        </code></td>
 
-`**equals**(
-            <[LatLng][28]> _otherLatlng_ )
-`
-`Boolean`
-Возвращает Returns `true`, если данная широта и долгота находится в той же позиции (с небольшой погрешностью).
+        <td><code>Number</code></td>
+        <td>Возвращает расстояние (в метрах) до данной широты и долготы, рассчитывается по формуле Haversine. См. <a href="http://en.wikipedia.org/wiki/Haversine_formula">описание в wikipedia</a></td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+        </code></td>
 
-`**toString**()`
-`String`
-Возвращает строковое представление точки (для отладки).
-
-`**wrap**(
-            <Number> _left_,
-            <Number> _right_ )
-`
-`[LatLng][28]`
-@todo Returns a new `LatLng` object with the longitude wrapped around `left` and `right` boundaries (`-180` to `180` by default).
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если данная широта и долгота находится в той же позиции (с небольшой погрешностью).</td>
+    </tr>
+    <tr>
+        <td><code><b>toString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает строковое представление точки (для отладки).</td>
+    </tr>
+</table>
 
 ### Константы
 Константа
