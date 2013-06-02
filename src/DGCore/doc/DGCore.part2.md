@@ -951,22 +951,102 @@
 
 ## Методы событий
 
-A set of methods shared between event-powered classes (like Map). Generally, events allow you to execute some function when something happens with an object (e.g. the user clicks on the map, causing the map `'fire'` event).
+Набор методов, позволяющих работать с событиями. События позволяют выполнить какое-либо действие в тот момент, когда что-то происходит с объектом (например, когда пользователь кликает по карте).
 
-### Example
+### Пример
 
     map.on('click', function(e) {
         alert(e.latlng);
     });
 
-Leaflet deals with event listeners by reference, so if you want to add a listener and then remove it, define it as a function:
+Управлять событиями можно с помощью ссылок на обработчики, например, если необходимо добавить и затем удалить обработчик, определите его как функцию:
 
     function onClick(e) { ... }
 
     map.on('click', onClick);
     map.off('click', onClick);
 
-### Methods
+### Методы
+
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addEventListener</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Подписывает обработчик (<code>fn</code>) на определенный тип события. Опционально вы можете указать контекст обработчика (объект, на который будет указывать <code>this</code>). Также вы можете подписаться на несколько типов событий, указав их через пробел (например, <code>'click dblclick'</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>addEventListener</b>(
+            <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Подписывает несколько обработчиков на определенные типы событий, например <code>{click: onClick, mousemove: onMouseMove}</code></td>
+    </tr>
+    <tr>
+        <td><code><b>removeEventListener</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn?</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Отписывает ранее подписанный обработчик. Если обработчик не указан, тогда от определенного типа событий будут отписаны все обработчики.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeEventListener</b>(
+            <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Отписывает несколько обработчиков от определенных событий.</code></td>
+    </tr>
+    <tr>
+        <td><code><b>hasEventListeners</b>(
+            <nobr>&lt;String&gt; <i>type</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращет <code>true</code>, если у переданного типа события есть подписчики.</td>
+    </tr>
+    <tr>
+        <td><code><b>fireEvent</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Object&gt; <i>data?</i> )</nobr>
+        </code></td>
+
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Fires an event of the specified type. You can optionally provide an data object &mdash; the first argument of the listener function will contain its properties.</td>
+    </tr>
+    <tr>
+        <td><code><b>on</b>( &hellip; )</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Alias to <code>addEventListener</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>off</b>( &hellip; )</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Alias to <code>removeEventListener</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>fire</b>( &hellip; )</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Alias to <code>fireEvent</code>.</td>
+    </tr>
+</table>
+
+
 Method
 Returns
 Description
