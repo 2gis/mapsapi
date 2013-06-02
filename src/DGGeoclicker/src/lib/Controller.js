@@ -32,7 +32,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     initialize: function (map) {
-        this._webApi = new L.DG.Geoclicker.WebApi();
+        this._webApi = new L.DG.Geoclicker.WebApi(map);
         this._geoCoder = new L.DG.Geoclicker.GeoCoder(this._webApi);
         this._map = map;
 

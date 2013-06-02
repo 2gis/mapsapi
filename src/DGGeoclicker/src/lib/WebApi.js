@@ -7,11 +7,14 @@ L.DG.Geoclicker.WebApi = L.Class.extend({
             key: '__WEB_API_KEY__',
             key: 'ruxlih0718',
             version: '__WEB_API_VERSION__',
-            lang: '__DEFAULT_LANG__', //@todo add i18n support
             output: 'jsonp'
         },
 
         timeoutMs: 5000
+    },
+
+    initialize: function (map) {
+        this._map = map;
     },
 
     geoSearch: function (q, types, zoomlevel, callback) {
@@ -32,7 +35,7 @@ L.DG.Geoclicker.WebApi = L.Class.extend({
 
         page = page || 1;
         var params = L.extend(this.options.data, {
-            criteria: JSON.stringify({//@todo use cross-browser JSON.stringify
+            criteria: JSON.stringify({
                 what: {
                     id: houseId,
                     type: "house"
@@ -58,10 +61,10 @@ L.DG.Geoclicker.WebApi = L.Class.extend({
 
     _performRequest: function (params, url, callback, failback) {
         var source = this.options.data,
-            data = L.extend({
+            data = L.extend({ //@todo clone function should be used instead of manually copying
                 key: source.key,
                 version: source.version,
-                lang: source.lang,
+                lang: this._map.getLang(),
                 output: source.output
             }, params);
 
@@ -79,4 +82,5 @@ L.DG.Geoclicker.WebApi = L.Class.extend({
             this._lastRequest.cancel();
         }
     }
-});
+})
+;
