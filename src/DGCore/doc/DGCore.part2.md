@@ -17,16 +17,14 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td>`**L.LatLng**(
-            <Number> _latitude_,
-            <Number> _longitude_ )
-        `</td>
-        <td>`L.latLng(…)`
-            `L.latLng([…])`
+        <td>**L.LatLng**(
+            &lt;Number&gt; _latitude_,
+            &lt;Number&gt; _longitude_ )
         </td>
-        <td>
-            Создает объект, представляющий географическую точку с определенной широтой и долготой.
+        <td><code>L.latLng(…)</code>
+            <code>L.latLng([…]</code>
         </td>
+        <td>Создает объект, представляющий географическую точку с определенной широтой и долготой.</td>
     </tr>
 </table>
 
