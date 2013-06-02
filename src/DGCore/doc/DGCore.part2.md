@@ -692,34 +692,49 @@
 
 ## L.Control
 
-The base class for all Leaflet controls. Implements [IControl][53] interface. You can add controls to the map like this:
+Базовый класс для всех элементов управления. Реализует интерфейс [IControl][53]. Элементы на карту добавляются следующим образом:
 
     control.addTo(map);
-    // the same as
+    // то же самое, что
     map.addControl(control);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Control**(
-            <[Control options][103]> _options?_ )
-`
-`new L.Control(…)`
-`L.control(…)`
-Creates a control with the given options.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control</b>(
+            <nobr>&lt;<a href="#control-options">Control options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>
+            <code>L.control(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-`**position**`
-`String`
-`'topright'`
-The initial position of the control (one of the map corners). See [control positions][104].
+        <td>Создает элемент управления с переданными опциями.</td>
+    </tr>
+</table>
+
+### Опции
+
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code>'topright'</td>
+        <td>Начальное расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
+    </tr>
+</table>
 
 ### Methods
 Method
