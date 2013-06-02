@@ -736,34 +736,46 @@
     </tr>
 </table>
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**setPosition**(
-            <String> _position_ )
-`
-`this`
-Sets the position of the control. See [control positions][104].
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setPosition</b>(
+            <nobr>&lt;String&gt; <i>position</i> )</nobr>
+        </code></td>
 
-`**getPosition**()`
-`String`
-Returns the current position of the control.
+        <td><code>this</code></td>
+        <td>Устанавливает позицию элемента управления См. <a href="#control-positions">Позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPosition</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает текущую позицию элемента управления.</td>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the control to the map.
+        <td><code>this</code></td>
+        <td>Добавляет элемент управления на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeFrom</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**removeFrom**(
-            <[Map][76]> _map_ )
-`
-`this`
-Removes the control from the map.
+        <td><code>this</code></td>
+        <td>Удаляет элемент управления с карты.</td>
+    </tr>
+</table>
 
-### Control Positions
+### Позиции элементов управления
 
 Control positions (map corner to put a control to) are set using strings. Margins between controls and the map border are set with CSS, so that you can easily override them.
 Position
