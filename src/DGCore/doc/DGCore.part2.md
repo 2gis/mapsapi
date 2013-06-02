@@ -614,8 +614,7 @@
     <tr>
         <td><code><b>shadowAnchor</b></code></td>
         <td><code><a href="#point">Point</a></code>
-        <td>Координаты "ножки" тени (относительно ее левого верхнего угла).
-            Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
+        <td>Координаты "ножки" тени (относительно ее левого верхнего угла). Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
     </tr>
     <tr>
         <td><code><b>popupAnchor</b></code></td>
@@ -654,7 +653,6 @@
         </code></td>
 
         <td>
-            <code>new L.DivIcon(<span class="comment">&hellip;</span>)</code><br />
             <code>L.divIcon(<span class="comment">&hellip;</span>)</code>
         </td>
 
@@ -662,26 +660,35 @@
     </tr>
 </table>
 
-### Options
-Option
-Type
-Description
+### Опции
 
-`**iconSize**`
-`[Point][30]`
-Size of the icon in pixels. Can be also set through CSS.
-
-`**iconAnchor**`
-`[Point][30]`
-The coordinates of the "tip" of the icon (relative to its top left corner). The icon will be aligned so that this point is at the marker's geographical location. Centered by default if size is specified, also can be set in CSS with negative margins.
-
-`**className**`
-`String`
-A custom class name to assign to the icon. `'leaflet-div-icon'` by default.
-
-`**html**`
-`String`
-A custom HTML code to put inside the div element, empty by default.
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>iconSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер иконки в пикселях. Также может быть установлен с помощью CSS.</td>
+    </tr>
+    <tr>
+        <td><code><b>iconAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла). Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки, если указан ее размер.</td>
+    </tr>
+    <tr>
+        <td><code><b>className</b></code></td>
+        <td><code>String</code>
+        <td>Значение класса, которое будет присвоено иконке. По умолчанию <code>'leaflet-div-icon'</code>.
+    </tr>
+    <tr>
+        <td><code><b>html</b></code></td>
+        <td><code>String</code>
+        <td>HTML код, который будет установлен как содержимое иконки. По умолчанию пустой.</td>
+    </tr>
+</table>
 
 ## L.Control
 
