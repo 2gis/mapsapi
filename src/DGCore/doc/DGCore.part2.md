@@ -1026,85 +1026,25 @@
             <nobr>&lt;Object&gt; <i>data?</i> )</nobr>
         </code></td>
 
-        <td><code><span class="keyword">this</span></code></td>
-        <td>Fires an event of the specified type. You can optionally provide an data object &mdash; the first argument of the listener function will contain its properties.</td>
+        <td><code>this</code></td>
+        <td>Инициирует событие определенного типа. Опционально можно передать объект с данными, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
     </tr>
     <tr>
         <td><code><b>on</b>( &hellip; )</code></td>
-        <td><code><span class="keyword">this</span></code></td>
-        <td>Alias to <code>addEventListener</code>.</td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>addEventListener</code>.</td>
     </tr>
     <tr>
         <td><code><b>off</b>( &hellip; )</code></td>
-        <td><code><span class="keyword">this</span></code></td>
-        <td>Alias to <code>removeEventListener</code>.</td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>removeEventListener</code>.</td>
     </tr>
     <tr>
         <td><code><b>fire</b>( &hellip; )</code></td>
-        <td><code><span class="keyword">this</span></code></td>
-        <td>Alias to <code>fireEvent</code>.</td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>fireEvent</code>.</td>
     </tr>
 </table>
-
-
-Method
-Returns
-Description
-
-`**addEventListener**(
-            <String> _type_,
-            <Function> _fn_,
-            <Object> _context?_ )
-`
-`this`
-Adds a listener function (`fn`) to a particular event type of the object. You can optionally specify the context of the listener (object the `this` keyword will point to). You can also pass several space-separated types (e.g. `'click dblclick'`).
-
-`**addEventListener**(
-            <Object> _eventMap_,
-            <Object> _context?_ )
-`
-`this`
-Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
-
-`**removeEventListener**(
-            <String> _type_,
-            <Function> _fn?_,
-            <Object> _context?_ )
-`
-`this`
-Removes a previously added listener function. If no function is specified, it will remove all the listeners of that particular event from the object.
-
-`**removeEventListener**(
-            <Object> _eventMap_,
-            <Object> _context?_ )
-`
-`this`
-Removes a set of type/listener pairs.
-
-`**hasEventListeners**(
-            <String> _type_ )
-`
-`Boolean`
-Returns `true` if a particular event type has some listeners attached to it.
-
-`**fireEvent**(
-            <String> _type_,
-            <Object> _data?_ )
-`
-`this`
-Fires an event of the specified type. You can optionally provide an data object --- the first argument of the listener function will contain its properties.
-
-`**on**( … )`
-`this`
-Alias to `addEventListener`.
-
-`**off**( … )`
-`this`
-Alias to `removeEventListener`.
-
-`**fire**( … )`
-`this`
-Alias to `fireEvent`.
 
 ## Event objects
 
