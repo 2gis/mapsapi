@@ -17,11 +17,13 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td>**L.LatLng**(
-            &lt;Number&gt; _latitude_,
-            &lt;Number&gt; _longitude_ )
+        <td>
+            <code><b>L.LatLng</b>(
+            &lt;Number&gt; <i>latitude</i>,
+            &lt;Number&gt; <i>longitude</i> )</code>
         </td>
-        <td><code>L.latLng(…)</code>
+        <td>
+            <code>L.latLng(…)</code>
             <code>L.latLng([…]</code>
         </td>
         <td>Создает объект, представляющий географическую точку с определенной широтой и долготой.</td>
