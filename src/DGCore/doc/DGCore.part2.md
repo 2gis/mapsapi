@@ -559,8 +559,7 @@
             <nobr>&lt;<a href="#icon-options">Icon options</a>&gt; <i>options</i> )</nobr>
         </code></td>
 
-        <td class="factory-usage">
-            <code><span class='keyword'>new</span> L.Icon(<span class="comment">&hellip;</span>)</code><br />
+        <td>
             <code>L.icon(<span class="comment">&hellip;</span>)</code>
         </td>
 
@@ -568,7 +567,69 @@
     </tr>
 </table>
 
-### Options
+### Опции
+
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>iconUrl</b></code></td>
+        <td><code>String</code>
+        <td>(обязательная) URL к изображению иконки (абсолютный или относительный).</td>
+    </tr>
+    <tr>
+        <td><code><b>iconRetinaUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению иконки для устройств с Retina экраном (абсолютный или относительный).</td>
+    </tr>
+    <tr>
+        <td><code><b>iconSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер изображения иконки в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>iconAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла).
+            Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению тени иконки. Если не указан, тогда тень будет отсутствовать.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowRetinaUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению тени иконки для устройств с Retina экраном. Если не указан, тогда тень будет отсутствовать.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер изображения тени в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты "ножки" тени (относительно ее левого верхнего угла).
+            Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>popupAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты точки, из которой будет открываться балун (относительно <code>iconAnchor</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>className</b></code></td>
+        <td><code>String</code>
+        <td>Значение css-свойства <code>class</code>, которое будет присвоено изображениям иконки и тени. По умолчанию пустое.</td>
+    </tr>
+</table>
+
+
 Option
 Type
 Description
