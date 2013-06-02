@@ -115,9 +115,9 @@
 
 Прямоугольная географическая область на карте.
 
-    var southWest = new L.LatLng(40.712, -74.227),
-        northEast = new L.LatLng(40.774, -74.125),
-        bounds = new L.LatLngBounds(southWest, northEast);
+    var southWest = L.latLng(40.712, -74.227),
+        northEast = L.latLng(40.774, -74.125),
+        bounds = L.latLngBounds(southWest, northEast);
 
 Все методы, которые принимают объекты LatLngBounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
 
@@ -405,38 +405,51 @@
 
 ## L.Bounds
 
-Represents a rectangular area in pixel coordinates.
+Ппрямоугольная область на карте в пиксельных координатах.
 
-    var p1 = new L.Point(10, 10),
-        p2 = new L.Point(40, 60),
-        bounds = new L.Bounds(p1, p2);
+    var p1 = L.point(10, 10),
+        p2 = L.point(40, 60),
+        bounds = L.bounds(p1, p2);
 
-All Leaflet methods that accept Bounds objects also accept them in a simple Array form (unless noted otherwise), so the bounds example above can be passed like this:
+Все методы, которые принимают объекты Bounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
 
     otherBounds.intersects([[10, 10], [40, 60]]);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Bounds**(
-            <[Point][30]> _topLeft_,
-            <[Point][30]> _bottomRight_ )
-`
-`new L.Bounds(…)`
-`L.bounds(…)`
-`L.bounds([…])`
-Creates a Bounds object from two coordinates (usually top-left and bottom-right corners).
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Bounds</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>topLeft</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>bottomRight</i> )</nobr>
+        </code></td>
 
-`**L.Bounds**(
-            <[Point][30][]> _points_ )
-`
-`new L.Bounds(…)`
-`L.bounds(…)`
-Creates a Bounds object defined by the points it contains.
+        <td>
+            <code>L.bounds(&hellip;)</code><br />
+            <code>L.bounds([&hellip;])</code>
+        </td>
 
-### Properties
+        <td>Создает объект Bounds на основе левого верхнего и правого нижнего углов.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.Bounds</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.bounds(&hellip;)</code>
+        </td>
+
+        <td>Создает объект Bounds на основе точек, которые будут в него входить.</td>
+    </tr>
+</table>
+
+### Свойства
 Property
 Type
 Description
