@@ -160,96 +160,123 @@
 </table>
 
 ### Методы
-Метод
-Возвращает
-Описание
 
-`**extend**(
-            <[LatLng][28]|[LatLngBounds][29]> _latlng_ )
-`
-`this`
-Расширяет границы таким образом, чтобы в них входила переданная точка или границы.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>|<a href="#latlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**getSouthWest**()`
-`[LatLng][28]`
-Возвращает юго-западную точку границ.
+        <td><code>this</code></td>
+        <td>Расширяет границы таким образом, чтобы в них входила переданная точка или другие границы.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouthWest</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает юго-западную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorthEast</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает северо-восточную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorthWest</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает северо-западную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouthEast</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает юго-восточную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getWest</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает западную долготу границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouth</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает южную широту границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getEast</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает восточную долготу границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorth</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает северную широту границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getCenter</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает центральную точку прямоугольной области.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**getNorthEast**()`
-`[LatLng][28]`
-Возвращает северо-восточную точку границ.
+        <td><code>Boolean</code></td>
+        <td>Returns <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**getNorthWest**()`
-`[LatLng][28]`
-Возвращает северо-западную точку границ.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если прямоугольник содержит внутри себя переданную точку.</td>
+    </tr>
+    <tr>
+        <td><code><b>intersects</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**getSouthEast**()`
-`[LatLng][28]`
-Возвращает юго-восточную точку границ.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник пересекается с переданным прямоугольником.</td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**getWest**()`
-`Number`
-Возвращает западную долготу границ.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник эквивалентен (с небольшой погрешностью) переданному прямоугольнику.</td>
+    </tr>
+    <tr>
+        <td><code><b>toBBoxString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>
+Возвращает строку с координатами границ в формате <code>'southwest_lng,southwest_lat,northeast_lng,northeast_lat'</code>. Удобно использовать для отправки запросов к веб-сервисам, возвращающим геоданные.</td>
+    </tr>
+    <tr>
+        <td><code><b>pad</b>(
+            <nobr>&lt;Number&gt; <i>bufferRatio</i> )</nobr>
+        </code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Возвращает большие границы, созданные путем расширения текущих границ на заданный процент в каждом направлении.</td>
+    </tr>
+    <tr>
+        <td><code><b>isValid</b>()</nobr>
+        </code></td>
 
-`**getSouth**()`
-`Number`
-Возвращает южную широту границ.
-
-`**getEast**()`
-`Number`
-Возвращает восточную долготу границ.
-
-`**getNorth**()`
-`Number`
-Возвращает северную широту границ.
-
-`**getCenter**()`
-`[LatLng][28]`
-Возвращает центральную точку прямоугольной области.
-
-`**contains**(
-            <[LatLngBounds][29]> _otherBounds_ )
-`
-`Boolean`
-Возвращает `true`, если текущий прямоугольник содержит внутри себя переданный прямоугольник.
-
-`**contains**(
-            <[LatLng][28]> _latlng_ )
-`
-`Boolean`
-Возвращает `true`, если прямоугольник содержит внутри себя переданную точку.
-
-
-`**intersects**(
-            <[LatLngBounds][29]> _otherBounds_ )
-`
-`Boolean`
-Возвращает `true`, если текущий прямоугольник пересекается с переданным прямоугольником.
-
-`**equals**(
-            <[LatLngBounds][29]> _otherBounds_ )
-`
-`Boolean`
-Возвращает `true`, если текущий прямоугольник эквивалентен (с небольшой погрешностью) переданному прямоугольнику.
-
-`**toBBoxString**()`
-`String`
-Возвращает строку с координатами границ в формате `'southwest_lng,southwest_lat,northeast_lng,northeast_lat'`. Удобно использовать для отправки запросов к веб-сервисам, возвращающим геоданные.
-
-`**pad**(
-            <Number> _bufferRatio_ )
-`
-`[LatLngBounds][29]`
-Возвращает большие границы, созданные путем расширения текущих границ на заданный процент в каждом направлении.
-
-`**isValid**()
-        `
-`Boolean`
-Returns `true` if the bounds are properly initialized.
-Возвращает `true`, если если свойства границ инициализированы.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если если свойства границ инициализированы.</td>
+    </tr>
+</table>
 
 ## L.Point
 
-Represents a point with x and y coordinates in pixels.
+Точка с пиксельными координатами x и y.
 
     var point = new L.Point(200, 300);
 
