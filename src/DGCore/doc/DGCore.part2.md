@@ -850,28 +850,36 @@
     </tr>
 </table>
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**setPrefix**(
-            <String> _prefix_ )
-`
-`this`
-Sets the text before the attributions.
-
-`**addAttribution**(
-            <String> _text_ )
-`
-`this`
-Adds an attribution text (e.g. `'Vector data &copy; CloudMade'`).
-
-`**removeAttribution**(
-            <String> _text_ )
-`
-`this`
-Removes an attribution text.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setPrefix</b>(
+            <nobr>&lt;String&gt; <i>prefix</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Устанавливает текст перед атрибутикой.</td>
+    </tr>
+    <tr>
+        <td><code><b>addAttribution</b>(
+            <nobr>&lt;String&gt; <i>text</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Добавляет текст атрибутики (например, <code>'Картографические данные &amp;copy; 2GIS'</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>removeAttribution</b>(
+            <nobr>&lt;String&gt; <i>text</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Удаляет текст атрибутики.</td>
+    </tr>
+</table>
 
 ## L.Control.Layers
 
