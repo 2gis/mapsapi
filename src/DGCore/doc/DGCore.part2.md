@@ -732,7 +732,7 @@
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
         <td><code>'topright'</td>
-        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
     </tr>
 </table>
 
@@ -750,7 +750,7 @@
         </code></td>
 
         <td><code>this</code></td>
-        <td>Устанавливает позицию элемента управления См. <a href="#control-positions">Позиции элементов управления</a>.</td>
+        <td>Устанавливает позицию элемента управления См. <a href="#control-positions">позиции элементов управления</a>.</td>
     </tr>
     <tr>
         <td><code><b>getPosition</b>()</code></td>
@@ -840,7 +840,7 @@
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
         <td><code><span class="string">'bottomright'</span></td>
-        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
     </tr>
     <tr>
         <td><code><b>prefix</b></code></td>
@@ -921,7 +921,7 @@
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
         <td><code><span class="string">'bottomleft'</span></td>
-        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
     </tr>
     <tr>
         <td><code><b>maxWidth</b></code></td>
