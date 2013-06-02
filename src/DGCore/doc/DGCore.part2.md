@@ -7,7 +7,7 @@
 Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива, то есть данные записи эквивалентны:
 
     map.panTo([50, 30]);
-    map.panTo(new L.LatLng(50, 30));
+    map.panTo(L.latLng(50, 30));
 
 ### Конструктор
 
@@ -280,24 +280,35 @@
 
     var point = new L.Point(200, 300);
 
-All Leaflet methods and options that accept Point objects also accept them in a simple Array form (unless noted otherwise), so these lines are equivalent:
+Все методы, которые принимают объекты Point также принимают координаты в виде простого массива, то есть данные записи эквивалентны:
 
     map.panBy([200, 300]);
-    map.panBy(new L.Point(200, 300));
+    map.panBy(L.point(200, 300));
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Point**(
-            <Number> _x_, <Number> _y_,
-            <Boolean> _round?_ )
-`
-`new L.Point(…)`
-`L.point(…)`
-`L.point([…])`
-Creates a Point object with the given `x` and `y` coordinates. If optional `round` is set to `true`, rounds the `x` and `y` values.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Point</b>(
+            <nobr>&lt;Number&gt; <i>x</i>, &lt;Number&gt; <i>y</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>new L.Point(&hellip;)</code><br />
+            <code>L.point(&hellip;)</code><br />
+            <code>L.point([&hellip;])</code>
+        </td>
+
+        <td>Создает объект Point с координатами <code>x</code> и <code>y</code>. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда координаты <code>x</code> и <code>y</code> будут округлены.</td>
+    </tr>
+</table>
+
 
 ### Properties
 Property
