@@ -329,59 +329,79 @@
     </tr>
 </table>
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**add**(
-            <[Point][30]> _otherPoint_ )
-`
-`[Point][30]`
-Returns the result of addition of the current and the given points.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>add</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**subtract**(
-            <[Point][30]> _otherPoint_ )
-`
-`[Point][30]`
-Returns the result of subtraction of the given point from the current.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат сложения текущей и переданной точек.</td>
+    </tr>
+    <tr>
+        <td><code><b>subtract</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**multiplyBy**(
-            <Number> _number_ )
-`
-`[Point][30]`
-Returns the result of multiplication of the current point by the given number.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат вычитания переданной точки из текущей.</td>
+    </tr>
+    <tr>
+        <td><code><b>multiplyBy</b>(
+            <nobr>&lt;Number&gt; <i>number</i> )</nobr>
+        </code></td>
 
-`**divideBy**(
-            <Number> _number_,
-            <Boolean> _round?_ )
-`
-`[Point][30]`
-Returns the result of division of the current point by the given number. If optional `round` is set to `true`, returns a rounded result.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат умножения текущей точки на переданное число.</td>
+    </tr>
+    <tr>
+        <td><code><b>divideBy</b>(
+            <nobr>&lt;Number&gt; <i>number</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
+        </code></td>
 
-`**distanceTo**(
-            <[Point][30]> _otherPoint_ )
-`
-`Number`
-Returns the distance between the current and the given points.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат деления текущей точки на переданное число. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда результат будет округлен.</td>
+    </tr>
+    <tr>
+        <td><code><b>distanceTo</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**clone**()`
-`[Point][30]`
-Returns a copy of the current point.
+        <td><code>Number</code></td>
+        <td>Возвращает расстояние между текущей и переданной точками.</td>
+    </tr>
+    <tr>
+        <td><code><b>clone</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки.</td>
+    </tr>
+    <tr>
+        <td><code><b>round</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки с округленными координатами.</td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**round**()`
-`[Point][30]`
-Returns a copy of the current point with rounded coordinates.
-
-`**equals**(
-            <[Point][30]> _otherPoint_ )
-`
-`Boolean`
-Returns `true` if the given point has the same coordinates.
-
-`**toString**()`
-`String`
-Returns a string representation of the point for debugging purposes.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если переданная точка имеет такие же координаты, как и текущая.</td>
+    </tr>
+    <tr>
+        <td><code><b>toString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает строковое представление точки (для отладки).</td>
+    </tr>
+</table>
 
 ## L.Bounds
 
