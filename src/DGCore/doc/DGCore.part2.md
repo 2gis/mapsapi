@@ -17,9 +17,9 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code>L.LatLng(
+        <td>**L.LatLng**(
             &lt;Number&gt; _latitude_,
-            &lt;Number&gt; _longitude_ )</code>
+            &lt;Number&gt; _longitude_ )
         </td>
         <td><code>L.latLng(…)</code>
             <code>L.latLng([…]</code>
