@@ -83,25 +83,33 @@
 </table>
 
 ### Константы
-Константа
-Тип
-Значение
-Описание
 
-`**DEG_TO_RAD**`
-`Number`
-`Math.PI / 180`
-Коэффициент для конвертирования градусов в радианы.
-
-`**RAD_TO_DEG**`
-`Number`
-`180 / Math.PI`
-Коэффициент для конвертирования радиан в градусы.
-
-`**MAX_MARGIN**`
-`Number`
-`1.0E-9`
-Максимальная погрешность для проверки равенства.
+<table>
+    <tr>
+        <th>Константа</th>
+        <th>Тип</th>
+        <th>Значение</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>DEG_TO_RAD</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>Math.PI / 180</code></td>
+        <td>Коэффициент для конвертирования градусов в радианы.</td>
+    </tr>
+    <tr>
+        <td><code><b>RAD_TO_DEG</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>180 / Math.PI</code></td>
+        <td>Коэффициент для конвертирования радиан в градусы.</td>
+    </tr>
+    <tr>
+        <td><code><b>MAX_MARGIN</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>1.0E-9</code></td>
+        <td>Максимальная погрешность для проверки равенства.</td>
+    </tr>
+</table>
 
 ## L.LatLngBounds
 
