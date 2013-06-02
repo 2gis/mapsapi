@@ -732,7 +732,7 @@
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
         <td><code>'topright'</td>
-        <td>Начальное расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
     </tr>
 </table>
 
@@ -802,48 +802,6 @@
     </tr>
 </table>
 
-## L.Control.Zoom
-
-Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если опция карты `zoomControl` не установлена в `false`. Расширяет [Control][34].
-
-### Конструктор
-
-<table>
-    <tr>
-        <th>Конструктор</th>
-        <th>Использование</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>L.Control.Zoom</b>(
-            <nobr>&lt;<a href="#control-zoom-options">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
-        </code></td>
-
-        <td>
-            <code>L.control.zoom(<span class="comment">&hellip;</span>)</code>
-        </td>
-
-        <td>Создает элемент управления масштабом.</td>
-    </tr>
-</table>
-
-### Опции
-
-<table>
-    <tr>
-        <th>Опция</th>
-        <th>Тип</th>
-        <th>По умолчанию</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>position</b></code></td>
-        <td><code>String</code></td>
-        <td><code><span class="string">'topleft'</span></td>
-        <td>Позиция элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
-    </tr>
-</table>
-
 ## L.Control.Attribution
 
 Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет [Control][34].
@@ -870,20 +828,27 @@
 </table>
 
 ### Опции
-Option
-Type
-Default
-Description
 
-`**position**`
-`String`
-`'bottomright'`
-The position of the control (one of the map corners). See [control positions][104].
-
-`**prefix**`
-`String`
-`'Powered by Leaflet'`
-The HTML text shown before the attributions. Pass `false` to disable.
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'bottomright'</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">control positions</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>prefix</b></code></td>
+        <td><code>String</code></td>
+        <td><code>'Leaflet'</td>
+        <td>Текст, который будет показан перед атрибутикой. Для отключения необходимо указать <code>false</code>.</td>
+    </tr>
+</table>
 
 ### Methods
 Method
