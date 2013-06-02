@@ -1,101 +1,23 @@
 /**
- * Performs Geocoding by given longitude, latitude and zoom level. Returns filtered set of results or nothing.
+ * Performs Geocoding by given lonlat and zoom level. Returns filtered set of results or nothing.
  *
  */
 L.DG.Geoclicker.GeoCoder = L.Class.extend({
-    options: {
-        urlGeo: '__WEB_API_SERVER__/geo/search',
-        urlAdvanced: '__WEB_API_SERVER__/advanced',
-        data: {
-            key: '__WEB_API_KEY__',
-            version: '__WEB_API_VERSION__',
-            lang: '__DEFAULT_LANG__', //@todo add i18n support
-            output: 'jsonp'
-        },
 
-        timeoutMs: 5000
+    initialize: function (webApi) {
+        this._webApi = webApi;
     },
 
-    getLocations: function (lat, lng, zoom, callback) { // (Number, Number, Number, Function)
+    getLocations: function (latlng, zoom, callback) { // (Number, Number, Number, Function)
         // Callback will receive array of found results or void if errors occurred or nothing was found.
 
         var types = this._getTypesByZoom(zoom),
 
-            query = this._createQuery(lat, lng, types, zoom);
+            q = latlng.lng + ',' + latlng.lat;
 
-        this.cancelLastRequest();
-
-        this._performRequest(query, types, callback);
-
-    },
-
-    getFirms: function (id, page, callback) {
-        console.log('getFirms')
-        page = page || 1;
-        var query = L.extend(this.options.data, {
-            criteria: JSON.stringify({//@todo use cross-browser JSON.stringify
-                what: {
-                    id: id,
-                    type: "house"
-                },
-                types: ["firm"],
-                sort: "relevance",
-                page: page,
-                filters: {project_id: 1} //@todo use project ID from project-detector
-            })
-        });
-
-        this.cancelLastRequest();
-
-        this._performRequest(query, '', function (res) {
-            if (res.response_code == 200 && res.results && res.results.firm && res.results.firm.results && res.results.firm.results.length) {
-                callback(res.results.firm.results)
-            } else {
-                callback();
-            }
-        }, true);
-
-    },
-
-    cancelLastRequest: function () {
-        if (this._lastRequest) {
-            this._lastRequest.cancel();
-        }
-    },
-
-    _performRequest: function (query, types, callback, firm) { //@todo remove firm
-
-        this._lastRequest = L.DG.Jsonp({
-            url: firm ? this.options.urlAdvanced : this.options.urlGeo,
-            data: query,
-            timeout: this.options.timeoutMs,
-            success: L.bind(function (response) {
-                if (firm) {
-                    callback(response)
-                    return
-                }
-
-                var result = this._validateResponse(response, types);
-                setTimeout(function () {
-                    callback(result);
-                }, Math.random() * 2000) //@todo for debug, remove before merge
-            }, this),
-
-            error: L.bind(function () {
-                callback();
-            }, this)
-        })
-    },
-
-
-    _createQuery: function (lat, lng, types, zoom) {
-
-        return L.extend(this.options.data, {
-            zoomlevel: zoom,
-            q: lng + "," + lat,
-            types: types
-        });
-
+        this._webApi.geoSearch(q, types, zoom, L.bind(function (result) {
+            callback(this._validateResponse(result));
+        }, this));
     },
 
     _validateResponse: function (response, allowedTypes) {
@@ -141,6 +63,4 @@ L.DG.Geoclicker.GeoCoder = L.Class.extend({
             return;
         }
     }
-
-})
-;
+});

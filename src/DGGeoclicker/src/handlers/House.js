@@ -81,14 +81,15 @@ L.DG.Geoclicker.Handlers.House = L.Class.extend({
 
         this._page = 1;
 
-        this.controller._geoCoder.getFirms(this._id, this._page, L.bind(this._handleFirmsLoadingEnd, this));
+        this.controller._webApi.firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this)); //@todo encapsulations hack (controller._webApi.firmsInHouse) - fix
     },
 
     _handlePaging: function () {
 
         //this._popup.showLoaderPaging();
+        this._page++;
 
-        this.controller._geoCoder.getFirms(this._id, ++this._page, L.bind(this._handleFirmsLoadingEnd, this));
+        this.controller._geoCoder.getFirms(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
     },
 
     _handleFirmsLoadingEnd: function (results) {

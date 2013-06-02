@@ -49,6 +49,7 @@ var deps = {
         desc: '2GIS Geoclicker.',
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
+            'DGGeoclicker/src/lib/WebApi.js',
             'DGGeoclicker/src/lib/GeoCoder.js',
             'DGGeoclicker/src/handlers/Default.js',
             'DGGeoclicker/src/handlers/House.js',

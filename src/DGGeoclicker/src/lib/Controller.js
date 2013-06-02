@@ -32,7 +32,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     initialize: function (map) {
-        this._geoCoder = new L.DG.Geoclicker.GeoCoder();
+        this._webApi = new L.DG.Geoclicker.WebApi();
+        this._geoCoder = new L.DG.Geoclicker.GeoCoder(this._webApi);
         this._map = map;
 
         this._initPopup();
@@ -55,16 +56,16 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     _handlePopupClose: function () {
-        this._geoCoder.cancelLastRequest();
+        this._webApi.cancelLastRequest();
     },
 
-    handleClick: function (lat, lng, zoom) {
+    handleClick: function (latlng, zoom) {
 
         var callback = L.bind(this._handleResponse, this);
 
-        this._showPopup(lat, lng);
+        this._showPopup(latlng);
         this._popup.showLoader();
-        this._geoCoder.getLocations(lat, lng, zoom, callback);
+        this._geoCoder.getLocations(latlng, zoom, callback);
 
     },
 
@@ -131,9 +132,9 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
 
-    _showPopup: function (lat, lng) {
+    _showPopup: function (latlng) {
 
-        this._popup.setLatLng([lat, lng])
+        this._popup.setLatLng(latlng)
             .openOn(this._map);
     }
 

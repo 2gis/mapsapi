@@ -25,10 +25,9 @@ L.DG.Geoclicker.MapHandler = L.Handler.extend({
     _onMapClick: function (e) {
 
         var zoom = e.target._zoom,
-            lng = e.latlng.lng,
-            lat = e.latlng.lat;
+            latlng = e.latlng;
 
-        this._controller.handleClick(lat, lng, zoom);
+        this._controller.handleClick(latlng, zoom);
     }
 });
 
