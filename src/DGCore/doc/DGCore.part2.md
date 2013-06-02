@@ -1027,7 +1027,7 @@
         </code></td>
 
         <td><code>this</code></td>
-        <td>Инициирует событие определенного типа. Опционально можно передать объект с данными, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
+        <td>Инициирует событие определенного типа. Опционально можно передать объект с данными события, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
     </tr>
     <tr>
         <td><code><b>on</b>( &hellip; )</code></td>
@@ -1046,131 +1046,184 @@
     </tr>
 </table>
 
-## Event objects
+## Объекты событий
 
-Event object is an object that you recieve as an argument in a listener function when some event is fired, containing useful information about that event. For example:
+Каждый объект события &mdash; это объект с данными о событии, передаваемый параметром в функцию-обработчик, подписанную на это событие при возникновении последнего. Например:
 
     map.on('click', function(e) {
-        alert(e.latlng); // e is an event object (MouseEvent in this case)
+        alert(e.latlng); // e является объектом события (в данном случае MouseEvent)
     });
 
 ### Event
 
-The base event object. All other event objects contain these properties too.
-property
-type
-description
+Базовый объект события. Все объекты событий содержат такие же свойства, как и этот объект.
 
-`**type**`
-`String`
-The event type (e.g. `'click'`).
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>type</b></code></td>
+        <td><code>String</code></td>
+        <td>Тип события (например, <code>'click'</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>target</b></code></td>
+        <td><code>Object</code></td>
+        <td>Объект, который инициировал событие.</td>
+    </tr>
+</table>
 
-`**target**`
-`Object`
-The object that fired the event.
-
-### MouseEvent
-property
-type
-description
-
-`**latlng**`
-`[LatLng][28]`
-The geographical point where the mouse event occured.
-
-`**layerPoint**`
-`[Point][30]`
-Pixel coordinates of the point where the mouse event occured relative to the map layer.
-
-`**containerPoint**`
-`[Point][30]`
-Pixel coordinates of the point where the mouse event occured relative to the map сontainer.
-
-`**originalEvent**`
-`DOMMouseEvent`
-The original DOM mouse event fired by the browser.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latlng</b></code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Географическая точка, в которой было инициировано событие мышки.</td>
+    </tr>
+    <tr>
+        <td><code><b>layerPoint</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Пиксельные координаты, в которых было инициировано событие мышки, относительно слоя карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>containerPoint</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Пиксельные координаты, в которых было инициировано событие мышки относительно контейнера карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>originalEvent</b></code></td>
+        <td><code>DOMMouseEvent</code></td>
+        <td>Оригинальное браузерное событие мышки.</td>
+    </tr>
+</table>
 
 ### LocationEvent
-property
-type
-description
 
-`**latlng**`
-`[LatLng][28]`
-Detected geographical location of the user.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latlng</b></code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Географическое положение пользователя.</td>
+    </tr>
+    <tr>
+        <td><code><b>bounds</b></code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Географические границы, в которых находится пользователь (в соответствии с точностью местоположения).</td>
+    </tr>
+    <tr>
+        <td><code><b>accuracy</b></code></td>
+        <td><code>Number</code></td>
+        <td>Точность местоположения в метрах.</td>
+    </tr>
+</table>
 
-`**bounds**`
-`[LatLngBounds][29]`
-Geographical bounds of the area user is located in (with respect to the accuracy of location).
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>message</b></code></td>
+        <td><code>String</code></td>
+        <td>Сообщение об ошибке.</td>
+    </tr>
+    <tr>
+        <td><code><b>code</b></code></td>
+        <td><code>Number</code></td>
+        <td>Код ошибки (если имеется).</td>
+    </tr>
+</table>
 
-`**accuracy**`
-`Number`
-Accuracy of location in meters.
-
-### ErrorEvent
-property
-type
-description
-
-`**message**`
-`String`
-Error message.
-
-`**code**`
-`Number`
-Error code (if applicable).
-
-### LayerEvent
-property
-type
-description
-
-`**layer**`
-`[ILayer][52]`
-The layer that was added or removed.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>layer</b></code></td>
+        <td><code><a href="#ilayer">ILayer</a></code></td>
+        <td>Слой, который был добавлен или удален.</td>
+    </tr>
+</table>
 
 ### TileEvent
-property
-type
-description
 
-`**tile**`
-`HTMLElement`
-The tile element (image).
-
-`**url**`
-`String`
-The source URL of the tile.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>tile</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Элемент тайла (изображение).</td>
+    </tr>
+    <tr>
+        <td><code><b>url</b></code></td>
+        <td><code>String</code></td>
+        <td>URL тайла.</td>
+    </tr>
+</table>
 
 ### GeoJSON event
-property
-type
-description
 
-`**layer**`
-`[ILayer][52]`
-The layer for the GeoJSON feature that is being added to the map.
-
-`**properties**`
-`Object`
-GeoJSON properties of the feature.
-
-`**geometryType**`
-`String`
-GeoJSON geometry type of the feature.
-
-`**id**`
-`String`
-GeoJSON ID of the feature (if present).
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>layer</b></code></td>
+        <td><code><a href="#ilayer">ILayer</a></code></td>
+        <td>Слой GeoJSON объекта добавленного на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>properties</b></code></td>
+        <td><code>Object</code></td>
+        <td>Свойства GeoJSON объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>geometryType</b></code></td>
+        <td><code>String</code></td>
+        <td>Тип геометрии GeoJSON объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>id</b></code></td>
+        <td><code>String</code></td>
+        <td>GeoJSON ID объекта (если имеется).</td>
+    </tr>
+</table>
 
 ### Popup event
-property
-type
-description
 
-`**popup**`
-`[Popup][12]`
-The popup that was opened or closed.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>popup</b></code></td>
+        <td><code><a href="#popup">Popup</a></code></td>
+        <td>Балун, который был открыт или закрыт.</td>
+    </tr>
+</table>
 
 ## L.Class
 
