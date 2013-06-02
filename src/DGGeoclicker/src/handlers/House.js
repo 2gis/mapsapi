@@ -6,8 +6,14 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
 
     statics: {
         Dictionary: {
-            ru: {"Show all organisations in this building": 'Показать все организации в здании'},
-            it: {"Show all organisations in this building": '(it)Показать все организации в здании'}
+            ru: L.extend({
+                "Show all organisations in this building": 'Показать все организации в здании',
+                "{n} floors": ["{n} этаж", "{n} этажа", "{n} этажей"]
+            }, L.DG.Dictionary.ru),
+            it: L.extend({
+                "Show all organisations in this building": '(it)Показать все организации в здании',
+                "{n} floors": ["{n} этаж(i)", "{n} этажа(i)", "{n} этажей(i)"]
+            }, L.DG.Dictionary.it)
         }
     },
 
@@ -50,7 +56,8 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
         }
 
         if (attrs.elevation) {
-            data.elevation = 'Этажей: ' + attrs.elevation; //@todo i18n
+            console.log('elevation', attrs.elevation)
+            data.elevation = '' + this.t("{n} floors", +attrs.elevation);
         }
 
         if (attrs.firmcount > 0) {

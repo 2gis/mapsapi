@@ -13,23 +13,21 @@ L.DG.Locale = {
         if (typeof this.constructor.Dictionary[lang] === 'undefined') {
             lang = "ru";
             this._map.setLang("ru");
-        } 
+        }
         dictionaryMsg = this.constructor.Dictionary[lang][msg];
         msgIsset = typeof dictionaryMsg !== 'undefined';
         if (!msgIsset) {
             return msg;
         }
         result = msgIsset ? dictionaryMsg : msg;
-        
+
         if (argument) {
-            isNumeric = Object.prototype.toString.call(argument) === '[object Number]';
-            if (!isNumeric) {
-                argument = 0;
-            }
+            argument = parseInt(argument, 10);
+            argument = isNaN(argument) ? 0 : argument;
             exp = this.constructor.Dictionary[lang].pluralRules(argument);
             result = dictionaryMsg[exp];
         }
-        
+
         result = L.Util.template(result, {n: argument});
         return result ? result : msg;
     }
