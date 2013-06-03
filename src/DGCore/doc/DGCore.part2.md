@@ -1,393 +1,536 @@
 ## L.LatLng
 
-Представляет географическую точку координат с определенной широтой и долготой.
+Географическая точка с определенной широтой и долготой.
 
     var latlng = new L.LatLng(50.5, 30.5);
 
 Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива, то есть данные записи эквивалентны:
 
     map.panTo([50, 30]);
-    map.panTo(new L.LatLng(50, 30));
+    map.panTo(L.latLng(50, 30));
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.LatLng**(
-            <Number> _latitude_,
-            <Number> _longitude_ )
-`
-`new L.LatLng(…)`
-`L.latLng(…)`
-`L.latLng([…])`
-Creates an object representing a geographical point with the given latitude and longitude.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td>
+            <code><b>L.LatLng</b>(
+            &lt;Number&gt; <i>latitude</i>,
+            &lt;Number&gt; <i>longitude</i> )</code>
+        </td>
+        <td>
+            <code>L.latLng(…)</code>
+            <code>L.latLng([…]</code>
+        </td>
+        <td>Создает объект, представляющий географическую точку с определенной широтой и долготой.</td>
+    </tr>
+</table>
 
-### Properties
-Property
-Type
-Description
+### Свойства
 
-`**lat**`
-`Number`
-Latitude in degrees.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>lat</b></code></td>
+        <td><code>Number</code></td>
+        <td>Широта в градусах.</td>
+    </tr>
+    <tr>
+        <td><code><b>lng</b></code></td>
+        <td><code>Number</code></td>
+        <td>Долгота в градусах.</td>
+    </tr>
+</table>
 
-`**lng**`
-`Number`
-Longitude in degrees.
+### Методы
 
-### Methods
-Method
-Returns
-Description
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>distanceTo</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+        </code></td>
 
-`**distanceTo**(
-            <[LatLng][28]> _otherLatlng_ )
-`
-`Number`
-Returns the distance (in meters) to the given LatLng calculated using the Haversine formula. See [description on wikipedia][99]
+        <td><code>Number</code></td>
+        <td>Возвращает расстояние (в метрах) до данной широты и долготы, рассчитывается по формуле Haversine. См. <a href="http://en.wikipedia.org/wiki/Haversine_formula">описание в wikipedia</a></td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+        </code></td>
 
-`**equals**(
-            <[LatLng][28]> _otherLatlng_ )
-`
-`Boolean`
-Returns `true` if the given LatLng point is at the same position (within a small margin of error).
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если данная широта и долгота находится в той же позиции (с небольшой погрешностью).</td>
+    </tr>
+    <tr>
+        <td><code><b>toString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает строковое представление точки (для отладки).</td>
+    </tr>
+</table>
 
-`**toString**()`
-`String`
-Returns a string representation of the point (for debugging purposes).
+### Константы
 
-`**wrap**(
-            <Number> _left_,
-            <Number> _right_ )
-`
-`[LatLng][28]`
-Returns a new `LatLng` object with the longitude wrapped around `left` and `right` boundaries (`-180` to `180` by default).
-
-### Constants
-Constant
-Type
-Value
-Description
-
-`**DEG_TO_RAD**`
-`Number`
-`Math.PI / 180`
-A multiplier for converting degrees into radians.
-
-`**RAD_TO_DEG**`
-`Number`
-`180 / Math.PI`
-A multiplier for converting radians into degrees.
-
-`**MAX_MARGIN**`
-`Number`
-`1.0E-9`
-Max margin of error for the equality check.
+<table>
+    <tr>
+        <th>Константа</th>
+        <th>Тип</th>
+        <th>Значение</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>DEG_TO_RAD</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>Math.PI / 180</code></td>
+        <td>Коэффициент для конвертирования градусов в радианы.</td>
+    </tr>
+    <tr>
+        <td><code><b>RAD_TO_DEG</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>180 / Math.PI</code></td>
+        <td>Коэффициент для конвертирования радиан в градусы.</td>
+    </tr>
+    <tr>
+        <td><code><b>MAX_MARGIN</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>1.0E-9</code></td>
+        <td>Максимальная погрешность для проверки равенства.</td>
+    </tr>
+</table>
 
 ## L.LatLngBounds
 
-Represents a rectangular geographical area on a map.
+Прямоугольная географическая область на карте.
 
-    var southWest = new L.LatLng(40.712, -74.227),
-        northEast = new L.LatLng(40.774, -74.125),
-        bounds = new L.LatLngBounds(southWest, northEast);
+    var southWest = L.latLng(40.712, -74.227),
+        northEast = L.latLng(40.774, -74.125),
+        bounds = L.latLngBounds(southWest, northEast);
 
-All Leaflet methods that accept LatLngBounds objects also accept them in a simple Array form (unless noted otherwise), so the bounds example above can be passed like this:
+Все методы, которые принимают объекты LatLngBounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
 
     map.fitBounds([
         [40.712, -74.227],
         [40.774, -74.125]
     ]);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.LatLngBounds**(
-            <[LatLng][28]> _southWest_,
-            <[LatLng][28]> _northEast_ )`
-`new L.LatLngBounds(…)`
-`L.latLngBounds(…)`
-`L.latLngBounds([…])`
-Creates a LatLngBounds object by defining south-west and north-east corners of the rectangle.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td>
+            <code><b>L.LatLngBounds</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>southWest</i></nobr>,
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>northEast</i></nobr> )</code>
+        </td>
 
-`**L.LatLngBounds**(
-            <[LatLng][28][]> _latlngs_ )
-`
-`new L.LatLngBounds(…)`
-`L.latLngBounds(…)`
-Creates a LatLngBounds object defined by the geographical points it contains. Very useful for zooming the map to fit a particular set of locations with [fitBounds][100].
+        <td>
+            <code>L.latLngBounds(&hellip;)</code><br />
+            <code>L.latLngBounds([&hellip;])</code>
+        </td>
 
-### Methods
-Method
-Returns
-Description
+        <td>Создает объект LatLngBounds с определенными юго-западным и северо-восточным углами прямоугольника.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.LatLngBounds</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlng</i> )</nobr>
+        </code></td>
+        <td>
+            <code>L.latLngBounds(&hellip;)</code>
+        </td>
+        <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="#map-fitbounds">fitBounds</a>.</td>
+    </tr>
+</table>
 
-`**extend**(
-            <[LatLng][28]|[LatLngBounds][29]> _latlng_ )
-`
-`this`
-Extends the bounds to contain the given point or bounds.
+### Методы
 
-`**getSouthWest**()`
-`[LatLng][28]`
-Returns the south-west point of the bounds.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>|<a href="#latlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**getNorthEast**()`
-`[LatLng][28]`
-Returns the north-east point of the bounds.
+        <td><code>this</code></td>
+        <td>Расширяет границы таким образом, чтобы в них входила переданная точка или другие границы.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouthWest</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает юго-западную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorthEast</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает северо-восточную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorthWest</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает северо-западную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouthEast</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает юго-восточную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getWest</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает западную долготу границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouth</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает южную широту границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getEast</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает восточную долготу границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorth</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает северную широту границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getCenter</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает центральную точку прямоугольной области.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**getNorthWest**()`
-`[LatLng][28]`
-Returns the north-west point of the bounds.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**getSouthEast**()`
-`[LatLng][28]`
-Returns the south-east point of the bounds.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если прямоугольник содержит внутри себя переданную точку.</td>
+    </tr>
+    <tr>
+        <td><code><b>intersects</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**getWest**()`
-`Number`
-Returns the west longitude of the bounds.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник пересекается с переданным прямоугольником.</td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**getSouth**()`
-`Number`
-Returns the south latitude of the bounds.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник эквивалентен (с небольшой погрешностью) переданному прямоугольнику.</td>
+    </tr>
+    <tr>
+        <td><code><b>toBBoxString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>
+Возвращает строку с координатами границ в формате <code>'southwest_lng,southwest_lat,northeast_lng,northeast_lat'</code>. Удобно использовать для отправки запросов к веб-сервисам, возвращающим геоданные.</td>
+    </tr>
+    <tr>
+        <td><code><b>pad</b>(
+            <nobr>&lt;Number&gt; <i>bufferRatio</i> )</nobr>
+        </code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Возвращает большие границы, созданные путем расширения текущих границ на заданный процент в каждом направлении.</td>
+    </tr>
+    <tr>
+        <td><code><b>isValid</b>()</nobr>
+        </code></td>
 
-`**getEast**()`
-`Number`
-Returns the east longitude of the bounds.
-
-`**getNorth**()`
-`Number`
-Returns the north latitude of the bounds.
-
-`**getCenter**()`
-`[LatLng][28]`
-Returns the center point of the bounds.
-
-`**contains**(
-            <[LatLngBounds][29]> _otherBounds_ )
-`
-`Boolean`
-Returns `true` if the rectangle contains the given one.
-
-`**contains**(
-            <[LatLng][28]> _latlng_ )
-`
-`Boolean`
-Returns `true` if the rectangle contains the given point.
-
-`**intersects**(
-            <[LatLngBounds][29]> _otherBounds_ )
-`
-`Boolean`
-Returns `true` if the rectangle intersects the given bounds.
-
-`**equals**(
-            <[LatLngBounds][29]> _otherBounds_ )
-`
-`Boolean`
-Returns `true` if the rectangle is equivalent (within a small margin of error) to the given bounds.
-
-`**toBBoxString**()`
-`String`
-Returns a string with bounding box coordinates in a `'southwest_lng,southwest_lat,northeast_lng,northeast_lat'` format. Useful for sending requests to web services that return geo data.
-
-`**pad**(
-            <Number> _bufferRatio_ )
-`
-`[LatLngBounds][29]`
-Returns bigger bounds created by extending the current bounds by a given percentage in each direction.
-
-`**isValid**()
-        `
-`Boolean`
-Returns `true` if the bounds are properly initialized.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если если свойства границ инициализированы.</td>
+    </tr>
+</table>
 
 ## L.Point
 
-Represents a point with x and y coordinates in pixels.
+Точка с пиксельными координатами x и y.
 
     var point = new L.Point(200, 300);
 
-All Leaflet methods and options that accept Point objects also accept them in a simple Array form (unless noted otherwise), so these lines are equivalent:
+Все методы, которые принимают объекты Point также принимают координаты в виде простого массива, то есть данные записи эквивалентны:
 
     map.panBy([200, 300]);
-    map.panBy(new L.Point(200, 300));
+    map.panBy(L.point(200, 300));
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Point**(
-            <Number> _x_, <Number> _y_,
-            <Boolean> _round?_ )
-`
-`new L.Point(…)`
-`L.point(…)`
-`L.point([…])`
-Creates a Point object with the given `x` and `y` coordinates. If optional `round` is set to `true`, rounds the `x` and `y` values.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Point</b>(
+            <nobr>&lt;Number&gt; <i>x</i>, &lt;Number&gt; <i>y</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
+        </code></td>
 
-### Properties
-Property
-Type
-Description
+        <td>
+            <code>L.point(&hellip;)</code><br />
+            <code>L.point([&hellip;])</code>
+        </td>
 
-`**x**`
-`Number`
-The x coordinate.
+        <td>Создает объект Point с координатами <code>x</code> и <code>y</code>. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда координаты будут округлены.</td>
+    </tr>
+</table>
 
-`**y**`
-`Number`
-The y coordinate.
 
-### Methods
-Method
-Returns
-Description
+### Свойства
 
-`**add**(
-            <[Point][30]> _otherPoint_ )
-`
-`[Point][30]`
-Returns the result of addition of the current and the given points.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>x</b></code></td>
+        <td><code>Number</code></td>
+        <td>Координата x.</td>
+    </tr>
+    <tr>
+        <td><code><b>y</b></code></td>
+        <td><code>Number</code></td>
+        <td>Координата y.</td>
+    </tr>
+</table>
 
-`**subtract**(
-            <[Point][30]> _otherPoint_ )
-`
-`[Point][30]`
-Returns the result of subtraction of the given point from the current.
+### Методы
 
-`**multiplyBy**(
-            <Number> _number_ )
-`
-`[Point][30]`
-Returns the result of multiplication of the current point by the given number.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>add</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**divideBy**(
-            <Number> _number_,
-            <Boolean> _round?_ )
-`
-`[Point][30]`
-Returns the result of division of the current point by the given number. If optional `round` is set to `true`, returns a rounded result.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат сложения текущей и переданной точек.</td>
+    </tr>
+    <tr>
+        <td><code><b>subtract</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**distanceTo**(
-            <[Point][30]> _otherPoint_ )
-`
-`Number`
-Returns the distance between the current and the given points.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат вычитания переданной точки из текущей.</td>
+    </tr>
+    <tr>
+        <td><code><b>multiplyBy</b>(
+            <nobr>&lt;Number&gt; <i>number</i> )</nobr>
+        </code></td>
 
-`**clone**()`
-`[Point][30]`
-Returns a copy of the current point.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат умножения текущей точки на переданное число.</td>
+    </tr>
+    <tr>
+        <td><code><b>divideBy</b>(
+            <nobr>&lt;Number&gt; <i>number</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
+        </code></td>
 
-`**round**()`
-`[Point][30]`
-Returns a copy of the current point with rounded coordinates.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат деления текущей точки на переданное число. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда результат будет округлен.</td>
+    </tr>
+    <tr>
+        <td><code><b>distanceTo</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**equals**(
-            <[Point][30]> _otherPoint_ )
-`
-`Boolean`
-Returns `true` if the given point has the same coordinates.
+        <td><code>Number</code></td>
+        <td>Возвращает расстояние между текущей и переданной точками.</td>
+    </tr>
+    <tr>
+        <td><code><b>clone</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки.</td>
+    </tr>
+    <tr>
+        <td><code><b>round</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки с округленными координатами.</td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
 
-`**toString**()`
-`String`
-Returns a string representation of the point for debugging purposes.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если переданная точка имеет такие же координаты, как и текущая.</td>
+    </tr>
+    <tr>
+        <td><code><b>toString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает строковое представление точки (для отладки).</td>
+    </tr>
+</table>
 
 ## L.Bounds
 
-Represents a rectangular area in pixel coordinates.
+Ппрямоугольная область на карте в пиксельных координатах.
 
-    var p1 = new L.Point(10, 10),
-        p2 = new L.Point(40, 60),
-        bounds = new L.Bounds(p1, p2);
+    var p1 = L.point(10, 10),
+        p2 = L.point(40, 60),
+        bounds = L.bounds(p1, p2);
 
-All Leaflet methods that accept Bounds objects also accept them in a simple Array form (unless noted otherwise), so the bounds example above can be passed like this:
+Все методы, которые принимают объекты Bounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
 
     otherBounds.intersects([[10, 10], [40, 60]]);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Bounds**(
-            <[Point][30]> _topLeft_,
-            <[Point][30]> _bottomRight_ )
-`
-`new L.Bounds(…)`
-`L.bounds(…)`
-`L.bounds([…])`
-Creates a Bounds object from two coordinates (usually top-left and bottom-right corners).
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Bounds</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>topLeft</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>bottomRight</i> )</nobr>
+        </code></td>
 
-`**L.Bounds**(
-            <[Point][30][]> _points_ )
-`
-`new L.Bounds(…)`
-`L.bounds(…)`
-Creates a Bounds object defined by the points it contains.
+        <td>
+            <code>L.bounds(&hellip;)</code><br />
+            <code>L.bounds([&hellip;])</code>
+        </td>
 
-### Properties
-Property
-Type
-Description
+        <td>Создает объект Bounds на основе левого верхнего и правого нижнего углов.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.Bounds</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i> )</nobr>
+        </code></td>
 
-`**min**`
-`[Point][30]`
-The top left corner of the rectangle.
+        <td>
+            <code>L.bounds(&hellip;)</code>
+        </td>
 
-`**max**`
-`[Point][30]`
-The bottom right corner of the rectangle.
+        <td>Создает объект Bounds на основе точек, которые будут в него входить.</td>
+    </tr>
+</table>
 
-### Methods
-Method
-Returns
-Description
+### Свойства
 
-`**extend**(
-            <[Point][30]> _point_ )
-`
--
-Extends the bounds to contain the given point.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>min</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Левый верхний угол прямоугольника.</td>
+    </tr>
+    <tr>
+        <td><code><b>max</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Правый нижний угол прямоугольника.</td>
+    </tr>
+</table>
 
-`**getCenter**()`
-`[Point][30]`
-Returns the center point of the bounds.
+### Методы
 
-`**contains**(
-            <[Bounds][31]> _otherBounds_ )
-`
-`Boolean`
-Returns `true` if the rectangle contains the given one.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**contains**(
-            <[Point][30]> _point_ )
-`
-`Boolean`
-Returns `true` if the rectangle contains the given point.
+        <td>-</td>
+        <td>Расширяет границы таким образом, чтобы в них входила переданная точка.</td>
+    </tr>
+    <tr>
+        <td><code><b>getCenter</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает центральную точку прямоугольной области.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**intersects**(
-            <[Bounds][31]> _otherBounds_ )
-`
-`Boolean`
-Returns `true` if the rectangle intersects the given bounds.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**isValid**()`
-`Boolean`
-Returns `true` if the bounds are properly initialized.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если прямоугольник содержит внутри себя переданную точку.</td>
+    </tr>
+    <tr>
+        <td><code><b>intersects</b>(
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
 
-`**getSize**()`
-`[Point][30]`
-Returns the size of the given bounds.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник пересекается с переданным прямоугольником.</td>
+    </tr>
+    <tr>
+        <td><code><b>isValid</b>()</code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если если свойства границ инициализированы.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSize</b>()</code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает размер прямоугольника.</td>
+    </tr>
+</table>
 
 ## L.Icon
 
-Represents an icon to provide when creating a marker.
+Иконка маркера.
 
     var myIcon = L.icon({
         iconUrl: 'my-icon.png',
@@ -403,618 +546,684 @@ Represents an icon to provide when creating a marker.
 
     L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
-`L.Icon.Default` extends `L.Icon` and is the blue icon Leaflet uses for markers by default.
+### Конструктор
 
-### Constructor
-Constructor
-Usage
-Description
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Icon</b>(
+            <nobr>&lt;<a href="#icon-options">Icon options</a>&gt; <i>options</i> )</nobr>
+        </code></td>
 
-`**L.Icon**(
-            <[Icon options][101]> _options_ )
-`
-`new L.Icon(…)`
-`L.icon(…)`
-Creates an icon instance with the given options.
+        <td>
+            <code>L.icon(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Options
-Option
-Type
-Description
+        <td>Создает объект иконки с переданными опциями.</td>
+    </tr>
+</table>
 
-`**iconUrl**`
-`String`
-(required) The URL to the icon image (absolute or relative to your script path).
+### Опции
 
-`**iconRetinaUrl**`
-`String`
-The URL to a retina sized version of the icon image (absolute or relative to your script path). Used for Retina screen devices.
-
-`**iconSize**`
-`[Point][30]`
-Size of the icon image in pixels.
-
-`**iconAnchor**`
-`[Point][30]`
-The coordinates of the "tip" of the icon (relative to its top left corner). The icon will be aligned so that this point is at the marker's geographical location. Centered by default if size is specified, also can be set in CSS with negative margins.
-
-`**shadowUrl**`
-`String`
-The URL to the icon shadow image. If not specified, no shadow image will be created.
-
-`**shadowRetinaUrl**`
-`String`
-The URL to the retina sized version of the icon shadow image. If not specified, no shadow image will be created. Used for Retina screen devices.
-
-`**shadowSize**`
-`[Point][30]`
-Size of the shadow image in pixels.
-
-`**shadowAnchor**`
-`[Point][30]`
-The coordinates of the "tip" of the shadow (relative to its top left corner) (the same as `iconAnchor` if not specified).
-
-`**popupAnchor**`
-`[Point][30]`
-The coordinates of the point from which popups will "open", relative to the icon anchor.
-
-`**className**`
-`String`
-A custom class name to assign to both icon and shadow images. Empty by default.
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>iconUrl</b></code></td>
+        <td><code>String</code>
+        <td>(обязательная) URL к изображению иконки (абсолютный или относительный).</td>
+    </tr>
+    <tr>
+        <td><code><b>iconRetinaUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению иконки для устройств с Retina экраном (абсолютный или относительный).</td>
+    </tr>
+    <tr>
+        <td><code><b>iconSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер изображения иконки в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>iconAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла).
+            Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению тени иконки. Если не указан, тогда тень будет отсутствовать.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowRetinaUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению тени иконки для устройств с Retina экраном. Если не указан, тогда тень будет отсутствовать.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер изображения тени в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты "ножки" тени (относительно ее левого верхнего угла). Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>popupAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты точки, из которой будет открываться балун (относительно <code>iconAnchor</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>className</b></code></td>
+        <td><code>String</code>
+        <td>Значение класса, которое будет присвоено изображениям иконки и тени. По умолчанию пустое.</td>
+    </tr>
+</table>
 
 ## L.DivIcon
 
-Represents a lightweight icon for markers that uses a simple `div` element instead of an image.
+Простая иконка для маркеров, которые используют простой элемент `div` вместо изображения.
 
     var myIcon = L.divIcon({className: 'my-div-icon'});
-    // you can set .my-div-icon styles in CSS
+    // вы можете установить стиль класса .my-div-icon в CSS
 
     L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
-By default, it has a `'leaflet-div-icon'` class and is styled as a little white square with a shadow.
+По умолчанию установлен класс `'leaflet-div-icon'`, который стилизирован как маленький белый квадрат с тенью. 
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.DivIcon**(
-            <[DivIcon options][102]> _options_ )
-`
-`new L.DivIcon(…)`
-`L.divIcon(…)`
-Creates a div icon instance with the given options.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.DivIcon</b>(
+            <nobr>&lt;<a href="#divicon-options">DivIcon options</a>&gt; <i>options</i> )</nobr>
+        </code></td>
 
-### Options
-Option
-Type
-Description
+        <td>
+            <code>L.divIcon(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-`**iconSize**`
-`[Point][30]`
-Size of the icon in pixels. Can be also set through CSS.
+        <td>Создает объект <code>L.DivIcon</code> с переданными опциями.</td>
+    </tr>
+</table>
 
-`**iconAnchor**`
-`[Point][30]`
-The coordinates of the "tip" of the icon (relative to its top left corner). The icon will be aligned so that this point is at the marker's geographical location. Centered by default if size is specified, also can be set in CSS with negative margins.
+### Опции
 
-`**className**`
-`String`
-A custom class name to assign to the icon. `'leaflet-div-icon'` by default.
-
-`**html**`
-`String`
-A custom HTML code to put inside the div element, empty by default.
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>iconSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер иконки в пикселях. Также может быть установлен с помощью CSS.</td>
+    </tr>
+    <tr>
+        <td><code><b>iconAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла). Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки, если указан ее размер.</td>
+    </tr>
+    <tr>
+        <td><code><b>className</b></code></td>
+        <td><code>String</code>
+        <td>Значение класса, которое будет присвоено иконке. По умолчанию <code>'leaflet-div-icon'</code>.
+    </tr>
+    <tr>
+        <td><code><b>html</b></code></td>
+        <td><code>String</code>
+        <td>HTML код, который будет установлен как содержимое иконки. По умолчанию пустой.</td>
+    </tr>
+</table>
 
 ## L.Control
 
-The base class for all Leaflet controls. Implements [IControl][53] interface. You can add controls to the map like this:
+Базовый класс для всех элементов управления. Реализует интерфейс [IControl][53]. Элементы на карту добавляются следующим образом:
 
     control.addTo(map);
-    // the same as
+    // то же самое, что
     map.addControl(control);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Control**(
-            <[Control options][103]> _options?_ )
-`
-`new L.Control(…)`
-`L.control(…)`
-Creates a control with the given options.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control</b>(
+            <nobr>&lt;<a href="#control-options">Control options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>
+            <code>L.control(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-`**position**`
-`String`
-`'topright'`
-The initial position of the control (one of the map corners). See [control positions][104].
+        <td>Создает элемент управления с переданными опциями.</td>
+    </tr>
+</table>
 
-### Methods
-Method
-Returns
-Description
+### Опции
 
-`**setPosition**(
-            <String> _position_ )
-`
-`this`
-Sets the position of the control. See [control positions][104].
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code>'topright'</td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+</table>
 
-`**getPosition**()`
-`String`
-Returns the current position of the control.
+### Методы
 
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the control to the map.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setPosition</b>(
+            <nobr>&lt;String&gt; <i>position</i> )</nobr>
+        </code></td>
 
-`**removeFrom**(
-            <[Map][76]> _map_ )
-`
-`this`
-Removes the control from the map.
+        <td><code>this</code></td>
+        <td>Устанавливает позицию элемента управления См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPosition</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает текущую позицию элемента управления.</td>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-### Control Positions
+        <td><code>this</code></td>
+        <td>Добавляет элемент управления на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeFrom</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-Control positions (map corner to put a control to) are set using strings. Margins between controls and the map border are set with CSS, so that you can easily override them.
-Position
-Description
+        <td><code>this</code></td>
+        <td>Удаляет элемент управления с карты.</td>
+    </tr>
+</table>
 
-`'topleft'`
-Top left of the map.
+### Позиции элементов управления
 
-`'topright'`
-Top right of the map.
+Позиции элементов управления (углы карты, в которых располагаются элементы) устанавливаются с помощью строк. Отступы между границами карты и элементами управления можно установить с помощью CSS.
 
-`'bottomleft'`
-Bottom left of the map.
-
-`'bottomright'`
-Bottom right of the map.
-
-## L.Control.Zoom
-
-A basic zoom control with two buttons (zoom in and zoom out). It is put on the map by default unless you set its `zoomControl` option to `false`. Extends [Control][34].
-
-### Constructor
-Constructor
-Usage
-Description
-
-`**L.Control.Zoom**(
-            <[Control.Zoom options][105]> _options?_ )
-`
-`new L.Control.Zoom(…)`
-`L.control.zoom(…)`
-Creates a zoom control.
-
-### Options
-Option
-Type
-Default
-Description
-
-`**position**`
-`String`
-`'topleft'`
-The position of the control (one of the map corners). See [control positions][104].
+<table>
+    <tr>
+        <th>Позиция</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code>'topleft'</code></td>
+        <td>Верхний левый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>'topright'</code></td>
+        <td>Верхний правый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>'bottomleft'</code></td>
+        <td>Нижний левый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>'bottomright'</code></td>
+        <td>Нижний правый угол карты.</td>
+    </tr>
+</table>
 
 ## L.Control.Attribution
 
-The attribution control allows you to display attribution data in a small text box on a map. It is put on the map by default unless you set its `attributionControl` option to `false`, and it fetches attribution texts from layers with `getAttribution` method automatically. Extends [Control][34].
+Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет [Control][34].
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Control.Attribution**(
-            <[Control.Attribution options][106]> _options?_ )
-`
-`new L.Control.Attribution(…)`
-`L.control.attribution(…)`
-Creates an attribution control.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control.Attribution</b>(
+            <nobr>&lt;<a href="#control-attribution-options">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>
+            <code>L.control.attribution(&hellip;)</code>
+        </td>
 
-`**position**`
-`String`
-`'bottomright'`
-The position of the control (one of the map corners). See [control positions][104].
+        <td>Создает элемент атрибутики.</td>
+    </tr>
+</table>
 
-`**prefix**`
-`String`
-`'Powered by Leaflet'`
-The HTML text shown before the attributions. Pass `false` to disable.
+### Опции
 
-### Methods
-Method
-Returns
-Description
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'bottomright'</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>prefix</b></code></td>
+        <td><code>String</code></td>
+        <td><code>'Leaflet'</td>
+        <td>Текст, который будет показан перед атрибутикой. Для отключения необходимо указать <code>false</code>.</td>
+    </tr>
+</table>
 
-`**setPrefix**(
-            <String> _prefix_ )
-`
-`this`
-Sets the text before the attributions.
+### Методы
 
-`**addAttribution**(
-            <String> _text_ )
-`
-`this`
-Adds an attribution text (e.g. `'Vector data &copy; CloudMade'`).
-
-`**removeAttribution**(
-            <String> _text_ )
-`
-`this`
-Removes an attribution text.
-
-## L.Control.Layers
-
-The layers control gives users the ability to switch between different base layers and switch overlays on/off (check out the [detailed example][107]). Extends [Control][34].
-
-    var baseLayers = {
-        "CloudMade": cloudmade,
-        "OpenStreetMap": osm
-    };
-
-    var overlays = {
-        "Marker": marker,
-        "Roads": roadsLayer
-    };
-
-    L.control.layers(baseLayers, overlays).addTo(map);
-
-### Constructor
-Constructor
-Usage
-Description
-
-`**L.Control.Layers**(
-            <[Layer Config][108]> _baseLayers?_,
-            <[Layer Config][108]> _overlays?_,
-            <[Control.Layers options][109]> _options?_ )
-`
-`new L.Control.Layers(…)`
-`L.control.layers(…)`
-Creates an attribution control with the given layers. Base layers will be switched with radio buttons, while overlays will be switched with checkboxes.
-
-### Methods
-Method
-Returns
-Description
-
-`**addBaseLayer**(
-            <[ILayer][52]> _layer_,
-            <String> _name_ )
-`
-`this`
-Adds a base layer (radio button entry) with the given name to the control.
-
-`**addOverlay**(
-            <[ILayer][52]> _layer_,
-            <String> _name_ )
-`
-`this`
-Adds an overlay (checkbox entry) with the given name to the control.
-
-`**removeLayer**(
-            <[ILayer][52]> _layer_ )
-`
-`this`
-Remove the given layer from the control.
-
-### Options
-Option
-Type
-Default
-Description
-
-`**position**`
-`String`
-`'topright'`
-The position of the control (one of the map corners). See [control positions][104].
-
-`**collapsed**`
-`Boolean`
-`true`
-If `true`, the control will be collapsed into an icon and expanded on mouse hover or touch.
-
-`**autoZIndex**`
-`Boolean`
-`true`
-If `true`, the control will assign zIndexes in increasing order to all of its layers so that the order is preserved when switching them on/off.
-
-### Layer Config
-
-An object literal with layer names as keys and layer objects as values:
-
-    {
-        "<someName1>": layer1,
-        "<someName2>": layer2
-    }
-
-The layer names can contain HTML, which allows you to add additional styling to the items:
-
-    {"<img src='my-layer-icon' /> <span class='my-layer-item'>My Layer</span>": myLayer}
-
-### Events
-
-You can subscribe to the following events on the map object using [these methods][39].
-Event
-Data
-Description
-
-`**baselayerchange**`
-`[LayerEvent][63]`
-Fired when the base layer is changed through the control.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setPrefix</b>(
+            <nobr>&lt;String&gt; <i>prefix</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Устанавливает текст перед атрибутикой.</td>
+    </tr>
+    <tr>
+        <td><code><b>addAttribution</b>(
+            <nobr>&lt;String&gt; <i>text</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Добавляет текст атрибутики (например, <code>'Картографические данные &amp;copy; 2GIS'</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>removeAttribution</b>(
+            <nobr>&lt;String&gt; <i>text</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Удаляет текст атрибутики.</td>
+    </tr>
+</table>
 
 ## L.Control.Scale
 
-A simple scale control that shows the scale of the current center of screen in metric (m/km) and imperial (mi/ft) systems. Implements [IControl][53] interface.
+Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Реализует интерфейс [IControl][53].
 
     L.control.scale().addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.Control.Scale**(
-            <[Control.Scale options][110]> _options?_ )
-`
-`new L.Control.Scale(…)`
-`L.control.scale(…)`
-Creates an scale control with the given options.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control.Scale</b>(
+            <nobr>&lt;<a href="#control-scale-options">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-### Options
-Option
-Type
-Default
-Description
+        <td>
+            <code>L.control.scale(&hellip;)</code>
+        </td>
 
-`**position**`
-`String`
-`'bottomleft'`
-The position of the control (one of the map corners). See [control positions][104].
+        <td>Создает индикатор масштаба с переданными опциями.</td>
+    </tr>
+</table>
 
-`**maxWidth**`
-`Number`
-`100`
-Maximum width of the control in pixels. The width is set dynamically to show round values (e.g. 100, 200, 500).
+### Опции
 
-`**metric**`
-`Boolean`
-`true`
-Whether to show the metric scale line (m/km).
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'bottomleft'</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>maxWidth</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">100</span></code></td>
+        <td>Максимальная ширина элемента в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>metric</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code></td>
+        <td>Включает или отключает метрическую систему измерений (метры, километры).</td>
+    </tr>
+    <tr>
+        <td><code><b>imperial</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code></td>
+        <td>Включает или отключает английскую систему измерений (мили, футы).</td>
+    </tr>
+    <tr>
+        <td><code><b>updateWhenIdle</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если <code>true</code>, тогда элемент обновляется при событии <code>moveend</code>, иначе всегда будет отображена актуальная информация (обновляется при событии <code>move</code>).</td>
+    </tr>
+</table>
 
-`**imperial**`
-`Boolean`
-`true`
-Whether to show the imperial scale line (mi/ft).
+## Методы событий
 
-`**updateWhenIdle**`
-`Boolean`
-`false`
-If `true`, the control is updated on `moveend`, otherwise it's always up-to-date (updated on `move`).
+Набор методов, позволяющих работать с событиями. События позволяют выполнить какое-либо действие в тот момент, когда что-то происходит с объектом (например, когда пользователь кликает по карте).
 
-## Events methods
-
-A set of methods shared between event-powered classes (like Map). Generally, events allow you to execute some function when something happens with an object (e.g. the user clicks on the map, causing the map `'fire'` event).
-
-### Example
+### Пример
 
     map.on('click', function(e) {
         alert(e.latlng);
     });
 
-Leaflet deals with event listeners by reference, so if you want to add a listener and then remove it, define it as a function:
+Управлять событиями можно с помощью ссылок на обработчики, например, если необходимо добавить и затем удалить обработчик, определите его как функцию:
 
     function onClick(e) { ... }
 
     map.on('click', onClick);
     map.off('click', onClick);
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**addEventListener**(
-            <String> _type_,
-            <Function> _fn_,
-            <Object> _context?_ )
-`
-`this`
-Adds a listener function (`fn`) to a particular event type of the object. You can optionally specify the context of the listener (object the `this` keyword will point to). You can also pass several space-separated types (e.g. `'click dblclick'`).
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addEventListener</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
 
-`**addEventListener**(
-            <Object> _eventMap_,
-            <Object> _context?_ )
-`
-`this`
-Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
+        <td><code>this</code></td>
+        <td>Подписывает обработчик (<code>fn</code>) на определенный тип события. Опционально вы можете указать контекст обработчика (объект, на который будет указывать <code>this</code>). Также вы можете подписаться на несколько типов событий, указав их через пробел (например, <code>'click dblclick'</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>addEventListener</b>(
+            <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
 
-`**removeEventListener**(
-            <String> _type_,
-            <Function> _fn?_,
-            <Object> _context?_ )
-`
-`this`
-Removes a previously added listener function. If no function is specified, it will remove all the listeners of that particular event from the object.
+        <td><code>this</code></td>
+        <td>Подписывает несколько обработчиков на определенные типы событий, например <code>{click: onClick, mousemove: onMouseMove}</code></td>
+    </tr>
+    <tr>
+        <td><code><b>removeEventListener</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn?</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
 
-`**removeEventListener**(
-            <Object> _eventMap_,
-            <Object> _context?_ )
-`
-`this`
-Removes a set of type/listener pairs.
+        <td><code>this</code></td>
+        <td>Отписывает ранее подписанный обработчик. Если обработчик не указан, тогда от определенного типа событий будут отписаны все обработчики.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeEventListener</b>(
+            <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
 
-`**hasEventListeners**(
-            <String> _type_ )
-`
-`Boolean`
-Returns `true` if a particular event type has some listeners attached to it.
+        <td><code>this</code></td>
+        <td>Отписывает несколько обработчиков от определенных событий.</code></td>
+    </tr>
+    <tr>
+        <td><code><b>hasEventListeners</b>(
+            <nobr>&lt;String&gt; <i>type</i> )</nobr>
+        </code></td>
 
-`**fireEvent**(
-            <String> _type_,
-            <Object> _data?_ )
-`
-`this`
-Fires an event of the specified type. You can optionally provide an data object --- the first argument of the listener function will contain its properties.
+        <td><code>Boolean</code></td>
+        <td>Возвращет <code>true</code>, если у переданного типа события есть подписчики.</td>
+    </tr>
+    <tr>
+        <td><code><b>fireEvent</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Object&gt; <i>data?</i> )</nobr>
+        </code></td>
 
-`**on**( … )`
-`this`
-Alias to `addEventListener`.
+        <td><code>this</code></td>
+        <td>Инициирует событие определенного типа. Опционально можно передать объект с данными события, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
+    </tr>
+    <tr>
+        <td><code><b>on</b>( &hellip; )</code></td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>addEventListener</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>off</b>( &hellip; )</code></td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>removeEventListener</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>fire</b>( &hellip; )</code></td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>fireEvent</code>.</td>
+    </tr>
+</table>
 
-`**off**( … )`
-`this`
-Alias to `removeEventListener`.
+## Объекты событий
 
-`**fire**( … )`
-`this`
-Alias to `fireEvent`.
-
-## Event objects
-
-Event object is an object that you recieve as an argument in a listener function when some event is fired, containing useful information about that event. For example:
+Каждый объект события &mdash; это объект с данными о событии, передаваемый параметром в функцию-обработчик, подписанную на это событие при возникновении последнего. Например:
 
     map.on('click', function(e) {
-        alert(e.latlng); // e is an event object (MouseEvent in this case)
+        alert(e.latlng); // e является объектом события (в данном случае MouseEvent)
     });
 
 ### Event
 
-The base event object. All other event objects contain these properties too.
-property
-type
-description
+Базовый объект события. Все объекты событий содержат такие же свойства, как и этот объект.
 
-`**type**`
-`String`
-The event type (e.g. `'click'`).
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>type</b></code></td>
+        <td><code>String</code></td>
+        <td>Тип события (например, <code>'click'</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>target</b></code></td>
+        <td><code>Object</code></td>
+        <td>Объект, который инициировал событие.</td>
+    </tr>
+</table>
 
-`**target**`
-`Object`
-The object that fired the event.
-
-### MouseEvent
-property
-type
-description
-
-`**latlng**`
-`[LatLng][28]`
-The geographical point where the mouse event occured.
-
-`**layerPoint**`
-`[Point][30]`
-Pixel coordinates of the point where the mouse event occured relative to the map layer.
-
-`**containerPoint**`
-`[Point][30]`
-Pixel coordinates of the point where the mouse event occured relative to the map сontainer.
-
-`**originalEvent**`
-`DOMMouseEvent`
-The original DOM mouse event fired by the browser.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latlng</b></code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Географическая точка, в которой было инициировано событие мышки.</td>
+    </tr>
+    <tr>
+        <td><code><b>layerPoint</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Пиксельные координаты, в которых было инициировано событие мышки, относительно слоя карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>containerPoint</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Пиксельные координаты, в которых было инициировано событие мышки относительно контейнера карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>originalEvent</b></code></td>
+        <td><code>DOMMouseEvent</code></td>
+        <td>Оригинальное браузерное событие мышки.</td>
+    </tr>
+</table>
 
 ### LocationEvent
-property
-type
-description
 
-`**latlng**`
-`[LatLng][28]`
-Detected geographical location of the user.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latlng</b></code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Географическое положение пользователя.</td>
+    </tr>
+    <tr>
+        <td><code><b>bounds</b></code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Географические границы, в которых находится пользователь (в соответствии с точностью местоположения).</td>
+    </tr>
+    <tr>
+        <td><code><b>accuracy</b></code></td>
+        <td><code>Number</code></td>
+        <td>Точность местоположения в метрах.</td>
+    </tr>
+</table>
 
-`**bounds**`
-`[LatLngBounds][29]`
-Geographical bounds of the area user is located in (with respect to the accuracy of location).
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>message</b></code></td>
+        <td><code>String</code></td>
+        <td>Сообщение об ошибке.</td>
+    </tr>
+    <tr>
+        <td><code><b>code</b></code></td>
+        <td><code>Number</code></td>
+        <td>Код ошибки (если имеется).</td>
+    </tr>
+</table>
 
-`**accuracy**`
-`Number`
-Accuracy of location in meters.
-
-### ErrorEvent
-property
-type
-description
-
-`**message**`
-`String`
-Error message.
-
-`**code**`
-`Number`
-Error code (if applicable).
-
-### LayerEvent
-property
-type
-description
-
-`**layer**`
-`[ILayer][52]`
-The layer that was added or removed.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>layer</b></code></td>
+        <td><code><a href="#ilayer">ILayer</a></code></td>
+        <td>Слой, который был добавлен или удален.</td>
+    </tr>
+</table>
 
 ### TileEvent
-property
-type
-description
 
-`**tile**`
-`HTMLElement`
-The tile element (image).
-
-`**url**`
-`String`
-The source URL of the tile.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>tile</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Элемент тайла (изображение).</td>
+    </tr>
+    <tr>
+        <td><code><b>url</b></code></td>
+        <td><code>String</code></td>
+        <td>URL тайла.</td>
+    </tr>
+</table>
 
 ### GeoJSON event
-property
-type
-description
 
-`**layer**`
-`[ILayer][52]`
-The layer for the GeoJSON feature that is being added to the map.
-
-`**properties**`
-`Object`
-GeoJSON properties of the feature.
-
-`**geometryType**`
-`String`
-GeoJSON geometry type of the feature.
-
-`**id**`
-`String`
-GeoJSON ID of the feature (if present).
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>layer</b></code></td>
+        <td><code><a href="#ilayer">ILayer</a></code></td>
+        <td>Слой GeoJSON объекта добавленного на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>properties</b></code></td>
+        <td><code>Object</code></td>
+        <td>Свойства GeoJSON объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>geometryType</b></code></td>
+        <td><code>String</code></td>
+        <td>Тип геометрии GeoJSON объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>id</b></code></td>
+        <td><code>String</code></td>
+        <td>GeoJSON ID объекта (если имеется).</td>
+    </tr>
+</table>
 
 ### Popup event
-property
-type
-description
 
-`**popup**`
-`[Popup][12]`
-The popup that was opened or closed.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>popup</b></code></td>
+        <td><code><a href="#popup">Popup</a></code></td>
+        <td>Балун, который был открыт или закрыт.</td>
+    </tr>
+</table>
 
 ## L.Class
 
