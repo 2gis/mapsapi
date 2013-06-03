@@ -2,32 +2,41 @@
 <html>
 <head>
     <meta charset="utf-8">
-	<title>Geoclicker Spec Runner</title>
-    <link rel="stylesheet" type="text/css" href="../../../node_modules/mocha/mocha.css">
-	<link rel="stylesheet" type="text/css" href="../../../vendors/leaflet/dist/leaflet.css">
+    <title>Geoclicker Spec Runner</title>
+    <link rel="stylesheet" type="text/css" href="../../../test/mocha.css">
+    <link rel="stylesheet" type="text/css" href="../../../vendors/leaflet/dist/leaflet.css">
 </head>
 <body>
-    <div id="mocha"></div>
-    <script src="expect.js"></script>
-    <script type="text/javascript" src="mocha.js"></script>
-   	<script type="text/javascript" src="happen.js"></script>
-    <script type="text/javascript" src="sinon.js"></script>
-    <script type="text/javascript" src="underscore.js"></script>
-   	<script type="text/javascript" src="../../../vendors/leaflet/dist/leaflet-src.js"></script>
-    <script type="text/javascript" src="Jsonp.js"></script>
-    <script type="text/javascript" src="../src/GeoclickerHandlers.js"></script>
-    <script type="text/javascript" src="../src/GeoclickerHandlersManager.js"></script>
-    <script type="text/javascript" src="../src/Geoclicker.js"></script>
-    <script>
-        mocha.setup('bdd');
-        mocha.ignoreLeaks();
-    </script>
+<div id="mocha"></div>
+<script src="../../../test/expect.js"></script>
+<script src="../../../test/mocha.js"></script>
+<script src="../../../test/happen.js"></script>
+<script src="../../../test/sinon.js"></script>
 
-	<!-- /map -->
-	<script type="text/javascript" src="GeoclickerSpec.js"></script>
+<script src="../../../vendors/leaflet/dist/leaflet-src.js"></script>
 
-    <script>
-        (window.mochaPhantomJS || window.mocha).run();
-    </script>
+<script src="../../DGLocale/src/DGDictionary.js"></script>
+<script src="../../DGLocale/src/DGLocale.js"></script>
+
+<script src="../src/DGGeoclicker.js"></script>
+<script src="../src/lib/WebApi.js"></script>
+<script src="../src/lib/GeoCoder.js"></script>
+<script src="../src/handlers/Default.js"></script>
+<script src="../src/handlers/House.js"></script>
+<script src="../src/lib/Controller.js"></script>
+<script src="../src/lib/MapHandler.js"></script>
+
+
+<script>
+    mocha.setup('bdd');
+    mocha.ignoreLeaks();
+</script>
+
+<!-- /map -->
+<script src="GeoclickerSpec.js"></script>
+
+<script>
+    (window.mochaPhantomJS || window.mocha).run();
+</script>
 </body>
 </html>

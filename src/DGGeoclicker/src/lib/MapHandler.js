@@ -3,7 +3,7 @@
  *
  */
 L.Map.mergeOptions({
-    dgGeoClicker: true
+    dgGeoclicker: true
 });
 
 L.DG.Geoclicker.MapHandler = L.Handler.extend({
@@ -32,4 +32,4 @@ L.DG.Geoclicker.MapHandler = L.Handler.extend({
 });
 
 
-L.Map.addInitHook('addHandler', 'dgGeoClicker', L.DG.Geoclicker.MapHandler);
+L.Map.addInitHook('addHandler', 'dgGeoclicker', L.DG.Geoclicker.MapHandler);

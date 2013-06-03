@@ -112,7 +112,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     _showLoader: function () {
-        //@todo should this function be moved to kind of GeoClicker View?
+        //@todo should this function be moved to kind of Geoclicker View?
         var i = 1,
             popup = this._popup;
 
