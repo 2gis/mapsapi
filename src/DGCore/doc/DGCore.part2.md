@@ -2167,28 +2167,37 @@
 
 ## IControl
 
-Represents a UI element in one of the corners of the map. Implemented by [zoom][35], [attribution][36], [scale][38] and [layers][37] controls.
+Графические элементы управления, которые располагаются в одном из углов карты. Реализуется элементами [zoom][35], [attribution][36], [scale][38] и [layers][37].
 
-### Methods
+### Методы
 
-Every control in Leaflet should extend from [Control][34] class and additionally have the following methods:
-Method
-Returns
-Description
+Каждый элемент управления API должен наследоваться от класса [Control][34] и иметь следующие методы:
 
-`**onAdd**(
-            <[Map][76]> _map_ )
-`
-`HTMLElement`
-Should contain code that creates all the neccessary DOM elements for the control, adds listeners on relevant map events, and returns the element containing the control. Called on `map.addControl(control)` or `control.addTo(map)`.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращет</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>onAdd</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**onRemove**(
-            <[Map][76]> _map_ )
-`
--
-Optional, should contain all clean up code (e.g. removes control's event listeners). Called on `map.removeControl(control)` or `control.removeFrom(map)`. The control's DOM container is removed automatically.
+        <td><code>HTMLElement</code></td>
+        <td>Должен содержать код, который создает DOM элементы, подписывает обработчики на все необходимые события карты и возвращает элемент содержащий содержимое элемента управления. Вызывается при <code>map.addControl(control)</code> или <code>control.addTo(map)</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>onRemove</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-### Custom Control Example
+        <td>-</td>
+        <td>Опционально, должен содержать код очистки (например, отписывать обработчики событий). Вызывается при <code>map.removeControl(control)</code> или <code>control.removeFrom(map)</code>. DOM контейнер элемента управления удаляется автоматически.</td>
+    </tr>
+</table>
+
+### Пример реализации элемента управления
 
     var MyControl = L.Control.extend({
         options: {
@@ -2196,10 +2205,10 @@ Optional, should contain all clean up code (e.g. removes control's event listene
         },
 
         onAdd: function (map) {
-            // create the control container with a particular class name
+            // создает контейнер элемента управления с определенным именем класса
             var container = L.DomUtil.create('div', 'my-custom-control');
 
-            // ... initialize other DOM elements, add listeners, etc.
+            // ... инициализирует другие DOM элементы, добавляет обработчики событий и т.п.
 
             return container;
         }
@@ -2208,7 +2217,7 @@ Optional, should contain all clean up code (e.g. removes control's event listene
     map.addControl(new MyControl());
 
 
-If specify your own constructor for the control, you'll also probably want to process options properly:
+Если вы задаете собственный конструктор элемента управления, тогда необходимо корректно обработать опции:
 
     var MyControl = L.Control.extend({
         initialize: function (foo, options) {
@@ -2218,30 +2227,37 @@ If specify your own constructor for the control, you'll also probably want to pr
         // ...
     });
 
-This will allow you to pass options like `position` when creating the control instances:
+Это позволит передавать такие опции, как, например, `position` при создании объекта элемента управления:
 
     map.addControl(new MyControl('bar', {position: 'bottomleft'}));
 
 ## IProjection
 
-An object with methods for projecting geographical coordinates of the world onto a flat surface (and back). See [Map projection][118].
+Объект с методами для проецирования географических координат земной поверхности в плоские координаты (и обратно). См. [Картографическая проекция][118].
 
-### Methods
-Method
-Returns
-Description
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>project</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**project**(
-            <[LatLng][28]> _latlng_ )
-`
-`[Point][30]`
-Projects geographical coordinates into a 2D point.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Проецирует географические координаты в точку на плоскости.</td>
+    </tr>
+    <tr>
+        <td><code><b>unproject</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**unproject**(
-            <[Point][30]> _point_ )
-`
-`[LatLng][28]`
-The inverse of `project`. Projects a 2D point into geographical location.
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Метод обратный методу <code>project</code>. Проецирует точку на плоскости в географические координаты.</td>
+    </tr>
+</table>
 
 ### Defined Projections
 
