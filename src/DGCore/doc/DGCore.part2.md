@@ -1379,67 +1379,84 @@
 
 ## L.Browser
 
-A namespace with properties for browser/feature detection used by Leaflet internally.
+Объект со свойствами, необходимыми для определения браузера/фичи.
 
     if (L.Browser.ie6) {
-        alert('Upgrade your browser, dude!');
+        alert('Вам срочно нужно обновить свой браузер!');
     }
 
-property
-type
-description
-
-`**ie**`
-`Boolean`
-`true` for all Internet Explorer versions.
-
-`**ie6**`
-`Boolean`
-`true` for Internet Explorer 6\.
-
-`**ie7**`
-`Boolean`
-`true` for Internet Explorer 7\.
-
-`**webkit**`
-`Boolean`
-`true` for webkit-based browsers like Chrome and Safari (including mobile versions).
-
-`**webkit3d**`
-`Boolean`
-`true` for webkit-based browsers that support CSS 3D transformations.
-
-`**android**`
-`Boolean`
-`true` for Android mobile browser.
-
-`**android23**`
-`Boolean`
-`true` for old Android stock browsers (2 and 3).
-
-`**mobile**`
-`Boolean`
-`true` for modern mobile browsers (including iOS Safari and different Android browsers).
-
-`**mobileWebkit**`
-`Boolean`
-`true` for mobile webkit-based browsers.
-
-`**mobileOpera**`
-`Boolean`
-`true` for mobile Opera.
-
-`**touch**`
-`Boolean`
-`true` for all browsers on touch devices.
-
-`**msTouch**`
-`Boolean`
-`true` for browsers with Microsoft touch model (e.g. IE10).
-
-`**retina**`
-`Boolean`
-`true` for devices with Retina screens.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>ie</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для всех версий Internet Explorer.</td>
+    </tr>
+    <tr>
+        <td><code><b>ie6</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для Internet Explorer 6.</td>
+    </tr>
+    <tr>
+        <td><code><b>ie7</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для Internet Explorer 7.</td>
+    </tr>
+    <tr>
+        <td><code><b>webkit</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров на основе webkit, таких как Chrome и Safari (включая мобильные версии).</td>
+    </tr>
+    <tr>
+        <td><code><b>webkit3d</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров на основе webkit, поддерживающих CSS 3D трансформации.</td>
+    </tr>
+    <tr>
+        <td><code><b>android</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на Android устройствах.</td>
+    </tr>
+    <tr>
+        <td><code><b>android23</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на старых версиях Android устройств (2 и 3).</td>
+    </tr>
+    <tr>
+        <td><code><b>mobile</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров, работающих на современных мобильных устройствах (включая iOS Safari и различные Android устройства).</td>
+    </tr>
+    <tr>
+        <td><code><b>mobileWebkit</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на основе webkit.</td>
+    </tr>
+    <tr>
+        <td><code><b>mobileOpera</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильной версии Opera.</td>
+    </tr>
+    <tr>
+        <td><code><b>touch</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для всех браузеров, работающих на тач-устройствах.</td>
+    </tr>
+    <tr>
+        <td><code><b>msTouch</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров с тач-моделью от Microsoft (например, IE10).</td>
+    </tr>
+    <tr>
+        <td><code><b>retina</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для устройств с Retina экранами.</td>
+    </tr>
+</table>
 
 ## L.Util
 
