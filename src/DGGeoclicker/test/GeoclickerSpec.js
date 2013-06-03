@@ -22,7 +22,7 @@ describe('DG Geoclicker ', function () {
         });
 
 
-        it("should be inactive, if L.Map.options.dgGeoClicker is set to false  ", sinon.test(function () {
+        it("should be inactive, if L.Map.options.dgGeoClicker was set to false  ", sinon.test(function () {
 
             L.Map.mergeOptions({
                 dgGeoclicker: false
@@ -35,7 +35,7 @@ describe('DG Geoclicker ', function () {
 
             expect(map.dgGeoclicker.enabled()).to.be.equal(false);
 
-        }))
+        }));
 
 
         it("should be active by default", sinon.test(function () {
@@ -49,7 +49,7 @@ describe('DG Geoclicker ', function () {
         }));
 
 
-        it("should handle click on map and give it to Geoclicker.Controller by calling handle with correct zoom", function (done) {
+        it("should handle click on map and give it to Geoclicker.Controller by calling handleClick with correct zoom", function (done) {
             var initZoom = 17;
             map = new L.Map(document.createElement('div'), {
                 center: new L.LatLng(54.98117239821992, 82.88922250270844),
@@ -57,12 +57,34 @@ describe('DG Geoclicker ', function () {
             });
 
             var spy = sinon.spy(map.dgGeoclicker._controller, "handleClick");
+
             happen.click(map.getContainer())
 
             expect(spy.called).to.be.ok();
             expect(spy.getCall(0).args[1]).to.be.equal(initZoom)
+
             done();
-        })
+        });
+
+
+        it("shouldn't handle click, if dgGeoclicker was disabled", function (done) {
+            var initZoom = 17;
+            map = new L.Map(document.createElement('div'), {
+                center: new L.LatLng(54.98117239821992, 82.88922250270844),
+                zoom: initZoom
+            });
+
+            var spy = sinon.spy(map.dgGeoclicker._controller, "handleClick");
+
+            map.dgGeoclicker.disable();
+
+            happen.click(map.getContainer())
+
+            expect(spy.called).to.be.equal(false);
+
+            done();
+        });
+
         //});
 
 
