@@ -1627,12 +1627,12 @@
     <tr>
         <td><code><b>bringToFront</b>()</code></td>
         <td><code><span class="keyword">this</span></code></td>
-        <td>Отображает тайловый слой поверх всех остальных слоев.</td>
+        <td>Позиционирует тайловый слой поверх всех остальных слоев.</td>
     </tr>
     <tr>
         <td><code><b>bringToBack</b>()</code></td>
         <td><code><span class="keyword">this</span></code></td>
-        <td>Отображает тайловый слой снизу остальных слоев.</td>
+        <td>Позиционирует тайловый слой под всеми остальными слоями.</td>
     </tr>
     <tr>
         <td><code><b>setOpacity</b>(
@@ -2095,7 +2095,7 @@
     <tr>
         <td><code><b>bringToBack</b>()</code></td>
         <td><code><span class="keyword">this</span></code></td>
-        <td>Позиционирует слой за всеми остальными слоями.</td>
+        <td>Позиционирует слой под всеми остальными слоями.</td>
     </tr>
     <tr>
         <td><code><b>redraw</b>()</code></td>
@@ -2495,157 +2495,208 @@
 
 ## L.LayerGroup
 
-Used to group several layers and handle them as one. If you add it to the map, any layers added or removed from the group will be added/removed on the map as well. Implements [ILayer][52] interface.
+Используется для группировки нескольких слоев, чтобы обрабатывать их как один. Если группа добавлена на карту, то удалив элемент из группы, он уаляется и с карты. Реализует интерфейс [ILayer][52].
 
     L.layerGroup([marker1, marker2])
         .addLayer(polyline)
         .addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width250">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.LayerGroup</b>(
+            <nobr>&lt;<a href="#ilayer">ILayer</a>[]&gt; <i>layers?</i> )</nobr>
+        </code></td>
 
-`**L.LayerGroup**(
-            <[ILayer][52][]> _layers?_ )
-`
-`new L.LayerGroup(…)`
-`L.layerGroup(…)`
-Create a layer group, optionally given an initial set of layers.
+        <td class="factory-usage">
+            <code>L.layerGroup(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Methods
-Method
-Returns
-Description
+        <td>Создает слой группы, принимает начальный набор слоев для группировки (опционально).</td>
+    </tr>
+</table>
 
-`**addTo**(
-            <[Map][76]> _map_ )
-`
-`this`
-Adds the group of layers to the map.
+### Методы
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**addLayer**(
-            <[ILayer][52]> _layer_ )
-`
-`this`
-Adds a given layer to the group.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Добавляет группу слоев на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>addLayer</b>(
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+        </code></td>
 
-`**removeLayer**(
-            <[ILayer][52]> _layer_ )
-`
-`this`
-Removes a given layer from the group.
+        <td><code>this</code></td>
+        <td>Добавляет указанный слой в группу.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeLayer</b>(
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+        </code>td>
 
-`**clearLayers**()`
-`this`
-Removes all the layers from the group.
-
-`**eachLayer**(
-            <Function> _fn_,
-            <Object> _context?_ )
-`
-`this`
-Iterates over the layers of the group, optionally specifying context of the iterator function.
-
-    group.eachLayer(function (layer) {
-        layer.bindPopup('Hello');
-    });
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Удаляет указанный слой из группы.</td>
+    </tr>
+    <tr>
+        <td><code><b>clearLayers</b>()</code></td>
+        <td><code>this</code></td>
+        <td>Удаляет все слои из группы.</td>
+    </tr>
+    <tr>
+        <td><code><b>eachLayer</b>(
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Проходит по всем слоям группы, опционально можно передать контекст исполнения функции итератора.
+<pre><code>group.eachLayer(function (layer) {
+    layer.bindPopup('Hello');
+});</code></pre>
+        </td>
+    </tr>
+</table>
 
 ## L.FeatureGroup
 
-Extended [LayerGroup][25] that also has mouse events (propagated from members of the group) and a shared bindPopup method. Implements [ILayer][52] interface.
+Расширяет [LayerGroup][25] который включает в себя события мыши (инициированные членами группы) и общий метод bindPopup. Реализует интерфейс [ILayer][52].
 
     L.featureGroup([marker1, marker2, polyline])
         .bindPopup('Hello world!')
         .on('click', function() { alert('Clicked on a group!'); })
         .addTo(map);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th class="width300">Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.FeatureGroup</b>(
+            <nobr>&lt;<a href="#ilayer">ILayer</a>[]&gt; <i>layers?</i> )</nobr>
+        </code></td>
 
-`**L.FeatureGroup**(
-            <[ILayer][52][]> _layers?_ )
-`
-`new L.FeatureGroup(…)`
-`L.featureGroup(…)`
-Create a layer group, optionally given an initial set of layers.
+        <td class="factory-usage">
+            <code>L.featureGroup(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Methods
+        <td>Создает слой группы, принимает начальный набор слоев для группировки (опционально).</td>
+    </tr>
+</table>
 
-Has all [LayerGroup][25] methods and additionally:
-Method
-Returns
-Description
 
-`**bindPopup**(
-            <String> _htmlContent_,
-            <[Popup options][78]> _options?_ )
-`
-`this`
-Binds a popup with a particular HTML content to a click on any layer from the group that has a `bindPopup` method.
+### Методы
 
-`**getBounds**()`
-`[LatLngBounds][29]`
-Returns the LatLngBounds of the Feature Group (created from bounds and coordinates of its children).
+Содержит все методы [LayerGroup][25] и дополнительно:
+<table>
+    <tr>
+        <th class="width250">Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>bindPopup</b>(
+            <nobr>&lt;String&gt; <i>htmlContent</i></nobr>,
+            <nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**setStyle**(
-            <[Path options][91]> _style_ )
-`
-`this`
-Sets the given path options to each layer of the group that has a `setStyle` method.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Связывает балун с указанным HTML-контентом с любым слоем группы у котого есть метод <code>bindPopup</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getBounds</b>()</code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Возвращает LatLngBounds элемента Feature Group (создается исходя из границ и координат дочерних элементов).</td>
+    </tr>
+    <tr>
+        <td><code><b>setStyle</b>(
+            <nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>style</i> )</nobr>
+        </code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Устанавливает переданные опции path для каждого слоя группы у которого есть метод <code>setStyle</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToFront</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Позиционирует слой группы поверх всех остальных слоев.</td>
+    </tr>
+    <tr>
+        <td><code><b>bringToBack</b>()</code></td>
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Позиционирует слой группы под всеми остальными слоями.</td>
+    </tr>
+</table>
 
-`**bringToFront**()`
-`this`
-Brings the layer group to the top of all other layers.
+### События
 
-`**bringToBack**()`
-`this`
-Brings the layer group to the bottom of all other layers.
-
-### Events
-
-You can subscribe to the following events using [these methods][39].
-Event
-Data
-Description
-
-`**click**`
-`[MouseEvent][61]`
-Fired when the user clicks (or taps) the group.
-
-`**dblclick**`
-`[MouseEvent][61]`
-Fired when the user double-clicks (or double-taps) the group.
-
-`**mouseover**`
-`[MouseEvent][61]`
-Fired when the mouse enters the group.
-
-`**mouseout**`
-`[MouseEvent][61]`
-Fired when the mouse leaves the group.
-
-`**mousemove**`
-`[MouseEvent][61]`
-Fired while the mouse moves over the layers of the group.
-
-`**contextmenu**`
-`[MouseEvent][61]`
-Fired when the user right-clicks on one of the layers.
-
-`**layeradd**`
-`[LayerEvent][63]`
-Fired when a layer is added to the group.
-
-`**layerremove**`
-`[LayerEvent][63]`
-Fired when a layer is removed from the map.
+Можно подписать на события используя [эти методы][39].
+<table>
+    <tr>
+        <th class="width100">Событие</th>
+        <th class="width100">Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>click</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при клике на группу.</td>
+    </tr>
+    <tr>
+        <td><code><b>dblclick</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при двойном клике на группу.</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseover</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при наведении курсором мыши на группу.</td>
+    </tr>
+    <tr>
+        <td><code><b>mouseout</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается когда курсор мыши покидает группу.</td>
+    </tr>
+    <tr>
+        <td><code><b>mousemove</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при движении курсора мыши в пределах группы.</td>
+    </tr>
+    <tr>
+        <td><code><b>contextmenu</b></code></td>
+        <td><code><a href="#mouse-event">MouseEvent</a></code>
+        <td>Вызывается при клике правой кнопкой мыши на слое.</td>
+    </tr>
+    <tr>
+        <td><code><b>layeradd</b></code></td>
+        <td><code><a href="#layer-event">LayerEvent</a></code>
+        <td>Вызывается при добавлении слоя в группу.</td>
+    </tr>
+    <tr>
+        <td><code><b>layerremove</b></code></td>
+        <td><code><a href="#layer-event">LayerEvent</a></code>
+        <td>Вызывается при удалении слоя.</td>
+    </tr>
+</table>
 
 ## L.GeoJSON
 
-Represents a [GeoJSON][95] layer. Allows you to parse GeoJSON data and display it on the map. Extends [FeatureGroup][26].
+Представляет слой [GeoJSON][95]. Позволяет парсить данные в формате GeoJSON и отображать их на карте. Расширяет [FeatureGroup][26].
 
     L.geoJson(data, {
         style: function (feature) {
@@ -2658,93 +2709,132 @@ Represents a [GeoJSON][95] layer. Allows you to parse GeoJSON data and display i
 
 Each feature layer created by it gets a `feature` property that links to the GeoJSON feature data the layer was created from (so that you can access its properties later).
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.GeoJSON</b>(
+            <nobr>&lt;Object&gt; <i>geojson?</i></nobr>,
+            <nobr>&lt;<a href="#geojson-options">GeoJSON options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
 
-`**L.GeoJSON**(
-            <Object> _geojson?_,
-            <[GeoJSON options][96]> _options?_ )
-`
-`new L.GeoJSON(…)`
-`L.geoJson(…)`
-Creates a GeoJSON layer. Optionally accepts an object in [GeoJSON format][95] to display on the map (you can alternatively add it later with `addData` method) and an options object.
+        <td class="factory-usage">
+            <code>L.geoJson(<span class="comment">&hellip;</span>)</code>
+        </td>
 
-### Options
-Option
-Description
+        <td>Создает слой GeoJSON. Опционально принимает объект в <a href="http://geojson.org/geojson-spec.html">фрпмате GeoJSON</a> для отображения на карте (или же можно добавить данные позже, используя метод <code>addData</code>) и объект опций.</td>
+    </tr>
+</table>
 
-`**pointToLayer**(
-            <GeoJSON> _featureData_,
-            <[LatLng][28]> _latlng_ )
-`
-Function that will be used for creating layers for GeoJSON points (if not specified, simple markers will be created).
+### Опции
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Описание</th>
+    </tr>
+    <tr id="geojson-pointtolayer">
+        <td><code><b>pointToLayer</b>(
+            <nobr>&lt;GeoJSON&gt; <i>featureData</i></nobr>,
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**style**(
-            <GeoJSON> _featureData_ )
-`
-Function that will be used to get style options for vector layers created for GeoJSON features.
+        <td>Используется для создания слоев GeoJSON точек (если не указана, будут созданы обычные маркеры).</td>
+    </tr>
+    <tr id="geojson-style">
+        <td><code><b>style</b>(
+            <nobr>&lt;GeoJSON&gt; <i>featureData</i> )</nobr>
+        </code></td>
 
-`**onEachFeature**(
-            <GeoJSON> _featureData_,
-            <[ILayer][52]> _layer_ )
-`
-Function that will be called on each created feature layer. Useful for attaching events and popups to features.
+        <td>Используется для получения опций стиля векторных слоев созданных для GeoJSON features.</td>
+    </tr>
+    <tr id="geojson-oneachfeature">
+        <td><code><b>onEachFeature</b>(
+            <nobr>&lt;GeoJSON&gt; <i>featureData</i></nobr>,
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+        </code></td>
 
-`**filter**(
-            <GeoJSON> _featureData_,
-            <[ILayer][52]> _layer_ )
-`
-Function that will be used to decide whether to show a feature or not.
+        <td>Вызывается при каждом создании feature-слоя.</td>
+    </tr>
+    <tr id="geojson-filter">
+        <td><code><b>filter</b>(
+            <nobr>&lt;GeoJSON&gt; <i>featureData</i></nobr>,
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+        </code></td>
 
-### Methods
-Method
-Returns
-Description
+        <td>Функция определяет отображать feature или нет.</td>
+    </tr>
+</table>
 
-`**addData**(
-            <GeoJSON> _data_ )
-`
-`Boolean`
-Adds a GeoJSON object to the layer.
+### Методы
+<table>
+    <tr>
+        <th class="width250">Метод</th>
+        <th class="minwidth">Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addData</b>(
+            <nobr>&lt;GeoJSON&gt; <i>data</i> )</nobr>
+        </code></td>
 
-`**setStyle**(
-            <Function> _[style][97]_ )
-`
-`this`
-Changes styles of GeoJSON vector layers with the given style function.
+        <td><code>Boolean</code></td>
+        <td>Добавляет объект GeoJSON на слой.</td>
+    </tr>
+    <tr id="geojson-setstyle">
+        <td><code><b>setStyle</b>(
+            <nobr>&lt;Function&gt; <i><a href="#geojson-style">style</a></i> )</nobr>
+        </code></td>
 
-`**resetStyle**(
-            <[Path][17]> _layer_ )
-`
-`this`
-Resets the the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Заменяет стиль векторных слоев GeoJSON переданной функцией.</td>
+    </tr>
+    <tr id="geojson-resetstyle">
+        <td><code><b>resetStyle</b>(
+            <nobr>&lt;<a href="#path">Path</a>&gt; <i>layer</i> )</nobr>
+        </code></td>
 
-### Static methods
-Method
-Returns
-Description
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Сбрасывает стиль векторного слоя на стиль GeoJSON по умлочанию, полезно для сброса стилей после hover-событий.</td>
+    </tr>
+</table>
 
-`**geometryToLayer**(
-            <GeoJSON> _featureData_,
-            <[Function][98]> _pointToLayer?_ )
-`
-`[ILayer][52]`
-Creates a layer from a given GeoJSON feature.
+### Статические методы
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>geometryToLayer</b>(
+            <nobr>&lt;GeoJSON&gt; <i>featureData</i></nobr>,
+            <nobr>&lt;<a href="#geojson-pointtolayer">Function</a>&gt; <i>pointToLayer?</i> )</nobr>
+        </code></td>
 
-`**coordsToLatlng**(
-            <Array> _coords_,
-            <Boolean> _reverse?_ )
-`
-`[LatLng][28]`
-Creates a LatLng object from an array of 2 numbers (latitude, longitude) used in GeoJSON for points. If `reverse` is set to `true`, the numbers will be interpreted as (longitude, latitude).
+        <td><code><a href="#ilayer">ILayer</a></code></td>
+        <td>Создает слой по переданной GeoJSON feature.</td>
+    </tr>
+    <tr>
+        <td><code><b>coordsToLatlng</b>(
+            <nobr>&lt;Array&gt; <i>coords</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>reverse?</i> )</nobr>
+        </code></td>
 
-`**coordsToLatlngs**(
-            <Array> _coords_,
-            <Number> _levelsDeep?_,
-            <Boolean> _reverse?_ )
-`
-`Array`
-Creates a multidimensional array of LatLng objects from a GeoJSON coordinates array. `levelsDeep` specifies the nesting level (0 is for an array of points, 1 for an array of arrays of points, etc., 0 by default). If `reverse` is set to `true`, the numbers will be interpreted as (longitude, latitude).
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Создает объект LatLng по переданному масиву из двух чисел (latitude, longitude) исользуется для точек в  GeoJSON. Если опция <code>reverse</code> установлена в <code><span class="literal">true</span></code>, числа будут восприняты как (longitude, latitude).</td>
+    </tr>
+    <tr>
+        <td><code><b>coordsToLatlngs</b>(
+            <nobr>&lt;Array&gt; <i>coords</i></nobr>,
+            <nobr>&lt;Number&gt; <i>levelsDeep?</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>reverse?</i> )</nobr>
+        </code></td>
 
+        <td><code>Array</code></td>
+        <td>Создает многомерный массив объектов LatLng из массива координат GeoJSON. <code>levelsDeep</code> определяет уровень вложенности (0 массив точек, 1 массив массивов точек и т.д, 0 по умолчанию). Если опция <code>reverse</code> установлена в <code><span class="literal">true</span></code>, числа будут восприняты как (longitude, latitude).</td>
+    </tr>
+</table>
