@@ -1409,12 +1409,12 @@
     <tr>
         <td><code><b>webkit</b></code></td>
         <td><code>Boolean</code></td>
-        <td><code>true</code> для браузеров на основе webkit, таких как Chrome и Safari (включая мобильные версии).</td>
+        <td><code>true</code> для браузеров на основе WebKit, таких как Chrome и Safari (включая мобильные версии).</td>
     </tr>
     <tr>
         <td><code><b>webkit3d</b></code></td>
         <td><code>Boolean</code></td>
-        <td><code>true</code> для браузеров на основе webkit, поддерживающих CSS 3D трансформации.</td>
+        <td><code>true</code> для браузеров на основе WebKit, поддерживающих CSS 3D трансформации.</td>
     </tr>
     <tr>
         <td><code><b>android</b></code></td>
@@ -1434,7 +1434,7 @@
     <tr>
         <td><code><b>mobileWebkit</b></code></td>
         <td><code>Boolean</code></td>
-        <td><code>true</code> для мобильных браузеров на основе webkit.</td>
+        <td><code>true</code> для мобильных браузеров на основе WebKit.</td>
     </tr>
     <tr>
         <td><code><b>mobileOpera</b></code></td>
@@ -1743,123 +1743,167 @@
 
 ## L.DomUtil
 
-Utility functions to work with the DOM tree, used by Leaflet internally.
+Служебные методы для работы с DOM деревом.
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**get**(
-            <String or HTMLElement> _id_ )
-`
-`HTMLElement`
-Returns an element with the given id if a string was passed, or just returns the element if it was passed directly.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>get</b>(
+            <nobr>&lt;String or HTMLElement&gt; <i>id</i> )</nobr>
+        </code></td>
 
-`**getStyle**(
-            <HTMLElement> _el_,
-            <String> _style_ )
-`
-`String`
-Returns the value for a certain style attribute on an element, including computed values or values set through CSS.
+        <td><code>HTMLElement</code></td>
+        <td>Возвращает элемент по его id, если параметром была передана строка, либо возвразщает тот же элемент, если он был передан в качестве параметра.</td>
+    </tr>
+    <tr>
+        <td><code><b>getStyle</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>style</i> )</nobr>
+        </code></td>
 
-`**getViewportOffset**(
-            <HTMLElement> _el_ )
-`
-[`Point`][30]
-Returns the offset to the viewport for the requested element.
+        <td><code>String</code></td>
+        <td>Возвращает значение стиля элемента, включая рассчитанные значения или значения указанные с помощью CSS.</td>
+    </tr>
+    <tr>
+        <td><code><b>getViewportOffset</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
+        </code></td>
 
-`**create**(
-            <String> _tagName_,
-            <String> _className_,
-            <HTMLElement> _container?_ )
-`
-`HTMLElement`
-Creates an element with `tagName`, sets the `className`, and optionally appends it to `container` element.
+        <td><a href="#point"><code>Point</code></a></td>
+        <td>Возвращает смещение элемента относительно области просмотра (viewport-а).</td>
+    </tr>
+    <tr>
+        <td><code><b>create</b>(
+            <nobr>&lt;String&gt; <i>tagName</i></nobr>,
+            <nobr>&lt;String&gt; <i>className</i></nobr>,
+            <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
+        </code></td>
 
-`**disableTextSelection**()`
--
-Makes sure text cannot be selected, for example during dragging.
+        <td><code>HTMLElement</code></td>
 
-`**enableTextSelection**()`
--
-Makes text selection possible again.
+        <td>Создает элемент <code>tagName</code>, устанавливает ему значение класса <code>className</code> и опционально добавляет его в элемент <code>container</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>disableTextSelection</b>()</code></td>
+        <td>-</td>
+        <td>Отключает возможность выделения текста, например во время перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>enableTextSelection</b>()</code></td>
+        <td>-</td>
+        <td>Включает позможность выделения текста.</td>
+    </tr>
+    <tr>
+        <td><code><b>hasClass</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>name</i> )</nobr>
+        </code></td>
 
-`**hasClass**(
-            <HTMLElement> _el_,
-            <String> _name_ )
-`
-`Boolean`
-Returns `true` if the element class attribute contains `name`.
+        <td><code>Boolean</code></td>
 
-`**addClass**(
-            <HTMLElement> _el_,
-            <String> _name_ )
-`
--
-Adds `name` to the element's class attribute.
+        <td>Возвращает <code>true</code>, если элемент содержит класс <code>name</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>addClass</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>name</i> )</nobr>
+        </code></td>
 
-`**removeClass**(
-            <HTMLElement> _el_,
-            <String> _name_ )
-`
--
-Removes `name` from the element's class attribute.
+        <td>-</td>
 
-`**setOpacity**(
-            <HTMLElement> _el_,
-            <Number> _value_ )
-`
--
-Set the opacity of an element (including old IE support). Value must be from `0` to `1`.
+        <td>Добавляет класс <code>name</code> к элементу.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeClass</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>name</i> )</nobr>
+        </code></td>
 
-`**testProp**(
-            <String[]> _props_ )
-`
-`String` or `false`
-Goes through the array of style names and returns the first name that is a valid style name for an element. If no such name is found, it returns `false`. Useful for vendor-prefixed styles like `transform`.
+        <td>-</td>
 
-`**getTranslateString**(
-            <[Point][30]> _point_ )
-`
-`String`
-Returns a CSS transform string to move an element by the offset provided in the given point. Uses 3D translate on WebKit for hardware-accelerated transforms and 2D on other browsers.
+        <td>Удаляет класс <code>name</code> из элемента.</td>
+    </tr>
+    <tr>
+        <td><code><b>setOpacity</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;Number&gt; <i>value</i> )</nobr>
+        </code></td>
 
-`**getScaleString**(
-            <Number> _scale_,
-            <[Point][30]> _origin_ )
-`
-`String`
-Returns a CSS transform string to scale an element (with the given scale origin).
+        <td>-</td>
+        <td>Устанавливает прозрачность элемента (включая поддержку старых IE). Значение должно быть от <code>0</code> до <code>1</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>testProp</b>(
+            <nobr>&lt;String[]&gt; <i>props</i> )</nobr>
+        </code></td>
 
-`**setPosition**(
-            <HTMLElement> _el_,
-            <[Point][30]> _point_,
-            <Boolean> _disable3D?_ )
-`
--
-Sets the position of an element to coordinates specified by `point`, using CSS translate or top/left positioning depending on the browser (used by Leaflet internally to position its layers). Forces top/left positioning if `disable3D` is `true`.
+        <td><code>String</code> or <code><span class="literal">false</span></code></td>
+        <td>Обходит массив названий стилей и возвращает первое имя, которое является корректным для текущего браузера. Если такого нет, тогда будет возвращено <code>false</code>. Удобно для стилей с префиксами производителей браузеров, например <code>transform</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getTranslateString</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
 
-`**getPosition**(
-            <HTMLElement> _el_ )
-`
-[Point][30]
-Returns the coordinates of an element previously positioned with `setPosition`.
+        <td><code>String</code></td>
+        <td>Возвращает CSS строку трансформации для смещения элемента. Использует 3D трансформацию для браузеров на основе WebKit с поддержкой аппаратного ускорения и 2D для других браузеров.</td>
+    </tr>
+    <tr>
+        <td><code><b>getScaleString</b>(
+            <nobr>&lt;Number&gt; <i>scale</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>origin</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td>Возвращает CSS строку трансформации для масштабирования элемента.</td>
+    </tr>
+    <tr>
+        <td><code><b>setPosition</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>disable3D?</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Устанавливает позицию элемента в координаты <code>point</code>, используя CSS translate или свойства <code>top</code> и <code>left</code>, в зависимости от браузера. Принудительно использует позиционирование с помощью <code>top</code> и <code>left</code>, если <code>disable3D</code> установлено в <code>true</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPosition</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
+        </code></td>
+
+        <td><a href="#point">Point</a></td>
+        <td>Возвращает координаты элемента, который ранее был спозиционирован с помощью метода <code>setPosition</code>.</td>
+    </tr>
+</table>
 
 ### Properties
-Property
-Type
-Description
 
-`**TRANSITION**
-`
-`String`
-Vendor-prefixed transition style name (e.g. `'webkitTransition'` for WebKit).
-
-`**TRANSFORM**
-`
-`String`
-Vendor-prefixed transform style name.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>TRANSITION</b></nobr>
+        </code></td>
+        <td><code>String</code></td>
+        <td>Название CSS свойства transition с учетом префикса производителя браузера (например, <code>'webkitTransition'</code> для WebKit).</td>
+    </tr>
+    <tr>
+        <td><code><b>TRANSFORM</b></nobr>
+        </code></td>
+        <td><code>String</code></td>
+        <td>Название CSS свойства transform с учетом префикса производителя браузера.</td>
+    </tr>
+</table>
 
 ## L.PosAnimation
 
