@@ -1206,7 +1206,7 @@
     <tr>
         <td><code><b>id</b></code></td>
         <td><code>String</code></td>
-        <td>GeoJSON ID объекта (если имеется).</td>
+        <td>GeoJSON ID объекта (если задан).</td>
     </tr>
 </table>
 
@@ -1907,72 +1907,107 @@
 
 ## L.PosAnimation
 
-Used internally for panning animations, utilizing CSS3 Transitions for modern browsers and a timer fallback for IE6-9\.
+Используется для плавного перемещения элементов, использует CSS3 Transitions для современных браузеров и таймер для IE6-9\.
 
     var fx = new L.PosAnimation();
     fx.run(el, [300, 500], 0.5);
 
-### Constructor
-Constructor
-Usage
-Description
+### Конструктор
 
-`**L.PosAnimation**()`
-`new L.PosAnimation()`
-Creates a PosAnimation object.
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.PosAnimation</b>()</code></td>
 
-### Methods
-Method
-Returns
-Description
+        <td>
+            <code>new L.PosAnimation()</code>
+        </td>
 
-`**run**(
-            <HTMLElement> _element_,
-<[Point][30]> _newPos_,
-            <Number> _duration?_,
-            <Number> _easeLinearity?_ )
-`
-`this`
-Run an animation of a given element to a new position, optionally setting duration in seconds (`0.25` by default) and easing linearity factor (3rd argument of the [cubic bezier curve][113], `0.5` by default)
+        <td>Создает объект PosAnimation.</td>
+    </tr>
+</table>
 
-### Events
+### Методы
 
-You can subscribe to the following events using [these methods][39].
-Event
-Data
-Description
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>run</b>(
+            <nobr>&lt;HTMLElement&gt; <i>element</i>,</nobr>
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>newPos</i></nobr>,
+            <nobr>&lt;Number&gt; <i>duration?</i></nobr>,
+            <nobr>&lt;Number&gt; <i>easeLinearity?</i> )</nobr>
+        </code></td>
 
-`**start**`
-`[Event][62]`
-Fired when the animation starts.
+        <td><code>this</code></td>
+        <td>Запускает анимацию переданного элемента, смещая его в новую позицию, опционально задается продолжительность в секундах (по умолчанию <code>0.25</code>) и функция затухания (третий аргумент <a href="http://cubic-bezier.com/#0,0,.5,1">кубической кривой Безье</a>, по умолчанию <code>0.5</code>)</td>
+    </tr>
+</table>
 
-`**step**`
-`[Event][62]`
-Fired continuously during the animation.
+### События
 
-`**end**`
-`[Event][62]`
-Fired when the animation ends.
+Вы можете подписаться на следующие события используя [эти методы][39].
+
+<table>
+    <tr>
+        <th>Событие</th>
+        <th>Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>start</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает во время старта анимации.</td>
+    </tr>
+    <tr>
+        <td><code><b>step</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в процессе анимации.</td>
+    </tr>
+    <tr>
+        <td><code><b>end</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает во время окончания анимации.</td>
+    </tr>
+</table>
 
 ## L.Draggable
 
-A class for making DOM elements draggable (including touch support). Used internally for map and marker dragging.
+Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств).
 
     var draggable = new L.Draggable(elementToDrag);
     draggable.enable();
 
+### Конструктор
 
-### Constructor
-Constructor
-Usage
-Description
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Draggable</b>(
+            <nobr>&lt;HTMLElement&gt; <i>element</i>,</nobr>
+            <nobr>&lt;HTMLElement&gt; <i>dragHandle?</i> )</nobr>
+        </code></td>
 
-`**L.Draggable**(
-            <HTMLElement> _element_,
-<HTMLElement> _dragHandle?_ )
-`
-`new L.Draggable(…)`
-Creates a Draggable object for moving the given element when you start dragging the `dragHandle` element (equals the element itself by default).
+        <td>
+            <code>new L.Draggable(&hellip;)</code><!--<br />
+            <code>L.draggable(<span class="comment">&hellip;</span>)</code>-->
+        </td>
+
+        <td>Создает объект, с помощью которого можно двигать переданный элемент <code>element</code> во время перетаскивания элемента <code>dragHandle</code> (по умолчанию <code>dragHandle</code> является тем же элементом, что и <code>element</code>).</td>
+    </tr>
+</table>
 
 ### Events
 
