@@ -2502,6 +2502,6 @@ A constant that represents the Leaflet version in use.
 [115]: #map-viewreset
 [116]: #map-latlngtolayerpoint
 [117]: #map-moveend
-[118]: http://en.wikipedia.org/wiki/Map_projection
+[118]: http://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D1%80%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%86%D0%B8%D1%8F
 [119]: http://en.wikipedia.org/wiki/Coordinate_reference_system
 [120]: https://github.com/kartena/Proj4Leaflet
