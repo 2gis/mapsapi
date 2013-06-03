@@ -2005,125 +2005,158 @@
             <code>L.draggable(<span class="comment">&hellip;</span>)</code>-->
         </td>
 
-        <td>Создает объект, с помощью которого можно двигать переданный элемент <code>element</code> во время перетаскивания элемента <code>dragHandle</code> (по умолчанию <code>dragHandle</code> является тем же элементом, что и <code>element</code>).</td>
+        <td>Создает объект, с помощью которого можно двигать элемент <code>element</code> во время перетаскивания элемента <code>dragHandle</code> (по умолчанию <code>dragHandle</code> является тем же элементом, что и <code>element</code>).</td>
     </tr>
 </table>
 
-### Events
+### События
 
-You can subscribe to the following events using [these methods][39].
-Event
-Data
-Description
+Вы можете подписаться на следующие события используя [эти методы][39].
 
-`**dragstart**`
-`[Event][62]`
-Fired when the dragging starts.
+<table>
+    <tr>
+        <th>Событие</th>
+        <th>Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>dragstart</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в момент начала перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>predrag</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в процессе перетаскивания <i>перед</i> каждым обновлением позиции элемента.</td>
+    </tr>
+    <tr>
+        <td><code><b>drag</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в процессе перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>dragend</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в момент окончания перетаскивания.</td>
+    </tr>
+</table>
 
-`**predrag**`
-`[Event][62]`
-Fired continuously during dragging _before_ each corresponding update of the element position.
+### Методы
 
-`**drag**`
-`[Event][62]`
-Fired continuously during dragging.
-
-`**dragend**`
-`[Event][62]`
-Fired when the dragging ends.
-
-### Methods
-Method
-Returns
-Description
-
-`**enable**()`
-`-`
-Enables the dragging ability.
-
-`**disable**()`
-`-`
-Disables the dragging ability.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>enable</b>()</code></td>
+        <td><code>-</code></td>
+        <td>Включает возможность перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>disable</b>()</code></td>
+        <td><code>-</code></td>
+        <td>Отключает возможность перетаскивания.</td>
+    </tr>
+</table>
 
 ## IHandler
 
-An interface implemented by [interaction handlers][114].
-Method
-Returns
-Description
+Интерфейс, который реализуется [обработчиками взаимодействия][114].
 
-`**enable**()`
--
-Enables the handler.
-
-`**disable**()`
--
-Disables the handler.
-
-`**enabled**()`
-`Boolean`
-Returns `true` if the handler is enabled.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>enable</b>()</code></td>
+        <td>-</td>
+        <td>Включает обработчик</td>
+    </tr>
+    <tr>
+        <td><code><b>disable</b>()</code></td>
+        <td>-</td>
+        <td>Отключает обработчик.</td>
+    </tr>
+    <tr>
+        <td><code><b>enabled</b>()</code></td>
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code> если обработчик включен.</td>
+    </tr>
+</table>
 
 ## ILayer
 
-Represents an object attached to a particular location (or a set of locations) on a map. Implemented by [tile layers][13], [markers][11], [popups][12], [image overlays][16], [vector layers][17] and [layer groups][25].
+Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как [тайловые слои][13], [маркеры][11], [балуны][12], [растровые слои][16], [векторные слои][17] и [группы слоев][25].
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**onAdd**(
-            <[Map][76]> _map_ )
-`
--
-Should contain code that creates DOM elements for the overlay, adds them to [map panes][10] where they should belong and puts listeners on relevant map events. Called on `map.addLayer(layer)`.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>onAdd</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-`**onRemove**(
-            <[Map][76]> _map_ )
-`
--
-Should contain all clean up code that removes the overlay's elements from the DOM and removes listeners previously added in `onAdd`. Called on `map.removeLayer(layer)`.
+        <td>-</td>
+        <td>Должен содержать код, который создает DOM элементы слоя, добавляет их на <a href="#map-panes">панели карты</a> и подписывает обработчики на все необходимые события карты. Вызывается при <code>map.addLayer(layer)</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>onRemove</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
 
-### Implementing Custom Layers
+        <td>-</td>
+        <td>Должен содержать код очистки, который удаляет элементы слоя и отписывает ранее добавленные обработчики событий. Вызывется при <code>map.removeLayer(layer)</code>.</td>
+    </tr>
+</table>
 
-The most important things know about when implementing custom layers are Map [viewreset][115] event and [latLngToLayerPoint][116] method. `viewreset` is fired when the map needs to reposition its layers (e.g. on zoom), and `latLngToLayerPoint` is used to get coordinates for the layer's new position.
+### Реализация пользовательских слоев
 
-Another event often used in layer implementations is [moveend][117] which fires after any movement of the map (panning, zooming, etc.).
+Наиболее важными вещами при разработке пользовательских слоев являются событие [viewreset][115] и метод [latLngToLayerPoint][116] карты. `viewreset` возникает когда карта должна спозиционировать свои слои (например, при изменении масштаба), а `latLngToLayerPoint` используется для получения новых координат слоя.
 
-Another thing to note is that you'll usually need to add `leaflet-zoom-hide` class to the DOM elements you create for the layer so that it hides during zoom animation. Implementing zoom animation for custom layers is a complex topic and will be documented separately in future, but meanwhile you can take a look at how it's done for Leaflet layers (e.g. `ImageOverlay`) in the source.
+Еще одним событием, которое часто используется при разработке слоев является [moveend][117], оно возникает после любых движений карты (перемещение, изменение масштаба и т.п.).
+
+Еще одна важная особенность, которую необходимо знать &mdash; для всех DOM элементов, которые должны быть скрыты во время анимации изменения масштаба карты необходимо добавить класс `leaflet-zoom-hide`.
 
 ### Custom Layer Example
 
-Here's how a custom layer implementation usually looks:
+Пример реализации пользовательского слоя:
 
     var MyCustomLayer = L.Class.extend({
 
         initialize: function (latlng) {
-            // save position of the layer or any options from the constructor
+            // сохраняет позицию или другие опции конструктора
             this._latlng = latlng;
         },
 
         onAdd: function (map) {
             this._map = map;
 
-            // create a DOM element and put it into one of the map panes
+            // создает DOM элемент и добавляет его на панели карты
             this._el = L.DomUtil.create('div', 'my-custom-layer leaflet-zoom-hide');
             map.getPanes().overlayPane.appendChild(this._el);
 
-            // add a viewreset event listener for updating layer's position, do the latter
+            // подписка на событие viewreset для обновления позиции слоя
             map.on('viewreset', this._reset, this);
             this._reset();
         },
 
         onRemove: function (map) {
-            // remove layer's DOM elements and listeners
+            // удаляет DOM элементы слоя и отписывает обработчики событий
             map.getPanes().overlayPane.removeChild(this._el);
             map.off('viewreset', this._reset, this);
         },
 
         _reset: function () {
-            // update layer's position
+            // обновляет позицию слоя
             var pos = this._map.latLngToLayerPoint(this._latlng);
             L.DomUtil.setPosition(this._el, pos);
         }
