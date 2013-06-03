@@ -1561,181 +1561,185 @@
     </tr>
 </table>
 
+### Свойства
 
-### Properties
-Property
-Type
-Description
-
-`**emptyImageUrl**`
-`String`
-Data URI string containing a base64-encoded empty GIF image. Used as a hack to free memory from unused images on WebKit-powered mobile devices (by setting image `src` to this string).
-
-## L.Transformation
-
-Represents an affine transformation: a set of coefficients `a`, `b`, `c`, `d` for transforming a point of a form `(x, y)` into `(a*x + b, c*y + d)` and doing the reverse. Used by Leaflet in its projections code.
-
-    var transformation = new L.Transformation(2, 5, -1, 10),
-        p = new L.Point(1, 2),
-        p2 = transformation.transform(p), // new L.Point(7, 8)
-        p3 = transformation.untransform(p2); // new L.Point(1, 2)
-
-
-### Constructor
-Constructor
-Usage
-Description
-
-`**L.Transformation**(
-            <Number> _a_,
-            <Number> _b_,
-            <Number> _c_,
-            <Number> _d_ )
-`
-`new L.Transformation(…)`
-Creates a transformation object with the given coefficients.
-
-### Methods
-Method
-Returns
-Description
-
-`**transform**(
-            <[Point][30]> _point_,
-            <Number> _scale?_ )
-`
-`[Point][30]`
-Returns a transformed point, optionally multiplied by the given scale. Only accepts real `L.Point` instances, not arrays.
-
-`**untransform**(
-            <[Point][30]> _point_,
-            <Number> _scale?_ )
-`
-`[Point][30]`
-Returns the reverse transformation of the given point, optionally divided by the given scale. Only accepts real `L.Point` instances, not arrays.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>emptyImageUrl</b></code></td>
+        <td><code>String</code></td>
+        <td>URI, содержащий пустое GIF изображение, закодированное в base64. Используется для освобождения памяти неиспользуемых картинок в мобильных WebKit браузерах (память освобождается установкой свойства <code>src</code> в данное значение).</td>
+    </tr>
+</table>
 
 ## L.LineUtil
 
-Various utility functions for polyine points processing, used by Leaflet internally to make polylines lightning-fast.
+Набор методов для обработки точек ломаных.
 
-### Methods
-Method
-Returns
-Description
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>simplify</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+            <nobr>&lt;Number&gt; <i>tolerance</i> )</nobr>
+        </code></td>
 
-`**simplify**(
-            <[Point][30][]> _points_,
-            <Number> _tolerance_ )
-`
-`[Point][30][]`
-Dramatically reduces the number of points in a polyline while retaining its shape and returns a new array of simplified points. Used for a huge performance boost when processing/displaying Leaflet polylines for each zoom level and also reducing visual noise. `tolerance` affects the amount of simplification (lesser value means higher quality but slower and with more points). Also released as a separated micro-library [Simplify.js][112].
+        <td><code><a href="#point">Point</a>[]</code></td>
 
-`**pointToSegmentDistance**(
-            <[Point][30]> _p_,
-            <[Point][30]> _p1_,
-            <[Point][30]> _p2_ )
-`
-`Number`
-Returns the distance between point `p` and segment `p1` to `p2`.
+        <td>Уменьшает количество точек в ломаной и возвращает новую упрощенную ломаную. Позволяет увеличить производительность обработки/отображения ломаных на карте. Параметр <code>tolerance</code> влияет на величину упрощения (чем меньше значение, тем лучше качество геометрии и ниже производительность).</td>
+    </tr>
+    <tr>
+        <td><code><b>pointToSegmentDistance</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+        </code></td>
 
-`**closestPointOnSegment**(
-            <[Point][30]> _p_,
-            <[Point][30]> _p1_,
-            <[Point][30]> _p2_ )
-`
-`Number`
-Returns the closest point from a point `p` on a segment `p1` to `p2`.
+        <td><code>Number</code></td>
 
-`**clipSegment**(
-            <[Point][30]> _a_,
-            <[Point][30]> _b_,
-            <[Bounds][31]> _bounds_ )
-`
-`-`
-Clips the segment `a` to `b` by rectangular bounds (modifying the segment points directly!). Used by Leaflet to only show polyline points that are on the screen or near, increasing performance.
+        <td>Возвращает расстояние между точкой <code>p</code> и сегментом между точками <code>p1</code> и <code>p2</code>.
+    </tr>
+    <tr>
+        <td><code><b>closestPointOnSegment</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+
+        <td>Возвращает ближайшую точку на сегменте <code>p1</code> - <code>p2</code> до точки <code>p</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>clipSegment</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>a</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>b</i></nobr>,
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+        </code></td>
+
+        <td><code>-</code></td>
+
+        <td>Обрезает сегмент <code>a</code> - <code>b</code> по прямоугольной области (модифицируются непосредственно точки сегмента).</td>
+    </tr>
+</table>
 
 ## L.PolyUtil
 
-Various utility functions for polygon geometries.
+Набор методов для обработки точек многоугольников.
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**clipPolygon**(
-            <[Point][30][]> _points_,
-            <[Bounds][31]> _bounds_ )
-`
-`[Point][30][]`
-Clips the polygon geometry defined by the given points by rectangular bounds. Used by Leaflet to only show polygon points that are on the screen or near, increasing performance. Note that polygon points needs different algorithm for clipping than polyline, so there's a seperate method for it.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>clipPolygon</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a>[]</code></td>
+
+        <td>Обрезает многоугольник по прямоугольной области.</td>
+    </tr>
+</table>
 
 ## L.DomEvent
 
-Utility functions to work with the DOM events, used by Leaflet internally.
+Служебные методы для работы с DOM событиями.
 
-### Methods
-Method
-Returns
-Description
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addListener</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
 
-`**addListener**(
-            <HTMLElement> _el_,
-            <String> _type_,
-            <Function> _fn_,
-            <Object> _context?_ )
-`
-`this`
-Adds a listener `fn` to the element's DOM event of the specified type. `this` keyword inside the listener will point to `context`, or to the element if not specified.
+        <td><code>this</code></td>
+        <td>Подписывает обработчик <code>fn</code> на DOM событие определенного типа. Ключевое слово <code>this</code> внутри обработчика будет указывать на <code>context</code>, или на элемент на котором произошло событие, если контекст не указан.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeListener</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn</i> )</nobr>
+        </code></td>
 
-`**removeListener**(
-            <HTMLElement> _el_,
-            <String> _type_,
-            <Function> _fn_ )
-`
-`this`
-Removes an event listener from the element.
+        <td><code>this</code></td>
+        <td>Отписывает ранее подписанный обработчик.</td>
+    </tr>
+    <tr>
+        <td><code><b>stopPropagation</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
 
-`**stopPropagation**(
-            <DOMEvent> _e_ )
-`
-`this`
-Stop the given event from propagation to parent elements. Used inside the listener functions:
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Останавливает всплытие события к родительским элементам. Используется внутри функции-обработчика:
+            <code>L.DomEvent.addListener(div, 'click', function (e) {
+                L.DomEvent.stopPropagation(e);
+            });</code>
+        </td>
+    </tr>
+    <tr>
+        <td><code><b>preventDefault</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
 
-    L.DomEvent.addListener(div, 'click', function (e) {
-        L.DomEvent.stopPropagation(e);
-    });
+        <td><code>this</code></td>
+        <td>Предотвращает поведение DOM элемента по умолчанию (например, переход по ссылке указанной в свойстве <code>href</code> элемента <code>a</code>). Используется внутри функции-обработчика.</td>
+    </tr>
+    <tr>
+        <td><code><b>stop</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
 
-`**preventDefault**(
-            <DOMEvent> _e_ )
-`
-`this`
-Prevents the default action of the event from happening (such as following a link in the `href` of the `a` element, or doing a `POST` request with page reload when `form` is submitted). Use it inside listener functions.
+        <td><code>this</code></td>
+        <td>Вызывает одновременно <code>stopPropagation</code> и <code>preventDefault</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>disableClickPropagation</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
+        </code></td>
 
-`**stop**(
-            <DOMEvent> _e_ )
-`
-`this`
-Does `stopPropagation` and `preventDefault` at the same time.
+        <td><code>this</code></td>
+        <td>Добавляет <code>stopPropagation</code> к DOM элементу для событий <code>'click'</code>, <code>'doubleclick'</code>, <code>'mousedown'</code> и <code>'touchstart'</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getMousePosition</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i></nobr>,
+            <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
+        </code></td>
 
-`**disableClickPropagation**(
-            <HTMLElement> _el_ )
-`
-`this`
-Adds `stopPropagation` to the element's `'click'`, `'doubleclick'`, `'mousedown'` and `'touchstart'` events.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает позицию мышки из DOM события относительно контейнера или относительно всей страницы, если контейнер не указан.</td>
+    </tr>
+    <tr>
+        <td><code><b>getWheelDelta</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
 
-`**getMousePosition**(
-            <DOMEvent> _e_,
-            <HTMLElement> _container?_ )
-`
-`[Point][30]`
-Gets normalized mouse position from a DOM event relative to the container or to the whole page if not specified.
-
-`**getWheelDelta**(
-            <DOMEvent> _e_ )
-`
-`Number`
-Gets normalized wheel delta from a `mousewheel` DOM event.
+        <td><code>Number</code></td>
+        <td>Возвращает дельту колесика мышки из DOM события <code>mousewheel</code>.</td>
+    </tr>
+</table>
 
 ## L.DomUtil
 
