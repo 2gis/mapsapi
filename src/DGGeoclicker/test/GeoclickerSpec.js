@@ -1,33 +1,69 @@
 describe('DG Geoclicker ', function () {
-    var map;
-
-    beforeEach(function () {
-
-    });
-
-    afterEach(function () {
-        map = null;
-    });
+//
+//
+//    beforeEach(function () {
+//
+//    });
+//
+//    afterEach(function () {
+//        map = null;
+//    });
 
     describe(' MapHandler ', function () {
-        describe(' as instance of L.Handler ', function () {
-            it("should be inactive, if L.options.dgGeoClicker is set to false  ", function () {
-                L.Map.mergeOptions({
-                    dgGeoclicker: false
-                });
+        //describe(' as instance of L.Handler ', function () {
+        var map;
 
-                //L.Map.options.dgGeoсlicker = false;
+        afterEach(function () {
+            map = null;
 
-                map = new L.Map(document.createElement('div'), {
-                    center: new L.LatLng(54.98117239821992, 82.88922250270844),
-                    zoom: 17
-                });
-                console.log(map.options)
-                console.log(map.dgGeoclicker.enabled())
-                expect(map.dgGeoclicker.enabled()).to.be.equal(false);
-
+            L.Map.mergeOptions({
+                dgGeoclicker: true
             });
         });
+
+
+        it("should be inactive, if L.Map.options.dgGeoClicker is set to false  ", sinon.test(function () {
+
+            L.Map.mergeOptions({
+                dgGeoclicker: false
+            });
+
+            map = new L.Map(document.createElement('div'), {
+                center: new L.LatLng(54.98117239821992, 82.88922250270844),
+                zoom: 17
+            });
+
+            expect(map.dgGeoclicker.enabled()).to.be.equal(false);
+
+        }))
+
+
+        it("should be active by default", sinon.test(function () {
+
+            map = new L.Map(document.createElement('div'), {
+                center: new L.LatLng(54.98117239821992, 82.88922250270844),
+                zoom: 17
+            });
+
+            expect(map.dgGeoclicker.enabled()).to.be.equal(true);
+        }));
+
+
+        it("should handle click on map and give it to Geoclicker.Controller by calling handle with correct zoom", function (done) {
+            var initZoom = 17;
+            map = new L.Map(document.createElement('div'), {
+                center: new L.LatLng(54.98117239821992, 82.88922250270844),
+                zoom: initZoom
+            });
+
+            var spy = sinon.spy(map.dgGeoclicker._controller, "handleClick");
+            happen.click(map.getContainer())
+
+            expect(spy.called).to.be.ok();
+            expect(spy.getCall(0).args[1]).to.be.equal(initZoom)
+            done();
+        })
+        //});
 
 
     });
