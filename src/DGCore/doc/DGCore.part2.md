@@ -1227,14 +1227,14 @@
 
 ## L.Class
 
-`L.Class` powers the OOP facilities of Leaflet and is used to create almost all of the Leaflet classes documented here.
+`L.Class` предоставляет возможность использовать ООП подход в разработке функционала API, используется для реализации большинства классов из данной документации.
 
-In addition to implementing a simple classical inheritance model, it introduces several special properties for convenient code organization --- `options`, `includes` and `statics`.
+Кроме реализации простой классической модели наследования имеются несколько свойств для удобной организации кода, такие как `options`, `includes` и `statics`.
 
     var MyClass = L.Class.extend({
         initialize: function (greeter) {
             this.greeter = greeter;
-            // class constructor
+            // конструктор класса
         },
 
         greet: function (name) {
@@ -1242,29 +1242,28 @@ In addition to implementing a simple classical inheritance model, it introduces 
         }
     });
 
-    // create instance of MyClass, passing "Hello" to the constructor
+    // создает объект класса MyClass и передает "Hello" в конструктор
     var a = new MyClass("Hello");
 
-    // call greet method, alerting "Hello, World"
+    // вызывает метод greet, который показывает всплывающее окно с текстом "Hello, World"
     a.greet("World");
 
 
-### Inheritance
+### Наследование
 
-You use `L.Class.extend` to define new classes, but you can use the same method on any class to inherit from it:
+Для определения новых классов используется конструкция `L.Class.extend`, также метод `extend` можно использовать в любом классе, который наследуется от `L.Class`:
 
     var MyChildClass = MyClass.extend({
-        // ... new properties and methods
+        // ... новые свойства и методы
     });
 
-This will create a class that inherits all methods and properties of the parent class (through a proper prototype chain), adding or overriding the ones you pass to `extend`. It will also properly react to `instanceof`:
+Данный код создаст класс, который наследует все методы и свойства родительского класса (через цепочку прототипов), также возможно добавление или переопределение родительских методов и свойств. Кроме того, корректно обрабатывается оператор `instanceof`:
 
     var a = new MyChildClass();
     a instanceof MyChildClass; // true
     a instanceof MyClass; // true
 
-
-You can call parent methods (including constructor) from corresponding child ones (as you do with `super` calls in other languages) by accessing parent class prototype and using JavaScript's `call` or `apply`:
+Вы можете вызывать родительские методы (включая конструктор) из потомков (так, как вы бы делали это с помощью вызова `super` в других языках программирования) с помощью JavaScript функций `call` или `apply`:
 
     var MyChildClass = MyClass.extend({
         initialize: function () {
@@ -1277,11 +1276,11 @@ You can call parent methods (including constructor) from corresponding child one
     });
 
     var a = new MyChildClass();
-    a.greet('Jason'); // alerts "Yo, bro Jason!"
+    a.greet('Jason'); // выведет "Yo, bro Jason!"
 
-### Options
+### Опции
 
-`options` is a special property that unlike other objects that you pass to `extend` will be merged with the parent one instead of overriding it completely, which makes managing configuration of objects and default values convenient:
+`options` &mdash; это специальное свойство, которое в отличии от других объектов передаваемых через `extend` будет слито с аналогичным свойством родителея, вместо полного переопределения, это позволяет управлять конфигурацией объектов и значениями по умолчанию:
 
     var MyClass = L.Class.extend({
         options: {
@@ -1302,7 +1301,7 @@ You can call parent methods (including constructor) from corresponding child one
     a.options.myOption2; // 'bar'
     a.options.myOption3; // 5
 
-There's also `L.Util.setOptions`, a method for conveniently merging options passed to constructor with the defauls defines in the class:
+Также имеется метод `L.Util.setOptions`, который позволяет сливать опции переданные в конструктор с изначально заданными опциями:
 
     var MyClass = L.Class.extend({
         options: {
@@ -1319,9 +1318,9 @@ There's also `L.Util.setOptions`, a method for conveniently merging options pass
     var a = new MyClass({bla: 10});
     a.options; // {foo: 'bar', bla: 10}
 
-### Includes
+### Включения
 
-`includes` is a special class property that merges all specified objects into the class (such objects are called mixins). A good example of this is `L.Mixin.Events` that [event-related methods][39] like `on`, `off` and `fire` to the class.
+`includes` &mdash; это специальное свойство, которое подмешивает объекты в класс (такие объекты называются mixin-ами). Хорошим примером является `L.Mixin.Events`, который подмешивает [методы событий][39], такие как `on`, `off` и `fire` в класс.
 
      var MyMixin = {
         foo: function () { ... },
@@ -1335,13 +1334,13 @@ There's also `L.Util.setOptions`, a method for conveniently merging options pass
     var a = new MyClass();
     a.foo();
 
-You can also do such includes in runtime with the `include` method:
+Также вы можете подмешивать объекты в процессе выполнения программы с помощью метода `include`:
 
-    **MyClass.include**(MyMixin);
+    MyClass.include(MyMixin);
 
-### Statics
+### Статика
 
-`statics` is just a convenience property that injects specified object properties as the static properties of the class, useful for defining constants:
+`statics` &mdash; это свойство, в котором описываются статические элементы класса, удобно использовать для определения констант:
 
     var MyClass = L.Class.extend({
         statics: {
@@ -1352,95 +1351,112 @@ You can also do such includes in runtime with the `include` method:
 
     MyClass.FOO; // 'bar'
 
-### Class Factories
+### Фабрики классов
 
-You may have noticed that you can create Leaflet class instances in two ways --- using the `new` keyword, or using lowercase factory method:
+Для создания новых объектов классов используются фабричные методы, которые имеют такое же название, как и у класса, но начинаются с нижнего регистра. Это аналог ключевого слова `new`, то есть, данные строки кода эквивалентны:
 
     new L.Map('map');
     L.map('map');
 
-The second way is implemented very easily, and you can do this for your own classes:
+Реализовать фабричный метод в ваших собственных классах довольно просто, например:
 
     L.map = function (id, options) {
         return new L.Map(id, options);
     };
 
-### Constructor Hooks
+### Хуки конструктора
 
-If you're a plugin developer, you often need to add additional initialization code to existing classes (e.g. editing hooks for `L.Polyline`). Leaflet comes with a way to do it easily using the `addInitHook` method:
+Если вы разрабатываете плагин к API, тогда велика вероятность, что вам понадобится выполнить дополнительные действия при инициализациии объектов существующих классов (например, при инициализации объекта `L.Polyline`). Для подобного рода задач имеется метод `addInitHook`:
 
     MyClass.addInitHook(function () {
-        // ... do something in constructor additionally
-        // e.g. add event listeners, set custom properties etc.
+        // ... выполнить дополнительные действия при вызове конструктора
+        // например, добавить обработчики событий, установить значения свойств и т.п.
     });
 
-You can also use the following shortcut when you just need to make one additional method call:
+Также можно использовать сокращенную запись, если необходимо вызвать лишь один метод при инициализации:
 
     MyClass.addInitHook('methodName', arg1, arg2, …);
 
 ## L.Browser
 
-A namespace with properties for browser/feature detection used by Leaflet internally.
+Объект со свойствами, необходимыми для определения браузера/фичи.
 
     if (L.Browser.ie6) {
-        alert('Upgrade your browser, dude!');
+        alert('Вам срочно нужно обновить свой браузер!');
     }
 
-property
-type
-description
-
-`**ie**`
-`Boolean`
-`true` for all Internet Explorer versions.
-
-`**ie6**`
-`Boolean`
-`true` for Internet Explorer 6\.
-
-`**ie7**`
-`Boolean`
-`true` for Internet Explorer 7\.
-
-`**webkit**`
-`Boolean`
-`true` for webkit-based browsers like Chrome and Safari (including mobile versions).
-
-`**webkit3d**`
-`Boolean`
-`true` for webkit-based browsers that support CSS 3D transformations.
-
-`**android**`
-`Boolean`
-`true` for Android mobile browser.
-
-`**android23**`
-`Boolean`
-`true` for old Android stock browsers (2 and 3).
-
-`**mobile**`
-`Boolean`
-`true` for modern mobile browsers (including iOS Safari and different Android browsers).
-
-`**mobileWebkit**`
-`Boolean`
-`true` for mobile webkit-based browsers.
-
-`**mobileOpera**`
-`Boolean`
-`true` for mobile Opera.
-
-`**touch**`
-`Boolean`
-`true` for all browsers on touch devices.
-
-`**msTouch**`
-`Boolean`
-`true` for browsers with Microsoft touch model (e.g. IE10).
-
-`**retina**`
-`Boolean`
-`true` for devices with Retina screens.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>ie</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для всех версий Internet Explorer.</td>
+    </tr>
+    <tr>
+        <td><code><b>ie6</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для Internet Explorer 6.</td>
+    </tr>
+    <tr>
+        <td><code><b>ie7</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для Internet Explorer 7.</td>
+    </tr>
+    <tr>
+        <td><code><b>webkit</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров на основе webkit, таких как Chrome и Safari (включая мобильные версии).</td>
+    </tr>
+    <tr>
+        <td><code><b>webkit3d</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров на основе webkit, поддерживающих CSS 3D трансформации.</td>
+    </tr>
+    <tr>
+        <td><code><b>android</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на Android устройствах.</td>
+    </tr>
+    <tr>
+        <td><code><b>android23</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на старых версиях Android устройств (2 и 3).</td>
+    </tr>
+    <tr>
+        <td><code><b>mobile</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров, работающих на современных мобильных устройствах (включая iOS Safari и различные Android устройства).</td>
+    </tr>
+    <tr>
+        <td><code><b>mobileWebkit</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на основе webkit.</td>
+    </tr>
+    <tr>
+        <td><code><b>mobileOpera</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильной версии Opera.</td>
+    </tr>
+    <tr>
+        <td><code><b>touch</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для всех браузеров, работающих на тач-устройствах.</td>
+    </tr>
+    <tr>
+        <td><code><b>msTouch</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров с тач-моделью от Microsoft (например, IE10).</td>
+    </tr>
+    <tr>
+        <td><code><b>retina</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для устройств с Retina экранами.</td>
+    </tr>
+</table>
 
 ## L.Util
 
