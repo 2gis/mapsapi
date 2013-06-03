@@ -1460,80 +1460,107 @@
 
 ## L.Util
 
-Various utility functions, used by Leaflet internally.
+Служебные функции.
 
-### Methods
-Method
-Returns
-Description
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;Object&gt; <i>dest</i></nobr>,
+            <nobr>&lt;Object&gt; <i>src?..</i> )</nobr>
+        </code></td>
 
-`**extend**(
-            <Object> _dest_,
-            <Object> _src?.._ )
-`
-`Object`
-Merges the properties of the `src` object (or multiple objects) into `dest` object and returns the latter. Has an `L.extend` shortcut.
+        <td><code>Object</code></td>
+        <td>Сливает свойства объекта <code>src</code> (или нескольких объектов) в свойства объекта <code>dest</code> и возвращает последний. Также имеется псевдоним <code>L.extend</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>bind</b>(
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
 
-`**bind**(
-            <Function> _fn_,
-            <Object> _obj_ )
-`
-`Function`
-Returns a function which executes function `fn` with the given scope `obj` (so that `this` keyword refers to `obj` inside the function code). Has an `L.bind` shortcut.
+        <td><code>Function</code></td>
+        <td>Возвращает функцию, которая выполняет функцию <code>fn</code> с определенным объектом контекста <code>obj</code> (так, чтобы ключевое слово <code>this</code> внутри функции указывало на <code>obj</code>). Также имеется псевдоним <code>L.bind</code>.</td>
+    </tr>
+    <!-- TODO Commented out for the time being:
+    https://github.com/Leaflet/Leaflet/pull/793#discussion_r1134904
+    <tr>
+        <td><code><b>requestAnimFrame</b>()</code></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code><b>cancelAnimFrame</b>()</code></td>
+        <td></td>
+        <td></td>
+    </tr>
+    -->
+    <tr>
+        <td><code><b>limitExecByInterval</b>(
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Number&gt; <i>time</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
 
-`**stamp**( <Object> _obj_ )`
-`String`
-Applies a unique key to the object and returns that key. Has an `L.stamp` shortcut.
+        <td><code>Function</code></td>
+        <td>Возвращает обертку над функцией <code>fn</code>, которая гарантирует, что функция не будет вызвана чаще, чем раз в указанный интервал времени <code>time</code> (например, используется при запросах к тайлам во время перетаскивания карты), опционально можно передать контекст (<code>context</code>), в котором будет вызываться функция.</td>
+    </tr>
+    <tr>
+        <td><code><b>formatNum</b>(
+            <nobr>&lt;Number&gt; <i>num</i></nobr>,
+            <nobr>&lt;Number&gt; <i>digits</i> )</nobr>
+        </code></td>
 
-`**limitExecByInterval**(
-            <Function> _fn_,
-            <Number> _time_,
-            <Object> _context?_ )
-`
-`Function`
-Returns a wrapper around the function `fn` that makes sure it's called not more often than a certain time interval `time`, but as fast as possible otherwise (for example, it is used for checking and requesting new tiles while dragging the map), optionally passing the scope (`context`) in which the function will be called.
+        <td><code>Number</code></td>
+        <td>Возвращает число <code>num</code> округленное до <code>digits</code> знаков.</td>
+    </tr>
+    <tr>
+        <td><code><b>splitWords</b>(
+            <nobr>&lt;String&gt; <i>str</i> )</nobr>
+        </code></td>
 
-`**falseFn**()`
-`Function`
-Returns a function which always returns `false`.
+        <td><code>String[]</code></td>
+        <td>Обрезает и разделяет строку на части, используя в качестве разделителя пробел, возвращает массив с этими частями.</code></td>
+    </tr>
+    <tr>
+        <td><code><b>setOptions</b>(
+            <nobr>&lt;Object&gt; <i>obj</i></nobr>,
+            <nobr>&lt;Object&gt; <i>options</i> )</nobr>
+        </code></td>
 
-`**formatNum**(
-            <Number> _num_,
-            <Number> _digits_ )
-`
-`Number`
-Returns the number `num` rounded to `digits` decimals.
+        <td><code>Object</code></td>
+        <td>Сливает опции свойства со свойством <code>options</code> объекта <code>obj</code>, возвращает результирующий объект. См. <a href="#class-options">Опции класса</a>. Также имеется псевдоним <code>L.setOptions</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getParamString</b>(
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
 
-`**splitWords**(
-            <String> _str_ )
-`
-`String[]`
-Trims and splits the string on whitespace and returns the array of parts.
+        <td><code>String</code></td>
+        <td>Преобразует объект в строку URL-а, например, <nobr><code>{a: "foo", b: "bar"}</code></nobr> будет преобразован в <code><span class="string">'?a=foo&amp;b=bar'</span></code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>template</b>(
+            <nobr>&lt;String&gt; <i>str</i>, &lt;Object&gt; <i>data</i> )</nobr>
+        </code></td>
 
-`**setOptions**(
-            <Object> _obj_,
-            <Object> _options_ )
-`
-`Object`
-Merges the given properties to the `options` of the `obj` object, returning the resulting options. See [Class options][111]. Has an `L.setOptions` shortcut.
+        <td><code>String</code></td>
+        <td>Простая функция-шаблонизатор, создает строку применяя значения из объекта <code>data</code> в формате <code>{a: 'foo', b: 'bar', &hellip;}</code> к строке шаблона в формате <code>'Hello {a}, {b}'</code> &mdash; в этом примере будет возвращена строка <code>'Hello foo, bar'</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>isArray</b>(
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
 
-`**getParamString**(
-            <Object> _obj_ )
-`
-`String`
-Converts an object into a parameter URL string, e.g. `{a: "foo", b: "bar"}` translates to `'?a=foo&b=bar'`.
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если переданный объект является массивом.</td>
+    </tr>
+</table>
 
-`**template**(
-            <String> _str_, <Object> _data_ )
-`
-`String`
-Simple templating facility, creates a string by applying the values of the `data` object of a form `{a: 'foo', b: 'bar', …}` to a template string of the form `'Hello {a}, {b}'` --- in this example you will get `'Hello foo, bar'`.
-
-`**isArray**(
-            <Object> _obj_ )
-`
-`Boolean`
-Returns `true` if the given object is an array.
 
 ### Properties
 Property
