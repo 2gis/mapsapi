@@ -175,31 +175,31 @@
 		<td><code><b>dragging</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Разрешено ли двигать карту мышкой или при помощи касания экрана.</td>
+		<td>Разрешено ли перетаскивать карту мышкой или при помощи касания экрана.</td>
 	</tr>
 	<tr>
 		<td><code><b>touchZoom</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Разрешено ли зумировать карту 2мя пальцами на touch устройствах.</td>
+		<td>Разрешено ли изменять масштаб карты 2мя пальцами на тач-устройствах.</td>
 	</tr>
 	<tr>
 		<td><code><b>scrollWheelZoom</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Разрешено ли зумировать карту колесиком мышки.</td>
+		<td>Разрешено ли изменять масштаб карты колесиком мышки.</td>
 	</tr>
 	<tr>
 		<td><code><b>doubleClickZoom</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Разрешено ли зумировать карту двойным кликом мышки.</td>
+		<td>Разрешено ли изменять масштаб карты двойным кликом мышки.</td>
 	</tr>
 	<tr>
 		<td><code><b>boxZoom</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Разрешено ли увеличивать заданную область карты. Выделяется мышью с зажатым шифтом.</td>
+		<td>Разрешено ли изменять масштаб карты, выделяется прямоугольную область карты зажав клавишу shift.</td>
 	</tr>
 	<tr>
 		<td><code><b>trackResize</b></code></td>
@@ -217,7 +217,7 @@
 		<td><code><b>closePopupOnClick</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Указывает закрывать ли балуны при клике на карту.</td>
+		<td>Закрывать ли балуны при клике на карту.</td>
 	</tr>
 </table>
 
@@ -234,19 +234,19 @@
 		<td><code><b>keyboard</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Устанавливает фокус на карту и позволяет навигироваться стрелками и кнопками <code>+</code>/<code>-</code>.</td>
+		<td>Устанавливает фокус на карту и позволяет перемещаться по карте с помощью кнопок <code>+</code>/<code>-</code> и стрелок клавиатуры.</td>
 	</tr>
 	<tr>
 		<td><code><b>keyboardPanOffset</b></code></td>
 		<td><code>Number</code></td>
 		<td><code>80</code></td>
-		<td>Указывает на сколько пикселей сдвинется катра при нажатии стрелки на клавиатуре.</td>
+		<td>Указывает, на сколько пикселей сдвинется катра при нажатии стрелки на клавиатуре.</td>
 	</tr>
 	<tr>
 		<td><code><b>keyboardZoomOffset</b></code></td>
 		<td><code>Number</code></td>
 		<td><code>1</code></td>
-		<td>Указывает на сколько уровней изменится зум при нажанитии <code>+</code> или <code>-</code>.</td>
+		<td>Указывает, на сколько уровней изменится масштаб при нажанитии на кнопки <code>+</code> или <code>-</code>.</td>
 	</tr>
 </table>
 
