@@ -83,7 +83,7 @@ module.exports = function (grunt) {
         doc:{
             menu: './src/menu.json',
             input: './src/',
-            output: './docbuilder/doc'
+            output: './public/doc'
         }
     });
 

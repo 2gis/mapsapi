@@ -4,28 +4,32 @@
     <title>DGLocale demo</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?load=full&mode=debug"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?load=full&mode=debug&lang=it"></script>
 </head>
 <body>
 
 <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
 <script type="text/javascript">
+    var map;
     L.onLoad(function () {
 
-        // plugin code
-        L.DG = L.DG || {};
+       // plugin code
+       // {APP_CORE}/src/{Plugin}/{Plugin}.js
         L.DG.LocaleExample = L.Control.extend({
 
             includes: L.DG.Locale,
             options: {
                 position: 'topright'
             },
+            statics: {
+                Dictionary: {}
+            },
 
             _container: null,
 
             onAdd: function (map) {
-                this._container = L.DomUtil.create('div');
+                this._container = L.DomUtil.create('div', 'locale-example');
                 this._map.on('dgLangChange', this._updateText, this);
                 this._updateText();
                 return this._container;
@@ -34,63 +38,36 @@
             _updateText:function () {
                 this._container.innerHTML = '<h1>' + this.t("{n} people", 16700000) + ' ' + this.t("regularly use 2GIS") + '</h1>';
             }
-
         });
 
-        // plugin dictionaries
-        L.DG.LocaleExample.Dictionary = L.DG.LocaleExample.Dictionary || {};
-        // ru
-        L.DG.LocaleExample.Dictionary.ru = {
-            pluralRules: function (n) {
-                if (n % 10 === 1 && n % 100 !== 11) { // 1, 21
-                    return 0;
-                }
-                if ((n % 10 >= 2 && n % 10 <= 4 && (n % 10) % 1 === 0) && (n % 100 < 12 || n % 100 > 14)) { // 2, 3
-                    return 1;
-                }
+        //{APP_CORE}/src/{Plugin}/lang/it.js
+        L.DG.LocaleExample.Dictionary.it = L.extend({
+            "{n} people" : ["{n} utente", "{n} utenti"],
+            "regularly use 2GIS" : "utilizzano regolarmente 2GIS"
+        }, L.DG.Dictionary.it);
 
-                if ((n % 10 === 0) || (n % 10 >= 5 && n % 10 <= 9 && (n % 10) % 1 === 0) || (n % 100 >= 11 && (n % 100) <= 14 && (n % 100) % 1 === 0)) { // 13, 17
-                    return 2;
-                }
-            },
-            "{n} people": ["{n} пользователь", "{n} пользователя", "{n} пользователей"],
-            "regularly use 2GIS": "регулярно используют 2GIS"
-        };
-        // it
-        L.DG.LocaleExample.Dictionary.it = {
-            pluralRules: function (n) {
-                if (n === 1) { // 1
-                    return 0;
-                }
-                if (n >= 2) { // 2, 3, 4 ..
-                    return 1;
-                }
-            },
-            "{n} people": ["{n} utente", "{n} utenti"],
-            "regularly use 2GIS": "utilizzano regolarmente 2GIS"
-        };
-
-        // init map
-        var map = new L.Map('map', {
+        //{APP_CORE}/src/{Plugin}/lang/ru.js
+        L.DG.LocaleExample.Dictionary.ru = L.extend({
+            "{n} people" : ["{n} пользователь", "{n} пользователя", "{n} пользователей"],
+            "regularly use 2GIS" : "регулярно используют 2GIS"
+        }, L.DG.Dictionary.ru);
+                
+        //{APP_CORE}/src/{Plugin}/demo/index.html           
+        map = new L.Map('map', {
             center: new L.LatLng(54.980206086231, 82.898068362003),
             zoom: 13
         });
-
-        // add plugin to map
         map.addControl(new L.DG.LocaleExample());
-
-        // lang switcher
         var langMenu = L.DomUtil.get('langMenu');
         langMenu.onchange = function() {
             map.setLang(this.options[this.selectedIndex].value);
         }
-
     });
 </script>
 
 Изменить язык карты: <select id="langMenu" size="1">
-    <option value="ru" selected="selected">ru</option>
-    <option value="it">it</option>
+    <option value="ru">ru</option>
+    <option value="it" selected="selected">it</option>
 </select>
 
 </body>
