@@ -34,7 +34,7 @@
                     "ru": {
                         "title": "Руководство",
                         "uri": "doc....",
-                        "hide": false
+                        "hide": true
                     }
                 },
                 "children": [
@@ -74,7 +74,7 @@
                         "content": {
                             "ru": {
                                 "title": "DGJsonp",
-                                "uri": "doc/DGjsonp/jsonp.html",
+                                "uri": "public/doc/DGJsonp/DGJsonp.html",
                                 "_src": "DGJsonp/doc/DGJsonp.md",
                                 "hide": true
                             }
@@ -85,7 +85,7 @@
                         "content": {
                             "ru": {
                                 "title": "DGProjectDetector",
-                                "uri": "doc/projectdetector/projectdetector.html",
+                                "uri": "public/doc/DGProjectDetector/DGProjectDetector.html",
                                 "_src": "DGProjectDetector/doc/DGProjectDetector.md",
                                 "hide": true
                             }
@@ -95,8 +95,8 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "TileLayer",
-                                "uri": "doc/tilelayer/tilelayer.html",
+                                "title": "DGTileLayer",
+                                "uri": "public/doc/DGTileLayer/DGTileLayer.html",
                                 "_src": "DGTileLayer/doc/DGTileLayer.md",
                                 "hide": true
                             }
@@ -106,8 +106,8 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Localization",
-                                "uri": "doc/localization/localization.html",
+                                "title": "DGLocale",
+                                "uri": "public/doc/DGLocale/DGLocale.html",
                                 "_src": "DGLocale/doc/DGLocale.md",
 
                                 "hide": true
