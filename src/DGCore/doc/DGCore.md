@@ -1447,7 +1447,7 @@
 		<td><code><b>attribution</b></code></td>
 		<td><code>String</code></td>
 		<td><code>''</code></td>
-		<td>Копирайты.</td>
+		<td>Копирайты слоя.</td>
 	</tr>
 	<tr>
 		<td><code><b>tms</b></code></td>
@@ -1519,7 +1519,7 @@
 
 ### События
 
-Можно подписать на события используя [эти методы][39].
+Вы можете подписаться на следующие события используя [эти методы][39].
 <table>
 	<tr>
 		<th>Событие</th>
@@ -1529,25 +1529,24 @@
 	<tr>
 		<td><code><b>loading</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда тайловый слой начинает загрузку тайлов.</td>
+		<td>Вызывается при начале загрузки тайлов.</td>
 	</tr>
 	<tr>
 		<td><code><b>load</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда тайловый слой завершил загрузку всех видимых тайлов.</td>
+		<td>Вызывается при окончании загрузки видимых тайлов.</td>
 	</tr>
 	<tr>
 		<td><code><b>tileload</b></code></td>
 		<td><code><a href="#tile-event">Event</a></code>
-		<td>Вызывается когда тайл загружается.</td>
+		<td>Вызывается после загрузки тайла.</td>
 	</tr>
 	<tr>
 		<td><code><b>tileunload</b></code></td>
 		<td><code><a href="#tile-event">Event</a></code>
-		<td>Вызывается при удалении тайла (т.е. при включенном режиме <code>unloadInvisibleTiles</code>).</td>
+		<td>Вызывается при удалении тайла (например, при включенном режиме <code>unloadInvisibleTiles</code>).</td>
 	</tr>
 </table>
-
 
 ### Методы
 <table>
@@ -1567,12 +1566,12 @@
 	<tr>
 		<td><code><b>bringToFront</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Позиционирует тайловый слой поверх всех остальных слоев.</td>
+		<td>Позиционирует тайловый слой поверх других слоев.</td>
 	</tr>
 	<tr>
 		<td><code><b>bringToBack</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Позиционирует тайловый слой под всеми остальными слоями.</td>
+		<td>Позиционирует тайловый слой под другими слоями.</td>
 	</tr>
 	<tr>
 		<td><code><b>setOpacity</b>(
@@ -1600,7 +1599,7 @@
 			<nobr>&lt;String&gt; <i><a href="#url-template">urlTemplate</a></i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Обновляет URL темлейта и перерсовывает его.</td>
+		<td>Обновляет URL шаблон слоя и перерсовывает его.</td>
 	</tr>
 </table>
 
