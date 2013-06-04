@@ -21,7 +21,7 @@ L.DG.Geoclicker.GeoCoder = L.Class.extend({
         }
 
         this._webApi.geoSearch(q, types, zoom, L.bind(function (result) {
-            callback(this._validateResponse(result));
+            callback(this._validateResponse(result, types));
         }, this));
     },
 
