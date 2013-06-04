@@ -375,12 +375,12 @@
 	<tr>
 		<td><code><b>mousemove</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается когда курсор мышки передвигается над картой.</td>
+		<td>Вызывается когда курсор мышки перемещается над картой.</td>
 	</tr>
 	<tr>
 		<td><code><b>contextmenu</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается при нажатии правой кнопкой мышки на карте, если лиснер установлен, предотвращает появление стандартного контекстного меню браузера.</td>
+		<td>Вызывается при нажатии правой кнопки мышки на карте, предотвращает появление стандартного контекстного меню браузера, если на это событие подписан обработчик.</td>
 	</tr>
 	<tr>
 		<td><code><b>focus</b></code></td>
@@ -395,22 +395,22 @@
 	<tr>
 		<td><code><b>preclick</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается перед кликом мышки на карте (полезно, если нужно что-то выполнить до вызова обработчика клика).</td>
+		<td>Вызывается перед кликом мышки на карте (полезно, если нужно выполнить какие-либо действия до вызова обработчика клика).</td>
 	</tr>
 	<tr>
 		<td><code><b>load</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызыватся когда карта была инициализированна (когда впервые были установлены ее центр и уровень зума).</td>
+		<td>Вызыватся при инициализации карты (при первой установке ее центра и масштаба).</td>
 	</tr>
 	<tr id="map-viewreset">
 		<td><code><b>viewreset</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда нужно перерисовать контент карты (обычно при зуме или загрузке).</td>
+		<td>Вызывается когда нужно перерисовать содержимое карты (обычно при изменении масштаба или загрузке).</td>
 	</tr>
 	<tr>
 		<td><code><b>movestart</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается при начале изменения области просмотра карты (т.е. когда пользователь начинает двигать карту).</td>
+		<td>Вызывается при начале изменения области просмотра карты (например, когда пользователь начинает перетаскивать карту).</td>
 	</tr>
 	<tr>
 		<td><code><b>move</b></code></td>
@@ -420,32 +420,32 @@
 	<tr id="map-moveend">
 		<td><code><b>moveend</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается при окончании передвижения краты (т.е. когда пользователь прекращает двигать карту).</td>
+		<td>Вызывается при окончании передвижения краты (непример, когда пользователь прекращает перетаскивать карту).</td>
 	</tr>
 	<tr>
 		<td><code><b>dragstart</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда пользователь начинает двигать карту.</td>
+		<td>Вызывается когда пользователь начинает перетаскивать карту.</td>
 	</tr>
 	<tr>
 		<td><code><b>drag</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда пользователь двигает карту.</td>
+		<td>Вызывается когда пользователь перетаскивает карту.</td>
 	</tr>
 	<tr>
 		<td><code><b>dragend</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда пользователь прекращает двигать карту.</td>
+		<td>Вызывается когда пользователь прекращает перетаскивать карту.</td>
 	</tr>
 	<tr>
 		<td><code><b>zoomstart</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается в начале изменения зума (т.е. перед анимацией зума).</td>
+		<td>Вызывается в начале изменения зума (например, перед анимацией изменения масштаба).</td>
 	</tr>
 	<tr>
 		<td><code><b>zoomend</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается после изменения зума.</td>
+		<td>Вызывается после изменения масштаба.</td>
 	</tr>
 	<tr>
 		<td><code><b>autopanstart</b></code></td>
@@ -458,34 +458,14 @@
 		<td>Вызывается при добавлении нового слоя на карту.</td>
 	</tr>
 	<tr>
-		<td><code><b>layerremove</b></code></td>
-		<td><code><a href="#layer-event">LayerEvent</a></code>
-		<td>Вызывается при удалиении слоя с карты.</td>
-	</tr>
-	<tr>
-		<td><code><b>baselayerchange</b></code></td>
-		<td><code><a href="#layer-event">LayerEvent</a></code>
-		<td>Вызывается когда исходный слой изменяется при помощи <a href="#control-layers">layer control</a>.</td>
-	</tr>
-	<tr>
-		<td><code><b>overlayadd</b></code></td>
-		<td><code><a href="#layer-event">LayerEvent</a></code>
-		<td>Вызывается когда дополнительный слой выбран при помощи <a href="#control-layers">layer control</a>.</td>
-	</tr>
-	<tr>
-		<td><code><b>overlayremove</b></code></td>
-		<td><code><a href="#layer-event">LayerEvent</a></code>
-		<td>Вызывается когда дополнительный слой отключен при помощи <a href="#control-layers">layer control</a>.</td>
-	</tr>
-	<tr>
 		<td><code><b>locationfound</b></code></td>
 		<td><code><a href="#location-event">LocationEvent</a></code>
-		<td>Вызываеся если геолокация прошла успешно (используется метод <a href="#map-locate">locate</a>).</td>
+		<td>Вызываеся при успешном обнаружении местоположения пользователя (используется метод <a href="#map-locate">locate</a>).</td>
 	</tr>
 	<tr>
 		<td><code><b>locationerror</b></code></td>
 		<td><code><a href="#error-event">ErrorEvent</a></code>
-		<td>Вызывается при возникновении ошибок во время геолокации.</td>
+		<td>Вызывается при возникновении ошибок во время обнаружении местоположения пользователя.</td>
 	</tr>
 	<tr>
 		<td><code><b>popupopen</b></code></td>
