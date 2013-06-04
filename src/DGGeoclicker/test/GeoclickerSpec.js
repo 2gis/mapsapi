@@ -73,7 +73,7 @@ describe('DG Geoclicker ', function () {
 
             expect(spy.called).to.be.equal(false);
 
-            done();
+            done()git st;
         });
 
         describe(' GeoCoder ', function () {
