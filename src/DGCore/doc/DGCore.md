@@ -90,8 +90,6 @@
 * [IHandler][51]
 * [ILayer][52]
 * [IControl][53]
-* [IProjection][54]
-* [ICRS][55]
 
 ---
 
