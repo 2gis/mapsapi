@@ -3600,6 +3600,30 @@
     </tr>
 </table>
 
+## L.Control.Zoom
+
+Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если не передана опция zoomControl со значением `false`. Расширяет [Control][34].
+
+<table>
+	<tr>
+		<th>Конструктор</th>
+		<th>Использование</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>L.Control.Zoom</b>(
+			<nobr>&lt;<a href="#control-zoom-options">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
+		</code></td>
+
+		<td class="factory-usage">
+			<code><span class='keyword'>new</span> L.Control.Zoom(<span class="comment">&hellip;</span>)</code><br />
+			<code>L.control.zoom(<span class="comment">&hellip;</span>)</code>
+		</td>
+
+		<td>Создает элемент управления масштабом.</td>
+	</tr>
+</table>
+
 ## L.Control.Attribution
 
 Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет [Control][34].
