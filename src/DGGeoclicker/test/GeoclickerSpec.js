@@ -87,12 +87,7 @@ describe('DG Geoclicker ', function () {
 
 
                 webApi = new L.DG.Geoclicker.WebApi();
-                webApi.geoSearch = function () {
-                }
-                //stub = webApi.geoSearch = sinon.stub();
-                //stub = sinon.stub(webApi, 'geoSearch');
-                //console.log(2)
-                spy = sinon.spy(webApi, 'geoSearch')
+                spy = stub = sinon.stub(webApi, 'geoSearch');
                 geoCoder = new L.DG.Geoclicker.GeoCoder(webApi);
 
 
@@ -114,7 +109,7 @@ describe('DG Geoclicker ', function () {
                     zoom = 12;
                 geoCoder.getLocations(latlng, zoom, fn);
 
-                expect(spy.calledOnce).to.be.equal(true);
+                expect(spy.calledOnce).to.be(true);
 
                 var args = spy.getCall(0).args;
 
@@ -184,7 +179,64 @@ describe('DG Geoclicker ', function () {
                 done();
             });
 
-            it(" should return undefined if  WebApi.geoSearch() didn't return correct answer", function (done) {
+            describe(" should return undefined to callback if WebApi.geoSearch()", function () {
+                var latlng, callback, zoom;
+
+                beforeEach(function () {
+                    latlng = L.latLng(5, 7),
+                        callback = sinon.spy(),
+                        zoom = 9;
+                });
+
+                afterEach(function () {
+                    callback = null;
+                    latlng = null;
+                });
+
+                var testCases = {
+                    // describe : result from WebApi
+                    "didn't return any result": undefined,
+                    "returned answer with error_code": {
+                        error_code: 4
+                    },
+                    " returned answer without result": {
+                        someField: 'someValue'
+                    },
+                    " returned answer with empty result": {
+                        result: []
+                    },
+                    " returned answer without requested types": {
+                        result: [
+                            {
+                                id: 118454545,
+                                type: 'house'
+                            },
+                            {
+                                id: 118454545,
+                                type: 'street'
+                            }
+                        ]
+                    }
+                }
+
+                for (var i in testCases) {
+                    (function (webApiResult) {
+                        it(i, function (done) {
+                            stub.callsArgWith(3, webApiResult);
+
+                            geoCoder.getLocations(latlng, zoom, callback);
+
+                            expect(callback.calledOnce).to.be(true);
+
+                            var args = callback.getCall(0).args;
+
+                            expect(args.length).to.be(1);
+                            expect(args[0]).to.be(undefined);
+
+                            done();
+                        });
+                    })(testCases[i]);
+                }
 
             });
 
@@ -192,7 +244,8 @@ describe('DG Geoclicker ', function () {
 
 
     });
-});
+})
+;
 
 
 if (0) {
