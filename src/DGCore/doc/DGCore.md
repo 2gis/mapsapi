@@ -93,15 +93,7 @@
 * [IProjection][54]
 * [ICRS][55]
 
-#### Разное
-
-* [global switches][56]
-* [noConflict][57]
-* [version][58]
-
 ---
-
-Документация по **Leaflet 0.5**. Документацию находящуюся в работе можно найти в файле `reference.html` ветки [gh-pages-master branch][59].
 
 ## L.Map
 
