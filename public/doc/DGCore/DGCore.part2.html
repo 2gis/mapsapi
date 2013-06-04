@@ -1,0 +1,2189 @@
+<h2>L.LatLng</h2>
+<p>Географическая точка с определенной широтой и долготой.</p>
+<pre><code>var latlng = new L.LatLng(50.5, 30.5);</code></pre>
+<p>Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива, то есть данные записи эквивалентны:</p>
+<pre><code>map.panTo([50, 30]);
+map.panTo(L.latLng(50, 30));</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td>
+            <code><b>L.LatLng</b>(
+            &lt;Number&gt; <i>latitude</i>,
+            &lt;Number&gt; <i>longitude</i> )</code>
+        </td>
+        <td>
+            <code>L.latLng(…)</code>
+            <code>L.latLng([…]</code>
+        </td>
+        <td>Создает объект, представляющий географическую точку с определенной широтой и долготой.</td>
+    </tr>
+</table>
+
+<h3>Свойства</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>lat</b></code></td>
+        <td><code>Number</code></td>
+        <td>Широта в градусах.</td>
+    </tr>
+    <tr>
+        <td><code><b>lng</b></code></td>
+        <td><code>Number</code></td>
+        <td>Долгота в градусах.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>distanceTo</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+        </code></td>
+
+        <td><code>Number</code></td>
+        <td>Возвращает расстояние (в метрах) до данной широты и долготы, рассчитывается по формуле Haversine. См. <a href="http://en.wikipedia.org/wiki/Haversine_formula">описание в wikipedia</a></td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если данная широта и долгота находится в той же позиции (с небольшой погрешностью).</td>
+    </tr>
+    <tr>
+        <td><code><b>toString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает строковое представление точки (для отладки).</td>
+    </tr>
+</table>
+
+<h3>Константы</h3>
+<table>
+    <tr>
+        <th>Константа</th>
+        <th>Тип</th>
+        <th>Значение</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>DEG_TO_RAD</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>Math.PI / 180</code></td>
+        <td>Коэффициент для конвертирования градусов в радианы.</td>
+    </tr>
+    <tr>
+        <td><code><b>RAD_TO_DEG</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>180 / Math.PI</code></td>
+        <td>Коэффициент для конвертирования радиан в градусы.</td>
+    </tr>
+    <tr>
+        <td><code><b>MAX_MARGIN</b></code></td>
+        <td><code>Number</code></td>
+        <td><code>1.0E-9</code></td>
+        <td>Максимальная погрешность для проверки равенства.</td>
+    </tr>
+</table>
+
+<h2>L.LatLngBounds</h2>
+<p>Прямоугольная географическая область на карте.</p>
+<pre><code>var southWest = L.latLng(40.712, -74.227),
+    northEast = L.latLng(40.774, -74.125),
+    bounds = L.latLngBounds(southWest, northEast);</code></pre>
+<p>Все методы, которые принимают объекты LatLngBounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:</p>
+<pre><code>map.fitBounds([
+    [40.712, -74.227],
+    [40.774, -74.125]
+]);</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td>
+            <code><b>L.LatLngBounds</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>southWest</i></nobr>,
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>northEast</i></nobr> )</code>
+        </td>
+
+        <td>
+            <code>L.latLngBounds(&hellip;)</code><br />
+            <code>L.latLngBounds([&hellip;])</code>
+        </td>
+
+        <td>Создает объект LatLngBounds с определенными юго-западным и северо-восточным углами прямоугольника.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.LatLngBounds</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlng</i> )</nobr>
+        </code></td>
+        <td>
+            <code>L.latLngBounds(&hellip;)</code>
+        </td>
+        <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="#map-fitbounds">fitBounds</a>.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>|<a href="#latlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Расширяет границы таким образом, чтобы в них входила переданная точка или другие границы.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouthWest</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает юго-западную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorthEast</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает северо-восточную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorthWest</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает северо-западную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouthEast</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает юго-восточную точку границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getWest</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает западную долготу границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSouth</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает южную широту границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getEast</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает восточную долготу границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getNorth</b>()</code></td>
+        <td><code>Number</code></td>
+        <td>Возвращает северную широту границ.</td>
+    </tr>
+    <tr>
+        <td><code><b>getCenter</b>()</code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Возвращает центральную точку прямоугольной области.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если прямоугольник содержит внутри себя переданную точку.</td>
+    </tr>
+    <tr>
+        <td><code><b>intersects</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник пересекается с переданным прямоугольником.</td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник эквивалентен (с небольшой погрешностью) переданному прямоугольнику.</td>
+    </tr>
+    <tr>
+        <td><code><b>toBBoxString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>
+Возвращает строку с координатами границ в формате <code>&#39;southwest_lng,southwest_lat,northeast_lng,northeast_lat&#39;</code>. Удобно использовать для отправки запросов к веб-сервисам, возвращающим геоданные.</td>
+    </tr>
+    <tr>
+        <td><code><b>pad</b>(
+            <nobr>&lt;Number&gt; <i>bufferRatio</i> )</nobr>
+        </code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Возвращает большие границы, созданные путем расширения текущих границ на заданный процент в каждом направлении.</td>
+    </tr>
+    <tr>
+        <td><code><b>isValid</b>()</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если если свойства границ инициализированы.</td>
+    </tr>
+</table>
+
+<h2>L.Point</h2>
+<p>Точка с пиксельными координатами x и y.</p>
+<pre><code>var point = new L.Point(200, 300);</code></pre>
+<p>Все методы, которые принимают объекты Point также принимают координаты в виде простого массива, то есть данные записи эквивалентны:</p>
+<pre><code>map.panBy([200, 300]);
+map.panBy(L.point(200, 300));</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Point</b>(
+            <nobr>&lt;Number&gt; <i>x</i>, &lt;Number&gt; <i>y</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.point(&hellip;)</code><br />
+            <code>L.point([&hellip;])</code>
+        </td>
+
+        <td>Создает объект Point с координатами <code>x</code> и <code>y</code>. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда координаты будут округлены.</td>
+    </tr>
+</table>
+
+
+<h3>Свойства</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>x</b></code></td>
+        <td><code>Number</code></td>
+        <td>Координата x.</td>
+    </tr>
+    <tr>
+        <td><code><b>y</b></code></td>
+        <td><code>Number</code></td>
+        <td>Координата y.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>add</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат сложения текущей и переданной точек.</td>
+    </tr>
+    <tr>
+        <td><code><b>subtract</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат вычитания переданной точки из текущей.</td>
+    </tr>
+    <tr>
+        <td><code><b>multiplyBy</b>(
+            <nobr>&lt;Number&gt; <i>number</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат умножения текущей точки на переданное число.</td>
+    </tr>
+    <tr>
+        <td><code><b>divideBy</b>(
+            <nobr>&lt;Number&gt; <i>number</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает результат деления текущей точки на переданное число. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда результат будет округлен.</td>
+    </tr>
+    <tr>
+        <td><code><b>distanceTo</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
+
+        <td><code>Number</code></td>
+        <td>Возвращает расстояние между текущей и переданной точками.</td>
+    </tr>
+    <tr>
+        <td><code><b>clone</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки.</td>
+    </tr>
+    <tr>
+        <td><code><b>round</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки с округленными координатами.</td>
+    </tr>
+    <tr>
+        <td><code><b>equals</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если переданная точка имеет такие же координаты, как и текущая.</td>
+    </tr>
+    <tr>
+        <td><code><b>toString</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает строковое представление точки (для отладки).</td>
+    </tr>
+</table>
+
+<h2>L.Bounds</h2>
+<p>Ппрямоугольная область на карте в пиксельных координатах.</p>
+<pre><code>var p1 = L.point(10, 10),
+    p2 = L.point(40, 60),
+    bounds = L.bounds(p1, p2);</code></pre>
+<p>Все методы, которые принимают объекты Bounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:</p>
+<pre><code>otherBounds.intersects([[10, 10], [40, 60]]);</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Bounds</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>topLeft</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>bottomRight</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.bounds(&hellip;)</code><br />
+            <code>L.bounds([&hellip;])</code>
+        </td>
+
+        <td>Создает объект Bounds на основе левого верхнего и правого нижнего углов.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.Bounds</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.bounds(&hellip;)</code>
+        </td>
+
+        <td>Создает объект Bounds на основе точек, которые будут в него входить.</td>
+    </tr>
+</table>
+
+<h3>Свойства</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>min</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Левый верхний угол прямоугольника.</td>
+    </tr>
+    <tr>
+        <td><code><b>max</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Правый нижний угол прямоугольника.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Расширяет границы таким образом, чтобы в них входила переданная точка.</td>
+    </tr>
+    <tr>
+        <td><code><b>getCenter</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает центральную точку прямоугольной области.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник содержит внутри себя переданный прямоугольник.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если прямоугольник содержит внутри себя переданную точку.</td>
+    </tr>
+    <tr>
+        <td><code><b>intersects</b>(
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если текущий прямоугольник пересекается с переданным прямоугольником.</td>
+    </tr>
+    <tr>
+        <td><code><b>isValid</b>()</code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если если свойства границ инициализированы.</td>
+    </tr>
+    <tr>
+        <td><code><b>getSize</b>()</code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает размер прямоугольника.</td>
+    </tr>
+</table>
+
+<h2>L.Icon</h2>
+<p>Иконка маркера.</p>
+<pre><code>var myIcon = L.icon({
+    iconUrl: &#39;my-icon.png&#39;,
+    iconRetinaUrl: &#39;my-icon@2x.png&#39;,
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: &#39;my-icon-shadow.png&#39;,
+    shadowRetinaUrl: &#39;my-icon-shadow@2x.png&#39;,
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+
+L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Icon</b>(
+            <nobr>&lt;<a href="#icon-options">Icon options</a>&gt; <i>options</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.icon(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает объект иконки с переданными опциями.</td>
+    </tr>
+</table>
+
+<h3>Опции</h3>
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>iconUrl</b></code></td>
+        <td><code>String</code>
+        <td>(обязательная) URL к изображению иконки (абсолютный или относительный).</td>
+    </tr>
+    <tr>
+        <td><code><b>iconRetinaUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению иконки для устройств с Retina экраном (абсолютный или относительный).</td>
+    </tr>
+    <tr>
+        <td><code><b>iconSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер изображения иконки в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>iconAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты &quot;ножки&quot; иконки (относительно ее левого верхнего угла).
+            Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию &quot;ножка&quot; располагается по центру иконки.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению тени иконки. Если не указан, тогда тень будет отсутствовать.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowRetinaUrl</b></code></td>
+        <td><code>String</code>
+        <td>URL к изображению тени иконки для устройств с Retina экраном. Если не указан, тогда тень будет отсутствовать.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер изображения тени в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>shadowAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты &quot;ножки&quot; тени (относительно ее левого верхнего угла). Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>popupAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты точки, из которой будет открываться балун (относительно <code>iconAnchor</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>className</b></code></td>
+        <td><code>String</code>
+        <td>Значение класса, которое будет присвоено изображениям иконки и тени. По умолчанию пустое.</td>
+    </tr>
+</table>
+
+<h2>L.DivIcon</h2>
+<p>Простая иконка для маркеров, которые используют простой элемент <code>div</code> вместо изображения.</p>
+<pre><code>var myIcon = L.divIcon({className: &#39;my-div-icon&#39;});
+// вы можете установить стиль класса .my-div-icon в CSS
+
+L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
+<p>По умолчанию установлен класс <code>&#39;leaflet-div-icon&#39;</code>, который стилизирован как маленький белый квадрат с тенью. </p>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.DivIcon</b>(
+            <nobr>&lt;<a href="#divicon-options">DivIcon options</a>&gt; <i>options</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.divIcon(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает объект <code>L.DivIcon</code> с переданными опциями.</td>
+    </tr>
+</table>
+
+<h3>Опции</h3>
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>iconSize</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Размер иконки в пикселях. Также может быть установлен с помощью CSS.</td>
+    </tr>
+    <tr>
+        <td><code><b>iconAnchor</b></code></td>
+        <td><code><a href="#point">Point</a></code>
+        <td>Координаты &quot;ножки&quot; иконки (относительно ее левого верхнего угла). Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию &quot;ножка&quot; располагается по центру иконки, если указан ее размер.</td>
+    </tr>
+    <tr>
+        <td><code><b>className</b></code></td>
+        <td><code>String</code>
+        <td>Значение класса, которое будет присвоено иконке. По умолчанию <code>&#39;leaflet-div-icon&#39;</code>.
+    </tr>
+    <tr>
+        <td><code><b>html</b></code></td>
+        <td><code>String</code>
+        <td>HTML код, который будет установлен как содержимое иконки. По умолчанию пустой.</td>
+    </tr>
+</table>
+
+<h2>L.Control</h2>
+<p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="#icontrol">IControl</a>. Элементы на карту добавляются следующим образом:</p>
+<pre><code>control.addTo(map);
+// то же самое, что
+map.addControl(control);</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control</b>(
+            <nobr>&lt;<a href="#control-options">Control options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.control(<span class="comment">&hellip;</span>)</code>
+        </td>
+
+        <td>Создает элемент управления с переданными опциями.</td>
+    </tr>
+</table>
+
+<h3>Опции</h3>
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code>&#39;topright&#39;</td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setPosition</b>(
+            <nobr>&lt;String&gt; <i>position</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Устанавливает позицию элемента управления См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPosition</b>()</code></td>
+        <td><code>String</code></td>
+        <td>Возвращает текущую позицию элемента управления.</td>
+    </tr>
+    <tr>
+        <td><code><b>addTo</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Добавляет элемент управления на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeFrom</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Удаляет элемент управления с карты.</td>
+    </tr>
+</table>
+
+<h3>Позиции элементов управления</h3>
+<p>Позиции элементов управления (углы карты, в которых располагаются элементы) устанавливаются с помощью строк. Отступы между границами карты и элементами управления можно установить с помощью CSS.</p>
+<table>
+    <tr>
+        <th>Позиция</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code>&#39;topleft&#39;</code></td>
+        <td>Верхний левый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>&#39;topright&#39;</code></td>
+        <td>Верхний правый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>&#39;bottomleft&#39;</code></td>
+        <td>Нижний левый угол карты.</td>
+    </tr>
+    <tr>
+        <td><code>&#39;bottomright&#39;</code></td>
+        <td>Нижний правый угол карты.</td>
+    </tr>
+</table>
+
+<h2>L.Control.Attribution</h2>
+<p>Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет <a href="#control">Control</a>.</p>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control.Attribution</b>(
+            <nobr>&lt;<a href="#control-attribution-options">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.control.attribution(&hellip;)</code>
+        </td>
+
+        <td>Создает элемент атрибутики.</td>
+    </tr>
+</table>
+
+<h3>Опции</h3>
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">&#39;bottomright&#39;</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>prefix</b></code></td>
+        <td><code>String</code></td>
+        <td><code>&#39;Leaflet&#39;</td>
+        <td>Текст, который будет показан перед атрибутикой. Для отключения необходимо указать <code>false</code>.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>setPrefix</b>(
+            <nobr>&lt;String&gt; <i>prefix</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Устанавливает текст перед атрибутикой.</td>
+    </tr>
+    <tr>
+        <td><code><b>addAttribution</b>(
+            <nobr>&lt;String&gt; <i>text</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Добавляет текст атрибутики (например, <code>&#39;Картографические данные &amp;copy; 2GIS&#39;</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>removeAttribution</b>(
+            <nobr>&lt;String&gt; <i>text</i> )</nobr>
+        </code></td>
+        <td><code>this</code></td>
+        <td>Удаляет текст атрибутики.</td>
+    </tr>
+</table>
+
+<h2>L.Control.Scale</h2>
+<p>Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Реализует интерфейс <a href="#icontrol">IControl</a>.</p>
+<pre><code>L.control.scale().addTo(map);</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Control.Scale</b>(
+            <nobr>&lt;<a href="#control-scale-options">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>L.control.scale(&hellip;)</code>
+        </td>
+
+        <td>Создает индикатор масштаба с переданными опциями.</td>
+    </tr>
+</table>
+
+<h3>Опции</h3>
+<table>
+    <tr>
+        <th>Опция</th>
+        <th>Тип</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">&#39;bottomleft&#39;</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>maxWidth</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span class="number">100</span></code></td>
+        <td>Максимальная ширина элемента в пикселях.</td>
+    </tr>
+    <tr>
+        <td><code><b>metric</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code></td>
+        <td>Включает или отключает метрическую систему измерений (метры, километры).</td>
+    </tr>
+    <tr>
+        <td><code><b>imperial</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code></td>
+        <td>Включает или отключает английскую систему измерений (мили, футы).</td>
+    </tr>
+    <tr>
+        <td><code><b>updateWhenIdle</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="literal">false</span></code></td>
+        <td>Если <code>true</code>, тогда элемент обновляется при событии <code>moveend</code>, иначе всегда будет отображена актуальная информация (обновляется при событии <code>move</code>).</td>
+    </tr>
+</table>
+
+<h2>Методы событий</h2>
+<p>Набор методов, позволяющих работать с событиями. События позволяют выполнить какое-либо действие в тот момент, когда что-то происходит с объектом (например, когда пользователь кликает по карте).</p>
+<h3>Пример</h3>
+<pre><code>map.on(&#39;click&#39;, function(e) {
+    alert(e.latlng);
+});</code></pre>
+<p>Управлять событиями можно с помощью ссылок на обработчики, например, если необходимо добавить и затем удалить обработчик, определите его как функцию:</p>
+<pre><code>function onClick(e) { ... }
+
+map.on(&#39;click&#39;, onClick);
+map.off(&#39;click&#39;, onClick);</code></pre>
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addEventListener</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Подписывает обработчик (<code>fn</code>) на определенный тип события. Опционально вы можете указать контекст обработчика (объект, на который будет указывать <code>this</code>). Также вы можете подписаться на несколько типов событий, указав их через пробел (например, <code>&#39;click dblclick&#39;</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>addEventListener</b>(
+            <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Подписывает несколько обработчиков на определенные типы событий, например <code>{click: onClick, mousemove: onMouseMove}</code></td>
+    </tr>
+    <tr>
+        <td><code><b>removeEventListener</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn?</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Отписывает ранее подписанный обработчик. Если обработчик не указан, тогда от определенного типа событий будут отписаны все обработчики.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeEventListener</b>(
+            <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Отписывает несколько обработчиков от определенных событий.</code></td>
+    </tr>
+    <tr>
+        <td><code><b>hasEventListeners</b>(
+            <nobr>&lt;String&gt; <i>type</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращет <code>true</code>, если у переданного типа события есть подписчики.</td>
+    </tr>
+    <tr>
+        <td><code><b>fireEvent</b>(
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Object&gt; <i>data?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Инициирует событие определенного типа. Опционально можно передать объект с данными события, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
+    </tr>
+    <tr>
+        <td><code><b>on</b>( &hellip; )</code></td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>addEventListener</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>off</b>( &hellip; )</code></td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>removeEventListener</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>fire</b>( &hellip; )</code></td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>fireEvent</code>.</td>
+    </tr>
+</table>
+
+<h2>Объекты событий</h2>
+<p>Каждый объект события &mdash; это объект с данными о событии, передаваемый параметром в функцию-обработчик, подписанную на это событие при возникновении последнего. Например:</p>
+<pre><code>map.on(&#39;click&#39;, function(e) {
+    alert(e.latlng); // e является объектом события (в данном случае MouseEvent)
+});</code></pre>
+<h3>Event</h3>
+<p>Базовый объект события. Все объекты событий содержат такие же свойства, как и этот объект.</p>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>type</b></code></td>
+        <td><code>String</code></td>
+        <td>Тип события (например, <code>&#39;click&#39;</code>).</td>
+    </tr>
+    <tr>
+        <td><code><b>target</b></code></td>
+        <td><code>Object</code></td>
+        <td>Объект, который инициировал событие.</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latlng</b></code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Географическая точка, в которой было инициировано событие мышки.</td>
+    </tr>
+    <tr>
+        <td><code><b>layerPoint</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Пиксельные координаты, в которых было инициировано событие мышки, относительно слоя карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>containerPoint</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Пиксельные координаты, в которых было инициировано событие мышки относительно контейнера карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>originalEvent</b></code></td>
+        <td><code>DOMMouseEvent</code></td>
+        <td>Оригинальное браузерное событие мышки.</td>
+    </tr>
+</table>
+
+<h3>LocationEvent</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latlng</b></code></td>
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Географическое положение пользователя.</td>
+    </tr>
+    <tr>
+        <td><code><b>bounds</b></code></td>
+        <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+        <td>Географические границы, в которых находится пользователь (в соответствии с точностью местоположения).</td>
+    </tr>
+    <tr>
+        <td><code><b>accuracy</b></code></td>
+        <td><code>Number</code></td>
+        <td>Точность местоположения в метрах.</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>message</b></code></td>
+        <td><code>String</code></td>
+        <td>Сообщение об ошибке.</td>
+    </tr>
+    <tr>
+        <td><code><b>code</b></code></td>
+        <td><code>Number</code></td>
+        <td>Код ошибки (если имеется).</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>layer</b></code></td>
+        <td><code><a href="#ilayer">ILayer</a></code></td>
+        <td>Слой, который был добавлен или удален.</td>
+    </tr>
+</table>
+
+<h3>TileEvent</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>tile</b></code></td>
+        <td><code>HTMLElement</code></td>
+        <td>Элемент тайла (изображение).</td>
+    </tr>
+    <tr>
+        <td><code><b>url</b></code></td>
+        <td><code>String</code></td>
+        <td>URL тайла.</td>
+    </tr>
+</table>
+
+<h3>GeoJSON event</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>layer</b></code></td>
+        <td><code><a href="#ilayer">ILayer</a></code></td>
+        <td>Слой GeoJSON объекта добавленного на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>properties</b></code></td>
+        <td><code>Object</code></td>
+        <td>Свойства GeoJSON объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>geometryType</b></code></td>
+        <td><code>String</code></td>
+        <td>Тип геометрии GeoJSON объекта.</td>
+    </tr>
+    <tr>
+        <td><code><b>id</b></code></td>
+        <td><code>String</code></td>
+        <td>GeoJSON ID объекта (если задан).</td>
+    </tr>
+</table>
+
+<h3>Popup event</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>popup</b></code></td>
+        <td><code><a href="#popup">Popup</a></code></td>
+        <td>Балун, который был открыт или закрыт.</td>
+    </tr>
+</table>
+
+<h2>L.Class</h2>
+<p><code>L.Class</code> предоставляет возможность использовать ООП подход в разработке функционала API, используется для реализации большинства классов из данной документации.</p>
+<p>Кроме реализации простой классической модели наследования имеются несколько свойств для удобной организации кода, такие как <code>options</code>, <code>includes</code> и <code>statics</code>.</p>
+<pre><code>var MyClass = L.Class.extend({
+    initialize: function (greeter) {
+        this.greeter = greeter;
+        // конструктор класса
+    },
+
+    greet: function (name) {
+        alert(this.greeter + &#39;, &#39; + name)
+    }
+});
+
+// создает объект класса MyClass и передает &quot;Hello&quot; в конструктор
+var a = new MyClass(&quot;Hello&quot;);
+
+// вызывает метод greet, который показывает всплывающее окно с текстом &quot;Hello, World&quot;
+a.greet(&quot;World&quot;);</code></pre>
+<h3>Наследование</h3>
+<p>Для определения новых классов используется конструкция <code>L.Class.extend</code>, также метод <code>extend</code> можно использовать в любом классе, который наследуется от <code>L.Class</code>:</p>
+<pre><code>var MyChildClass = MyClass.extend({
+    // ... новые свойства и методы
+});</code></pre>
+<p>Данный код создаст класс, который наследует все методы и свойства родительского класса (через цепочку прототипов), также возможно добавление или переопределение родительских методов и свойств. Кроме того, корректно обрабатывается оператор <code>instanceof</code>:</p>
+<pre><code>var a = new MyChildClass();
+a instanceof MyChildClass; // true
+a instanceof MyClass; // true</code></pre>
+<p>Вы можете вызывать родительские методы (включая конструктор) из потомков (так, как вы бы делали это с помощью вызова <code>super</code> в других языках программирования) с помощью JavaScript функций <code>call</code> или <code>apply</code>:</p>
+<pre><code>var MyChildClass = MyClass.extend({
+    initialize: function () {
+        MyClass.prototype.initialize.call(&quot;Yo&quot;);
+    },
+
+    greet: function (name) {
+        MyClass.prototype.greet.call(this, &#39;bro &#39; + name + &#39;!&#39;);
+    }
+});
+
+var a = new MyChildClass();
+a.greet(&#39;Jason&#39;); // выведет &quot;Yo, bro Jason!&quot;</code></pre>
+<h3>Опции</h3>
+<p><code>options</code> &mdash; это специальное свойство, которое в отличии от других объектов передаваемых через <code>extend</code> будет слито с аналогичным свойством родителея, вместо полного переопределения, это позволяет управлять конфигурацией объектов и значениями по умолчанию:</p>
+<pre><code>var MyClass = L.Class.extend({
+    options: {
+        myOption1: &#39;foo&#39;,
+        myOption2: &#39;bar&#39;
+    }
+});
+
+var MyChildClass = L.Class.extend({
+    options: {
+        myOption1: &#39;baz&#39;,
+        myOption3: 5
+    }
+});
+
+var a = new MyChildClass();
+a.options.myOption1; // &#39;baz&#39;
+a.options.myOption2; // &#39;bar&#39;
+a.options.myOption3; // 5</code></pre>
+<p>Также имеется метод <code>L.Util.setOptions</code>, который позволяет сливать опции переданные в конструктор с изначально заданными опциями:</p>
+<pre><code>var MyClass = L.Class.extend({
+    options: {
+        foo: &#39;bar&#39;,
+        bla: 5
+    },
+
+    initialize: function (options) {
+        L.Util.setOptions(this, options);
+        ...
+    }
+});
+
+var a = new MyClass({bla: 10});
+a.options; // {foo: &#39;bar&#39;, bla: 10}</code></pre>
+<h3>Включения</h3>
+<p><code>includes</code> &mdash; это специальное свойство, которое подмешивает объекты в класс (такие объекты называются mixin-ами). Хорошим примером является <code>L.Mixin.Events</code>, который подмешивает <a href="#events">методы событий</a>, такие как <code>on</code>, <code>off</code> и <code>fire</code> в класс.</p>
+<pre><code> var MyMixin = {
+    foo: function () { ... },
+    bar: 5
+};
+
+var MyClass = L.Class.extend({
+    includes: MyMixin
+});
+
+var a = new MyClass();
+a.foo();</code></pre>
+<p>Также вы можете подмешивать объекты в процессе выполнения программы с помощью метода <code>include</code>:</p>
+<pre><code>MyClass.include(MyMixin);</code></pre>
+<h3>Статика</h3>
+<p><code>statics</code> &mdash; это свойство, в котором описываются статические элементы класса, удобно использовать для определения констант:</p>
+<pre><code>var MyClass = L.Class.extend({
+    statics: {
+        FOO: &#39;bar&#39;,
+        BLA: 5
+    }
+});
+
+MyClass.FOO; // &#39;bar&#39;</code></pre>
+<h3>Фабрики классов</h3>
+<p>Для создания новых объектов классов используются фабричные методы, которые имеют такое же название, как и у класса, но начинаются с нижнего регистра. Это аналог ключевого слова <code>new</code>, то есть, данные строки кода эквивалентны:</p>
+<pre><code>new L.Map(&#39;map&#39;);
+L.map(&#39;map&#39;);</code></pre>
+<p>Реализовать фабричный метод в ваших собственных классах довольно просто, например:</p>
+<pre><code>L.map = function (id, options) {
+    return new L.Map(id, options);
+};</code></pre>
+<h3>Хуки конструктора</h3>
+<p>Если вы разрабатываете плагин к API, тогда велика вероятность, что вам понадобится выполнить дополнительные действия при инициализациии объектов существующих классов (например, при инициализации объекта <code>L.Polyline</code>). Для подобного рода задач имеется метод <code>addInitHook</code>:</p>
+<pre><code>MyClass.addInitHook(function () {
+    // ... выполнить дополнительные действия при вызове конструктора
+    // например, добавить обработчики событий, установить значения свойств и т.п.
+});</code></pre>
+<p>Также можно использовать сокращенную запись, если необходимо вызвать лишь один метод при инициализации:</p>
+<pre><code>MyClass.addInitHook(&#39;methodName&#39;, arg1, arg2, …);</code></pre>
+<h2>L.Browser</h2>
+<p>Объект со свойствами, необходимыми для определения браузера/фичи.</p>
+<pre><code>if (L.Browser.ie6) {
+    alert(&#39;Вам срочно нужно обновить свой браузер!&#39;);
+}</code></pre>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>ie</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для всех версий Internet Explorer.</td>
+    </tr>
+    <tr>
+        <td><code><b>ie6</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для Internet Explorer 6.</td>
+    </tr>
+    <tr>
+        <td><code><b>ie7</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для Internet Explorer 7.</td>
+    </tr>
+    <tr>
+        <td><code><b>webkit</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров на основе WebKit, таких как Chrome и Safari (включая мобильные версии).</td>
+    </tr>
+    <tr>
+        <td><code><b>webkit3d</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров на основе WebKit, поддерживающих CSS 3D трансформации.</td>
+    </tr>
+    <tr>
+        <td><code><b>android</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на Android устройствах.</td>
+    </tr>
+    <tr>
+        <td><code><b>android23</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на старых версиях Android устройств (2 и 3).</td>
+    </tr>
+    <tr>
+        <td><code><b>mobile</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров, работающих на современных мобильных устройствах (включая iOS Safari и различные Android устройства).</td>
+    </tr>
+    <tr>
+        <td><code><b>mobileWebkit</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильных браузеров на основе WebKit.</td>
+    </tr>
+    <tr>
+        <td><code><b>mobileOpera</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для мобильной версии Opera.</td>
+    </tr>
+    <tr>
+        <td><code><b>touch</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для всех браузеров, работающих на тач-устройствах.</td>
+    </tr>
+    <tr>
+        <td><code><b>msTouch</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для браузеров с тач-моделью от Microsoft (например, IE10).</td>
+    </tr>
+    <tr>
+        <td><code><b>retina</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>true</code> для устройств с Retina экранами.</td>
+    </tr>
+</table>
+
+<h2>L.Util</h2>
+<p>Служебные функции.</p>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>extend</b>(
+            <nobr>&lt;Object&gt; <i>dest</i></nobr>,
+            <nobr>&lt;Object&gt; <i>src?..</i> )</nobr>
+        </code></td>
+
+        <td><code>Object</code></td>
+        <td>Сливает свойства объекта <code>src</code> (или нескольких объектов) в свойства объекта <code>dest</code> и возвращает последний. Также имеется псевдоним <code>L.extend</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>bind</b>(
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
+
+        <td><code>Function</code></td>
+        <td>Возвращает функцию, которая выполняет функцию <code>fn</code> с определенным объектом контекста <code>obj</code> (так, чтобы ключевое слово <code>this</code> внутри функции указывало на <code>obj</code>). Также имеется псевдоним <code>L.bind</code>.</td>
+    </tr>
+    <!-- TODO Commented out for the time being:
+    https://github.com/Leaflet/Leaflet/pull/793#discussion_r1134904
+    <tr>
+        <td><code><b>requestAnimFrame</b>()</code></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code><b>cancelAnimFrame</b>()</code></td>
+        <td></td>
+        <td></td>
+    </tr>
+    -->
+    <tr>
+        <td><code><b>limitExecByInterval</b>(
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Number&gt; <i>time</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>Function</code></td>
+        <td>Возвращает обертку над функцией <code>fn</code>, которая гарантирует, что функция не будет вызвана чаще, чем раз в указанный интервал времени <code>time</code> (например, используется при запросах к тайлам во время перетаскивания карты), опционально можно передать контекст (<code>context</code>), в котором будет вызываться функция.</td>
+    </tr>
+    <tr>
+        <td><code><b>formatNum</b>(
+            <nobr>&lt;Number&gt; <i>num</i></nobr>,
+            <nobr>&lt;Number&gt; <i>digits</i> )</nobr>
+        </code></td>
+
+        <td><code>Number</code></td>
+        <td>Возвращает число <code>num</code> округленное до <code>digits</code> знаков.</td>
+    </tr>
+    <tr>
+        <td><code><b>splitWords</b>(
+            <nobr>&lt;String&gt; <i>str</i> )</nobr>
+        </code></td>
+
+        <td><code>String[]</code></td>
+        <td>Обрезает и разделяет строку на части, используя в качестве разделителя пробел, возвращает массив с этими частями.</code></td>
+    </tr>
+    <tr>
+        <td><code><b>setOptions</b>(
+            <nobr>&lt;Object&gt; <i>obj</i></nobr>,
+            <nobr>&lt;Object&gt; <i>options</i> )</nobr>
+        </code></td>
+
+        <td><code>Object</code></td>
+        <td>Сливает опции свойства со свойством <code>options</code> объекта <code>obj</code>, возвращает результирующий объект. См. <a href="#class-options">Опции класса</a>. Также имеется псевдоним <code>L.setOptions</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getParamString</b>(
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td>Преобразует объект в строку URL-а, например, <nobr><code>{a: &quot;foo&quot;, b: &quot;bar&quot;}</code></nobr> будет преобразован в <code><span class="string">&#39;?a=foo&amp;b=bar&#39;</span></code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>template</b>(
+            <nobr>&lt;String&gt; <i>str</i>, &lt;Object&gt; <i>data</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td>Простая функция-шаблонизатор, создает строку применяя значения из объекта <code>data</code> в формате <code>{a: &#39;foo&#39;, b: &#39;bar&#39;, &hellip;}</code> к строке шаблона в формате <code>&#39;Hello {a}, {b}&#39;</code> &mdash; в этом примере будет возвращена строка <code>&#39;Hello foo, bar&#39;</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>isArray</b>(
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если переданный объект является массивом.</td>
+    </tr>
+</table>
+
+<h3>Свойства</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>emptyImageUrl</b></code></td>
+        <td><code>String</code></td>
+        <td>URI, содержащий пустое GIF изображение, закодированное в base64. Используется для освобождения памяти неиспользуемых картинок в мобильных WebKit браузерах (память освобождается установкой свойства <code>src</code> в данное значение).</td>
+    </tr>
+</table>
+
+<h2>L.LineUtil</h2>
+<p>Набор методов для обработки точек ломаных.</p>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>simplify</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+            <nobr>&lt;Number&gt; <i>tolerance</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a>[]</code></td>
+
+        <td>Уменьшает количество точек в ломаной и возвращает новую упрощенную ломаную. Позволяет увеличить производительность обработки/отображения ломаных на карте. Параметр <code>tolerance</code> влияет на величину упрощения (чем меньше значение, тем лучше качество геометрии и ниже производительность).</td>
+    </tr>
+    <tr>
+        <td><code><b>pointToSegmentDistance</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+        </code></td>
+
+        <td><code>Number</code></td>
+
+        <td>Возвращает расстояние между точкой <code>p</code> и сегментом между точками <code>p1</code> и <code>p2</code>.
+    </tr>
+    <tr>
+        <td><code><b>closestPointOnSegment</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+
+        <td>Возвращает ближайшую точку на сегменте <code>p1</code> - <code>p2</code> до точки <code>p</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>clipSegment</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>a</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>b</i></nobr>,
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+        </code></td>
+
+        <td><code>-</code></td>
+
+        <td>Обрезает сегмент <code>a</code> - <code>b</code> по прямоугольной области (модифицируются непосредственно точки сегмента).</td>
+    </tr>
+</table>
+
+<h2>L.PolyUtil</h2>
+<p>Набор методов для обработки точек многоугольников.</p>
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>clipPolygon</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a>[]</code></td>
+
+        <td>Обрезает многоугольник по прямоугольной области.</td>
+    </tr>
+</table>
+
+<h2>L.DomEvent</h2>
+<p>Служебные методы для работы с DOM событиями.</p>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addListener</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Подписывает обработчик <code>fn</code> на DOM событие определенного типа. Ключевое слово <code>this</code> внутри обработчика будет указывать на <code>context</code>, или на элемент на котором произошло событие, если контекст не указан.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeListener</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>type</i></nobr>,
+            <nobr>&lt;Function&gt; <i>fn</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Отписывает ранее подписанный обработчик.</td>
+    </tr>
+    <tr>
+        <td><code><b>stopPropagation</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
+
+        <td><code><span class="keyword">this</span></code></td>
+        <td>Останавливает всплытие события к родительским элементам. Используется внутри функции-обработчика:
+            <code>L.DomEvent.addListener(div, &#39;click&#39;, function (e) {
+                L.DomEvent.stopPropagation(e);
+            });</code>
+        </td>
+    </tr>
+    <tr>
+        <td><code><b>preventDefault</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Предотвращает поведение DOM элемента по умолчанию (например, переход по ссылке указанной в свойстве <code>href</code> элемента <code>a</code>). Используется внутри функции-обработчика.</td>
+    </tr>
+    <tr>
+        <td><code><b>stop</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Вызывает одновременно <code>stopPropagation</code> и <code>preventDefault</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>disableClickPropagation</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Добавляет <code>stopPropagation</code> к DOM элементу для событий <code>&#39;click&#39;</code>, <code>&#39;doubleclick&#39;</code>, <code>&#39;mousedown&#39;</code> и <code>&#39;touchstart&#39;</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getMousePosition</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i></nobr>,
+            <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает позицию мышки из DOM события относительно контейнера или относительно всей страницы, если контейнер не указан.</td>
+    </tr>
+    <tr>
+        <td><code><b>getWheelDelta</b>(
+            <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        </code></td>
+
+        <td><code>Number</code></td>
+        <td>Возвращает дельту колесика мышки из DOM события <code>mousewheel</code>.</td>
+    </tr>
+</table>
+
+<h2>L.DomUtil</h2>
+<p>Служебные методы для работы с DOM деревом.</p>
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>get</b>(
+            <nobr>&lt;String or HTMLElement&gt; <i>id</i> )</nobr>
+        </code></td>
+
+        <td><code>HTMLElement</code></td>
+        <td>Возвращает элемент по его id, если параметром была передана строка, либо возвразщает тот же элемент, если он был передан в качестве параметра.</td>
+    </tr>
+    <tr>
+        <td><code><b>getStyle</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>style</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td>Возвращает значение стиля элемента, включая рассчитанные значения или значения указанные с помощью CSS.</td>
+    </tr>
+    <tr>
+        <td><code><b>getViewportOffset</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
+        </code></td>
+
+        <td><a href="#point"><code>Point</code></a></td>
+        <td>Возвращает смещение элемента относительно области просмотра (viewport-а).</td>
+    </tr>
+    <tr>
+        <td><code><b>create</b>(
+            <nobr>&lt;String&gt; <i>tagName</i></nobr>,
+            <nobr>&lt;String&gt; <i>className</i></nobr>,
+            <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
+        </code></td>
+
+        <td><code>HTMLElement</code></td>
+
+        <td>Создает элемент <code>tagName</code>, устанавливает ему значение класса <code>className</code> и опционально добавляет его в элемент <code>container</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>disableTextSelection</b>()</code></td>
+        <td>-</td>
+        <td>Отключает возможность выделения текста, например во время перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>enableTextSelection</b>()</code></td>
+        <td>-</td>
+        <td>Включает позможность выделения текста.</td>
+    </tr>
+    <tr>
+        <td><code><b>hasClass</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>name</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+
+        <td>Возвращает <code>true</code>, если элемент содержит класс <code>name</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>addClass</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>name</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+
+        <td>Добавляет класс <code>name</code> к элементу.</td>
+    </tr>
+    <tr>
+        <td><code><b>removeClass</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;String&gt; <i>name</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+
+        <td>Удаляет класс <code>name</code> из элемента.</td>
+    </tr>
+    <tr>
+        <td><code><b>setOpacity</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;Number&gt; <i>value</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Устанавливает прозрачность элемента (включая поддержку старых IE). Значение должно быть от <code>0</code> до <code>1</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>testProp</b>(
+            <nobr>&lt;String[]&gt; <i>props</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code> or <code><span class="literal">false</span></code></td>
+        <td>Обходит массив названий стилей и возвращает первое имя, которое является корректным для текущего браузера. Если такого нет, тогда будет возвращено <code>false</code>. Удобно для стилей с префиксами производителей браузеров, например <code>transform</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getTranslateString</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td>Возвращает CSS строку трансформации для смещения элемента. Использует 3D трансформацию для браузеров на основе WebKit с поддержкой аппаратного ускорения и 2D для других браузеров.</td>
+    </tr>
+    <tr>
+        <td><code><b>getScaleString</b>(
+            <nobr>&lt;Number&gt; <i>scale</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>origin</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td>Возвращает CSS строку трансформации для масштабирования элемента.</td>
+    </tr>
+    <tr>
+        <td><code><b>setPosition</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i></nobr>,
+            <nobr>&lt;Boolean&gt; <i>disable3D?</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Устанавливает позицию элемента в координаты <code>point</code>, используя CSS translate или свойства <code>top</code> и <code>left</code>, в зависимости от браузера. Принудительно использует позиционирование с помощью <code>top</code> и <code>left</code>, если <code>disable3D</code> установлено в <code>true</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPosition</b>(
+            <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
+        </code></td>
+
+        <td><a href="#point">Point</a></td>
+        <td>Возвращает координаты элемента, который ранее был спозиционирован с помощью метода <code>setPosition</code>.</td>
+    </tr>
+</table>
+
+<h3>Properties</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>TRANSITION</b></nobr>
+        </code></td>
+        <td><code>String</code></td>
+        <td>Название CSS свойства transition с учетом префикса производителя браузера (например, <code>&#39;webkitTransition&#39;</code> для WebKit).</td>
+    </tr>
+    <tr>
+        <td><code><b>TRANSFORM</b></nobr>
+        </code></td>
+        <td><code>String</code></td>
+        <td>Название CSS свойства transform с учетом префикса производителя браузера.</td>
+    </tr>
+</table>
+
+<h2>L.PosAnimation</h2>
+<p>Используется для плавного перемещения элементов, использует CSS3 transitions для современных браузеров и таймер для IE6-9.</p>
+<pre><code>var fx = new L.PosAnimation();
+fx.run(el, [300, 500], 0.5);</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.PosAnimation</b>()</code></td>
+
+        <td>
+            <code>new L.PosAnimation()</code>
+        </td>
+
+        <td>Создает объект PosAnimation.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>run</b>(
+            <nobr>&lt;HTMLElement&gt; <i>element</i>,</nobr>
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>newPos</i></nobr>,
+            <nobr>&lt;Number&gt; <i>duration?</i></nobr>,
+            <nobr>&lt;Number&gt; <i>easeLinearity?</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Запускает анимацию переданного элемента, смещая его в новую позицию, опционально задается продолжительность в секундах (по умолчанию <code>0.25</code>) и функция затухания (третий аргумент <a href="http://cubic-bezier.com/#0,0,.5,1">кубической кривой Безье</a>, по умолчанию <code>0.5</code>)</td>
+    </tr>
+</table>
+
+<h3>События</h3>
+<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+<table>
+    <tr>
+        <th>Событие</th>
+        <th>Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>start</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает во время старта анимации.</td>
+    </tr>
+    <tr>
+        <td><code><b>step</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в процессе анимации.</td>
+    </tr>
+    <tr>
+        <td><code><b>end</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает во время окончания анимации.</td>
+    </tr>
+</table>
+
+<h2>L.Draggable</h2>
+<p>Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств).</p>
+<pre><code>var draggable = new L.Draggable(elementToDrag);
+draggable.enable();</code></pre>
+<h3>Конструктор</h3>
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Draggable</b>(
+            <nobr>&lt;HTMLElement&gt; <i>element</i>,</nobr>
+            <nobr>&lt;HTMLElement&gt; <i>dragHandle?</i> )</nobr>
+        </code></td>
+
+        <td>
+            <code>new L.Draggable(&hellip;)</code><!--<br />
+            <code>L.draggable(<span class="comment">&hellip;</span>)</code>-->
+        </td>
+
+        <td>Создает объект, с помощью которого можно двигать элемент <code>element</code> во время перетаскивания элемента <code>dragHandle</code> (по умолчанию <code>dragHandle</code> является тем же элементом, что и <code>element</code>).</td>
+    </tr>
+</table>
+
+<h3>События</h3>
+<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+<table>
+    <tr>
+        <th>Событие</th>
+        <th>Данные</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>dragstart</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в момент начала перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>predrag</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в процессе перетаскивания <i>перед</i> каждым обновлением позиции элемента.</td>
+    </tr>
+    <tr>
+        <td><code><b>drag</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в процессе перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>dragend</b></code></td>
+        <td><code><a href="#event">Event</a></code>
+        <td>Возникает в момент окончания перетаскивания.</td>
+    </tr>
+</table>
+
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>enable</b>()</code></td>
+        <td><code>-</code></td>
+        <td>Включает возможность перетаскивания.</td>
+    </tr>
+    <tr>
+        <td><code><b>disable</b>()</code></td>
+        <td><code>-</code></td>
+        <td>Отключает возможность перетаскивания.</td>
+    </tr>
+</table>
+
+<h2>IHandler</h2>
+<p>Интерфейс, который реализуется <a href="#map-interaction-handlers">обработчиками взаимодействия</a>.</p>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>enable</b>()</code></td>
+        <td>-</td>
+        <td>Включает обработчик</td>
+    </tr>
+    <tr>
+        <td><code><b>disable</b>()</code></td>
+        <td>-</td>
+        <td>Отключает обработчик.</td>
+    </tr>
+    <tr>
+        <td><code><b>enabled</b>()</code></td>
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code> если обработчик включен.</td>
+    </tr>
+</table>
+
+<h2>ILayer</h2>
+<p>Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как <a href="#tilelayer">тайловые слои</a>, <a href="#marker">маркеры</a>, <a href="#popup">балуны</a>, <a href="#imageoverlay">растровые слои</a>, <a href="#path">векторные слои</a> и <a href="#layergroup">группы слоев</a>.</p>
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>onAdd</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Должен содержать код, который создает DOM элементы слоя, добавляет их на <a href="#map-panes">панели карты</a> и подписывает обработчики на все необходимые события карты. Вызывается при <code>map.addLayer(layer)</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>onRemove</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Должен содержать код очистки, который удаляет элементы слоя и отписывает ранее добавленные обработчики событий. Вызывется при <code>map.removeLayer(layer)</code>.</td>
+    </tr>
+</table>
+
+<h3>Реализация пользовательских слоев</h3>
+<p>Наиболее важными вещами при разработке пользовательских слоев являются событие <a href="#map-viewreset">viewreset</a> и метод <a href="#map-latlngtolayerpoint">latLngToLayerPoint</a> карты. <code>viewreset</code> возникает когда карта должна спозиционировать свои слои (например, при изменении масштаба), а <code>latLngToLayerPoint</code> используется для получения новых координат слоя.</p>
+<p>Еще одним событием, которое часто используется при разработке слоев является <a href="#map-moveend">moveend</a>, оно возникает после любых движений карты (перемещение, изменение масштаба и т.п.).</p>
+<p>Еще одна важная особенность, которую необходимо знать &mdash; для всех DOM элементов, которые должны быть скрыты во время анимации изменения масштаба карты необходимо добавить класс <code>leaflet-zoom-hide</code>.</p>
+<h3>Custom Layer Example</h3>
+<p>Пример реализации пользовательского слоя:</p>
+<pre><code>var MyCustomLayer = L.Class.extend({
+
+    initialize: function (latlng) {
+        // сохраняет позицию или другие опции конструктора
+        this._latlng = latlng;
+    },
+
+    onAdd: function (map) {
+        this._map = map;
+
+        // создает DOM элемент и добавляет его на панели карты
+        this._el = L.DomUtil.create(&#39;div&#39;, &#39;my-custom-layer leaflet-zoom-hide&#39;);
+        map.getPanes().overlayPane.appendChild(this._el);
+
+        // подписка на событие viewreset для обновления позиции слоя
+        map.on(&#39;viewreset&#39;, this._reset, this);
+        this._reset();
+    },
+
+    onRemove: function (map) {
+        // удаляет DOM элементы слоя и отписывает обработчики событий
+        map.getPanes().overlayPane.removeChild(this._el);
+        map.off(&#39;viewreset&#39;, this._reset, this);
+    },
+
+    _reset: function () {
+        // обновляет позицию слоя
+        var pos = this._map.latLngToLayerPoint(this._latlng);
+        L.DomUtil.setPosition(this._el, pos);
+    }
+});
+
+map.addLayer(new MyCustomLayer(latlng));</code></pre>
+<h2>IControl</h2>
+<p>Графические элементы управления, которые располагаются в одном из углов карты. Реализуется элементами <a href="#control-zoom">zoom</a>, <a href="#control-attribution">attribution</a>, <a href="#control-scale">scale</a> и <a href="#control-layers">layers</a>.</p>
+<h3>Методы</h3>
+<p>Каждый элемент управления API должен наследоваться от класса <a href="#control">Control</a> и иметь следующие методы:</p>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращет</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>onAdd</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
+
+        <td><code>HTMLElement</code></td>
+        <td>Должен содержать код, который создает DOM элементы, подписывает обработчики на все необходимые события карты и возвращает элемент содержащий содержимое элемента управления. Вызывается при <code>map.addControl(control)</code> или <code>control.addTo(map)</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>onRemove</b>(
+            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+        </code></td>
+
+        <td>-</td>
+        <td>Опционально, должен содержать код очистки (например, отписывать обработчики событий). Вызывается при <code>map.removeControl(control)</code> или <code>control.removeFrom(map)</code>. DOM контейнер элемента управления удаляется автоматически.</td>
+    </tr>
+</table>
+
+<h3>Пример реализации элемента управления</h3>
+<pre><code>var MyControl = L.Control.extend({
+    options: {
+        position: &#39;topright&#39;
+    },
+
+    onAdd: function (map) {
+        // создает контейнер элемента управления с определенным именем класса
+        var container = L.DomUtil.create(&#39;div&#39;, &#39;my-custom-control&#39;);
+
+        // ... инициализирует другие DOM элементы, добавляет обработчики событий и т.п.
+
+        return container;
+    }
+});
+
+map.addControl(new MyControl());</code></pre>
+<p>Если вы задаете собственный конструктор элемента управления, тогда необходимо корректно обработать опции:</p>
+<pre><code>var MyControl = L.Control.extend({
+    initialize: function (foo, options) {
+        // ...
+        L.Util.setOptions(this, options);
+    },
+    // ...
+});</code></pre>
+<p>Это позволит передавать такие опции, как, например, <code>position</code> при создании объекта элемента управления:</p>
+<pre><code>map.addControl(new MyControl(&#39;bar&#39;, {position: &#39;bottomleft&#39;}));</code></pre>
+<h2>IProjection</h2>
+<p>Описывает методы для проецирования географических координат земной поверхности в плоские координаты (и обратно). См. <a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D1%80%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%86%D0%B8%D1%8F">Картографическая проекция</a>.</p>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>project</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Проецирует географические координаты в точку на плоскости.</td>
+    </tr>
+    <tr>
+        <td><code><b>unproject</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Метод обратный методу <code>project</code>. Проецирует точку на плоскости в географические координаты.</td>
+    </tr>
+</table>
+
+<h3>Defined Projections</h3>
+<p>В API предусмотрен набор проекций, поставляемых &quot;из коробки&quot;: </p>
+<table>
+    <tr>
+        <th>Проекция</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Projection.SphericalMercator</b></code></td>
+
+        <td>Проекция Сферического Меркатора &mdash; наиболее популярная проекция для онлайн карт, используется большинством свободных и коммерческих провайдеров. Предполагет, что Земля имеет форму шара. Использется координатной системой <code>EPSG:3857</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.Projection.Mercator</b></code></td>
+
+        <td>Эллиптическая Проекция Меркатора &mdash; более комплексная, нежели проекция Сферического Меркатора. Предполагает, что Земля имеет форму геоида, а не шара. Используется координатной системой <code>EPSG:3395</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.Projection.LonLat</b></code></td>
+
+        <td>Равнопромежуточная, или Plate Carree проекция &mdash; наиболее простая проекция. Представляет <code>x</code> как долготу и <code>y</code> как широту. Подходит для плоских миров, например, для игровых карт. Используется в координатных системах <code>EPSG:3395</code> и <code>Simple</code>.</td>
+    </tr>
+</table>
+
+<h2>ICRS</h2>
+<p>Описывает координатную систему отсчета для проецирования географических координат в пиксели на экране и наоборот (также используется для проецирования в другие единицы для WMS сервисов). См. <a href="http://en.wikipedia.org/wiki/Coordinate_reference_system">Координатная система отсчета</a></p>
+<h3>Методы</h3>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latLngToPoint</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+            <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Проецирует географические координаты на переданном уровне масштаба в пиксельные координаты.</td>
+    </tr>
+    <tr>
+        <td><code><b>pointToLatLng</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i></nobr>,
+            <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Преобразование противоположное <code>latLngToPoint</code>. Проецирует пиксельные координаты на переданном уровне масштаба в географические координаты.</td>
+    </tr>
+    <tr>
+        <td><code><b>project</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
+
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Проецирует географические координаты в координаты единиц определенной координатной системы (например, в метры для <code>EPSG:3857</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>scale</b>(
+            <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+        </code></td>
+
+        <td><code>Number</code></td>
+        <td>Возвращает величину, используемую при проецировании координат в пиксели для определенного уровня масштаба. Например, возвращает <code>256 * 2^zoom</code> для проекции Меркатора.</td>
+    </tr>
+</table>
+
+<h3>Свойства</h3>
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>projection</b></code></td>
+
+        <td><code><a href="#iprojection">IProjection</a></code></td>
+        <td>Проекция, использующая координатную систему.</td>
+    </tr>
+    <tr>
+        <td><code><b>transformation</b></code></td>
+
+        <td><code><a href="#transformation">Transformation</a></code></td>
+        <td>Трансформация, используемая координатной системой для проецирования координат.</td>
+    </tr>
+
+    <tr>
+        <td><code><b>code</b></code></td>
+
+        <td><code>String</code></td>
+        <td>Стандартный код координатной системы, который будет передан WMS сервисам (например, <code>&#39;EPSG:3857&#39;</code>).</td>
+    </tr>
+</table>
+
