@@ -1137,7 +1137,7 @@
 	<tr>
 		<td><code><b>getLatLng</b>()</code></td>
 		<td><code><a href="#latlng">LatLng</a></code></td>
-		<td>Возвращает текущие геокоординаты маркера.</td>
+		<td>Возвращает текущие географические координаты маркера.</td>
 	</tr>
 	<tr>
 		<td><code><b>setLatLng</b>(
@@ -1145,7 +1145,7 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Меняет координаты маркера на переданные.</td>
+		<td>Изменяет координаты маркера на переданные.</td>
 	</tr>
 	<tr>
 		<td><code><b>setIcon</b>(
@@ -1153,7 +1153,7 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Меняет иконку маркера.</td>
+		<td>Изменяет иконку маркера.</td>
 	</tr>
 	<tr>
 		<td><code><b>setZIndexOffset</b>(
@@ -1161,21 +1161,21 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Меняет свойство маркера <a href="#marker-zindexoffset">zIndex offset</a>.</td>
+		<td>Изменяет свойство маркера <a href="#marker-zindexoffset">zIndexOffset</a>.</td>
 	</tr>
 	<tr>
 		<td><code><b>setOpacity</b>(
 			<nobr>&lt;Number&gt; <i>opacity</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Меняет прозрачность маркера.</td>
+		<td>Изменяет прозрачность маркера.</td>
 	</tr>
 	<tr>
 		<td><code><b>update</b>()</nobr>
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Обновляет позиционирование маркера, полезно в случае если <code>latLng</code> маркера были изменены напрямую.</td>
+		<td>Обновляет позиционирование маркера, удобно при изменении свойства <code>latLng</code> напрямую.</td>
 	</tr>
 	<tr id="marker-bindpopup">
 		<td><code><b>bindPopup</b>(
@@ -1184,7 +1184,7 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Прикрепляет к маркеру балун, с определенным HTML содержимым. Балун отобразится при клике на маркер.</td>
+		<td>Прикрепляет к маркеру балун с определенным HTML содержимым. Балун будет показан при клике на маркер.</td>
 	</tr>
 	<tr id="marker-unbindpopup">
 		<td><code><b>unbindPopup</b>()</code></td>
@@ -1194,7 +1194,7 @@
 	<tr id="marker-openpopup">
 		<td><code><b>openPopup</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Открывает балун, предварительно присоединенный с помощью метода <a href="#marker-bindpopup">bindPopup</a>.</td>
+		<td>Открывает балун, предварительно прикрепленный с помощью метода <a href="#marker-bindpopup">bindPopup</a>.</td>
 	</tr>
 	<tr id="marker-closepopup">
 		<td><code><b>closePopup</b>()</code></td>
