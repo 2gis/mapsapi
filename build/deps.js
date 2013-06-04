@@ -22,9 +22,12 @@ var deps = {
 
     DGFullScreen: {
         desc: 'Full screen module.',
-        src: ['DGFullScreen/src/DGFullScreen.js', 'DGFullScreen/lang/ru.js', 'DGFullScreen/lang/it.js'],
+        src: ['DGFullScreen/src/DGFullScreen.js',
+              'DGFullScreen/lang/ru.js',
+              'DGFullScreen/lang/it.js'
+        ],
         css: {
-            all: ['DGFullScreen/skin/default/css/DGFullScreen.css']
+            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
         },
         deps: ['DGLocale']
     },

@@ -8,7 +8,7 @@ L.DG.FullScreen = L.Control.extend({
     },
 
     options: {
-        position: 'topright',
+        position: L.DG.configTheme.controls.fullscreen.position,
         containerClass: 'maxi dg-fullscreen',
         iconClass: 'dg-fullscreen-icon'
     },
@@ -240,6 +240,16 @@ L.DG.FullScreen = L.Control.extend({
     L.DG.fullscreen = function (options) {
         return new L.DG.FullScreen(options);
     };
+
+    L.Map.mergeOptions({
+        fullscreenControl: true
+    });
+
+    L.Map.addInitHook(function () {
+        if (this.options.fullscreenControl) {
+            new L.DG.FullScreen().addTo(this);
+        }
+    });
 
     /*
       Native FullScreen JavaScript API

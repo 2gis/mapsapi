@@ -14,14 +14,11 @@
 
   L.onLoad(function () {
 
+    // fullscreen enabled by default, to disable set: fullscreenControl to false
     var map = new L.Map('map', {
       center: new L.LatLng(54.980206086231, 82.898068362003),
       zoom: 11
     });
-
-    // add full screen control to map
-    var fullScreen = new L.DG.FullScreen();
-    fullScreen.addTo(map);
 
   });
   </script>

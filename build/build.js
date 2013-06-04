@@ -241,7 +241,7 @@ function copyImages() {
         for (var i = 0, count = imgList.length; i < count; i++) {
             var srcPath = imgList[i],
                 fileName = path.basename(srcPath),
-                destPath = config.img.dest + '/' + fileName;
+                destPath = config.img.dest + fileName;
 
             if (fs.existsSync(srcPath)) {
                 grunt.file.copy(srcPath, destPath);
