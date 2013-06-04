@@ -1341,7 +1341,7 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Добавляет балун на карту, предварительно закрыв остальные. Аналогично <code>map.openPopup(popup)</code>.</td>
+		<td>Добавляет балун на карту, предварительно закрыв другие балуны. Аналогично <code>map.openPopup(popup)</code>.</td>
 	</tr>
 	<tr>
 		<td><code><b>setLatLng</b>(
