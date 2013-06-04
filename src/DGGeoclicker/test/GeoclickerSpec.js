@@ -1,16 +1,7 @@
 describe('DG Geoclicker ', function () {
-//
-//
-//    beforeEach(function () {
-//
-//    });
-//
-//    afterEach(function () {
-//        map = null;
-//    });
 
     describe(' MapHandler ', function () {
-        //describe(' as instance of L.Handler ', function () {
+
         var map;
 
         afterEach(function () {
@@ -22,7 +13,7 @@ describe('DG Geoclicker ', function () {
         });
 
 
-        it("should be inactive, if L.Map.options.dgGeoClicker was set to false  ", sinon.test(function () {
+        it("should be inactive, if L.Map.options.dgGeoClicker was set to false  ", function () {
 
             L.Map.mergeOptions({
                 dgGeoclicker: false
@@ -35,7 +26,7 @@ describe('DG Geoclicker ', function () {
 
             expect(map.dgGeoclicker.enabled()).to.be.equal(false);
 
-        }));
+        });
 
 
         it("should be active by default", sinon.test(function () {
@@ -85,7 +76,119 @@ describe('DG Geoclicker ', function () {
             done();
         });
 
-        //});
+        describe(' GeoCoder ', function () {
+            var webApi,
+                stub,
+                geoCoder,
+                spy;
+
+
+            beforeEach(function () {
+
+
+                webApi = new L.DG.Geoclicker.WebApi();
+                webApi.geoSearch = function () {
+                }
+                //stub = webApi.geoSearch = sinon.stub();
+                //stub = sinon.stub(webApi, 'geoSearch');
+                //console.log(2)
+                spy = sinon.spy(webApi, 'geoSearch')
+                geoCoder = new L.DG.Geoclicker.GeoCoder(webApi);
+
+
+            });
+
+            afterEach(function () {
+                webApi = null;
+                stub = null;
+                geoCoder = null;
+                spy = null;
+            });
+
+
+            it(" should  call WebApi.geoSearch() with corressponded params", function (done) {
+
+                var latlng = L.latLng(5, 7),
+                    fn = function () {
+                    },
+                    zoom = 12;
+                geoCoder.getLocations(latlng, zoom, fn);
+
+                expect(spy.calledOnce).to.be.equal(true);
+
+                var args = spy.getCall(0).args;
+
+                expect(args[0]).to.be.equal('7,5');
+                expect(args[2]).to.be.equal(zoom);
+
+                done();
+            });
+
+
+            it(" should call WebApi.geoSearch() with types corresponded to zoomlevel", function (done) {
+
+                var zoomToTypesMap = {
+                        0: null,
+                        1: null,
+                        2: null,
+                        3: null,
+                        4: null,
+                        5: null,
+                        6: null,
+                        7: null,
+                        8: null,
+                        9: 'settlement,city',
+                        10: 'settlement,city',
+                        11: 'settlement,city',
+                        12: 'settlement,city',
+                        13: 'district',
+                        14: 'district',
+                        15: 'house,street',
+                        16: 'house,street,sight,station_platform',
+                        17: 'house,street,sight,station_platform',
+                        18: 'house,street,sight,station_platform',
+                        19: 'house,street,sight,station_platform'
+                    },
+
+                    latlng = L.latLng(5, 7),
+                    fn = function () {
+                    },
+                    zoom,
+                    correctTypes,
+                    shouldPerformSearch,
+                    callsCnt = 0,
+                    args;
+
+                for (zoom in zoomToTypesMap) {
+
+                    geoCoder.getLocations(latlng, zoom, fn);
+
+                    shouldPerformSearch = !!zoomToTypesMap[zoom];
+
+                    if (shouldPerformSearch) {
+                        callsCnt++;
+                    }
+
+                    expect(spy.callCount).to.be.equal(callsCnt);
+
+                    if (!shouldPerformSearch) {
+                        continue;
+                    }
+
+                    correctTypes = zoomToTypesMap[zoom];
+                    args = spy.getCall(callsCnt - 1).args;
+
+                    expect(args[1]).to.be.equal(correctTypes);
+                }
+
+                done();
+            });
+
+            it(" should return undefined if  WebApi.geoSearch() didn't return correct answer", function (done) {
+
+            });
+
+        });
 
 
     });
