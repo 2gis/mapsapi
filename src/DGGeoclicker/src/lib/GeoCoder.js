@@ -15,6 +15,11 @@ L.DG.Geoclicker.GeoCoder = L.Class.extend({
 
             q = latlng.lng + ',' + latlng.lat;
 
+        if (!types) {
+            callback();
+            return;
+        }
+
         this._webApi.geoSearch(q, types, zoom, L.bind(function (result) {
             callback(this._validateResponse(result));
         }, this));
