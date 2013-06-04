@@ -1054,7 +1054,8 @@
 
 ### События
 
-Можно подписать на события используя [эти методы][39].
+Вы можете подписаться на следующие события используя [эти методы][39].
+
 <table>
 	<tr>
 		<th>Событие</th>
@@ -1064,17 +1065,17 @@
 	<tr>
 		<td><code><b>click</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается по клику на маркере.</td>
+		<td>Вызывается при клике по маркеру.</td>
 	</tr>
 	<tr>
 		<td><code><b>dblclick</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается при двойном клике на маркере.</td>
+		<td>Вызывается при двойном клике по маркеру.</td>
 	</tr>
 	<tr>
 		<td><code><b>mousedown</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается при нажатии кнопки мышки на маркере.</td>
+		<td>Вызывается при нажатии кнопки мышки над маркером.</td>
 	</tr>
 	<tr>
 		<td><code><b>mouseover</b></code></td>
@@ -1089,27 +1090,27 @@
 	<tr>
 		<td><code><b>contextmenu</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается при нажатии правой кнопки мышки на маркере.</td>
+		<td>Вызывается при нажатии правой кнопки мышки над маркером.</td>
 	</tr>
 	<tr>
 		<td><code><b>dragstart</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда пользователь начинает тянуть маркер.</td>
+		<td>Вызывается когда пользователь начинает перетаскивать маркер.</td>
 	</tr>
 	<tr>
 		<td><code><b>drag</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается постоянно во время перетягивания маркера.</td>
+		<td>Вызывается во время перетаскивания маркера.</td>
 	</tr>
 	<tr>
 		<td><code><b>dragend</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается когда пользователь прекращает перетягивание маркера.</td>
+		<td>Вызывается когда пользователь прекращает перетаскивание маркера.</td>
 	</tr>
 	<tr>
 		<td><code><b>move</b></code></td>
 		<td><code><a href="#event">Event</a></code>
-		<td>Вызывается при передвижении маркера с помощью метода setLatLng.</td>
+		<td>Вызывается при перемещении маркера с помощью метода setLatLng.</td>
 	</tr>
 	<tr>
 		<td><code><b>remove</b></code></td>
