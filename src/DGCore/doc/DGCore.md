@@ -479,7 +479,7 @@
 	</tr>
 </table>
 
-### Методы управления состоянием карты
+### Методы изменения состояния карты
 <table>
 	<tr>
 		<th>Метод</th>
@@ -493,83 +493,83 @@
 			<nobr>&lt;Boolean&gt; <i>forceReset?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Устнавливает область просмотра карты (географический центр и зум). Если <code>forceReset</code> установлен в <code>true</code>, карта перегружается при движении и зуме (по умолчанию <code>false</code>).</td>
+		<td>Устнавливает область просмотра карты (географический центр и масштаб). Если <code>forceReset</code> установлен в <code>true</code>, карта перезагружается при перетаскивании и изменении масштаба (по умолчанию <code>false</code>).</td>
 	</tr>
 	<tr>
 		<td><code><b>setZoom</b>(
 			<nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Устанавливает уровень зума.</td>
+		<td>Устанавливает уровень масштаба.</td>
 	</tr>
 	<tr>
 		<td><code><b>zoomIn</b>( <nobr>&lt;Number&gt; delta? )</nobr></code></td>
 		<td><code>this</code></td>
-		<td>Увеличивает зум карты на величину <code>delta</code> (по умолчанию <code>1</code>).</td>
+		<td>Увеличивает масштаб карты на величину <code>delta</code> (по умолчанию <code>1</code>).</td>
 	</tr>
 	<tr>
 		<td><code><b>zoomOut</b>( <nobr>&lt;Number&gt; delta? )</nobr></code></td>
 		<td><code>this</code></td>
-		<td>Уменьшает зум карты на величину <code>delta</code> (по умолчанию <code>1</code>).</td>
+		<td>Уменьшает масштаб карты на величину <code>delta</code> (по умолчанию <code>1</code>).</td>
 	</tr>
 	<tr id="map-fitbounds">
 		<td><code><b>fitBounds</b>(
 			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Устанавливает область просмотра карты так, чтобы та содержала заданные границы в максимально возможном уровне зума.</td>
+		<td>Устанавливает область просмотра карты так, чтобы она содержала заданные границы в максимально возможном уровне масштаба.</td>
 	</tr>
 	<tr id="map-fitworld">
 		<td><code><b>fitWorld</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Устанавливает область просмотра карты так, чтобы та отображала весь мир в максимально возможном зуме.</td>
+		<td>Устанавливает область просмотра карты так, чтобы та отображала весь мир в максимально возможном уровне масштаба.</td>
 	</tr>
 	<tr>
 		<td><code><b>panTo</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Передвигает карты на заданный центр. Передвижение анимируется, если заданный центр находится на расстоянии не более одного экрана от текущего.</td>
+		<td>Перемещает карту в указанный центр. Передвижение анимируется, если центр находится на расстоянии не более одного экрана относительно текущего.</td>
 	</tr>
 	<tr id="map-paninsidebounds">
 		<td><code><b>panInsideBounds</b>(
 			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Сдвигает карту в ближайшую область просмотра, лежащую в пределах заданных границ.</td>
+		<td>Перемещает карту в ближайшую область просмотра, лежащую в пределах заданных границ.</td>
 	</tr>
 	<tr>
 		<td><code><b>panBy</b>(
 			<nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Сдвинуть карту на заданное колличетво пикселей (анимировано).</td>
+		<td>Перемещает карту на заданное колличетво пикселей (анимируется).</td>
 	</tr>
 	<tr>
 		<td><code><b>invalidateSize</b>(
 			<nobr>&lt;Boolean&gt; <i>animate?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Проверяет изменился ли размер контейнера карты, если да, карта обновляется. Нужно вызвать этот метод, если размер контейнера изменился динамически. Если параметр <code>animate</code> установлен в <code>true</code>, обновление карты анимируется.</td>
+		<td>Проверяет изменился ли размер контейнера карты, если да, тогда карта обновляется. Этот метод необходимо вызывать, если размер контейнера изменился динамически. Если параметр <code>animate</code> установлен в <code>true</code>, обновление карты анимируется.</td>
 	</tr>
 	<tr id="map-setmaxbounds">
 		<td><code><b>setMaxBounds</b>(
 			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Ограничивает область обзора карты заданными границами (смотри опцию <a href="#map-maxbounds">map maxBounds</a>).</td>
+		<td>Ограничивает область просмотра карты заданными границами (см. опцию карты <a href="#map-maxbounds">maxBounds</a>).</td>
 	</tr>
 	<tr id="map-locate">
 		<td><code><b>locate</b>(
 			<nobr>&lt;<a href="#map-locate-options">Locate options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Пытается определить местоположения пользователя используя <a href="https://en.wikipedia.org/wiki/W3C_Geolocation_API">Geolocation API</a>. В случае успеха вызывается событие <code>locationfound</code> с данными о местонахождении, в случае ошибки <code>locationerror</code>, и опционально устанавливает область просмотра карты согласно местоположению пользователя (или просмотр карты мира, если возникла ошибка геолокации). Для дополнительной информации смотри <a href="#map-locate-options">Locate options</a>.</td>
+		<td>Пытается определить местоположение пользователя используя <a href="https://en.wikipedia.org/wiki/W3C_Geolocation_API">Geolocation API</a>. При успешном определении вызывается событие <code>locationfound</code> с данными о местоположении, в случае ошибки будет вызвано событие <code>locationerror</code>, опционально устанавливает область просмотра карты согласно местоположению пользователя (или просмотр карты мира, если возникла ошибка геолокации). Для дополнительной информации см. <a href="#map-locate-options">опции определения местоположения</a>.</td>
 	</tr>
 	<tr>
 		<td><code><b>stopLocate</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Останавливает отслеживание локации, предварительно инициированное <code><b>map.locate</b>({watch: true})</code>.</td>
+		<td>Останавливает отслеживание местоположения, предварительно инициированное методом <code><b>map.locate</b>({watch: true})</code>.</td>
 	</tr>
 </table>
 
