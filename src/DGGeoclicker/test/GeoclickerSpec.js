@@ -194,7 +194,7 @@ describe('DG Geoclicker ', function () {
                 });
 
                 var testCases = {
-                    // describe : result from WebApi
+                    // "describe message" : <result from_WebApi>
                     "didn't return any result": undefined,
                     "returned answer with error_code": {
                         error_code: 4
@@ -240,12 +240,51 @@ describe('DG Geoclicker ', function () {
 
             });
 
+
+            it(" should return correct object with results from WebApi", function (done) {
+
+                var
+                    latlng = L.latLng(5, 7),
+                    callback = sinon.spy(),
+                    zoom = 9,
+
+                    resSettlement = {
+                        id: 2,
+                        type: 'settlement'
+                    },
+                    resCity = {
+                        id: 2,
+                        type: 'city'
+                    }, resStreet = {
+                        id: 3,
+                        type: 'street'
+                    },
+
+                    webApiResult = {result: [resSettlement, resCity, resStreet] };
+
+
+                stub.callsArgWith(3, webApiResult);
+
+                geoCoder.getLocations(latlng, zoom, callback);
+
+                expect(callback.calledOnce).to.be(true);
+
+                var args = callback.getCall(0).args;
+
+                expect(args.length).to.be(1);
+                expect(args[0]).to.only.have.keys('settlement', 'city');
+                expect(args[0].settlement).to.equal(resSettlement);
+                expect(args[0].city).to.equal(resCity);
+
+                done();
+            });
+
+
         });
 
 
     });
-})
-;
+});
 
 
 if (0) {
