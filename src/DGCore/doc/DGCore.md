@@ -3617,9 +3617,8 @@
 			<nobr>&lt;<a href="#control-zoom-options">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
-		<td class="factory-usage">
-			<code><span class='keyword'>new</span> L.Control.Zoom(<span class="comment">&hellip;</span>)</code><br />
-			<code>L.control.zoom(<span class="comment">&hellip;</span>)</code>
+		<td>
+			<code>L.control.zoom(&hellip;)</code>
 		</td>
 
 		<td>Создает элемент управления масштабом.</td>
