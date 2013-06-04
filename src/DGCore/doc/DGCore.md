@@ -156,29 +156,11 @@
 		<td><code>null</code></td>
 		<td>Слои, изначально добавленные на карту.</td>
 	</tr>
-	<tr>
-		<td><code><b>minZoom</b></code></td>
-		<td><code>Number</code></td>
-		<td><code>null</code></td>
-		<td>Минимальный уровень зума на карте. Перезаписывает свойство <code>minZoom</code> установленное на слоях.</td>
-	</tr>
-	<tr>
-		<td><code><b>maxZoom</b></code></td>
-		<td><code>Number</code></td>
-		<td><code>null</code></td>
-		<td>Максимальный уровень зума на карте. Перезаписывает свойство <code>maxZoom</code> установленное на слоях.</td>
-	</tr>
 	<tr id="map-maxbounds">
 		<td><code><b>maxBounds</b></code></td>
 		<td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
 		<td><code>null</code></td>
 		<td>Если свойство установлено, карта ограничивает область просмотра согласно заданным географическим границам, отбрасывая пользователя назад, если он пытается выйти за пределы установленных границ, а также не позволяет уменьшить зум чтобы просмотреть неразрешенные участки карты. Чтобы установить ограничения динамически, используйте метод <a href="#map-setmaxbounds">setMaxBounds</a></td>
-	</tr>
-	<tr>
-		<td><code><b>crs</b></code></td>
-		<td><code><a href="#icrs">CRS</a></code></td>
-		<td><code>L.CRS.<br/>EPSG3857</code></td>
-		<td>Для использования Coordinate Reference System (<a href="http://en.wikipedia.org/wiki/Coordinate_reference_system">смотри Spatial reference system</a>)</td>
 	</tr>
 </table>
 
@@ -319,12 +301,6 @@
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
 		<td>Добавлен ли <a href="#control-zoom">элемент управления зумом</a> на карту.</td>
-	</tr>
-	<tr>
-		<td><code><b>attributionControl</b></code></td>
-		<td><code>Boolean</code></td>
-		<td><code>true</code></td>
-		<td>Добавлен ли  <a href="#control-attribution">элемент аттрибуции</a> на карту.</td>
 	</tr>
 </table>
 
@@ -919,9 +895,9 @@
 
 	map.doubleClickZoom.disable();
 
-Вы также можете получить доступ к дефолтным элементам управления карты, таким как аттрибуция, через свойства карты:
+Вы также можете получить доступ к элементам управления картой, которые включены по умолчанию, например, к элементу управления масштабом:
 
-	map.attributionControl.addAttribution("Earthquake data &copy; GeoNames");
+	map.zoomControl.setPosition('topright');
 
 <table>
 	<tr>
@@ -962,12 +938,7 @@
 	<tr>
 		<td><code><b>zoomControl</b></code></td>
 		<td><a href="#control-zoom"><code>Control.Zoom</code></a></td>
-		<td>Элемент управления - зум.</td>
-	</tr>
-	<tr>
-		<td><code><b>attributionControl</b></code></td>
-		<td><a href="#control-attribution"><code>Control.Attribution</code></a></td>
-		<td>Элемент управления - копирайт.</td>
+		<td>Элемент управления масштабом.</td>
 	</tr>
 </table>
 
