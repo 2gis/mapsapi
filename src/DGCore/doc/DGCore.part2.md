@@ -2261,128 +2261,106 @@
 
 ### Defined Projections
 
-Leaflet comes with a set of already defined projections out of the box:
-Projection
-Description
+В API предусмотрен набор проекций, поставляемых "из коробки": 
 
-`**L.Projection.SphericalMercator**`
-Spherical Mercator projection --- the most common projection for online maps, used by almost all free and commercial tile providers. Assumes that Earth is a sphere. Used by the `EPSG:3857` CRS.
+<table>
+    <tr>
+        <th>Проекция</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.Projection.SphericalMercator</b></code></td>
 
-`**L.Projection.Mercator**`
-Elliptical Mercator projection --- more complex than Spherical Mercator. Takes into account that Earth is a geoid, not a perfect sphere. Used by the `EPSG:3395` CRS.
+        <td>Проекция Сферического Меркатора &mdash; наиболее популярная проекция для онлайн карт, используется большинством свободных и коммерческих провайдеров. Предполагет, что Земля имеет форму шара. Использется координатной системой <code>EPSG:3857</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.Projection.Mercator</b></code></td>
 
-`**L.Projection.LonLat**`
-Equirectangular, or Plate Carree projection --- the most simple projection, mostly used by GIS enthusiasts. Directly maps `x` as longitude, and `y` as latitude. Also suitable for flat worlds, e.g. game maps. Used by the `EPSG:3395` and `Simple` CRS.
+        <td>Эллиптическая Проекция Меркатора &mdash; более комплексная, нежели проекция Сферического Меркатора. Предполагает, что Земля имеет форму геоида, а не шара. Используется координатной системой <code>EPSG:3395</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>L.Projection.LonLat</b></code></td>
+
+        <td>Равнопромежуточная, или Plate Carree проекция &mdash; наиболее простая проекция. Представляет <code>x</code> как долготу и <code>y</code> как широту. Подходит для плоских миров, например, для игровых карт. Используется в координатных системах <code>EPSG:3395</code> и <code>Simple</code>.</td>
+    </tr>
+</table>
 
 ## ICRS
 
-Defines coordinate reference systems for projecting geographical points into pixel (screen) coordinates and back (and to coordinates in other units for WMS services). See [Spatial reference system][119].
+Описывает координатную систему отсчета для проецирования географических координат в пиксели на экране и наоборот (также используется для проецирования в другие единицы для WMS сервисов). См. [Координатная система отсчета][119]
 
-### Methods
-Method
-Returns
-Description
+### Методы
 
-`**latLngToPoint**(
-            <[LatLng][28]> _latlng_,
-            <Number> _zoom_ )
-`
-`[Point][30]`
-Projects geographical coordinates on a given zoom into pixel coordinates.
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>latLngToPoint</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+            <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+        </code></td>
 
-`**pointToLatLng**(
-            <[Point][30]> _point_,
-            <Number> _zoom_ )
-`
-`[LatLng][28]`
-The inverse of `latLngToPoint`. Projects pixel coordinates on a given zoom into geographical coordinates.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Проецирует географические координаты на переданном уровне масштаба в пиксельные координаты.</td>
+    </tr>
+    <tr>
+        <td><code><b>pointToLatLng</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i></nobr>,
+            <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+        </code></td>
 
-`**project**(
-            <[LatLng][28]> _latlng_ )
-`
-`[Point][30]`
-Projects geographical coordinates into coordinates in units accepted for this CRS (e.g. meters for `EPSG:3857`, for passing it to WMS services).
+        <td><code><a href="#latlng">LatLng</a></code></td>
+        <td>Преобразование противоположное <code>latLngToPoint</code>. Проецирует пиксельные координаты на переданном уровне масштаба в географические координаты.</td>
+    </tr>
+    <tr>
+        <td><code><b>project</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
 
-`**scale**(
-            <Number> _zoom_ )
-`
-`Number`
-Returns the scale used when transforming projected coordinates into pixel coordinates for a particular zoom. For example, it returns `256 * 2^zoom` for Mercator-based CRS.
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Проецирует географические координаты в координаты единиц определенной координатной системы (например, в метры для <code>EPSG:3857</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>scale</b>(
+            <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+        </code></td>
 
-### Properties
-Property
-Type
-Description
+        <td><code>Number</code></td>
+        <td>Возвращает величину, используемую при проецировании координат в пиксели для определенного уровня масштаба. Например, возвращает <code>256 * 2^zoom</code> для проекции Меркатора.</td>
+    </tr>
+</table>
 
-`**projection**`
-`[IProjection][54]`
-Projection that this CRS uses.
+### Свойства
 
-`**transformation**`
-`[Transformation][44]`
-Transformation that this CRS uses to turn projected coordinates into screen coordinates for a particular tile service.
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>projection</b></code></td>
 
-`**code**`
-`String`
-Standard code name of the CRS passed into WMS services (e.g. `'EPSG:3857'`).
+        <td><code><a href="#iprojection">IProjection</a></code></td>
+        <td>Проекция, использующая координатную систему.</td>
+    </tr>
+    <tr>
+        <td><code><b>transformation</b></code></td>
 
-### Defined CRS
+        <td><code><a href="#transformation">Transformation</a></code></td>
+        <td>Трансформация, используемая координатной системой для проецирования координат.</td>
+    </tr>
 
-Leaflet comes with a set of already defined CRS to use out of the box:
-Projection
-Description
+    <tr>
+        <td><code><b>code</b></code></td>
 
-`**L.CRS.EPSG3857**`
-The most common CRS for online maps, used by almost all free and commercial tile providers. Uses Spherical Mercator projection. Set in by default in Map's `crs` option.
-
-`**L.CRS.EPSG4326**`
-A common CRS among GIS enthusiasts. Uses simple Equirectangular projection.
-
-`**L.CRS.EPSG3395**`
-Rarely used by some commercial tile providers. Uses Elliptical Mercator projection.
-
-`**L.CRS.Simple**`
-A simple CRS that maps longitude and latitude into `x` and `y` directly. May be used for maps of flat surfaces (e.g. game maps). Note that the `y` axis should still be inverted (going from bottom to top).
-
-If you want to use some obscure CRS not listed here, take a look at the [Proj4Leaflet][120] plugin.
-
-## Global Switches
-
-Global switches are created for rare cases and generally make Leaflet to not detect a particular browser feature even if it's there. You need to set the switch as a global variable to `true` _before_ including Leaflet on the page, like this:
-
-    <script>L_PREFER_CANVAS = true;</script>
-    <script src="leaflet.js"></script>
-
-Switch
-Description
-
-`**L_PREFER_CANVAS**`
-Forces Leaflet to use the Canvas back-end (if available) for vector layers instead of SVG. This can increase performance considerably in some cases (e.g. many thousands of circle markers on the map).
-
-`**L_NO_TOUCH**`
-Forces Leaflet to not use touch events even if it detects them.
-
-`**L_DISABLE_3D**`
-Forces Leaflet to not use hardware-accelerated CSS 3D transforms for positioning (which may cause glitches in some rare environments) even if they're supported.
-
-## L.noConflict()
-
-This method restores the L global variale to the original value it had before Leaflet inclusion, and returns the real Leaflet namespace so you can put it elsewhere, like this:
-
-    // L points to some other library
-    ...
-    // you include Leaflet, it replaces the L variable to Leaflet namespace
-
-    var Leaflet = L.noConflict();
-    // now L points to that other library again, and you can use Leaflet.Map etc.
-
-## L.version
-
-A constant that represents the Leaflet version in use.
-
-    L.version // returns "0.5" (or whatever version is currently in use)
-
-
+        <td><code>String</code></td>
+        <td>Стандартный код координатной системы, который будет передан WMS сервисам (например, <code>'EPSG:3857'</code>).</td>
+    </tr>
+</table>
 
 [0]: #map-usage
 [1]: #map-constructor
