@@ -869,7 +869,7 @@
 
 ### Свойства
 
-Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение опредленных возможностей карты таких как зум, тач-события (см. методы [IHandler][51]). Например:
+Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение опредленных возможностей карты,ких как зум и тач-события (см. методы [IHandler][51]). Например:
 
 	map.doubleClickZoom.disable();
 
@@ -886,32 +886,32 @@
 	<tr>
 		<td><code><b>dragging</b></code></td>
 		<td><a href="#ihandler"><code>IHandler</code></a></td>
-		<td>Обработчик драга карты (мышкой и touch).</td>
+		<td>Обработчик перетаскивания карты (мышкой и тачем).</td>
 	</tr>
 	<tr>
 		<td><code><b>touchZoom</b></code></td>
 		<td><a href="#ihandler"><code>IHandler</code></a></td>
-		<td>Обработчик touch-зума.</td>
+		<td>Обработчик тач-масштабирования.</td>
 	</tr>
 	<tr>
 		<td><code><b>doubleClickZoom</b></code></td>
 		<td><a href="#ihandler"><code>IHandler</code></a></td>
-		<td>Обработчик зума по двойному клику.</td>
+		<td>Обработчик масштабирования по двойному клику.</td>
 	</tr>
 	<tr>
 		<td><code><b>scrollWheelZoom</b></code></td>
 		<td><a href="#ihandler"><code>IHandler</code></a></td>
-		<td>Обработчик зума по скролу.</td>
+		<td>Обработчик масштабирования по скролу.</td>
 	</tr>
 	<tr>
 		<td><code><b>boxZoom</b></code></td>
 		<td><a href="#ihandler"><code>IHandler</code></a></td>
-		<td>Обработчик вox-зума (shift+выделение мышкой).</td>
+		<td>Обработчик вox-масштабирования (shift + выделение мышкой).</td>
 	</tr>
 	<tr>
 		<td><code><b>keyboard</b></code></td>
 		<td><a href="#ihandler"><code>IHandler</code></a></td>
-		<td>Обработчк навигации клавиатурой.</td>
+		<td>Обработчк навигации с помощью клавиатуры.</td>
 	</tr>
 	<tr>
 		<td><code><b>zoomControl</b></code></td>
