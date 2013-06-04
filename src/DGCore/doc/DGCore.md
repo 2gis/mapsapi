@@ -1357,7 +1357,7 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Задает HTML контент балуна.</td>
+		<td>Задает HTML содержимое балуна.</td>
 	</tr>
 </table>
 
