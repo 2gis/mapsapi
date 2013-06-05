@@ -25,7 +25,7 @@ L.DG.DivIcon = L.Icon.extend({
         this.divMarker = div.firstChild;
 
 
-        if (L.DG.configTheme.markersData.animation) {
+        if (options.animation) {
             L.DomEvent
                 .on(div, 'mouseover', this.markerMousoverHandler)
                 .on(div, 'mouseout', this.markerMousoutHandler)

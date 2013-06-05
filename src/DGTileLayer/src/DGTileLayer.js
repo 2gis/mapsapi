@@ -25,8 +25,7 @@ L.DG.tileLayer = function () {
 };
 
 L.Map.mergeOptions({
-    attributionControl: false,
-    layers: [L.DG.tileLayer()]
+    attributionControl: false
 });
 
 L.Map.addInitHook(function () {
@@ -42,4 +41,6 @@ L.Map.addInitHook(function () {
     };
 
     new L.Control.Attribution(options).addTo(this);
+    this.options.layers = [L.DG.tileLayer()];
 });
+
