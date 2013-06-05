@@ -70,7 +70,7 @@ L.DG.FullScreen = L.Control.extend({
         this._map = map;
 
         this._isFullscreen = false;
-        this._fullScreenButton = this._createButton(this.options.iconClass, container, this.toggleFullscreen);
+        this._createButton(this.options.iconClass, container, this.toggleFullscreen);
 
         return container;
     },
