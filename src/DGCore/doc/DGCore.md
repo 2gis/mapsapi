@@ -205,6 +205,12 @@
 		<td><code>true</code></td>
 		<td>Добавлен ли <a href="#control-zoom">элемент управления масштабом</a> на карту.</td>
 	</tr>
+	<tr>
+		<td><code><b>fullscreenControl</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code>true</code></td>
+		<td>Добавлена ли <a href="#control-fullscreen">кнопка включения полноэкранного режима</a> на карту.</td>
+	</tr>
 </table>
 
 
@@ -3318,7 +3324,7 @@
 
     L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
-По умолчанию установлен класс `'leaflet-div-icon'`, который стилизирован как маленький белый квадрат с тенью. 
+По умолчанию установлен класс `'leaflet-div-icon'`, который стилизирован как маленький белый квадрат с тенью.
 
 ### Конструктор
 
