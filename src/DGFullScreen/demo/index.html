@@ -14,11 +14,15 @@
 
   L.onLoad(function () {
 
-    // fullscreen enabled by default, to disable set: fullscreenControl to false
-    var map = new L.Map('map', {
-      center: new L.LatLng(54.980206086231, 82.898068362003),
-      zoom: 11
+    map = new L.Map('map', {
+        center: new L.LatLng(54.980206086231, 82.898068362003),
+        zoom:12,
+        // возможно отключить кнопку фулскрина передав опцию
+        //fullScreenControl: false
     });
+
+    // изменить дефолтное положение контрола
+    map.fullScreenControl.setPosition('bottomleft');
 
   });
   </script>

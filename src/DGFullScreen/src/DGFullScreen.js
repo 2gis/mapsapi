@@ -8,7 +8,7 @@ L.DG.FullScreen = L.Control.extend({
     },
 
     options: {
-        position: L.DG.configTheme.controls.fullscreen.position,
+        position: L.DG.configTheme.controls.fullScreen.position,
         containerClass: 'maxi dg-fullscreen',
         iconClass: 'dg-fullscreen-icon'
     },
@@ -149,6 +149,7 @@ L.DG.FullScreen = L.Control.extend({
     _restorePosition: function (container) {
 
         // restore map container params
+        container.style.position = this._initialMapParams.position;
         container.style.zIndex = this._initialMapParams.zIndex;
         container.style.left = this._initialMapParams.left;
         container.style.top = this._initialMapParams.top;
@@ -253,12 +254,13 @@ L.DG.FullScreen = L.Control.extend({
     };
 
     L.Map.mergeOptions({
-        fullscreenControl: true
+        fullScreenControl: true
     });
 
     L.Map.addInitHook(function () {
-        if (this.options.fullscreenControl) {
-            L.DG.fullscreen().addTo(this);
+        if (this.options.fullScreenControl) {
+            this.fullScreenControl = L.DG.fullscreen();
+            this.addControl(this.fullScreenControl);
         }
     });
 
