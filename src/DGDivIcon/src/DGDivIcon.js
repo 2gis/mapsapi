@@ -1,10 +1,3 @@
-/**
- * L.DG.DivIcon is a lightweight HTML-based icon class (as opposed to the image-based L.Icon)
- *
- * Version 1.0.0
- * Copyright (c) 2013, 2GIS, Dima Rudenko
- */
-
 L.DG = L.DG || {};
 L.DG.DivIcon = L.Icon.extend({
     options: {},
@@ -68,4 +61,3 @@ L.DG.DivIcon = L.Icon.extend({
 L.DG.divIcon = function (options) {
     return new L.DG.DivIcon(options);
 };
-
