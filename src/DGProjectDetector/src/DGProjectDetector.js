@@ -1,11 +1,3 @@
-/**
- * Leaflet ProjectDetector
- * The plugin  add custom event map, loads a list of all projects and evaluates the current project, in which the user is located.
- *
- * Version 1.0.0
- *
- * Copyright (c) 2013, 2GIS, Dima Rudenko
- */
 L.DG = L.DG || {};
 
 L.Map.mergeOptions({
