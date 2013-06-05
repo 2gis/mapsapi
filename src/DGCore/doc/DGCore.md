@@ -829,6 +829,11 @@
 		<td><a href="#control-zoom"><code>Control.Zoom</code></a></td>
 		<td>Элемент управления масштабом.</td>
 	</tr>
+	<tr>
+		<td><code><b>fullscreenControl</b></code></td>
+		<td><a href="#control-fullscreen"><code>Control.FullScreen</code></a></td>
+		<td>Кнопка включения полноэкранного режима.</td>
+	</tr>
 </table>
 
 ### Панели карты
