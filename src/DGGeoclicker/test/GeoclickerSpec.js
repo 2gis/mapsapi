@@ -75,215 +75,248 @@ describe('DG Geoclicker ', function () {
 
             done();
         });
+    });
 
-        describe(' GeoCoder ', function () {
-            var webApi,
-                stub,
-                geoCoder,
-                spy;
-
-
-            beforeEach(function () {
+    describe(' GeoCoder ', function () {
+        var webApi,
+            stub,
+            geoCoder,
+            spy;
 
 
-                webApi = new L.DG.Geoclicker.WebApi();
-                spy = stub = sinon.stub(webApi, 'geoSearch');
-                geoCoder = new L.DG.Geoclicker.GeoCoder(webApi);
+        beforeEach(function () {
 
 
-            });
-
-            afterEach(function () {
-                webApi = null;
-                stub = null;
-                geoCoder = null;
-                spy = null;
-            });
-
-
-            it(" should  call WebApi.geoSearch() with corressponded params", function (done) {
-
-                var latlng = L.latLng(5, 7),
-                    fn = function () {
-                    },
-                    zoom = 12;
-                geoCoder.getLocations(latlng, zoom, fn);
-
-                expect(spy.calledOnce).to.be(true);
-
-                var args = spy.getCall(0).args;
-
-                expect(args[0]).to.be.equal('7,5');
-                expect(args[2]).to.be.equal(zoom);
-
-                done();
-            });
-
-
-            it(" should call WebApi.geoSearch() with types corresponded to zoomlevel", function (done) {
-
-                var zoomToTypesMap = {
-                        0: null,
-                        1: null,
-                        2: null,
-                        3: null,
-                        4: null,
-                        5: null,
-                        6: null,
-                        7: null,
-                        8: null,
-                        9: 'settlement,city',
-                        10: 'settlement,city',
-                        11: 'settlement,city',
-                        12: 'settlement,city',
-                        13: 'district',
-                        14: 'district',
-                        15: 'house,street',
-                        16: 'house,street,sight,station_platform',
-                        17: 'house,street,sight,station_platform',
-                        18: 'house,street,sight,station_platform',
-                        19: 'house,street,sight,station_platform'
-                    },
-
-                    latlng = L.latLng(5, 7),
-                    fn = function () {
-                    },
-                    zoom,
-                    correctTypes,
-                    shouldPerformSearch,
-                    callsCnt = 0,
-                    args;
-
-                for (zoom in zoomToTypesMap) {
-
-                    geoCoder.getLocations(latlng, zoom, fn);
-
-                    shouldPerformSearch = !!zoomToTypesMap[zoom];
-
-                    if (shouldPerformSearch) {
-                        callsCnt++;
-                    }
-
-                    expect(spy.callCount).to.be.equal(callsCnt);
-
-                    if (!shouldPerformSearch) {
-                        continue;
-                    }
-
-                    correctTypes = zoomToTypesMap[zoom];
-                    args = spy.getCall(callsCnt - 1).args;
-
-                    expect(args[1]).to.be.equal(correctTypes);
-                }
-
-                done();
-            });
-
-            describe(" should return undefined to callback if WebApi.geoSearch()", function () {
-                var latlng, callback, zoom;
-
-                beforeEach(function () {
-                    latlng = L.latLng(5, 7),
-                        callback = sinon.spy(),
-                        zoom = 9;
-                });
-
-                afterEach(function () {
-                    callback = null;
-                    latlng = null;
-                });
-
-                var testCases = {
-                    // "describe message" : <result from_WebApi>
-                    "didn't return any result": undefined,
-                    "returned answer with error_code": {
-                        error_code: 4
-                    },
-                    " returned answer without result": {
-                        someField: 'someValue'
-                    },
-                    " returned answer with empty result": {
-                        result: []
-                    },
-                    " returned answer without requested types": {
-                        result: [
-                            {
-                                id: 118454545,
-                                type: 'house'
-                            },
-                            {
-                                id: 118454545,
-                                type: 'street'
-                            }
-                        ]
-                    }
-                }
-
-                for (var i in testCases) {
-                    (function (webApiResult) {
-                        it(i, function (done) {
-                            stub.callsArgWith(3, webApiResult);
-
-                            geoCoder.getLocations(latlng, zoom, callback);
-
-                            expect(callback.calledOnce).to.be(true);
-
-                            var args = callback.getCall(0).args;
-
-                            expect(args.length).to.be(1);
-                            expect(args[0]).to.be(undefined);
-
-                            done();
-                        });
-                    })(testCases[i]);
-                }
-
-            });
-
-
-            it(" should return correct object with results from WebApi", function (done) {
-
-                var
-                    latlng = L.latLng(5, 7),
-                    callback = sinon.spy(),
-                    zoom = 9,
-
-                    resSettlement = {
-                        id: 2,
-                        type: 'settlement'
-                    },
-                    resCity = {
-                        id: 2,
-                        type: 'city'
-                    }, resStreet = {
-                        id: 3,
-                        type: 'street'
-                    },
-
-                    webApiResult = {result: [resSettlement, resCity, resStreet] };
-
-
-                stub.callsArgWith(3, webApiResult);
-
-                geoCoder.getLocations(latlng, zoom, callback);
-
-                expect(callback.calledOnce).to.be(true);
-
-                var args = callback.getCall(0).args;
-
-                expect(args.length).to.be(1);
-                expect(args[0]).to.only.have.keys('settlement', 'city');
-                expect(args[0].settlement).to.equal(resSettlement);
-                expect(args[0].city).to.equal(resCity);
-
-                done();
-            });
+            webApi = new L.DG.Geoclicker.WebApi();
+            spy = stub = sinon.stub(webApi, 'geoSearch');
+            geoCoder = new L.DG.Geoclicker.GeoCoder(webApi);
 
 
         });
 
+        afterEach(function () {
+            webApi = null;
+            stub = null;
+            geoCoder = null;
+            spy = null;
+        });
+
+
+        it(" should  call WebApi.geoSearch() with corressponded params", function (done) {
+
+            var latlng = L.latLng(5, 7),
+                fn = function () {
+                },
+                zoom = 12;
+            geoCoder.getLocations(latlng, zoom, fn);
+
+            expect(spy.calledOnce).to.be(true);
+
+            var args = spy.getCall(0).args;
+
+            expect(args[0]).to.be.equal('7,5');
+            expect(args[2]).to.be.equal(zoom);
+
+            done();
+        });
+
+
+        it(" should call WebApi.geoSearch() with types corresponded to zoomlevel", function (done) {
+
+            var zoomToTypesMap = {
+                    0: null,
+                    1: null,
+                    2: null,
+                    3: null,
+                    4: null,
+                    5: null,
+                    6: null,
+                    7: null,
+                    8: null,
+                    9: 'settlement,city',
+                    10: 'settlement,city',
+                    11: 'settlement,city',
+                    12: 'settlement,city',
+                    13: 'district',
+                    14: 'district',
+                    15: 'house,street',
+                    16: 'house,street,sight,station_platform',
+                    17: 'house,street,sight,station_platform',
+                    18: 'house,street,sight,station_platform',
+                    19: 'house,street,sight,station_platform'
+                },
+
+                latlng = L.latLng(5, 7),
+                fn = function () {
+                },
+                zoom,
+                correctTypes,
+                shouldPerformSearch,
+                callsCnt = 0,
+                args;
+
+            for (zoom in zoomToTypesMap) {
+
+                geoCoder.getLocations(latlng, zoom, fn);
+
+                shouldPerformSearch = !!zoomToTypesMap[zoom];
+
+                if (shouldPerformSearch) {
+                    callsCnt++;
+                }
+
+                expect(spy.callCount).to.be.equal(callsCnt);
+
+                if (!shouldPerformSearch) {
+                    continue;
+                }
+
+                correctTypes = zoomToTypesMap[zoom];
+                args = spy.getCall(callsCnt - 1).args;
+
+                expect(args[1]).to.be.equal(correctTypes);
+            }
+
+            done();
+        });
+
+        describe(" should return undefined to callback if WebApi.geoSearch()", function () {
+            var latlng, callback, zoom;
+
+            beforeEach(function () {
+                latlng = L.latLng(5, 7),
+                    callback = sinon.spy(),
+                    zoom = 9;
+            });
+
+            afterEach(function () {
+                callback = null;
+                latlng = null;
+            });
+
+            var testCases = {
+                // "describe message" : <result from_WebApi>
+                "didn't return any result": undefined,
+                "returned answer with error_code": {
+                    error_code: 4
+                },
+                " returned answer without result": {
+                    someField: 'someValue'
+                },
+                " returned answer with empty result": {
+                    result: []
+                },
+                " returned answer without requested types": {
+                    result: [
+                        {
+                            id: 118454545,
+                            type: 'house'
+                        },
+                        {
+                            id: 118454545,
+                            type: 'street'
+                        }
+                    ]
+                }
+            }
+
+            for (var i in testCases) {
+                (function (webApiResult) {
+                    it(i, function (done) {
+                        stub.callsArgWith(3, webApiResult);
+
+                        geoCoder.getLocations(latlng, zoom, callback);
+
+                        expect(callback.calledOnce).to.be(true);
+
+                        var args = callback.getCall(0).args;
+
+                        expect(args.length).to.be(1);
+                        expect(args[0]).to.be(undefined);
+
+                        done();
+                    });
+                })(testCases[i]);
+            }
+
+        });
+
+
+        it(" should return correct object with results from WebApi", function (done) {
+
+            var
+                latlng = L.latLng(5, 7),
+                callback = sinon.spy(),
+                zoom = 9,
+
+                resSettlement = {
+                    id: 2,
+                    type: 'settlement'
+                },
+                resCity = {
+                    id: 2,
+                    type: 'city'
+                }, resStreet = {
+                    id: 3,
+                    type: 'street'
+                },
+
+                webApiResult = {result: [resSettlement, resCity, resStreet] };
+
+
+            stub.callsArgWith(3, webApiResult);
+
+            geoCoder.getLocations(latlng, zoom, callback);
+
+            expect(callback.calledOnce).to.be(true);
+
+            var args = callback.getCall(0).args;
+
+            expect(args.length).to.be(1);
+            expect(args[0]).to.only.have.keys('settlement', 'city');
+            expect(args[0].settlement).to.equal(resSettlement);
+            expect(args[0].city).to.equal(resCity);
+
+            done();
+        });
+
 
     });
+
+    describe(' handler ', function () {
+        console.log(L.DG.Geoclicker.Controller.prototype)
+        console.log(L.DG.Geoclicker.Handlers)
+        var
+            handlerName
+            , handlerClass
+            , hadlerObj
+            ;
+
+        for (handlerName in  L.DG.Geoclicker.Handlers) {
+            handlerClass = L.DG.Geoclicker.Handlers[handlerName];
+            hadlerObj = sinon.createStubInstance(handlerClass);
+
+            (function (handlerName, handlerClass, hadlerObj) {
+
+                describe("'" + handlerName + "' as member of L.DG.Geoclicker.Handlers ", function () {
+
+
+                    it("should be instance of L.DG.Geoclicker.Handlers.Default", function () {
+                        expect(hadlerObj instanceof L.DG.Geoclicker.Handlers.Default).to.be(true)
+                    });
+
+                    it("should contain 'handle' method", function (done) {
+                        expect(hadlerObj.handle).to.be.ok()
+                        expect(hadlerObj.handle).to.be.a(Function)
+                        done();
+                    });
+
+                });
+
+            })(handlerName, handlerClass, hadlerObj)
+        }
+    });
+
 });
 
 
