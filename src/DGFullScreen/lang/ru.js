@@ -1,3 +1,4 @@
 L.DG.FullScreen.Dictionary.ru = {
-    "title" : "Развернуть"
+    "title_max" : "Развернуть",
+    "title_min" : "Восстановить"
 };

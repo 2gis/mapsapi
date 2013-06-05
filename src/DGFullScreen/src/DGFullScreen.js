@@ -64,19 +64,23 @@ L.DG.FullScreen = L.Control.extend({
 
         var container = L.DomUtil.create('a', this.options.containerClass);
         this.fullScreenControl = container;
+        this._isFullscreen = false;
         this._updateTitle();
 
         map.on('dgLangChange', this._updateTitle, this);
         this._map = map;
 
-        this._isFullscreen = false;
         this._createButton(this.options.iconClass, container, this.toggleFullscreen);
 
         return container;
     },
 
     _updateTitle: function(){
-        this.fullScreenControl.title = this.t('title');
+        if (this._isFullscreen) {
+            this.fullScreenControl.title = this.t('title_min');
+        } else {
+            this.fullScreenControl.title = this.t('title_max');
+        }
     },
 
     _createButton: function (className, container, fn) {
@@ -100,6 +104,7 @@ L.DG.FullScreen = L.Control.extend({
             this._exitFullScreen();
         }
 
+        this._updateTitle();
         this._map.invalidateSize();
     },
 
