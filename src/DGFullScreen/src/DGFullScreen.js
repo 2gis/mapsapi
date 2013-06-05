@@ -247,7 +247,7 @@ L.DG.FullScreen = L.Control.extend({
 
     L.Map.addInitHook(function () {
         if (this.options.fullscreenControl) {
-            new L.DG.FullScreen().addTo(this);
+            L.DG.fullscreen().addTo(this);
         }
     });
 
