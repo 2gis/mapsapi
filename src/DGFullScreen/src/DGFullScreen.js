@@ -63,14 +63,20 @@ L.DG.FullScreen = L.Control.extend({
         }
 
         var container = L.DomUtil.create('a', this.options.containerClass);
-        container.title = this.t('title');;
-
-        this._map = map;
-        this._isFullscreen = false;
         this.fullScreenControl = container;
+        this._updateTitle();
+
+        map.on('dgLangChange', this._updateTitle, this);
+        this._map = map;
+
+        this._isFullscreen = false;
         this._fullScreenButton = this._createButton(this.options.iconClass, container, this.toggleFullscreen);
 
         return container;
+    },
+
+    _updateTitle: function(){
+        this.fullScreenControl.title = this.t('title');
     },
 
     _createButton: function (className, container, fn) {
