@@ -14,7 +14,7 @@ L.DG = L.DG || {};
 
 L.DG.loaderParams = window.loaderBackup;
 
-delete window.loaderBackup;
+window.loaderBackup = undefined;
 
 L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
