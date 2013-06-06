@@ -359,12 +359,12 @@
 		<td>Вызывается после изменения масштаба.</td>
 	</tr>
 	<tr>
-		<td><code><b>dgEnterFullscreen</b></code></td>
+		<td><code><b>dgEnterFullScreen</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при активации полноэкранного режима.</td>
 	</tr>
 	<tr>
-		<td><code><b>dgExitFullscreen</b></code></td>
+		<td><code><b>dgExitFullScreen</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при выходе из полноэкранного режима.</td>
 	</tr>
