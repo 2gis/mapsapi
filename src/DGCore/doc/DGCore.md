@@ -1532,7 +1532,7 @@
 
 Испльзуется для отображения данных WMS сервисов. Расширяет [TileLayer][13].
 
-### Usage example
+### Пример использования
 
 	var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
 		layers: 'nexrad-n0r-900913',
@@ -1649,7 +1649,7 @@
 		<td>
 			<code>L.tileLayer.canvas(&hellip;)</code>
 		</td>
-		<td>Создает объект Canvas-тайлового слоя по необязательному объекту опций.</td>
+		<td>Создает объект canvas-слоя используя необязательный параметр опций.</td>
 	</tr>
 </table>
 
@@ -1665,7 +1665,7 @@
 		<td><code><b>async</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>false</code></td>
-		<td>Указывает что тайлы должны отрисовываться асинхронно. Метод <a href="#tilelayer-canvas-tiledrawn">tileDrawn</a> должен быть вызван для каждого тайла после завершения отрисовки.</td>
+		<td>Указывает на то, что тайлы будут отрисовываться асинхронно. Метод <a href="#tilelayer-canvas-tiledrawn">tileDrawn</a> должен быть вызван для каждого тайла после завершения отрисовки.</td>
 	</tr>
 </table>
 
@@ -1683,12 +1683,12 @@
 			<nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Чтобы отрисовать тайлы, нужно определить этот метод после создания инстанса объекта; <code>canvas</code> непосредственно элемент canvas на котором будут отрисовываться тайлы, <code>tilePoint</code> номера тайлов, и <code>zoom</code> текущий уровень зума.</td>
+		<td>Чтобы отрисовать тайлы, нужно определить этот метод после создания экземпляра класса. <code>canvas</code> &mdash; элемент canvas, на котором будут отрисовываться тайлы, <code>tilePoint</code> номер тайла, и <code>zoom</code> текущий уровень зума.</td>
 	</tr>
 	<tr id="tilelayer-canvas-tiledrawn">
 		<td><code><b>tileDrawn</b>( <nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr> )</code></td>
 		<td>-</td>
-		<td>Если опция <code>async</code> задана, эту функцию нужно вызывать каждый раз после отрисовки тайла. <code>canvas</code> тот же элемент, что передается в <a href="#tilelayer-canvas-drawtile">drawTile</a>.</td>
+		<td>Если опция <code>async</code> задана, тогда эту функцию необходимо вызывать каждый раз после отрисовки тайла. <code>canvas</code> &mdash; это тот же элемент, что передается в <a href="#tilelayer-canvas-drawtile">drawTile</a>.</td>
 	</tr>
 </table>
 
