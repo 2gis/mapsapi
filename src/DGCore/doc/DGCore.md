@@ -1530,7 +1530,7 @@
 
 ## L.TileLayer.WMS
 
-Испльзуется для отображения WMS сервисов как тайловый слой карты. Расширяет [TileLayer][13].
+Испльзуется для отображения данных WMS сервисов. Расширяет [TileLayer][13].
 
 ### Usage example
 
@@ -1558,14 +1558,14 @@
 			<code>L.tileLayer.wms(&hellip;)</code>
 		</td>
 
-		<td>Создает объект WMS тайлового слоя по переданному URL WMS-сервиса и объекту опций.</td>
+		<td>Создает объект тайлового WMS слоя по переданному URL WMS-сервиса и объекту опций.</td>
 	</tr>
 </table>
 
 
 ### Опции
 
-Включает все опции [TileLayer options][83] и дополнительные:
+Включает все [опции TileLayer][83] и дополнительные:
 <table>
 	<tr>
 		<th>Опция</th>
@@ -1577,13 +1577,13 @@
 		<td><code><b>layers</b></code></td>
 		<td><code>String</code></td>
 		<td><code>''</code></td>
-		<td><b>(обязательная)</b> Список WMS слоев которые необходимо отобразить, разделенных запятой.</td>
+		<td><b>(обязательная)</b> Список WMS слоев для отображения, разделяются запятой.</td>
 	</tr>
 	<tr>
 		<td><code><b>styles</b></code></td>
 		<td><code>String</code></td>
 		<td><code>''</code></td>
-		<td>WMS стилей, разделенный запятой.</td>
+		<td>Список WMS стилей, разделяются запятой.</td>
 	</tr>
 	<tr>
 		<td><code><b>format</b></code></td>
@@ -1595,13 +1595,13 @@
 		<td><code><b>transparent</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>false</code></td>
-		<td>Если установлено значение <code>true</code>, WMS сервис вернет изображения с прозрачностью.</td>
+		<td>Если установлено значение <code>true</code>, тогда WMS сервис вернет изображения с прозрачностью.</td>
 	</tr>
 	<tr>
 		<td><code><b>version</b></code></td>
 		<td><code>String</code></td>
 		<td><code>'1.1.1'</code></td>
-		<td>Указывает какую версию WMS сервиса использовать.</td>
+		<td>Используемая версия WMS сервиса.</td>
 	</tr>
 </table>
 
@@ -1618,7 +1618,7 @@
 			<nobr>&lt;Boolean&gt; <i>noRedraw?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Мержит объект с новыми параметрами и перезапрашивает тайлы текущего скрина(если только <code>noRedraw</code> не установлен в <code>true</code>).</td>
+		<td>Сливает объект с новыми параметрами и перезапрашивает тайлы текущей области видимости (если опция <code>noRedraw</code> не установлена в <code>true</code>).</td>
 	</tr>
 </table>
 
