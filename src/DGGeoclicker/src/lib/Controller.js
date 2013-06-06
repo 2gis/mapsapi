@@ -112,6 +112,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     _showLoader: function () {
+
+        this._hideLoader();
         //@todo should this function be moved to kind of Geoclicker View?
         var i = 1,
             popup = this._popup;
