@@ -1936,7 +1936,7 @@
 		<td><code><b>closePopup</b>()</code></td>
 
 		<td><code>this</code></td>
-		<td>Закрывает балун, привязанный к геометрии, если тот был открыть.</td>
+		<td>Закрывает балун, привязанный к геометрии, если тот был открыт.</td>
 	</tr>
 	<tr id="path-setstyle">
 		<td><code><b>setStyle</b>(
@@ -1944,27 +1944,27 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Изменяет внешний вид геометрии указанный в объекте<a href="#path-options">Path options</a>.</td>
+		<td>Изменяет внешний вид геометрии указанный в <a href="#path-options">опциях класса Path</a>.</td>
 	</tr>
 	<tr id="path-getbounds">
 		<td><code><b>getBounds</b>()</code></td>
 		<td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
-		<td>Возвращает LatLngBounds геометрии.</td>
+		<td>Возвращает прямоугольные границы геометрии.</td>
 	</tr>
 	<tr>
 		<td><code><b>bringToFront</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Позиционирует слой поверх всех остальных слоев.</td>
+		<td>Позиционирует слой поверх всех остальных.</td>
 	</tr>
 	<tr>
 		<td><code><b>bringToBack</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Позиционирует слой под всеми остальными слоями.</td>
+		<td>Позиционирует слой под остальными.</td>
 	</tr>
 	<tr>
 		<td><code><b>redraw</b>()</code></td>
 		<td><code>this</code></td>
-		<td>Перерисовывает слой. Полезно в случае если вы изменили координаты которые описывают геометрию.</td>
+		<td>Перерисовывает слой. Удобно при изменении координат описывающих геометрию.</td>
 	</tr>
 </table>
 
