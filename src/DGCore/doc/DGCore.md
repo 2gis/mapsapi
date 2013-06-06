@@ -205,6 +205,12 @@
 		<td><code>true</code></td>
 		<td>Добавлен ли <a href="#control-zoom">элемент управления масштабом</a> на карту.</td>
 	</tr>
+	<tr>
+		<td><code><b>fullscreenControl</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code>true</code></td>
+		<td>Добавлена ли <a href="#control-fullscreen">кнопка включения полноэкранного режима</a> на карту.</td>
+	</tr>
 </table>
 
 
@@ -351,6 +357,16 @@
 		<td><code><b>zoomend</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается после изменения масштаба.</td>
+	</tr>
+	<tr>
+		<td><code><b>dgEnterFullScreen</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при активации полноэкранного режима.</td>
+	</tr>
+	<tr>
+		<td><code><b>dgExitFullScreen</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при выходе из полноэкранного режима.</td>
 	</tr>
 	<tr>
 		<td><code><b>autopanstart</b></code></td>
@@ -822,6 +838,11 @@
 		<td><code><b>zoomControl</b></code></td>
 		<td><a href="#control-zoom"><code>Control.Zoom</code></a></td>
 		<td>Элемент управления масштабом.</td>
+	</tr>
+	<tr>
+		<td><code><b>fullscreenControl</b></code></td>
+		<td><a href="#control-fullscreen"><code>Control.FullScreen</code></a></td>
+		<td>Кнопка включения полноэкранного режима.</td>
 	</tr>
 </table>
 
@@ -3317,7 +3338,7 @@
 
     L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
-По умолчанию установлен класс `'leaflet-div-icon'`, который стилизирован как маленький белый квадрат с тенью. 
+По умолчанию установлен класс `'leaflet-div-icon'`, который стилизирован как маленький белый квадрат с тенью.
 
 ### Конструктор
 
