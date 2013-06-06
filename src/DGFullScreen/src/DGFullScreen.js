@@ -219,7 +219,7 @@ L.DG.FullScreen = L.Control.extend({
 
         L.DomEvent.addListener(document, 'keyup', this._onKeyUp, this);
 
-        this._map.fire('enterFullscreen');
+        this._map.fire('dgEnterFullscreen');
     },
 
     _exitFullScreen: function() {
@@ -238,7 +238,7 @@ L.DG.FullScreen = L.Control.extend({
 
         L.DomEvent.removeListener(document, 'keyup', this._onKeyUp);
 
-        this._map.fire('exitFullscreen');
+        this._map.fire('dgExitFullscreen');
     },
 
     _onKeyUp: function(e) {
