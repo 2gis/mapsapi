@@ -359,6 +359,16 @@
 		<td>Вызывается после изменения масштаба.</td>
 	</tr>
 	<tr>
+		<td><code><b>dgEnterFullscreen</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при активации полноэкранного режима.</td>
+	</tr>
+	<tr>
+		<td><code><b>dgExitFullscreen</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при выходе из полноэкранного режима.</td>
+	</tr>
+	<tr>
 		<td><code><b>autopanstart</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при автоматическом сдвиге карты после появления балуна.</td>
