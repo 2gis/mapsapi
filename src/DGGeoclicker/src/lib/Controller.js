@@ -47,16 +47,12 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._popup.hideLoader = L.bind(this._hideLoader, this);
         this._popup.showLoader = L.bind(this._showLoader, this);
 
-        this._map.on('popupclose', function (e) {
-            if (e.popup == this._popup) {
-                this._handlePopupClose();
-            }
-        }, this)
-
     },
 
-    _handlePopupClose: function () {
-        this._webApi.cancelLastRequest();
+    handlePopupClose: function (popup) {
+        if (popup == this._popup) {
+            this._webApi.cancelLastRequest();
+        }
     },
 
     handleClick: function (latlng, zoom) {

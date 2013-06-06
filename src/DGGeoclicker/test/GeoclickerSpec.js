@@ -2,11 +2,7 @@ describe('DG Geoclicker ', function () {
 
     describe(' MapHandler ', function () {
 
-        var map;
-
         afterEach(function () {
-            map = null;
-
             L.Map.mergeOptions({
                 dgGeoclicker: true
             });
@@ -19,7 +15,7 @@ describe('DG Geoclicker ', function () {
                 dgGeoclicker: false
             });
 
-            map = new L.Map(document.createElement('div'), {
+            var map = new L.Map(document.createElement('div'), {
                 center: new L.LatLng(54.98117239821992, 82.88922250270844),
                 zoom: 17
             });
@@ -31,7 +27,7 @@ describe('DG Geoclicker ', function () {
 
         it("should be active by default", sinon.test(function () {
 
-            map = new L.Map(document.createElement('div'), {
+            var map = new L.Map(document.createElement('div'), {
                 center: new L.LatLng(54.98117239821992, 82.88922250270844),
                 zoom: 17
             });
@@ -41,13 +37,12 @@ describe('DG Geoclicker ', function () {
 
 
         it("should handle click on map and give it to Geoclicker.Controller by calling handleClick with correct zoom", function (done) {
-            var initZoom = 17;
-            map = new L.Map(document.createElement('div'), {
-                center: new L.LatLng(54.98117239821992, 82.88922250270844),
-                zoom: initZoom
-            });
-
-            var spy = sinon.spy(map.dgGeoclicker._controller, "handleClick");
+            var initZoom = 17,
+                map = new L.Map(document.createElement('div'), {
+                    center: new L.LatLng(54.98117239821992, 82.88922250270844),
+                    zoom: initZoom
+                }),
+                spy = sinon.spy(map.dgGeoclicker._controller, "handleClick");
 
             happen.click(map.getContainer())
 
@@ -57,24 +52,45 @@ describe('DG Geoclicker ', function () {
             done();
         });
 
+        it("should handle event 'popupclose' and forward it to the Controller.handlePopup", function (done) {
+            var initZoom = 17,
+                map = new L.Map(document.createElement('div'), {
+                    center: new L.LatLng(54.98117239821992, 82.88922250270844),
+                    zoom: initZoom
+                }),
 
-        it("shouldn't handle click, if dgGeoclicker was disabled", function (done) {
-            var initZoom = 17;
-            map = new L.Map(document.createElement('div'), {
-                center: new L.LatLng(54.98117239821992, 82.88922250270844),
-                zoom: initZoom
-            });
+                spy = sinon.spy(map.dgGeoclicker._controller, "handlePopupClose"),
+                popupDummy = sinon.createStubInstance(L.Popup);
 
-            var spy = sinon.spy(map.dgGeoclicker._controller, "handleClick");
+            map.fire('popupclose', {popup: popupDummy});
+
+            expect(spy.calledWith(popupDummy)).to.be(true);
+
+            done();
+        });
+
+
+        it("shouldn't handle click and popupclose, if dgGeoclicker was disabled", function (done) {
+            var initZoom = 17,
+                map = new L.Map(document.createElement('div'), {
+                    center: new L.LatLng(54.98117239821992, 82.88922250270844),
+                    zoom: initZoom
+                }),
+                spyClick = sinon.spy(map.dgGeoclicker._controller, "handleClick"),
+                spyPopupClose = sinon.spy(map.dgGeoclicker._controller, "handlePopupClose"),
+                popupDummy = sinon.createStubInstance(L.Popup);
 
             map.dgGeoclicker.disable();
 
             happen.click(map.getContainer())
+            map.fire('popupclose', {popup: popupDummy});
 
-            expect(spy.called).to.be.equal(false);
+            expect(spyClick.called).to.be(false);
+            expect(spyPopupClose.called).to.be(false);
 
             done();
         });
+
     });
 
     describe(' GeoCoder ', function () {
