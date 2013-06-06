@@ -1,3 +1,9 @@
+L.DG = L.DG || {};
+
+L.DG.loaderParams = window.loaderBackup;
+
+window.loaderBackup = undefined;
+
 // Zoom 2GIS redefinition
 
 L.Control.Zoom.prototype.options = {
