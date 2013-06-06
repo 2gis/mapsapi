@@ -1737,7 +1737,7 @@
 		<td><code><b>opacity</b></code></td>
 		<td><code>Number</code></td>
 		<td><code>1.0</code></td>
-		<td>Прозрачность допслоя.</td>
+		<td>Прозрачность слоя.</td>
 	</tr>
 </table>
 
@@ -1778,7 +1778,7 @@
 
 ## L.Path
 
-Абстрактный класс который содержит опции и константы доступные в векторных допслоях (Polygon, Polyline, Circle). Не используйте их напрямую.
+Абстрактный класс, содержащий опции и константы векторных слоев (Polygon, Polyline, Circle). Никогда не используется напрямую.
 
 ### Опции
 <table>
@@ -1792,7 +1792,7 @@
 		<td><code><b>stroke</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Рисовать ли границу фигуры. Установите значение в <code>false</code> чтобы отключить границы на полигонах или кругах.</td>
+		<td>Рисовать ли границу фигуры. Установите значение в <code>false</code>, чтобы отключить границы многоугольников или кругов.</td>
 	</tr>
 	<tr>
 		<td><code><b>color</b></code></td>
@@ -1816,7 +1816,7 @@
 		<td><code><b>fill</b></code></td>
 		<td><code>Boolean</code></td>
 		<td>depends</td>
-		<td>Заливать ли геометрии цветом. Установите значение в <code>false</code> чтобы отключить заполнение полигонов и кругов.</td>
+		<td>Заполнять ли геометрии цветом. Установите значение в <code>false</code>, чтобы отключить заполнение многоугольников или кругов.</td>
 	</tr>
 	<tr>
 		<td><code><b>fillColor</b></code></td>
@@ -1834,19 +1834,19 @@
 		<td><code><b>dashArray</b></code></td>
 		<td><code>String</code></td>
 		<td><code>null</code></td>
-		<td>Строка определяющая <a href="https://developer.mozilla.org/en/SVG/Attribute/stroke-dasharray">шаблон границы</a>. Не работает на canvas слоях (т.е. Android 2).</td>
+		<td>Строка <a href="https://developer.mozilla.org/en/SVG/Attribute/stroke-dasharray">шаблона границы</a>. Не работает на canvas слоях (например, Android 2).</td>
 	</tr>
 	<tr>
 		<td><code><b>clickable</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Если установлено значение <code>false</code>, геометрия не обрабатывает события мышки.</td>
+		<td>Если установлено значение <code>false</code>, тогда события мышки геометрии не обрабатывются.</td>
 	</tr>
 </table>
 
 ### События
 
-Можно подписать на события используя [эти методы][39].
+Вы можете подписаться на следующие события используя [эти методы][39].
 <table>
 	<tr>
 		<th>Событие</th>
@@ -1856,12 +1856,12 @@
 	<tr>
 		<td><code><b>click</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается при клике или тапе на объект.</td>
+		<td>Вызывается при клике на объект.</td>
 	</tr>
 	<tr>
 		<td><code><b>dblclick</b></code></td>
 		<td><code><a href="#mouse-event">MouseEvent</a></code>
-		<td>Вызывается при двойном клике или двойном тапе на объект.</td>
+		<td>Вызывается при двойном клике на объект.</td>
 	</tr>
 	<tr>
 		<td><code><b>mousedown</b></code></td>
