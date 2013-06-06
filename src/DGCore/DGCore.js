@@ -2,7 +2,7 @@ L.DG = L.DG || {};
 
 L.DG.loaderParams = window.loaderBackup;
 
-delete window.loaderBackup;
+window.loaderBackup = undefined;
 
 // Zoom 2GIS redefinition
 
