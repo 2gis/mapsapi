@@ -1,3 +1,4 @@
 L.DG.FullScreen.Dictionary.it = {
-    "title" : "Espandi"
+    "title_max" : "Espandi",
+    "title_min" : "Ripristina"
 };

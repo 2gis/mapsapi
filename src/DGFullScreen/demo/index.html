@@ -14,14 +14,15 @@
 
   L.onLoad(function () {
 
-    var map = new L.Map('map', {
-      center: new L.LatLng(54.980206086231, 82.898068362003),
-      zoom: 11
+    map = new L.Map('map', {
+        center: new L.LatLng(54.980206086231, 82.898068362003),
+        zoom:12
+        // возможно отключить кнопку фулскрина передав опцию
+        //fullScreenControl: false
     });
 
-    // add full screen control to map
-    var fullScreen = new L.DG.FullScreen();
-    fullScreen.addTo(map);
+    // изменить дефолтное положение контрола
+    map.fullScreenControl.setPosition('bottomleft');
 
   });
   </script>

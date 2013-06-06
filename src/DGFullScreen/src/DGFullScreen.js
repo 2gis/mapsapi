@@ -1,4 +1,3 @@
-
 L.DG.FullScreen = L.Control.extend({
 
     includes: L.DG.Locale,
@@ -8,7 +7,7 @@ L.DG.FullScreen = L.Control.extend({
     },
 
     options: {
-        position: 'topright',
+        position: L.DG.configTheme.controls.fullScreen.position,
         containerClass: 'maxi dg-fullscreen',
         iconClass: 'dg-fullscreen-icon'
     },
@@ -63,14 +62,24 @@ L.DG.FullScreen = L.Control.extend({
         }
 
         var container = L.DomUtil.create('a', this.options.containerClass);
-        container.title = this.t('title');;
-
-        this._map = map;
-        this._isFullscreen = false;
         this.fullScreenControl = container;
-        this._fullScreenButton = this._createButton(this.options.iconClass, container, this.toggleFullscreen);
+        this._isFullscreen = false;
+        this._updateTitle();
+
+        map.on('dgLangChange', this._updateTitle, this);
+        this._map = map;
+
+        this._createButton(this.options.iconClass, container, this.toggleFullscreen);
 
         return container;
+    },
+
+    _updateTitle: function(){
+        if (this._isFullscreen) {
+            this.fullScreenControl.title = this.t('title_min');
+        } else {
+            this.fullScreenControl.title = this.t('title_max');
+        }
     },
 
     _createButton: function (className, container, fn) {
@@ -94,6 +103,7 @@ L.DG.FullScreen = L.Control.extend({
             this._exitFullScreen();
         }
 
+        this._updateTitle();
         this._map.invalidateSize();
     },
 
@@ -138,6 +148,7 @@ L.DG.FullScreen = L.Control.extend({
     _restorePosition: function (container) {
 
         // restore map container params
+        container.style.position = this._initialMapParams.position;
         container.style.zIndex = this._initialMapParams.zIndex;
         container.style.left = this._initialMapParams.left;
         container.style.top = this._initialMapParams.top;
@@ -207,7 +218,7 @@ L.DG.FullScreen = L.Control.extend({
 
         L.DomEvent.addListener(document, 'keyup', this._onKeyUp, this);
 
-        this._map.fire('enterFullscreen');
+        this._map.fire('dgEnterFullScreen');
     },
 
     _exitFullScreen: function() {
@@ -226,7 +237,7 @@ L.DG.FullScreen = L.Control.extend({
 
         L.DomEvent.removeListener(document, 'keyup', this._onKeyUp);
 
-        this._map.fire('exitFullscreen');
+        this._map.fire('dgExitFullScreen');
     },
 
     _onKeyUp: function(e) {
@@ -240,6 +251,17 @@ L.DG.FullScreen = L.Control.extend({
     L.DG.fullscreen = function (options) {
         return new L.DG.FullScreen(options);
     };
+
+    L.Map.mergeOptions({
+        fullScreenControl: true
+    });
+
+    L.Map.addInitHook(function () {
+        if (this.options.fullScreenControl) {
+            this.fullScreenControl = L.DG.fullscreen();
+            this.addControl(this.fullScreenControl);
+        }
+    });
 
     /*
       Native FullScreen JavaScript API

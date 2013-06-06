@@ -10,7 +10,7 @@
     }
 
     .dg-fullscreen-icon {
-        background: url(__BASE_URL__/img/dg-fullscreen-sprite.png) no-repeat 0 0;
+        background: url(__BASE_URL__/img/dg-fullscreen-default-sprite.png) no-repeat 0 0;
         content: '';
         position: absolute;
         display: block;
@@ -48,7 +48,7 @@
     }
 
     .dg-fullscreen:hover {
-        background: url("__BASE_URL__/img/dg-traffic-btn-shadow.png") center top no-repeat, linear-gradient(#fff, #f5f7f9);
+        background: url("__BASE_URL__/img/dg-fullscreen-default-btn-shadow.png") center top no-repeat, linear-gradient(#fff, #f5f7f9);
         opacity: 1;
         filter: alpha(opacity=100);
     }

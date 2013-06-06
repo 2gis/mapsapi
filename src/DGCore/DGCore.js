@@ -1,20 +1,11 @@
-/**
- * Leaflet 2GIS redefinition
- * Version 1.0.0
- *
- * Copyright (c) 2013, 2GIS, Dima Rudenko
- */
+// Zoom 2GIS redefinition
 
-
-/**
- * Zoom 2GIS redefinition
- *
- */
 L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
 
-//@todo remove copypasted code from Leaflet
+// TODO remove copypasted code from Leaflet
+
 L.Control.Zoom.prototype.onAdd = function (map) {
     var zoomName = 'dg-zoom',
         container = L.DomUtil.create('div', zoomName);
@@ -29,10 +20,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     return container;
 };
 
-/**
- * Popup 2GIS redefinition
- *
- */
+// Popup 2GIS redefinition
+
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
@@ -69,11 +58,8 @@ L.Popup.include({
     }
 });
 
+// Marker 2GIS redefinition
 
-/**
- * Marker 2GIS redefinition
- *
- */
 L.Marker.prototype.options.icon = L.DG.divIcon();
 
 L.Marker.include({
