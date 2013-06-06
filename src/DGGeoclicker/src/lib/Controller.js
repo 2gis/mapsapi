@@ -119,6 +119,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             popup = this._popup;
 
         function showLoader() {
+            //@todo this is temporary loader, should be replaced by original
             var str = 'loading.';
             if (i > 1) {
                 str += i > 2 ? '..' : '.';
