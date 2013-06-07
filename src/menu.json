@@ -51,6 +51,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Документация DGCore",
+                                "uri": "doc/DGCore/DGCore.html",
+                                "_src": "DGCore/doc/DGCore.md",
+                                "hide": true
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "DGJsonp",
                                 "uri": "doc/DGJsonp/DGJsonp.html",
                                 "_src": "DGJsonp/doc/DGJsonp.md",

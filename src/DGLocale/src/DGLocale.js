@@ -1,7 +1,5 @@
-/**
- * Provides a localization functionality for another plugins
- */
 L.DG = L.DG || {};
+
 L.DG.Locale = {
     t: function (msg, argument) { // (String, Number) -> String
         var result,
@@ -34,10 +32,11 @@ L.DG.Locale = {
 };
 
 L.Map.mergeOptions({
-    currentLang: "ru"
+    currentLang: L.DG.loaderParams.lang || "ru"
 });
 
 L.Map.include({
+
     setLang: function (lang) { // (String)
         if (lang && Object.prototype.toString.call(lang) === "[object String]") {
             this.options.currentLang = lang;
@@ -45,7 +44,7 @@ L.Map.include({
         }
     },
 
-    getLang: function () { // -> String
+    getLang: function () { // () -> String
         return this.options.currentLang;
     }
 });

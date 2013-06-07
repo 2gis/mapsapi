@@ -1,11 +1,5 @@
-/**
- * Leaflet DG TileLayer
- * Version 1.0.0
- *
- * Copyright (c) 2013, 2GIS, Dima Rudenko
- */
-
 L.DG = L.DG || {};
+
 L.DG.TileLayer = L.TileLayer.extend({
     dgTileLayerUrl: '__TILE_SERVER__',
     options: {
@@ -43,4 +37,3 @@ L.Map.addInitHook(function () {
     new L.Control.Attribution(options).addTo(this);
     this.options.layers = [L.DG.tileLayer()];
 });
-

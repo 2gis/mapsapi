@@ -51,10 +51,21 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGJsonp",
-                                "uri": "public/doc/DGJsonp/DGJsonp.html",
-                                "_src": "DGJsonp/doc/DGJsonp.md",
+                                "title": "Документация DGCore",
+                                "uri": "doc/DGCore/DGCore.html",
+                                "_src": "DGCore/doc/DGCore.md",
                                 "hide": true
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "DGJsonp",
+                                "uri": "doc/DGJsonp/DGJsonp.html",
+                                "_src": "DGJsonp/doc/DGJsonp.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -63,9 +74,9 @@
                         "content": {
                             "ru": {
                                 "title": "DGProjectDetector",
-                                "uri": "public/doc/DGProjectDetector/DGProjectDetector.html",
+                                "uri": "doc/DGProjectDetector/DGProjectDetector.html",
                                 "_src": "DGProjectDetector/doc/DGProjectDetector.md",
-                                "hide": true
+                                "hide": false
                             }
                         },
                         "children": null
@@ -74,9 +85,9 @@
                         "content": {
                             "ru": {
                                 "title": "DGTileLayer",
-                                "uri": "public/doc/DGTileLayer/DGTileLayer.html",
+                                "uri": "doc/DGTileLayer/DGTileLayer.html",
                                 "_src": "DGTileLayer/doc/DGTileLayer.md",
-                                "hide": true
+                                "hide": false
                             }
                         },
                         "children": null
@@ -85,10 +96,10 @@
                         "content": {
                             "ru": {
                                 "title": "DGLocale",
-                                "uri": "public/doc/DGLocale/DGLocale.html",
+                                "uri": "doc/DGLocale/DGLocale.html",
                                 "_src": "DGLocale/doc/DGLocale.md",
 
-                                "hide": true
+                                "hide": false
                             }
                         },
                         "children": null
