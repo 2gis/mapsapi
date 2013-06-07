@@ -38,6 +38,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
 
         var
             attrs = house.attributes,
+        // @todo добавить инициализацию всех свойств
             data = {
                 address: '',
                 purpose: '',
@@ -50,7 +51,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
         }
         data.address += house.name;
 
-
+// @todo добавить правильную фильтрацию (если нужно) всех свойств
         if (attrs.purpose) {
             data.purpose = attrs.purpose;
         }
@@ -64,7 +65,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
             data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show all organisations in this building") + ' (' + attrs.firmcount + ')</a>';
         }
 
-
+// @todo добавить настоящий шаблон
         var tmpl = '<h3>{address}</h3><br/>' +
             '<div>{purpose}</div>' +
             '<div>{elevation}</div>' +
@@ -96,6 +97,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
 
     _handlePaging: function () {
 
+        // @todo implement this
         //this._popup.showLoaderPaging();
         this._page++;
 
@@ -113,6 +115,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
             this._popup.hideLoader();
             this._initShowLess();
         } else {
+            //@todo проврерить, чтобы прокрутка не сбрасывалась вверх
             this._contentFirms = +content;
             this._popup.setContent(this._contentFirms);
 
@@ -149,8 +152,9 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
         this._initShowMore();
     },
 
-    _renderFirm: function (firm) { // @todo move that to dedicated util
+    _renderFirm: function (firm) {
 
+        // @todo move that to dedicated util
         var params = {
                 name: firm.name,
                 address: firm.geometry_name ? firm.geometry_name : '',
