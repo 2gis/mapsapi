@@ -305,17 +305,17 @@ describe('DG Geoclicker ', function () {
             , handlerClass
             , hadlerObj;
 
-        for (handlerName in  L.DG.Geoclicker.Handlers) {
-            handlerClass = L.DG.Geoclicker.Handlers[handlerName];
+        for (handlerName in  L.DG.Geoclicker.Handler) {
+            handlerClass = L.DG.Geoclicker.Handler[handlerName];
             hadlerObj = sinon.createStubInstance(handlerClass);
 
             (function (handlerName, handlerClass, hadlerObj) {
 
-                describe("'" + handlerName + "' as member of L.DG.Geoclicker.Handlers ", function () {
+                describe("'" + handlerName + "' as member of L.DG.Geoclicker.Handler ", function () {
 
 
-                    it("should be instance of L.DG.Geoclicker.Handlers.Default", function () {
-                        expect(hadlerObj instanceof L.DG.Geoclicker.Handlers.Default).to.be(true)
+                    it("should be instance of L.DG.Geoclicker.Handler.Default", function () {
+                        expect(hadlerObj instanceof L.DG.Geoclicker.Handler.Default).to.be(true)
                     });
 
                     it("should contain 'handle' method", function (done) {

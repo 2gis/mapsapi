@@ -1,9 +1,3 @@
-/**
- *
- *
- */
-
-
 L.DG.Geoclicker.Controller = L.Class.extend({
 
     options: {
@@ -11,12 +5,12 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         // default handler always should return true
         handlersSequence: {
 
-            house: L.DG.Geoclicker.Handlers.House,
+            house: L.DG.Geoclicker.Handler.House,
 
-            district: L.DG.Geoclicker.Handlers.HandlerExample,
-            city: L.DG.Geoclicker.Handlers.HandlerExample,
+            district: L.DG.Geoclicker.Handler.HandlerExample,
+            city: L.DG.Geoclicker.Handler.HandlerExample,
 
-            default: L.DG.Geoclicker.Handlers.Default
+            default: L.DG.Geoclicker.Handler.Default
 //            station_platform
 //
 //            street
@@ -31,14 +25,30 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         }
     },
 
-    initialize: function (map) {
-        this._webApi = new L.DG.Geoclicker.WebApi(map);
-        this._geoCoder = new L.DG.Geoclicker.GeoCoder(this._webApi);
+    initialize: function (map, options) { // (Object, Object)
+        options && L.Util.setOptions(this, options);
+        this._catalogApi = new L.DG.Geoclicker.Provider.CatalogApi(map);
         this._map = map;
 
         this._initPopup();
 
         this._handlers = {};
+    },
+
+    handlePopupClose: function (popup) { // (Object)
+        if (popup == this._popup) {
+            this._catalogApi._cancelLastRequest();
+        }
+    },
+
+    handleClick: function (latlng, zoom) { // (Object, Number)
+
+        var callback = L.bind(this._handleResponse, this);
+
+        this._showPopup(latlng);
+        this._popup.showLoader();
+        this._catalogApi.getLocations(latlng, zoom, callback);
+
     },
 
     _initPopup: function () {
@@ -49,23 +59,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
     },
 
-    handlePopupClose: function (popup) {
-        if (popup == this._popup) {
-            this._webApi.cancelLastRequest();
-        }
-    },
-
-    handleClick: function (latlng, zoom) {
-
-        var callback = L.bind(this._handleResponse, this);
-
-        this._showPopup(latlng);
-        this._popup.showLoader();
-        this._geoCoder.getLocations(latlng, zoom, callback);
-
-    },
-
-    _handleResponse: function (result) {
+    _handleResponse: function (result) { // (Object)
 
         var type, handler;
 
@@ -91,7 +85,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._handlers.default.handle();
     },
 
-    _findHandler: function (result) {
+    _findHandler: function (result) { // (Object) -> String | Null
         var i;
         for (i in this.options.handlersSequence) {
 
@@ -99,9 +93,10 @@ L.DG.Geoclicker.Controller = L.Class.extend({
                 return i;
             }
         }
+        return null;
     },
 
-    _ensureHandlerIsInit: function (type) {
+    _ensureHandlerIsInit: function (type) { // (String)
         if (!this._handlers[type]) {
             this._handlers[type] = new this.options.handlersSequence[type](this, this._popup, this._map);
         }

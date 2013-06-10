@@ -1,6 +1,6 @@
 L.DG = L.DG || {};
 
-L.DG.Jsonp = function (params) {
+L.DG.Jsonp = function (params) { // (Object)
     'use strict';
 
     var query = '',

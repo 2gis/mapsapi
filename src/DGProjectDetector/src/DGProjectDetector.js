@@ -15,7 +15,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         }
     },
 
-    initialize: function (map) {
+    initialize: function (map) { // (Object)
         this._map = map;
         this.project = null;
         this.projectsList = null;
@@ -28,6 +28,20 @@ L.DG.ProjectDetector = L.Handler.extend({
 
     removeHooks: function () {
         this._map.off('move', this._projectChange, this);
+    },
+
+    getProject: function () {
+        if (!this.project) {
+            return false;
+        }
+        return L.Util.extend({}, this.project);
+    },
+
+    getProjectsList: function () {
+        if (!this.projectsList) {
+            return false;
+        }
+        return this.projectsList.slice(0);
     },
 
     _projectChange: function () {
@@ -76,7 +90,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         }
     },
 
-    _boundsFromWktPolygon: function (wkt) {
+    _boundsFromWktPolygon: function (wkt) { // (String)
         var arr,
             pointsArr,
             bracketsContent,
@@ -98,22 +112,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         return new L.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
             [parseFloat(northEast[1]), parseFloat(northEast[0])]
         );
-    },
-
-    getProject: function () {
-        if (!this.project) {
-            return false;
-        }
-        return L.Util.extend({}, this.project);
-    },
-
-    getProjectsList: function () {
-        if (!this.projectsList) {
-            return false;
-        }
-        return this.projectsList.slice(0);
     }
-
 });
 
 L.Map.addInitHook('addHandler', 'dgProjectDetector', L.DG.ProjectDetector);

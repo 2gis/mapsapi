@@ -54,7 +54,7 @@ L.DG.FullScreen = L.Control.extend({
         scrollTop: null
     },
 
-    onAdd: function (map) {
+    onAdd: function (map) { // (Object)
 
         // Check if browser supports native fullscreen API
         if (!fullScreenApi.supportsFullScreen) {
@@ -74,6 +74,17 @@ L.DG.FullScreen = L.Control.extend({
         return container;
     },
 
+    toggleFullscreen: function () {
+        if (!this._isFullscreen) {
+            this._enterFullScreen();
+        } else {
+            this._exitFullScreen();
+        }
+
+        this._updateTitle();
+        this._map.invalidateSize();
+    },
+
     _updateTitle: function(){
         if (this._isFullscreen) {
             this.fullScreenControl.title = this.t('title_min');
@@ -82,7 +93,7 @@ L.DG.FullScreen = L.Control.extend({
         }
     },
 
-    _createButton: function (className, container, fn) {
+    _createButton: function (className, container, fn) { // () ->  HTMLAnchorElement
         var link = L.DomUtil.create('a', className, container);
         link.href = '#';
 
@@ -96,18 +107,7 @@ L.DG.FullScreen = L.Control.extend({
         return link;
     },
 
-    toggleFullscreen: function () {
-        if (!this._isFullscreen) {
-            this._enterFullScreen();
-        } else {
-            this._exitFullScreen();
-        }
-
-        this._updateTitle();
-        this._map.invalidateSize();
-    },
-
-    _storePosition: function (container) {
+    _storePosition: function (container) { // (HTMLDivElement)
 
         // store initial map container params
         this._initialMapParams.zIndex = container.style.zIndex;
@@ -145,7 +145,7 @@ L.DG.FullScreen = L.Control.extend({
         this._initialDocumentElementParams.scrollTop = document.documentElement.scrollTop;
     },
 
-    _restorePosition: function (container) {
+    _restorePosition: function (container) { // (HTMLDivElement)
 
         // restore map container params
         container.style.position = this._initialMapParams.position;
@@ -240,7 +240,7 @@ L.DG.FullScreen = L.Control.extend({
         this._map.fire('dgExitFullScreen');
     },
 
-    _onKeyUp: function(e) {
+    _onKeyUp: function(e) { // (Object)
         if (!e) e = window.event;
         if (e.keyCode === 27 && this._isFullscreen === true) {
             this._exitFullScreen();

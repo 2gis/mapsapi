@@ -2,23 +2,14 @@
  *
  */
 
-L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
+L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     statics: {
-        Dictionary: {
-            ru: L.extend({
-                "Show all organisations in this building": 'Показать все организации в здании',
-                "{n} floors": ["{n} этаж", "{n} этажа", "{n} этажей"]
-            }, L.DG.Dictionary.ru),
-            it: L.extend({
-                "Show all organisations in this building": '(it)Показать все организации в здании',
-                "{n} floors": ["{n} этаж(i)", "{n} этажа(i)", "{n} этажей(i)"]
-            }, L.DG.Dictionary.it)
-        }
+        Dictionary: {}
     },
 
 
-    handle: function (results) {
+    handle: function (results) { // (Object) -> Boolean
 
         if (!results.house) {
             return false;
@@ -34,7 +25,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
         return true;
     },
 
-    _renderHouse: function (house) {
+    _renderHouse: function (house) { // (Object) -> String
 
         var
             attrs = house.attributes,
@@ -92,7 +83,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
 
         this._page = 1;
 
-        this._controller._webApi.firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this)); //@todo encapsulations hack (controller._webApi.firmsInHouse) - fix
+        this._controller._catalogApi.firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this)); //@todo encapsulations hack (controller._catalogApi.firmsInHouse) - fix
     },
 
     _handlePaging: function () {
@@ -101,10 +92,10 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
         //this._popup.showLoaderPaging();
         this._page++;
 
-        this._controller._geoCoder.getFirms(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
+        this._controller._catalogApi.getFirms(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
     },
 
-    _handleFirmsLoadingEnd: function (results) {
+    _handleFirmsLoadingEnd: function (results) { // (Object)
 
         var content = this._renderFirms(results);
 
@@ -124,7 +115,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
 
     },
 
-    _renderFirms: function (list) {
+    _renderFirms: function (list) { // (Array) -> String
         var listHtml = '';
         if (!list || !list.length) {
             return listHtml;
@@ -147,12 +138,12 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
         }
     },
 
-    _showLessClick: function (firm) {
+    _showLessClick: function (firm) { // (Object)
         this._popup.setContent(this._houseContent);
         this._initShowMore();
     },
 
-    _renderFirm: function (firm) {
+    _renderFirm: function (firm) { // (Object) -> String
 
         // @todo move that to dedicated util
         var params = {
@@ -168,7 +159,7 @@ L.DG.Geoclicker.Handlers.House = L.DG.Geoclicker.Handlers.Default.extend({
 
     },
 
-    _renderFirmContacts: function (contacts) {
+    _renderFirmContacts: function (contacts) { // (Array) -> String
         var contactsHtml = '';
 
         if (!contacts || !contacts.length) {

@@ -61,12 +61,16 @@ var deps = {
         desc: '2GIS Geoclicker.',
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
-            'DGGeoclicker/src/lib/WebApi.js',
-            'DGGeoclicker/src/lib/GeoCoder.js',
-            'DGGeoclicker/src/handlers/Default.js',
-            'DGGeoclicker/src/handlers/House.js',
-            'DGGeoclicker/src/lib/Controller.js',
-            'DGGeoclicker/src/lib/MapHandler.js'
+            'DGGeoclicker/src/provider/Provider.js',
+            'DGGeoclicker/src/provider/CatalogApi.js',
+            'DGGeoclicker/src/handler/Handler.js',
+            'DGGeoclicker/src/handler/Default.js',
+            'DGGeoclicker/src/lang/it/handler/Default.js',
+            'DGGeoclicker/src/lang/ru/handler/Default.js',
+            'DGGeoclicker/src/handler/House.js',
+            'DGGeoclicker/src/lang/it/handler/House.js',
+            'DGGeoclicker/src/lang/ru/handler/House.js',
+            'DGGeoclicker/src/Controller.js',
         ],
         deps: ['JSONP']
     },
