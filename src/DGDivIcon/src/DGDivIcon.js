@@ -1,5 +1,3 @@
-L.DG = L.DG || {};
-
 L.DG.DivIcon = L.Icon.extend({
     options: {},
 

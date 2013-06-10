@@ -1,5 +1,3 @@
-L.DG = L.DG || {};
-
 L.Map.mergeOptions({
     dgProjectDetector: true
 });

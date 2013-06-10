@@ -3,22 +3,31 @@ var deps = {
     DGCore: {
         desc: 'Main DG module.',
         src: [
-            'DGCore/skin/{skin}/theme.config.js',
             'DGCore/DGCore.js'
+        ],
+        heading: '2GIS modules'
+    },
+
+    DGCustomization: {
+        desc: 'Customization DG module.',
+        src: [
+            'DGCustomization/skin/{skin}/theme.config.js',
+            'DGCustomization/DGCustomization.js'
         ],
         css: {
             all: [
                 '../vendors/leaflet/dist/leaflet.css',
-                'DGCore/skin/basic/css/leaflet-reset.css',
-                'DGCore/skin/{skin}/css/zoom.css',
-                'DGCore/skin/{skin}/css/callout.css',
-                'DGCore/skin/{skin}/css/marker.css'
+                'DGCustomization/skin/basic/css/leaflet-reset.css',
+                'DGCustomization/skin/{skin}/css/zoom.css',
+                'DGCustomization/skin/{skin}/css/callout.css',
+                'DGCustomization/skin/{skin}/css/marker.css'
             ],
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
-        heading: '2GIS modules',
-        deps: ['DGDivIcon']
+        deps: ['DGDivIcon', 'DGCore']
     },
+
+
 
     DGFullScreen: {
         desc: 'Full screen module.',
@@ -29,7 +38,7 @@ var deps = {
         css: {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
         },
-        deps: ['DGLocale']
+        deps: ['DGLocale', 'DGCore']
     },
 
     DGTileLayer: {
@@ -43,24 +52,26 @@ var deps = {
 
     DGJsonp: {
         src: ['DGJsonp/src/DGJsonp.js'],
-        desc: 'JSONP module.'
+        desc: 'JSONP module.',
+        deps: ['DGCore']
     },
 
     DGProjectDetector: {
         desc: 'DGProjectDetector module.',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGJsonp']
+        deps: ['DGJsonp', 'DGCore']
     },
 
     DGLocale: {
         desc: 'Localization module.',
-        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js']
+        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
+        deps: ['DGCore']
     },
 
     DGDivIcon: {
         desc: 'DG.DivIcon module.',
         src: ['DGDivIcon/src/DGDivIcon.js'],
-        deps: ['DivIcon']
+        deps: ['DivIcon', 'DGCore']
 
     }
 

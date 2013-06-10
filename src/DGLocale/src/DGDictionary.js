@@ -1,4 +1,3 @@
-L.DG = L.DG || {};
 // ru
 L.DG.Dictionary = {};
 

@@ -1,5 +1,3 @@
-L.DG = L.DG || {};
-
 L.DG.TileLayer = L.TileLayer.extend({
     dgTileLayerUrl: '__TILE_SERVER__',
     options: {

@@ -1,5 +1,3 @@
-L.DG = L.DG || {};
-
 L.DG.Locale = {
     t: function (msg, argument) { // (String, Number) -> String
         var result,

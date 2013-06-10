@@ -1,5 +1,3 @@
-L.DG = L.DG || {};
-
 L.DG.Jsonp = function (params) {
     'use strict';
 
