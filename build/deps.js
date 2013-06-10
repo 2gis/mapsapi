@@ -20,6 +20,18 @@ var deps = {
         deps: ['DGDivIcon']
     },
 
+    DGFullScreen: {
+        desc: 'Full screen module.',
+        src: ['DGFullScreen/src/DGFullScreen.js',
+              'DGFullScreen/lang/ru.js',
+              'DGFullScreen/lang/it.js'
+        ],
+        css: {
+            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
+        },
+        deps: ['DGLocale']
+    },
+
     DGTileLayer: {
         desc: '2GIS Tile Layer module.',
         src: ['DGTileLayer/src/DGTileLayer.js'],
@@ -42,7 +54,7 @@ var deps = {
 
     DGLocale: {
         desc: 'Localization module.',
-        src: ['DGLocale/src/DGLocale.js']
+        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js']
     },
 
     DGDivIcon: {

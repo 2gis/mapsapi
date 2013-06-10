@@ -26,6 +26,9 @@ L.DG.configTheme = {
         zoom: {
             position: 'topleft'
         },
+        fullScreen: {
+            position: 'topright'
+        },
         whereami: {
             position: 'topright'
         }
