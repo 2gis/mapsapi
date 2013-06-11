@@ -5,6 +5,10 @@ var deps = {
         src: [
             'DGCore/DGCore.js'
         ],
+        css: {
+            all: ['../vendors/leaflet/dist/leaflet.css'],
+            ie: ['../vendors/leaflet/dist/leaflet.ie.css']
+        },
         heading: '2GIS modules'
     },
 
@@ -16,18 +20,14 @@ var deps = {
         ],
         css: {
             all: [
-                '../vendors/leaflet/dist/leaflet.css',
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
                 'DGCustomization/skin/{skin}/css/zoom.css',
                 'DGCustomization/skin/{skin}/css/callout.css',
                 'DGCustomization/skin/{skin}/css/marker.css'
-            ],
-            ie: ['../vendors/leaflet/dist/leaflet.ie.css']
+            ]
         },
         deps: ['DGDivIcon', 'DGCore']
     },
-
-
 
     DGFullScreen: {
         desc: 'Full screen module.',

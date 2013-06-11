@@ -1,7 +1,3 @@
-/**
- * Classic them config
- *
- */
 L.DG = L.DG || {};
 L.DG.configTheme = {
     name: 'default',

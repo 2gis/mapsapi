@@ -33,7 +33,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         if (typeof content === 'string') {
             content = '<div class="dg-callout">' + content + '</div>';
         } else {
-            content = L.DomUtil.create('div', 'dg-callout').appendChild(content);
+            content = L.DomUtil.createL.DG.configTheme && L.DG.configTheme.controls.fullScreen.position ||('div', 'dg-callout').appendChild(content);
         }
 
         return originalSetContent.call(this, content);

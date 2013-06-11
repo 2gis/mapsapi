@@ -7,7 +7,7 @@ L.DG.FullScreen = L.Control.extend({
     },
 
     options: {
-        position: L.DG.configTheme.controls.fullScreen.position,
+        position: L.DG.configTheme ? L.DG.configTheme.controls.fullScreen.position : 'topright',
         containerClass: 'maxi dg-fullscreen',
         iconClass: 'dg-fullscreen-icon'
     },

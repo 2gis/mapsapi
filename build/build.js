@@ -207,7 +207,7 @@ function copyImages() {
 
     console.log('Clear public/img folder.');
     cleanImgDir();
-    console.log('Copy all skins images to public/img...');
+    console.log('Copy all skins and vendors images to public/img...');
     copyImg();
     console.log('Done. Copy ' + countImg + ' images.');
 
@@ -223,6 +223,13 @@ function copyImages() {
             if (sourceDeps.hasOwnProperty(creator)) {
                 var basePath = sourceDeps[creator].path,
                     modulesList = fs.readdirSync(basePath);
+
+                if (creator !== 'dg') {
+                    var imgPath = sourceDeps[creator].pathImg;
+                    if (fs.existsSync(imgPath)) {
+                        copyVendorImg(imgPath, creator);
+                    }
+                }
 
                 for (var i = 0, count = modulesList.length; i < count; i++) {
                     var moduleName = modulesList[i],
@@ -242,6 +249,21 @@ function copyImages() {
             var srcPath = imgList[i],
                 fileName = path.basename(srcPath),
                 destPath = config.img.dest + fileName;
+
+            if (fs.existsSync(srcPath)) {
+                grunt.file.copy(srcPath, destPath);
+                countImg++;
+            }
+        }
+    }
+
+    function copyVendorImg(vendorPath, creator) {
+        var imgList = grunt.file.expand([vendorPath + config.img.patternVendor]);
+
+        for (var i = 0, count = imgList.length; i < count; i++) {
+            var srcPath = imgList[i],
+                fileName = path.basename(srcPath),
+                destPath = config.img.destVendor + '/' + creator + '/' + fileName;
 
             if (fs.existsSync(srcPath)) {
                 grunt.file.copy(srcPath, destPath);

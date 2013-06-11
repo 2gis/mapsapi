@@ -11,7 +11,8 @@ var config = {
     source: {
         leaflet: {
             deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
-            path: basePath + '/vendors/leaflet/src/'
+            path: basePath + '/vendors/leaflet/src/',
+            pathImg: basePath + '/vendors/leaflet/dist/images/'
         },
         dg: {
             deps: require(basePath + '/build/deps.js').deps,
@@ -48,7 +49,9 @@ var config = {
 
     img: {
         pattern: '**/img/*',
-        dest: basePath + '/public/img/'
+        dest: basePath + '/public/img/',
+        patternVendor: '*',
+        destVendor: basePath + '/public/img/vendors'
     },
 
     skin: {
