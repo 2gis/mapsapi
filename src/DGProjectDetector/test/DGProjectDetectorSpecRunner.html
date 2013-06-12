@@ -1,54 +1,28 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <title>DG ProjectDetector Module Spec Runner</title>
-
-    <link rel="shortcut icon" type="image/png" href="../../../test/jasmine/jasmine_favicon.png">
-    <link rel="stylesheet" type="text/css" href="../../../test/jasmine/jasmine.css">
-    <script type="text/javascript" src="../../../test/jasmine/jasmine.js"></script>
-    <script type="text/javascript" src="../../../test/jasmine/jasmine-html.js"></script>
-
-    <!-- include source files here... -->
+    <meta charset="utf-8">
+    <title>Project Detector Spec Runner</title>
+    <link rel="stylesheet" type="text/css" href="../../../node_modules/mocha/mocha.css">
+</head>
+<body>
+    <div id="mocha"></div>
+    <script src="../../../test/expect.js"></script>
+    <script type="text/javascript" src="../../../test/mocha.js"></script>
+    <script type="text/javascript" src="../../../test/sinon.js"></script>
     <script type="text/javascript" src="../../../vendors/leaflet/dist/leaflet-src.js"></script>
+    <script type="text/javascript" src="../src/DGProjectDetector.js"></script>
 
-
-    <script type="text/javascript" src="../src/ProjectDetector.js"></script>
-
-    <!-- include spec files here... -->
-    <script type="text/javascript" src="ProjectDetectorSpec.js"></script>
-
-    <script type="text/javascript">
-        (function() {
-            var jasmineEnv = jasmine.getEnv();
-            jasmineEnv.updateInterval = 1000;
-
-            var htmlReporter = new jasmine.HtmlReporter();
-
-            jasmineEnv.addReporter(htmlReporter);
-
-            jasmineEnv.specFilter = function(spec) {
-                return htmlReporter.specFilter(spec);
-            };
-
-            var currentWindowOnload = window.onload;
-
-            window.onload = function() {
-                if (currentWindowOnload) {
-                    currentWindowOnload();
-                }
-                execJasmine();
-            };
-
-            function execJasmine() {
-                jasmineEnv.execute();
-            }
-
-        })();
+    <script>
+        mocha.setup('bdd');
+        mocha.ignoreLeaks();
     </script>
 
-</head>
+    <!-- /map -->
+    <script type="text/javascript" src="DGProjectDetectorSpec.js"></script>
 
-<body>
+    <script>
+        (window.mochaPhantomJS || window.mocha).run();
+    </script>
 </body>
 </html>
