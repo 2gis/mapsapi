@@ -34,7 +34,7 @@ app.use(express.static(__dirname + '/public'));
 app.all(/^\/2.0\/(js|css)$/, function(req, resp, next) {
     //@todo Add validations
     req.dgParams = {};
-    req.dgParams.pkg = req.query.load || null;
+    req.dgParams.pkg = req.query.pkg || req.query.load || null;
     req.dgParams.isDebug = req.query.mode === 'debug';
     req.dgParams.skin = req.query.skin;
     req.dgParams.isIE = req.query.ie || false;

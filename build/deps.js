@@ -1,7 +1,7 @@
 var deps = {
 
     DGCore: {
-        desc: 'Main DG module.',
+        desc: 'Main module',
         src: [
             'DGCore/DGCore.js'
         ],
@@ -9,11 +9,18 @@ var deps = {
             all: ['../vendors/leaflet/dist/leaflet.css'],
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
-        heading: '2GIS modules'
+        heading: '2GIS modules',
+        deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon']
+    },
+
+    DGDivIcon: {
+        desc: '2GIS DivIcon module',
+        src: ['DGDivIcon/src/DGDivIcon.js'],
+        deps: ['DGCore']
     },
 
     DGCustomization: {
-        desc: 'Customization DG module.',
+        desc: 'LeafLet customization module',
         src: [
             'DGCustomization/skin/{skin}/theme.config.js',
             'DGCustomization/DGCustomization.js'
@@ -26,11 +33,11 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/marker.css'
             ]
         },
-        deps: ['DGDivIcon', 'DGCore']
+        deps: ['DGCore', 'DGDivIcon']
     },
 
     DGFullScreen: {
-        desc: 'Full screen module.',
+        desc: 'Full screen module',
         src: ['DGFullScreen/src/DGFullScreen.js',
               'DGFullScreen/lang/ru.js',
               'DGFullScreen/lang/it.js'
@@ -38,41 +45,34 @@ var deps = {
         css: {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
         },
-        deps: ['DGLocale', 'DGCore']
+        deps: ['DGCore', 'DGLocale']
     },
 
     DGTileLayer: {
-        desc: '2GIS Tile Layer module.',
+        desc: '2GIS tile layer module',
         src: ['DGTileLayer/src/DGTileLayer.js'],
         css: {
             all: ['DGTileLayer/skin/{skin}/css/style.css']
         },
-        deps: ['TileLayer', 'DGCore']
+        deps: ['DGCore']
     },
 
     DGJsonp: {
+        desc: 'JSONP module',
         src: ['DGJsonp/src/DGJsonp.js'],
-        desc: 'JSONP module.',
         deps: ['DGCore']
     },
 
     DGProjectDetector: {
-        desc: 'DGProjectDetector module.',
+        desc: '2GIS project detector module.',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGJsonp', 'DGCore']
+        deps: ['DGCore', 'DGJsonp']
     },
 
     DGLocale: {
-        desc: 'Localization module.',
+        desc: 'Localization module',
         src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
         deps: ['DGCore']
-    },
-
-    DGDivIcon: {
-        desc: 'DG.DivIcon module.',
-        src: ['DGDivIcon/src/DGDivIcon.js'],
-        deps: ['DivIcon', 'DGCore']
-
     }
 
 };

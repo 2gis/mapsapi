@@ -1,27 +1,21 @@
 var packages = {
 
-    base: {
-        name: 'Базовый',
-        modules: ['Core', 'TileLayer', 'DGTileLayer'],
-        desc: 'Представляет собой самый базовый функционал: карта и элементы управления'
-    },
-
     standard: {
-        name: 'Стандарт',
-        modules: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'DGTileLayer', 'Marker', 'DivIcon'],
-        desc: 'Представляет собой стандартный функционал: карта, маркеры, балуны, геометрии'
+        name: 'Standard package',
+        desc: 'Provides standard functionality: map, markers, balloons, geometries',
+        modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen']
     },
 
     full: {
-        name: 'Полный',
-        modules: [],
-        desc: 'Полный, максимальный пакет. Включает в себя весь функционал API карт'
+        name: 'Full package',
+        desc: 'Complete package. Includes all the features of 2GIS Maps API',
+        modules: []
     },
 
     online: {
-        name: 'Онлайн',
-        modules: [],
-        desc: 'Полный, максимальный пакет. Включает в себя весь функционал API карт'
+        name: '2GIS Online package',
+        desc: 'Provides functionality for 2GIS Online',
+        modules: ['DGTileLayer']
     }
 
 };

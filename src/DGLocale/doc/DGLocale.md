@@ -9,7 +9,7 @@
 
 Также есть возможность указать язык карты по умолчанию, передав его при подключении API с помощью параметра lang:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?load=full&mode=debug&lang=it"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&lang=it"></script>
 
 #API
 
@@ -145,11 +145,11 @@
     L.DG.LocaleExample.Dictionary.it = L.extend({
         "{n} people" : ["{n} utente", "{n} utenti"],
         "regularly use 2GIS" : "utilizzano regolarmente 2GIS"
-    }, L.DG.Dictionary.it);  
+    }, L.DG.Dictionary.it);
 
     содержимое файла lang/ru.js
 
      L.DG.LocaleExample.Dictionary.ru = L.extend({
         "{n} people" : ["{n} пользователь", "{n} пользователя", "{n} пользователей"],
         "regularly use 2GIS" : "регулярно используют 2GIS"
-    }, L.DG.Dictionary.ru);  
+    }, L.DG.Dictionary.ru);
