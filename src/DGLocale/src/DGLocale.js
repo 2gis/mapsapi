@@ -32,7 +32,7 @@ L.DG.Locale = {
 };
 
 L.Map.mergeOptions({
-    currentLang: L.DG.loaderParams && L.DG.loaderParams.lang || "ru"
+    currentLang: L.DG.loaderParams && L.DG.loaderParams.lang || "__DEFAULT_LANG__"
 });
 
 L.Map.include({

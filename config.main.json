@@ -9,5 +9,6 @@
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "1.3",
-    "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718"
+    "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
+    "DEFAULT_LANG": "ru"
 }
