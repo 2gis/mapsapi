@@ -1,12 +1,13 @@
 describe('DG Locale Module', function() {
-	var map, 
+	var map,
 		getLangSpy,
 		setLangSpy;
 
 	beforeEach(function() {
 		map = new L.Map(document.createElement('div'), {
             center : new L.LatLng(54.980206086231, 82.898068362003),
-            zoom:10
+            zoom:10,
+            fullScreenControl: false
         });
 		getLangSpy = sinon.spy(map, "getLang");
 		setLangSpy = sinon.spy(map, "setLang");
@@ -21,7 +22,7 @@ describe('DG Locale Module', function() {
 	describe('getLang / setLang test cases', function() {
 		it("should return default language: ru", function() {
 			map.getLang();
-			
+
 			expect(getLangSpy.calledOnce).to.be.ok();
 			expect(getLangSpy.returnValues).to.eql(['ru']);
 		});
@@ -128,12 +129,12 @@ describe('DG Locale Module', function() {
 
 		it("should return source message for call with not existing lang: uk", function() {
 			map.setLang("uk");
-			plugin.t("regularly use 2GIS", 10000);
+			plugin.t("regularly use 2GIS");
 
 			expect(TestPlugin.Dictionary).to.not.have.property("uk");
-			expect(setLangSpy.calledOnce).to.be.ok();
+			expect(setLangSpy.calledTwice).to.be.ok();
 			expect(tSpy.calledOnce).to.be.ok();
-			expect(tSpy.firstCall.returnValue).to.eql("regularly use 2GIS");
+			expect(tSpy.firstCall.returnValue).to.eql("регулярно используют 2GIS");
 		});
 
 		it("should return source message for call with not existing message for lang: ru", function() {
