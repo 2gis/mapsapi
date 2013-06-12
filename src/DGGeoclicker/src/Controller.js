@@ -42,7 +42,6 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     handleClick: function (latlng, zoom) { // (Object, Number)
-
         var callback = L.bind(this._handleResponse, this);
 
         this._showPopup(latlng);
@@ -60,7 +59,6 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     _handleResponse: function (result) { // (Object)
-
         var type, handler;
 
         this._popup.hideLoader();

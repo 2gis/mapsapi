@@ -8,6 +8,7 @@
 </head>
 <body>
 <div id="mocha"></div>
+<div id="map" width="600" height="400"></div>
 <script src="../../../test/expect.js"></script>
 <script src="../../../test/mocha.js"></script>
 <script src="../../../test/happen.js"></script>
@@ -23,8 +24,13 @@
 <script src="../src/provider/CatalogApi.js"></script>
 <script src="../src/handler/Handler.js"></script>
 <script src="../src/handler/Default.js"></script>
+<script src="../src/lang/ru/handler/Default.js"></script>
+<script src="../src/lang/it/handler/Default.js"></script>
 <script src="../src/handler/House.js"></script>
+<script src="../src/lang/ru/handler/House.js"></script>
+<script src="../src/lang/it/handler/House.js"></script>
 <script src="../src/Controller.js"></script>
+<script src="../../DGJsonp/src/DGJsonp.js"></script>
 
 
 <script>
@@ -34,6 +40,8 @@
 
 <!-- /map -->
 <script src="GeoclickerSpec.js"></script>
+<script src="ControllerSpec.js"></script>
+<script src="CatalogApiSpec.js"></script>
 
 <script>
     (window.mochaPhantomJS || window.mocha).run();
