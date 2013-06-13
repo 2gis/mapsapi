@@ -1,10 +1,10 @@
-// Zoom 2GIS redefinition
+// Sets default zoom position from current theme
 
 L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
 
-// TODO remove copypasted code from Leaflet
+// @todo: think about pull request to leaflet with zoom control button's titles as options
 
 L.Control.Zoom.prototype.onAdd = function (map) {
     var zoomName = 'dg-zoom',
@@ -20,7 +20,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     return container;
 };
 
-// Popup 2GIS redefinition
+// Adds 2GIS-related popup content wrapper and offset
 
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
@@ -68,7 +68,9 @@ L.Map.include({
             L.DomUtil.addClass(popup._source._icon, 'leaflet-marker-active');
         }
 
-        return this.addLayer(popup);
+        return this
+                .addLayer(popup)
+                .fire('popupopen', {'popup': popup});
     },
 
     closePopup: function (popup) {
@@ -81,12 +83,14 @@ L.Map.include({
                 L.DomUtil.removeClass(popup._source._icon, 'leaflet-marker-active');
             }
 
-            this.removeLayer(popup);
+            this
+                .removeLayer(popup)
+                .fire('popupclose', {'popup': popup});
         }
         return this;
     }
 });
 
-// Marker 2GIS redefinition
+// Applys 2GIS divIcon to marker
 
 L.Marker.prototype.options.icon = L.DG.divIcon();
