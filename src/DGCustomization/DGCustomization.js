@@ -4,7 +4,7 @@ L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
 
-// @todo: think about pull request to leaflet with zoom control button's titles as options
+// TODO: think about pull request to leaflet with zoom control button's titles as options
 
 L.Control.Zoom.prototype.onAdd = function (map) {
     var zoomName = 'dg-zoom',
