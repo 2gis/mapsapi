@@ -40,82 +40,53 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
 }());
+
 L.Popup.include({
+
     _close: function () {
-        var map = this._map;
+        if (this._map) {
+            this._map.closePopup(this);
+        }
+    }
 
-        if (this._markerIcon) {
-            L.DomUtil.removeClass(this._markerIcon, 'leaflet-marker-active');
+});
+
+L.Map.include({
+    openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
+        this.closePopup();
+
+        if (!(popup instanceof L.Popup)) {
+            var content = popup;
+
+            popup = new L.Popup(options)
+                .setLatLng(latlng)
+                .setContent(content);
+        }
+        this._popup = popup;
+
+        if (popup._source._icon) {
+            L.DomUtil.addClass(popup._source._icon, 'leaflet-marker-active');
         }
 
-        if (map) {
-            map._popup = null;
+        return this.addLayer(popup);
+    },
 
-            map
-                .removeLayer(this)
-                .fire('popupclose', {popup: this});
+    closePopup: function (popup) {
+        if (!popup || popup === this._popup) {
+            popup = this._popup;
+            this._popup = null;
         }
+        if (popup) {
+            if (popup._source._icon) {
+                L.DomUtil.removeClass(popup._source._icon, 'leaflet-marker-active');
+            }
+
+            this.removeLayer(popup);
+        }
+        return this;
     }
 });
 
 // Marker 2GIS redefinition
 
 L.Marker.prototype.options.icon = L.DG.divIcon();
-
-L.Marker.include({
-    openPopup: function () {
-        if (this._popup && this._map && !this._map.hasLayer(this._popup)) {
-            this._popup.setLatLng(this._latlng);
-            this._map.openPopup(this._popup);
-            // Mark icon as active
-            L.DomUtil.addClass(this._icon, 'leaflet-marker-active');
-        } else if (this._popup && this._map && this._map.hasLayer(this._popup)) {
-            this._map.closePopup(this._popup);
-            // Unmark icon as inactive
-            L.DomUtil.removeClass(this._icon, 'leaflet-marker-active');
-        }
-
-        return this;
-    },
-
-    closePopup: function () {
-        if (this._popup) {
-            this._popup._close();
-        }
-        // Unmark icon as active
-        L.DomUtil.removeClass(this._icon, 'leaflet-marker-active');
-
-        return this;
-    },
-
-    bindPopup: function (content, options) {
-        var anchor = L.point(this.options.icon.options.popupAnchor) || new L.Point(0, 0);
-
-        anchor = anchor.add(L.Popup.prototype.options.offset);
-
-        if (options && options.offset) {
-            anchor = anchor.add(options.offset);
-        }
-
-        options = L.extend({offset: anchor}, options);
-
-        if (!this._popup) {
-            this
-                .on('click', this.openPopup, this)
-                .on('remove', this.closePopup, this)
-                .on('move', this._movePopup, this);
-        }
-
-        if (content instanceof L.Popup) {
-            L.setOptions(content, options);
-            this._popup = content;
-        } else {
-            this._popup = new L.Popup(options, this)
-                .setContent(content);
-        }
-
-        this._popup._markerIcon = this._icon;
-
-        return this;
-    }
-});
