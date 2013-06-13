@@ -5,7 +5,7 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
         spy,
         map,
         mapContainer = document.getElementById('map');
-
+        
     beforeEach(function () {
         map = new L.Map(mapContainer, {
             center: new L.LatLng(54.98117239821992, 82.88922250270844),
@@ -24,7 +24,7 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
     });
 
     describe("#getLocations", function() {
-
+        //delete, _getTypesByZoom method should be tested instead of this
         it('should send correct latLng and zoom to the server', function (done) {
 
             var latlng = L.latLng(5, 7),
@@ -45,7 +45,7 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
         });
 
         it('should send correct types to the server corresponded to zoomlevel', function (done) {
-
+            //change to test of correct response in_getTypesByZoom
             var zoomToTypesMap = {
                     0: null,
                     1: null,
@@ -105,7 +105,7 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
     });
 
     describe('should return undefined to callback if WebApi.geoSearch()', function () {
-
+        //delete, should be tested _filterResponse instead
         var latlng,
             callback,
             zoom;

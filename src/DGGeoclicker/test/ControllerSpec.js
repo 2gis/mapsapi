@@ -22,6 +22,7 @@ describe('L.DG.Geoclicker.Controller', function () {
     describe("#getLocations", function() {
 
 it('should request locations from WebApi', function (done) {
+            //delete
             spy = sinon.spy(map.dgGeoclicker._controller._catalogApi, "getLocations");
 
             happen.click(mapContainer);
@@ -39,6 +40,7 @@ it('should request locations from WebApi', function (done) {
     describe("default handler", function() {
 
 it('should use default handler if CatalogApi returned no result', function (done) {
+    // change to Controller._handleResponse to test correct handle called
 
             // stub the default handler inject him to the handlers sequence
             spy = sinon.spy(function () {
@@ -69,7 +71,7 @@ it('should use default handler if CatalogApi returned no result', function (done
 
 
 it('should use default handler, unless handler was found', function (done) {
-
+    // the same as previous test
             var geoCoderResult = {
                     street: {id: 1, type: 'street'},
                     district: {id: 2, type: 'district'}
@@ -111,7 +113,7 @@ it('should use default handler, unless handler was found', function (done) {
     describe("other handlers", function() {
 
 it('should call handlers in order, corresponded to the  L.DG.Geoclicker.Controller.handlersSequence, also should call the next handler in sequence, if the previous returned false', function (done) {
-
+            //the same as previous
             var geoCoderResult = {
                     city: {id: 1, type: 'city'},
                     house: {id: 2, type: 'house'}

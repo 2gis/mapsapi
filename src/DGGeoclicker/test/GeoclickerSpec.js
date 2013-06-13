@@ -41,8 +41,8 @@ describe('L.DG.Geoclicker', function () {
     });
 
     describe("#handleClick", function() {
-
-it('should handle click on map and give it to Geoclicker.Controller by calling handleClick with correct zoom', function (done) {
+        //delete
+        it('should handle click on map and give it to Geoclicker.Controller by calling handleClick with correct zoom', function (done) {
 
             map = new L.Map(mapContainer, {
                 center: new L.LatLng(54.98117239821992, 82.88922250270844),
@@ -62,7 +62,7 @@ it('should handle click on map and give it to Geoclicker.Controller by calling h
     });
 
     describe("#handlePopupClose", function() {
-
+        //delete
         it('should handle event "popupclose" and forward it to the Controller.handlePopup', function (done) {
 
             var initZoom = 17,
@@ -87,6 +87,7 @@ it('should handle click on map and give it to Geoclicker.Controller by calling h
     describe("#disable", function() {
 
 it('shouldn\'t handle click and popupclose, if dgGeoclicker was disabled', function (done) {
+            //delete
             var initZoom = 17,
                 popupDummy = sinon.createStubInstance(L.Popup),
                 container = document.getElementById('map');
