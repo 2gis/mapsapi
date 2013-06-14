@@ -47,6 +47,13 @@ var config = {
         }
     },
 
+    tmpl: {
+        dir: 'templates',
+        pattern: '*.tmpl',
+        ext: '.tmpl',
+        varPostfix: '_TMPL'
+    },
+
     img: {
         pattern: '**/img/*',
         dest: basePath + '/public/img/',
