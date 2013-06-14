@@ -106,7 +106,7 @@ function processJs(srcList, basePath, moduleName) {
             var tmplConfig = getTemplates(moduleName);
 
              // add template content to config vars
-            for (key in tmplConfig) {
+            for (var key in tmplConfig) {
                 appConfig[key] = tmplConfig[key];
             }
         }
