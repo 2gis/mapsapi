@@ -14,7 +14,7 @@ L.DG.Geoclicker = L.Handler.extend({
 
     initialize: function (map) { // (Object)
         this._map = map;
-
+        L.DG.Geoclicker
         this._controller = new L.DG.Geoclicker.Controller(map);
     },
 
@@ -29,7 +29,11 @@ L.DG.Geoclicker = L.Handler.extend({
         this._map.off('popupclose', this._onPopupClose, this);
     },
 
-    _onMapClick: function (e) {
+    getController: function() {
+        return this._controller;
+    },
+
+    _onMapClick: function (e) { // (Object)
         var self = this;
         this.clickCount++;
         if (this.clickCount <= 1) {

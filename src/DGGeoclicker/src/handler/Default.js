@@ -6,15 +6,16 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
         Dictionary: {}
     },
 
-    initialize: function (controller, popup, map) { // (Object, Object, Object)
-        this._popup = popup;
+    initialize: function (controller, view, map) { // (Object, Object, Object)
         this._controller = controller;
+        this._view = view;
         this._map = map;
     },
 
-    handle: function (results) { // (Object) -> Boolean
-        this._popup.setContent(this.t("We haven't collected info about this place"));
-        return true;
+    handle: function (results) { // (Object) -> Object|Boolean
+        return {
+            tmpl: this.t("We haven't collected info about this place")
+        };
     }
 
 });
@@ -22,21 +23,9 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
 
 L.DG.Geoclicker.Handler.HandlerExample = L.DG.Geoclicker.Handler.Default.extend({
 
-    handle: function (results, type) { // (Object, String) -> Boolean
-        this._popup.setContent(type + ':<br/>' + results[type].id);
-        return true;
+    handle: function (results, type) { // (Object, String) -> Object|Boolean
+        return {
+            tmpl: type + ':<br/>' + results[type].id
+        };
     }
 });
-/*
- station_platform
- city
- street
- district
- project
- house
- sight
- place
- station
- crossbroad
- metro
- */

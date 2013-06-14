@@ -18,8 +18,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     getLocations: function (latlng, zoom, callback) { // (Object, Number, Function)
         // Callback will receive array of found results or void if errors occurred or nothing was found.
-
-        var types = this._getTypesByZoom(zoom),
+        var types = this.getTypesByZoom(zoom),
 
             q = latlng.lng + ',' + latlng.lat;
 
@@ -34,7 +33,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     firmsInHouse: function (houseId, callback, page) { // (String, Function, Number)
-
         page = page || 1;
         var params = L.extend(this.options.data, {
             criteria: JSON.stringify({
@@ -48,7 +46,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             })
         });
 
-        this._cancelLastRequest();
+        this.cancelLastRequest();
 
         function responseHandler(res) {
             if (res && res.response_code == 200 && res.results && res.results.firm && res.results.firm.results && res.results.firm.results.length) {
@@ -68,16 +66,30 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             zoomlevel: zoomlevel
         };
 
-        this._cancelLastRequest();
+        this.cancelLastRequest();
 
         this._performRequest(params, this.options.urlGeo, callback, function () {
             callback()
         });
     },
 
-    _cancelLastRequest: function () {
+    cancelLastRequest: function () {
         if (this._lastRequest) {
             this._lastRequest.cancel();
+        }
+    },
+
+    getTypesByZoom: function (zoom) { // (Number) -> String|Null
+        if (zoom > 15) {
+            return 'house,street,sight,station_platform';
+        } else if (zoom > 14) {
+            return 'house,street';
+        } else if (zoom > 12) {
+            return 'district';
+        } else if (zoom > 8) {
+            return 'settlement,city';
+        } else {
+            return null;
         }
     },
 
@@ -126,20 +138,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     _isNotFound: function (response) { // (Object) -> Boolean
         return !response || !!response.error_code || !response.result || !response.result.length;
-    },
-
-    _getTypesByZoom: function (zoom) { // (Number) -> String
-
-        if (zoom > 15) {
-            return 'house,street,sight,station_platform';
-        } else if (zoom > 14) {
-            return 'house,street';
-        } else if (zoom > 12) {
-            return 'district';
-        } else if (zoom > 8) {
-            return 'settlement,city';
-        } else {
-            return;
-        }
     }
+
 });

@@ -70,7 +70,8 @@ var deps = {
             'DGGeoclicker/src/handler/House.js',
             'DGGeoclicker/src/lang/it/handler/House.js',
             'DGGeoclicker/src/lang/ru/handler/House.js',
-            'DGGeoclicker/src/Controller.js',
+            'DGGeoclicker/src/View.js',
+            'DGGeoclicker/src/Controller.js'
         ],
         deps: ['JSONP']
     },
