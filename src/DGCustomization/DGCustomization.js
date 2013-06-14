@@ -26,7 +26,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalSetContent = L.Popup.prototype.setContent,
-        originalSetContentResult;
+        originalUpdateLayout = L.Popup.prototype._updateLayout;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
@@ -36,13 +36,16 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         } else {
             content = L.DomUtil.createL.DG.configTheme && L.DG.configTheme.controls.fullScreen.position ||('div', 'dg-callout').appendChild(content);
         }
+        return originalSetContent.call(this, content);
+    };
 
-        originalSetContentResult = originalSetContent.call(this, content);
+    L.Popup.prototype._updateLayout = function () {
+        var scroller = this._contentNode.children[0];
 
-        // init baron (https://github.com/Diokuz/baron)
-        //console.log(this._container);
+        //scroller.baron();
+        //console.log(scroller);
 
-        return originalSetContentResult;
+        return originalUpdateLayout.call(this, content);
     };
 
 }());

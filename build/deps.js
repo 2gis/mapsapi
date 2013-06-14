@@ -29,6 +29,7 @@ var deps = {
         css: {
             all: [
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
+                'DGCustomization/skin/basic/css/baron.css',
                 'DGCustomization/skin/{skin}/css/zoom.css',
                 'DGCustomization/skin/{skin}/css/callout.css',
                 'DGCustomization/skin/{skin}/css/marker.css'
