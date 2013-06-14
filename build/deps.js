@@ -3,7 +3,8 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            'DGCore/DGCore.js'
+            'DGCore/DGCore.js',
+            '../vendors/baron/baron.js'
         ],
         css: {
             all: ['../vendors/leaflet/dist/leaflet.css'],
