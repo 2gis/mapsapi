@@ -1,6 +1,5 @@
 describe('L.DG.Geoclicker', function () {
     var map,
-//        mapContainer = document.getElementById('map');
         mapContainer = document.createElement("div");
 
     afterEach(function () {
@@ -30,7 +29,6 @@ describe('L.DG.Geoclicker', function () {
         });
 
         it('should be active by default', sinon.test(function () {
-            //map.remove();
             map = new L.Map(mapContainer, {
                 center: new L.LatLng(54.98117239821992, 82.88922250270844),
                 zoom: 17

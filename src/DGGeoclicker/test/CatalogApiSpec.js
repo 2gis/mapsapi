@@ -3,7 +3,6 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
     var catalogApi,
         spy,
         map,
-//        mapContainer = document.getElementById('map');
         mapContainer = document.createElement("div");
 
     beforeEach(function () {
