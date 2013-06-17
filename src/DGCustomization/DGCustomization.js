@@ -27,13 +27,12 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalSetContent = L.Popup.prototype.setContent,
         originalUpdateLayout = L.Popup.prototype._updateLayout;
-        //bar = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
     L.Popup.prototype.setContent = function (content) {
-        content = '<div class="scroller"><div class="container">' + content + '<div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div></div>';
-        return originalSetContent.call(this, content);
+        var cont = '<div class="scroller"><div class="container">' + content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
+        return originalSetContent.call(this, cont);
     };
 
     L.Popup.prototype._updateLayout = function () {

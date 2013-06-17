@@ -56,10 +56,14 @@
 /* baron */
 
 .leaflet-popup-content {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #FFCC99;
+    box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 0, 0, 0.05);
     display: inline-block;
-    vertical-align: top;
-    position: relative;
     overflow: hidden;
+    position: relative;
+    text-align: left;
+    vertical-align: top;
 }
 .scroller {
     height: 100%;
@@ -99,46 +103,3 @@
 .baron .scroller__bar {
     opacity: .6;
 }
-
-
-
-
-
-/* Geoclicker */
-/*.dg-geoclicker {}
-    .dg-geoclicker__org {
-        font-size: 15px;
-        font-weight: bold;
-        line-height: 18px;
-        margin: 0 10px 6px 0;
-    }
-    .dg-geoclicker__address {
-        font-size: 15px;
-        font-weight: normal;
-        line-height: 16px;
-        margin-bottom: 2px;
-    }
-    .dg-geoclicker__purpose,
-    .dg-geoclicker__elevation {
-        color: #a0a0a0;
-        display: block;
-        font-size: 15px;
-        line-height: 16px;
-        margin-bottom: 1px;
-    }
-    .dg-geoclicker__purpose {
-        margin-bottom: 2px;
-    }
-    .dg-geoclicker__show-organizations {
-        color: rgb(0, 112, 192);
-        cursor: pointer;
-        font-size: 12px;
-        line-height: 24px;
-    }
-        .dg-geoclicker__orgs {
-            color: rgb(160, 160, 160);
-            display: inline;
-            font-size: 10px;
-            position: relative;
-            top: -4px;
-        }*/
