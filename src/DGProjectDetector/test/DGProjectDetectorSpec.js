@@ -1,4 +1,4 @@
-describe("DG Project Detector Module", function () {
+/*describe("DG Project Detector Module", function () {
     var map;
     L.DG = L.DG || {};
     this.timeout(200);
@@ -108,3 +108,4 @@ describe("DG Project Detector Module", function () {
         });
     });
 });
+*/
