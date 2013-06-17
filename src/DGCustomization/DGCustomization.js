@@ -91,6 +91,6 @@ L.Map.include({
     }
 });
 
-// Applys 2GIS divIcon to marker
+// Applies 2GIS divIcon to marker
 
 L.Marker.prototype.options.icon = L.DG.divIcon();
