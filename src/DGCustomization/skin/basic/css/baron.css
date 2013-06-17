@@ -1,7 +1,0 @@
-.dg-callout {
-    overflow-y: scroll;
-    /* -webkit-overflow-scrolling: touch; *//* uncomment to accelerate scrolling on iOS */
-}
-.dg-callout::-webkit-scrollbar { /* Prevents webkit cross-direction scrolling bug */
-    width: 0;
-}

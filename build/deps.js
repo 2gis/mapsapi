@@ -3,11 +3,12 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            'DGCore/DGCore.js',
-            '../vendors/baron/baron.js'
+            'DGCore/DGCore.js'
         ],
         css: {
-            all: ['../vendors/leaflet/dist/leaflet.css'],
+            all: [
+                '../vendors/leaflet/dist/leaflet.css'
+            ],
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
         heading: '2GIS modules',
@@ -24,12 +25,16 @@ var deps = {
         desc: 'LeafLet customization module',
         src: [
             'DGCustomization/skin/{skin}/theme.config.js',
-            'DGCustomization/DGCustomization.js'
+            '../vendors/baron/baron.js',
+            '../vendors/baron/js/bonzo.js',
+            '../vendors/baron/js/bean.js',
+            '../vendors/baron/js/qwery.js',
+            'DGCustomization/DGCustomization.js'          
         ],
         css: {
             all: [
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
-                'DGCustomization/skin/basic/css/baron.css',
+                '../vendors/baron/baron.css',
                 'DGCustomization/skin/{skin}/css/zoom.css',
                 'DGCustomization/skin/{skin}/css/callout.css',
                 'DGCustomization/skin/{skin}/css/marker.css'

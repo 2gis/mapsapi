@@ -5,37 +5,35 @@
     margin: 0;
     padding: 0;
 }
-    .leaflet-popup-tip {
-        display: none;
-    }
-    .leaflet-popup-tip-container {
-        background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
-        bottom: -28px;
-        height: 30px;
-        left: 50%;
-        margin-left: -18px;
-        padding: 0;
-        position: absolute;
-        width: 55px;
-    }
-    .leaflet-container a.leaflet-popup-close-button {
-        background: url(__BASE_URL__/img/dg-callout-default.png) 0 0 no-repeat;
-        border-radius: 2px;
-        color: #aaa;
-        font-weight: 400;
-        height: 24px;
-        margin: 0;
-        right: -1px;
-        top: -2px;
-        padding: 0;
-        width: 24px;
-    }
-    .leaflet-container a.leaflet-popup-close-button:hover {
-        background: url(__BASE_URL__/img/dg-callout-default.png) -24px 0 no-repeat;
-    }
-
-/* Callout styles for 2GIS markup */
-.dg-callout {
+.leaflet-popup-tip {
+    display: none;
+}
+.leaflet-popup-tip-container {
+    background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
+    bottom: -28px;
+    height: 30px;
+    left: 50%;
+    margin-left: -18px;
+    padding: 0;
+    position: absolute;
+    width: 55px;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    background: url(__BASE_URL__/img/dg-callout-default.png) 0 0 no-repeat;
+    border-radius: 2px;
+    color: #aaa;
+    font-weight: 400;
+    height: 24px;
+    margin: 0;
+    right: -1px;
+    top: -2px;
+    padding: 0;
+    width: 24px;
+}
+.leaflet-container a.leaflet-popup-close-button:hover {
+    background: url(__BASE_URL__/img/dg-callout-default.png) -24px 0 no-repeat;
+}
+.leaflet-popup-content-wrapper {
     background-color: #fff;
     border: 1px solid #a9bbc9;
     border-radius: 5px;
@@ -44,19 +42,70 @@
     font-size: 13px;
     margin: 0;
     /*overflow: hidden;*/
-    padding: 17px 15px 16px;
+    padding: 17px 0px 16px;
     word-wrap: break-word;
 }
-.dg-callout img {
+.leaflet-popup-content-wrapper img {
     border: none;
     margin: 0;
 }
-.dg-callout p {
+.leaflet-popup-content-wrapper p {
     margin: 13px 0;
 }
 
+/* baron */
+
+.leaflet-popup-content {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    overflow: hidden;
+}
+.scroller {
+    height: 100%;
+    overflow-y: scroll;
+    /*-webkit-overflow-scrolling: touch;*/
+    /* uncomment to accelerate scrolling on iOs */
+}
+.scroller::-webkit-scrollbar {
+    width: 0;
+}
+.scroller__bar-wrapper {
+    position: absolute;
+    z-index: 3;
+    top: 10px;
+    bottom: 10px;
+    right: 5px;
+    width: 8px;
+    border-radius: 5px;
+    background: #ddf;
+    background: rgba(0, 0, 255, .1);
+    pointer-events: none;
+}
+.scroller__bar {
+    position: absolute;
+    z-index: 1;
+    width: 8px;
+    border-radius: 3px;
+    background: #987;
+    opacity: 0;
+    -webkit-transition: opacity .2s linear;
+    transition: opacity .2s linear;
+    pointer-events: auto;
+}
+.scroller__bar:hover {
+    opacity: .8;
+}
+.baron .scroller__bar {
+    opacity: .6;
+}
+
+
+
+
+
 /* Geoclicker */
-.dg-geoclicker {}
+/*.dg-geoclicker {}
     .dg-geoclicker__org {
         font-size: 15px;
         font-weight: bold;
@@ -92,4 +141,4 @@
             font-size: 10px;
             position: relative;
             top: -4px;
-        }
+        }*/

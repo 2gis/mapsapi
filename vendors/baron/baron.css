@@ -1,0 +1,38 @@
+/* CSS styles in this file are need for proper Baron work */
+.wrapper {
+    position: relative;
+    overflow: hidden;
+}
+.scroller {
+    height: 100%;
+    overflow-y: scroll;
+    border: 0;
+}
+.scroller::-webkit-scrollbar { /* Preventing webkit bug of horizontal scrolling */
+    width: 0;
+}
+.scroller__bar { /* The bar. You should define width, right and background */
+    position: absolute;    
+    z-index: 1;
+    right: 0;
+    width: 10px;
+    background: #999;
+}
+.scroller__bar_h {
+    bottom: 2px;
+    height: 8px;
+}
+
+.header__title {
+    width: 100%;
+    margin: 0;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; /* For padding and border, if exist */
+    background: #999;
+
+    /* pointer-events: none; /* IE9+ https://developer.mozilla.org/en-US/docs/CSS/pointer-events */
+}
+.header__title_state_fixed {
+    position: absolute;
+    z-index: 1; /* Removing flicker effect */
+}

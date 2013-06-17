@@ -27,25 +27,36 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalSetContent = L.Popup.prototype.setContent,
         originalUpdateLayout = L.Popup.prototype._updateLayout;
+        //bar = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
     L.Popup.prototype.setContent = function (content) {
-        if (typeof content === 'string') {
-            content = '<div class="dg-callout">' + content + '</div>';
-        } else {
-            content = L.DomUtil.createL.DG.configTheme && L.DG.configTheme.controls.fullScreen.position ||('div', 'dg-callout').appendChild(content);
-        }
+        content = '<div class="scroller"><div class="container">' + content + '<div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div></div>';
         return originalSetContent.call(this, content);
     };
 
     L.Popup.prototype._updateLayout = function () {
-        var scroller = this._contentNode.children[0];
+        var dgCallout = this._contentNode.children[0],
+            dgScroller = dgCallout.children[0];
 
-        //scroller.baron();
-        //console.log(scroller);
-
-        return originalUpdateLayout.call(this, content);
+        originalUpdateLayout.call(this, content);
+        
+        // example: http://jsbin.com/iloheg/7/edit
+        baron({
+            scroller: '.scroller',
+            bar: '.scroller__bar',
+            barOnCls: 'baron',
+            $: function(selector, context) {
+              return bonzo(qwery(selector, context));
+            },
+            event: function(elem, event, func, mode) {
+              if (mode == 'trigger') {
+                mode = 'fire';
+              }
+              bean[mode || 'on'](elem, event, func);
+            }      
+        });
     };
 
 }());
