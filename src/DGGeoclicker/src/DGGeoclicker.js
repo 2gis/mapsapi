@@ -1,8 +1,3 @@
-/**
- * 2GIS Geoclicker Plugin
- * TODO add Description here
- */
-
 L.DG = L.DG || {}; // TODO realize this in kind of intro file
 
 L.Map.mergeOptions({
