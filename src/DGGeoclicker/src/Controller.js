@@ -3,14 +3,14 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     options: {
         // if handler worked successfully, it should return rendering object that will be processed in View , otherwise it should return false
         // default handler always should return rendering object
-        handlersSequence: {
+        "handlersSequence": {
 
-            house: L.DG.Geoclicker.Handler.House,
+            "house": L.DG.Geoclicker.Handler.House,
 
-            district: L.DG.Geoclicker.Handler.HandlerExample,
-            city: L.DG.Geoclicker.Handler.HandlerExample,
+            "district": L.DG.Geoclicker.Handler.HandlerExample,
+            "city": L.DG.Geoclicker.Handler.HandlerExample,
 
-            default: L.DG.Geoclicker.Handler.Default
+            "default": L.DG.Geoclicker.Handler.Default
 //            station_platform
 //
 //            street
