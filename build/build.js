@@ -99,14 +99,14 @@ function getModulesData() {
  * @return {Object}
  */
 function processJs(srcList, basePath, moduleName) {
-    var jsContent = {};
+    var jsContent = {}, key;
 
     if (srcList) {
         if (moduleName.indexOf("DG") === 0) {
             var tmplConfig = getTemplates(moduleName);
 
              // add template content to config vars
-            for (var key in tmplConfig) {
+            for (key in tmplConfig) {
                 appConfig[key] = tmplConfig[key];
             }
         }
@@ -228,7 +228,7 @@ function getTemplates(moduleName) {
                 (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = "";
         }
 
-        modulesTmpls[varName] = escapeJson(JSON.stringify(tmpl));
+        modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
     }
 
     function escapeJson (str) {
