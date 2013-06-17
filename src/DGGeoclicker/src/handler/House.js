@@ -16,10 +16,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         this._id = results.house.id;
-
-        //this._houseContent = this._renderHouse(results.house);
         this.houseObj = this._renderHouse(results.house);
-        //this._popup.setContent(this._houseContent);
         this.houseObj.afterRender = function() {
             self._initShowMore();
             self._initPaging();
@@ -30,7 +27,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _renderHouse: function (house) { // (Object) -> Object
         var attrs = house.attributes,
-        // @todo добавить инициализацию всех свойств
+        // TODO добавить инициализацию всех свойств
             data = {
                 address: '',
                 purpose: '',
@@ -43,18 +40,17 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
         data.address += house.name;
 
-// @todo добавить правильную фильтрацию (если нужно) всех свойств
+// TODO добавить правильную фильтрацию (если нужно) всех свойств
         if (attrs.purpose) {
             data.purpose = attrs.purpose;
         }
 
         if (attrs.elevation) {
-            console.log('elevation', attrs.elevation)
             data.elevation = '' + this.t("{n} floors", +attrs.elevation);
         }
 
         if (attrs.firmcount > 0) {
-            data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show all organisations in this building") + ' (' + attrs.firmcount + ')</a>';
+            data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show organization in the building") + ' (' + attrs.firmcount + ')</a>';
         }
 
         return {
@@ -71,12 +67,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initPaging: function () {
-        //@todo implement this after JSAPI-3049
+        // TODO implement this after JSAPI-3049
     },
 
     _showMoreClick: function () {
 
-        //this._popup.showLoader();
         this._view.showLoader();
 
         this._page = 1;
@@ -86,8 +81,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handlePaging: function () {
 
-        // @todo implement this
-        //this._popup.showLoaderPaging();
+        // TODO implement this
         this._page++;
 
         this._controller._catalogApi.getFirms(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
@@ -99,21 +93,17 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (this._page == 1) {
             this._contentFirms = content;
-            //this._popup.setContent(content);
-            //this._popup.hideLoader();
             this._view.renderPopup({
                 tmpl: this._contentFirms
             });
             this._view.hideLoader();
             this._initShowLess();
         } else {
-            //@todo проврерить, чтобы прокрутка не сбрасывалась вверх
+            // TODO проврерить, чтобы прокрутка не сбрасывалась вверх
             this._contentFirms = +content;
-            //this._popup.setContent(this._contentFirms);
             this._view.renderPopup({
                 tmpl: this._contentFirms
             });
-            //this._popup.hideLoaderPaging();
         }
 
     },
@@ -141,13 +131,13 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _showLessClick: function (firm) { // (Object)
+    _showLessClick: function () {
         this._view.render(this.houseObj);
         this._initShowMore();
     },
 
     _renderFirm: function (firm) { // (Object) -> Object
-        // @todo move that to dedicated util
+        // TODO move that to dedicated util
         var params = {
                 name: firm.name,
                 address: firm.geometry_name ? firm.geometry_name : '',

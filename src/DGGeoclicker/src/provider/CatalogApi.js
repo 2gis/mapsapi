@@ -95,7 +95,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     _performRequest: function (params, url, callback, failback) { // (Object, String, Function, Function)
         var source = this.options.data,
-            data = L.extend({ //@todo clone function should be used instead of manually copying
+            data = L.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key,
                 version: source.version,
                 lang: this._map.getLang(),

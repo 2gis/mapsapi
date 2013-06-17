@@ -12,7 +12,7 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
         this._map = map;
     },
 
-    handle: function (results) { // (Object) -> Object|Boolean
+    handle: function () {
         return {
             tmpl: this.t("We haven't collected info about this place")
         };

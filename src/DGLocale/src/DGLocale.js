@@ -6,7 +6,6 @@ L.DG.Locale = {
             lang = this._map.getLang(),
             msgIsset = false,
             dictionaryMsg,
-            isNumeric,
             exp;
         if (typeof this.constructor.Dictionary[lang] === 'undefined') {
             lang = "ru";

@@ -1,4 +1,4 @@
 L.DG.Geoclicker.Handler.House.Dictionary.it = L.extend({
-    "Show all organisations in this building": '(it)Показать все организации в здании',
-    "{n} floors": ["{n} этаж(i)", "{n} этажа(i)", "{n} этажей(i)"]
+    "Show organization in the building": "Mostra le aziende presenti nell'edificio",
+    "{n} floors": ["piano", "piani", "piani"]
 }, L.DG.Dictionary.it);

@@ -1,9 +1,9 @@
 /**
  * 2GIS Geoclicker Plugin
- * @todo add Description here
+ * TODO add Description here
  */
 
-L.DG = L.DG || {}; //@todo realize this in kind of intro file
+L.DG = L.DG || {}; // TODO realize this in kind of intro file
 
 L.Map.mergeOptions({
     dgGeoclicker: true
@@ -14,7 +14,6 @@ L.DG.Geoclicker = L.Handler.extend({
 
     initialize: function (map) { // (Object)
         this._map = map;
-        L.DG.Geoclicker
         this._controller = new L.DG.Geoclicker.Controller(map);
     },
 
