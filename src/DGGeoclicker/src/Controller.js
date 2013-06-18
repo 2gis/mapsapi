@@ -39,22 +39,30 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     handleClick: function (latlng, zoom) { // (Object, Number)
-        var callback = L.bind(this.handleResponse, this);
+        var callback = L.bind(this.handleResponse, this),
+            self = this;
 
-        this._view.showPopup(latlng);
-        this._view.showLoader();
-        this._catalogApi.getLocations(latlng, zoom, callback);
+        this._catalogApi.getLocations({
+            latlng: latlng,
+            zoom: zoom,
+            callback: callback,
+            showLoaderAndPopup: function() {
+                self._view.showLoader();
+                self._view.showPopup(latlng);
+            }
+        });
     },
 
     handleResponse: function (result) { // (Object)
         var type;
-
         this._view.hideLoader();
         if (!result) {
             this._runHandler('default');
             return;
         }
-
+        if (result.error && result.error == 'no type') {
+            return;
+        }
         while (type = this.findHandler(result)) {
             if (this._runHandler(type, result)) {
                 return;

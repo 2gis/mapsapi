@@ -16,17 +16,21 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         this._map = map;
     },
 
-    getLocations: function (latlng, zoom, callback) { // (Object, Number, Function)
+    getLocations: function (options) { // (Object)
         // Callback will receive array of found results or void if errors occurred or nothing was found.
-        var types = this.getTypesByZoom(zoom),
-
+        var zoom = options.zoom,
+            latlng = options.latlng,
+            callback = options.callback,
+            showLoaderAndPopup = options.showLoaderAndPopup || function() {},
+            types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
-
         if (!types) {
-            callback();
+            callback({
+                "error": "no type"
+            });
             return;
         }
-
+        showLoaderAndPopup();
         this.geoSearch(q, types, zoom, L.bind(function (result) {
             callback(this._filterResponse(result, types));
         }, this));
@@ -83,11 +87,17 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         if (zoom > 15) {
             return 'house,street,sight,station_platform';
         } else if (zoom > 14) {
-            return 'house,street';
+            return 'house,street,district';
+        } else if (zoom > 13) {
+            return 'district,house';
         } else if (zoom > 12) {
             return 'district';
+        } else if (zoom > 11) {
+            return 'settlement,city,district';
         } else if (zoom > 8) {
             return 'settlement,city';
+        } else if (zoom > 7) {
+            return 'city';
         } else {
             return null;
         }

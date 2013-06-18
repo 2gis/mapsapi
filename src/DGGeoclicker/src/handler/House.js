@@ -50,7 +50,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         if (attrs.firmcount > 0) {
-            data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show organization in the building") + ' (' + attrs.firmcount + ')</a>';
+            //data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show organization in the building") + ' (' + attrs.firmcount + ')</a>';
         }
 
         return {

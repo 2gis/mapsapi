@@ -21,7 +21,7 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
         map = null;
     });
 
-    describe("#getLocations", function() {
+    describe("#getTypesByZoom", function() {
 
         it('should send correct types to the server corresponded to zoomlevel', function () {
             var zoomToTypesMap = {
@@ -33,14 +33,14 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
                     5: null,
                     6: null,
                     7: null,
-                    8: null,
+                    8: 'city',
                     9: 'settlement,city',
                     10: 'settlement,city',
                     11: 'settlement,city',
-                    12: 'settlement,city',
+                    12: 'settlement,city,district',
                     13: 'district',
-                    14: 'district',
-                    15: 'house,street',
+                    14: 'district,house',
+                    15: 'house,street,district',
                     16: 'house,street,sight,station_platform',
                     17: 'house,street,sight,station_platform',
                     18: 'house,street,sight,station_platform',
