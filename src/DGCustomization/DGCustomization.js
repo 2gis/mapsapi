@@ -24,7 +24,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-        originalUpdateLayout = L.Popup.prototype._updateLayout;
+        originalUpdateLayout = L.Popup.prototype._updateLayout,
+        graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
@@ -34,18 +35,16 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         if (maxHeight && maxHeight <= popupHeight) {
 
-            if (typeof this._initBaron === 'undefined') {
+            if (typeof this._addStructure === 'undefined') {
                 this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
                 this._updateContent();
             }
 
             originalUpdateLayout.call(this);
 
-            // example: http://jsbin.com/iloheg/7/edit
-            baron({
+            graf({
                 scroller: '.scroller',
                 bar: '.scroller__bar',
-                barOnCls: 'baron',
                 $: function(selector, context) {
                   return bonzo(qwery(selector, context));
                 },
@@ -56,8 +55,13 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                   bean[mode || 'on'](elem, event, func);
                 }
             });
-            this._initBaron = true;
+            this._addStructure = true;
         } else {
+            if (typeof this._addStructure === 'undefined') {
+                this._content = '<div class="container">' + this._content + '</div>';
+                this._updateContent();
+            }
+            this._addStructure = true;
             originalUpdateLayout.call(this);
         }
     };

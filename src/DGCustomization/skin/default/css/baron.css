@@ -16,11 +16,15 @@
     z-index: 3;
     top: 5px;
     bottom: 5px;
-    right: 5px;
+    right: 7px;
     width: 6px;
     border-radius: 5px;
     background-color: #e6ebee;
     background: rgba(0, 0, 255, .1);
+}
+
+.container {
+    padding: 0 25px;
 }
 
 .scroller__bar-wrapper:hover .scroller__bar {
