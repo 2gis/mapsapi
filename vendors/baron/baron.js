@@ -52,7 +52,7 @@ var
         constructor: function(roots, input, $) {
             var params = validate(input);
 
-            params.$ = $;    
+            params.$ = $;
             each.call(this, roots, function(root, i) {
                 var localParams = clone(params);
 
@@ -64,7 +64,6 @@ var
                 } else {
                     localParams.scroller = root;
                 }
-                
 
                 // if (!params.root && params.scroller) {
                 //     localParams.scroller = root;
@@ -146,15 +145,14 @@ var
                 item.update();
             }
         };
-
         if (item.scroller) {
             event(item.scroller, 'scroll', item._eventHandlers.onScroll, mode);
         }
         if (item.bar) {
             event(item.bar, 'touchstart mousedown', item._eventHandlers.onMouseDown, mode);
+            event(item.bar, 'touchstart mousedown', item._eventHandlers.onCoordinateReset, mode);
         }
         event(document, 'mouseup blur touchend', item._eventHandlers.onMouseUp, mode);
-        event(document, 'touchstart mousedown', item._eventHandlers.onCoordinateReset, mode);
         event(document, 'mousemove touchmove', item._eventHandlers.onMouseMove, mode);
         event(window, 'resize', item._eventHandlers.onResize, mode);
         if (item.root) {
@@ -166,7 +164,6 @@ var
         if (params.root.getAttribute('data-baron-' + params.direction)) return;
 
         var out = new item.prototype.constructor(params); // __proto__ of returning object is baron.prototype
-
         manageEvents(out, params.event, 'on');
 
         out.root.setAttribute('data-baron-' + params.direction, 'inited');
@@ -360,7 +357,7 @@ var
                         $(self.clipper).css(self.origin.crossSize, self.clipper[self.origin.crossClient] - delta + 'px');
                     }
                     $(self.scroller).css(self.origin.crossSize, self.clipper[self.origin.crossClient] + delta + 'px');
-                    
+
                     Array.prototype.unshift.call( arguments, 'resize' );
                     fire.apply(self, arguments);
 
@@ -379,7 +376,6 @@ var
                 var scrollDelta, oldBarSize, newBarSize,
                     delay = 0,
                     self = this;
-
                 if (new Date().getTime() - scrollLastFire < pause) {
                     clearTimeout(scrollPauseTimer);
                     delay = pause;
@@ -394,7 +390,7 @@ var
                             setBarSize.call(self, newBarSize);
                             oldBarSize = newBarSize;
                         }
-                        
+
                         barPos = relToPos.call(self, self.rpos());
 
                         posBar.call(self, barPos);
@@ -411,7 +407,7 @@ var
                 } else {
                     upd();
                 }
-                
+
             }
 
             return this;
@@ -629,7 +625,7 @@ var
 
             this.event(forward, 'click', function() {
                 var y = self.pos() - params.delta || 30;
-                
+
                 self.pos(y);
             });
         }

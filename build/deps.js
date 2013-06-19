@@ -29,7 +29,7 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            'DGCustomization/DGCustomization.js'          
+            'DGCustomization/DGCustomization.js'
         ],
         css: {
             all: [
@@ -37,6 +37,7 @@ var deps = {
                 '../vendors/baron/baron.css',
                 'DGCustomization/skin/{skin}/css/zoom.css',
                 'DGCustomization/skin/{skin}/css/callout.css',
+                'DGCustomization/skin/{skin}/css/baron.css',
                 'DGCustomization/skin/{skin}/css/marker.css'
             ]
         },

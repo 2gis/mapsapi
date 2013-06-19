@@ -5,9 +5,11 @@
     margin: 0;
     padding: 0;
 }
+
 .leaflet-popup-tip {
     display: none;
 }
+
 .leaflet-popup-tip-container {
     background: url(__BASE_URL__/img/dg-callout-default.png) 0 -24px no-repeat;
     bottom: -28px;
@@ -18,6 +20,7 @@
     position: absolute;
     width: 55px;
 }
+
 .leaflet-container a.leaflet-popup-close-button {
     background: url(__BASE_URL__/img/dg-callout-default.png) 0 0 no-repeat;
     border-radius: 2px;
@@ -30,9 +33,11 @@
     padding: 0;
     width: 24px;
 }
+
 .leaflet-container a.leaflet-popup-close-button:hover {
     background: url(__BASE_URL__/img/dg-callout-default.png) -24px 0 no-repeat;
 }
+
 .leaflet-popup-content-wrapper {
     background-color: #fff;
     border: 1px solid #a9bbc9;
@@ -41,65 +46,28 @@
     font-family: arial, helvetica, sans-serif;
     font-size: 13px;
     margin: 0;
-    /*overflow: hidden;*/
-    padding: 17px 0px 16px;
+    padding: 25px 0 20px 0;
     word-wrap: break-word;
 }
+
 .leaflet-popup-content-wrapper img {
     border: none;
     margin: 0;
 }
+
 .leaflet-popup-content-wrapper p {
     margin: 13px 0;
 }
 
-/* baron */
+.leaflet-popup-scrolled {
+    border: 0;
+}
 
 .leaflet-popup-content {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #FFCC99;
-    box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 0, 0, 0.05);
     display: inline-block;
     overflow: hidden;
     position: relative;
     text-align: left;
     vertical-align: top;
-}
-.scroller {
-    height: 100%;
-    overflow-y: scroll;
-    /*-webkit-overflow-scrolling: touch;*/
-    /* uncomment to accelerate scrolling on iOs */
-}
-.scroller::-webkit-scrollbar {
-    width: 0;
-}
-.scroller__bar-wrapper {
-    position: absolute;
-    z-index: 3;
-    top: 10px;
-    bottom: 10px;
-    right: 5px;
-    width: 8px;
-    border-radius: 5px;
-    background: #ddf;
-    background: rgba(0, 0, 255, .1);
-    pointer-events: none;
-}
-.scroller__bar {
-    position: absolute;
-    z-index: 1;
-    width: 8px;
-    border-radius: 3px;
-    background: #987;
-    opacity: 0;
-    -webkit-transition: opacity .2s linear;
-    transition: opacity .2s linear;
-    pointer-events: auto;
-}
-.scroller__bar:hover {
-    opacity: .8;
-}
-.baron .scroller__bar {
-    opacity: .6;
+    padding: 0 25px;
 }

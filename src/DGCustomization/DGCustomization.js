@@ -21,43 +21,46 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 };
 
 // Adds 2GIS-related popup content wrapper and offset
-
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-        originalSetContent = L.Popup.prototype.setContent,
         originalUpdateLayout = L.Popup.prototype._updateLayout;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
-    L.Popup.prototype.setContent = function (content) {
-        var cont = '<div class="scroller"><div class="container">' + content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
-        return originalSetContent.call(this, cont);
-    };
-
     L.Popup.prototype._updateLayout = function () {
-        var dgCallout = this._contentNode.children[0],
-            dgScroller = dgCallout.children[0];
+        var popupHeight = this._contentNode.offsetHeight,
+            maxHeight = this.options.maxHeight;
 
-        originalUpdateLayout.call(this, content);
-        
-        // example: http://jsbin.com/iloheg/7/edit
-        baron({
-            scroller: '.scroller',
-            bar: '.scroller__bar',
-            barOnCls: 'baron',
-            $: function(selector, context) {
-              return bonzo(qwery(selector, context));
-            },
-            event: function(elem, event, func, mode) {
-              if (mode == 'trigger') {
-                mode = 'fire';
-              }
-              bean[mode || 'on'](elem, event, func);
-            }      
-        });
+        if (maxHeight && maxHeight <= popupHeight) {
+
+            if (typeof this._initBaron === 'undefined') {
+                this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
+                this._updateContent();
+            }
+
+            originalUpdateLayout.call(this);
+
+            // example: http://jsbin.com/iloheg/7/edit
+            baron({
+                scroller: '.scroller',
+                bar: '.scroller__bar',
+                barOnCls: 'baron',
+                $: function(selector, context) {
+                  return bonzo(qwery(selector, context));
+                },
+                event: function(elem, event, func, mode) {
+                  if (mode == 'trigger') {
+                    mode = 'fire';
+                  }
+                  bean[mode || 'on'](elem, event, func);
+                }
+            });
+            this._initBaron = true;
+        } else {
+            originalUpdateLayout.call(this);
+        }
     };
-
 }());
 
 L.Popup.include({
