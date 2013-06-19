@@ -64,7 +64,7 @@ L.Map.include({
         }
         this._popup = popup;
 
-        if (popup._source._icon) {
+        if (popup._source && popup._source._icon) {
             L.DomUtil.addClass(popup._source._icon, 'leaflet-marker-active');
         }
 
@@ -79,7 +79,7 @@ L.Map.include({
             this._popup = null;
         }
         if (popup) {
-            if (popup._source._icon) {
+            if (popup._source && popup._source._icon) {
                 L.DomUtil.removeClass(popup._source._icon, 'leaflet-marker-active');
             }
 

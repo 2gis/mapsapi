@@ -4,7 +4,6 @@ L.DG.Locale = {
             lang = this._map.getLang(),
             msgIsset = false,
             dictionaryMsg,
-            isNumeric,
             exp;
         if (typeof this.constructor.Dictionary[lang] === 'undefined') {
             lang = "ru";
@@ -18,10 +17,8 @@ L.DG.Locale = {
         result = msgIsset ? dictionaryMsg : msg;
 
         if (argument) {
-            isNumeric = Object.prototype.toString.call(argument) === '[object Number]';
-            if (!isNumeric) {
-                argument = 0;
-            }
+            argument = parseInt(argument, 10);
+            argument = isNaN(argument) ? 0 : argument;
             exp = this.constructor.Dictionary[lang].pluralRules(argument);
             result = dictionaryMsg[exp];
         }
@@ -32,7 +29,7 @@ L.DG.Locale = {
 };
 
 L.Map.mergeOptions({
-    currentLang: L.DG.loaderParams && L.DG.loaderParams.lang || "ru"
+    currentLang: L.DG.loaderParams && L.DG.loaderParams.lang || "__DEFAULT_LANG__"
 });
 
 L.Map.include({

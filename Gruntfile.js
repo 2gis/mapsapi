@@ -40,7 +40,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', function() {
         build.lint();
         build.build();
-        test.server();
         grunt.task.run('karma:continuous');
     });
 

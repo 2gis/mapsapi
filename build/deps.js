@@ -73,8 +73,26 @@ var deps = {
         desc: 'Localization module',
         src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
         deps: ['DGCore']
-    }
+    },
 
+    DGGeoclicker: {
+        desc: '2GIS Geoclicker.',
+        src: [
+            'DGGeoclicker/src/DGGeoclicker.js',
+            'DGGeoclicker/src/provider/Provider.js',
+            'DGGeoclicker/src/provider/CatalogApi.js',
+            'DGGeoclicker/src/handler/Handler.js',
+            'DGGeoclicker/src/handler/Default.js',
+            'DGGeoclicker/src/lang/it/handler/Default.js',
+            'DGGeoclicker/src/lang/ru/handler/Default.js',
+            'DGGeoclicker/src/handler/House.js',
+            'DGGeoclicker/src/lang/it/handler/House.js',
+            'DGGeoclicker/src/lang/ru/handler/House.js',
+            'DGGeoclicker/src/View.js',
+            'DGGeoclicker/src/Controller.js'
+        ],
+        deps: ['DGJsonp', 'DGCore']
+    }
 };
 
 if (typeof exports !== 'undefined') {
