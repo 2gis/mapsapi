@@ -30,40 +30,49 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
     L.Popup.prototype._updateLayout = function () {
-        var popupHeight = this._contentNode.offsetHeight,
-            maxHeight = this.options.maxHeight;
 
-        if (maxHeight && maxHeight <= popupHeight) {
+        if (this._isBaron()) {
 
-            if (typeof this._addStructure === 'undefined') {
+            if (typeof this._structureAdded === 'undefined') {
                 this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
                 this._updateContent();
             }
 
             originalUpdateLayout.call(this);
+            this._initBaron();
+            this._structureAdded = true;
 
-            graf({
-                scroller: '.scroller',
-                bar: '.scroller__bar',
-                $: function(selector, context) {
-                  return bonzo(qwery(selector, context));
-                },
-                event: function(elem, event, func, mode) {
-                  if (mode == 'trigger') {
-                    mode = 'fire';
-                  }
-                  bean[mode || 'on'](elem, event, func);
-                }
-            });
-            this._addStructure = true;
         } else {
-            if (typeof this._addStructure === 'undefined') {
+            if (typeof this._structureAdded === 'undefined') {
                 this._content = '<div class="container">' + this._content + '</div>';
                 this._updateContent();
             }
-            this._addStructure = true;
+            this._structureAdded = true;
             originalUpdateLayout.call(this);
         }
+    };
+
+    L.Popup.prototype._isBaron = function () {
+        var popupHeight = this._contentNode.offsetHeight,
+            maxHeight = this.options.maxHeight;
+
+            return (maxHeight && maxHeight <= popupHeight) ? true : false;
+    };
+
+    L.Popup.prototype._initBaron = function () {
+        graf({
+            scroller: '.scroller',
+            bar: '.scroller__bar',
+            $: function(selector, context) {
+              return bonzo(qwery(selector, context));
+            },
+            event: function(elem, event, func, mode) {
+              if (mode == 'trigger') {
+                mode = 'fire';
+              }
+              bean[mode || 'on'](elem, event, func);
+            }
+        });
     };
 }());
 

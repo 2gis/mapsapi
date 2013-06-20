@@ -3,8 +3,7 @@
 .scroller {
     height: 100%;
     overflow-y: scroll;
-    /*-webkit-overflow-scrolling: touch;*/
-    /* uncomment to accelerate scrolling on iOs */
+    -webkit-overflow-scrolling: touch;
 }
 
 .scroller::-webkit-scrollbar {
