@@ -1,3 +1,8 @@
+// place Wkt parser to our namespace
+L.DG.wkt = function() {
+    return new Wkt.Wkt();
+};
+
 // Sets default zoom position from current theme
 
 L.Control.Zoom.prototype.options = {

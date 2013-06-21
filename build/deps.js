@@ -19,6 +19,14 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGWicket: {
+        desc: 'WKT parser module.',
+        src: ['DGWicket/DGWicket.js',
+              'DGWicket/wicket-leaflet.js'
+        ],
+        deps: ['DGCore']
+    },
+
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
@@ -33,7 +41,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/marker.css'
             ]
         },
-        deps: ['DGCore', 'DGDivIcon']
+        deps: ['DGCore', 'DGDivIcon', 'DGWicket']
     },
 
     DGFullScreen: {
