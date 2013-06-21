@@ -10,5 +10,7 @@
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "1.3",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
-    "DEFAULT_LANG": "ru"
+    "DEFAULT_LANG": "ru",
+    "PROJECT_LEAVE_MAX_ZOOM" : 13,
+    "MAX_ZOOM" : 18
 }

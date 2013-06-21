@@ -8,15 +8,31 @@ L.Control.Zoom.prototype.options = {
 
 L.Control.Zoom.prototype.onAdd = function (map) {
     var zoomName = 'dg-zoom',
-        container = L.DomUtil.create('div', zoomName);
+        container = L.DomUtil.create('div', zoomName),
+        leftProject = false,
+        projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__',
+        zoom,
+        maxZoom = '__MAX_ZOOM__';
 
     this._map = map;
-
     this._zoomInButton = this._createButton('+', 'Приблизить', zoomName + '__in', container, this._zoomIn, this);
     this._zoomOutButton = this._createButton('-', 'Отдалить', zoomName + '__out', container, this._zoomOut, this);
 
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
+    map.on('dgProjectLeave', function() {
+        if (!leftProject) {
+            zoom = map.dgProjectDetector.getProject() ? maxZoom : projectLeaveMaxZoom;
+            map.setMaxZoom(zoom);
+            leftProject = true;
+        }
+    });
 
+    map.on('dgProjectChange', function() {
+        if (leftProject && map.dgProjectDetector.getProject()) {
+            map.setMaxZoom(maxZoom);
+            leftProject = false;
+        }
+    });
     return container;
 };
 
@@ -94,3 +110,8 @@ L.Map.include({
 // Applies 2GIS divIcon to marker
 
 L.Marker.prototype.options.icon = L.DG.divIcon();
+
+// Adds posibility to change max zoom level
+L.Map.prototype.setMaxZoom = function(maxZoom) {
+    this._layersMaxZoom = maxZoom;
+};
