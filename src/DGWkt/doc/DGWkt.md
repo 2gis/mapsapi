@@ -1,6 +1,6 @@
 ## L.DG.Wkt
 
-Используется для получения объектов геометрий из их описаний в [WKT-формате](http://en.wikipedia.org/wiki/Well-known_text).
+Используется для получения геометрии API карт на основе ее описания в [WKT-формате](http://en.wikipedia.org/wiki/Well-known_text).
 
 ### Конструктор
 
