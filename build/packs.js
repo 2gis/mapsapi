@@ -15,7 +15,7 @@ var packages = {
     online: {
         name: '2GIS Online package',
         desc: 'Provides functionality for 2GIS Online',
-        modules: ['DGTileLayer']
+        modules: ['DGTileLayer', 'DGWkt']
     }
 
 };

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DGWkt demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?mode=debug&pkg=full"></script>
+</head>
+<body>
+
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+
+<script type="text/javascript">
+    L.onLoad(function () {
+
+        var map = new L.Map('map', {
+            center: new L.LatLng(55.0412876099625, 82.9175228440822),
+            zoom: 17
+        });
+
+        var wkt = new L.DG.Wkt();
+        
+        var polygonComponents = wkt.read('POLYGON((82.916999581655 55.0421363815388, 82.9175228440822 55.0401876099625, 82.9180633669606 55.0402351774059, 82.9175402952564 55.0421841282563,82.916999581655 55.0421363815388))');
+        wkt.toObject(polygonComponents).addTo(map);
+
+        var pointComponents = wkt.read('POINT(82.918299581655 55.0414363815388)');
+        wkt.toObject(pointComponents).addTo(map);
+    });
+</script>
+
+</body>
+</html>

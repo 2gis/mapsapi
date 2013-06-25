@@ -524,5 +524,3 @@ Wkt.Wkt.prototype.ingest = {
     }
 
 }; // eo ingest
-
-
