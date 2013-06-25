@@ -49,37 +49,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>fromObject</b>(
-            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
-        </code></td>
-
-        <td><code>Object</code></td>
-        <td>Формирует объект с компонентами геометрической фигуры (внутреннее представление геометрии) на основе полученной геометрии API карт.</td>
-    </tr>
-    <tr>
-        <td><code><b>isCollection</b>()
-        </code></td>
-
-        <td><code>Boolean</code></td>
-        <td>Возвращает true, если внутреннее представление геометрической фигуры является коллекцией.</td>
-    </tr>
-    <tr>
         <td><code><b>read</b>(
             <nobr>&lt;String&gt; <i>wkt</i>)</nobr>
         </code></td>
 
         <td><code>Array</code></td>
         <td>Считывает строку в WKT-формате и проверяет ее корректность. Возвращает объект с компонентами геометрической фигуры (внутреннее представление).</td>
-    </tr>
-    <tr>
-        <td><code><b>sameCoords</b>(
-            <nobr>&lt;Object&gt; <i>a</i></nobr>,
-            <nobr>&lt;Object&gt; <i>b</i> )</nobr>
-        </code></td>
-
-        <td><code>Boolean</code></td>
-
-        <td>Возвращает <code>true</code>, если координаты точек совпадают.</td>
     </tr>
     <tr>
         <td><code><b>toObject</b>()
