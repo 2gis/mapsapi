@@ -25,21 +25,33 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalUpdateLayout = L.Popup.prototype._updateLayout,
+        originalSetContent = L.Popup.prototype.setContent,
         graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
+
+    L.Popup.prototype.setContent = function (content) {
+        this._structureAdded = false;
+        return originalSetContent.call(this, content);
+    }
+
+    L.Popup.prototype._updateStructure = function (shouldInitBaron) {
+        if (shouldInitBaron) {
+            this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
+        } else {
+            this._content = '<div class="container">' + this._content + '</div>';
+        }
+    }
 
     L.Popup.prototype._updateLayout = function () {
         var shouldInitBaron = this._shouldInitBaron(),
             isStructureAdded = !!this._structureAdded;
 
         if (!isStructureAdded) {
-            if (shouldInitBaron) {
-                this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
-            } else {
-                this._content = '<div class="container">' + this._content + '</div>';
-            }
+
+            this._updateStructure(shouldInitBaron);
             this._updateContent();
+
             this._structureAdded = true;
         }
 
@@ -51,7 +63,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         var popupHeight = this._contentNode.offsetHeight,
             maxHeight = this.options.maxHeight;
 
-            return (maxHeight && maxHeight <= popupHeight) ? true : false;
+            return (maxHeight && maxHeight <= popupHeight);
     };
 
     L.Popup.prototype._initBaron = function () {

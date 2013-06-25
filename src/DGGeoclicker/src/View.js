@@ -2,7 +2,7 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     initialize: function(map, options) { // (Object, Object)
         this._map = map;
-        this._popup = L.popup();
+        this._popup = L.popup({maxHeight:100});
         options && L.Util.setOptions(this, options);
     },
 
