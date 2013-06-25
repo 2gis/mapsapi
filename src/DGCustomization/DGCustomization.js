@@ -30,29 +30,24 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
     L.Popup.prototype._updateLayout = function () {
+        var shouldInitBaron = this._shouldInitBaron(),
+            isStructureAdded = !!this._structureAdded;
 
-        if (this._isBaron()) {
-
-            if (typeof this._structureAdded === 'undefined') {
+        if (!isStructureAdded) {
+            if (shouldInitBaron) {
                 this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
-                this._updateContent();
-            }
-
-            originalUpdateLayout.call(this);
-            this._initBaron();
-            this._structureAdded = true;
-
-        } else {
-            if (typeof this._structureAdded === 'undefined') {
+            } else {
                 this._content = '<div class="container">' + this._content + '</div>';
-                this._updateContent();
             }
+            this._updateContent();
             this._structureAdded = true;
-            originalUpdateLayout.call(this);
         }
+
+        originalUpdateLayout.call(this);
+        shouldInitBaron && this._initBaron();
     };
 
-    L.Popup.prototype._isBaron = function () {
+    L.Popup.prototype._shouldInitBaron = function () {
         var popupHeight = this._contentNode.offsetHeight,
             maxHeight = this.options.maxHeight;
 
