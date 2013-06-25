@@ -61,7 +61,7 @@ Wicket легковесная библиотека для получения Lea
         </code></td>
 
         <td><code>Boolean</code></td>
-        <td>Возвращает true, если внутренняя содержит коллекцию геометрий.</td>
+        <td>Возвращает true, если внутренняя геометрия содержит коллекцию геометрий.</td>
     </tr>
     <tr>
         <td><code><b>read</b>(
@@ -83,19 +83,19 @@ Wicket легковесная библиотека для получения Lea
     </tr>
     <tr>
         <td><code><b>toObject</b>(
-            <nobr>&lt;Object&gt; <i>config</i></nobr>
+            <nobr>&lt;Object&gt; <i>config</i></nobr> )
         </code></td>
 
-        <td>Object</td>
+        <td><code>Object</code></td>
 
         <td>Создает Leaflet геометрию из внутреннего формата.</td>
     </tr>
     <tr>
         <td><code><b>write</b>(
-            <nobr>&lt;Array&gt; <i>components</i></nobr>
+            <nobr>&lt;Array&gt; <i>components</i></nobr> )
         </code></td>
 
-        <td>String</td>
+        <td><code>String</code></td>
 
         <td>Возвращает данные об объектах в формате WKT строки.</td>
     </tr>
