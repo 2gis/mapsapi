@@ -78,7 +78,7 @@ function getModulesData() {
                     var moduleConf = modulesList[moduleName];
 
                     modulesData[moduleName] = {};
-                    modulesData[moduleName].js = processJs(moduleConf.src, basePath);
+                    modulesData[moduleName].js = processJs(moduleConf.src, basePath, moduleName);
                     modulesData[moduleName].css = processCss(moduleConf.css, basePath);
                     modulesData[moduleName].conf = processSkinConf(moduleConf.src, basePath);
                     modulesData[moduleName].deps = modulesList[moduleName].deps;
@@ -98,10 +98,18 @@ function getModulesData() {
  * @param {String} basePath  Base path of JS files
  * @return {Object}
  */
-function processJs(srcList, basePath) {
-    var jsContent = {};
+function processJs(srcList, basePath, moduleName) {
+    var jsContent = {}, key;
 
     if (srcList) {
+        if (moduleName.indexOf("DG") === 0) {
+            var tmplConfig = getTemplates(moduleName);
+
+             // add template content to config vars
+            for (key in tmplConfig) {
+                appConfig[key] = tmplConfig[key];
+            }
+        }
         for (var i = 0, count = srcList.length; i < count; i++) {
             var srcPath = basePath + srcList[i];
             if (srcPath.indexOf(config.skin.var) < 0) {
@@ -195,6 +203,47 @@ function processCss(srcConf, basePath) {
     }
 
     return cssContent;
+}
+
+function getTemplates(moduleName) {
+
+    var tmplConf = config.tmpl,
+        tmplPath = config.source.dg.path + moduleName + '/' + tmplConf.dir + '/',
+        modulesTmpls = {};
+
+    if (fs.existsSync(tmplPath)) {
+        readTemplates(tmplPath, moduleName + tmplConf.varPostfix);
+    }
+
+    function readTemplates(tmplPath, varName) {
+
+        var tmplList = grunt.file.expand([tmplPath + tmplConf.pattern]),
+            tmpl = {};
+
+        for (var i = 0, len = tmplList.length; i < len; i++) {
+            var srcPath = tmplList[i],
+                tmplName = path.basename(srcPath, tmplConf.ext);
+                tmplContent = fs.readFileSync(srcPath, 'utf8');
+
+                (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = "";
+        }
+
+        modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
+    }
+
+    function escapeJson (str) {
+        return str
+                .replace(/[\\]/g, '\\\\')
+                .replace(/[\']/g, '\\\\"')
+                .replace(/[\b]/g, '\\b')
+                .replace(/[\v]/g, '\\v')
+                .replace(/[\f]/g, '\\f')
+                .replace(/[\n]/g, '\\n')
+                .replace(/[\r]/g, '\\r')
+                .replace(/[\t]/g, '\\t');
+    }
+
+    return modulesTmpls;
 }
 
 /**

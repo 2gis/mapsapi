@@ -36,7 +36,7 @@ describe('DG Locale Module', function() {
 
 			expect(getLangSpy.calledTwice).to.be.ok();
 			expect(getLangSpy.returnValues).to.eql(['ru', 'it']);
-		});
+	});
 
 		it("should return default language (ru) if setLang was called with invalid argument: undefined, null, etc", function() {
 			map.setLang(null);

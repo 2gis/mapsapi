@@ -1,32 +1,36 @@
 {
-    "name": "2GIS-Maps-API-2.0",
-    "version": "2.0.0",
-    "description": "Interactive 2GIS maps API, based on Leaflet",
-    "keywords": ["2gis", "map", "api"],
-
-    "scripts": {
-        "start": "node app.js",
-        "test": "grunt test"
-    },
-
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/yarikos/DG.MapsAPI.git"
-    },
-
-    "dependencies": {
-        "express": "*",
-        "uglify-js": "*",
-        "clean-css": "*"
-    },
-    "devDependencies": {
-        "grunt": "*",
-        "grunt-karma": "*",
-        "mocha": "*",
-        "jshint": "*",
-        "optimist": "*",
-        "cli-color": "*",
-        "marked": "*",
-        "execSync": "*"
-    }
+  "name": "2GIS-Maps-API-2.0",
+  "version": "2.0.0",
+  "description": "Interactive 2GIS maps API, based on Leaflet",
+  "keywords": [
+    "2gis",
+    "map",
+    "api"
+  ],
+  "scripts": {
+    "start": "node app.js",
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yarikos/DG.MapsAPI.git"
+  },
+  "dependencies": {
+    "express": "*",
+    "uglify-js": "*",
+    "clean-css": "*"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-karma": "*",
+    "jshint": "*",
+    "optimist": "*",
+    "cli-color": "*",
+    "marked": "*",
+    "execSync": "*",
+    "mocha": "~1.9.0",
+    "expect": "0.0.2",
+    "sinon": "~1.6.0",
+    "happen": "~0.1.2"
+  }
 }

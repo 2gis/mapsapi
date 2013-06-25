@@ -6,10 +6,14 @@ L.DG.Jsonp = function (params) {
         callbackId, callbackName,
         url = params.url || '',
         data = params.data || {},
-        success = params.success || function () {},
-        error = params.error || function () {},
-        beforeSend = params.beforeSend || function () {},
-        complete = params.complete || function () {},
+        success = params.success || function () {
+        },
+        error = params.error || function () {
+        },
+        beforeSend = params.beforeSend || function () {
+        },
+        complete = params.complete || function () {
+        },
         timeout = params.timeout || 30 * 1000;
 
     head = document.getElementsByTagName('head')[0];
@@ -48,7 +52,7 @@ L.DG.Jsonp = function (params) {
     script.async = true;
     script.id = callbackId;
 
-    script.onerror = window.onerror = function (e) {
+    script.onerror = /*window.onerror = */function (e) { // @todo for debug, remove before ending of Geoclicker development
         error({ url: resUrl, event: e });
         complete({ url: resUrl, event: e }, 'error');
         script.parentNode.removeChild(script);
@@ -62,7 +66,8 @@ L.DG.Jsonp = function (params) {
     function cancelCallback() {
         removeScript(callbackId);
         if (L.DG.Jsonp.callback.hasOwnProperty(callbackId)) {
-            L.DG.Jsonp.callback[callbackId] = function () {};
+            L.DG.Jsonp.callback[callbackId] = function () {
+            };
         }
     }
 
