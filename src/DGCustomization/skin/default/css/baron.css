@@ -1,0 +1,41 @@
+/* baron */
+
+.scroller {
+    height: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scroller::-webkit-scrollbar {
+    width: 0;
+}
+
+.scroller__bar-wrapper {
+    position: absolute;
+    z-index: 3;
+    top: 5px;
+    bottom: 5px;
+    right: 7px;
+    width: 6px;
+    border-radius: 5px;
+    background-color: #e6ebee;
+    background: rgba(0, 0, 255, .1);
+}
+
+.container {
+    padding: 0 25px;
+}
+
+.scroller__bar-wrapper:hover .scroller__bar {
+    background-color: #8499aa;
+    opacity: 1;
+}
+
+.scroller__bar {
+    position: absolute;
+    z-index: 1;
+    width: 6px;
+    border-radius: 3px;
+    background-color: #98b1c5;
+    pointer-events: auto;
+}

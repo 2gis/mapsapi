@@ -21,24 +21,59 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 };
 
 // Adds 2GIS-related popup content wrapper and offset
-
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-        originalSetContent = L.Popup.prototype.setContent;
+        originalUpdateLayout = L.Popup.prototype._updateLayout,
+        graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
-    L.Popup.prototype.setContent = function (content) {
-        if (typeof content === 'string') {
-            content = '<div class="dg-callout">' + content + '</div>';
-        } else {
-            content = L.DomUtil.createL.DG.configTheme && L.DG.configTheme.controls.fullScreen.position ||('div', 'dg-callout').appendChild(content);
-        }
+    L.Popup.prototype._updateLayout = function () {
 
-        return originalSetContent.call(this, content);
+        if (this._isBaron()) {
+
+            if (typeof this._structureAdded === 'undefined') {
+                this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
+                this._updateContent();
+            }
+
+            originalUpdateLayout.call(this);
+            this._initBaron();
+            this._structureAdded = true;
+
+        } else {
+            if (typeof this._structureAdded === 'undefined') {
+                this._content = '<div class="container">' + this._content + '</div>';
+                this._updateContent();
+            }
+            this._structureAdded = true;
+            originalUpdateLayout.call(this);
+        }
     };
 
+    L.Popup.prototype._isBaron = function () {
+        var popupHeight = this._contentNode.offsetHeight,
+            maxHeight = this.options.maxHeight;
+
+            return (maxHeight && maxHeight <= popupHeight) ? true : false;
+    };
+
+    L.Popup.prototype._initBaron = function () {
+        graf({
+            scroller: '.scroller',
+            bar: '.scroller__bar',
+            $: function(selector, context) {
+              return bonzo(qwery(selector, context));
+            },
+            event: function(elem, event, func, mode) {
+              if (mode == 'trigger') {
+                mode = 'fire';
+              }
+              bean[mode || 'on'](elem, event, func);
+            }
+        });
+    };
 }());
 
 L.Popup.include({
