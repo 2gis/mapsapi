@@ -31,6 +31,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     L.Popup.prototype.setContent = function (content) {
         this._structureAdded = false;
+        this._structureBaronAdded = false;
         return originalSetContent.call(this, content);
     };
 
