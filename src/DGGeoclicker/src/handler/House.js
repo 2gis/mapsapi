@@ -32,15 +32,22 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 address: '',
                 purpose: '',
                 elevation: '',
-                link: ''
+                link: '',
+                buildingname: ''
             };
 
         if (attrs.index) {
-            data.address += attrs.index + ' ';
+            data.address += attrs.index + ', ';
         }
+        house.name = house.name.split(", ").slice(1);
+        console.log(house);
         data.address += house.name;
 
 // TODO добавить правильную фильтрацию (если нужно) всех свойств
+        if (attrs.buildingname) {
+            data.buildingname = attrs.buildingname;
+        }
+
         if (attrs.purpose) {
             data.purpose = attrs.purpose;
         }
@@ -48,13 +55,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (attrs.elevation) {
             data.elevation = '' + this.t("{n} floors", +attrs.elevation);
         }
-
         if (attrs.firmcount > 0) {
-            //data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show organization in the building") + ' (' + attrs.firmcount + ')</a>';
+            data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show organization in the building") + '</a><sup>' + attrs.firmcount + '</sup>';
         }
 
         return {
-            tmpl: '<h3>{address}</h3><br/>' + '<div>{purpose}</div>' + '<div>{elevation}</div>' + '<div>{link}</div>',
+            tmpl: '<h1 class="dg-map-geoclicker-buildingname">{buildingname}</h1><div class="dg-map-geoclicker-address">{address}</div><br/>' + '<div class="dg-map-geoclicker-purpose">{purpose}</div>' + '<div class="dg-map-geoclicker-elevation">{elevation}</div>' + '<div>{link}</div>',
             data: data
         };
     },
@@ -80,11 +86,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _handlePaging: function () {
-
+        console.log("paging...");
         // TODO implement this
         this._page++;
 
-        this._controller._catalogApi.getFirms(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
+        this._controller._catalogApi.firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
     },
 
     _handleFirmsLoadingEnd: function (results) { // (Object)
@@ -100,7 +106,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._initShowLess();
         } else {
             // TODO проврерить, чтобы прокрутка не сбрасывалась вверх
-            this._contentFirms = +content;
+            this._contentFirms += content;
             this._view.renderPopup({
                 tmpl: this._contentFirms
             });
@@ -109,17 +115,19 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _renderFirms: function (list) { // (Array) -> String
+        console.log(this.houseObj);
         var listHtml = '';
         if (!list || !list.length) {
             return listHtml;
         }
-
+        listHtml = '<div class="header"><h3 class="header__title">' + this.houseObj.data.address + '</h3></div>';
+        listHtml += "<div dg-popup-content>";
         for (var i in list) {
             listHtml += this._view.render(this._renderFirm(list[i]));
         }
-
-        listHtml += '<a id="dg-showlesshouse" href="javascript:void(0)">Скрыть организации в здании</a>';
-
+        listHtml += '</div>';
+        listHtml += '<div class="header"><h1 class="header__title"><a id="dg-showlesshouse" href="javascript:void(0)">Скрыть организации в здании</a></h1></div>';
+        //listHtml += '</div>';
         return listHtml;
     },
 
@@ -141,11 +149,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var params = {
                 name: firm.name,
                 address: firm.geometry_name ? firm.geometry_name : '',
-                contacts: this._renderFirmContacts(firm.contacts)
+                //contacts: this._renderFirmContacts(firm.contacts)
             };
 
         return {
-            tmpl: '<h3>{name}</h3><br/><div>{contacts}</div>',
+            tmpl: '<div class="dg-map-firm"><div class="dg-map-firm-bullet"></div><div class="dg-firmtitle"><a href="javascript:void(0)">{name}</a></div></div>',
             data: params
         };
 

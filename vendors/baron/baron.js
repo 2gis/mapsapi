@@ -115,6 +115,7 @@ var
     function manageEvents(item, event, mode) {
         item._eventHandlers = item._eventHandlers || { // Creating new functions for one baron item only one time
             onScroll: function(e) {
+                debugger;
                 item.scroll(e);
             },
 
@@ -373,6 +374,7 @@ var
 
             // onScroll handler
             this.scroll = function(e) {
+                debugger;
                 var scrollDelta, oldBarSize, newBarSize,
                     delay = 0,
                     self = this;

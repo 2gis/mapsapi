@@ -69,6 +69,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
     L.Popup.prototype._initBaron = function () {
+        var self = this;
         graf({
             scroller: '.scroller',
             bar: '.scroller__bar',
@@ -78,9 +79,17 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             event: function(elem, event, func, mode) {
               if (mode == 'trigger') {
                 mode = 'fire';
+                console.log(event);
               }
               bean[mode || 'on'](elem, event, func);
+              //self._map[mode || 'on'](event, func);
             }
+        }).fix({
+            elements: '.header__title',
+            outside: 'header__title_state_fixed',
+            before: 'header__title_position_top',
+            after: 'header__title_position_bottom',
+            radius: 10
         });
     };
 }());

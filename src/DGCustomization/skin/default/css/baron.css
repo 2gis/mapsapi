@@ -12,8 +12,9 @@
 
 .scroller__bar-wrapper {
     position: absolute;
-    top: 5px;
-    bottom: 5px;
+    z-index: 3;
+    top: 25px;
+    bottom: 25px;
     right: 7px;
     width: 6px;
     border-radius: 5px;
@@ -38,4 +39,9 @@
     border-radius: 3px;
     background-color: #98b1c5;
     pointer-events: auto;
+}
+
+.header__title {
+   background: #fff;
+   margin-bottom: 5px;
 }
