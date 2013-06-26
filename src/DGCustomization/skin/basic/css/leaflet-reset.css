@@ -32,7 +32,6 @@
 .leaflet-container a.leaflet-popup-close-button {
     overflow: hidden;
     text-indent: -999px;
-    z-index: 1;
 }
 .leaflet-container a.leaflet-popup-close-button::selection {
     background-color: transparent;

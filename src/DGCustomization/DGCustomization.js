@@ -25,33 +25,49 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalUpdateLayout = L.Popup.prototype._updateLayout,
+        originalSetContent = L.Popup.prototype.setContent,
         graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
-    L.Popup.prototype._updateLayout = function () {
-        var shouldInitBaron = this._shouldInitBaron(),
-            isStructureAdded = !!this._structureAdded;
+    L.Popup.prototype._updateStructure = function () {
+        this._content = '<div class="container">' + this._content + '</div>';
+    };
 
-        if (!isStructureAdded) {
-            if (shouldInitBaron) {
-                this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
-            } else {
-                this._content = '<div class="container">' + this._content + '</div>';
-            }
+    L.Popup.prototype._updateBaronStructure = function () {
+        this._content = '<div class="scroller"><div class="container">' + this._originalContent + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
+    };
+
+    L.Popup.prototype._update = function () {
+        if (!this._map) { return; }
+        var shouldInitBaron;
+
+        this._container.style.visibility = 'hidden';
+        this._originalContent =  this._content;
+
+        this._updateStructure();
+        this._updateContent();
+        this._updateLayout();
+        this._updatePosition();
+
+        shouldInitBaron = this._shouldInitBaron();
+
+        if (shouldInitBaron) {
+            this._updateBaronStructure();
             this._updateContent();
-            this._structureAdded = true;
+            this._initBaron();
         }
 
-        originalUpdateLayout.call(this);
-        shouldInitBaron && this._initBaron();
-    };
+        this._container.style.visibility = '';
+
+        this._adjustPan();
+    },
 
     L.Popup.prototype._shouldInitBaron = function () {
         var popupHeight = this._contentNode.offsetHeight,
             maxHeight = this.options.maxHeight;
 
-            return (maxHeight && maxHeight <= popupHeight) ? true : false;
+            return (maxHeight && maxHeight <= popupHeight);
     };
 
     L.Popup.prototype._initBaron = function () {

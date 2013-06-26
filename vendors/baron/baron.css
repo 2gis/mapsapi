@@ -12,8 +12,7 @@
     width: 0;
 }
 .scroller__bar { /* The bar. You should define width, right and background */
-    position: absolute;    
-    z-index: 1;
+    position: absolute;
     right: 0;
     width: 10px;
     background: #999;
