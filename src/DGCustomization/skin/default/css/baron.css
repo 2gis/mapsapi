@@ -12,7 +12,6 @@
 
 .scroller__bar-wrapper {
     position: absolute;
-    z-index: 3;
     top: 5px;
     bottom: 5px;
     right: 7px;
@@ -23,7 +22,9 @@
 }
 
 .container {
-    padding: 0 25px;
+    border-right: solid 25px white;
+    border-left: solid 25px white;
+    overflow: hidden;
 }
 
 .scroller__bar-wrapper:hover .scroller__bar {
@@ -33,7 +34,6 @@
 
 .scroller__bar {
     position: absolute;
-    z-index: 1;
     width: 6px;
     border-radius: 3px;
     background-color: #98b1c5;

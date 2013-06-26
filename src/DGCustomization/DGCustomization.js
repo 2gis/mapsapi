@@ -30,34 +30,38 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
-    L.Popup.prototype.setContent = function (content) {
-        this._structureAdded = false;
-        return originalSetContent.call(this, content);
-    }
-
-    L.Popup.prototype._updateStructure = function (shouldInitBaron) {
-        if (shouldInitBaron) {
-            this._content = '<div class="scroller"><div class="container">' + this._content + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
-        } else {
-            this._content = '<div class="container">' + this._content + '</div>';
-        }
-    }
-
-    L.Popup.prototype._updateLayout = function () {
-        var shouldInitBaron = this._shouldInitBaron(),
-            isStructureAdded = !!this._structureAdded;
-
-        if (!isStructureAdded) {
-
-            this._updateStructure(shouldInitBaron);
-            this._updateContent();
-
-            this._structureAdded = true;
-        }
-
-        originalUpdateLayout.call(this);
-        shouldInitBaron && this._initBaron();
+    L.Popup.prototype._updateStructure = function () {
+        this._content = '<div class="container">' + this._content + '</div>';
     };
+
+    L.Popup.prototype._updateBaronStructure = function () {
+        this._content = '<div class="scroller"><div class="container">' + this._originalContent + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
+    };
+
+    L.Popup.prototype._update = function () {
+        if (!this._map) { return; }
+        var shouldInitBaron;
+
+        this._container.style.visibility = 'hidden';
+        this._originalContent =  this._content;
+
+        this._updateStructure();
+        this._updateContent();
+        this._updateLayout();
+        this._updatePosition();
+
+        shouldInitBaron = this._shouldInitBaron();
+
+        if (shouldInitBaron) {
+            this._updateBaronStructure();
+            this._updateContent();
+            this._initBaron();
+        }
+
+        this._container.style.visibility = '';
+
+        this._adjustPan();
+    },
 
     L.Popup.prototype._shouldInitBaron = function () {
         var popupHeight = this._contentNode.offsetHeight,
