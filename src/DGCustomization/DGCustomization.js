@@ -24,8 +24,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-        originalUpdateLayout = L.Popup.prototype._updateLayout,
-        originalSetContent = L.Popup.prototype.setContent,
         graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
