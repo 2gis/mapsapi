@@ -57,9 +57,11 @@
         <td>Считывает строку в WKT-формате и проверяет ее корректность. Возвращает массив компонентов геометрии (ее внутреннее представление).</td>
     </tr>
     <tr>
-        <td><code><b>toObject</b>()</code></td>
+        <td><code><b>toObject</b>(
+            <nobr>&lt;Object&gt; <i>config</i></nobr> )
+            )</code></td>
         <td><code>Object</code></td>
-        <td>Формирует геометрию API карт на основе данных, считанных методом read.</td>
+        <td>Формирует геометрию API карт на основе данных, считанных методом read. Этот метод поддерживает все параметры [L.Path](https://github.com/2gis/maps-api-2.0/blob/master/src/DGCore/doc/DGCustomization.md#lpath). Например, можно передать параметр {clickable:false}, чтобы сделать геометрию некликабельной.</td>
     </tr>
     <tr>
         <td><code><b>write</b>(
