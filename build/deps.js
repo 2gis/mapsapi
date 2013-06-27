@@ -39,7 +39,8 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/callout.css',
                 'DGCustomization/skin/{skin}/css/baron.css',
                 'DGCustomization/skin/{skin}/css/marker.css'
-            ]
+            ],
+            ie: ['DGCustomization/skin/{skin}/css/baron.ie.css']
         },
         deps: ['DGCore', 'DGDivIcon']
     },
