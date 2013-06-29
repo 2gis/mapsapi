@@ -4,31 +4,19 @@
 
 L.TileLayer.include({
 	_animateZoom: function (e) {
-		var firstFrame = false;
-
 		if (!this._animating) {
 			this._animating = true;
-			firstFrame = true;
-		}
-
-		if (firstFrame) {
 			this._prepareBgBuffer();
 		}
 
-		var bg = this._bgBuffer;
+		var bg = this._bgBuffer,
+		    transform = L.DomUtil.TRANSFORM,
+		    initialTransform = e.delta ? L.DomUtil.getTranslateString(e.delta) : bg.style[transform],
+		    scaleStr = L.DomUtil.getScaleString(e.scale, e.origin);
 
-		if (firstFrame) {
-			//prevent bg buffer from clearing right after zoom
-			clearTimeout(this._clearBgBufferTimer);
-
-			// hack to make sure transform is updated before running animation
-			L.Util.falseFn(bg.offsetWidth);
-		}
-
-		var transform = L.DomUtil.TRANSFORM,
-		    initialTransform = e.delta ? L.DomUtil.getTranslateString(e.delta) : bg.style[transform];
-
-		bg.style[transform] = initialTransform + ' ' + L.DomUtil.getScaleString(e.scale, e.origin);
+		bg.style[transform] = e.backwards ?
+				scaleStr + ' ' + initialTransform :
+				initialTransform + ' ' + scaleStr;
 	},
 
 	_endZoomAnim: function () {
@@ -36,9 +24,7 @@ L.TileLayer.include({
 		    bg = this._bgBuffer;
 
 		front.style.visibility = '';
-		front.style.zIndex = 2;
-
-		bg.style.zIndex = 1;
+		front.parentNode.appendChild(front); // Bring to fore
 
 		// force reflow
 		L.Util.falseFn(bg.offsetWidth);
@@ -82,6 +68,9 @@ L.TileLayer.include({
 		bg = this._bgBuffer = front;
 
 		this._stopLoadingImages(bg);
+
+		//prevent bg buffer from clearing right after zoom
+		clearTimeout(this._clearBgBufferTimer);
 	},
 
 	_getLoadedTilesPercentage: function (container) {

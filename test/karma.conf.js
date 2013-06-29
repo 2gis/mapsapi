@@ -10,7 +10,7 @@
 basePath = '../';
 
 // list of files / patterns to load in the browser
-files = [
+/*files = [
     "node_modules/mocha/mocha.js",
     MOCHA_ADAPTER,
 
@@ -22,24 +22,44 @@ files = [
     // Full API dist:
     'dist/dg-map-custom.js',
 
-    // DG tests:
-    'src/**/test/*Spec.js',
-
+    // DG tests:*/
+    //'src/**/test/*Spec.js',
+/*
     // Leaflet test helpers (after):
     'vendors/leaflet/spec/after.js',
     'vendors/leaflet/spec/happen.js',
     'vendors/leaflet/spec/suites/SpecHelper.js',
 
-    // Leaflet tests:
-    'vendors/leaflet/spec/suites/**/*.js'
+    // Leaflet tests:*/
+ //   'vendors/leaflet/spec/suites/**/*.js'
 
-];
+/*];*/
+
+// list of files / patterns to load in the browser
+files = [].concat([
+    "node_modules/mocha/mocha.js",
+    MOCHA_ADAPTER,
+    "vendors/leaflet/spec/before.js",
+    "vendors/leaflet/spec/sinon.js",
+    "vendors/leaflet/spec/expect.js"
+],
+[
+    'dist/dg-map-custom.js'
+],
+[   
+    "vendors/leaflet/spec/after.js",
+    "node_modules/happen/src/happen.js",
+    "vendors/leaflet/spec/suites/SpecHelper.js",
+    "vendors/leaflet/spec/suites/**/*.js"
+]);
 
 // list of files to exclude
 exclude = [
-    'vendors/leaflet/spec/suites/map/MapSpec.js',
-    'vendors/leaflet/spec/suites/layer/TileLayerSpec.js'
 ];
+
+
+// list of files to exclude
+exclude = [];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit', 'teamcity'

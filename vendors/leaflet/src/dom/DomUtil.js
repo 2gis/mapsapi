@@ -117,23 +117,6 @@ L.DomUtil = {
 		return el;
 	},
 
-	disableTextSelection: function () {
-		if (document.selection && document.selection.empty) {
-			document.selection.empty();
-		}
-		if (!this._onselectstart) {
-			this._onselectstart = document.onselectstart || null;
-			document.onselectstart = L.Util.falseFn;
-		}
-	},
-
-	enableTextSelection: function () {
-		if (document.onselectstart === L.Util.falseFn) {
-			document.onselectstart = this._onselectstart;
-			this._onselectstart = null;
-		}
-	},
-
 	hasClass: function (el, name) {
 		return (el.className.length > 0) &&
 		        new RegExp('(^|\\s)' + name + '(\\s|$)').test(el.className);
@@ -253,3 +236,51 @@ L.DomUtil.TRANSITION = L.DomUtil.testProp(
 L.DomUtil.TRANSITION_END =
         L.DomUtil.TRANSITION === 'webkitTransition' || L.DomUtil.TRANSITION === 'OTransition' ?
         L.DomUtil.TRANSITION + 'End' : 'transitionend';
+
+(function () {
+	var userSelectProperty = L.DomUtil.testProp(
+		['userSelect', 'WebkitUserSelect', 'OUserSelect', 'MozUserSelect', 'msUserSelect']);
+
+	var userDragProperty = L.DomUtil.testProp(
+		['userDrag', 'WebkitUserDrag', 'OUserDrag', 'MozUserDrag', 'msUserDrag']);
+
+	L.extend(L.DomUtil, {
+		disableTextSelection: function () {
+			if (userSelectProperty) {
+				var style = document.documentElement.style;
+				this._userSelect = style[userSelectProperty];
+				style[userSelectProperty] = 'none';
+			} else {
+				L.DomEvent.on(window, 'selectstart', L.DomEvent.stop);
+			}
+		},
+
+		enableTextSelection: function () {
+			if (userSelectProperty) {
+				document.documentElement.style[userSelectProperty] = this._userSelect;
+				delete this._userSelect;
+			} else {
+				L.DomEvent.off(window, 'selectstart', L.DomEvent.stop);
+			}
+		},
+
+		disableImageDrag: function () {
+			if (userDragProperty) {
+				var style = document.documentElement.style;
+				this._userDrag = style[userDragProperty];
+				style[userDragProperty] = 'none';
+			} else {
+				L.DomEvent.on(window, 'dragstart', L.DomEvent.stop);
+			}
+		},
+
+		enableImageDrag: function () {
+			if (userDragProperty) {
+				document.documentElement.style[userDragProperty] = this._userDrag;
+				delete this._userDrag;
+			} else {
+				L.DomEvent.off(window, 'dragstart', L.DomEvent.stop);
+			}
+		}
+	});
+})();
