@@ -10,32 +10,6 @@
 basePath = '../';
 
 // list of files / patterns to load in the browser
-/*files = [
-    "node_modules/mocha/mocha.js",
-    MOCHA_ADAPTER,
-
-    // Leaflet test helpers (before):
-    "vendors/leaflet/spec/before.js",
-    "vendors/leaflet/spec/sinon.js",
-    "vendors/leaflet/spec/expect.js",
-
-    // Full API dist:
-    'dist/dg-map-custom.js',
-
-    // DG tests:*/
-    //'src/**/test/*Spec.js',
-/*
-    // Leaflet test helpers (after):
-    'vendors/leaflet/spec/after.js',
-    'vendors/leaflet/spec/happen.js',
-    'vendors/leaflet/spec/suites/SpecHelper.js',
-
-    // Leaflet tests:*/
- //   'vendors/leaflet/spec/suites/**/*.js'
-
-/*];*/
-
-// list of files / patterns to load in the browser
 files = [].concat([
     "node_modules/mocha/mocha.js",
     MOCHA_ADAPTER,
@@ -44,7 +18,8 @@ files = [].concat([
     "vendors/leaflet/spec/expect.js"
 ],
 [
-    'dist/dg-map-custom.js'
+    'dist/dg-map-custom-src.js', // full 2GIS API dist
+    'src/**/test/*Spec.js' // 2GIS tests
 ],
 [   
     "vendors/leaflet/spec/after.js",
@@ -55,11 +30,11 @@ files = [].concat([
 
 // list of files to exclude
 exclude = [
+    // excluded, because L.DG.TileLayer added to the map by default,
+    // but leaflet tests think that map without layers and fails
+    "vendors/leaflet/spec/suites/map/MapSpec.js",
+    "vendors/leaflet/spec/suites/layer/TileLayerSpec.js"
 ];
-
-
-// list of files to exclude
-exclude = [];
 
 // use dots reporter, as travis terminal does not support escaping sequences
 // possible values: 'dots', 'progress', 'junit', 'teamcity'

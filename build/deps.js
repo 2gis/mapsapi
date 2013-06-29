@@ -36,6 +36,12 @@ var deps = {
         deps: ['DGCore', 'DGDivIcon']
     },
 
+    DGLocale: {
+        desc: 'Localization module',
+        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
+        deps: ['DGCore']
+    },
+
     DGFullScreen: {
         desc: 'Full screen module',
         src: ['DGFullScreen/src/DGFullScreen.js',
@@ -48,6 +54,12 @@ var deps = {
         deps: ['DGCore', 'DGLocale']
     },
 
+    DGJsonp: {
+        desc: 'JSONP module',
+        src: ['DGJsonp/src/DGJsonp.js'],
+        deps: ['DGCore']
+    },
+
     DGTileLayer: {
         desc: '2GIS tile layer module',
         src: ['DGTileLayer/src/DGTileLayer.js'],
@@ -57,22 +69,10 @@ var deps = {
         deps: ['DGCore']
     },
 
-    DGJsonp: {
-        desc: 'JSONP module',
-        src: ['DGJsonp/src/DGJsonp.js'],
-        deps: ['DGCore']
-    },
-
     DGProjectDetector: {
         desc: '2GIS project detector module.',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
         deps: ['DGCore', 'DGJsonp']
-    },
-
-    DGLocale: {
-        desc: 'Localization module',
-        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
-        deps: ['DGCore']
     },
 
     DGGeoclicker: {
