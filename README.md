@@ -8,7 +8,7 @@ API карт 2.0
 ## Быстрый старт (для разработчиков)
 **1. Клонируем репозиторий**
 ```bash
-git clone git@github.com:yarikos/DG.MapsAPI.git mapsapi-folder
+git clone git@github.com:2gis/maps-api-2.0.git mapsapi-folder
 ```
 
 **2. Установка окружения**

@@ -19,6 +19,14 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGWkt: {
+        desc: 'WKT parser module.',
+        src: ['DGWkt/Wkt.js',
+              'DGWkt/DGWkt.js'
+        ],
+        deps: ['DGCore']
+    },
+
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
