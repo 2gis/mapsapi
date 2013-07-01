@@ -41,10 +41,10 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
                     13: 'district',
                     14: 'district,house',
                     15: 'house,street,district',
-                    16: 'house,street,sight,station_platform',
-                    17: 'house,street,sight,station_platform',
-                    18: 'house,street,sight,station_platform',
-                    19: 'house,street,sight,station_platform'
+                    16: 'house,street,sight,station_platform,district',
+                    17: 'house,street,sight,station_platform,district',
+                    18: 'house,street,sight,station_platform,district',
+                    19: 'house,street,sight,station_platform,district'
                 },
                 zoom;
 
