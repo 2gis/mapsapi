@@ -1,0 +1,86 @@
+.dg-firmtitle {
+    margin: 0 0 3px;
+}
+
+.dg-firmtitle a {
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: normal;
+	line-height: 19px;
+	vertical-align: 1px;
+	color: #343434;
+}
+
+.dg-map-geoclicker-address {
+    font-size: 15px;
+	margin-bottom: 1px;
+}
+
+.dg-map-geoclicker-purpose,
+.dg-map-geoclicker-elevation {
+    color:#a0a0a0;
+    display:block;
+    font-size:15px;
+    margin-bottom:1px;
+}
+
+#dg-showmorehouse + sup{
+	color: #A0A0A0;
+	font-size: 10px;
+	position: relative;
+	left: 3px;
+	line-height: 24px;
+	text-decoration: none;
+}
+
+.dg-map-geoclicker-buildingname {
+	font-weight: bold;
+	font-size: 15px;
+	margin: 0 0 5px !important;
+	margin-right: 10px;
+}
+
+.dg-map-firm-bullet {
+	background: url("http://maps.api.2gis.ru/2.0/img/dg_sprite.png") no-repeat scroll 0 -258px transparent;
+	height: 6px;
+	left: -12px;
+	position: absolute;
+	top: 6px;
+	width: 6px;
+}
+
+.dg-map-firm {
+	line-height: 1.35;
+	margin: 0 0 10px 15px;
+	position: relative;
+}
+
+.dg-popup-header, .dg-popup-footer {
+	position: relative;
+	overflow: hidden;
+	z-index: 110;
+
+}
+#dg-showlesshouse {
+	color: #0070C0;
+	font-size: 12px;
+	line-height: 24px;
+	position: relative;
+	text-decoration: none;
+	top: 6px;
+	margin: 0 0 10px 15px;
+}
+
+.dg-popup-header-title {
+	font-size: 15px;
+	font-weight: bold;
+	padding-bottom: 4px;
+	margin: 0 0 10px 15px;
+}
+
+#dg-popup-firm-loading {
+    display: none;
+    background: url("http://maps.api.2gis.ru/2.0/img/loader_directory.gif") no-repeat scroll 50% 50% transparent;
+    height: 30px;
+    padding-bottom: 12px;
+}

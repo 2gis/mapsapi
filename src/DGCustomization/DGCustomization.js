@@ -31,7 +31,30 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     L.Popup.prototype.setContent = function (content) {
         this._structureAdded = false;
+        this._structureBaronAdded = false;
         return originalSetContent.call(this, content);
+    };
+
+    L.Popup.prototype.setHeaderContent = function(content) {
+        this._headerContent = content;
+    };
+
+    L.Popup.prototype._updateHeaderFooterStructure = function() {
+        this._content = '<div class="dg-popup-header">' + this._headerContent + '</div>' + this._content;
+        this._content += '<div class="dg-popup-footer">' + this._footerContent + '</div>';
+    };
+
+    L.Popup.prototype._shouldInitHeaderFooter = function() {
+        return !!(this._headerContent && this._footerContent);
+    };
+
+    L.Popup.prototype.clearHeaderFooter = function() {
+        this._footerContent = undefined;
+        this._headerContent = undefined;
+    };
+
+    L.Popup.prototype.setFooterContent = function(content) {
+        this._footerContent = content;
     };
 
     L.Popup.prototype._updateStructure = function () {
@@ -54,21 +77,29 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._originalContent =  this._content;
             this._updateStructure();
         }
-
         this._updateContent();
         this._updateLayout();
         this._updatePosition();
 
         shouldInitBaron = this._shouldInitBaron();
-
         if (shouldInitBaron) {
              if (this._isStructureAdded(true)) {
                 this._updateBaronStructure();
+                if (this._shouldInitHeaderFooter()) {
+                    this._updateHeaderFooterStructure();
+                }
                 this._updateContent();
             }
             this._initBaron();
+        } else {
+            if (this._shouldInitHeaderFooter()) {
+                this._updateHeaderFooterStructure();
+                this._updateContent();
+            }
         }
-
+        if (this._shouldInitHeaderFooter()) {
+            this._updateHeaderFooterStructure();
+        }
         this._container.style.visibility = '';
 
         this._adjustPan();
@@ -99,14 +130,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 console.log(event);
               }
               bean[mode || 'on'](elem, event, func);
-              //self._map[mode || 'on'](event, func);
             }
-        }).fix({
-            elements: '.header__title',
-            outside: 'header__title_state_fixed',
-            before: 'header__title_position_top',
-            after: 'header__title_position_bottom',
-            radius: 10
         });
     };
 }());
@@ -130,8 +154,8 @@ L.Map.include({
 
             popup = new L.Popup(options)
                 .setLatLng(latlng)
-                .setContent(content);
-        }
+                .setContent(content)
+;        }
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {

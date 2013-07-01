@@ -85,6 +85,10 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         return null;
     },
 
+    getCatalogApi: function() { // () -> Object
+        return this._catalogApi;
+    },
+
     _runHandler: function(type, data) { // (String, Object) -> Boolean
         data = data || {};
         this._ensureHandlerIsInit(type);

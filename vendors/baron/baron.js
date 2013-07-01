@@ -115,7 +115,6 @@ var
     function manageEvents(item, event, mode) {
         item._eventHandlers = item._eventHandlers || { // Creating new functions for one baron item only one time
             onScroll: function(e) {
-                debugger;
                 item.scroll(e);
             },
 
@@ -374,7 +373,6 @@ var
 
             // onScroll handler
             this.scroll = function(e) {
-                debugger;
                 var scrollDelta, oldBarSize, newBarSize,
                     delay = 0,
                     self = this;
@@ -467,7 +465,6 @@ var
             topHeights = [],
             headerTops = [],
             scroller = this.scroller;
-
         function fixElement(i, pos) {
             if (viewPortSize < (minView || 0)) { // No headers fixing when no enought space for viewport
                 pos = undefined;
@@ -551,7 +548,6 @@ var
                 }
             }
         }
-
         this.on('init', init, params);
 
         this.on('init scroll', function() {
@@ -777,7 +773,6 @@ var
         this.on('dispose', function() {
             toggle(false);
         });
-
         this.event(this.scroller, 'mousewheel DOMMouseScroll', function() {
             _insistence = 1;
             if (!_on && getHeight() >= getScrollHeight()) {
