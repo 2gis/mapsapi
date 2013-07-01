@@ -3,7 +3,7 @@
 .scroller {
     height: 80%;
     overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+   /* -webkit-overflow-scrolling: touch;*/
 }
 
 .scroller::-webkit-scrollbar {
