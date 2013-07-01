@@ -97,9 +97,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._updateContent();
             }
         }
-        if (this._shouldInitHeaderFooter()) {
-            this._updateHeaderFooterStructure();
-        }
         this._container.style.visibility = '';
 
         this._adjustPan();

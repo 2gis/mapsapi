@@ -16,7 +16,7 @@ L.DG.Locale = {
         }
         result = msgIsset ? dictionaryMsg : msg;
 
-        if (argument) {
+        if (typeof argument == 'number') {
             argument = parseInt(argument, 10);
             argument = isNaN(argument) ? 0 : argument;
             exp = this.constructor.Dictionary[lang].pluralRules(argument);
