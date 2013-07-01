@@ -83,4 +83,6 @@
     background: url("http://maps.api.2gis.ru/2.0/img/loader_directory.gif") no-repeat scroll 50% 50% transparent;
     height: 30px;
     padding-bottom: 12px;
+    width: 200px;
+    height: 200px;
 }

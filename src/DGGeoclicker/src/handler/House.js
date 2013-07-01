@@ -1,7 +1,3 @@
-/**
- *
- */
-
 L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     statics: {
@@ -10,11 +6,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _lastPage : 1,
     _cache: '',
-    _loadFromCache: false,
+    _shouldLoadFromCache: false,
     _firmsOnPage: 20,
     _scrollThrottleInterval: 500,
 
-    handle: function (results) { // (Object) -> Boolean
+    handle: function (results) { // (Object) -> Object
         var self = this;
 
         if (!results.house) {
@@ -33,7 +29,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _renderHouse: function (house) { // (Object) -> Object
         var attrs = house.attributes,
-        // TODO добавить инициализацию всех свойств
             data = {
                 address: '',
                 purpose: '',
@@ -48,7 +43,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         house.name = house.name.split(", ").slice(1);
         data.address += house.name;
 
-// TODO добавить правильную фильтрацию (если нужно) всех свойств
         if (attrs.buildingname) {
             data.buildingname = attrs.buildingname;
         }
@@ -58,7 +52,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         if (attrs.elevation) {
-            data.elevation = '' + this.t("{n} floors", +attrs.elevation);
+            data.elevation = this.t("{n} floors", + attrs.elevation);
         }
         if (attrs.firmcount > 0) {
             this._totalPages = Math.ceil(attrs.firmcount / this._firmsOnPage);
@@ -72,15 +66,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initPopupClose: function() {
-        var closeButton = document.getElementsByClassName('leaflet-popup-close-button')[0];
-        if (closeButton) {
-            L.DomEvent.on(closeButton, 'click', this._onPopupClose, this);
-        }
+        this._controller.getMap().on('popupclose', L.bind(this._onPopupClose, this));
     },
 
     _onPopupClose: function() {
         this._cache = '';
-        this._loadFromCache = false;
+        this._shouldLoadFromCache = false;
         this._lastPage = 1;
         this._wereHeadersInited = false;
         this._view.getPopup().clearHeaderFooter();
@@ -102,9 +93,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _showMoreClick: function () {
         this._view.showLoader();
+
         if (this._lastPage !== 1) {
             this._page = this._lastPage;
-            this._loadFromCache = true;
+            this._shouldLoadFromCache = true;
             this._handleFirmsLoadingEnd();
         } else {
             this._page = 1;
@@ -114,6 +106,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handleMouseWheel: function() {
         var scroller = document.getElementsByClassName('scroller')[0];
+
         if (scroller.scrollHeight == scroller.scrollTop + scroller.offsetHeight) {
             this._handlePaging();
         }
@@ -121,6 +114,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handlePaging: function () {
         this._page++;
+
         if (this._totalPages && this._page <= this._totalPages) {
             this._view.showLoader();
             this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
@@ -128,63 +122,73 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _handleFirmsLoadingEnd: function (results) { // (Object)
-        var append = false,
-            popupData = {},
-            content,
+        var shouldAppendContent = false,
             header = this._renderHeader(),
-            footer = this._renderFooter();
+            footer = this._renderFooter(),
+            shouldLoadFromCache = this._shouldLoadFromCache,
+            popupData = {},
+            content;
 
-        content = this._loadFromCache ? this._cache : this._renderFirms(results);
-        if (!this._loadFromCache) {
+        content = shouldLoadFromCache ? this._cache : this._renderFirms(results);
+
+        if (!shouldLoadFromCache) {
             this._cache += content;
         }
-        if (this._page == 1 || this._loadFromCache) {
+
+        if (this._page === 1 || shouldLoadFromCache) {
             popupData.header = header;
             popupData.footer = footer;
             content += '<div id="dg-popup-firm-loading"></div>';
         } else {
-            append = true;
+            shouldAppendContent = true;
         }
+
         popupData.tmpl = content;
-        popupData.append = append;
+        popupData.append = shouldAppendContent;
 
         this._view.renderPopup(popupData);
-        if (this._page == 1 || this._loadFromCache) {
+
+        if (this._page == 1 || shouldLoadFromCache) {
             this._initShowLess();
             this._initScrollEnd();
         }
+
         this._view.hideLoader();
 
-         if (this._loadFromCache) {
-            this._loadFromCache = false;
-         }
+        this._shouldLoadFromCache = false;
     },
 
-    _renderHeader: function() {
+    _renderHeader: function() { // () -> String
         var header = '';
+
         if (!this._wereHeadersInited) {
             header = '<div class="dg-popup-header-title">' + this.houseObj.data.address + '</div>';
         }
+
         return header;
     },
 
-    _renderFooter: function() {
+    _renderFooter: function() { // () -> String
         var footer = '';
+
         if (!this._wereHeadersInited) {
             footer = '<div class="popup_footer_title"><a id="dg-showlesshouse" href="javascript:void(0)">Скрыть организации в здании</a></div>';    
             this._wereHeadersInited = true;
         }
+
         return footer;
     },
 
     _renderFirms: function (list) { // (Array) -> String
         var listHtml = '';
+
         if (!list || !list.length) {
             return listHtml;
         }
         for (var i in list) {
             listHtml += this._view.render(this._renderFirm(list[i]));
         }
+
         return listHtml;
     },
 
@@ -216,7 +220,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             tmpl: '<div class="dg-map-firm"><div class="dg-map-firm-bullet"></div><div class="dg-firmtitle"><span>{name}</span></div></div>',
             data: params
         };
-
     },
 
     _renderFirmContacts: function (contacts) { // (Array) -> String
@@ -244,5 +247,3 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         return contactsHtml;
     }
 });
-
-

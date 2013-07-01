@@ -23,9 +23,8 @@ L.DG.Geoclicker.View = L.Class.extend({
         if (loaderDiv) {
             loaderDiv.style.display = "none";
         } else {
-            this._popup.setContent('<div id="dg-popup-firm-loading" width="200" height="200"></div>');
+            this._popup.setContent('<div id="dg-popup-firm-loading"></div>');
         }
-        
     },
 
     showPopup: function (latlng) { // (Object)
@@ -43,6 +42,9 @@ L.DG.Geoclicker.View = L.Class.extend({
         } else {
             html = options.tmpl;
         }
+
+        options.beforeRender && options.beforeRender();
+
         if (options.popup) {
             if (options.append) {
                 var popupLoader = document.getElementById("dg-popup-firm-loading");
@@ -54,9 +56,7 @@ L.DG.Geoclicker.View = L.Class.extend({
             }
         }
 
-        if (options.afterRender) {
-            options.afterRender();
-        }
+        options.afterRender && options.afterRender();
 
         return html;
     },
