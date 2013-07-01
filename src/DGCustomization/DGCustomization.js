@@ -41,16 +41,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
 }());
 
-L.Popup.include({
-
-    _close: function () {
-        if (this._map) {
-            this._map.closePopup(this);
-        }
-    }
-
-});
-
 L.Map.include({
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         this.closePopup();
