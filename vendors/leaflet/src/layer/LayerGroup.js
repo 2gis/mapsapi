@@ -29,13 +29,13 @@ L.LayerGroup = L.Class.extend({
 	},
 
 	removeLayer: function (layer) {
-		var id = this.getLayerId(layer);
+		var id = layer in this._layers ? layer : this.getLayerId(layer);
+
+		if (this._map && this._layers[id]) {
+			this._map.removeLayer(this._layers[id]);
+		}
 
 		delete this._layers[id];
-
-		if (this._map) {
-			this._map.removeLayer(layer);
-		}
 
 		return this;
 	},
@@ -43,8 +43,7 @@ L.LayerGroup = L.Class.extend({
 	hasLayer: function (layer) {
 		if (!layer) { return false; }
 
-		var id = this.getLayerId(layer);
-		return this._layers.hasOwnProperty(id);
+		return (layer in this._layers || this.getLayerId(layer) in this._layers);
 	},
 
 	clearLayers: function () {
@@ -57,12 +56,10 @@ L.LayerGroup = L.Class.extend({
 		    i, layer;
 
 		for (i in this._layers) {
-			if (this._layers.hasOwnProperty(i)) {
-				layer = this._layers[i];
+			layer = this._layers[i];
 
-				if (layer[methodName]) {
-					layer[methodName].apply(layer, args);
-				}
+			if (layer[methodName]) {
+				layer[methodName].apply(layer, args);
 			}
 		}
 
@@ -86,19 +83,20 @@ L.LayerGroup = L.Class.extend({
 
 	eachLayer: function (method, context) {
 		for (var i in this._layers) {
-			if (this._layers.hasOwnProperty(i)) {
-				method.call(context, this._layers[i]);
-			}
+			method.call(context, this._layers[i]);
 		}
 		return this;
 	},
 
+	getLayer: function (id) {
+		return this._layers[id];
+	},
+
 	getLayers: function () {
 		var layers = [];
+
 		for (var i in this._layers) {
-			if (this._layers.hasOwnProperty(i)) {
-				layers.push(this._layers[i]);
-			}
+			layers.push(this._layers[i]);
 		}
 		return layers;
 	},

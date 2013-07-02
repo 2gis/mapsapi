@@ -22,12 +22,12 @@ var config = {
 
     js: {
         public: {
-            src: basePath + '/dist/dg-map-src.js',
-            min: basePath + '/dist/dg-map.js'
+            src: basePath + '/public/js/dg-map-src.js',
+            min: basePath + '/public/js/dg-map.js'
         },
         custom: {
-            src: basePath + '/dist/dg-map-custom-src.js',
-            min: basePath + '/dist/dg-map-custom.js'
+            src: basePath + '/public/js/dg-map-custom-src.js',
+            min: basePath + '/public/js/dg-map-custom.js'
         },
 
         copyrights: [basePath + '/vendors/leaflet/src/copyright.js'],
@@ -38,12 +38,12 @@ var config = {
 
     css: {
         public: {
-            src: basePath + '/dist/dg-map-src.css',
-            min: basePath + '/dist/dg-map.css'
+            src: basePath + '/public/css/dg-map-src.css',
+            min: basePath + '/public/css/dg-map.css'
         },
         custom: {
-            src: basePath + '/dist/dg-map-custom-src.css',
-            min: basePath + '/dist/dg-map-custom.css'
+            src: basePath + '/public/css/dg-map-custom-src.css',
+            min: basePath + '/public/css/dg-map-custom.css'
         }
     },
 

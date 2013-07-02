@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2GIS maps api demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug"></script>
+</head>
+<body>
+
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+
+<script type="text/javascript">
+    var map,
+        balloonHTML;
+
+    L.onLoad(function () {
+        map = new L.Map('map', {
+            center: new L.LatLng(54.980206086231, 82.898068362003),
+            zoom: 4
+        });
+        balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
+            <img src="http://maps.api.2gis.ru/2.0/2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
+            <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
+            (МФК «Сан Сити»), 13 этаж';
+		testImage = '<img src="http://www.peoples.ru/images/interesting/interesting_2012070705232613.jpg" width="400" height="300">';
+		testImageSpace = '<img src="http://tainy.net/wp-content/uploads/2012/03/0012_space_1024_768-400x300.jpg" width="400" height="300">';
+		testImageItaly = '<img src="http://geosite.com.ru/wp-content/uploads/2013/01/colosseum-rome-italy.jpg" width="400" height="300">';
+
+        var popup = L.popup({maxHeight:100})
+                    .setLatLng([54.930206086231, 82.888068362003])
+                    .setContent(balloonHTML),
+            popup1 = L.popup({maxHeight:150})
+                    .setLatLng([54.960206086231, 82.878068362003])
+                    .setContent(balloonHTML);
+			popup2 = L.popup({maxHeight:150})
+                    .setLatLng([54.990206086231, 82.868068362003])
+                    .setContent('a');
+			popup3 = L.popup({maxHeight:150})
+                    .setLatLng([55.020206086231, 82.858068362003])
+                    .setContent(balloonHTML);
+			popup4 = L.popup({maxHeight:150, maxWidth:70})
+                    .setLatLng([55.320206086231, 82.858068362003])
+                    .setContent('Узкий балун, а контента много, нужен барон=)');
+			popup5 = L.popup({maxHeight:150, maxWidth:70})
+                    .setLatLng([55.420206086231, 82.868068362003])
+                    .setContent(testImage);
+			popup6 = L.popup({maxHeight:150, maxWidth:70})
+                    .setLatLng([55.852818374694, 37.585829972736])
+                    .setContent(balloonHTML);
+			popup7 = L.popup({maxHeight:150})
+                    .setLatLng([55.842818374694, 37.575829972736])
+                    .setContent(testImage);
+			popup8 = L.popup({maxHeight:150, maxWidth:450})
+                    .setLatLng([54.842818374694, 36.575829972736])
+                    .setContent(testImage);
+			popup9 = L.popup({maxHeight:150, maxWidth:400})
+                    .setLatLng([53.842818374694, 34.575829972736])
+                    .setContent(testImageSpace);
+			popup10 = L.popup({maxHeight:150, maxWidth:450})
+                    .setLatLng([52.842818374694, 33.575829972736])
+                    .setContent(testImageItaly);
+			popup11 = L.popup({maxHeight:30})
+                    .setLatLng([51.842818374694, 32.575829972736])
+                    .setContent('ОООчень большой контент, который должен перенестись автоматически по словам.');
+
+        map.addLayer(popup).addLayer(popup1).addLayer(popup2).addLayer(popup3).addLayer(popup4).addLayer(popup5).addLayer(popup6).addLayer(popup7).addLayer(popup8).addLayer(popup9).addLayer(popup10).addLayer(popup11);
+    });
+
+</script>
+
+</body>
+</html>
+
