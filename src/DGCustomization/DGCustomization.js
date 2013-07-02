@@ -9,10 +9,7 @@ L.Control.Zoom.prototype.options = {
 L.Control.Zoom.prototype.onAdd = function (map) {
     var zoomName = 'dg-zoom',
         container = L.DomUtil.create('div', zoomName),
-        leftProject = false,
-        projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__',
-        zoom,
-        maxZoom = '__MAX_ZOOM__';
+        projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
 
     this._map = map;
     this._zoomInButton = this._createButton('+', 'Приблизить', zoomName + '__in', container, this._zoomIn, this);
@@ -20,17 +17,14 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
     map.on('dgProjectLeave', function() {
-        if (!leftProject) {
-            zoom = map.dgProjectDetector.getProject() ? maxZoom : projectLeaveMaxZoom;
-            map.setMaxZoom(zoom);
-            leftProject = true;
-        }
+        map.setMaxZoom(projectLeaveMaxZoom);
     });
 
-    map.on('dgProjectChange', function() {
-        if (leftProject && map.dgProjectDetector.getProject()) {
-            map.setMaxZoom(maxZoom);
-            leftProject = false;
+    map.on('dgProjectChange', function(project) {
+        var projectInfo = project.getProject();
+
+        if (projectInfo) {
+            map.setMaxZoom(projectInfo.max_zoomlevel);
         }
     });
     return container;
