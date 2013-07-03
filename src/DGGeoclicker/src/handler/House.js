@@ -9,6 +9,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _shouldLoadFromCache: false,
     _firmsOnPage: 20,
     _scrollThrottleInterval: 500,
+    _eventHandlers: [],
 
     handle: function (results) { // (Object) -> Object
         var self = this;
@@ -19,7 +20,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._id = results.house.id;
 
-        this.houseObj = this._renderHouse(results.house);
+        this.houseObj = this._fillHouseObject(results.house);
         this.houseObj.afterRender = function() {
             self._initShowMore();
             self._initPopupClose();
@@ -28,7 +29,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         return this.houseObj;
     },
 
-    _renderHouse: function (house) { // (Object) -> Object
+    _fillHouseObject: function (house) { // (Object) -> Object
         var attrs = house.attributes,
             data = {
                 address: '',
@@ -63,7 +64,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                     showMoreText: this.t("Show organization in the building"),
                     firmsCount: attrs.firmcount
                 }
-            })
+            });
         }
 
         return {
@@ -81,21 +82,52 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._shouldLoadFromCache = false;
         this._lastPage = 1;
         this._wereHeadersInited = false;
+        this._clearEventHandlers();
         this._view.getPopup().clearHeaderFooter();
+        this._scroller = undefined;
     },
 
     _initShowMore: function () {
-        var link = L.DomUtil.get('dg-showmorehouse')
+        var link = L.DomUtil.get('dg-showmorehouse'),
+            eventType = 'click';
         if (link) {
-            L.DomEvent.on(link, 'click', this._showMoreClick, this);
+            L.DomEvent.on(link, eventType, this._showMoreClick, this);
+            this._eventHandlers.push({
+                el: link,
+                event: eventType,
+                handler: this._showMoreClick
+            });
         }
     },
 
     _initScrollEnd: function() {
-        var scroller = document.getElementsByClassName('scroller')[0];
-        if (scroller) {
-            L.DomEvent.on(scroller, 'mousewheel', L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval));
+        var mouseWheelHandler,
+            eventType = 'mousewheel';
+
+        this._scroller = document.getElementsByClassName('scroller')[0];
+        if (this._scroller) {
+            mouseWheelHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
+            this._eventHandlers.push({
+                el: this._scroller,
+                event: eventType,
+                handler: mouseWheelHandler
+            });
+            L.DomEvent.on(this._scroller, eventType, mouseWheelHandler);
         }
+    },
+
+    _clearEventHandlers: function() {
+        var handlers = this._eventHandlers,
+            len = handlers.length;
+
+        if (!len) {
+            return;
+        }
+        for (var i = 0; i < len; i++) {
+            L.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
+        }
+
+        this._eventHandlers = [];
     },
 
     _showMoreClick: function () {
@@ -112,9 +144,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _handleMouseWheel: function() {
-        var scroller = document.getElementsByClassName('scroller')[0];
-
-        if (scroller.scrollHeight == scroller.scrollTop + scroller.offsetHeight) {
+        var scroller = this._scroller;
+        if (scroller && scroller.scrollHeight == scroller.scrollTop + scroller.offsetHeight) {
             this._handlePaging();
         }
     },
@@ -136,6 +167,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             popupData = {},
             content;
 
+        this._wereHeadersInited = true;
         content = shouldLoadFromCache ? this._cache : this._renderFirms(results);
 
         if (!shouldLoadFromCache) {
@@ -190,7 +222,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                     hideFirmsText: this.t("Hide organization in the building")
                 }
             });
-            this._wereHeadersInited = true;
         }
 
         return footer;
@@ -203,7 +234,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             return listHtml;
         }
         for (var i in list) {
-            listHtml += this._view.render(this._renderFirm(list[i]));
+            listHtml += this._view.render(this._fillFirmObject(list[i]));
         }
 
         return listHtml;
@@ -225,7 +256,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._initShowMore();
     },
 
-    _renderFirm: function (firm) { // (Object) -> Object
+    _fillFirmObject: function (firm) { // (Object) -> Object
         // TODO move that to dedicated util
         var params = {
                 name: firm.name,
