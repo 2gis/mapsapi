@@ -48,7 +48,7 @@
 }
 
 .dg-map-firm-bullet {
-	background: url("http://maps.api.2gis.ru/2.0/img/dg_sprite.png") no-repeat scroll 0 -258px transparent;
+	background: url("__BASE_URL__/img/dg_sprite.png") no-repeat scroll 0 -258px transparent;
 	height: 6px;
 	left: -12px;
 	position: absolute;
@@ -87,7 +87,7 @@
 
 #dg-popup-firm-loading {
     display: none;
-    background: url("http://maps.api.2gis.ru/2.0/img/loader_directory.gif") no-repeat scroll 50% 50% transparent;
+    background: url("__BASE_URL__/img/loader_directory.gif") no-repeat scroll 50% 50% transparent;
     height: 30px;
     padding-bottom: 12px;
     width: 200px;
