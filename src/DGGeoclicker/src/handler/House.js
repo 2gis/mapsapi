@@ -172,7 +172,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var footer = '';
 
         if (!this._wereHeadersInited) {
-            footer = '<div class="popup_footer_title"><a id="dg-showlesshouse" href="javascript:void(0)">Скрыть организации в здании</a></div>';    
+            footer = '<div class="popup_footer_title"><a id="dg-showlesshouse" href="javascript:void(0)">' + this.t("Hide organization in the building") + '</a></div>';    
             this._wereHeadersInited = true;
         }
 
