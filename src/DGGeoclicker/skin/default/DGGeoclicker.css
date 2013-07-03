@@ -24,6 +24,13 @@
     margin-bottom:1px;
 }
 
+#dg-showmorehouse {
+	color: #0070C0;
+	font-size: 12px;
+	line-height: 24px;
+	text-decoration: none;
+}
+
 #dg-showmorehouse + sup{
 	color: #A0A0A0;
 	font-size: 10px;

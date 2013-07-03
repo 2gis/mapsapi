@@ -60,7 +60,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         return {
-            tmpl: '<h1 class="dg-map-geoclicker-buildingname">{buildingname}</h1><div class="dg-map-geoclicker-address">{address}</div><br/>' + '<div class="dg-map-geoclicker-purpose">{purpose}</div>' + '<div class="dg-map-geoclicker-elevation">{elevation}</div>' + '<div>{link}</div>',
+            tmpl: '<h1 class="dg-map-geoclicker-buildingname">{buildingname}</h1><div class="dg-map-geoclicker-address">{address}</div>' + '<div class="dg-map-geoclicker-purpose">{purpose}</div>' + '<div class="dg-map-geoclicker-elevation">{elevation}</div>' + '<div>{link}</div>',
             data: data
         };
     },
