@@ -15,8 +15,6 @@ L.DG.FullScreen = L.Control.extend({
     _isLegacy: false,
 
     _initialMapParams: {
-        size: null,
-        scrollZoomEnabled: false,
         zIndex: null,
         position: null,
         left: null,
@@ -30,9 +28,7 @@ L.DG.FullScreen = L.Control.extend({
         paddingRight: null,
         paddingBottom: null,
         paddingLeft: null,
-        parentNode: null,
         previousSibling: null,
-        nextSibling: null,
         width: null,
         height: null
     },
@@ -123,9 +119,7 @@ L.DG.FullScreen = L.Control.extend({
         this._initialMapParams.paddingRight = container.style.paddingRight;
         this._initialMapParams.paddingBottom = container.style.paddingBottom;
         this._initialMapParams.paddingLeft = container.style.paddingLeft;
-        this._initialMapParams.parentNode = container.parentNode;
         this._initialMapParams.previousSibling = container.previousSibling;
-        this._initialMapParams.nextSibling = container.nextSibling;
         this._initialMapParams.width = container.style.width;
         this._initialMapParams.height = container.style.height;
 
