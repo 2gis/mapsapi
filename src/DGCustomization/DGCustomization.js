@@ -30,7 +30,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
     L.Popup.prototype.setContent = function (content) {
-        this._shouldInitBaronContainer = true;
+        this._shouldInitPopupContainer = true;
         this._shouldInitBaronScroller = true;
         return originalSetContent.call(this, content);
     };
@@ -57,9 +57,9 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         this._headerContent = undefined;
     };
 
-    L.Popup.prototype._initBaronContainer = function () {
+    L.Popup.prototype._initPopupContainer = function () {
         this._content = '<div class="container">' + this._content + '</div>';
-        this._shouldInitBaronContainer = false;
+        this._shouldInitPopupContainer = false;
     };
 
     L.Popup.prototype._initBaronScroller = function () {
@@ -76,9 +76,9 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         this._container.style.visibility = 'hidden';
 
-        if (this._shouldInitBaronContainer) {
+        if (this._shouldInitPopupContainer) {
             this._originalContent =  this._content;
-            this._initBaronContainer();
+            this._initPopupContainer();
         }
         this._updateContent();
         this._updateLayout();
@@ -123,7 +123,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             event: function(elem, event, func, mode) {
               if (mode == 'trigger') {
                 mode = 'fire';
-                console.log(event);
               }
               bean[mode || 'on'](elem, event, func);
             }

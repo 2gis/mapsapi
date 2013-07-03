@@ -73,9 +73,20 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGWicket",
-                                "uri": "doc/DGWicket/DGWicket.html",
-                                "_src": "DGWicket/doc/DGWicket.md",
+                                "title": "DGGeoclicker",
+                                "uri": "doc/DGGeoclicker/DGGeoclicker.html",
+                                "_src": "DGGeoclicker/doc/DGGeoclicker.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "DGWkt",
+                                "uri": "doc/DGWkt/DGWkt.html",
+                                "_src": "DGWkt/doc/DGWkt.md",
                                 "hide": false
                             }
                         },
