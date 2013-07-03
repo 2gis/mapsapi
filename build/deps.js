@@ -95,7 +95,7 @@ var deps = {
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
         css: {
-            all: ['DGGeoclicker/skin/{skin}/DGGeoclicker.css']
+            all: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.css']
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',

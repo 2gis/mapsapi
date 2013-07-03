@@ -19,7 +19,7 @@ L.DG.Geoclicker.View = L.Class.extend({
         if (loaderDiv) {
             loaderDiv.style.display = 'block';
         } else {
-            popup.setContent('<img src="http://maps.api.2gis.ru/images/loader_directory.gif"');
+            popup.setContent('<img src="__BASE_URL__/img/loader_directory.gif"');
         }
     },
 
