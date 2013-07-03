@@ -154,7 +154,7 @@ var
         }
         event(document, 'mouseup blur touchend', item._eventHandlers.onMouseUp, mode);
         event(document, 'mousemove touchmove', item._eventHandlers.onMouseMove, mode);
-        event(window, 'resize', item._eventHandlers.onResize, mode);
+        event(item.clipper, 'resize', item._eventHandlers.onResize, mode);
         if (item.root) {
             event(item.root, 'sizeChange', item._eventHandlers.onResize, mode); // Custon event for alternate baron update mechanism
         }
