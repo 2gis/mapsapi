@@ -107,12 +107,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._scroller = document.getElementsByClassName('scroller')[0];
         if (this._scroller) {
             mouseWheelHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
+            L.DomEvent.on(this._scroller, eventType, mouseWheelHandler);
             this._eventHandlers.push({
                 el: this._scroller,
                 event: eventType,
                 handler: mouseWheelHandler
             });
-            L.DomEvent.on(this._scroller, eventType, mouseWheelHandler);
         }
     },
 
