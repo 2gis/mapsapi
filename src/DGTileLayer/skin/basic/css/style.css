@@ -124,3 +124,7 @@ a.dg-mapcopyright__license:hover {
 .dg-mapcopyright_lang_it a.dg-mapcopyright__license:hover {
     background-position:-41px -35px, -194px -35px;
 }
+
+.leaflet-container {
+    background: #F7F3DF;
+}
