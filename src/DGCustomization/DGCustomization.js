@@ -25,7 +25,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalSetContent = L.Popup.prototype.setContent,
-        graf = baron.noConflict();
+        graf = baron.noConflict(),
+        tmpl = __DGCustomization_TMPL__;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
@@ -48,8 +49,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
     L.Popup.prototype._initHeaderFooter = function() {
-        this._content = '<div class="dg-popup-header">' + this._headerContent + '</div>' + this._content;
-        this._content += '<div class="dg-popup-footer">' + this._footerContent + '</div>';
+        this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
+        this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
     };
 
     L.Popup.prototype.clearHeaderFooter = function() {
@@ -58,12 +59,12 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
     L.Popup.prototype._initPopupContainer = function () {
-        this._content = '<div class="container">' + this._content + '</div>';
+        this._content = L.Util.template(tmpl.container, {content: this._content});
         this._shouldInitPopupContainer = false;
     };
 
     L.Popup.prototype._initBaronScroller = function () {
-        this._content = '<div class="scroller"><div class="container">' + this._originalContent + '</div><div class="scroller__bar-wrapper"><div class="scroller__bar"></div></div></div>';
+        this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
         this._shouldInitBaronScroller = false;
     };
 
