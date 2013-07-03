@@ -2,7 +2,12 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     initialize: function(map, options) { // (Object, Object)
         this._map = map;
-        this._popup = L.popup({maxHeight:300, maxWidth: 438});
+        this._popup = L.popup({
+            maxHeight:300,
+            maxWidth: 438,
+            minWidth: 216
+        });
+        this._templates = __DGGeoclicker_TMPL__;
         options && L.Util.setOptions(this, options);
     },
 
@@ -32,13 +37,18 @@ L.DG.Geoclicker.View = L.Class.extend({
     },
 
     render: function(options) { // (Object) -> String
-        var html;
+        var html,
+            tmpl,
+            tmplFileContent;
 
         options = options || {};
         options.tmpl = options.tmpl || "";
+        options.tmplFile = options.tmplFile || null;
+        tmplFileContent = this._templates[options.tmplFile];
 
         if (options.data) {
-            html = L.Util.template(options.tmpl, options.data);
+            tmpl = tmplFileContent ? tmplFileContent : options.tmpl;
+            html = L.Util.template(tmpl, options.data);
         } else {
             html = options.tmpl;
         }
@@ -68,5 +78,10 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     getPopup: function() { // () -> Object
         return this._popup;
+    },
+
+    getTemplate: function(tmplFile) {
+        var tmpl = this._templates[tmplFile];
+        return tmpl ? tmpl : "";
     }
 });

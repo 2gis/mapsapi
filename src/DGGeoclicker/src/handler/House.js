@@ -18,6 +18,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         this._id = results.house.id;
+
         this.houseObj = this._renderHouse(results.house);
         this.houseObj.afterRender = function() {
             self._initShowMore();
@@ -56,11 +57,17 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
         if (attrs.firmcount > 0) {
             this._totalPages = Math.ceil(attrs.firmcount / this._firmsOnPage);
-            data.link = '<a id="dg-showmorehouse" href="javascript:void(0)">' + this.t("Show organization in the building") + '</a><sup>' + attrs.firmcount + '</sup>';
+            data.link = this._view.render({
+                tmplFile: "showMoreLink",
+                data: {
+                    showMoreText: this.t("Show organization in the building"),
+                    firmsCount: attrs.firmcount
+                }
+            })
         }
 
         return {
-            tmpl: '<h1 class="dg-map-geoclicker-buildingname">{buildingname}</h1><div class="dg-map-geoclicker-address">{address}</div>' + '<div class="dg-map-geoclicker-purpose">{purpose}</div>' + '<div class="dg-map-geoclicker-elevation">{elevation}</div>' + '<div>{link}</div>',
+            tmpl: this._view.getTemplate("house"),
             data: data
         };
     },
@@ -138,7 +145,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (this._page === 1 || shouldLoadFromCache) {
             popupData.header = header;
             popupData.footer = footer;
-            content += '<div id="dg-popup-firm-loading"></div>';
+            content += this._view.getTemplate("loader");
         } else {
             shouldAppendContent = true;
         }
@@ -162,7 +169,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var header = '';
 
         if (!this._wereHeadersInited) {
-            header = '<div class="dg-popup-header-title">' + this.houseObj.data.address + '</div>';
+            header = this._view.render({
+                tmplFile: "popupHeader",
+                data: {
+                    address: this.houseObj.data.address
+                }
+            });
         }
 
         return header;
@@ -172,7 +184,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var footer = '';
 
         if (!this._wereHeadersInited) {
-            footer = '<div class="popup_footer_title"><a id="dg-showlesshouse" href="javascript:void(0)">' + this.t("Hide organization in the building") + '</a></div>';    
+            footer = this._view.render({
+                tmplFile: "popupFooter",
+                data: {
+                    hideFirmsText: this.t("Hide organization in the building")
+                }
+            });
             this._wereHeadersInited = true;
         }
 
@@ -213,11 +230,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var params = {
                 name: firm.name,
                 address: firm.geometry_name ? firm.geometry_name : '',
-                //contacts: this._renderFirmContacts(firm.contacts)
             };
 
         return {
-            tmpl: '<div class="dg-map-firm"><div class="dg-map-firm-bullet"></div><div class="dg-firmtitle"><span>{name}</span></div></div>',
+            tmpl: this._view.getTemplate("firm"),
             data: params
         };
     },
