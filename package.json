@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/yarikos/DG.MapsAPI.git"
+    "url": "git://github.com/2gis/maps-api-2.0.git"
   },
   "dependencies": {
     "express": "*",
