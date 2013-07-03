@@ -58,7 +58,7 @@ L.TileLayer = L.Class.extend({
 
 	onAdd: function (map) {
 		this._map = map;
-		this._animated = map.options.zoomAnimation && L.Browser.any3d;
+		this._animated = map._zoomAnimated;
 
 		// create a container div for tiles
 		this._initContainer();
@@ -214,21 +214,10 @@ L.TileLayer = L.Class.extend({
 
 		if (L.Browser.ielt9) {
 			for (i in tiles) {
-				if (tiles.hasOwnProperty(i)) {
-					L.DomUtil.setOpacity(tiles[i], this.options.opacity);
-				}
+				L.DomUtil.setOpacity(tiles[i], this.options.opacity);
 			}
 		} else {
 			L.DomUtil.setOpacity(this._container, this.options.opacity);
-		}
-
-		// stupid webkit hack to force redrawing of tiles
-		if (L.Browser.webkit) {
-			for (i in tiles) {
-				if (tiles.hasOwnProperty(i)) {
-					tiles[i].style.webkitTransform += ' translate(0,0)';
-				}
-			}
 		}
 	},
 
@@ -245,6 +234,7 @@ L.TileLayer = L.Class.extend({
 
 				this._bgBuffer = L.DomUtil.create('div', className, this._container);
 				this._tileContainer = L.DomUtil.create('div', className, this._container);
+
 			} else {
 				this._tileContainer = this._container;
 			}
@@ -258,12 +248,8 @@ L.TileLayer = L.Class.extend({
 	},
 
 	_reset: function (e) {
-		var tiles = this._tiles;
-
-		for (var key in tiles) {
-			if (tiles.hasOwnProperty(key)) {
-				this.fire('tileunload', {tile: tiles[key]});
-			}
+		for (var key in this._tiles) {
+			this.fire('tileunload', {tile: this._tiles[key]});
 		}
 
 		this._tiles = {};
@@ -294,15 +280,9 @@ L.TileLayer = L.Class.extend({
 			return;
 		}
 
-		var nwTilePoint = new L.Point(
-		        Math.floor(bounds.min.x / tileSize),
-		        Math.floor(bounds.min.y / tileSize)),
-
-		    seTilePoint = new L.Point(
-		        Math.floor(bounds.max.x / tileSize),
-		        Math.floor(bounds.max.y / tileSize)),
-
-		    tileBounds = new L.Bounds(nwTilePoint, seTilePoint);
+		var tileBounds = L.bounds(
+		        bounds.min.divideBy(tileSize)._floor(),
+		        bounds.max.divideBy(tileSize)._floor());
 
 		this._addTilesFromCenterOut(tileBounds);
 
@@ -357,26 +337,31 @@ L.TileLayer = L.Class.extend({
 			return false; // already loaded
 		}
 
-		if (!this.options.continuousWorld) {
+		var options = this.options;
+
+		if (!options.continuousWorld) {
 			var limit = this._getWrapTileNum();
 
-			if (this.options.noWrap && (tilePoint.x < 0 || tilePoint.x >= limit) ||
-				                        tilePoint.y < 0 || tilePoint.y >= limit) {
-				return false; // exceeds world bounds
-			}
+			// don't load if exceeds world bounds
+			if ((options.noWrap && (tilePoint.x < 0 || tilePoint.x >= limit)) ||
+				tilePoint.y < 0 || tilePoint.y >= limit) { return false; }
 		}
 
-		if (this.options.bounds) {
-			var tileSize = this.options.tileSize,
+		if (options.bounds) {
+			var tileSize = options.tileSize,
 			    nwPoint = tilePoint.multiplyBy(tileSize),
-			    sePoint = nwPoint.add(new L.Point(tileSize, tileSize)),
+			    sePoint = nwPoint.add([tileSize, tileSize]),
 			    nw = this._map.unproject(nwPoint),
-			    se = this._map.unproject(sePoint),
-			    bounds = new L.LatLngBounds([nw, se]);
+			    se = this._map.unproject(sePoint);
 
-			if (!this.options.bounds.intersects(bounds)) {
-				return false;
+			// TODO temporary hack, will be removed after refactoring projections
+			// https://github.com/Leaflet/Leaflet/issues/1618
+			if (!options.continuousWorld && !options.noWrap) {
+				nw = nw.wrap();
+				se = se.wrap();
 			}
+
+			if (!options.bounds.intersects([nw, se])) { return false; }
 		}
 
 		return true;
@@ -386,15 +371,13 @@ L.TileLayer = L.Class.extend({
 		var kArr, x, y, key;
 
 		for (key in this._tiles) {
-			if (this._tiles.hasOwnProperty(key)) {
-				kArr = key.split(':');
-				x = parseInt(kArr[0], 10);
-				y = parseInt(kArr[1], 10);
+			kArr = key.split(':');
+			x = parseInt(kArr[0], 10);
+			y = parseInt(kArr[1], 10);
 
-				// remove tile if it's out of bounds
-				if (x < bounds.min.x || x > bounds.max.x || y < bounds.min.y || y > bounds.max.y) {
-					this._removeTile(key);
-				}
+			// remove tile if it's out of bounds
+			if (x < bounds.min.x || x > bounds.max.x || y < bounds.min.y || y > bounds.max.y) {
+				this._removeTile(key);
 			}
 		}
 	},
@@ -414,6 +397,7 @@ L.TileLayer = L.Class.extend({
 
 		// for https://github.com/CloudMade/Leaflet/issues/137
 		if (!L.Browser.android) {
+			tile.onload = null;
 			tile.src = L.Util.emptyImageUrl;
 		}
 

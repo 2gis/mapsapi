@@ -52,16 +52,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
 }());
 
-L.Popup.include({
-
-    _close: function () {
-        if (this._map) {
-            this._map.closePopup(this);
-        }
-    }
-
-});
-
 L.Map.include({
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         this.closePopup();
@@ -73,15 +63,15 @@ L.Map.include({
                 .setLatLng(latlng)
                 .setContent(content);
         }
+        popup._isOpen = true;
+
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
             L.DomUtil.addClass(popup._source._icon, 'leaflet-marker-active');
         }
 
-        return this
-                .addLayer(popup)
-                .fire('popupopen', {'popup': popup});
+        return this.addLayer(popup);
     },
 
     closePopup: function (popup) {
@@ -94,9 +84,8 @@ L.Map.include({
                 L.DomUtil.removeClass(popup._source._icon, 'leaflet-marker-active');
             }
 
-            this
-                .removeLayer(popup)
-                .fire('popupclose', {'popup': popup});
+            this.removeLayer(popup);
+            popup._isOpen = false;
         }
         return this;
     }

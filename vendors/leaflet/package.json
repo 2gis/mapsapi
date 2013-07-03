@@ -1,13 +1,14 @@
 {
-	"name": "Leaflet",
-	"version": "0.6.0",
+	"name": "leaflet",
+	"version": "0.6.2",
 	"description": "JavaScript library for mobile-friendly interactive maps",
 	"devDependencies": {
-		"jshint": "~1.1.0",
-		"mocha": "~1.9.0",
-		"karma": "~0.8.0",
-		"uglify-js": "~2.2.5",
-		"jake": "~0.5.10"
+		"jshint": "~2.1.4",
+		"mocha": "~1.10.0",
+		"happen": "~0.1.2",
+		"karma": "~0.8.6",
+		"uglify-js": "~2.3.6",
+		"jake": "~0.5.16"
 	},
 	"main": "dist/leaflet.js",
 	"scripts": {
