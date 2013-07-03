@@ -79,6 +79,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._updateContent();
             }
             this._initBaron();
+            L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
         }
 
         this._container.style.visibility = '';
