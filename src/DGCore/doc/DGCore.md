@@ -235,6 +235,12 @@
 		<td>Включена ли анимация масштабирования тайлов. По умолчанию включена во всех браузерах поддерживающих CSS3 transitions кроме Android.</td>
 	</tr>
 	<tr>
+		<td><code><b>zoomAnimationThreshold</b></code></td>
+		<td><code>Number</code></td>
+		<td>4</td>
+		<td>Порог, начиная с которого будет отключаться анимация масштабирования.</td>
+	</tr>
+	<tr>
 		<td><code><b>markerZoomAnimation</b></code></td>
 		<td><code>Boolean</code></td>
 		<td>depends</td>
@@ -359,6 +365,16 @@
 		<td>Вызывается после изменения масштаба.</td>
 	</tr>
 	<tr>
+		<td><code><b>zoomlevelschange</b></code></td>
+		<td><code><a href="#event">Event</a></code></td>
+		<td>Вызывается, если при добавлении или удалении слоя карты изменилось количество доступных уровней масштабирования.</td>
+	</tr>
+	<tr>
+		<td><code><b>resize</b></code></td>
+		<td><code><a href="#resize-event">ResizeEvent</a></code></td>
+		<td>Вызывается при изменении размера карты.</td>
+	</tr>
+	<tr>
 		<td><code><b>dgEnterFullScreen</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при активации полноэкранного режима.</td>
@@ -411,43 +427,63 @@
 		<td><code><b>setView</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>center</i>,</nobr>
 			<nobr>&lt;Number&gt; <i>zoom</i>,</nobr>
-			<nobr>&lt;Boolean&gt; <i>forceReset?</i> )</nobr>
+			<nobr>&lt;<a href="#map-zoompanoptions">zoom/pan options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
 		<td>Устнавливает область просмотра карты (географический центр и масштаб). Если <code>forceReset</code> установлен в <code>true</code>, карта перезагружается при перетаскивании и изменении масштаба (по умолчанию <code>false</code>).</td>
 	</tr>
 	<tr>
 		<td><code><b>setZoom</b>(
-			<nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+			<nobr>&lt;Number&gt; <i>zoom</i></nobr>,
+			<nobr>&lt;<a href="#map-zoomoptions">zoom options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
 		<td>Устанавливает уровень масштаба.</td>
 	</tr>
 	<tr>
-		<td><code><b>zoomIn</b>( <nobr>&lt;Number&gt; delta? )</nobr></code></td>
+		<td><code><b>zoomIn</b>(
+			<nobr>&lt;Number&gt; <em>delta?</em></nobr>,
+			<nobr>&lt;<a href="#map-zoomoptions">zoom options</a>&gt; <i>options?</i> )</nobr>
+		</code></td>
 		<td><code>this</code></td>
 		<td>Увеличивает масштаб карты на величину <code>delta</code> (по умолчанию <code>1</code>).</td>
 	</tr>
 	<tr>
-		<td><code><b>zoomOut</b>( <nobr>&lt;Number&gt; delta? )</nobr></code></td>
+		<td><code><b>zoomOut</b>(
+			<nobr>&lt;Number&gt; <em>delta?</em></nobr>,
+			<nobr>&lt;<a href="#map-zoomoptions">zoom options</a>&gt; <i>options?</i> )</nobr>
+		</code></td>
 		<td><code>this</code></td>
 		<td>Уменьшает масштаб карты на величину <code>delta</code> (по умолчанию <code>1</code>).</td>
 	</tr>
+	<tr>
+		<td><code><b>setZoomAround</b>(
+			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i>, </nobr>
+			<nobr>&lt;Number&gt; <i>zoom</i></nobr>,
+			<nobr>&lt;<a href="#map-zoomoptions">zoom options</a>&gt; <i>options?</i> )</nobr>
+		</code></td>
+		<td><code>this</code></td>
+		<td>Масштабирует карту, сохраняя при этом указанную точку в области видимости (например, используется для масштабировании при помощи колесика мышки и двойного клика).</td>
+	</tr>
 	<tr id="map-fitbounds">
 		<td><code><b>fitBounds</b>(
-			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
+			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>,
+			<nobr>&lt;<a href="#map-fitboundsoptions">fitBounds options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
 		<td>Устанавливает область просмотра карты так, чтобы она содержала заданные границы на максимально возможном уровне масштаба.</td>
 	</tr>
 	<tr id="map-fitworld">
-		<td><code><b>fitWorld</b>()</code></td>
+		<code><b>fitWorld</b>(
+			<nobr>&lt;<a href="#map-fitboundsoptions">fitBounds options</a>&gt; <i>options?</i> )</nobr>
+		</code></td>
 		<td><code>this</code></td>
 		<td>Устанавливает область просмотра карты так, чтобы та отображала весь мир на максимально возможном уровне масштаба.</td>
 	</tr>
 	<tr>
 		<td><code><b>panTo</b>(
-			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+			<nobr>&lt;<a href="#map-panoptions">pan options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
 		<td>Перемещает карту в указанный центр. Передвижение анимируется, если центр находится на расстоянии не более одного экрана относительно текущего.</td>
@@ -461,14 +497,16 @@
 	</tr>
 	<tr>
 		<td><code><b>panBy</b>(
-			<nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+			<nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i></nobr>,
+			<nobr>&lt;<a href="#map-panoptions">pan options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
 		<td>Перемещает карту на заданное колличетво пикселей (анимируется).</td>
 	</tr>
 	<tr>
 		<td><code><b>invalidateSize</b>(
-			<nobr>&lt;Boolean&gt; <i>animate?</i> )</nobr>
+			<nobr>&lt;Boolean&gt; <i>animate?</i> )</nobr>,
+			<nobr>&lt;<a href="#map-zoompanoptions">zoom/pan options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
 		<td>Проверяет изменился ли размер контейнера карты, если да, тогда карта обновляется. Этот метод необходимо вызывать если размер контейнера изменился динамически. Если параметр <code>animate</code> установлен в <code>true</code>, тогда обновление карты анимируется.</td>
@@ -491,6 +529,11 @@
 		<td><code><b>stopLocate</b>()</code></td>
 		<td><code>this</code></td>
 		<td>Останавливает отслеживание местоположения, предварительно инициированное методом <code><b>map.locate</b>({watch: true})</code>.</td>
+	</tr>
+	<tr id="map-remove">
+		<td><code><b>remove</b>()</code></td>
+		<td><code>this</code></td>
+		<td>Уничтожает карту и очищает все связанные с ней обработчики событий.</td>
 	</tr>
 </table>
 
@@ -594,8 +637,19 @@
 		<td><code>this</code></td>
 		<td>Показывает переданный балун, предварительно закрыв все открытые.</td>
 	</tr>
+	<tr id="map-openpopup2">
+		<td><code><b>openPopup</b>(
+			<nobr>&lt;String&gt; <i>html</i> </nobr> | <nobr>&lt;HTMLElement&gt; <i>el</i>,
+			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+			<nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
+		</code></td>
+		<td><code>this</code></td>
+		<td>Создает балун с переданными опциями и открывает его в определенной точке на карте.</td>
+	</tr>
 	<tr id="map-closepopup">
-		<td><code><b>closePopup</b>()</code></td>
+		<td><code><b>closePopup</b>(
+			<nobr>&lt;<a href="#popup">Popup</a>&gt; <i>popup?</i> )</nobr>
+		</code></td>
 		<td><code>this</code></td>
 		<td>Закрывает балун, открытый с помощью <a href="#map-openpopup">openPopup</a>.</td>
 	</tr>
@@ -788,6 +842,124 @@
 	</tr>
 </table>
 
+<h3 id="map-zoompanoptions">Опции масштабирования и перемещения</h3>
+
+<table data-id='map'>
+	<tr>
+		<th>Опция</th>
+		<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>reset</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">false</span></code></td>
+		<td>Если <code>true</code>, тогда область просмотра карты будет сброшена без каких-либо анимаций.</td>
+	</tr>
+	<tr>
+		<td><code><b>pan</b></code></td>
+		<td><code><a href="#map-panoptions">pan options</a></code></td>
+		<td><code>-</code></td>
+		<td>Опции перемещения.</td>
+	</tr>
+	<tr>
+		<td><code><b>zoom</b></code></td>
+		<td><code><a href="#map-zoomoptions">zoom options</a></code></td>
+		<td><code>-</code></td>
+		<td>Опции масштабирования.</td>
+	</tr>
+	<tr>
+		<td><code><b>animate</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">-</span></code></td>
+		<td>Эквивалентно передаче <code>animate</code> и для опций масштабирования и для опций перемещения.</td>
+	</tr>
+</table>
+
+<h3 id="map-panoptions">Опции перемещения</h3>
+
+<table data-id='map'>
+	<tr>
+		<th>Опция</th>
+		<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>animate</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code>-</code></td>
+		<td>Если <code>true</code>, тогда перемещение будет всегда анимироваться, если это возможно, в противном случае анимирование не будет осуществляться.</td>
+	</tr>
+	<tr>
+		<td><code><b>duration</b></code></td>
+		<td><code>Number</code></td>
+		<td><code><span class="number">0.25</span></code></td>
+		<td>Продолжительность анимирования перемещения.</td>
+	</tr>
+	<tr>
+		<td><code><b>easeLinearity</b></code></td>
+		<td><code>Number</code></td>
+		<td><code>0.25</code></td>
+		<td>Уровень искривления затухания анимации (третий параметр <a href="http://cubic-bezier.com/">Кривой Безье</a>). Значение 1.0 означает линейную анимацию.</td>
+	</tr>
+	<tr>
+		<td><code><b>noMoveStart</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">false</span></code></td>
+		<td>Если <code>true</code>, тогда при перемещении не будет инициироваться событие <code>movestart</code>.</td>
+	</tr>
+</table>
+
+<h3 id="map-zoomoptions">Опции масштабирования</h3>
+
+<table data-id='map'>
+	<tr>
+		<th>Опция</th>
+		<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>animate</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code>-</code></td>
+		<td>Если не указано, тогда масштабирование будет анимироваться в пределах просматриваемой области карты. Если <code>true</code>, тогда всегда будет произведена попытка анимировать масштабирование, вне зависимости от положения источника масштабирования. Если <code>false</code>, тогда масштабирование будет происходить без анимации.</td>
+	</tr>
+</table>
+
+<h3 id="map-fitboundsoptions">Опции fitBounds</h3>
+
+<p>То же самое, что в <a href="#map-zoompanoptions">опциях масштабирования и перемещения</a> и дополнительно:</p>
+
+<table data-id='map'>
+	<tr>
+		<th>Опция</th>
+		<th>Тип</th>
+		<th>По умолчанию</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>paddingTopLeft</b></code></td>
+		<td><code><a href="#point">Point</a></code></td>
+		<td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
+		<td>Задает отступ от верхнего левого угла контейнера карты, который не должен учитываться при подстройке центра и масштаба. Удобно использовать, например, если на карте приложения имеется левая панель и вы не хотите, чтобы при масштабировании под ней скрывались объекты.</td>
+	</tr>
+	<tr>
+		<td><code><b>paddingBottomRight</b></code></td>
+		<td><code><a href="#point">Point</a></code></td>
+		<td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
+		<td>То же самое, но для нижнего правого угла карты.</td>
+	</tr>
+	<tr>
+		<td><code><b>padding</b></code></td>
+		<td><code><a href="#point">Point</a></code></td>
+		<td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
+		<td>Эквивалентно установке и верхнего левого и нижнего правого отступов в одинаковые значения.</td>
+	</tr>
+</table>
+
 ### Свойства
 
 Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение опредленных возможностей карты, таких как зум и тач-события (см. методы [IHandler][51]). Например:
@@ -937,7 +1109,7 @@
 		<td><code><b>clickable</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
-		<td>Если значение <code>false</code>,  тогда обработчик клика по маркеру не вызывается.</td>
+		<td>Если значение <code>false</code>, тогда обработчик клика по маркеру не вызывается.</td>
 	</tr>
 	<tr>
 		<td><code><b>draggable</b></code></td>
@@ -1042,6 +1214,16 @@
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при удалении маркера с карты.</td>
 	</tr>
+	<tr>
+		<td><code><b>popupopen</b></code></td>
+		<td><code><a href="#popup-event">PopupEvent</a></code></td>
+		<td>Вызывается при открытии прикрепленного к маркеру балуна.</td>
+	</tr>
+	<tr>
+		<td><code><b>popupclose</b></code></td>
+		<td><code><a href="#popup-event">PopupEvent</a></code></td>
+		<td>Вызывается при закрытии прикрепленного к маркеру балуна.</td>
+	</tr>
 </table>
 
 ### Методы
@@ -1104,10 +1286,9 @@
 	</tr>
 	<tr id="marker-bindpopup">
 		<td><code><b>bindPopup</b>(
-			<nobr>&lt;String&gt; <i>htmlContent</i>,</nobr>
+			<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="#popup">Popup</a>&gt; <i>popup</i>,</nobr>
 			<nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
-
 		<td><code>this</code></td>
 		<td>Прикрепляет к маркеру балун с определенным HTML содержимым. Балун будет показан при клике на маркер.</td>
 	</tr>
@@ -1125,6 +1306,24 @@
 		<td><code><b>closePopup</b>()</code></td>
 		<td><code>this</code></td>
 		<td>Закрвает балун, если тот был открыт.</td>
+	</tr>
+	<tr id="marker-togglepopup">
+		<td><code><b>togglePopup</b>()</code></td>
+		<td><code>this</code></td>
+		<td>Включает или отключает отображение балуна, который ранее был прикреплен с помощью метода <a href="#marker-bindpopup">bindPopup</a>, при клике.</td>
+	</tr>
+	<tr id="marker-bindpopup">
+		<td><code><b>setPopupContent</b>(
+			<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
+			<nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
+		</code></td>
+		<td><code>this</code></td>
+		<td>Устанавливает HTML содержимое прикрепленному ранее балуну.</td>
+	</tr>
+	<tr id="marker-togeojson">
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление маркера (GeoJSON Point).</td>
 	</tr>
 </table>
 
@@ -1218,6 +1417,12 @@
 		<td>Установите значение в <code>false</code>, если не хотите чтобы карта автоматически сдвигалась для полного отображения балуна.</td>
 	</tr>
 	<tr>
+		<td><code><b>keepInView</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code><span class="literal">false</span></code></td>
+		<td>Установите в <code>true</code>, если необходимо предотвратить вероятность перемещения балуна за пределы видимой области карты пока он открыт.</td>
+	</tr>
+	<tr>
 		<td><code><b>closeButton</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
@@ -1242,6 +1447,12 @@
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
 		<td>Анимировать ли балун при масштабировании. Отключите, если есть проблемы с отображением Flash содержимого внутри балуна.</td>
+	</tr>
+	<tr>
+		<td><code><b>closeOnClick</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code>null</code></td>
+		<td>Установите в <code>false</code>, если необходимо переопределить поведение закрытия балуна при клике по карте (глобальное поведение для всех балунов задается опцией карты <code>closePopupOnClick</code>).</td>
 	</tr>
 </table>
 
@@ -1526,6 +1737,12 @@
 		<td><code>this</code></td>
 		<td>Обновляет URL шаблон слоя и перерисовывает его.</td>
 	</tr>
+	<tr>
+		<td><code><b>getContainer</b>()</nobr>
+		</code></td>
+		<td><code>HTMLElement</code></td>
+		<td>Возвращает HTML элемент, который содержит тайлы данного слоя.</td>
+	</tr>
 </table>
 
 ## L.TileLayer.WMS
@@ -1602,6 +1819,12 @@
 		<td><code>String</code></td>
 		<td><code>'1.1.1'</code></td>
 		<td>Используемая версия WMS сервиса.</td>
+	</tr>
+	<tr>
+		<td><code><b>crs</b></code></td>
+		<td><code><a href="#icrs">CRS</a></code></td>
+		<td><code>null</code></td>
+		<td>Система координат, используемая в WMS-запросах. По умолчанию соответствует системе координат карты.</td>
 	</tr>
 </table>
 
@@ -1842,6 +2065,12 @@
 		<td><code>true</code></td>
 		<td>Если установлено значение <code>false</code>, тогда события мышки геометрии не обрабатывются.</td>
 	</tr>
+	<tr>
+		<td><code><b>pointerEvents</b></code></td>
+		<td><code>String</code></td>
+		<td><code><span class="literal">null</span></code></td>
+		<td>Устанавливает геометрии атрибут <code>pointer-events</code>, если для отрисовки используется SVG.</td>
+	</tr>
 </table>
 
 ### События
@@ -1893,6 +2122,16 @@
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при удалении геометрии с карты.</td>
 	</tr>
+	<tr>
+		<td><code><b>popupopen</b></code></td>
+		<td><code><a href="#popup-event">PopupEvent</a></code></td>
+		<td>Вызывается при открытии прикрепленного к геометрии балуна.</td>
+	</tr>
+	<tr>
+		<td><code><b>popupclose</b></code></td>
+		<td><code><a href="#popup-event">PopupEvent</a></code></td>
+		<td>Вызывается при закрытии прикрепленного к геометрии балуна.</td>
+	</tr>
 </table>
 
 ### Методы
@@ -1912,10 +2151,9 @@
 	</tr>
 	<tr id="path-bindpopup">
 		<td><code><b>bindPopup</b>(
-			<nobr>&lt;String&gt; <i>htmlContent</i></nobr>,
+			<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="#popup">Popup</a>&gt; <i>popup</i>,</nobr>
 			<nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
-
 		<td><code>this</code></td>
 		<td>Привязывает отображение балуна с HTML содержимым по клику на геометрию.</td>
 	</tr>
@@ -2101,6 +2339,11 @@
 		<td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
 		<td>Возвращает границы ломаной.</td>
 	</tr>
+	<tr id="polyline-togeojson">
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление ломаной (GeoJSON LineString).</td>
+	</tr>
 </table>
 
 ## L.MultiPolyline
@@ -2127,6 +2370,39 @@
 		<td>Создает объект мультиполилайна по переданному массиву массивов географических точек (каждый для своей ломаной) и необязательному объекту опций.</td>
 	</tr>
 </table>
+
+### Методы
+
+<p>Мультиполилайны содержат все методы класса <a href="#polyline">Polyline</a>, но их поведение отличается, так как мультиполилайны содержат несколько ломаных.</p>
+
+<table data-id='multipolyline'>
+	<tr>
+		<th>Метод</th>
+		<th>Возвращает</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>setLatLngs</b>(
+			<nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
+		</code></td>
+
+		<td><code>this</code></td>
+		<td>Заменяет все геометрии ломаных новыми на основе переданного многомерного массива географических координат.</td>
+    </tr>
+	<tr>
+		<td><code><b>getLatLngs</b>()</td>
+
+		<td><code><nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
+		</code></td>
+		<td>Возвращает многомерный массив географических координат каждой ломаной.</td>
+    </tr>
+	<tr id="multipolyline-togeojson">
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление мультиполилайна (GeoJSON MultiLineString).</td>
+	</tr>
+</table>
+
 
 ## L.Polygon
 
@@ -2155,7 +2431,23 @@
 	</tr>
 </table>
 
-У многоугольника те же опции и методы, что и у ломаной.
+
+### Методы
+
+У многоугольника те же опции и методы, что и у ломаной, но с некоторыми отличиями.
+
+<table>
+	<tr>
+		<th>Метод</th>
+		<th>Возвращает</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление многоугольника (GeoJSON Polygon).</td>
+	</tr>
+</table>
 
 ## L.MultiPolygon
 
@@ -2181,6 +2473,39 @@
 		<td>Создает объект мультиполигона по переданному массиву массивов географических точек (каждый для своего многоугольника) и необязательному объекту опций.</td>
 	</tr>
 </table>
+
+### Methods
+
+<p>Мультиполигоны содержат все методы класса <a href="#polyline">Polyline</a>, но их поведение отличается, так как мультиполилайны содержат несколько многоугольников.</p>
+
+<table data-id='multipolygon'>
+	<tr>
+		<th>Метод</th>
+		<th>Возвращает</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>setLatLngs</b>(
+			<nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
+		</code></td>
+
+		<td><code><span class="keyword">this</span></code></td>
+		<td>Заменяет все геометрии многоугольников новыми на основе переданного многомерного массива географических координат.</td>
+    </tr>
+	<tr>
+		<td><code><b>getLatLngs</b>()</td>
+
+		<td><code><nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
+		</code></td>
+		<td>Возвращает многомерный массив географических координат каждого многоугольника.</td>
+    </tr>
+	<tr id="multipolygon-togeojson">
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление мультиполигона (GeoJSON MultiPolygon).</td>
+	</tr>
+</table>
+
 
 ## L.Rectangle
 
@@ -2300,6 +2625,11 @@
 		<td><code>this</code></td>
 		<td>Устанавливает радиус круга, значение в метрах.</td>
 	</tr>
+	<tr>
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление круга (GeoJSON Point).</td>
+	</tr>
 </table>
 
 ## L.CircleMarker
@@ -2340,7 +2670,7 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Устанавливает позицию для marker.</td>
+		<td>Устанавливает позицию круга.</td>
 	</tr>
 	<tr>
 		<td><code><b>setRadius</b>(
@@ -2349,6 +2679,11 @@
 
 		<td><code>this</code></td>
 		<td>Устанавливает радиус круга, значение в пикселях.</td>
+	</tr>
+	<tr>
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление круга (GeoJSON Point).</td>
 	</tr>
 </table>
 
@@ -2405,11 +2740,32 @@
 	</tr>
 	<tr>
 		<td><code><b>removeLayer</b>(
-			<nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
-		</code>td>
+			<nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> | &lt;String&gt; <i>id</i> )</nobr>
+		</code></td>
 
 		<td><code>this</code></td>
 		<td>Удаляет указанный слой из группы.</td>
+	</tr>
+	<tr>
+		<td><code><b>hasLayer</b>(
+			<nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+		</code></td>
+
+		<td><code>Boolean</code></td>
+		<td>Возвращает <code>true</code>, если переданный слой уже добавлен в группу.</td>
+	</tr>
+	<tr>
+		<td><code><b>getLayer</b>(
+			<nobr>&lt;String&gt; <i>id</i> )</nobr>
+		</code></td>
+
+		<td><code>Boolean</code></td>
+		<td>Возвращает слой по переданному id.</td>
+	</tr>
+	<tr>
+		<td><code><b>getLayers</b>()</code></td>
+		<td><code>Array</code></td>
+		<td>Возвращает массив всех слоев группы.</td>
 	</tr>
 	<tr>
 		<td><code><b>clearLayers</b>()</code></td>
@@ -2427,6 +2783,11 @@
 	layer.bindPopup('Hello');
 });</code></pre>
 		</td>
+	</tr>
+	<tr>
+		<td><code><b>toGeoJSON</b>()</code></td>
+		<td><code>Object</code></td>
+		<td>Возвращает <a href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление группы (GeoJSON FeatureCollection).</td>
 	</tr>
 </table>
 
@@ -2626,6 +2987,13 @@
 
 		<td>Функция, которая определяет отображать объект или нет.</td>
 	</tr>
+	<tr id="geojson-coordstolatlng">
+		<td><code><b>coordsToLatLng</b>(
+			<nobr>&lt;Array&gt; <i>coords</i></nobr> )</nobr>
+		</code></td>
+
+		<td>Функция, которая будет использоваться для преобразования GeoJSON координат в <a href="#latlng">LatLng</a> (если не задана, тогда координаты будут формироваться согласно стандарту WGS84).</td>
+	</tr>
 </table>
 
 ### Методы
@@ -2702,12 +3070,14 @@
 
 Географическая точка с определенной широтой и долготой.
 
-    var latlng = new L.LatLng(50.5, 30.5);
+    var latlng = L.latLng(50.5, 30.5);
 
-Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива, то есть данные записи эквивалентны:
+Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива или объекта, то есть данные записи эквивалентны:
 
-    map.panTo([50, 30]);
     map.panTo(L.latLng(50, 30));
+	map.panTo([50, 30]);
+	map.panTo({lon: 30, lat: 50});
+	map.panTo({lat: 50, lng: 30});
 
 ### Конструктор
 
@@ -3473,6 +3843,11 @@
         <td><code>this</code></td>
         <td>Удаляет элемент управления с карты.</td>
     </tr>
+	<tr>
+		<td><code><b>getContainer</b>()</code></td>
+		<td><code>HTMLElement</code></td>
+		<td>Возвращает HTML контейнер элемента управления.</td>
+	</tr>
 </table>
 
 ### Позиции элементов управления
@@ -3727,6 +4102,21 @@
         <td>Подписывает обработчик (<code>fn</code>) на определенный тип события. Опционально вы можете указать контекст обработчика (объект, на который будет указывать <code>this</code>). Также вы можете подписаться на несколько типов событий, указав их через пробел (например, <code>'click dblclick'</code>).</td>
     </tr>
     <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>addOneTimeEventListener</b>(
+			<nobr>&lt;String&gt; <i>type</i></nobr>,
+			<nobr>&lt;Function&gt; <i>fn</i></nobr>,
+			<nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+		</code></td>
+
+        <td><code>this</code></td>
+        <td>Аналогичен методу <code>addEventListener</code>, лишь с тем отличием, что после первого вызова обработчика он будет удален.</td>
+    </tr>    
+    <tr>
         <td><code><b>addEventListener</b>(
             <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
             <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
@@ -3772,9 +4162,19 @@
         <td>Инициирует событие определенного типа. Опционально можно передать объект с данными события, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
     </tr>
     <tr>
+        <td><code><b>cleanAllEventListeners</b>()</code></td>
+        <td><code>this</code></td>
+        <td>Удаляет все обработчики всех событий объекта.</code></td>
+    </tr>
+    <tr>
         <td><code><b>on</b>( &hellip; )</code></td>
         <td><code>this</code></td>
         <td>Псевдоним <code>addEventListener</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>once</b>( &hellip; )</code></td>
+        <td><code>this</code></td>
+        <td>Псевдоним <code>addOneTimeEventListener</code>.</td>
     </tr>
     <tr>
         <td><code><b>off</b>( &hellip; )</code></td>
@@ -3817,6 +4217,8 @@
         <td>Объект, который инициировал событие.</td>
     </tr>
 </table>
+
+### MouseEvent
 
 <table>
     <tr>
@@ -3869,7 +4271,34 @@
         <td><code>Number</code></td>
         <td>Точность местоположения в метрах.</td>
     </tr>
+	<tr>
+		<td><code><b>altitude</b></code></td>
+		<td><code>Number</code></td>
+		<td>Высота над поверхностью земли в метрах, согласно координатной системе WGS84.</td>
+	</tr>
+	<tr>
+		<td><code><b>altitudeAccuracy</b></code></td>
+		<td><code>Number</code></td>
+		<td>Точность высоты в метрах.</td>
+	</tr>
+	<tr>
+		<td><code><b>heading</b></code></td>
+		<td><code>Number</code></td>
+		<td>Направление движения в градусах, считается с севера по часовой стрелке.</td>
+	</tr>
+	<tr>
+		<td><code><b>speed</b></code></td>
+		<td><code>Number</code></td>
+		<td>Скорость в метрах в секунду.</td>
+	</tr>
+	<tr>
+		<td><code><b>timestamp</b></code></td>
+		<td><code>Number</code></td>
+		<td>Время изменения местоположения.</td>
+	</tr>
 </table>
+
+### ErrorEvent
 
 <table>
     <tr>
@@ -3920,6 +4349,26 @@
         <td><code>String</code></td>
         <td>URL тайла.</td>
     </tr>
+</table>
+
+### ResizeEvent
+
+<table>
+	<tr>
+		<th>Свойство</th>
+		<th>Тип</th>
+		<th>Описание</th>
+	</tr>
+	<tr>
+		<td><code><b>oldSize</b></code></td>
+		<td><code><a href="#point">Point</a></code></td>
+		<td>Старый размер, до изменения.</td>
+	</tr>
+	<tr>
+		<td><code><b>newSize</b></code></td>
+		<td><code><a href="#point">Point</a></code></td>
+		<td>Новый размер, после изменения.</td>
+	</tr>
 </table>
 
 ### GeoJSON event
@@ -4301,6 +4750,14 @@
         <td><code>Boolean</code></td>
         <td>Возвращает <code>true</code>, если переданный объект является массивом.</td>
     </tr>
+	<tr>
+		<td><code><b>trim</b>(
+			<nobr>&lt;String&gt; <i>str</i> )</nobr>
+		</code></td>
+
+		<td><code>String</code></td>
+		<td>Обрезает пробелы с обеих сторон строки и возвращает результат.</td>
+	</tr>
 </table>
 
 ### Свойства

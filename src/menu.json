@@ -73,6 +73,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "DGWkt",
+                                "uri": "doc/DGWkt/DGWkt.html",
+                                "_src": "DGWkt/doc/DGWkt.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "DGProjectDetector",
                                 "uri": "doc/DGProjectDetector/DGProjectDetector.html",
                                 "_src": "DGProjectDetector/doc/DGProjectDetector.md",

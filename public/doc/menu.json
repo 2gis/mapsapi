@@ -73,6 +73,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "DGWicket",
+                                "uri": "doc/DGWicket/DGWicket.html",
+                                "_src": "DGWicket/doc/DGWicket.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "DGProjectDetector",
                                 "uri": "doc/DGProjectDetector/DGProjectDetector.html",
                                 "_src": "DGProjectDetector/doc/DGProjectDetector.md",

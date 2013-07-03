@@ -3,7 +3,7 @@ exports.config = {
 	// environment
 	"browser": true,
 	"node": true,
-	"predef": [],
+	"predef": ['define'],
 	"strict": false,
 
 	// code style
@@ -11,7 +11,7 @@ exports.config = {
 	"camelcase": true,
 	"curly": true,
 	"eqeqeq": true,
-	"forin": true,
+	"forin": false,
 	"immed": true,
 	"latedef": true,
 	"newcap": true,

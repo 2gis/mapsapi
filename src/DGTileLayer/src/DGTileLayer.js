@@ -33,5 +33,5 @@ L.Map.addInitHook(function () {
     };
 
     new L.Control.Attribution(options).addTo(this);
-    this.options.layers = [L.DG.tileLayer()];
+    L.DG.tileLayer().addTo(this);
 });

@@ -5,10 +5,10 @@
 node_modules
 npm-debug.log
 
-dist/dg-map-custom-src.js
-dist/dg-map-custom.js
-dist/dg-map-custom-src.css
-dist/dg-map-custom.css
+public/js/dg-map-custom-src.js
+public/js/dg-map-custom.js
+public/css/dg-map-custom-src.css
+public/css/dg-map-custom.css
 
 docbuilder/doc
 
