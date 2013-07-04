@@ -110,8 +110,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         } else if (this._shouldInitHeaderFooter()) {
             this._initHeaderFooter();
             this._updateContent();
-            L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
         }
+        L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
         this._container.style.visibility = '';
         this._adjustPan();
