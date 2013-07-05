@@ -37,6 +37,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalSetContent = L.Popup.prototype.setContent,
         graf = baron.noConflict(),
+        baronInstance,
         tmpl = __DGCustomization_TMPL__;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
@@ -77,6 +78,10 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.prototype._initBaronScroller = function () {
         this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
         this._shouldInitBaronScroller = false;
+    };
+
+    L.Popup.prototype.updateScrollPosition = function() {
+        baronInstance && baronInstance.update();
     };
 
     L.Popup.prototype._update = function () {
@@ -127,7 +132,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.prototype._initBaron = function () {
         var self = this;
 
-        graf({
+        baronInstance = graf({
             scroller: '.scroller',
             bar: '.scroller__bar',
             $: function(selector, context) {
