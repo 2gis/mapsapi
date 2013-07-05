@@ -39,6 +39,7 @@
     border-radius: 3px;
     background-color: #98b1c5;
     pointer-events: auto;
+    min-height:20px;
 }
 
 .header__title {

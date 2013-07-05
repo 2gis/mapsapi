@@ -65,7 +65,6 @@
 .dg-popup-header, .dg-popup-footer {
 	position: relative;
 	overflow: hidden;
-	z-index: 110;
 
 }
 #dg-showlesshouse {
