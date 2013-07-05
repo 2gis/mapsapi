@@ -29,6 +29,12 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGEntrance: {
+        desc: 'DGEntrance module.',
+        src: ['DGEntrance/src/Animation.js'],
+        deps: ['DGCore']
+    },
+
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
