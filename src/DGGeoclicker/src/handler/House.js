@@ -8,8 +8,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _cache: '',
     _shouldLoadFromCache: false,
     _firmsOnPage: 20,
-    _scrollThrottleInterval: 500,
+    _scrollThrottleInterval: 300,
     _eventHandlers: [],
+    _scrollHeightReserve: 30,
 
     handle: function (results) { // (Object) -> Object
         var self = this;
@@ -145,7 +146,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handleMouseWheel: function() {
         var scroller = this._scroller;
-        if (scroller && scroller.scrollHeight == scroller.scrollTop + scroller.offsetHeight) {
+        console.log(scroller.scrollHeight, scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve);
+        if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
             this._handlePaging();
         }
     },
