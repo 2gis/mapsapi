@@ -1,6 +1,12 @@
+L.Path.mergeOptions({
+    animate: {}
+});
+
 L.Path.include({
 
     onAdd: function () {
+
+       console.log(this.options);
        this._map = map;
 
         if (!this._container) {
@@ -24,12 +30,12 @@ L.Path.include({
         }, this);
     },
 
-    _createSvgObject: function (type, options, id) {
+    _createElement: function (type, options, id) {
         var options = options || {};
         if(id) {
             options.id = id;
         }
-        var object = document.createElementNS("http://www.w3.org/2000/svg", type);
+        var object = document.createElementNS(L.Path.SVG_NS, type);
         for (var key in options) {
             object.setAttribute(key, options[key]);
         }
@@ -47,7 +53,7 @@ L.Path.include({
     },
 
     _createAnimation: function () {
-        this._animate = this._createSvgObject('animate', this.animateArrowGeom, 'arrowAnimate'),
+        this._animate = this._createElement('animate', this.animateArrowGeom, 'arrowAnimate'),
         this._container.appendChild(this._animate);
     }
 });
