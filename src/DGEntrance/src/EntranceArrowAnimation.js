@@ -17,15 +17,15 @@ L.DG.Entrance = L.Class.extend({
         begin: 'indefinite'
     },
 
-    animateArrowPathGeom = {
+    animateArrowPathGeom: {
         id: 'animateArrowPathGeom',
         attributeName: 'd',
         fill: 'freeze',
         values: 'M 404 178 l -1 0; M 404 178 l 117 51; M 404 178 l 117 51 l 0 -1; M 404 178 l 117 51 l 39 -51',
         //M404 178L521 229L550 178
         //values: 'M 140 180 l -1 0; M 140 180 l -40 0; M 140 180 l -40 0 l 0 -1; M 140 180 l -40 0 l 0 -80',
-        keyTimes: this.getAnimateTiming('edgeArrow'), //"0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1",
-        dur: this.getAnimationTime('edgeArrow'),
+        keyTimes: '0; 0.33; 0.34; 1', //"0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1",
+        dur: '0.5s',
         begin: 'arrowAnimate.end'
     },
 

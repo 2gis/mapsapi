@@ -29,12 +29,6 @@ var deps = {
         deps: ['DGCore']
     },
 
-    DGEntrance: {
-        desc: 'DGEntrance module.',
-        src: ['DGEntrance/src/Animation.js'],
-        deps: ['DGCore']
-    },
-
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
@@ -120,6 +114,8 @@ var deps = {
     DGEntrance: {
         desc: '2GIS Entrances.',
         src: [
+            'DGEntrance/src/Animation.js',
+            'DGEntrance/src/EntranceArrowAnimation.js',
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/Arrow.js',
             'DGEntrance/src/EventHandler.js'

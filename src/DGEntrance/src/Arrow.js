@@ -6,12 +6,12 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
 
     onAdd: function (map) { // (L.Map)
         L.Polyline.prototype.onAdd.call(this, map);
-    },
+    }/*,
 
     runAnimation: function (options) { // (Object)
         this.setStyle(options)
-    }
-    
+    }*/
+
 });
 
 L.DG.Entrance.arrow = function (latlngs, options) {
