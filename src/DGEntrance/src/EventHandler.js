@@ -7,10 +7,10 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
         this._map = map;
         this._entrance = entrance;
 
-        /*this._map.on({
+        this._map.on({
             'layeradd': this._removeEntrance,
             'zoomend': this._showOrHideEntrance
-        }, this);*/
+        }, this);
     },
 
     _showOrHideEntrance: function (e) { // (L.Event)
@@ -23,16 +23,19 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
     },
 
     _removeEntrance: function (e) { // (L.LayerEvent)
-        if (e.layer instanceof L.Popup && e.layer !== this._entrance) {
+        if (e.layer instanceof L.Popup ||
+            (e.layer instanceof L.DG.Entrance && e.layer !== this._entrance)) {
+
             this._entrance.removeFrom(this._map);
+        
         }
     },
 
     remove: function () {
-        /*this._map.off({
+        this._map.off({
             'zoomend': this._showOrHideEntrance,
             'layeradd': this._removeEntrance      
-        }, this);*/
+        }, this);
     }
 
 });

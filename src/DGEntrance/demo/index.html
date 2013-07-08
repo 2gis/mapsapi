@@ -9,10 +9,7 @@
 <body>
 
   <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
-  <input type="button" value="show" id="show" />
-  <input type="button" value="hide" id="hide" />
-  <input type="button" value="add" id="add" />
-  <input type="button" value="remove" id="remove" />
+
   <script type="text/javascript">
 
   L.onLoad(function () {
@@ -22,31 +19,26 @@
         zoom: 18
     });
 
-    var options = {
+    balloonHTML = '<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
+            (МФК «Сан Сити»), 13 этаж<br /><br />\n\
+            <input type="button" value="Найти вход" id="add" />';
+    L.marker([69.3497, 87.75222519148015]).addTo(map).bindPopup(balloonHTML).openPopup();
+    
+    document.getElementById('add').onclick = onEntranceBtnClick;
+    map.on('popupopen', function() {
+        document.getElementById('add').onclick = onEntranceBtnClick;
+    });
+
+    var entrance = new L.DG.Entrance({
         "is_primary":false,
         "name":"ЗАГС",
         "points":["POINT(87.75222519148015 69.349552990994837)"],
         "vectors":["LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)"]
-    };
+    });
 
-    var entrance = new L.DG.Entrance(options);
-
-    var showBtn = document.getElementById('show');
-    var hideBtn = document.getElementById('hide');
-    var addBtn = document.getElementById('add');
-    var removeBtn = document.getElementById('remove');
-
-    showBtn.onclick = function () { entrance.show() };
-    hideBtn.onclick = function () { entrance.hide() };
-    addBtn.onclick = function () {  entrance.addTo(map) };
-    removeBtn.onclick = function () {  entrance.removeFrom(map) };
-
-    balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
-            <img src="2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
-            <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
-            (МФК «Сан Сити»), 13 этаж';
-
-    L.marker([69.349552990994837, 87.75222519148015]).addTo(map).bindPopup(balloonHTML);
+    function onEntranceBtnClick () {
+        entrance.addTo(map).show()
+    }
   });
   </script>
 

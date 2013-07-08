@@ -36,9 +36,18 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-        originalSetContent = L.Popup.prototype.setContent;
+        originalSetContent = L.Popup.prototype.setContent,
+        originalOnAdd = L.Popup.prototype.onAdd;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
+
+    L.Popup.prototype.onAdd = function (map) {
+        map.on('dgEntranceShow', function() {
+            map.closePopup(this);
+        }, this);
+        
+        return originalOnAdd.call(this, map);
+    };
 
     L.Popup.prototype.setContent = function (content) {
         if (typeof content === 'string') {
