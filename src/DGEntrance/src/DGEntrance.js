@@ -18,14 +18,12 @@ L.DG.Entrance = L.Class.extend({
 
     initialize: function (options) { // (Object)
         L.setOptions(this, options);
-        this._arrows = L.featureGroup();
     },
 
     onAdd: function (map) { // (L.Map)
         this._map = map;
         this._initArrows().addTo(map);
         this._eventHandler = new L.DG.Entrance.EventHandler(map, this);
-        
         this.hide();
 
         if (map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM) {
@@ -39,10 +37,12 @@ L.DG.Entrance = L.Class.extend({
     },
 
     onRemove: function (map) { // (L.Map)
-        this._map.removeLayer(this._arrows.clearLayers());
+        this._isShown = false;
+        this._removeArrows();
         this._map = null;
         this._eventHandler.remove();
         this._eventHandler = null;
+        this._arrows = null;
     },
 
     removeFrom: function (map) { // (L.Map) -> L.DG.Entrance
@@ -53,9 +53,9 @@ L.DG.Entrance = L.Class.extend({
     show: function (animation) { // (Object) -> L.DG.Entrance
         var self = this;
 
-        if (!this.isShown()) {
+        if (!this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.runAnimation({opacity: 1});
+                arrow.runAnimation({opacity: 0.9});
             });
             this._isShown = true;
             this._map.fire('dgEntranceShow');
@@ -67,7 +67,7 @@ L.DG.Entrance = L.Class.extend({
     hide: function () { // () -> L.DG.Entrance
         var self = this;
 
-        if (this.isShown()) {
+        if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
                 arrow.runAnimation({opacity: 0});
             });
@@ -82,13 +82,15 @@ L.DG.Entrance = L.Class.extend({
         return this._isShown;
     },
 
-    getBounds: function () { // () -> LatLngBounds
+    getBounds: function () { // () -> L.LatLngBounds
         return this._arrows.getBounds();
     },
 
     _initArrows: function () { // () -> L.FeatureGroup
         var wkt, components, latlngs;
-
+        
+        this._arrows = L.featureGroup();
+        
         for (var i = 0; i < this.options.vectors.length; i++) {
             wkt = new L.DG.Wkt();
             components = wkt.read(this.options.vectors[i]);
@@ -99,10 +101,22 @@ L.DG.Entrance = L.Class.extend({
             };
 
             this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
-                clickable: false
+                clickable: false,
+                color: '#fafeff',
+                weight: 10
             }));
+            this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
+                clickable: false,
+                color: '#6f8497',
+                weight: 4
+            }));
+           
         };
 
         return this._arrows;
+    },
+
+    _removeArrows: function () {
+        this._map.removeLayer(this._arrows.clearLayers())
     }
 });
