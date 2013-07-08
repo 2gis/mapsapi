@@ -100,6 +100,16 @@ var deps = {
             'DGGeoclicker/src/Controller.js'
         ],
         deps: ['DGJsonp', 'DGCore']
+    },
+
+    DGEntrance: {
+        desc: '2GIS Entrances.',
+        src: [
+            'DGEntrance/src/DGEntrance.js',
+            'DGEntrance/src/Arrow.js',
+            'DGEntrance/src/EventHandler.js'
+        ],
+        deps: ['DGCore', 'DGWkt']
     }
 };
 
