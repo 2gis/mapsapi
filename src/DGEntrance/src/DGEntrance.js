@@ -24,14 +24,15 @@ L.DG.Entrance = L.Class.extend({
         this._map = map;
         this._initArrows().addTo(map);
         this._eventHandler = new L.DG.Entrance.EventHandler(map, this);
-        this.hide();
-
-        if (map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM) {
-            map.setView(this.getBounds().getCenter(), L.DG.Entrance.SHOW_FROM_ZOOM);
-        };
+        
+        // hide without event by default
+        this._arrows.eachLayer(function (arrow) {
+            arrow.runAnimation({ opacity: 0 }); 
+        });
+        this._isShown = false;
     },
 
-    addTo: function (map) { // (L.Map) -> L.DG.Entrance   
+    addTo: function (map) { // (L.Map) -> L.DG.Entrance
         map.addLayer(this);
         return this;
     },
@@ -51,7 +52,8 @@ L.DG.Entrance = L.Class.extend({
     },
 
     show: function (animation) { // (Object) -> L.DG.Entrance
-        var self = this;
+
+        this._fitBounds();
 
         if (!this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
@@ -65,7 +67,6 @@ L.DG.Entrance = L.Class.extend({
     },
 
     hide: function () { // () -> L.DG.Entrance
-        var self = this;
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
@@ -118,5 +119,15 @@ L.DG.Entrance = L.Class.extend({
 
     _removeArrows: function () {
         this._map.removeLayer(this._arrows.clearLayers())
+    },
+
+    _fitBounds: function () {
+        if (this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM) {
+            this._map.setView(this.getBounds().getCenter(), L.DG.Entrance.SHOW_FROM_ZOOM, { animate: true });
+        };
+
+        if (!this._map.getBounds().intersects(this.getBounds())) {
+            this._map.panTo(this.getBounds().getCenter());
+        };
     }
 });
