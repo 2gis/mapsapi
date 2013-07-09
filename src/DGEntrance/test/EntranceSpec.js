@@ -58,6 +58,11 @@ describe('L.DG.Entrance', function () {
             expect(spy.called).not.to.be.ok();
         });
 
+        it('should adjust map center and show entrance in viewport', function () {
+            map.setView([54.980206086231, 82.898068362003], 17); // Novosibirsk
+            entrance.show();
+            expect(map.getCenter()).to.eql(entrance.getBounds().getCenter()); // Kayerkan
+        });
     });
 
     describe("#hide", function() {
