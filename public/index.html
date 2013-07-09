@@ -17,7 +17,7 @@
 
     L.onLoad(function () {
         map = new L.Map('map', {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
+            center: new L.LatLng(54.968, 82.961),
             zoom: 13
         });
         balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
@@ -25,7 +25,67 @@
             <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
             (МФК «Сан Сити»), 13 этаж';
 
-        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
+        //L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
+
+        function getAnimateTiming(arrowType) {
+            if(arrowType == 'simpleArrow') return "0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1";
+            if(arrowType =='edgeArrow') return "0; 0.33; 0.34; 1";
+            else return "0; 0.25; 0.26; 0.5; 0.51; 1";
+        };
+
+        function getAnimationTime (arrowType) {
+            if(arrowType == 'simpleArrow') return '0.7s';
+            else return "0.5s";
+        };
+        function getValues () {
+            console.log(this);
+        }
+        var arrowAnimate = {
+                        id: 'arrowAnimate',
+                        attributeName: 'stroke-opacity',
+                        values: "0;1",
+                        fill: 'freeze',
+                        dur: '0.2s',
+                        begin: 'indefinite'
+                    },
+            hideArrow = {
+                        id: 'hideArrow',
+                        attributeName: 'stroke-opacity',
+                        values: "1;0",
+                        fill: 'freeze',
+                        dur: '0.2s',
+                        begin: 'indefinite'
+                    },
+            animateArrowPathGeom = {
+                        id: 'animateArrowPathGeom',
+                        attributeName: 'd',
+                        fill: 'freeze',
+                        values: 'M 404 178 l -1 0; M 404 178 l 117 51; M 404 178 l 117 51 l 0 -1; M 404 178 l 117 51 l 39 -51',
+                        //M404 178L521 229L550 178
+                        //values: 'M 140 180 l -1 0; M 140 180 l -40 0; M 140 180 l -40 0 l 0 -1; M 140 180 l -40 0 l 0 -80',
+                        keyTimes: getAnimateTiming('edgeArrow'), //"0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1",
+                        dur: getAnimationTime('edgeArrow'),
+                        begin: 'arrowAnimate.end'
+                    };
+
+             simpleGeom = {
+                        id: 'animateArrowPathGeom',
+                        attributeName: 'd',
+                        fill: 'freeze',
+                        values: 'M 404 178 l 117 51; M 521 229 l -117 -51; M 404 178 l 117 51; M 521 229 l -117 -51; M 404 178 l 117 51; M 521 229 l -117 -51; M 404 178 l 117 51; M 521 229 l -117 -51;',
+                        //M404 178 L521 229
+                        //values: 'M 100 200 l 0 -50; M 100 150 l 0 -50; M 100 180 l 0 -50; M 100 150 l 0 -50; M 100 158 l 0 -50; M 100 150 l 0 -50; M 100 153 l 0 -50; M 100 150 l 0 -50;',
+                        keyTimes: getAnimateTiming('simpleArrow'),
+                        dur: getAnimationTime('simpleArrow'),
+                        begin: 'indefinite'
+                    };
+       var pol = L.DG.Entrance.arrow([
+            [54.982, 82.921],
+            [54.977, 82.941],
+            [54.982, 82.946]
+        ]/*, {animation: [arrowAnimate, hideArrow, animateArrowPathGeom, simpleGeom]}*/);
+       pol.addTo(map);
+       pol.runAnimation('animateArrowPathGeom');
     });
 
 </script>

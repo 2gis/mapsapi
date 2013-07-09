@@ -16,26 +16,26 @@
     -webkit-box-shadow: none;
     box-shadow: none;
 }
-    .leaflet-popup-content {
-        margin: 0;
-    }
-    .leaflet-popup-tip-container,
-    .leaflet-popup-tip {
-        box-shadow: none;
-        margin: 0;
-        padding: 0;
-    }
-    .leaflet-popup-tip-container {
-        position: relative;
-    }
-    .leaflet-container a.leaflet-popup-close-button {
-        overflow: hidden;
-        text-indent: -999px;
-        z-index: 1;
-    }
-    .leaflet-container a.leaflet-popup-close-button::selection {
-        background-color: transparent;
-    }
-    .leaflet-container a.leaflet-popup-close-button::-moz-selection {
-        background-color: transparent;
-    }
+
+.leaflet-popup-content {
+    margin: 0;
+}
+.leaflet-popup-tip-container,
+.leaflet-popup-tip {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}
+.leaflet-popup-tip-container {
+    position: relative;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    overflow: hidden;
+    text-indent: -999px;
+}
+.leaflet-container a.leaflet-popup-close-button::selection {
+    background-color: transparent;
+}
+.leaflet-container a.leaflet-popup-close-button::-moz-selection {
+    background-color: transparent;
+}

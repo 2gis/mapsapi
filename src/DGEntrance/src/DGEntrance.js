@@ -1,5 +1,5 @@
 L.DG.Entrance = L.Class.extend({
-    
+
     includes: L.Mixin.Events,
 
     options: {
@@ -26,10 +26,10 @@ L.DG.Entrance = L.Class.extend({
         this._eventHandler = new L.DG.Entrance.EventHandler(map, this);
         
         // hide without event by default
-        this._arrows.eachLayer(function (arrow) {
-            arrow.runAnimation({ opacity: 0 }); 
+        /*this._arrows.eachLayer(function (arrow) {
+            arrow.setStyle({ opacity: 0 });
         });
-        this._isShown = false;
+        this._isShown = false;*/
     },
 
     addTo: function (map) { // (L.Map) -> L.DG.Entrance
@@ -57,7 +57,8 @@ L.DG.Entrance = L.Class.extend({
 
         if (!this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.runAnimation({opacity: 0.9});
+                //arrow.setStyle({opacity: 0.9});
+                arrow.runAnimation('animateArrowPathGeom');
             });
             this._isShown = true;
             this._map.fire('dgEntranceShow');
@@ -70,7 +71,7 @@ L.DG.Entrance = L.Class.extend({
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.runAnimation({opacity: 0});
+                arrow.setStyle({opacity: 0});
             });
             this._isShown = false;
             this._map.fire('dgEntranceHide');
@@ -96,7 +97,7 @@ L.DG.Entrance = L.Class.extend({
             wkt = new L.DG.Wkt();
             components = wkt.read(this.options.vectors[i]);
             latlngs = [];
-            
+
             for (var j = 0; j < components.length; j++) {
                 latlngs.push([components[j].y, components[j].x]);
             };

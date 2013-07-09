@@ -16,15 +16,17 @@
     L.onLoad(function () {
 
         map = new L.Map('map', {
-            center: new L.LatLng(69.349552990994837, 87.75222519148015),
+            //center: new L.LatLng(69.349552990994837, 87.75222519148015),
+            center: [54.982, 82.921],
             zoom: 18
         });
 
         balloonHTML = '<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
                 (МФК «Сан Сити»), 13 этаж<br /><br />\n\
                 <input type="button" value="Найти вход" id="popupSearchBtn" />';
-        L.marker([69.3497, 87.75222519148015]).addTo(map).bindPopup(balloonHTML).openPopup();
-        
+        //L.marker([69.3497, 87.75222519148015]).addTo(map).bindPopup(balloonHTML).openPopup();
+        L.marker([54.982, 82.921]).addTo(map).bindPopup(balloonHTML).openPopup();
+
         document.getElementById('popupSearchBtn').onclick = onEntranceBtnClick;
         document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
         map.on('popupopen', function() {
@@ -35,8 +37,8 @@
         var entrance = new L.DG.Entrance({
             "is_primary":false,
             "name":"ЗАГС",
-            "points":["POINT(87.75222519148015 69.349552990994837)"],
-            "vectors":["LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)"]
+            "points":["POINT(82.921, 54.982)"],
+            "vectors":["LINESTRING(82.946 54.982, 82.941 54.977, 82.921 54.982)"]
         });
 
         function onEntranceBtnClick () {
