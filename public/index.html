@@ -27,7 +27,7 @@
 
         //L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
-        function getAnimateTiming(arrowType) {
+ /*       function getAnimateTiming(arrowType) {
             if(arrowType == 'simpleArrow') return "0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1";
             if(arrowType =='edgeArrow') return "0; 0.33; 0.34; 1";
             else return "0; 0.25; 0.26; 0.5; 0.51; 1";
@@ -78,12 +78,15 @@
                         keyTimes: getAnimateTiming('simpleArrow'),
                         dur: getAnimationTime('simpleArrow'),
                         begin: 'indefinite'
-                    };
+                    };*/
+
+
        var pol = L.DG.Entrance.arrow([
             [54.982, 82.921],
             [54.977, 82.941],
-            [54.982, 82.946]
-        ]/*, {animation: [arrowAnimate, hideArrow, animateArrowPathGeom, simpleGeom]}*/);
+            [54.982, 82.946],
+            [54.983, 82.942]
+        ]);
        pol.addTo(map);
        pol.runAnimation('animateArrowPathGeom');
     });

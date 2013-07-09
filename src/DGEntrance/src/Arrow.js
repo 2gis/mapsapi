@@ -15,4 +15,4 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
 
 L.DG.Entrance.arrow = function (latlngs, options) {
     return new L.DG.Entrance.Arrow(latlngs, options);
-}
+};

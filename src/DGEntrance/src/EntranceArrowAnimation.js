@@ -23,14 +23,11 @@ L.DG.Entrance.Arrow.include({
     },
 
     getArrowAnimation: function () {
-        var arrow = 'edgeArrow',
+        var arrow = 'backGeom', //TODO define arrow type automaticaly
             animateArrow = {
                 id: 'animateArrowPathGeom',
                 attributeName: 'd',
                 fill: 'freeze',
-                //values: 'M 404 178 l -1 0; M 404 178 l 117 51; M 404 178 l 117 51 l 0 -1; M 404 178 l 117 51 l 39 -51',
-                //M404 178L521 229L550 178
-                //values: 'M 140 180 l -1 0; M 140 180 l -40 0; M 140 180 l -40 0 l 0 -1; M 140 180 l -40 0 l 0 -80',
                 begin: 'indefinite'
             };
         animateArrow._getValues = this._getAnimationValues;
@@ -45,23 +42,26 @@ L.DG.Entrance.Arrow.include({
         var d = '',
             prevPoint = '',
             curPoint = '',
-            M = 'M ' + points[0].x + ' ' + points[0].y + ' ',
-            l = 'l -1 0 ';
+            M = 'M ' + points[0].x + ' ' + points[0].y,
+            l = 'l -1 0';
 
-           /* d = M + l + '; ';
+            d = M + ' ' + l + '; ';
             for (var i = 1; i < points.length; i++) {
-                curPoint = (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
-                d += M + 'l ' + curPoint + '; ';
-                d += M + 'l ' + curPoint + ' ' + l +'; ';
-                if (prevPoint.length > 0){d += M + 'l ' + prevPoint + 'l ' + curPoint + '; ';}
-                prevPoint = (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
+                curPoint += (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
 
-            };*/
-            firstPart = 'l ' + (points[1].x - points[0].x) + ' ' + (points[1].y - points[0].y) + ' ',
-            secondPart = 'l ' + (points[2].x - points[1].x) + ' ' + (points[2].y - points[1].y) + ' ';
+                if (i === points.length - 1) {
+                    curPoint = (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
+                    d += M + ' l ' + prevPoint  + curPoint + ';';
+                    break;
+                }
 
-            d = M + l + '; ' + M + firstPart + '; ' + M + firstPart + l + ';' + M + firstPart + secondPart;
-        return d;//'M 404 178 l -1 0; M 404 178 l 117 51; M 404 178 l 117 51 l 0 -1; M 404 178 l 117 51 l 39 -51';
+                d += M + ' l ' + curPoint + '; ';
+                d += M + ' l ' + curPoint + ' ' + l +'; ';
+                curPoint += ' l ';
+                prevPoint += (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y) + ' l ';
+            }
+
+            return d;
     },
 
     _getAnimateTiming: function (arrowType) {
