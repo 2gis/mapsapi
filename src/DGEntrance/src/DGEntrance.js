@@ -1,5 +1,5 @@
 L.DG.Entrance = L.Class.extend({
-    
+
     includes: L.Mixin.Events,
 
     options: {
@@ -25,7 +25,7 @@ L.DG.Entrance = L.Class.extend({
         this._map = map;
         this._initArrows().addTo(map);
         this._eventHandler = new L.DG.Entrance.EventHandler(map, this);
-        
+
         this.hide();
 
         if (map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM) {
@@ -33,7 +33,7 @@ L.DG.Entrance = L.Class.extend({
         };
     },
 
-    addTo: function (map) { // (L.Map) -> L.DG.Entrance   
+    addTo: function (map) { // (L.Map) -> L.DG.Entrance
         map.addLayer(this);
         return this;
     },
@@ -93,7 +93,7 @@ L.DG.Entrance = L.Class.extend({
             wkt = new L.DG.Wkt();
             components = wkt.read(this.options.vectors[i]);
             latlngs = [];
-            
+
             for (var j = 0; j < components.length; j++) {
                 latlngs.push([components[j].y, components[j].x]);
             };

@@ -20,9 +20,7 @@ L.Path.include({
         if (animation) {
             for (var i = 0, len = animation.length; i < len; i++) {
                 if (!animation[i].id) throw new Error('Animation object should specify Id property');
-
-                this._hidePath();
-                this._addAnimation(animation[i]);
+                this._addAnimation(animation[i], this._originalPoints);
             }
         }
 
@@ -39,21 +37,24 @@ L.Path.include({
     },
 
     _createElement: function (type, options) {
-        var options = options || {};
+        var options = options || {},
+            object = {},
+            key;
 
-        var object = document.createElementNS(L.Path.SVG_NS, type);
-        for (var key in options) {
-            object.setAttribute(key, options[key]);
+        object = document.createElementNS(L.Path.SVG_NS, type);
+        for (key in options) {
+            if (Object.prototype.toString.call(options[key]) !== '[object Function]') {
+                object.setAttribute(key, options[key]);
+            }
         }
+
         return object;
     },
 
-    _hidePath: function () {
-        this.setStyle({opacity: 0});
-        return this;
-    },
-
-    _addAnimation: function (options, i) {
+    _addAnimation: function (options, points) {
+        if (options._getValues) {
+          options.values = options._getValues(points);
+        }
         var animation = this._createElement('animate', options);
         this._path.appendChild(animation);
         this[options.id] = animation;

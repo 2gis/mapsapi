@@ -67,14 +67,25 @@
                         dur: getAnimationTime('edgeArrow'),
                         begin: 'arrowAnimate.end'
                     };
+
+             simpleGeom = {
+                        id: 'animateArrowPathGeom',
+                        attributeName: 'd',
+                        fill: 'freeze',
+                        values: 'M 404 178 l 117 51; M 521 229 l -117 -51; M 404 178 l 117 51; M 521 229 l -117 -51; M 404 178 l 117 51; M 521 229 l -117 -51; M 404 178 l 117 51; M 521 229 l -117 -51;',
+                        //M404 178 L521 229
+                        //values: 'M 100 200 l 0 -50; M 100 150 l 0 -50; M 100 180 l 0 -50; M 100 150 l 0 -50; M 100 158 l 0 -50; M 100 150 l 0 -50; M 100 153 l 0 -50; M 100 150 l 0 -50;',
+                        keyTimes: getAnimateTiming('simpleArrow'),
+                        dur: getAnimationTime('simpleArrow'),
+                        begin: 'indefinite'
+                    };
        var pol = L.DG.Entrance.arrow([
-            [54.980, 82.92],
-            [54.975, 82.94],
-            [54.98, 82.945]
-        ], {animation: [arrowAnimate, hideArrow, animateArrowPathGeom]});
-       console.log(pol);
+            [54.982, 82.921],
+            [54.977, 82.941],
+            [54.982, 82.946]
+        ]/*, {animation: [arrowAnimate, hideArrow, animateArrowPathGeom, simpleGeom]}*/);
        pol.addTo(map);
-       pol.runAnimation('arrowAnimate');
+       pol.runAnimation('animateArrowPathGeom');
     });
 
 </script>
