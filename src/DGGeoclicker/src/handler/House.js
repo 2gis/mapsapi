@@ -8,9 +8,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _cache: '',
     _shouldLoadFromCache: false,
     _firmsOnPage: 20,
-    _scrollThrottleInterval: 300,
-    _eventHandlers: [],
-    _scrollHeightReserve: 30,
+    _scrollThrottleInterval: 400,
+    _eventHandlers: {},
+    _scrollHeightReserve: 60,
 
     handle: function (results) { // (Object) -> Object
         var self = this;
@@ -91,44 +91,34 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _initShowMore: function () {
         var link = L.DomUtil.get('dg-showmorehouse'),
             eventType = 'click';
+
         if (link) {
-            L.DomEvent.on(link, eventType, this._showMoreClick, this);
-            this._eventHandlers.push({
-                el: link,
-                event: eventType,
-                handler: this._showMoreClick
-            });
+            this._addEventHandler("DgShowMoreClick", link, eventType, L.bind(this._showMoreClick, this));
         }
     },
 
-    _initScrollEnd: function() {
-        var mouseWheelHandler,
-            eventType = 'mousewheel';
+    _initScrollEvents: function() {
+        var scrollerBar,
+            self = this,
+            throttledHandler,
+            map = this._controller.getMap();
 
-        this._scroller = document.getElementsByClassName('scroller')[0];
+        this._scroller = document.querySelectorAll('.scroller')[0];
+
         if (this._scroller) {
-            mouseWheelHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
-            L.DomEvent.on(this._scroller, eventType, mouseWheelHandler);
-            this._eventHandlers.push({
-                el: this._scroller,
-                event: eventType,
-                handler: mouseWheelHandler
+            throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
+            this._addEventHandler("DgBaronMouseWheel", this._scroller, 'mousewheel', throttledHandler);
+            scrollerBar = this._scroller.querySelectorAll('.scroller__bar')[0];
+        }
+
+        if (scrollerBar) {
+            this._addEventHandler("DgBaronMouseDown", scrollerBar, 'mousedown', function() {
+                self._addEventHandler("DgBaronMouseMove", map, 'mousemove', throttledHandler);
+            });
+            this._addEventHandler("DgBaronMouseUp", map, 'mouseup', function() {
+                self._removeEventHandler("DgBaronMouseMove");
             });
         }
-    },
-
-    _clearEventHandlers: function() {
-        var handlers = this._eventHandlers,
-            len = handlers.length;
-
-        if (!len) {
-            return;
-        }
-        for (var i = 0; i < len; i++) {
-            L.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
-        }
-
-        this._eventHandlers = [];
     },
 
     _showMoreClick: function () {
@@ -146,7 +136,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handleMouseWheel: function() {
         var scroller = this._scroller;
-        console.log(scroller.scrollHeight, scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve);
+
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
             this._handlePaging();
         }
@@ -192,7 +182,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (this._page == 1 || shouldLoadFromCache) {
             this._initShowLess();
-            this._initScrollEnd();
+            this._initScrollEvents();
         }
 
         this._view.hideLoader();
@@ -244,19 +234,19 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowLess: function () {
-        var link = L.DomUtil.get('dg-showlesshouse')
+        var link = L.DomUtil.get('dg-showlesshouse');
 
         if (link) {
-            L.DomEvent.on(link, 'click', this._showLessClick, this);
+            this._addEventHandler("DgShowLessClick", link, 'click', L.bind(this._showLessClick, this));
         }
     },
 
     _showLessClick: function () {
         this._view.getPopup().clearHeaderFooter();
+        this._clearEventHandlers();
         this._wereHeadersInited = false;
         this._lastPage = this._page;
         this._view.render(this.houseObj);
-        this._initShowMore();
     },
 
     _fillFirmObject: function (firm) { // (Object) -> Object
