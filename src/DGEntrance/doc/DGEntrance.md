@@ -79,6 +79,6 @@
     <tr>
         <td><code><b>isShown</b>()</code></td>
         <td><code>Boolean</code></td>
-        <td>Возвращает <code>true</code>, если вход видим на карте, иначе возвращает <code>false</code>.</td>
+        <td>Возвращает <code>true</code>, если вход видим на карте.</td>
     </tr>
 </table>
