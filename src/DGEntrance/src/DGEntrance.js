@@ -8,7 +8,7 @@ L.DG.Entrance = L.Class.extend({
     },
 
     statics: {
-        SHOW_FROM_ZOOM: 16
+        SHOW_FROM_ZOOM: 10
     },
 
     _map: null,
@@ -26,10 +26,10 @@ L.DG.Entrance = L.Class.extend({
         this._eventHandler = new L.DG.Entrance.EventHandler(map, this);
 
         // hide without event by default
-        /*this._arrows.eachLayer(function (arrow) {
+        this._arrows.eachLayer(function (arrow) {
             arrow.setStyle({ opacity: 0 });
         });
-        this._isShown = false;*/
+        this._isShown = false;
     },
 
     addTo: function (map) { // (L.Map) -> L.DG.Entrance
@@ -57,7 +57,7 @@ L.DG.Entrance = L.Class.extend({
 
         if (!this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                //arrow.setStyle({opacity: 0.9});
+                arrow.setStyle({opacity: 0.9});
                 arrow.runAnimation('animateArrowPathGeom');
             });
             this._isShown = true;
@@ -102,11 +102,11 @@ L.DG.Entrance = L.Class.extend({
                 latlngs.push([components[j].y, components[j].x]);
             }
 
-            this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
+            /*this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
                 color: '#fafeff',
                 weight: 10
-            }));
+            }));*/
             this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
                 color: '#6f8497',

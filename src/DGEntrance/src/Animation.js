@@ -20,7 +20,7 @@ L.Path.include({
         if (animation) {
             for (var i = 0, len = animation.length; i < len; i++) {
                 if (!animation[i].id) throw new Error('Animation object should specify Id property');
-                this._addAnimation(animation[i], this._originalPoints);
+                this._addAnimation(animation[i], this._parts[0]);
             }
         }
 
