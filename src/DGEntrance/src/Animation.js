@@ -32,7 +32,9 @@ L.Path.include({
 
         map.on({
             'viewreset': this.projectLatlngs,
-            'moveend': this._updatePath
+            'moveend': this._updatePath,
+            'zoomstart': this._removeAnimation,
+            'zoomend': this._restoreAnimation
         }, this);
     },
 
@@ -68,5 +70,22 @@ L.Path.include({
     stopAnimation: function (name) {
         this[name].endElement();
         return this;
+    },
+
+
+    // TODO: fix this hardcoded КОСТЫЛЬ! But we need recalculate animation on zoom change.
+
+    _removeAnimation: function () {
+        if (document.getElementById('animateArrowPathGeom')) {
+            this._path.removeChild(this['animateArrowPathGeom']);
+        }
+    },
+    _restoreAnimation: function () {
+        if (typeof this.options.latlngs !== 'undefined') {
+            var animation = this.getArrowAnimation(this.options.latlngs.length);
+            this._addAnimation(animation[i], this._parts[0]);
+            self._path.appendChild(self['animateArrowPathGeom']);    
+        }        
     }
+
 });
