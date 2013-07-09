@@ -22,17 +22,16 @@ L.DG.Entrance.Arrow.include({
                 };
     },
 
-    getArrowAnimation: function () {
-        var arrow = 'backGeom', //TODO define arrow type automaticaly
-            animateArrow = {
+    getArrowAnimation: function (verticesCount) { // (Number) -> Object
+        var animateArrow = {
                 id: 'animateArrowPathGeom',
                 attributeName: 'd',
                 fill: 'freeze',
                 begin: 'indefinite'
             };
         animateArrow._getValues = this._getAnimationValues;
-        animateArrow.keyTimes = this._getAnimateTiming(arrow);
-        animateArrow.dur = this._getAnimationTime(arrow);
+        animateArrow.keyTimes = this._getAnimateTiming(verticesCount);
+        animateArrow.dur = this._getAnimationTime(verticesCount);
 
         return animateArrow;
     },
@@ -64,14 +63,14 @@ L.DG.Entrance.Arrow.include({
             return d;
     },
 
-    _getAnimateTiming: function (arrowType) {
-        if(arrowType == 'simpleArrow') return "0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1";
-        if(arrowType =='edgeArrow') return "0; 0.33; 0.34; 1";
+    _getAnimateTiming: function (verticesCount) {
+        if(verticesCount === 2) return "0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1";
+        if(verticesCount === 3) return "0; 0.33; 0.34; 1";
         else return "0; 0.25; 0.26; 0.5; 0.51; 1";
     },
 
-    _getAnimationTime: function (arrowType) {
-        if(arrowType == 'simpleArrow') return '0.7s';
+    _getAnimationTime: function (verticesCount) {
+        if(verticesCount === 2) return '0.7s';
         else return "0.5s";
     }
 });

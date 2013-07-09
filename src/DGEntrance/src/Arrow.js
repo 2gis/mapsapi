@@ -1,8 +1,9 @@
 L.DG.Entrance.Arrow = L.Polyline.extend({
 
-    initialize: function (latlngs, options) { // в options объект, описывающий анимацию
+    initialize: function (latlngs, options) { // (Array, Object)
         var options = options || {},
-            animation = this.getArrowAnimation();
+            animation = this.getArrowAnimation(latlngs.length);
+
         options.animation = [animation];
 
         L.Polyline.prototype.initialize.call(this, latlngs, options);
