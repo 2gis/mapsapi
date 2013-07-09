@@ -17,15 +17,15 @@
 
         map = new L.Map('map', {
             //center: new L.LatLng(69.349552990994837, 87.75222519148015),
-            center: [54.982, 82.921],
-            zoom: 16
+            center: [54.980206086231, 82.898068362003],
+            zoom: 17
         });
 
         balloonHTML = '<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
                 (МФК «Сан Сити»), 13 этаж<br /><br />\n\
                 <input type="button" value="Найти вход" id="popupSearchBtn" />';
         //L.marker([69.3497, 87.75222519148015]).addTo(map).bindPopup(balloonHTML).openPopup();
-        L.marker([54.982, 82.921]).addTo(map).bindPopup(balloonHTML).openPopup();
+        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
         document.getElementById('popupSearchBtn').onclick = onEntranceBtnClick;
         document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
@@ -38,11 +38,21 @@
             "is_primary":false,
             "name":"ЗАГС",
             "points":["POINT(82.921, 54.982)"],
-            "vectors":["LINESTRING(82.946 54.982, 82.941 54.977, 82.921 54.982)"]
+            //"vectors": ["LINESTRING(82.89841711521149 54.97990717742651, 82.89852440357208 54.97984560848737)"],
+            "vectors": ["LINESTRING(82.89877653121948 54.98127706190138, 82.8991949558258 54.98149870173785, 82.89942026138306 54.98137249031431, 82.89934515953063 54.98132631530412)"],
+            "vectors": [
+                "LINESTRING(82.89879262447357 54.97967013649277, 82.89871215820312 54.9797163134078)",
+                "LINESTRING(82.8989589214325 54.979571625563196, 82.89902329444884 54.97953468390229)"
+            ],
+            "vectors": ["LINESTRING(82.8971403837204 54.98125551351868, 82.8969955444336 54.981338628645375, 82.8970867395401 54.98139403863423)"]
         });
         function onEntranceBtnClick () {
             entrance.addTo(map).show();
         }
+
+        map.on('click', function(e) {
+            console.log(e);
+        });
     });
 
     </script>

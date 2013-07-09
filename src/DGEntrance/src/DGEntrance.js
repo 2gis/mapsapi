@@ -8,7 +8,7 @@ L.DG.Entrance = L.Class.extend({
     },
 
     statics: {
-        SHOW_FROM_ZOOM: 10
+        SHOW_FROM_ZOOM: 16
     },
 
     _map: null,
@@ -102,11 +102,11 @@ L.DG.Entrance = L.Class.extend({
                 latlngs.push([components[j].y, components[j].x]);
             }
 
-            /*this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
+            this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
                 color: '#fafeff',
                 weight: 10
-            }));*/
+            }));
             this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
                 color: '#6f8497',
