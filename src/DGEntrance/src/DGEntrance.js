@@ -51,8 +51,7 @@ L.DG.Entrance = L.Class.extend({
         return this;
     },
 
-    show: function (animation) { // (Object) -> L.DG.Entrance
-
+    show: function () { // () -> L.DG.Entrance
         this._fitBounds();
 
         if (!this.isShown() && this._arrows) {
