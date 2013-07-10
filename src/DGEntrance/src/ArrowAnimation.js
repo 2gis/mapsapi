@@ -41,13 +41,34 @@ L.Path.include({
         return this;
     },
 
+    onRemove: function (map) {
+        map._pathRoot.removeChild(this._container);
+        // Need to fire remove event before we set _map to null as the event hooks might need the obje_updatePathct
+        this.fire('remove');
+        this._map = null;
+        this.animations = {};
+
+        if (L.Browser.vml) {
+            this._container = null;
+            this._stroke = null;
+            this._fill = null;
+        }
+
+        map.off({
+            'viewreset': this.projectLatlngs,
+            'zoomstart': this._removeAnimations,
+            'moveend': this._updatePath
+        }, this);
+    },
+
     _addAnimations: function () {
         this._updatePath();
 
-        var animation = this.options.animation;
-        if (animation) {
+        var animation = this.options.animation,
+            points = this._parts[0];
+        if (animation && points) {
             for (var i = 0, len = animation.length; i < len; i++) {
-                this._addAnimation(animation[i], this._parts[0]);
+                this._addAnimation(animation[i], points);
             }
         }
     },
@@ -85,5 +106,6 @@ L.Path.include({
                 this._path.removeChild(animations[animation]);
             }
         }
+        this.animations = {};
     }
 });

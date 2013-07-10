@@ -41,7 +41,7 @@ L.DG.Entrance.Arrow.include({
         return (verticesCount === 2) ? this._getShakeAnimationValues : this._getSlideAnimationValues;
     },
 
-    _getSlideAnimationValues: function(points) {
+    _getSlideAnimationValues: function(points) { // (Array) -> String
         var d = '',
             prevPoint = '',
             curPoint = '',
@@ -67,7 +67,7 @@ L.DG.Entrance.Arrow.include({
         return d;
     },
 
-    _getShakeAnimationValues: function(points) {
+    _getShakeAnimationValues: function(points) { // (Array) -> String
         var d = '',
             // config coefficient values for arrow animation
             relDiff = [1, 0.4, 1, 0.84, 1, 0.94, 1],
