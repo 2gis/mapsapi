@@ -15,6 +15,7 @@ L.Path.include({
 
         this.projectLatlngs();
         this._addAnimations();
+        this._addMarker();
 
         if (this._container) {
             this._map._pathRoot.appendChild(this._container);
@@ -58,6 +59,21 @@ L.Path.include({
         var animation = this._createElement('animate', options);
         this._path.appendChild(animation);
         this.animations[options.id] = animation;
+    },
+
+    _addMarker: function () {
+        var marker = this._createElement('marker', {
+            id: 'Triangle',
+            viewBox: '0 0 10 10',
+            refX: '0',
+            refY: '5',
+            markerUnits: 'strokeWidth',
+            markerWidth: '4',
+            markerHeight: '3',
+            orient: 'auto',
+            
+        });
+        this._path.appendChild(marker);
     },
 
     _createElement: function (type, options) {
