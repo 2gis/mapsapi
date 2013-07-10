@@ -34,7 +34,7 @@
             document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
         });
 
-        var simpleVectors = ["LINESTRING(82.89841711521149 54.97990717742651, 82.89852440357208 54.97984560848737)"];
+        var simpleVector = ["LINESTRING(82.89841711521149 54.97990717742651, 82.89852440357208 54.97984560848737)"];
         var twoSimpleVectors = [
             "LINESTRING(82.89879262447357 54.97967013649277, 82.89871215820312 54.9797163134078)",
             "LINESTRING(82.8989589214325 54.979571625563196, 82.89902329444884 54.97953468390229)"
@@ -46,7 +46,7 @@
             "is_primary":false,
             "name":"ЗАГС",
             "points":["POINT(82.921, 54.982)"],
-            "vectors": fourEdgeVector
+            "vectors": simpleVector
         });
         
         function onEntranceBtnClick () {
