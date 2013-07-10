@@ -83,6 +83,7 @@ L.Path.include({
     },
 
     _addMarker: function () {
+        var defs = this._createElement('defs');
         var marker = this._createElement('marker', {
             id: 'Triangle',
             viewBox: '0 0 10 10',
@@ -94,7 +95,9 @@ L.Path.include({
             orient: 'auto',
             
         });
-        this._path.appendChild(marker);
+        this._pathRoot.appendChild(defs);
+        defs.appendChild(marker);
+        //this._path.appendChild(marker);
     },
 
     _createElement: function (type, options) {
