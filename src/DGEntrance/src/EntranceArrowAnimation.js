@@ -69,58 +69,20 @@ L.DG.Entrance.Arrow.include({
 
     _getShakeAnimationValues: function(points) {
             var d = '';
-            var t = [0, 0.33, 0.495, 0.66, 0.77, 0.88, 0.935, 1];
+
+            // config relative values for arrow animation
+            var relDiff = [1, 0.4, 1, 0.84, 1, 0.94, 1];
 
             var dx = points[1].x - points[0].x;
             var dy = points[1].y - points[0].y;
             var l = ' l ' + dx + ' ' + dy;
             d = 'M ' + points[0].x + ' ' + points[0].y + l + '; ';
 
-            function _bounceOut(t) {
-                if (t < 1/2.75) {
-                    return (7.5625*t*t);
-                } else if (t < 2/2.75) {
-                    return (7.5625*(t-=1.5/2.75)*t+0.75);
-                } else if (t < 2.5/2.75) {
-                    return (7.5625*(t-=2.25/2.75)*t+0.9375);
-                } else {
-                    return (7.5625*(t-=2.625/2.75)*t +0.984375);
-                }
-            }
-             for (var i = 1; i < t.length; i++) {
-                var n = _bounceOut(t[i]);
-                d += ' M ' + Math.round(points[0].x*n) + ' ' + Math.round(points[0].y*n) + l + ';';
+            for (var i = 0; i < relDiff.length; i++) {
+                d += ' M ' + (points[0].x + dx*relDiff[i]) + ' ' + (points[0].y + dy*relDiff[i]) + l + ';';
             }
 
-            return d;//'M 100 200 l 0 -50;   M 100 150 l 0 -50; M 100 180 l 0 -50; M 100 150 l 0 -50; M 100 158 l 0 -50; M 100 150 l 0 -50; M 100 153 l 0 -50; M 100 150 l 0 -50;';
-    },
-
-    _easeOutBounce: function(e, f, a, h, g) {
-        if ((f /= g) < (1 / 2.75)) {
-            return h * (7.5625 * f * f) + a;
-        } else {
-            if (f < (2 / 2.75)) {
-                return h * (7.5625 * (f -= (1.5 / 2.75)) * f + 0.75) + a;
-            } else {
-                if (f < (2.5 / 2.75)) {
-                    return h * (7.5625 * (f -= (2.25 / 2.75)) * f + 0.9375) + a;
-                } else {
-                    return h * (7.5625 * (f -= (2.625 / 2.75)) * f + 0.984375) + a;
-                }
-            }
-        }
-    },
-
-    _bounceOut: function(t) {
-        if (t < 1/2.75) {
-            return (7.5625*t*t);
-        } else if (t < 2/2.75) {
-            return (7.5625*(t-=1.5/2.75)*t+0.75);
-        } else if (t < 2.5/2.75) {
-            return (7.5625*(t-=2.25/2.75)*t+0.9375);
-        } else {
-            return (7.5625*(t-=2.625/2.75)*t +0.984375);
-        }
+            return d;
     },
 
     _getAnimateTiming: function (verticesCount) {
