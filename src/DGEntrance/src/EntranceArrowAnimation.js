@@ -48,41 +48,39 @@ L.DG.Entrance.Arrow.include({
             M = 'M ' + points[0].x + ' ' + points[0].y,
             l = 'l -1 0';
 
-            d = M + ' ' + l + '; ';
-            for (var i = 1; i < points.length; i++) {
-                curPoint += (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
+        d = M + ' ' + l + '; ';
+        for (var i = 1; i < points.length; i++) {
+            curPoint += (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
 
-                if (i === points.length - 1) {
-                    curPoint = (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
-                    d += M + ' l ' + prevPoint  + curPoint + ';';
-                    break;
-                }
-
-                d += M + ' l ' + curPoint + '; ';
-                d += M + ' l ' + curPoint + ' ' + l +'; ';
-                curPoint += ' l ';
-                prevPoint += (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y) + ' l ';
+            if (i === points.length - 1) {
+                curPoint = (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y);
+                d += M + ' l ' + prevPoint  + curPoint + ';';
+                break;
             }
 
-            return d;
+            d += M + ' l ' + curPoint + '; ';
+            d += M + ' l ' + curPoint + ' ' + l +'; ';
+            curPoint += ' l ';
+            prevPoint += (points[i].x - points[i-1].x) + ' ' + (points[i].y - points[i-1].y) + ' l ';
+        }
+
+        return d;
     },
 
     _getShakeAnimationValues: function(points) {
-            var d = '';
+        var d = '',
+            // config coefficient values for arrow animation
+            relDiff = [1, 0.4, 1, 0.84, 1, 0.94, 1],
+            dx = points[1].x - points[0].x,
+            dy = points[1].y - points[0].y,
+            l = ' l ' + dx + ' ' + dy;
 
-            // config relative values for arrow animation
-            var relDiff = [1, 0.4, 1, 0.84, 1, 0.94, 1];
+        d = 'M ' + points[0].x + ' ' + points[0].y + l + '; ';
+        for (var i = 0; i < relDiff.length; i++) {
+            d += ' M ' + (points[0].x + dx*relDiff[i]) + ' ' + (points[0].y + dy*relDiff[i]) + l + ';';
+        }
 
-            var dx = points[1].x - points[0].x;
-            var dy = points[1].y - points[0].y;
-            var l = ' l ' + dx + ' ' + dy;
-            d = 'M ' + points[0].x + ' ' + points[0].y + l + '; ';
-
-            for (var i = 0; i < relDiff.length; i++) {
-                d += ' M ' + (points[0].x + dx*relDiff[i]) + ' ' + (points[0].y + dy*relDiff[i]) + l + ';';
-            }
-
-            return d;
+        return d;
     },
 
     _getAnimateTiming: function (verticesCount) {
