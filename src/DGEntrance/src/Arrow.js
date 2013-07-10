@@ -83,23 +83,7 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
         } else {
             this._markerPath.setAttribute('fill', 'none');
         }
-
-        //if (this._markerPath !== null) {
-            /*this._markerPath.setAttribute('stroke', this._path.getAttribute('stroke'));
-            this._markerPath.setAttribute('stroke-opacity', this._path.getAttribute('stroke-opacity'));
-            this._markerPath.setAttribute('stroke-width', this._path.getAttribute('stroke-width'));
-            if (this.options.dashArray) {
-                this._markerPath.setAttribute('stroke-dasharray', this._path.getAttribute('stroke-dasharray'));
-            }
-            else {
-                this._markerPath.removeAttribute('stroke-dasharray');
-            }*/
-            //this._markerPath.setAttribute('fill', '#4b647d' /*this._path.getAttribute('fill')*/);
-            /*this._markerPath.setAttribute('fill-opacity', this._path.getAttribute('fill-opacity'));
-            this._markerPath.setAttribute('stroke-linejoin', this._path.getAttribute('stroke-linejoin'));
-            this._markerPath.setAttribute('stroke-linecap', this._path.getAttribute('stroke-linecap'));*/
-        //};
-    },
+    }
 
 });
 
