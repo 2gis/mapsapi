@@ -42,7 +42,6 @@ L.DG.Entrance.Arrow.include({
     },
 
     _getSlideAnimationValues: function(points) {
-
         var d = '',
             prevPoint = '',
             curPoint = '',
@@ -93,10 +92,6 @@ L.DG.Entrance.Arrow.include({
                 d += ' M ' + Math.round(points[0].x*n) + ' ' + Math.round(points[0].y*n) + l + ';';
             }
 
-            console.log(d);
-
-            //M402 157 L518 208
-                     //M 410 157 l 116 51;  M 338 129 l 116 51; M 315 121 l 116 51; M 348 133 l 116 51; M 392 150 l 116 51; M 396 152 l 116 51; M 405 155 l 116 51; M 410 157 l 116 51;
             return d;//'M 100 200 l 0 -50;   M 100 150 l 0 -50; M 100 180 l 0 -50; M 100 150 l 0 -50; M 100 158 l 0 -50; M 100 150 l 0 -50; M 100 153 l 0 -50; M 100 150 l 0 -50;';
     },
 

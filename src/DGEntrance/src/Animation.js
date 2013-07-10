@@ -6,7 +6,7 @@ L.Path.include({
 
     onAdd: function () {
 
-       var animation = this.options.animation;
+       this.animations = {};
        this._map = map;
 
         if (!this._container) {
@@ -15,14 +15,8 @@ L.Path.include({
         }
 
         this.projectLatlngs();
-        this._updatePath();
+        this._addAnimations();
 
-        if (animation) {
-            for (var i = 0, len = animation.length; i < len; i++) {
-                if (!animation[i].id) throw new Error('Animation object should specify Id property');
-                this._addAnimation(animation[i], this._parts[0]);
-            }
-        }
 
         if (this._container) {
             this._map._pathRoot.appendChild(this._container);
@@ -32,10 +26,41 @@ L.Path.include({
 
         map.on({
             'viewreset': this.projectLatlngs,
-            'moveend': this._updatePath,
-            'zoomstart': this._removeAnimation,
-            'zoomend': this._restoreAnimation
+            'zoomstart': this._removeAnimations,
+            'moveend':  this._addAnimations
         }, this);
+    },
+
+    runAnimation: function (name) {
+        this.animations[name].beginElement();
+        return this;
+    },
+
+    stopAnimation: function (name) {
+        this.animations[name].endElement();
+        return this;
+    },
+
+    _addAnimations: function () {
+        this._updatePath();
+
+        var animation = this.options.animation;
+        if (animation) {
+            for (var i = 0, len = animation.length; i < len; i++) {
+                this._addAnimation(animation[i], this._parts[0]);
+            }
+        }
+    },
+
+    _addAnimation: function (options, points) {
+        if (options._getValues) {
+          options.values = options._getValues(points);
+        }
+        var animation = this._createElement('animate', options);
+        this._path.appendChild(animation);
+
+        //store references to added animation
+        this.animations[options.id] = animation;
     },
 
     _createElement: function (type, options) {
@@ -53,39 +78,12 @@ L.Path.include({
         return object;
     },
 
-    _addAnimation: function (options, points) {
-        if (options._getValues) {
-          options.values = options._getValues(points);
+    _removeAnimations: function () {
+        var animations = this.animations;
+        for(var animation in animations) {
+            if (animations.hasOwnProperty(animation)) {
+                this._path.removeChild(animations[animation]);
+            }
         }
-        var animation = this._createElement('animate', options);
-        this._path.appendChild(animation);
-        this[options.id] = animation;
-    },
-
-    runAnimation: function (name) {
-        this[name].beginElement();
-        return this;
-    },
-
-    stopAnimation: function (name) {
-        this[name].endElement();
-        return this;
-    },
-
-
-    // TODO: fix this hardcoded КОСТЫЛЬ! But we need recalculate animation on zoom change.
-
-    _removeAnimation: function () {
-        if (document.getElementById('animateArrowPathGeom')) {
-            this._path.removeChild(this['animateArrowPathGeom']);
-        }
-    },
-    _restoreAnimation: function () {
-        if (typeof this.options.latlngs !== 'undefined') {
-            var animation = this.getArrowAnimation(this.options.latlngs.length);
-            this._addAnimation(animation[i], this._parts[0]);
-            self._path.appendChild(self['animateArrowPathGeom']);    
-        }        
     }
-
 });
