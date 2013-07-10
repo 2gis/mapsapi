@@ -83,7 +83,6 @@ L.Path.include({
     },
 
     _addMarker: function () {
-        var defs = this._createElement('defs');
         var marker = this._createElement('marker', {
             id: 'Triangle',
             viewBox: '0 0 10 10',
@@ -92,12 +91,16 @@ L.Path.include({
             markerUnits: 'strokeWidth',
             markerWidth: '4',
             markerHeight: '3',
-            orient: 'auto',
-            
+            orient: 'auto'
+        }),
+        markerPath = this._createElement('path', {
+            d: 'M 0 0 L 10 5 L 0 10 z'
         });
-        this._pathRoot.appendChild(defs);
-        defs.appendChild(marker);
-        //this._path.appendChild(marker);
+
+        //console.log(this._path);
+        this._path.parentNode.appendChild(marker);
+        marker.appendChild(markerPath);
+        this._path.setAttribute('marker-end', 'url(#Triangle)');
     },
 
     _createElement: function (type, options) {
