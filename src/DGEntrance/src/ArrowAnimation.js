@@ -50,14 +50,13 @@ L.Path.include({
         }
     },
 
-    _addAnimation: function (options, points) {
-        if (options._getValues) {
-          options.values = options._getValues(points);
+    _addAnimation: function (options, points) { // (Object, Array)
+        if (options.getValues) {
+          //calculate values if attributeName: 'd' was used to animate
+          options.values = options.getValues(points);
         }
         var animation = this._createElement('animate', options);
         this._path.appendChild(animation);
-
-        //store references to added animation
         this.animations[options.id] = animation;
     },
 
@@ -80,6 +79,7 @@ L.Path.include({
         var animations = this.animations;
         for(var animation in animations) {
             if (animations.hasOwnProperty(animation)) {
+                //for correct geometry presentation while zooming
                 this._path.removeChild(animations[animation]);
             }
         }

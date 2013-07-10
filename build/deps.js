@@ -115,9 +115,9 @@ var deps = {
         desc: '2GIS Entrances.',
         src: [
             'DGEntrance/src/DGEntrance.js',
-            'DGEntrance/src/Animation.js',
+            'DGEntrance/src/ArrowAnimation.js',
             'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/EntranceArrowAnimation.js',
+            'DGEntrance/src/ArrowAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
         deps: ['DGCore', 'DGWkt']
