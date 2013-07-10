@@ -26,7 +26,7 @@ L.Path.include({
         map.on({
             'viewreset': this.projectLatlngs,
             'zoomstart': this._removeAnimations,
-            'moveend':  this._addAnimations
+            'zoomend':  this._addAnimations
         }, this);
     },
 
@@ -56,7 +56,7 @@ L.Path.include({
         map.off({
             'viewreset': this.projectLatlngs,
             'zoomstart': this._removeAnimations,
-            'moveend': this._updatePath
+            'zoomend': this._addAnimations
         }, this);
     },
 
