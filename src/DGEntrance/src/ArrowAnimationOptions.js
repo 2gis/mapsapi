@@ -30,7 +30,7 @@ L.DG.Entrance.Arrow.include({
             begin: 'indefinite'
         };
 
-        animateArrow._getValues = this._getAnimationValues(verticesCount);
+        animateArrow.getValues = this._getAnimationValues(verticesCount);
         animateArrow.keyTimes = this._getAnimateTiming(verticesCount);
         animateArrow.dur = this._getAnimationTime(verticesCount);
 
