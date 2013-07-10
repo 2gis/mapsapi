@@ -4,8 +4,7 @@ L.Path.mergeOptions({
 
 L.Path.include({
 
-    onAdd: function () {
-
+    onAdd: function (map) {
        this.animations = {};
        this._map = map;
 
@@ -16,7 +15,6 @@ L.Path.include({
 
         this.projectLatlngs();
         this._addAnimations();
-
 
         if (this._container) {
             this._map._pathRoot.appendChild(this._container);
