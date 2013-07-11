@@ -1,7 +1,5 @@
 L.DG.Entrance.Arrow = L.Polyline.extend({
 
-    _markers: {},
-
     initialize: function (latlngs, options) { // (Array, Object)
         var options = options || {},
             animation = this.getArrowAnimation(latlngs.length);
@@ -16,8 +14,6 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
         this._initPath();
         this._initMarkers();
         this._initStyle();
-
-        this._map.on({'zoomend': this._updateMarker}, this);
     },
 
     _initMarkers: function () {
@@ -31,12 +27,21 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
                 marker.id = id + '-' + i;
                 markerPath = this._createElement('path', optionsByZoom[i].markerPath);
                 marker.appendChild(markerPath);
-                this._markers[marker.id] = marker;
                 this._path.parentNode.appendChild(marker);
             }
         }
 
         this._updateMarker();
+    },
+
+    onAdd: function(map){
+        L.Path.prototype.onAdd.call(this, map);
+        map.on({'zoomend': this._updateMarker}, this);
+    },
+
+    onRemove: function(map){
+       L.Path.prototype.onRemove.call(this, map);
+       map.off({'zoomend': this._updateMarker}, this);
     },
 
     _updatePath: function () {
@@ -83,7 +88,11 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
 
     _updateMarker: function() {
         var zoom = this._map.getZoom();
-        this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+        if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
+            this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+        } else {
+            this._path.setAttribute('marker-end', 'url(#)');
+        }
     }
 });
 
