@@ -39,6 +39,12 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
          * - Надо подумать, что еще не покрыто тестами и стоит покрыть
          * - Сформировать пулреквест в ЛЛ
          */
+    },
+
+    _updatePath: function () {
+        L.Polyline.prototype._updatePath.call(this);
+        //this._originalPoints[this._originalPoints.length-1].x += 4;//this.options.marker[18].attr.refX;
+        //this._originalPoints[this._originalPoints.length-1].y += 3; //this.options.marker[18].attr.refY;
     }
 });
 

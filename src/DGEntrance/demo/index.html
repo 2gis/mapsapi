@@ -24,8 +24,9 @@
         balloonHTML = '<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
                 (МФК «Сан Сити»), 13 этаж<br /><br />\n\
                 <input type="button" value="Найти вход" id="popupSearchBtn" />';
-        //L.marker([69.3497, 87.75222519148015]).addTo(map).bindPopup(balloonHTML).openPopup();
-        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
+        //L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
+        //L.marker([54.97990717742651, 82.89841711521149]).addTo(map).bindPopup(balloonHTML).openPopup();
+        L.marker([54.97985484383426, 82.89851367473602]).addTo(map).bindPopup(balloonHTML).openPopup();
 
         document.getElementById('popupSearchBtn').onclick = onEntranceBtnClick;
         document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
@@ -34,7 +35,7 @@
             document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
         });
 
-        var simpleVector = ["LINESTRING(82.89841711521149 54.97990717742651, 82.89852440357208 54.97984560848737)"];
+        var simpleVector = ["LINESTRING(82.89851367473602 54.97985484383426, 82.89841711521149 54.97990717742651)"];
         var twoSimpleVectors = [
             "LINESTRING(82.89879262447357 54.97967013649277, 82.89871215820312 54.9797163134078)",
             "LINESTRING(82.8989589214325 54.979571625563196, 82.89902329444884 54.97953468390229)"
@@ -46,7 +47,7 @@
             "is_primary":false,
             "name":"ЗАГС",
             "points":["POINT(82.921, 54.982)"],
-            "vectors": fourEdgeVector
+            "vectors": simpleVector
         });
         
         function onEntranceBtnClick () {

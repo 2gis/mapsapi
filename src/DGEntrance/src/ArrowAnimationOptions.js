@@ -71,10 +71,14 @@ L.DG.Entrance.Arrow.include({
         var d = '',
             // config coefficient values for arrow animation
             relDiff = [1, 0.4, 1, 0.84, 1, 0.94, 1],
+            relDiffSum = 1 + 0.4 + 1 + 0.84 + 1 + 0.94 + 1,
             dx = points[1].x - points[0].x,
             dy = points[1].y - points[0].y,
             l = ' l ' + dx + ' ' + dy;
 
+        points[0].x -= dx;
+        points[0].y -= dy;
+        
         d = 'M ' + points[0].x + ' ' + points[0].y + l + '; ';
         for (var i = 0; i < relDiff.length; i++) {
             d += ' M ' + (points[0].x + dx*relDiff[i]) + ' ' + (points[0].y + dy*relDiff[i]) + l + ';';
