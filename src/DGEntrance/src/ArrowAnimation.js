@@ -61,12 +61,11 @@ L.Path.include({
 
     _addAnimations: function () {
         this._updatePath();
-
-        var animation = this.options.animation,
-            points = this._parts[0];
-        if (animation && points) {
+        
+        var animation = this.options.animation;
+        if (animation && this._parts) {
             for (var i = 0, len = animation.length; i < len; i++) {
-                this._addAnimation(animation[i], points);
+                this._addAnimation(animation[i], this._parts[0]);
             }
         }
     },
