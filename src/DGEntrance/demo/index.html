@@ -16,17 +16,14 @@
     L.onLoad(function () {
 
         map = new L.Map('map', {
-            //center: new L.LatLng(69.349552990994837, 87.75222519148015),
             center: [54.980206086231, 82.898068362003],
             zoom: 18
         });
 
-        balloonHTML = '<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
-                (МФК «Сан Сити»), 13 этаж<br /><br />\n\
+        balloonHTML = '<p>Компания «ДубльГИС»</p>\n\
                 <input type="button" value="Найти вход" id="popupSearchBtn" />';
-        //L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
-        L.marker([54.97990717742651, 82.89841711521149]).addTo(map).bindPopup(balloonHTML).openPopup();
-        L.marker([54.97985484383426, 82.89851367473602]).addTo(map).bindPopup(balloonHTML).openPopup();
+
+        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
         document.getElementById('popupSearchBtn').onclick = onEntranceBtnClick;
         document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
@@ -35,19 +32,27 @@
             document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
         });
 
+        L.circle([54.97990717742651, 82.89841711521149], 1).addTo(map);
         var simpleVector = ["LINESTRING(82.89851367473602 54.97985484383426, 82.89841711521149 54.97990717742651)"];
+        
+        L.circle([54.97967013649277, 82.89879262447357], 1).addTo(map);
+        L.circle([54.979571625563196, 82.8989589214325], 1).addTo(map);
         var twoSimpleVectors = [
             "LINESTRING(82.89871215820312 54.9797163134078, 82.89879262447357 54.97967013649277)",
             "LINESTRING(82.89902329444884 54.97953468390229, 82.8989589214325 54.979571625563196)"
         ];
+        
+        L.circle([54.98132631530412, 82.89934515953063], 1).addTo(map);
         var fourEdgeVector = ["LINESTRING(82.89877653121948 54.98127706190138, 82.8991949558258 54.98149870173785, 82.89942026138306 54.98137249031431, 82.89934515953063 54.98132631530412)"];
+        
+        L.circle([54.98139403863423, 82.8970867395401], 1).addTo(map);
         var threeEdgeVector = ["LINESTRING(82.8971403837204 54.98125551351868, 82.8969955444336 54.981338628645375, 82.8970867395401 54.98139403863423)"];
 
         var entrance = new L.DG.Entrance({
             "is_primary":false,
             "name":"ЗАГС",
             "points":["POINT(82.921, 54.982)"],
-            "vectors": twoSimpleVectors
+            "vectors": fourEdgeVector
         });
 
         function onEntranceBtnClick () {

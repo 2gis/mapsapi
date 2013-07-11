@@ -49,6 +49,25 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
         this._offsetPathEnd();
     },
 
+    _clipPath: function () {
+        var mask = this._createElement('mask', {
+            id: this._markerId + '-mask1'
+        });
+        var bg = this._createElement('rect', {
+            x: 0, y: 0, width: 1000, height: 1000,
+            fill: "white"
+        });
+        var rect = this._createElement('rect', {
+            x: 0, y: 0, width: 832, height: 1000,
+            fill: "#6f8497"
+        });        
+
+        this._path.parentNode.appendChild(mask);
+        mask.appendChild(bg);
+        mask.appendChild(rect);
+        this._path.setAttribute('mask', 'url(#' + mask.id + ')');
+    },
+
     _offsetPathEnd: function () {
         var origPoints = this._originalPoints,
             pointsLen = origPoints.length,
@@ -60,25 +79,25 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
             halfMarkerRef = {};
 
         if (typeof byZoom[zoom] !== 'undefined') {
-                halfMarkerRef.x = byZoom[zoom].marker.refX / 2;
-                halfMarkerRef.y = byZoom[zoom].marker.refY / 2;
+            halfMarkerRef.x = byZoom[zoom].marker.refX / 2;
+            halfMarkerRef.y = byZoom[zoom].marker.refY / 2;
 
-                offsetVector = {
-                    x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
-                    y: origPoints[pointsLen - 1].y - origPoints[pointsLen - 2].y
-                }
-                offsetPercents = {
-                    x: Math.abs(halfMarkerRef.x / offsetVector.x),
-                    y: Math.abs(halfMarkerRef.y / offsetVector.y)
-                }
-                
-                offsetTo = {
-                    x: offsetVector.x * offsetPercents.x,
-                    y: offsetVector.y * offsetPercents.y
-                }
+            offsetVector = {
+                x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
+                y: origPoints[pointsLen - 1].y - origPoints[pointsLen - 2].y
+            }
+            offsetPercents = {
+                x: Math.abs((halfMarkerRef.y * 100) / offsetVector.x), // x % of vector.x
+                y: Math.abs((halfMarkerRef.y * 100) / offsetVector.y)  // x % of vector.x
+            }
 
-                origPoints[pointsLen - 1].x -= offsetTo.x;
-                origPoints[pointsLen - 1].y -= offsetTo.y;                    
+            offsetTo = {
+                x: offsetVector.x / (100 / offsetPercents.x), // marker refX less than vector x times
+                y: offsetVector.y / (100 / offsetPercents.y)  // marker refY less than vector y times
+            }
+
+            origPoints[pointsLen - 1].x -= offsetTo.x;
+            origPoints[pointsLen - 1].y -= offsetTo.y;                    
         };
     },
 
