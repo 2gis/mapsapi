@@ -1,5 +1,5 @@
 L.DG.Entrance.EventHandler = L.Handler.extend({
-    
+
     _map: null,
     _entrance: null,
 
@@ -27,14 +27,14 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
             (e.layer instanceof L.DG.Entrance && e.layer !== this._entrance)) {
 
             this._entrance.removeFrom(this._map);
-        
+
         }
     },
 
     remove: function () {
         this._map.off({
             'zoomend': this._showOrHideEntrance,
-            'layeradd': this._removeEntrance      
+            'layeradd': this._removeEntrance
         }, this);
     }
 

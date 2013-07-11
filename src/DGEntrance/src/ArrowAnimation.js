@@ -1,7 +1,3 @@
-L.Path.mergeOptions({
-    animation: false
-});
-
 L.Path.include({
 
     onAdd: function (map) {
@@ -61,9 +57,9 @@ L.Path.include({
 
     _addAnimations: function () {
         this._updatePath();
-        
+
         var animation = this.options.animation;
-        if (animation && this._parts) {
+        if (animation && this._parts.length > 0) {
             for (var i = 0, len = animation.length; i < len; i++) {
                 this._addAnimation(animation[i], this._parts[0]);
             }
