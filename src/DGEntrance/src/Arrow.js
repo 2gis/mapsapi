@@ -46,37 +46,35 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
 
     _updatePath: function () {
         L.Polyline.prototype._updatePath.call(this);
-        this._offsetPathEnd();
+        this._offsetLastPathPoint();
     },
 
-    _offsetPathEnd: function () {
+    _offsetLastPathPoint: function () {
         var origPoints = this._originalPoints,
             pointsLen = origPoints.length,
             byZoom = this.options.byZoom,
             zoom = this._map.getZoom(),
             offsetVector,
             offsetPercents,
-            offsetTo,
-            halfMarkerRef = {};
+            offsetTo;
 
         if (typeof byZoom[zoom] !== 'undefined') {
-            halfMarkerRef.x = byZoom[zoom].marker.refX / 2;
-            halfMarkerRef.y = byZoom[zoom].marker.refY / 2;
-
             offsetVector = {
                 x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
                 y: origPoints[pointsLen - 1].y - origPoints[pointsLen - 2].y
             }
-            offsetPercents = {
-                x: Math.abs((halfMarkerRef.y * 100) / offsetVector.x), // x % of vector.x
-                y: Math.abs((halfMarkerRef.y * 100) / offsetVector.y)  // x % of vector.x
+
+            offsetPercents = { // lastPointOffset = N % of offsetVector
+                x: Math.abs((byZoom[zoom].lastPointOffset * 100) / offsetVector.x),
+                y: Math.abs((byZoom[zoom].lastPointOffset * 100) / offsetVector.y) 
             }
 
-            offsetTo = {
-                x: offsetVector.x / (100 / offsetPercents.x), // marker refX less than vector x times
-                y: offsetVector.y / (100 / offsetPercents.y)  // marker refY less than vector y times
+            offsetTo = { // lastPointOffset less than offsetVector N times
+                x: parseInt(offsetVector.x / (100 / offsetPercents.x)),
+                y: parseInt(offsetVector.y / (100 / offsetPercents.y))
             }
 
+            // move last point back by offsetVector direction
             origPoints[pointsLen - 1].x -= offsetTo.x;
             origPoints[pointsLen - 1].y -= offsetTo.y;                    
         };
