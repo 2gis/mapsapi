@@ -41,16 +41,44 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
 
     _updatePath: function () {
         L.Polyline.prototype._updatePath.call(this);
+        this._offsetPath();
+    },
 
-        /*if (typeof this.options.byZoom[this._map.getZoom()] !== 'undefined') {
-            var offsetX = parseInt(this.options.byZoom[this._map.getZoom()].marker.refX / 2);
-            var offsetY = parseInt(this.options.byZoom[this._map.getZoom()].marker.refY / 2);
+    _offsetPath: function () {
+        var origPoints = this._originalPoints,
+            byZoom = this.options.byZoom,
+            zoom = this._map.getZoom(),
+            offsetVector,
+            offsetVectorInPercents,
+            offsetTo;
 
-            for (var i = 0; i < this._originalPoints.length; i++) {
-                this._originalPoints[i].x += offsetX;
-                this._originalPoints[i].y += offsetY;
-            };            
-        };*/
+        if (typeof byZoom[zoom] !== 'undefined') {
+            var offsetX = byZoom[zoom].marker.refX / 2;
+            var offsetY = byZoom[zoom].marker.refY / 2;
+
+            for (var i = 1; i < origPoints.length; i++) {
+                offsetVector = {
+                    x: origPoints[i].x - origPoints[i-1].x,
+                    y: origPoints[i].y - origPoints[i-1].y
+                }
+                offsetVectorInPercents = {
+                    x: Math.abs(offsetX / offsetVector.x),
+                    y: Math.abs(offsetY / offsetVector.y)
+                }
+                
+                offsetTo = {
+                    x: offsetVector.x * offsetVectorInPercents.x,
+                    y: offsetVector.y * offsetVectorInPercents.y
+                }
+
+                origPoints[i].x -= offsetTo.x;
+                origPoints[i].y -= offsetTo.y;
+                if (i === 1) {
+                    origPoints[0].x -= offsetTo.x;
+                    origPoints[0].y -= offsetTo.y;                    
+                };
+            };
+        };
     },
 
     _updateMarker: function() {
