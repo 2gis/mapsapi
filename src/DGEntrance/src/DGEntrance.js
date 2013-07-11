@@ -101,11 +101,12 @@ L.DG.Entrance = L.Class.extend({
                 latlngs.push([components[j].y, components[j].x]);
             }
 
+            // TODO: описать стрелку
             /*this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
                 color: '#fafeff',
                 weight: 10,
-                markerEndD: 'M19,9.001c0-1.137-0.643-2.174-1.658-2.684l-12-6C4.188-0.261,2.792-0.034,1.879,0.88l-1,1    C0.293,2.466,0,3.233,0,4.002s0.293,1.536,0.879,2.121L3,8.243v1.516L0.879,11.88C0.293,12.466,0,13.233,0,14.001 s0.293,1.535,0.879,2.121l1,1c0.913,0.913,2.309,1.141,3.463,0.563l12-6C18.357,11.176,19,10.138,19,9.001L19,9.001z'
+                isStroke: false
             }));*/
             this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
