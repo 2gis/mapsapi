@@ -3,7 +3,8 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            'DGCore/DGCore.js'
+            'DGCore/DGCore.js',
+            '../vendors/polyfills/json2.js'
         ],
         css: {
             all: [

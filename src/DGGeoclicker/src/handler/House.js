@@ -102,8 +102,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             self = this,
             throttledHandler,
             map = this._controller.getMap();
-
-        this._scroller = document.querySelectorAll('.scroller')[0];
+        this._scroller = document.getElementById('scroller');
 
         if (this._scroller) {
             throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
