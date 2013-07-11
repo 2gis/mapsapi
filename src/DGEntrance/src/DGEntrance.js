@@ -52,9 +52,9 @@ L.DG.Entrance = L.Class.extend({
     },
 
     show: function () { // () -> L.DG.Entrance
-        this._fitBounds();
 
         if (!this.isShown() && this._arrows) {
+            this._fitBounds();
             this._arrows.eachLayer(function (arrow) {
                 arrow.setStyle({opacity: 0.9});
                 arrow.runAnimation('animateArrowPathGeom');
