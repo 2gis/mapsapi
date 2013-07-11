@@ -49,25 +49,6 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
         this._offsetPathEnd();
     },
 
-    _clipPath: function () {
-        var mask = this._createElement('mask', {
-            id: this._markerId + '-mask1'
-        });
-        var bg = this._createElement('rect', {
-            x: 0, y: 0, width: 1000, height: 1000,
-            fill: "white"
-        });
-        var rect = this._createElement('rect', {
-            x: 0, y: 0, width: 832, height: 1000,
-            fill: "#6f8497"
-        });        
-
-        this._path.parentNode.appendChild(mask);
-        mask.appendChild(bg);
-        mask.appendChild(rect);
-        this._path.setAttribute('mask', 'url(#' + mask.id + ')');
-    },
-
     _offsetPathEnd: function () {
         var origPoints = this._originalPoints,
             pointsLen = origPoints.length,
