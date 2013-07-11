@@ -46,43 +46,39 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
 
     _updatePath: function () {
         L.Polyline.prototype._updatePath.call(this);
-        this._offsetPath();
+        this._offsetPathEnd();
     },
 
-    _offsetPath: function () {
+    _offsetPathEnd: function () {
         var origPoints = this._originalPoints,
+            pointsLen = origPoints.length,
             byZoom = this.options.byZoom,
             zoom = this._map.getZoom(),
             offsetVector,
-            offsetVectorInPercents,
-            offsetTo;
+            offsetPercents,
+            offsetTo,
+            halfMarkerRef = {};
 
         if (typeof byZoom[zoom] !== 'undefined') {
-            var offsetX = byZoom[zoom].marker.refX / 2;
-            var offsetY = byZoom[zoom].marker.refY / 2;
+                halfMarkerRef.x = byZoom[zoom].marker.refX / 2;
+                halfMarkerRef.y = byZoom[zoom].marker.refY / 2;
 
-            for (var i = 1; i < origPoints.length; i++) {
                 offsetVector = {
-                    x: origPoints[i].x - origPoints[i-1].x,
-                    y: origPoints[i].y - origPoints[i-1].y
+                    x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
+                    y: origPoints[pointsLen - 1].y - origPoints[pointsLen - 2].y
                 }
-                offsetVectorInPercents = {
-                    x: Math.abs(offsetX / offsetVector.x),
-                    y: Math.abs(offsetY / offsetVector.y)
+                offsetPercents = {
+                    x: Math.abs(halfMarkerRef.x / offsetVector.x),
+                    y: Math.abs(halfMarkerRef.y / offsetVector.y)
                 }
                 
                 offsetTo = {
-                    x: offsetVector.x * offsetVectorInPercents.x,
-                    y: offsetVector.y * offsetVectorInPercents.y
+                    x: offsetVector.x * offsetPercents.x,
+                    y: offsetVector.y * offsetPercents.y
                 }
 
-                origPoints[i].x -= offsetTo.x;
-                origPoints[i].y -= offsetTo.y;
-                if (i === 1) {
-                    origPoints[0].x -= offsetTo.x;
-                    origPoints[0].y -= offsetTo.y;                    
-                };
-            };
+                origPoints[pointsLen - 1].x -= offsetTo.x;
+                origPoints[pointsLen - 1].y -= offsetTo.y;                    
         };
     },
 
