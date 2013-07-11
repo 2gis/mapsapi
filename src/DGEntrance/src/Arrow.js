@@ -20,9 +20,11 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
         this._initStyle();
     },
 
+    
+
     _initMarker: function () {
         this._marker = this._createElement('marker', {
-            id: 'arrow-marker',
+            id: 'arrow-marker' + L.Util.stamp(this),
             viewBox: '0 0 23 22',
             refX: '12',
             refY: '11',
@@ -42,7 +44,7 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
         
         this._markerPath.setAttribute('d', 'M20,11 L4,3 3,4 7,8 7,14 3,18 4,19z');
         this._marker.appendChild(this._markerPath);      
-        this._path.setAttribute('marker-end', 'url(#arrow-marker)');
+        this._path.setAttribute('marker-end', 'url(#' + this._marker.id + ')');
 
         // TODO:
         /**
