@@ -18,14 +18,14 @@
         map = new L.Map('map', {
             //center: new L.LatLng(69.349552990994837, 87.75222519148015),
             center: [54.980206086231, 82.898068362003],
-            zoom: 18
+            zoom: 17
         });
 
         balloonHTML = '<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
                 (МФК «Сан Сити»), 13 этаж<br /><br />\n\
                 <input type="button" value="Найти вход" id="popupSearchBtn" />';
         //L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
-        //L.marker([54.97990717742651, 82.89841711521149]).addTo(map).bindPopup(balloonHTML).openPopup();
+        L.marker([54.97990717742651, 82.89841711521149]).addTo(map).bindPopup(balloonHTML).openPopup();
         L.marker([54.97985484383426, 82.89851367473602]).addTo(map).bindPopup(balloonHTML).openPopup();
 
         document.getElementById('popupSearchBtn').onclick = onEntranceBtnClick;

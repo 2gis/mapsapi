@@ -40,14 +40,17 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
     },
 
     _updatePath: function () {
-        var offsetX = parseInt(this.options.byZoom[this._map.getZoom()].marker.refX / 2);
-        var offsetY = parseInt(this.options.byZoom[this._map.getZoom()].marker.refY / 2);
-
         L.Polyline.prototype._updatePath.call(this);
-        for (var i = 0; i < this._originalPoints.length; i++) {
-            this._originalPoints[i].x += offsetX;
-            this._originalPoints[i].y += offsetY;
-        };
+
+        /*if (typeof this.options.byZoom[this._map.getZoom()] !== 'undefined') {
+            var offsetX = parseInt(this.options.byZoom[this._map.getZoom()].marker.refX / 2);
+            var offsetY = parseInt(this.options.byZoom[this._map.getZoom()].marker.refY / 2);
+
+            for (var i = 0; i < this._originalPoints.length; i++) {
+                this._originalPoints[i].x += offsetX;
+                this._originalPoints[i].y += offsetY;
+            };            
+        };*/
     },
 
     _updateMarker: function() {
