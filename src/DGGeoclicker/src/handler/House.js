@@ -107,7 +107,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (this._scroller) {
             throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
             this._addEventHandler("DgBaronMouseWheel", this._scroller, 'mousewheel', throttledHandler);
-            scrollerBar = this._scroller.querySelectorAll('.scroller__bar')[0];
+            scrollerBar = document.getElementById('scroller__bar');
         }
 
         if (scrollerBar) {
