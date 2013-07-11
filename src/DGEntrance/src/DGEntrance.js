@@ -101,7 +101,7 @@ L.DG.Entrance = L.Class.extend({
                 latlngs.push([components[j].y, components[j].x]);
             }
 
-            // TODO: описать стрелку
+            // stroke
             this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
                 color: '#fff',
@@ -156,6 +156,8 @@ L.DG.Entrance = L.Class.extend({
                     }
                 }
             }));
+
+            // basis
             this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
                 clickable: false,
                 color: '#6f8497',
