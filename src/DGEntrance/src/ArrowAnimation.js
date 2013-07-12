@@ -21,23 +21,28 @@ L.Path.include({
         map.on({
             'viewreset': this.projectLatlngs,
             'zoomstart': this._removeAnimations,
-            'zoomend':  this._addAnimations
+            'zoomend':  this._addAnimations,
+            'moveend': this._updatePath
         }, this);
     },
 
     runAnimation: function (name) {
-        this.animations[name].beginElement();
+        if (this.animations[name]) {
+            this.animations[name].beginElement();
+        }
         return this;
     },
 
     stopAnimation: function (name) {
-        this.animations[name].endElement();
+        if (this.animations[name]) {
+            this.animations[name].endElement();
+        }
         return this;
     },
 
     onRemove: function (map) {
         map._pathRoot.removeChild(this._container);
-        // Need to fire remove event before we set _map to null as the event hooks might need the obje_updatePathct
+        // Need to fire remove event before we set _map to null as the event hooks might need the object
         this.fire('remove');
         this._map = null;
         this.animations = {};
@@ -51,17 +56,16 @@ L.Path.include({
         map.off({
             'viewreset': this.projectLatlngs,
             'zoomstart': this._removeAnimations,
-            'zoomend': this._addAnimations
+            'zoomend': this._addAnimations,
+            'moveend': this._updatePath
         }, this);
     },
 
     _addAnimations: function () {
-        this._updatePath();
-
         var animation = this.options.animation;
-        if (animation && this._parts.length > 0) {
+        if (animation && this._originalPoints.length > 0) {
             for (var i = 0, len = animation.length; i < len; i++) {
-                this._addAnimation(animation[i], this._parts[0]);
+                this._addAnimation(animation[i], this._originalPoints);
             }
         }
     },
