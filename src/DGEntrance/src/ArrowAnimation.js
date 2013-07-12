@@ -10,6 +10,7 @@ L.Path.include({
         }
 
         this.projectLatlngs();
+        this._updatePath();
         this._addAnimations();
 
         if (this._container) {

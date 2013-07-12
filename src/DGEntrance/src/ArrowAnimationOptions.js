@@ -68,20 +68,19 @@ L.DG.Entrance.Arrow.include({
     },
 
     _getShakeAnimationValues: function(points) { // (Array) -> String
-        var d = '',
+        var d = '', px0, py0,
             // config coefficient values for arrow animation
             relDiff = [1, 0.4, 1, 0.84, 1, 0.94, 1],
-            relDiffSum = 1 + 0.4 + 1 + 0.84 + 1 + 0.94 + 1,
             dx = points[1].x - points[0].x,
             dy = points[1].y - points[0].y,
             l = ' l ' + dx + ' ' + dy;
 
-        points[0].x -= dx;
-        points[0].y -= dy;
-        
-        d = 'M ' + points[0].x + ' ' + points[0].y + l + '; ';
+        px0 = points[0].x - dx;
+        py0 = points[0].y - dy;
+
+        d = 'M ' + px0 + ' ' + py0 + l + '; ';
         for (var i = 0; i < relDiff.length; i++) {
-            d += ' M ' + (points[0].x + dx*relDiff[i]) + ' ' + (points[0].y + dy*relDiff[i]) + l + ';';
+            d += ' M ' + (px0 + dx*relDiff[i]) + ' ' + (py0 + dy*relDiff[i]) + l + ';';
         }
 
         return d;
