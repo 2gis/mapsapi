@@ -38,7 +38,6 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            '../vendors/jmt/jmt.js',
             'DGCustomization/DGCustomization.js'
         ],
         css: {
@@ -113,7 +112,14 @@ var deps = {
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js'
         ],
-        deps: ['DGJsonp', 'DGCore']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate']
+    },
+
+    DGTemplate: {
+        desc: '2GIS Template',
+        src: [
+            'DGTemplate/src/DGTemplate.js'
+        ]
     }
 };
 

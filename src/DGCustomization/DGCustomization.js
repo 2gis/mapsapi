@@ -61,8 +61,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
     L.Popup.prototype._initHeaderFooter = function() {
-        this._content = L.DG.Utils.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
-        this._content += L.DG.Utils.template(tmpl.footer, {footerContent: this._footerContent});
+        this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
+        this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
     };
 
     L.Popup.prototype.clearHeaderFooter = function() {
@@ -71,12 +71,12 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
     L.Popup.prototype._initPopupContainer = function () {
-        this._content = L.DG.Utils.template(tmpl.container, {content: this._content});
+        this._content = L.Util.template(tmpl.container, {content: this._content});
         this._shouldInitPopupContainer = false;
     };
 
     L.Popup.prototype._initBaronScroller = function () {
-        this._content = L.DG.Utils.template(tmpl.baron, {content: this._originalContent});
+        this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
         this._shouldInitBaronScroller = false;
     };
 
