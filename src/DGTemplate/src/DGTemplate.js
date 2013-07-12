@@ -26,7 +26,6 @@ L.DG.Template = (function(){
           .split("%>").join("p.push('")
           .split("\r").join("\\'")
       + "');}return p.join('');");
-"уверено"
     // Provide some basic currying to the user
     return data ? fn( data ) : fn;
   };
