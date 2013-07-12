@@ -33,7 +33,7 @@
         });
 
         L.circle([54.97990717742651, 82.89841711521149], 1).addTo(map);
-        var simpleVector = ["LINESTRING(82.89851367473602 54.97985484383426, 82.89841711521149 54.97990717742651)"];
+        var simpleVector = ["LINESTRING(82.89944708347319 54.979793274814845, 82.89904475212097 54.980011844406384)"];
         
         L.circle([54.97967013649277, 82.89879262447357], 1).addTo(map);
         L.circle([54.979571625563196, 82.8989589214325], 1).addTo(map);
@@ -52,12 +52,16 @@
             "is_primary":false,
             "name":"ЗАГС",
             "points":["POINT(82.921, 54.982)"],
-            "vectors": fourEdgeVector
+            "vectors": simpleVector
         });
 
         function onEntranceBtnClick () {
             entrance.addTo(map).show();
         }
+
+        map.on('click', function (e) {
+            console.log(e.latlng);
+        })
     });
 
     </script>
