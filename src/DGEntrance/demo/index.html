@@ -9,58 +9,67 @@
 <body>
 
   <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
-  <input type="button" value="Найти вход (карточка)" id="cardSearchBtn" />
 
+  <input class="btn" type="button" value="Найти вход в 2GIS" id="dgEntrance" />
+  <input class="btn" type="button" value="Найти вход в Спарк-Авто" id="sparkAutoEntrance" />
+  <input class="btn" type="button" value="Найти вход в ГУМ" id="gumEntrance" />
+  <input class="btn" type="button" value="Найти вход в стройку" id="buildingEntrance" />
+  
   <script type="text/javascript">
+    var map,
+        balloonHTML,
+        btns = document.getElementsByClassName('btn');
 
     L.onLoad(function () {
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].onclick = addEntrance;
+        };
 
         map = new L.Map('map', {
-            center: [54.980206086231, 82.898068362003],
+            center: new L.LatLng(54.980206086231, 82.898068362003),
             zoom: 18
         });
-
-        balloonHTML = '<p>Компания «ДубльГИС»</p>\n\
-                <input type="button" value="Найти вход" id="popupSearchBtn" />';
-
+        balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
+            <img src="2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
+            <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
+            (МФК «Сан Сити»), 13 этаж';
         L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
-        document.getElementById('popupSearchBtn').onclick = onEntranceBtnClick;
-        document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
-        map.on('popupopen', function() {
-            document.getElementById('popupSearchBtn').onclick = onEntranceBtnClick;
-            document.getElementById('cardSearchBtn').onclick = onEntranceBtnClick;
-        });
+        var entrances = {
 
-        L.circle([54.97990717742651, 82.89841711521149], 1).addTo(map);
-        var simpleVector = ["LINESTRING(82.89944708347319 54.979793274814845, 82.89904475212097 54.980011844406384)"];
-        
-        L.circle([54.97967013649277, 82.89879262447357], 1).addTo(map);
-        L.circle([54.979571625563196, 82.8989589214325], 1).addTo(map);
-        var twoSimpleVectors = [
-            "LINESTRING(82.89871215820312 54.9797163134078, 82.89879262447357 54.97967013649277)",
-            "LINESTRING(82.89902329444884 54.97953468390229, 82.8989589214325 54.979571625563196)"
-        ];
-        
-        L.circle([54.98132631530412, 82.89934515953063], 1).addTo(map);
-        var fourEdgeVector = ["LINESTRING(82.89877653121948 54.98127706190138, 82.8991949558258 54.98149870173785, 82.89942026138306 54.98137249031431, 82.89934515953063 54.98132631530412)"];
-        
-        L.circle([54.98139403863423, 82.8970867395401], 1).addTo(map);
-        var threeEdgeVector = ["LINESTRING(82.8971403837204 54.98125551351868, 82.8969955444336 54.981338628645375, 82.8970867395401 54.98139403863423)"];
+            'dgEntrance': new L.DG.Entrance({
+                "vectors": ["LINESTRING(82.89850294589996 54.97985176538553, 82.89841711521149 54.97989794209166)"]
+            }),
 
-        var entrance = new L.DG.Entrance({
-            "is_primary":false,
-            "name":"ЗАГС",
-            "points":["POINT(82.921, 54.982)"],
-            "vectors": simpleVector
-        });
+            'sparkAutoEntrance': new L.DG.Entrance({
+                "vectors": [
+                    "LINESTRING(82.8987067937851 54.97971323494846, 82.89879262447357 54.979667058029875)",
+                    "LINESTRING(82.89904475212097 54.97952237000778, 82.89896428585052 54.97956854709275)"
+                ]
+            }),
 
-        function onEntranceBtnClick () {
+            'gumEntrance': new L.DG.Entrance({
+                "vectors": [
+                    "LINESTRING(82.8974461555481 54.9816433826377, 82.89768755435944 54.98177574981275, 82.89783239364624 54.9816957138986, 82.89774119853973 54.98164030432612)"
+                ]
+            }),
+
+            'buildingEntrance': new L.DG.Entrance({
+                "vectors": [
+                    "LINESTRING(82.89892673492432 54.98161567782492, 82.89850294589996 54.98136633364934, 82.89860486984253 54.98131400195911)"
+                ]
+            })
+        
+        }
+
+        function addEntrance() {
+            var entrance = entrances[this.id];
+            console.log(entrance);
             entrance.addTo(map).show();
         }
 
-        map.on('click', function (e) {
-            console.log(e.latlng);
+        map.on('click', function(e) {
+            console.log(e.latlng.lng, e.latlng.lat);
         })
     });
 
