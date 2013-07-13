@@ -1,25 +1,26 @@
+// Extends L.DG.Entrance.Arrow with default animation options
 L.DG.Entrance.Arrow.include({
 
     getFadeOutAnimation: function() {
         return  {
-                    id: 'hideArrow',
-                    attributeName: 'stroke-opacity',
-                    values: "1;0",
-                    fill: 'freeze',
-                    dur: '0.2s',
-                    begin: 'indefinite'
-                };
+            id: 'hideArrow',
+            attributeName: 'stroke-opacity',
+            values: "1;0",
+            fill: 'freeze',
+            dur: '0.2s',
+            begin: 'indefinite'
+        };
     },
 
     getFadeInAnimation: function() {
         return  {
-                    id: 'showArrow',
-                    attributeName: 'stroke-opacity',
-                    values: "0;1",
-                    fill: 'freeze',
-                    dur: '0.2s',
-                    begin: 'indefinite'
-                };
+            id: 'showArrow',
+            attributeName: 'stroke-opacity',
+            values: "0;1",
+            fill: 'freeze',
+            dur: '0.2s',
+            begin: 'indefinite'
+        };
     },
 
     getArrowAnimation: function (verticesCount) { // (Number) -> Object

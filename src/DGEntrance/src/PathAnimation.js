@@ -89,24 +89,15 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 //calculate values if attributeName: 'd' was used to animate
                 options.values = options.getValues(points);
             }
-            var animation = this._createElement('animate', options);
-            this._path.appendChild(animation);
-            this.animations[options.id] = animation;
-        },
-
-        _createElement: function (type, options) {
-            var options = options || {},
-                object = {},
-                key;
-
-            object = document.createElementNS(L.Path.SVG_NS, type);
+            var animation = this._createElement('animate');
             for (key in options) {
                 if (Object.prototype.toString.call(options[key]) !== '[object Function]') {
-                    object.setAttribute(key, options[key]);
+                    animation.setAttribute(key, options[key]);
                 }
             }
 
-            return object;
+            this._path.appendChild(animation);
+            this.animations[options.id] = animation;
         },
 
         _removeAnimations: function () {
