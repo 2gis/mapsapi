@@ -11,7 +11,6 @@ L.Path.include({
 
         this.projectLatlngs();
         this._updatePath();
-        this._addAnimations();
 
         if (this._container) {
             this._map._pathRoot.appendChild(this._container);
@@ -23,20 +22,28 @@ L.Path.include({
             'viewreset': this.projectLatlngs,
             'moveend': this._updatePath
         }, this);
-        map.on('moveend', this._updateAnimations, this);
-        map.on('zoomend', this._updateAnimations, this);
+
+        if (L.Path.ANIMATION_AVAILABLE) {
+            this._addAnimations();
+            map.on('moveend', this._updateAnimations, this);
+            map.on('zoomend', this._updateAnimations, this);
+        }
     },
 
     runAnimation: function (name) {
-        if (this.animations[name]) {
-            this.animations[name].beginElement();
-        }
+        if (L.Path.ANIMATION_AVAILABLE) {
+            if (this.animations[name]) {
+                this.animations[name].beginElement();
+            }
+        };
         return this;
     },
 
     stopAnimation: function (name) {
-        if (this.animations[name]) {
-            this.animations[name].endElement();
+        if (L.Path.ANIMATION_AVAILABLE) {
+            if (this.animations[name]) {
+                this.animations[name].endElement();
+            }
         }
         return this;
     },
@@ -58,8 +65,11 @@ L.Path.include({
             'viewreset': this.projectLatlngs,
             'moveend': this._updatePath
         }, this);
-        map.off('moveend', this._updateAnimations, this);
-        map.off('zoomend', this._updateAnimations, this);
+        
+        if (L.Path.ANIMATION_AVAILABLE) {
+            map.off('moveend', this._updateAnimations, this);
+            map.off('zoomend', this._updateAnimations, this);
+        }
     },
 
     _updateAnimations: function () {
@@ -112,3 +122,6 @@ L.Path.include({
         this.animations = {};
     }
 });
+
+L.Path.ANIMATION_AVAILABLE = Object.prototype.toString.call(
+    document.createElementNS(L.Path.SVG_NS, 'animate').beginElement) === '[object Function]';
