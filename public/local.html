@@ -1,35 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Map Base Demo</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset='utf-8'>
+  <title>DGEntrance demo</title>
+  <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug"></script>
 
-    <script src="/2.0/loader.js?pkg=full&mode=debug"></script>
 </head>
 <body>
 
-<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+  <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
-<script type="text/javascript">
-    var map;
+  <input class="btn" type="button" value="Найти вход в 2GIS" id="dgEntrance" />
+  <input class="btn" type="button" value="Найти вход в Спарк-Авто" id="sparkAutoEntrance" />
+  <input class="btn" type="button" value="Найти вход в ГУМ" id="gumEntrance" />
+  <input class="btn" type="button" value="Найти вход в стройку" id="buildingEntrance" />
+  
+  <script type="text/javascript">
+    var map,
+        balloonHTML,
+        btns = [
+            document.getElementById('dgEntrance'),
+            document.getElementById('sparkAutoEntrance'),
+            document.getElementById('gumEntrance'),
+            document.getElementById('buildingEntrance')
+        ];
+
     L.onLoad(function () {
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].onclick = addEntrance;
+        };
+
         map = new L.Map('map', {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
-            zoom: 13
+            center: [54.980206086231, 82.898068362003],
+            zoom: 18
         });
+        balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
+            <img src="2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
+            <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
+            (МФК «Сан Сити»), 13 этаж';
+        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
-        L.circle([54.980206086231, 82.898068362003], 500, {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5
-        }).addTo(map).bindPopup("Hello, NSK!");
+        var entrances = {
 
-        L.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
+            'dgEntrance': new L.DG.Entrance({
+                "vectors": ["LINESTRING(82.89850294589996 54.97985176538553, 82.89841711521149 54.97989794209166)"]
+            }),
 
+            'sparkAutoEntrance': new L.DG.Entrance({
+                "vectors": [
+                    "LINESTRING(82.8987067937851 54.97971323494846, 82.89879262447357 54.979667058029875)",
+                    "LINESTRING(82.89904475212097 54.97952237000778, 82.89896428585052 54.97956854709275)"
+                ]
+            }),
+
+            'gumEntrance': new L.DG.Entrance({
+                "vectors": [
+                    "LINESTRING(82.8974461555481 54.9816433826377, 82.89768755435944 54.98177574981275, 82.89783239364624 54.9816957138986, 82.89774119853973 54.98164030432612)"
+                ]
+            }),
+
+            'buildingEntrance': new L.DG.Entrance({
+                "vectors": [
+                    "LINESTRING(82.89892673492432 54.98161567782492, 82.89850294589996 54.98136633364934, 82.89860486984253 54.98131400195911)"
+                ]
+            })
+        
+        }
+
+        function addEntrance() {
+            var entrance = entrances[this.id];
+            entrance.addTo(map).show();
+        }
     });
+    /**
+     * TODO:
+     * - разобраться с багом анимации сложной стрелки в Опере
+     * - дать посмотреть Онлайну и выгасить fadeIn/fadeOut, подозреваю что он не нужен
+     * - попробовать включить обводку для VML
+     * - сформировать pull request в Leaflet
+    */
 
-</script>
+    </script>
 
 </body>
 </html>

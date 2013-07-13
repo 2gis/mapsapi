@@ -18,7 +18,12 @@
   <script type="text/javascript">
     var map,
         balloonHTML,
-        btns = document.getElementsByClassName('btn');
+        btns = [
+            document.getElementById('dgEntrance'),
+            document.getElementById('sparkAutoEntrance'),
+            document.getElementById('gumEntrance'),
+            document.getElementById('buildingEntrance')
+        ];
 
     L.onLoad(function () {
         for (var i = 0; i < btns.length; i++) {
