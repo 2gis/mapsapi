@@ -11,8 +11,19 @@ if (L.Browser.vml) {
         },
 
         _initEndArrow: function () {
-            var stroke = this._createElement('stroke');
-            stroke.endarrow = 'classic';
+            var byZoom = this.options.byZoom,
+                zoom = this._map.getZoom(),
+                stroke = this._createElement('stroke');
+
+            if (typeof byZoom[zoom] !== 'undefined' &&
+                typeof byZoom[zoom].vmlEndArrow !== 'undefined') {
+                
+                stroke.endarrow = byZoom[zoom].vmlEndArrow;
+            }
+            else {
+                stroke.endarrow = 'classic';
+            }
+            
             this._container.appendChild(stroke);
         }
 
