@@ -28,7 +28,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 'moveend': this._updatePath
             }, this);
 
-            this.animations = {};
             this._addAnimations();
             map.on('moveend', this._updateAnimations, this);
             map.on('zoomend', this._updateAnimations, this);
@@ -65,7 +64,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 'moveend': this._updatePath
             }, this);
 
-            this.animations = {};
+            this._removeAnimations();
             map.off('moveend', this._updateAnimations, this);
             map.off('zoomend', this._updateAnimations, this);
         },
@@ -76,6 +75,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
         },
 
         _addAnimations: function () {
+            this.animations = {};
             var animation = this.options.animation;
             if (animation && this._originalPoints.length > 0) {
                 for (var i = 0, len = animation.length; i < len; i++) {
