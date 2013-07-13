@@ -42,10 +42,14 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
             if (optionsByZoom.hasOwnProperty(i)) {
                 marker = this._createElement('marker', optionsByZoom[i].marker);
                 marker.id = id + '-' + i;
+                marker.setAttribute('orient', 'auto');
+                marker.setAttribute('markerUnits', 'userSpaceOnUse');
+                
                 markerPath = this._createElement('path', optionsByZoom[i].markerPath);
+                markerPath.setAttribute('fill', this.options.color);
+
                 marker.appendChild(markerPath);
                 this._path.parentNode.appendChild(marker);
-
                 this._markersPath.push(markerPath);
             }
         }
