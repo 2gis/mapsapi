@@ -57,7 +57,9 @@ L.DG.Entrance = L.Class.extend({
             this._fitBounds();
             this._arrows.eachLayer(function (arrow) {
                 arrow.setStyle({opacity: 1});
-                arrow.runAnimation('animateArrowPathGeom');               
+                if (L.Path.ANIMATION_AVAILABLE) {
+                    arrow.runAnimation('animateArrowPathGeom');
+                };
             });
             this._isShown = true;
             this._map.fire('dgEntranceShow');
