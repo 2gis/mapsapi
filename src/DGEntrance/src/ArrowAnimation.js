@@ -21,10 +21,10 @@ L.Path.include({
 
         map.on({
             'viewreset': this.projectLatlngs,
-            'zoomstart': this._removeAnimations,
-            'zoomend':  this._addAnimations,
             'moveend': this._updatePath
         }, this);
+        map.on('moveend', this._updateAnimations, this);
+        map.on('zoomend', this._updateAnimations, this);
     },
 
     runAnimation: function (name) {
@@ -56,10 +56,15 @@ L.Path.include({
 
         map.off({
             'viewreset': this.projectLatlngs,
-            'zoomstart': this._removeAnimations,
-            'zoomend': this._addAnimations,
             'moveend': this._updatePath
         }, this);
+        map.off('moveend', this._updateAnimations, this);
+        map.off('zoomend', this._updateAnimations, this);
+    },
+
+    _updateAnimations: function () {
+        this._removeAnimations();
+        this._addAnimations();
     },
 
     _addAnimations: function () {

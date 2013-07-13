@@ -56,8 +56,8 @@ L.DG.Entrance = L.Class.extend({
         if (!this.isShown() && this._arrows) {
             this._fitBounds();
             this._arrows.eachLayer(function (arrow) {
-                arrow.setStyle({opacity: 0.9});
-                arrow.runAnimation('animateArrowPathGeom');
+                arrow.setStyle({opacity: 1});
+                arrow.runAnimation('animateArrowPathGeom');               
             });
             this._isShown = true;
             this._map.fire('dgEntranceShow');
@@ -230,7 +230,7 @@ L.DG.Entrance = L.Class.extend({
         }
 
         if (!this._map.getBounds().intersects(this.getBounds())) {
-            this._map.panTo(this.getBounds().getCenter());
+            this._map.panTo(this.getBounds().getCenter(), {animate: false});
         }
     }
 });

@@ -64,14 +64,17 @@
 
         function addEntrance() {
             var entrance = entrances[this.id];
-            console.log(entrance);
             entrance.addTo(map).show();
         }
-
-        map.on('click', function(e) {
-            console.log(e.latlng.lng, e.latlng.lat);
-        })
     });
+    /**
+     * TODO:
+     * - при setStyle стрелки должен меняться стиль наконечника
+     * - при изменени центра стрелка иногда куда-то улетает в дебри. Fixed!
+     * - при изменении центра не всегда отрабатывает анимация. Fixed!
+     * - сформировать pull request в Leaflet
+     * - пофиксить в IE
+    */
 
     </script>
 
