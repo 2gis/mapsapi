@@ -119,7 +119,7 @@ var deps = {
             'DGEntrance/src/Arrow.js',
             'DGEntrance/src/ArrowSvg.js',
             'DGEntrance/src/ArrowVml.js',
-            'DGEntrance/src/ArrowAnimationOptions.js',
+            'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
         deps: ['DGCore', 'DGWkt']
