@@ -1,5 +1,7 @@
 L.DG.Entrance.Arrow = L.Polyline.extend({
 
+    _markersPath: [],
+
     initialize: function (latlngs, options) { // (Array, Object)
         var options = options || {},
             animation = this.getArrowAnimation(latlngs.length);
@@ -43,6 +45,8 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
                 markerPath = this._createElement('path', optionsByZoom[i].markerPath);
                 marker.appendChild(markerPath);
                 this._path.parentNode.appendChild(marker);
+
+                this._markersPath.push(markerPath);
             }
         }
         this._updateMarker();
@@ -86,7 +90,15 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
         } else {
             this._path.setAttribute('marker-end', 'url(#)');
         }
-    }
+    },
+
+    _updateStyle: function () {
+        L.Polyline.prototype._updateStyle.call(this);
+
+        for (var i = 0; i < this._markersPath.length; i++) {
+            this._markersPath[i].setAttribute('fill-opacity', this.options.opacity);
+        };
+    },    
 });
 
 L.DG.Entrance.arrow = function (latlngs, options) {
