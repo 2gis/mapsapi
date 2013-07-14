@@ -38,9 +38,9 @@ if (L.Browser.svg) {
             for (i in optionsByZoom) {
                 if (optionsByZoom.hasOwnProperty(i)) {
                     marker = this._createElement('marker');
-                    for (key in optionsByZoom[i].marker) {
+                    for (var key in optionsByZoom[i].marker) {
                         marker.setAttribute(key, optionsByZoom[i].marker[key]);
-                    };
+                    }
                     marker.id = id + '-' + i;
                     marker.setAttribute('orient', 'auto');
                     marker.setAttribute('markerUnits', 'userSpaceOnUse');
@@ -52,8 +52,8 @@ if (L.Browser.svg) {
                     marker.appendChild(markerPath);
                     this._path.parentNode.appendChild(marker);
                     this._markersPath.push(markerPath);
-                };
-            };
+                }
+            }
             this._updateMarker();
         },
 
@@ -71,8 +71,8 @@ if (L.Browser.svg) {
 
             for (var i = 0; i < this._markersPath.length; i++) {
                 this._markersPath[i].setAttribute('fill-opacity', this.options.opacity);
-            };
+            }
         }
     });
 
-};
+}

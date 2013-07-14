@@ -100,4 +100,4 @@ if (L.Browser.svg) {
             else return "0.5s";
         }
     });
-};
+}

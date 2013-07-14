@@ -90,7 +90,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 options.values = options.getValues(points);
             }
             var animation = this._createElement('animate');
-            for (key in options) {
+            for (var key in options) {
                 if (Object.prototype.toString.call(options[key]) !== '[object Function]') {
                     animation.setAttribute(key, options[key]);
                 }
@@ -111,4 +111,4 @@ if (L.Path.ANIMATION_AVAILABLE) {
             this.animations = {};
         }
     });
-};
+}

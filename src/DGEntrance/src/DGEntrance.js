@@ -59,7 +59,7 @@ L.DG.Entrance = L.Class.extend({
                 arrow.setStyle({opacity: 1});
                 if (L.Path.ANIMATION_AVAILABLE) {
                     arrow.runAnimation('animateArrowPathGeom');
-                };
+                }
             });
             this._isShown = true;
             this._map.fire('dgEntranceShow');
@@ -154,7 +154,7 @@ L.DG.Entrance = L.Class.extend({
                         }
                     }
                 }));
-            };
+            }
 
             // basis
             this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {

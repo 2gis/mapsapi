@@ -37,7 +37,7 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
             // move last point back by offsetVector direction
             origPoints[pointsLen - 1].x -= offsetTo.x;
             origPoints[pointsLen - 1].y -= offsetTo.y;
-        };
+        }
     }
 });
 
