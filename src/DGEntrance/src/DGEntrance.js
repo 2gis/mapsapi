@@ -105,59 +105,84 @@ L.DG.Entrance = L.Class.extend({
 
             // stroke (not for IE with SVG, because it looks ugly there)
             if (!L.Browser.ie || L.Browser.vml) {
-                this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
-                    clickable: false,
-                    color: '#fff',
-                    weight: 10,
-                    byZoom: {
-                        16: {
-                            marker: {
-                                viewBox: '0 0 19 18',
-                                refX: 12,
-                                refY: 9,
-                                markerHeight: 18,
-                                markerWidth: 19
-                            },
-                            markerPath: {
-                                d: 'M19,9.001c0-1.137-0.643-2.174-1.658-2.684l-12-6C4.188-0.261,2.792-0.034,1.879,0.88l-1,1 C0.293,2.466,0,3.233,0,4.002s0.293,1.536,0.879,2.121L3,8.243v1.516L0.879,11.88C0.293,12.466,0,13.233,0,14.001 s0.293,1.535,0.879,2.121l1,1c0.913,0.913,2.309,1.141,3.463,0.563l12-6C18.357,11.176,19,10.138,19,9.001L19,9.001z'
-                            },
-                            lastPointOffset: 0,
-                            vmlEndArrow: 'none'
-                        },
-                        17: {
-                            marker: {
-                                viewBox: '2.5 19 21 20',
-                                refX: 12,
-                                refY: 29,
-                                markerHeight: 20,
-                                markerWidth: 21
-                            },
-                            markerPath: {
-                                d: 'M23.5,29c0-1.137-0.643-2.174-1.658-2.683l-14-7c-1.154-0.578-2.55-0.352-3.463,0.562l-1,1 C2.793,21.465,2.5,22.233,2.5,23.001c0,0.769,0.293,1.536,0.879,2.121l3.121,3.12v1.516l-3.121,3.121 C2.793,33.465,2.5,34.232,2.5,35s0.293,1.535,0.879,2.121l1,1c0.913,0.913,2.309,1.141,3.463,0.563l14-7 C22.857,31.175,23.5,30.137,23.5,29L23.5,29z'
-                            },
-                            lastPointOffset: !L.Browser.ie ? 5 : 3,
-                            vmlEndArrow: 'none'
-                        },
-                        18: {
-                            marker: {
-                                viewBox: '0 0 23 22',
-                                refX: 12,
-                                refY: 11,
-                                markerHeight: 22,
-                                markerWidth: 23
-                            },
-                            markerPath: {
-                                d: 'M23,11.001c0-1.139-0.643-2.174-1.658-2.686l-16-7.998C4.188-0.261,2.792-0.034,1.879,0.88 l-1,1C0.293,2.466,0,3.233,0,4.002s0.293,1.536,0.879,2.12L4,9.244v3.515L0.879,15.88C0.293,16.466,0,17.231,0,18.001 c0,0.768,0.293,1.534,0.879,2.12l1,1c0.913,0.913,2.309,1.142,3.463,0.563l16-8C22.357,13.176,23,12.14,23,11.001L23,11.001z'
-                            },
-                            lastPointOffset: !L.Browser.ie ? 5 : 3,
-                            vmlEndArrow: 'none'
-                        }
-                    }
-                }));
+                this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
             }
 
             // basis
-            this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, {
+            this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, this._getArrowOptions()));
+        }
+
+        return this._arrows;
+    },
+
+    _removeArrows: function () {
+        this._map.removeLayer(this._arrows.clearLayers());
+    },
+
+    _fitBounds: function () {
+        if (this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM) {
+            this._map.setView(this.getBounds().getCenter(), this._map.dgProjectDetector.getProject().max_zoomlevel, { animate: false });
+        }
+
+        if (!this._map.getBounds().intersects(this.getBounds())) {
+            this._map.panTo(this.getBounds().getCenter(), {animate: false});
+        }
+    },
+
+    _getArrowStrokeOptions: function () {
+        return {
+                clickable: false,
+                color: '#fff',
+                weight: 10,
+                byZoom: {
+                    16: {
+                        marker: {
+                            viewBox: '0 0 19 18',
+                            refX: 12,
+                            refY: 9,
+                            markerHeight: 18,
+                            markerWidth: 19
+                        },
+                        markerPath: {
+                            d: 'M19,9.001c0-1.137-0.643-2.174-1.658-2.684l-12-6C4.188-0.261,2.792-0.034,1.879,0.88l-1,1 C0.293,2.466,0,3.233,0,4.002s0.293,1.536,0.879,2.121L3,8.243v1.516L0.879,11.88C0.293,12.466,0,13.233,0,14.001 s0.293,1.535,0.879,2.121l1,1c0.913,0.913,2.309,1.141,3.463,0.563l12-6C18.357,11.176,19,10.138,19,9.001L19,9.001z'
+                        },
+                        lastPointOffset: 0,
+                        vmlEndArrow: 'none'
+                    },
+                    17: {
+                        marker: {
+                            viewBox: '2.5 19 21 20',
+                            refX: 12,
+                            refY: 29,
+                            markerHeight: 20,
+                            markerWidth: 21
+                        },
+                        markerPath: {
+                            d: 'M23.5,29c0-1.137-0.643-2.174-1.658-2.683l-14-7c-1.154-0.578-2.55-0.352-3.463,0.562l-1,1 C2.793,21.465,2.5,22.233,2.5,23.001c0,0.769,0.293,1.536,0.879,2.121l3.121,3.12v1.516l-3.121,3.121 C2.793,33.465,2.5,34.232,2.5,35s0.293,1.535,0.879,2.121l1,1c0.913,0.913,2.309,1.141,3.463,0.563l14-7 C22.857,31.175,23.5,30.137,23.5,29L23.5,29z'
+                        },
+                        lastPointOffset: !L.Browser.ie ? 5 : 3,
+                        vmlEndArrow: 'none'
+                    },
+                    18: {
+                        marker: {
+                            viewBox: '0 0 23 22',
+                            refX: 12,
+                            refY: 11,
+                            markerHeight: 22,
+                            markerWidth: 23
+                        },
+                        markerPath: {
+                            d: 'M23,11.001c0-1.139-0.643-2.174-1.658-2.686l-16-7.998C4.188-0.261,2.792-0.034,1.879,0.88 l-1,1C0.293,2.466,0,3.233,0,4.002s0.293,1.536,0.879,2.12L4,9.244v3.515L0.879,15.88C0.293,16.466,0,17.231,0,18.001 c0,0.768,0.293,1.534,0.879,2.12l1,1c0.913,0.913,2.309,1.142,3.463,0.563l16-8C22.357,13.176,23,12.14,23,11.001L23,11.001z'
+                        },
+                        lastPointOffset: !L.Browser.ie ? 5 : 3,
+                        vmlEndArrow: 'none'
+                    }
+                }
+            };
+    },
+
+    _getArrowOptions: function () {
+        return {
                 clickable: false,
                 color: '#6f8497',
                 weight: 4,
@@ -202,23 +227,6 @@ L.DG.Entrance = L.Class.extend({
                         lastPointOffset: !L.Browser.ie ? 5 : 0
                     }
                 }
-            }));
-        }
-
-        return this._arrows;
-    },
-
-    _removeArrows: function () {
-        this._map.removeLayer(this._arrows.clearLayers());
-    },
-
-    _fitBounds: function () {
-        if (this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM) {
-            this._map.setView(this.getBounds().getCenter(), this._map.dgProjectDetector.getProject().max_zoomlevel, { animate: false });
-        }
-
-        if (!this._map.getBounds().intersects(this.getBounds())) {
-            this._map.panTo(this.getBounds().getCenter(), {animate: false});
-        }
+            };
     }
 });

@@ -1,4 +1,4 @@
-L.Path.ANIMATION_AVAILABLE = 
+L.Path.ANIMATION_AVAILABLE =
     L.Browser.svg &&
     Object.prototype.toString.call(
         document.createElementNS(L.Path.SVG_NS, 'animate').beginElement) === '[object Function]';
@@ -30,7 +30,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             this._addAnimations();
             map.on('moveend', this._updateAnimations, this);
-            map.on('zoomend', this._updateAnimations, this);
         },
 
         runAnimation: function (name) {
@@ -51,7 +50,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
             map._pathRoot.removeChild(this._container);
             // Need to fire remove event before we set _map to null as the event hooks might need the object
             this.fire('remove');
-            this._map = null;        
+            this._map = null;
 
             if (L.Browser.vml) {
                 this._container = null;
@@ -66,7 +65,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             this._removeAnimations();
             map.off('moveend', this._updateAnimations, this);
-            map.off('zoomend', this._updateAnimations, this);
         },
 
         _updateAnimations: function () {
