@@ -1,13 +1,14 @@
 L.DG.Entrance.Arrow = L.Polyline.extend({
 
     initialize: function (latlngs, options) { // (Array, Object)
+        console.log(options);
         L.Polyline.prototype.initialize.call(this, latlngs, options);
     },
 
     projectLatlngs: function () {
         L.Polyline.prototype.projectLatlngs.call(this);
         this._offsetLastPathPoint();
-    },    
+    },
 
     _offsetLastPathPoint: function () {
         var origPoints = this._originalPoints,
