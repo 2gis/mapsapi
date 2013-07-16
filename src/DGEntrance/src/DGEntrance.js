@@ -127,7 +127,7 @@ L.DG.Entrance = L.Class.extend({
             this._map.setView(this.getBounds().getCenter(), this._map.dgProjectDetector.getProject().max_zoomlevel, { animate: false });
         }
 
-        if (!this._map.getBounds().intersects(this.getBounds())) {
+        if (!this._map.getBounds().contains(this.getBounds())) {
             this._map.panTo(this.getBounds().getCenter(), {animate: false});
         }
     },
