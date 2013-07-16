@@ -1,7 +1,6 @@
 L.DG.Entrance.Arrow = L.Polyline.extend({
 
     initialize: function (latlngs, options) { // (Array, Object)
-        console.log(options);
         L.Polyline.prototype.initialize.call(this, latlngs, options);
     },
 

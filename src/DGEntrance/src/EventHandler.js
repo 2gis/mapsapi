@@ -37,5 +37,4 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
             'layeradd': this._removeEntrance
         }, this);
     }
-
 });

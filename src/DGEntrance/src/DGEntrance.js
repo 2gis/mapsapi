@@ -3,7 +3,6 @@ L.DG.Entrance = L.Class.extend({
     includes: L.Mixin.Events,
 
     options: {
-        points: [],
         vectors: [],
         fitBounds: true
     },
@@ -58,14 +57,17 @@ L.DG.Entrance = L.Class.extend({
             if (this.options.fitBounds) {
                 this._fitBounds();
             }
-            this._arrows.eachLayer(function (arrow) {
-                arrow.setStyle({opacity: 1});
-                if (L.Path.ANIMATION_AVAILABLE) {
-                    arrow.runAnimation('animateArrowPathGeom');
-                }
-            });
-            this._isShown = true;
-            this._map.fire('dgEntranceShow');
+            if (this._isAllowedZoom()) {
+                this._arrows.eachLayer(function (arrow) {
+                    arrow.setStyle({opacity: 1});
+                    if (L.Path.ANIMATION_AVAILABLE) {
+                        arrow.runAnimation('animateArrowPathGeom');
+                    }
+                });
+
+                this._isShown = true;
+                this._map.fire('dgEntranceShow');
+            }
         }
 
         return this;
@@ -121,13 +123,17 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _fitBounds: function () {
-        if (this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM) {
+        if (!this._isAllowedZoom()) {
             this._map.setView(this.getBounds().getCenter(), this._map.dgProjectDetector.getProject().max_zoomlevel, { animate: false });
         }
 
         if (!this._map.getBounds().intersects(this.getBounds())) {
             this._map.panTo(this.getBounds().getCenter(), {animate: false});
         }
+    },
+
+    _isAllowedZoom: function () {
+        return !(this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM);
     },
 
     _getArrowStrokeOptions: function () {

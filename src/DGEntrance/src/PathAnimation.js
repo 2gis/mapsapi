@@ -8,7 +8,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
     L.Path.include({
 
         onAdd: function (map) {
-           this._map = map;
+            this._map = map;
 
             if (!this._container) {
                 this._initElements();
@@ -29,6 +29,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 'moveend': this._updatePath
             }, this);
 
+            this.animations = {};
             this._addAnimations();
             map.on('moveend', this._updateAnimations, this);
         },
@@ -74,7 +75,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
         },
 
         _addAnimations: function () {
-            this.animations = {};
             var animation = this.options.animation;
             if (animation && this._originalPoints.length > 0) {
                 for (var i = 0, len = animation.length; i < len; i++) {
@@ -84,13 +84,15 @@ if (L.Path.ANIMATION_AVAILABLE) {
         },
 
         _addAnimation: function (options, points) { // (Object, Array)
+            var animation = this._createElement('animate');
+
+            //calculate values if attributeName: 'd' was used to animate
             if (options.getValues) {
-                //calculate values if attributeName: 'd' was used to animate
                 options.values = options.getValues(points);
             }
-            var animation = this._createElement('animate');
+
             for (var key in options) {
-                if (Object.prototype.toString.call(options[key]) !== '[object Function]') {
+                if (options.hasOwnProperty(key) && {}.toString.call(options[key]) !== '[object Function]') {
                     animation.setAttribute(key, options[key]);
                 }
             }
