@@ -6,6 +6,8 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
         Dictionary: {}
     },
 
+    _eventHandlers: {},
+
     initialize: function (controller, view, map) { // (Object, Object, Object)
         this._controller = controller;
         this._view = view;
@@ -16,6 +18,40 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
         return {
             tmpl: this.t("We haven't collected info about this place")
         };
+    },
+
+    _removeEventHandler: function(name) { // (String)
+        var handlers = this._eventHandlers,
+            handler,
+            handlerName;
+
+        for (handlerName in handlers) {
+            handler = handlers[handlerName];
+            if (handlerName == name) {
+                L.DomEvent.off(handler.el, handler.event, handler.handler);
+                delete handlers[handlerName];
+            }
+        }
+    },
+
+    _addEventHandler: function(name, el, event, handler) { // (String, HTMLElement, String, Function)
+        L.DomEvent.on(el, event, handler);
+        this._eventHandlers[name] = {
+            el: el,
+            event: event,
+            handler: handler
+        }
+    },
+
+    _clearEventHandlers: function() {
+        var handlers = this._eventHandlers,
+            i;
+
+        for (i in handlers) {
+            L.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
+        }
+
+        this._eventHandlers = {};
     }
 
 });

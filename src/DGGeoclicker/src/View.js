@@ -2,30 +2,34 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     initialize: function(map, options) { // (Object, Object)
         this._map = map;
-        this._popup = L.popup();
+        this._popup = L.popup({
+            maxHeight:300,
+            maxWidth: 438,
+            minWidth: 216
+        });
+        this._templates = __DGGeoclicker_TMPL__;
         options && L.Util.setOptions(this, options);
     },
 
     showLoader: function () {
+        var popup = this._popup,
+            loaderDiv =  document.getElementById('dg-popup-firm-loading');
+
         this.hideLoader();
-        var i = 1,
-            popup = this._popup;
-
-        function showLoaderContent() {
-            var str = 'loading.';
-            if (i > 1) {
-                str += i > 2 ? '..' : '.';
-            }
-            popup.setContent(str);
-            i = i > 2 ? 1 : i + 1;
+        if (loaderDiv) {
+            loaderDiv.style.display = 'block';
+        } else {
+            popup.setContent('<img src="__BASE_URL__/img/loader_directory.gif"');
         }
-
-        this._loaderTimer = setInterval(showLoaderContent, 400);
-        showLoaderContent();
     },
 
     hideLoader: function () {
-        clearInterval(this._loaderTimer);
+        var loaderDiv = document.getElementById('dg-popup-firm-loading');
+        if (loaderDiv) {
+            loaderDiv.style.display = "none";
+        } else {
+            this._popup.setContent('<div id="dg-popup-firm-loading"></div>');
+        }
     },
 
     showPopup: function (latlng) { // (Object)
@@ -33,23 +37,38 @@ L.DG.Geoclicker.View = L.Class.extend({
     },
 
     render: function(options) { // (Object) -> String
-        var html;
+        var html,
+            tmpl,
+            tmplFileContent;
 
         options = options || {};
         options.tmpl = options.tmpl || "";
+        options.tmplFile = options.tmplFile || null;
+        tmplFileContent = this._templates[options.tmplFile];
 
         if (options.data) {
-            html = L.Util.template(options.tmpl, options.data);
+            tmpl = tmplFileContent ? tmplFileContent : options.tmpl;
+            html = L.DG.Template(tmpl, options.data);
         } else {
             html = options.tmpl;
         }
-        if (options.popup) {
-            this._popup.setContent(html);
-        }
 
-        if (options.afterRender) {
-            options.afterRender();
+        options.beforeRender && options.beforeRender();
+
+        if (options.popup) {
+            if (options.append) {
+                var popupLoader = document.getElementById("dg-popup-firm-loading");
+                if (popupLoader) {
+                    popupLoader.insertAdjacentHTML("beforeBegin", html);
+                    options.updateScrollPosition && this._popup.updateScrollPosition();
+                }
+            } else {
+                options.header && this._popup.setHeaderContent(options.header);
+                options.footer && this._popup.setFooterContent(options.footer);
+                this._popup.setContent(html);
+            }
         }
+        options.afterRender && options.afterRender();
 
         return html;
     },
@@ -61,5 +80,10 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     getPopup: function() { // () -> Object
         return this._popup;
+    },
+
+    getTemplate: function(tmplFile) {
+        var tmpl = this._templates[tmplFile];
+        return tmpl ? tmpl : "";
     }
 });

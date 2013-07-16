@@ -1,0 +1,246 @@
+<p>Baron — a small, fast and crossbrowser custom scrollbar with native system scroll mechanic.</p>
+<h2>Demo</h2>
+<p><a href="http://diokuz.github.io/baron/">http://diokuz.github.io/baron/</a></p>
+<h2>Features</h2>
+<ul>
+<li>Doesn&#39;t replace native system scroll mechanic.</li>
+<li>Customizable scrollbar design with full CSS support.</li>
+<li>No strong dependencies on jQuery.</li>
+<li>Plugin system (fixable headers, sticky footer, autotests and more)</li>
+</ul>
+<p>Baron just hides the system scrollbar, without removing it. This guarantees scrolling will work on any system where the CSS property &#39;overflow: scroll&#39; is applied.</p>
+<h2>Simple usage</h2>
+<p>If you want only to hide system scrollbar:</p>
+<ul>
+<li>Include either the development or minified version of baron.js:</li>
+</ul>
+<pre><code class="lang-js">&lt;script src=&quot;baron.js&quot;&gt;&lt;/script&gt;</code></pre>
+<ul>
+<li>Make some HTML:</li>
+</ul>
+<pre><code class="lang-html">&lt;div class=&quot;scroller&quot;&gt;
+    Your scrollable content here
+&lt;/div&gt;</code></pre>
+<ul>
+<li>And some CSS:</li>
+</ul>
+<pre><code class="lang-css">.scroller {
+    overflow-y: scroll;
+    /* -webkit-overflow-scrolling: touch; *//* uncomment to accelerate scrolling on iOS */
+}
+.scroller::-webkit-scrollbar { /* Prevents webkit cross-direction scrolling bug */
+    width: 0;
+}</code></pre>
+<p>Note: you can choose any class names, and slyle them as you want.</p>
+<ul>
+<li>Initialize baron:</li>
+</ul>
+<pre><code class="lang-js">$(&#39;.scroller&#39;).baron();</code></pre>
+<h2>Advanced usage</h2>
+<pre><code class="lang-html">&lt;div class=&quot;scroller&quot;&gt;
+    Your scrollable content here
+    &lt;div class=&quot;scroller__track&quot;&gt;&lt;!-- Track is optional --&gt;
+        &lt;div class=&quot;scroller-bar&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="lang-css">.scroller {
+    overflow-y: scroll;
+    /* -webkit-overflow-scrolling: touch; *//* uncomment to accelerate scrolling on iOS */
+}
+.scroller::-webkit-scrollbar { /* Preventing webkit cross-direction scrolling bug */
+    width: 0;
+}
+.scroller__track {
+    display: none; /* Invisible by default */
+    position: absolute;
+    right: 4px;
+    top: 10px;
+    bottom: 4px;
+    width: 10px;
+    background: rgba(0, 0, 0, .1);
+}
+.baron .scroller__track {
+    display: block; /* Visible when scrolling is possible */
+}
+.scroller__bar { /* The bar. You should define width, right position and background */
+    position: absolute;    
+    z-index: 1;
+    right: 0;
+    width: 10px;
+    background: #999;
+}</code></pre>
+<p>You can specify some parameters on baron initialization:</p>
+<pre><code class="lang-js">var scroll = $(&#39;.scroller&#39;).baron(params);
+
+// or
+var scroll = baron(params);</code></pre>
+<p>and store baron scrollbar object to <code>scroll</code> variable.</p>
+<p>where:</p>
+<pre><code class="lang-js">params = {
+    // Selector for scroller element.
+    // Default: this (in jQuery mode).
+    scroller: &#39;.scroller&#39;,
+
+    // Root html element for baron. Use this param when your html-scrollbar content is outside scroller
+    // Default: scroller
+    root: $(&#39;.my_scroller&#39;),
+
+    // Selector for bar element
+    // Default: &#39;undefined&#39;
+    bar: &#39;.scroller__bar&#39;,
+
+    // Track
+    // Default: parent node of bar
+    track: &#39;.scroller__track&#39;,
+
+    // CSS classname for scroller when its needed (when content height above scroller heights)
+    // Default: &#39;&#39;
+    barOnCls: &#39;baron&#39;,
+    // Note: by default scroller__bar should be invisible
+
+    // Scroll direction
+    // Default: &#39;v&#39; (vertical), &#39;h&#39; for second baron invocation
+    direction: &#39;h&#39;,
+
+    // Freezing size of scroller parent, if true. Actual for horizontal scrolling.
+    // Default: false
+    freeze: true,
+
+    // Minimum time delay between two scroll or resize events fires in seconds
+    // Default: 0
+    pause: .2,
+
+    // Local copy of jQuery-like utility
+    // Default: window.jQuery
+    $: function(selector, context) {
+        return bonzo(qwery(selector, context));
+    },
+
+    // Event manager
+    // Default: function(elem, event, func, mode) { params.$(elem)[mode || &#39;on&#39;](event, func); };
+    event: function(elem, event, func, mode) { // Events manager
+        if (mode == &#39;trigger&#39;) {
+            mode = &#39;fire&#39;;
+        }
+
+        bean[mode || &#39;on&#39;](elem, event, func);
+    }
+}</code></pre>
+<p>All parameters are optional (except scroller or root, if you are not using baron as jQuery plugin).</p>
+<p><code>scroll</code> methods:</p>
+<pre><code class="lang-js">scroll.update(); // Update scroller
+scroll.dispose(); // Remove baron instance and related event handlers</code></pre>
+<p>Note: baron returns the baron object, even in jQuery mode. That can break jQuery chaining. For example, you can&#39;t do this:</p>
+<pre><code class="lang-js">$(&#39;.scroller&#39;).baron().css().animate();</code></pre>
+<p>but you can:</p>
+<pre><code class="lang-js">$(&#39;.scroller&#39;).css().animate().baron();</code></pre>
+<p>and even more:</p>
+<pre><code class="lang-js">var scroll = $(&#39;.scroller&#39;).css().animate().baron().fix();
+
+scroll.baron({direction: &#39;h&#39;}).test().anotherBaronPlugin();</code></pre>
+<p>Every baron plugin sould return baron object (this);</p>
+<h2>Horizontal and bidirectional scroll</h2>
+<p>To switch default vertical direction to horizontal direction just set &#39;direction&#39; param to &#39;h&#39; value:</p>
+<pre><code class="lang-js">baron({
+    ...
+    direction: &#39;h&#39;
+});</code></pre>
+<p>If you want to scroll in both directions (vertical and horizontal) you must initialize baron two times: one per direction. In than case you can do chaining:</p>
+<pre><code class="lang-js">baron(vParams).baron(hParams);</code></pre>
+<p>Note: think about horizontal baron as about second independent baron instance, or as about plugin for &#39;baron&#39;, which simply calls &#39;baron&#39; with redefined default params - both statements are true, actually. Unfortunately, in case above you only can manage last baron instance in chain (to update or dispose it). To manage both you have to initialize them independently:</p>
+<pre><code class="lang-js">vScroll = baron(vParams);
+hScroll = baron(hParams);
+...
+vScroll.dispose();
+hScroll.dispose();</code></pre>
+<h2>Updating baron</h2>
+<p>When container size changed (for example: you load additional data to the container using ajax), you should call update() method:</p>
+<pre><code class="lang-js">scroll.update();</code></pre>
+<p>or fire custom event &#39;sizeChange&#39; to wrapper:</p>
+<pre><code class="lang-js">$(&#39;.scroller&#39;).trigger(&#39;sizeChange&#39;);</code></pre>
+<h2>Disposing baron</h2>
+<p>If you removed html-nodes, which used baron, from DOM, dont forget dispose related baron instance manually. Use &#39;dispose&#39; method for that.</p>
+<h2>noConflict mode</h2>
+<p>If you need window.baron for another purposes you can restore original value:</p>
+<pre><code class="lang-js">// window.baron points to some other library
+...
+// you include baron, it replaces the window.baron variable to baron namespace
+
+var graf = baron.noConflict();
+// now window.baron points to that other library again, and you can use window.graf() etc.</code></pre>
+<h2>Custom build (Grunt)</h2>
+<p>If you want exclude plugins functionality, type</p>
+<pre><code class="lang-js">grunt core</code></pre>
+<p>in your console, and you will get dist/baron.js and dist/baron.min.js only with core functionality.</p>
+<p>Type</p>
+<pre><code class="lang-js">grunt full</code></pre>
+<p>to build full version of baron (including all available plugins).</p>
+<p>Output files you can find in /dist/ folder.</p>
+<h2>Browsers support</h2>
+<p>Full support: Chrome 1+, Firefox 3.6+, Safari 5+, Opera 9+ on Windows, OS X and iOS. Also, the best ever browser downloader - Internet Explorer - supported since version 7.</p>
+<p>Partial (core) support: IE6.</p>
+<p>Not supported: Opera mini, old versions of Android browser, and other browsers which does not implemented the <code>overflow: scroll</code> CSS property.</p>
+<h2>fix plugin</h2>
+<p>To use fixable headers you should initialize fix plugin after baron:</p>
+<pre><code class="lang-html">&lt;div class=&quot;scroller&quot;&gt;
+    &lt;div class=&quot;header__title-wrapper&quot;&gt;
+        &lt;div class=&quot;header__title&quot;&gt;First element&lt;/div&gt;
+    &lt;/div&gt;
+    ...content...
+    &lt;div class=&quot;header__title-wrapper&quot;&gt;
+        &lt;div class=&quot;header__title&quot;&gt;Second element&lt;/div&gt;
+    &lt;/div&gt;
+    ...content...
+&lt;/div&gt;</code></pre>
+<pre><code class="lang-js">baron(baronParams).fix(params);</code></pre>
+<p>where:</p>
+<pre><code class="lang-js">params = {
+    // CSS selector for fixable elements
+    // Must have parentNode (no margin and padding allowed!) with same height (see demo for details). Also see &#39;limiter&#39; parameter.
+    elements: &#39;.header__title&#39;,
+
+    // CSS class for elements which now are outside of viewport
+    outside: &#39;header__title_state_fixed&#39;,
+
+    // CSS class for closest outsite element wrapper from top (left)
+    before: &#39;header__title_position_top&#39;,
+
+    // CSS class for closest outsite element wrapper from bottom (right)
+    after: &#39;header__title_position_bottom&#39;,
+
+    // if true - sets track top (left) position to header[0].parentNode.offsetHeight (offsetWidth)
+    // Default: false
+    limiter: true,
+
+    // Radius for element fixing in px
+    // Default: 0
+    radius: 10
+}</code></pre>
+<h2>Controls plugin</h2>
+<pre><code class="lang-js">baron().controls(params);
+
+params = {
+    // Element to be used as interactive track. Note: it could be different from &#39;track&#39; param of baron.
+    track: &#39;.visual-track&#39;,
+
+    // Element to be used as &#39;down&#39; / &#39;right&#39; button
+    forward: &#39;.forward-btn&#39;,
+
+    // Element to be used as &#39;up&#39; / &#39;left&#39; button
+    backward: &#39;.backward-btn&#39;,
+
+    // Multiplyer for page-down action. Use 1 to scroll preciesly one screen per track click.
+    // Default: .9
+    screen: .5
+
+    // Scroll distance per control button click in px
+    // Default: 30
+    delta: 40
+}</code></pre>
+<h2>test plugin</h2>
+<p>If you have some troubles with baron, use test plugin:</p>
+<pre><code class="lang-js">baron(...).test(params);</code></pre>
+<p>And read results in browser console.</p>
+<p>There is no params for test() right now.</p>
+<h2>License</h2>
+<p>MIT.</p>

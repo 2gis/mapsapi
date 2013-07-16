@@ -3,7 +3,8 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            'DGCore/DGCore.js'
+            'DGCore/DGCore.js',
+            '../vendors/polyfills/json2.js'
         ],
         css: {
             all: [
@@ -94,6 +95,9 @@ var deps = {
 
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
+        css: {
+            all: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.css']
+        },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
             'DGGeoclicker/src/provider/Provider.js',
@@ -108,7 +112,14 @@ var deps = {
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js'
         ],
-        deps: ['DGJsonp', 'DGCore']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate']
+    },
+
+    DGTemplate: {
+        desc: '2GIS Template',
+        src: [
+            'DGTemplate/src/DGTemplate.js'
+        ]
     },
 
     DGEntrance: {
