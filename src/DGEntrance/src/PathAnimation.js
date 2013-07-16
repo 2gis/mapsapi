@@ -5,6 +5,9 @@ L.Path.ANIMATION_AVAILABLE =
         document.createElementNS(L.Path.SVG_NS, 'animate').beginElement) === '[object Function]';
 
 if (L.Path.ANIMATION_AVAILABLE) {
+    L.Map.addInitHook(function () {
+        this._initPathRoot();
+    });
     L.Path.include({
 
         onAdd: function (map) {
