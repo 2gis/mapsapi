@@ -4,7 +4,8 @@ L.DG.Entrance = L.Class.extend({
 
     options: {
         points: [],
-        vectors: []
+        vectors: [],
+        fitBounds: true
     },
 
     statics: {
@@ -54,7 +55,9 @@ L.DG.Entrance = L.Class.extend({
     show: function () { // () -> L.DG.Entrance
 
         if (!this.isShown() && this._arrows) {
-            this._fitBounds();
+            if (this.options.fitBounds) {
+                this._fitBounds();
+            }
             this._arrows.eachLayer(function (arrow) {
                 arrow.setStyle({opacity: 1});
                 if (L.Path.ANIMATION_AVAILABLE) {

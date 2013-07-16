@@ -14,7 +14,7 @@
   <input class="btn" type="button" value="Найти вход в Спарк-Авто" id="sparkAutoEntrance" />
   <input class="btn" type="button" value="Найти вход в ГУМ" id="gumEntrance" />
   <input class="btn" type="button" value="Найти вход в стройку" id="buildingEntrance" />
-  
+
   <script type="text/javascript">
     var map,
         balloonHTML,
@@ -64,7 +64,7 @@
                     "LINESTRING(82.89892673492432 54.98161567782492, 82.89850294589996 54.98136633364934, 82.89860486984253 54.98131400195911)"
                 ]
             })
-        
+
         }
 
         function addEntrance() {
@@ -76,8 +76,8 @@
      * TODO:
      * - отключить анимацию для старых версий Opera и включить для Opera Next. Fixed.
      * - применить fadeIn()/fadeOut(). Убил 2 часа, безрезультатно, наконечник не fadeIn-ится.
-     * - давать возможность отключать fitBounds и дать эту возможность, если нужно
-     * - пофиксить SVG-описание для ИЕ9, 10
+     * - давать возможность отключать fitBounds и дать эту возможность, если нужно. Fixed.
+     * - пофиксить SVG-описание для ИЕ9, 10. Fixed.
      * - проверить на мобильных. Отключить фичу там, где не работает.
      * - пофиксить в Safari
      * - сформировать pull request в Leaflet
