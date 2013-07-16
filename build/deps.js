@@ -112,7 +112,14 @@ var deps = {
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js'
         ],
-        deps: ['DGJsonp', 'DGCore']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate']
+    },
+
+    DGTemplate: {
+        desc: '2GIS Template',
+        src: [
+            'DGTemplate/src/DGTemplate.js'
+        ]
     }
 };
 

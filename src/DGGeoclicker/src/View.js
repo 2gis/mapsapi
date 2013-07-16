@@ -48,7 +48,7 @@ L.DG.Geoclicker.View = L.Class.extend({
 
         if (options.data) {
             tmpl = tmplFileContent ? tmplFileContent : options.tmpl;
-            html = L.Util.template(tmpl, options.data);
+            html = L.DG.Template(tmpl, options.data);
         } else {
             html = options.tmpl;
         }
