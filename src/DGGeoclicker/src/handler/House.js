@@ -11,6 +11,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _scrollThrottleInterval: 400,
     _eventHandlers: {},
     _scrollHeightReserve: 60,
+    _hideIndex: false,
 
     handle: function (results) { // (Object) -> Object
         var self = this;
@@ -44,7 +45,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             data.address += attrs.index + ', ';
         }
         house.name = house.name.split(", ").slice(1);
-        data.address += house.name;
+        data.address += house.name.join(", ");
 
         if (attrs.buildingname) {
             data.buildingname = attrs.buildingname;
@@ -67,7 +68,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 }
             });
         }
-
         return {
             tmpl: this._view.getTemplate("house"),
             data: data
@@ -108,21 +108,23 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
             this._addEventHandler("DgBaronMouseWheel", this._scroller, 'mousewheel', throttledHandler);
             scrollerBar = document.getElementById('scroller__bar');
+            this._scroller.onselectstart = function() { return false; };
         }
 
         if (scrollerBar) {
             this._addEventHandler("DgBaronMouseDown", scrollerBar, 'mousedown', function() {
                 self._addEventHandler("DgBaronMouseMove", map, 'mousemove', throttledHandler);
             });
-            this._addEventHandler("DgBaronMouseUp", map, 'mouseup', function() {
+            this._addEventHandler("DgBaronMouseUp", map, 'mouseup', function(e) {
                 self._removeEventHandler("DgBaronMouseMove");
+                L.DomEvent.preventDefault(e);
             });
         }
     },
 
     _showMoreClick: function () {
         this._view.showLoader();
-
+        this._hideIndex = true;
         if (this._lastPage !== 1) {
             this._page = this._lastPage;
             this._shouldLoadFromCache = true;
@@ -133,7 +135,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _handleMouseWheel: function() {
+    _handleMouseWheel: function(e) {
         var scroller = this._scroller;
 
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
@@ -190,13 +192,15 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _renderHeader: function() { // () -> String
-        var header = '';
+        var header = '',
+            address;
 
         if (!this._wereHeadersInited) {
+            address = this.houseObj.data.address;
             header = this._view.render({
                 tmplFile: "popupHeader",
                 data: {
-                    address: this.houseObj.data.address
+                    address: !this._hideIndex ? address : address.split(", ").slice(1).join(", ")
                 }
             });
         }
@@ -241,6 +245,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _showLessClick: function () {
+        this._hideIndex = false;
         this._view.getPopup().clearHeaderFooter();
         this._clearEventHandlers();
         this._wereHeadersInited = false;

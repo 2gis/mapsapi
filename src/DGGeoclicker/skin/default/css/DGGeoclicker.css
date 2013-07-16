@@ -92,3 +92,7 @@
     width: 200px;
     height: 200px;
 }
+
+.leaflet-popup-content .container {
+	width: 80%; 
+}
