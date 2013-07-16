@@ -44,6 +44,7 @@ if (L.Browser.svg) {
                     marker.id = id + '-' + i;
                     marker.setAttribute('orient', 'auto');
                     marker.setAttribute('markerUnits', 'userSpaceOnUse');
+                    marker.setAttribute('stroke-width', '0');
 
                     markerPath = this._createElement('path');
                     markerPath.setAttribute('d', optionsByZoom[i].markerPath.d);
