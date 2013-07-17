@@ -85,11 +85,9 @@ if (L.Browser.svg) {
             }
 
             if (detectViewport) {
-                if (typeof origPoints === 'undefined') {
-                    endPoint = origPoints[origPoints.length - 1];       
-                    if (!this._map._pathViewport.contains(endPoint)) {
-                        this._path.setAttribute('marker-end', 'url(#)');
-                    }
+                endPoint = origPoints[origPoints.length - 1];       
+                if (!this._map._pathViewport.contains(endPoint)) {
+                    this._path.setAttribute('marker-end', 'url(#)');
                 }
             }
             else {
