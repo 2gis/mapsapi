@@ -38,26 +38,27 @@ if (L.Path.ANIMATION_AVAILABLE) {
             this._addAnimations();
         },
 
-        runAnimation: function (name) {
+        runAnimation: function (name, once) {
+            var res, delay, self = this;
+
             if (this.animations[name]) {
                 this.animations[name].beginElement();
+
+                if (once) {
+                    delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
+                    window.setTimeout(function() {
+                        self._removeAnimation(name);
+                    }, delay);
+
+                    map.off('moveend', this._updateAnimations, this);
+                }
             }
+
             return this;
         },
 
         runAnimationOnce: function (name) {
-            var res, delay, self = this;
-
-            res = this.runAnimation(name);
-            delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
-
-            window.setTimeout(function() {
-                self._removeAnimation(name);
-            }, delay);
-
-            map.off('moveend', this._updateAnimations, this);
-
-            return res;
+            return this.runAnimation(name, true);
         },
 
         stopAnimation: function (name) {
@@ -100,8 +101,8 @@ if (L.Path.ANIMATION_AVAILABLE) {
                     this._addAnimation(animation[i], this._originalPoints);
                 }
             }
-
-            map.on('moveend', this._updateAnimations, this); // todo: move to _addAnimation
+            // TODO move to addAnimation
+            this._map.on('moveend', this._updateAnimations, this);
         },
 
         _addAnimation: function (options, points) { // (Object, Array)
@@ -133,8 +134,10 @@ if (L.Path.ANIMATION_AVAILABLE) {
         },
 
         _removeAnimation: function (name) {
-            this._path.removeChild(this.animations[name]);
-            delete this.animations[name];
+            if (this.animations[name]) {
+                this._path.removeChild(this.animations[name]);
+                delete this.animations[name];
+            }
         }
     });
 }
