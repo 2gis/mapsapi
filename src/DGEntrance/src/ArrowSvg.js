@@ -78,16 +78,19 @@ if (L.Browser.svg) {
 
         _hideMarker: function(detectViewport) {
             var origPoints = this._originalPoints,
-                endPoint = origPoints[origPoints.length - 1];
+                endPoint;
 
-            if (typeof (detectViewport) === 'undefined') {
+            if (typeof detectViewport === 'undefined') {
                 detectViewport = true;
             }
 
             if (detectViewport) {
-                if (!this._map._pathViewport.contains(endPoint)) {
-                    this._path.setAttribute('marker-end', 'url(#)');
-                };
+                if (typeof origPoints === 'undefined') {
+                    endPoint = origPoints[origPoints.length - 1];       
+                    if (!this._map._pathViewport.contains(endPoint)) {
+                        this._path.setAttribute('marker-end', 'url(#)');
+                    }
+                }
             }
             else {
                 this._path.setAttribute('marker-end', 'url(#)');

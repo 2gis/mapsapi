@@ -36,6 +36,8 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             this.animations = {};
             this._addAnimations();
+
+            this._map.on('moveend', this._updateAnimations, this);
         },
 
         runAnimation: function (name, once) {
@@ -48,9 +50,8 @@ if (L.Path.ANIMATION_AVAILABLE) {
                     delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
                     window.setTimeout(function() {
                         self._removeAnimation(name);
+                        map.off('moveend', this._updateAnimations, this);
                     }, delay);
-
-                    map.off('moveend', this._updateAnimations, this);
                 }
             }
 
@@ -101,8 +102,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
                     this._addAnimation(animation[i], this._originalPoints);
                 }
             }
-            // TODO move to addAnimation
-            this._map.on('moveend', this._updateAnimations, this);
         },
 
         _addAnimation: function (options, points) { // (Object, Array)
