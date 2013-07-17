@@ -34,7 +34,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             this.animations = {};
             this._addAnimations();
-            map.on('moveend', this._updateAnimations, this);
         },
 
         runAnimation: function (name) {
@@ -42,6 +41,21 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 this.animations[name].beginElement();
             }
             return this;
+        },
+
+        runAnimationOnce: function (name) {
+            var res, delay, self = this;
+
+            res = this.runAnimation(name);
+            delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
+            
+            window.setTimeout(function() {
+                self._removeAnimation(name);
+            }, delay);
+            
+            map.off('moveend', this._updateAnimations, this);
+
+            return res;
         },
 
         stopAnimation: function (name) {
@@ -84,6 +98,8 @@ if (L.Path.ANIMATION_AVAILABLE) {
                     this._addAnimation(animation[i], this._originalPoints);
                 }
             }
+
+            map.on('moveend', this._updateAnimations, this); // todo: move to _addAnimation
         },
 
         _addAnimation: function (options, points) { // (Object, Array)
@@ -109,10 +125,14 @@ if (L.Path.ANIMATION_AVAILABLE) {
             for(var animation in animations) {
                 if (animations.hasOwnProperty(animation)) {
                     //for correct geometry presentation while zooming
-                    this._path.removeChild(animations[animation]);
+                    this._removeAnimation(animation);
                 }
             }
             this.animations = {};
+        },
+
+        _removeAnimation: function (name) {
+            this._path.removeChild(this.animations[name]);
         }
     });
 }
