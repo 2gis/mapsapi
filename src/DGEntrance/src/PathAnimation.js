@@ -5,6 +5,8 @@ L.Path.ANIMATION_AVAILABLE =
         document.createElementNS(L.Path.SVG_NS, 'animate').beginElement) === '[object Function]';
 
 if (L.Path.ANIMATION_AVAILABLE) {
+
+    //Fix animation for safari, it needs svg element in DOM on page load
     L.Map.addInitHook(function () {
         this._initPathRoot();
     });
