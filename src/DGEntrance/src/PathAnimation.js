@@ -50,11 +50,11 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             res = this.runAnimation(name);
             delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
-            
+
             window.setTimeout(function() {
                 self._removeAnimation(name);
             }, delay);
-            
+
             map.off('moveend', this._updateAnimations, this);
 
             return res;
@@ -130,11 +130,11 @@ if (L.Path.ANIMATION_AVAILABLE) {
                     this._removeAnimation(animation);
                 }
             }
-            this.animations = {};
         },
 
         _removeAnimation: function (name) {
             this._path.removeChild(this.animations[name]);
+            delete this.animations[name];
         }
     });
 }
