@@ -101,21 +101,22 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var scrollerBar,
             self = this,
             throttledHandler,
-            map = this._controller.getMap();
+            map = this._controller.getMap(),
+            isTouch = L.Browser.touch;
         this._scroller = document.getElementById('scroller');
 
         if (this._scroller) {
             throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
-            this._addEventHandler("DgBaronMouseWheel", this._scroller, 'mousewheel', throttledHandler);
+            this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
             scrollerBar = document.getElementById('scroller__bar');
             this._scroller.onselectstart = function() { return false; };
         }
 
         if (scrollerBar) {
-            this._addEventHandler("DgBaronMouseDown", scrollerBar, 'mousedown', function() {
-                self._addEventHandler("DgBaronMouseMove", map, 'mousemove', throttledHandler);
+            this._addEventHandler("DgBaronMouseDown", scrollerBar, !isTouch ? 'mousedown' : 'touchstart', function() {
+                self._addEventHandler("DgBaronMouseMove", map, !isTouch ? 'mousemove' : 'touchmove', throttledHandler);
             });
-            this._addEventHandler("DgBaronMouseUp", map, 'mouseup', function(e) {
+            this._addEventHandler("DgBaronMouseUp", map, !isTouch ? 'mouseup' : 'touchend', function(e) {
                 self._removeEventHandler("DgBaronMouseMove");
                 L.DomEvent.preventDefault(e);
             });
