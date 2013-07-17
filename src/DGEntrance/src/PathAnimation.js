@@ -91,8 +91,10 @@ if (L.Path.ANIMATION_AVAILABLE) {
         },
 
         _updateAnimations: function () {
-            this._removeAnimations();
-            this._addAnimations();
+            if (!L.Browser.mobileWebkit) {
+                this._removeAnimations();
+                this._addAnimations();
+            }
         },
 
         _addAnimations: function () {
