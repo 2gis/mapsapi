@@ -47,7 +47,6 @@ L.DG.Entrance = L.Class.extend({
     },
 
     removeFrom: function (map) { // (L.Map) -> L.DG.Entrance
-        console.log(this);
         map.removeLayer(this);
         return this;
     },
