@@ -61,7 +61,7 @@ L.DG.Entrance = L.Class.extend({
                 this._arrows.eachLayer(function (arrow) {
                     arrow.setStyle({opacity: 1});
                     if (L.Path.ANIMATION_AVAILABLE) {
-                        arrow.runAnimationOnce('animateArrowPathGeom');
+                        arrow.runAnimation('animateArrowPathGeom');
                     }
                 });
 
