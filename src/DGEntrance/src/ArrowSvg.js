@@ -16,11 +16,15 @@ if (L.Browser.svg) {
         onAdd: function(map){
             L.Path.prototype.onAdd.call(this, map);
             map.on({'zoomend': this._updateMarker}, this);
+            map.on({'movestart': this._hideMarker}, this);
+            map.on({'moveend': this._showMarker}, this);
         },
 
         onRemove: function(map){
-           L.Path.prototype.onRemove.call(this, map);
-           map.off({'zoomend': this._updateMarker}, this);
+            L.Path.prototype.onRemove.call(this, map);
+            map.off({'zoomend': this._updateMarker}, this);
+            map.off({'movestart': this._hideMarker}, this);
+            map.off({'moveend': this._showMarker}, this);
         },
 
         _initElements: function () {
@@ -61,10 +65,19 @@ if (L.Browser.svg) {
         _updateMarker: function() {
             var zoom = this._map.getZoom();
             if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
-                this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+                this._showMarker();
             } else {
-                this._path.setAttribute('marker-end', 'url(#)');
+                this._hideMarker();
             }
+        },
+
+        _showMarker: function() {
+            var zoom = this._map.getZoom();
+            this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+        },
+
+        _hideMarker: function() {            
+            this._path.setAttribute('marker-end', 'url(#)');
         },
 
         _updateStyle: function () {
