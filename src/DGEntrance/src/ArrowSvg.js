@@ -67,7 +67,7 @@ if (L.Browser.svg) {
             if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
                 this._showMarker();
             } else {
-                this._hideMarker();
+                this._hideMarker(false);
             }
         },
 
@@ -76,8 +76,22 @@ if (L.Browser.svg) {
             this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
         },
 
-        _hideMarker: function() {            
-            this._path.setAttribute('marker-end', 'url(#)');
+        _hideMarker: function(detectViewport) {
+            var origPoints = this._originalPoints,
+                endPoint = origPoints[origPoints.length - 1];
+
+            if (typeof (detectViewport) === 'undefined') {
+                detectViewport = true;
+            }
+
+            if (detectViewport) {
+                if (!this._map._pathViewport.contains(endPoint)) {
+                    this._path.setAttribute('marker-end', 'url(#)');
+                };
+            }
+            else {
+                this._path.setAttribute('marker-end', 'url(#)');
+            }
         },
 
         _updateStyle: function () {
