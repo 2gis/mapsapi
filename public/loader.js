@@ -5,7 +5,7 @@
         baseURL,
         queryString,
         params,
-        version = 'v=f37d0e';
+        version = 'v=fbf6d6';
 
     function processURL() {
         var scripts, scriptURL;
