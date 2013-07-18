@@ -47,11 +47,12 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 this.animations[name].beginElement();
 
                 if (once) {
-                    map.off('moveend', this._updateAnimations, this);
+
 
                     delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
                     window.setTimeout(function() {
                         self._removeAnimation(name);
+                        map.off('moveend', self._updateAnimations, self);
                     }, delay);
                 }
             }
