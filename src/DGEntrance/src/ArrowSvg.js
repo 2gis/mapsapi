@@ -15,14 +15,16 @@ if (L.Browser.svg) {
 
         onAdd: function(map){
             L.Path.prototype.onAdd.call(this, map);
+            map.on({'zoomend': this._updateMarker}, this);
             map.on({'movestart': this._hideMarker}, this);
-            map.on({'moveend': this._updateMarker}, this);
+            map.on({'moveend': this._showMarker}, this);
         },
 
         onRemove: function(map){
             L.Path.prototype.onRemove.call(this, map);
+            map.off({'zoomend': this._updateMarker}, this);
             map.off({'movestart': this._hideMarker}, this);
-            map.off({'moveend': this._updateMarker}, this);
+            map.off({'moveend': this._showMarker}, this);
         },
 
         _initElements: function () {
