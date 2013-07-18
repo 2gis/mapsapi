@@ -15,16 +15,14 @@ if (L.Browser.svg) {
 
         onAdd: function(map){
             L.Path.prototype.onAdd.call(this, map);
-            map.on({'zoomend': this._updateMarker}, this);
             map.on({'movestart': this._hideMarker}, this);
-            map.on({'moveend': this._showMarker}, this);
+            map.on({'moveend': this._updateMarker}, this);
         },
 
         onRemove: function(map){
             L.Path.prototype.onRemove.call(this, map);
-            map.off({'zoomend': this._updateMarker}, this);
             map.off({'movestart': this._hideMarker}, this);
-            map.off({'moveend': this._showMarker}, this);
+            map.off({'moveend': this._updateMarker}, this);
         },
 
         _initElements: function () {
@@ -85,7 +83,7 @@ if (L.Browser.svg) {
             }
 
             if (detectViewport) {
-                endPoint = origPoints[origPoints.length - 1];       
+                endPoint = origPoints[origPoints.length - 1];
                 if (!this._map._pathViewport.contains(endPoint)) {
                     this._path.setAttribute('marker-end', 'url(#)');
                 }

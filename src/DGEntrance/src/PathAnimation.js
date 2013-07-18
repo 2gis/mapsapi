@@ -47,8 +47,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 this.animations[name].beginElement();
 
                 if (once) {
-
-
                     delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
                     window.setTimeout(function() {
                         self._removeAnimation(name);
