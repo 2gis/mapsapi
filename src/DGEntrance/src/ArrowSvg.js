@@ -17,6 +17,7 @@ if (L.Browser.svg) {
             L.Path.prototype.onAdd.call(this, map);
             this._initMarkers();
             map.on({'zoomend': this._updateMarker}, this);
+            map.on({'zoomend': this._updateStyle}, this);
             map.on({'movestart': this._hideMarker}, this);
             map.on({'moveend': this._showMarker}, this);
         },
@@ -24,6 +25,7 @@ if (L.Browser.svg) {
         onRemove: function(map){
             L.Path.prototype.onRemove.call(this, map);
             map.off({'zoomend': this._updateMarker}, this);
+            map.off({'zoomend': this._updateStyle}, this);
             map.off({'movestart': this._hideMarker}, this);
             map.off({'moveend': this._showMarker}, this);
         },
@@ -112,7 +114,15 @@ if (L.Browser.svg) {
         },
 
         _updateStyle: function () {
+            var optionsByZoom =  this.options.byZoom,
+                zoom = this._map.getZoom();
+
             L.Polyline.prototype._updateStyle.call(this);
+
+            if (typeof optionsByZoom[zoom] !== 'undefined' &&
+                typeof optionsByZoom[zoom].weight !== 'undefined') {
+                this._path.setAttribute('stroke-width', optionsByZoom[zoom].weight);
+            }
 
             for (var i = 0; i < this._markersPath.length; i++) {
                 this._markersPath[i].setAttribute('fill-opacity', this.options.opacity);
