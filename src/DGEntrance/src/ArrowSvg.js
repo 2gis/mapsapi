@@ -85,6 +85,7 @@ if (L.Browser.svg) {
             return defs;
         },
 
+        //TODO Refactor it! Remove it by reference
         _removeMarkers: function() {
             var defs = L.DomUtil.get('arrow-defs');
 

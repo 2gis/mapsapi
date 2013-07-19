@@ -39,7 +39,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
         runAnimation: function (name, once) {
             var res, delay, self = this;
-            //TODO Add only one animation wich you wanna run
+            //TODO Add only one animation wich you wanna run. Delete addAnimations.
             this._addAnimations();
 
             if (this.animations[name]) {
@@ -54,10 +54,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
             }
 
             return this;
-        },
-
-        runAnimationOnce: function (name) {
-            return this.runAnimation(name, true);
         },
 
         stopAnimation: function (name) {
