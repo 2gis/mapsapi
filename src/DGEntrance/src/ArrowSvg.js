@@ -16,6 +16,7 @@ if (L.Browser.svg) {
         onAdd: function(map){
             L.Path.prototype.onAdd.call(this, map);
             this._initMarkers();
+
             map.on({'zoomend': this._updateMarker}, this);
             map.on({'zoomend': this._updateStyle}, this);
             map.on({'movestart': this._hideMarker}, this);
@@ -28,19 +29,22 @@ if (L.Browser.svg) {
             map.off({'zoomend': this._updateStyle}, this);
             map.off({'movestart': this._hideMarker}, this);
             map.off({'moveend': this._showMarker}, this);
+
+            //TODO onAdd execute before previous instance onRemove, fix it.
+            this._removeMarkers();
         },
 
         _initElements: function () {
             this._map._initPathRoot();
             this._initPath();
-            //this._initMarkers();
             this._initStyle();
         },
 
         _initMarkers: function () {
             var i, marker, markerPath, defs
                 optionsByZoom =  this.options.byZoom,
-                id = this._markerId = 'arrow-marker-' + L.Util.stamp(this);
+                id = this._markerId = 'arrow-marker-' + L.Util.stamp(this),
+                svg = this._container.parentNode;
 
             defs = this._getDefs();
 
@@ -63,9 +67,10 @@ if (L.Browser.svg) {
                     defs.appendChild(marker);
                     this._markersPath.push(markerPath);
                 }
-
-                this._container.parentNode.appendChild(defs);
             }
+
+            this._defs = defs;
+            svg.insertBefore(defs, svg.firstChild);
             this._updateMarker();
         },
 
@@ -78,6 +83,14 @@ if (L.Browser.svg) {
             }
 
             return defs;
+        },
+
+        _removeMarkers: function() {
+            var defs = L.DomUtil.get('arrow-defs');
+
+            if (defs) {
+                defs.parentNode.removeChild(defs);
+            }
         },
 
         _updateMarker: function() {

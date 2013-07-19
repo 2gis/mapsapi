@@ -31,18 +31,15 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             map.on({
                 'viewreset': this.projectLatlngs,
-                'moveend': this._updatePath
+                'moveend': this._updatePath,
+                'movestart': this._removeAnimations
             }, this);
 
-            this.animations = {};
-            //this._addAnimations();
-
-            //this._map.on('moveend', this._updateAnimations, this);
-            this._map.on('movestart', this._removeAnimations, this);
         },
 
         runAnimation: function (name, once) {
             var res, delay, self = this;
+            //TODO Add only one animation wich you wanna run
             this._addAnimations();
 
             if (this.animations[name]) {
@@ -52,7 +49,6 @@ if (L.Path.ANIMATION_AVAILABLE) {
                     delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
                     window.setTimeout(function() {
                         self._removeAnimation(name);
-                        map.off('moveend', self._updateAnimations, self);
                     }, delay);
                 }
             }
@@ -89,15 +85,11 @@ if (L.Path.ANIMATION_AVAILABLE) {
             }, this);
 
             this._removeAnimations();
-            map.off('moveend', this._updateAnimations, this);
-        },
-
-        _updateAnimations: function () {
-            this._removeAnimations();
-            this._addAnimations();
         },
 
         _addAnimations: function () {
+            this.animations = {};
+
             var animation = this.options.animation;
             if (animation && this._originalPoints.length > 0) {
                 for (var i = 0, len = animation.length; i < len; i++) {
