@@ -15,27 +15,32 @@ if (L.Browser.svg) {
 
         onAdd: function(map){
             L.Path.prototype.onAdd.call(this, map);
+            this._initMarkers();
+            map.on({'zoomend': this._updateMarker}, this);
             map.on({'movestart': this._hideMarker}, this);
-            map.on({'moveend': this._updateMarker}, this);
+            map.on({'moveend': this._showMarker}, this);
         },
 
         onRemove: function(map){
             L.Path.prototype.onRemove.call(this, map);
+            map.off({'zoomend': this._updateMarker}, this);
             map.off({'movestart': this._hideMarker}, this);
-            map.off({'moveend': this._updateMarker}, this);
+            map.off({'moveend': this._showMarker}, this);
         },
 
         _initElements: function () {
             this._map._initPathRoot();
             this._initPath();
-            this._initMarkers();
+            //this._initMarkers();
             this._initStyle();
         },
 
         _initMarkers: function () {
-            var i, marker, markerPath,
+            var i, marker, markerPath, defs
                 optionsByZoom =  this.options.byZoom,
                 id = this._markerId = 'arrow-marker-' + L.Util.stamp(this);
+
+            defs = this._getDefs();
 
             for (i in optionsByZoom) {
                 if (optionsByZoom.hasOwnProperty(i)) {
@@ -53,11 +58,24 @@ if (L.Browser.svg) {
                     markerPath.setAttribute('fill', this.options.color);
 
                     marker.appendChild(markerPath);
-                    this._path.parentNode.appendChild(marker);
+                    defs.appendChild(marker);
                     this._markersPath.push(markerPath);
                 }
+
+                this._container.parentNode.appendChild(defs);
             }
             this._updateMarker();
+        },
+
+        _getDefs: function() {
+            var defs = L.DomUtil.get('arrow-defs');
+
+            if(!defs) {
+                defs = this._createElement('defs');
+                defs.setAttribute('id', 'arrow-defs');
+            }
+
+            return defs;
         },
 
         _updateMarker: function() {

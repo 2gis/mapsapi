@@ -35,13 +35,15 @@ if (L.Path.ANIMATION_AVAILABLE) {
             }, this);
 
             this.animations = {};
-            this._addAnimations();
+            //this._addAnimations();
 
-            this._map.on('moveend', this._updateAnimations, this);
+            //this._map.on('moveend', this._updateAnimations, this);
+            this._map.on('movestart', this._removeAnimations, this);
         },
 
         runAnimation: function (name, once) {
             var res, delay, self = this;
+            this._addAnimations();
 
             if (this.animations[name]) {
                 this.animations[name].beginElement();
