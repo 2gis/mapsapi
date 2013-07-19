@@ -34,9 +34,15 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
                 y: parseInt(offsetVector.y / (100 / offsetPercents.y))
             };
 
-            // move last point back by offsetVector direction
-            origPoints[pointsLen - 1].x -= offsetTo.x;
-            origPoints[pointsLen - 1].y -= offsetTo.y;
+            // move last point forward/back by offsetVector direction
+            if (byZoom[zoom].lastPointOffset > 0) {
+                origPoints[pointsLen - 1].x += offsetTo.x;
+                origPoints[pointsLen - 1].y += offsetTo.y;
+            }
+            else {
+                origPoints[pointsLen - 1].x -= offsetTo.x;
+                origPoints[pointsLen - 1].y -= offsetTo.y;
+            }
         }
     }
 });
