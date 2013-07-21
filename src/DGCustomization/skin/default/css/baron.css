@@ -1,11 +1,5 @@
 /* baron */
 
-.scroller {
-    height: 80%;
-    overflow-y: scroll;
-   /* -webkit-overflow-scrolling: touch;*/
-}
-
 .scroller::-webkit-scrollbar {
     width: 0;
 }
@@ -13,8 +7,8 @@
 .scroller__bar-wrapper {
     position: absolute;
     z-index: 3;
-    top: 25px;
-    bottom: 25px;
+    top: 0;
+    bottom: 0;
     right: 7px;
     width: 6px;
     border-radius: 5px;
