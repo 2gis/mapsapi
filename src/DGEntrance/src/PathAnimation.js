@@ -12,7 +12,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
     });
     L.Path.include({
 
-        onAdd: function (map) {
+        onAdd: function (map) { // (L.Map)
             this._map = map;
 
             if (!this._container) {
@@ -37,7 +37,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
         },
 
-        runAnimation: function (name, once) {
+        runAnimation: function (name, once) { // (String, Boolean) -> L.Path
             var res, delay, self = this;
             //TODO Add only one animation wich you wanna run. Delete addAnimations.
             this._addAnimations();
@@ -56,14 +56,14 @@ if (L.Path.ANIMATION_AVAILABLE) {
             return this;
         },
 
-        stopAnimation: function (name) {
+        stopAnimation: function (name) { // (String) -> L.Path
             if (this.animations[name]) {
                 this.animations[name].endElement();
             }
             return this;
         },
 
-        onRemove: function (map) {
+        onRemove: function (map) { // (L.Map)
             map._pathRoot.removeChild(this._container);
             // Need to fire remove event before we set _map to null as the event hooks might need the object
             this.fire('remove');
@@ -122,7 +122,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
             }
         },
 
-        _removeAnimation: function (name) {
+        _removeAnimation: function (name) { // (String)
             if (this.animations[name]) {
                 this._path.removeChild(this.animations[name]);
                 delete this.animations[name];
