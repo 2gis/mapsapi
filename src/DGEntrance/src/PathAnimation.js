@@ -12,6 +12,8 @@ if (L.Path.ANIMATION_AVAILABLE) {
     });
     L.Path.include({
 
+        _animationEl: null,
+
         onAdd: function (map) { // (L.Map)
             this._map = map;
 
@@ -31,26 +33,23 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             map.on({
                 'viewreset': this.projectLatlngs,
-                'moveend': this._updatePath,
-                'movestart': this._removeAnimations
+                'moveend': this._updatePath
+                //'movestart': this._removeAnimation
             }, this);
 
         },
 
-        runAnimation: function (name, once) { // (String, Boolean) -> L.Path
+        runAnimation: function () {
             var res, delay, self = this;
-            //TODO Add only one animation wich you wanna run. Delete addAnimations.
-            this._addAnimations();
 
-            if (this.animations[name]) {
-                this.animations[name].beginElement();
+            this._addAnimation();
 
-                if (once) {
-                    delay = (this.animations[name].getAttribute('dur')).replace('s', '') * 1000;
-                    window.setTimeout(function() {
-                        self._removeAnimation(name);
-                    }, delay);
-                }
+            if (this._animationEl) {
+                this._animationEl.beginElement();
+                delay = (this._animationEl.getAttribute('dur')).replace('s', '') * 1000;
+                window.setTimeout(function() {
+                    self._removeAnimation;
+                }, delay);
             }
 
             return this;
@@ -80,52 +79,35 @@ if (L.Path.ANIMATION_AVAILABLE) {
                 'moveend': this._updatePath
             }, this);
 
-            this._removeAnimations();
+            this._removeAnimation();
         },
 
-        _addAnimations: function () {
-            this.animations = {};
+        _addAnimation: function () {
+            var animOptions = this.options.animation,
+                points = this._originalPoints;
 
-            var animation = this.options.animation;
-            if (animation && this._originalPoints.length > 0) {
-                for (var i = 0, len = animation.length; i < len; i++) {
-                    this._addAnimation(animation[i], this._originalPoints);
+            if (animOptions && points.length > 0) {
+                this._animationEl = this._createElement('animate');
+
+                //calculate values if attributeName: 'd' was used to animate
+                if (animOptions.getValues) {
+                    animOptions.values = animOptions.getValues(points);
                 }
-            }
-        },
 
-        _addAnimation: function (options, points) { // (Object, Array)
-            var animation = this._createElement('animate');
-
-            //calculate values if attributeName: 'd' was used to animate
-            if (options.getValues) {
-                options.values = options.getValues(points);
-            }
-
-            for (var key in options) {
-                if (options.hasOwnProperty(key) && {}.toString.call(options[key]) !== '[object Function]') {
-                    animation.setAttribute(key, options[key]);
+                for (var key in animOptions) {
+                    if (animOptions.hasOwnProperty(key) && {}.toString.call(animOptions[key]) !== '[object Function]') {
+                        this._animationEl.setAttribute(key, animOptions[key]);
+                    }
                 }
-            }
 
-            this._path.appendChild(animation);
-            this.animations[options.id] = animation;
-        },
-
-        _removeAnimations: function () {
-            var animations = this.animations;
-            for(var animation in animations) {
-                if (animations.hasOwnProperty(animation)) {
-                    //for correct geometry presentation while zooming
-                    this._removeAnimation(animation);
-                }
+                this._path.appendChild(this._animationEl);
             }
         },
 
-        _removeAnimation: function (name) { // (String)
-            if (this.animations[name]) {
-                this._path.removeChild(this.animations[name]);
-                delete this.animations[name];
+        _removeAnimation: function () {
+            if (this._animationEl) {
+                this._path.removeChild(this._animationEl);
+                this._animationEl = null;
             }
         }
     });

@@ -6,10 +6,10 @@ if (L.Browser.svg) {
         _defs: null,
 
         initialize: function (latlngs, options) { // (Array, Object)
-            var options = options || {},
-                animation = this.getArrowAnimation(latlngs.length);
+            var options = options || {};
 
-            options.animation = [animation];
+            options.animation = this.getArrowAnimation(latlngs.length);
+
             this._markersPath = [];
 
             L.Polyline.prototype.initialize.call(this, latlngs, options);
@@ -77,7 +77,6 @@ if (L.Browser.svg) {
         _initDefs: function() {
             if(!this._defs) {
                 this._defs = this._createElement('defs');
-                this._defs.setAttribute('id', 'arrow-defs');
             }
             return this._defs;
         },
