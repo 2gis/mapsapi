@@ -34,7 +34,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
             map.on({
                 'viewreset': this.projectLatlngs,
                 'moveend': this._updatePath
-                //'movestart': this._removeAnimation
+                'movestart': this._removeAnimation
             }, this);
 
         },
