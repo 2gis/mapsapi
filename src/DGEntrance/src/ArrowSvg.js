@@ -3,6 +3,8 @@ if (L.Browser.svg) {
 
     L.DG.Entrance.Arrow.include({
 
+        _defs: null,
+
         initialize: function (latlngs, options) { // (Array, Object)
             var options = options || {},
                 animation = this.getArrowAnimation(latlngs.length);
@@ -30,7 +32,6 @@ if (L.Browser.svg) {
             map.off({'movestart': this._hideMarker}, this);
             map.off({'moveend': this._showMarker}, this);
 
-            //TODO onAdd execute before previous instance onRemove, fix it.
             this._removeMarkers();
         },
 
@@ -41,12 +42,12 @@ if (L.Browser.svg) {
         },
 
         _initMarkers: function () {
-            var i, marker, markerPath, defs
+            var i, marker, markerPath,
                 optionsByZoom =  this.options.byZoom,
                 id = this._markerId = 'arrow-marker-' + L.Util.stamp(this),
                 svg = this._container.parentNode;
 
-            defs = this._getDefs();
+            this._initDefs();
 
             for (i in optionsByZoom) {
                 if (optionsByZoom.hasOwnProperty(i)) {
@@ -64,31 +65,25 @@ if (L.Browser.svg) {
                     markerPath.setAttribute('fill', this.options.color);
 
                     marker.appendChild(markerPath);
-                    defs.appendChild(marker);
+                    this._defs.appendChild(marker);
                     this._markersPath.push(markerPath);
                 }
             }
 
-            this._defs = defs;
-            svg.insertBefore(defs, svg.firstChild);
+            svg.insertBefore(this._defs, svg.firstChild);
             this._updateMarker();
         },
 
-        _getDefs: function() {
-            var defs = L.DomUtil.get('arrow-defs');
-
-            if(!defs) {
-                defs = this._createElement('defs');
-                defs.setAttribute('id', 'arrow-defs');
+        _initDefs: function() {
+            if(!this._defs) {
+                this._defs = this._createElement('defs');
+                this._defs.setAttribute('id', 'arrow-defs');
             }
-
-            return defs;
+            return this._defs;
         },
 
-        //TODO Refactor it! Remove it by reference
         _removeMarkers: function() {
-            var defs = L.DomUtil.get('arrow-defs');
-
+            var defs = this._defs;
             if (defs) {
                 defs.parentNode.removeChild(defs);
             }
