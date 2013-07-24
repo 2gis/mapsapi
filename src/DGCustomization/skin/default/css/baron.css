@@ -6,7 +6,6 @@
 
 .scroller__bar-wrapper {
     position: absolute;
-    z-index: 3;
     top: 0;
     bottom: 0;
     right: 7px;
