@@ -36,11 +36,20 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalSetContent = L.Popup.prototype.setContent,
+        originalOnAdd = L.Popup.prototype.onAdd,
         graf = baron.noConflict(),
         baronInstance,
         tmpl = __DGCustomization_TMPL__;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
+
+    L.Popup.prototype.onAdd = function (map) {
+        map.on('dgEntranceShow', function() {
+            map.closePopup(this);
+        }, this);
+        
+        return originalOnAdd.call(this, map);
+    };
 
     L.Popup.prototype.setContent = function (content) {
         this._shouldInitPopupContainer = true;

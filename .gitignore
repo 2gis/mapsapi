@@ -15,4 +15,3 @@ docbuilder/doc
 config.local.json
 
 public/dev*
-public/i.html
