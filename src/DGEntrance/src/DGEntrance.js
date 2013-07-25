@@ -124,7 +124,8 @@ L.DG.Entrance = L.Class.extend({
 
     _fitBounds: function () {
         if (!this._isAllowedZoom()) {
-            this._map.setView(this.getBounds().getCenter(), this._map.dgProjectDetector.getProject().max_zoomlevel, { animate: false });
+            this._map.panTo(this.getBounds().getCenter(), {animate: false});
+            this._map.setZoom(this._map.dgProjectDetector.getProject().max_zoomlevel, {animate: false});
         }
 
         if (!this._map.getBounds().contains(this.getBounds())) {
