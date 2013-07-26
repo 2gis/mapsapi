@@ -21,16 +21,21 @@ if (L.Browser.svg) {
 
             map.on({'zoomend': this._updateMarker}, this);
             map.on({'zoomend': this._updateStyle}, this);
-            map.on({'movestart': this._hideMarker}, this);
             map.on({'moveend': this._showMarker}, this);
+
+            // see comments about "walking arrow" in JSAPI-3085
+            map.on({'movestart': this._hideMarker}, this);
+            map.on({'moveend': this._hideMarker}, this);
         },
 
         onRemove: function (map){ // (L.Map)
             L.Path.prototype.onRemove.call(this, map);
             map.off({'zoomend': this._updateMarker}, this);
             map.off({'zoomend': this._updateStyle}, this);
-            map.off({'movestart': this._hideMarker}, this);
             map.off({'moveend': this._showMarker}, this);
+
+            map.off({'movestart': this._hideMarker}, this);
+            map.off({'moveend': this._hideMarker}, this);
 
             this._removeMarkers();
         },
@@ -98,13 +103,8 @@ if (L.Browser.svg) {
         },
 
         _showMarker: function() {
-            var zoom = this._map.getZoom(),
-                endPoint = this._originalPoints[this._originalPoints.length - 1];
-
-            // see comment 27.07.13 in JSAPI-3085
-            if (this._map._pathViewport.contains(endPoint)) {
-                this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
-            }
+            var zoom = this._map.getZoom();
+            this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
         },
 
         _hideMarker: function(onlyOutsideViewport) { // (Boolean)
@@ -117,6 +117,7 @@ if (L.Browser.svg) {
 
             if (onlyOutsideViewport) {
                 endPoint = origPoints[origPoints.length - 1];
+                console.log('_hideMarker ', this._map._pathViewport.contains(endPoint));
                 if (!this._map._pathViewport.contains(endPoint)) {
                     this._path.setAttribute('marker-end', 'url(#)');
                 }
