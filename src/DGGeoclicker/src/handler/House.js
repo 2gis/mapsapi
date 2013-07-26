@@ -110,6 +110,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
             scrollerBar = document.getElementById('scroller__bar');
             this._scroller.onselectstart = function() { return false; };
+            L.DomUtil.addClass(this._scroller, 'scroller-with-header');
+            L.DomUtil.addClass(L.DomUtil.get('scroller__bar-wrapper'), 'scroller__bar-wrapper-with-header')
         }
 
         if (scrollerBar) {
