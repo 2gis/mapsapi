@@ -27,7 +27,7 @@ var deps = {
         src: ['DGWkt/Wkt.js',
               'DGWkt/DGWkt.js'
         ],
-        deps: ['DGCore']
+        deps: ['DGCore', 'GeoJSON']
     },
 
     DGCustomization: {
