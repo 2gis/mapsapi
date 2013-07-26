@@ -98,19 +98,24 @@ if (L.Browser.svg) {
         },
 
         _showMarker: function() {
-            var zoom = this._map.getZoom();
-            this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+            var zoom = this._map.getZoom(),
+                endPoint = this._originalPoints[this._originalPoints.length - 1];
+
+            // see comment 27.07.13 in JSAPI-3085
+            if (this._map._pathViewport.contains(endPoint)) {
+                this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+            }
         },
 
-        _hideMarker: function(detectViewport) { // (Boolean)
+        _hideMarker: function(onlyOutsideViewport) { // (Boolean)
             var origPoints = this._originalPoints,
                 endPoint;
 
-            if (typeof detectViewport === 'undefined') {
-                detectViewport = true;
+            if (typeof onlyOutsideViewport === 'undefined') {
+                onlyOutsideViewport = true;
             }
 
-            if (detectViewport) {
+            if (onlyOutsideViewport) {
                 endPoint = origPoints[origPoints.length - 1];
                 if (!this._map._pathViewport.contains(endPoint)) {
                     this._path.setAttribute('marker-end', 'url(#)');
