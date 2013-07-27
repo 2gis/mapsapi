@@ -16,7 +16,7 @@ if (L.Browser.svg) {
         },
 
         onAdd: function (map){ // (L.Map)
-            L.Path.prototype.onAdd.call(this, map);
+            L.Polyline.prototype.onAdd.call(this, map);
             this._initMarkers();
 
             map.on({'zoomend': this._updateMarker}, this);
@@ -29,7 +29,7 @@ if (L.Browser.svg) {
         },
 
         onRemove: function (map){ // (L.Map)
-            L.Path.prototype.onRemove.call(this, map);
+            L.Polyline.prototype.onRemove.call(this, map);
             map.off({'zoomend': this._updateMarker}, this);
             map.off({'zoomend': this._updateStyle}, this);
             map.off({'moveend': this._showMarker}, this);
@@ -117,7 +117,6 @@ if (L.Browser.svg) {
 
             if (onlyOutsideViewport) {
                 endPoint = origPoints[origPoints.length - 1];
-                console.log('_hideMarker ', this._map._pathViewport.contains(endPoint));
                 if (!this._map._pathViewport.contains(endPoint)) {
                     this._path.setAttribute('marker-end', 'url(#)');
                 }
