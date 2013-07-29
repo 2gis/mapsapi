@@ -38,7 +38,10 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         originalSetContent = L.Popup.prototype.setContent,
         graf = baron.noConflict(),
         baronInstance,
-        tmpl = __DGCustomization_TMPL__;
+        tmpl = __DGCustomization_TMPL__,
+        ua = navigator.userAgent.toLowerCase(),
+        dolphin = ua.indexOf('dolphin') !== -1,
+        androidNative = (ua.indexOf('Mozilla/5.0') > -1 && ua.indexOf('Android ') > -1 && ua.indexOf('AppleWebKit') > -1);
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
@@ -126,7 +129,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         var popupHeight = this._contentNode.offsetHeight,
             maxHeight = this.options.maxHeight;
 
-            return (maxHeight && maxHeight <= popupHeight);
+            return (maxHeight && maxHeight <= popupHeight) && !androidNative && !dolphin;
     };
 
     L.Popup.prototype._initBaron = function () {
