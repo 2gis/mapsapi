@@ -38,10 +38,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         originalSetContent = L.Popup.prototype.setContent,
         graf = baron.noConflict(),
         baronInstance,
-        tmpl = __DGCustomization_TMPL__,
-        ua = navigator.userAgent.toLowerCase(),
-        dolphin = ua.indexOf('dolphin') !== -1,
-        androidNative = (ua.indexOf('Mozilla/5.0') > -1 && ua.indexOf('Android ') > -1 && ua.indexOf('AppleWebKit') > -1);
+        tmpl = __DGCustomization_TMPL__;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
@@ -129,7 +126,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         var popupHeight = this._contentNode.offsetHeight,
             maxHeight = this.options.maxHeight;
 
-            return (maxHeight && maxHeight <= popupHeight) && !androidNative && !dolphin;
+            return (maxHeight && maxHeight <= popupHeight);
     };
 
     L.Popup.prototype._initBaron = function () {
@@ -138,6 +135,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         baronInstance = graf({
             scroller: '.scroller',
             bar: '.scroller__bar',
+            track: '.scroller__bar-wrapper',
             $: function(selector, context) {
               return bonzo(qwery(selector, context));
             },
