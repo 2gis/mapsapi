@@ -9,7 +9,7 @@ var
     $ = window.jQuery, // Trying to use jQuery
     // browser detection
     ua = navigator.userAgent.toLowerCase(),
-    androidNative = (ua.indexOf('mozilla/5.0') > -1 && ua.indexOf('android ') > -1 && ua.indexOf('applewebkit') > -1),
+    androidNative = (ua.indexOf('chrome') === -1 && ua.indexOf('firefox') === -1 && ua.indexOf('mozilla/5.0') > -1 && ua.indexOf('android ') > -1 && ua.indexOf('applewebkit') > -1),
 
     origin = {
         v: { // Vertical
