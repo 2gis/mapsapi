@@ -9,8 +9,7 @@ var
     $ = window.jQuery, // Trying to use jQuery
     // browser detection
     ua = navigator.userAgent.toLowerCase(),
-    dolphin = ua.indexOf('dolphin') !== -1,
-    androidNative = (ua.indexOf('Mozilla/5.0') > -1 && ua.indexOf('Android ') > -1 && ua.indexOf('AppleWebKit') > -1),
+    androidNative = (ua.indexOf('mozilla/5.0') > -1 && ua.indexOf('android ') > -1 && ua.indexOf('applewebkit') > -1),
 
     origin = {
         v: { // Vertical
@@ -249,7 +248,7 @@ var
             if (!this.track && this.bar) {
                 track = this.bar.parentNode;
             }
-            if (dolphin || androidNative) {
+            if (androidNative) {
                 $(track).addClass('hidden');
             }
             this.clipper = this.scroller.parentNode;
