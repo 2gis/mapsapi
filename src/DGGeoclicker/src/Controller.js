@@ -7,8 +7,9 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
             "house": L.DG.Geoclicker.Handler.House,
 
-            "district": L.DG.Geoclicker.Handler.HandlerExample,
-            "city": L.DG.Geoclicker.Handler.HandlerExample,
+            "street": L.DG.Geoclicker.Handler.CityArea,
+            "district": L.DG.Geoclicker.Handler.CityArea,
+            "city": L.DG.Geoclicker.Handler.CityArea,
 
             "default": L.DG.Geoclicker.Handler.Default
 //            station_platform
@@ -55,6 +56,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
     handleResponse: function (result) { // (Object)
         var type;
+
         this._view.hideLoader();
         if (!result) {
             this._runHandler('default');
@@ -112,5 +114,3 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     }
 
 });
-
-
