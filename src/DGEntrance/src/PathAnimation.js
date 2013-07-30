@@ -6,14 +6,38 @@ L.Path.ANIMATION_AVAILABLE =
 
 if (L.Path.ANIMATION_AVAILABLE) {
 
+   L.Map.include({
+        _initPathRoot: function () {
+            if (!this._pathRoot) {
+                this._pathRoot = L.Path.prototype._createElement('svg');
+                this._panes.overlayPane.appendChild(this._pathRoot);
+            }
+            if (this.options.zoomAnimation && L.Browser.any3d) {
+                this._pathRoot.setAttribute('class', ' leaflet-zoom-animated');
+
+                this.on({
+                    'zoomanim': this._animatePathZoom,
+                    'zoomend': this._endPathZoom
+                });
+            } else {
+                this._pathRoot.setAttribute('class', ' leaflet-zoom-hide');
+            }
+
+            this.on('moveend', this._updateSvgViewport);
+            this._updateSvgViewport();
+        }
+    });
+
     //Fix animation for safari, it needs svg element in DOM on page load
     L.Map.addInitHook(function () {
-        this._initPathRoot();
+        this._pathRoot = L.Path.prototype._createElement('svg');
+        this._panes.overlayPane.appendChild(this._pathRoot);
     });
+
     L.Path.include({
 
         runAnimation: function () {
-            var res, delay, 
+            var res, delay,
                 self = this,
                 animationEl = this._addAnimation();
 
