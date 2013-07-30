@@ -51,7 +51,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 				.on('zoomend', this._onZoomChange, this);
 
         return {
-            tmpl: results[type].name == '' ? this.t("We don't know name of this place") : results[type].name
+            tmpl: this.t(type) + ': ' + (results[type].short_name == '' ? this.t('noname') : results[type].short_name)
         };
     },
 
