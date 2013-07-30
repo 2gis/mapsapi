@@ -154,8 +154,9 @@ L.DG.Entrance = L.Class.extend({
                             d: 'M10,5C9.488,5,8.976,5.195,8.586,5.586l-1,1c-0.674,0.674-0.779,1.73-0.25,2.523L9,11.605v0.789 l-1.664,2.496c-0.529,0.793-0.424,1.85,0.25,2.523l1,1C8.976,18.805,9.488,19,10,19s1.023-0.195,1.414-0.586l5-5 c0.781-0.781,0.781-2.047,0-2.828l-5-5C11.023,5.195,10.512,5,10,5L10,5z'
                         }
                     },
-                    lastPointOffset: 0,
-                    vmlEndArrow: 'none'
+                    lastPointOffset: 2,
+                    vmlEndArrow: 'none',
+                    weight: 6
                 },
                 17: {
                     marker: {
@@ -168,8 +169,9 @@ L.DG.Entrance = L.Class.extend({
                             d: 'M10,3C9.488,3,8.976,3.195,8.586,3.586l-1,1c-0.609,0.608-0.76,1.539-0.375,2.309L9,10.472v3.057 l-1.789,3.577c-0.385,0.771-0.234,1.7,0.375,2.309l1,1C8.976,20.805,9.488,21,10,21s1.023-0.195,1.414-0.586l7-7 c0.781-0.781,0.781-2.047,0-2.828l-7-7C11.023,3.195,10.512,3,10,3L10,3z'
                         }
                     },
-                    lastPointOffset: !L.Browser.vml ? -3 : 0,
-                    vmlEndArrow: 'none'
+                    lastPointOffset: 0,
+                    vmlEndArrow: 'none',
+                    weight: 7
                 },
                 18: {
                     marker: {
@@ -182,9 +184,9 @@ L.DG.Entrance = L.Class.extend({
                             d: 'M8,1C7.488,1,6.976,1.195,6.586,1.586l-1,1c-0.674,0.674-0.779,1.73-0.25,2.523L9,10.605v2.789l-3.664,5.496 c-0.529,0.793-0.424,1.85,0.25,2.523l1,1C6.976,22.805,7.488,23,8,23s1.024-0.195,1.414-0.586l9-9c0.781-0.781,0.781-2.047,0-2.828 l-9-9C9.024,1.195,8.512,1,8,1L8,1z'
                         }
                     },
-                    lastPointOffset: !L.Browser.vml ? -3 : -2,
+                    lastPointOffset: !L.Browser.vml ? -5 : -2,
                     vmlEndArrow: 'none',
-                    weight: 10
+                    weight: 8
                 }
             }
         };
@@ -207,7 +209,8 @@ L.DG.Entrance = L.Class.extend({
                             points: '15,12 10,7 9,8 11,11 11,13 9,16 10,17'
                         }
                     },
-                    lastPointOffset: 0
+                    lastPointOffset: 2,
+                    weight: 2
                 },
                 17: {
                     marker: {
@@ -220,7 +223,8 @@ L.DG.Entrance = L.Class.extend({
                             points: '17,12 10,5 9,6 11,10 11,14 9,18 10,19'
                         }
                     },
-                    lastPointOffset: !L.Browser.vml ? -3 : 0
+                    lastPointOffset: 0,
+                    weight: 3
                 },
                 18: {
                     marker: {
@@ -233,7 +237,7 @@ L.DG.Entrance = L.Class.extend({
                             points: '17,12 8,3 7,4 11,10 11,14 7,20 8,21'
                         }
                     },
-                    lastPointOffset: !L.Browser.vml ? -3 : 0,
+                    lastPointOffset: !L.Browser.vml ? -5 : 0,
                     weight: 4
                 }
             }
