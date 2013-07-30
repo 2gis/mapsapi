@@ -135,6 +135,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         baronInstance = graf({
             scroller: '.scroller',
             bar: '.scroller__bar',
+            track: '.scroller__bar-wrapper',
             $: function(selector, context) {
               return bonzo(qwery(selector, context));
             },

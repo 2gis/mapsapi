@@ -35,3 +35,6 @@
     position: absolute;
     z-index: 1; /* Removing flicker effect */
 }
+.hidden {
+    display: none;
+}
