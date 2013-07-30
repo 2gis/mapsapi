@@ -123,17 +123,19 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _fitBounds: function () {
-        if (!this._isAllowedZoom()) {
-            this._map.panTo(this.getBounds().getCenter(), {animate: false});
-            this._map.setZoom(this._map.dgProjectDetector.getProject().max_zoomlevel, {animate: false});
+        var map = this._map;
+
+        if (!map.getBounds().contains(this.getBounds())) {
+            map.panTo(this.getBounds().getCenter(), {animate: false});
         }
 
-        if (!this._map.getBounds().contains(this.getBounds())) {
-            this._map.panTo(this.getBounds().getCenter(), {animate: false});
+        if (!this._isAllowedZoom()) {
+            map.setZoom(map.dgProjectDetector.getProject().max_zoomlevel, {animate: false});
         }
     },
 
     _isAllowedZoom: function () {
+        console.log(this._map.getZoom());
         return !(this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM);
     },
 
