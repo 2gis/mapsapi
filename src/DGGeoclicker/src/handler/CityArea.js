@@ -71,7 +71,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         return false;
     },
 
-    _onZoomChange: function(e) {
+    _onZoomChange: function() {
     	var newStyle = this._getPolyStyle(this._map.getZoom());
 
     	if (newStyle != this._geometryStyle) {
