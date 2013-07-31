@@ -135,7 +135,6 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _isAllowedZoom: function () {
-        console.log(this._map.getZoom());
         return !(this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM);
     },
 
