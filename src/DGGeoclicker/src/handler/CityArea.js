@@ -5,32 +5,36 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     },
 
 	_polylineStyles : {
-	    9 : {
+	    11 : {
             fillColor: '#ff9387', 
             fillOpacity: 0.18,
-            strokeColor: '#ff9387',
-            strokeWidth: 1,
+            color: '#ff9387',
+            opacity: 1,
+            weight: 1,
+            clickable: false
+        },
+        12 : {
+            fillColor: '#ff9387', 
+            fillOpacity: 0.12,
+            color: '#ff9387',
+            opacity: 1,
+            weight: 1,
             clickable: false
         },
         13 : {
-            fillColor: '#ff9387', 
-            fillOpacity: 0.12,
-            strokeColor: '#ff9387',
-            strokeWidth: 1,
-            clickable: false
-        },
-        14 : {
-            fillColor: '#ff9387', 
+            fillColor: '#ff9387',
             fillOpacity: 0.08,
-            strokeColor: '#ff9387',
-            strokeWidth: 2,
+            color: '#ff9387',
+            opacity: 1,
+            weight: 2,
             clickable: false
         },
         18 : {
             fillColor: '#ff9387', 
             fillOpacity: 0,
-            strokeColor: '#ff9387',
-            strokeWidth: 3,
+            color: '#ff9387',
+            opacity: 1,
+            weight: 3,
             clickable: false
         }
     },
@@ -74,7 +78,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     _onZoomChange: function() {
     	var newStyle = this._getPolyStyle(this._map.getZoom());
 
-    	if (newStyle != this._geometryStyle) {
+    	if (newStyle && newStyle != this._geometryStyle) {
     		this._geometryStyle = newStyle;
     		this._geometry.setStyle( newStyle );
     	}

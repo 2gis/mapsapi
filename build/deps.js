@@ -108,6 +108,7 @@ var deps = {
             'DGGeoclicker/lang/ru/handler/Default.js',
             'DGGeoclicker/src/handler/CityArea.js',
             'DGGeoclicker/lang/it/handler/CityArea.js',
+            'DGGeoclicker/lang/en/handler/CityArea.js',
             'DGGeoclicker/lang/ru/handler/CityArea.js',
             'DGGeoclicker/src/handler/House.js',
             'DGGeoclicker/lang/it/handler/House.js',

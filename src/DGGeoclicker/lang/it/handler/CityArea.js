@@ -1,6 +1,6 @@
 L.DG.Geoclicker.Handler.CityArea.Dictionary.it = {
-    "noname": 'без названия',
-    "street": 'Улица',
-    "district": 'Район',
-    "city": 'Город'
+    "noname": "nome non presente",
+	"street": "Via",
+	"disctict": "Località",
+    "city": "Сittà"
 };
