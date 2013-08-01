@@ -127,6 +127,20 @@ var deps = {
         src: [
             'DGTemplate/src/DGTemplate.js'
         ]
+    },
+
+    DGEntrance: {
+        desc: '2GIS Entrances.',
+        src: [
+            'DGEntrance/src/DGEntrance.js',
+            'DGEntrance/src/PathAnimation.js',
+            'DGEntrance/src/Arrow.js',
+            'DGEntrance/src/ArrowSvg.js',
+            'DGEntrance/src/ArrowVml.js',
+            'DGEntrance/src/ArrowSvgAnimationOptions.js',
+            'DGEntrance/src/EventHandler.js'
+        ],
+        deps: ['DGCore', 'DGWkt']
     }
 };
 

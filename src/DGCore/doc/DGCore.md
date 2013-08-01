@@ -414,6 +414,16 @@
 		<td><code><a href="#popup-event">PopupEvent</a></code>
 		<td>Вызывается при закрытии балуна (используется метод <code>closePopup</code>).</td>
 	</tr>
+	<tr>
+		<td><code><b>dgEntranceShow</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при отображении входа в здание.</td>
+	</tr>
+	<tr>
+		<td><code><b>dgEntranceHide</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при скрытии входа в здание.</td>
+	</tr>
 </table>
 
 ### Методы изменения состояния карты

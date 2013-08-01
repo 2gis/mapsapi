@@ -7,6 +7,10 @@ var
     scrolls = [],
     _baron = window.baron, // Stored baron vaule for noConflict usage
     $ = window.jQuery, // Trying to use jQuery
+    // browser detection
+    ua = navigator.userAgent.toLowerCase(),
+    androidNative = (ua.indexOf('chrome') === -1 && ua.indexOf('firefox') === -1 && ua.indexOf('mozilla/5.0') > -1 && ua.indexOf('android ') > -1 && ua.indexOf('applewebkit') > -1),
+
     origin = {
         v: { // Vertical
             x: 'Y', pos: 'top', crossPos: 'left', size: 'height', crossSize: 'width',
@@ -240,8 +244,12 @@ var
             this.scroller = getNode(params.scroller); // (params.scroller) ? getNode(params.scroller, this.root) : this.root;
             this.bar = getNode(params.bar, this.root);
             track = this.track = getNode(params.track, this.root);
+
             if (!this.track && this.bar) {
                 track = this.bar.parentNode;
+            }
+            if (androidNative) {
+                $(track).addClass('hidden');
             }
             this.clipper = this.scroller.parentNode;
 
