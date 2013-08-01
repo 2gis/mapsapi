@@ -1,6 +1,6 @@
-L.DG.Geoclicker.Handler.CityArea.Dictionary.en = {
+L.DG.Geoclicker.Handler.CityArea.Dictionary.en = L.extend({
     "noname": "without name",
 	"street": "Street",
-	"disctict": "Disctict",
+	"district": "Disctict",
     "city": "City"
-};
+}, L.DG.Dictionary.en);

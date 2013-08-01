@@ -1,6 +1,6 @@
-L.DG.Geoclicker.Handler.CityArea.Dictionary.it = {
+L.DG.Geoclicker.Handler.CityArea.Dictionary.it = L.extend({
     "noname": "nome non presente",
 	"street": "Via",
-	"disctict": "Località",
+	"district": "Località",
     "city": "Сittà"
-};
+}, L.DG.Dictionary.it);

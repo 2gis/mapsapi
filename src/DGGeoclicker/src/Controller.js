@@ -12,12 +12,9 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             "city": L.DG.Geoclicker.Handler.CityArea,
 
             "default": L.DG.Geoclicker.Handler.Default
+
 //            station_platform
-//
-//            street
-//            district
 //            project
-//            house
 //            sight
 //            place
 //            station
