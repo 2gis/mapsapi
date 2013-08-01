@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>FirmCard Demo</title>
+	<meta charset="utf-8">
+	<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug"></script>
+	<script type="text/javascript" src="dataMock.js"></script>
+	<script type="text/javascript" src="polyfills.js"></script>
+	<script type="text/javascript" src="ForecastHelper.js"></script>
+	<script type="text/javascript" src="TranslateHelper.js"></script>
+	<script type="text/javascript" src="FirmCard.js"></script>
+	<script type="text/javascript" src="FirmCardEventListener.js"></script>
+	<script type="text/javascript" src="Schedule.js"></script>
+	<script type="text/javascript" src="firmcard-template.js"></script>
+	<style type="text/css">
+	h2 {
+		font-size: 14px;
+	}
+	</style>
+</head>
+<body>
+	<div id="map" style="width: 50%; height: 200px; border: 1px solid #ccc;"></div>
+	<div id="container"></div>
+	<script type="text/javascript">
+	var map;
+	L.onLoad(function () {
+		map = new L.Map('map', {
+            "center": new L.LatLng(54.980206086231, 82.898068362003),
+            "zoom": 13,
+            "dgGeoclicker": true
+        });
+	//PLUGIN MOCK
+		 L.DG.Plugin = L.Control.extend({
+            includes: L.DG.Locale,
+            statics: {
+                Dictionary: {}
+            },
+            _container: null,
+            onAdd: function (map) {
+                this._container = L.DomUtil.create('div', 'locale-example');
+                this._map.on('dgLangChange', this._updateText, this);
+                this._updateText();
+                return this._container;
+            },
+
+            _updateText:function () {
+                this._container.innerHTML = '<h1>' + this.t("{n} people", 16700000) + ' ' + this.t("regularly use 2GIS") + '</h1>';
+            }
+        });
+
+        //{APP_CORE}/src/{Plugin}/lang/it.js
+        L.DG.Plugin.Dictionary.it = L.extend({
+            "Open": "Aperto",
+			"Close": "Chiuso",
+			"lunch": "pausa pranzo",
+			"Lunch": "Pausa pranzo",
+			"Working days": "Giorni feriali",
+			"rest day": "chiusura",
+			"minutes": "minuti",
+			"will open": "apre",
+			"reviews on Flamp": "Recensioni su Flamp",
+			"open in": "Riapre tra",
+			"write review on Flamp": "Scrivi una recensione su Flamp",
+			"payment": "pagamento",
+			"daily": "Ogni giorno dalle",
+			"works around the clock": "Operativo 24 ore su 24",
+			"know more": "ulteriori informazioni",
+			"one hour": '1h e',
+			"hour" : "un'ora",
+			"less": "meno di",
+			"remains": "mancano",
+			"pay internet": "Pagamento on-line",
+			"pay noncash": "Pagamento non in contanti",
+			"pay goldcrown": "Zolotaja Korona",
+			"pay dinersclub": "Diners Club",
+			"pay mastercard": "MasterCard",
+			"pay visa": "Visa",
+			"pay cash": "Pagamento in contanti",
+			"pay americanexpress": "American Express",
+			"to close": "alla chiusura",
+			"is lunch": "Pranzo",
+			"working time": "Orario di lavoro",
+			"show all org in rubric": "Visualizza tutte le aziende della categoria",
+			"today is restday": "Oggi chiuso",
+			"today": "oggi",
+			"today msg": "",
+			"less then hour":"meno di un'ora",
+			"you could late": "Affrettarsi, chiusura imminente",
+			"to lunch": "alla pausa pranzo",
+			"monday": "lunedi",
+			"tuesday": "martedì",
+			"wednesday": "mercoledì",
+			"thursday": "giovedi",
+			"friday": "venerdì",
+			"saturday": "sabato",
+			"sunday": "domenica",
+			"in monday": "il Lunedi",
+			"in tuesday": "il Martedì",
+			"in wednesday": "il Mercoledì",
+			"in thursday": "il Giovedi",
+			"in friday": "il Venerdì",
+			"in saturday": "il Sabato",
+			"in sunday": "la Domenica"
+        }, L.DG.Dictionary.it);
+
+        //{APP_CORE}/src/{Plugin}/lang/ru.js
+        L.DG.Plugin.Dictionary.ru = L.extend({
+            "Open": "Открыто",
+			"Close": "Закрыто",
+			"lunch": "обед",
+			"Lunch": "Обед",
+			"Working days": "Рабочие дни",
+			"rest day": "выходной",
+			"minutes": "минут",
+			"will open": "откроется",
+			"reviews on Flamp": "Отзывы на Флампе",
+			"open in":"открывается через",
+			"write review on Flamp": "Написать отзыв на Флампе",
+			"payment": "оплата",
+			"daily": "ежедневно",
+			"works around the clock": "Работает круглосуточно",
+			"know more": "узнать больше",
+			"one hour": "1 час",
+			"hour" : "час",
+			"less": "менее",
+			"remains": "",
+			"pay internet": "Оплата через Интернет",
+			"pay noncash": "Безналичный расчет",
+			"pay goldcrown": "Золотая Корона",
+			"pay dinersclub": "Diners Club",
+			"pay mastercard": "Mastercard",
+			"pay visa": "Visa",
+			"pay cash": "Наличный расчет",
+			"pay americanexpress": "American Express",
+			"to close": "до закрытия",
+			"is lunch": "обед",
+			"working time": "рабочее время",
+			"show all org in rubric": "Показать все организации рубрики",
+			"today is restday": "cегодня выходной",
+			"today": "cегодня",
+			"today msg": "cегодня",
+			"less then hour":"менее часа",
+			"you could late": "вы можете не успеть",
+			"to lunch": "до обеда",
+			"monday": "понедельник",
+			"tuesday": "вторник",
+			"wednesday": "среда",
+			"thursday": "четверг",
+			"friday": "пятница",
+			"saturday": "суббота",
+			"sunday": "воскресенье",
+			"in monday": "в понедельник",
+			"in tuesday": "во вторник",
+			"in wednesday": "в среду",
+			"in thursday": "в четверг",
+			"in friday": "в пятницу",
+			"in saturday": "в субботу",
+			"in sunday": "в воскресенье"
+        }, L.DG.Dictionary.ru);
+
+		var plugin = new L.DG.Plugin();
+		map.addControl(plugin);
+		// END PLUGIN MOCK
+
+		//INITIALIZE FIRMCARD WITH TEMPLATE, EVENT, LOCALIZATION ENGINES
+		FirmCard.setOptions({
+			render: function(tmpl, data) {
+				return L.DG.Template(tmpl, data);
+			},
+			event: function(mode, el, event, callback) {
+				switch(mode) {
+					case 'fire':
+						map.fire(event, el);
+						break;
+					case 'on':
+						//map.on(el, event, callback);
+						L.DomEvent.on(el, event, callback);
+						break;
+					case 'off':
+						L.DomEvent.off(el, event, callback);
+						break;
+				}
+			},
+			t: function(msg, arg) {
+				return plugin.t(msg, arg);
+			}
+		});
+
+
+		var firm, 
+			fragment = document.createDocumentFragment(),
+			firms = firmsMock.results;
+
+			// FirmCards loop
+			for (var i = 0, len = firms.length; i < len; i++) {
+				firm = new FirmCard({
+					firm: firms[i],
+					tmpl: firmCardFullTmpl
+				});
+				fragment.appendChild(firm.getContainer());
+			}
+
+			document.getElementById('container').appendChild(fragment);
+
+			FirmCardEventListener.initEvents();
+	});
+	</script>
+</body>
+</html>
