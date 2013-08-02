@@ -132,7 +132,10 @@ if (L.Browser.svg) {
 
         _showMarker: function() {
             var zoom = this._map.getZoom();
-            this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+
+            if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
+                this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
+            }
         },
 
         _hideMarker: function(onlyOutsideViewport) { // (Boolean)

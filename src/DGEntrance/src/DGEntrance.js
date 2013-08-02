@@ -27,7 +27,7 @@ L.DG.Entrance = L.Class.extend({
 
         // hide without event by default
         this._arrows.eachLayer(function (arrow) {
-            arrow.setStyle({ opacity: 0 });
+            arrow._path.setAttribute('visibility', 'hidden');
         });
         this._isShown = false;
     },
@@ -59,7 +59,7 @@ L.DG.Entrance = L.Class.extend({
             }
             if (this._isAllowedZoom()) {
                 this._arrows.eachLayer(function (arrow) {
-                    arrow.setStyle({opacity: 1});
+                    arrow._path.setAttribute('visibility', 'visible');
                     if (L.Path.ANIMATION_AVAILABLE) {
                         arrow.runAnimation('animateArrowPathGeom');
                     }
@@ -77,7 +77,7 @@ L.DG.Entrance = L.Class.extend({
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.setStyle({opacity: 0});
+                arrow._path.setAttribute('visibility', 'hidden');
             });
             this._isShown = false;
             this._map.fire('dgEntranceHide');
@@ -123,13 +123,14 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _fitBounds: function () {
-        if (!this._isAllowedZoom()) {
-            this._map.panTo(this.getBounds().getCenter(), {animate: false});
-            this._map.setZoom(this._map.dgProjectDetector.getProject().max_zoomlevel, {animate: false});
+        var map = this._map;
+
+        if (!map.getBounds().contains(this.getBounds())) {
+            map.panTo(this.getBounds().getCenter(), {animate: false});
         }
 
-        if (!this._map.getBounds().contains(this.getBounds())) {
-            this._map.panTo(this.getBounds().getCenter(), {animate: false});
+        if (!this._isAllowedZoom()) {
+            map.setZoom(map.dgProjectDetector.getProject().max_zoomlevel, {animate: false});
         }
     },
 
@@ -142,6 +143,7 @@ L.DG.Entrance = L.Class.extend({
             clickable: false,
             color: '#fff',
             weight: 6,
+            opacity: 1,
             byZoom: {
                 16: {
                      marker: {
@@ -197,6 +199,7 @@ L.DG.Entrance = L.Class.extend({
             clickable: false,
             color: '#6f8497',
             weight: 3,
+            opacity: 1,
             byZoom: {
                 16: {
                     marker: {
