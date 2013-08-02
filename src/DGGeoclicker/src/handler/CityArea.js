@@ -4,38 +4,29 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         Dictionary: {}
     },
 
+    _polylineStyleDefault : {
+    	fillColor: '#ff9387',
+	    color: '#ff9387',
+	    clickable: false,
+	    noClip:true,
+	    opacity: 1
+    },
 	_polylineStyles : {
-	    11 : {
-            fillColor: '#ff9387', 
+	    11 : { 
             fillOpacity: 0.18,
-            color: '#ff9387',
-            opacity: 1,
-            weight: 1,
-            clickable: false
+            weight: 1
         },
         12 : {
-            fillColor: '#ff9387', 
             fillOpacity: 0.12,
-            color: '#ff9387',
-            opacity: 1,
-            weight: 1,
-            clickable: false
+            weight: 1
         },
         13 : {
-            fillColor: '#ff9387',
             fillOpacity: 0.08,
-            color: '#ff9387',
-            opacity: 1,
-            weight: 2,
-            clickable: false
+            weight: 2
         },
         18 : {
-            fillColor: '#ff9387', 
             fillOpacity: 0,
-            color: '#ff9387',
-            opacity: 1,
-            weight: 3,
-            clickable: false
+            weight: 3
         }
     },
 	_wktParser : L.DG.wkt(),
@@ -69,7 +60,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 
         for (i in this._polylineStyles) if (this._polylineStyles.hasOwnProperty(i)) {
             if (zoom <= i) {
-            	return this._polylineStyles[i];
+            	return L.extend(this._polylineStyleDefault, this._polylineStyles[i]);
             }
         }
         return false;
