@@ -4,12 +4,12 @@ L.Map.mergeOptions({
 
 L.DG.ProjectDetector = L.Handler.extend({
     options: {
-        url: '__WEB_API_SERVER__/project/list',
+        url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         data: {
             key: '__WEB_API_KEY__',
-            version: '__WEB_API_VERSION__',
-            lang: '__DEFAULT_LANG__',
-            output: 'jsonp'
+            fields: '__PROJECT_ADDITIONAL_FIELDS__',
+            output: 'jsonp',
+            type: 'project'
         }
     },
 
@@ -64,13 +64,13 @@ L.DG.ProjectDetector = L.Handler.extend({
             url: options.url,
             data: options.data,
             success: function (data) {
-                if (!data.result || (Object.prototype.toString.call(data.result) !== '[object Array]')) {
+                var projectsList = data.result.data;
+                if (!data.result || (Object.prototype.toString.call(projectsList) !== '[object Array]')) {
                     return;
                 }
-                var projectsList = data.result;
 
                 for (var i = 0, len = projectsList.length; i < len; i++) {
-                    projectsList[i].LatLngBounds = self._boundsFromWktPolygon(projectsList[i].actual_extent);
+                    projectsList[i].LatLngBounds = self._boundsFromWktPolygon(projectsList[i].bound);
                 }
                 self.projectsList = projectsList;
                 self._searchProject();

@@ -41,30 +41,33 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 buildingname: ''
             };
 
-        if (attrs.index) {
-            data.address += attrs.index + ', ';
-        }
-        house.name = house.name.split(", ").slice(1);
-        data.address += house.name.join(", ");
-
-        if (attrs.buildingname) {
-            data.buildingname = attrs.buildingname;
+        if (attrs.postal_code) {
+            data.address += attrs.postal_code + ', ';
         }
 
-        if (attrs.purpose) {
-            data.purpose = attrs.purpose;
+        if (house.name) {
+            house.name = house.name.split(", ").slice(1);
+            data.address += house.name.join(", ");
         }
 
-        if (attrs.elevation) {
-            data.elevation = this.t("{n} floors", + attrs.elevation);
+        if (attrs.building_name) {
+            data.buildingname = attrs.building_name;
         }
-        if (attrs.firmcount > 0) {
-            this._totalPages = Math.ceil(attrs.firmcount / this._firmsOnPage);
+
+        if (attrs.building_description) {
+            data.purpose = attrs.building_description;
+        }
+
+        if (attrs.floors_count) {
+            data.elevation = this.t("{n} floors", + attrs.floors_count);
+        }
+        if (attrs.filials_count > 0) {
+            this._totalPages = Math.ceil(attrs.filials_count / this._firmsOnPage);
             data.link = this._view.render({
                 tmplFile: "showMoreLink",
                 data: {
                     showMoreText: this.t("Show organization in the building"),
-                    firmsCount: attrs.firmcount
+                    firmsCount: attrs.filials_count
                 }
             });
         }

@@ -1,5 +1,3 @@
-L.DG = L.DG || {}; // TODO realize this in kind of intro file
-
 L.Map.mergeOptions({
     dgGeoclicker: false
 });

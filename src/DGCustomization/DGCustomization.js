@@ -23,9 +23,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     map.on('dgProjectChange', function(project) {
         var projectInfo = project.getProject();
-
         if (projectInfo) {
-            map.setMaxZoom(projectInfo.max_zoomlevel);
+            map.setMaxZoom(projectInfo.max_zoom_level);
         }
     });
     return container;
@@ -47,7 +46,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         map.on('dgEntranceShow', function() {
             map.closePopup(this);
         }, this);
-        
+
         return originalOnAdd.call(this, map);
     };
 
