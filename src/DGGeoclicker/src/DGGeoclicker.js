@@ -13,7 +13,6 @@ L.DG.Geoclicker = L.Handler.extend({
     addHooks: function () {
         this._map.on("click", this._onMapClick, this);
         this._map.on('popupclose', this._onPopupClose, this);
-
     },
 
     removeHooks: function () {
@@ -53,4 +52,3 @@ L.DG.Geoclicker = L.Handler.extend({
 });
 
 L.Map.addInitHook('addHandler', 'dgGeoclicker', L.DG.Geoclicker);
-
