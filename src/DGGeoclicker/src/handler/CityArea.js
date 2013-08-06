@@ -12,7 +12,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 	    opacity: 1
     },
 	_polylineStyles : {
-	    11 : { 
+	    11 : {
             fillOpacity: 0.18,
             weight: 1
         },
@@ -36,7 +36,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
             return false;
         }
 
-        this._geometry = this._readWKT( results[type].selection );
+        this._geometry = this._readWKT( results[type].geometry.location );
 		this._geometryStyle = this._getPolyStyle(this._map.getZoom());
 
         this._geometry.setStyle(this._geometryStyle).addTo(this._map);
