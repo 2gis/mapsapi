@@ -3,60 +3,60 @@ var FirmCard = function(options) {
 		firm = options.firm,
 		whsParsed,
 		scheduleData,
-		balloonContent;
-
+		content;
 
 	this._container = document.createElement('div');
 	this._id = firm.id;
-	this._schedule = new Schedule();
 
+	this._schedule = new Schedule();
 	whsParsed = this._schedule.parseWorkingHours(firm.whs);
-	scheduleData = this._schedule.setSchedule(whsParsed, Schedule.getFirmMsgs());
-	balloonContent = FirmCard.render(tmpl, {
+	
+	content = FirmCard.render(tmpl, {
 		firm: firm, 
-		scheduleData: scheduleData, 
+		scheduleData: this._schedule.setSchedule(whsParsed, Schedule.getFirmMsgs()), 
 		msgs: this._schedule.getMsgs(), 
 		payMethods: Schedule.payMethods,
 		flampUrl: Schedule.getFlampUrl(firm.id),
 		schedule: this._schedule
 	});
 
-	this._container.innerHTML = balloonContent;
+	this._container.innerHTML = content;
 
 	FirmCardEventListener.add(this);
-	//FirmCard.event('fire', 'dgLangChange', {lang: 'it'});
 };
 
-FirmCard.prototype.getContainer = function() {
-	return this._container;
-};
+FirmCard.prototype = {
+	getContainer: function() {
+		return this._container;
+	},
 
-FirmCard.prototype.getId = function() {
-	return this._id;
-};
+	getId: function() {
+		return this._id;
+	},
 
-FirmCard.prototype._collapse = function(el) {
-	el.style.display = 'none';
-};
+	toggle: function(type) {
+		var id, display, el;
 
-FirmCard.prototype._expand = function(el) {
-	el.style.display = 'block';
-};
+		if (type === 'firm') {
+			id = "dg-map-firm-full-";
+		} else {
+			id = 'dg-map-weekly-schedule-';
+		}
+		id += this._id;
 
-FirmCard.prototype.toggle = function(type) {
-	var id, display, el;
+		el = document.getElementById(id);
+		display = el.style.display;
+		display === 'none' ? this._expand(el) : this._collapse(el);
+	},
 
-	if (type === 'firm') {
-		id = "dg-map-firm-full-";
-	} else {
-		id = 'dg-map-weekly-schedule-';
+	_collapse: function(el) {
+		el.style.display = 'none';
+	},
+
+	_expand: function(el) {
+		el.style.display = 'block';
 	}
-	id += this._id;
-
-	el = document.getElementById(id);
-	display = el.style.display;
-	display === 'none' ? this._expand(el) : this._collapse(el);
-};
+}
 
 FirmCard.setOptions = function(options) {
 	for (var option in options) {
@@ -64,5 +64,4 @@ FirmCard.setOptions = function(options) {
 			FirmCard[option] = options[option];	
 		}
 	}
-};
-
+}
