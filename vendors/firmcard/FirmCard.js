@@ -8,21 +8,24 @@ var FirmCard = function(options) {
 	this._container = document.createElement('div');
 	this._id = firm.id;
 
-	this._schedule = new Schedule();
+	this._schedule = new FirmCard.Schedule();
 	whsParsed = this._schedule.parseWorkingHours(firm.whs);
 	
+	console.log(whsParsed);
+
+
 	content = FirmCard.render(tmpl, {
 		firm: firm, 
-		scheduleData: this._schedule.setSchedule(whsParsed, Schedule.getFirmMsgs()), 
+		scheduleData: this._schedule.setSchedule(whsParsed, FirmCard.Schedule.getFirmMsgs()), 
 		msgs: this._schedule.getMsgs(), 
-		payMethods: Schedule.payMethods,
-		flampUrl: Schedule.getFlampUrl(firm.id),
+		payMethods: FirmCard.Schedule.payMethods,
+		flampUrl: FirmCard.Schedule.getFlampUrl(firm.id),
 		schedule: this._schedule
 	});
 
 	this._container.innerHTML = content;
 
-	FirmCardEventListener.add(this);
+	FirmCard.EventListener.add(this);
 };
 
 FirmCard.prototype = {

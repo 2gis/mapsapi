@@ -4,13 +4,13 @@
 	<title>FirmCard Demo</title>
 	<meta charset="utf-8">
 	<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug"></script>
-	<script type="text/javascript" src="dataMock.js"></script>
+	<script type="text/javascript" src="mocks/firmsMock.js"></script>
 	<script type="text/javascript" src="polyfills.js"></script>
-	<script type="text/javascript" src="ForecastHelper.js"></script>
-	<script type="text/javascript" src="TranslateHelper.js"></script>
+	<script type="text/javascript" src="FirmCard.ForecastHelper.js"></script>
+	<script type="text/javascript" src="FirmCard.TranslateHelper.js"></script>
 	<script type="text/javascript" src="FirmCard.js"></script>
-	<script type="text/javascript" src="FirmCardEventListener.js"></script>
-	<script type="text/javascript" src="Schedule.js"></script>
+	<script type="text/javascript" src="FirmCard.EventListener.js"></script>
+	<script type="text/javascript" src="FirmCard.Schedule.js"></script>
 	<script type="text/javascript" src="firmcard-template.js"></script>
 	<style type="text/css">
 	h2 {
@@ -202,7 +202,7 @@
 
 			document.getElementById('container').appendChild(fragment);
 
-			FirmCardEventListener.initEvents();
+			FirmCard.EventListener.initEvents();
 	});
 	</script>
 </body>

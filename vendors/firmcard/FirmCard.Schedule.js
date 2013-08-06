@@ -1,6 +1,6 @@
-function Schedule() {}
+FirmCard.Schedule = function() {}
 
-Schedule.payMethods = [
+FirmCard.Schedule.payMethods = [
     'americanexpress',
     'cash',
     'dinersclub',
@@ -10,11 +10,10 @@ Schedule.payMethods = [
     'noncash',
     'visa'
 ];
+FirmCard.Schedule.FLAMP_URL = '__FLAMP_URL__';
+FirmCard.Schedule.FLAMP_GOOGLE_ANALYTICS = '__FLAMP_GOOGLE_ANALYTICS__';
 
-Schedule.FLAMP_URL = '__FLAMP_URL__';
-Schedule.FLAMP_GOOGLE_ANALYTICS = '__FLAMP_GOOGLE_ANALYTICS__';
-
-Schedule.groupWorkingHours = function(workingHours) {
+FirmCard.Schedule.groupWorkingHours = function(workingHours) {
     var day, i, j, week, periods;
 
     function areEqualWorkingHours(a, b) {
@@ -52,7 +51,7 @@ Schedule.groupWorkingHours = function(workingHours) {
     return periods;
 };
 
-Schedule.parsePeriods = function(periods, workingHours) {
+FirmCard.Schedule.parsePeriods = function(periods, workingHours) {
     var i, week, len,
         // declare all possible variants
         result = {
@@ -103,14 +102,14 @@ Schedule.parsePeriods = function(periods, workingHours) {
     return result;
 };
 
-Schedule.getFlampUrl = function(id) {
-    var urlFlamp = Schedule.FLAMP_URL,
-        urlFlampGoogleAnalytics = Schedule.FLAMP_GOOGLE_ANALYTICS;
+FirmCard.Schedule.getFlampUrl = function(id) {
+    var urlFlamp = FirmCard.Schedule.FLAMP_URL,
+        urlFlampGoogleAnalytics = FirmCard.Schedule.FLAMP_GOOGLE_ANALYTICS;
 
     return urlFlamp + id + '?' + urlFlampGoogleAnalytics;
 };
 
-Schedule.getFirmMsgs = function() {
+FirmCard.Schedule.getFirmMsgs = function() {
     var msgs = {
         show_all_org_in_rubric : FirmCard.t("know more"),  //Показать все организации рубрики
         know_more : FirmCard.t("know more"),   //узнать больше
@@ -175,9 +174,10 @@ Schedule.getFirmMsgs = function() {
     return msgs;
 };
 
-Schedule.prototype.parseWorkingHours = function(workingHours, now) {
-    // declare the all possible keys
-    var result = {
+FirmCard.Schedule.prototype = {
+    parseWorkingHours: function(workingHours, now) {
+        // declare the all possible keys
+        var result = {
             aroundTheClock: false,
             daily: false,
             byPeriods: false,
@@ -198,107 +198,108 @@ Schedule.prototype.parseWorkingHours = function(workingHours, now) {
         todayWorkingHours, 
         forecastData;
 
-    if (!workingHours || !workingHours.workhours) {
+        if (!workingHours || !workingHours.workhours) {
+            return result;
+        }
+        periods = FirmCard.Schedule.groupWorkingHours(workingHours.workhours);
+        parsedPeriods = FirmCard.Schedule.parsePeriods(periods, workingHours.workhours);   
+
+        /** TODO: use JS analog of php array_merge */
+        result.aroundTheClock = parsedPeriods.aroundTheClock;
+        result.daily = parsedPeriods.daily;
+        result.byPeriods = parsedPeriods.byPeriods;
+        result.allTable = parsedPeriods.allTable;
+        result.anyLunchExists = parsedPeriods.anyLunchExists;
+
+        now = now || new Date(); 
+
+        weekDayNum = TranslateHelper.getWeekDayNum(now);
+        result.weekDayStr = TranslateHelper.getWeek()[weekDayNum];
+
+        todayWorkingHours = TranslateHelper.getTodayWorkingHours(result.weekDayStr, workingHours.workhours);
+        result.todayWorkhours = TranslateHelper.convertWorkingHours(todayWorkingHours);
+
+        forecastData = ForecastHelper.getForecastData(now, todayWorkingHours);
+
+        result.isOpened = forecastData.isOpened;
+        result.timeToOpen = forecastData.timeToOpen;
+        result.timeToClose = forecastData.timeToClose;
+        result.timeToLunchBegin = forecastData.timeToLunchBegin;
+        result.timeToLunchEnd = forecastData.timeToLunchEnd;
+        result.isLunchNow = forecastData.isLunchNow;
+
+        if (!todayWorkingHours) {
+            debugger;
+            result.nextWorkDay = TranslateHelper.getNextWorkDay(now, workingHours.workhours);
+        }
+
         return result;
-    }
-    periods = Schedule.groupWorkingHours(workingHours.workhours);
-    parsedPeriods = Schedule.parsePeriods(periods, workingHours.workhours);   
+    },
 
-    /** TODO: use JS analog of php array_merge */
-    result.aroundTheClock = parsedPeriods.aroundTheClock;
-    result.daily = parsedPeriods.daily;
-    result.byPeriods = parsedPeriods.byPeriods;
-    result.allTable = parsedPeriods.allTable;
-    result.anyLunchExists = parsedPeriods.anyLunchExists;
+    setSchedule: function(schedule, msgs) {
+        this._schedule = schedule;
+        this._msgs = msgs;
 
-    now = now || new Date(); 
+        if (schedule.aroundTheClock) {
+            this._schedule.todayWorkhours = false;
+            this._schedule.timeToClose = false;
+        }
+        ForecastHelper.chooseScheduleHintMsgs(this);
+        this._schedulePeriodsHelper();
+        
+        return this._schedule;
+    },
 
-    weekDayNum = TranslateHelper.getWeekDayNum(now);
-    result.weekDayStr = TranslateHelper.getWeek()[weekDayNum];
+    getSchedule: function() {
+        return this._schedule;
+    },
 
-    todayWorkingHours = TranslateHelper.getTodayWorkingHours(result.weekDayStr, workingHours.workhours);
-    result.todayWorkhours = TranslateHelper.convertWorkingHours(todayWorkingHours);
+    msgU: function(msg) {
+        var res = this.msg(msg),
+            f = res.charAt(0).toUpperCase();
+        return f + res.substr(1);
+    },
 
-    forecastData = ForecastHelper.getForecastData(now, todayWorkingHours);
+    msg: function(msg) {
+        if (this._msgs.hasOwnProperty(msg)) {
+            return this._msgs[msg];
+        }
+        /** @todo log this occurrence */
+        //add check of console object for IE
+        console && console.log("Cant't find translation for '" + msg + "'.");
+        return msg.toString().replace('_', ' ');
+    },
 
-    result.isOpened = forecastData.isOpened;
-    result.timeToOpen = forecastData.timeToOpen;
-    result.timeToClose = forecastData.timeToClose;
-    result.timeToLunchBegin = forecastData.timeToLunchBegin;
-    result.timeToLunchEnd = forecastData.timeToLunchEnd;
-    result.isLunchNow = forecastData.isLunchNow;
+    get: function(key) {
+        return this._schedule[key];
+    },
 
-    if (!todayWorkingHours) {
-        debugger;
-        result.nextWorkDay = TranslateHelper.getNextWorkDay(now, workingHours.workhours);
-    }
+    set: function(key, val) {
+        this._schedule[key] = val;
+    },
 
-    return result;
-};
-
-Schedule.prototype.setSchedule = function(schedule, msgs) {
-    this._schedule = schedule;
-    this._msgs = msgs;
-
-    if (schedule.aroundTheClock) {
-        this._schedule.todayWorkhours = false;
-        this._schedule.timeToClose = false;
-    }
-    ForecastHelper.chooseScheduleHintMsgs(this);
-    this._schedulePeriodsHelper();
-    
-    return this._schedule;
-};
-
-Schedule.prototype.getSchedule = function() {
-    return this._schedule;
-};
-
-Schedule.prototype.msgU = function(msg) {
-    var res = this.msg(msg),
-        f = res.charAt(0).toUpperCase();
-    return f + res.substr(1);
-};
-
-Schedule.prototype.msg = function(msg) {
-    if (this._msgs.hasOwnProperty(msg)) {
-        return this._msgs[msg];
-    }
-    /** @todo log this occurrence */
-    //add check of console object for IE
-    console && console.log("Cant't find translation for '" + msg + "'.");
-    return msg.toString().replace('_', ' ');
-};
-
-Schedule.prototype.get = function(key) {
-    return this._schedule[key];
-};
-
-Schedule.prototype.set = function(key, val) {
-    this._schedule[key] = val;
-};
-
-Schedule.prototype._schedulePeriodsHelper = function() {
-    for ( var i = 0, len = this._schedule.byPeriods.length; i < len; i++) {
-        var period, separator;
-        period = this._schedule.byPeriods[i];
-        if (period.workingDays) {
-            period.days = this.msgU('working_days');
-        } else {
-            period.days = this.msgU(period.firstDay);
-            if (period.daysCount > 1) {
-                separator = period.daysCount == 2 ? ", " : " &ndash; ";
-                period.days += separator + this.msg(period.lastDay);
+    _schedulePeriodsHelper: function() {
+        for ( var i = 0, len = this._schedule.byPeriods.length; i < len; i++) {
+            var period, separator;
+            period = this._schedule.byPeriods[i];
+            if (period.workingDays) {
+                period.days = this.msgU('working_days');
+            } else {
+                period.days = this.msgU(period.firstDay);
+                if (period.daysCount > 1) {
+                    separator = period.daysCount == 2 ? ", " : " &ndash; ";
+                    period.days += separator + this.msg(period.lastDay);
+                }
+            }
+            if (period.workFrom) {
+                period.labelText = period.workFrom + "&ndash;" + period.workTo;
+            } else {
+                period.labelText = " &mdash; " + this.msg('rest_day');
             }
         }
-        if (period.workFrom) {
-            period.labelText = period.workFrom + "&ndash;" + period.workTo;
-        } else {
-            period.labelText = " &mdash; " + this.msg('rest_day');
-        }
-    }
-};
+    },
 
-Schedule.prototype.getMsgs = function() {
-    return this._msgs;
-};
+    getMsgs: function() {
+        return this._msgs;
+    }
+}
