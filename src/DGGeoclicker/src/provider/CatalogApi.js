@@ -5,7 +5,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             key: '__GEOCLICKER_CATALOG_API_KEY__',
             output: 'jsonp'
         },
-        districtFields: '__DISTRICT_ADDITIONAL_FIELDS__',
+        geoFields: '__GEO_ADDITIONAL_FIELDS__',
 
         timeoutMs: 5000
     },
@@ -61,7 +61,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             geo_type: types,
             zoom_level: zoomlevel,
             type: 'geo',
-            fields: this.options.districtFields
+            fields: this.options.geoFields
         };
 
         this.cancelLastRequest();
