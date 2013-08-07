@@ -22,6 +22,15 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGLabel: {
+        desc: '2GIS Label module',
+        src: [ 'DGLabel/src/DGLabel.js' ],
+        css: {
+            all: ['DGLabel/skin/{skin}/css/DGLabel.css']
+        },
+        deps: ['DGCore']
+    },
+
     DGWkt: {
         desc: 'WKT parser module.',
         src: ['DGWkt/Wkt.js',
