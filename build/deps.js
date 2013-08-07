@@ -38,7 +38,14 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            'DGCustomization/DGCustomization.js'
+            'DGCustomization/DGCustomization.js',
+
+            '../vendors/firmcard/src/moment.min.js',
+            '../vendors/firmcard/src/time.js',
+            '../vendors/firmcard/src/underscore.js',
+            '../vendors/firmcard/src/FirmCard.js',
+            '../vendors/firmcard/src/Forecast.js',
+            '../vendors/firmcard/src/Schedule.js'
         ],
         css: {
             all: [
