@@ -1,5 +1,5 @@
-Плагин для реализации тултипа для маркеров и геометрий
-======================================================
+Плагин тултипа для маркеров и геометрий
+=======================================
 
 Плагин добавляет маркерам и геометриям, наследующим класс L.Path, тултип возникающий при наведении на обьект. Так же возможно его использование для статической подсказки маркера,
 
@@ -46,21 +46,21 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>offset</b></code></td>
-        <td><code>L.Point</td>
-        <td><code>new L.Point(12, 15)</code></td>
+        <td>````offset````</td>
+        <td>L.Point</td>
+        <td>````new L.Point(12, 15)````</td>
         <td>Смещение контейнера тултипа относительно позиции курсора (позиции маркера в случае использования с маркером).</td>
     </tr>
     <tr>
-        <td><code><b>className</b></code></td>
-        <td><code>String</td>
-        <td><code>'dg-label'</code></td>
+        <td>````className````</td>
+        <td>String</td>
+        <td>'dg-label'</td>
         <td>CSS класс который будет присвоен DOM елементу тултипа.</td>
     </tr>
-    <tr>
-        <td><code><b>static</b></code></td>
-        <td><code>Boolean</td>
-        <td><code>false</code></td>
+    <tr id="options-static">
+        <td>````static````</td>
+        <td>Boolean</td>
+        <td>false</td>
         <td>Если задано значение true, тултип будет отображаться постоянно.</td>
     </tr>
 </table>
@@ -76,34 +76,29 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td><b>bindLabel</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````bindLabel(<String> content, <Object> options?)````</td>
+        <td>````this````</td>
+        <td>Добавляет тултип для маркера либо обновляет содержимое уже созданного</td>
     </tr>
     <tr>
-        <td><b>unbindLabel</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````unbindLabel()````</td>
+        <td>````this````</td>
+        <td>Удаляет тултип</td>
     </tr>
     <tr>
-        <td><b>showLabel</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````showLabel()````</td>
+        <td>````this````</td>
+        <td>Показывает тултип (в случае использования <a href="#options-static">статического</a>)</td>
     </tr>
     <tr>
-        <td><b>hideLabel</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````hideLabel()````</td>
+        <td>````this````</td>
+        <td>Cкрывает тултип (в случае использования <a href="#options-static">статического</a>)</td>
     </tr>
     <tr>
-        <td><b>getLabel</b>()</nobr></td>
-
-        <td><code>L.DG.Label</code></td>
-        <td></td>
+        <td>````getLabel()````</td>
+        <td>L.DG.Label</td>
+        <td>Возвращает вспомогательный обьект тултипа</td>
     </tr>
 </table>
 
@@ -116,26 +111,25 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td><b>bindLabel</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````bindLabel(<String> content, <Object> options?)````</td>
+        <td>````this````</td>
+        <td>Добавляет тултип для геометрии либо обновляет содержимое уже созданного</td>
     </tr>
     <tr>
-        <td><b>unbindLabel</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````unbindLabel()````</td>
+        <td>````this````</td>
+        <td>Удаляет тултип</td>
     </tr>
     <tr>
-        <td><b>getLabel</b>()</nobr></td>
-
-        <td><code>L.DG.Label</code></td>
-        <td></td>
+        <td>````getLabel()````</td>
+        <td>L.DG.Label</td>
+        <td>Возвращает вспомогательный обьект тултипа</td>
     </tr>
 </table>
 
 **Класс L.DG.Label**
+
+Вспомогательный клас, реализует интерфейс ````ILayer```` для тултипа. Может быть использован для создания автономной статической подсказки на карте.
 
 <table>
     <tr>
@@ -144,15 +138,13 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td><b>setContent</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````setContent(<String> content)````</td>
+        <td>````this````</td>
+        <td>Устанавливает содержимое тултипа</td>
     </tr>
     <tr>
-        <td><b>setPosition</b>()</nobr></td>
-
-        <td><code>this</code></td>
-        <td></td>
+        <td>````setPosition(<L.Latlng> latlng)````</td>
+        <td>````this````</td>
+        <td>Устанавливает позицию тултипа</td>
     </tr>
 </table>
