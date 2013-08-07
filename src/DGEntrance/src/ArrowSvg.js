@@ -12,7 +12,7 @@ if (L.Browser.svg) {
         initialize: function (latlngs, options) { // (Array, Object)
             var options = options || {};
 
-            options.animation = this.getArrowAnimation(latlngs.length);
+            options.animation = this.getArrowAnimation(this._convertLatLngs(latlngs));
 
             this._markersPath = [];
             this._markersPolygons = [];
