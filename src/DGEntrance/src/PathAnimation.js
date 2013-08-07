@@ -37,7 +37,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
     L.Path.include({
 
         runAnimation: function () {
-            var res, delay,
+            var delay,
                 self = this,
                 animationEl = this._addAnimation();
 

@@ -382,7 +382,7 @@ Wkt.Wkt.prototype.extract = {
         return parts.join(',');
     },
 
-    geometrycollection: function (str) {
+    geometrycollection: function () {
         console.log('The geometrycollection WKT type is not yet supported.');
     }
 };
@@ -515,11 +515,10 @@ Wkt.Wkt.prototype.ingest = {
 
     /**
      * Return an array of features given a geometrycollection WKT fragment.
-     * @param   str {String}    A WKT fragment representing the geometry collection
      * @memberof Wkt.Wkt.ingest
      * @instance
      */
-    geometrycollection: function (str) {
+    geometrycollection: function () {
         console.log('The geometrycollection WKT type is not yet supported.');
     }
 
