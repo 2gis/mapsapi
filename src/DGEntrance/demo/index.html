@@ -11,6 +11,7 @@
   <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
   <input class="btn" type="button" value="Найти вход в метро" id="metroEntrance" />
+  <input class="btn" type="button" value="Найти вход в остановку" id="busEntrance" />
   <input class="btn" type="button" value="Найти вход в 2GIS" id="dgEntrance" />
   <input class="btn" type="button" value="Погулять и зайти в 2GIS" id="backDgEntrance" />
   <input class="btn" type="button" value="Найти вход в Спарк-Авто" id="sparkAutoEntrance" />
@@ -22,6 +23,7 @@
         balloonHTML,
         btns = [
             document.getElementById('metroEntrance'),
+            document.getElementById('busEntrance'),
             document.getElementById('dgEntrance'),
             document.getElementById('backDgEntrance'),
             document.getElementById('sparkAutoEntrance'),
@@ -48,7 +50,9 @@
             'metroEntrance': new L.DG.Entrance({
                 "vectors": ["LINESTRING(82.89755344390868 54.982320605449296, 82.89714574813843 54.982566865457464, 82.89677560329437 54.9823329184856, 82.89664685726164 54.98240679662398, 82.89677023887634 54.98247451813142)"]
             }),
-
+            'busEntrance': new L.DG.Entrance({
+                "vectors": ["LINESTRING(82.89929687976837 54.98181268941162, 82.89916276931763 54.98173265357113, 82.89852440357208 54.98208665704234)"]
+            }),
             'dgEntrance': new L.DG.Entrance({
                 "vectors": ["LINESTRING(82.89850294589996 54.97985176538553, 82.89841711521149 54.97989794209166)"],
                 "fitBounds": false

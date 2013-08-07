@@ -85,11 +85,13 @@ if (L.Browser.svg) {
             if (latlngs.length === 2) {
                 result = "0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1";
             }
-            // else if (latlngs.length === 3) {
-            //     result = "0; 0.33; 0.34; 1";
-            // }
+            else if (latlngs.length === 3) {
+                result = "0; 0.33; 0.34; 1";
+            }
+            else if (latlngs.length === 4) {
+                result = "0; 0.25; 0.26; 0.5; 0.51; 1";
+            }
             else {
-                // 0; 0.25; 0.26; 0.5; 0.51; 1
                 for (var i = 1; i < latlngs.length; i++) {
                     segmentLength = latlngs[i-1].distanceTo(latlngs[i]);
                     segmentRatio = segmentLength / polyLen;
@@ -107,9 +109,9 @@ if (L.Browser.svg) {
         },
 
         _getAnimationTime: function (verticesCount) {
-            // TODO: may be adjust time by polyline length, not by vertices count?
-            if(verticesCount === 2) return '0.7s';
-            else return "0.5s";
+            if (verticesCount === 2) return '0.7s';
+            else if (verticesCount === 3 || verticesCount === 4) return "0.5s";
+            else return "0.7s";
         }
     });
 }
