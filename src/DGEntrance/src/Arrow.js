@@ -10,37 +10,28 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
     },
 
     _offsetLastPathPoint: function () {
-        var origPoints = this._originalPoints,
+        var lastSegmentInPercents,
+            offsetVector,
+            offsetTo = {},
+            origPoints = this._originalPoints,
             pointsLen = origPoints.length,
             byZoom = this.options.byZoom,
             zoom = this._map.getZoom(),
-            offsetVector,
-            offsetPercents = {},
-            offsetTo = {};
+
+            lastPoint = origPoints[pointsLen - 1],
+            lastByOnePoint = origPoints[pointsLen - 2],
+            lastSegmentLen = lastPoint.distanceTo(lastByOnePoint);
 
         if (typeof byZoom[zoom] !== 'undefined') {
+            lastSegmentInPercents = Math.abs((byZoom[zoom].lastPointOffset * 100) / lastSegmentLen);
+
             offsetVector = {
                 x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
                 y: origPoints[pointsLen - 1].y - origPoints[pointsLen - 2].y
             }
-            
-            if (offsetVector.x !== 0) {
-                // lastPointOffset = N % of offsetVector
-                offsetPercents.x = Math.abs((byZoom[zoom].lastPointOffset * 100) / offsetVector.x);
-                // lastPointOffset less than offsetVector N times
-                offsetTo.x = parseInt(offsetVector.x / (100 / offsetPercents.x));                
-            }
-            else {
-                offsetTo.x = 0;
-            }
 
-            if (offsetVector.y !== 0) {
-                offsetPercents.y = Math.abs((byZoom[zoom].lastPointOffset * 100) / offsetVector.y);
-                offsetTo.y = parseInt(offsetVector.y / (100 / offsetPercents.y));
-            }
-            else {
-                offsetTo.y = 0;
-            }
+            offsetTo.x = Math.round(offsetVector.x * lastSegmentInPercents / 100);
+            offsetTo.y = Math.round(offsetVector.y * lastSegmentInPercents / 100);
 
             // move last point forward/back by offsetVector direction
             if (byZoom[zoom].lastPointOffset > 0) {
