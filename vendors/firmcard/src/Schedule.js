@@ -1,10 +1,5 @@
-var apiLang = 'en',
-    localLang = 'ru',
-    localWorkingDays = [ 0, 1, 1, 1, 1, 1, 0 ], // Рабочие дни в данной стране
-    firstdayOffset = 1, // 0-6
-    minHoursToDisplayClosure = 4; // Число часов, меньше которого появляется строка "закроется через 2 часа..."
 
-function transform(model, params) {
+FirmCard.prototype.transform = function (model, params) {
     if (!model) return;
 
     var todayKey, // Mon, Tue ...
@@ -86,7 +81,7 @@ function transform(model, params) {
             _.each(timePoints, function(point, k) {
                 // now - обязательно! иначе будет браться текущий timestamp что чревато несовпадениями при медленном быстродействии
                 //var ts = moment(now).day(dayNum(num + i + firstdayOffset))/*.hours(getHours(timePoints[k])).minutes(getMinutes(timePoints[k]))*/.valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
-                var test = tt.getTs(now, dayNum(num + i + firstdayOffset), getHours(timePoints[k]), getMinutes(timePoints[k]));
+                var test = tt.getTs(now, dayNum(num + i + this.firstdayOffset), getHours(timePoints[k]), getMinutes(timePoints[k]));
                 /*var dd = new Date();
                 console.log('init ts', ts);
                 dd.setTime(ts);
@@ -135,7 +130,7 @@ function transform(model, params) {
     }
 
     function whenOpenInverse(h, d, num) {
-        if (d == 1 && h > minHoursToDisplayClosure) {
+        if (d == 1 && h > this.minHoursToDisplayClosure) {
             return 'завтра';
         } else if (d == 2) {
             return 'послезавтра';
@@ -311,7 +306,7 @@ function transform(model, params) {
         _.each(weekKeys, function(dayKey, numKey) { // 'Mon', 0
             if (_.isEqual(model[dayKey], day) || (!model[dayKey] && day === null)) {
                 out.dayList.push(weekFullKeysLocal[numKey]);
-                groupWorkingDays[dayNum(numKey + firstdayOffset)] = 1;
+                groupWorkingDays[dayNum(numKey + this.firstdayOffset)] = 1;
                 flow++;
             } else {
                 if (flow > 2) { // Более 2 дней подряд
@@ -329,7 +324,7 @@ function transform(model, params) {
         });
 
         // Список дней в данной группе идентичен списку будних дней, значит можно заменить словом "Будни"
-        out.budni = _.isEqual(localWorkingDays, groupWorkingDays);
+        out.budni = _.isEqual(this.localWorkingDays, groupWorkingDays);
 
         // Список рабочих дней - все дни недели, значит нужно выводить фразу "Ежедневно"
         out.everyday = (_.min(groupWorkingDays) == 1);
@@ -354,16 +349,17 @@ function transform(model, params) {
 
     // Заполняем названия дней недели, 1 - понедельник. В заполненных массивах понедельник это 0
     for (var i = 0 ; i < 7 ; i++) {
-        var ixd = i + firstdayOffset;
-        tt.lang(apiLang);
+        var ixd = i + this.firstdayOffset;
+
+        tt.lang(this.apiLang);
         weekKeys[i] = tt.weekDay(ixd, 'short'); // [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
-        tt.lang(localLang);
+        tt.lang(this.localLang);
         weekKeysLocal[i] = tt.weekDay(ixd, 'short');
         weekFullKeysLocal[i] = tt.weekDay(ixd, 'wide');
     }
 
     // Вычисляем сегодняшний день недели (ссылку на объект дня в модели)
-    tt.lang(apiLang)
+    tt.lang(this.apiLang)
     todayKey = tt.day(now, 'short');
 
     today = model[todayKey]; // Объект расписания - текущий день недели

@@ -1,4 +1,4 @@
-function forecast(sch, /*slot,*/ params) {
+FirmCard.prototype.forecast = function (sch /*slot,*/) {
     var str,
         interval = '',
         open;
@@ -17,23 +17,23 @@ function forecast(sch, /*slot,*/ params) {
 
         open = !!(sch.now.open && (sch.will.h || sch.will.m)); /* Если до закрытия меньше минуты - считаем что уже закрыто */
 
-        if (open && sch.will.h >= params.maxHours) {
+        if (open && sch.will.h >= this.minHoursToDisplayClosure) {
             str = 'Открыто до ' + sch.will.till;
         }
 
-        if (open && sch.will.h < params.maxHours) {
+        if (open && sch.will.h < this.minHoursToDisplayClosure) {
             str = 'Закроется через ' + interval;
         }
 
-        if (!open && sch.will.h >= params.maxHours && sch.will.d === 0) {
+        if (!open && sch.will.h >= this.minHoursToDisplayClosure && sch.will.d === 0) {
             str = 'Откроется в ' + sch.will.till;
         }
 
-        if (!open && sch.will.h < params.maxHours) {
+        if (!open && sch.will.h < this.minHoursToDisplayClosure) {
             str = 'Откроется через ' + interval;
         }
 
-        if (!open && sch.will.d > 0 && sch.will.h >= params.maxHours) {
+        if (!open && sch.will.d > 0 && sch.will.h >= this.minHoursToDisplayClosure) {
             str = 'Откроется ' + sch.will.when;
         }
     }
