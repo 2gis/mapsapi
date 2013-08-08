@@ -46,21 +46,21 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td>````offset````</td>
-        <td>L.Point</td>
-        <td>````new L.Point(12, 15)````</td>
+        <td><b><code>offset</code></b></td>
+        <td><code>L.Point</code></td>
+        <td><code>new L.Point(12, 15)</code></td>
         <td>Смещение контейнера тултипа относительно позиции курсора (позиции маркера в случае использования с маркером).</td>
     </tr>
     <tr>
-        <td>````className````</td>
-        <td>String</td>
-        <td>'dg-label'</td>
+        <td><b><code>className</code></b></td>
+        <td><code>String</code></td>
+        <td><code>'dg-label'</code></td>
         <td>CSS класс который будет присвоен DOM елементу тултипа.</td>
     </tr>
-    <tr id="options-static">
-        <td>````static````</td>
-        <td>Boolean</td>
-        <td>false</td>
+    <tr>
+        <td><b><code>static</code></b></td>
+        <td><code>Boolean</code></td>
+        <td><code>false</code></td>
         <td>Если задано значение true, тултип будет отображаться постоянно.</td>
     </tr>
 </table>
@@ -76,28 +76,28 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td>````bindLabel(<String> content, <Object> options?)````</td>
-        <td>````this````</td>
+        <td><code><b>bindLabel</b>(&lt;String&gt; content, &lt;Object&gt; options?)</code></td>
+        <td><code>this</code></td>
         <td>Добавляет тултип для маркера либо обновляет содержимое уже созданного</td>
     </tr>
     <tr>
-        <td>````unbindLabel()````</td>
-        <td>````this````</td>
+        <td><code><b>unbindLabel</b>()</code></td>
+        <td><code>this</code></td>
         <td>Удаляет тултип</td>
     </tr>
     <tr>
-        <td>````showLabel()````</td>
-        <td>````this````</td>
+        <td><code><b>showLabel</b>()</code></td>
+        <td><code>this</code></td>
         <td>Показывает тултип (в случае использования <a href="#options-static">статического</a>)</td>
     </tr>
     <tr>
-        <td>````hideLabel()````</td>
-        <td>````this````</td>
+        <td><code><b>hideLabel</b>()</code></td>
+        <td><code>this</code></td>
         <td>Cкрывает тултип (в случае использования <a href="#options-static">статического</a>)</td>
     </tr>
     <tr>
-        <td>````getLabel()````</td>
-        <td>L.DG.Label</td>
+        <td><code><b>getLabel</b>()</code></td>
+        <td><code>L.DG.Label</code></td>
         <td>Возвращает вспомогательный обьект тултипа</td>
     </tr>
 </table>
@@ -111,18 +111,18 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td>````bindLabel(<String> content, <Object> options?)````</td>
-        <td>````this````</td>
+        <td><code><b>bindLabel</b>(&lt;String&gt; content, &lt;Object&gt; options?)</code></td>
+        <td><code>this</code></td>
         <td>Добавляет тултип для геометрии либо обновляет содержимое уже созданного</td>
     </tr>
     <tr>
-        <td>````unbindLabel()````</td>
-        <td>````this````</td>
+        <td><code><b>unbindLabel</b>()</code></td>
+        <td><code>this</code></td>
         <td>Удаляет тултип</td>
     </tr>
     <tr>
-        <td>````getLabel()````</td>
-        <td>L.DG.Label</td>
+        <td><code><b>getLabel</b>()</code></td>
+        <td><code>L.DG.Label</code></td>
         <td>Возвращает вспомогательный обьект тултипа</td>
     </tr>
 </table>
@@ -138,13 +138,13 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
         <th>Описание</th>
     </tr>
     <tr>
-        <td>````setContent(<String> content)````</td>
-        <td>````this````</td>
+        <td><code><b>setContent</b>(&lt;String&gt; content)</code></td>
+        <td><code>this</code></td>
         <td>Устанавливает содержимое тултипа</td>
     </tr>
     <tr>
-        <td>````setPosition(<L.Latlng> latlng)````</td>
-        <td>````this````</td>
+        <td><code><b>setPosition</b>(&lt;L.Latlng&gt; latlng)</code></td>
+        <td><code>this</code></td>
         <td>Устанавливает позицию тултипа</td>
     </tr>
 </table>
