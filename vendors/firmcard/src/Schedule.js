@@ -1,19 +1,18 @@
 var apiLang = 'en',
     localLang = 'ru',
     localWorkingDays = [ 0, 1, 1, 1, 1, 1, 0 ], // Рабочие дни в данной стране
-    firstdayOffset = 1, // 0-6 // Смещение начала недели относительно воскресенья (воскресенье взято первым днём по-умолчанию, потому что такой формат у moment.js)
+    firstdayOffset = 1, // 0-6
     minHoursToDisplayClosure = 4; // Число часов, меньше которого появляется строка "закроется через 2 часа..."
 
 function transform(model, params) {
     if (!model) return;
-    //model = require('./demoData').Shuffle; // Testing
 
     var todayKey, // Mon, Tue ...
         today, // Объект модели - текущий день недели
         from, // Самое раннее время открытия за день
         to, // Самое позднее время закрытия за деньom
         schedule = {}, // Объект-расписание, формируемый под шаблон
-        apiHourFormat = 'HH:mm', // Формат времени в API, например 08:01
+        apiHourFormat = 'HH:MM', // Формат времени в API, например 08:01
         now = (params || {}).now || Date.now(), // Current timestamp in milliseconds
         weekKeys = [], // Ключи дней недели, определяют порядок дней и первый день недели. 0 - первый день недели в регионе (не обязательно Mon)
         weekKeysLocal = [],
@@ -86,8 +85,19 @@ function transform(model, params) {
             // Цикл по точкам времени с конвертацией в timestamp
             _.each(timePoints, function(point, k) {
                 // now - обязательно! иначе будет браться текущий timestamp что чревато несовпадениями при медленном быстродействии
-                var ts = moment(now).day(dayNum(num + i + firstdayOffset)).hours(getHours(timePoints[k])).minutes(getMinutes(timePoints[k])).valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
-                timestamps.push(ts);
+                //var ts = moment(now).day(dayNum(num + i + firstdayOffset))/*.hours(getHours(timePoints[k])).minutes(getMinutes(timePoints[k]))*/.valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
+                var test = tt.getTs(now, dayNum(num + i + firstdayOffset), getHours(timePoints[k]), getMinutes(timePoints[k]));
+                /*var dd = new Date();
+                console.log('init ts', ts);
+                dd.setTime(ts);
+                console.log(dd.toDateString());
+                console.log('new ts', test);
+                dd.setTime(test);
+                console.log(dd.toDateString());
+                console.log(ts === test);
+                console.log('-----------------------');*/
+
+                timestamps.push(test);
 
                 // Парно удаляем совпадающие точки (они не имеют смысла - это сегодня 24:00 и завтра 00:00)
                 if (timestamps[timestamps.length - 1] == timestamps[timestamps.length - 2]) {
@@ -189,9 +199,7 @@ function transform(model, params) {
 
                 schedule.will.when = whenOpenInverse(h, d, tt.day(timestamps[i])); // Когда закроется или откроется
 
-                schedule.will.till = moment(timestamps[i]).format(apiHourFormat);
-                console.log( schedule.will.till );
-                console.log( tt.format(timestamps[i]));
+                schedule.will.till =  tt.format(timestamps[i], apiHourFormat);
             }
         }
 
@@ -355,12 +363,10 @@ function transform(model, params) {
     }
 
     // Вычисляем сегодняшний день недели (ссылку на объект дня в модели)
-    //moment.lang(apiLang);
     tt.lang(apiLang)
     todayKey = tt.day(now, 'short');
 
     today = model[todayKey]; // Объект расписания - текущий день недели
-    //moment.lang(localLang);
     setTodayString(today); // Сделать объект для шаблона - строка, которая описывает время работы сегодня
 
     // Находим количество разных расписаний и сохраняем их в массив

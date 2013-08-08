@@ -1,8 +1,6 @@
 L.DG.FirmCard = function () {
 
     var test = {
-            //style: 'top: 7px; left: 512px; width: 376px;',
-
             // Будни одинаково, выходные выходные
             default: {
                 model: {
@@ -150,24 +148,11 @@ L.DG.FirmCard = function () {
 
         };
 
-        function mockTime(timestamp) { // +7 - Novosibirsk
+        function mockTime(timestamp) {
             return timestamp + (3 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
         }
-        var tr = transform(test.periods3.model, {now: mockTime(0)}),
+        var tr = transform(test.default.model, {now: mockTime(0)}),
             fr = forecast(tr, {maxHours: 3});
         console.log(tr);
         console.log('прогноз', fr);
-
-
-        var timestamp = 654524560; // UNIX timestamp in seconds
-        var xx = new Date();
-        xx.setTime(timestamp*1000); // javascript timestamps are in milliseconds
-/*        console.log(xx.toUTCString());
-        console.log(xx.getDay());*/
-        /*console.log('До нуля', transform(test.evently.model, params));
-        console.log('Будни одинаково, суббота сокращённо', transform(test.eventlySat.model, params));
-        console.log('Максимум часов в субботу', transform(test.eventlySatMax.model, params));
-        console.log('Круглосуточно без выходных', transform(test.alltime.model, params));
-        console.log('Будни, начало недели во вторник, рабочая среда-пятница', transform(test.strangeWeek.model, params));
-        console.log('periods3', transform(test.periods3.model, params));*/
 }
