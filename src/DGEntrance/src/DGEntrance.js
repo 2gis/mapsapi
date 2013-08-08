@@ -37,7 +37,7 @@ L.DG.Entrance = L.Class.extend({
         return this;
     },
 
-    onRemove: function (map) { // (L.Map)
+    onRemove: function () { // (L.Map)
         this._isShown = false;
         this._removeArrows();
         this._map = null;
