@@ -77,7 +77,7 @@ L.DG.Label = L.Class.extend({
 
 	setContent: function (content) {
 		if (Object.prototype.toString.call(content) !== this._typeOfString) {
-            throw new TypeError('Parameter "content" is required and should be a string');
+            return this;
         }
         this._content = content;
 		if (this._visible) {
@@ -87,6 +87,7 @@ L.DG.Label = L.Class.extend({
 	},
 
 	setPosition: function (latlng) {
+		if (!(latlng instanceof L.LatLng)) return this;
 		this._latlng = latlng;
 		if (this._visible) {
 			this._onViewReset();
@@ -132,21 +133,25 @@ L.Marker.include({
 	},
 
 	showLabel : function(){
-		this
-			.on('move', this._updatePosition)
-			._map.addLayer( this._label.setPosition( this.getLatLng() ) );
+		if (this._label) {
+			this
+				.on('move', this._updatePosition)
+				._map.addLayer( this._label.setPosition( this.getLatLng() ) );
+		}
 		return this;
 	},
 
 	hideLabel : function(){
-		this
-			.off('move', this._updatePosition)
-			._map.removeLayer( this._label );
+		if (this._label) {
+			this
+				.off('move', this._updatePosition)
+				._map.removeLayer( this._label );
+		}
 		return this;
 	},
 
 	getLabel: function () {
-		return this._label;
+		return this._label ? this._label : null;
 	},
 
 	_updatePosition : function(){
@@ -195,7 +200,7 @@ L.Path.include({
 	},
 
 	getLabel: function () {
-		return this._label;
+		return this._label ? this._label : null;
 	},
 
 	_labelEvents : {
