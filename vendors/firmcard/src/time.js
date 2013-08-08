@@ -3,7 +3,7 @@ var tt = {
     _yearTs: new Date().setFullYear(new Date().getFullYear(), 0, 1),
     _t: new Date(),
 
-    daysOfWeek: {
+    _daysOfWeek: {
         ru: {
             "short":{
                 "0":"Вс",
@@ -69,7 +69,7 @@ var tt = {
 
     weekDay: function (idx, format) {
         var day = idx % 7;
-        return this.daysOfWeek[this._lang][format][day];
+        return this._daysOfWeek[this._lang][format][day];
     },
 
     format: function (stamp, mask) {
@@ -119,6 +119,21 @@ var tt = {
         var day = Math.ceil((stamp) / 86400000);
 
         return day - this._yearFirstDay();
+    },
+
+    getTs: function (stamp, d, h, m) {
+        if (stamp) this.setTime(stamp);
+
+        var currD = this._t.getDay(),
+            newD = ((d - currD) >= 0)? d - currD : 6%currD + d + 1,
+            date = this._t;
+
+        if (d) date.setDate(date.getDate() + newD);
+        if (h) date.setHours(h);
+        if (m) date.setMinutes(m);
+
+        return date.getTime();
+
     },
 
     _yearFirstDay: function (){
