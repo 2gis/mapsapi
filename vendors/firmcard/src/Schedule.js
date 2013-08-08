@@ -14,7 +14,7 @@ function transform(model, params) {
         to, // Самое позднее время закрытия за деньom
         schedule = {}, // Объект-расписание, формируемый под шаблон
         apiHourFormat = 'HH:mm', // Формат времени в API, например 08:01
-        now = (params || {}).now || moment().valueOf(), // Current timestamp in milliseconds
+        now = (params || {}).now || Date.now(), // Current timestamp in milliseconds
         weekKeys = [], // Ключи дней недели, определяют порядок дней и первый день недели. 0 - первый день недели в регионе (не обязательно Mon)
         weekKeysLocal = [],
         weekFullKeysLocal = [],
@@ -171,7 +171,7 @@ function transform(model, params) {
             if (now >= (timestamps[i - 1] || 0) && now < timestamps[i]) {
                 var h = Math.floor((timestamps[i] - now) / (1000 * 60 * 60)), // Количество часов до следующего timestamp
                     m = Math.floor((timestamps[i] - now) / (1000 * 60) - h * 60), // Количество минут (без часов) до следующего timestamp
-                    d = moment(timestamps[i]).dayOfYear() - moment(now).dayOfYear(),
+                    d = tt.dayOfYear(timestamps[i]) - tt.dayOfYear(now),
                     nowIsOpen = (i % 2 != 0);
 
                 schedule.now.open = nowIsOpen;
@@ -190,7 +190,7 @@ function transform(model, params) {
                 schedule.will.when = whenOpenInverse(h, d, tt.day(timestamps[i])); // Когда закроется или откроется
 
                 schedule.will.till = moment(timestamps[i]).format(apiHourFormat);
-                 console.log( schedule.will.till );
+                console.log( schedule.will.till );
                 console.log( tt.format(timestamps[i]));
             }
         }

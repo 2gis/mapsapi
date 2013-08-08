@@ -1,6 +1,6 @@
 var tt = {
     _lang: 'ru',
-
+    _yearTs: new Date().setFullYear(new Date().getFullYear(), 0, 1),
     _t: new Date(),
 
     daysOfWeek: {
@@ -72,10 +72,28 @@ var tt = {
         return this.daysOfWeek[this._lang][format][day];
     },
 
-    format: function (stamp, timeFormat) {
+    format: function (stamp) {
         if (stamp) this.setTime(stamp);
         var t = this._t;
 
-        return t.getHours() + ':' + t.getMinutes();
-    }
+        return t.getHours() + ':' + this._pad(t.getMinutes());
+    },
+
+    dayOfYear: function (stamp) {
+        if (stamp) this.setTime(stamp);
+        var day = Math.ceil((stamp) / 86400000);
+
+        return day - this._yearFirstDay();
+    },
+
+    _yearFirstDay: function (){
+        return Math.floor(this._yearTs / 86400000);   
+    },
+
+    _pad: function(val, len) {
+        val = String(val);
+        len = len || 2;
+        while (val.length < len) val = "0" + val;
+        return val;
+    },
 };
