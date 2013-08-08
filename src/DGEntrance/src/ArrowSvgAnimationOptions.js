@@ -101,10 +101,15 @@ if (L.Browser.svg) {
                     if (i < latlngs.length - 1) {
                         // 2 points for each vertice (but not for first and last)
                         resultArr.push(resultArr[resultArr.length-1]);
-                    }   
+                    }
+                    else {
+                        // last point should be 1, but some times it looks like 0.9999...
+                        resultArr[resultArr.length-1] = 1;
+                    }
                 }
                 result = resultArr.join('; ');
             }
+            
             return result;
         },
 
