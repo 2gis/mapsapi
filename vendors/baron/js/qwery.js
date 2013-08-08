@@ -154,7 +154,7 @@
 
   // given a selector, first check for simple cases then collect all base candidate matches and filter
   function _qwery(selector, _root) {
-    var r = [], ret = [], i, l, m, token, tag, els, intr, item, root = _root
+    var r = [], ret = [], i, l, m, token, els, intr, item, root = _root
       , tokens = tokenCache.g(selector) || tokenCache.s(selector, selector.split(tokenizr))
       , dividedTokens = selector.match(dividers)
 
