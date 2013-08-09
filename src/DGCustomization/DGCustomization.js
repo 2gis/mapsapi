@@ -138,7 +138,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
     L.Popup.prototype._initBaron = function () {
-        var self = this;
 
         baronInstance = graf({
             scroller: '.scroller',

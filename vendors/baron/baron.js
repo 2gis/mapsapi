@@ -4,7 +4,6 @@
     if (!window) return; // Server side
 
 var
-    scrolls = [],
     _baron = window.baron, // Stored baron vaule for noConflict usage
     $ = window.jQuery, // Trying to use jQuery
     // browser detection
@@ -264,8 +263,8 @@ var
             function setBarSize(size) {
                 var barMinSize = this.barMinSize || 20;
 
-                if (size > 0 && size < this.barMinSize) {
-                    size = this.barMinSize;
+                if (size > 0 && size < barMinSize) {
+                    size = barMinSize;
                 }
 
                 if (this.bar) {
@@ -380,8 +379,8 @@ var
             }
 
             // onScroll handler
-            this.scroll = function(e) {
-                var scrollDelta, oldBarSize, newBarSize,
+            this.scroll = function() {
+                var oldBarSize, newBarSize,
                     delay = 0,
                     self = this;
                 if (new Date().getTime() - scrollLastFire < pause) {
@@ -497,8 +496,7 @@ var
         }
 
         function init(params) {
-            var fixFlag = [],
-                pos;
+            var pos;
 
             if (params) {
                 elementSelector = params.elements;
@@ -619,9 +617,9 @@ var
     };
 })(window);
 /* Controls plugin for baron 0.6+ */
-(function(window, undefined) {
+(function() {
     var controls = function(params) {
-        var forward, backward, track, screen, timer,
+        var forward, backward, track, screen,
             self = this; // AAAAAA!!!!!11
 
         screen = params.screen || .9;
@@ -683,12 +681,11 @@ var
 
         return this;
     };
-})(window);
+})();
 /* Pull to load plugin for baron 0.6+ */
-(function(window, undefined) {
+(function() {
     var pull = function(params) {
-        var prefix = params.prefix,
-            block = this.$(params.block),
+        var block = this.$(params.block),
             size = params.size || this.origin.size,
             limit = params.limit || 80,
             callback = params.callback,
@@ -698,7 +695,6 @@ var
             _zeroXCount = 0,
             _interval,
             _x = 0,
-            _t1 = 0,
             _on;
 
         function getHeight() {
@@ -733,8 +729,7 @@ var
                 height = getHeight(),
                 scrollHeight = getScrollHeight(),
                 dx,
-                op4,
-                t2 = new Date().getTime();
+                op4;
 
             op4 = 0; // Возвращающая сила
             if (_insistence > 0) {
@@ -799,4 +794,4 @@ var
 
         return this;
     };
-})(window);
+})();
