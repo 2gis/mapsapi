@@ -46,7 +46,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         		.once('popupclose', this._onPopupClose, this);
 
         return {
-            tmpl: this.t(type) + ': ' + (results[type].short_name == '' ? this.t('noname') : results[type].short_name)
+            tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname'))
         };
     },
 
