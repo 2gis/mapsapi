@@ -1,8 +1,6 @@
-
 FirmCard.prototype.transform = function (model, params) {
 
     if (!model) return;
-    //model = require('./demoData').Shuffle; // Testing
 
     var todayKey, // Mon, Tue ...
         today, // Объект модели - текущий день недели
@@ -15,11 +13,11 @@ FirmCard.prototype.transform = function (model, params) {
         weekKeysLocal = [],
         weekFullKeysLocal = [],
         orgWorkginDays, // Рабочие дни данной организации
-        apiLang = 'en',
-        localLang = 'ru',
-        localWorkingDays = [0, 1, 1, 1, 1, 1, 0], // Рабочие дни в данной стране
-        firstdayOffset = 1, // 0-6 // Смещение начала недели относительно воскресенья (воскресенье взято первым днём по-умолчанию, потому что такой формат у moment.js)
-        minHoursToDisplayClosure = 4; // Число часов, меньше которого появляется строка "закроется через 2 часа..."
+        apiLang = this.apiLang,
+        localLang = this.localLang,
+        localWorkingDays = this.localWorkingDays, // Рабочие дни в данной стране
+        firstdayOffset = this.firstdayOffset, // 0-6 // Смещение начала недели относительно воскресенья (воскресенье взято первым днём по-умолчанию, потому что такой формат у moment.js)
+        minHoursToDisplayClosure = this.minHoursToDisplayClosure; // Число часов, меньше которого появляется строка "закроется через 2 часа..."
 
     function getHours(str) {
         return str.substr(0, 2);
@@ -436,4 +434,4 @@ FirmCard.prototype.transform = function (model, params) {
     }
 
     return schedule;
-}; 
+};
