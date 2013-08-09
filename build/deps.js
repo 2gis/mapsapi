@@ -24,7 +24,11 @@ var deps = {
 
     DGLabel: {
         desc: '2GIS Label module',
-        src: [ 'DGLabel/src/DGLabel.js' ],
+        src: [
+            'DGLabel/src/DGLabel.js',
+            'DGLabel/src/Marker.DGLabel.js',
+            'DGLabel/src/Path.DGLabel.js'
+        ],
         css: {
             all: ['DGLabel/skin/{skin}/css/DGLabel.css']
         },
