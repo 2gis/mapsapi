@@ -1,19 +1,18 @@
 describe('Расписание работы организации', function() {
 
-
     function mockTime(timestamp) {
         return timestamp + (7 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
     }
-    var d = new FirmCard();
+    var d = new FirmCard({localLang:'ru'});
 
     it('!model', function() {
-        var result =  d.transform();
+        var result =  d.schedule.transform();
 
         expect(result).to.not.be.ok();
     });
 
     it('!params', function() {
-        var result =  d.transform(scheduleDemoData['default'].model);
+        var result =  d.schedule.transform(scheduleDemoData['default'].model);
 
         expect(result).to.be.ok();
         expect(result.everyday).to.not.be.ok();
@@ -21,7 +20,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Comment', function() {
-        var result =  d.transform({
+        var result =  d.schedule.transform({
             comment: 'comment'
         });
 
@@ -31,7 +30,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, выходные выходные', function() {
-        var result =  d.transform(scheduleDemoData['default'].model, {
+        var result =  d.schedule.transform(scheduleDemoData['default'].model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -53,7 +52,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, выходные выходные, до нуля', function() {
-        var result =  d.transform(scheduleDemoData.evently.model, {
+        var result =  d.schedule.transform(scheduleDemoData.evently.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -78,7 +77,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, суббота сокращённо', function() {
-        var result =  d.transform(scheduleDemoData.eventlySat.model, {
+        var result =  d.schedule.transform(scheduleDemoData.eventlySat.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -104,7 +103,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, суббота сокращённо, максимум часов в субботу', function() {
-        var result =  d.transform(scheduleDemoData.eventlySatMax.model, {
+        var result =  d.schedule.transform(scheduleDemoData.eventlySatMax.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -129,7 +128,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Круглосуточно без выходных', function() {
-        var result =  d.transform(scheduleDemoData.alltime.model, {
+        var result =  d.schedule.transform(scheduleDemoData.alltime.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -147,7 +146,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Круглосуточно кроме выходных среды и воскресенья', function() {
-        var result =  d.transform(scheduleDemoData.thuHol.model, {
+        var result =  d.schedule.transform(scheduleDemoData.thuHol.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -173,7 +172,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Среда–пятница', function() {
-        var result =  d.transform(scheduleDemoData.strangeWeek.model, {
+        var result =  d.schedule.transform(scheduleDemoData.strangeWeek.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -200,7 +199,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Работает только в воскресенье с обедом', function() {
-        var result =  d.transform(scheduleDemoData.periods3.model, {
+        var result =  d.schedule.transform(scheduleDemoData.periods3.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -227,7 +226,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Закроется через 1 минуту', function() {
-        var result =  d.transform(scheduleDemoData.oneMinuteLeft.model, {
+        var result =  d.schedule.transform(scheduleDemoData.oneMinuteLeft.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -242,7 +241,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Сегодня уже закрыто, откроется через неделю', function() {
-        var result =  d.transform(scheduleDemoData.foraWeek.model, {
+        var result =  d.schedule.transform(scheduleDemoData.foraWeek.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -258,7 +257,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Ещё закрыто, откроется через час с лишним', function() {
-        var result =  d.transform(scheduleDemoData.tooEarly.model, {
+        var result =  d.schedule.transform(scheduleDemoData.tooEarly.model, {
             now: mockTime(1366773607003)
         }); // 10:20 ср 24 апреля 2013
 
@@ -275,7 +274,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Откроется завтра если сегодня воскресенье', function() { // Баг сбербанка
-        var result =  d.transform(scheduleDemoData.sberBank.model, {
+        var result =  d.schedule.transform(scheduleDemoData.sberBank.model, {
             now: mockTime(1367138129777)
         }); // Воскресенье, 28 апреля 2013
 
@@ -286,7 +285,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Ежедневно одинаково, откроется завтра', function() { // Баг с неправильной сортировкой timestamps
-        var result =  d.transform(scheduleDemoData.everyday.model, {
+        var result =  d.schedule.transform(scheduleDemoData.everyday.model, {
             now: mockTime(1368015897543)
         }); // Среда, 8 мая 2013, 19+
 
@@ -294,7 +293,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Timespamp совпадает с открытием – должен быть объект will', function() { // Баг с неправильной сортировкой timestamps
-        var result =  d.transform(scheduleDemoData.everyday.model, {
+        var result =  d.schedule.transform(scheduleDemoData.everyday.model, {
             now: mockTime(1368015897543 + 52560000)
         }); // Точно совпадает с временем открытия
 
