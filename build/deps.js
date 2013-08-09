@@ -93,6 +93,15 @@ var deps = {
         deps: ['DGCore', 'DGJsonp']
     },
 
+    DGPoi: {
+        desc: '2GIS POI module.',
+        src: [
+            'DGPoi/src/DGPoi.js',
+            'DGPoi/src/DGPoiStorage.js'
+        ],
+        deps: ['DGJsonp', 'DGCore', 'DGTileLayer']
+    },
+
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
         css: {
