@@ -1,4 +1,17 @@
-FirmCard.prototype.transform = function (model, params) {
+function Schedule(options) {
+    var options = options || {};
+
+    this.localLang = options.localLang || 'ru';
+    this.localWorkingDays = options.localWorkingDays || [0, 1, 1, 1, 1, 1, 0];
+    this.firstdayOffset = options.firstdayOffset || 1;
+    this.minHoursToDisplayClosure = options.minHoursToDisplayClosure || 4;
+
+    this.t = options.t || function(){};
+
+    return this;
+}
+
+Schedule.prototype.transform = function (model, params) {
 
     if (!model) return;
 
@@ -13,11 +26,12 @@ FirmCard.prototype.transform = function (model, params) {
         weekKeysLocal = [],
         weekFullKeysLocal = [],
         orgWorkginDays, // Рабочие дни данной организации
-        apiLang = this.apiLang,
+        apiLang = 'en',
         localLang = this.localLang,
         localWorkingDays = this.localWorkingDays, // Рабочие дни в данной стране
         firstdayOffset = this.firstdayOffset, // 0-6 // Смещение начала недели относительно воскресенья (воскресенье взято первым днём по-умолчанию, потому что такой формат у moment.js)
-        minHoursToDisplayClosure = this.minHoursToDisplayClosure; // Число часов, меньше которого появляется строка "закроется через 2 часа..."
+        minHoursToDisplayClosure = this.minHoursToDisplayClosure, // Число часов, меньше которого появляется строка "закроется через 2 часа..."
+        t = this.t;
 
     function getHours(str) {
         return str.substr(0, 2);
@@ -434,4 +448,48 @@ FirmCard.prototype.transform = function (model, params) {
     }
 
     return schedule;
+};
+
+Schedule.prototype.forecast = function (sch) {
+    var str,
+        interval = '',
+        open,
+        minHToClose = this.minHoursToDisplayClosure;
+
+    if (sch.always) { // Если круглосуточно, ничего кроме "Открыто" выводить не нужно
+        str = 'Открыто';
+        open = true;
+    } else {
+        if (sch.will.h) {
+            interval += this.t(sch.will.h, 'час', 'часа', 'часов') + ' ';
+        }
+
+        if (sch.will.m) {
+            interval += this.t(sch.will.m, 'минуту', 'минуты', 'минут');
+        }
+
+        open = !!(sch.now.open && (sch.will.h || sch.will.m)); /* Если до закрытия меньше минуты - считаем что уже закрыто */
+
+        if (open && sch.will.h >= minHToClose) {
+            str = 'Открыто до ' + sch.will.till;
+        }
+
+        if (open && sch.will.h < minHToClose) {
+            str = 'Закроется через ' + interval;
+        }
+
+        if (!open && sch.will.h >= minHToClose && sch.will.d === 0) {
+            str = 'Откроется в ' + sch.will.till;
+        }
+
+        if (!open && sch.will.h < minHToClose) {
+            str = 'Откроется через ' + interval;
+        }
+
+        if (!open && sch.will.d > 0 && sch.will.h >= minHToClose) {
+            str = 'Откроется ' + sch.will.when;
+        }
+    }
+
+    return {str: str, open: open};
 };
