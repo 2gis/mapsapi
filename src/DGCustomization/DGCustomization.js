@@ -47,7 +47,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         map.on('dgEntranceShow', function() {
             map.closePopup(this);
         }, this);
-        
+
         return originalOnAdd.call(this, map);
     };
 
@@ -139,7 +139,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     };
 
     L.Popup.prototype._initBaron = function () {
-        var self = this;
 
         baronInstance = graf({
             scroller: '.scroller',

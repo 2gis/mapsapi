@@ -138,7 +138,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _handleMouseWheel: function(e) {
+    _handleMouseWheel: function() {
         var scroller = this._scroller;
 
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
