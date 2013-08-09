@@ -125,9 +125,12 @@ var tt = {
         if (stamp) this.setTime(stamp);
 
         var currD = this._t.getDay(),
-            newD = ((d - currD) >= 0)? d - currD : 6%currD + d + 1,
+            diffD = d - currD,
+            newD = (diffD >= 0 )? diffD : (6 - currD) + d + 1,
             date = this._t;
-
+            /*console.log('curr '+currD);
+            console.log('new ' +d);
+            console.log('to add ' +newD);*/
         if (d) date.setDate(date.getDate() + newD);
         if (h) date.setHours(h);
         if (m) date.setMinutes(m);

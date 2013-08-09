@@ -1,4 +1,4 @@
-FirmCard.prototype.forecast = function (sch /*slot,*/) {
+FirmCard.prototype.forecast = function (sch) {
     var str,
         interval = '',
         open;
@@ -8,11 +8,11 @@ FirmCard.prototype.forecast = function (sch /*slot,*/) {
         open = true;
     } else {
         if (sch.will.h) {
-            interval += sch.will.h + ' час';// slot._t(sch.will.h, 'час', 'часа', 'часов') + ' ';
+            interval += this.t(sch.will.h, 'час', 'часа', 'часов') + ' ';
         }
 
         if (sch.will.m) {
-            interval += sch.will.m + ' минут';//slot._t(sch.will.m, 'минуту', 'минуты', 'минут');
+            interval += this.t(sch.will.m, 'минуту', 'минуты', 'минут');
         }
 
         open = !!(sch.now.open && (sch.will.h || sch.will.m)); /* Если до закрытия меньше минуты - считаем что уже закрыто */

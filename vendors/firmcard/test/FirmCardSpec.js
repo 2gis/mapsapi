@@ -34,7 +34,7 @@ describe('Расписание работы организации', function() 
         var result =  d.transform(scheduleDemoData['default'].model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
-        console.log(result);
+
         expect(result.now.open).to.be.ok();
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(4);
@@ -42,10 +42,10 @@ describe('Расписание работы организации', function() 
         expect(result.will.till).to.be('18:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('18:00');
-        //expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;Пятница');
+        expect(result.week.evently[0].dayList).to.be('Понедельник–пятница');
         expect(result.week.evently[0].budni).to.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
-        //expect(result.week.evently[1].dayList).to.be('Суббота, Воскресенье');
+        expect(result.week.evently[1].dayList).to.be('Суббота, воскресенье');
         expect(result.week.evently[1].budni).to.not.be.ok();
         expect(result.week.evently[1].everyday).to.not.be.ok();
         expect(result.everyday).to.not.be.ok();
@@ -65,11 +65,11 @@ describe('Расписание работы организации', function() 
         expect(result.will.till).to.be('00:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('00:00');
-        //expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;Пятница');
+        expect(result.week.evently[0].dayList).to.be('Понедельник–пятница');
         expect(result.week.evently[0].budni).to.be.ok();
         expect(result.week.evently[0].holiday).to.not.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
-        //expect(result.week.evently[1].dayList).to.be('Суббота, Воскресенье');
+        expect(result.week.evently[1].dayList).to.be('Суббота, воскресенье');
         expect(result.week.evently[1].budni).to.not.be.ok();
         expect(result.week.evently[1].holiday).to.be.ok();
         expect(result.week.evently[1].everyday).to.not.be.ok();
@@ -138,7 +138,7 @@ describe('Расписание работы организации', function() 
         expect(result.today.alltime).to.be.ok();
         expect(result.will).to.not.be.ok();
         expect(result.week.hasLunch).to.not.be.ok();
-        //expect(result.week.evently[0].dayList).to.be('Понедельник, Вторник, Среда, Четверг, Пятница, Суббота, Воскресенье');
+        expect(result.week.evently[0].dayList).to.be('Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
         expect(result.week.evently[0].alltime).to.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
         expect(result.week.evently[0].everyday).to.be.ok();
@@ -160,11 +160,11 @@ describe('Расписание работы организации', function() 
         expect(result.will.m).to.be(55);
         expect(result.will.till).to.be('00:00');
         expect(result.week.hasLunch).to.not.be.ok();
-        //expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;Среда, Пятница, Суббота');
+        expect(result.week.evently[0].dayList).to.be('Понедельник–среда, пятница, суббота');
         expect(result.week.evently[0].alltime).to.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
-        //expect(result.week.evently[1].dayList).to.be('Четверг, Воскресенье');
+        expect(result.week.evently[1].dayList).to.be('Четверг, воскресенье');
         expect(result.week.evently[1].alltime).to.not.be.ok();
         expect(result.week.evently[1].budni).to.not.be.ok();
         expect(result.week.evently[1].everyday).to.not.be.ok();
@@ -172,7 +172,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Среда-пятница', function() {
+    it('Среда–пятница', function() {
         var result =  d.transform(scheduleDemoData.strangeWeek.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -187,11 +187,11 @@ describe('Расписание работы организации', function() 
         expect(result.will.when).to.be('послезавтра');
         expect(result.will.till).to.be('00:00');
         expect(result.week.hasLunch).to.not.be.ok();
-        //expect(result.week.evently[0].dayList).to.be('Среда&ndash;Пятница');
+        expect(result.week.evently[0].dayList).to.be('Среда–пятница');
         expect(result.week.evently[0].alltime).to.be(undefined);
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
-        //expect(result.week.evently[1].dayList).to.be('Понедельник, Вторник, Суббота, Воскресенье');
+        expect(result.week.evently[1].dayList).to.be('Понедельник, вторник, суббота, воскресенье');
         expect(result.week.evently[1].alltime).to.not.be.ok();
         expect(result.week.evently[1].everyday).to.not.be.ok();
         expect(result.week.evently[1].budni).to.not.be.ok();
@@ -214,11 +214,11 @@ describe('Расписание работы организации', function() 
         expect(result.will.when).to.be('в воскресенье');
         expect(result.will.till).to.be('10:00');
         expect(result.week.hasLunch).to.not.be.ok();
-        //expect(result.week.evently[0].dayList).to.be('Воскресенье');
+        expect(result.week.evently[0].dayList).to.be('Воскресенье');
         expect(result.week.evently[0].alltime).to.be(undefined);
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
-        //expect(result.week.evently[1].dayList).to.be('Понедельник&ndash;Суббота');
+        expect(result.week.evently[1].dayList).to.be('Понедельник–суббота');
         expect(result.week.evently[1].alltime).to.not.be.ok();
         expect(result.week.evently[1].everyday).to.not.be.ok();
         expect(result.week.evently[1].budni).to.not.be.ok();
@@ -293,7 +293,7 @@ describe('Расписание работы организации', function() 
         expect(result.will.d).to.be(1);
     });
 
-    it('Timespamp совпадает с открытием - должен быть объект will', function() { // Баг с неправильной сортировкой timestamps
+    it('Timespamp совпадает с открытием – должен быть объект will', function() { // Баг с неправильной сортировкой timestamps
         var result =  d.transform(scheduleDemoData.everyday.model, {
             now: mockTime(1368015897543 + 52560000)
         }); // Точно совпадает с временем открытия

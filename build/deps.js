@@ -42,6 +42,8 @@ var deps = {
 
             '../vendors/firmcard/src/DateUtils.js',
             '../vendors/firmcard/src/vendors/underscore1.5.1.js',
+            '../vendors/firmcard/src/vendors/moment.min.js',
+            '../vendors/firmcard/src/vendors/moment.ru.js',
             '../vendors/firmcard/src/FirmCard.js',
             '../vendors/firmcard/src/Forecast.js',
             '../vendors/firmcard/src/Schedule.js'

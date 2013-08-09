@@ -1,18 +1,25 @@
 
 FirmCard.prototype.transform = function (model, params) {
+
     if (!model) return;
+    //model = require('./demoData').Shuffle; // Testing
 
     var todayKey, // Mon, Tue ...
         today, // Объект модели - текущий день недели
         from, // Самое раннее время открытия за день
-        to, // Самое позднее время закрытия за деньom
+        to, // Самое позднее время закрытия за день
         schedule = {}, // Объект-расписание, формируемый под шаблон
-        apiHourFormat = 'HH:MM', // Формат времени в API, например 08:01
-        now = (params || {}).now || Date.now(), // Current timestamp in milliseconds
+        apiHourFormat = 'HH:mm', // Формат времени в API, например 08:01
+        now = (params || {}).now || moment().valueOf(), // Current timestamp in milliseconds
         weekKeys = [], // Ключи дней недели, определяют порядок дней и первый день недели. 0 - первый день недели в регионе (не обязательно Mon)
         weekKeysLocal = [],
         weekFullKeysLocal = [],
-        orgWorkginDays; // Рабочие дни данной организации
+        orgWorkginDays, // Рабочие дни данной организации
+        apiLang = 'en',
+        localLang = 'ru',
+        localWorkingDays = [0, 1, 1, 1, 1, 1, 0], // Рабочие дни в данной стране
+        firstdayOffset = 1, // 0-6 // Смещение начала недели относительно воскресенья (воскресенье взято первым днём по-умолчанию, потому что такой формат у moment.js)
+        minHoursToDisplayClosure = 4; // Число часов, меньше которого появляется строка "закроется через 2 часа..."
 
     function getHours(str) {
         return str.substr(0, 2);
@@ -47,14 +54,14 @@ FirmCard.prototype.transform = function (model, params) {
             return [];
         }
 
-        for (var i = 0 ; i < day.working_hours.length ; i++) {
+        for (var i = 0; i < day.working_hours.length; i++) {
             from = day.working_hours[i].from;
             to = day.working_hours[i].to;
 
             deltaHours = getHours(to) - getHours(from);
             deltaMinutes = getMinutes(to) - getMinutes(from);
-            if ( deltaHours < 0 || (deltaHours == 0 && deltaMinutes <= 0) ) { // Если "до" меньше или равно "от" - значит указывает на завтра
-                to = ( +getHours(to) + 24 ) + ':' + getMinutes(to); // (01:00 -> 25:00)
+            if (deltaHours < 0 || (deltaHours == 0 && deltaMinutes <= 0)) { // Если "до" меньше или равно "от" - значит указывает на завтра
+                to = (+getHours(to) + 24) + ':' + getMinutes(to); // (01:00 -> 25:00)
             }
 
             points[i * 2] = from;
@@ -74,25 +81,14 @@ FirmCard.prototype.transform = function (model, params) {
 
         // Цикл по дням недели начиная с сегодняшнего
         var j; // Номер текущего дня в массиве weekKeys
-        for (var i = 0 ; i < 0 + 7 ; i++) {
+        for (var i = 0; i < 0 + 7; i++) {
             j = dayNum(num + i);
             timePoints = getSortedTimePoints(model[weekKeys[j]]);
             // Цикл по точкам времени с конвертацией в timestamp
             _.each(timePoints, function(point, k) {
                 // now - обязательно! иначе будет браться текущий timestamp что чревато несовпадениями при медленном быстродействии
-                //var ts = moment(now).day(dayNum(num + i + firstdayOffset))/*.hours(getHours(timePoints[k])).minutes(getMinutes(timePoints[k]))*/.valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
-                var test = tt.getTs(now, dayNum(num + i + this.firstdayOffset), getHours(timePoints[k]), getMinutes(timePoints[k]));
-                /*var dd = new Date();
-                console.log('init ts', ts);
-                dd.setTime(ts);
-                console.log(dd.toDateString());
-                console.log('new ts', test);
-                dd.setTime(test);
-                console.log(dd.toDateString());
-                console.log(ts === test);
-                console.log('-----------------------');*/
-
-                timestamps.push(test);
+                var ts = moment(now).day(dayNum(num + i + firstdayOffset)).hours(getHours(timePoints[k])).minutes(getMinutes(timePoints[k])).valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
+                timestamps.push(ts);
 
                 // Парно удаляем совпадающие точки (они не имеют смысла - это сегодня 24:00 и завтра 00:00)
                 if (timestamps[timestamps.length - 1] == timestamps[timestamps.length - 2]) {
@@ -112,7 +108,7 @@ FirmCard.prototype.transform = function (model, params) {
 
         // Удаляем попарно совпадающие точки времени
         i = 0;
-        while(i < timestamps.length) {
+        while (i < timestamps.length) {
             if (timestamps[i] === timestamps[i + 1]) {
                 i++;
             } else {
@@ -130,7 +126,7 @@ FirmCard.prototype.transform = function (model, params) {
     }
 
     function whenOpenInverse(h, d, num) {
-        if (d == 1 && h > this.minHoursToDisplayClosure) {
+        if (d == 1 && h > minHoursToDisplayClosure) {
             return 'завтра';
         } else if (d == 2) {
             return 'послезавтра';
@@ -139,13 +135,20 @@ FirmCard.prototype.transform = function (model, params) {
         } else if (d > 2) { // вО вторник
             /* jshint -W015 */
             switch (num) {
-                case 0: return 'в воскресенье';
-                case 1: return 'в понедельник';
-                case 2: return 'во вторник';
-                case 3: return 'в среду';
-                case 4: return 'в четверг';
-                case 5: return 'в пятницу';
-                case 6: return 'в субботу';
+                case 0:
+                    return 'в воскресенье';
+                case 1:
+                    return 'в понедельник';
+                case 2:
+                    return 'во вторник';
+                case 3:
+                    return 'в среду';
+                case 4:
+                    return 'в четверг';
+                case 5:
+                    return 'в пятницу';
+                case 6:
+                    return 'в субботу';
             }
             /* jshint +W015 */
         }
@@ -156,7 +159,7 @@ FirmCard.prototype.transform = function (model, params) {
     // Поместить данные в объект для шаблона о сегодняшнем дне
     function setTodayString(today) {
         var timePoints,
-            periods = [],
+        periods = [],
             periodStart, // Timestamp времени открытия сегодня
             periodEnd, //Timestamp времени закрытия сегодня
             timestamps;
@@ -171,12 +174,12 @@ FirmCard.prototype.transform = function (model, params) {
             schedule.now.open = true;
         }
 
-        for (var i = 0 ; i < timestamps.length ; i++) {
+        for (var i = 0; i < timestamps.length; i++) {
             // Попали между точками i-1 и i // Мы находимся заведомо в будущем относительно 1
             if (now >= (timestamps[i - 1] || 0) && now < timestamps[i]) {
                 var h = Math.floor((timestamps[i] - now) / (1000 * 60 * 60)), // Количество часов до следующего timestamp
                     m = Math.floor((timestamps[i] - now) / (1000 * 60) - h * 60), // Количество минут (без часов) до следующего timestamp
-                    d = tt.dayOfYear(timestamps[i]) - tt.dayOfYear(now),
+                    d = moment(timestamps[i]).dayOfYear() - moment(now).dayOfYear(),
                     nowIsOpen = (i % 2 != 0);
 
                 schedule.now.open = nowIsOpen;
@@ -192,9 +195,9 @@ FirmCard.prototype.transform = function (model, params) {
                     schedule.will.text = 'закроется';
                 }
 
-                schedule.will.when = whenOpenInverse(h, d, tt.day(timestamps[i])); // Когда закроется или откроется
+                schedule.will.when = whenOpenInverse(h, d, moment(timestamps[i]).day()); // Когда закроется или откроется
 
-                schedule.will.till =  tt.format(timestamps[i], apiHourFormat);
+                schedule.will.till = moment(timestamps[i]).format(apiHourFormat);
             }
         }
 
@@ -205,8 +208,11 @@ FirmCard.prototype.transform = function (model, params) {
         timePoints = getSortedTimePoints(today);
 
         // Цикл по периодам работы за день
-        for (i = 2 ; i < timePoints.length ; i = i + 2) {
-            periods.push({ from: timePoints[i - 1], to: timePoints[i] });
+        for (i = 2; i < timePoints.length; i = i + 2) {
+            periods.push({
+                from: timePoints[i - 1],
+                to: timePoints[i]
+            });
         }
 
         from = formatTime(timePoints[0]);
@@ -235,7 +241,7 @@ FirmCard.prototype.transform = function (model, params) {
         var column = [],
             hasLunch = false;
 
-        for ( var j = 0 ; j < 7 ; j++ ) {
+        for (var j = 0; j < 7; j++) {
             var dayKey = weekKeys[j],
                 lunchMaxLength = 0;
 
@@ -247,9 +253,12 @@ FirmCard.prototype.transform = function (model, params) {
                     lunch = []; // Отрезки времени (отсортированные моменты) на обеды
 
                 // Цикл по периодам работы за день
-                for (var i = 2 ; i < timePoints.length ; i = i + 2) {
+                for (var i = 2; i < timePoints.length; i = i + 2) {
                     hasLunch = true;
-                    lunch.push({ from: timePoints[i - 1], to: timePoints[i] });
+                    lunch.push({
+                        from: timePoints[i - 1],
+                        to: timePoints[i]
+                    });
                 }
                 lunchMaxLength = Math.max(timePoints.length / 2, lunchMaxLength);
 
@@ -283,10 +292,10 @@ FirmCard.prototype.transform = function (model, params) {
     // Сгенерировать строку для всех дней model, совпадающих с day
     function makeSimpleString(day, model) {
         var points,
-            out = {
-                dayList: []
-            },
-            work = [];
+        out = {
+            dayList: []
+        },
+        work = [];
 
         if (day && day.working_hours && day.working_hours.length) {
             points = getSortedTimePoints(day);
@@ -306,17 +315,17 @@ FirmCard.prototype.transform = function (model, params) {
         _.each(weekKeys, function(dayKey, numKey) { // 'Mon', 0
             if (_.isEqual(model[dayKey], day) || (!model[dayKey] && day === null)) {
                 out.dayList.push(weekFullKeysLocal[numKey]);
-                groupWorkingDays[dayNum(numKey + this.firstdayOffset)] = 1;
+                groupWorkingDays[dayNum(numKey + firstdayOffset)] = 1;
                 flow++;
             } else {
                 if (flow > 2) { // Более 2 дней подряд
                     var lastDay = out.dayList.pop();
 
-                    for (var i = 1 ; i < flow - 1 ; i++) {
+                    for (var i = 1; i < flow - 1; i++) {
                         out.dayList.pop();
                     }
 
-                    out.dayList[out.dayList.length - 1] += '&ndash;' + lastDay;
+                    out.dayList[out.dayList.length - 1] += '–' + lastDay;
                 }
 
                 flow = 0;
@@ -324,7 +333,7 @@ FirmCard.prototype.transform = function (model, params) {
         });
 
         // Список дней в данной группе идентичен списку будних дней, значит можно заменить словом "Будни"
-        out.budni = _.isEqual(this.localWorkingDays, groupWorkingDays);
+        out.budni = _.isEqual(localWorkingDays, groupWorkingDays);
 
         // Список рабочих дней - все дни недели, значит нужно выводить фразу "Ежедневно"
         out.everyday = (_.min(groupWorkingDays) == 1);
@@ -340,7 +349,7 @@ FirmCard.prototype.transform = function (model, params) {
     function makeAdvancedString(days, model) {
         var out = [];
 
-        for (var i = days.length - 1 ; i >= 0 ; i--) {
+        for (var i = days.length - 1; i >= 0; i--) {
             out.push(makeSimpleString(days[i], model));
         }
 
@@ -348,21 +357,19 @@ FirmCard.prototype.transform = function (model, params) {
     }
 
     // Заполняем названия дней недели, 1 - понедельник. В заполненных массивах понедельник это 0
-    for (var i = 0 ; i < 7 ; i++) {
-        var ixd = i + this.firstdayOffset;
-
-        tt.lang(this.apiLang);
-        weekKeys[i] = tt.weekDay(ixd, 'short'); // [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
-        tt.lang(this.localLang);
-        weekKeysLocal[i] = tt.weekDay(ixd, 'short');
-        weekFullKeysLocal[i] = tt.weekDay(ixd, 'wide');
+    for (var i = 0; i < 7; i++) {
+        moment.lang(apiLang);
+        weekKeys[i] = moment(now).day(i + firstdayOffset).format('ddd'); // [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
+        moment.lang(localLang);
+        weekKeysLocal[i] = moment(now).day(i + firstdayOffset).format('ddd');
+        weekFullKeysLocal[i] = moment(now).day(i + firstdayOffset).format('dddd');
     }
 
     // Вычисляем сегодняшний день недели (ссылку на объект дня в модели)
-    tt.lang(this.apiLang)
-    todayKey = tt.day(now, 'short');
-
+    moment.lang(apiLang);
+    todayKey = moment(now).format('ddd');
     today = model[todayKey]; // Объект расписания - текущий день недели
+    moment.lang(localLang);
     setTodayString(today); // Сделать объект для шаблона - строка, которая описывает время работы сегодня
 
     // Находим количество разных расписаний и сохраняем их в массив
@@ -398,13 +405,13 @@ FirmCard.prototype.transform = function (model, params) {
             };
         } else { // Остаётся случай, когда есть два типа дней
             // Определяем день с наибольшим количеством рабочих часов из числа разных дней
-            for (i = 0 ; i < apiDifferentDaysCount ; i++) {
+            for (i = 0; i < apiDifferentDaysCount; i++) {
                 differentWorkingHoursCount[i] = 0;
 
                 if (apiDifferentDays[i]) {
                     var points = getSortedTimePoints(apiDifferentDays[i]);
 
-                    for (var j = 0 ; j < points.length ; j = j + 2) {
+                    for (var j = 0; j < points.length; j = j + 2) {
                         var hours = (getHours(points[j + 1]) + getMinutes(points[j + 1]) / 60) - (getHours(points[j]) + getMinutes(points[j]) / 60);
                         differentWorkingHoursCount[i] += hours;
                     }
@@ -429,4 +436,4 @@ FirmCard.prototype.transform = function (model, params) {
     }
 
     return schedule;
-};
+}; 
