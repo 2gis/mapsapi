@@ -1,8 +1,6 @@
-function FirmCard(options) {
+var FirmCard = function (options) {
 
-    this.schedule = new Schedule(options);
+    this.schedule = new FirmCard.Schedule(options);
 
     return this;
 }
-
-
