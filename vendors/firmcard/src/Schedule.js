@@ -452,6 +452,7 @@ FirmCard.Schedule.prototype = {
     forecast: function (sch) {
         var str,
             interval = '',
+            localLang = this.localLang,
             open,
             minHToClose = this.minHoursToDisplayClosure;
 
