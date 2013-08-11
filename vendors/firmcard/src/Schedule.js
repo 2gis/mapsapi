@@ -6,41 +6,7 @@ FirmCard.Schedule = function(options) {
     this.firstdayOffset = options.firstdayOffset || 1;
     this.minHoursToDisplayClosure = options.minHoursToDisplayClosure || 4;
 
-    this.t = options.t || function(){};
-
     return this;
-}
-
-FirmCard.Schedule.t = function (msg, argument) {  // (String, Number) -> String
-    var result,
-        lang = this.localLang,
-        msgIsset = false,
-        dictionaryMsg,
-        exp;
-
-        console.log(this.localLang);
-        console.log(this);
-/*    if (typeof this.constructor.Dictionary[lang] === 'undefined') {
-        lang = "ru";
-        this.setLang("ru");
-    }
-    dictionaryMsg = this.constructor.Dictionary[lang][msg];
-    msgIsset = typeof dictionaryMsg !== 'undefined';
-    if (!msgIsset) {
-        return msg;
-    }
-    result = msgIsset ? dictionaryMsg : msg;
-
-    if (argument !== undefined) {
-        argument = parseInt(argument, 10);
-        argument = isNaN(argument) ? 0 : argument;
-        exp = this.constructor.Dictionary[lang].pluralRules(argument);
-        result = dictionaryMsg[exp];
-    }
-
-    result = L.Util.template(result, {n: argument});
-    return result ? result : msg;*/
-
 }
 
 FirmCard.Schedule.prototype = {
@@ -64,9 +30,8 @@ FirmCard.Schedule.prototype = {
             localLang = this.localLang,
             localWorkingDays = this.localWorkingDays, // Рабочие дни в данной стране
             firstdayOffset = this.firstdayOffset, // 0-6 // Смещение начала недели относительно воскресенья (воскресенье взято первым днём по-умолчанию, потому что такой формат у moment.js)
-            minHoursToDisplayClosure = this.minHoursToDisplayClosure, // Число часов, меньше которого появляется строка "закроется через 2 часа..."
-            t = FirmCard.Schedule.t;
-            t(this);
+            minHoursToDisplayClosure = this.minHoursToDisplayClosure; // Число часов, меньше которого появляется строка "закроется через 2 часа..."
+
         function getHours(str) {
             return str.substr(0, 2);
         }
@@ -173,28 +138,28 @@ FirmCard.Schedule.prototype = {
 
         function whenOpenInverse(h, d, num) {
             if (d == 1 && h > minHoursToDisplayClosure) {
-                return 'завтра';
+                return FirmCard.Schedule.dictionary.t(localLang, 'tommorow');
             } else if (d == 2) {
-                return 'послезавтра';
+                return FirmCard.Schedule.dictionary.t(localLang, 'afterTommorow');
             } else if (d >= 7) {
-                return 'через неделю';
+                return FirmCard.Schedule.dictionary.t(localLang, 'afterWeek');
             } else if (d > 2) { // вО вторник
                 /* jshint -W015 */
                 switch (num) {
                     case 0:
-                        return 'в воскресенье';
+                        return FirmCard.Schedule.dictionary.t(localLang, 'nextSun');
                     case 1:
-                        return 'в понедельник';
+                        return FirmCard.Schedule.dictionary.t(localLang, 'nextMon');
                     case 2:
-                        return 'во вторник';
+                        return FirmCard.Schedule.dictionary.t(localLang, 'nextTue');
                     case 3:
-                        return 'в среду';
+                        return FirmCard.Schedule.dictionary.t(localLang, 'nextWed');
                     case 4:
-                        return 'в четверг';
+                        return FirmCard.Schedule.dictionary.t(localLang, 'nextThu');
                     case 5:
-                        return 'в пятницу';
+                        return FirmCard.Schedule.dictionary.t(localLang, 'nextFri');
                     case 6:
-                        return 'в субботу';
+                        return FirmCard.Schedule.dictionary.t(localLang, 'nextSat');
                 }
                 /* jshint +W015 */
             }
@@ -231,14 +196,14 @@ FirmCard.Schedule.prototype = {
                     schedule.now.open = nowIsOpen;
 
                     schedule.will = {
-                        text: 'откроется', // Оптимистичный прогноз :)
+                        text: FirmCard.Schedule.dictionary.t(localLang, 'willOpen'), // Оптимистичный прогноз :)
                         d: d,
                         h: h,
                         m: m
                     };
 
                     if (nowIsOpen) {
-                        schedule.will.text = 'закроется';
+                        schedule.will.text = FirmCard.Schedule.dictionary.t(localLang, 'willClose');
                     }
 
                     schedule.will.when = whenOpenInverse(h, d, moment(timestamps[i]).day()); // Когда закроется или откроется
@@ -491,37 +456,37 @@ FirmCard.Schedule.prototype = {
             minHToClose = this.minHoursToDisplayClosure;
 
         if (sch.always) { // Если круглосуточно, ничего кроме "Открыто" выводить не нужно
-            str = 'Открыто';
+            str = FirmCard.Schedule.dictionary.t(localLang, 'isOpen');
             open = true;
         } else {
             if (sch.will.h) {
-                interval += this.t(sch.will.h, 'час', 'часа', 'часов') + ' ';
+                interval += FirmCard.Schedule.dictionary.t(localLang, 'nHours', sch.will.h) + ' ';
             }
 
             if (sch.will.m) {
-                interval += this.t(sch.will.m, 'минуту', 'минуты', 'минут');
+                interval += FirmCard.Schedule.dictionary.t(localLang, 'nMins', sch.will.m);
             }
 
             open = !!(sch.now.open && (sch.will.h || sch.will.m)); /* Если до закрытия меньше минуты - считаем что уже закрыто */
 
             if (open && sch.will.h >= minHToClose) {
-                str = 'Открыто до ' + sch.will.till;
+                str = FirmCard.Schedule.dictionary.t(localLang, 'openTill') + sch.will.till;
             }
 
             if (open && sch.will.h < minHToClose) {
-                str = 'Закроется через ' + interval;
+                str = FirmCard.Schedule.dictionary.t(localLang, 'closeIn') + interval;
             }
 
             if (!open && sch.will.h >= minHToClose && sch.will.d === 0) {
-                str = 'Откроется в ' + sch.will.till;
+                str = FirmCard.Schedule.dictionary.t(localLang, 'openAt') + sch.will.till;
             }
 
             if (!open && sch.will.h < minHToClose) {
-                str = 'Откроется через ' + interval;
+                str = FirmCard.Schedule.dictionary.t(localLang, 'openIn') + interval;
             }
 
             if (!open && sch.will.d > 0 && sch.will.h >= minHToClose) {
-                str = 'Откроется ' + sch.will.when;
+                str = FirmCard.Schedule.dictionary.t(localLang, 'open') + sch.will.when;
             }
         }
 
@@ -533,4 +498,5 @@ FirmCard.Schedule.prototype = {
 
         return this;
     }
+    
 }
