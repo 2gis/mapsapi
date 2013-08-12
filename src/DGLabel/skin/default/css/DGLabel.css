@@ -1,0 +1,28 @@
+.dg-label {
+	width: 300px;
+	left:0px;
+	top:0px;
+	max-width: 'none';
+	max-height: 'none'
+	z-index: 999;
+}
+.dg-label div {
+	color: #727170;
+    background: #fff;
+    background-color: rgb(254, 253, 251);
+    background-color: rgba(254, 253, 251, 0.9);
+    font: 12px/17px Arial, sans-serif;
+    box-shadow: 0 2px 3px #ccc;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    min-width: 30px;
+    max-width: 300px;
+    width: auto;
+    padding: 1px 7px 2px;
+    border: 0;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
