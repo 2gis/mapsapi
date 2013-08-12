@@ -3,8 +3,7 @@ L.DG.Entrance = L.Class.extend({
     includes: L.Mixin.Events,
 
     options: {
-        vectors: [],
-        fitBounds: true
+        vectors: []
     },
 
     statics: {
@@ -51,10 +50,13 @@ L.DG.Entrance = L.Class.extend({
         return this;
     },
 
-    show: function () { // () -> L.DG.Entrance
+    show: function (fitBounds) { // () -> L.DG.Entrance
+        if (fitBounds !== false) {
+            fitBounds = true;
+        }
 
         if (!this.isShown() && this._arrows) {
-            if (this.options.fitBounds) {
+            if (fitBounds) {
                 this._fitBounds();
             }
             if (this._isAllowedZoom()) {
