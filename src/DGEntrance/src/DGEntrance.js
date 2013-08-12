@@ -26,7 +26,7 @@ L.DG.Entrance = L.Class.extend({
 
         // hide without event by default
         this._arrows.eachLayer(function (arrow) {
-            arrow._path.setAttribute('visibility', 'hidden');
+            arrow.setStyle({ visibility: 'hidden' });
         });
         this._isShown = false;
     },
@@ -61,7 +61,7 @@ L.DG.Entrance = L.Class.extend({
             }
             if (this._isAllowedZoom()) {
                 this._arrows.eachLayer(function (arrow) {
-                    arrow._path.setAttribute('visibility', 'visible');
+                    arrow.setStyle({ visibility: 'visible' });
                     if (L.Path.ANIMATION_AVAILABLE) {
                         arrow.runAnimation('animateArrowPathGeom');
                     }
@@ -79,7 +79,7 @@ L.DG.Entrance = L.Class.extend({
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow._path.setAttribute('visibility', 'hidden');
+                arrow.setStyle({ visibility: 'hidden' });
             });
             this._isShown = false;
             this._map.fire('dgEntranceHide');

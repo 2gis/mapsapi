@@ -168,6 +168,10 @@ if (L.Browser.svg) {
                 this._path.setAttribute('stroke-width', optionsByZoom[zoom].weight);
             }
 
+            if (typeof this.options.visibility !== 'undefined') {
+                this._path.setAttribute('visibility', this.options.visibility)
+            }
+
             for (var i = 0; i < this._markersPath.length; i++) {
                 this._markersPath[i].setAttribute('fill-opacity', this.options.opacity);
             }

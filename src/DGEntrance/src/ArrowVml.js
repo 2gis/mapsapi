@@ -56,6 +56,10 @@ if (L.Browser.vml) {
                 typeof optionsByZoom[zoom].weight !== 'undefined') {
                 this._stroke.weight = optionsByZoom[zoom].weight + 'px';
             }
+
+            if (typeof this.options.visibility !== 'undefined') {
+                this._container.style.visibility = this.options.visibility;
+            }
         }
 
     });
