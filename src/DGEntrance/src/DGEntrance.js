@@ -123,11 +123,13 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _fitBounds: function () {
-        var map = this._map;
+        var map = this._map,
+            maxZoom;
 
         map.once('moveend', function () {
-            if (!this._isAllowedZoom()) {
-                map.setZoom(map.dgProjectDetector.getProject().max_zoomlevel, {animate: false});
+            if (this._map && !this._isAllowedZoom()) {
+                maxZoom = map.dgProjectDetector.getProject().max_zoomlevel;
+                map.setZoom(maxZoom, {animate: false});
             }
         }, this);
 
