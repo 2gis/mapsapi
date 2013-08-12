@@ -2,7 +2,7 @@
 FirmCard.Schedule.dictionary = {};
 
 FirmCard.Schedule.dictionary = {
-    
+
     t: function (lang, msg, argument) { // (String, Number) -> String
         var result,
             msgIsset = false,
@@ -74,26 +74,58 @@ FirmCard.Schedule.dictionary = {
                 return 1;
             }
         },
-        
-        tommorow: 'завтра',
-        afterTommorow: 'послезавтра',
-        afterWeek: 'через неделю',
-        nextSun: 'в воскресенье',
-        nextMon: 'в понедельник',
-        nextTue: 'во вторник',
-        nextWed: 'в среду',
-        nextThu: 'в четверг',
-        nextFri: 'в пятницу',
-        nextSat: 'в субботу',
-        willOpen: 'откроется',
-        willClose: 'закроется',
-        isOpen: 'Открыто',
-        openTill: 'Открыто до ',
-        closeIn: 'Закроется через ',
-        openAt: 'Откроется в ',
-        openIn: 'Откроется через ',
-        open: 'Откроется ',
-        nHours: ['час', 'часа', 'часов'],
-        nMins: ['минуту', 'минуты', 'минут']
+
+        tommorow: 'it завтра',
+        afterTommorow: 'it послезавтра',
+        afterWeek: 'it через неделю',
+        nextSun: 'it в воскресенье',
+        nextMon: 'it в понедельник',
+        nextTue: 'it во вторник',
+        nextWed: 'it в среду',
+        nextThu: 'it в четверг',
+        nextFri: 'it в пятницу',
+        nextSat: 'it в субботу',
+        willOpen: 'it откроется',
+        willClose: 'it закроется',
+        isOpen: 'it Открыто',
+        openTill: 'it Открыто до ',
+        closeIn: 'it Закроется через ',
+        openAt: 'it Откроется в ',
+        openIn: 'it Откроется через ',
+        open: 'it Откроется ',
+        nHours: ['it час', 'часа', 'часов'],
+        nMins: ['it минуту', 'минуты', 'минут']
+    },
+
+    en: {
+        pluralRules: function (n) { // (Number)
+            if (n === 1) { // 1
+                return 0;
+            }
+            if (n >= 2) { // 2, 3, 4 ..
+                return 1;
+            }
+        },
+
+        tommorow: 'en завтра',
+        afterTommorow: 'en послезавтра',
+        afterWeek: 'en через неделю',
+        nextSun: 'en в воскресенье',
+        nextMon: 'en в понедельник',
+        nextTue: 'en во вторник',
+        nextWed: 'en в среду',
+        nextThu: 'en в четверг',
+        nextFri: 'en в пятницу',
+        nextSat: 'en в субботу',
+        willOpen: 'en откроется',
+        willClose: 'en закроется',
+        isOpen: 'en Открыто',
+        openTill: 'en Открыто до ',
+        closeIn: 'en Закроется через ',
+        openAt: 'en Откроется в ',
+        openIn: 'en Откроется через ',
+        open: 'en Откроется ',
+        nHours: ['en час', 'часа', 'часов'],
+        nMins: ['en минуту', 'минуты', 'минут']
     }
 };

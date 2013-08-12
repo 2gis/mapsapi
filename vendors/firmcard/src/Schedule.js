@@ -499,5 +499,5 @@ FirmCard.Schedule.prototype = {
 
         return this;
     }
-    
+
 }
