@@ -14,23 +14,23 @@
 
 1.  Для случая, когда организация имеет одинаковый график во все дни недели без обеда: пишем "Ежедневно [время работы]", время работы не раскрывается по клику.&nbsp;
 
-&nbsp;![](http://confluence.2gis.local/download/attachments/79137469/%D0%95%D0%B6%D0%B5%D0%B4%D0%BD%D0%B5%D0%B2%D0%BD%D0%BE.png?version=1&modificationDate=1328845959000 "Ежедневно")
+&nbsp;![](./img/everyday.png "Ежедневно")
 
 &nbsp; &nbsp; &nbsp;2. Если организация работает круглосуточно: показываем строку "работает круглосуточно", время работы не&nbsp;раскрывается&nbsp;по клику.
 
-![](http://confluence.2gis.local/download/attachments/79137469/%D0%9A%D1%80%D1%83%D0%B3%D0%BB%D0%BE%D1%81%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%BE.png?version=1&modificationDate=1328846256000 "Круглосуточно")
+![](./img/24x7.png "Круглосуточно")
 
 &nbsp; &nbsp; &nbsp;3. Если организация работает по разному расписанию в разные дни, имеет перерывы на обед или выходные &nbsp;- время работы раскрывается по клику.
 
-&nbsp; &nbsp; &nbsp;![](http://confluence.2gis.local/download/attachments/79137469/%D0%A1%D0%B5%D0%B3%D0%BE%D0%B4%D0%BD%D1%8F%2C-%D1%80%D0%B0%D1%81%D0%BA%D1%80%D1%8B%D0%B2%D0%B0%D1%8E%D1%89%D0%B8%D0%B9%D1%81%D1%8F-%D1%81%D0%BF%D0%B8%D1%81%D0%BE%D0%BA.png?version=1&modificationDate=1328846936000 "Сегодня,-раскрывающийся-список")
+&nbsp; &nbsp; &nbsp;![](./img/today-dropdown.png "Сегодня,-раскрывающийся-список")
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3.1. Если у организации сегодня есть обед - говорим об этом в свёрнутом виде.
 
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;![](http://confluence.2gis.local/download/attachments/79137469/%D0%A1%D0%B5%D0%B3%D0%BE%D0%B4%D0%BD%D1%8F%2C-%D0%BE%D0%B1%D0%B5%D0%B4.png?version=1&modificationDate=1328847035000 "Сегодня,-обед")
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;![](./img/today-dinner.png "Сегодня,-обед")
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;3.2. Если у организации сегодня выходной.
 
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;![](http://confluence.2gis.local/download/attachments/79137469/%D0%A1%D0%B5%D0%B3%D0%BE%D0%B4%D0%BD%D1%8F---%D0%B2%D1%8B%D1%85%D0%BE%D0%B4%D0%BD%D0%BE%D0%B9.png?version=1&modificationDate=1328847135000 "Сегодня выходной")
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;![](./img/holiday.png "Сегодня выходной")
 
 ##### Правила отображения полного ("развёрнутого") вида
 
@@ -40,11 +40,11 @@
 
 &nbsp; &nbsp; &nbsp; компаний, имеющих не более трёх интервалов работы (пн-пт, сб, вс) - 49 923 (95,45%)
 
-&nbsp; &nbsp; &nbsp;&nbsp;компании, имеющих обеденный перерыв - 4 554 (8,88%)<span style="color: rgb(34,34,34);">&nbsp;</span>
+&nbsp; &nbsp; &nbsp;&nbsp;компании, имеющих обеденный перерыв - 4 554 (8,88%)
 
 &nbsp; &nbsp;В развернутом виде заменяем табличное представление на строчное, для случаев &nbsp;когда у организации два или три интервала работы:
 
-![](http://confluence.2gis.local/download/attachments/79137469/%D0%92%D1%80%D0%B5%D0%BC%D1%8F+%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B+-+%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0%D0%BC%D0%B8.png?version=1&modificationDate=1329876625000)
+![](./img/schedule-strings.png)
 
 &nbsp; При форматировании строчного представления используем следующие правила
 
@@ -58,19 +58,19 @@
 
 &nbsp; &nbsp;Несмотря на то, что компаний с большим количеством интервалов работы немного (менее 5%), как правило, это социально значимые организации. Например,&nbsp;УФМС в Москве&nbsp;-&nbsp;[http://go.2gis.ru/nzit](http://go.2gis.ru/nzit)&nbsp;. В случае, если у&nbsp;организации более трёх интервалов работы,&nbsp;необходимо оставить табличное представление.&nbsp;
 
-&nbsp; &nbsp;![](http://confluence.2gis.local/download/attachments/79137469/%D0%92%D1%80%D0%B5%D0%BC%D1%8F+%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B+-+%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%87%D0%BD%D0%BE%D0%B5.png?version=1&modificationDate=1329876718000)
+&nbsp; &nbsp;![](./img/table.png)
 
 ##### Отображения комментария ко времени работы
 
 Если ко времени работы организации указан комментарий, отображаем его только в раскрытой карточке:&nbsp;
 
-![](http://confluence.2gis.local/download/attachments/79137469/%D0%9A%D1%80%D1%83%D0%B3%D0%BB%D0%BE%D1%81%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%BE%2C-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D0%BD%D1%82.png?version=1&modificationDate=1328849981000 "Комментарий-ко-времени-работы")
+![](./img/schedule-comment.png "Комментарий-ко-времени-работы")
 
 В случае если время работы организации одинаково для всех дней недели или организация работает круглосуточно комментарий отображается после краткой записи
 
-![](http://confluence.2gis.local/download/attachments/79137469/%D0%9A%D1%80%D1%83%D0%B3%D0%BB%D0%BE%D1%81%D1%83%D1%82%D0%BE%D1%87%D0%BD%D0%BE%2C-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D0%BD%D1%82.png?version=1&modificationDate=1328849981000 "Круглосуточно,-коммент.")&nbsp;
+![](./img/24x7-comment.png "Круглосуточно,-коммент.")&nbsp;
 
-![](http://confluence.2gis.local/download/attachments/79137469/%D0%9A%D0%BE%D0%BC%D0%BC%D0%B5%D0%BD%D1%82-%D0%BA%D0%BE-%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%B8-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%2C-%D1%81%D0%B2%D1%91%D1%80%D0%BD%D1%83%D1%82%D0%BE%D0%B5-%D0%B2%D1%80%D0%B5%D0%BC%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B.png?version=1&modificationDate=1328848459000 "Коммент-ко-времени-работы,-свёрнутое-время-работы.png")
+![](./img/everyday-comment.png "Коммент-ко-времени-работы,-свёрнутое-время-работы.png")
 
 ### Подсказки ко времени работы
 
@@ -127,7 +127,7 @@
 
 Если пользователь отфильтровал результаты поиска по "Работает сейчас" подсказка должна отображаться и для скрытой карточки предприятия.&nbsp;
 
-![](http://confluence.2gis.local/download/attachments/79137469/%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D0%B5%D1%82-%D1%81%D0%B5%D0%B9%D1%87%D0%B0%D1%81.png?version=1&modificationDate=1328858857000 "Работает-сейчас")
+![](./img/open-now.png "Работает-сейчас")
 
 ### Дополнительные требования и&nbsp;ограничения
 
@@ -138,4 +138,4 @@
 ### Примеры карточек
 
 
-![](http://confluence.2gis.local/download/attachments/79137469/worktimescreen_20120127.png?version=1&modificationDate=1328859505000 "worktimescreen_20120127.png")
+![](./img/worktimescreen.png "worktimescreen.png")
