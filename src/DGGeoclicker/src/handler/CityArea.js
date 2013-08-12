@@ -1,3 +1,4 @@
+
 L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 
 	statics: {
@@ -5,12 +6,13 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _polylineStyleDefault : {
-    	fillColor: '#ff9387',
-	    color: '#ff9387',
-	    clickable: false,
-	    noClip:true,
-	    opacity: 1
+        fillColor: '#ff9387',
+        color: '#ff9387',
+        clickable: false,
+        noClip: true,
+        opacity: 1
     },
+
 	_polylineStyles : {
 	    11 : {
             fillOpacity: 0.18,
@@ -36,18 +38,33 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
             return false;
         }
 
-        this._geometry = this._readWKT( results[type].geometry.location );
-		this._geometryStyle = this._getPolyStyle(this._map.getZoom());
+        if (!this._stylesInited) {
+            this._initStyles();
+        }
 
-        this._geometry.setStyle(this._geometryStyle).addTo(this._map);
+        this._geometry = this._readWKT( results[type].geometry.location );
+		this._geometryStyle = this._getPolyStyleNum(this._map.getZoom());
+
+        this._geometry
+                .setStyle( this._polylineStyles[this._geometryStyle] )
+                .addTo(this._map);
 
         this._map
         		.on('zoomend', this._onZoomChange, this)
         		.once('popupclose', this._onPopupClose, this);
 
         return {
-            tmpl: this.t(type) + ': ' + (results[type].short_name == '' ? this.t('noname') : results[type].short_name)
+            tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname'))
         };
+    },
+
+    _initStyles : function(){
+        var i;
+
+        L.DG.Geoclicker.Handler.CityArea.prototype._stylesInited = true;
+        for (i in this._polylineStyles)
+            if (this._polylineStyles.hasOwnProperty(i))
+                L.DG.Geoclicker.Handler.CityArea.prototype._polylineStyles[i] = L.extend(this._polylineStyles[i], this._polylineStyleDefault);
     },
 
     _readWKT : function(selection) {
@@ -55,23 +72,23 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 		return this._wktParser.toObject();
     },
 
-    _getPolyStyle: function(zoom) {
+    _getPolyStyleNum: function(zoom) {
     	var i;
 
         for (i in this._polylineStyles) if (this._polylineStyles.hasOwnProperty(i)) {
             if (zoom <= i) {
-            	return L.extend(this._polylineStyleDefault, this._polylineStyles[i]);
+            	return i;
             }
         }
         return false;
     },
 
     _onZoomChange: function() {
-    	var newStyle = this._getPolyStyle(this._map.getZoom());
+    	var newStyle = this._getPolyStyleNum(this._map.getZoom());
 
     	if (newStyle && newStyle != this._geometryStyle) {
     		this._geometryStyle = newStyle;
-    		this._geometry.setStyle( newStyle );
+    		this._geometry.setStyle( this._polylineStyles[newStyle] );
     	}
     },
 
