@@ -3,8 +3,7 @@ L.DG.Entrance = L.Class.extend({
     includes: L.Mixin.Events,
 
     options: {
-        vectors: [],
-        fitBounds: true
+        vectors: []
     },
 
     statics: {
@@ -27,7 +26,7 @@ L.DG.Entrance = L.Class.extend({
 
         // hide without event by default
         this._arrows.eachLayer(function (arrow) {
-            arrow._path.setAttribute('visibility', 'hidden');
+            arrow.setStyle({ visibility: 'hidden' });
         });
         this._isShown = false;
     },
@@ -51,15 +50,18 @@ L.DG.Entrance = L.Class.extend({
         return this;
     },
 
-    show: function () { // () -> L.DG.Entrance
+    show: function (fitBounds) { // () -> L.DG.Entrance
+        if (fitBounds !== false) {
+            fitBounds = true;
+        }
 
         if (!this.isShown() && this._arrows) {
-            if (this.options.fitBounds) {
+            if (fitBounds) {
                 this._fitBounds();
             }
             if (this._isAllowedZoom()) {
                 this._arrows.eachLayer(function (arrow) {
-                    arrow._path.setAttribute('visibility', 'visible');
+                    arrow.setStyle({ visibility: 'visible' });
                     if (L.Path.ANIMATION_AVAILABLE) {
                         arrow.runAnimation('animateArrowPathGeom');
                     }
@@ -77,7 +79,7 @@ L.DG.Entrance = L.Class.extend({
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow._path.setAttribute('visibility', 'hidden');
+                arrow.setStyle({ visibility: 'hidden' });
             });
             this._isShown = false;
             this._map.fire('dgEntranceHide');
@@ -123,14 +125,18 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _fitBounds: function () {
-        var map = this._map;
+        var map = this._map,
+            maxZoom;
 
-        if (!map.getBounds().contains(this.getBounds())) {
+        map.once('moveend', function () {
+            if (this._map && !this._isAllowedZoom()) {
+                maxZoom = map.dgProjectDetector.getProject().max_zoomlevel;
+                map.setZoom(maxZoom, {animate: false});
+            }
+        }, this);
+
+        if (!map.getBounds().contains(this.getBounds()) || !this._isAllowedZoom()) {
             map.panTo(this.getBounds().getCenter(), {animate: false});
-        }
-
-        if (!this._isAllowedZoom()) {
-            map.setZoom(map.dgProjectDetector.getProject().max_zoomlevel, {animate: false});
         }
     },
 
@@ -140,106 +146,110 @@ L.DG.Entrance = L.Class.extend({
 
     _getArrowStrokeOptions: function () {
         return {
-                clickable: false,
-                color: '#fff',
-                weight: 6,
-                opacity: 1,
-                byZoom: {
-                    16: {
-                        marker: {
-                            viewBox: '0 0 19 18',
-                            refX: 12,
-                            refY: 9,
-                            markerHeight: 18,
-                            markerWidth: 19
-                        },
-                        markerPath: {
-                            d: 'M19,9.001c0-1.137-0.643-2.174-1.658-2.684l-12-6C4.188-0.261,2.792-0.034,1.879,0.88l-1,1 C0.293,2.466,0,3.233,0,4.002s0.293,1.536,0.879,2.121L3,8.243v1.516L0.879,11.88C0.293,12.466,0,13.233,0,14.001 s0.293,1.535,0.879,2.121l1,1c0.913,0.913,2.309,1.141,3.463,0.563l12-6C18.357,11.176,19,10.138,19,9.001L19,9.001z'
-                        },
-                        lastPointOffset: 0,
-                        vmlEndArrow: 'none'
+            clickable: false,
+            color: '#fff',
+            weight: 6,
+            opacity: 1,
+            byZoom: {
+                16: {
+                     marker: {
+                        viewBox: '0 0 24 24',
+                        refX: 12,
+                        refY: 12,
+                        markerHeight: 24,
+                        markerWidth: 24,
+                        path: {
+                            d: 'M10,5C9.488,5,8.976,5.195,8.586,5.586l-1,1c-0.674,0.674-0.779,1.73-0.25,2.523L9,11.605v0.789 l-1.664,2.496c-0.529,0.793-0.424,1.85,0.25,2.523l1,1C8.976,18.805,9.488,19,10,19s1.023-0.195,1.414-0.586l5-5 c0.781-0.781,0.781-2.047,0-2.828l-5-5C11.023,5.195,10.512,5,10,5L10,5z'
+                        }
                     },
-                    17: {
-                        marker: {
-                            viewBox: '2.5 19 21 20',
-                            refX: 12,
-                            refY: 29,
-                            markerHeight: 20,
-                            markerWidth: 21
-                        },
-                        markerPath: {
-                            d: 'M23.5,29c0-1.137-0.643-2.174-1.658-2.683l-14-7c-1.154-0.578-2.55-0.352-3.463,0.562l-1,1 C2.793,21.465,2.5,22.233,2.5,23.001c0,0.769,0.293,1.536,0.879,2.121l3.121,3.12v1.516l-3.121,3.121 C2.793,33.465,2.5,34.232,2.5,35s0.293,1.535,0.879,2.121l1,1c0.913,0.913,2.309,1.141,3.463,0.563l14-7 C22.857,31.175,23.5,30.137,23.5,29L23.5,29z'
-                        },
-                        lastPointOffset: !L.Browser.vml ? -5 : 0,
-                        vmlEndArrow: 'none'
+                    lastPointOffset: 2,
+                    vmlEndArrow: 'none',
+                    weight: 6
+                },
+                17: {
+                    marker: {
+                        viewBox: '0 0 24 24',
+                        refX: 12,
+                        refY: 12,
+                        markerHeight: 24,
+                        markerWidth: 24,
+                        path: {
+                            d: 'M10,3C9.488,3,8.976,3.195,8.586,3.586l-1,1c-0.609,0.608-0.76,1.539-0.375,2.309L9,10.472v3.057 l-1.789,3.577c-0.385,0.771-0.234,1.7,0.375,2.309l1,1C8.976,20.805,9.488,21,10,21s1.023-0.195,1.414-0.586l7-7 c0.781-0.781,0.781-2.047,0-2.828l-7-7C11.023,3.195,10.512,3,10,3L10,3z'
+                        }
                     },
-                    18: {
-                        marker: {
-                            viewBox: '0 0 23 22',
-                            refX: 12,
-                            refY: 11,
-                            markerHeight: 22,
-                            markerWidth: 23
-                        },
-                        markerPath: {
-                            d: 'M23,11.001c0-1.139-0.643-2.174-1.658-2.686l-16-7.998C4.188-0.261,2.792-0.034,1.879,0.88 l-1,1C0.293,2.466,0,3.233,0,4.002s0.293,1.536,0.879,2.12L4,9.244v3.515L0.879,15.88C0.293,16.466,0,17.231,0,18.001 c0,0.768,0.293,1.534,0.879,2.12l1,1c0.913,0.913,2.309,1.142,3.463,0.563l16-8C22.357,13.176,23,12.14,23,11.001L23,11.001z'
-                        },
-                        lastPointOffset: !L.Browser.vml ? -5 : -2,
-                        vmlEndArrow: 'none',
-                        weight: 10
-                    }
+                    lastPointOffset: 0,
+                    vmlEndArrow: 'none',
+                    weight: 7
+                },
+                18: {
+                    marker: {
+                        viewBox: '0 0 24 24',
+                        refX: 12,
+                        refY: 12,
+                        markerHeight: 24,
+                        markerWidth: 24,
+                        path: {
+                            d: 'M8,1C7.488,1,6.976,1.195,6.586,1.586l-1,1c-0.674,0.674-0.779,1.73-0.25,2.523L9,10.605v2.789l-3.664,5.496 c-0.529,0.793-0.424,1.85,0.25,2.523l1,1C6.976,22.805,7.488,23,8,23s1.024-0.195,1.414-0.586l9-9c0.781-0.781,0.781-2.047,0-2.828 l-9-9C9.024,1.195,8.512,1,8,1L8,1z'
+                        }
+                    },
+                    lastPointOffset: !L.Browser.vml ? -5 : -2,
+                    vmlEndArrow: 'none',
+                    weight: 8
                 }
-            };
+            }
+        };
     },
 
     _getArrowOptions: function () {
         return {
-                clickable: false,
-                color: '#6f8497',
-                weight: 3,
-                opacity: 1,
-                byZoom: {
-                    16: {
-                        marker: {
-                            viewBox: '0 0 19 18',
-                            refX: 12,
-                            refY: 9,
-                            markerHeight: 18,
-                            markerWidth: 19
-                        },
-                        markerPath: {
-                            d: 'M16,9.002 L4,3.002 3,4.002 6,7.002 6,11.002 3,14.002 4,15.002z'
-                        },
-                        lastPointOffset: 0
+            clickable: false,
+            color: '#6f8497',
+            weight: 3,
+            opacity: 1,
+            byZoom: {
+                16: {
+                    marker: {
+                        viewBox: '0 0 24 24',
+                        refX: 12,
+                        refY: 12,
+                        markerHeight: 24,
+                        markerWidth: 24,
+                        polygon: {
+                            points: '15,12 10,7 9,8 11,11 11,13 9,16 10,17'
+                        }
                     },
-                    17: {
-                        marker: {
-                            viewBox: '2.5 19 21 20',
-                            refX: 12,
-                            refY: 29,
-                            markerHeight: 20,
-                            markerWidth: 21
-                        },
-                        markerPath: {
-                            d: 'M20.5,29.001 L6.5,22.001 5.5,23.001 9.5,27.001 9.5,31.001 5.5,35.001 6.5,36.001z'
-                        },
-                        lastPointOffset: !L.Browser.vml ? -5 : 0
+                    lastPointOffset: 2,
+                    weight: 2
+                },
+                17: {
+                    marker: {
+                        viewBox: '0 0 24 24',
+                        refX: 12,
+                        refY: 12,
+                        markerHeight: 24,
+                        markerWidth: 24,
+                        polygon: {
+                            points: '17,12 10,5 9,6 11,10 11,14 9,18 10,19'
+                        }
                     },
-                    18: {
-                        marker: {
-                            viewBox: '0 0 23 22',
-                            refX: 12,
-                            refY: 11,
-                            markerHeight: 22,
-                            markerWidth: 23
-                        },
-                        markerPath: {
-                            d: 'M20,11 L4,3 3,4 7,8 7,14 3,18 4,19z'
-                        },
-                        lastPointOffset: !L.Browser.vml ? -5 : 0,
-                        weight: 4
-                    }
+                    lastPointOffset: 0,
+                    weight: 3
+                },
+                18: {
+                    marker: {
+                        viewBox: '0 0 24 24',
+                        refX: 12,
+                        refY: 12,
+                        markerHeight: 24,
+                        markerWidth: 24,
+                        polygon: {
+                            points: '17,12 8,3 7,4 11,10 11,14 7,20 8,21'
+                        }
+                    },
+                    lastPointOffset: !L.Browser.vml ? -5 : 0,
+                    weight: 4
                 }
-            };
+            }
+        };
     }
 });
