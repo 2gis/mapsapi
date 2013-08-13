@@ -15,7 +15,7 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
 
     _showOrHideEntrance: function () { // (L.Event)
         if (this._map.getZoom() >= L.DG.Entrance.SHOW_FROM_ZOOM) {
-            this._entrance.show();
+            this._entrance.show(false);
         }
         else {
             this._entrance.hide();
