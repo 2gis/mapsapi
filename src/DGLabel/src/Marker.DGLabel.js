@@ -55,16 +55,14 @@ L.Marker.include({
 
 	_originalUpdateZIndex: L.Marker.prototype._updateZIndex,
 	_updateZIndex: function (offset) {
-		var zIndex = this._zIndex + offset || 0;
-
 		this._originalUpdateZIndex(offset);
 		this._updateLabelZIndex();
 		return this;
 	},
 
-	_updateLabelZIndex:function(){
-		if (this._label) {
-			this._label.setZIndex( this._zIndex );
+	_updateLabelZIndex: function(){
+		if (this._label && this._icon) {
+			this._label.setZIndexOffset( this._icon.style.zIndex );
 		}
 		return this;
 	},
