@@ -1,6 +1,5 @@
 describe('Polygon', function() {
 
-    // transformed from latlng by map.latLngToLayerPoint() method
     var polygonPointSet = [
         new L.Point(650, 209),
         new L.Point(624, 260),
