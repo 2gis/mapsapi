@@ -41,12 +41,6 @@ describe('Polygon', function() {
         new L.Point(666, 145)
     ];
 
-    beforeEach(function() {
-    });
-
-    afterEach(function() {
-    });
-
     describe("#contains", function() {
 
         it('should return true if points are inside', function () {
