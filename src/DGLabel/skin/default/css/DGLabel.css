@@ -3,8 +3,8 @@
 	left:0px;
 	top:0px;
 	max-width: 'none';
-	max-height: 'none'
-	z-index: 999;
+	max-height: 'none';
+    position: absolute;
 }
 .dg-label div {
 	color: #727170;

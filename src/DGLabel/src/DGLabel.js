@@ -2,7 +2,8 @@ L.DG.Label = L.Class.extend({
 
 	options: {
 		offset: new L.Point(12, 15),
-		className: 'dg-label'
+		className: 'dg-label',
+		zIndex: 999
 	},
 
 	_typeOfString : Object.prototype.toString.call('s'),
@@ -43,7 +44,7 @@ L.DG.Label = L.Class.extend({
     	L.Util.falseFn(this._container.offsetWidth); // we need reflow here
     	this._container = null;
 
-        map.getPanes().popupPane.removeChild(this._el);
+        map.getPanes().markerPane.removeChild(this._el);
         this._el = null;
     },
 
@@ -51,7 +52,8 @@ L.DG.Label = L.Class.extend({
 		this._el = L.DomUtil.create(
 						'div',
 						this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
-						this._map.getPanes().popupPane);
+						this._map.getPanes().markerPane);
+		this._el.style.zIndex = this.options.zIndex;
 
         this._container = L.DomUtil.create('div', '', this._el);
         L.DomUtil.disableTextSelection(this._container);
@@ -71,6 +73,25 @@ L.DG.Label = L.Class.extend({
     	if (this._latlng) {
 			L.DomUtil.setPosition( this._el, this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).add(this.options.offset) );
 		}
+	},
+
+	setOffset: function( point ) {
+		if (point instanceof L.Point) {
+			this.options.offset = point;
+			if (this._visible) {
+				this._onViewReset();
+			}
+		}
+		return this;
+	},
+
+	setZIndex: function( zIndex ){
+		if ( !isNaN( +zIndex ) ) {
+			this.options.zIndex = +zIndex;
+			if (this._visible)
+				this._el.style.zIndex = this.options.zIndex;
+		}
+		return this;
 	},
 
 	setContent: function (content) {
