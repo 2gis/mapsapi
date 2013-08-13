@@ -23,34 +23,34 @@
                                 draggable : true
                             });
             markerStatic.addTo(map);
-            markerStatic.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
+            markerStatic.bindLabel( 'Многострочная<br/>подсказка при наведении!', { static : true } );
 
             var marker = L.marker([54.950206086231, 82.838068362003], {
                                 riseOnHover : true,
                                 draggable : true,
-                                label : 'Marker label on hover!'
+                                label : 'Подсказка при наведении!'
                             });
             marker.addTo(map);
 
             changeoptions = function(){
-                markerStatic.bindLabel( 'Options has been changed<br/>Ratata!', {
+                markerStatic.bindLabel( 'Опции изменились<br/>Ура!', {
                     static : false,
                     offset: new L.Point(15, 15)
                 });
-                marker.bindLabel( 'Now I am static<br/>Ratata!', {
+                marker.bindLabel( 'Теперь это статичная<br/>подсказка!', {
                     static : true
                 });
             }
 
             var markerNoDrag = L.marker([54.950206086231, 82.938068362003], {
                                 riseOnHover : true,
-                                label : 'Marker label on hover!'
+                                label : 'Подсказка при наведении!'
                             });
             markerNoDrag.addTo(map);
 
             var path = L.circle([55.0, 83.0], 900).addTo(map);
             path
-                .bindLabel( 'Circle label on hover!' )
+                .bindLabel( 'Подсказка при наведении!' )
                 .on('click', path.unbindLabel, path);
                 
             var polyline = L.polyline([
@@ -60,12 +60,12 @@
                         [54.98, 82.97]
             ], {
                 color: 'red',
-                label: 'Polyline label on hover!'
+                label: 'Подсказка при наведении!'
             });
             polyline.addTo(map);
 
         });
     </script>
-    <button onclick="changeoptions()">changeoptions</button>
+    <button onclick="changeoptions()">Изменить контент и опции</button>
 </body>
 </html>
