@@ -28,9 +28,10 @@ L.DG.Poi = L.Handler.extend({
     _onMouseMove: function (e) { // (Object)
     	if (this._map._panTransition && this._map._panTransition._inProgress) { return; }
     	
-    	var p = this._map.project( e.latlng ),
-    		x = Math.ceil(p.x / 256), 
-    		y = Math.ceil(p.y / 256);
+    	var p = this._map.project( e.latlng.wrap() ),
+            tilesAtZoom = 1 << this._map._zoom, // считает кол-во тайлов на зуме
+    		x = Math.ceil(p.x / this._tileSize), 
+    		y = Math.ceil(p.y / this._tileSize);
 
         // console.log(, this._map._zoom);
         // console.log( this._map.getPixelBounds() );
