@@ -97,7 +97,8 @@ var deps = {
         desc: '2GIS POI module.',
         src: [
             'DGPoi/src/DGPoi.js',
-            'DGPoi/src/DGPoiStorage.js'
+            'DGPoi/src/PoiStorage.js',
+            'DGPoi/src/PolyUtilContains.js'
         ],
         deps: ['DGJsonp', 'DGCore', 'DGTileLayer']
     },
