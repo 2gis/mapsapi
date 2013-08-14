@@ -100,7 +100,7 @@ var deps = {
             'DGPoi/src/PoiStorage.js',
             'DGPoi/src/PolyUtilContains.js'
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTileLayer']
+        deps: ['DGJsonp', 'DGCore', 'DGTileLayer', 'DGWkt']
     },
 
     DGGeoclicker: {

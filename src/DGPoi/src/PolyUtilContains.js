@@ -3,7 +3,16 @@
 L.PolyUtil.contains = function(point, vertices) { // (L.Point, Array) -> Boolean
     var edges;
     var parity = 0;
-            
+
+   /* var point = L.Projection.SphericalMercator.project(point);
+    console.log(point);
+    vertices.map(function(val){
+
+
+        val =L.Projection.SphericalMercator.project(val);
+        console.log(val);
+    });*/
+
     edges = this._getEdges(vertices);
     for (var i = 0, len = edges.length; i < len; i++) {
         switch (this._getEdgeType(edges[i], point)) {
@@ -12,7 +21,7 @@ L.PolyUtil.contains = function(point, vertices) { // (L.Point, Array) -> Boolean
             case 'CROSSING':
                 parity = 1 - parity;
                 break;
-        }            
+        }
     }
     return parity ? true : false;
 }
@@ -23,7 +32,7 @@ L.PolyUtil._getEdges = function(vertices) { // (Array) -> Array
     var edge;
     var startPoint;
     var endPoint;
-    
+
     for (var i = 0, len = vertices.length; i < len; i++) {
         startPoint = vertices[i];
         endPoint = (i != len - 1) ? vertices[i + 1] : vertices[0];
@@ -33,7 +42,7 @@ L.PolyUtil._getEdges = function(vertices) { // (Array) -> Array
         }
         edges.push(edge);
     }
-    
+
     return edges;
 }
 
@@ -60,7 +69,7 @@ L.PolyUtil._classify = function(edge, point) { // (Object, L.Point) -> String
     var a;
     var b;
     var sa;
-            
+
     a = {
         x: edge.endPoint.x - edge.startPoint.x,
         y: edge.endPoint.y - edge.startPoint.y
@@ -69,7 +78,7 @@ L.PolyUtil._classify = function(edge, point) { // (Object, L.Point) -> String
         x: point.x - edge.startPoint.x,
         y: point.y - edge.startPoint.y
     }
-             
+
     sa = a.x * b.y - b.x * a.y;
     if(sa > 0) {
         return 'LEFT';
