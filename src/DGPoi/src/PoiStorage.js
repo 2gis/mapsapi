@@ -1,47 +1,48 @@
 L.DG.PoiStorage = L.Class.extend({
-	//
-// pois : {
-//    poi_uid : poi_data,
-//    poi_uid : poi_data,
-//    ...
-// }
-// tiles_poi : {
-//     xyz: [poi_uid, poi_uid, ...],
-//     xyz: [poi_uid, poi_uid, ...],
-//     ...
-// }
 
     pois: {},
     tiles_poi: {},
+    wkt: new L.DG.Wkt(),
 
-    getPoi: function (id) {
-        return this.pois[id];
+    getPoi: function (id) { //(String) -> Object/Null
+        return this.pois[id] || null;
     },
 
-    getTilePois: function(tileId, callback) {
+    getTilePois: function (tileId) { //(String) -> Object/Null
+
+        //TODO: provide possibility send callback to async request poi
         if (!this.tiles_poi.hasOwnProperty(tileId)) {
             this._askByTile(tileId);
         }
 
-        return this.tiles_poi[tileId];
+        return this.tiles_poi[tileId] || null;
     },
 
-    _addPoisToTile: function (tileId, poi) {
+    _addPoisToTile: function (tileId, poi) { //(String, String)
         for (var i = 0, len = poi.length; i < len; i++) {
             var poiId = poi[i].id;
             delete poi[i].id;
 
             this.tiles_poi[tileId] ? null : this.tiles_poi[tileId] = [];
             this.tiles_poi[tileId].push(poiId);
+
             this._addPoi(poiId, poi[i]);
         }
     },
 
-    _addPoi: function (poiId, poiInfo) {
-        this.pois[poiId] = poiInfo;
+    _addPoi: function (poiId, poiInfo) { //(String, Object)
+        var poiVert = this._wktToVert(poiInfo);
+        this.pois[poiId] = poiVert;
     },
 
-    _askByTile: function (tileId) {
+    _wktToVert: function (poi) { //(Object)
+        var vert = this.wkt.read(poi.hover);
+        poi.lObj = this.wkt.toObject(vert);
+
+        return poi;
+    },
+
+    _askByTile: function (tileId) { //(String)
         var xyz = tileId.split(',');
         // send request to api http://highlight{0-9}.2gis.ru/{xyz[2]}/{xyz[0]}/{xyz[1]}
         // get:
@@ -94,11 +95,11 @@ L.DG.PoiStorage = L.Class.extend({
             ],
             def: [
                 {
-                    "id": "10274906096962752",
-                    "linked_id": "10274364931006835",
+                    "id": "10274906096961615",
+                    "linked_id": "10274364931002767",
                     "type": "filial",
-                    "hover": "POLYGON((36.1819938386151 51.7669431605213,36.1820420781459 51.7669431605213,36.1820420781459 51.7669132513204,36.1819938386151 51.7669132513204,36.1819938386151 51.7669431605213))",
-                    "text": "Точка, магазин продуктов"
+                    "hover": "POLYGON((35.9534560522966 51.6468101845176,35.9535042918274 51.6468101845176,35.9535042918274 51.6467801957855,35.9534560522966 51.6467801957855,35.9534560522966 51.6468101845176))",
+                    "text": "Продукты, магазин, ИП Костина Т.В."
                 },
                 {
                     "id": "10274906096965091",

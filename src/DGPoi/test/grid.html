@@ -11,9 +11,9 @@
         L.onLoad(function () {
             var map = new L.Map('map', {
                 center: new L.LatLng(54.980206086231, 82.898068362003),
-                zoom: 12,
+                zoom: 18,
                 dgPoi: true
-            }).fitWorld();
+            });
 
 
             var canvasTiles = L.tileLayer.canvas();
@@ -28,7 +28,7 @@
             };
 
             map.addLayer(canvasTiles);
-            
+
 
         });
     </script>

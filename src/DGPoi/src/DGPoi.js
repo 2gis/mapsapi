@@ -3,9 +3,9 @@ L.Map.mergeOptions({
 });
 
 L.DG.Poi = L.Handler.extend({
-
+    _isPoiHoverNow: false,
     currTile: 0,
-    currPois: {},
+    pois: {},
 
     initialize: function (map) { // (Object)
         this._map = map;
@@ -25,43 +25,48 @@ L.DG.Poi = L.Handler.extend({
         this._map.off('mousemove', this._limitedMouseMove, this);
     },
 
-    getStorage: function() {
+    getStorage: function () {
         return this._poistorage;
     },
 
-    _calcTilesAtZoom : function(){
-        this._tilesAtZoom = 1 << this._map.getZoom(); // считает кол-во тайлов на зуме
+    _calcTilesAtZoom : function () {
+        this._tilesAtZoom = 1 << this._map.getZoom(); // counts tiles number on current zoom
     },
 
     _onMouseMove: function (e) { // (Object)
         if (this._map._panTransition && this._map._panTransition._inProgress) { return; }
 
-        var xyz = this._getTileID(e),
-            pois = [];
+        var xyz = this._getTileID(e);
 
         if (this._isTileChanged(xyz)) {
             this.currTile = xyz;
-            pois = this._poistorage.getTilePois(xyz);
+            this.pois = this._poistorage.getTilePois(xyz);
 
-            //DELETE THIS CODE
+            //DELETE THIS CODE. Draw pois area for demo
             var wkt = new L.DG.Wkt(), self=this;
-            pois.forEach(function (poi){
-                var poiWkt = self._poistorage.getPoi(poi).hover,
-                    polygonComponents = wkt.read(poiWkt);
-                    self.currPois[poi] = wkt.toObject(polygonComponents)._latlngs;
-                wkt.toObject(polygonComponents).addTo(self._map);
-            })
+            this.pois.forEach(function (poi){
+                self._poistorage.getPoi(poi).lObj.addTo(self._map);
+            });
             //DELETE THIS CODE
         }
 
-        var check = this._isPoiHovered(e.latlng);
-        if (check) {
-            console.log('hovered ' + check + ' poi');
+        var poiId = this._isPoiHovered(e.latlng);
+
+        if (!this._isPoiHoverNow && poiId) {
+            console.log('hovered ' + poiId + ' poi');
+
+            this._isPoiHoverNow = true;
+            this._map.fire('dgPoiHover', {'poiId': poiId});
         }
-        //console.log(L.Projection.SphericalMercator.project(e.latlng));
+        if (this._isPoiHoverNow && !poiId) {
+            console.log('leave poi');
+
+            this._map.fire('dgPoiLeave');
+            this._isPoiHoverNow = false;
+        }
     },
 
-    _getTileID: function (e) {
+    _getTileID: function (e) { // (L.Event)
         var p = this._map.project( e.latlng.wrap() ),
             x = Math.floor(p.x / 256) % this._tilesAtZoom,
             y = Math.floor(p.y / 256);
@@ -69,19 +74,19 @@ L.DG.Poi = L.Handler.extend({
         return x + ',' +  y + ',' + this._map._zoom;
     },
 
-    _isTileChanged: function (xyz) {
+    _isTileChanged: function (xyz) { // (String)
         return !(this.currTile === xyz);
     },
 
-    _isPoiHovered: function (point) {
-        var poi = null, pois = this.currPois;
-        for (var i in pois) {
-            if (pois.hasOwnProperty(i)) {
+    _isPoiHovered: function (point) { // (L.Point)
+        var poi = null,
+            pois = this.pois;
 
-                if (L.PolyUtil.contains(point, pois[i])) {
-                    poi = i;
-                    break;
-                }
+        for (var i = 0, len = pois.length; i < len; i++) {
+            var verts = this._poistorage.getPoi(pois[i]).lObj._latlngs;
+            if (L.PolyUtil.contains(point, verts)) {
+                poi = pois[i];
+                break;
             }
         }
 
