@@ -426,12 +426,12 @@
 	</tr>
 	<tr>
 		<td><code><b>dgPoiHover</b></code></td>
-		<td><code><a href="#event">dgPoiHover</a></code>
+		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при наведении курсора мышки на POI.</td>
 	</tr>
 	<tr>
 		<td><code><b>dgPoiLeave</b></code></td>
-		<td><code><a href="#event">dgPoiLeave</a></code>
+		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается когда курсор мышки покидает область POI.</td>
 	</tr>
 </table>
