@@ -29,7 +29,9 @@
             "zoom": 13,
             "dgGeoclicker": true
         });
+
 	//PLUGIN MOCK
+
 		 L.DG.Plugin = L.Control.extend({
             includes: L.DG.Locale,
             statics: {
@@ -197,7 +199,7 @@
 					firm: firms[i],
 					tmpl: firmCardFullTmpl
 				});
-				fragment.appendChild(firm.getContainer());
+				fragment.appendChild( firm.getContainer() );
 			}
 
 			document.getElementById('container').appendChild(fragment);

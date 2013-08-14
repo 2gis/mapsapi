@@ -1,0 +1,191 @@
+<div class="dg-map-firm" id="dg-map-firm-<%=firm.id%>">
+    <div class="dg-map-firm-bullet"></div>
+    <h2 class="dg-map-firm-title dg-map-result-title">
+        <a id="<%=firm.id%>" class="pseudo link-natural link-text" href="javascript:void(0)"><%=firm.name%></a>
+    </h2>
+    <div id="dg-map-firm-full-<%=firm.id%>" class="dg-map-firm-full" style="display:none;">
+        <!--Name and adress-->
+        <ul class="dg-map-firm-box">
+            <li class="dg-map-firm-row dg-map-firm-address"><%=firm.geometry_name%>
+                <% if(firm.additional_info && firm.additional_info.office) { %>
+                <span class="note"> &mdash; <%=firm.additional_info.office%></span>
+                <% } %>
+            </li>
+        </ul>
+        <!--Subcats-->
+        <ul class="dg-map-firm-box dg-map-firm-box-rubric dg-map-firm-subcats">
+            <% for (var r = 0, rubrics = firm.rubrics.length; r < rubrics; r++) { %>
+                <li><%=firm.rubrics[r].name%><%if (r !== rubrics-1) print(",");%></a></li>
+            <% } %>
+        </ul>
+        <!--Contacts-->
+        <ul class="dg-map-firm-box">
+            <% for (var c = 0, contacts = firm.contacts.length; c < contacts; c++) { %>
+            <li class="dg-map-firm-row <%if (c > 0) {print("additional-addresses");} else {print("dg-map-firm-contacts");} %>">
+            <% if (firm.contacts[c].name){ %>
+                <div class="dg-map-contact-group"><%=firm.contacts[c].name%></div>
+            <% } %>
+            <ul class="dg-map-contacts-list">
+                <% for (var cont in firm.contacts[c].contacts) { %>
+                <li class="dg-map-contacts-row dg-map-row-with-icon dg-map-row-<%=firm.contacts[c].contacts[cont].type %>">
+                    <span name="dg-map-row-<%=firm.contacts[c].contacts[cont].type%>-<%=firm.id%>"
+                    <% if (firm.contacts[c].contacts[cont].register_bc_url && firm.contacts[c].contacts[cont].type === "email") {%>
+                    register_bc_url=<%=firm.contacts[c].contacts[cont].register_bc_url %>
+                    <% } %>
+                    >
+                        <%=firm.contacts[c].contacts[cont].value%>
+                    </span>
+                </li>
+                <% } %>
+            </ul>
+            </li>
+            <% } %>
+        </ul>
+        <!--Time Shedule-->
+        <ul class="dg-map-firm-box">
+            <li class="dg-map-firm-row">
+                <div class="dg-map-firm-schedule">
+                    <% if (schedule[i].aroundTheClock) { %>
+                    <span class="dg-map-firm-schedule-24">24/7</span>
+                    <div class="dg-map-firm-schedule-short dg-map-firm-schedule-short-24"><%=msg.works_around_the_clock%></div>
+                    <% } %>
+                    
+                    <% if (schedule[i].byPeriods || schedule[i].allTable || schedule[i].daily) { %>
+                        <span class="dg-map-firm-schedule-clock<%if (schedule[i].isOpened) { %> opened<% }%>"></span>
+                        <div class="dg-map-firm-schedule-short">
+                            <% if (schedule[i].byPeriods || schedule[i].allTable) { %>
+                            <a class="dg-map-work-time" id="dg-map-firm-schedule-<%=firm.id%>" href="javascript:void(0)">
+                                <% if (schedule[i].todayWorkhours.isRestDay) { %>
+                                <%=self._msgU("today_is_restday")%>
+                                <% } else { %>
+                                <%=self._msgU("today")%> <%=schedule[i].todayWorkhours.workFrom%>&ndash;<%=schedule[i].todayWorkhours.workTo%><% if (schedule[i].todayWorkhours.lunchFrom) {%>, <%=msg.lunch%> <%=schedule[i].todayWorkhours.lunchFrom%>&ndash;<%=schedule[i].todayWorkhours.lunchTo%><% } %>
+                                <% } %>
+                            </a>
+                            
+                            <span id="dg-map-icon-expand-<%=firm.id%>" class="link-icon dg-map-icon dg-map-icon-expand"></span>
+                            <span id="dg-map-icon-collapse-<%=firm.id%>" class="dg-map-icon dg-map-icon-collapse" style="display: none;"></span>
+                            
+                            <% } %>
+                            <% if (schedule[i].daily) { %>
+                            <%=self._msgU("daily")%> <%=schedule[i].todayWorkhours.workFrom%>&ndash;<%=schedule[i].todayWorkhours.workTo%><% if (schedule[i].todayWorkhours.lunchFrom) {%>, <%=msg.lunch%> <%=schedule[i].todayWorkhours.lunchFrom%>&ndash;<%=schedule[i].todayWorkhours.lunchTo%><% } %>
+                            <% } %>
+                            
+                            <span class="dg-map-work-info"><%=schedule[i].msgCrntState + schedule[i].msgHint%></span>
+                        </div>
+                    <% } %>
+                </div>
+                 
+                <% if (schedule[i].byPeriods) { %>
+                <div class="dg-map-weekly-schedule" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:none;">
+                    <div class="dg-map-weekly-schedule-inner">
+                    <% for ( var per in schedule[i].byPeriods) {
+                    var period = schedule[i].byPeriods[per]; %>
+                        <div>
+                        <%=period.days%>
+                        <span class="dg-map-label"><%=period.labelText%></span><%if (period.lunchFrom) { %>, <%=self._msg("lunch")%> <span class="dg-map-label"><%=period.lunchFrom%>&ndash;<%=period.lunchTo%></span>
+                        </div>
+                    <% } %>
+                    <% } %>
+                    </div>
+                </div>
+                <% } %>
+                
+                
+                <% if (schedule[i].allTable) { %>
+                <div class="dg-map-weekly-schedule tabled" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:none;">
+                <!--<div class="dg-map-weekly-schedule"> -->
+                    <table class="dg-map-weekly-schedule-table">
+                    <thead>
+                        <tr>
+                        <% var i, period;%>
+                        <th class="dg-map-schedule-icon">&nbsp;</th>
+                        <% for( tab1 in schedule[i].allTable) {
+                        period = schedule[i].allTable[tab1];
+                        clas = (period.firstDay == schedule[i].weekDayStr) ? \' class="current-day"\' : "";%>
+                        <th<%=clas%>><span><%=self._msgU(period.firstDay+"_short")%></span></th>
+                        <% } %>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr<% if (!schedule[i].anyLunchExists) print(\' class="last-row"\');%>>
+                            <td class="dg-map-schedule-icon">
+                                <span class="dg-map-img-wrap dg-map-icon-schedule" title="<%=self._msgU("working_time")%>"></span>
+                            </td>
+                            <% for( tab2 in schedule[i].allTable) {
+                            period = schedule[i].allTable[tab2];
+                            clas = (period.firstDay == schedule[i].weekDayStr) ? \' class="current-day"\' : "";%>
+                            <td<%=clas%>>
+                                <%if (period.workFrom) {%>
+                                <div><%=period.workFrom%></div>
+                                <div><%=period.workTo%></div>
+                                <% } %>
+                            </td>
+                            <% } %>
+                        </tr>
+                        <% if (schedule[i].anyLunchExists) { %>
+                        <tr class="dinner-time">
+                            <td class="dg-map-schedule-icon">
+                                <span class="dg-map-img-wrap dg-map-icon-lunch" title="<%=self._msgU("lunch")%>"></span>
+                            </td>
+                            <% for( tab3 in schedule[i].allTable) {
+                            period = schedule[i].allTable[tab3];
+                            clas = (period.firstDay == schedule[i].weekDayStr) ? \' class="current-day"\' : "";%>
+                            <td<%=clas%>>
+                                <%if (period.lunchFrom) {%>
+                                <div><%=period.lunchFrom%></div>
+                                <div><%=period.lunchTo%></div>
+                                <% } %>
+                            </td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <!--</div>-->
+            </div>
+            <% } %>
+            
+            </li>
+        </ul>
+        
+        <!-- Flamp -->
+        <% if (firm.allow_reviewing && firm.show_flamp_link == 1) { %>
+        <ul class="dg-map-firm-box">
+        <li class="dg-map-firm-row dg-map-flamp-row">
+        <a target="_blank" class="dg-map-firm-link-with-icon" href="<%=self._getFlampUrl(firm)%>">
+            <span class="link-icon dg-map-icon dg-map-icon-flamp"></span>
+            <% if (firm.info && firm.info.reviewscount) { %>
+            <span class="dg-map-firm-link-text"><%=self._msg("reviews_on_flamp")%></span>
+            <% } else { %>
+            <span class="dg-map-firm-link-text"><%=self._msg("write_review_on_flamp")%></span>
+            <% } %>
+        </a>
+        <% if (firm.info && firm.info.reviewscount) { %>
+        <sup><%=firm.info.reviewscount%></sup>
+        <% } %>
+        </li>
+        </ul>
+        <% } %>
+        
+        
+        <!-- Company payment methods -->
+        <%if (firm.profile) { %>
+        <% var count_pay = 0; %>
+        <ul class="dg-map-firm-box dg-map-firm-payments">
+            <li class="dg-map-firm-row">
+                <%for (var t = 0, pays = self.payMethods.length; t < pays; t++) { %>
+                <% var payM = self.payMethods[t]; %>
+                <%if (firm.profile["pay_"+payM]) { %>
+                    <%if (count_pay < 1) { %>
+                    <span class="dg-map-label"><%=self._msgU("payment")%></span>
+                    <%}%>
+                <span class="dg-map-icon-pay dg-map-icon-pay-<%=payM%>" title="<%=self._msgU("pay_"+payM)%>"></span>
+                <% count_pay++; %>
+                <%}%>
+                <%}%>
+            </li>
+        </ul>
+        <% } %>
+        
+    </div>
+</div>

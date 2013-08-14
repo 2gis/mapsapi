@@ -21,6 +21,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         this._id = results.house.id;
+        this._filialsCount = 0;
 
         this.houseObj = this._fillHouseObject(results.house);
         this.houseObj.afterRender = function() {
@@ -61,7 +62,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (attrs.floors_count) {
             data.elevation = this.t("{n} floors", + attrs.floors_count);
         }
-        if (attrs.filials_count > 0) {
+        if (this._filialsCount = attrs.filials_count > 0) {
             this._totalPages = Math.ceil(attrs.filials_count / this._firmsOnPage);
             data.link = this._view.render({
                 tmplFile: "showMoreLink",
@@ -92,11 +93,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowMore: function () {
-        var link = L.DomUtil.get('dg-showmorehouse'),
-            eventType = 'click';
+        var eventType = 'click';
 
-        if (link) {
-            this._addEventHandler("DgShowMoreClick", link, eventType, L.bind(this._showMoreClick, this));
+        if (this._filialsCount) {
+            this._addEventHandler("DgShowMoreClick", L.DomUtil.get('dg-showmorehouse'), eventType, L.bind(this._showMoreClick, this));
         }
     },
 
@@ -259,9 +259,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._view.render(this.houseObj);
     },
 
-    _fillFirmObject: function (firm) { // (Object) -> Object
+    _fillFirmObject: function ( firm ) { // (Object) -> Object
         // TODO move that to dedicated util
         var params = {
+                id: firm.id,
                 name: firm.name,
                 address: firm.geometry_name ? firm.geometry_name : '',
             };
