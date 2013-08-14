@@ -1,21 +1,21 @@
 L.DG.PoiStorage = L.Class.extend({
 
-    pois: {},
-    tiles_poi: {},
-    wkt: new L.DG.Wkt(),
+    _pois: {},
+    _tilesPoi: {},
+    _wkt: new L.DG.Wkt(),
 
-    getPoi: function (id) { //(String) -> Object/Null
-        return this.pois[id] || null;
+    getPoi: function (id) { //(String) -> Object|Null
+        return this._pois[id] || null;
     },
 
-    getTilePois: function (tileId) { //(String) -> Object/Null
+    getTilePoiIds: function (tileId) { //(String) -> Object|Null
 
         //TODO: provide possibility send callback to async request poi
-        if (!this.tiles_poi.hasOwnProperty(tileId)) {
+        if (!this._tilesPoi.hasOwnProperty(tileId)) {
             this._askByTile(tileId);
         }
 
-        return this.tiles_poi[tileId] || null;
+        return this._tilesPoi[tileId] || null;
     },
 
     _addPoisToTile: function (tileId, poi) { //(String, String)
@@ -23,8 +23,8 @@ L.DG.PoiStorage = L.Class.extend({
             var poiId = poi[i].id;
             delete poi[i].id;
 
-            this.tiles_poi[tileId] ? null : this.tiles_poi[tileId] = [];
-            this.tiles_poi[tileId].push(poiId);
+            this._tilesPoi[tileId] ? null : this._tilesPoi[tileId] = [];
+            this._tilesPoi[tileId].push(poiId);
 
             this._addPoi(poiId, poi[i]);
         }
@@ -32,12 +32,12 @@ L.DG.PoiStorage = L.Class.extend({
 
     _addPoi: function (poiId, poiInfo) { //(String, Object)
         var poiVert = this._wktToVert(poiInfo);
-        this.pois[poiId] = poiVert;
+        this._pois[poiId] = poiVert;
     },
 
     _wktToVert: function (poi) { //(Object)
-        var vert = this.wkt.read(poi.hover);
-        poi.lObj = this.wkt.toObject(vert);
+        var vert = this._wkt.read(poi.hover);
+        poi.vertices = this._wkt.toObject(vert)._latlngs;
 
         return poi;
     },
@@ -47,7 +47,7 @@ L.DG.PoiStorage = L.Class.extend({
         // send request to api http://highlight{0-9}.2gis.ru/{xyz[2]}/{xyz[0]}/{xyz[1]}
         // get:
         var demoPois = {
-            1: [
+            def: [
                 {
                     "id": "10274906096961615",
                     "linked_id": "10274364931002767",
@@ -69,51 +69,10 @@ L.DG.PoiStorage = L.Class.extend({
                     "hover": "POLYGON((36.1231451145209 51.6455465157316,36.1231933540517 51.6455465157316,36.1231933540517 51.6455165261636,36.1231451145209 51.6455165261636,36.1231451145209 51.6455465157316))",
                     "text": "Закусочная, ИП Косинова Е.В."
                 }
-            ],
-            2: [
-                {
-                    "id": "10274906096986996",
-                    "linked_id": "10274364931071845",
-                    "type": "filial",
-                    "hover": "POLYGON((36.1912994866433 51.753846483638,36.1913960555364 51.753846483638,36.1913960555364 51.7537867034725,36.1912994866433 51.7537867034725,36.1912994866433 51.753846483638))",
-                    "text": "Кафе, ИП Кулабухова Г.А."
-                },
-                {
-                    "id": "10274906096988671",
-                    "linked_id": "10274364931054578",
-                    "type": "filial",
-                    "hover": "POLYGON((36.1134431297894 51.6479310688293,36.1135396986824 51.6479310688293,36.1135396986824 51.647871148568,36.1134431297894 51.647871148568,36.1134431297894 51.6479310688293))",
-                    "text": "Продукты, магазин, ООО Молоко"
-                },
-                {
-                    "id": "10274906096993034",
-                    "linked_id": "10274364930977921",
-                    "type": "filial",
-                    "hover": "POLYGON((36.2021335282959 51.7455519107933,36.202230097189 51.7455519107933,36.202230097189 51.745492119649,36.2021335282959 51.745492119649,36.2021335282959 51.7455519107933))",
-                    "text": "Лысая Гора, магазин продуктов"
-                }
-            ],
-            def: [
-                {
-                    "id": "10274906096961615",
-                    "linked_id": "10274364931002767",
-                    "type": "filial",
-                    "hover": "POLYGON((35.9534560522966 51.6468101845176,35.9535042918274 51.6468101845176,35.9535042918274 51.6467801957855,35.9534560522966 51.6467801957855,35.9534560522966 51.6468101845176))",
-                    "text": "Продукты, магазин, ИП Костина Т.В."
-                },
-                {
-                    "id": "10274906096965091",
-                    "linked_id": "10274364931057258",
-                    "type": "filial",
-                    "hover": "POLYGON((36.1668786059815 51.7212295755012,36.1669268455123 51.7212295755012,36.1669268455123 51.7211996360212,36.1668786059815 51.7211996360212,36.1668786059815 51.7212295755012))",
-                    "text": "Продукты, магазин, ИП Задирин С.Н."
-                }
             ]
         };
 
-        var result = demoPois[xyz[2]] || demoPois.def;
+        var result = demoPois.def;
         this._addPoisToTile(tileId, result);
-
     }
-
 });
