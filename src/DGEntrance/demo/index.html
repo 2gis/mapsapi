@@ -10,7 +10,10 @@
 
   <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
+  <input class="btn" type="button" value="Найти вход в метро" id="metroEntrance" />
+  <input class="btn" type="button" value="Найти вход в остановку" id="busEntrance" />
   <input class="btn" type="button" value="Найти вход в 2GIS" id="dgEntrance" />
+  <input class="btn" type="button" value="Погулять и зайти в 2GIS" id="backDgEntrance" />
   <input class="btn" type="button" value="Найти вход в Спарк-Авто" id="sparkAutoEntrance" />
   <input class="btn" type="button" value="Найти вход в ГУМ" id="gumEntrance" />
   <input class="btn" type="button" value="Найти вход в стройку" id="buildingEntrance" />
@@ -19,7 +22,10 @@
     var map,
         balloonHTML,
         btns = [
+            document.getElementById('metroEntrance'),
+            document.getElementById('busEntrance'),
             document.getElementById('dgEntrance'),
+            document.getElementById('backDgEntrance'),
             document.getElementById('sparkAutoEntrance'),
             document.getElementById('gumEntrance'),
             document.getElementById('buildingEntrance')
@@ -41,10 +47,18 @@
         L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
         var entrances = {
-
+            'metroEntrance': new L.DG.Entrance({
+                "vectors": ["LINESTRING(82.89755344390868 54.982320605449296, 82.89714574813843 54.982566865457464, 82.89677560329437 54.9823329184856, 82.89664685726164 54.98240679662398, 82.89677023887634 54.98247451813142)"]
+            }),
+            'busEntrance': new L.DG.Entrance({
+                "vectors": ["LINESTRING(82.89929687976837 54.98181268941162, 82.89916276931763 54.98173265357113, 82.89852440357208 54.98208665704234)"]
+            }),
             'dgEntrance': new L.DG.Entrance({
-                "vectors": ["LINESTRING(82.89850294589996 54.97985176538553, 82.89841711521149 54.97989794209166)"],
-                "fitBounds": false
+                "vectors": ["LINESTRING(82.89850294589996 54.97985176538553, 82.89841711521149 54.97989794209166)"]
+            }),
+
+            'backDgEntrance': new L.DG.Entrance({
+                "vectors": ["LINESTRING(82.8998601436615 54.98056903755945, 82.8987979888916 54.98116931987221, 82.89790213108063 54.980658310881815, 82.89726376533508 54.980996932024134, 82.89698481559753 54.98087379739374, 82.89712429046631 54.98043050959726, 82.89719939231873 54.98039664713382, 82.89721012115477 54.98036278464179, 82.89705991744995 54.98028274591077, 82.89718866348267 54.97991333431523, 82.8970867395401 54.97967629341785, 82.89766073226929 54.97944540808143, 82.89810597896576 54.97967013649277, 82.8980040550232 54.97970399956898, 82.89811134338379 54.979771725635736)"]
             }),
 
             'sparkAutoEntrance': new L.DG.Entrance({
@@ -72,6 +86,10 @@
             var entrance = entrances[this.id];
             entrance.addTo(map).show();
         }
+
+        map.on('click', function(e) {
+            console.log(e.latlng.lng, e.latlng.lat);
+        });
     });
 
     </script>

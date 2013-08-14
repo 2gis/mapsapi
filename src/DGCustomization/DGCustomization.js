@@ -18,14 +18,15 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
     map.on('dgProjectLeave', function() {
         map.setMaxZoom(projectLeaveMaxZoom);
-        map.setZoom(projectLeaveMaxZoom);
+        if (map.getZoom() > projectLeaveMaxZoom) {
+            map.setZoom(projectLeaveMaxZoom);
+        };
     });
 
     map.on('dgProjectChange', function(project) {
         var projectInfo = project.getProject();
-
         if (projectInfo) {
-            map.setMaxZoom(projectInfo.max_zoomlevel);
+            map.setMaxZoom(projectInfo.max_zoom_level);
         }
     });
     return container;
