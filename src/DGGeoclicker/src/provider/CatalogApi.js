@@ -1,13 +1,11 @@
 L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     options: {
-        urlGeo: '__WEB_API_SERVER__/geo/search',
-        urlAdvanced: '__WEB_API_SERVER__/advanced',
+        urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         data: {
-            key: '__WEB_API_KEY__',
             key: '__GEOCLICKER_CATALOG_API_KEY__',
-            version: '__WEB_API_VERSION__',
             output: 'jsonp'
         },
+        geoFields: '__GEO_ADDITIONAL_FIELDS__',
 
         timeoutMs: 5000
     },
@@ -39,35 +37,31 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     firmsInHouse: function (houseId, callback, page) { // (String, Function, Number)
         page = page || 1;
         var params = L.extend(this.options.data, {
-            criteria: JSON.stringify({
-                what: {
-                    id: houseId,
-                    type: "house"
-                },
-                types: ["firm"],
-                sort: "relevance",
-                page: page
-            })
+            type: 'filial',
+            house: houseId,
+            page: page
         });
 
         this.cancelLastRequest();
 
         function responseHandler(res) {
-            if (res && res.response_code == 200 && res.results && res.results.firm && res.results.firm.results && res.results.firm.results.length) {
-                callback(res.results.firm.results)
+            if (res && res.response.code == 200 && res.result && res.result.data && res.result.data.length) {
+                callback(res.result.data)
             } else {
                 callback();
             }
         }
 
-        this._performRequest(params, this.options.urlAdvanced, responseHandler, responseHandler);
+        this._performRequest(params, this.options.urlGeo, responseHandler, responseHandler);
     },
 
     geoSearch: function (q, types, zoomlevel, callback) { // (String, String, Number, Function)
         var params = {
-            q: q,
-            types: types,
-            zoomlevel: zoomlevel
+            point: q,
+            geo_type: types,
+            zoom_level: zoomlevel,
+            type: 'geo',
+            fields: this.options.geoFields
         };
 
         this.cancelLastRequest();
@@ -107,8 +101,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         var source = this.options.data,
             data = L.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key,
-                version: source.version,
-                lang: this._map.getLang(),
                 output: source.output
             }, params);
 
@@ -122,20 +114,21 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
-        var result = {}, i, item, found;
+        var result = {}, i, len, item, found, data;
 
         if (this._isNotFound(response)) {
             return false;
         }
 
-        for (i in response.result) {
-            item = response.result[i];
+        data = response.result.data;
 
-            if (allowedTypes && allowedTypes.indexOf(item.type) === -1) {
+        for (i = 0, len = data.length; i < len; i++) {
+            item = data[i];
+            if (allowedTypes && allowedTypes.indexOf(item.geo_type) === -1) {
                 continue;
             }
 
-            result[item.type] = item;
+            result[item.geo_type] = item;
             found = true;
         }
 
@@ -147,7 +140,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     _isNotFound: function (response) { // (Object) -> Boolean
-        return !response || !!response.error_code || !response.result || !response.result.length;
+        return !response || !!response.error_code || !response.result || !response.result.data.length;
     }
 
 });

@@ -30,7 +30,8 @@ L.Marker = L.Class.extend({
 
 		this._initIcon();
 		this.update();
-
+		this.fire('add');
+		
 		if (map.options.zoomAnimation && map.options.markerZoomAnimation) {
 			map.on('zoomanim', this._animateZoom, this);
 		}

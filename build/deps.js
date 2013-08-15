@@ -22,6 +22,19 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGLabel: {
+        desc: '2GIS Label module',
+        src: [
+            'DGLabel/src/DGLabel.js',
+            'DGLabel/src/Marker.DGLabel.js',
+            'DGLabel/src/Path.DGLabel.js'
+        ],
+        css: {
+            all: ['DGLabel/skin/{skin}/css/DGLabel.css']
+        },
+        deps: ['DGCore']
+    },
+
     DGWkt: {
         desc: 'WKT parser module.',
         src: ['DGWkt/Wkt.js',
@@ -64,7 +77,8 @@ var deps = {
         desc: 'Full screen module',
         src: ['DGFullScreen/src/DGFullScreen.js',
               'DGFullScreen/lang/ru.js',
-              'DGFullScreen/lang/it.js'
+              'DGFullScreen/lang/it.js',
+              'DGFullScreen/lang/en.js'
         ],
         css: {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
@@ -114,15 +128,21 @@ var deps = {
             'DGGeoclicker/src/provider/CatalogApi.js',
             'DGGeoclicker/src/handler/Handler.js',
             'DGGeoclicker/src/handler/Default.js',
-            'DGGeoclicker/src/lang/it/handler/Default.js',
-            'DGGeoclicker/src/lang/ru/handler/Default.js',
+            'DGGeoclicker/lang/it/handler/Default.js',
+            'DGGeoclicker/lang/ru/handler/Default.js',
+            'DGGeoclicker/lang/en/handler/Default.js',
+            'DGGeoclicker/src/handler/CityArea.js',
+            'DGGeoclicker/lang/it/handler/CityArea.js',
+            'DGGeoclicker/lang/ru/handler/CityArea.js',
+            'DGGeoclicker/lang/en/handler/CityArea.js',
             'DGGeoclicker/src/handler/House.js',
-            'DGGeoclicker/src/lang/it/handler/House.js',
-            'DGGeoclicker/src/lang/ru/handler/House.js',
+            'DGGeoclicker/lang/it/handler/House.js',
+            'DGGeoclicker/lang/ru/handler/House.js',
+            'DGGeoclicker/lang/en/handler/House.js',
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js'
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale']
     },
 
     DGTemplate: {
