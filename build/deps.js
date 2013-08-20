@@ -121,6 +121,7 @@ var deps = {
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js',
 
+            '../vendors/firmcard/src/FirmList.js',
             '../vendors/firmcard/src/FirmCard.js',
             '../vendors/firmcard/src/FirmCard.DataHelper.js',
             '../vendors/firmcard/src/vendors/underscore1.5.1.js',

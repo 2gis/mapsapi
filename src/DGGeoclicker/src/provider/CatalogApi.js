@@ -46,7 +46,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
         function responseHandler(res) {
             if (res && res.response.code == 200 && res.result && res.result.data && res.result.data.length) {
-                callback(res.result.data)
+                callback(res.result.data);
             } else {
                 callback();
             }
