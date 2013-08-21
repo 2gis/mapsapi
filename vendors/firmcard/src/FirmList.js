@@ -8,16 +8,22 @@ var FirmList = (function () {
             lang: 'ru',
             tmpls: {}
         },
-        _container = document.createElement('ul'),
-        _firmsOnPage: 20,
+        _container = document.createElement('div'),
 
         // privat methods
-        _clearCache = function () {
+        _clearContainer = function () {
+            while (_container.hasChildNodes()) {
+                _container.removeChild(_container.firstChild);
+            }
+        },
+
+        _clearList = function () {
             _firms = {};
+            _clearContainer();
         },
 
         _createFirm = function (frimData) {
-            return {test: _addOptions};//new FirmCard (frimData, _addOptions);
+            return new FirmCard (frimData, _addOptions);
         },
 
         _initEventHandlers = function () {
@@ -47,6 +53,7 @@ var FirmList = (function () {
     return  {
         init: function (firms, options) {
             _setOptions(options);
+            _container.setAttribute('class', 'dg-map-infocard-firmlist');
 
             if (firms) {
                 for (var firm in firms) {
@@ -55,7 +62,7 @@ var FirmList = (function () {
                     }
                 }
             }
-            console.log(_firms);
+            //console.log(_firms);
         },
 
         renderList: function () {
@@ -64,13 +71,18 @@ var FirmList = (function () {
                     _container.appendChild(_renderFirm(firm));
                 }
             }
+
+            return _container;
         },
 
         addFirm: function (firmData) {
-            var id = firmData.firm.id,
-                firmObject  = _createFirm(firmData);
+            var id = firmData.firm.id ? firmData.firm.id : firmData;
 
-            _firms[id] ? '' : _firms[id] = firmObject;
+            if (!_firms.hasOwnProperty(id)) {
+                firmObject  = _createFirm(firmData);
+                _firms[id] = firmObject;
+            }
+            //console.log(_firms);
         },
 
         removeFirm: function (id) {
@@ -88,6 +100,8 @@ var FirmList = (function () {
 
         toggleFirm: function (id) {
             _firms[id] ? _firms[id].toggle() : null;
-        }
+        },
+
+        clearList: _clearList
     };
 })();
