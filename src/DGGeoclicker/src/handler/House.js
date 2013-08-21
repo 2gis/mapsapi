@@ -4,12 +4,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         Dictionary: {}
     },
 
-    _lastPage : 1,
-    _cache: '',
-    _shouldLoadFromCache: false,
+    _page : 1,
+    _wasShown: false,
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
-    _eventHandlers: {},
     _scrollHeightReserve: 60,
     _hideIndex: false,
 
@@ -83,11 +81,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onPopupClose: function() {
-        this._cache = '';
-        this._shouldLoadFromCache = false;
-        this._lastPage = 1;
-        this._wereHeadersInited = false;
-        this._clearEventHandlers();
+        FirmList.clearList();
+        this._page = 1;
+        this._wasShown = false;
         this._view.getPopup().clearHeaderFooter();
         this._scroller = undefined;
     },
@@ -131,12 +127,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _showMoreClick: function () {
         this._view.showLoader();
         this._hideIndex = true;
-        if (this._lastPage !== 1) {
-            this._page = this._lastPage;
-            this._shouldLoadFromCache = true;
+
+        //console.log(this._wasShown);
+        if (this._wasShown) {
             this._handleFirmsLoadingEnd();
         } else {
-            this._page = 1;
             this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this));
         }
     },
@@ -160,86 +155,64 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handleFirmsLoadingEnd: function (results) { // (Object)
         var shouldAppendContent = false,
-            header = this._renderHeader(),
-            footer = this._renderFooter(),
-            shouldLoadFromCache = this._shouldLoadFromCache,
             popupData = {},
+            self = this,
             content;
 
-        this._wereHeadersInited = true;
-        content = shouldLoadFromCache ? this._cache : this._renderFirms(results);
+        FirmList.init(results);
+        content = this._domToHtml(FirmList.renderList());
 
-        if (!shouldLoadFromCache) {
-            this._cache += content;
-        }
-
-        if (this._page === 1 || shouldLoadFromCache) {
-            popupData.header = header;
-            popupData.footer = footer;
-            content += this._view.getTemplate("loader");
+        if (!this._wasShown) {
+            popupData.header = this._renderHeader();
+            popupData.footer = this._renderFooter();
+            popupData.afterRender = function () {
+                self._initShowLess();
+                self._initScrollEvents();
+            }
+            this._wasShown = true;
+            //content += this._view.getTemplate("loader");
         } else {
             shouldAppendContent = true;
             popupData.updateScrollPosition = true;
         }
-
+        content += this._view.getTemplate("loader");
         popupData.tmpl = content;
         popupData.append = shouldAppendContent;
-
+        console.log(content);
         this._view.renderPopup(popupData);
 
-        if (this._page == 1 || shouldLoadFromCache) {
-            this._initShowLess();
-            this._initScrollEvents();
-        }
-
         this._view.hideLoader();
+    },
 
-        this._shouldLoadFromCache = false;
+    // TODO Remove it!
+    _domToHtml: function (dom) {
+        var wrap = document.createElement('div');
+        wrap.appendChild(dom.cloneNode(true));
+
+        return wrap.innerHTML;
     },
 
     _renderHeader: function() { // () -> String
-        var header = '',
-            address;
-
-        if (!this._wereHeadersInited) {
-            address = this.houseObj.data.address;
+        var address = this.houseObj.data.address,
             header = this._view.render({
                 tmplFile: "popupHeader",
                 data: {
                     address: !this._hideIndex ? address : address.split(", ").slice(1).join(", ")
                 }
             });
-        }
 
         return header;
     },
 
     _renderFooter: function() { // () -> String
-        var footer = '';
-
-        if (!this._wereHeadersInited) {
-            footer = this._view.render({
+        var footer  = this._view.render({
                 tmplFile: "popupFooter",
                 data: {
                     hideFirmsText: this.t("Hide organization in the building")
                 }
             });
-        }
 
         return footer;
-    },
-
-    _renderFirms: function (list) { // (Array) -> String
-        var listHtml = '';
-
-        if (!list || !list.length) {
-            return listHtml;
-        }
-        for (var i in list) {
-            listHtml += this._view.render(this._fillFirmObject(list[i]));
-        }
-
-        return listHtml;
     },
 
     _initShowLess: function () {
@@ -253,48 +226,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _showLessClick: function () {
         this._hideIndex = false;
         this._view.getPopup().clearHeaderFooter();
-        this._clearEventHandlers();
-        this._wereHeadersInited = false;
-        this._lastPage = this._page;
         this._view.render(this.houseObj);
-    },
-
-    _fillFirmObject: function ( firm ) { // (Object) -> Object
-        // TODO move that to dedicated util
-        var params = {
-                id: firm.id,
-                name: firm.name,
-                address: firm.geometry_name ? firm.geometry_name : '',
-            };
-
-        return {
-            tmpl: this._view.getTemplate("firm"),
-            data: params
-        };
-    },
-
-    _renderFirmContacts: function (contacts) { // (Array) -> String
-        var contactsHtml = '';
-
-        if (!contacts || !contacts.length) {
-            return contactsHtml;
-        }
-
-        for (var i in contacts) {
-            var group = contacts[i];
-            if (group.name) {
-                contactsHtml += '<div>' + group.name + '</div>';
-            } else {
-                contactsHtml += '<div></div>';
-            }
-
-            for (var j in group.contacts) {
-
-                var contact = group.contacts[j];
-                contactsHtml += '<div>' + contact.value + '</div>';
-            }
-        }
-
-        return contactsHtml;
     }
 });
