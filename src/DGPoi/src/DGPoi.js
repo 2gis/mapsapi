@@ -3,7 +3,7 @@ L.Map.mergeOptions({
 });
 
 L.DG.Poi = L.Handler.extend({
-    _isPoiHoverNow: false,
+    _nowPoiHovered: null,
     _currTile: null,
     _pois: {},
 
@@ -11,6 +11,8 @@ L.DG.Poi = L.Handler.extend({
         this._map = map;
         this._tileSize = L.DG.TileLayer.prototype.options.tileSize;	// TODO: tileSize getter
         this._poistorage = new L.DG.PoiStorage();
+
+        this._poistorageCallback = L.bind(this._poistorageCallback, this);
     },
 
     addHooks: function () {
@@ -41,19 +43,23 @@ L.DG.Poi = L.Handler.extend({
 
         if (this._isTileChanged(xyz)) {
             this._currTile = xyz;
-            this._pois = this._poistorage.getTilePoiIds(xyz);
-        }
+            this._poistorage.getTilePoiIds(xyz, this._poistorageCallback);
+        } else if (this._pois) {
+            var poiId = this._isPoiHovered(e.latlng, this._pois);
 
-        var poiId = this._isPoiHovered(e.latlng, this._pois);
+            if (this._nowPoiHovered && this._nowPoiHovered != poiId) {
+                this._map.fire('dgPoiLeave');
+                this._nowPoiHovered = null;
+            }
+            if (poiId && this._nowPoiHovered != poiId) {
+                this._nowPoiHovered = poiId;
+                this._map.fire('dgPoiHover', {'poiId': poiId});
+            }
+        }
+    },
 
-        if (!this._isPoiHoverNow && poiId) {
-            this._isPoiHoverNow = true;
-            this._map.fire('dgPoiHover', {'poiId': poiId});
-        }
-        if (this._isPoiHoverNow && !poiId) {
-            this._map.fire('dgPoiLeave');
-            this._isPoiHoverNow = false;
-        }
+    _poistorageCallback: function(tilePois){
+        this._pois = tilePois;
     },
 
     _getTileID: function (e) { // (L.Event)
@@ -78,7 +84,7 @@ L.DG.Poi = L.Handler.extend({
                 break;
             }
         }
-
+        
         return poi;
     }
 

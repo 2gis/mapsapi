@@ -8,14 +8,14 @@ L.DG.PoiStorage = L.Class.extend({
         return this._pois[id] || null;
     },
 
-    getTilePoiIds: function (tileId) { //(String) -> Object|Null
+    getTilePoiIds: function (tileId, callback) { //(String) -> Object|Null
 
         //TODO: provide possibility send callback to async request poi
         if (!this._tilesPoi.hasOwnProperty(tileId)) {
-            this._askByTile(tileId);
+            this._askByTile(tileId, callback);
+        } else {
+            callback(this._tilesPoi[tileId]);
         }
-
-        return this._tilesPoi[tileId] || null;
     },
 
     _addPoisToTile: function (tileId, poi) { //(String, String)
@@ -42,37 +42,18 @@ L.DG.PoiStorage = L.Class.extend({
         return poi;
     },
 
-    _askByTile: function (tileId) { //(String)
-        var xyz = tileId.split(',');
-        // send request to api http://highlight{0-9}.2gis.ru/{xyz[2]}/{xyz[0]}/{xyz[1]}
-        // get:
-        var demoPois = {
-            def: [
-                {
-                    "id": "10274906096961615",
-                    "linked_id": "10274364931002767",
-                    "type": "filial",
-                    "hover": "POLYGON((35.9534560522966 51.6468101845176,35.9535042918274 51.6468101845176,35.9535042918274 51.6467801957855,35.9534560522966 51.6467801957855,35.9534560522966 51.6468101845176))",
-                    "text": "Продукты, магазин, ИП Костина Т.В."
-                },
-                {
-                    "id": "10274906096961616",
-                    "linked_id": "10274364931002814",
-                    "type": "filial",
-                    "hover": "POLYGON((35.957520030642 51.6518121723409,35.9575682701727 51.6518121723409,35.9575682701727 51.6517821869176,35.957520030642 51.6517821869176,35.957520030642 51.6518121723409))",
-                    "text": "Лаванда, продуктовый магазин"
-                },
-                {
-                    "id": "10274906096961624",
-                    "linked_id": "10274364931054565",
-                    "type": "filial",
-                    "hover": "POLYGON((36.1231451145209 51.6455465157316,36.1231933540517 51.6455465157316,36.1231933540517 51.6455165261636,36.1231451145209 51.6455165261636,36.1231451145209 51.6455465157316))",
-                    "text": "Закусочная, ИП Косинова Е.В."
-                }
-            ]
-        };
+    _askByTile: function (tileId, callback) { //(String)
+        var xyz = tileId.split(',')
+            self = this;
 
-        var result = demoPois.def;
-        this._addPoisToTile(tileId, result);
+        L.DG.Jsonp({
+            url : ['http://127.0.0.1:3100/', xyz[2], '/', xyz[0], '/', xyz[1]].join(''),
+            success : function(data){
+                if (data.response.code != 200) return;
+                self._addPoisToTile(tileId, data.result.poi);
+                if (callback)
+                    callback(self._tilesPoi[tileId]);
+            }
+        });
     }
 });
