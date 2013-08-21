@@ -5,7 +5,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _page : 1,
-    _wasShown: false,
+    _wasCardShown: false,
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
@@ -83,7 +83,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _onPopupClose: function() {
         FirmList.clearList();
         this._page = 1;
-        this._wasShown = false;
+        this._wasCardShown = false;
         this._view.getPopup().clearHeaderFooter();
         this._scroller = undefined;
     },
@@ -128,8 +128,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._view.showLoader();
         this._hideIndex = true;
 
-        //console.log(this._wasShown);
-        if (this._wasShown) {
+        if (FirmList.isListCached()) {
             this._handleFirmsLoadingEnd();
         } else {
             this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this));
@@ -162,23 +161,22 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         FirmList.init(results);
         content = this._domToHtml(FirmList.renderList());
 
-        if (!this._wasShown) {
+        if (!this._wasCardShown) {
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
             popupData.afterRender = function () {
                 self._initShowLess();
                 self._initScrollEvents();
             }
-            this._wasShown = true;
-            //content += this._view.getTemplate("loader");
+            this._wasCardShown = true;
+            content += this._view.getTemplate("loader");
         } else {
             shouldAppendContent = true;
             popupData.updateScrollPosition = true;
         }
-        content += this._view.getTemplate("loader");
+
         popupData.tmpl = content;
         popupData.append = shouldAppendContent;
-        console.log(content);
         this._view.renderPopup(popupData);
 
         this._view.hideLoader();
@@ -225,6 +223,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _showLessClick: function () {
         this._hideIndex = false;
+        this._wasCardShown = false;
         this._view.getPopup().clearHeaderFooter();
         this._view.render(this.houseObj);
     }

@@ -9,6 +9,7 @@ var FirmList = (function () {
             tmpls: {}
         },
         _container = document.createElement('div'),
+        _isCached = false;
 
         // privat methods
         _clearContainer = function () {
@@ -18,6 +19,7 @@ var FirmList = (function () {
         },
 
         _clearList = function () {
+            _isCached = false;
             _firms = {};
             _clearContainer();
         },
@@ -29,8 +31,8 @@ var FirmList = (function () {
         _initEventHandlers = function () {
             _container.addEventListener("click", function(e) {
                 if (e.target && e.target.nodeName == "LI") {
-                    toggleFirm(e.target.id);
-                    //console.log( e.target.id ," was clicked!");
+                    //toggleFirm(e.target.id);
+                    console.log( e.target.id ," was clicked!");
                 }
             });
         },
@@ -71,6 +73,7 @@ var FirmList = (function () {
                     _container.appendChild(_renderFirm(firm));
                 }
             }
+            _isCached = true;
 
             return _container;
         },
@@ -82,7 +85,8 @@ var FirmList = (function () {
                 firmObject  = _createFirm(firmData);
                 _firms[id] = firmObject;
             }
-            //console.log(_firms);
+
+
         },
 
         removeFirm: function (id) {
@@ -100,6 +104,10 @@ var FirmList = (function () {
 
         toggleFirm: function (id) {
             _firms[id] ? _firms[id].toggle() : null;
+        },
+
+        isListCached: function () {
+            return _isCached;
         },
 
         clearList: _clearList
