@@ -76,26 +76,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         };
     },
 
-    _initPopupClose: function() {
-        this._controller.getMap().on('popupclose', L.bind(this._onPopupClose, this));
-    },
-
-    _onPopupClose: function() {
-        FirmList.clearList();
-        this._page = 1;
-        this._wasCardShown = false;
-        this._view.getPopup().clearHeaderFooter();
-        this._scroller = undefined;
-    },
-
-    _initShowMore: function () {
-        var eventType = 'click';
-
-        if (this._filialsCount) {
-            this._addEventHandler("DgShowMoreClick", L.DomUtil.get('dg-showmorehouse'), eventType, L.bind(this._showMoreClick, this));
-        }
-    },
-
     _initScrollEvents: function() {
         var scrollerBar,
             self = this,
@@ -124,15 +104,50 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
+    _initPopupClose: function() {
+        this._controller.getMap().on('popupclose', L.bind(this._onPopupClose, this));
+    },
+
+    _onPopupClose: function() {
+        FirmList.clearList();
+        this._page = 1;
+        this._wasCardShown = false;
+        this._view.getPopup().clearHeaderFooter();
+        this._scroller = undefined;
+    },
+
+    _initShowMore: function () {
+        var eventType = 'click';
+
+        if (this._filialsCount) {
+            this._addEventHandler("DgShowMoreClick", L.DomUtil.get('dg-showmorehouse'), eventType, L.bind(this._showMoreClick, this));
+        }
+    },
+
     _showMoreClick: function () {
         this._view.showLoader();
         this._hideIndex = true;
 
         if (FirmList.isListCached()) {
-            this._handleFirmsLoadingEnd();
+            this._handleFirmList();
         } else {
-            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this));
+            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this));
         }
+    },
+
+    _initShowLess: function () {
+        var link = L.DomUtil.get('dg-showlesshouse');
+
+        if (link) {
+            this._addEventHandler("DgShowLessClick", link, 'click', L.bind(this._showLessClick, this));
+        }
+    },
+
+    _showLessClick: function () {
+        this._hideIndex = false;
+        this._wasCardShown = false;
+        this._view.getPopup().clearHeaderFooter();
+        this._view.render(this.houseObj);
     },
 
     _handleMouseWheel: function() {
@@ -148,17 +163,21 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (this._totalPages && this._page <= this._totalPages) {
             this._view.showLoader();
-            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmsLoadingEnd, this), this._page);
+            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this), this._page);
         }
     },
 
-    _handleFirmsLoadingEnd: function (results) { // (Object)
+    _handleFirmList: function (results) { // (Object)
         var shouldAppendContent = false,
             popupData = {},
             self = this,
             content;
 
-        FirmList.init(results);
+        FirmList.init(results, {tmpl: {loader: this._view.getTemplate("loader"),
+                                       shortFirm: this._view.getTemplate("shortFirm"),
+                                       fullFirm: this._view.getTemplate("fullFirm")
+                                      }
+                                });
         content = this._domToHtml(FirmList.renderList());
 
         if (!this._wasCardShown) {
@@ -177,8 +196,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         popupData.tmpl = content;
         popupData.append = shouldAppendContent;
-        this._view.renderPopup(popupData);
 
+        this._view.renderPopup(popupData);
         this._view.hideLoader();
     },
 
@@ -211,20 +230,5 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             });
 
         return footer;
-    },
-
-    _initShowLess: function () {
-        var link = L.DomUtil.get('dg-showlesshouse');
-
-        if (link) {
-            this._addEventHandler("DgShowLessClick", link, 'click', L.bind(this._showLessClick, this));
-        }
-    },
-
-    _showLessClick: function () {
-        this._hideIndex = false;
-        this._wasCardShown = false;
-        this._view.getPopup().clearHeaderFooter();
-        this._view.render(this.houseObj);
     }
 });
