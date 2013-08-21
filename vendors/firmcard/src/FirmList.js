@@ -64,7 +64,6 @@ var FirmList = (function () {
                     }
                 }
             }
-            //console.log(_firms);
         },
 
         renderList: function () {
@@ -79,14 +78,12 @@ var FirmList = (function () {
         },
 
         addFirm: function (firmData) {
-            var id = firmData.firm.id ? firmData.firm.id : firmData;
+            var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData;
 
             if (!_firms.hasOwnProperty(id)) {
                 firmObject  = _createFirm(firmData);
                 _firms[id] = firmObject;
             }
-
-
         },
 
         removeFirm: function (id) {

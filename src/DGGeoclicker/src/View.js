@@ -28,7 +28,7 @@ L.DG.Geoclicker.View = L.Class.extend({
         if (loaderDiv) {
             loaderDiv.style.display = "none";
         } else {
-            this._popup.setContent('<div id="dg-popup-firm-loading"></div>');
+            this._popup.setContent(this.getTemplate("loader"));
         }
     },
 
