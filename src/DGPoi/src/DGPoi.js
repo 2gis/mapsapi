@@ -1,7 +1,3 @@
-L.Map.mergeOptions({
-    dgPoi: false
-});
-
 L.DG.Poi = L.Handler.extend({
     _currPoiId: null,
     _currTile: null,
@@ -9,6 +5,7 @@ L.DG.Poi = L.Handler.extend({
 
     initialize: function (map) { // (Object)
         this._map = map;
+        this._mapPanes = map.getPanes();
         this._tileSize = L.DG.TileLayer.prototype.options.tileSize;	// TODO: tileSize getter
         this._poistorage = new L.DG.PoiStorage();
 
@@ -19,12 +16,14 @@ L.DG.Poi = L.Handler.extend({
         this._calcTilesAtZoom();
         this._map
                 .on('mousemove', this._onMouseMove, this)
+                .on('mouseout', this._onMouseOut, this)
                 .on('viewreset', this._calcTilesAtZoom, this);
     },
 
     removeHooks: function () {
         this._map
                 .off('mousemove', this._onMouseMove, this)
+                .off('mouseout', this._onMouseOut, this)
                 .off('viewreset', this._calcTilesAtZoom, this);
     },
 
@@ -36,10 +35,31 @@ L.DG.Poi = L.Handler.extend({
         this._tilesAtZoom = Math.pow(2, this._map.getZoom()); // counts tiles number on current zoom
     },
 
+    _belongsToPane : function(element, pane){
+        while (element && element !== this._mapPanes.mapPane) {
+            if (element == this._mapPanes[pane]) {
+                return true;
+            }
+            element = element.parentNode;
+        }
+        return false;
+    },
+
+    _isEventTargetAllowed : function(target){
+        return this._belongsToPane(target, 'tilePane') || this._belongsToPane(target, 'overlayPane');
+    },
+
     _onMouseMove: function (e) { // (Object)
         if (this._map._panTransition && this._map._panTransition._inProgress) { return; }
 
         var xyz = this._getTileID(e);
+
+        if (!this._isEventTargetAllowed(e.originalEvent.target || e.originalEvent.srcElement)) {
+            if (this._currPoiId) {
+                this._leaveCurrentPoi();
+            }
+            return;
+        }
 
         if (this._isTileChanged(xyz)) {
             this._currTile = xyz;
@@ -49,14 +69,24 @@ L.DG.Poi = L.Handler.extend({
             var poiId = this._isPoiHovered(e.latlng, this._pois);
 
             if (this._currPoiId && this._currPoiId != poiId) {
-                this._map.fire('dgPoiLeave');
-                this._currPoiId = null;
+                this._leaveCurrentPoi();
             }
             if (poiId && this._currPoiId != poiId) {
                 this._currPoiId = poiId;
-                this._map.fire('dgPoiHover', {'poiId': poiId});
+                this._map.fire('dgPoiHover', {'poiId': poiId, latlng: e.latlng});
             }
         }
+    },
+
+    _onMouseOut: function(){
+        if (this._currPoiId) {
+            this._leaveCurrentPoi();
+        }
+    },
+
+    _leaveCurrentPoi : function(){
+        this._map.fire('dgPoiLeave');
+        this._currPoiId = null;
     },
 
     _poistorageCallback: function(tilePois){
