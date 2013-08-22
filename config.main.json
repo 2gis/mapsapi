@@ -6,6 +6,8 @@
     "TILE_SERVER": "http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1",
     "ERROR_TILE_URL":"http://maps.api.2gis.ru/2.0/img/nomap.png",
 
+    "HIGHLIGHT_POI_SERVER": "http://127.0.0.1:3100/{z}/{x}/{y}",
+
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",

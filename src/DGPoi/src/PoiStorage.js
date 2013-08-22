@@ -47,7 +47,11 @@ L.DG.PoiStorage = L.Class.extend({
             self = this;
 
         L.DG.Jsonp({
-            url : ['http://127.0.0.1:3100/', xyz[2], '/', xyz[0], '/', xyz[1]].join(''),
+            url : L.Util.template('__HIGHLIGHT_POI_SERVER__', {
+                z: xyz[2],
+                x: xyz[0],
+                y: xyz[1]
+            }),
             success : function(data){
                 if (data.response.code != 200) return;
                 self._addPoisToTile(tileId, data.result.poi);

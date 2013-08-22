@@ -3,9 +3,9 @@ L.Map.mergeOptions({
 });
 
 L.DG.Poi = L.Handler.extend({
-    _nowPoiHovered: null,
+    _currPoiId: null,
     _currTile: null,
-    _pois: {},
+    _pois: null,
 
     initialize: function (map) { // (Object)
         this._map = map;
@@ -43,16 +43,17 @@ L.DG.Poi = L.Handler.extend({
 
         if (this._isTileChanged(xyz)) {
             this._currTile = xyz;
+            this._pois = null;
             this._poistorage.getTilePoiIds(xyz, this._poistorageCallback);
         } else if (this._pois) {
             var poiId = this._isPoiHovered(e.latlng, this._pois);
 
-            if (this._nowPoiHovered && this._nowPoiHovered != poiId) {
+            if (this._currPoiId && this._currPoiId != poiId) {
                 this._map.fire('dgPoiLeave');
-                this._nowPoiHovered = null;
+                this._currPoiId = null;
             }
-            if (poiId && this._nowPoiHovered != poiId) {
-                this._nowPoiHovered = poiId;
+            if (poiId && this._currPoiId != poiId) {
+                this._currPoiId = poiId;
                 this._map.fire('dgPoiHover', {'poiId': poiId});
             }
         }
@@ -84,7 +85,7 @@ L.DG.Poi = L.Handler.extend({
                 break;
             }
         }
-        
+
         return poi;
     }
 
