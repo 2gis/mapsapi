@@ -41,6 +41,15 @@ var FirmList = (function () {
 
         _renderFirm = function (id) {
             return  _firms[id] ? _firms[id].render() : null;
+        },
+
+        _addFirm = function (firmData) {
+            var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData; //TODO provide functional for open POI card
+
+            if (!_firms.hasOwnProperty(id)) {
+                firmObject  = _createFirm(firmData);
+                _firms[id] = firmObject;
+            }
         }
 
     return  {
@@ -49,13 +58,8 @@ var FirmList = (function () {
             _container.setAttribute('class', 'dg-map-infocard-firmlist');
             _container.setAttribute('id', 'dg-map-infocard-firmlist');
 
-            if (firms) {
-                for (var firm in firms) {
-                    if (firms.hasOwnProperty(firm)) {
-                        this.addFirm(firms[firm]);
-                    }
-                }
-            }
+            this.addFirms(firms);
+
         },
 
         initEventHandlers: function () {
@@ -69,7 +73,7 @@ var FirmList = (function () {
             });
         },
 
-        renderList: function () {
+        renderFirms: function () {
             var content = '';
 
             for (var firm in _firms) {
@@ -78,23 +82,29 @@ var FirmList = (function () {
                 }
             }
 
+            return content;
+        },
+
+        renderList: function () {
+            _container.innerHTML = this.renderFirms();;
             _isCached = true;
-            _container.innerHTML = content;
 
             return _container;
 
         },
 
-        addFirm: function (firmData) {
-            var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData;
-
-            if (!_firms.hasOwnProperty(id)) {
-                firmObject  = _createFirm(firmData);
-                _firms[id] = firmObject;
+        addFirms: function (firms) {
+            if (firms) {
+                for (var firm in firms) {
+                    if (firms.hasOwnProperty(firm)) {
+                        _addFirm(firms[firm]);
+                    }
+                }
             }
         },
 
-        removeFirm: function (id) {
+        removeFirms: function (id) {
+            //TODO handle IDs if its array
             _firms[id] ? '' : delete _firms[id];
         },
 
@@ -108,7 +118,6 @@ var FirmList = (function () {
         },
 
         toggleFirm: function (id) {
-            console.log('toggle');
             _firms[id] ? _firms[id].toggle() : null;
         },
 

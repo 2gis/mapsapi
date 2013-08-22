@@ -189,21 +189,21 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             self = this,
             content;
 
-        this._initFirmList(results);
-
-        content = this._domToHtml(FirmList.renderList());
-
         if (!this._isListOpenNow) {
+            this._initFirmList(results);
+            content = this._domToHtml(FirmList.renderList());
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
             popupData.afterRender = function () {
                 self._initShowLess();
                 self._initScrollEvents();
-
+                FirmList.initEventHandlers();
             }
             this._isListOpenNow = true;
             content += this._view.getTemplate("loader");
         } else {
+            FirmList.addFirms(results);
+            content = FirmList.renderFirms();
             shouldAppendContent = true;
             popupData.updateScrollPosition = true;
         }
@@ -213,8 +213,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._view.renderPopup(popupData);
         this._view.hideLoader();
-
-        FirmList.initEventHandlers();
     },
 
     // TODO Remove it!
