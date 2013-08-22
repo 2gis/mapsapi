@@ -1,0 +1,183 @@
+<div id="dg-map-firm-full-<%=firm.id%>" class="dg-map-firm-full">
+    <!--Name and adress-->
+    <ul class="dg-map-firm-box">
+        <li class="dg-map-firm-row dg-map-firm-address"><%=firm.geo.address%>
+            <% if(firm.geo.comment) { %>
+            <span class="note"> &mdash; <%=firm.geo.comment%></span>
+            <% } %>
+        </li>
+    </ul>
+    <!--Subcats-->
+    <ul class="dg-map-firm-box dg-map-firm-box-rubric dg-map-firm-subcats">
+        <% for (var r = 0, rubrics = firm.rubrics.primary.length; r < rubrics; r++) { %>
+            <li><%=firm.rubrics.primary[r].name%><%if (r !== rubrics-1) print(",");%></a></li>
+        <% } %>
+    </ul>
+    <!--Contacts-->
+    <ul class="dg-map-firm-box">
+        <% for (var c = 0, contacts = firm.contact_groups.length; c < contacts; c++) { %>
+        <li class="dg-map-firm-row <%if (c > 0) {print("additional-addresses");} else {print("dg-map-firm-contacts");} %>">
+        <% if (firm.contact_groups[c].name){ %>
+            <div class="dg-map-contact-group"><%=firm.contact_groups[c].name%></div>
+        <% } %>
+        <ul class="dg-map-contacts-list">
+            <% for (var cont in firm.contact_groups[c].contacts) { %>
+            <li class="dg-map-contacts-row dg-map-row-with-icon dg-map-row-<%=firm.contact_groups[c].contacts[cont].type %>">
+                <span name="dg-map-row-<%=firm.contact_groups[c].contacts[cont].type%>-<%=firm.id%>"
+                <% if (firm.contact_groups[c].contacts[cont].register_bc_url && firm.contact_groups[c].contacts[cont].type === "email") {%>
+                register_bc_url=<%=firm.contact_groups[c].contacts[cont].register_bc_url %>
+                <% } %>
+                >
+                    <%=firm.contact_groups[c].contacts[cont].value%>
+                </span>
+            </li>
+            <% } %>
+        </ul>
+        </li>
+        <% } %>
+    </ul>
+    <!--Time Shedule-->
+    <ul class="dg-map-firm-box">
+        <li class="dg-map-firm-row">
+            <div class="dg-map-firm-schedule">
+                <% if (schedule.aroundTheClock) { %>
+                <span class="dg-map-firm-schedule-24">24/7</span>
+                <div class="dg-map-firm-schedule-short dg-map-firm-schedule-short-24"><%=msg.works_around_the_clock%></div>
+                <% } %>
+                
+                <% if (schedule.byPeriods || schedule.allTable || schedule.daily) { %>
+                    <span class="dg-map-firm-schedule-clock<%if (schedule.isOpened) { %> opened<% }%>"></span>
+                    <div class="dg-map-firm-schedule-short">
+                        <% if (schedule.byPeriods || schedule.allTable) { %>
+                        <a class="dg-map-work-time" id="dg-map-firm-schedule-<%=firm.id%>" href="javascript:void(0)">
+                            <% if (schedule.todayWorkhours.isRestDay) { %>
+                            <%=self._msgU("today_is_restday")%>
+                            <% } else { %>
+                            <%=self._msgU("today")%> <%=schedule.todayWorkhours.workFrom%>&ndash;<%=schedule.todayWorkhours.workTo%><% if (schedule.todayWorkhours.lunchFrom) {%>, <%=msg.lunch%> <%=schedule.todayWorkhours.lunchFrom%>&ndash;<%=schedule.todayWorkhours.lunchTo%><% } %>
+                            <% } %>
+                        </a>
+                        
+                        <span id="dg-map-icon-expand-<%=firm.id%>" class="link-icon dg-map-icon dg-map-icon-expand"></span>
+                        <span id="dg-map-icon-collapse-<%=firm.id%>" class="dg-map-icon dg-map-icon-collapse" style="display: none;"></span>
+                        
+                        <% } %>
+                        <% if (schedule.daily) { %>
+                        <%=self._msgU("daily")%> <%=schedule.todayWorkhours.workFrom%>&ndash;<%=schedule.todayWorkhours.workTo%><% if (schedule.todayWorkhours.lunchFrom) {%>, <%=msg.lunch%> <%=schedule.todayWorkhours.lunchFrom%>&ndash;<%=schedule.todayWorkhours.lunchTo%><% } %>
+                        <% } %>
+                        
+                        <span class="dg-map-work-info"><%=schedule.msgCrntState + schedule.msgHint%></span>
+                    </div>
+                <% } %>
+            </div>
+             
+            <% if (schedule.byPeriods) { %>
+            <div class="dg-map-weekly-schedule" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:none;">
+                <div class="dg-map-weekly-schedule-inner">
+                <% for ( var per in schedule.byPeriods) {
+                var period = schedule.byPeriods[per]; %>
+                    <div>
+                    <%=period.days%>
+                    <span class="dg-map-label"><%=period.labelText%></span><%if (period.lunchFrom) { %>, <%=self._msg("lunch")%> <span class="dg-map-label"><%=period.lunchFrom%>&ndash;<%=period.lunchTo%></span>
+                    </div>
+                <% } %>
+                <% } %>
+                </div>
+            </div>
+            <% } %>
+            
+            
+            <% if (schedule.allTable) { %>
+            <div class="dg-map-weekly-schedule tabled" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:none;">
+            <!--<div class="dg-map-weekly-schedule"> -->
+                <table class="dg-map-weekly-schedule-table">
+                <thead>
+                    <tr>
+                    <% var i, period;%>
+                    <th class="dg-map-schedule-icon">&nbsp;</th>
+                    <% for( tab1 in schedule.allTable) {
+                    period = schedule.allTable[tab1];
+                    clas = (period.firstDay == schedule.weekDayStr) ? ' class="current-day"' : "";%>
+                    <th<%=clas%>><span><%=self._msgU(period.firstDay+"_short")%></span></th>
+                    <% } %>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr<% if (!schedule.anyLunchExists) print(' class="last-row"');%>>
+                        <td class="dg-map-schedule-icon">
+                            <span class="dg-map-img-wrap dg-map-icon-schedule" title="<%=self._msgU("working_time")%>"></span>
+                        </td>
+                        <% for( tab2 in schedule.allTable) {
+                        period = schedule.allTable[tab2];
+                        clas = (period.firstDay == schedule.weekDayStr) ? ' class="current-day"' : "";%>
+                        <td<%=clas%>>
+                            <%if (period.workFrom) {%>
+                            <div><%=period.workFrom%></div>
+                            <div><%=period.workTo%></div>
+                            <% } %>
+                        </td>
+                        <% } %>
+                    </tr>
+                    <% if (schedule.anyLunchExists) { %>
+                    <tr class="dinner-time">
+                        <td class="dg-map-schedule-icon">
+                            <span class="dg-map-img-wrap dg-map-icon-lunch" title="<%=self._msgU("lunch")%>"></span>
+                        </td>
+                        <% for( tab3 in schedule.allTable) {
+                        period = schedule.allTable[tab3];
+                        clas = (period.firstDay == schedule.weekDayStr) ? ' class="current-day"' : "";%>
+                        <td<%=clas%>>
+                            <%if (period.lunchFrom) {%>
+                            <div><%=period.lunchFrom%></div>
+                            <div><%=period.lunchTo%></div>
+                            <% } %>
+                        </td>
+                        <% } %>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            <!--</div>-->
+        </div>
+        <% } %>
+        
+        </li>
+    </ul>
+    
+    <!-- Flamp -->
+    <% if (firm.allow_reviewing && firm.show_flamp_link) { %>
+    <ul class="dg-map-firm-box">
+    <li class="dg-map-firm-row dg-map-flamp-row">
+    <a target="_blank" class="dg-map-firm-link-with-icon" href="<%=self._getFlampUrl(firm)%>">
+        <span class="link-icon dg-map-icon dg-map-icon-flamp"></span>
+        <% if (firm.info && firm.info.reviewscount) { %>
+        <span class="dg-map-firm-link-text"><%=self._msg("reviews_on_flamp")%></span>
+        <% } else { %>
+        <span class="dg-map-firm-link-text"><%=self._msg("write_review_on_flamp")%></span>
+        <% } %>
+    </a>
+    <% if (firm.reviews && firm.reviews.count) { %>
+    <sup><%=firm.reviews.count%></sup>
+    <% } %>
+    </li>
+    </ul>
+    <% } %>
+    
+    
+    <!-- Company payment methods -->
+    <%if (firm.attributes && firm.attributes.general && firm.attributes.general.items && firm.attributes.general.items.length) { %>
+    <ul class="dg-map-firm-box dg-map-firm-payments">
+        <li class="dg-map-firm-row">
+            <%for (var t = 0, attrs = firm.attributes.general.items.length; t < attrs; t++) { %>
+                <% if (firm.attributes.general.items[t].name == 'payment_type') {
+                        var payMethods = firm.attributes.general.items[t].value;
+                        for (var u = 0, methods = payMethods.length; u < methods; u++) { %>
+                            <span><%=payMethods[u]%></span>
+                        <%}
+                    } 
+                %>
+            <%}%>
+        </li>
+    </ul>
+    <% } %>
+    
+</div>
