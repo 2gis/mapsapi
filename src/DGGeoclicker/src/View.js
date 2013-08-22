@@ -59,6 +59,7 @@ L.DG.Geoclicker.View = L.Class.extend({
             if (options.append) {
                 var popupLoader = document.getElementById("dg-popup-firm-loading");
                 if (popupLoader) {
+                    popupLoader.parentNode.removeChild(popupLoader.previousSibling);
                     popupLoader.insertAdjacentHTML("beforeBegin", html);
                     options.updateScrollPosition && this._popup.updateScrollPosition();
                 }

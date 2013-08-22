@@ -11,7 +11,7 @@ var FirmList = (function () {
         _container = document.createElement('div'),
         _isCached = false;
 
-        // privat methods
+        // privatе methods
         _clearContainer = function () {
             while (_container.hasChildNodes()) {
                 _container.removeChild(_container.firstChild);
@@ -26,16 +26,7 @@ var FirmList = (function () {
 
         _createFirm = function (frimData) {
             return new FirmCard (frimData, _addOptions);
-        },
-
-        _initEventHandlers = function () {
-            _container.addEventListener("click", function(e) {
-                if (e.target && e.target.nodeName == "LI") {
-                    //toggleFirm(e.target.id);
-                    console.log( e.target.id ," was clicked!");
-                }
-            });
-        },
+        }
 
         _setOptions = function (options) {
             options || (options = {});
@@ -56,6 +47,7 @@ var FirmList = (function () {
         init: function (firms, options) {
             _setOptions(options);
             _container.setAttribute('class', 'dg-map-infocard-firmlist');
+            _container.setAttribute('id', 'dg-map-infocard-firmlist');
 
             if (firms) {
                 for (var firm in firms) {
@@ -66,15 +58,31 @@ var FirmList = (function () {
             }
         },
 
+        initEventHandlers: function () {
+            var cont = document.getElementById('dg-map-infocard-firmlist'),
+                self = this;
+
+            cont.addEventListener("click", function(e) {
+                if (e.target && e.target.nodeName == "A") {
+                    self.toggleFirm(e.target.id);
+                }
+            });
+        },
+
         renderList: function () {
+            var content = '';
+
             for (var firm in _firms) {
                 if (_firms.hasOwnProperty(firm)) {
-                    _container.appendChild(_renderFirm(firm));
+                    content += _renderFirm(firm);
                 }
             }
+
             _isCached = true;
+            _container.innerHTML = content;
 
             return _container;
+
         },
 
         addFirm: function (firmData) {
@@ -100,6 +108,7 @@ var FirmList = (function () {
         },
 
         toggleFirm: function (id) {
+            console.log('toggle');
             _firms[id] ? _firms[id].toggle() : null;
         },
 

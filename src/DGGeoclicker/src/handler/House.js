@@ -5,7 +5,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _page : 1,
-    _wasCardShown: false,
+    _isListOpenNow: false,
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
@@ -111,8 +111,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _onPopupClose: function() {
         FirmList.clearList();
         this._page = 1;
-        this._wasCardShown = false;
+        this._isListOpenNow = false;
         this._view.getPopup().clearHeaderFooter();
+        this._clearEventHandlers();
         this._scroller = undefined;
     },
 
@@ -145,9 +146,24 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _showLessClick: function () {
         this._hideIndex = false;
-        this._wasCardShown = false;
+        this._isListOpenNow = false;
         this._view.getPopup().clearHeaderFooter();
+        this._clearEventHandlers();
         this._view.render(this.houseObj);
+    },
+
+    _initFirmList: function (results) {
+        FirmList.init(
+            results, {
+                        tmpls: {
+                            loader: this._view.getTemplate("loader"),
+                            shortFirm: this._view.getTemplate("shortFirm"),
+                            fullFirm: this._view.getTemplate("fullFirm")
+                        },
+                        render: L.DG.Template
+                    }
+
+        );
     },
 
     _handleMouseWheel: function() {
@@ -173,21 +189,19 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             self = this,
             content;
 
-        FirmList.init(results, {tmpl: {loader: this._view.getTemplate("loader"),
-                                       shortFirm: this._view.getTemplate("shortFirm"),
-                                       fullFirm: this._view.getTemplate("fullFirm")
-                                      }
-                                });
+        this._initFirmList(results);
+
         content = this._domToHtml(FirmList.renderList());
 
-        if (!this._wasCardShown) {
+        if (!this._isListOpenNow) {
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
             popupData.afterRender = function () {
                 self._initShowLess();
                 self._initScrollEvents();
+
             }
-            this._wasCardShown = true;
+            this._isListOpenNow = true;
             content += this._view.getTemplate("loader");
         } else {
             shouldAppendContent = true;
@@ -199,6 +213,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._view.renderPopup(popupData);
         this._view.hideLoader();
+
+        FirmList.initEventHandlers();
     },
 
     // TODO Remove it!
