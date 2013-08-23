@@ -142,7 +142,7 @@ var deps = {
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js'
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi'. 'DGLabel']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGLabel']
     },
 
     DGTemplate: {
