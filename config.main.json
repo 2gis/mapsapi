@@ -10,6 +10,7 @@
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
     "PROJECT_ADDITIONAL_FIELDS": "data.bound,data.max_zoom_level,data.min_zoom_level",
+    "FIRM_INFO_FIELDS": "data.reviews,data.rating,data.geo.id,data.geo.entrances",
     "GEO_ADDITIONAL_FIELDS": "data.geometry.location",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
     "DEFAULT_LANG": "ru",

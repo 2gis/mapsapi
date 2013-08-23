@@ -230,7 +230,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _renderFirms: function (list) { // (Array) -> String
-        var listHtml = '';
+        var listHtml = '',
+            self = this;
 
         if (!list || !list.length) {
             return listHtml;
@@ -268,7 +269,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             };
 
         return {
-            tmpl: this._view.getTemplate("firm"),
+            tmpl: this._view.getTemplate("shortFirm"),
             data: params
         };
     },
