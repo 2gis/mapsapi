@@ -42,120 +42,125 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         baronInstance,
         tmpl = __DGCustomization_TMPL__;
 
-    L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
+    L.Popup.include({
 
-    L.Popup.prototype.onAdd = function (map) {
-        map.on('dgEntranceShow', function() {
-            map.closePopup(this);
-        }, this);
+        options: {
+            offset: L.point(offsetX, offsetY)
+        },
 
-        return originalOnAdd.call(this, map);
-    };
+        onAdd: function (map) {
+            map.on('dgEntranceShow', function() {
+                map.closePopup(this);
+            }, this);
 
-    L.Popup.prototype.setContent = function (content) {
-        this._shouldInitPopupContainer = true;
-        this._shouldInitBaronScroller = true;
-        return originalSetContent.call(this, content);
-    };
+            return originalOnAdd.call(this, map);
+        },
 
-    L.Popup.prototype.setHeaderContent = function(content) {
-        this._headerContent = content;
-    };
+        setContent: function (content) {
+            this._shouldInitPopupContainer = true;
+            this._shouldInitBaronScroller = true;
+            return originalSetContent.call(this, content);
+        },
 
-    L.Popup.prototype.setFooterContent = function(content) {
-        this._footerContent = content;
-    };
+        setHeaderContent: function(content) {
+            this._headerContent = content;
+        },
 
-    L.Popup.prototype._shouldInitHeaderFooter = function() {
-        return !!(this._headerContent && this._footerContent);
-    };
+        setFooterContent: function(content) {
+            this._footerContent = content;
+        },
 
-    L.Popup.prototype._initHeaderFooter = function() {
-        this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
-        this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
-    };
+        _shouldInitHeaderFooter: function() {
+            return !!(this._headerContent && this._footerContent);
+        },
 
-    L.Popup.prototype.clearHeaderFooter = function() {
-        this._footerContent = undefined;
-        this._headerContent = undefined;
-    };
+        _initHeaderFooter: function() {
+            this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
+            this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
+        },
 
-    L.Popup.prototype._initPopupContainer = function () {
-        this._content = L.Util.template(tmpl.container, {content: this._content});
-        this._shouldInitPopupContainer = false;
-    };
+        clearHeaderFooter: function() {
+            this._footerContent = undefined;
+            this._headerContent = undefined;
+        },
 
-    L.Popup.prototype._initBaronScroller = function () {
-        this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
-        this._shouldInitBaronScroller = false;
-    };
+        _initPopupContainer: function () {
+            this._content = L.Util.template(tmpl.container, {content: this._content});
+            this._shouldInitPopupContainer = false;
+        },
 
-    L.Popup.prototype.updateScrollPosition = function() {
-        baronInstance && baronInstance.update();
-    };
+        _initBaronScroller: function () {
+            this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
+            this._shouldInitBaronScroller = false;
+        },
 
-    L.Popup.prototype._update = function () {
-        var shouldInitBaron;
+        updateScrollPosition: function() {
+            baronInstance && baronInstance.update();
+        },
 
-        if (!this._map) {
-            return;
-        }
+        _update: function () {
+            var shouldInitBaron;
 
-        this._container.style.visibility = 'hidden';
+            if (!this._map) {
+                return;
+            }
 
-        if (this._shouldInitPopupContainer) {
-            this._originalContent =  this._content;
-            this._initPopupContainer();
-        }
-        this._updateContent();
-        this._updateLayout();
-        this._updatePosition();
+            this._container.style.visibility = 'hidden';
 
-        shouldInitBaron = this._shouldInitBaron();
+            if (this._shouldInitPopupContainer) {
+                this._originalContent =  this._content;
+                this._initPopupContainer();
+            }
+            this._updateContent();
+            this._updateLayout();
+            this._updatePosition();
 
-        if (shouldInitBaron) {
-            if (this._shouldInitBaronScroller) {
-                this._initBaronScroller();
-                if (this._shouldInitHeaderFooter()) {
-                    this._initHeaderFooter();
+            shouldInitBaron = this._shouldInitBaron();
+
+            if (shouldInitBaron) {
+                if (this._shouldInitBaronScroller) {
+                    this._initBaronScroller();
+                    if (this._shouldInitHeaderFooter()) {
+                        this._initHeaderFooter();
+                    }
+                    this._updateContent();
                 }
+                this._initBaron();
+            } else if (this._shouldInitHeaderFooter()) {
+                this._initHeaderFooter();
                 this._updateContent();
             }
-            this._initBaron();
-        } else if (this._shouldInitHeaderFooter()) {
-            this._initHeaderFooter();
-            this._updateContent();
+            L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
+
+            this._container.style.visibility = '';
+            this._adjustPan();
+        },
+
+        _shouldInitBaron: function () {
+            var popupHeight = this._contentNode.offsetHeight,
+                maxHeight = this.options.maxHeight;
+
+                return (maxHeight && maxHeight <= popupHeight);
+        },
+
+        _initBaron: function () {
+
+            baronInstance = graf({
+                scroller: '.scroller',
+                bar: '.scroller__bar',
+                track: '.scroller__bar-wrapper',
+                $: function(selector, context) {
+                  return bonzo(qwery(selector, context));
+                },
+                event: function(elem, event, func, mode) {
+                  if (mode == 'trigger') {
+                    mode = 'fire';
+                  }
+                  bean[mode || 'on'](elem, event, func);
+                }
+            });
         }
-        L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
-
-        this._container.style.visibility = '';
-        this._adjustPan();
-    };
-
-    L.Popup.prototype._shouldInitBaron = function () {
-        var popupHeight = this._contentNode.offsetHeight,
-            maxHeight = this.options.maxHeight;
-
-            return (maxHeight && maxHeight <= popupHeight);
-    };
-
-    L.Popup.prototype._initBaron = function () {
-
-        baronInstance = graf({
-            scroller: '.scroller',
-            bar: '.scroller__bar',
-            track: '.scroller__bar-wrapper',
-            $: function(selector, context) {
-              return bonzo(qwery(selector, context));
-            },
-            event: function(elem, event, func, mode) {
-              if (mode == 'trigger') {
-                mode = 'fire';
-              }
-              bean[mode || 'on'](elem, event, func);
-            }
-        });
-    };
+    });
 }());
 
 L.Map.include({
