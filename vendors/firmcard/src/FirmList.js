@@ -19,7 +19,8 @@ var FirmList = (function () {
             tmpls: {}
         },
         _container = document.createElement('div'),
-        _isCached = false;
+        _isCached = false,
+        _newPageFirms = {};
 
         // privatе methods
         _clearContainer = function () {
@@ -61,6 +62,8 @@ var FirmList = (function () {
                 firmObject  = _createFirm(firmData);
                 _firms[id] = firmObject;
             }
+
+            _newPageFirms[id] = firmObject;
         }
 
     return  {
@@ -85,11 +88,12 @@ var FirmList = (function () {
             });
         },
 
-        renderFirms: function () {
-            var content = '';
+        renderFirms: function (isAppend) {
+            var content = '',
+                firms = isAppend ? _newPageFirms : _firms;
 
-            for (var firm in _firms) {
-                if (_firms.hasOwnProperty(firm)) {
+            for (var firm in firms) {
+                if (firms.hasOwnProperty(firm)) {
                     content += _renderFirm(firm);
                 }
             }
@@ -106,6 +110,8 @@ var FirmList = (function () {
         },
 
         addFirms: function (firms) {
+            _newPageFirms = {};
+
             if (firms) {
                 for (var firm in firms) {
                     if (firms.hasOwnProperty(firm)) {

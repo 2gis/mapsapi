@@ -219,7 +219,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             content += this._view.getTemplate("loader");
         } else {
             FirmList.addFirms(results);
-            content = FirmList.renderFirms();
+            content = FirmList.renderFirms(true);
             shouldAppendContent = true;
             popupData.updateScrollPosition = true;
         }
