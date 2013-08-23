@@ -176,7 +176,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
         if (cardExpanded) {
+            console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
             this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
+            this._handleMouseWheel();
         }
     },
 
