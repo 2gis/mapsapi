@@ -36,14 +36,17 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         }
     },
 
-    handleClick: function (latlng, zoom) { // (Object, Number)
-        var callback = L.bind(this.handleResponse, this),
-            self = this;
+    handleClick: function (latlng, zoom, extra) { // (Object, Number)
+        var self = this;
 
         this._catalogApi.getLocations({
             latlng: latlng,
             zoom: zoom,
-            callback: callback,
+            callback: function(){
+                extra = 'extra';
+                Array.prototype.push.call(arguments, extra);
+                self.handleResponse.apply(self, arguments);
+            },
             showLoaderAndPopup: function() {
                 self._view.showLoader();
                 self._view.showPopup(latlng);

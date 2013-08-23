@@ -11,7 +11,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _scrollHeightReserve: 60,
     _hideIndex: false,
 
-    handle: function (results) { // (Object) -> Object
+    handle: function (results, extra) { // (Object, ?Object) -> Object
         var self = this;
 
         if (!results.house) {
@@ -20,6 +20,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._id = results.house.id;
         this._filialsCount = 0;
+        this._defaultFirm = extra && extra.filial_id ? extra.filial_id : null;
 
         this.houseObj = this._fillHouseObject(results.house);
         this.houseObj.afterRender = function() {
@@ -160,7 +161,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                             shortFirm: this._view.getTemplate("shortFirm"),
                             fullFirm: this._view.getTemplate("fullFirm")
                         },
-                        render: L.DG.Template
+                        render: L.DG.Template,
+                        defaultFirm: this._defaultFirm
                     }
 
         );
