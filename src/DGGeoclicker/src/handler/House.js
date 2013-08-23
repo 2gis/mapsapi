@@ -167,10 +167,15 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                         ajax: function(id, callback) {
                             self._controller.getCatalogApi().getFirmInfo(id, callback);
                         },
-                        defaultFirm: this._defaultFirm
+                        defaultFirm: this._defaultFirm,
+                        onToggleCard: this._onFirmlistToggleCard
                     }
 
         );
+    },
+
+    _onFirmlistToggleCard: function(cardContainer, cardExpanded){
+        console.log(cardContainer, cardExpanded);
     },
 
     _handleMouseWheel: function() {

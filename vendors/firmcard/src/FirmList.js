@@ -11,6 +11,7 @@
 var FirmList = (function () {
     var _firms = {}, // {'firmID': firmObj}
         _defaultFirm = '',
+        _onToggleCard = null,
         _addOptions = {
             ajax: function(){},
             render: function(){},
@@ -40,6 +41,7 @@ var FirmList = (function () {
         _setOptions = function (options) {
             options || (options = {});
 
+            if ('onToggleCard' in options) _onToggleCard = options.onToggleCard;
             if (options.defaultFirm) _defaultFirm = options.defaultFirm;
             if (options.firmsOnPage) _firmsOnPage = options.firmsOnPage;
             if (options.ajax) _addOptions.ajax = options.ajax;
@@ -128,7 +130,10 @@ var FirmList = (function () {
         },
 
         toggleFirm: function (id) {
-            _firms[id] ? _firms[id].toggle() : null;
+            if (_firms[id]) {
+                _firms[id].toggle();
+                if (_onToggleCard) _onToggleCard(_firms[id].getContainer(), true /*_firms[id].isExpanded()*/);
+            }
         },
 
         isListCached: function () {
