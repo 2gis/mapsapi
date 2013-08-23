@@ -154,6 +154,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initFirmList: function (results) {
+        var self = this;
+
         FirmList.init(
             results, {
                         tmpls: {
@@ -162,6 +164,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                             fullFirm: this._view.getTemplate("fullFirm")
                         },
                         render: L.DG.Template,
+                        ajax: function(id, callback) {
+                            self._controller.getCatalogApi().getFirmInfo(id, callback);
+                        },
                         defaultFirm: this._defaultFirm
                     }
 

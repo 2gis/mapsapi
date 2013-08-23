@@ -76,6 +76,7 @@ var FirmList = (function () {
                 self = this;
 
             cont.addEventListener("click", function(e) {
+
                 if (e.target && e.target.nodeName == "A") {
                     self.toggleFirm(e.target.id);
                 }

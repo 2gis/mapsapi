@@ -1,11 +1,13 @@
 L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     options: {
         urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
+        urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
         data: {
             key: '__GEOCLICKER_CATALOG_API_KEY__',
             output: 'jsonp'
         },
         geoFields: '__GEO_ADDITIONAL_FIELDS__',
+        firmInfoFields: '__FIRM_INFO_FIELDS__',
 
         timeoutMs: 5000
     },
@@ -53,6 +55,26 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         }
 
         this._performRequest(params, this.options.urlGeo, responseHandler, responseHandler);
+    },
+
+    getFirmInfo: function(firmId, callback) {
+        L.DG.Jsonp({
+            url: this.options.urlDetails,
+            data: {
+                output: this.options.data.output,
+                key: this.options.data.key,
+                type: 'filial',
+                id: firmId,
+                fields: this.options.firmInfoFields
+            },
+            success: function(res) {
+                if (res && res.response.code == 200 && res.result && res.result.data && res.result.data.length) {
+                    callback(res.result.data)
+                } else {
+                    callback();
+                }
+            }
+        });
     },
 
     geoSearch: function (q, types, zoomlevel, callback) { // (String, String, Number, Function)
