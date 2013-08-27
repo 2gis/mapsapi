@@ -1,5 +1,5 @@
 
-L.DG.Promise = (function (global) {
+L.DG.when = (function (global) {
 
 	// Public API
 
