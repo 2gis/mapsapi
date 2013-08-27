@@ -48,7 +48,7 @@ FirmCard.prototype = {
 	_expand: function(fullFirmElExists) {
 		var self = this;
 
-		if (!fullFirmExists) {
+		if (!fullFirmElExists) {
 			this.options.ajax(this._id, function(data) {
 				self._renderFullCard.call(self, data[0]);
 			});
@@ -65,7 +65,7 @@ FirmCard.prototype = {
 		this._firmData = data;
 		schedule = this._schedule.transform(data.schedule);
 		forecast = this._schedule.forecast(schedule);
-		
+
 		console.log("data+schedule+forecast", data, schedule, forecast);
 		html = this.options.render(this.options.tmpls.fullFirm, {
 			firm: data,
@@ -112,7 +112,7 @@ FirmCard.prototype = {
 			});
 			this._createEl(html);
 		}
-		
+
 		return this._el;
 	},
 

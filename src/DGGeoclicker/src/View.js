@@ -32,6 +32,14 @@ L.DG.Geoclicker.View = L.Class.extend({
         }
     },
 
+    _initLoader: function () {
+        var loader = document.createElement('div');
+        loader.setAttribute('id', 'dg-popup-firm-loading');
+
+        return loader;
+
+    },
+
     showPopup: function (latlng) { // (Object)
         this._popup.setLatLng(latlng).openOn(this._map);
     },
@@ -57,15 +65,13 @@ L.DG.Geoclicker.View = L.Class.extend({
 
         if (options.popup) {
             if (options.append) {
-                var popupLoader = document.getElementById("dg-popup-firm-loading");
-                if (popupLoader) {
-                    popupLoader.previousSibling.innerHTML += html;
-                    options.updateScrollPosition && this._popup.updateScrollPosition();
-                }
+                    console.log(this._popup);
+                   /* popupLoader.previousSibling.innerHTML += html;
+                    options.updateScrollPosition && this._popup.updateScrollPosition();*/
             } else {
+                //console.log(html);
                 options.header && this._popup.setHeaderContent(options.header);
                 options.footer && this._popup.setFooterContent(options.footer);
-                //console.log(html);
                 this._popup.setContent(html);
             }
         }

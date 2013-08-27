@@ -15,7 +15,7 @@
     background: rgba(0, 0, 255, .1);
 }
 
-.container {
+.dg-popup-container {
     border-right: solid 25px white;
     border-left: solid 25px white;
     overflow: hidden;

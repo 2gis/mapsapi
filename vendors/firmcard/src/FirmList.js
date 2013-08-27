@@ -50,12 +50,7 @@ FirmList.prototype = {
 
         for (var firm in firms)
             if (firms.hasOwnProperty(firm)) {
-
-               //REMOVE IT
-               var fr = document.createElement('div');
-               fr.setAttribute('id', firm);
-
-               this._innerFirmsList.appendChild(fr); //(this._renderFirm(firm));
+                this._innerFirmsList.appendChild(this._renderFirm(firm));
             }
 
         return this._innerFirmsList;

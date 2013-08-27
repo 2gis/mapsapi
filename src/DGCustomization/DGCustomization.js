@@ -106,11 +106,9 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _update: function () {
-            var shouldInitBaron;
 
-            if (!this._map) {
-                return;
-            }
+
+            if (!this._map) { return; }
 
             this._container.style.visibility = 'hidden';
 
@@ -118,9 +116,24 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._originalContent =  this._content;
                 this._initPopupContainer();
             }
+
             this._updateContent();
             this._updateLayout();
             this._updatePosition();
+
+            this._createPopupStucture();
+            if (this._domContent) {
+                this._appendDom(this._domContent);
+            }
+
+            L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
+
+            this._container.style.visibility = '';
+            this._adjustPan();
+        },
+
+        _createPopupStucture: function () {
+            var shouldInitBaron;
 
             shouldInitBaron = this._shouldInitBaron();
 
@@ -137,10 +150,11 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._initHeaderFooter();
                 this._updateContent();
             }
-            L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
+        },
 
-            this._container.style.visibility = '';
-            this._adjustPan();
+        _appendDom: function (domContent) {
+            this._container.querySelector('.dg-popup-container').appendChild(domContent);
+            this._updateLayout();
         },
 
         _shouldInitBaron: function () {
