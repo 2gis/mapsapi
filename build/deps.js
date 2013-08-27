@@ -13,7 +13,7 @@ var deps = {
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
         heading: '2GIS modules',
-        deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon']
+        deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon', 'TileLayerCanvas']
     },
 
     DGDivIcon: {
@@ -142,7 +142,7 @@ var deps = {
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js'
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGLabel']
     },
 
     DGTemplate: {
