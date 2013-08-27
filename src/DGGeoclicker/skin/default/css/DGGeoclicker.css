@@ -75,10 +75,6 @@
 	bottom: 25px;
 }
 
-.dg-map-infocard-firmlist {
-    margin: 0 -8px;
-}
-
 .dg-map-infocard-firmlist .dg-map-firm-bullet {
 	background: url("__BASE_URL__/img/dg_sprite.png") no-repeat scroll 0 -258px transparent;
     height: 6px;
@@ -340,7 +336,7 @@ li.dg-map-firm-address .note {
 }
 
 .dg-map-firm-row .dg-map-firm-schedule-clock {
-    background: url("__BASE_URL__/img/clock.png?v=6") no-repeat scroll 0 0 #A9BBC9;
+    background: url("http://maps.api.2gis.ru/images/clock.png?v=6") no-repeat scroll 0 0 #A9BBC9;
     float: left;
     font-size: 0;
     height: 11px;
@@ -633,3 +629,7 @@ li.dg-map-firm-address .note {
 }
 .dg-map-firm-box .dg-map-icon-expand { background-position: 0 -90px; }
 .dg-map-firm-box .dg-map-icon-collapse { background-position: 0 -105px; }
+
+.dg-map-firm-payments span {
+    background-color: #eeeeee;
+}

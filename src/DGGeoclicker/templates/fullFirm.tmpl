@@ -1,84 +1,178 @@
-<div id="dg-map-firm-full-<%=firm.id%>" class="dg-map-firm-full" style="display:block">
-    <!--Name and adress-->
-    <ul class="dg-map-firm-box">
-        <li class="dg-map-firm-row dg-map-firm-address"><%=firm.geo.address%>
-            <% if(firm.geo.comment) { %>
-            <span class="note"> &mdash; <%=firm.geo.comment%></span>
-            <% } %>
-        </li>
-    </ul>
-    <!--Subcats-->
-    <ul class="dg-map-firm-box dg-map-firm-box-rubric dg-map-firm-subcats">
-        <% for (var r = 0, rubrics = firm.rubrics.primary.length; r < rubrics; r++) { %>
-            <li><%=firm.rubrics.primary[r].name%><%if (r !== rubrics-1) print(",");%></a></li>
+<!--Name and adress-->
+<ul class="dg-map-firm-box">
+    <li class="dg-map-firm-row dg-map-firm-address"><%=firm.geo.address%>
+        <% if(firm.geo.comment) { %>
+        <span class="note"> &mdash; <%=firm.geo.comment%></span>
         <% } %>
-    </ul>
-    <!--Contacts-->
-    <ul class="dg-map-firm-box">
-        <% for (var c = 0, contacts = firm.contact_groups.length; c < contacts; c++) { %>
-        <li class="dg-map-firm-row <%if (c > 0) {print("additional-addresses");} else {print("dg-map-firm-contacts");} %>">
-        <% if (firm.contact_groups[c].name){ %>
-            <div class="dg-map-contact-group"><%=firm.contact_groups[c].name%></div>
-        <% } %>
-        <ul class="dg-map-contacts-list">
-            <% for (var cont in firm.contact_groups[c].contacts) { %>
-            <li class="dg-map-contacts-row dg-map-row-with-icon dg-map-row-<%=firm.contact_groups[c].contacts[cont].type %>">
-                <span name="dg-map-row-<%=firm.contact_groups[c].contacts[cont].type%>-<%=firm.id%>"
-                <% if (firm.contact_groups[c].contacts[cont].register_bc_url && firm.contact_groups[c].contacts[cont].type === "email") {%>
-                register_bc_url=<%=firm.contact_groups[c].contacts[cont].register_bc_url %>
-                <% } %>
-                >
-                    <% if (firm.contact_groups[c].contacts[cont].type === "website") { %>
-                        <a href="<%=firm.contact_groups[c].contacts[cont].value%>"><%=firm.contact_groups[c].contacts[cont].alias%></a>
-                    <% } else if (firm.contact_groups[c].contacts[cont].type === "email") { %>
-                        <a href="mailto:<%=firm.contact_groups[c].contacts[cont].value%>"><%=firm.contact_groups[c].contacts[cont].value%></a>
-                        <% } else { %>
-                        <%=firm.contact_groups[c].contacts[cont].value%>
-                    <% } %>
-                </span>
-            </li>
-            <% } %>
-        </ul>
-        </li>
-        <% } %>
-    </ul>
-   
-    
-    <!-- Flamp -->
-    <% if (firm.allow_reviewing && firm.show_flamp_link) { %>
-    <ul class="dg-map-firm-box">
-    <li class="dg-map-firm-row dg-map-flamp-row">
-    <a target="_blank" class="dg-map-firm-link-with-icon" href="<%=dataHelper.getFlampUrl(firm)%>">
-        <span class="link-icon dg-map-icon dg-map-icon-flamp"></span>
-        <% if (firm.info && firm.info.reviewscount) { %>
-        <span class="dg-map-firm-link-text"><%=dict.t("ru", "reviewsOnFlamp")%></span>
-        <% } else { %>
-        <span class="dg-map-firm-link-text"><%=dict.t("ru", "writeReviewOnFlamp")%></span>
-        <% } %>
-    </a>
-    <% if (firm.reviews && firm.reviews.count) { %>
-    <sup><%=firm.reviews.count%></sup>
-    <% } %>
     </li>
-    </ul>
+</ul>
+<!--Subcats-->
+<ul class="dg-map-firm-box dg-map-firm-box-rubric dg-map-firm-subcats">
+    <% for (var r = 0, rubrics = firm.rubrics.primary.length; r < rubrics; r++) { %>
+        <li><%=firm.rubrics.primary[r].name%><%if (r !== rubrics-1) print(",");%></a></li>
     <% } %>
-    
-    
-    <!-- Company payment methods -->
-    <%if (firm.attributes && firm.attributes.general && firm.attributes.general.items && firm.attributes.general.items.length) { %>
-    <ul class="dg-map-firm-box dg-map-firm-payments">
-        <li class="dg-map-firm-row">
-            <%for (var t = 0, attrs = firm.attributes.general.items.length; t < attrs; t++) { %>
-                <% if (firm.attributes.general.items[t].name == 'payment_type') {
-                        var payMethods = firm.attributes.general.items[t].value;
-                        for (var u = 0, methods = payMethods.length; u < methods; u++) { %>
-                            <span><%=dict.t('ru', payMethods[u])%></span>
-                        <%}
-                    } 
-                %>
-            <%}%>
+</ul>
+<!--Contacts-->
+<ul class="dg-map-firm-box">
+    <% for (var c = 0, contacts = firm.contact_groups.length; c < contacts; c++) { %>
+    <li class="dg-map-firm-row <%if (c > 0) {print("additional-addresses");} else {print("dg-map-firm-contacts");} %>">
+    <% if (firm.contact_groups[c].name){ %>
+        <div class="dg-map-contact-group"><%=firm.contact_groups[c].name%></div>
+    <% } %>
+    <ul class="dg-map-contacts-list">
+        <% for (var cont in firm.contact_groups[c].contacts) { %>
+        <li class="dg-map-contacts-row dg-map-row-with-icon dg-map-row-<%=firm.contact_groups[c].contacts[cont].type %>">
+            <span name="dg-map-row-<%=firm.contact_groups[c].contacts[cont].type%>-<%=firm.id%>"
+            <% if (firm.contact_groups[c].contacts[cont].register_bc_url && firm.contact_groups[c].contacts[cont].type === "email") {%>
+            register_bc_url=<%=firm.contact_groups[c].contacts[cont].register_bc_url %>
+            <% } %>
+            >
+                <% if (firm.contact_groups[c].contacts[cont].type === "website") { %>
+                    <a href="<%=firm.contact_groups[c].contacts[cont].value%>"><%=firm.contact_groups[c].contacts[cont].alias%></a>
+                <% } else if (firm.contact_groups[c].contacts[cont].type === "email") { %>
+                    <a href="mailto:<%=firm.contact_groups[c].contacts[cont].value%>"><%=firm.contact_groups[c].contacts[cont].value%></a>
+                    <% } else { %>
+                    <%=firm.contact_groups[c].contacts[cont].value%>
+                <% } %>
+            </span>
         </li>
+        <% } %>
     </ul>
+    </li>
+    <% } %>
+</ul>
+<!--Time Shedule-->
+<ul class="dg-map-firm-box">
+    <li class="dg-map-firm-row">
+        <div class="dg-map-firm-schedule">
+            <% if (schedule.aroundTheClock) { %>
+            <span class="dg-map-firm-schedule-24">24/7</span>
+            <div class="dg-map-firm-schedule-short dg-map-firm-schedule-short-24"><%=dict.t("ru", 'worksAroundTheClock')%></div>
+            <% } %>
+            
+            <% if ( schedule.week.evently && schedule.week.evently.length > 1 || schedule.everyday) { %>
+                <span class="dg-map-firm-schedule-clock<%if (schedule.now.open) { %> opened<% }%>"></span>
+                <div class="dg-map-firm-schedule-short">
+                    <% if (schedule.week.evently.length > 1) { %>
+                    <a class="dg-map-work-time" id="dg-map-firm-schedule-<%=firm.id%>" href="javascript:void(0)">
+                        <% if (!schedule.now.open) { %>
+                        <%=dict.t("ru", 'todayIsRestDay')%>
+                        <% } else { %>
+                        <%=dict.t("ru", "today")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%>
+                            <!-- 1 -->
+                        <% } %>
+                    </a>
+                    
+                    <span id="dg-map-icon-expand-<%=firm.id%>" class="link-icon dg-map-icon dg-map-icon-expand"></span>
+                    <span id="dg-map-icon-collapse-<%=firm.id%>" class="dg-map-icon dg-map-icon-collapse" style="display: none;"></span>
+                    
+                    <% } %>
+                    <% if (schedule.everyday) { %>
+                    <%=dict.t("ru", "everyday")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%><% if (schedule.today.lunch) {%>, <%=dict.t("ru", 'lunch')%> <%=schedule.today.lubch.from%>&ndash;<%=schedule.today.lunch.to%><% } %>
+                    <% } %>
+                    
+                    <span class="dg-map-work-info">
+                        <% if (schedule.now.open) { %>
+                            Открыто
+                            <% if (schedule.will.h == 0 && schedule.will.m > 0) { %>
+                                . <%= forecast.str %>
+                            <% } %>
+                        <% } else { %>
+                            Закрыто
+                        <% } %>
+                    </span>
+                </div>
+            <% } %>
+        </div>
+         
+        <% if (schedule.week.evently && schedule.week.evently.length > 1) { %>
+            <div class="dg-map-weekly-schedule" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:block;">
+                <div class="dg-map-weekly-schedule-inner">
+                    <% for ( var i = 0, len = schedule.week.evently.length; i < len; i++) {
+                        var period = schedule.week.evently[i]; %>
+                        <div>
+                            <% if (period.budni) { %>
+                                <%=dict.t("ru", "workingDays")%>
+                                <span class="dg-map-label"><%=period.from%> – <%=period.to%></span>
+                            <!-- 2 -->
+                            <% } else if (period.holiday) { %>
+                                <%=period.dayList%>
+                                <span class="dg-map-label"> — <%=dict.t('ru', 'restDay')%></span>
+                                <!-- 2 -->
+                            <% } else { %>
+                                <%=period.dayList%>
+                                <span class="dg-map-label"> <%=period.from%>–<%= period.to%></span>
+                                <!-- 2 -->
+                            <% } %>
+                                
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+        
+        
+        <% if (schedule.allTable) { %>
+        <div class="dg-map-weekly-schedule tabled" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:none;">
+        <!--<div class="dg-map-weekly-schedule"> -->
+            <table class="dg-map-weekly-schedule-table">
+                <thead>
+                    <tr>
+                        <th class="dg-map-schedule-icon">&nbsp;</th>
+                        <% for( var i in schedule.allTable) {
+                            var period = schedule.allTable[i];
+                            
+                            %>
+                            <th<%=clas%>>
+                                <span>
+                                    <%=dict.t("ru", period.firstDay+"_short")%>
+                                </span>
+                            </th>
+                        <% } %>
+                    </tr>
+                </thead>
+                
+        </table>
+        <!--</div>-->
+    </div>
     <% } %>
     
-</div>
+    </li>
+</ul>
+
+<!-- Flamp -->
+<% if (firm.allow_reviewing && firm.show_flamp_link) { %>
+<ul class="dg-map-firm-box">
+<li class="dg-map-firm-row dg-map-flamp-row">
+<a target="_blank" class="dg-map-firm-link-with-icon" href="<%=dataHelper.getFlampUrl(firm)%>">
+    <span class="link-icon dg-map-icon dg-map-icon-flamp"></span>
+    <% if (firm.info && firm.info.reviewscount) { %>
+    <span class="dg-map-firm-link-text"><%=dict.t("ru", "reviewsOnFlamp")%></span>
+    <% } else { %>
+    <span class="dg-map-firm-link-text"><%=dict.t("ru", "writeReviewOnFlamp")%></span>
+    <% } %>
+</a>
+<% if (firm.reviews && firm.reviews.count) { %>
+<sup><%=firm.reviews.count%></sup>
+<% } %>
+</li>
+</ul>
+<% } %>
+
+
+<!-- Company payment methods -->
+<%if (firm.attributes && firm.attributes.general && firm.attributes.general.items && firm.attributes.general.items.length) { %>
+<ul class="dg-map-firm-box dg-map-firm-payments">
+    <li class="dg-map-firm-row">
+        <%for (var t = 0, attrs = firm.attributes.general.items.length; t < attrs; t++) { %>
+            <% if (firm.attributes.general.items[t].name == 'payment_type') {
+                    var payMethods = firm.attributes.general.items[t].value;
+                    for (var u = 0, methods = payMethods.length; u < methods; u++) { %>
+                        <span><%=dict.t('ru', payMethods[u])%></span>
+                    <%}
+                } 
+            %>
+        <%}%>
+    </li>
+</ul>
+<% } %>
