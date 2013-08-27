@@ -77,7 +77,7 @@ L.DG.Geoclicker = L.Handler.extend({
         this.pendingClick = setTimeout(function () {
             var zoom = e.target._zoom,
                 latlng = e.latlng;
-                self._controller.handleClick(latlng, zoom, self._hoveredPoiId);
+                self._controller.handleClick(latlng, zoom, { poiId : self._hoveredPoiId });
                 self.clickCount = 0;
         }, this.timeout);
     },
