@@ -22,7 +22,8 @@ var FirmList = function (options, firms) {
     };
     this._container = document.createElement('div');
     this._container.setAttribute('class', 'dg-map-infocard-firmlist');
-    this._container.setAttribute('id', 'dg-map-infocard-firmlist');
+    this._innerFirmsList = document.createDocumentFragment();
+    //this._container.setAttribute('id', 'dg-map-infocard-firmlist');
     this._isCached = false;
     this._newPageFirms = {};
 
@@ -36,7 +37,8 @@ FirmList.prototype = {
         var cont = document.getElementById('dg-map-infocard-firmlist'),
             self = this;
 
-        cont.addEventListener("click", function(e) {
+        this._container.addEventListener("click", function(e) {
+            //TODO Check element delegation in more efficient way
             if (e.target && e.target.nodeName == "A") {
                 self.toggleFirm(e.target.id);
             }
@@ -44,19 +46,23 @@ FirmList.prototype = {
     },
 
     renderFirms : function (isAppend) {
-        var content = '',
-            firms = isAppend ? this._newPageFirms : this._firms;
+        var firms = isAppend ? this._newPageFirms : this._firms;
 
         for (var firm in firms)
             if (firms.hasOwnProperty(firm)) {
-                content += this._renderFirm(firm);
+
+               //REMOVE IT
+               var fr = document.createElement('div');
+               fr.setAttribute('id', firm);
+
+               this._innerFirmsList.appendChild(fr); //(this._renderFirm(firm));
             }
 
-        return content;
+        return this._innerFirmsList;
     },
 
     renderList : function () {
-        this._container.innerHTML = this.renderFirms();
+        this._container.appendChild(this.renderFirms());
         this._isCached = true;
 
         return this._container;

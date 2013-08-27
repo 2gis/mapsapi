@@ -43,6 +43,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         tmpl = __DGCustomization_TMPL__;
 
     L.Popup.include({
+        _domContent: null,
 
         options: {
             offset: L.point(offsetX, offsetY)
@@ -57,8 +58,13 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         setContent: function (content) {
+            if (typeof content !== 'string') {
+                this._domContent = content;
+                content = '';
+            }
             this._shouldInitPopupContainer = true;
             this._shouldInitBaronScroller = true;
+
             return originalSetContent.call(this, content);
         },
 
@@ -86,6 +92,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         _initPopupContainer: function () {
             this._content = L.Util.template(tmpl.container, {content: this._content});
+
             this._shouldInitPopupContainer = false;
         },
 

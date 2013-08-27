@@ -206,7 +206,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (!this._isListOpenNow) {
             this._initFirmList(results);
-            content = this._domToHtml(this._firmList.renderList());
+            content = this._firmList.renderList();
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
             popupData.afterRender = function () {
@@ -215,12 +215,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 self._firmList.initEventHandlers();
             }
             this._isListOpenNow = true;
-            content += this._view.getTemplate("loader");
+            //console.log(content);
+            //content += this._view.getTemplate("loader");
         } else {
-            this._firmList.addFirms(results);
-            content = this._firmList.renderFirms(true);
             shouldAppendContent = true;
             popupData.updateScrollPosition = true;
+
+            this._firmList.addFirms(results);
+            content = this._firmList.renderFirms(shouldAppendContent);
         }
 
         popupData.tmpl = content;

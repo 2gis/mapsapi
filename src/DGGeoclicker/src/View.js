@@ -28,7 +28,7 @@ L.DG.Geoclicker.View = L.Class.extend({
         if (loaderDiv) {
             loaderDiv.style.display = "none";
         } else {
-            this._popup.setContent(this.getTemplate("loader"));
+            //this._popup.setContent(this.getTemplate("loader"));
         }
     },
 
@@ -65,6 +65,7 @@ L.DG.Geoclicker.View = L.Class.extend({
             } else {
                 options.header && this._popup.setHeaderContent(options.header);
                 options.footer && this._popup.setFooterContent(options.footer);
+                //console.log(html);
                 this._popup.setContent(html);
             }
         }
