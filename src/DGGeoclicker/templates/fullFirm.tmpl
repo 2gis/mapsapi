@@ -42,7 +42,124 @@
         </li>
         <% } %>
     </ul>
-   
+   <!--Time Shedule-->
+<ul class="dg-map-firm-box">
+    <li class="dg-map-firm-row">
+        <div class="dg-map-firm-schedule">
+            <% if (schedule.always) { %>
+            <span class="dg-map-firm-schedule-24">24/7</span>
+            <div class="dg-map-firm-schedule-short dg-map-firm-schedule-short-24"><%=dict.t("ru", 'worksAroundTheClock')%></div>
+            <% } else if ( schedule.week.evently && schedule.week.evently.length > 1 || schedule.everyday || schedule.lunch) { %>
+                <span class="dg-map-firm-schedule-clock<%if (schedule.now.open) { %> opened<% }%>"></span>
+                <div class="dg-map-firm-schedule-short">
+                    
+                    <% if (schedule.week.evently && schedule.week.evently.length > 1 || schedule.lunch) { %>
+                        <a class="dg-map-work-time" id="dg-map-firm-schedule-<%=firm.id%>" href="javascript:void(0)">
+                            <% if (!schedule.now.open && !schedule.today) { %>
+                            <%=dict.t("ru", 'todayIsRestDay')%>
+                            <% } else { %>
+                            <%=dict.t("ru", "today")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%>
+                            <% if (schedule.lunch && schedule.lunch.periods.length) { %>
+                                , <%=dict.t("ru", "lunch")%>
+                                <% for (var z = 0; z < schedule.lunch.periods.length; z++) { %>
+                                        <%=schedule.lunch.periods[z].from%>&ndash;<%=schedule.lunch.periods[z].to%>
+                                 <% } %>
+                           <% }%>
+                            <% } %>
+                        </a>
+                    <% } %>
+                    <span id="dg-map-icon-expand-<%=firm.id%>" class="link-icon dg-map-icon dg-map-icon-expand"></span>
+                    <span id="dg-map-icon-collapse-<%=firm.id%>" class="dg-map-icon dg-map-icon-collapse" style="display: none;"></span>
+                    
+                    <% if (schedule.everyday) { %>
+                    <%=dict.t("ru", "everyday")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%><% if (schedule.today.lunch) {%>, <%=dict.t("ru", 'lunch')%> <%=schedule.today.lubch.from%>&ndash;<%=schedule.today.lunch.to%><% } %>
+                    <% } %>
+                    
+                    <span class="dg-map-work-info">
+                        <% if (schedule.now.open) { %>
+                            Открыто
+                            <% if (schedule.will && schedule.will.h == 0 && schedule.will.m > 0) { %>
+                                . <%= forecast.str %>
+                            <% } %>
+                        <% } else { %>
+                            Закрыто
+                        <% } %>
+                    </span>
+                </div>
+            <% } %>
+        </div>
+         
+        <% if (schedule.week.evently && schedule.week.evently.length > 1) { %>
+            <div class="dg-map-weekly-schedule" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:block;">
+                <div class="dg-map-weekly-schedule-inner">
+                    <% for ( var i = 0, len = schedule.week.evently.length; i < len; i++) {
+                        var period = schedule.week.evently[i]; %>
+                        <div>
+                            <% if (period.budni) { %>
+                                <%=dict.t("ru", "workingDays")%>
+                                <span class="dg-map-label"><%=period.from%> – <%=period.to%></span>
+                            <% } else if (period.holiday) { %>
+                                <%=period.dayList%>
+                                <span class="dg-map-label"> — <%=dict.t('ru', 'restDay')%></span>
+                            <% } else { %>
+                                <%=period.dayList%>
+                                <span class="dg-map-label"> <%=period.from%>–<%= period.to%></span>
+                            <% } %>
+                                
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } else if (schedule.week.table) { %>
+            <div class="dg-map-weekly-schedule" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:block;">
+                <div class="dg-map-weekly-schedule-inner">
+                    <% for ( var w = 0, len = schedule.week.table.length; w < len; w++) { %>
+                        <% var period = schedule.week.table[w]; %>
+                        <div>
+                            <% if (period.from && period.to) { %>
+                                <span class="dg-map-label"><%=period.key%> <%=period.from%> – <%=period.to%>
+                                <% if(period.lunch) { %>
+                                    <% for (var x = 0, l = period.lunch.length; x < l; x++) {%>
+                                        , <%=dict.t('ru', 'lunch')%>&nbsp;<%=period.lunch[x].from%>&ndash;<%=period.lunch[x].to%>
+                                    <% } %>
+                                <% } %>
+                                </span>
+                            <% } else { %>
+                                <span class="dg-map-label"><%=period.key%>&nbsp;<%=dict.t('ru', 'restDay')%></span>
+                            <% } %>
+                                
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+        
+        
+        <% if (schedule.allTable) { %>
+        <div class="dg-map-weekly-schedule tabled" id="dg-map-weekly-schedule-<%=firm.id%>" style="display:none;">
+            <table class="dg-map-weekly-schedule-table">
+                <thead>
+                    <tr>
+                        <th class="dg-map-schedule-icon">&nbsp;</th>
+                        <% for( var i in schedule.allTable) {
+                            var period = schedule.allTable[i];
+                            
+                            %>
+                            <th<%=clas%>>
+                                <span>
+                                    <%=dict.t("ru", period.firstDay+"_short")%>
+                                </span>
+                            </th>
+                        <% } %>
+                    </tr>
+                </thead>
+                
+        </table>
+    </div>
+    <% } %>
+    
+    </li>
+</ul>
     
     <!-- Flamp -->
     <% if (firm.allow_reviewing && firm.show_flamp_link) { %>
