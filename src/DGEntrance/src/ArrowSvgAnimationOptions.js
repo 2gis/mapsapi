@@ -3,7 +3,7 @@ if (L.Browser.svg) {
 
     L.DG.Entrance.Arrow.include({
 
-        getArrowAnimation: function (verticesCount) { // (Number) -> Object
+        getArrowAnimation: function (vertices) { // (Number) -> Object
             var animateArrow = {
                 id: 'animateArrowPathGeom',
                 attributeName: 'd',
@@ -11,9 +11,9 @@ if (L.Browser.svg) {
                 begin: 'indefinite'
             };
 
-            animateArrow.getValues = this._getAnimationValues(verticesCount);
-            animateArrow.keyTimes = this._getAnimateTiming(verticesCount);
-            animateArrow.dur = this._getAnimationTime(verticesCount);
+            animateArrow.getValues = this._getAnimationValues(vertices.length);
+            animateArrow.keyTimes = this._getAnimateTiming(vertices);
+            animateArrow.dur = this._getAnimationTime(vertices.length);
 
             return animateArrow;
         },
@@ -67,15 +67,56 @@ if (L.Browser.svg) {
             return d;
         },
 
-        _getAnimateTiming: function (verticesCount) {
-            if(verticesCount === 2) return "0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1";
-            if(verticesCount === 3) return "0; 0.33; 0.34; 1";
-            else return "0; 0.25; 0.26; 0.5; 0.51; 1";
+        _getPolylineLength: function (latlngs) {
+            var len = 0;
+            for (var i = 1; i < latlngs.length; i++) {
+                len += latlngs[i-1].distanceTo(latlngs[i]);
+            }
+            return len;
+        },
+
+        _getAnimateTiming: function (latlngs) {
+            var resultArr = [0],
+                polyLen = this._getPolylineLength(latlngs),
+                result,
+                segmentRatio,
+                segmentLength;
+
+            if (latlngs.length === 2) {
+                result = "0; 0.33; 0.495; 0.66; 0.77; 0.88; 0.935; 1";
+            }
+            else if (latlngs.length === 3) {
+                result = "0; 0.33; 0.34; 1";
+            }
+            else if (latlngs.length === 4) {
+                result = "0; 0.25; 0.26; 0.5; 0.51; 1";
+            }
+            else {
+                for (var i = 1; i < latlngs.length; i++) {
+                    segmentLength = latlngs[i-1].distanceTo(latlngs[i]);
+                    segmentRatio = segmentLength / polyLen;
+
+                    resultArr.push(resultArr[resultArr.length-1] + segmentRatio);
+
+                    if (i < latlngs.length - 1) {
+                        // 2 points for each vertice (but not for first and last)
+                        resultArr.push(resultArr[resultArr.length-1]);
+                    }
+                    else {
+                        // last point should be 1, but some times it looks like 0.9999...
+                        resultArr[resultArr.length-1] = 1;
+                    }
+                }
+                result = resultArr.join('; ');
+            }
+            
+            return result;
         },
 
         _getAnimationTime: function (verticesCount) {
-            if(verticesCount === 2) return '0.7s';
-            else return "0.5s";
+            if (verticesCount === 2) return '0.7s';
+            else if (verticesCount === 3 || verticesCount === 4) return "0.5s";
+            else return "0.7s";
         }
     });
 }

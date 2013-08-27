@@ -5,12 +5,17 @@ if (L.Browser.svg) {
 
         _defs: null,
 
+        _markersPath: [],
+
+        _markersPolygons: [],
+
         initialize: function (latlngs, options) { // (Array, Object)
             var options = options || {};
 
-            options.animation = this.getArrowAnimation(latlngs.length);
+            options.animation = this.getArrowAnimation(this._convertLatLngs(latlngs));
 
             this._markersPath = [];
+            this._markersPolygons = [];
 
             L.Polyline.prototype.initialize.call(this, latlngs, options);
         },
@@ -47,7 +52,7 @@ if (L.Browser.svg) {
         },
 
         _initMarkers: function () {
-            var i, marker, markerPath,
+            var i, marker, markerPath, markerPolygon,
                 optionsByZoom =  this.options.byZoom,
                 id = this._markerId = 'arrow-marker-' + L.Util.stamp(this),
                 svg = this._container.parentNode;
@@ -58,20 +63,43 @@ if (L.Browser.svg) {
                 if (optionsByZoom.hasOwnProperty(i)) {
                     marker = this._createElement('marker');
                     for (var key in optionsByZoom[i].marker) {
-                        marker.setAttribute(key, optionsByZoom[i].marker[key]);
+                        if (key !== 'polygon' && key !== 'path') {
+                            marker.setAttribute(key, optionsByZoom[i].marker[key]);
+                        }
                     }
                     marker.id = id + '-' + i;
                     marker.setAttribute('orient', 'auto');
                     marker.setAttribute('markerUnits', 'userSpaceOnUse');
                     marker.setAttribute('stroke-width', '0');
 
-                    markerPath = this._createElement('path');
-                    markerPath.setAttribute('d', optionsByZoom[i].markerPath.d);
-                    markerPath.setAttribute('fill', this.options.color);
+                    if (typeof optionsByZoom[i].marker.path !== 'undefined') {
+                        markerPath = this._createElement('path');
+                        markerPath.setAttribute('d', optionsByZoom[i].marker.path.d);
+                        if (typeof optionsByZoom[i].marker.path.color !== 'undefined') {
+                            markerPath.setAttribute('fill', optionsByZoom[i].marker.path.color);
+                        }
+                        else {
+                            markerPath.setAttribute('fill', this.options.color);
+                        }
+                        marker.appendChild(markerPath);
+                        this._markersPath.push(markerPath);
+                    }
 
-                    marker.appendChild(markerPath);
+                    if (typeof optionsByZoom[i].marker.polygon !== 'undefined') {
+                        markerPolygon = this._createElement('polygon');
+                        markerPolygon.setAttribute('points', optionsByZoom[i].marker.polygon.points);
+                        if (typeof optionsByZoom[i].marker.polygon.color !== 'undefined') {
+                            markerPolygon.setAttribute('fill', optionsByZoom[i].marker.polygon.color);
+                        }
+                        else {
+                            markerPolygon.setAttribute('fill', this.options.color);
+                        }
+                        marker.appendChild(markerPolygon);
+                        this._markersPolygons.push(markerPolygon);
+                    }
+
                     this._defs.appendChild(marker);
-                    this._markersPath.push(markerPath);
+                    
                 }
             }
 
@@ -140,8 +168,16 @@ if (L.Browser.svg) {
                 this._path.setAttribute('stroke-width', optionsByZoom[zoom].weight);
             }
 
+            if (typeof this.options.visibility !== 'undefined') {
+                this._path.setAttribute('visibility', this.options.visibility)
+            }
+
             for (var i = 0; i < this._markersPath.length; i++) {
                 this._markersPath[i].setAttribute('fill-opacity', this.options.opacity);
+            }
+
+            for (var i = 0; i < this._markersPolygons.length; i++) {
+                this._markersPolygons[i].setAttribute('fill-opacity', this.options.opacity);
             }
         }
     });

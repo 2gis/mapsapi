@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>DGPoi demo</title>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug"></script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+    <script type="text/javascript">
+        L.onLoad(function () {
+            var map = new L.Map('map', {
+                center: new L.LatLng( 51.64676867126427, 35.953568816185),
+                zoom: 18,
+                dgPoi: true
+            });
+
+
+            var canvasTiles = L.tileLayer.canvas();
+            canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
+                var ctx = canvas.getContext('2d');
+                ctx.fillText(tilePoint.x + ' ' + tilePoint.y, 10, 10);
+                ctx.beginPath();
+                ctx.moveTo(255, 0);
+                ctx.lineTo(255, 255);
+                ctx.lineTo(0, 255);
+                ctx.stroke();
+            };
+
+            map.addLayer(canvasTiles);
+
+            //check event firing
+            map.on('dgPoiHover', function (poi) {
+                console.log('dgPoiHover on poi: ', poi);
+            });
+
+            map.on('dgPoiLeave', function () {
+                console.log('dgPoiLeave poi');
+            });
+
+            //demo hadrcode pois
+            var wkt = new L.DG.Wkt();
+
+            var poi1 = wkt.read('POLYGON((35.9534560522966 51.6468101845176,35.9535042918274 51.6468101845176,35.9535042918274 51.6467801957855,35.9534560522966 51.6467801957855,35.9534560522966 51.6468101845176))');
+            wkt.toObject(poi1).addTo(map);
+
+            var poi2 = wkt.read('POLYGON((35.957520030642 51.6518121723409,35.9575682701727 51.6518121723409,35.9575682701727 51.6517821869176,35.957520030642 51.6517821869176,35.957520030642 51.6518121723409))');
+            wkt.toObject(poi2).addTo(map);
+
+            var poi3 = wkt.read('POLYGON((36.1231451145209 51.6455465157316,36.1231933540517 51.6455465157316,36.1231933540517 51.6455165261636,36.1231451145209 51.6455165261636,36.1231451145209 51.6455465157316))');
+            wkt.toObject(poi3).addTo(map);
+        });
+    </script>
+</body>
+</html>
