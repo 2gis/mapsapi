@@ -29,42 +29,8 @@ var FirmList = function (options, firms) {
     this._setOptions(options);
     this.addFirms(firms);
 }
-// private methods
+
 FirmList.prototype = {
-    _clearContainer : function () {
-        while (this._container.hasChildNodes()) {
-            this._container.removeChild(this._container.firstChild);
-        }
-    },
-    _createFirm : function (firmData) {
-        return new FirmCard (firmData, this._addOptions);
-    },
-    _setOptions : function (options) {
-        options || (options = {});
-
-        if ('onToggleCard' in options) this._onToggleCard = options.onToggleCard;
-        if ('defaultFirm' in options) this._defaultFirm = options.defaultFirm;
-        if ('firmsOnPage' in options) this._firmsOnPage = options.firmsOnPage;
-        if ('ajax' in options) this._addOptions.ajax = options.ajax;
-        if ('render' in options) this._addOptions.render = options.render;
-        if ('tmpls' in options) this._addOptions.tmpls = options.tmpls;
-        if ('lang' in options) this._addOptions.lang = options.lang;
-    },
-    _renderFirm : function (id) {
-        return this._firms[id] ? this._firms[id].render() : null;
-    },
-    _addFirm : function (firmData) {
-        var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData; //TODO provide functional for open POI card
-
-        if (!this._firms.hasOwnProperty(id)) {
-            firmObject = this._createFirm(firmData);
-            this._firms[id] = firmObject;
-        }
-
-        this._newPageFirms[id] = firmObject;
-    },
-
-    // public methods
 
     initEventHandlers : function () {
         var cont = document.getElementById('dg-map-infocard-firmlist'),
@@ -76,6 +42,7 @@ FirmList.prototype = {
             }
         });
     },
+
     renderFirms : function (isAppend) {
         var content = '',
             firms = isAppend ? this._newPageFirms : this._firms;
@@ -87,12 +54,14 @@ FirmList.prototype = {
 
         return content;
     },
+
     renderList : function () {
         this._container.innerHTML = this.renderFirms();
         this._isCached = true;
 
         return this._container;
     },
+
     addFirms : function (firms) {
         this._newPageFirms = {};
 
@@ -104,29 +73,72 @@ FirmList.prototype = {
             }
         }
     },
+
     removeFirms : function (id) {
         //TODO handle IDs if its array
         this._firms[id] ? '' : delete this._firms[id];
     },
+
     clearList : function () {
         this._isCached = false;
         this._firms = {};
         this._clearContainer();
     },
+
     setLang : function (newLang) {
         options.lang = newLang;
         //_clearCache();
     },
+
     getLang : function () {
         return options.lang;
     },
+
     toggleFirm : function (id) {
         if (this._firms[id]) {
             this._firms[id].toggle();
             if (this._onToggleCard) this._onToggleCard(this._firms[id].getContainer(), true /*_firms[id].isExpanded()*/);
         }
     },
-    isListCached : function () {
+
+    isListCached: function () {
         return this._isCached;
+    },
+
+    _clearContainer: function () {
+        while (this._container.hasChildNodes()) {
+            this._container.removeChild(this._container.firstChild);
+        }
+    },
+
+    _createFirm: function (firmData) {
+        return new FirmCard (firmData, this._addOptions);
+    },
+
+    _setOptions: function (options) {
+        options || (options = {});
+
+        if ('onToggleCard' in options) this._onToggleCard = options.onToggleCard;
+        if ('defaultFirm' in options) this._defaultFirm = options.defaultFirm;
+        if ('firmsOnPage' in options) this._firmsOnPage = options.firmsOnPage;
+        if ('ajax' in options) this._addOptions.ajax = options.ajax;
+        if ('render' in options) this._addOptions.render = options.render;
+        if ('tmpls' in options) this._addOptions.tmpls = options.tmpls;
+        if ('lang' in options) this._addOptions.lang = options.lang;
+    },
+
+    _renderFirm: function (id) {
+        return this._firms[id] ? this._firms[id].render() : null;
+    },
+
+    _addFirm: function (firmData) {
+        var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData; //TODO provide functional for open POI card
+
+        if (!this._firms.hasOwnProperty(id)) {
+            firmObject = this._createFirm(firmData);
+            this._firms[id] = firmObject;
+        }
+
+        this._newPageFirms[id] = firmObject;
     }
 }
