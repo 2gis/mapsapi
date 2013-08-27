@@ -18,6 +18,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             return false;
         }
 
+        this._firmList = null;
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.filial_id ? extra.filial_id : null;
@@ -110,7 +111,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onPopupClose: function() {
-        FirmList.clearList();
+        this._firmList.clearList();
         this._page = 1;
         this._isListOpenNow = false;
         this._view.getPopup().clearHeaderFooter();
@@ -130,7 +131,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._view.showLoader();
         this._hideIndex = true;
 
-        if (FirmList.isListCached()) {
+        if (this._firmList && this._firmList.isListCached()) {
             this._handleFirmList();
         } else {
             this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this));
@@ -156,27 +157,25 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _initFirmList: function (results) {
         var self = this;
 
-        FirmList.init(
-            results, {
-                        tmpls: {
-                            loader: this._view.getTemplate("loader"),
-                            shortFirm: this._view.getTemplate("shortFirm"),
-                            fullFirm: this._view.getTemplate("fullFirm")
-                        },
-                        render: L.DG.Template,
-                        ajax: function(id, callback) {
-                            self._controller.getCatalogApi().getFirmInfo(id, callback);
-                        },
-                        defaultFirm: this._defaultFirm,
-                        onToggleCard: L.bind(this._onFirmlistToggleCard, this)
-                    }
-
+        this._firmList = new FirmList({
+                tmpls: {
+                    loader: this._view.getTemplate("loader"),
+                    shortFirm: this._view.getTemplate("shortFirm"),
+                    fullFirm: this._view.getTemplate("fullFirm")
+                },
+                render: L.DG.Template,
+                ajax: function(id, callback) {
+                    self._controller.getCatalogApi().getFirmInfo(id, callback);
+                },
+                defaultFirm: this._defaultFirm,
+                onToggleCard: L.bind(this._onFirmlistToggleCard, this)
+            }, results
         );
     },
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
         if (cardExpanded) {
-            console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+            // console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
             this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
             this._handleMouseWheel();
         }
@@ -207,19 +206,19 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (!this._isListOpenNow) {
             this._initFirmList(results);
-            content = this._domToHtml(FirmList.renderList());
+            content = this._domToHtml(this._firmList.renderList());
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
             popupData.afterRender = function () {
                 self._initShowLess();
                 self._initScrollEvents();
-                FirmList.initEventHandlers();
+                self._firmList.initEventHandlers();
             }
             this._isListOpenNow = true;
             content += this._view.getTemplate("loader");
         } else {
-            FirmList.addFirms(results);
-            content = FirmList.renderFirms(true);
+            this._firmList.addFirms(results);
+            content = this._firmList.renderFirms(true);
             shouldAppendContent = true;
             popupData.updateScrollPosition = true;
         }
