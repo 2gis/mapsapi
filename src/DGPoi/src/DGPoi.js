@@ -16,15 +16,15 @@ L.DG.Poi = L.Handler.extend({
         this._calcTilesAtZoom();
         this._map
                 .on('mousemove', this._onMouseMove, this)
-                .on('mouseout', this._onMouseOut, this)
-                .on('viewreset', this._calcTilesAtZoom, this);
+                .on('viewreset', this._onViewReset, this)
+                .on('mouseout', this._onMouseOut, this);
     },
 
     removeHooks: function () {
         this._map
                 .off('mousemove', this._onMouseMove, this)
-                .off('mouseout', this._onMouseOut, this)
-                .off('viewreset', this._calcTilesAtZoom, this);
+                .off('viewreset', this._onViewReset, this)
+                .off('mouseout', this._onMouseOut, this);
     },
 
     getStorage: function () {
@@ -79,14 +79,19 @@ L.DG.Poi = L.Handler.extend({
     },
 
     _onMouseOut: function(){
-        if (this._currPoiId) {
-            this._leaveCurrentPoi();
-        }
+        this._leaveCurrentPoi();
+    },
+
+    _onViewReset: function(){
+        this._calcTilesAtZoom();
+        this._leaveCurrentPoi();
     },
 
     _leaveCurrentPoi : function(){
-        this._map.fire('dgPoiLeave');
-        this._currPoiId = null;
+        if (this._currPoiId) {
+            this._map.fire('dgPoiLeave');
+            this._currPoiId = null;
+        }
     },
 
     _poistorageCallback: function(tilePois){
