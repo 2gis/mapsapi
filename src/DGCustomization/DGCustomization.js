@@ -136,7 +136,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._container.style.visibility = 'hidden';
 
             if (this._shouldInitPopupContainer) {
-                this._originalContent =  this._content;
+                this._originalContent = this._content;
                 this._initPopupContainer();
             }
 

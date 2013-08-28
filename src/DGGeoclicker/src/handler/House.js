@@ -114,7 +114,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onPopupClose: function() {
-        this._firmList.clearList();
+        if (this._firmList) {
+            this._firmList.clearList();
+            this._firmList = null;
+        }
         this._page = 1;
         this._isListOpenNow = false;
         this._view.getPopup().clearHeaderFooter();

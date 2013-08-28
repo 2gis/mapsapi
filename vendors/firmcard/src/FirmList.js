@@ -35,13 +35,15 @@ var FirmList = function (options, firms) {
 FirmList.prototype = {
 
     initEventHandlers : function () {
-        var cont = document.getElementById('dg-map-infocard-firmlist'),
-            self = this;
+        var self = this;
 
         this._container.addEventListener("click", function(e) {
-            //TODO Check element delegation in more efficient way
             if (e.target && e.target.nodeName == "A") {
-                self.toggleFirm(e.target.id);
+                if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
+                    self.toggleFirm(e.target.id);
+                } else if (e.target.className.indexOf('dg-map-work-time') !== -1) {
+                    console.log('schedule clicked');
+                }
             }
         });
     },
