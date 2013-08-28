@@ -15,9 +15,9 @@ var FirmCard = function(firm, options) {
 
 		this._createEl(loader);
 		this.options.ajax(firm, function(data) {
-			self._renderFullCard.call(self, data[0]);
+			self._firmData = data[0];
+			self.toggle.call(self);
 		});
-		return this._el;
 	} else {
 		this._firmData = firm;
 		this._id = firm.id.split("_").shift();

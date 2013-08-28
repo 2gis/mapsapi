@@ -127,7 +127,7 @@ FirmList.prototype = {
     },
 
     _workDefaultFirm: function( callback ){
-        // this._addFirm(this._defaultFirm);
+        this._addFirm(this._defaultFirm);
         callback();
     },
 
