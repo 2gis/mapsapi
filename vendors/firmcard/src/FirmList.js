@@ -119,16 +119,10 @@ FirmList.prototype = {
             setTimeout(self._onReady, 1);
         };
 
-        if (self._defaultFirm) {
-            self._workDefaultFirm(ready);
-        } else {
-            ready();
+        if (this._defaultFirm) {
+            this._addFirm(this._defaultFirm);
         }
-    },
-
-    _workDefaultFirm: function( callback ){
-        this._addFirm(this._defaultFirm);
-        callback();
+        ready();
     },
 
     _clearContainer: function () {
