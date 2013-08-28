@@ -202,7 +202,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _handleFirmList: function () { // (Object)
+    _handleFirmList: function (results) { // (Object)
         var shouldAppendContent = false,
             popupData = {},
             self = this,
