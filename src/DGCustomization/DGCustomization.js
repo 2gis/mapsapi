@@ -67,7 +67,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._domContent = content;
                 content = '';
             }
-            this._isFirmList = options.firmList;
+            //this._isFirmList = options.firmList;
             this._shouldInitPopupContainer = true;
             this._shouldInitBaronScroller = true;
 
