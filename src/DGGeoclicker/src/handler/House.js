@@ -21,8 +21,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmList = null;
         this._id = results.house.id;
         this._filialsCount = 0;
-        this._defaultFirm = extra && extra.filial_id ? extra.filial_id : null;
-
+        this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
+        this._defaultFirm = 141265771962688; // TODO Remove this mock
         this.houseObj = this._fillHouseObject(results.house);
         this.houseObj.afterRender = function() {
             self._initShowMore();
@@ -140,7 +140,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (this._firmList && this._firmList.isListCached()) {
             this._handleFirmList();
         } else {
-            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this));
+            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
         }
     },
 
@@ -170,10 +170,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                     fullFirm: this._view.getTemplate("fullFirm")
                 },
                 render: L.DG.Template,
+                defaultFirm: this._defaultFirm,
                 ajax: function(id, callback) {
                     self._controller.getCatalogApi().getFirmInfo(id, callback);
                 },
-                defaultFirm: this._defaultFirm,
+                onReady: L.bind(this._handleFirmList, this),
                 onToggleCard: L.bind(this._onFirmlistToggleCard, this)
             }, results
         );
@@ -181,7 +182,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
         if (cardExpanded) {
-            // console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+            console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
             this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
             this._handleMouseWheel();
         }
@@ -211,8 +212,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             content = document.createDocumentFragment();
 
         if (!this._isListOpenNow) {
-            if(!this._firmList) this._initFirmList(results);
-
             content.appendChild(this._firmList.renderList());
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
@@ -238,6 +237,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._view.renderPopup(popupData);
         this._view.hideLoader();
+    },
+
+    _renderFirmListContent: function (){
+
     },
 
     _renderHeader: function() { // () -> String
