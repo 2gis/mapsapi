@@ -106,6 +106,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 scrollerBar = document.createElement('div'),
                 contentNode = this._contentNode,
                 footer = contentNode.querySelector('.dg-popup-footer');
+
             this._detachEl(this._dgContainer);
 
             scroller.setAttribute('class', 'scroller');
@@ -140,12 +141,11 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._initPopupContainer();
             }
 
-            this._updateContent();
-
             if (this._shouldInitHeaderFooter()) {
                 this._initHeaderFooter();
-                this._updateContent();
             }
+
+            this._updateContent();
 
             this._dgContainer = this._container.querySelector('.dg-popup-container');
 
@@ -186,7 +186,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
 
-                return (maxHeight && maxHeight <= popupHeight);
+                return (maxHeight && maxHeight < popupHeight);
         },
 
         _initBaron: function () {

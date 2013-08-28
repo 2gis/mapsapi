@@ -18,17 +18,14 @@ L.DG.Geoclicker.View = L.Class.extend({
         this.hideLoader();
         if (loaderDiv) {
             loaderDiv.style.display = 'block';
-        } else {
-            popup.setContent('<img src="__BASE_URL__/img/loader_directory.gif"');
         }
     },
 
     hideLoader: function () {
         var loaderDiv = document.getElementById('dg-popup-firm-loading');
+
         if (loaderDiv) {
             loaderDiv.style.display = "none";
-        } else {
-            //this._popup.setContent(this.getTemplate("loader"));
         }
     },
 
@@ -67,7 +64,6 @@ L.DG.Geoclicker.View = L.Class.extend({
                     options.firmList.appendChild(html);
                     options.updateScrollPosition && this._popup.updateScrollPosition();
             } else {
-                //console.log(html);
                 options.header && this._popup.setHeaderContent(options.header);
                 options.footer && this._popup.setFooterContent(options.footer);
                 this._popup.setContent(html);

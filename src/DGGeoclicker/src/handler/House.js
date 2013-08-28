@@ -234,7 +234,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         popupData.tmpl = content;
         popupData.append = shouldAppendContent;
-
         this._view.renderPopup(popupData);
         this._view.hideLoader();
     },
