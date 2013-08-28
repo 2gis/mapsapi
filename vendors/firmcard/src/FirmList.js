@@ -13,8 +13,9 @@
 
 var FirmList = function (options, firms) {
     this._firms = {}; // {'firmID': firmObj}
-    this._defaultFirm = '';
+    this._defaultFirm = null;
     this._onToggleCard = null;
+    this._onReady = null;
     this._addOptions = {
        ajax: function(){},
        render: function(){},
@@ -29,14 +30,13 @@ var FirmList = function (options, firms) {
     this._newPageFirms = {};
 
     this._setOptions(options);
-    this.addFirms(firms);
+    this._prepareList(firms);
 }
 
 FirmList.prototype = {
 
     initEventHandlers : function () {
-        var cont = document.getElementById('dg-map-infocard-firmlist'),
-            self = this;
+        var self = this;
 
         this._container.addEventListener("click", function(e) {
             //TODO Check element delegation in more efficient way
@@ -66,7 +66,6 @@ FirmList.prototype = {
 
     addFirms : function (firms) {
         this._newPageFirms = {};
-
         if (firms) {
             for (var firm in firms) {
                 if (firms.hasOwnProperty(firm)) {
@@ -107,8 +106,31 @@ FirmList.prototype = {
         return this._isCached;
     },
 
+
     getContainer: function () {
         return this._container;
+    },
+
+    _prepareList: function(firms){
+        var self = this;
+
+        function ready(){
+            self.addFirms(firms);
+            self._onReady.call();
+        };
+
+        setTimeout(function(){
+            if (self._defaultFirm) {
+                self._workDefaultFirm(ready);
+            } else {
+                ready();
+            }
+        }, 1);
+    },
+
+    _workDefaultFirm: function( callback ){
+        this._addFirm(this._defaultFirm);
+        callback();
     },
 
     _clearContainer: function () {
@@ -126,6 +148,7 @@ FirmList.prototype = {
     _setOptions: function (options) {
         options || (options = {});
 
+        if ('onReady' in options) this._onReady = options.onReady;
         if ('onToggleCard' in options) this._onToggleCard = options.onToggleCard;
         if ('defaultFirm' in options) this._defaultFirm = options.defaultFirm;
         if ('firmsOnPage' in options) this._firmsOnPage = options.firmsOnPage;
@@ -139,7 +162,7 @@ FirmList.prototype = {
         return this._firms[id] ? this._firms[id].render() : null;
     },
 
-    _addFirm: function (firmData) {
+    _addFirm: function (firmData) {console.log(firmData);
         var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData; //TODO provide functional for open POI card
 
         if (!this._firms.hasOwnProperty(id)) {
