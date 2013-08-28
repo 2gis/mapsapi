@@ -86,6 +86,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             throttledHandler,
             map = this._controller.getMap(),
             isTouch = L.Browser.touch;
+
         this._scroller = popup._scroller;
 
         if (this._scroller) {
@@ -207,7 +208,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             content = document.createDocumentFragment();
 
         if (!this._isListOpenNow) {
-            (!this._firmList)? this._initFirmList(results) : '';
+            if(!this._firmList) this._initFirmList(results);
+
             content.appendChild(this._firmList.renderList());
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
@@ -223,6 +225,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             shouldAppendContent = true;
             popupData.updateScrollPosition = true;
 
+            popupData.firmList = this._firmList.getContainer();
             this._firmList.addFirms(results);
             content.appendChild(this._firmList.renderFirms(shouldAppendContent));
         }
@@ -232,14 +235,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._view.renderPopup(popupData);
         this._view.hideLoader();
-    },
-
-    // TODO Remove it!
-    _domToHtml: function (dom) {
-        var wrap = document.createElement('div');
-        wrap.appendChild(dom.cloneNode(true));
-
-        return wrap.innerHTML;
     },
 
     _renderHeader: function() { // () -> String

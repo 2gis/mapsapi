@@ -107,6 +107,10 @@ FirmList.prototype = {
         return this._isCached;
     },
 
+    getContainer: function () {
+        return this._container;
+    },
+
     _clearContainer: function () {
         var container = this._container;
 

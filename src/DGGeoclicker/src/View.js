@@ -64,9 +64,8 @@ L.DG.Geoclicker.View = L.Class.extend({
 
         if (options.popup) {
             if (options.append) {
-                    console.log(this._popup);
-                   /* popupLoader.previousSibling.innerHTML += html;
-                    options.updateScrollPosition && this._popup.updateScrollPosition();*/
+                    options.firmList.appendChild(html);
+                    options.updateScrollPosition && this._popup.updateScrollPosition();
             } else {
                 //console.log(html);
                 options.header && this._popup.setHeaderContent(options.header);

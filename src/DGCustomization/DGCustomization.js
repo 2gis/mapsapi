@@ -190,7 +190,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _initBaron: function () {
-
             baronInstance = graf({
                 scroller: '.scroller',
                 bar: '.scroller__bar',
