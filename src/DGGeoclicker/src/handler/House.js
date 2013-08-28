@@ -22,7 +22,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
-        this._defaultFirm = 141265771962688; // TODO Remove this mock
+        //this._defaultFirm = 141265771962688; // TODO Remove this mock
         this.houseObj = this._fillHouseObject(results.house);
         this.houseObj.afterRender = function() {
             self._initShowMore();
@@ -182,7 +182,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
         if (cardExpanded) {
-            console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+            //console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
             this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
             this._handleMouseWheel();
         }
@@ -225,7 +225,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             content.appendChild(this._view._initLoader());
         } else {
             shouldAppendContent = true;
-            popupData.updateScrollPosition = true;
 
             popupData.firmList = this._firmList.getContainer();
             this._firmList.addFirms(results);
@@ -236,10 +235,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         popupData.append = shouldAppendContent;
         this._view.renderPopup(popupData);
         this._view.hideLoader();
-    },
-
-    _renderFirmListContent: function (){
-
+        this._view.getPopup()._baron.update();
     },
 
     _renderHeader: function() { // () -> String

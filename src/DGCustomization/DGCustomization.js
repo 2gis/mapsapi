@@ -39,7 +39,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         originalSetContent = L.Popup.prototype.setContent,
         originalOnAdd = L.Popup.prototype.onAdd,
         graf = baron.noConflict(),
-        baronInstance,
         tmpl = __DGCustomization_TMPL__;
 
     L.Popup.include({
@@ -48,6 +47,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         _scroller: null,
         _scrollerBar: null,
         _barWrapper: null,
+        _baron: null,
+        _isFirmList: null,
 
         options: {
             offset: L.point(offsetX, offsetY)
@@ -66,6 +67,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._domContent = content;
                 content = '';
             }
+            this._isFirmList = options.firmList;
             this._shouldInitPopupContainer = true;
             this._shouldInitBaronScroller = true;
 
@@ -123,10 +125,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._scrollerBar = scrollerBar;
             this._barWrapper = barWrapper;
             this._shouldInitBaronScroller = false;
-        },
-
-        updateScrollPosition: function() {
-            baronInstance && baronInstance.update();
         },
 
         _update: function () {
@@ -190,7 +188,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _initBaron: function () {
-            baronInstance = graf({
+            this._baron = graf({
                 scroller: '.scroller',
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
