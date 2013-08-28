@@ -116,20 +116,18 @@ FirmList.prototype = {
 
         function ready(){
             self.addFirms(firms);
-            self._onReady.call();
+            setTimeout(self._onReady, 1);
         };
 
-        setTimeout(function(){
-            if (self._defaultFirm) {
-                self._workDefaultFirm(ready);
-            } else {
-                ready();
-            }
-        }, 1);
+        if (self._defaultFirm) {
+            self._workDefaultFirm(ready);
+        } else {
+            ready();
+        }
     },
 
     _workDefaultFirm: function( callback ){
-        this._addFirm(this._defaultFirm);
+        // this._addFirm(this._defaultFirm);
         callback();
     },
 
@@ -162,8 +160,8 @@ FirmList.prototype = {
         return this._firms[id] ? this._firms[id].render() : null;
     },
 
-    _addFirm: function (firmData) {console.log(firmData);
-        var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData; //TODO provide functional for open POI card
+    _addFirm: function (firmData) {
+        var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData;
 
         if (!this._firms.hasOwnProperty(id)) {
             firmObject = this._createFirm(firmData);
