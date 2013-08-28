@@ -37,7 +37,6 @@ L.DG.Geoclicker.View = L.Class.extend({
         loader.setAttribute('id', 'dg-popup-firm-loading');
 
         return loader;
-
     },
 
     showPopup: function (latlng) { // (Object)

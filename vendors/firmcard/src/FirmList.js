@@ -24,7 +24,7 @@ var FirmList = function (options, firms) {
     this._container = document.createElement('div');
     this._container.setAttribute('class', 'dg-map-infocard-firmlist');
     this._innerFirmsList = document.createDocumentFragment();
-    //this._container.setAttribute('id', 'dg-map-infocard-firmlist');
+
     this._isCached = false;
     this._newPageFirms = {};
 
@@ -108,8 +108,10 @@ FirmList.prototype = {
     },
 
     _clearContainer: function () {
-        while (this._container.hasChildNodes()) {
-            this._container.removeChild(this._container.firstChild);
+        var container = this._container;
+
+        while (container.hasChildNodes()) {
+            container.removeChild(container.firstChild);
         }
     },
 

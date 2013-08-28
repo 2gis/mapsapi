@@ -79,20 +79,22 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initScrollEvents: function() {
-        var scrollerBar,
+        var popup = this._view.getPopup(),
+            scrollerBar = popup._scrollerBar,
+            barWrapper = popup._barWrapper,
             self = this,
             throttledHandler,
             map = this._controller.getMap(),
             isTouch = L.Browser.touch;
-        this._scroller = document.getElementById('scroller');
+        this._scroller = popup._scroller;
 
         if (this._scroller) {
             throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
             this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
-            scrollerBar = document.getElementById('scroller__bar');
+
             L.DomEvent.addListener(this._scroller, 'selectstart', L.DomEvent.stop);
             L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-            L.DomUtil.addClass(L.DomUtil.get('scroller__bar-wrapper'), 'scroller__bar-wrapper-with-header')
+            L.DomUtil.addClass(barWrapper, 'scroller__bar-wrapper-with-header')
         }
 
         if (scrollerBar) {

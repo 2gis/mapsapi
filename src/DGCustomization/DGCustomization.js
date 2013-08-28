@@ -45,6 +45,9 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.include({
         _domContent: null,
         _dgContainer: null,
+        _scroller: null,
+        _scrollerBar: null,
+        _barWrapper: null,
 
         options: {
             offset: L.point(offsetX, offsetY)
@@ -82,9 +85,9 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _initHeaderFooter: function() {
+            //TODO Support DOM type content
             this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
             this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
-            console.log(this._content);
         },
 
         clearHeaderFooter: function() {
@@ -98,7 +101,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _initBaronScroller: function () {
-            //this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
             var scroller = document.createElement('div'),
                 barWrapper = document.createElement('div'),
                 scrollerBar = document.createElement('div'),
@@ -115,10 +117,10 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             scroller.appendChild(barWrapper);
 
             contentNode.insertBefore(scroller, footer);
-/*            console.log(this._contentNode);
-            console.log(scroller);*/
-            //this._updateContent();
 
+            this._scroller = scroller;
+            this._scrollerBar = scrollerBar;
+            this._barWrapper = barWrapper;
             this._shouldInitBaronScroller = false;
         },
 
