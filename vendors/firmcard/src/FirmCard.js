@@ -11,11 +11,13 @@ var FirmCard = function(firm, options) {
 	if ("[object Object]" !== Object.prototype.toString.call(firm)) {
 		this._id = firm;
 		//show loader
-		var loader = this.options.render(this.options.tmpls['loader']);
+
+		var loader = this.options.render(this.options.tmpls['loader'], {});
 
 		this._createEl(loader);
 		this.options.ajax(firm, function(data) {
 			self._firmData = data[0];
+			self._el.innerHTML = self._getShortContent();
 			self.toggle.call(self);
 		});
 	} else {
@@ -82,6 +84,13 @@ FirmCard.prototype = {
 		this._isExpanded = true;
 	},
 
+	_getShortContent: function(){
+		return this.options.render(this.options.tmpls.shortFirm, {
+			name: this._firmData.name,
+			id: this._id
+		});
+	},
+
 	getContainer: function() {
 		return this._el;
 	},
@@ -106,10 +115,7 @@ FirmCard.prototype = {
 		var html;
 
 		if (!this._el) {
-			html = this.options.render(this.options.tmpls.shortFirm, {
-				name: this._firmData.name,
-				id: this._id
-			});
+			html = this._getShortContent();
 			this._createEl(html);
 		}
 
