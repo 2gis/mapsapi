@@ -22,6 +22,19 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGLabel: {
+        desc: '2GIS Label module',
+        src: [
+            'DGLabel/src/DGLabel.js',
+            'DGLabel/src/Marker.DGLabel.js',
+            'DGLabel/src/Path.DGLabel.js'
+        ],
+        css: {
+            all: ['DGLabel/skin/{skin}/css/DGLabel.css']
+        },
+        deps: ['DGCore']
+    },
+
     DGWkt: {
         desc: 'WKT parser module.',
         src: ['DGWkt/Wkt.js',
@@ -98,9 +111,10 @@ var deps = {
         desc: '2GIS POI module.',
         src: [
             'DGPoi/src/DGPoi.js',
-            'DGPoi/src/DGPoiStorage.js'
+            'DGPoi/src/PoiStorage.js',
+            'DGPoi/src/PolyUtilContains.js'
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTileLayer']
+        deps: ['DGJsonp', 'DGCore', 'DGTileLayer', 'DGWkt']
     },
 
     DGGeoclicker: {

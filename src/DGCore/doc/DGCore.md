@@ -424,6 +424,16 @@
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при скрытии входа в здание.</td>
 	</tr>
+	<tr>
+		<td><code><b>dgPoiHover</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при наведении курсора мышки на POI.</td>
+	</tr>
+	<tr>
+		<td><code><b>dgPoiLeave</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается когда курсор мышки покидает область POI.</td>
+	</tr>
 </table>
 
 ### Методы изменения состояния карты
@@ -4125,7 +4135,7 @@
 
         <td><code>this</code></td>
         <td>Аналогичен методу <code>addEventListener</code>, лишь с тем отличием, что после первого вызова обработчика он будет удален.</td>
-    </tr>    
+    </tr>
     <tr>
         <td><code><b>addEventListener</b>(
             <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,
