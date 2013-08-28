@@ -44,6 +44,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
     L.Popup.include({
         _domContent: null,
+        _dgContainer: null,
 
         options: {
             offset: L.point(offsetX, offsetY)
@@ -83,6 +84,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         _initHeaderFooter: function() {
             this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
             this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
+            console.log(this._content);
         },
 
         clearHeaderFooter: function() {
@@ -92,12 +94,31 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         _initPopupContainer: function () {
             this._content = L.Util.template(tmpl.container, {content: this._content});
-
             this._shouldInitPopupContainer = false;
         },
 
         _initBaronScroller: function () {
-            this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
+            //this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
+            var scroller = document.createElement('div'),
+                barWrapper = document.createElement('div'),
+                scrollerBar = document.createElement('div'),
+                contentNode = this._contentNode,
+                footer = contentNode.querySelector('.dg-popup-footer');
+            this._detachEl(this._dgContainer);
+
+            scroller.setAttribute('class', 'scroller');
+            barWrapper.setAttribute('class', 'scroller__bar-wrapper');
+            scrollerBar.setAttribute('class', 'scroller__bar');
+
+            barWrapper.appendChild(scrollerBar);
+            scroller.appendChild(this._dgContainer);
+            scroller.appendChild(barWrapper);
+
+            contentNode.insertBefore(scroller, footer);
+/*            console.log(this._contentNode);
+            console.log(scroller);*/
+            //this._updateContent();
+
             this._shouldInitBaronScroller = false;
         },
 
@@ -106,7 +127,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _update: function () {
-
+            var shouldInitBaron;
 
             if (!this._map) { return; }
 
@@ -118,13 +139,29 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             }
 
             this._updateContent();
+
+            if (this._shouldInitHeaderFooter()) {
+                this._initHeaderFooter();
+                this._updateContent();
+            }
+
+            this._dgContainer = this._container.querySelector('.dg-popup-container');
+
+            if (this._domContent) {
+                this._appendEl(this._domContent);
+            }
+
+            shouldInitBaron = this._shouldInitBaron();
+
+            if (shouldInitBaron) {
+                if (this._shouldInitBaronScroller) {
+                    this._initBaronScroller();
+                }
+                this._initBaron();
+            }
+
             this._updateLayout();
             this._updatePosition();
-
-            this._createPopupStucture();
-            if (this._domContent) {
-                this._appendDom(this._domContent);
-            }
 
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
@@ -132,29 +169,15 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._adjustPan();
         },
 
-        _createPopupStucture: function () {
-            var shouldInitBaron;
-
-            shouldInitBaron = this._shouldInitBaron();
-
-            if (shouldInitBaron) {
-                if (this._shouldInitBaronScroller) {
-                    this._initBaronScroller();
-                    if (this._shouldInitHeaderFooter()) {
-                        this._initHeaderFooter();
-                    }
-                    this._updateContent();
-                }
-                this._initBaron();
-            } else if (this._shouldInitHeaderFooter()) {
-                this._initHeaderFooter();
-                this._updateContent();
-            }
+        _appendEl: function (domContent) {
+            this._detachEl(domContent);
+            this._dgContainer.appendChild(domContent);
         },
 
-        _appendDom: function (domContent) {
-            this._container.querySelector('.dg-popup-container').appendChild(domContent);
-            this._updateLayout();
+        _detachEl: function (elem) {
+            if (elem.parentNode) {
+                elem.parentNode.removeChild(elem);
+            }
         },
 
         _shouldInitBaron: function () {
