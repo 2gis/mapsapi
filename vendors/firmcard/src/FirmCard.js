@@ -76,7 +76,7 @@ FirmCard.prototype = {
 		});
 
 		this._createFullFirmEl(html);
-		this._el.removeChild(document.getElementById('dg-popup-firm-loading'));
+		//this._el.removeChild(document.getElementById('dg-popup-firm-loading'));
 		this._el.appendChild(this._fullFirmEl);
 		this.options.callback && this.options.callback(this._el);
 		this._isExpanded = true;
