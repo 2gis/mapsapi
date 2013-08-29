@@ -22,7 +22,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
-        //this._defaultFirm = 141265771962688; // TODO Remove this mock
+        this._defaultFirm = 141265771962688; // TODO Remove this mock
         this.houseObj = this._fillHouseObject(results.house);
         this.houseObj.afterRender = function() {
             self._initShowMore();
@@ -130,6 +130,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (this._filialsCount) {
             this._addEventHandler("DgShowMoreClick", L.DomUtil.get('dg-showmorehouse'), eventType, L.bind(this._showMoreClick, this));
+        }
+        if (this._defaultFirm) {
+            this._showMoreClick();
         }
     },
 
