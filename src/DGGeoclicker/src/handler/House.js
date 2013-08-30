@@ -88,7 +88,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             isTouch = L.Browser.touch;
 
         this._scroller = popup._scroller;
-
+        console.log( 'init scroll events');
         if (this._scroller) {
             throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
             this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
@@ -218,6 +218,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             content.appendChild(this._firmList.renderList());
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
+            popupData.isFirmList = true;
             popupData.afterRender = function () {
                 self._initShowLess();
                 self._initScrollEvents();
@@ -236,6 +237,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         popupData.tmpl = content;
         popupData.append = shouldAppendContent;
+
         this._view.renderPopup(popupData);
         this._view.hideLoader();
         this._view.getPopup()._baron.update();

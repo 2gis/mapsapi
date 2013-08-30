@@ -48,7 +48,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         _scrollerBar: null,
         _barWrapper: null,
         _baron: null,
-        _isFirmList: null,
+        _isFirmList: false,
 
         options: {
             offset: L.point(offsetX, offsetY)
@@ -62,12 +62,12 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return originalOnAdd.call(this, map);
         },
 
-        setContent: function (content) {
+        setContent: function (content, options) {
             if (typeof content !== 'string') {
                 this._domContent = content;
                 content = '';
             }
-            //this._isFirmList = options.firmList;
+            this._isFirmList = options && options.isFirmList;
             this._shouldInitPopupContainer = true;
             this._shouldInitBaronScroller = true;
 
@@ -110,7 +110,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 footer = contentNode.querySelector('.dg-popup-footer');
 
             this._detachEl(this._dgContainer);
-
             scroller.setAttribute('class', 'scroller');
             barWrapper.setAttribute('class', 'scroller__bar-wrapper');
             scrollerBar.setAttribute('class', 'scroller__bar');
@@ -151,13 +150,14 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._appendEl(this._domContent);
             }
 
-            shouldInitBaron = this._shouldInitBaron();
+            shouldInitBaron = this._isFirmList || this._shouldInitBaron();
 
             if (shouldInitBaron) {
                 if (this._shouldInitBaronScroller) {
                     this._initBaronScroller();
                 }
                 this._initBaron();
+                this._isFirmList = false;
             }
 
             this._updateLayout();
@@ -183,7 +183,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         _shouldInitBaron: function () {
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
-
+                console.log(maxHeight);
                 return (maxHeight && maxHeight < popupHeight);
         },
 
