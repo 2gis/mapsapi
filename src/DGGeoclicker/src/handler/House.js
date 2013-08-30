@@ -79,33 +79,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initScrollEvents: function() {
-        var popup = this._view.getPopup(),
-            scrollerBar = popup._scrollerBar,
-            barWrapper = popup._barWrapper,
-            self = this,
-            throttledHandler,
-            map = this._controller.getMap(),
-            isTouch = L.Browser.touch;
+        var popup = this._view.getPopup();
 
-        this._scroller = popup._scroller;
-
-        if (this._scroller) {
-            throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
-            this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
-
-            L.DomEvent.addListener(this._scroller, 'selectstart', L.DomEvent.stop);
-            L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-            L.DomUtil.addClass(barWrapper, 'scroller__bar-wrapper-with-header')
-        }
-
-        if (scrollerBar) {
-            this._addEventHandler("DgBaronMouseDown", scrollerBar, !isTouch ? 'mousedown' : 'touchstart', function() {
-                self._addEventHandler("DgBaronMouseMove", map, !isTouch ? 'mousemove' : 'touchmove', throttledHandler);
-            });
-            this._addEventHandler("DgBaronMouseUp", map, !isTouch ? 'mouseup' : 'touchend', function(e) {
-                self._removeEventHandler("DgBaronMouseMove");
-                L.DomEvent.preventDefault(e);
-            });
+        if (this._scroller = popup._scroller) {
+            L.DomEvent.addListener( this._scroller, 'scroll', L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval) );
         }
     },
 
@@ -184,9 +161,17 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
+        // console.log(cardContainer, cardExpanded);
         if (cardExpanded) {
-            //console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+            L.DomEvent.addListener( this._scroller, 'scroll', function(){
+                console.log('scroll');
+                console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+                this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
+                console.log(this._scroller.scrollTop);
+            }, this );
+            console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
             this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
+            console.log(this._scroller.scrollTop);
             this._handleMouseWheel();
         }
     },

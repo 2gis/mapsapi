@@ -57,6 +57,7 @@ FirmCard.prototype = {
 		} else {
 			this._fullFirmEl.style.display = 'block';
 		}
+		this._isExpanded = true;
 	},
 
 	_renderFullCard: function(data) {
