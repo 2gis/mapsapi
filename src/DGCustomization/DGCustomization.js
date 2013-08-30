@@ -41,6 +41,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         graf = baron.noConflict(),
         tmpl = __DGCustomization_TMPL__;
 
+    L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
+
     L.Popup.include({
         _domContent: null,
         _dgContainer: null,
@@ -49,10 +51,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         _barWrapper: null,
         _baron: null,
         _isFirmList: false,
-
-        options: {
-            offset: L.point(offsetX, offsetY)
-        },
 
         onAdd: function (map) {
             map.on('dgEntranceShow', function() {
