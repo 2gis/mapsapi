@@ -79,10 +79,39 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initScrollEvents: function() {
+/*
         var popup = this._view.getPopup();
 
         if (this._scroller = popup._scroller) {
             L.DomEvent.addListener( this._scroller, 'scroll', L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval) );
+*/
+        var popup = this._view.getPopup(),
+            scrollerBar = popup._scrollerBar,
+            barWrapper = popup._barWrapper,
+            self = this,
+            throttledHandler,
+            map = this._controller.getMap(),
+            isTouch = L.Browser.touch;
+
+        this._scroller = popup._scroller;
+        console.log( 'init scroll events');
+        if (this._scroller) {
+            throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
+            this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
+
+            L.DomEvent.addListener(this._scroller, 'selectstart', L.DomEvent.stop);
+            L.DomUtil.addClass(this._scroller, 'scroller-with-header');
+            L.DomUtil.addClass(barWrapper, 'scroller__bar-wrapper-with-header')
+        }
+
+        if (scrollerBar) {
+            this._addEventHandler("DgBaronMouseDown", scrollerBar, !isTouch ? 'mousedown' : 'touchstart', function() {
+                self._addEventHandler("DgBaronMouseMove", map, !isTouch ? 'mousemove' : 'touchmove', throttledHandler);
+            });
+            this._addEventHandler("DgBaronMouseUp", map, !isTouch ? 'mouseup' : 'touchend', function(e) {
+                self._removeEventHandler("DgBaronMouseMove");
+                L.DomEvent.preventDefault(e);
+            });
         }
     },
 
@@ -203,6 +232,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             content.appendChild(this._firmList.renderList());
             popupData.header = this._renderHeader();
             popupData.footer = this._renderFooter();
+            popupData.isFirmList = true;
             popupData.afterRender = function () {
                 self._initShowLess();
                 self._initScrollEvents();
@@ -221,6 +251,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         popupData.tmpl = content;
         popupData.append = shouldAppendContent;
+
         this._view.renderPopup(popupData);
         this._view.hideLoader();
         this._view.getPopup()._baron.update();
