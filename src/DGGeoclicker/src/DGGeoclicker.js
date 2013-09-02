@@ -44,7 +44,7 @@ L.DG.Geoclicker = L.Handler.extend({
         this._hoveredPoiId = e.poiId;
         this._labelHelper
                 .setPosition(e.latlng)
-                .setContent(poiData.text);
+                .setContent(poiData.name);
         this._map
                 .addLayer(this._labelHelper)
                 .on('mousemove', this._onMouseMove, this);

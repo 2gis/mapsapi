@@ -1,5 +1,5 @@
 L.DG.Poi = L.Handler.extend({
-    _currPoiId: null,
+    _currPoi: null,
     _currTile: null,
     _pois: null,
 
@@ -55,7 +55,7 @@ L.DG.Poi = L.Handler.extend({
         var xyz = this._getTileID(e);
 
         if (!this._isEventTargetAllowed(e.originalEvent.target || e.originalEvent.srcElement)) {
-            if (this._currPoiId) {
+            if (this._currPoi) {
                 this._leaveCurrentPoi();
             }
             return;
@@ -68,12 +68,13 @@ L.DG.Poi = L.Handler.extend({
         } else if (this._pois) {
             var poiId = this._isPoiHovered(e.latlng, this._pois);
 
-            if (this._currPoiId && this._currPoiId != poiId) {
+            if (this._currPoi && this._currPoi.id != poiId) {
                 this._leaveCurrentPoi();
             }
-            if (poiId && this._currPoiId != poiId) {
-                this._currPoiId = poiId;
-                this._map.fire('dgPoiHover', {'poiId': poiId, latlng: e.latlng});
+
+            if (poiId && (!this._currPoi || this._currPoi.id != poiId)) {
+                this._currPoi = this._poistorage.getPoi(poiId);
+                this._map.fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
             }
         }
     },
@@ -88,9 +89,9 @@ L.DG.Poi = L.Handler.extend({
     },
 
     _leaveCurrentPoi : function(){
-        if (this._currPoiId) {
-            this._map.fire('dgPoiLeave');
-            this._currPoiId = null;
+        if (this._currPoi) {
+            this._map.fire('dgPoiLeave', { 'poi': this._currPoi });
+            this._currPoi = null;
         }
     },
 
