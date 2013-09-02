@@ -11,7 +11,7 @@ L.DG.Geoclicker = L.Handler.extend({
         this._map = map;
         this._controller = new L.DG.Geoclicker.Controller(map);
         this._labelHelper = new L.DG.Label();
-        this._hoveredPoiId = null;
+        this._hoveredPoi = null;
     },
 
     addHooks: function () {
@@ -40,11 +40,10 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _onPoiHover: function (e) {
-        var poiData = this._map.dgPoi.getStorage().getPoi(e.poiId);
-        this._hoveredPoiId = e.poiId;
+        this._hoveredPoi = e.poi;
         this._labelHelper
                 .setPosition(e.latlng)
-                .setContent(poiData.name);
+                .setContent(this._hoveredPoi.linked.name);
         this._map
                 .addLayer(this._labelHelper)
                 .on('mousemove', this._onMouseMove, this);
@@ -55,7 +54,7 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _onPoiLeave: function () {
-        this._hoveredPoiId = null;
+        this._hoveredPoi = null;
         this._map
                 .removeLayer(this._labelHelper)
                 .off('mousemove', this._onMouseMove, this);
@@ -77,7 +76,7 @@ L.DG.Geoclicker = L.Handler.extend({
         this.pendingClick = setTimeout(function () {
             var zoom = e.target._zoom,
                 latlng = e.latlng;
-                self._controller.handleClick(latlng, zoom, { poiId : self._hoveredPoiId });
+                self._controller.handleClick(latlng, zoom, { poiId : self._hoveredPoi.linked.id });
                 self.clickCount = 0;
         }, this.timeout);
     },
