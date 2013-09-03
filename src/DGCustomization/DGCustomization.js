@@ -36,68 +36,139 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-        originalSetContent = L.Popup.prototype.setContent,
         originalOnAdd = L.Popup.prototype.onAdd,
+        originalOnRemove = L.Popup.prototype.onRemove,
         graf = baron.noConflict(),
         tmpl = __DGCustomization_TMPL__;
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
     L.Popup.include({
-        _domContent: null,
-        _dgContainer: null,
+        _isFirmList: false,
+        _headerContent: null,
+        _footerContent: null,
+
+        //baron elements references
         _scroller: null,
         _scrollerBar: null,
         _barWrapper: null,
         _baron: null,
-        _isFirmList: false,
+
+        //structure flags
+        _isHeaderExist: false,
+        _isBodyExist: false,
+        _isFooterExist: false,
+        _isBaronExist: false,
 
         onAdd: function (map) {
             map.on('dgEntranceShow', function() {
                 map.closePopup(this);
             }, this);
+            this._popupStructure = {};
 
             return originalOnAdd.call(this, map);
         },
 
         setContent: function (content, options) {
-            if (typeof content !== 'string') {
-                this._domContent = content;
-                content = '';
-            }
             this._isFirmList = options && options.isFirmList;
-            this._shouldInitPopupContainer = true;
-            this._shouldInitBaronScroller = true;
 
-            return originalSetContent.call(this, content);
+            this._bodyContent = content;
+            this._update();
+
+            return this;
         },
 
-        setHeaderContent: function(content) {
+        setHeaderContent: function (content) {
             this._headerContent = content;
+
+            return this;
         },
 
-        setFooterContent: function(content) {
+        setFooterContent: function (content) {
             this._footerContent = content;
-        },
 
-        _shouldInitHeaderFooter: function() {
-            return !!(this._headerContent && this._footerContent);
-        },
-
-        _initHeaderFooter: function() {
-            //TODO Support DOM type content
-            this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
-            this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
+            return this;
         },
 
         clearHeaderFooter: function() {
-            this._footerContent = undefined;
-            this._headerContent = undefined;
+            this.clearHeader();
+            this.clearFooter();
+
+            return this;
         },
 
-        _initPopupContainer: function () {
-            this._content = L.Util.template(tmpl.container, {content: this._content});
-            this._shouldInitPopupContainer = false;
+        clearHeader: function () {
+            if (this._popupStructure.header) {
+                this._headerContent = null;
+                this._contentNode.removeChild(this._popupStructure.header);
+                delete this._popupStructure.header;
+            }
+
+            return this;
+        },
+
+        clearFooter: function () {
+            if (this._popupStructure.footer) {
+                this._footerContent = null;
+                this._contentNode.removeChild(this._popupStructure.footer);
+                delete this._popupStructure.footer;
+            }
+
+            return this;
+        },
+
+        _shouldInitBaron: function () {
+            var popupHeight = this._contentNode.offsetHeight,
+                maxHeight = this.options.maxHeight;
+
+            return (maxHeight && maxHeight < popupHeight);
+        },
+
+        _initBaron: function () {
+            this._baron = graf({
+                scroller: '.scroller',
+                bar: '.scroller__bar',
+                track: '.scroller__bar-wrapper',
+                $: function(selector, context) {
+                  return bonzo(qwery(selector, context));
+                },
+                event: function(elem, event, func, mode) {
+                    if (mode == 'trigger') {
+                    mode = 'fire';
+                    }
+                    bean[mode || 'on'](elem, event, func);
+                }
+            });
+        },
+
+        _initHeader: function () {
+            var headerContainer = document.createElement('div'),
+                contentNode = this._contentNode,
+                isEmpty = true;
+
+            headerContainer.setAttribute('class', 'dg-popup-header');
+            this._contentNode.appendChild(headerContainer);
+
+            this._popupStructure.header = headerContainer;
+            _isHeaderExist: true;
+        },
+
+        _initFooter: function () {
+            var footerContainer = document.createElement('div');
+            footerContainer.setAttribute('class', 'dg-popup-footer');
+            this._contentNode.appendChild(footerContainer);
+
+            this._popupStructure.footer = footerContainer;
+            _isFooterExist: true;
+        },
+
+        _initBodyContainer: function () {
+            var container = document.createElement('div');
+            container.setAttribute('class', 'dg-popup-container');
+            this._contentNode.appendChild(container);
+
+            this._popupStructure.body = container;
+            this._isBodyExist = true;
         },
 
         _initBaronScroller: function () {
@@ -107,21 +178,22 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 contentNode = this._contentNode,
                 footer = contentNode.querySelector('.dg-popup-footer');
 
-            this._detachEl(this._dgContainer);
+            this._detachEl(this._popupStructure.body);
             scroller.setAttribute('class', 'scroller');
             barWrapper.setAttribute('class', 'scroller__bar-wrapper');
             scrollerBar.setAttribute('class', 'scroller__bar');
 
             barWrapper.appendChild(scrollerBar);
-            scroller.appendChild(this._dgContainer);
+            scroller.appendChild(this._popupStructure.body);
             scroller.appendChild(barWrapper);
-
+            console.log(scroller);
+            console.log(footer);
             contentNode.insertBefore(scroller, footer);
 
             this._scroller = scroller;
             this._scrollerBar = scrollerBar;
             this._barWrapper = barWrapper;
-            this._shouldInitBaronScroller = false;
+            this._isBaronExist = false;
         },
 
         _update: function () {
@@ -131,27 +203,18 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             this._container.style.visibility = 'hidden';
 
-            if (this._shouldInitPopupContainer) {
-                this._originalContent = this._content;
-                this._initPopupContainer();
-            }
-
-            if (this._shouldInitHeaderFooter()) {
-                this._initHeaderFooter();
-            }
+            this._clearStructure();
+            //init popup content dom structure
+            if (!this._isHeaderExist && this._headerContent) { this._initHeader(); }
+            if (!this._isBodyExist && this._bodyContent) { this._initBodyContainer(); }
+            if (!this._isFooterExist && this._footerContent) { this._initFooter(); }
 
             this._updateContent();
-
-            this._dgContainer = this._container.querySelector('.dg-popup-container');
-
-            if (this._domContent) {
-                this._appendEl(this._domContent);
-            }
 
             shouldInitBaron = this._isFirmList || this._shouldInitBaron();
 
             if (shouldInitBaron) {
-                if (this._shouldInitBaronScroller) {
+                if (!this._isBaronExist) {
                     this._initBaronScroller();
                 }
                 this._initBaron();
@@ -167,39 +230,50 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._adjustPan();
         },
 
-        _appendEl: function (domContent) {
-            this._detachEl(domContent);
-            this._dgContainer.appendChild(domContent);
+        _updateContent: function () {
+            var popupStructure = this._popupStructure,
+                contentNode = this._contentNode;
+
+            for (var i in popupStructure) {
+                if (popupStructure.hasOwnProperty(i)) {
+                    this._insertContent(this['_'+ i +'Content'], popupStructure[i]);
+                }
+
+            }
+
+            this.fire('contentupdate');
+        },
+
+        _insertContent: function (content, node) {
+            if (!content) { return; }
+
+            if (typeof content === 'string') {
+                node.innerHTML = content;
+            } else {
+                if (!node) { return; }
+
+                this._clearStructure(node);
+                node.appendChild(content);
+            }
+
+        },
+
+        _clearStructure: function (node) {
+            var currNode = node || this._contentNode;
+
+            while (currNode.hasChildNodes()) {
+                currNode.removeChild(currNode.firstChild);
+            }
+
+            this._isHeaderExist = false;
+            this._isBodyExist = false;
+            this._isFooterExist = false;
         },
 
         _detachEl: function (elem) {
             if (elem.parentNode) {
                 elem.parentNode.removeChild(elem);
             }
-        },
-
-        _shouldInitBaron: function () {
-            var popupHeight = this._contentNode.offsetHeight,
-                maxHeight = this.options.maxHeight;
-                console.log(maxHeight);
-                return (maxHeight && maxHeight < popupHeight);
-        },
-
-        _initBaron: function () {
-            this._baron = graf({
-                scroller: '.scroller',
-                bar: '.scroller__bar',
-                track: '.scroller__bar-wrapper',
-                $: function(selector, context) {
-                  return bonzo(qwery(selector, context));
-                },
-                event: function(elem, event, func, mode) {
-                  if (mode == 'trigger') {
-                    mode = 'fire';
-                  }
-                  bean[mode || 'on'](elem, event, func);
-                }
-            });
         }
     });
 }());
