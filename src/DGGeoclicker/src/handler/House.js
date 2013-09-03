@@ -22,14 +22,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
-        this._defaultFirm = 141265771962688; // TODO Remove this mock
-        this.houseObj = this._fillHouseObject(results.house);
-        this.houseObj.afterRender = function() {
-            self._initShowMore();
-            self._initPopupClose();
-        };
+        // this._defaultFirm = 141265771962688; // TODO Remove this mock
 
-        return this.houseObj;
+        this._houseObject = this._fillHouseObject(results.house);
+        if (this._defaultFirm) {
+            return this._fillFirmListObject();
+        } else {
+            return this._houseObject;
+        }
     },
 
     _fillHouseObject: function (house) { // (Object) -> Object
@@ -40,7 +40,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 elevation: '',
                 link: '',
                 buildingname: ''
-            };
+            },
+            self = this;
 
         if (attrs.postal_code) {
             data.address += attrs.postal_code + ', ';
@@ -74,45 +75,69 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
         return {
             tmpl: this._view.getTemplate("house"),
-            data: data
+            data: data,
+            afterRender: function(){
+                self._initShowMore();
+                self._initPopupClose();
+            }
         };
     },
 
+    _fillFirmListObject: function(){
+        var self = this,
+            content = document.createElement('div');
+
+        this._hideIndex = true;
+        this._firmListObject = {
+            tmpl: content,
+            header: this._renderHeader(),
+            footer: this._renderFooter(),
+            afterRender: function(){
+                self._initShowLess();
+                self._initScrollEvents();
+            },
+            isFirmList: true,
+            firmListContainer: content
+        };
+        this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
+        return this._firmListObject;
+    },
+
     _initScrollEvents: function() {
-/*
         var popup = this._view.getPopup();
 
         if (this._scroller = popup._scroller) {
             L.DomEvent.addListener( this._scroller, 'scroll', L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval) );
-*/
-        var popup = this._view.getPopup(),
-            scrollerBar = popup._scrollerBar,
-            barWrapper = popup._barWrapper,
-            self = this,
-            throttledHandler,
-            map = this._controller.getMap(),
-            isTouch = L.Browser.touch;
-
-        this._scroller = popup._scroller;
-        console.log( 'init scroll events');
-        if (this._scroller) {
-            throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
-            this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
-
-            L.DomEvent.addListener(this._scroller, 'selectstart', L.DomEvent.stop);
-            L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-            L.DomUtil.addClass(barWrapper, 'scroller__bar-wrapper-with-header')
         }
 
-        if (scrollerBar) {
-            this._addEventHandler("DgBaronMouseDown", scrollerBar, !isTouch ? 'mousedown' : 'touchstart', function() {
-                self._addEventHandler("DgBaronMouseMove", map, !isTouch ? 'mousemove' : 'touchmove', throttledHandler);
-            });
-            this._addEventHandler("DgBaronMouseUp", map, !isTouch ? 'mouseup' : 'touchend', function(e) {
-                self._removeEventHandler("DgBaronMouseMove");
-                L.DomEvent.preventDefault(e);
-            });
-        }
+        // var popup = this._view.getPopup(),
+        //     scrollerBar = popup._scrollerBar,
+        //     barWrapper = popup._barWrapper,
+        //     self = this,
+        //     throttledHandler,
+        //     map = this._controller.getMap(),
+        //     isTouch = L.Browser.touch;
+
+        // this._scroller = popup._scroller;
+        // console.log( 'init scroll events');
+        // if (this._scroller) {
+        //     throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
+        //     this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
+
+        //     L.DomEvent.addListener(this._scroller, 'selectstart', L.DomEvent.stop);
+        //     L.DomUtil.addClass(this._scroller, 'scroller-with-header');
+        //     L.DomUtil.addClass(barWrapper, 'scroller__bar-wrapper-with-header')
+        // }
+
+        // if (scrollerBar) {
+        //     this._addEventHandler("DgBaronMouseDown", scrollerBar, !isTouch ? 'mousedown' : 'touchstart', function() {
+        //         self._addEventHandler("DgBaronMouseMove", map, !isTouch ? 'mousemove' : 'touchmove', throttledHandler);
+        //     });
+        //     this._addEventHandler("DgBaronMouseUp", map, !isTouch ? 'mouseup' : 'touchend', function(e) {
+        //         self._removeEventHandler("DgBaronMouseMove");
+        //         L.DomEvent.preventDefault(e);
+        //     });
+        // }
     },
 
     _initPopupClose: function() {
@@ -137,36 +162,31 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (this._filialsCount) {
             this._addEventHandler("DgShowMoreClick", L.DomUtil.get('dg-showmorehouse'), eventType, L.bind(this._showMoreClick, this));
         }
-        if (this._defaultFirm) {
-            this._showMoreClick();
-        }
     },
 
     _showMoreClick: function () {
-        this._view.showLoader();
-        this._hideIndex = true;
-
-        if (this._firmList && this._firmList.isListCached()) {
-            this._handleFirmList();
-        } else {
-            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
+        this._clearEventHandlers();
+        if (!this._firmListObject) {
+            this._fillFirmListObject();
         }
+        this._view.getPopup().clearHeaderFooter();
+        this._view.renderPopup(this._firmListObject);
     },
 
-    _initShowLess: function () {
-        var link = L.DomUtil.get('dg-showlesshouse');
+    _initShowLess: function() {
+        var link =  this._view.getPopup()._contentNode.querySelector('#dg-showlesshouse');
 
         if (link) {
-            this._addEventHandler("DgShowLessClick", link, 'click', L.bind(this._showLessClick, this));
+            this._addEventHandler('DgShowLessClick', link, 'click', L.bind(this._showLessClick, this));
         }
     },
 
     _showLessClick: function () {
         this._hideIndex = false;
         this._isListOpenNow = false;
-        this._view.getPopup().clearHeaderFooter();
         this._clearEventHandlers();
-        this._view.render(this.houseObj);
+        this._view.getPopup().clearHeaderFooter();
+        this._view.renderPopup(this._houseObject);
     },
 
     _initFirmList: function (results) {
@@ -178,6 +198,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                     shortFirm: this._view.getTemplate("shortFirm"),
                     fullFirm: this._view.getTemplate("fullFirm")
                 },
+                container : this._firmListObject.firmListContainer,
                 render: L.DG.Template,
                 defaultFirm: this._defaultFirm,
                 ajax: function(id, callback) {
@@ -225,40 +246,32 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _handleFirmList: function (results) { // (Object)
         var shouldAppendContent = false,
             popupData = {},
-            self = this,
             content = document.createDocumentFragment();
 
         if (!this._isListOpenNow) {
-            content.appendChild(this._firmList.renderList());
-            popupData.header = this._renderHeader();
-            popupData.footer = this._renderFooter();
-            popupData.isFirmList = true;
-            popupData.afterRender = function () {
-                self._initShowLess();
-                self._initScrollEvents();
-                self._firmList.initEventHandlers();
-            };
-
             this._isListOpenNow = true;
-            content.appendChild(this._view._initLoader());
+            this._firmList.renderList();
+            this._firmList.initEventHandlers();
+            // content.appendChild(this._view._initLoader());
         } else {
-            shouldAppendContent = true;
+            // shouldAppendContent = true;
+            // popupData.firmList = this._firmList.getContainer();
+            // this._firmList.addFirms(results);
+            // content.appendChild(this._firmList.renderFirms(shouldAppendContent));
 
-            popupData.firmList = this._firmList.getContainer();
-            this._firmList.addFirms(results);
-            content.appendChild(this._firmList.renderFirms(shouldAppendContent));
+            // popupData.tmpl = content;
+            // popupData.append = shouldAppendContent;
+
+            // this._view.renderPopup(popupData);
+            // this._view.hideLoader();
+            // this._view.getPopup()._baron.update();
         }
 
-        popupData.tmpl = content;
-        popupData.append = shouldAppendContent;
-
-        this._view.renderPopup(popupData);
-        this._view.hideLoader();
-        this._view.getPopup()._baron.update();
+        return;
     },
 
     _renderHeader: function() { // () -> String
-        var address = this.houseObj.data.address,
+        var address = this._houseObject.data.address,
             header = this._view.render({
                 tmplFile: "popupHeader",
                 data: {
