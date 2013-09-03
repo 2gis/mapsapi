@@ -250,8 +250,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (!this._isListOpenNow) {
             this._isListOpenNow = true;
+            console.log('-----', this._view.getPopup());
             this._firmList.renderList();
             this._firmList.initEventHandlers();
+            // this._view.getPopup()._updateLayout();
             // content.appendChild(this._view._initLoader());
         } else {
             // shouldAppendContent = true;
