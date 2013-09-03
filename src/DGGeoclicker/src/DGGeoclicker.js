@@ -10,22 +10,55 @@ L.DG.Geoclicker = L.Handler.extend({
     initialize: function (map) { // (Object)
         this._map = map;
         this._controller = new L.DG.Geoclicker.Controller(map);
+        this._labelHelper = new L.DG.Label();
+        this._hoveredPoiId = null;
     },
 
     addHooks: function () {
-        this._map.on("click", this._onMapClick, this);
-        this._map.on("dblclick", this._cancelHandler, this);
-        this._map.on('popupclose', this._onPopupClose, this);
+        this._map
+                .on("click", this._onMapClick, this)
+                .on("dblclick", this._cancelHandler, this)
+                .on('popupclose', this._onPopupClose, this)
+                .on('dgPoiHover', this._onPoiHover, this)
+                .on('dgPoiLeave', this._onPoiLeave, this);
+        this._map.dgPoi.enable();
     },
 
     removeHooks: function () {
-        this._map.off("click", this._onMapClick, this);
-        this._map.off("dblclick", this._cancelHandler, this);
-        this._map.off('popupclose', this._onPopupClose, this);
+        this._map
+                .off("click", this._onMapClick, this)
+                .off("dblclick", this._cancelHandler, this)
+                .off('popupclose', this._onPopupClose, this)
+                .off('dgPoiHover', this._onPoiHover, this)
+                .off('dgPoiLeave', this._onPoiLeave, this)
+                .off('mousemove', this._onMouseMove, this);
+        this._map.dgPoi.disable();
     },
 
     getController: function() {
         return this._controller;
+    },
+
+    _onPoiHover: function (e) {
+        var poiData = this._map.dgPoi.getStorage().getPoi(e.poiId);
+        this._hoveredPoiId = e.poiId;
+        this._labelHelper
+                .setPosition(e.latlng)
+                .setContent(poiData.text);
+        this._map
+                .addLayer(this._labelHelper)
+                .on('mousemove', this._onMouseMove, this);
+    },
+
+    _onMouseMove: function(e){
+        this._labelHelper.setPosition( e.latlng );
+    },
+
+    _onPoiLeave: function () {
+        this._hoveredPoiId = null;
+        this._map
+                .removeLayer(this._labelHelper)
+                .off('mousemove', this._onMouseMove, this);
     },
 
     _onMapClick: function (e) { // (Object)
@@ -44,7 +77,7 @@ L.DG.Geoclicker = L.Handler.extend({
         this.pendingClick = setTimeout(function () {
             var zoom = e.target._zoom,
                 latlng = e.latlng;
-                self._controller.handleClick(latlng, zoom);
+                self._controller.handleClick(latlng, zoom, { poiId : self._hoveredPoiId });
                 self.clickCount = 0;
         }, this.timeout);
     },
