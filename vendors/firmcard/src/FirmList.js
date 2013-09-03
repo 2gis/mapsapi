@@ -99,7 +99,7 @@ FirmList.prototype = {
     toggleFirm : function (id) {
         if (this._firms[id]) {
             this._firms[id].toggle();
-            if (this._onToggleCard) this._onToggleCard(this._firms[id].getContainer(), true /*_firms[id].isExpanded()*/);
+            if (this._onToggleCard) this._onToggleCard(this._firms[id].getContainer(), this._firms[id].isExpanded());
         }
     },
 

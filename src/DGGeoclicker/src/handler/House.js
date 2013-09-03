@@ -79,6 +79,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initScrollEvents: function() {
+/*
+        var popup = this._view.getPopup();
+
+        if (this._scroller = popup._scroller) {
+            L.DomEvent.addListener( this._scroller, 'scroll', L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval) );
+*/
         var popup = this._view.getPopup(),
             scrollerBar = popup._scrollerBar,
             barWrapper = popup._barWrapper,
@@ -184,9 +190,17 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
+        // console.log(cardContainer, cardExpanded);
         if (cardExpanded) {
-            //console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+            L.DomEvent.addListener( this._scroller, 'scroll', function(){
+                console.log('scroll');
+                console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+                this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
+                console.log(this._scroller.scrollTop);
+            }, this );
+            console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
             this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
+            console.log(this._scroller.scrollTop);
             this._handleMouseWheel();
         }
     },
