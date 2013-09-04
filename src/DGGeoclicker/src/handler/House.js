@@ -22,7 +22,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
-        // this._defaultFirm = 141265771962688; // TODO Remove this mock
+        this._defaultFirm = 141265771962688; // TODO Remove this mock
 
         this._popup = this._view.getPopup();
         this._houseObject = this._fillHouseObject(results.house);
@@ -95,10 +95,15 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             footer: this._renderFooter(),
             afterRender: function(){
                 self._initShowLess();
+                this.firmListContainer.parentNode.appendChild( self._loader );
             },
             firmListContainer: content
         };
+        this._loader = this._view._initLoader();
+
+    setTimeout(L.bind(function(){   //  TODO remove after loader test
         this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
+    }, this), 6000);                //
         return this._firmListObject;
     },
 
@@ -206,7 +211,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._page++;
 
         if (this._totalPages && this._page <= this._totalPages) {
-            this._view.showLoader();
+            this._view.showLoader( this._loader );
             this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this), this._page);
         }
     },
@@ -219,12 +224,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._firmList.initEventHandlers();
             this._popup._resize();
             this._initLazyLoading();
-            // content.appendChild(this._view._initLoader());
         } else {
             this._firmList.addFirms(results);
             this._firmList.renderList();
-            this._view.hideLoader();
-            // this._popup._baron.update();
+            this._view.hideLoader( this._loader );
+            this._popup._baron.update();
         }
 
         return;

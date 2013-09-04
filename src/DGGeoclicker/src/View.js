@@ -7,21 +7,21 @@ L.DG.Geoclicker.View = L.Class.extend({
             maxWidth: 438,
             minWidth: 150
         });
+
         this._templates = __DGGeoclicker_TMPL__;
         options && L.Util.setOptions(this, options);
     },
 
-    showLoader: function () {
-        var loaderDiv =  document.getElementById('dg-popup-firm-loading');
+    showLoader: function ( loader ) {
+        var loaderDiv = loader || document.getElementById('dg-popup-firm-loading');
 
-        this.hideLoader();
         if (loaderDiv) {
             loaderDiv.style.display = 'block';
         }
     },
 
-    hideLoader: function () {
-        var loaderDiv = document.getElementById('dg-popup-firm-loading');
+    hideLoader: function ( loader ) {
+        var loaderDiv = loader || document.getElementById('dg-popup-firm-loading');
 
         if (loaderDiv) {
             loaderDiv.style.display = "none";
@@ -36,7 +36,10 @@ L.DG.Geoclicker.View = L.Class.extend({
     },
 
     showPopup: function (latlng) { // (Object)
-        this._popup.setLatLng(latlng).openOn(this._map);
+        this._popup
+                .setContent('<img src="__BASE_URL__/img/loader_directory.gif"/>')
+                .setLatLng(latlng)
+                .openOn(this._map);
     },
 
     render: function(options) { // (Object) -> String

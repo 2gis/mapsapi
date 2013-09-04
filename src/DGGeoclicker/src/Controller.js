@@ -46,8 +46,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
                 Array.prototype.push.call(arguments, extra);
                 self.handleResponse.apply(self, arguments);
             },
-            showLoaderAndPopup: function() {
-                self._view.showLoader();
+            beforeRequest: function() {
                 self._view.showPopup(latlng);
             }
         });
