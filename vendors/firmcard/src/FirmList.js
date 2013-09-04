@@ -28,15 +28,18 @@
         this._isCached = false;
         this._newPageFirms = {};
 
+        this._eventHandlersInited = false;
+
         this._setOptions(options);
         this._prepareList(firms);
     }
 
     FirmCard.List.prototype = {
 
-        initEventHandlers : function () {
+        _initEventHandlers : function () {
             var self = this;
-
+            
+            this._eventHandlersInited = true;
             this._container.addEventListener("click", function(e) {
                 if (e.target && e.target.nodeName == "A") {
                     if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
@@ -60,6 +63,8 @@
         },
 
         renderList : function () {
+            if (!this._eventHandlersInited) this._initEventHandlers();
+
             this._container.appendChild(this.renderFirms());
             this._isCached = true;
 
