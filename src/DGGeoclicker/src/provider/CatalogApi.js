@@ -21,7 +21,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         var zoom = options.zoom,
             latlng = options.latlng,
             callback = options.callback,
-            showLoaderAndPopup = options.showLoaderAndPopup || function() {},
+            beforeRequest = options.beforeRequest || function() {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
         if (!types) {
@@ -30,7 +30,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             });
             return;
         }
-        showLoaderAndPopup();
+        beforeRequest();
         this.geoSearch(q, types, zoom, L.bind(function (result) {
             callback(this._filterResponse(result, types));
         }, this));

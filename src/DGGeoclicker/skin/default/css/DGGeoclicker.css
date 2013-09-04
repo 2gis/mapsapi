@@ -57,7 +57,7 @@
 }
 
 #dg-popup-firm-loading {
-    display: none;
+    /*display: none;*/
     background: url("__BASE_URL__/img/loader_directory.gif") no-repeat scroll 50% 50% transparent;
     height: 30px;
     padding-bottom: 12px;

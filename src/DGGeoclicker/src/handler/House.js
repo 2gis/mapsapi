@@ -22,7 +22,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
-        // this._defaultFirm = 141265771962688; // TODO Remove this mock
+        this._defaultFirm = 141265771962688; // TODO Remove this mock
 
         this._popup = this._view.getPopup();
         this._houseObject = this._fillHouseObject(results.house);
@@ -95,9 +95,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             footer: this._renderFooter(),
             afterRender: function(){
                 self._initShowLess();
+                this.firmListContainer.parentNode.appendChild( self._loader );
             },
             firmListContainer: content
         };
+        this._loader = this._view._initLoader();
         this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
 
         return this._firmListObject;
@@ -174,6 +176,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
+        var isAllCollapsed = this._firmList.getExpCardsNumber() === 0;
         // console.log(cardContainer, cardExpanded);
         //console.log('popup', this._popup);
         if (cardExpanded && this._popup._baron) {
@@ -189,10 +192,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             //  this._handleMouseWheel();
         }
 
-        if (!this._popup._baron) {
-            this._popup._resize();
+        if (!this._popup._baron || isAllCollapsed) {
+            this._popup._resize(isAllCollapsed);
         }
-        console.log('total expanded: ', this._firmList.getExpCardsNumber());
     },
 
     _initLazyLoading: function() {
@@ -213,7 +215,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._page++;
 
         if (this._totalPages && this._page <= this._totalPages) {
-            this._view.showLoader();
+            this._view.showLoader( this._loader );
             this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this), this._page);
         }
     },
@@ -224,15 +226,13 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._isListOpenNow = true;
             this._firmList.renderList();
             this._firmList.initEventHandlers();
-            //this._popup._resize();
-            //this._initLazyLoading();
-
-            // content.appendChild(this._view._initLoader());
+            this._popup._resize();
+            this._initLazyLoading();
         } else {
             this._firmList.addFirms(results);
             this._firmList.renderList();
-            this._view.hideLoader();
-            // this._popup._baron.update();
+            this._view.hideLoader( this._loader );
+            this._popup._baron.update();
         }
 
         return;

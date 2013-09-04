@@ -27,6 +27,7 @@
 
         this._isCached = false;
         this._newPageFirms = {};
+        this._expandedCardsCounter = 0;
 
         this._setOptions(options);
         this._prepareList(firms);
@@ -98,16 +99,13 @@
         },
 
         toggleFirm : function (id) {
-            var self = this;
             if (this._firms[id]) {
                 this._firms[id].toggle();
                 if (this._onToggleCard) {
-                    setTimeout( function() {
-                        self._onToggleCard(self._firms[id].getContainer(), self._firms[id].isExpanded())
-                        console.log('toggled');
-                    }
+                    var isExpanded = this._firms[id].isExpanded();
+                    isExpanded? this._expandedCardsCounter++ : this._expandedCardsCounter--;
 
-                    , 2000);
+                    this._onToggleCard(this._firms[id].getContainer(), isExpanded);
                 }
             }
         },
@@ -116,6 +114,9 @@
             return this._isCached;
         },
 
+        getExpCardsNumber: function () {
+            return this._expandedCardsCounter;
+        },
 
         getContainer: function () {
             return this._container;
@@ -131,6 +132,7 @@
 
             if (this._defaultFirm) {
                 this._addFirm(this._defaultFirm);
+                this._expandedCardsCounter++;
             }
             ready();
         },
