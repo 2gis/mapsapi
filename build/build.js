@@ -489,7 +489,7 @@ function makeJSPackage(modulesList, skin, isMsg) {
  * @param {Array} modulesList
  * @param {String} skin
  * @param {Boolean} addIE
- * @param {Boolean} addClean  Runned on CLI mode
+ * @param {Boolean} addClean
  * @return {String}
  */
 function makeCSSPackage(modulesList, skin, addIE, addClean) {
@@ -518,9 +518,7 @@ function makeCSSPackage(modulesList, skin, addIE, addClean) {
         }
     }
 
-    // if (addClean) {
     console.log('Concatenating CSS in ' + countModules + ' modules...\n');
-    // }
 
     function concatenateFiles(moduleSrc) {
         for (var file in moduleSrc) {

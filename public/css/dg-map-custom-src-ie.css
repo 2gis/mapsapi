@@ -54,3 +54,43 @@
     *overflow: visible;
 }
 
+/*ie7 fix width*/
+.leaflet-right {
+    *width : 40px;
+}
+
+.dg-fullscreen {
+    zoom: 1;
+    filter: alpha(opacity=80);
+}
+
+.dg-fullscreen:hover {
+    filter: alpha(opacity=100);
+}
+a.dg-mapcopyright__apilink,
+a.dg-mapcopyright__license {
+    background-image:url("http://maps.api.2gis.ru/2.0/img/dg-tilelayer-base-copyright.png") \9;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    *filter: alpha(opacity=70);
+}
+
+a.dg-mapcopyright__apilink:hover,
+a.dg-mapcopyright__license:hover {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    *filter: alpha(opacity=100);
+}
+
+/* lang = ru */
+.dg-mapcopyright_lang_ru a.dg-mapcopyright__apilink {
+    background-position:-29px -2px \9;
+}
+.dg-mapcopyright_lang_ru a.dg-mapcopyright__license {
+    background-position:0 -13px \9;
+}
+/* lang = it */
+.dg-mapcopyright_lang_it a.dg-mapcopyright__apilink {
+    background-position:-81px -24px \9;
+}
+.dg-mapcopyright_lang_it a.dg-mapcopyright__license {
+    background-position:-41px -35px \9;
+}
