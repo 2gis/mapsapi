@@ -38,12 +38,20 @@ var config = {
 
     css: {
         public: {
-            src: basePath + '/public/css/dg-map-src.css',
-            min: basePath + '/public/css/dg-map.css'
+            clean: basePath + '/public/css/dg-map-src.css',
+            full: basePath + '/public/css/dg-map-src-full.css',
+            ie: basePath + '/public/css/dg-map-src-ie.css',
+            clean_min: basePath + '/public/css/dg-map.css',
+            full_min: basePath + '/public/css/dg-map-full.css',
+            ie_min: basePath + '/public/css/dg-map-ie.css'
         },
         custom: {
-            src: basePath + '/public/css/dg-map-custom-src.css',
-            min: basePath + '/public/css/dg-map-custom.css'
+            clean: basePath + '/public/css/dg-map-custom-src.css',
+            full: basePath + '/public/css/dg-map-custom-src-full.css',
+            ie: basePath + '/public/css/dg-map-custom-src-ie.css',
+            clean_min: basePath + '/public/css/dg-map-custom.css',
+            full_min: basePath + '/public/css/dg-map-custom-full.css',
+            ie_min: basePath + '/public/css/dg-map-custom-ie.css'
         }
     },
 
