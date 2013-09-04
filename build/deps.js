@@ -13,7 +13,36 @@ var deps = {
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
         heading: '2GIS modules',
-        deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon', 'TileLayerCanvas']
+        deps: [ 'Core',
+                'TileLayer',
+                'TileLayerWMS',
+                'TileLayerCanvas',
+                'ImageOverlay',
+                'Marker',
+                'DivIcon',
+                'Popup',
+                'LayerGroup',
+                'FeatureGroup',
+                'Path',
+                'PathVML',
+                'PathCanvas',
+                'MultiPoly',
+                'Rectangle',
+                'CircleMarker',
+                'VectorsCanvas',
+                'GeoJSON',
+                'MapDrag',
+                'MouseZoom',
+                'TouchZoom',
+                'BoxZoom',
+                'Keyboard',
+                'MarkerDrag',
+                'ControlZoom',
+                'ControlAttrib',
+                'ControlScale',
+                'ControlLayers',
+                'AnimationTimer',
+                'Geolocation']
     },
 
     DGDivIcon: {
@@ -40,7 +69,7 @@ var deps = {
         src: ['DGWkt/Wkt.js',
               'DGWkt/DGWkt.js'
         ],
-        deps: ['DGCore', 'GeoJSON']
+        deps: ['DGCore']
     },
 
     DGCustomization: {
@@ -163,7 +192,7 @@ var deps = {
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
-        deps: ['DGCore', 'DGWkt']
+        deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     }
 };
 
