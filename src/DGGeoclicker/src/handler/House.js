@@ -95,47 +95,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             footer: this._renderFooter(),
             afterRender: function(){
                 self._initShowLess();
-                self._initScrollEvents();
             },
             firmListContainer: content
         };
         this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
         return this._firmListObject;
-    },
-
-    _initScrollEvents: function() {
-        if (this._scroller = this._popup._scroller) {
-            L.DomEvent.addListener( this._scroller, 'scroll', L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval) );
-        }
-
-        // var popup = this._view.getPopup(),
-        //     scrollerBar = popup._scrollerBar,
-        //     barWrapper = popup._barWrapper,
-        //     self = this,
-        //     throttledHandler,
-        //     map = this._controller.getMap(),
-        //     isTouch = L.Browser.touch;
-
-        // this._scroller = popup._scroller;
-        // console.log( 'init scroll events');
-        // if (this._scroller) {
-        //     throttledHandler = L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval);
-        //     this._addEventHandler("DgBaronMouseWheel", this._scroller, !isTouch ? 'mousewheel' : 'touchmove', throttledHandler);
-
-        //     L.DomEvent.addListener(this._scroller, 'selectstart', L.DomEvent.stop);
-        //     L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-        //     L.DomUtil.addClass(barWrapper, 'scroller__bar-wrapper-with-header')
-        // }
-
-        // if (scrollerBar) {
-        //     this._addEventHandler("DgBaronMouseDown", scrollerBar, !isTouch ? 'mousedown' : 'touchstart', function() {
-        //         self._addEventHandler("DgBaronMouseMove", map, !isTouch ? 'mousemove' : 'touchmove', throttledHandler);
-        //     });
-        //     this._addEventHandler("DgBaronMouseUp", map, !isTouch ? 'mouseup' : 'touchend', function(e) {
-        //         self._removeEventHandler("DgBaronMouseMove");
-        //         L.DomEvent.preventDefault(e);
-        //     });
-        // }
     },
 
     _initPopupClose: function() {
@@ -224,6 +188,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
+    _initLazyLoading: function() {
+        if (this._scroller = this._popup._scroller) {
+            L.DomEvent.addListener( this._scroller, 'scroll', L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval) );
+        }
+    },
+
     _handleMouseWheel: function() {
         var scroller = this._scroller;
 
@@ -234,7 +204,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handlePaging: function () {
         this._page++;
-console.log('_handleFirmList');
+
         if (this._totalPages && this._page <= this._totalPages) {
             this._view.showLoader();
             this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this), this._page);
@@ -248,19 +218,13 @@ console.log('_handleFirmList');
             this._firmList.renderList();
             this._firmList.initEventHandlers();
             this._popup._resize();
+            this._initLazyLoading();
             // content.appendChild(this._view._initLoader());
         } else {
-            // shouldAppendContent = true;
-            // popupData.firmList = this._firmList.getContainer();
-            // this._firmList.addFirms(results);
-            // content.appendChild(this._firmList.renderFirms(shouldAppendContent));
-
-            // popupData.tmpl = content;
-            // popupData.append = shouldAppendContent;
-
-            // this._view.renderPopup(popupData);
-            // this._view.hideLoader();
-            // this._view.getPopup()._baron.update();
+            this._firmList.addFirms(results);
+            this._firmList.renderList();
+            this._view.hideLoader();
+            // this._popup._baron.update();
         }
 
         return;
