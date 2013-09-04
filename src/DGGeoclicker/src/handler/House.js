@@ -191,7 +191,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _initFirmList: function (results) {
         var self = this;
 
-        this._firmList = new FirmList({
+        this._firmList = new FirmCard.List({
                 tmpls: {
                     loader: this._view.getTemplate("loader"),
                     shortFirm: this._view.getTemplate("shortFirm"),
