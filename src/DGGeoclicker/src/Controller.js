@@ -96,13 +96,12 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     _runHandler: function(type, data) { // (String, Object) -> Boolean
         data = data || {};
         this._ensureHandlerIsInit(type);
-        var result = this._handlers[type].handle(data, type);
-        if (result) {
-            this._view.renderPopup(result);
-            return true;
-        }
 
-        return false;
+        return this._handlers[type].handle(data, type, L.bind(this._renderHandlerResult, this));
+    },
+
+    _renderHandlerResult: function(result){
+        this._view.renderPopup(result);
     },
 
     _ensureHandlerIsInit: function (type) { // (String)
