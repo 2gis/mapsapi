@@ -121,15 +121,12 @@
         _prepareList: function(firms){
             var self = this;
 
-            function ready(){
-                self.addFirms(firms);
-                setTimeout(self._onReady, 1);
-            };
-
             if (this._defaultFirm) {
                 this._addFirm(this._defaultFirm);
             }
-            ready();
+
+            self.addFirms(firms);
+            setTimeout(self._onReady, 1);   // We need setTimeout here because _prepareList was called in constructor and would finish first
         },
 
         _clearContainer: function () {
