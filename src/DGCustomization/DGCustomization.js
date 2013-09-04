@@ -196,6 +196,11 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             barWrapper.setAttribute('class', 'scroller__bar-wrapper');
             scrollerBar.setAttribute('class', 'scroller__bar');
 
+            console.log(this, this._isFooterExist, this._isHeaderExist);
+            if (this._isFooterExist || this._isHeaderExist) {
+                scroller.className += ' scroller-with-header';
+            }
+
             barWrapper.appendChild(scrollerBar);
             scroller.appendChild(this._popupStructure.body);
             scroller.appendChild(barWrapper);
@@ -213,11 +218,14 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             this._container.style.visibility = 'hidden';
 
-            this._clearStructure();
+            this._clearStructure(this._contentNode);
+            this._isHeaderExist = false;
+            this._isBodyExist = false;
+            this._isFooterExist = false;
             //init popup content dom structure
-            if (!this._isHeaderExist && this._headerContent) { this._initHeader(); }
-            if (!this._isBodyExist && this._bodyContent) { this._initBodyContainer(); }
-            if (!this._isFooterExist && this._footerContent) { this._initFooter(); }
+            this._headerContent && this._initHeader();
+            this._bodyContent && this._initBodyContainer();
+            this._footerContent && this._initFooter();
 
             this._updateContent();
             this._resize();
@@ -236,7 +244,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 if (popupStructure.hasOwnProperty(i)) {
                     this._insertContent(this['_'+ i +'Content'], popupStructure[i]);
                 }
-
             }
 
             this.fire('contentupdate');
@@ -257,15 +264,9 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _clearStructure: function (node) {
-            var currNode = node || this._contentNode;
-
-            while (currNode.hasChildNodes()) {
-                currNode.removeChild(currNode.firstChild);
+            while (node.hasChildNodes()) {
+                node.removeChild(node.firstChild);
             }
-
-            this._isHeaderExist = false;
-            this._isBodyExist = false;
-            this._isFooterExist = false;
         },
 
         _detachEl: function (elem) {
