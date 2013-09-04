@@ -196,7 +196,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             barWrapper.setAttribute('class', 'scroller__bar-wrapper');
             scrollerBar.setAttribute('class', 'scroller__bar');
 
-            console.log(this, this._isFooterExist, this._isHeaderExist);
             if (this._isFooterExist || this._isHeaderExist) {
                 scroller.className += ' scroller-with-header';
             }
