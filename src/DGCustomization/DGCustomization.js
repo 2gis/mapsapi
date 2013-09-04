@@ -163,7 +163,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._contentNode.appendChild(headerContainer);
 
             this._popupStructure.header = headerContainer;
-            _isHeaderExist: true;
+            this._isHeaderExist = true;
         },
 
         _initFooter: function () {
@@ -172,7 +172,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._contentNode.appendChild(footerContainer);
 
             this._popupStructure.footer = footerContainer;
-            _isFooterExist: true;
+            this._isFooterExist = true;
         },
 
         _initBodyContainer: function () {
