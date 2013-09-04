@@ -77,13 +77,11 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         setHeaderContent: function (content) {
             this._headerContent = content;
-
             return this;
         },
 
         setFooterContent: function (content) {
             this._footerContent = content;
-
             return this;
         },
 
@@ -115,17 +113,17 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _resize: function () {
-            var shouldInitBaron;
-
-            shouldInitBaron = this._shouldInitBaron();
+            var shouldInitBaron = this._shouldInitBaron();
 
             this._updateLayout();
             this._updatePosition();
 
             if ( shouldInitBaron ) {
                 if (!this._isBaronExist) {
+                    console.log('init scroller');
                     this._initBaronScroller();
                 }
+                console.log('init baron');
                 this._initBaron();
             }
         },
@@ -221,6 +219,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
+
             //init popup content dom structure
             this._headerContent && this._initHeader();
             this._bodyContent && this._initBodyContainer();
@@ -259,7 +258,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._clearStructure(node);
                 node.appendChild(content);
             }
-
         },
 
         _clearStructure: function (node) {

@@ -99,6 +99,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             firmListContainer: content
         };
         this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
+
         return this._firmListObject;
     },
 
@@ -174,18 +175,24 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
         // console.log(cardContainer, cardExpanded);
-        if (cardExpanded) {
+        //console.log('popup', this._popup);
+        if (cardExpanded && this._popup._baron) {
             // L.DomEvent.addListener( this._scroller, 'scroll', function(){
             //     console.log('scroll');
             //     console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
             //     this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
             //     console.log(this._scroller.scrollTop);
             // }, this );
-            console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
-            this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
-            console.log(this._scroller.scrollTop);
-            this._handleMouseWheel();
+            //console.log(this._scroller.scrollHeight, cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+                //this._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
+            //console.log(this._scroller.scrollTop);
+            //  this._handleMouseWheel();
         }
+
+        if (!this._popup._baron) {
+            this._popup._resize();
+        }
+        console.log('total expanded: ', this._firmList.getExpCardsNumber());
     },
 
     _initLazyLoading: function() {
@@ -217,8 +224,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._isListOpenNow = true;
             this._firmList.renderList();
             this._firmList.initEventHandlers();
-            this._popup._resize();
-            this._initLazyLoading();
+            //this._popup._resize();
+            //this._initLazyLoading();
+
             // content.appendChild(this._view._initLoader());
         } else {
             this._firmList.addFirms(results);

@@ -98,9 +98,17 @@
         },
 
         toggleFirm : function (id) {
+            var self = this;
             if (this._firms[id]) {
                 this._firms[id].toggle();
-                if (this._onToggleCard) this._onToggleCard(this._firms[id].getContainer(), this._firms[id].isExpanded());
+                if (this._onToggleCard) {
+                    setTimeout( function() {
+                        self._onToggleCard(self._firms[id].getContainer(), self._firms[id].isExpanded())
+                        console.log('toggled');
+                    }
+
+                    , 2000);
+                }
             }
         },
 
