@@ -22,7 +22,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
-        // this._defaultFirm = 141265771962688; // TODO Remove this mock
+        this._defaultFirm = 141265771962688; // TODO Remove this mock
 
         this._houseObject = this._fillHouseObject(results.house);
         if (this._defaultFirm) {
@@ -96,7 +96,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 self._initShowLess();
                 self._initScrollEvents();
             },
-            isFirmList: true,
             firmListContainer: content
         };
         this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
@@ -244,16 +243,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _handleFirmList: function (results) { // (Object)
-        var shouldAppendContent = false,
-            popupData = {},
-            content = document.createDocumentFragment();
 
         if (!this._isListOpenNow) {
             this._isListOpenNow = true;
-            console.log('-----', this._view.getPopup());
             this._firmList.renderList();
             this._firmList.initEventHandlers();
-            this._view.getPopup()._updateLayout();
+            this._view.getPopup()._resize();
             // content.appendChild(this._view._initLoader());
         } else {
             // shouldAppendContent = true;

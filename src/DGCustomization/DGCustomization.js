@@ -44,7 +44,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
     L.Popup.include({
-        _isFirmList: false,
         _headerContent: null,
         _footerContent: null,
 
@@ -69,9 +68,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return originalOnAdd.call(this, map);
         },
 
-        setContent: function (content, options) {
-            this._isFirmList = options && options.isFirmList;
-
+        setContent: function (content) {
             this._bodyContent = content;
             this._update();
 
@@ -115,6 +112,22 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             }
 
             return this;
+        },
+
+        _resize: function () {
+            var shouldInitBaron;
+
+            shouldInitBaron = this._shouldInitBaron();
+
+            this._updateLayout();
+            this._updatePosition();
+
+            if ( shouldInitBaron ) {
+                if (!this._isBaronExist) {
+                    this._initBaronScroller();
+                }
+                this._initBaron();
+            }
         },
 
         _shouldInitBaron: function () {
@@ -186,8 +199,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             barWrapper.appendChild(scrollerBar);
             scroller.appendChild(this._popupStructure.body);
             scroller.appendChild(barWrapper);
-            console.log(scroller);
-            console.log(footer);
+
             contentNode.insertBefore(scroller, footer);
 
             this._scroller = scroller;
@@ -197,8 +209,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _update: function () {
-            var shouldInitBaron;
-
             if (!this._map) { return; }
 
             this._container.style.visibility = 'hidden';
@@ -210,19 +220,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             if (!this._isFooterExist && this._footerContent) { this._initFooter(); }
 
             this._updateContent();
-
-            shouldInitBaron = this._isFirmList || this._shouldInitBaron();
-
-            if (shouldInitBaron) {
-                if (!this._isBaronExist) {
-                    this._initBaronScroller();
-                }
-                this._initBaron();
-                this._isFirmList = false;
-            }
-
-            this._updateLayout();
-            this._updatePosition();
+            this._resize();
 
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 

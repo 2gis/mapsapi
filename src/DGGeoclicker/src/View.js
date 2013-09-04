@@ -64,7 +64,7 @@ L.DG.Geoclicker.View = L.Class.extend({
             } else {
                 options.header && this._popup.setHeaderContent(options.header);
                 options.footer && this._popup.setFooterContent(options.footer);
-                this._popup.setContent(html, {isFirmList: options.isFirmList});
+                this._popup.setContent( html );
             }
         }
         options.afterRender && options.afterRender();
