@@ -216,6 +216,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._popup._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
             this._handleMouseWheel(); // ??
         }
+       /* var isAllCollapsed = this._firmList.getExpCardsNumber() === 0;
+        if (!this._popup._baron || isAllCollapsed) {
+            this._popup._resize(isAllCollapsed);
+        }*/
         this._popup._resize();
     },
 

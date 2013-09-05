@@ -6,7 +6,7 @@ var FirmCard = function(firm, options) {
 	this._isExpanded = false;
 
 	this._schedule = new FirmCard.Schedule();
-	this.setOptions(options);
+	this._setOptions(options);
 
 	if ("[object Object]" !== Object.prototype.toString.call(firm)) {
 		this._id = firm;
@@ -51,9 +51,15 @@ FirmCard.prototype = {
 		var self = this;
 
 		if (!fullFirmElExists) {
+			
+			var loaderHtml = this.options.render(this.options.tmpls.loader);
+			//console.log("_el", this._el, loaderHtml);
+			this._el.insertAdjacentHTML("beforeend", loaderHtml);
 			this.options.ajax(this._id, function(data) {
 				self._renderFullCard.call(self, data[0]);
-			});
+				self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
+			});	
+			
 		} else {
 			this._fullFirmEl.style.display = 'block';
 		}
@@ -66,10 +72,12 @@ FirmCard.prototype = {
 			forecast;
 
 		this._firmData = data;
-		schedule = this._schedule.transform(data.schedule);
+		schedule = this._schedule.transform(data.schedule, {
+			zoneOffset: this.options.timezoneOffset 
+		});
 		forecast = this._schedule.forecast(schedule);
 
-		console.log("data+schedule+forecast", data, schedule, forecast);
+		//console.log("data+schedule+forecast", data, schedule, forecast);
 		html = this.options.render(this.options.tmpls.fullFirm, {
 			firm: data,
 			schedule: schedule,
@@ -79,7 +87,8 @@ FirmCard.prototype = {
 		});
 
 		this._createFullFirmEl(html);
-		//this._el.removeChild(document.getElementById('dg-popup-firm-loading'));
+		
+
 		this._el.appendChild(this._fullFirmEl);
 		this.options.callback && this.options.callback(this._el);
 		this._isExpanded = true;
@@ -90,6 +99,18 @@ FirmCard.prototype = {
 			name: this._firmData.name,
 			id: this._id
 		});
+	},
+
+	_setOptions: function(options) {
+		var option;
+
+		this.options = this.options || {};
+
+		for (option in options) {
+			if (options.hasOwnProperty(option)) {
+				this.options[option] = options[option];
+			}
+		}
 	},
 
 	getContainer: function() {
@@ -126,16 +147,4 @@ FirmCard.prototype = {
 	isExpanded: function() {
 		return this._isExpanded;
 	},
-
-	setOptions: function(options) {
-		var option;
-
-		this.options = this.options || {};
-
-		for (option in options) {
-			if (options.hasOwnProperty(option)) {
-				this.options[option] = options[option];
-			}
-		}
-	}
 };

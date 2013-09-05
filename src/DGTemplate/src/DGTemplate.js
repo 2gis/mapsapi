@@ -27,6 +27,6 @@ L.DG.Template = (function(){
           .split("\r").join("\\'")
       + "');}return p.join('');");
     // Provide some basic currying to the user
-    return data ? fn( data ) : fn;
+    return data ? fn( data ) : str;
   };
 })();

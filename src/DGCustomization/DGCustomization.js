@@ -77,13 +77,11 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         setHeaderContent: function (content) {
             this._headerContent = content;
-
             return this;
         },
 
         setFooterContent: function (content) {
             this._footerContent = content;
-
             return this;
         },
 
@@ -114,15 +112,17 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return this;
         },
 
-        _resize: function () {
-            var shouldInitBaron;
+        _resize: function (removeBaron) {
+            var shouldInitBaron = this._shouldInitBaron();
 
-            shouldInitBaron = this._shouldInitBaron();
+            if (removeBaron) {
+                this._removeBaron();
+            }
 
             this._updateLayout();
             this._updatePosition();
 
-            if ( shouldInitBaron ) {
+            if (!removeBaron && shouldInitBaron) {
                 if (!this._isBaronExist) {
                     this._initBaronScroller();
                 }
@@ -154,6 +154,17 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                     bean[mode || 'on'](elem, event, func);
                 }
             });
+        },
+
+        _removeBaron: function () {
+            var scroller = this._scroller;
+
+            if (scroller) {
+                var body = scroller.querySelector('.dg-popup-container');
+
+                this._detachEl(body);
+                this._contentNode.replaceChild(body, scroller);
+            }
         },
 
         _initHeader: function () {
@@ -211,7 +222,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._scroller = scroller;
             this._scrollerBar = scrollerBar;
             this._barWrapper = barWrapper;
-            this._isBaronExist = false;
+            this._isBaronExist = true;
         },
 
         _update: function () {
@@ -223,6 +234,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
+
             //init popup content dom structure
             this._headerContent && this._initHeader();
             this._bodyContent && this._initBodyContainer();
@@ -261,7 +273,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 this._clearStructure(node);
                 node.appendChild(content);
             }
-
         },
 
         _clearStructure: function (node) {
