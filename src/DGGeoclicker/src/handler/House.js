@@ -21,7 +21,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._totalPages = 1;
 
-        // this._defaultFirm = 141265771962688; // TODO Remove this mock for filial click tests
+        //this._defaultFirm = 141265771962688; // TODO Remove this mock for filial click tests
 
         this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
@@ -212,15 +212,13 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
-        if (cardExpanded) {
+        var scroller = this._scroller;
+        this._popup._resize();
+
+        if (cardExpanded && scroller) {
             this._popup._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
             this._handleMouseWheel(); // ??
         }
-       /* var isAllCollapsed = this._firmList.getExpCardsNumber() === 0;
-        if (!this._popup._baron || isAllCollapsed) {
-            this._popup._resize(isAllCollapsed);
-        }*/
-        this._popup._resize();
     },
 
     _handleMouseWheel: function() {

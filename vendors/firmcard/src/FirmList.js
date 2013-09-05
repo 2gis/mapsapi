@@ -1,7 +1,7 @@
 /* TODO:
  ++ 1. Обернуть весь плагин в один неймспейс
     2. Пофиксить автоскролл при открытии карточки в конце списка
-    3. Инит барона, если развернули много карточек
+ ++ 3. Инит барона, если развернули много карточек
     4. Механизм смены языка
     5. Описать в доке методы setHeader, setFooter
  ++ 6. Вернуть крестик закрытыя балуна
@@ -27,7 +27,6 @@
 
         this._isCached = false;
         this._newPageFirms = {};
-        this._expandedCardsCounter = 0;
 
         this._eventHandlersInited = false;
 
@@ -39,9 +38,12 @@
 
         _initEventHandlers : function () {
             var self = this;
-            
+
             this._eventHandlersInited = true;
             this._container.addEventListener("click", function(e) {
+                var e = e || window.event;
+                if(!e.target) e.target = e.srcElement;
+
                 if (e.target && e.target.nodeName == "A") {
                     if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
                         self.toggleFirm(e.target.id);
@@ -107,20 +109,13 @@
             if (this._firms[id]) {
                 this._firms[id].toggle();
                 if (this._onToggleCard) {
-                    var isExpanded = this._firms[id].isExpanded();
-                    isExpanded? this._expandedCardsCounter++ : this._expandedCardsCounter--;
-
-                    this._onToggleCard(this._firms[id].getContainer(), isExpanded);
+                    this._onToggleCard(this._firms[id].getContainer(), this._firms[id].isExpanded());
                 }
             }
         },
 
         isListCached: function () {
             return this._isCached;
-        },
-
-        getExpCardsNumber: function () {
-            return this._expandedCardsCounter;
         },
 
         getContainer: function () {
@@ -132,7 +127,6 @@
 
             if (this._defaultFirm) {
                 this._addFirm(this._defaultFirm);
-                this._expandedCardsCounter++;
             }
 
             self.addFirms(firms);

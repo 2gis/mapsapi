@@ -39,3 +39,7 @@
    background: #fff;
    margin-bottom: 5px;
 }
+
+.dg-baron-hide {
+    display: none;
+}
