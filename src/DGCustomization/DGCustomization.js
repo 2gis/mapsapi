@@ -68,6 +68,14 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return originalOnAdd.call(this, map);
         },
 
+        onRemove: function (map) {
+            map.off('dgEntranceShow', function() {
+                map.closePopup(this);
+            }, this);
+
+            return originalOnRemove.call(this, map);
+        },
+
         setContent: function (content) {
             this._bodyContent = content;
             this._update();
@@ -88,7 +96,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         clearHeaderFooter: function() {
             this.clearHeader();
             this.clearFooter();
-
+            // TEMPORARY HACK!
+            this._isBaronExist = false;
             return this;
         },
 
@@ -112,31 +121,36 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return this;
         },
 
-        _resize: function (removeBaron) {
-            var shouldInitBaron = this._shouldInitBaron();
-
-            if (removeBaron) {
-                this._removeBaron();
-            }
+        _resize: function () {
 
             this._updateLayout();
             this._updatePosition();
+            var shouldShowBaron = this._isContentHeightFit();
 
-            if (!removeBaron && shouldInitBaron) {
+            if (shouldShowBaron) {
                 if (!this._isBaronExist) {
+                    console.log('first baron init');
                     this._initBaronScroller();
+                    this._initBaron();
+                } else {
+                    L.DomUtil.removeClass(this._barWrapper, 'dg-baron-hide');
                 }
-                this._initBaron();
+            } else {
+                if (this._isBaronExist){
+                    console.log('hide baron');
+                    L.DomUtil.addClass(this._barWrapper, 'dg-baron-hide');
+                }
             }
 
             this._adjustPan();
         },
 
-        _shouldInitBaron: function () {
+        _isContentHeightFit: function () {
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
-
-            return (maxHeight && maxHeight < popupHeight);
+                console.log('popupHeight', popupHeight);
+                console.log('maxHeight', maxHeight);
+            return (maxHeight && maxHeight <= popupHeight);
         },
 
         _initBaron: function () {
@@ -154,17 +168,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                     bean[mode || 'on'](elem, event, func);
                 }
             });
-        },
-
-        _removeBaron: function () {
-            var scroller = this._scroller;
-
-            if (scroller) {
-                var body = scroller.querySelector('.dg-popup-container');
-
-                this._detachEl(body);
-                this._contentNode.replaceChild(body, scroller);
-            }
         },
 
         _initHeader: function () {
@@ -246,7 +249,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
             this._container.style.visibility = '';
-            this._adjustPan();
+            //this._adjustPan();
         },
 
         _updateContent: function () {

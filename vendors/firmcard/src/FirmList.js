@@ -27,7 +27,6 @@
 
         this._isCached = false;
         this._newPageFirms = {};
-        this._expandedCardsCounter = 0;
 
         this._eventHandlersInited = false;
 
@@ -39,7 +38,7 @@
 
         _initEventHandlers : function () {
             var self = this;
-            
+
             this._eventHandlersInited = true;
             this._container.addEventListener("click", function(e) {
                 if (e.target && e.target.nodeName == "A") {
@@ -107,20 +106,13 @@
             if (this._firms[id]) {
                 this._firms[id].toggle();
                 if (this._onToggleCard) {
-                    var isExpanded = this._firms[id].isExpanded();
-                    isExpanded? this._expandedCardsCounter++ : this._expandedCardsCounter--;
-
-                    this._onToggleCard(this._firms[id].getContainer(), isExpanded);
+                    this._onToggleCard(this._firms[id].getContainer(), this._firms[id].isExpanded());
                 }
             }
         },
 
         isListCached: function () {
             return this._isCached;
-        },
-
-        getExpCardsNumber: function () {
-            return this._expandedCardsCounter;
         },
 
         getContainer: function () {
@@ -132,7 +124,6 @@
 
             if (this._defaultFirm) {
                 this._addFirm(this._defaultFirm);
-                this._expandedCardsCounter++;
             }
 
             self.addFirms(firms);
