@@ -24,7 +24,8 @@ L.DG.Poi = L.Handler.extend({
         this._map
                 .off('mousemove', this._onMouseMove, this)
                 .off('viewreset', this._onViewReset, this)
-                .off('mouseout', this._onMouseOut, this);
+                .off('mouseout', this._onMouseOut, this)
+                .off('click', this._onMouseClick, this);
     },
 
     getStorage: function () {
@@ -74,8 +75,16 @@ L.DG.Poi = L.Handler.extend({
 
             if (poiId && (!this._currPoi || this._currPoi.id != poiId)) {
                 this._currPoi = this._poistorage.getPoi(poiId);
-                this._map.fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
+                this._map
+                        .on('click', this._onMouseClick, this)
+                        .fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
             }
+        }
+    },
+
+    _onMouseClick: function( event ){
+        if (this._currPoi) {
+            this._map.fire('dgPoiClick', {'poi': this._currPoi, latlng: event.latlng});
         }
     },
 
@@ -90,7 +99,9 @@ L.DG.Poi = L.Handler.extend({
 
     _leaveCurrentPoi : function(){
         if (this._currPoi) {
-            this._map.fire('dgPoiLeave', { 'poi': this._currPoi });
+            this._map
+                    .fire('dgPoiLeave', { 'poi': this._currPoi })
+                    .off('click', this._onMouseClick, this);
             this._currPoi = null;
         }
     },
