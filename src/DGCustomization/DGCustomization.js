@@ -129,7 +129,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             if (shouldShowBaron) {
                 if (!this._isBaronExist) {
-                    console.log('first baron init');
                     this._initBaronScroller();
                     this._initBaron();
                 } else {
@@ -137,7 +136,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 }
             } else {
                 if (this._isBaronExist){
-                    console.log('hide baron');
                     L.DomUtil.addClass(this._barWrapper, 'dg-baron-hide');
                 }
             }
@@ -148,8 +146,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         _isContentHeightFit: function () {
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
-                console.log('popupHeight', popupHeight);
-                console.log('maxHeight', maxHeight);
+
             return (maxHeight && maxHeight <= popupHeight);
         },
 

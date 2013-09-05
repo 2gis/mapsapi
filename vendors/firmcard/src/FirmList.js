@@ -1,7 +1,7 @@
 /* TODO:
  ++ 1. Обернуть весь плагин в один неймспейс
     2. Пофиксить автоскролл при открытии карточки в конце списка
-    3. Инит барона, если развернули много карточек
+ ++ 3. Инит барона, если развернули много карточек
     4. Механизм смены языка
     5. Описать в доке методы setHeader, setFooter
  ++ 6. Вернуть крестик закрытыя балуна
@@ -41,6 +41,9 @@
 
             this._eventHandlersInited = true;
             this._container.addEventListener("click", function(e) {
+                var e = e || window.event;
+                if(!e.target) e.target = e.srcElement;
+
                 if (e.target && e.target.nodeName == "A") {
                     if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
                         self.toggleFirm(e.target.id);
