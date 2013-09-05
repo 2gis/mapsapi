@@ -53,7 +53,7 @@
 	font-size: 15px;
 	font-weight: bold;
 	padding-bottom: 4px;
-	margin: 0 0 10px 15px;
+	margin: 0 15px 10px;
 }
 
 #dg-popup-firm-loading {
@@ -63,6 +63,7 @@
     padding-bottom: 12px;
     width: 200px;
     height: 200px;
+    margin: 0 auto;
 }
 
 .scroller-with-header {

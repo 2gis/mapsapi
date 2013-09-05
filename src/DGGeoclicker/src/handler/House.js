@@ -9,11 +9,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
-    _hideIndex: false,
 
-    handle: function (results, extra) { // (Object, ?Object) -> Object
-        var self = this;
-
+    handle: function (results, extra, callback) { // (Object, ?Object) -> Object
         if (!results.house) {
             return false;
         }
@@ -22,15 +19,19 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._id = results.house.id;
         this._filialsCount = 0;
         this._defaultFirm = extra && extra.poiId ? extra.poiId : null;
-        this._defaultFirm = 141265771962688; // TODO Remove this mock
 
+        // this._defaultFirm = 141265771962688; // TODO Remove this mock
+
+        this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
-        this._houseObject = this._fillHouseObject(results.house);
+        this._fillHouseObject(results.house);
         if (this._defaultFirm) {
-            return this._fillFirmListObject();
+            this._onHandleReady = callback;
+            this._fillFirmListObject();
         } else {
-            return this._houseObject;
+            callback(this._houseObject);
         }
+        return true;
     },
 
     _fillHouseObject: function (house) { // (Object) -> Object
@@ -74,7 +75,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 }
             });
         }
-        return {
+        this._houseObject = {
             tmpl: this._view.getTemplate("house"),
             data: data,
             afterRender: function(){
@@ -88,10 +89,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var self = this,
             content = document.createElement('div');
 
-        this._hideIndex = true;
         this._firmListObject = {
             tmpl: content,
-            header: this._renderHeader(),
+            header: this._renderHeader(true),
             footer: this._renderFooter(),
             afterRender: function(){
                 self._initShowLess();
@@ -100,9 +100,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             firmListContainer: content
         };
         this._loader = this._view._initLoader();
-        this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._initFirmList, this));
-
-        return this._firmListObject;
+        this._api.firmsInHouse(this._id, L.bind(this._initFirmList, this));
     },
 
     _initPopupClose: function() {
@@ -122,24 +120,22 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowMore: function () {
-        var eventType = 'click';
+        var link = this._popup._contentNode.querySelector('#dg-showmorehouse');
 
-        if (this._filialsCount) {
-            this._addEventHandler("DgShowMoreClick", L.DomUtil.get('dg-showmorehouse'), eventType, L.bind(this._showMoreClick, this));
+        if (link) {
+            this._addEventHandler("DgShowMoreClick", link, 'click', L.bind(this._showMoreClick, this));
         }
     },
 
     _showMoreClick: function () {
-        this._clearEventHandlers();
         if (!this._firmListObject) {
             this._fillFirmListObject();
         }
-        this._popup.clearHeaderFooter();
-        this._view.renderPopup(this._firmListObject);
+        this._clearAndRenderPopup(this._firmListObject);
     },
 
     _initShowLess: function() {
-        var link =  this._popup._contentNode.querySelector('#dg-showlesshouse');
+        var link = this._popup._contentNode.querySelector('#dg-showlesshouse');
 
         if (link) {
             this._addEventHandler('DgShowLessClick', link, 'click', L.bind(this._showLessClick, this));
@@ -147,11 +143,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _showLessClick: function () {
-        this._hideIndex = false;
         this._isListOpenNow = false;
+        this._clearAndRenderPopup(this._houseObject);
+    },
+
+    _clearAndRenderPopup: function(popupObject){
         this._clearEventHandlers();
         this._popup.clearHeaderFooter();
-        this._view.renderPopup(this._houseObject);
+        this._view.renderPopup(popupObject);
     },
 
     _initFirmList: function (results) {
@@ -166,9 +165,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 container : this._firmListObject.firmListContainer,
                 render: L.DG.Template,
                 defaultFirm: this._defaultFirm,
-                ajax: function(id, callback) {
-                    self._controller.getCatalogApi().getFirmInfo(id, callback);
-                },
+                ajax: L.bind(this._api.getFirmInfo, this._api),
                 onReady: L.bind(this._handleFirmList, this),
                 onToggleCard: L.bind(this._onFirmlistToggleCard, this)
             }, results
@@ -216,7 +213,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (this._totalPages && this._page <= this._totalPages) {
             this._view.showLoader( this._loader );
-            this._controller.getCatalogApi().firmsInHouse(this._id, L.bind(this._handleFirmList, this), this._page);
+            this._api.firmsInHouse(this._id, L.bind(this._handleFirmList, this), this._page);
         }
     },
 
@@ -224,6 +221,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (!this._isListOpenNow) {
             this._isListOpenNow = true;
+            if (this._onHandleReady){
+                this._onHandleReady( this._firmListObject );
+                delete this._onHandleReady;
+            }
             this._firmList.renderList();
             this._firmList.initEventHandlers();
             this._popup._resize();
@@ -238,12 +239,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         return;
     },
 
-    _renderHeader: function() { // () -> String
+    _renderHeader: function(hideIndex) { // () -> String
         var address = this._houseObject.data.address,
             header = this._view.render({
                 tmplFile: "popupHeader",
                 data: {
-                    address: !this._hideIndex ? address : address.split(", ").slice(1).join(", ")
+                    address: !hideIndex ? address : address.split(", ").slice(1).join(", ")
                 }
             });
 
