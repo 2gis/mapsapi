@@ -212,7 +212,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _scrollTo: function(to) {
-        var duration = 150,
+        var duration = 200,
             element = this._popup._scroller,
             start = element.scrollTop,
             change = to - start
@@ -237,10 +237,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
         this._popup._resize();
-        // if (cardExpanded && this._popup._scroller) {
-        //     this._scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
-        //     this._handleMouseWheel(); // ??
-        // }
+        if (cardExpanded && this._popup._scroller) {
+            this._scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+            this._handleMouseWheel();
+        }
     },
 
     _handleMouseWheel: function() {
