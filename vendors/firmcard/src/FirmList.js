@@ -21,7 +21,7 @@
            lang: 'ru',
            tmpls: {}
         };
-        this._container = options.container || document.createElement('div');
+        this._container = options && options.container || document.createElement('div');
         this._container.setAttribute('class', 'dg-map-infocard-firmlist');
         this._innerFirmsList = document.createDocumentFragment();
 
