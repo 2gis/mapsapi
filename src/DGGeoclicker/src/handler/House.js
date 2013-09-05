@@ -179,6 +179,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 container: this._firmListObject.firmListContainer,
                 render: L.DG.Template,
                 defaultFirm: this._defaultFirm,
+                lang: this._map.getLang(),
                 ajax: L.bind(this._api.getFirmInfo, this._api),
                 onReady: L.bind(this._renderFirmList, this),
                 onToggleCard: L.bind(this._onFirmlistToggleCard, this)

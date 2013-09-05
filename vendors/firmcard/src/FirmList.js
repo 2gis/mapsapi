@@ -97,12 +97,12 @@
         },
 
         setLang : function (newLang) {
-            options.lang = newLang;
+            this._addOptions.lang = newLang;
             //_clearCache();
         },
 
         getLang : function () {
-            return options.lang;
+            return this._addOptions.lang;
         },
 
         toggleFirm : function (id) {
