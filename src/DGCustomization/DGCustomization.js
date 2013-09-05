@@ -323,9 +323,3 @@ L.Marker.prototype.options.icon = L.DG.divIcon();
 L.Map.prototype.setMaxZoom = function(maxZoom) {
     this._layersMaxZoom = maxZoom;
 };
-
-// Helpers
-
-L.isFunction = L.Util.isFunction = function(object) {
-    return !!(object && object.constructor && object.call && object.apply);
-}
