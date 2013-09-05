@@ -122,11 +122,11 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _resize: function () {
-
+            var scrollTop = this._scroller ? this._scroller.scrollTop : false;
             this._updateLayout();
             this._updatePosition();
             var shouldShowBaron = this._isContentHeightFit();
-
+            // if (scrollTop) this._scroller.scrollTop = scrollTop;
             if (shouldShowBaron) {
                 if (!this._isBaronExist) {
                     this._initBaronScroller();

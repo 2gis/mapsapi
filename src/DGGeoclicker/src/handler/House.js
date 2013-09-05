@@ -211,14 +211,36 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup._baron.update();
     },
 
-    _onFirmlistToggleCard: function(cardContainer, cardExpanded){
-        var scroller = this._scroller;
-        this._popup._resize();
+    _scrollTo: function(to) {
+        var duration = 150,
+            element = this._popup._scroller,
+            start = element.scrollTop,
+            change = to - start
+            startTime = null;
 
-        if (cardExpanded && scroller) {
-            this._popup._scroller.scrollTop = cardContainer.offsetTop - cardContainer.parentNode.offsetTop;
-            this._handleMouseWheel(); // ??
-        }
+        var ease = function (t, b, c, d) {
+            return -c *(t/=d)*(t-2) + b;
+        };
+
+        var animateScroll = function(currentTime){
+            if (!startTime) startTime = currentTime;
+            var timeFrame = currentTime - startTime;
+
+            element.scrollTop = ease(timeFrame, start, change, duration);
+
+            if (currentTime - startTime < duration) {
+                L.Util.requestAnimFrame(arguments.callee, element);
+            }
+        };
+        L.Util.requestAnimFrame(animateScroll, element);
+    },
+
+    _onFirmlistToggleCard: function(cardContainer, cardExpanded){
+        this._popup._resize();
+        // if (cardExpanded && this._popup._scroller) {
+        //     this._scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
+        //     this._handleMouseWheel(); // ??
+        // }
     },
 
     _handleMouseWheel: function() {
