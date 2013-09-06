@@ -5,8 +5,11 @@ var FirmCard = function(firm, options) {
 	this._fullFirmEl = null;
 	this._isExpanded = false;
 
-	this._schedule = new FirmCard.Schedule();
+	options.lang = options.lang || 'ru';
 	this._setOptions(options);
+	this._schedule = new FirmCard.Schedule({
+		localLang : options.lang
+	});
 
 	if ("[object Object]" !== Object.prototype.toString.call(firm)) {
 		this._id = firm;
@@ -73,7 +76,7 @@ FirmCard.prototype = {
 
 		this._firmData = data;
 		schedule = this._schedule.transform(data.schedule, {
-			zoneOffset: this.options.timezoneOffset 
+			zoneOffset: this.options.timezoneOffset
 		});
 		forecast = this._schedule.forecast(schedule);
 
@@ -82,6 +85,7 @@ FirmCard.prototype = {
 			firm: data,
 			schedule: schedule,
 			dict: FirmCard.Schedule.dictionary,
+			lang: this.options.lang,
 			forecast: forecast,
 		    dataHelper: FirmCard.DataHelper
 		});
@@ -119,6 +123,14 @@ FirmCard.prototype = {
 
 	getId: function() {
 		return this._id;
+	},
+
+	setLang: function(newLang){
+		this.options.lang = newLang;
+		schedule.setLang(this.options.lang);
+		if (this._isExpanded) {
+			// TODO Update Fullfirm element
+		}
 	},
 
 	toggle: function() {

@@ -48,7 +48,7 @@
         <div class="dg-map-firm-schedule">
             <% if (schedule.always) { %>
             <span class="dg-map-firm-schedule-24">24/7</span>
-            <div class="dg-map-firm-schedule-short dg-map-firm-schedule-short-24"><%=dict.t("ru", 'worksAroundTheClock')%></div>
+            <div class="dg-map-firm-schedule-short dg-map-firm-schedule-short-24"><%=dict.t(lang, 'worksAroundTheClock')%></div>
             <% } else if ( schedule.week.evently && schedule.week.evently.length > 1 || schedule.everyday || schedule.lunch) { %>
                 <span class="dg-map-firm-schedule-clock<%if (schedule.now.open) { %> opened<% }%>"></span>
                 <div class="dg-map-firm-schedule-short">
@@ -56,11 +56,11 @@
                     <% if (schedule.week.evently && schedule.week.evently.length > 1 || schedule.lunch) { %>
                         <a class="dg-map-work-time" id="dg-map-firm-schedule-<%=firm.id%>" href="javascript:void(0)">
                             <% if (!schedule.now.open && !schedule.today) { %>
-                            <%=dict.t("ru", 'todayIsRestDay')%>
+                            <%=dict.t(lang, 'todayIsRestDay')%>
                             <% } else { %>
-                            <%=dict.t("ru", "today")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%>
+                            <%=dict.t(lang, "today")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%>
                             <% if (schedule.lunch && schedule.lunch.periods.length) { %>
-                                , <%=dict.t("ru", "lunch")%>
+                                , <%=dict.t(lang, "lunch")%>
                                 <% for (var z = 0; z < schedule.lunch.periods.length; z++) { %>
                                         <%=schedule.lunch.periods[z].from%>&ndash;<%=schedule.lunch.periods[z].to%>
                                  <% } %>
@@ -72,7 +72,7 @@
                     <span id="dg-map-icon-collapse-<%=firm.id%>" class="dg-map-icon dg-map-icon-collapse" style="display: none;"></span>
                     
                     <% if (schedule.everyday) { %>
-                    <%=dict.t("ru", "everyday")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%><% if (schedule.today.lunch) {%>, <%=dict.t("ru", 'lunch')%> <%=schedule.today.lubch.from%>&ndash;<%=schedule.today.lunch.to%><% } %>
+                    <%=dict.t(lang, "everyday")%> <%=schedule.today.from%>&ndash;<%=schedule.today.to%><% if (schedule.today.lunch) {%>, <%=dict.t(lang, 'lunch')%> <%=schedule.today.lubch.from%>&ndash;<%=schedule.today.lunch.to%><% } %>
                     <% } %>
                     
                     <span class="dg-map-work-info">
@@ -96,11 +96,11 @@
                         var period = schedule.week.evently[i]; %>
                         <div>
                             <% if (period.budni) { %>
-                                <%=dict.t("ru", "workingDays")%>
+                                <%=dict.t(lang, "workingDays")%>
                                 <span class="dg-map-label"><%=period.from%> – <%=period.to%></span>
                             <% } else if (period.holiday) { %>
                                 <%=period.dayList%>
-                                <span class="dg-map-label"> — <%=dict.t('ru', 'restDay')%></span>
+                                <span class="dg-map-label"> — <%=dict.t(lang, 'restDay')%></span>
                             <% } else { %>
                                 <%=period.dayList%>
                                 <span class="dg-map-label"> <%=period.from%>–<%= period.to%></span>
@@ -120,12 +120,12 @@
                                 <span class="dg-map-label"><%=period.key%> <%=period.from%> – <%=period.to%>
                                 <% if(period.lunch) { %>
                                     <% for (var x = 0, l = period.lunch.length; x < l; x++) {%>
-                                        , <%=dict.t('ru', 'lunch')%>&nbsp;<%=period.lunch[x].from%>&ndash;<%=period.lunch[x].to%>
+                                        , <%=dict.t(lang, 'lunch')%>&nbsp;<%=period.lunch[x].from%>&ndash;<%=period.lunch[x].to%>
                                     <% } %>
                                 <% } %>
                                 </span>
                             <% } else { %>
-                                <span class="dg-map-label"><%=period.key%>&nbsp;<%=dict.t('ru', 'restDay')%></span>
+                                <span class="dg-map-label"><%=period.key%>&nbsp;<%=dict.t(lang, 'restDay')%></span>
                             <% } %>
                                 
                         </div>
@@ -147,7 +147,7 @@
                             %>
                             <th<%=clas%>>
                                 <span>
-                                    <%=dict.t("ru", period.firstDay+"_short")%>
+                                    <%=dict.t(lang, period.firstDay+"_short")%>
                                 </span>
                             </th>
                         <% } %>
@@ -168,9 +168,9 @@
     <a target="_blank" class="dg-map-firm-link-with-icon" href="<%=dataHelper.getFlampUrl(firm)%>">
         <span class="link-icon dg-map-icon dg-map-icon-flamp"></span>
         <% if (firm.info && firm.info.reviewscount) { %>
-        <span class="dg-map-firm-link-text"><%=dict.t("ru", "reviewsOnFlamp")%></span>
+        <span class="dg-map-firm-link-text"><%=dict.t(lang, "reviewsOnFlamp")%></span>
         <% } else { %>
-        <span class="dg-map-firm-link-text"><%=dict.t("ru", "writeReviewOnFlamp")%></span>
+        <span class="dg-map-firm-link-text"><%=dict.t(lang, "writeReviewOnFlamp")%></span>
         <% } %>
     </a>
     <% if (firm.reviews && firm.reviews.count) { %>
@@ -189,7 +189,7 @@
                 <% if (firm.attributes.general.items[t].name == 'payment_type') {
                         var payMethods = firm.attributes.general.items[t].value;
                         for (var u = 0, methods = payMethods.length; u < methods; u++) { %>
-                            <span><%=dict.t('ru', payMethods[u])%></span>
+                            <span><%=dict.t(lang, payMethods[u])%></span>
                         <%}
                     } 
                 %>

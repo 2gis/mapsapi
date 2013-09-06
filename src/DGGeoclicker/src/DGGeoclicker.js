@@ -13,26 +13,36 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     addHooks: function () {
-        this._map.on("click", this._onMapClick, this);
-        this._map.on("dblclick", this._cancelHandler, this);
-        this._map.on('popupclose', this._onPopupClose, this);
+        this._map.on(this._mapEventsListeners, this);
     },
 
     removeHooks: function () {
-        this._map.off("click", this._onMapClick, this);
-        this._map.off("dblclick", this._cancelHandler, this);
-        this._map.off('popupclose', this._onPopupClose, this);
+        this._map.off(this._mapEventsListeners, this);
     },
 
     getController: function() {
         return this._controller;
     },
 
-    _onMapClick: function (e) { // (Object)
+    _mapEventsListeners : {
+        dgLangChange: function (e) {
+            this._controller.setLang( e.lang );
+        },
 
-        if  (this.clickCount === 0) {
-            this.clickCount = 1;
-            this._singleClick(e);
+        click: function (e) { // (Object)
+            if (this.clickCount === 0) {
+                this.clickCount = 1;
+                this._singleClick(e);
+            }
+        },
+
+        dblclick: function () {
+            clearTimeout(this.pendingClick);
+            this.clickCount = 0;
+        },
+
+        popupclose: function (e) { // (Object)
+            this._controller.handlePopupClose(e.popup);
         }
     },
 
@@ -47,15 +57,6 @@ L.DG.Geoclicker = L.Handler.extend({
                 self._controller.handleClick(latlng, zoom);
                 self.clickCount = 0;
         }, this.timeout);
-    },
-
-    _cancelHandler: function () {
-        clearTimeout(this.pendingClick);
-        this.clickCount = 0;
-    },
-
-    _onPopupClose: function (e) { // (Object)
-        this._controller.handlePopupClose(e.popup);
     }
 });
 

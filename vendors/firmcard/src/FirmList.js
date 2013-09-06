@@ -1,6 +1,6 @@
 /* TODO:
  ++ 1. Обернуть весь плагин в один неймспейс
-    2. Пофиксить автоскролл при открытии карточки в конце списка
+ ++ 2. Пофиксить автоскролл при открытии карточки в конце списка
  ++ 3. Инит барона, если развернули много карточек
     4. Механизм смены языка
     5. Описать в доке методы setHeader, setFooter
@@ -97,12 +97,12 @@
         },
 
         setLang : function (newLang) {
-            options.lang = newLang;
+            this._addOptions.lang = newLang;
             //_clearCache();
         },
 
         getLang : function () {
-            return options.lang;
+            return this._addOptions.lang;
         },
 
         toggleFirm : function (id) {

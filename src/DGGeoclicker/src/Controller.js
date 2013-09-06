@@ -28,16 +28,20 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._catalogApi = new L.DG.Geoclicker.Provider.CatalogApi(map);
         this._map = map;
         this._view = new L.DG.Geoclicker.View(map);
+
+        this._lastHandleClickArguments = null;
     },
 
     handlePopupClose: function (popup) { // (Object)
         if (popup == this._view.getPopup()) {
+            this._lastHandleClickArguments = null;
             this._catalogApi.cancelLastRequest();
         }
     },
 
     handleClick: function (latlng, zoom, extra) { // (Object, Number)
-        var self = this;
+        var self = this,
+            args = Array.prototype.slice.call(arguments, 0);
 
         this._catalogApi.getLocations({
             latlng: latlng,
@@ -48,6 +52,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             },
             beforeRequest: function() {
                 self._view.showPopup(latlng);
+                self._lastHandleClickArguments = args;
             }
         });
     },
@@ -91,6 +96,12 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
     getMap: function() {
         return this._map;
+    },
+
+    setLang: function(lang) { // (String)
+        if (this._lastHandleClickArguments) {
+            this.handleClick.apply(this, this._lastHandleClickArguments);
+        }
     },
 
     _runHandler: function(type, data) { // (String, Object) -> Boolean
