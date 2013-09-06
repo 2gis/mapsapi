@@ -33,7 +33,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     },
 	_wktParser : L.DG.wkt(),
 
-    handle: function (results, type) { // (Object, String) -> Object|Boolean
+    handle: function (results, type, callback) { // (Object, String, Function)
     	if (!results[type]) {
             return false;
         }
@@ -53,9 +53,9 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         		.on('zoomend', this._onZoomChange, this)
         		.once('popupclose', this._onPopupClose, this);
 
-        return {
+        callback({
             tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname'))
-        };
+        });
     },
 
     _initStyles : function(){

@@ -10,7 +10,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
 
-    handle: function (results, type, callback) { // (Object, Function) -> Boolean
+    handle: function (results, type, callback) { // (Object, String, Object, Function) -> Boolean
         if (!results.house) {
             return false;
         }

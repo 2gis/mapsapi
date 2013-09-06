@@ -47,7 +47,6 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             latlng: latlng,
             zoom: zoom,
             callback: function(){
-                Array.prototype.push.call(arguments, extra);
                 self.handleResponse.apply(self, arguments);
             },
             beforeRequest: function() {

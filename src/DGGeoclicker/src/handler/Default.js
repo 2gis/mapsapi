@@ -59,9 +59,9 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
 
 L.DG.Geoclicker.Handler.HandlerExample = L.DG.Geoclicker.Handler.Default.extend({
 
-    handle: function (results, type) { // (Object, String) -> Object|Boolean
-        return {
+    handle: function (results, type, callback) { // (Object, String, Function)
+        callback({
             tmpl: type + ':<br/>' + results[type].id
-        };
+        });
     }
 });
