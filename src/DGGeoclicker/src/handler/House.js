@@ -174,13 +174,15 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 tmpls: {
                     loader: this._view.getTemplate("loader"),
                     shortFirm: this._view.getTemplate("shortFirm"),
-                    fullFirm: this._view.getTemplate("fullFirm")
+                    fullFirm: this._view.getTemplate("fullFirm2")
                 },
                 container: this._firmListObject.firmListContainer,
                 render: L.DG.Template,
                 defaultFirm: this._defaultFirm,
+                timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
                 ajax: L.bind(this._api.getFirmInfo, this._api),
                 onReady: L.bind(this._renderFirmList, this),
+                timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
                 onToggleCard: L.bind(this._onFirmlistToggleCard, this)
             }, results
         );

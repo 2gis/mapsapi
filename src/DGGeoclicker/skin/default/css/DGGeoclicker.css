@@ -337,7 +337,7 @@ li.dg-map-firm-address .note {
 }
 
 .dg-map-firm-row .dg-map-firm-schedule-clock {
-    background: url("http://maps.api.2gis.ru/images/clock.png?v=6") no-repeat scroll 0 0 #A9BBC9;
+    background: url("__BASE_URL__/img/clock.png") no-repeat scroll 0 0 #A9BBC9;
     float: left;
     font-size: 0;
     height: 11px;
@@ -634,3 +634,125 @@ li.dg-map-firm-address .note {
 .dg-map-firm-payments span {
     background-color: #eeeeee;
 }
+/*
+    Schedule Start
+*/
+.dg-map-firm-schedule-wrapper {
+  border-bottom: 1px solid #e6e1dc;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  box-shadow: 0 1px #fff;
+}
+
+.dg-map-firm-schedule {
+  margin: 5px -8px 0 -12px;
+  margin: 8px -8px 0 -12px;
+}
+
+
+.schedule__today {
+  position: relative;
+  display: inline-block;
+  margin-left: 36px;
+  border-bottom: 1px dashed #aaa5a0;
+  font-size: 14px;
+  line-height: 11px;
+  cursor: pointer;
+}
+.schedule__today:before {
+  position: absolute;
+  content: '';
+  width: 11px;
+  height: 11px;
+  top: 0;
+  left: -24px;
+  background: url("__BASE_URL__/img/clock.png") no-repeat;
+}
+.schedule__today:after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  right: -12px;
+  width: 10px;
+  height: 6px;
+  background: url("__BASE_URL__/img//maximize-popup.png") no-repeat;
+}
+.schedule__today-time {
+  color: #645a50;
+}
+.schedule__today-time:not(:last-of-type):after {
+  content: ',';
+}
+.schedule__now {
+  margin: 1px 7px 0px 36px;
+  /* Справа до края карточки должно быть 24px */
+
+  color: #aaa5a0;
+  font-size: 12px;
+}
+
+.schedule__string {
+  text-align: left;
+  padding: 3px 16px 3px 36px;
+}
+.schedule__string-time {
+  color: #645a50;
+  white-space: nowrap;
+}
+.schedule__table {
+  display:none;
+  padding: 0 12px;
+}
+/* Иконка часов слева от ряда периодов работы */
+.schedule__table-clock {
+  background: url("__BASE_URL__/img/clock.png") no-repeat;
+}
+/* Иконка чашки чая слева от ряда периодов обеда */
+.schedule__table-lunch {
+  background: url("__BASE_URL__/img/lunch.png") no-repeat;
+}
+.schedule__tc {
+  display: inline-block;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  vertical-align: top;
+  width: 13%;
+  padding: 15px 0 20px;
+}
+.schedule__tc_pre {
+  width: 9%;
+}
+.schedule__tc_active_true {
+  background: #dff2fa;
+}
+.schedule__day-name {
+  margin: 0;
+  color: #8c8782;
+}
+.schedule__td {
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-height: 32px;
+  margin: 10px 0 0;
+  color: #222;
+}
+.schedule_state_expanded .schedule__popup {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  max-height: 1000px;
+}
+/* Открытость фирмы */
+.schedule_open_false .schedule__today:before {
+  /* Сейчас закрыто */
+  background: url("__BASE_URL__/img/clock_off.png");
+}
+
+/*
+    Schedule End
+*/

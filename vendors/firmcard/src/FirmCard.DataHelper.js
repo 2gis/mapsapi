@@ -26,5 +26,22 @@ FirmCard.DataHelper = {
 		}
 		console && console.log("Cant't find translation for '" + msg + "'.");
 		return msg.toString().replace('_', ' ');
-	}
+	},
+
+	getProjectTime: function (timezoneOffset, time) {
+        var offset, now, utc;
+
+        if (time) {
+            now = new Date(time);
+        } else {
+            now = new Date();
+        }
+
+        if (timezoneOffset) {
+            utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            return new Date(utc + (60000 * timezoneOffset));
+        } else {
+            return now;
+        }
+    }
 };

@@ -47,7 +47,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         this.cancelLastRequest();
 
         function responseHandler(res) {
-            if (res && res.response.code == 200 && res.result && res.result.data && res.result.data.length) {
+            if (res && res.response && res.response.code == 200 && res.result && res.result.data && res.result.data.length) {
                 callback(res.result.data);
             } else {
                 callback();

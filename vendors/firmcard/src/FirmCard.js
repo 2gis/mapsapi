@@ -53,7 +53,7 @@ FirmCard.prototype = {
 		if (!fullFirmElExists) {
 			
 			var loaderHtml = this.options.render(this.options.tmpls.loader);
-			//console.log("_el", this._el, loaderHtml);
+			console.log("_el", this._el, loaderHtml);
 			this._el.insertAdjacentHTML("beforeend", loaderHtml);
 			this.options.ajax(this._id, function(data) {
 				self._renderFullCard.call(self, data[0]);
@@ -77,7 +77,7 @@ FirmCard.prototype = {
 		});
 		forecast = this._schedule.forecast(schedule);
 
-		//console.log("data+schedule+forecast", data, schedule, forecast);
+		console.log("data+schedule+forecast", data, schedule, forecast);
 		html = this.options.render(this.options.tmpls.fullFirm, {
 			firm: data,
 			schedule: schedule,
@@ -121,7 +121,7 @@ FirmCard.prototype = {
 		return this._id;
 	},
 
-	toggle: function(type) {
+	toggle: function() {
 		var id, display,
 			fullFirmElExists = !!this._fullFirmEl;
 
@@ -131,6 +131,17 @@ FirmCard.prototype = {
 			display = this._fullFirmEl.style.display;
 			display === 'none' ? this._expand(fullFirmElExists) : this._collapse();
 		}
+	},
+
+	toggleSchedule: function() {
+		//var style = document.getElementById('dg-firm-schedule-'+this._id).style,
+		var schedule = this._fullFirmEl.querySelector('.schedule__table'),
+			display = 'block';
+			if (!schedule) return;
+			if (schedule.style.display === 'block') {
+				display = 'none';
+			}
+			schedule.style.display = display;
 	},
 
 	render: function() {
