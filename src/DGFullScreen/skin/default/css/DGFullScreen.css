@@ -1,8 +1,8 @@
 /*Full screen control styles*/
 
-#map:-webkit-full-screen { width: 100% !important; height: 100% !important; }
-#map:-moz-full-screen { width: 100% !important; height: 100% !important; }
-#map:full-screen { width: 100% !important; height: 100% !important; }
+.leaflet-container:-webkit-full-screen { width: 100% !important; height: 100% !important; }
+.leaflet-container:-moz-full-screen { width: 100% !important; height: 100% !important; }
+.leaflet-container:fullscreen { width: 100% !important; height: 100% !important; }
 
 
 .dg-fullscreen-icon {
