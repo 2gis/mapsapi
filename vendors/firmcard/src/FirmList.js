@@ -2,7 +2,7 @@
  ++ 1. Обернуть весь плагин в один неймспейс
  ++ 2. Пофиксить автоскролл при открытии карточки в конце списка
  ++ 3. Инит барона, если развернули много карточек
-    4. Механизм смены языка
+ ++ 4. Механизм смены языка
     5. Описать в доке методы setHeader, setFooter
  ++ 6. Вернуть крестик закрытыя балуна
  ++ 7. Пофиксить лоадер
@@ -25,7 +25,6 @@
         this._container.setAttribute('class', 'dg-map-infocard-firmlist');
         this._innerFirmsList = document.createDocumentFragment();
 
-        this._isCached = false;
         this._newPageFirms = {};
 
         this._eventHandlersInited = false;
@@ -36,24 +35,6 @@
 
     FirmCard.List.prototype = {
 
-        _initEventHandlers : function () {
-            var self = this;
-
-            this._eventHandlersInited = true;
-            this._container.addEventListener("click", function(e) {
-                var e = e || window.event;
-                if(!e.target) e.target = e.srcElement;
-
-                if (e.target && e.target.nodeName == "A") {
-                    if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
-                        self.toggleFirm(e.target.id);
-                    } else if (e.target.className.indexOf('dg-map-work-time') !== -1) {
-                        console.log('schedule clicked');
-                    }
-                }
-            });
-        },
-
         renderList : function () {
             var firms = this._newPageFirms;
             if (!this._eventHandlersInited) this._initEventHandlers();
@@ -62,7 +43,6 @@
                     this._innerFirmsList.appendChild(this._renderFirm(firm));
                 }
             this._container.appendChild( this._innerFirmsList );
-            this._isCached = true;
         },
 
         addFirms : function (firms) {
@@ -82,14 +62,12 @@
         },
 
         clearList : function () {
-            this._isCached = false;
             this._firms = {};
             this._clearContainer();
         },
 
         setLang : function (newLang) {
             this._addOptions.lang = newLang;
-            //_clearCache();
         },
 
         getLang : function () {
@@ -105,22 +83,36 @@
             }
         },
 
-        isListCached: function () {
-            return this._isCached;
-        },
-
         getContainer: function () {
             return this._container;
         },
 
-        _prepareList: function(firms){
+        _initEventHandlers : function () {
+            var self = this;
+
+            this._eventHandlersInited = true;
+            this._container.addEventListener("click", function(e) {
+                var e = e || window.event;
+                if(!e.target) e.target = e.srcElement;
+
+                if (e.target && e.target.nodeName == "A") {
+                    if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
+                        self.toggleFirm(e.target.id);
+                    } else if (e.target.className.indexOf('dg-map-work-time') !== -1) {
+                        console.log('schedule clicked');
+                    }
+                }
+            });
+        },
+
+        _prepareList: function(firms) {
             var self = this;
 
             if (this._defaultFirm) {
                 firms.unshift(this._defaultFirm);
             }
 
-            self.addFirms(firms);
+            this.addFirms(firms);
             setTimeout(self._onReady, 1);   // We need setTimeout here because _prepareList was called in constructor and would finish first
         },
 
