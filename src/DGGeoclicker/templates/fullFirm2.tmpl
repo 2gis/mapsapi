@@ -43,20 +43,20 @@
         <% } %>
     </ul>
 	<ul class="dg-map-firm-box">
-    	<li class="dg-map-firm-row">    
+    	<li class="dg-map-firm-row">
 			<!-- Расписание работы -->
 			<div class="dg-map-firm-schedule-wrapper">
 			    <div class="firm-card__schedule">
 			        <%if (schedule) {%>
 				        <%if (forecast.today) {%>
 							<div class="schedule__today schedule_open_false">
-							    <%=forecast.today.text%> 
+							    <%=forecast.today.text%>
 							    <%if (forecast.today.from) {%>
 							        <span class="schedule__today-time"><%=forecast.today.from%>&ndash;<%=forecast.today.to%></span>
 							    <%}%>
 
 							    <%if (schedule.lunch) {%>
-							        <%=dict.t('ru', 'lunch')%>
+							        <%=dict.t(lang, 'lunch')%>
 							        <%for (var i = 0, l = schedule.lunch.length; i < l; i++) {%>
 							            <span class="schedule__today-time"><%=schedule.lunch[i].from%>&ndash;<%=schedule.lunch[i].to%></span>
 							        <%}%>
@@ -69,7 +69,7 @@
 							    <!--Вывод строки прогноза, например "откроется завтра" или "закроется через 15 минут" -->
 							    <span class="schedule__now-text"><%=forecast.today.text%></span>
 							</div>
-						<%}%>		
+						<%}%>
 
 						<%if (!schedule.everyday) {%>
 						<!--Если ежедневно одно и то же расписание - попап не нужен -->
@@ -93,11 +93,11 @@
 							                    <%}%>
 							                    &nbsp;&mdash;&nbsp;
 							                    <%if (evently[j].holiday) {%>
-							                        <span class="schedule__string-time"><%=dict.t('ru', 'restDay')%></span>
+							                        <span class="schedule__string-time"><%=dict.t(lang, 'restDay')%></span>
 							                    <%} else {%>
 							                        <span class="schedule__string-time"><%=evently[j].from%>&ndash;<%=evently[j].to%></span>
 							                        <%if (evently[j].lunch) {%>
-							                            , <%=dict.t('ru', 'lunch')%> <span class="schedule__string-time"><%=evently[j].lunch.from%>&ndash;<%=evently[j].lunch.to%></span>
+							                            , <%=dict.t(lang, 'lunch')%> <span class="schedule__string-time"><%=evently[j].lunch.from%>&ndash;<%=evently[j].lunch.to%></span>
 							                        <%}%>
 							                    <%}%>
 								            </div>
@@ -158,9 +158,9 @@
     <a target="_blank" class="dg-map-firm-link-with-icon" href="<%=dataHelper.getFlampUrl(firm)%>">
         <span class="link-icon dg-map-icon dg-map-icon-flamp"></span>
         <% if (firm.info && firm.info.reviewscount) { %>
-        <span class="dg-map-firm-link-text"><%=dict.t("ru", "reviewsOnFlamp")%></span>
+        <span class="dg-map-firm-link-text"><%=dict.t(lang, "reviewsOnFlamp")%></span>
         <% } else { %>
-        <span class="dg-map-firm-link-text"><%=dict.t("ru", "writeReviewOnFlamp")%></span>
+        <span class="dg-map-firm-link-text"><%=dict.t(lang, "writeReviewOnFlamp")%></span>
         <% } %>
     </a>
     <% if (firm.reviews && firm.reviews.count) { %>
@@ -169,8 +169,8 @@
     </li>
     </ul>
     <% } %>
-    
-    
+
+
     <!-- Company payment methods -->
     <%if (firm.attributes && firm.attributes.general && firm.attributes.general.items && firm.attributes.general.items.length) { %>
     <ul class="dg-map-firm-box dg-map-firm-payments">
@@ -179,13 +179,13 @@
                 <% if (firm.attributes.general.items[t].name == 'payment_type') {
                         var payMethods = firm.attributes.general.items[t].value;
                         for (var u = 0, methods = payMethods.length; u < methods; u++) { %>
-                            <span><%=dict.t('ru', payMethods[u])%></span>
+                            <span><%=dict.t(lang, payMethods[u])%></span>
                         <%}
-                    } 
+                    }
                 %>
             <%}%>
         </li>
     </ul>
     <% } %>
-    
+
 </div>

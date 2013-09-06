@@ -1,14 +1,20 @@
 FirmCard.Schedule = function(options) {
     var options = options || {};
-   
-    /*this.localLang = options.localLang || 'ru';
-    this.localWorkingDays = options.localWorkingDays || [0, 1, 1, 1, 1, 1, 0];
+
+    this.localLang = options.localLang || 'ru';
+    /*this.localWorkingDays = options.localWorkingDays || [0, 1, 1, 1, 1, 1, 0];
     this.firstdayOffset = options.firstdayOffset || 1;
     this.minHoursToDisplayClosure = options.minHoursToDisplayClosure || 4;*/
     return this;
 };
 
 FirmCard.Schedule.prototype = {
+
+    setLang: function (lang) {
+        this.localLang = lang || 'ru';
+
+        return this;
+    },
 
     transform: function (model, params) {
 
@@ -24,16 +30,16 @@ FirmCard.Schedule.prototype = {
         zoneOffset = params.zoneOffset || 0,
         schedule = {}, // Объект-расписание, формируемый под шаблон
         apiHourFormat = 'HH:mm', // Формат времени в API, например 08:01
-        
+
         //now = (params || {}).now || moment().add('seconds', userAgentTimeOffset).valueOf(), // Current timestamp in milliseconds
-        
+
         now = params.now || moment().add('seconds', FirmCard.DataHelper.getProjectTime(zoneOffset)).valueOf(), // Current timestamp in milliseconds
-        
+
         weekKeys = [], // Ключи дней недели, определяют порядок дней и первый день недели. 0 - первый день недели в регионе (не обязательно Mon)
         weekKeysLocal = [],
         weekFullKeysLocal = [],
         orgWorkginDays, // Рабочие дни данной организации
-        
+
         apiLang = params.apiLang || 'en',//* добавлено, т.к. была ошибка
         localLang = params.localLang || 'en',
         localWorkingDays = params.localWorkingDays || [0, 1, 1, 1, 1, 1, 0],
@@ -180,7 +186,7 @@ FirmCard.Schedule.prototype = {
 
     // Поместить данные в объект для шаблона о сегодняшнем дне
     function setTodayString(today) {
-        debugger;
+
         var timePoints,
             periods = [],
             timestamps;
@@ -577,12 +583,6 @@ FirmCard.Schedule.prototype = {
         comment: schedule.comment,
         everyday: schedule.everyday
     };
-    },
-
-    setLang: function (lang) {
-        this.localLang = lang || 'ru';
-
-        return this;
     }
 
 }

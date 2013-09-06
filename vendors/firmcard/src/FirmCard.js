@@ -54,15 +54,15 @@ FirmCard.prototype = {
 		var self = this;
 
 		if (!fullFirmElExists) {
-			
+
 			var loaderHtml = this.options.render(this.options.tmpls.loader);
 			console.log("_el", this._el, loaderHtml);
 			this._el.insertAdjacentHTML("beforeend", loaderHtml);
 			this.options.ajax(this._id, function(data) {
 				self._renderFullCard.call(self, data[0]);
 				self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
-			});	
-			
+			});
+
 		} else {
 			this._fullFirmEl.style.display = 'block';
 		}
@@ -76,7 +76,9 @@ FirmCard.prototype = {
 
 		this._firmData = data;
 		schedule = this._schedule.transform(data.schedule, {
-			zoneOffset: this.options.timezoneOffset
+			zoneOffset: this.options.timezoneOffset,
+			apiLang: this.options.lang,
+			localLang: this.options.lang
 		});
 		forecast = this._schedule.forecast(schedule);
 
@@ -91,7 +93,7 @@ FirmCard.prototype = {
 		});
 
 		this._createFullFirmEl(html);
-		
+
 
 		this._el.appendChild(this._fullFirmEl);
 		this.options.callback && this.options.callback(this._el);
