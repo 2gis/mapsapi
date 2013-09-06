@@ -490,9 +490,10 @@ function makeJSPackage(modulesList, skin, isMsg) {
  * @param {String} skin
  * @param {Boolean} addIE
  * @param {Boolean} addClean
+ * @param {Boolean} isMsg  Show messages on run CLI mode
  * @return {String}
  */
-function makeCSSPackage(modulesList, skin, addIE, addClean) {
+function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
     var loadedFiles = {},
         countModules = 0,
         result = '';
@@ -518,7 +519,9 @@ function makeCSSPackage(modulesList, skin, addIE, addClean) {
         }
     }
 
-    console.log('Concatenating CSS in ' + countModules + ' modules...\n');
+    if (isMsg) {
+        console.log('Concatenating CSS in ' + countModules + ' modules...\n');
+    }
 
     function concatenateFiles(moduleSrc) {
         for (var file in moduleSrc) {
@@ -746,7 +749,7 @@ exports.build = function () {
     modulesList = getModulesList(pkg, true);
 
     var packAndConcatCss = function (name, addIE, addClean) {
-        var cssSrcContent = makeCSSPackage(modulesList, skin, addIE, addClean);
+        var cssSrcContent = makeCSSPackage(modulesList, skin, addIE, addClean, true);
         fs.writeFileSync(cssDest[name], cssSrcContent);
 
         console.log('\nCompressing CSS...\n');
@@ -826,7 +829,7 @@ exports.getJS = function (params, callback) {
 exports.getCSS = function (params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE, true);
+    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE, true, false);
     contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };
