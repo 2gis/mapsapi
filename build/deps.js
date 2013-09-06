@@ -193,6 +193,22 @@ var deps = {
             'DGEntrance/src/EventHandler.js'
         ],
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
+    },
+
+    DGLocationControl: {
+        desc: 'Location control module',
+        src: [
+            '../vendors/leaflet-locatecontrol/src/L.Control.Locate.js',
+            'DGLocationControl/src/DGLocationControl.js'
+        ],
+        css: {
+            all: [
+                'DGLocationControl/skin/{skin}/css/DGLocationControl.css'
+                // '../vendors/leaflet-locatecontrol/src/L.Control.Locate.css'
+            ],
+            // ie: ['../vendors/leaflet-locatecontrol/src/L.Control.Locate.ie.css']
+        },
+        deps: ['DGCore']
     }
 };
 
