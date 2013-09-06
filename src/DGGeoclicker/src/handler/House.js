@@ -27,6 +27,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._fillHouseObject(results.house);
 
+        this._initedPopupClose = false;
+
         if (this._defaultFirm) {
             this._onHandleReady = callback;
             this._fillFirmListObject();
@@ -119,10 +121,13 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initPopupClose: function() {
-        this._controller.getMap().on('popupclose', L.bind(this._onPopupClose, this));
+        if (this._initedPopupClose) return;
+        this._controller.getMap().once('popupclose', L.bind(this._onPopupClose, this));
+        this._initedPopupClose = true;
     },
 
     _onPopupClose: function() {
+        this._initedPopupClose = false;
         if (this._firmList) {
             this._firmList.clearList();
             this._firmList = null;

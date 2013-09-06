@@ -54,24 +54,15 @@
             });
         },
 
-        renderFirms : function (isAppend) {
-            var firms = isAppend ? this._newPageFirms : this._firms;
-
+        renderList : function () {
+            var firms = this._newPageFirms;
+            if (!this._eventHandlersInited) this._initEventHandlers();
             for (var firm in firms)
                 if (firms.hasOwnProperty(firm)) {
                     this._innerFirmsList.appendChild(this._renderFirm(firm));
                 }
-
-            return this._innerFirmsList;
-        },
-
-        renderList : function () {
-            if (!this._eventHandlersInited) this._initEventHandlers();
-
-            this._container.appendChild(this.renderFirms());
+            this._container.appendChild( this._innerFirmsList );
             this._isCached = true;
-
-            return this._container;
         },
 
         addFirms : function (firms) {
@@ -126,7 +117,7 @@
             var self = this;
 
             if (this._defaultFirm) {
-                this._addFirm(this._defaultFirm);
+                firms.unshift(this._defaultFirm);
             }
 
             self.addFirms(firms);
