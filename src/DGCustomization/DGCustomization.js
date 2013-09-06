@@ -121,21 +121,30 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return this;
         },
 
+        _updateScrollPosition: function() {
+            this._baron && this._baron.update();
+        },
+
         _resize: function () {
-            var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
+            var isBaronExist = this._isBaronExist,
+                scrollTop = isBaronExist ? this._scroller.scrollTop : false,
+                shouldShowBaron;
+
             this._updateLayout();
             this._updatePosition();
-            var shouldShowBaron = this._isContentHeightFit();
+
+            shouldShowBaron = this._isContentHeightFit();
             if (shouldShowBaron) {
-                if (!this._isBaronExist) {
+                if (!isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
                 } else {
                     L.DomUtil.removeClass(this._barWrapper, 'dg-baron-hide');
                     if (scrollTop) this._scroller.scrollTop = scrollTop;
+                    this._updateScrollPosition();
                 }
             } else {
-                if (this._isBaronExist){
+                if (isBaronExist){
                     L.DomUtil.addClass(this._barWrapper, 'dg-baron-hide');
                 }
             }
@@ -246,7 +255,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
             this._container.style.visibility = '';
-            //this._adjustPan();
         },
 
         _updateContent: function () {
@@ -327,7 +335,6 @@ L.Map.include({
 });
 
 // Applies 2GIS divIcon to marker
-
 L.Marker.prototype.options.icon = L.DG.divIcon();
 
 // Adds posibility to change max zoom level
