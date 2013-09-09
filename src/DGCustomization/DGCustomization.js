@@ -84,18 +84,22 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         setHeaderContent: function (content) {
             this._headerContent = content;
+            this._update();
+
             return this;
         },
 
         setFooterContent: function (content) {
             this._footerContent = content;
+            this._update();
+
             return this;
         },
 
         clearHeaderFooter: function() {
             this.clearHeader();
             this.clearFooter();
-            // TEMPORARY HACK!
+            // think about remove this set to another public method
             this._isBaronExist = false;
             return this;
         },
