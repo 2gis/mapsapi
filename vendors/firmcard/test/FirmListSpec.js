@@ -11,9 +11,12 @@ describe('DGFirmList', function () {
         render = sinon.stub(FirmCard.prototype, 'render', function () {
             var testFirm = document.createElement('li');
             testFirm.className = 'test-firm';
-            testFirm.id = this._id;
-            return testFirm;
+            testFirm.id = 'firm-' + this._id;
+            if (!this._el) {
+                this._el = testFirm;
+            }
 
+            return testFirm;
         });
     });
 
@@ -24,52 +27,78 @@ describe('DGFirmList', function () {
 
     describe('#should set correct default options:', function () {
         it("default container", function() {
-            firmList = new FirmCard.List({}, results);
-            expect(firmList.getContainer()).to.be.ok();
+            var firmList = new FirmCard.List({}, results);
+            expect(firmList.getContainer().className).to.be('dg-map-infocard-firmlist');
         });
 
         it("default lang = ru", function() {
-            firmList = new FirmCard.List({}, results);
+            var firmList = new FirmCard.List({}, results);
             expect(firmList.getLang()).to.be('ru');
         });
     })
 
     describe('#should manage FirmCards in correct way:', function () {
-        it("render results", function() {
+        it("render results and return FirmList container", function() {
             var customContainer = document.createElement('div'),
-                firmList = new FirmCard.List({container: customContainer}, results);
-            firmList.renderList();
+                firmList = new FirmCard.List({container: customContainer}, results),
+                container = firmList.renderList();
 
+            expect(customContainer.className).to.be('dg-map-infocard-firmlist');
             expect(customContainer.querySelectorAll('.test-firm').length).to.be(4);
         });
 
-        it("add provided firms", function() {
+        it("add firm", function() {
             var customContainer = document.createElement('div'),
                 firmList = new FirmCard.List({container: customContainer}, results);
+            firmList.addFirms(defaultFirm);
             firmList.renderList();
+
+            expect(customContainer.querySelectorAll('.test-firm').length).to.be(5);
+        });
+
+        it("add firms array", function() {
+            var customContainer = document.createElement('div'),
+                firmList = new FirmCard.List({container: customContainer}, results);
             firmList.addFirms(addFirms);
             firmList.renderList();
 
             expect(customContainer.querySelectorAll('.test-firm').length).to.be(8);
         });
 
-        it("remove firms", function() {
+        it("remove firm", function() {
             var customContainer = document.createElement('div'),
                 firmList = new FirmCard.List({container: customContainer}, results);
             firmList.renderList();
-            firmList.removeFirms(['141265769760312']);
-            console.log(customContainer);
+            firmList.removeFirms('141265769760312');
 
-            //expect(customContainer.querySelector('#141265769760312')).not.to.be.ok();
+            expect(customContainer.querySelector('#firm-141265769760312')).not.to.be.ok();
             expect(customContainer.querySelectorAll('.test-firm').length).to.be(3);
         });
 
-        it("set defaul firm to first pos if provided", function() {
+        it("remove firms array", function() {
+            var customContainer = document.createElement('div'),
+                firmList = new FirmCard.List({container: customContainer}, results);
+            firmList.renderList();
+            firmList.removeFirms(['141265769760312', '141265769349900', '141265770849956']);
+
+            expect(customContainer.querySelectorAll('.test-firm').length).to.be(1);
+        });
+
+        it("remove firms if List was cleared", function() {
+            var customContainer = document.createElement('div'),
+                firmList = new FirmCard.List({container: customContainer}, results);
+            firmList.renderList();
+            firmList.clearList();
+
+            expect(customContainer.querySelectorAll('.test-firm').length).to.be(0);
+        });
+
+        it("set defaul firm to first position if provided", function() {
             var customContainer = document.createElement('div'),
                 firmList = new FirmCard.List({container: customContainer, defaultFirm: defaultFirm}, results);
             firmList.renderList();
 
-            expect(customContainer.firstChild.id).to.be('141265769358463');
+            expect(customContainer.firstChild.id).to.be('firm-141265769358463');
             expect(customContainer.querySelectorAll('.test-firm').length).to.be(5);
         });
 

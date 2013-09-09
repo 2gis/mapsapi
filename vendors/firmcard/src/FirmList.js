@@ -43,23 +43,37 @@
                     this._innerFirmsList.appendChild(this._renderFirm(firm));
                 }
             this._container.appendChild(this._innerFirmsList);
+            this._newPageFirms = {};
+
+            return this._container;
         },
 
         addFirms : function (firms) {
-            this._newPageFirms = {};
             if (firms) {
-                for (var i = 0, l = firms.length; i < l; i++) {
-                    this._addFirm(firms[i]);
+                if (this._isArray(firms)) {
+                    for (var i = 0, l = firms.length; i < l; i++) {
+                        this._addFirm(firms[i]);
+                    }
+                } else {
+                    this._addFirm(firms);
                 }
             }
         },
 
-        removeFirms : function (id) {
-            //TODO handle IDs if its array
-            this._firms[id] ? '' : delete this._firms[id];
+        removeFirms : function (ids) {
+            if (ids) {
+                if (this._isArray(ids)) {
+                    for (var i = 0, l = ids.length; i < l; i++) {
+                        this._removeFirm(ids[i]);
+                    }
+                } else {
+                    this._removeFirm(ids);
+                }
+            }
         },
 
         clearList : function () {
+            this._newPageFirms = {};
             this._firms = {};
             this._clearContainer();
         },
@@ -101,6 +115,16 @@
                     }
                 }
             });
+        },
+
+        _removeFirm: function (id) {
+            var firmCard = this._firms[id] ? this._firms[id].getContainer() : false;
+            firmCard ? this._container.removeChild(firmCard) : false;
+            this._firms[id] ? delete this._firms[id] : false;
+        },
+
+        _isArray: function (obj) {
+            return {}.toString.call(obj) == '[object Array]';
         },
 
         _prepareList: function(firms) {
