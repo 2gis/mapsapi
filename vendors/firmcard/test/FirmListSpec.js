@@ -28,11 +28,13 @@ describe('DGFirmList', function () {
     describe('#should set correct default options:', function () {
         it("default container", function() {
             var firmList = new FirmCard.List({}, results);
+
             expect(firmList.getContainer().className).to.be('dg-map-infocard-firmlist');
         });
 
         it("default lang = ru", function() {
             var firmList = new FirmCard.List({}, results);
+
             expect(firmList.getLang()).to.be('ru');
         });
     })
