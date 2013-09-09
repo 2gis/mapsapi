@@ -19,31 +19,31 @@
         });
 
         L.DG.when(
-            L.DG.Ajax.jsonp({
-                url: 'http://catalog.api.2gis.ru/project/list',
+            L.DG.Ajax('http://catalog.api.2gis.ru/project/list', {
+                type: 'jsonp',
                 data: {
                     output: 'jsonp',
                     key: 'ruxlih0718',
                     version: 1.3,
                     lang: 'ru'
-                },
-                success: function(data) {
-                    console.log('success', data);
-                },
-                error: function(error) {
-                    console.log('error', error);
-                },
-                beforeSend: function() {
-                    console.log('beforeSend');
-                },
-                complete: function() {
-                    console.log('complete');
                 }
-            }),
-            function(){ console.log('onFulfilled', arguments, this) },
-            function(){ console.log('onRejected', arguments, this) },
-            function(){ console.log('onProgress', arguments, this) }
-        );
+            })
+        )
+        .then(function(){ console.log('then', arguments, this) })
+        .reject(function(){ console.log('reject', arguments, this) });
+
+        // success: function(data) {
+        //     console.log('success', data);
+        // },
+        // error: function(error) {
+        //     console.log('error', error);
+        // },
+        // beforeSend: function() {
+        //     console.log('beforeSend');
+        // },
+        // complete: function() {
+        //     console.log('complete');
+        // }
 
     });
 </script>

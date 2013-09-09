@@ -166,324 +166,228 @@ L.DG.Ajax = (function(){
     }
   }
 
-  function getRequest(fn, err) {
-    var o = this.o
-      , method = (o.method || 'GET').toUpperCase()
-      , url = typeof o === 'string' ? o : o.url
-      // convert non-string objects to query-string form unless o.processData is false
-      , data = (o.processData !== false && o.data && typeof o.data !== 'string')
-        ? namespace.toQueryString(o.data)
-        : (o.data || null)
-      , http
-      , sendWait = false
+    function getRequest(fn, err) {
+        var o = this.o
+            , method = (o.method || 'GET').toUpperCase()
+            , url = typeof o === 'string' ? o : o.url
+            // convert non-string objects to query-string form unless o.processData is false
+            , data = (o.processData !== false && o.data && typeof o.data !== 'string')
+            ? namespace.toQueryString(o.data)
+            : (o.data || null)
+            , http
+            , sendWait = false
 
-    // if we're working on a GET request and we have data then we should append
-    // query string to end of URL and not post data
-    if ((o.type == 'jsonp' || method == 'GET') && data) {
-      url = urlappend(url, data)
-      data = null
-    }
-
-    if (o.type == 'jsonp') return handleJsonp(o, fn, err, url)
-
-    http = xhr(o)
-    http.open(method, url, o.async === false ? false : true)
-    setHeaders(http, o)
-    setCredentials(http, o)
-    if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
-        http.onload = fn
-        http.onerror = err
-        // NOTE: see
-        // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
-        http.onprogress = function() {}
-        sendWait = true
-    } else {
-      http.onreadystatechange = handleReadyState(this, fn, err)
-    }
-    o.before && o.before(http)
-    if (sendWait) {
-      setTimeout(function () {
-        http.send(data)
-      }, 200)
-    } else {
-      http.send(data)
-    }
-    return http
-  }
-
-  function Request(o, fn) {
-    this.o = o
-    this.fn = fn
-
-    init.apply(this, arguments)
-  }
-
-  function setType(url) {
-    var m = url.match(/\.(json|jsonp|html|xml)(\?|$)/)
-    return m ? m[1] : 'js'
-  }
-
-  function init(o, fn) {
-
-    this.url = typeof o == 'string' ? o : o.url
-    this.timeout = null
-
-    // whether request has been fulfilled for purpose
-    // of tracking the Promises
-    this._fulfilled = false
-    // success handlers
-    this._successHandler = function(){}
-    this._fulfillmentHandlers = []
-    // error handlers
-    this._errorHandlers = []
-    // complete (both success and fail) handlers
-    this._completeHandlers = []
-    this._erred = false
-    this._responseArgs = {}
-
-    var self = this
-      , type = o.type || setType(this.url)
-
-    fn = fn || function () {}
-
-    if (o.timeout) {
-      this.timeout = setTimeout(function () {
-        self.abort()
-      }, o.timeout)
-    }
-
-    if (o.success) {
-      this._successHandler = function () {
-        o.success.apply(o, arguments)
-      }
-    }
-
-    if (o.error) {
-      this._errorHandlers.push(function () {
-        o.error.apply(o, arguments)
-      })
-    }
-
-    if (o.complete) {
-      this._completeHandlers.push(function () {
-        o.complete.apply(o, arguments)
-      })
-    }
-
-    function complete (resp) {
-      o.timeout && clearTimeout(self.timeout)
-      self.timeout = null
-      while (self._completeHandlers.length > 0) {
-        self._completeHandlers.shift()(resp)
-      }
-    }
-
-    function success (resp) {
-      resp = (type !== 'jsonp') ? self.request : resp
-      // use global data filter on response text
-      var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type)
-        , r = filteredResponse
-      try {
-        resp.responseText = r
-      } catch (e) {
-        // can't assign this in IE<=8, just ignore
-      }
-      if (r) {
-        switch (type) {
-        case 'json':
-          try {
-            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')')
-          } catch (err) {
-            return error(resp, 'Could not parse JSON in response', err)
-          }
-          break
-        case 'js':
-          resp = eval(r)
-          break
-        case 'html':
-          resp = r
-          break
-        case 'xml':
-          resp = resp.responseXML
-              && resp.responseXML.parseError // IE trololo
-              && resp.responseXML.parseError.errorCode
-              && resp.responseXML.parseError.reason
-            ? null
-            : resp.responseXML
-          break
+        // if we're working on a GET request and we have data then we should append
+        // query string to end of URL and not post data
+        if ((o.type == 'jsonp' || method == 'GET') && data) {
+          url = urlappend(url, data)
+          data = null
         }
-      }
 
-      self._responseArgs.resp = resp
-      self._fulfilled = true
-      fn(resp)
-      self._successHandler(resp)
-      while (self._fulfillmentHandlers.length > 0) {
-        resp = self._fulfillmentHandlers.shift()(resp)
-      }
+        if (o.type == 'jsonp') return handleJsonp(o, fn, err, url)
 
-      complete(resp)
-    }
-
-    function error(resp, msg, t) {
-      resp = self.request
-      self._responseArgs.resp = resp
-      self._responseArgs.msg = msg
-      self._responseArgs.t = t
-      self._erred = true
-      while (self._errorHandlers.length > 0) {
-        self._errorHandlers.shift()(resp, msg, t)
-      }
-      complete(resp)
-    }
-
-    this.request = getRequest.call(this, success, error)
-  }
-
-  Request.prototype = {
-    abort: function () {
-      this._aborted = true
-      this.request.abort()
-    }
-
-  , retry: function () {
-      init.call(this, this.o, this.fn)
-    }
-
-    /**
-     * Small deviation from the Promises A CommonJs specification
-     * http://wiki.commonjs.org/wiki/Promises/A
-     */
-
-    /**
-     * `then` will execute upon successful requests
-     */
-  , then: function (success, fail) {
-      success = success || function () {}
-      fail = fail || function () {}
-      if (this._fulfilled) {
-        this._responseArgs.resp = success(this._responseArgs.resp)
-      } else if (this._erred) {
-        fail(this._responseArgs.resp, this._responseArgs.msg, this._responseArgs.t)
-      } else {
-        this._fulfillmentHandlers.push(success)
-        this._errorHandlers.push(fail)
-      }
-      return this
-    }
-
-    /**
-     * `always` will execute whether the request succeeds or fails
-     */
-  , always: function (fn) {
-      if (this._fulfilled || this._erred) {
-        fn(this._responseArgs.resp)
-      } else {
-        this._completeHandlers.push(fn)
-      }
-      return this
-    }
-
-    /**
-     * `fail` will execute when the request fails
-     */
-  , fail: function (fn) {
-      if (this._erred) {
-        fn(this._responseArgs.resp, this._responseArgs.msg, this._responseArgs.t)
-      } else {
-        this._errorHandlers.push(fn)
-      }
-      return this
-    }
-  }
-
-  function namespace(url, o, fn) {
-    return new Request(url, o, fn)
-  }
-
-  namespace.toQueryString = function (o, trad) {
-    var prefix, i
-      , traditional = trad || false
-      , s = []
-      , enc = encodeURIComponent
-      , add = function (key, value) {
-          // If value is a function, invoke it and return its value
-          value = ('function' === typeof value) ? value() : (value == null ? '' : value)
-          s[s.length] = enc(key) + '=' + enc(value)
-        };
-
-    for (prefix in o) {
-      buildParams(prefix, o[prefix], traditional, add)
-    }
-
-    // spaces should be + according to spec
-    return s.join('&').replace(/%20/g, '+')
-  }
-
-  function buildParams(prefix, obj, traditional, add) {
-    var name, i, v
-      , rbracket = /\[\]$/
-
-    if (isArray(obj)) {
-      // Serialize array item.
-      for (i = 0; obj && i < obj.length; i++) {
-        v = obj[i]
-        if (traditional || rbracket.test(prefix)) {
-          // Treat each array item as a scalar.
-          add(prefix, v)
+        http = xhr(o)
+        http.open(method, url, o.async === false ? false : true)
+        setHeaders(http, o)
+        setCredentials(http, o)
+        if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
+            http.onload = fn
+            http.onerror = err
+            // NOTE: see
+            // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
+            http.onprogress = function() {}
+            sendWait = true
         } else {
-          buildParams(prefix + '[' + (typeof v === 'object' ? i : '') + ']', v, traditional, add)
+          http.onreadystatechange = handleReadyState(this, fn, err)
         }
-      }
-    } else if (obj && obj.toString() === '[object Object]') {
-      // Serialize object item.
-      for (name in obj) {
-        buildParams(prefix + '[' + name + ']', obj[name], traditional, add)
-      }
-
-    } else {
-      // Serialize scalar item.
-      add(prefix, obj)
+        o.before && o.before(http)
+        if (sendWait) {
+          setTimeout(function () {
+            http.send(data)
+          }, 200)
+        } else {
+          http.send(data)
+        }
+        return http
     }
-  }
 
-  namespace.jsonp = function(o, fn) {
-    o.type = 'jsonp';
-    return new Request(o, fn)
-  }
-
-  namespace.get = function(o, fn) {
-    o.method = 'get';
-    return new Request(o, fn)
-  }
-
-  namespace.post = function(o, fn) {
-    o.method = 'post';
-    return new Request(o, fn)
-  }
-
-  namespace.getCallbackPrefix = function () {
-    return callbackPrefix
-  }
-
-  // jQuery and Zepto compatibility, differences can be remapped here so you can call
-  // .ajax.compat(options, callback)
-  namespace.compat = function (o, fn) {
-    if (o) {
-      o.type && (o.method = o.type) && delete o.type
-      o.dataType && (o.type = o.dataType)
-      o.jsonpCallback && (o.jsonpCallbackName = o.jsonpCallback) && delete o.jsonpCallback
-      o.jsonp && (o.jsonpCallback = o.jsonp)
+    function setType(url) {
+        var m = url.match(/\.(json|jsonp|html|xml)(\?|$)/)
+        return m ? m[1] : 'js'
     }
-    return new Request(o, fn)
-  }
 
-  namespace.setup = function (options) {
-    options = options || {}
-    for (var k in options)
-      if (options.hasOwnProperty(k))
-        globalSetupOptions[k] = options[k]
-  }
+    function init(o, fn) {
 
-  return namespace
+        this.url = typeof o == 'string' ? o : o.url
+        this.timeout = null
+
+        // whether request has been fulfilled for purpose
+        // of tracking the Promises
+        this._fulfilled = false
+        // success handlers
+        this._successHandler = function(){}
+        this._fulfillmentHandlers = []
+        // error handlers
+        this._errorHandlers = []
+        // complete (both success and fail) handlers
+        this._completeHandlers = []
+        this._erred = false
+        this._responseArgs = {}
+
+        var self = this
+          , type = o.type || setType(this.url)
+
+        fn = fn || function () {}
+
+        if (o.timeout) {
+            this.timeout = setTimeout(function () {
+                self.abort()
+            }, o.timeout)
+        }
+
+        if (o.success) {
+            this._successHandler = function () {
+                o.success.apply(o, arguments)
+            }
+        }
+
+        if (o.error) {
+            this._errorHandlers.push(function () {
+                o.error.apply(o, arguments)
+            })
+        }
+
+        if (o.complete) {
+            this._completeHandlers.push(function () {
+                o.complete.apply(o, arguments)
+            })
+        }
+
+        function complete (resp) {
+            o.timeout && clearTimeout(self.timeout)
+            self.timeout = null
+            while (self._completeHandlers.length > 0) {
+            self._completeHandlers.shift()(resp)
+            }
+        }
+
+        function success (resp) {
+            resp = (type !== 'jsonp') ? self.request : resp
+            // use global data filter on response text
+            var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type)
+            , r = filteredResponse
+
+            try {
+                resp.responseText = r
+            } catch (e) {
+                // can't assign this in IE<=8, just ignore
+            }
+            if (r) {
+                switch (type) {
+                    case 'json':
+                        try {
+                            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')')
+                        } catch (err) {
+                            return error(resp, 'Could not parse JSON in response', err)
+                        }
+                        break
+                    case 'js':
+                        resp = eval(r)
+                        break
+                    case 'html':
+                        resp = r
+                        break
+                    case 'xml':
+                        resp = resp.responseXML
+                                && resp.responseXML.parseError // IE trololo
+                                && resp.responseXML.parseError.errorCode
+                                && resp.responseXML.parseError.reason
+                                ? null
+                                : resp.responseXML
+                        break
+                }
+            }
+
+            self._responseArgs.resp = resp
+            self._fulfilled = true
+            fn(resp)
+            self._successHandler(resp)
+            while (self._fulfillmentHandlers.length > 0) {
+                resp = self._fulfillmentHandlers.shift()(resp)
+            }
+
+            complete(resp)
+        }
+
+        function error(resp, msg, t) {
+            resp = self.request
+            self._responseArgs.resp = resp
+            self._responseArgs.msg = msg
+            self._responseArgs.t = t
+            self._erred = true
+            while (self._errorHandlers.length > 0) {
+                self._errorHandlers.shift()(resp, msg, t)
+            }
+            complete(resp)
+        }
+
+        this.request = getRequest.call(this, success, error)
+    }
+
+  // Request.prototype = {
+  //   abort: function () {
+  //     this._aborted = true
+  //     this.request.abort()
+  //   }
+
+  // , retry: function () {
+  //     init.call(this, this.o, this.fn)
+  //   }
+  // }
+
+    function Ajax(url, o, fn) {
+        var reqDeffered = L.DG.when.defer();
+        o = o || {}
+        o.url = url;
+        console.log(o);
+        console.log(reqDeffered);
+        console.log(reqDeffered.promise);
+        // init.apply(reqDeffered, arguments);
+        return reqDeffered.promise;
+    }
+
+    Ajax.setup = function (options) {
+        options = options || {}
+        for (var k in options) {
+            globalSetupOptions[k] = options[k]
+        }
+    };
+
+    Ajax.toQueryString = function (o, trad) {
+        var prefix, i
+          , traditional = trad || false
+          , s = []
+          , enc = encodeURIComponent
+          , add = function (key, value) {
+                // If value is a function, invoke it and return its value
+                value = ('function' === typeof value) ? value() : (value == null ? '' : value)
+                s[s.length] = enc(key) + '=' + enc(value)
+            }
+
+        // If an array was passed in, assume that it is an array of form elements.
+        if (isArray(o)) {
+            for (i = 0; o && i < o.length; i++) add(o[i].name, o[i].value)
+        } else {
+            // If traditional, encode the "old" way (the way 1.3.2 or older
+            // did it), otherwise encode params recursively.
+            for (prefix in o) {
+                buildParams(prefix, o[prefix], traditional, add)
+            }
+        }
+
+        // spaces should be + according to spec
+        return s.join('&').replace(/%20/g, '+')
+    };
+
+    return Ajax;
 })();
