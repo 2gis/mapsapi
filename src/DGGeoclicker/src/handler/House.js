@@ -30,7 +30,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._initedPopupClose = false;
 
         if (this._defaultFirm) {
-            this._onHandleReady = callback;
+            this._onFirmListReady = callback;
             this._fillFirmListObject();
         } else {
             callback(this._houseObject);
@@ -137,18 +137,17 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._isListOpenNow = false;
         this._popup.clearHeaderFooter();
         this._clearEventHandlers();
-        this._scroller = undefined;
     },
 
     _initShowMore: function () {
         var link = this._popup._contentNode.querySelector('#dg-showmorehouse');
 
         if (link) {
-            this._addEventHandler("DgShowMoreClick", link, 'click', L.bind(this._showMoreClick, this));
+            this._addEventHandler("DgShowMoreClick", link, 'click', L.bind(this._showListPopup, this));
         }
     },
 
-    _showMoreClick: function () {
+    _showListPopup: function () {
         if (!this._firmListObject) {
             this._fillFirmListObject();
         }
@@ -159,11 +158,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var link = this._popup._contentNode.querySelector('#dg-showlesshouse');
 
         if (link) {
-            this._addEventHandler('DgShowLessClick', link, 'click', L.bind(this._showLessClick, this));
+            this._addEventHandler('DgShowLessClick', link, 'click', L.bind(this._showHousePopup, this));
         }
     },
 
-    _showLessClick: function () {
+    _showHousePopup: function () {
         this._isListOpenNow = false;
         this._clearAndRenderPopup(this._houseObject);
     },
@@ -196,19 +195,16 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _renderFirmList: function(){
         if (this._isListOpenNow) return;
         this._isListOpenNow = true;
-        if (this._onHandleReady){
-            this._onHandleReady( this._firmListObject );
-            this._onHandleReady = null;
+        if (this._onFirmListReady){
+            this._onFirmListReady( this._firmListObject );
+            this._onFirmListReady = null;
         }
         this._firmList.renderList();
         this._popup._resize();
-        this._popup.fire();
-        if ((this._totalPages > 1) && (this._scroller = this._popup._scroller)) {
-            L.DomEvent.addListener( this._scroller,
-                'scroll',
-                L.Util.limitExecByInterval(L.bind(this._handleMouseWheel, this), this._scrollThrottleInterval)
-            );
-        }
+        this._popup.on(
+            'scroll',
+            L.Util.limitExecByInterval(this._handlePopupScroll, this._scrollThrottleInterval, this)
+        );
     },
 
     _appendFirmList: function (results) { // (Object)
@@ -218,41 +214,16 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup._baron.update();
     },
 
-    _scrollTo: function(to) {
-        var duration = 200,
-            element = this._popup._scroller,
-            start = element.scrollTop,
-            change = to - start
-            startTime = null;
-
-        var ease = function (t, b, c, d) {
-            return -c *(t/=d)*(t-2) + b;
-        };
-
-        var animateScroll = function(currentTime){
-            if (!startTime) startTime = currentTime;
-            var timeFrame = currentTime - startTime;
-
-            element.scrollTop = ease(timeFrame, start, change, duration);
-
-            if (currentTime - startTime < duration) {
-                L.Util.requestAnimFrame(arguments.callee, element);
-            }
-        };
-        L.Util.requestAnimFrame(animateScroll, element);
-    },
-
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
         this._popup._resize();
         if (cardExpanded && this._popup._scroller) {
-            this._scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
-            this._handleMouseWheel();
+            this._popup.scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
         }
     },
 
-    _handleMouseWheel: function() {
-        var scroller = this._scroller;
-
+    _handlePopupScroll: function ( event ) {
+        var scroller = event.originalEvent.target;
+        if (this._totalPages <= 1) return;
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
             this._handlePaging();
         }
