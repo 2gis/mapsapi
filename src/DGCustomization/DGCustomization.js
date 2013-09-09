@@ -146,6 +146,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 }
             };
             L.Util.requestAnimFrame(animateScroll, element);
+            return this;
         },
 
         _updateScrollPosition: function() {
