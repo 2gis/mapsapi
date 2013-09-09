@@ -18,7 +18,8 @@ L.DG.when = (function (global) {
 	when.any       = any;        // One-winner race
 	when.some      = some;       // Multi-winner race
 
-	when.isPromise = isPromise;  // Determine if a thing is a promise
+	when.isPromise = isPromiseLike;  // DEPRECATED: use isPromiseLike
+	when.isPromiseLike = isPromiseLike; // Is something promise-like, aka thenable
 
 	/**
 	 * Register an observer for a promise or immediate value.
@@ -56,6 +57,25 @@ L.DG.when = (function (global) {
 	}
 
 	Promise.prototype = {
+		/**
+		 * Register handlers for this promise.
+		 * @param [onFulfilled] {Function} fulfillment handler
+		 * @param [onRejected] {Function} rejection handler
+		 * @param [onProgress] {Function} progress handler
+		 * @return {Promise} new Promise
+		 */
+		then: function(onFulfilled, onRejected, onProgress) {
+			/*jshint unused:false*/
+			var args, sendMessage;
+
+			args = arguments;
+			sendMessage = this._message;
+
+			return _promise(function(resolve, reject, notify) {
+				sendMessage('when', args, resolve, notify);
+			}, this._status && this._status.observed());
+		},
+
 		/**
 		 * Register a rejection handler.  Shortcut for .then(undefined, onRejected)
 		 * @param {function?} onRejected
@@ -238,7 +258,7 @@ L.DG.when = (function (global) {
 		var self, value, consumers = [];
 
 		self = new Promise(_message, inspect);
-		self.then = then;
+		self._status = status;
 
 		// Call the provider resolver to seal the promise's fate
 		try {
@@ -250,6 +270,15 @@ L.DG.when = (function (global) {
 		// Return the promise
 		return self;
 
+		/**
+		 * Private message delivery. Queues and delivers messages to
+		 * the promise's ultimate fulfillment value or rejection reason.
+		 * @private
+		 * @param {String} type
+		 * @param {Array} args
+		 * @param {Function} resolve
+		 * @param {Function} notify
+		 */
 		function _message(type, args, resolve, notify) {
 			consumers ? consumers.push(deliver) : enqueue(function() { deliver(value); });
 
@@ -267,21 +296,6 @@ L.DG.when = (function (global) {
 		 */
 		function inspect() {
 			return value ? value.inspect() : toPendingState();
-		}
-
-		/**
-		 * Register handlers for this promise.
-		 * @param [onFulfilled] {Function} fulfillment handler
-		 * @param [onRejected] {Function} rejection handler
-		 * @param [onProgress] {Function} progress handler
-		 * @return {Promise} new Promise
-		 */
-		function then(onFulfilled, onRejected, onProgress) {
-			/*jshint unused:false*/
-			var args = arguments;
-			return _promise(function(resolve, reject, notify) {
-				_message('when', args, resolve, notify);
-			}, status && status.observed());
 		}
 
 		/**
@@ -357,7 +371,7 @@ L.DG.when = (function (global) {
 	 * @returns {Promise}
 	 */
 	function near(proxy, inspect) {
-		return new Promise(function(type, args, resolve) {
+		return new Promise(function (type, args, resolve) {
 			try {
 				resolve(proxy[type].apply(proxy, args));
 			} catch(e) {
@@ -395,7 +409,7 @@ L.DG.when = (function (global) {
 	 *   * x if it's a value
 	 */
 	function coerce(x) {
-		if(x instanceof Promise) {
+		if (x instanceof Promise) {
 			return x;
 		}
 
@@ -440,7 +454,7 @@ L.DG.when = (function (global) {
 
 	/**
 	 * Proxy for a near rejection
-	 * @param {*} value
+	 * @param {*} reason
 	 * @constructor
 	 */
 	function NearRejectedProxy(reason) {
@@ -472,20 +486,22 @@ L.DG.when = (function (global) {
 	}
 
 	function updateStatus(value, status) {
-		value._message('when', [
-			function ()  { status.fulfilled(); },
-			function (r) { status.rejected(r); }
-		], identity, identity);
+		value.then(statusFulfilled, statusRejected);
+
+		function statusFulfilled() { status.fulfilled(); }
+		function statusRejected(r) { status.rejected(r); }
 	}
 
 	/**
-	 * Determines if promiseOrValue is a promise or not
-	 *
-	 * @param {*} promiseOrValue anything
-	 * @returns {boolean} true if promiseOrValue is a {@link Promise}
+	 * Determines if x is promise-like, i.e. a thenable object
+	 * NOTE: Will return true for *any thenable object*, and isn't truly
+	 * safe, since it may attempt to access the `then` property of x (i.e.
+	 *  clever/malicious getters may do weird things)
+	 * @param {*} x anything
+	 * @returns {boolean} true if x is promise-like
 	 */
-	function isPromise(promiseOrValue) {
-		return promiseOrValue && typeof promiseOrValue.then === 'function';
+	function isPromiseLike(x) {
+		return x && typeof x.then === 'function';
 	}
 
 	/**
@@ -645,7 +661,7 @@ L.DG.when = (function (global) {
 	function _map(array, mapFunc, fallback) {
 		return when(array, function(array) {
 
-			return promise(resolveMap);
+			return _promise(resolveMap);
 
 			function resolveMap(resolve, reject, notify) {
 				var results, len, toResolve, i;
@@ -754,7 +770,8 @@ L.DG.when = (function (global) {
 	//
 
 	var reduceArray, slice, fcall, nextTick, handlerQueue,
-		setTimeout, funcProto, call, arrayProto, monitorApi, undef;
+		setTimeout, funcProto, call, arrayProto, monitorApi,
+		cjsRequire, undef;
 
 	//
 	// Shared handler queue processing
@@ -800,7 +817,7 @@ L.DG.when = (function (global) {
 
 	// Prefer setImmediate or MessageChannel, cascade to node,
 	// vertx and finally setTimeout
-	/*global setImmediate,MessageChannel,process,vertx*/
+	/*global setImmediate,MessageChannel,process*/
 	if (typeof setImmediate === 'function') {
 		nextTick = setImmediate.bind(global);
 	} else if(typeof MessageChannel !== 'undefined') {
@@ -809,8 +826,6 @@ L.DG.when = (function (global) {
 		nextTick = function() { channel.port2.postMessage(0); };
 	} else if (typeof process === 'object' && process.nextTick) {
 		nextTick = process.nextTick;
-	} else if (typeof vertx === 'object') {
-		nextTick = vertx.runOnLoop;
 	} else {
 		nextTick = function(t) { setTimeout(t, 0); };
 	}
@@ -883,4 +898,5 @@ L.DG.when = (function (global) {
 	}
 
 	return when;
+
 })(this);
