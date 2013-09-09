@@ -38,8 +38,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
-        graf = baron.noConflict(),
-        tmpl = __DGCustomization_TMPL__;
+        graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
