@@ -1,4 +1,4 @@
-L.DG.Template = (function(){
+L.DG.template = (function(){
   var cache = {};
 
   return function tmpl(str, data){

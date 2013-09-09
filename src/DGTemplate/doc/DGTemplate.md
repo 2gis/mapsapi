@@ -1,4 +1,4 @@
-## L.DG.Template
+## L.DG.template
 
 Используется для шаблонизации в Javascript с возможностью задавать условные операторы и циклы. Основан на функции [Джона Ресига](http://ejohn.org/blog/javascript-micro-templating/)
 
@@ -13,7 +13,7 @@
     </tr>
     <tr>
         <td>
-            <code>L.DG.Template(<b>String</b><i> template</i>, <b>Object</b><i> data</i>)</code>
+            <code>L.DG.template(<b>String</b><i> template</i>, <b>Object</b><i> data</i>)</code>
         </td>
 
 
