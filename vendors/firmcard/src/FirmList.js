@@ -42,16 +42,14 @@
                 if (firms.hasOwnProperty(firm)) {
                     this._innerFirmsList.appendChild(this._renderFirm(firm));
                 }
-            this._container.appendChild( this._innerFirmsList );
+            this._container.appendChild(this._innerFirmsList);
         },
 
         addFirms : function (firms) {
             this._newPageFirms = {};
             if (firms) {
-                for (var firm in firms) {
-                    if (firms.hasOwnProperty(firm)) {
-                        this._addFirm(firms[firm]);
-                    }
+                for (var i = 0, l = firms.length; i < l; i++) {
+                    this._addFirm(firms[i]);
                 }
             }
         },
@@ -148,12 +146,12 @@
         _addFirm: function (firmData) {
             var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData;
 
-            if (!this._firms.hasOwnProperty(id)) {
+            if (!(id in this._firms)) {
                 firmObject = this._createFirm(firmData);
                 this._firms[id] = firmObject;
-            }
 
-            this._newPageFirms[id] = firmObject;
+                this._newPageFirms[id] = firmObject;
+            }
         }
     }
 })();
