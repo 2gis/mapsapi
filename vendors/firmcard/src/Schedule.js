@@ -17,7 +17,7 @@ FirmCard.Schedule.prototype = {
     },
 
     transform: function (model, params) {
-
+        debugger;
         if (!model) return;
         params = params || {};
     //model = require('./demoData').Shuffle; // Testing
@@ -33,19 +33,24 @@ FirmCard.Schedule.prototype = {
 
         //now = (params || {}).now || moment().add('seconds', userAgentTimeOffset).valueOf(), // Current timestamp in milliseconds
 
-        now = params.now || moment().add('seconds', FirmCard.DataHelper.getProjectTime(zoneOffset)).valueOf(), // Current timestamp in milliseconds
-
+        //now = params.now || FirmCard.DataHelper.getProjectTime(zoneOffset).getTime(), // Current timestamp in milliseconds
+        //now = params.now || moment().add('seconds', zoneOffset).valueOf(), // Current timestamp in milliseconds
+        now = (new Date()).getTime(),
         weekKeys = [], // Ключи дней недели, определяют порядок дней и первый день недели. 0 - первый день недели в регионе (не обязательно Mon)
         weekKeysLocal = [],
         weekFullKeysLocal = [],
         orgWorkginDays, // Рабочие дни данной организации
 
-        apiLang = params.apiLang || 'en',//* добавлено, т.к. была ошибка
+        apiLang = 'en',//* добавлено, т.к. была ошибка
         localLang = params.localLang || 'en',
         localWorkingDays = params.localWorkingDays || [0, 1, 1, 1, 1, 1, 0],
         firstdayOffset = params.firstdayOffset || 1,
         minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4;
+        dict = FirmCard.Schedule.dictionary;
+        
+        console.log("now", now, new Date(now))
         console.log("projectTime", FirmCard.DataHelper.getProjectTime(zoneOffset));
+
     function getHours(str) {
         return str.substr(0, 2);
     }
@@ -119,6 +124,7 @@ FirmCard.Schedule.prototype = {
             _.each(timePoints, function(point) {
                 // now - обязательно! иначе будет браться текущий timestamp что чревато несовпадениями при медленном быстродействии
                 var ts = moment(now).zone(zoneOffset).day(dayNum(num + i + firstdayOffset)).hours(getHours(point.time)).minutes(getMinutes(point.time)).valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
+                console.log("ts",ts, now , moment(now) )
                 timestamps.push({
                     ts: ts,
                     type: point.type
@@ -170,13 +176,13 @@ FirmCard.Schedule.prototype = {
         } else if (d > 1) {
             /* jshint -W015 */
             switch (num) {
-                case 0: return 'в воскресенье';
-                case 1: return 'в понедельник';
-                case 2: return 'во вторник';
-                case 3: return 'в среду';
-                case 4: return 'в четверг';
-                case 5: return 'в пятницу';
-                case 6: return 'в субботу';
+                case 0: return dict.t(localLang, 'nextSun');
+                case 1: return dict.t(localLang, 'nextMon');
+                case 2: return dict.t(localLang, 'nextTue');
+                case 3: return dict.t(localLang, 'nextWed');
+                case 4: return dict.t(localLang, 'nextThu');
+                case 5: return dict.t(localLang, 'nextFri');
+                case 6: return dict.t(localLang, 'nextSat');
             }
             /* jshint +W015 */
         }
@@ -474,13 +480,14 @@ FirmCard.Schedule.prototype = {
     },
 
     forecast: function (schedule, params) {
+        debugger;
         var str,
         interval = '',
         open,
         today = {},
         nowText,
         maxHours = params && params.maxHours || 1;
-
+        
     if (!schedule) {
         return {};
     }
@@ -488,7 +495,7 @@ FirmCard.Schedule.prototype = {
     if (schedule.always) { // Круглосуточно ежедневно - более ничего выводить не нужно
         return {
             today: {
-                text: 'Круглосуточно'
+                text: dict.t(this.localLang, 'aroundTheClock')
             },
             open: true
         };
@@ -497,30 +504,30 @@ FirmCard.Schedule.prototype = {
     // Формируем строку - через сколько произойдёт следующая инверсия открытости
     if (schedule.will && schedule.will.h < maxHours) {
         if (schedule.will.h) {
-            interval += FirmCard.Schedule.dictionary.t('ru', 'nHours', schedule.will.h) + ' ';
+            interval += dict.t('ru', 'nHours', schedule.will.h) + ' ';
         }
 
         if (schedule.will.m) {
-            interval += FirmCard.Schedule.dictionary.t('ru', 'nMins', schedule.will.m);
+            interval += dict.t('ru', 'nMins', schedule.will.m);
         }
     }
-
+    
     // Данные на сегодня
     if (schedule.today) {
-        today.text = 'Сегодня';
+        today.text = dict.t(this.localLang, 'today');
         if (schedule.everyday) {
-            today.text = 'Ежедневно';
+            today.text = dict.t(this.localLang, 'everyday');
         }
         today.from = schedule.today.from;
         today.to = schedule.today.to;
         today.lunch = schedule.lunch;
     } else {
-        today.text = 'Сегодня выходной';
+        today.text = dict.t(this.localLang, 'todayIsRestDay');
     }
 
     // Текущий статус и прогноз
     if (schedule.always || (schedule.today && schedule.today.alltime)) { // Если круглосуточно, ничего кроме "Круглосуточно" выводить не нужно
-        today.text = 'Круглосуточно';
+        today.text = dict.t(this.localLang, 'aroundTheClock');
         open = true;
     } else if (schedule.now) {
         open = schedule.now.open;
@@ -529,46 +536,45 @@ FirmCard.Schedule.prototype = {
                 // далее - закрытие на обед
                 if (schedule.will && schedule.will.h < maxHours) {
                     // менее maxHours до закрытия  на обед
-                    nowText = 'Через ' + interval + ' минут закрывается на обед';
+                    nowText = dict.t(this.localLang, 'in') + dict.t(this.localLang, 'nMins', interval) + dict.t(this.localLang, 'isClosingOnDinner');
                 } else {
                     // больше maxHours до закрытия  на обед
-                    nowText = 'Открыто';
+                    nowText = dict.t(this.localLang, 'isOpen');
                 }
 
             } else {
                 // далее просто закрытие
                 if (schedule.will.h < maxHours) {
                     // менее maxHours до закрытия просто
-                    nowText = 'Закроется через ' + interval + ' минут';
+                    nowText = dict.t(this.localLang, 'closeIn') + dict.t(this.localLang, 'nMins', interval);
                 } else {
                     // больше maxHours до закрытия просто
-                    nowText = 'Открыто';
+                    nowText = dict.t(this.localLang, 'isOpen');
                 }
             }
         } else { // закрыто
             if (schedule.will && schedule.will.when) {
                 // откроется не сегодня
-                nowText = 'Откроется ' + schedule.will.when;
+                nowText = dict.t(this.localLang, 'open') + schedule.will.when;
             } else {
                 // откроется сегодня
                 if (schedule.now && schedule.now.lunch) {
                     // сейчас обед
                     if (schedule.will.h < maxHours) {
                         // менее maxHours до открытия с обеда
-                        nowText = 'Обед. Откроется через ' + interval + ' минут.';
+                        nowText = dict.t(this.localLang, 'Lunch') + dict.t(this.localLang, 'openIn') + dict.t(this.localLang, 'nMins', interval);
                     } else {
                         // больше maxHours до открытия с обеда
-                        nowText = 'Обед. Откроется в ' + schedule.will.till;
+                        nowText = dict.t(this.localLang, 'Lunch') + dict.t(this.localLang, 'openAt') + schedule.will.till;
                     }
-
                 } else {
                     // просто закрыто
                     if (schedule.will && schedule.will.h < maxHours) {
                         // менее maxHours до открытия просто
-                        nowText = 'Откроется через ' + interval + ' минут';
+                        nowText = dict.t(this.localLang, 'openIn') + dict.t(this.localLang, 'nMins', interval);
                     } else {
                         // больше maxHours до открытия просто
-                        nowText = 'Откроется в ' + schedule.will.till;
+                        nowText = dict.t(this.localLang, 'openAt') + schedule.will.till;
                     }
                 }
             }

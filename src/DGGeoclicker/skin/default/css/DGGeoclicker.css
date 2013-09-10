@@ -649,6 +649,10 @@ li.dg-map-firm-address .note {
   margin: 8px -8px 0 -12px;
 }
 
+.schedule__no-table {
+  border-bottom: none;
+  cursor: default;
+}
 
 .schedule__today {
   position: relative;
@@ -666,7 +670,7 @@ li.dg-map-firm-address .note {
   height: 11px;
   top: 0;
   left: -24px;
-  background: url("__BASE_URL__/img/clock.png") no-repeat;
+  /* background: url("__BASE_URL__/img/clock.png") no-repeat; */
 }
 .schedule__today:after {
   content: '';
@@ -713,12 +717,12 @@ li.dg-map-firm-address .note {
 }
 .schedule__tc {
   display: inline-block;
-  display: -webkit-flex;
+  /* display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
-  flex-direction: column;
+  flex-direction: column; */
   vertical-align: top;
   width: 13%;
   padding: 15px 0 20px;
@@ -748,9 +752,30 @@ li.dg-map-firm-address .note {
   max-height: 1000px;
 }
 /* Открытость фирмы */
-.schedule_open_false .schedule__today:before {
+.schedule_open_true:before {
+    background: url("__BASE_URL__/img/clock.png") no-repeat;
+}
+.schedule_open_false:before {
   /* Сейчас закрыто */
   background: url("__BASE_URL__/img/clock_off.png");
+}
+
+/* Local dashed link */
+.link_type_local {
+  background: -webkit-linear-gradient(left, #99ccdd, #99ccdd 50%, transparent 50%);
+  background: -moz-linear-gradient(left, #99ccdd, #99ccdd 50%, transparent 50%);
+  background: linear-gradient(left, #99ccdd, #99ccdd 50%, transparent 50%);
+}
+.link_type_local:hover {
+  background: -webkit-linear-gradient(left, #99bbcc, #99bbcc 50%, transparent 50%);
+  background: -moz-linear-gradient(left, #99bbcc, #99bbcc 50%, transparent 50%);
+  background: linear-gradient(left, #99bbcc, #99bbcc 50%, transparent 50%);
+}
+.link.link_type_local,
+.link.link_type_local:hover {
+  /* Нужна высокая специфичность, .link в начале не убирать */
+
+  background-size: 6px 1px;
 }
 
 /*

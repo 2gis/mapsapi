@@ -56,7 +56,6 @@ FirmCard.prototype = {
 		if (!fullFirmElExists) {
 
 			var loaderHtml = this.options.render(this.options.tmpls.loader);
-			console.log("_el", this._el, loaderHtml);
 			this._el.insertAdjacentHTML("beforeend", loaderHtml);
 			this.options.ajax(this._id, function(data) {
 				self._renderFullCard.call(self, data[0]);
@@ -75,6 +74,7 @@ FirmCard.prototype = {
 			forecast;
 
 		this._firmData = data;
+		console.log("schedule data", data.schedule);
 		schedule = this._schedule.transform(data.schedule, {
 			zoneOffset: this.options.timezoneOffset,
 			apiLang: this.options.lang,
@@ -82,7 +82,8 @@ FirmCard.prototype = {
 		});
 		forecast = this._schedule.forecast(schedule);
 
-		console.log("data+schedule+forecast", data, schedule, forecast);
+		console.log("forecast", forecast);
+
 		html = this.options.render(this.options.tmpls.fullFirm, {
 			firm: data,
 			schedule: schedule,

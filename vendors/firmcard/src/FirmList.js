@@ -47,8 +47,15 @@
                 if (e.target && e.target.nodeName == "A") {
                     if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
                         self.toggleFirm(e.target.id);
-                    } else if (e.target.className.indexOf('dg-map-work-time') !== -1) {
-                        console.log('schedule clicked');
+                    }
+                } else if (e.target && e.target.nodeName == "DIV" || e.target.nodeName == "SPAN") {
+                    if (e.target.className.indexOf('schedule__today') !== -1) {
+                        var wrapper = e.target.parentNode;
+                        while (wrapper.className.indexOf('dg-map-firm-full') === -1) {
+                            wrapper = wrapper.parentNode;
+                        }
+                        var id = wrapper.id.split("-").pop();
+                        self._firms[id].toggleSchedule();
                     }
                 }
             });
@@ -106,6 +113,7 @@
         },
 
         toggleFirm : function (id) {
+            console.log("ID", id);
             if (this._firms[id]) {
                 this._firms[id].toggle();
                 if (this._onToggleCard) {
@@ -156,6 +164,7 @@
             if ('render' in options) this._addOptions.render = options.render;
             if ('tmpls' in options) this._addOptions.tmpls = options.tmpls;
             if ('lang' in options) this._addOptions.lang = options.lang;
+            if ('timezoneOffset' in options) this._addOptions.timezoneOffset = options.timezoneOffset;
         },
 
         _renderFirm: function (id) {

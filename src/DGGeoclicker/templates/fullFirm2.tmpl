@@ -49,7 +49,7 @@
 			    <div class="firm-card__schedule">
 			        <%if (schedule) {%>
 				        <%if (forecast.today) {%>
-							<div class="schedule__today schedule_open_false">
+							<div class="schedule__today schedule_open_<%if (forecast.open) {%>true<%} else {%>false<%}%> schedule__no-table">
 							    <%=forecast.today.text%>
 							    <%if (forecast.today.from) {%>
 							        <span class="schedule__today-time"><%=forecast.today.from%>&ndash;<%=forecast.today.to%></span>
@@ -64,10 +64,10 @@
 							</div>
 						<%}%>
 
-						<%if (forecast.open) {%>
+						<%if (forecast.now) {%>
 							<div class="schedule__now">
 							    <!--Вывод строки прогноза, например "откроется завтра" или "закроется через 15 минут" -->
-							    <span class="schedule__now-text"><%=forecast.today.text%></span>
+							    <span class="schedule__now-text"><%=forecast.now%></span>
 							</div>
 						<%}%>
 
@@ -80,24 +80,27 @@
 							            <%for (var j = 0, evently = schedule.week.evently, len = evently.length; j < len; j++) {%>
 								            <div class="schedule__string">
 								                <%if (evently[j].alltime) {%>
-								                    Работает круглосуточно
+								                    <%=dict.t(lang, 'worksAroundTheClock')%>
 								                <%}%>
 							                    <%if (evently[j].everyday) {%>
-							                        Ежедневно
+							                        <%=dict.t(lang, 'everyday')%>
 							                    <%} else {%>
 							                        <%if (evently[j].budni) {%>
-							                            Будние дни
+							                            <%=dict.t(lang, 'weekdays')%>
 							                        <%} else {%>
 							                            <%=evently[j].dayList%>
 							                        <%}%>
 							                    <%}%>
-							                    &nbsp;&mdash;&nbsp;
 							                    <%if (evently[j].holiday) {%>
-							                        <span class="schedule__string-time"><%=dict.t(lang, 'restDay')%></span>
+							                        &mdash;<span class="schedule__string-time"><%=dict.t(lang, 'restDay')%></span>
 							                    <%} else {%>
 							                        <span class="schedule__string-time"><%=evently[j].from%>&ndash;<%=evently[j].to%></span>
-							                        <%if (evently[j].lunch) {%>
-							                            , <%=dict.t(lang, 'lunch')%> <span class="schedule__string-time"><%=evently[j].lunch.from%>&ndash;<%=evently[j].lunch.to%></span>
+							                        <%if (evently[j].lunch.length) {%>
+								                        &nbsp;,&nbsp;
+								                        <%=dict.t(lang, 'lunch')%> 
+								                        <span class="schedule__string-time">
+								                        	<%=evently[j].lunch.from%>&ndash;<%=evently[j].lunch.to%>
+							                        	</span>
 							                        <%}%>
 							                    <%}%>
 								            </div>

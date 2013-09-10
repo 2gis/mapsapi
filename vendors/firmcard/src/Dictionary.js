@@ -64,14 +64,16 @@ FirmCard.Schedule.dictionary = {
         nHours: ['час', 'часа', 'часов'],
         nMins: ['минуту', 'минуты', 'минут'],
         lunch: "обед",
-        Lunch: "Обед",
+        Lunch: "Обед. ",
         workingDays: "Рабочие дни",
+        weekdays: "Будние дни",
         restDay: "выходной",
         reviewsOnFlamp: "Отзывы на Флампе",
         writeReviewOnFlamp: "Написать отзыв на Флампе",
         payment: "оплата",
         everyday: "Ежедневно",
         worksAroundTheClock: "Работает круглосуточно",
+        aroundTheClock: "Круглосуточно",
         knowMore: "узнать больше",
         toClose: "до закрытия",
         monday: "понедельник",
@@ -98,6 +100,8 @@ FirmCard.Schedule.dictionary = {
         americanexpress: "American Express",
         hour : "час",
         less: "менее",
+        in : "Через",
+        isClosingOnDinner : " закрывается на обед"
     },
 
     it: {
