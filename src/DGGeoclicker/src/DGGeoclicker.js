@@ -29,8 +29,8 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _mapEventsListeners : {
-        dgLangChange: function (e) {
-            this._controller.setLang( e.lang );
+        dgLangChange: function () {
+            this._controller.reinvokeHandler();
         },
 
         click: function (e) { // (Object)

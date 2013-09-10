@@ -41,7 +41,6 @@ FirmCard.Schedule.prototype = {
         firstdayOffset = params.firstdayOffset || 1,
         minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4;
         dict = FirmCard.Schedule.dictionary;
-        
 
     function getHours(str) {
         return str.substr(0, 2);
@@ -474,7 +473,7 @@ FirmCard.Schedule.prototype = {
         today = {},
         nowText,
         maxHours = params && params.maxHours || 1;
-        
+
     if (!schedule) {
         return {};
     }
@@ -498,7 +497,7 @@ FirmCard.Schedule.prototype = {
             interval += dict.t('ru', 'nMins', schedule.will.m);
         }
     }
-    
+
     // Данные на сегодня
     if (schedule.today) {
         today.text = dict.t(this.localLang, 'today');

@@ -50,7 +50,6 @@ a.dg-mapcopyright__logolink {
 a.dg-mapcopyright__apilink,
 a.dg-mapcopyright__license {
     background-image:url("__BASE_URL__/img/dg-tilelayer-base-copyright.png"), url("__BASE_URL__/img/dg-tilelayer-base-copyright.png");
-    background-image:url("__BASE_URL__/img/dg-tilelayer-base-copyright.png") \9;
     background-repeat:no-repeat !important;
     color:transparent !important;
     cursor:pointer !important;
@@ -65,8 +64,6 @@ a.dg-mapcopyright__license {
     opacity:0.7 !important;
     overflow:hidden !important;
     text-indent:-9999px !important;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-    *filter: alpha(opacity=70);
     text-decoration:none;
     -webkit-transition:opacity 0.15s ease-out;
     -moz-transition:opacity 0.15s ease-out;
@@ -78,21 +75,17 @@ a.dg-mapcopyright__license {
 a.dg-mapcopyright__apilink:hover,
 a.dg-mapcopyright__license:hover {
     opacity:1 !important;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-    *filter: alpha(opacity=100);
 }
 
 /* lang = ru */
 .dg-mapcopyright_lang_ru a.dg-mapcopyright__apilink {
     background-position:-29px -2px, -9999px -9999px;
-    background-position:-29px -2px \9;
     right:60px !important;
     top:6px !important;
     width:84px !important;
 }
 .dg-mapcopyright_lang_ru a.dg-mapcopyright__license {
     background-position:0 -13px, -9999px -9999px;
-    background-position:0 -13px \9;
     right:60px !important;
     top:16px !important;
     width:113px !important;
@@ -106,14 +99,12 @@ a.dg-mapcopyright__license:hover {
 /* lang = it */
 .dg-mapcopyright_lang_it a.dg-mapcopyright__apilink {
     background-position:-81px -24px, -9999px -9999px;
-    background-position:-81px -24px \9;
     right:60px !important;
     top:6px !important;
     width:32px !important;
 }
 .dg-mapcopyright_lang_it a.dg-mapcopyright__license {
     background-position:-41px -35px, -9999px -9999px;
-    background-position:-41px -35px \9;
     right:60px !important;
     top:16px !important;
     width:72px !important;

@@ -24,7 +24,7 @@ L.DG.Geoclicker.View = L.Class.extend({
         }
     },
 
-    _initLoader: function () {
+    initLoader: function () {
         var loader = document.createElement('div');
         loader.setAttribute('id', 'dg-popup-firm-loading');
 
@@ -39,18 +39,13 @@ L.DG.Geoclicker.View = L.Class.extend({
     },
 
     render: function (options) { // (Object) -> String
-        var html,
-            tmpl,
-            tmplFileContent;
+        var html, tmpl;
 
         options = options || {};
         options.tmpl = options.tmpl || "";
-        options.tmplFile = options.tmplFile || null;
-        tmplFileContent = this._templates[options.tmplFile];
 
         if (options.data) {
-            tmpl = tmplFileContent ? tmplFileContent : options.tmpl;
-            html = L.DG.template(tmpl, options.data);
+            html = L.DG.template(options.tmpl, options.data);
         } else {
             html = options.tmpl;
         }
