@@ -199,7 +199,10 @@ var deps = {
         desc: 'Location control module',
         src: [
             '../vendors/leaflet-locatecontrol/src/L.Control.Locate.js',
-            'DGLocationControl/src/DGLocationControl.js'
+            'DGLocationControl/src/DGLocationControl.js',
+            'DGLocationControl/lang/ru.js',
+            'DGLocationControl/lang/it.js',
+            'DGLocationControl/lang/en.js'
         ],
         css: {
             all: [

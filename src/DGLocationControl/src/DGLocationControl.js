@@ -1,4 +1,11 @@
 L.DG.LocationControl = L.Control.Locate.extend({
+
+    includes: L.DG.Locale,
+
+    statics: {
+        Dictionary: {}
+    },
+
     options: {
         markerStyle: {
             color: '#0A9BCF',
@@ -25,7 +32,7 @@ L.DG.LocationControl = L.Control.Locate.extend({
         this._loader = L.DomUtil.create('div', 'dg-loader', map);
         this._loaderLocate = L.DomUtil.create('div', 'dg-loader-locate', map);
         this._loaderLocateError = L.DomUtil.create('div', 'dg-loader-locate-error', map);
-        this._loaderLocateError.innerHTML = 'Мы не смогли вас найти';
+        this._loaderLocateError.innerHTML = this.t('cant_find');
     },
     _showLoad: function() {
         this._loader.style.display = 'block';
@@ -70,12 +77,12 @@ L.DG.LocationControl = L.Control.Locate.extend({
             }
 
             [this._circleMarker, this._circleMarkerPoint].forEach(function(marker){
-                marker.bindLabel('Вы здесь');
+                marker.bindLabel(this.t("you_are_here"));
 
                 L.DomEvent.on(marker, 'click', function() {
                     map.fireEvent('dgLocateClick');
                 });
-            });
+            }, this);
         };
 
         map.on('locationfound', addControls, this);
