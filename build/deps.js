@@ -14,6 +14,7 @@ var deps = {
         },
         heading: '2GIS modules',
         deps: [ 'Core',
+                'EPSG3395',
                 'TileLayer',
                 'TileLayerWMS',
                 'TileLayerCanvas',
@@ -26,8 +27,11 @@ var deps = {
                 'Path',
                 'PathVML',
                 'PathCanvas',
+                'Polyline',
+                'Polygon',
                 'MultiPoly',
                 'Rectangle',
+                'Circle',
                 'CircleMarker',
                 'VectorsCanvas',
                 'GeoJSON',
@@ -41,7 +45,9 @@ var deps = {
                 'ControlAttrib',
                 'ControlScale',
                 'ControlLayers',
+                'AnimationPan',
                 'AnimationTimer',
+                'AnimationZoom',
                 'Geolocation']
     },
 
@@ -110,7 +116,8 @@ var deps = {
               'DGFullScreen/lang/en.js'
         ],
         css: {
-            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
+            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
+            ie: ['DGFullScreen/skin/{skin}/css/DGFullScreen.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
     },
@@ -125,7 +132,8 @@ var deps = {
         desc: '2GIS tile layer module',
         src: ['DGTileLayer/src/DGTileLayer.js'],
         css: {
-            all: ['DGTileLayer/skin/{skin}/css/style.css']
+            all: ['DGTileLayer/skin/{skin}/css/style.css'],
+            ie: ['DGTileLayer/skin/{skin}/css/ie.css']
         },
         deps: ['DGCore']
     },
