@@ -1513,23 +1513,23 @@
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Задает содержимое секции header балуна. Может принимать HTML строку или DOM-элемент</td>
+		<td>Задает содержимое секции header балуна. Может принимать HTML строку или DOM-элемент.</td>
 	</tr>
 	<tr>
 		<td><code><b>setContent</b>(
-			<nobr>&lt;String&gt;&lt;String&gt;/&lt;DOM-element&gt; <i>htmlContentcontent</i> )</nobr>
+			<nobr>&lt;String&gt;/&lt;DOM-element&gt;  <i>content</i> )</nobr>
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Задает содержимое секции body балуна. Может принимать HTML строку или DOM-элемент</td>
+		<td>Задает содержимое секции body балуна. Может принимать HTML строку или DOM-элемент.</td>
 	</tr>
 	<tr>
-		<td><code><b>setContent</b>(
+		<td><code><b>setFooterContent</b>(
 			<nobr>&lt;String&gt;/&lt;DOM-element&gt; <i>content</i> )</nobr>
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Задает содержимое секции footer балуна. Может принимать HTML строку или DOM-элемент</td>
+		<td>Задает содержимое секции footer балуна. Может принимать HTML строку или DOM-элемент.</td>
 	</tr>
 </table>
 
