@@ -94,11 +94,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmListObject = {
             tmpl: content,
             header: this._view.render({
-                tmplFile: "popupHeader",
+                tmpl: this._view.getTemplate("popupHeader"),
                 data: this._houseObject.data
             }),
             footer: this._view.render({
-                tmplFile: "popupFooter",
+                tmpl: this._view.getTemplate("popupFooter"),
                 data: {
                     hideFirmsText: this.t("Hide organization in the building")
                 }
