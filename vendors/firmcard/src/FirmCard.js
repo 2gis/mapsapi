@@ -1,6 +1,9 @@
 var FirmCard = function(firm, options) {
-	var self = this;
+	var self = this,
+		type,
+		loader;
 
+	options = options || {};
 	this._el = null;
 	this._fullFirmEl = null;
 	this._isExpanded = false;
@@ -10,26 +13,82 @@ var FirmCard = function(firm, options) {
 	this._schedule = new FirmCard.Schedule({
 		localLang : options.lang
 	});
+	type = Object.prototype.toString.call(firm);
 
-	if ("[object Object]" !== Object.prototype.toString.call(firm)) {
+	if ("[object String]" === type) {
 		this._id = firm;
-		//show loader
-
-		var loader = this.options.render(this.options.tmpls['loader'], {});
-
+		loader = this.options.render(this.options.tmpls['loader']);
 		this._createEl(loader);
 		this.options.ajax(firm, function(data) {
 			self._firmData = data[0];
 			self._el.innerHTML = self._getShortContent();
 			self.toggle.call(self);
 		});
-	} else {
+	} else if ("[object Object]" === type) {
 		this._firmData = firm;
 		this._id = firm.id.split("_").shift();
 	}
 };
 
 FirmCard.prototype = {
+
+	getContainer: function() {
+		return this._el;
+	},
+
+	getId: function() {
+		return this._id;
+	},
+
+	getSchedule: function() {
+		return this._schedule;
+	},
+
+	setLang: function(newLang){
+		this.options.lang = newLang;
+		this._schedule.setLang(this.options.lang);
+		if (this._isExpanded) {
+			// TODO Update Fullfirm element
+		}
+	},
+
+	toggle: function() {
+		var id, display,
+			fullFirmElExists = !!this._fullFirmEl;
+
+		if (!fullFirmElExists) {
+			this._expand(fullFirmElExists);
+		} else {
+			display = this._fullFirmEl.style.display;
+			display === 'none' ? this._expand(fullFirmElExists) : this._collapse();
+		}
+	},
+
+	toggleSchedule: function() {
+		var schedule = this._fullFirmEl.querySelector('.schedule__table'),
+			display = 'block';
+			if (!schedule) return;
+			if (schedule.style.display === 'block') {
+				display = 'none';
+			}
+			schedule.style.display = display;
+	},
+
+	render: function() {
+		var html;
+
+		if (!this._el) {
+			html = this._getShortContent();
+			this._createEl(html);
+		}
+
+		return this._el;
+	},
+
+	isExpanded: function() {
+		return this._isExpanded;
+	},
+
 	_collapse: function() {
 		this._fullFirmEl.style.display = 'none';
 		this._isExpanded = false;
@@ -54,14 +113,12 @@ FirmCard.prototype = {
 		var self = this;
 
 		if (!fullFirmElExists) {
-
 			var loaderHtml = this.options.render(this.options.tmpls.loader);
 			this._el.insertAdjacentHTML("beforeend", loaderHtml);
 			this.options.ajax(this._id, function(data) {
 				self._renderFullCard.call(self, data[0]);
 				self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
 			});
-
 		} else {
 			this._fullFirmEl.style.display = 'block';
 		}
@@ -74,16 +131,12 @@ FirmCard.prototype = {
 			forecast;
 
 		this._firmData = data;
-		console.log("schedule data", data.schedule);
 		schedule = this._schedule.transform(data.schedule, {
 			zoneOffset: this.options.timezoneOffset,
 			apiLang: this.options.lang,
 			localLang: this.options.lang
 		});
 		forecast = this._schedule.forecast(schedule);
-
-		console.log("forecast", forecast);
-
 		html = this.options.render(this.options.tmpls.fullFirm, {
 			firm: data,
 			schedule: schedule,
@@ -118,59 +171,5 @@ FirmCard.prototype = {
 				this.options[option] = options[option];
 			}
 		}
-	},
-
-	getContainer: function() {
-		return this._el;
-	},
-
-	getId: function() {
-		return this._id;
-	},
-
-	setLang: function(newLang){
-		this.options.lang = newLang;
-		schedule.setLang(this.options.lang);
-		if (this._isExpanded) {
-			// TODO Update Fullfirm element
-		}
-	},
-
-	toggle: function() {
-		var id, display,
-			fullFirmElExists = !!this._fullFirmEl;
-
-		if (!fullFirmElExists) {
-			this._expand(fullFirmElExists);
-		} else {
-			display = this._fullFirmEl.style.display;
-			display === 'none' ? this._expand(fullFirmElExists) : this._collapse();
-		}
-	},
-
-	toggleSchedule: function() {
-		//var style = document.getElementById('dg-firm-schedule-'+this._id).style,
-		var schedule = this._fullFirmEl.querySelector('.schedule__table'),
-			display = 'block';
-			if (!schedule) return;
-			if (schedule.style.display === 'block') {
-				display = 'none';
-			}
-			schedule.style.display = display;
-	},
-
-	render: function() {
-		var html;
-
-		if (!this._el) {
-			html = this._getShortContent();
-			this._createEl(html);
-		}
-
-		return this._el;
-	},
-
-	isExpanded: function() {
-		return this._isExpanded;
 	},
 };

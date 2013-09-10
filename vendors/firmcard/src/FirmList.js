@@ -87,12 +87,17 @@
         },
 
         toggleFirm : function (id) {
-            console.log("ID", id);
             if (this._firms[id]) {
                 this._firms[id].toggle();
                 if (this._onToggleCard) {
                     this._onToggleCard(this._firms[id].getContainer(), this._firms[id].isExpanded());
                 }
+            }
+        },
+
+        toggleSchedule: function(id) {
+            if (this._firms[id]) {
+                this._firms[id].toggleSchedule();
             }
         },
 
@@ -105,21 +110,21 @@
 
             this._eventHandlersInited = true;
             this._container.addEventListener("click", function(e) {
-                var e = e || window.event;
-                if(!e.target) e.target = e.srcElement;
+                var e = e || window.event,
+                target = e.target || e.srcElement;
 
-                if (e.target && e.target.nodeName == "A") {
-                    if (e.target.className.indexOf('dg-firm-shortcard') !== -1) {
-                        self.toggleFirm(e.target.id);
+                if (target && target.nodeName == "A") {
+                    if (target.className.indexOf('dg-firm-shortcard') !== -1) {
+                        self.toggleFirm(target.id);
                     }
-                } else if (e.target && e.target.nodeName == "DIV" || e.target.nodeName == "SPAN") {
-                    if (e.target.className.indexOf('schedule__today') !== -1) {
-                        var wrapper = e.target.parentNode;
+                } else if (target && target.nodeName == "DIV" || target.nodeName == "SPAN") {
+                    if (target.className.indexOf('schedule__today') !== -1) {
+                        var wrapper = target.parentNode;
                         while (wrapper.className.indexOf('dg-map-firm-full') === -1) {
                             wrapper = wrapper.parentNode;
                         }
                         var id = wrapper.id.split("-").pop();
-                        self._firms[id].toggleSchedule();
+                        self.toggleSchedule(id);
                     }
                 }
             });

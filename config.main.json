@@ -16,5 +16,7 @@
     "GEO_ADDITIONAL_FIELDS": "data.geometry.location",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
     "DEFAULT_LANG": "ru",
-    "PROJECT_LEAVE_MAX_ZOOM" : 13
+    "PROJECT_LEAVE_MAX_ZOOM" : 13,
+    "FLAMP_URL" : "http://flamp.ru/r/",
+    "FLAMP_GOOGLE_ANALYTICS" : "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker"
 }

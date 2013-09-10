@@ -178,7 +178,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 tmpls: {
                     loader: this._view.getTemplate("loader"),
                     shortFirm: this._view.getTemplate("shortFirm"),
-                    fullFirm: this._view.getTemplate("fullFirm2")
+                    fullFirm: this._view.getTemplate("fullFirm")
                 },
                 container: this._firmListObject.firmListContainer,
                 render: L.DG.template,

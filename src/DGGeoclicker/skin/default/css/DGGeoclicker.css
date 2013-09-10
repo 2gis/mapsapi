@@ -638,7 +638,6 @@ li.dg-map-firm-address .note {
     Schedule Start
 */
 .dg-map-firm-schedule-wrapper {
-  border-bottom: 1px solid #e6e1dc;
   margin-bottom: 8px;
   padding-bottom: 6px;
   box-shadow: 0 1px #fff;
@@ -650,8 +649,12 @@ li.dg-map-firm-address .note {
 }
 
 .schedule__no-table {
-  border-bottom: none;
-  cursor: default;
+  border-bottom: none !important;
+  cursor: default !important;
+}
+
+.schedule__no-table:after {
+    background-image:none !important;
 }
 
 .schedule__today {
@@ -724,7 +727,7 @@ li.dg-map-firm-address .note {
   -moz-flex-direction: column;
   flex-direction: column; */
   vertical-align: top;
-  width: 13%;
+  width: 10%;
   padding: 15px 0 20px;
 }
 .schedule__tc_pre {

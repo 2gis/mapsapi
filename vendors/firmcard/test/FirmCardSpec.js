@@ -3,16 +3,21 @@ describe('Расписание работы организации', function() 
     function mockTime(timestamp) {
         return timestamp + (7 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
     }
-    var d = new FirmCard({localLang:'ru'});
+    var d = new FirmCard({
+        id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
+        /*name: "Азимут Оптика, сеть салонов"*/
+    }, {
+        localLang: 'ru'
+    });
 
     it('!model', function() {
-        var result =  d.schedule.transform();
+        var result =  d.getSchedule().transform();
 
         expect(result).to.not.be.ok();
     });
 
     it('!params', function() {
-        var result =  d.schedule.transform(scheduleDemoData['default'].model);
+        var result =  d.getSchedule().transform(scheduleDemoData['default'].model);
 
         expect(result).to.be.ok();
         expect(result.everyday).to.not.be.ok();
@@ -20,7 +25,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Comment', function() {
-        var result =  d.schedule.transform({
+        var result =  d.getSchedule().transform({
             comment: 'comment'
         });
 
@@ -30,18 +35,19 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, выходные выходные', function() {
-        var result =  d.schedule.transform(scheduleDemoData['default'].model, {
-            now: mockTime(1366610753162)
+        var result =  d.getSchedule().transform(scheduleDemoData['default'].model, {
+            now: mockTime(1366610753162), 
+            
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.be.ok();
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(4);
-        expect(result.will.m).to.be(55);
+        expect(result.will.m).to.be(50);
         expect(result.will.till).to.be('18:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('18:00');
-        expect(result.week.evently[0].dayList).to.be('Понедельник–пятница');
+        expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;пятница');
         expect(result.week.evently[0].budni).to.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[1].dayList).to.be('Суббота, воскресенье');
@@ -52,7 +58,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, выходные выходные, до нуля', function() {
-        var result =  d.schedule.transform(scheduleDemoData.evently.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.evently.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -60,11 +66,11 @@ describe('Расписание работы организации', function() 
         expect(result.now.open).to.be.ok();
         expect(result.will.d).to.be(1);
         expect(result.will.h).to.be(10);
-        expect(result.will.m).to.be(55);
+        expect(result.will.m).to.be(50);
         expect(result.will.till).to.be('00:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('00:00');
-        expect(result.week.evently[0].dayList).to.be('Понедельник–пятница');
+        expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;пятница');
         expect(result.week.evently[0].budni).to.be.ok();
         expect(result.week.evently[0].holiday).to.not.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
@@ -77,14 +83,14 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, суббота сокращённо', function() {
-        var result =  d.schedule.transform(scheduleDemoData.eventlySat.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.eventlySat.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.be.ok();
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(4);
-        expect(result.will.m).to.be(55);
+        expect(result.will.m).to.be(50);
         expect(result.will.till).to.be('18:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('18:00');
@@ -103,14 +109,14 @@ describe('Расписание работы организации', function() 
     });
 
     it('Будни одинаково, суббота сокращённо, максимум часов в субботу', function() {
-        var result =  d.schedule.transform(scheduleDemoData.eventlySatMax.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.eventlySatMax.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.be.ok();
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(4);
-        expect(result.will.m).to.be(55);
+        expect(result.will.m).to.be(50);
         expect(result.will.till).to.be('18:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('18:00');
@@ -128,7 +134,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Круглосуточно без выходных', function() {
-        var result =  d.schedule.transform(scheduleDemoData.alltime.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.alltime.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
@@ -146,20 +152,19 @@ describe('Расписание работы организации', function() 
     });
 
     it('Круглосуточно кроме выходных среды и воскресенья', function() {
-        var result =  d.schedule.transform(scheduleDemoData.thuHol.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.thuHol.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.be.ok();
         expect(result.always).to.be(undefined);
         expect(result.today.alltime).to.be.ok();
-        expect(result.will.text).to.be('закроется');
         expect(result.will.d).to.be(3);
         expect(result.will.h).to.be(58);
-        expect(result.will.m).to.be(55);
+        expect(result.will.m).to.be(50);
         expect(result.will.till).to.be('00:00');
         expect(result.week.hasLunch).to.not.be.ok();
-        expect(result.week.evently[0].dayList).to.be('Понедельник–среда, пятница, суббота');
+        expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;среда, пятница, суббота');
         expect(result.week.evently[0].alltime).to.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
@@ -172,21 +177,20 @@ describe('Расписание работы организации', function() 
     });
 
     it('Среда–пятница', function() {
-        var result =  d.schedule.transform(scheduleDemoData.strangeWeek.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.strangeWeek.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.not.be.ok();
         expect(result.always).to.be(undefined);
         expect(result.today).to.be(undefined);
-        expect(result.will.text).to.be('откроется');
         expect(result.will.d).to.be(2);
         expect(result.will.h).to.be(34);
-        expect(result.will.m).to.be(55);
-        expect(result.will.when).to.be('послезавтра');
+        expect(result.will.m).to.be(50);
+        expect(result.will.when).to.be('в среду');
         expect(result.will.till).to.be('00:00');
         expect(result.week.hasLunch).to.not.be.ok();
-        expect(result.week.evently[0].dayList).to.be('Среда–пятница');
+        expect(result.week.evently[0].dayList).to.be('Среда&ndash;пятница');
         expect(result.week.evently[0].alltime).to.be(undefined);
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
@@ -199,17 +203,16 @@ describe('Расписание работы организации', function() 
     });
 
     it('Работает только в воскресенье с обедом', function() {
-        var result =  d.schedule.transform(scheduleDemoData.periods3.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.periods3.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.not.be.ok();
         expect(result.always).to.be(undefined);
         expect(result.today).to.be(undefined);
-        expect(result.will.text).to.be('откроется');
         expect(result.will.d).to.be(6);
         expect(result.will.h).to.be(140);
-        expect(result.will.m).to.be(55);
+        expect(result.will.m).to.be(50);
         expect(result.will.when).to.be('в воскресенье');
         expect(result.will.till).to.be('10:00');
         expect(result.week.hasLunch).to.not.be.ok();
@@ -217,7 +220,7 @@ describe('Расписание работы организации', function() 
         expect(result.week.evently[0].alltime).to.be(undefined);
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
-        expect(result.week.evently[1].dayList).to.be('Понедельник–суббота');
+        expect(result.week.evently[1].dayList).to.be('Понедельник&ndash;суббота');
         expect(result.week.evently[1].alltime).to.not.be.ok();
         expect(result.week.evently[1].everyday).to.not.be.ok();
         expect(result.week.evently[1].budni).to.not.be.ok();
@@ -226,45 +229,42 @@ describe('Расписание работы организации', function() 
     });
 
     it('Закроется через 1 минуту', function() {
-        var result =  d.schedule.transform(scheduleDemoData.oneMinuteLeft.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.oneMinuteLeft.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.be.ok();
         expect(result.always).to.be(undefined);
         expect(result.today).to.be.ok();
-        expect(result.will.text).to.be('закроется');
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(0);
-        expect(result.will.m).to.be(1);
+        expect(result.will.m).to.be(5);
 
     });
 
     it('Сегодня уже закрыто, откроется через неделю', function() {
-        var result =  d.schedule.transform(scheduleDemoData.foraWeek.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.foraWeek.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
 
         expect(result.now.open).to.not.be.ok();
         expect(result.always).to.be(undefined);
         expect(result.today).to.be.ok();
-        expect(result.will.text).to.be('откроется');
         expect(result.will.d).to.be(7);
         expect(result.will.h).to.be(165);
-        expect(result.will.m).to.be(26);
+        expect(result.will.m).to.be(20);
         expect(result.everyday).to.not.be.ok();
 
     });
 
     it('Ещё закрыто, откроется через час с лишним', function() {
-        var result =  d.schedule.transform(scheduleDemoData.tooEarly.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.tooEarly.model, {
             now: mockTime(1366773607003)
         }); // 10:20 ср 24 апреля 2013
 
         expect(result.now.open).to.not.be.ok();
         expect(result.always).to.be(undefined);
         expect(result.today).to.be.ok();
-        expect(result.will.text).to.be('откроется');
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(1);
         expect(result.will.m).to.be(40);
@@ -274,7 +274,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Откроется завтра если сегодня воскресенье', function() { // Баг сбербанка
-        var result =  d.schedule.transform(scheduleDemoData.sberBank.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.sberBank.model, {
             now: mockTime(1367138129777)
         }); // Воскресенье, 28 апреля 2013
 
@@ -285,7 +285,7 @@ describe('Расписание работы организации', function() 
     });
 
     it('Ежедневно одинаково, откроется завтра', function() { // Баг с неправильной сортировкой timestamps
-        var result =  d.schedule.transform(scheduleDemoData.everyday.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.everyday.model, {
             now: mockTime(1368015897543)
         }); // Среда, 8 мая 2013, 19+
 
@@ -293,12 +293,54 @@ describe('Расписание работы организации', function() 
     });
 
     it('Timespamp совпадает с открытием – должен быть объект will', function() { // Баг с неправильной сортировкой timestamps
-        var result =  d.schedule.transform(scheduleDemoData.everyday.model, {
+        var result =  d.getSchedule().transform(scheduleDemoData.everyday.model, {
             now: mockTime(1368015897543 + 52560000)
         }); // Точно совпадает с временем открытия
 
         expect(result.will).to.be.ok();
     });
+});
 
+describe("FirmCard", function() {
+
+    it("#getId with firm object arg", function() {
+        var firmCard = new FirmCard({
+            id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
+        });
+        expect(firmCard.getId()).to.be.eql("141265770546806");
+    });
+
+    it("#getId with firm id arg", function() {
+
+        var firmCard = new FirmCard("141265770546806", {
+            ajax: sinon.spy(),
+            render: sinon.spy(),
+            tmpls: {
+                loader: ''
+            }
+        });
+
+       expect(firmCard.getId()).to.be.eql("141265770546806"); 
+
+    });
+
+    it("#getSchedule", function() {
+        var firmCard = new FirmCard({
+            id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
+        });
+
+        expect(firmCard.getSchedule()).to.be.a(FirmCard.Schedule);
+    });
+
+    it("#setLang", function() {
+        var firmCard = new FirmCard({
+            id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
+            localLang: 'ru'
+        });
+
+        expect(firmCard.getSchedule().localLang).to.be.eql('ru');
+        firmCard.setLang('en');
+        expect(firmCard.getSchedule().localLang).to.be.eql('en');
+    });
 
 });

@@ -17,7 +17,6 @@ FirmCard.Schedule.prototype = {
     },
 
     transform: function (model, params) {
-        debugger;
         if (!model) return;
         params = params || {};
     //model = require('./demoData').Shuffle; // Testing
@@ -30,26 +29,19 @@ FirmCard.Schedule.prototype = {
         zoneOffset = params.zoneOffset || 0,
         schedule = {}, // Объект-расписание, формируемый под шаблон
         apiHourFormat = 'HH:mm', // Формат времени в API, например 08:01
-
-        //now = (params || {}).now || moment().add('seconds', userAgentTimeOffset).valueOf(), // Current timestamp in milliseconds
-
-        //now = params.now || FirmCard.DataHelper.getProjectTime(zoneOffset).getTime(), // Current timestamp in milliseconds
-        //now = params.now || moment().add('seconds', zoneOffset).valueOf(), // Current timestamp in milliseconds
-        now = (new Date()).getTime(),
+        now = params.now || FirmCard.DataHelper.getProjectTime(zoneOffset).getTime(), // Current timestamp in milliseconds
         weekKeys = [], // Ключи дней недели, определяют порядок дней и первый день недели. 0 - первый день недели в регионе (не обязательно Mon)
         weekKeysLocal = [],
         weekFullKeysLocal = [],
         orgWorkginDays, // Рабочие дни данной организации
 
         apiLang = 'en',//* добавлено, т.к. была ошибка
-        localLang = params.localLang || 'en',
+        localLang = params.localLang || this.localLang || 'en',
         localWorkingDays = params.localWorkingDays || [0, 1, 1, 1, 1, 1, 0],
         firstdayOffset = params.firstdayOffset || 1,
         minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4;
         dict = FirmCard.Schedule.dictionary;
         
-        /*console.log("now", now, new Date(now))
-        console.log("projectTime", FirmCard.DataHelper.getProjectTime(zoneOffset));*/
 
     function getHours(str) {
         return str.substr(0, 2);
@@ -123,8 +115,7 @@ FirmCard.Schedule.prototype = {
             // Цикл по точкам времени с конвертацией в timestamp
             _.each(timePoints, function(point) {
                 // now - обязательно! иначе будет браться текущий timestamp что чревато несовпадениями при медленном быстродействии
-                var ts = moment(now).zone(zoneOffset).day(dayNum(num + i + firstdayOffset)).hours(getHours(point.time)).minutes(getMinutes(point.time)).valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
-                /*console.log("ts",ts, now , moment(now) )*/
+                var ts = moment(now).day(dayNum(num + i + firstdayOffset)).hours(getHours(point.time)).minutes(getMinutes(point.time)).valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
                 timestamps.push({
                     ts: ts,
                     type: point.type
@@ -212,13 +203,11 @@ FirmCard.Schedule.prototype = {
             if (now >= (timestamps[i - 1] && timestamps[i - 1].ts || 0) && now < timestamps[i].ts) {
                 var h = Math.floor((timestamps[i].ts - now) / (1000 * 60 * 60)), // Количество часов до следующего timestamp
                     m = Math.floor((timestamps[i].ts - now) / (1000 * 60) - h * 60), // Количество минут (без часов) до следующего timestamp
-                    d = moment(timestamps[i].ts).zone(zoneOffset).dayOfYear() - moment(now).zone(zoneOffset).dayOfYear(),
+                    d = moment(timestamps[i].ts).dayOfYear() - moment(now).dayOfYear(),
                     // открыто если следующая итерация не открытие
                     nowIsOpen = timestamps[i].type != 'open';
-
                 // округляем минуты до кратных 5
                 m = Math.floor(m / 10) * 10 ? Math.floor(m / 10) * 10 : 5;
-
                 schedule.now.open = nowIsOpen;
                 schedule.now.lunch = !!(timestamps[i - 1] && timestamps[i - 1].type == 'lunch' || _.last(timestamps).type == 'lunch');
 
@@ -229,9 +218,9 @@ FirmCard.Schedule.prototype = {
                     m: m
                 };
 
-                schedule.will.when = whenOpenInverse(h, d, moment(timestamps[i].ts).zone(zoneOffset).day()); // Когда закроется или откроется
+                schedule.will.when = whenOpenInverse(h, d, moment(timestamps[i].ts).day()); // Когда закроется или откроется
 
-                schedule.will.till = moment(timestamps[i].ts).zone(zoneOffset).format(apiHourFormat);
+                schedule.will.till = moment(timestamps[i].ts).format(apiHourFormat);
             }
         }
 
@@ -400,15 +389,15 @@ FirmCard.Schedule.prototype = {
     // Заполняем названия дней недели, 1 - понедельник. В заполненных массивах понедельник это 0
     for (var i = 0 ; i < 7 ; i++) {
         moment.lang(apiLang);
-        weekKeys[i] = moment(now).zone(zoneOffset).day(i + firstdayOffset).format('ddd'); // [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
+        weekKeys[i] = moment(now).day(i + firstdayOffset).format('ddd'); // [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
         moment.lang(localLang);
-        weekKeysLocal[i] = moment(now).zone(zoneOffset).day(i + firstdayOffset).format('ddd');
-        weekFullKeysLocal[i] = moment(now).zone(zoneOffset).day(i + firstdayOffset).format('dddd');
+        weekKeysLocal[i] = moment(now).day(i + firstdayOffset).format('ddd');
+        weekFullKeysLocal[i] = moment(now).day(i + firstdayOffset).format('dddd');
     }
 
     // Вычисляем сегодняшний день недели (ссылку на объект дня в модели)
     moment.lang(apiLang);
-    todayKey = moment(now).zone(zoneOffset).format('ddd');
+    todayKey = moment(now).format('ddd');
     today = model[todayKey]; // Объект расписания - текущий день недели
     moment.lang(localLang);
     setTodayString(today); // Сделать объект для шаблона - строка, которая описывает время работы сегодня
@@ -475,12 +464,10 @@ FirmCard.Schedule.prototype = {
     if (schedule.week && schedule.week.evently && schedule.week.evently.length == 1) {
         schedule.everyday = schedule.week.evently[0].everyday;
     }
-
     return schedule;
     },
 
     forecast: function (schedule, params) {
-        debugger;
         var str,
         interval = '',
         open,
