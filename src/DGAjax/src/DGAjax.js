@@ -340,20 +340,28 @@ L.DG.Ajax = (function(){
         this.request = getRequest.call(this, success, error, progress);
     }
 
-    function Ajax(url, options, fn) {
-        var reqDeffered = L.DG.when.defer(),
-            promise = reqDeffered.promise;
+    function Ajax(url, options) {
+        var ajaxDeffered = L.DG.when.defer(),
+            userPromise;
 
-        options = options || {}
-        options.url = url;
+        if ( typeof url === "object" ) {
+            options = url;
+            url = undefined;
+        } else if ( typeof options === "object" ) {
+            options.url = url || options.url;
+        }
+        options = options || {};
+
         setTimeout(function(){
-            init.call(reqDeffered, options)
+            init.call(ajaxDeffered, options)
         }, 1);
+
         console.log(options);
-        console.log(reqDeffered);
-        console.log(reqDeffered.promise);
-        reqDeffered.promise.abort = reqDeffered.abort;
-        return reqDeffered.promise;
+        console.log(ajaxDeffered);
+        userPromise = ajaxDeffered.promise.then(options.success, options.error, options.progress);
+        userPromise.abort = ajaxDeffered.abort;
+        console.log(userPromise);
+        return userPromise;
     }
 
     Ajax.setup = function (options) {
