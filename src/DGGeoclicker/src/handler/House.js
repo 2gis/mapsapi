@@ -106,17 +106,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             afterRender: function(){
                 self._initShowLess();
                 self._initPopupClose();
-                if (self.loader) {
-                    this.firmListContainer.parentNode.appendChild( self._loader );  // "this" here is self._firmListObject
+                if (self._loader) {
+                    this.firmListContainer.parentNode.appendChild(self._loader);  // "this" here is self._firmListObject
                 }
             },
             firmListContainer: content
         };
 
-        if (this._totalPages > 1) {
-            this._loader = this._view._initLoader();
-        }
-
+        this._loader = this._view.initLoader();
         this._api.firmsInHouse(this._id, L.bind(this._initFirmList, this));
     },
 
@@ -196,9 +193,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (this._isListOpenNow) return;
         this._isListOpenNow = true;
         if (this._onFirmListReady){
-            this._onFirmListReady( this._firmListObject );
+            this._onFirmListReady(this._firmListObject);
             this._onFirmListReady = null;
         }
+        this._loader && this._view.hideLoader(this._loader);
         this._firmList.renderList();
         this._popup._resize();
         this._popup.on(
@@ -210,8 +208,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _appendFirmList: function (results) { // (Object)
         this._firmList.addFirms(results);
         this._firmList.renderList();
-        this._loader && this._view.hideLoader( this._loader );
-        this._popup._baron.update();
+        this._loader && this._view.hideLoader(this._loader);
+        this._popup._updateScrollPosition();
     },
 
     _onFirmlistToggleCard: function(cardContainer, cardExpanded){
@@ -221,7 +219,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _handlePopupScroll: function ( event ) {
+    _handlePopupScroll: function (event) {
         var scroller = event.originalEvent.target;
         if (this._totalPages <= 1) return;
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
@@ -233,9 +231,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._page++;
 
         if (this._totalPages && this._page <= this._totalPages) {
-            this._view.showLoader( this._loader );
+            this._view.showLoader(this._loader);
             this._api.firmsInHouse(this._id, L.bind(this._appendFirmList, this), this._page);
         }
     }
-
 });

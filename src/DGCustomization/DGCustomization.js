@@ -205,10 +205,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _initHeader: function () {
-            var headerContainer = document.createElement('div'),
-                contentNode = this._contentNode,
-                isEmpty = true;
-
+            var headerContainer = document.createElement('div');
             headerContainer.setAttribute('class', 'dg-popup-header');
             this._contentNode.appendChild(headerContainer);
 
@@ -257,10 +254,10 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             contentNode.insertBefore(scroller, footer);
 
-            L.DomEvent.addListener( scroller,
+            L.DomEvent.addListener(scroller,
                 'scroll',
-                function ( event ) {
-                    self.fire( 'scroll', { originalEvent: event } )
+                function (event) {
+                    self.fire('scroll', {originalEvent: event});
                 }
             );
 
@@ -285,7 +282,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._bodyContent && this._initBodyContainer();
             this._footerContent && this._initFooter();
 
-            this._updateContent();
+            this._updatePopupStructure();
             this._resize();
 
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
@@ -293,9 +290,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             this._container.style.visibility = '';
         },
 
-        _updateContent: function () {
-            var popupStructure = this._popupStructure,
-                contentNode = this._contentNode;
+        _updatePopupStructure: function () {
+            var popupStructure = this._popupStructure;
 
             for (var i in popupStructure) {
                 if (popupStructure.hasOwnProperty(i)) {

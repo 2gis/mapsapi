@@ -24,7 +24,7 @@ L.DG.Geoclicker.View = L.Class.extend({
         }
     },
 
-    _initLoader: function () {
+    initLoader: function () {
         var loader = document.createElement('div');
         loader.setAttribute('id', 'dg-popup-firm-loading');
 
