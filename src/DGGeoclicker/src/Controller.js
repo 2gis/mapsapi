@@ -95,7 +95,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         return this._map;
     },
 
-    setLang: function () { // (String)
+    reinvokeHandler: function () {
         if (this._lastHandleClickArguments) {
             this.handleClick.apply(this, this._lastHandleClickArguments);
         }
