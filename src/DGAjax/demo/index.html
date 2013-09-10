@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DGAjax & DGPromise demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://maps.api.2gis.dev/2.0/loader.js?pkg=full&mode=debug"></script>
+</head>
+<body>
+
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+
+<script type="text/javascript">
+    L.onLoad(function () {
+
+        var map = new L.Map('map', {
+            center: new L.LatLng(54.980206086231, 82.898068362003),
+            zoom: 17
+        });
+
+        L.DG.when(
+            L.DG.Ajax('http://catalog.api.2gis.ru/project/list', {
+                type: 'jsonp',
+                data: {
+                    output: 'jsonp',
+                    key: 'ruxlih0718',
+                    version: 1.3,
+                    lang: 'ru'
+                }
+            })
+        )
+        .then(
+            function(){ console.log('resolve', arguments, this) },
+            function(){ console.log('reject', arguments, this) },
+            function(){ console.log('progress', arguments, this) }
+        );
+
+        // success: function(data) {
+        //     console.log('success', data);
+        // },
+        // error: function(error) {
+        //     console.log('error', error);
+        // },
+        // beforeSend: function() {
+        //     console.log('beforeSend');
+        // },
+        // complete: function() {
+        //     console.log('complete');
+        // }
+
+    });
+</script>
+Этапы отправки запроса на сервер печатаются в консоль браузера
+</body>
+</html>
