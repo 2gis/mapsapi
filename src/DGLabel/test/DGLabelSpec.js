@@ -67,7 +67,7 @@ describe('L.DG.Label', function () {
         it('#hideLabel should return "L.Marker" instance', function(){
             var marker = L.marker([54.950206086231, 82.898068362003]).addTo(map),
                 markerWithLabel = L.marker([54.950206086231, 82.898068362003]).addTo(map).bindLabel('ra-ta-ta');
-            
+
             expect(marker.hideLabel()).to.be.a(L.Marker);
             expect(markerWithLabel.hideLabel()).to.be.a(L.Marker);
         });
@@ -81,7 +81,7 @@ describe('L.DG.Label', function () {
         it('#getLabel should return null after #unbindLabel call and before #bindLabel call', function(){
             var marker = L.marker([54.950206086231, 82.898068362003]).addTo(map),
                 markerWithLabel = L.marker([54.950206086231, 82.898068362003]).addTo(map).bindLabel('ra-ta-ta');
-            
+
             expect(marker.getLabel()).to.be(null);
             expect(markerWithLabel.unbindLabel().getLabel()).to.be(null);
         });
@@ -110,7 +110,7 @@ describe('L.DG.Label', function () {
         it('#getLabel should return null after #unbindLabel call and before #bindLabel call', function(){
             var path = L.circle([55.0, 83.0], 900).addTo(map),
                 pathWithLabel = L.circle([55.0, 83.0], 900).addTo(map).bindLabel('ra-ta-ta');
-            
+
             expect(path.getLabel()).to.be(null);
             expect(pathWithLabel.unbindLabel().getLabel()).to.be(null);
         });

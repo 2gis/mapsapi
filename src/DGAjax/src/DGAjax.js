@@ -89,196 +89,206 @@ L.DG.Ajax = (function(){
       headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
   }
 
-  function setCredentials(http, o) {
-    if (typeof o.withCredentials !== 'undefined' && typeof http.withCredentials !== 'undefined') {
-      http.withCredentials = !!o.withCredentials
-    }
-  }
-
-  function generalCallback(data) {
-    lastValue = data
-  }
-
-  function urlappend (url, s) {
-    return url + (/\?/.test(url) ? '&' : '?') + s
-  }
-
-  function handleJsonp(o, fn, err, url) {
-    var reqId = uniqid++
-      , cbkey = o.jsonpCallback || 'callback' // the 'callback' key
-      , cbval = o.jsonpCallbackName || namespace.getCallbackPrefix(reqId)
-      , cbreg = new RegExp('((^|\\?|&)' + cbkey + ')=([^&]+)')
-      , match = url.match(cbreg)
-      , script = doc.createElement('script')
-      , loaded = 0
-      , isIE10 = navigator.userAgent.indexOf('MSIE 10.0') !== -1
-
-    if (match) {
-      if (match[3] === '?') {
-        url = url.replace(cbreg, '$1=' + cbval) // wildcard callback func name
-      } else {
-        cbval = match[3] // provided callback func name
-      }
-    } else {
-      url = urlappend(url, cbkey + '=' + cbval) // no callback details, add 'em
+    function setCredentials(http, o) {
+        if (typeof o.withCredentials !== 'undefined' && typeof http.withCredentials !== 'undefined') {
+            http.withCredentials = !!o.withCredentials
+        }
     }
 
-    win[cbval] = generalCallback
-
-    script.type = 'text/javascript'
-    script.src = url
-    script.async = true
-    if (typeof script.onreadystatechange !== 'undefined' && !isIE10) {
-      // need this for IE due to out-of-order onreadystatechange(), binding script
-      // execution to an event listener gives us control over when the script
-      // is executed. See http://jaubourg.net/2010/07/loading-script-as-onclick-handler-of.html
-      //
-      // if this hack is used in IE10 jsonp callback are never called
-      script.event = 'onclick'
-      script.htmlFor = script.id = '_request_' + reqId
+    function generalCallback(data) {
+        lastValue = data
     }
 
-    script.onload = script.onreadystatechange = function () {
-      if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
-        return false
-      }
-      script.onload = script.onreadystatechange = null
-      script.onclick && script.onclick()
-      // Call the user callback with the last value stored and clean up values and scripts.
-      fn(lastValue)
-      lastValue = undefined
-      head.removeChild(script)
-      loaded = 1
+    function urlappend (url, s) {
+        return url + (/\?/.test(url) ? '&' : '?') + s
     }
 
-    // Add the script to the DOM head
-    head.appendChild(script)
+    function handleJsonp(o, fn, err, progress, url) {
+        var reqId = uniqid++,
+            cbkey = o.jsonpCallback || 'callback', // the 'callback' key
+            cbval = o.jsonpCallbackName || callbackPrefix,
+            cbreg = new RegExp('((^|\\?|&)' + cbkey + ')=([^&]+)'),
+            match = url.match(cbreg),
+            script = doc.createElement('script'),
+            loaded = 0,
+            isIE10 = navigator.userAgent.indexOf('MSIE 10.0') !== -1;
 
-    // Enable JSONP timeout
-    return {
-      abort: function () {
-        script.onload = script.onreadystatechange = null
-        err({}, 'Request is aborted: timeout', {})
-        lastValue = undefined
-        head.removeChild(script)
-        loaded = 1
-      }
+        if (match) {
+            if (match[3] === '?') {
+                url = url.replace(cbreg, '$1=' + cbval); // wildcard callback func name
+            } else {
+                cbval = match[3]; // provided callback func name
+            }
+        } else {
+            url = urlappend(url, cbkey + '=' + cbval); // no callback details, add 'em
+        }
+
+        win[cbval] = generalCallback;
+
+        script.type = 'text/javascript';
+        script.src = url;
+        script.async = true;
+        if (typeof script.onreadystatechange !== 'undefined' && !isIE10) {
+            // need this for IE due to out-of-order onreadystatechange(), binding script
+            // execution to an event listener gives us control over when the script
+            // is executed. See http://jaubourg.net/2010/07/loading-script-as-onclick-handler-of.html
+            //
+            // if this hack is used in IE10 jsonp callback are never called
+            script.event = 'onclick';
+            script.htmlFor = script.id = '_request_' + reqId;
+        }
+
+        script.onload = script.onreadystatechange = function () {
+            if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
+                return false;
+            }
+            script.onload = script.onreadystatechange = null;
+            script.onclick && script.onclick();
+            // Call the user callback with the last value stored and clean up values and scripts.
+            fn(lastValue);
+            lastValue = undefined;
+            head.removeChild(script);
+            loaded = 1;
+        }
+
+        progress();
+
+        // Add the script to the DOM head
+        head.appendChild(script)
+
+        // Enable JSONP timeout
+        return {
+            abort: function () {
+                script.onload = script.onreadystatechange = null;
+                err({}, 'Request is aborted: timeout', {});
+                lastValue = undefined;
+                head.removeChild(script);
+                loaded = 1;
+            }
+        }
     }
-  }
 
-    function getRequest(fn, err) {
-        var o = this.o
-            , method = (o.method || 'GET').toUpperCase()
-            , url = typeof o === 'string' ? o : o.url
+    function getRequest(fn, err, progress) {
+        var o = this.options,
+            method = (o.method || 'GET').toUpperCase(),
+            url = typeof o === 'string' ? o : o.url,
             // convert non-string objects to query-string form unless o.processData is false
-            , data = (o.processData !== false && o.data && typeof o.data !== 'string')
-            ? namespace.toQueryString(o.data)
-            : (o.data || null)
-            , http
-            , sendWait = false
+            data = (o.processData !== false && o.data && typeof o.data !== 'string')
+                    ? Ajax.toQueryString(o.data)
+                    : (o.data || null),
+            http,
+            sendWait = false;
 
         // if we're working on a GET request and we have data then we should append
         // query string to end of URL and not post data
         if ((o.type == 'jsonp' || method == 'GET') && data) {
-          url = urlappend(url, data)
-          data = null
+            url = urlappend(url, data);
+            data = null;
         }
 
-        if (o.type == 'jsonp') return handleJsonp(o, fn, err, url)
+        if (o.type == 'jsonp') return handleJsonp(o, fn, err, progress, url);
 
-        http = xhr(o)
-        http.open(method, url, o.async === false ? false : true)
-        setHeaders(http, o)
-        setCredentials(http, o)
+        http = xhr(o);
+        http.open(method, url, o.async === false ? false : true);
+        setHeaders(http, o);
+        setCredentials(http, o);
         if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
-            http.onload = fn
-            http.onerror = err
+            http.onload = fn;
+            http.onerror = err;
             // NOTE: see
             // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
-            http.onprogress = function() {}
-            sendWait = true
+            http.onprogress = function() {};
+            sendWait = true;
         } else {
-          http.onreadystatechange = handleReadyState(this, fn, err)
+            http.onreadystatechange = handleReadyState(this, fn, err);
         }
-        o.before && o.before(http)
+        // console.log(o);
+        // o.before && o.before(http);
         if (sendWait) {
-          setTimeout(function () {
-            http.send(data)
-          }, 200)
+            setTimeout(function () {
+                http.send(data)
+            }, 200);
         } else {
-          http.send(data)
+            http.send(data);
         }
-        return http
+        return http;
+    }
+
+    function buildParams(prefix, obj, traditional, add) {
+        var name, i, v,
+            rbracket = /\[\]$/;
+
+        if (isArray(obj)) {
+          // Serialize array item.
+          for (i = 0; obj && i < obj.length; i++) {
+            v = obj[i]
+            if (traditional || rbracket.test(prefix)) {
+              // Treat each array item as a scalar.
+              add(prefix, v);
+            } else {
+              buildParams(prefix + '[' + (typeof v === 'object' ? i : '') + ']', v, traditional, add);
+            }
+          }
+        } else if (obj && obj.toString() === '[object Object]') {
+          // Serialize object item.
+          for (name in obj) {
+            buildParams(prefix + '[' + name + ']', obj[name], traditional, add);
+          }
+
+        } else {
+          // Serialize scalar item.
+          add(prefix, obj);
+        }
     }
 
     function setType(url) {
-        var m = url.match(/\.(json|jsonp|html|xml)(\?|$)/)
-        return m ? m[1] : 'js'
+        var m = url.match(/\.(json|jsonp|html|xml)(\?|$)/);
+        return m ? m[1] : 'js';
     }
 
-    function init(o, fn) {
+    function init(o) {
 
-        this.url = typeof o == 'string' ? o : o.url
-        this.timeout = null
+        this.url = typeof o == 'string' ? o : o.url;
+        this.timeout = null;
+        this.options = o;
 
         // whether request has been fulfilled for purpose
         // of tracking the Promises
-        this._fulfilled = false
-        // success handlers
-        this._successHandler = function(){}
-        this._fulfillmentHandlers = []
-        // error handlers
-        this._errorHandlers = []
-        // complete (both success and fail) handlers
-        this._completeHandlers = []
-        this._erred = false
-        this._responseArgs = {}
+        this._fulfilled = false;
+        this._erred = false;
+        this._responseArgs = {};
 
-        var self = this
-          , type = o.type || setType(this.url)
+        this.abort = function () {
+            this._aborted = true
+            this.request.abort();
+        }
 
-        fn = fn || function () {}
+        var self = this,
+            type = o.type || setType(this.url);
 
         if (o.timeout) {
             this.timeout = setTimeout(function () {
-                self.abort()
+                self.abort();
             }, o.timeout)
         }
 
-        if (o.success) {
-            this._successHandler = function () {
-                o.success.apply(o, arguments)
-            }
-        }
-
-        if (o.error) {
-            this._errorHandlers.push(function () {
-                o.error.apply(o, arguments)
-            })
-        }
-
-        if (o.complete) {
-            this._completeHandlers.push(function () {
-                o.complete.apply(o, arguments)
-            })
-        }
-
         function complete (resp) {
-            o.timeout && clearTimeout(self.timeout)
-            self.timeout = null
-            while (self._completeHandlers.length > 0) {
-            self._completeHandlers.shift()(resp)
-            }
+            o.timeout && clearTimeout(self.timeout);
+            self.timeout = null;
+            if (self._erred)
+                self.reject(resp);
+            else
+                self.resolve(resp);
         }
 
         function success (resp) {
-            resp = (type !== 'jsonp') ? self.request : resp
+            resp = (type !== 'jsonp') ? self.request : resp;
             // use global data filter on response text
-            var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type)
-            , r = filteredResponse
+            var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type),
+                r = filteredResponse;
 
             try {
-                resp.responseText = r
+                resp.responseText = r;
             } catch (e) {
                 // can't assign this in IE<=8, just ignore
             }
@@ -286,73 +296,63 @@ L.DG.Ajax = (function(){
                 switch (type) {
                     case 'json':
                         try {
-                            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')')
+                            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
                         } catch (err) {
-                            return error(resp, 'Could not parse JSON in response', err)
+                            return error(resp, 'Could not parse JSON in response', err);
                         }
-                        break
+                        break;
                     case 'js':
-                        resp = eval(r)
-                        break
+                        resp = eval(r);
+                        break;
                     case 'html':
-                        resp = r
-                        break
+                        resp = r;
+                        break;
                     case 'xml':
                         resp = resp.responseXML
                                 && resp.responseXML.parseError // IE trololo
                                 && resp.responseXML.parseError.errorCode
                                 && resp.responseXML.parseError.reason
                                 ? null
-                                : resp.responseXML
-                        break
+                                : resp.responseXML;
+                        break;
                 }
             }
 
-            self._responseArgs.resp = resp
-            self._fulfilled = true
-            fn(resp)
-            self._successHandler(resp)
-            while (self._fulfillmentHandlers.length > 0) {
-                resp = self._fulfillmentHandlers.shift()(resp)
-            }
-
-            complete(resp)
+            self._responseArgs.resp = resp;
+            self._fulfilled = true;
+            complete(resp);
         }
 
         function error(resp, msg, t) {
-            resp = self.request
-            self._responseArgs.resp = resp
-            self._responseArgs.msg = msg
-            self._responseArgs.t = t
-            self._erred = true
-            while (self._errorHandlers.length > 0) {
-                self._errorHandlers.shift()(resp, msg, t)
-            }
-            complete(resp)
+            resp = self.request;
+            self._responseArgs.resp = resp;
+            self._responseArgs.msg = msg;
+            self._responseArgs.t = t;
+            self._erred = true;
+            complete(resp);
         }
 
-        this.request = getRequest.call(this, success, error)
+        function progress() {
+            console.log( self );
+            self.notify.call(self, arguments);
+        }
+
+        this.request = getRequest.call(this, success, error, progress);
     }
 
-  // Request.prototype = {
-  //   abort: function () {
-  //     this._aborted = true
-  //     this.request.abort()
-  //   }
+    function Ajax(url, options, fn) {
+        var reqDeffered = L.DG.when.defer(),
+            promise = reqDeffered.promise;
 
-  // , retry: function () {
-  //     init.call(this, this.o, this.fn)
-  //   }
-  // }
-
-    function Ajax(url, o, fn) {
-        var reqDeffered = L.DG.when.defer();
-        o = o || {}
-        o.url = url;
-        console.log(o);
+        options = options || {}
+        options.url = url;
+        setTimeout(function(){
+            init.call(reqDeffered, options)
+        }, 1);
+        console.log(options);
         console.log(reqDeffered);
         console.log(reqDeffered.promise);
-        // init.apply(reqDeffered, arguments);
+        reqDeffered.promise.abort = reqDeffered.abort;
         return reqDeffered.promise;
     }
 

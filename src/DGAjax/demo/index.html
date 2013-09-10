@@ -29,8 +29,11 @@
                 }
             })
         )
-        .then(function(){ console.log('then', arguments, this) })
-        .reject(function(){ console.log('reject', arguments, this) });
+        .then(
+            function(){ console.log('resolve', arguments, this) },
+            function(){ console.log('reject', arguments, this) },
+            function(){ console.log('progress', arguments, this) }
+        );
 
         // success: function(data) {
         //     console.log('success', data);
