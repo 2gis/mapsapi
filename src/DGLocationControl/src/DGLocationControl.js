@@ -54,6 +54,8 @@ L.DG.LocationControl = L.Control.extend({
     },
 
     onAdd: function (map) {
+        if (!navigator.geolocation)
+            return;
         this._addPreloaders();
 
         var container = L.DomUtil.create('div', 'leaflet-control-locate leaflet-bar');
