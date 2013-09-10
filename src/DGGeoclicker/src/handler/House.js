@@ -20,7 +20,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmListObject = null;
         this._id = results.house.id;
         this._totalPages = 1;
-
         //this._defaultFirm = 141265771962688; // TODO Remove this mock for filial click tests
 
         this._api = this._controller.getCatalogApi();
@@ -35,6 +34,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         } else {
             callback(this._houseObject);
         }
+
         return true;
     },
 
@@ -80,14 +80,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._houseObject = {
             tmpl: this._view.getTemplate("house"),
             data: data,
-            afterRender: function(){
+            afterRender: function () {
                 self._initShowMore();
                 self._initPopupClose();
             }
         };
     },
 
-    _fillFirmListObject: function(){
+    _fillFirmListObject: function () {
         var self = this,
             content = document.createElement('div');
 
@@ -103,7 +103,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                     hideFirmsText: this.t("Hide organization in the building")
                 }
             }),
-            afterRender: function(){
+            afterRender: function () {
                 self._initShowLess();
                 self._initPopupClose();
                 if (self._loader) {
@@ -117,13 +117,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._api.firmsInHouse(this._id, L.bind(this._initFirmList, this));
     },
 
-    _initPopupClose: function() {
+    _initPopupClose: function () {
         if (this._initedPopupClose) return;
+
         this._controller.getMap().once('popupclose', L.bind(this._onPopupClose, this));
         this._initedPopupClose = true;
     },
 
-    _onPopupClose: function() {
+    _onPopupClose: function () {
         this._initedPopupClose = false;
         if (this._firmList) {
             this._firmList.clearList();
@@ -151,7 +152,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._clearAndRenderPopup(this._firmListObject);
     },
 
-    _initShowLess: function() {
+    _initShowLess: function () {
         var link = this._popup._contentNode.querySelector('#dg-showlesshouse');
 
         if (link) {
@@ -164,7 +165,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._clearAndRenderPopup(this._houseObject);
     },
 
-    _clearAndRenderPopup: function(popupObject){
+    _clearAndRenderPopup: function (popupObject) {
         this._clearEventHandlers();
         this._popup.clearHeaderFooter();
         this._view.renderPopup(popupObject);
@@ -189,16 +190,19 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         );
     },
 
-    _renderFirmList: function(){
+    _renderFirmList: function () {
         if (this._isListOpenNow) return;
         this._isListOpenNow = true;
+
         if (this._onFirmListReady){
             this._onFirmListReady(this._firmListObject);
             this._onFirmListReady = null;
         }
+
         if (this._totalPages === 1) {
             this._loader && this._view.hideLoader(this._loader);
         }
+
         this._firmList.renderList();
         this._popup._resize();
         this._popup.on(
@@ -214,8 +218,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup._updateScrollPosition();
     },
 
-    _onFirmlistToggleCard: function(cardContainer, cardExpanded){
+    _onFirmlistToggleCard: function (cardContainer, cardExpanded) {
         this._popup._resize();
+
         if (cardExpanded && this._popup._scroller) {
             this._popup.scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
         }
@@ -223,6 +228,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handlePopupScroll: function (event) {
         var scroller = event.originalEvent.target;
+
         if (this._totalPages <= 1) return;
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
             this._handlePaging();
