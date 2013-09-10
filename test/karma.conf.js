@@ -23,7 +23,7 @@ files = [].concat([
 ],
 [   
     "vendors/leaflet/spec/after.js",
-    "node_modules/happen/src/happen.js",
+    "node_modules/happen/happen.js",
     "vendors/leaflet/spec/suites/SpecHelper.js",
     "vendors/leaflet/spec/suites/**/*.js"
 ]);

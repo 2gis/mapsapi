@@ -38,8 +38,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
-        graf = baron.noConflict(),
-        tmpl = __DGCustomization_TMPL__;
+        graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
@@ -85,18 +84,22 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
         setHeaderContent: function (content) {
             this._headerContent = content;
+            this._update();
+
             return this;
         },
 
         setFooterContent: function (content) {
             this._footerContent = content;
+            this._update();
+
             return this;
         },
 
         clearHeaderFooter: function() {
             this.clearHeader();
             this.clearFooter();
-            // TEMPORARY HACK!
+            // think about remove this set to another public method
             this._isBaronExist = false;
             return this;
         },
@@ -118,6 +121,31 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 delete this._popupStructure.footer;
             }
 
+            return this;
+        },
+
+        scrollTo: function(to) {
+            var duration = 200,
+                element = this._scroller,
+                start = element.scrollTop,
+                change = to - start
+                startTime = null;
+
+            var ease = function (t, b, c, d) {
+                return -c *(t/=d)*(t-2) + b;
+            };
+
+            var animateScroll = function(currentTime){
+                if (!startTime) startTime = currentTime;
+                var timeFrame = currentTime - startTime;
+
+                element.scrollTop = ease(timeFrame, start, change, duration);
+
+                if (currentTime - startTime < duration) {
+                    L.Util.requestAnimFrame(arguments.callee, element);
+                }
+            };
+            L.Util.requestAnimFrame(animateScroll, element);
             return this;
         },
 
@@ -211,7 +239,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 barWrapper = document.createElement('div'),
                 scrollerBar = document.createElement('div'),
                 contentNode = this._contentNode,
-                footer = contentNode.querySelector('.dg-popup-footer');
+                footer = contentNode.querySelector('.dg-popup-footer'),
+                self = this;
 
             this._detachEl(this._popupStructure.body);
             scroller.setAttribute('class', 'scroller');
@@ -227,6 +256,13 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             scroller.appendChild(barWrapper);
 
             contentNode.insertBefore(scroller, footer);
+
+            L.DomEvent.addListener( scroller,
+                'scroll',
+                function ( event ) {
+                    self.fire( 'scroll', { originalEvent: event } )
+                }
+            );
 
             this._scroller = scroller;
             this._scrollerBar = scrollerBar;

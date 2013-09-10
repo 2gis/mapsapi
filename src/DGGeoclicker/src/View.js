@@ -1,6 +1,6 @@
 L.DG.Geoclicker.View = L.Class.extend({
 
-    initialize: function(map, options) { // (Object, Object)
+    initialize: function (map, options) { // (Object, Object)
         this._map = map;
         this._popup = L.popup({
             maxHeight: 300,
@@ -12,19 +12,15 @@ L.DG.Geoclicker.View = L.Class.extend({
         options && L.Util.setOptions(this, options);
     },
 
-    showLoader: function ( loader ) {
-        var loaderDiv = loader || document.getElementById('dg-popup-firm-loading');
-
-        if (loaderDiv) {
-            loaderDiv.style.display = 'block';
+    showLoader: function (loader) {
+        if (loader) {
+            loader.style.display = 'block';
         }
     },
 
-    hideLoader: function ( loader ) {
-        var loaderDiv = loader || document.getElementById('dg-popup-firm-loading');
-
-        if (loaderDiv) {
-            loaderDiv.style.display = "none";
+    hideLoader: function (loader) {
+        if (loader) {
+            loader.style.display = 'none';
         }
     },
 
@@ -42,7 +38,7 @@ L.DG.Geoclicker.View = L.Class.extend({
                 .openOn(this._map);
     },
 
-    render: function(options) { // (Object) -> String
+    render: function (options) { // (Object) -> String
         var html,
             tmpl,
             tmplFileContent;
@@ -54,7 +50,7 @@ L.DG.Geoclicker.View = L.Class.extend({
 
         if (options.data) {
             tmpl = tmplFileContent ? tmplFileContent : options.tmpl;
-            html = L.DG.Template(tmpl, options.data);
+            html = L.DG.template(tmpl, options.data);
         } else {
             html = options.tmpl;
         }
@@ -62,29 +58,25 @@ L.DG.Geoclicker.View = L.Class.extend({
         options.beforeRender && options.beforeRender();
 
         if (options.popup) {
-            if (options.append) {
-                    options.firmList.appendChild(html);
-            } else {
-                options.header && this._popup.setHeaderContent(options.header);
-                options.footer && this._popup.setFooterContent(options.footer);
-                this._popup.setContent( html );
-            }
+            options.header && this._popup.setHeaderContent(options.header);
+            options.footer && this._popup.setFooterContent(options.footer);
+            this._popup.setContent(html);
         }
         options.afterRender && options.afterRender();
 
         return html;
     },
 
-    renderPopup: function(options) { // (Object) -> String
+    renderPopup: function (options) { // (Object) -> String
         options.popup = true;
         return this.render(options);
     },
 
-    getPopup: function() { // () -> Object
+    getPopup: function () { // () -> Object
         return this._popup;
     },
 
-    getTemplate: function(tmplFile) {
+    getTemplate: function (tmplFile) {
         var tmpl = this._templates[tmplFile];
         return tmpl ? tmpl : "";
     }

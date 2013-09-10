@@ -13,12 +13,25 @@ var deps = {
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
         heading: '2GIS modules',
-        deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon']
+        deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon', 'TileLayerCanvas']
     },
 
     DGDivIcon: {
         desc: '2GIS DivIcon module',
         src: ['DGDivIcon/src/DGDivIcon.js'],
+        deps: ['DGCore']
+    },
+
+    DGLabel: {
+        desc: '2GIS Label module',
+        src: [
+            'DGLabel/src/DGLabel.js',
+            'DGLabel/src/Marker.DGLabel.js',
+            'DGLabel/src/Path.DGLabel.js'
+        ],
+        css: {
+            all: ['DGLabel/skin/{skin}/css/DGLabel.css']
+        },
         deps: ['DGCore']
     },
 
@@ -94,6 +107,16 @@ var deps = {
         deps: ['DGCore', 'DGJsonp']
     },
 
+    DGPoi: {
+        desc: '2GIS POI module.',
+        src: [
+            'DGPoi/src/DGPoi.js',
+            'DGPoi/src/PoiStorage.js',
+            'DGPoi/src/PolyUtilContains.js'
+        ],
+        deps: ['DGJsonp', 'DGCore', 'DGTileLayer', 'DGWkt']
+    },
+
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
         css: {
@@ -133,7 +156,7 @@ var deps = {
             '../vendors/firmcard/src/Dictionary.js',
 
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGLabel']
     },
 
     DGTemplate: {

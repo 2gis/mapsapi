@@ -46,10 +46,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._catalogApi.getLocations({
             latlng: latlng,
             zoom: zoom,
-            callback: function(){
-                Array.prototype.push.call(arguments, extra);
-                self.handleResponse.apply(self, arguments);
-            },
+            callback: L.bind(this.handleResponse, this),
             beforeRequest: function() {
                 self._view.showPopup(latlng);
                 self._lastHandleClickArguments = args;
@@ -90,35 +87,34 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         return null;
     },
 
-    getCatalogApi: function() { // () -> Object
+    getCatalogApi: function () { // () -> Object
         return this._catalogApi;
     },
 
-    getMap: function() {
+    getMap: function () {
         return this._map;
     },
 
-    setLang: function(lang) { // (String)
+    setLang: function () { // (String)
         if (this._lastHandleClickArguments) {
             this.handleClick.apply(this, this._lastHandleClickArguments);
         }
     },
 
-    _runHandler: function(type, data) { // (String, Object) -> Boolean
+    _runHandler: function (type, data) { // (String, Object) -> Boolean
         data = data || {};
-        this._ensureHandlerIsInit(type);
+        this._initHandlerOnce(type);
 
         return this._handlers[type].handle(data, type, L.bind(this._renderHandlerResult, this));
     },
 
-    _renderHandlerResult: function(result){
+    _renderHandlerResult: function (result) {
         this._view.renderPopup(result);
     },
 
-    _ensureHandlerIsInit: function (type) { // (String)
+    _initHandlerOnce: function (type) { // (String)
         if (!this._handlers[type]) {
             this._handlers[type] = new this.options.handlersSequence[type](this, this._view, this._map);
         }
     }
-
 });

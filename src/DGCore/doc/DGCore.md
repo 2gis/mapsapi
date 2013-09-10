@@ -424,6 +424,16 @@
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при скрытии входа в здание.</td>
 	</tr>
+	<tr>
+		<td><code><b>dgPoiHover</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается при наведении курсора мышки на POI.</td>
+	</tr>
+	<tr>
+		<td><code><b>dgPoiLeave</b></code></td>
+		<td><code><a href="#event">Event</a></code>
+		<td>Вызывается когда курсор мышки покидает область POI.</td>
+	</tr>
 </table>
 
 ### Методы изменения состояния карты
@@ -1498,12 +1508,28 @@
 		<td>Устанавливает географические координаты точки открытия балуна.</td>
 	</tr>
 	<tr>
-		<td><code><b>setContent</b>(
-			<nobr>&lt;String&gt; <i>htmlContent</i> )</nobr>
+		<td><code><b>setHeaderContent</b>(
+			<nobr>&lt;String&gt;/&lt;DOM-element&gt;  <i>content</i> )</nobr>
 		</code></td>
 
 		<td><code>this</code></td>
-		<td>Задает HTML содержимое балуна.</td>
+		<td>Задает содержимое секции header балуна. Может принимать HTML строку или DOM-элемент</td>
+	</tr>
+	<tr>
+		<td><code><b>setContent</b>(
+			<nobr>&lt;String&gt;&lt;String&gt;/&lt;DOM-element&gt; <i>htmlContentcontent</i> )</nobr>
+		</code></td>
+
+		<td><code>this</code></td>
+		<td>Задает содержимое секции body балуна. Может принимать HTML строку или DOM-элемент</td>
+	</tr>
+	<tr>
+		<td><code><b>setContent</b>(
+			<nobr>&lt;String&gt;/&lt;DOM-element&gt; <i>content</i> )</nobr>
+		</code></td>
+
+		<td><code>this</code></td>
+		<td>Задает содержимое секции footer балуна. Может принимать HTML строку или DOM-элемент</td>
 	</tr>
 </table>
 
@@ -4125,7 +4151,7 @@
 
         <td><code>this</code></td>
         <td>Аналогичен методу <code>addEventListener</code>, лишь с тем отличием, что после первого вызова обработчика он будет удален.</td>
-    </tr>    
+    </tr>
     <tr>
         <td><code><b>addEventListener</b>(
             <nobr>&lt;Object&gt; <i>eventMap</i></nobr>,

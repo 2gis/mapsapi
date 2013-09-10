@@ -48,8 +48,8 @@ FirmCard.Schedule.prototype = {
         minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4;
         dict = FirmCard.Schedule.dictionary;
         
-        console.log("now", now, new Date(now))
-        console.log("projectTime", FirmCard.DataHelper.getProjectTime(zoneOffset));
+        /*console.log("now", now, new Date(now))
+        console.log("projectTime", FirmCard.DataHelper.getProjectTime(zoneOffset));*/
 
     function getHours(str) {
         return str.substr(0, 2);
@@ -124,7 +124,7 @@ FirmCard.Schedule.prototype = {
             _.each(timePoints, function(point) {
                 // now - обязательно! иначе будет браться текущий timestamp что чревато несовпадениями при медленном быстродействии
                 var ts = moment(now).zone(zoneOffset).day(dayNum(num + i + firstdayOffset)).hours(getHours(point.time)).minutes(getMinutes(point.time)).valueOf(); // Вычислить таймстемп для данного дня недели, часа и минуты, в будущем, но ближайший к now
-                console.log("ts",ts, now , moment(now) )
+                /*console.log("ts",ts, now , moment(now) )*/
                 timestamps.push({
                     ts: ts,
                     type: point.type

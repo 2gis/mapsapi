@@ -167,7 +167,7 @@
 		//INITIALIZE FIRMCARD WITH TEMPLATE, EVENT, LOCALIZATION ENGINES
 		FirmCard.setOptions({
 			render: function(tmpl, data) {
-				return L.DG.Template(tmpl, data);
+				return L.DG.template(tmpl, data);
 			},
 			event: function(mode, el, event, callback) {
 				switch(mode) {
@@ -189,7 +189,7 @@
 		});
 
 
-		var firm, 
+		var firm,
 			fragment = document.createDocumentFragment(),
 			firms = firmsMock.results;
 
