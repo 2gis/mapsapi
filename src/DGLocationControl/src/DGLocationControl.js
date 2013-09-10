@@ -1,4 +1,10 @@
-L.DG.LocationControl = L.Control.Locate.extend({
+/*
+Copyright (c) 2013 Dominik Moritz
+
+This file is part of the leaflet locate control. It is licensed under the MIT license.
+You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
+*/
+L.DG.LocationControl = L.Control.extend({
 
     includes: L.DG.Locale,
 
@@ -7,92 +13,256 @@ L.DG.LocationControl = L.Control.Locate.extend({
     },
 
     options: {
-        markerStyle: {
-            color: '#0A9BCF',
-            fillColor: '#FFFFFF',
-            fillOpacity: 0.7,
-            weight: 2,
-            opacity: 0.9,
-            radius: 8
+        position: 'topleft',
+        drawCircle: true,
+        follow: false,  // follow with zoom and pan the user's location
+        stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged
+        metric: true,
+        onLocationError: function (err) {
+            // this event is called in case of any location error
+            // that is not a time out error.
+            console.log(err.message);
         },
-        circleStyle: {
-            color: '#FFF',
-            fillColor: '#FFF',
-            fillOpacity: 0.4,
-            weight: 0,
-            opacity: 0.3
+        onLocationOutsideMapBounds: function (context) {
+            // this event is repeatedly called when the location changes
+            console.log(context.t('outsideMapBoundsMsg'));
         },
-        onLocationError: function(err) {
-            console.log(err);
-        }
+        locateOptions: {}
     },
 
-    _addPreloaders: function() {
+    _addPreloaders: function () {
         var map = L.DomUtil.get('map');
         this._loader = L.DomUtil.create('div', 'dg-loader', map);
         this._loaderLocate = L.DomUtil.create('div', 'dg-loader-locate', map);
         this._loaderLocateError = L.DomUtil.create('div', 'dg-loader-locate-error', map);
         this._loaderLocateError.innerHTML = this.t('cant_find');
     },
-    _showLoad: function() {
+    _showLoad: function () {
         this._loader.style.display = 'block';
         this._loaderLocate.style.display = 'block';
         this._loaderLocateError.style.display = 'none';
     },
-    _showLoadError: function() {
+    _showLoadError: function () {
         this._loader.style.display = 'none';
         this._loaderLocate.style.display = 'block';
         this._loaderLocateError.style.display = 'block';
     },
-    _hideLoad: function() {
+    _hideLoad: function () {
         this._loader.style.display = 'none';
         this._loaderLocate.style.display = 'none';
         this._loaderLocateError.style.display = 'none';
     },
 
-    onAdd: function(map) {
+    onAdd: function (map) {
         this._addPreloaders();
-        var container = L.Control.Locate.prototype.onAdd.call(this, map),
-            link = container.firstElementChild || container.firstChild,
-            self = this;
 
-        L.DomEvent.on(link, 'click', function() {
-            self._showLoad();
+        var container = L.DomUtil.create('div', 'leaflet-control-locate leaflet-bar');
+
+        var self = this;
+        this._layer = new L.LayerGroup();
+        this._layer.addTo(map);
+        this._event = undefined;
+
+        this._locateOptions = {
+            watch: true  // if you overwrite this, visualization cannot be updated
+        };
+        L.extend(this._locateOptions, this.options.locateOptions);
+        L.extend(this._locateOptions, {
+            setView: false // have to set this to false because we have to
+                           // do setView manually
         });
 
-        var addControls = function() {
-            this._circleMarker.unbindPopup();
+        var link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+        link.href = '#';
+        link.title = this.t('button_title');
 
-            if (!this._circleMarkerPoint){
-                this._circleMarkerPoint = L.circleMarker(this._circleMarker.getLatLng(), {
-                    color: '#0A9BCF',
-                    fillColor: '#0A9BCF',
-                    fillOpacity: 1,
-                    weight: 0,
-                    opacity: 1,
-                    radius: 4
-                }).addTo(this._layer);
-            } else {
-                this._circleMarkerPoint.setLatLng(this._circleMarker.getLatLng());
+        L.DomEvent
+            .on(link, 'click', L.DomEvent.stopPropagation)
+            .on(link, 'click', L.DomEvent.preventDefault)
+            .on(link, 'click', function () {
+                self._showLoad();
+                if (self._active && self._event && (map.getBounds().contains(self._event.latlng) ||
+                    isOutsideMapBounds())) {
+                    stopLocate();
+                } else {
+                    self._locateOnNextLocationFound = true;
+
+                    if (!self._active) {
+                        map.locate(self._locateOptions);
+                    }
+
+                    self._active = true;
+
+                    if (self.options.follow) {
+                        startFollowing();
+                    }
+
+                    if (self._event) {
+                        visualizeLocation();
+                    }
+                }
+            })
+            .on(link, 'dblclick', L.DomEvent.stopPropagation);
+
+        var onLocationFound = function (e) {
+            self._hideLoad();
+            // no need to do anything if the location has not changed
+            if (self._event &&
+                (self._event.latlng.lat === e.latlng.lat &&
+                 self._event.latlng.lng === e.latlng.lng &&
+                 self._event.accuracy === e.accuracy)) {
+                return;
             }
 
-            [this._circleMarker, this._circleMarkerPoint].forEach(function(marker){
-                marker.bindLabel(this.t("you_are_here"));
+            if (!self._active) {
+                return;
+            }
 
-                L.DomEvent.on(marker, 'click', function() {
-                    map.fireEvent('dgLocateClick');
-                });
-            }, this);
+            self._event = e;
+
+            if (self.options.follow && self._following) {
+                self._locateOnNextLocationFound = true;
+            }
+
+            visualizeLocation();
         };
 
-        map.on('locationfound', addControls, this);
-        map.on('locationfound', this._hideLoad, this);
-        map.on('locationerror', this._showLoadError, this);
+        var startFollowing = function () {
+            self._following = true;
+            if (self.options.stopFollowingOnDrag) {
+                map.on('dragstart', stopFollowing);
+            }
+        };
+
+        var stopFollowing = function () {
+            self._following = false;
+            if (self.options.stopFollowingOnDrag) {
+                map.off('dragstart', stopFollowing);
+            }
+            visualizeLocation();
+        };
+
+        var isOutsideMapBounds = function () {
+            if (self._event === undefined) {
+                return false;
+            }
+            return map.options.maxBounds &&
+                !map.options.maxBounds.contains(self._event.latlng);
+        };
+
+        var visualizeLocation = function () {
+            if (self._event.accuracy === undefined) {
+                self._event.accuracy = 0;
+            }
+
+            var radius = self._event.accuracy;
+            if (self._locateOnNextLocationFound) {
+                if (isOutsideMapBounds()) {
+                    self.options.onLocationOutsideMapBounds(self);
+                } else {
+                    map.fitBounds(self._event.bounds);
+                }
+                self._locateOnNextLocationFound = false;
+            }
+
+            // circle with the radius of the location's accuracy
+            var style = {
+                color: '#FFF',
+                fillColor: '#FFF',
+                fillOpacity: 0.4,
+                weight: 0,
+                opacity: 0.3
+            };
+            if (self.options.drawCircle) {
+                if (!self._circle) {
+                    self._circle = L.circle(self._event.latlng, radius, style)
+                        .addTo(self._layer);
+                } else {
+                    self._circle.setLatLng(self._event.latlng).setRadius(radius);
+                }
+            }
+
+            var distance, unit;
+            if (self.options.metric) {
+                distance = radius.toFixed(0);
+                unit = 'meters';
+            } else {
+                distance = (radius * 3.2808399).toFixed(0);
+                unit = 'feet';
+            }
+
+            // small inner marker
+            var m = {
+                icon: L.divIcon({
+                    className: 'dg-locate-pin',
+                    iconSize: [20, 20]
+                })
+            };
+
+            if (!self._marker) {
+                self._marker = L.marker(self._event.latlng, m)
+                    .bindLabel(self.t('you_are_here'))
+                    .addTo(self._layer);
+            } else {
+                self._marker.setLatLng(self._event.latlng);
+            }
+
+            L.DomEvent.on(self._marker, 'click', function () {
+                map.fireEvent('dgLocateClick');
+            });
+
+            if (!self._container) {
+                return;
+            }
+        };
+
+        var resetVariables = function () {
+            self._active = false;
+            self._following = false;
+        };
+
+        resetVariables();
+
+        var stopLocate = function () {
+            map.stopLocate();
+            map.off('dragstart', stopFollowing);
+
+            resetVariables();
+
+            self._layer.clearLayers();
+            self._marker = undefined;
+            self._circle = undefined;
+        };
+
+        var onLocationError = function (err) {
+            // ignore time out error if the location is watched
+            if (err.code === 3 && this._locateOptions.watch) {
+                return;
+            }
+
+            stopLocate();
+            self._showLoadError();
+            setTimeout(function () {
+                self._hideLoad();
+            }, 3000);
+            self.options.onLocationError(err);
+        };
+
+        // event hooks
+        map.on('locationfound', onLocationFound, self);
+        map.on('locationerror', onLocationError, self);
 
         return container;
     }
 });
 
-L.DG.locate = function(options) {
+L.Map.addInitHook(function () {
+    if (this.options.locateControl) {
+        this.locateControl = L.DG.locate();
+        this.addControl(this.locateControl);
+    }
+});
+
+L.DG.locate = function (options) {
     return new L.DG.LocationControl(options);
 };
