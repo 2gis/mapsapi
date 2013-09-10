@@ -17,7 +17,7 @@ FirmCard.Schedule.prototype = {
     },
 
     transform: function (model, params) {
-        debugger;
+        //debugger;
         if (!model) return;
         params = params || {};
     //model = require('./demoData').Shuffle; // Testing
@@ -47,7 +47,7 @@ FirmCard.Schedule.prototype = {
         firstdayOffset = params.firstdayOffset || 1,
         minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4;
         dict = FirmCard.Schedule.dictionary;
-        
+
         /*console.log("now", now, new Date(now))
         console.log("projectTime", FirmCard.DataHelper.getProjectTime(zoneOffset));*/
 
@@ -480,14 +480,14 @@ FirmCard.Schedule.prototype = {
     },
 
     forecast: function (schedule, params) {
-        debugger;
+        //debugger;
         var str,
         interval = '',
         open,
         today = {},
         nowText,
         maxHours = params && params.maxHours || 1;
-        
+
     if (!schedule) {
         return {};
     }
@@ -511,7 +511,7 @@ FirmCard.Schedule.prototype = {
             interval += dict.t('ru', 'nMins', schedule.will.m);
         }
     }
-    
+
     // Данные на сегодня
     if (schedule.today) {
         today.text = dict.t(this.localLang, 'today');

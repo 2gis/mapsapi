@@ -91,7 +91,7 @@ var TranslateHelper = {
         startWithDay = crntDay = TranslateHelper.getWeekDayNum(now);
         week = TranslateHelper.getWeek();
         crntDay++;
-        debugger;
+        //debugger;
         while (startWithDay != crntDay && paranoicCounter++ < 8) {
             if (workingHours[week[crntDay]]) {
                 return week[crntDay] + suffix;

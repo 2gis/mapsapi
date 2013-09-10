@@ -192,17 +192,17 @@ FirmCard.Schedule.prototype = {
             todayWorkhours: false,
             weekDayStr: false
         },
-        periods, 
-        parsedPeriods, 
-        weekDayNum, 
-        todayWorkingHours, 
+        periods,
+        parsedPeriods,
+        weekDayNum,
+        todayWorkingHours,
         forecastData;
 
         if (!workingHours || !workingHours.workhours) {
             return result;
         }
         periods = FirmCard.Schedule.groupWorkingHours(workingHours.workhours);
-        parsedPeriods = FirmCard.Schedule.parsePeriods(periods, workingHours.workhours);   
+        parsedPeriods = FirmCard.Schedule.parsePeriods(periods, workingHours.workhours);
 
         /** TODO: use JS analog of php array_merge */
         result.aroundTheClock = parsedPeriods.aroundTheClock;
@@ -211,7 +211,7 @@ FirmCard.Schedule.prototype = {
         result.allTable = parsedPeriods.allTable;
         result.anyLunchExists = parsedPeriods.anyLunchExists;
 
-        now = now || new Date(); 
+        now = now || new Date();
 
         weekDayNum = TranslateHelper.getWeekDayNum(now);
         result.weekDayStr = TranslateHelper.getWeek()[weekDayNum];
@@ -229,7 +229,7 @@ FirmCard.Schedule.prototype = {
         result.isLunchNow = forecastData.isLunchNow;
 
         if (!todayWorkingHours) {
-            debugger;
+            //debugger;
             result.nextWorkDay = TranslateHelper.getNextWorkDay(now, workingHours.workhours);
         }
 
@@ -246,7 +246,7 @@ FirmCard.Schedule.prototype = {
         }
         ForecastHelper.chooseScheduleHintMsgs(this);
         this._schedulePeriodsHelper();
-        
+
         return this._schedule;
     },
 
