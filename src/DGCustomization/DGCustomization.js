@@ -137,6 +137,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             };
 
             var animateScroll = function(currentTime){
+                currentTime = currentTime ? currentTime : (new Date()).getTime();
                 if (!startTime) startTime = currentTime;
                 var timeFrame = currentTime - startTime;
 
@@ -144,6 +145,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
                 if (currentTime - startTime < duration) {
                     L.Util.requestAnimFrame(arguments.callee, element);
+                } else {
+                    element.scrollTop = to;                    
                 }
             };
             L.Util.requestAnimFrame(animateScroll, element);
