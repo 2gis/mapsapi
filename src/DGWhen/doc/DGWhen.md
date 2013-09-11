@@ -3,10 +3,10 @@
 ```js
 when(promiseOrValue, onFulfilled, onRejected, onProgress)
 ```
-Отслеживать promise или непосредственное значение переменной.
+Мы имеем возможность отслеживать promise или непосредственно значение переменной.
 Observe a promise or immediate value.
 
-Если `promiseOrValue` значение переменной, то `onFulfilled` будет выполнена с этим значением, и по умолчанию вернёт promise.
+Если `promiseOrValue` представляет собой значение переменной, то `onFulfilled` будет выполнена с этим значением, и по умолчанию вернёт promise.
 If `promiseOrValue` is a value, arranges for `onFulfilled` to be called with that value, and returns a promise for the result.
 
 Если в `promiseOrValue` передан promise, то:
@@ -14,7 +14,7 @@ If `promiseOrValue` is a promise, arranges for
 
 * `onFulfilled` будет вызван с значением которое вернёт `promiseOrValue` после того как он отработает, или
 * `onRejected` будет вызван когда `promiseOrValue` получит статус rejected.
-* `onProgress` будет вызван любым обновлением прогреса в `promiseOrValue`.
+* `onProgress` будет вызван любым обновлением в `promiseOrValue`.
 
 * `onFulfilled` to be called with the value after `promiseOrValue` is fulfilled, or
 * `onRejected` to be called with the rejection reason after `promiseOrValue` is rejected.
@@ -23,12 +23,12 @@ If `promiseOrValue` is a promise, arranges for
 `when()` возвращает полностью отработаный [promise](#promise) который передаёт своё значение в обработчик `onFulfilled` или `onRejected`, в зависимости от ответа, или же выдаст ошибку, если её раньше не было.
 `when()` returns a [trusted promise](#promise) that will fulfill with the return value of either `onFulfilled` or `onRejected`, whichever is called, or will reject with the thrown exception if either throws.
 
-Так же, это гарантирует что обработчики зарегистированые в `when()`:
+Так же, это гарантирует что обработчики зарегистированые в `when()` имеют следующие свойства:
 Additionally, it makes the following guarantees about handlers registered in the same call to `when()`:
 
-1. Только один из обработчиков будет выполнен `onFulfilled` или `onRejected`.
+1. Только один из обработчиков будет выполнен (`onFulfilled` или `onRejected`).
 1. `onFulfilled` и `onRejected` никогда не будут вызваны больше одного раза.
-1. `onProgress` может быть вызван несколько раз.
+1. `onProgress` возможно будет вызван несколько раз.
 
 1. Only one of `onFulfilled` or `onRejected` will be called, never both.
 1. `onFulfilled` and `onRejected` will never be called more than once.
@@ -65,7 +65,7 @@ In either case, `when()` will *always* return a trusted when.js promise, which w
 
 ## Promise
 
-Promise представляет собой возможное(конечное?) значение, которое или выполнено(успешно) и возвращает полученое значение, или отклонено(отказ) и возвращает причину отклонения. Promise предоставляет интерфейс для вызова функции с его результатом(значение, или причина отказа) и создаёт новый promise для результата.
+Promise представляет собой конечный результат, либо успешного выполнения (и возвращает полученое значение), либо отказа (и возвращает причину отклонения). Так же promise предоставляет интерфейс для вызова функции с его результатом (значение, или причина отказа) и создаёт новый promise для результата.
 The promise represents the *eventual outcome*, which is either fulfillment (success) and an associated value, or rejection (failure) and an associated *reason*. The promise provides mechanisms for arranging to call a function on its value or reason, and produces a new promise for the result.
 
 ```js
