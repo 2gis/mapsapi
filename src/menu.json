@@ -141,6 +141,18 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "DGWhen",
+                                "uri": "doc/DGWhen/DGWhen.html",
+                                "_src": "DGWhen/doc/DGWhen.md",
+
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "DGFullScreen",
                                 "uri": "doc/DGFullScreen/DGFullScreen.html",
                                 "_src": "DGFullScreen/doc/DGFullScreen.md",

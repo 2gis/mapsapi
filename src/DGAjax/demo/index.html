@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DGAjax & DGPromise demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://maps.api.2gis.dev/2.0/loader.js?pkg=full&mode=debug"></script>
+</head>
+<body>
+
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+
+<script type="text/javascript">
+    L.onLoad(function () {
+
+        var map = new L.Map('map', {
+            center: new L.LatLng(54.980206086231, 82.898068362003),
+            zoom: 17
+        });
+
+        console.log('test_jsonp');
+        L.DG.Ajax('http://catalog.api.2gis.ru/project/list', {
+            type: 'jsonp',
+            data: {
+                output: 'jsonp',
+                key: 'ruxlih0718',
+                version: 1.3,
+                lang: 'ru'
+            },
+            success: function(data) {
+                console.log('success', data);
+            },
+            error: function(error) {
+                console.log('error', error);
+            },
+            progress: function() {
+                console.log('beforeSend');
+            }
+        }).then(
+            function(data) { console.log('resolve', data) },
+            function(error) { console.log('reject', error) },
+            function(data) { console.log('progress', data) }
+        ).then(test_get);
+
+        function test_get(){
+            console.log('test_get');
+            L.DG.Ajax('http://tiles.api.dev.test/tiles', {
+                type: 'get',
+                data: {
+                    z: 16,
+                    x: 39356,
+                    y: 21727
+                },
+                success: function(data) {
+                    console.log('success', data);
+                },
+                error: function(error) {
+                    console.log('error', error);
+                },
+                progress: function() {
+                    console.log('beforeSend');
+                }
+            }).then(
+                function(data) { console.log('resolve', data, this) },
+                function(error) { console.log('reject', error, this) },
+                function(data) { console.log('progress', data, this) }
+            ).then(test_post);
+        };
+
+        function test_post(){
+            L.DG.Ajax('http://tiles.api.dev.test/tiles', {
+                type: 'get',
+                data: {
+                    z: 16,
+                    x: 39356,
+                    y: 21727
+                },
+                contentType: 'application/json',
+                crossOrigin: true,
+                success: function(data) {
+                    console.log('success', data);
+                },
+                error: function(error) {
+                    console.log('error', error);
+                },
+                progress: function() {
+                    console.log('beforeSend');
+                }
+            }).then(
+                function(data) { console.log('resolve', data, this) },
+                function(error) { console.log('reject', error, this) },
+                function(data) { console.log('progress', data, this) }
+            );
+        }
+
+    });
+</script>
+Этапы отправки запроса на сервер выводятся в консоль браузера
+</body>
+</html>
