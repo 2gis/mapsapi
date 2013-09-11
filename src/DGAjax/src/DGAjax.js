@@ -285,7 +285,7 @@ L.DG.Ajax = (function(){
             //
         } else {
             o.crossDomain = isCrossDomain(o.url);
-            console.log('crossDomain check', o.crossDomain);
+            // console.log('crossDomain check', o.crossDomain);
         }
 
         var self = L.DG.when.defer();
