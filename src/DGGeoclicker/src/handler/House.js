@@ -129,10 +129,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (this._firmList) {
             this._firmList.clearList();
             this._firmList = null;
-            this._popup.off(
-                'dgScroll',
-                this._onScroll
-            );
+            this._popup.off('dgScroll', this._onScroll);
         }
         this._loader = null;
         this._page = 1;
@@ -210,11 +207,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmList.renderList();
         this._popup._resize();
         this._onScroll = L.Util.limitExecByInterval(this._handlePopupScroll, this._scrollThrottleInterval, this);
-        this._popup.on(
-            'dgScroll',
-            this._onScroll
-        );
-
+        this._popup.on('dgScroll', this._onScroll);
     },
 
     _appendFirmList: function (results) { // (Object)
