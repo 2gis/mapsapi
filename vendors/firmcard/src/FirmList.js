@@ -91,8 +91,15 @@
             return this._container;
         },
 
+        _hasTouch: function () {
+            return (('ontouchstart' in window) ||       // html5 browsers
+                    (navigator.maxTouchPoints > 0) ||   // future IE
+                    (navigator.msMaxTouchPoints > 0));  // current IE10
+        },
+
         _initEventHandlers : function () {
-            var self = this;
+            var self = this,
+                eventName = this._hasTouch() ? 'touchend' : 'click';
 
             this._eventHandlersInited = true;
             var onClickHandler =  function(e) {
@@ -115,9 +122,9 @@
                 }
             };
             if (this._container.addEventListener){
-                this._container.addEventListener("click", onClickHandler);
+                this._container.addEventListener(eventName, onClickHandler);
             } else {
-                this._container.attachEvent("click", onClickHandler);
+                this._container.attachEvent(eventName, onClickHandler);
             }
         },
 
