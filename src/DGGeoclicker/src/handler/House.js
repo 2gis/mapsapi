@@ -149,8 +149,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _showListPopup: function () {
         if (!this._firmListObject) {
             this._fillFirmListObject();
+            this._popup.fixSize();
+            this._popup.setContent('<img class = "dg-geoclicker-loader" src="__BASE_URL__/img/loader_directory.gif" />');
+        } else {
+           this._clearAndRenderPopup(this._firmListObject);
         }
-        this._clearAndRenderPopup(this._firmListObject);
     },
 
     _initShowLess: function () {
@@ -198,6 +201,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         if (this._onFirmListReady){
             this._onFirmListReady(this._firmListObject);
             this._onFirmListReady = null;
+        } else {
+            this._clearAndRenderPopup(this._firmListObject);
         }
 
         if (this._totalPages === 1) {

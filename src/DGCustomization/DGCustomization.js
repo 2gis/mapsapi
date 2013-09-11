@@ -45,7 +45,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     L.Popup.include({
         _headerContent: null,
         _footerContent: null,
-
+        _back: {},
         //baron elements references
         _scroller: null,
         _scrollerBar: null,
@@ -68,6 +68,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         onRemove: function (map) {
+            this._restoreDefoptions();
             map.off('dgEntranceShow', function() {
                 map.closePopup(this);
             }, this);
@@ -151,8 +152,20 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         fixSize: function () {
-            this.options.minHeight = this._contentNode.parentNode.offsetHeight;
-            this.options.minWidth = this._contentNode.parentNode.offsetWidth;
+            this._saveDefOptions();
+
+            this.options.minHeight = this._contentNode.offsetHeight;
+            this.options.minWidth = this._contentNode.offsetWidth;
+        },
+
+        _saveDefOptions: function () {
+            this._back.minHeight = this.options.minHeight;
+            this._back.minWidth = this.options.minWidth;
+        },
+
+        _restoreDefoptions: function () {
+            this.options.minHeight = this._back.minHeight || 0;
+            this.options.minWidth = this._back.minWidth || 0;
         },
 
         _updateScrollPosition: function() {
@@ -313,15 +326,16 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             var height = container.offsetHeight,
                 maxHeight = this.options.maxHeight,
+                minHeight = this.options.minHeight || 0,
                 scrolledClass = 'leaflet-popup-scrolled';
 
             if (maxHeight && height > maxHeight) {
                 style.height = maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
+                style.height = Math.max(height, minHeight) + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
             }
-
             this._containerWidth = this._container.offsetWidth;
         },
 
