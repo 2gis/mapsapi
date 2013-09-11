@@ -53,21 +53,35 @@ L.DG.PoiStorage = L.Class.extend({
     },
 
     _askByTile: function (tileId, callback) { //(String)
-        var xyz = tileId.split(',')
+        var xyz = tileId.split(','),
             self = this;
 
-        L.DG.Jsonp({
-            url : L.Util.template('__HIGHLIGHT_POI_SERVER__', {
-                z: xyz[2],
+        L.DG.Ajax( L.Util.template('__HIGHLIGHT_POI_SERVER__', { z: xyz[2],
                 x: xyz[0],
-                y: xyz[1]
-            }),
+                y: xyz[1] }), {
+            type: 'get',
+            dataType: 'json',
+            crossDomain: true,
             success : function(data){
-                if (data.response.code != 200) return;
-                self._addPoisToTile(tileId, data.result.poi);
+                if (!data.poi) return;
+                self._addPoisToTile(tileId, data.poi);
                 if (callback)
                     callback(self._tilesPoi[tileId]);
             }
         });
+
+        // L.DG.Jsonp({
+        //     url : L.Util.template('__HIGHLIGHT_POI_SERVER__', {
+        //         z: xyz[2],
+        //         x: xyz[0],
+        //         y: xyz[1]
+        //     }),
+        //     success : function(data){
+        //         if (data.response.code != 200) return;
+        //         self._addPoisToTile(tileId, data.result.poi);
+        //         if (callback)
+        //             callback(self._tilesPoi[tileId]);
+        //     }
+        // });
     }
 });
