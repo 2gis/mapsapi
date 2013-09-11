@@ -68,6 +68,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         onRemove: function (map) {
+            L.DomEvent.off(this._scroller, 'scroll', this._onScroll, this);
             map.off('dgEntranceShow', function() {
                 map.closePopup(this);
             }, this);
@@ -146,7 +147,13 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 }
             };
             L.Util.requestAnimFrame(animateScroll, element);
+
             return this;
+        },
+
+        fixSize: function () {
+            this.options.minHeight = this._contentNode.parentNode.offsetHeight;
+            this.options.minWidth = this._contentNode.parentNode.offsetWidth;
         },
 
         _updateScrollPosition: function() {
@@ -254,17 +261,16 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             contentNode.insertBefore(scroller, footer);
 
-            L.DomEvent.addListener(scroller,
-                'scroll',
-                function (event) {
-                    self.fire('scroll', {originalEvent: event});
-                }
-            );
-
             this._scroller = scroller;
             this._scrollerBar = scrollerBar;
             this._barWrapper = barWrapper;
             this._isBaronExist = true;
+
+            L.DomEvent.on(this._scroller, 'scroll', this._onScroll, this);
+        },
+
+        _onScroll: function (event) {
+            this.fire('dgScroll', {originalEvent: event});
         },
 
         _update: function () {
@@ -288,6 +294,36 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
             this._container.style.visibility = '';
+        },
+
+        _updateLayout: function () {
+            var container = this._contentNode,
+                style = container.style;
+
+            style.width = '';
+            style.whiteSpace = 'nowrap';
+
+            var width = container.offsetWidth;
+            width = Math.min(width, this.options.maxWidth);
+            width = Math.max(width, this.options.minWidth);
+
+            style.width = width + 'px';
+            style.whiteSpace = '';
+
+            style.height = '';
+
+            var height = container.offsetHeight,
+                maxHeight = this.options.maxHeight,
+                scrolledClass = 'leaflet-popup-scrolled';
+
+            if (maxHeight && height > maxHeight) {
+                style.height = maxHeight + 'px';
+                L.DomUtil.addClass(container, scrolledClass);
+            } else {
+                L.DomUtil.removeClass(container, scrolledClass);
+            }
+
+            this._containerWidth = this._container.offsetWidth;
         },
 
         _updatePopupStructure: function () {
@@ -362,6 +398,7 @@ L.Map.include({
             this.removeLayer(popup);
             popup._isOpen = false;
         }
+
         return this;
     }
 });

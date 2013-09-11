@@ -76,9 +76,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     findHandler: function (result) { // (Object) -> String|Null
-        var i;
-
-        for (i in this.options.handlersSequence) {
+        for (var i in this.options.handlersSequence) {
             if (result[i]) {
                 return i;
             }
