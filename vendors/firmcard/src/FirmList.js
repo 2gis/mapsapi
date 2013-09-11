@@ -98,7 +98,7 @@
             var self = this;
 
             this._eventHandlersInited = true;
-            this._container.addEventListener("click", function(e) {
+            var onClickHandler =  function(e) {
                 var e = e || window.event,
                 target = e.target || e.srcElement;
 
@@ -116,7 +116,12 @@
                         self.toggleSchedule(id);
                     }
                 }
-            });
+            };
+            if (this._container.addEventListener){
+                this._container.addEventListener("click", onClickHandler);
+            } else {
+                this._container.attachEvent("click", onClickHandler);
+            }
         },
 
         _removeFirm: function (id) {

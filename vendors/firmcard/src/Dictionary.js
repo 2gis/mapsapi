@@ -100,7 +100,7 @@ FirmCard.Schedule.dictionary = {
         americanexpress: "American Express",
         hour : "час",
         less: "менее",
-        in : "Через",
+        'in' : "Через",
         isClosingOnDinner : " закрывается на обед"
     },
 
