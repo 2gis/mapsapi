@@ -12,7 +12,6 @@ var FirmCard = function(firm, options) {
 		localLang : options.lang
 	});
 	type = Object.prototype.toString.call(firm);
-	console.log(Object.prototype.toString.call(firm));
 
 	if ("[object Object]" === type) {
 		this._firmData = firm;
