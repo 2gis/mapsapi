@@ -12,12 +12,13 @@ var FirmCard = function(firm, options) {
 		localLang : options.lang
 	});
 	type = Object.prototype.toString.call(firm);
+	console.log(Object.prototype.toString.call(firm));
 
-	if ("[object String]" === type) {
-		this._renderFullCardById(firm);
-	} else if ("[object Object]" === type) {
+	if ("[object Object]" === type) {
 		this._firmData = firm;
 		this._id = firm.id.split("_").shift();
+	} else {
+		this._renderFullCardById(firm);
 	}
 };
 
