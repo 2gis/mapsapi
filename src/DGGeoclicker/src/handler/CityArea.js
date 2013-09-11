@@ -56,6 +56,8 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         callback({
             tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname'))
         });
+
+        return true;
     },
 
     _initStyles : function(){
