@@ -44,9 +44,9 @@ FirmCard.prototype = {
         } else {
             display = this._fullFirmEl.style.display;
             display === 'none' ? this._expand(fullFirmElExists) : this._collapse();
-        }
-        if (this.options.onToggleCard) {
-            this.options.onToggleCard(this.getContainer(), this.isExpanded());
+            if (this.options.onToggleCard) {
+                this.options.onToggleCard(this.getContainer(), this.isExpanded());
+            }
         }
     },
 
@@ -118,6 +118,9 @@ FirmCard.prototype = {
             this.options.ajax(this._id, function(data) {
                 self._renderFullCard.call(self, data[0]);
                 self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
+                if (self.options.onToggleCard) {
+                    self.options.onToggleCard(self.getContainer(), self.isExpanded());
+                }
             });
         } else {
             this._fullFirmEl.style.display = 'block';
