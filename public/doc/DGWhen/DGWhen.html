@@ -1,14 +1,11 @@
-## L.DG.when
-
-`L.DG.when()` может сделить за promise которые предоставляют из себя любой обьект с методом `.then()`, тоесть даже promise которые не соотвествуют спецификации Promises/A, например jQuery's Deferred. Он будет превращать такие promise в Promises/A.
-
-Другими словами, `L.DG.when()` будет всегда возвращать безопасный promise, который полностью соответсвует спецификации Promises/A.
-
-#### Смотрите так же
-* [Здесь мы можете прочитать более подробно про when()](https://github.com/cujojs/when/wiki/when)
-
-### Конструктор
-
+<h2>L.DG.when</h2>
+<p><code>L.DG.when()</code> может сделить за promise которые предоставляют из себя любой обьект с методом <code>.then()</code>, тоесть даже promise которые не соотвествуют спецификации Promises/A, например jQuery&#39;s Deferred. Он будет превращать такие promise в Promises/A.</p>
+<p>Другими словами, <code>L.DG.when()</code> будет всегда возвращать безопасный promise, который полностью соответсвует спецификации Promises/A.</p>
+<h4>Смотрите так же</h4>
+<ul>
+<li><a href="https://github.com/cujojs/when/wiki/when">Здесь мы можете прочитать более подробно про when()</a></li>
+</ul>
+<h3>Конструктор</h3>
 <table>
     <tr>
         <th>Конструктор</th>
@@ -35,10 +32,8 @@
     </tr>
 </table>
 
-### Методы
-
-**Класс L.DG.When**
-
+<h3>Методы</h3>
+<p><strong>Класс L.DG.When</strong></p>
 <table>
     <tr>
         <th>Метод</th>
@@ -49,11 +44,11 @@
         <td><code><b>promise</b>(<a href="#promise-resolver">&lt;Resolver&gt;</a> resolver)</code></td>
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Create a Promise, whose fate is determined by the supplied resolver function. The resolver function will be called synchronously, with 3 arguments:
-        * `resolve(promiseOrValue)` - Primary function that seals the fate of the returned promise. Accepts either a non-promise value, or another promise.
-            * When called with a non-promise value, fulfills `promise` with that value.
-            * When called with another promise, e.g. `resolve(otherPromise)`, `promise`'s fate will be equivalent to that that of `otherPromise`.
-        * `reject(reason)` - function that rejects `promise`.
-        * `notify(update)` - function that issues progress events for `promise`.
+        <em> <code>resolve(promiseOrValue)</code> - Primary function that seals the fate of the returned promise. Accepts either a non-promise value, or another promise.
+            </em> When called with a non-promise value, fulfills <code>promise</code> with that value.
+            <em> When called with another promise, e.g. <code>resolve(otherPromise)</code>, <code>promise</code>&#39;s fate will be equivalent to that that of <code>otherPromise</code>.
+        </em> <code>reject(reason)</code> - function that rejects <code>promise</code>.
+        <em> <code>notify(update)</code> - function that issues progress events for <code>promise</code>.
         </td>
     </tr>
     <tr>
@@ -61,7 +56,7 @@
         <td><code><a href="#promise">Promise</a></code></td>
         <td>
         Создаёт <code><a href="#promise">promise</a></code> с <code>resolved</code> статусом.
-        Create a resolved promise for the supplied promiseOrValue. If promiseOrValue is a value, it will be the resolution value of the returned promise. Returns promiseOrValue if it's a trusted promise. If promiseOrValue is a foreign promise, returns a promise in the same state (resolved or rejected) and with the same value as promiseOrValue.</td>
+        Create a resolved promise for the supplied promiseOrValue. If promiseOrValue is a value, it will be the resolution value of the returned promise. Returns promiseOrValue if it&#39;s a trusted promise. If promiseOrValue is a foreign promise, returns a promise in the same state (resolved or rejected) and with the same value as promiseOrValue.</td>
     </tr>
     <tr>
         <td><code><b>reject</b>(<a href="#promise-or-value">&lt;promiseOrValue&gt;</a> promiseOrValue)</code></td>
@@ -76,16 +71,16 @@
         <td>
         Создаёт обьект <code>{promise, <a href="#promise-resolver">resolver</a>}</code> который ещё называют <code>Deferred</code>.
 
-        Create a {promise, resolver} pair, aka Deferred. In some scenarios it can be convenient to have access to both the promise and it's associated resolving functions, for example, to give each out to a separate party. In such cases it can be convenient to use when.defer().</td>
+        Create a {promise, resolver} pair, aka Deferred. In some scenarios it can be convenient to have access to both the promise and it&#39;s associated resolving functions, for example, to give each out to a separate party. In such cases it can be convenient to use when.defer().</td>
     </tr>
     <tr>
         <td><code><b>isPromiseLike</b>(&lt;Object&gt; anything)</code></td>
         <td><code>Boolean</code></td>
         <td>
             Возвращает <code>true</code> если у обьекта или функции <code>anything</code> есть метод <code>then()</code>.
-        Return true if `anything` is an object or function with a `then` method.  It does not distinguish trusted when.js promises from other "thenables" (e.g. from some other promise implementation).</td>
+        Return true if <code>anything</code> is an object or function with a <code>then</code> method.  It does not distinguish trusted when.js promises from other &quot;thenables&quot; (e.g. from some other promise implementation).</td>
     </tr>
-    <!-- <tr>
+    &lt;!-- <tr>
         <td><code><b>join</b>(<a href="#promise-or-value">&lt;promiseOrValue&gt;</a> promiseOrValue1, <a href="#promise-or-value">&lt;promiseOrValue&gt;</a> promiseOrValue2, ...)</code></td>
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Return a promise that will resolve only once all the inputs have resolved. The resolution value of the returned promise will be an array containing the resolution values of each of the inputs.<br/>
@@ -101,36 +96,34 @@
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Where:
 
-            * array is an Array *or a promise for an array*, which may contain promises and/or values.
+            </em> array is an Array <em>or a promise for an array</em>, which may contain promises and/or values.
 
-            Traditional array map function, similar to `Array.prototype.map()`, but allows input to contain promises and/or values, and mapFunc may return either a value or a promise.
+            Traditional array map function, similar to <code>Array.prototype.map()</code>, but allows input to contain promises and/or values, and mapFunc may return either a value or a promise.
 
             If any of the promises is rejected, the returned promise will be rejected with the rejection reason of the first promise that was rejected.
 
             The map function should have the signature:
 
-            ```js
-            mapFunc(item)
-            ```
+            <code>js
+            mapFunc(item)</code>
 
             Where:
 
-            * `item` is a fully resolved value</td>
+            <em> <code>item</code> is a fully resolved value</td>
     </tr>
     <tr>
         <td><code><b>reduce</b>(&lt;Array&gt; array, &lt;Function&gt; reduceFunc, <a href="#promise-or-value">&lt;promiseOrValue&gt;</a> initialValue?)</code></td>
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Where:
 
-            * array is an Array *or a promise for an array*, which may contain promises and/or values.
+            </em> array is an Array <em>or a promise for an array</em>, which may contain promises and/or values.
 
-            Traditional array reduce function, similar to `Array.prototype.reduce()`, but input may contain promises and/or values, and reduceFunc may return either a value or a promise, *and* initialValue may be a promise for the starting value.
+            Traditional array reduce function, similar to <code>Array.prototype.reduce()</code>, but input may contain promises and/or values, and reduceFunc may return either a value or a promise, <em>and</em> initialValue may be a promise for the starting value.
 
             The reduce function should have the signature:
 
-            ```js
-            reduceFunc(currentResult, value, index, total)
-            ```
+            <code>js
+            reduceFunc(currentResult, value, index, total)</code>
         </td>
     </tr>
     <tr>
@@ -138,14 +131,14 @@
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Where:
 
-            * array is an Array *or a promise for an array*, which may contain promises and/or values.
+            <em> array is an Array </em>or a promise for an array<em>, which may contain promises and/or values.
 
-            Returns a promise for an array containing the same number of elements as the input array.  Each element is a descriptor object describing of the outcome of the corresponding element in the input.  The returned promise will only reject if `array` itself is a rejected promise.  Otherwise, it will always fulfill with an array of descriptors.  This is in contrast to [when.all](#whenall), which will reject if any element of `array` rejects.
+            Returns a promise for an array containing the same number of elements as the input array.  Each element is a descriptor object describing of the outcome of the corresponding element in the input.  The returned promise will only reject if <code>array</code> itself is a rejected promise.  Otherwise, it will always fulfill with an array of descriptors.  This is in contrast to <a href="#whenall">when.all</a>, which will reject if any element of <code>array</code> rejects.
 
             If the corresponding input promise is:
 
-            * fulfilled, the descriptor will be: `{ state: 'fulfilled', value: <fulfillmentValue> }`
-            * rejected, the descriptor will be: `{ state: 'rejected', reason: <rejectionReason> }`
+            </em> fulfilled, the descriptor will be: <code>{ state: &#39;fulfilled&#39;, value: &lt;fulfillmentValue&gt; }</code>
+            <em> rejected, the descriptor will be: <code>{ state: &#39;rejected&#39;, reason: &lt;rejectionReason&gt; }</code>
         </td>
     </tr>
     <tr>
@@ -153,25 +146,24 @@
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Where:
 
-            * array is an Array *or a promise for an array*, which may contain promises and/or values.
+            </em> array is an Array <em>or a promise for an array</em>, which may contain promises and/or values.
 
-            Initiates a competitive race that allows one winner, returning a promise that will resolve when any one of the items in `array` resolves.  The returned promise will only reject if *all* items in `array` are rejected.  The resolution value of the returned promise will be the fulfillment value of the winning promise.  The rejection value will be an array of all rejection reasons.</td>
+            Initiates a competitive race that allows one winner, returning a promise that will resolve when any one of the items in <code>array</code> resolves.  The returned promise will only reject if <em>all</em> items in <code>array</code> are rejected.  The resolution value of the returned promise will be the fulfillment value of the winning promise.  The rejection value will be an array of all rejection reasons.</td>
     </tr>
     <tr>
         <td><code><b>some</b>(&lt;Array&gt; array, &lt;Number&gt; howMany)</code></td>
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Where:
 
-            * array is an Array *or a promise for an array*, which may contain promises and/or values.
-            * howMany is the number of promises from array that must fulfill to end the race
+            <em> array is an Array </em>or a promise for an array<em>, which may contain promises and/or values.
+            </em> howMany is the number of promises from array that must fulfill to end the race
 
-            Initiates a competitive race that allows `howMany` winners, returning a promise that will resolve when `howMany` of the items in `array` resolve.  The returned promise will reject if it becomes impossible for `howMany` items to resolve--that is, when `(array.length - howMany) + 1` items reject.  The resolution value of the returned promise will be an array of `howMany` winning promise fulfillment values.  The rejection value will be an array of `(array.length - howMany) + 1` rejection reasons.
+            Initiates a competitive race that allows <code>howMany</code> winners, returning a promise that will resolve when <code>howMany</code> of the items in <code>array</code> resolve.  The returned promise will reject if it becomes impossible for <code>howMany</code> items to resolve--that is, when <code>(array.length - howMany) + 1</code> items reject.  The resolution value of the returned promise will be an array of <code>howMany</code> winning promise fulfillment values.  The rejection value will be an array of <code>(array.length - howMany) + 1</code> rejection reasons.
         </td>
-    </tr> -->
+    </tr> --&gt;
 </table>
 
-##Вспомогательные обьекты
-
+<h2>Вспомогательные обьекты</h2>
 <table>
     <tr>
         <th>Имя</th>
@@ -187,7 +179,7 @@
         <td><code><b>Promise</b></code></td>
         <td><code><a href="#promise">Promise</a></code></td>
         <td>Promise представляет собой конечный результат, либо успешного выполнения (и возвращает полученое значение), либо отказа (и возвращает причину отклонения). Так же promise предоставляет интерфейс для вызова функции с его результатом (значение, или причина отказа) и создаёт новый promise для результата.
-        The promise represents the *eventual outcome*, which is either fulfillment (success) and an associated value, or rejection (failure) and an associated *reason*. The promise provides mechanisms for arranging to call a function on its value or reason, and produces a new promise for the result.</td>
+        The promise represents the <em>eventual outcome</em>, which is either fulfillment (success) and an associated value, or rejection (failure) and an associated <em>reason</em>. The promise provides mechanisms for arranging to call a function on its value or reason, and produces a new promise for the result.</td>
     </tr>
     <tr id="promise-resolver">
         <td><code><b>resolver</b></code></td>
