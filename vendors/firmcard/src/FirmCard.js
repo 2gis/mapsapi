@@ -1,7 +1,5 @@
 var FirmCard = function(firm, options) {
-	var self = this,
-		type,
-		loader;
+	var type;
 
 	options = options || {};
 	this._el = null;
@@ -16,14 +14,7 @@ var FirmCard = function(firm, options) {
 	type = Object.prototype.toString.call(firm);
 
 	if ("[object String]" === type) {
-		this._id = firm;
-		loader = this.options.render(this.options.tmpls['loader']);
-		this._createEl(loader);
-		this.options.ajax(firm, function(data) {
-			self._firmData = data[0];
-			self._el.innerHTML = self._getShortContent();
-			self.toggle.call(self);
-		});
+		this._renderFullCardById(firm);
 	} else if ("[object Object]" === type) {
 		this._firmData = firm;
 		this._id = firm.id.split("_").shift();
@@ -44,16 +35,8 @@ FirmCard.prototype = {
 		return this._schedule;
 	},
 
-	setLang: function(newLang){
-		this.options.lang = newLang;
-		this._schedule.setLang(this.options.lang);
-		if (this._isExpanded) {
-			// TODO Update Fullfirm element
-		}
-	},
-
 	toggle: function() {
-		var id, display,
+		var display,
 			fullFirmElExists = !!this._fullFirmEl;
 
 		if (!fullFirmElExists) {
@@ -87,6 +70,20 @@ FirmCard.prototype = {
 
 	isExpanded: function() {
 		return this._isExpanded;
+	},
+
+	_renderFullCardById: function(firmId) {
+		var self = this,
+			loader;
+
+		this._id = firmId;
+		loader = this.options.render(this.options.tmpls['loader']);
+		this._createEl(loader);
+		this.options.ajax(firmId, function(data) {
+			self._firmData = data[0];
+			self._el.innerHTML = self._getShortContent();
+			self.toggle.call(self);
+		});
 	},
 
 	_collapse: function() {

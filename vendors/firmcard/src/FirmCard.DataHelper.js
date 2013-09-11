@@ -29,7 +29,7 @@ FirmCard.DataHelper = {
 	},
 
 	getProjectTime: function (timezoneOffset, time) {
-        var offset, now, utc;
+        var now, utc;
 
         if (time) {
             now = new Date(time);

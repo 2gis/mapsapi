@@ -303,44 +303,49 @@ describe('Расписание работы организации', function() 
 
 describe("FirmCard", function() {
 
-    it("#getId with firm object arg", function() {
+    it("Установка ID фирмы", function() {
         var firmCard = new FirmCard({
             id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
         });
         expect(firmCard.getId()).to.be.eql("141265770546806");
     });
 
-    it("#getId with firm id arg", function() {
+    it("При повторном toggle ajax не вызывается", function() {
+        var render = sinon.stub(FirmCard.prototype, "render", function() {
+                this._el = document.createElement("div");
+            }),
+            ajaxSpy = sinon.spy(function() {
+                firmCard._fullFirmEl = document.createElement("div");
+            }),
+            firmCard = new FirmCard({
+                id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810"
+            },{
+                ajax: ajaxSpy,
+                tmpls: {
+                    loader: ''
+                },
+                render: function() {return ""}
+            });
+        
+        firmCard.render();
 
-        var firmCard = new FirmCard("141265770546806", {
-            ajax: sinon.spy(),
-            render: sinon.spy(),
-            tmpls: {
-                loader: ''
-            }
-        });
+        firmCard.toggle();
+        expect(firmCard.isExpanded()).to.be.ok();
+        firmCard.toggle();
+        expect(firmCard.isExpanded()).to.not.be.ok();
 
-       expect(firmCard.getId()).to.be.eql("141265770546806"); 
+       expect(ajaxSpy.callCount).to.be.eql(1); 
+
+       render.restore();
 
     });
 
-    it("#getSchedule", function() {
+    it("#getSchedule возвращает объект типа FirmCard.Schedule", function() {
         var firmCard = new FirmCard({
             id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
         });
 
         expect(firmCard.getSchedule()).to.be.a(FirmCard.Schedule);
-    });
-
-    it("#setLang", function() {
-        var firmCard = new FirmCard({
-            id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
-            localLang: 'ru'
-        });
-
-        expect(firmCard.getSchedule().localLang).to.be.eql('ru');
-        firmCard.setLang('en');
-        expect(firmCard.getSchedule().localLang).to.be.eql('en');
     });
 
 });

@@ -2,9 +2,6 @@ FirmCard.Schedule = function(options) {
     var options = options || {};
 
     this.localLang = options.localLang || 'ru';
-    /*this.localWorkingDays = options.localWorkingDays || [0, 1, 1, 1, 1, 1, 0];
-    this.firstdayOffset = options.firstdayOffset || 1;
-    this.minHoursToDisplayClosure = options.minHoursToDisplayClosure || 4;*/
     return this;
 };
 
@@ -19,7 +16,6 @@ FirmCard.Schedule.prototype = {
     transform: function (model, params) {
         if (!model) return;
         params = params || {};
-    //model = require('./demoData').Shuffle; // Testing
 
     var todayKey, // Mon, Tue ...
         today, // Объект модели - текущий день недели
