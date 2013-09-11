@@ -58,6 +58,9 @@ FirmCard.prototype = {
                 display = 'none';
             }
             schedule.style.display = display;
+            if (this.options.onToggleCard) {
+                this.options.onToggleCard(this.getContainer(), this.isExpanded());
+            }
     },
 
     render: function() {
