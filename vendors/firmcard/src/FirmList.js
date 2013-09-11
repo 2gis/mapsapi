@@ -2,11 +2,11 @@
     FirmCard.List = function (options, firms) {
         this._firms = {}; // {'firmID': firmObj}
         this._defaultFirm = null;
-        this._onToggleCard = null;
         this._onReady = null;
         this._addOptions = {
            ajax: function(){},
            render: function(){},
+           onToggleCard: function(){},
            lang: 'ru',
            tmpls: {}
         };
@@ -78,9 +78,6 @@
         toggleFirm : function (id) {
             if (this._firms[id]) {
                 this._firms[id].toggle();
-                if (this._onToggleCard) {
-                    this._onToggleCard(this._firms[id].getContainer(), this._firms[id].isExpanded());
-                }
             }
         },
 
@@ -161,9 +158,9 @@
             options || (options = {});
 
             if ('onReady' in options) this._onReady = options.onReady;
-            if ('onToggleCard' in options) this._onToggleCard = options.onToggleCard;
             if ('defaultFirm' in options) this._defaultFirm = options.defaultFirm;
             if ('firmsOnPage' in options) this._firmsOnPage = options.firmsOnPage;
+            if ('onToggleCard' in options) this._addOptions.onToggleCard = options.onToggleCard;
             if ('ajax' in options) this._addOptions.ajax = options.ajax;
             if ('render' in options) this._addOptions.render = options.render;
             if ('tmpls' in options) this._addOptions.tmpls = options.tmpls;
