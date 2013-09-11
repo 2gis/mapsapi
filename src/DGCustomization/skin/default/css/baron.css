@@ -15,7 +15,8 @@
     background: rgba(0, 0, 255, .1);
 }
 
-.container {
+.dg-popup-container {
+    padding:0 3px;
     border-right: solid 25px white;
     border-left: solid 25px white;
     overflow: hidden;
@@ -38,4 +39,8 @@
 .header__title {
    background: #fff;
    margin-bottom: 5px;
+}
+
+.dg-baron-hide {
+    display: none;
 }

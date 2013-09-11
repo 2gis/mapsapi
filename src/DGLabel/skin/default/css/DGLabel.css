@@ -2,8 +2,8 @@
 	width: 300px;
 	left:0px;
 	top:0px;
-	max-width: 'none';
-	max-height: 'none';
+	max-width: none;
+	max-height: none;
     position: absolute;
 }
 
