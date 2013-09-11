@@ -1,69 +1,41 @@
-## when()
+## L.DG.when
 
-```js
-when(promiseOrValue, onFulfilled, onRejected, onProgress)
-```
-Мы имеем возможность отслеживать promise или непосредственно значение переменной.
-Observe a promise or immediate value.
+`L.DG.when()` может сделить за promise которые предоставляют из себя любой обьект с методом `.then()`, тоесть даже promise которые не соотвествуют спецификации Promises/A, например jQuery's Deferred. Он будет превращать такие promise в Promises/A.
 
-Если `promiseOrValue` представляет собой значение переменной, то `onFulfilled` будет выполнена с этим значением, и по умолчанию вернёт promise.
-If `promiseOrValue` is a value, arranges for `onFulfilled` to be called with that value, and returns a promise for the result.
+Другими словами, `L.DG.when()` будет всегда возвращать безопасный promise, который полностью соответсвует спецификации Promises/A.
 
-Если в `promiseOrValue` передан promise, то:
-If `promiseOrValue` is a promise, arranges for
-
-* `onFulfilled` будет вызван с значением которое вернёт `promiseOrValue` после того как он отработает, или
-* `onRejected` будет вызван когда `promiseOrValue` получит статус rejected.
-* `onProgress` будет вызван любым обновлением в `promiseOrValue`.
-
-* `onFulfilled` to be called with the value after `promiseOrValue` is fulfilled, or
-* `onRejected` to be called with the rejection reason after `promiseOrValue` is rejected.
-* `onProgress` to be called with any progress updates issued by `promiseOrValue`.
-
-`when()` возвращает полностью отработаный [promise](#promise) который передаёт своё значение в обработчик `onFulfilled` или `onRejected`, в зависимости от ответа, или же выдаст ошибку, если её раньше не было.
-`when()` returns a [trusted promise](#promise) that will fulfill with the return value of either `onFulfilled` or `onRejected`, whichever is called, or will reject with the thrown exception if either throws.
-
-Так же, это гарантирует что обработчики зарегистированые в `when()` имеют следующие свойства:
-Additionally, it makes the following guarantees about handlers registered in the same call to `when()`:
-
-1. Только один из обработчиков будет выполнен (`onFulfilled` или `onRejected`).
-1. `onFulfilled` и `onRejected` никогда не будут вызваны больше одного раза.
-1. `onProgress` возможно будет вызван несколько раз.
-
-1. Only one of `onFulfilled` or `onRejected` will be called, never both.
-1. `onFulfilled` and `onRejected` will never be called more than once.
-1. `onProgress` may be called multiple times.
-
-```js
-// Вовращает promise для определения результата onFulfilled или onRejected
-// в зависимости от ответа promiseOrValue
-// Returns a promise for the result of onFulfilled or onRejected depending
-// on the promiseOrValue's outcome
-var promise = when(promiseOrValue, onFulfilled, onRejected);
-
-// Всегда возвращает безопасный promise, то есть это даёт гарантию что его можно вызвать по цепочке:
-// Always returns a trusted promise, so it is guaranteed to be chainable:
-when(promiseOrValue, onFulfilled, onRejected, onProgress)
-	.then(anotherOnFulfilled, anotherOnRejected, anotherOnProgress);
-
-// Все параметры, кроме первого, не обязательные
-// Например, вы можете указать только onFulfilled обработчик 
-// All parameters except the first are optional
-// For example, you can register only an onFulfilled handler
-when(promiseOrValue, onFulfilled);
-```
-`when()` может сделить за promise которые предоставляют из себя любой обьект с методом `.then()`, тоесть даже promise которые не соотвествуют спецификации Promises/A, например jQuery's Deferred. Он будет превращать такие promise в Promises/A.
-`when()` can observe any promise that provides a *thenable* promise--any object that provides a `.then()` method, even promises that aren't fully Promises/A compliant, such as jQuery's Deferred.  It will assimilate such promises and make them behave like Promises/A.
-
-Другими словами, `when()` будет всегда возвращать безопасный promise, который полностью соответсвует спецификации Promises/A а так же имеет [разширеное promise API](#extended-promise-api).
-In either case, `when()` will *always* return a trusted when.js promise, which will be fully Promises/A compliant and also have the [extended promise API](#extended-promise-api).
-
-### Смотрите так же
+#### Смотрите так же
 * [Здесь мы можете прочитать более подробно про when()](https://github.com/cujojs/when/wiki/when)
-### See Also
-* [Read more about when() here](https://github.com/cujojs/when/wiki/when)
 
-## Методы
+### Конструктор
+
+<table>
+    <tr>
+        <th>Конструктор</th>
+        <th>Использование</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.DG.when</b>(&lt;promiseOrValue&gt; promiseOrValue, &lt;Function&gt; onFulfilled?, &lt;Function&gt; onRejected?, &lt;Function&gt; onProgress?)</code></td>
+
+        <td>
+            <code>L.DG.when(&hellip;)</code>
+        </td>
+
+        <td>
+        	Мы имеем возможность отслеживать promise или непосредственно значение переменной.<br/>
+        	Если <code>promiseOrValue</code> представляет собой значение переменной, то <code>onFulfilled</code> будет выполнена с этим значением, и по умолчанию вернёт promise.<br/>
+        	Если в <code>promiseOrValue</code> передан promise, то:
+        	<ul>
+				<li><code>onFulfilled</code> будет вызван с значением которое вернёт <code>promiseOrValue</code> после того как он отработает, или</li>
+				<li><code>onRejected</code> будет вызван когда <code>promiseOrValue</code> получит статус rejected.</li>
+				<li><code>onProgress</code> будет вызван любым обновлением в <code>promiseOrValue</code>.</li>
+        	</ul>
+        </td>
+    </tr>
+</table>
+
+### Методы
 
 **Класс L.DG.When**
 
@@ -111,7 +83,7 @@ In either case, `when()` will *always* return a trusted when.js promise, which w
         <td>Return a promise that will resolve only once all the items in array have resolved. The resolution value of the returned promise will be an array containing the resolution values of each of the items in array.<br/>If any of the promises is rejected, the returned promise will be rejected with the rejection reason of the first promise that was rejected.</td>
     </tr>
     <tr>
-        <td><code><b>map</b>(&lt;Array&gt; array?, &lt;Function&gt; mapFunc)</code></td>
+        <td><code><b>map</b>(&lt;Array&gt; array, &lt;Function&gt; mapFunc)</code></td>
         <td><code>Promise</code></td>
         <td>Where:
 
@@ -194,19 +166,3 @@ In either case, `when()` will *always* return a trusted when.js promise, which w
 
 Promise представляет собой конечный результат, либо успешного выполнения (и возвращает полученое значение), либо отказа (и возвращает причину отклонения). Так же promise предоставляет интерфейс для вызова функции с его результатом (значение, или причина отказа) и создаёт новый promise для результата.
 The promise represents the *eventual outcome*, which is either fulfillment (success) and an associated value, or rejection (failure) and an associated *reason*. The promise provides mechanisms for arranging to call a function on its value or reason, and produces a new promise for the result.
-
-```js
-// Создаём отложеный promise
-// Get a deferred promise
-var deferred = when.defer();
-var promise = deferred.promise;
-
-// Решенный promise
-// Or a resolved promise
-var promise = when.resolve(promiseOrValue);
-
-// Отклонённый promise
-// Or a rejected promise
-var promise = when.reject(reason);
-```
-
