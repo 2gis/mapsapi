@@ -39,7 +39,7 @@ L.DG.Geoclicker.View = L.Class.extend({
     },
 
     render: function (options) { // (Object) -> String
-        var html, tmpl;
+        var html;
 
         options = options || {};
         options.tmpl = options.tmpl || "";

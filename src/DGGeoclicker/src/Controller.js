@@ -39,7 +39,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         }
     },
 
-    handleClick: function (latlng, zoom, extra) { // (Object, Number)
+    handleClick: function (latlng, zoom) { // (Object, Number)
         var self = this,
             args = Array.prototype.slice.call(arguments, 0);
 
