@@ -173,13 +173,13 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                     this._initBaronScroller();
                     this._initBaron();
                 } else {
-                    L.DomUtil.removeClass(this._barWrapper, 'dg-baron-hide');
+                    L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
                     if (scrollTop) this._scroller.scrollTop = scrollTop;
                     this._updateScrollPosition();
                 }
             } else {
                 if (isBaronExist){
-                    L.DomUtil.addClass(this._barWrapper, 'dg-baron-hide');
+                    L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
                 }
             }
 

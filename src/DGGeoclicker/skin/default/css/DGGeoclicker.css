@@ -66,16 +66,6 @@
     margin: 0 auto;
 }
 
-.scroller-with-header {
-    height: 80%;
-    overflow-y: scroll;
-}
-
-.scroller__bar-wrapper-with-header {
-	top: 25px;
-	bottom: 25px;
-}
-
 .dg-map-infocard-firmlist .dg-map-firm-bullet {
 	background: url("__BASE_URL__/img/dg_sprite.png") no-repeat scroll 0 -258px transparent;
     height: 6px;

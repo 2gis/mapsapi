@@ -15,6 +15,16 @@
     background: rgba(0, 0, 255, .1);
 }
 
+.scroller-with-header {
+    height: 80%;
+    overflow-y: scroll;
+}
+
+.scroller__bar-wrapper-with-header {
+    top: 25px;
+    bottom: 25px;
+}
+
 .dg-popup-container {
     padding:0 3px;
     border-right: solid 25px white;
@@ -42,5 +52,8 @@
 }
 
 .dg-baron-hide {
-    display: none;
+    overflow: auto;
+}
+.dg-baron-hide .scroller__bar-wrapper {
+    visibility: hidden;
 }
