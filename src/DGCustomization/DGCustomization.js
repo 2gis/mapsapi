@@ -68,7 +68,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         onRemove: function (map) {
-            L.DomEvent.off(this._scroller, 'scroll', this._onScroll, this);
             map.off('dgEntranceShow', function() {
                 map.closePopup(this);
             }, this);
