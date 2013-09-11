@@ -63,6 +63,133 @@ In either case, `when()` will *always* return a trusted when.js promise, which w
 ### See Also
 * [Read more about when() here](https://github.com/cujojs/when/wiki/when)
 
+## Методы
+
+**Класс L.DG.When**
+
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>promise</b>(&lt;Function&gt; resolver)</code></td>
+        <td><code>Promise</code></td>
+        <td>Create a Promise, whose fate is determined by the supplied resolver function. The resolver function will be called synchronously, with 3 arguments:
+        * `resolve(promiseOrValue)` - Primary function that seals the fate of the returned promise. Accepts either a non-promise value, or another promise.
+			* When called with a non-promise value, fulfills `promise` with that value.
+			* When called with another promise, e.g. `resolve(otherPromise)`, `promise`'s fate will be equivalent to that that of `otherPromise`.
+		* `reject(reason)` - function that rejects `promise`.
+		* `notify(update)` - function that issues progress events for `promise`.
+		</td>
+    </tr>
+    <tr>
+        <td><code><b>resolve</b>(&lt;promiseOrValue&gt; promiseOrValue)</code></td>
+        <td><code>Promise</code></td>
+        <td>Create a resolved promise for the supplied promiseOrValue. If promiseOrValue is a value, it will be the resolution value of the returned promise. Returns promiseOrValue if it's a trusted promise. If promiseOrValue is a foreign promise, returns a promise in the same state (resolved or rejected) and with the same value as promiseOrValue.</td>
+    </tr>
+    <tr>
+        <td><code><b>reject</b>(&lt;promiseOrValue&gt; promiseOrValue)</code></td>
+        <td><code>Promise</code></td>
+        <td>Create a rejected promise for the supplied promiseOrValue. If promiseOrValue is a value, it will be the rejection value of the returned promise. If promiseOrValue is a promise, its completion value will be the rejected value of the returned promise.</td>
+    </tr>
+    <tr>
+        <td><code><b>defer</b>()</code></td>
+        <td><code>Deferred: {promise, resolver}</code></td>
+        <td>Create a {promise, resolver} pair, aka Deferred. In some scenarios it can be convenient to have access to both the promise and it's associated resolving functions, for example, to give each out to a separate party. In such cases it can be convenient to use when.defer().</td>
+    </tr>
+    <tr>
+        <td><code><b>join</b>(&lt;promiseOrValue1&gt; promiseOrValue1, &lt;promiseOrValue2&gt; promiseOrValue2, ...)</code></td>
+        <td><code>Promise</code></td>
+        <td>Return a promise that will resolve only once all the inputs have resolved. The resolution value of the returned promise will be an array containing the resolution values of each of the inputs.<br/>
+		If any of the input promises is rejected, the returned promise will be rejected with the reason from the first one that is rejected.</td>
+    </tr>
+    <tr>
+        <td><code><b>all</b>(&lt;Array&gt; array)</code></td>
+        <td><code>Promise</code></td>
+        <td>Return a promise that will resolve only once all the items in array have resolved. The resolution value of the returned promise will be an array containing the resolution values of each of the items in array.<br/>If any of the promises is rejected, the returned promise will be rejected with the rejection reason of the first promise that was rejected.</td>
+    </tr>
+    <tr>
+        <td><code><b>map</b>(&lt;Array&gt; array?, &lt;Function&gt; mapFunc)</code></td>
+        <td><code>Promise</code></td>
+        <td>Where:
+
+			* array is an Array *or a promise for an array*, which may contain promises and/or values.
+
+			Traditional array map function, similar to `Array.prototype.map()`, but allows input to contain promises and/or values, and mapFunc may return either a value or a promise.
+
+			If any of the promises is rejected, the returned promise will be rejected with the rejection reason of the first promise that was rejected.
+
+			The map function should have the signature:
+
+			```js
+			mapFunc(item)
+			```
+
+			Where:
+
+			* `item` is a fully resolved value</td>
+    </tr>
+    <tr>
+        <td><code><b>reduce</b>(&lt;Array&gt; array, &lt;Function&gt; reduceFunc, &lt;promiseOrValue&gt; initialValue?)</code></td>
+        <td><code>Promise</code></td>
+        <td>Where:
+
+			* array is an Array *or a promise for an array*, which may contain promises and/or values.
+
+			Traditional array reduce function, similar to `Array.prototype.reduce()`, but input may contain promises and/or values, and reduceFunc may return either a value or a promise, *and* initialValue may be a promise for the starting value.
+
+			The reduce function should have the signature:
+
+			```js
+			reduceFunc(currentResult, value, index, total)
+			```
+		</td>
+    </tr>
+    <tr>
+        <td><code><b>settle</b>(&lt;Array&gt; array)</code></td>
+        <td><code>Promise</code></td>
+        <td>Where:
+
+			* array is an Array *or a promise for an array*, which may contain promises and/or values.
+
+			Returns a promise for an array containing the same number of elements as the input array.  Each element is a descriptor object describing of the outcome of the corresponding element in the input.  The returned promise will only reject if `array` itself is a rejected promise.  Otherwise, it will always fulfill with an array of descriptors.  This is in contrast to [when.all](#whenall), which will reject if any element of `array` rejects.
+
+			If the corresponding input promise is:
+
+			* fulfilled, the descriptor will be: `{ state: 'fulfilled', value: <fulfillmentValue> }`
+			* rejected, the descriptor will be: `{ state: 'rejected', reason: <rejectionReason> }`
+		</td>
+    </tr>
+    <tr>
+        <td><code><b>any</b>(&lt;Array&gt; array)</code></td>
+        <td><code>Promise</code></td>
+        <td>Where:
+
+			* array is an Array *or a promise for an array*, which may contain promises and/or values.
+
+			Initiates a competitive race that allows one winner, returning a promise that will resolve when any one of the items in `array` resolves.  The returned promise will only reject if *all* items in `array` are rejected.  The resolution value of the returned promise will be the fulfillment value of the winning promise.  The rejection value will be an array of all rejection reasons.</td>
+    </tr>
+    <tr>
+        <td><code><b>some</b>(&lt;Array&gt; array, &lt;Integer&gt; howMany)</code></td>
+        <td><code>Promise</code></td>
+        <td>Where:
+
+			* array is an Array *or a promise for an array*, which may contain promises and/or values.
+			* howMany is the number of promises from array that must fulfill to end the race
+
+			Initiates a competitive race that allows `howMany` winners, returning a promise that will resolve when `howMany` of the items in `array` resolve.  The returned promise will reject if it becomes impossible for `howMany` items to resolve--that is, when `(array.length - howMany) + 1` items reject.  The resolution value of the returned promise will be an array of `howMany` winning promise fulfillment values.  The rejection value will be an array of `(array.length - howMany) + 1` rejection reasons.
+		</td>
+    </tr>
+    <tr>
+        <td><code><b>isPromiseLike</b>(&lt;Object&gt; anything)</code></td>
+        <td><code>Boolean</code></td>
+        <td>Return true if `anything` is an object or function with a `then` method.  It does not distinguish trusted when.js promises from other "thenables" (e.g. from some other promise implementation).</td>
+    </tr>
+</table>
+
+
 ## Promise
 
 Promise представляет собой конечный результат, либо успешного выполнения (и возвращает полученое значение), либо отказа (и возвращает причину отклонения). Так же promise предоставляет интерфейс для вызова функции с его результатом (значение, или причина отказа) и создаёт новый promise для результата.
@@ -83,170 +210,3 @@ var promise = when.resolve(promiseOrValue);
 var promise = when.reject(reason);
 ```
 
-## Main Promise API
-
-```js
-// then()
-// Main promise API
-var newPromise = promise.then(onFulfilled, onRejected, onProgress);
-```
-
-arranges for
-
-* `onFulfilled` to be called with the value after `promise` is fulfilled, or
-* `onRejected` to be called with the rejection reason after `promise` is rejected.
-* `onProgress` to be called with any progress updates issued by `promise`.
-
-Returns a trusted promise that will fulfill with the return value of either `onFulfilled` or `onRejected`, whichever is called, or will reject with the thrown exception if either throws.
-
-A promise makes the following guarantees about handlers registered in the same call to `.then()`:
-
-1. Only one of `onFulfilled` or `onRejected` will be called, never both.
-1. `onFulfilled` and `onRejected` will never be called more than once.
-1. `onProgress` may be called multiple times.
-
-## Extended Promise API
-
-Convenience methods that are not part of Promises/A+.  These are simply shortcuts for using `.then()`.
-
-### otherwise()
-
-```js
-promise.otherwise(onRejected);
-```
-
-Arranges to call `onRejected` on the promise's rejection reason if it is rejected.  It's a shortcut for:
-
-```js
-promise.then(undefined, onRejected);
-```
-
-### ensure()
-
-```js
-promise.ensure(onFulfilledOrRejected);
-```
-
-Ensure allows you to execute "cleanup" type tasks in a promise chain.  It arranges for `onFulfilledOrRejected` to be called, *with no arguments*, when promise is either fulfilled or rejected.  `onFulfilledOrRejected` cannot modify `promise`'s fulfillment value, but may signal a new or additional error by throwing an exception or returning a rejected promise.
-
-`promise.ensure` should be used instead of `promise.always`.  It is safer in that it *cannot* transform a failure into a success by accident (which `always` could do simply by returning successfully!).
-
-When combined with `promise.otherwise`, `promise.ensure` allows you to write code that is similar to the familar synchronous `catch`/`finally` pair.  Consider the following synchronous code:
-
-```js
-try {
-  return doSomething(x);
-} catch(e) {
-	return handleError(e);
-} finally {
-	cleanup();
-}
-```
-
-Using `promise.ensure`, similar asynchronous code (with `doSomething()` that returns a promise) can be written:
-
-```js
-return doSomething()
-	.otherwise(handleError)
-	.ensure(cleanup);
-```
-
-### yield()
-
-```js
-originalPromise.yield(promiseOrValue);
-```
-
-Returns a new promise:
-
-1. If `originalPromise` is rejected, the returned promise will be rejected with the same reason
-2. If `originalPromise` is fulfilled, then it "yields" the resolution of the returned promise to promiseOrValue, namely:
-    1. If `promiseOrValue` is a value, the returned promise will be fulfilled with `promiseOrValue`
-    2. If `promiseOrValue` is a promise, the returned promise will be:
-	    - fulfilled with the fulfillment value of `promiseOrValue`, or
-	    - rejected with the rejection reason of `promiseOrValue`
-
-In other words, it's much like:
-
-```js
-originalPromise.then(function() {
-	return promiseOrValue;
-});
-```
-
-### tap()
-
-```js
-promise.tap(onFulfilledSideEffect);
-```
-
-Executes a function as a side effect when `promise` fulfills.
-
-Returns a new promise:
-
-1. If `promise` fulfills, `onFulfilledSideEffect` is executed:
-	- If `onFulfilledSideEffect` returns successfully, the promise returned by `tap` fulfills with `promise`'s original fulfillment value.  That is, `onfulfilledSideEffect`'s result is discarded.
-	- If `onFulfilledSideEffect` throws or returns a rejected promise, the promise returned by `tap` rejects with the same reason.
-2. If `promise` rejects, `onFulfilledSideEffect` is *not* executed, and the promise returned by `tap` rejects with `promise`'s rejection reason.
-
-These are equivalent:
-
-```js
-// Using only .then()
-promise.then(function(x) {
-	doSideEffectsHere(x);
-	return x;
-});
-
-// Using .tap()
-promise.tap(doSideEffectsHere);
-```
-
-### spread()
-
-```js
-promise.spread(variadicOnFulfilled);
-```
-
-Arranges to call `variadicOnFulfilled` with promise's values, which is assumed to be an array, as its argument list, e.g. `variadicOnFulfilled.spread(undefined, array)`.  It's a shortcut for either of the following:
-
-```js
-// Wrapping variadicOnFulfilled
-promise.then(function(array) {
-	return variadicOnFulfilled.apply(undefined, array);
-});
-
-// Or using when/apply
-promise.then(apply(variadicOnFulfilled));
-```
-
-### inspect()
-
-```js
-var status = promise.inspect();
-```
-
-Returns a snapshot descriptor of the current state of `promise`.  This descriptor is *not live* and will not update when `promise`'s state changes.  The descriptor is an object with the following properties.  When promise is:
-
-* pending: `{ state: 'pending' }`
-* fulfilled: `{ state: 'fulfilled', value: <promise's fulfillment value> }`
-* rejected: `{ state: 'rejected', reason: <promise's rejection reason> }`
-
-While there are use cases where synchronously inspecting a promise's state can be helpful, the use of `inspect` is discouraged.  It is almost always preferable to simply use `when()` or `promise.then` to be notified when the promise fulfills or rejects.
-
-#### See also:
-* [when.settle()](#whenall) - settling an Array of promises
-
-### always()
-
-**DEPRECATED:** Will be removed in an upcoming version
-
-```js
-promise.always(onFulfilledOrRejected [, onProgress]);
-```
-
-Arranges to call `onFulfilledOrRejected` on either the promise's value if it is fulfilled, or on it's rejection reason if it is rejected.  It's a shortcut for:
-
-```js
-promise.then(onFulfilledOrRejected, onFulfilledOrRejected [, onProgress]);
-```
