@@ -11,6 +11,7 @@ public/css/dg-map-custom-src.css
 public/css/dg-map-custom.css
 
 docbuilder/doc
+.jshintrc
 
 config.local.json
 

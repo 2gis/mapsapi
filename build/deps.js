@@ -16,6 +16,18 @@ var deps = {
         deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon', 'TileLayerCanvas']
     },
 
+    DGWhen: {
+        desc: 'Promise/Deffered object module',
+        src: [ 'DGWhen/src/DGWhen.js' ],
+        deps: ['DGCore']
+    },
+
+    DGAjax: {
+        desc: '2GIS Ajax module',
+        src: ['DGAjax/src/DGAjax.js'],
+        deps: ['DGCore', 'DGWhen']
+    },
+
     DGDivIcon: {
         desc: '2GIS DivIcon module',
         src: ['DGDivIcon/src/DGDivIcon.js'],
