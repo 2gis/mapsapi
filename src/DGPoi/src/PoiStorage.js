@@ -43,7 +43,7 @@ L.DG.PoiStorage = L.Class.extend({
     },
 
     _askByTile: function (tileId, callback) { //(String)
-        var xyz = tileId.split(',')
+        var xyz = tileId.split(','),
             self = this;
 
         L.DG.Jsonp({
@@ -52,11 +52,14 @@ L.DG.PoiStorage = L.Class.extend({
                 x: xyz[0],
                 y: xyz[1]
             }),
-            success : function(data){
-                if (data.response.code != 200) return;
+            success : function (data) {
+                if (data.response.code !== 200) {
+                    return;
+                }
                 self._addPoisToTile(tileId, data.result.poi);
-                if (callback)
+                if (callback) {
                     callback(self._tilesPoi[tileId]);
+                }
             }
         });
     }
