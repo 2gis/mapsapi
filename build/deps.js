@@ -128,7 +128,8 @@ var deps = {
               'DGFullScreen/lang/en.js'
         ],
         css: {
-            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
+            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
+            ie: ['DGFullScreen/skin/{skin}/css/DGFullScreen.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
     },
@@ -143,7 +144,8 @@ var deps = {
         desc: '2GIS tile layer module',
         src: ['DGTileLayer/src/DGTileLayer.js'],
         css: {
-            all: ['DGTileLayer/skin/{skin}/css/style.css']
+            all: ['DGTileLayer/skin/{skin}/css/style.css'],
+            ie: ['DGTileLayer/skin/{skin}/css/ie.css']
         },
         deps: ['DGCore']
     },
@@ -167,7 +169,9 @@ var deps = {
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
         css: {
-            all: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.css']
+            all: [
+                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css'
+            ]
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
@@ -187,7 +191,19 @@ var deps = {
             'DGGeoclicker/lang/ru/handler/House.js',
             'DGGeoclicker/lang/en/handler/House.js',
             'DGGeoclicker/src/View.js',
-            'DGGeoclicker/src/Controller.js'
+            'DGGeoclicker/src/Controller.js',
+
+            '../vendors/firmcard/src/FirmCard.js',
+            '../vendors/firmcard/src/FirmCard.DataHelper.js',
+            '../vendors/firmcard/src/FirmList.js',
+            '../vendors/firmcard/src/vendors/underscore1.5.1.js',
+            '../vendors/firmcard/src/vendors/momentjs/moment.min.js',
+            '../vendors/firmcard/src/vendors/momentjs/lang/moment.ru.js',
+            '../vendors/firmcard/src/vendors/momentjs/lang/moment.cs.js',
+            '../vendors/firmcard/src/vendors/momentjs/lang/moment.it.js',
+            '../vendors/firmcard/src/Schedule.js',
+            '../vendors/firmcard/src/Dictionary.js',
+
         ],
         deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGLabel']
     },

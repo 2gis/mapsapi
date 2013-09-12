@@ -65,8 +65,10 @@ L.DG.PoiStorage = L.Class.extend({
             success : function(data){
                 if (!data.poi) return;
                 self._addPoisToTile(tileId, data.poi);
-                if (callback)
+                if (callback) {
                     callback(self._tilesPoi[tileId]);
+                }
+                }
             }
         });
 

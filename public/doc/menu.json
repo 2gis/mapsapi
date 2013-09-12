@@ -129,9 +129,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGWhen",
-                                "uri": "doc/DGWhen/DGWhen.html",
-                                "_src": "DGWhen/doc/DGWhen.md",
+                                "title": "DGEntrance",
+                                "uri": "doc/DGEntrance/DGEntrance.html",
+                                "_src": "DGEntrance/doc/DGEntrance.md",
                                 "hide": false
                             }
                         },
@@ -140,9 +140,10 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGEntrance",
-                                "uri": "doc/DGEntrance/DGEntrance.html",
-                                "_src": "DGEntrance/doc/DGEntrance.md",
+                                "title": "DGWhen",
+                                "uri": "doc/DGWhen/DGWhen.html",
+                                "_src": "DGWhen/doc/DGWhen.md",
+
                                 "hide": false
                             }
                         },

@@ -16,14 +16,15 @@
     L.onLoad(function () {
         map = new L.Map('map', {
             center: new L.LatLng(54.980206086231, 82.898068362003),
-            zoom: 13
+            zoom: 13,
+            dgGeoclicker: 'true'
         });
 
-        L.circle([54.980206086231, 82.898068362003], 500, {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5
-        }).addTo(map).bindPopup("Hello, NSK!");
+        // L.circle([54.980206086231, 82.898068362003], 500, {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5
+        // }).addTo(map).bindPopup("Hello, NSK!");
 
         L.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
 

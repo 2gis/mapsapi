@@ -178,7 +178,7 @@ function processCss(srcConf, basePath) {
             for (var i = 0, count = browserCssList.length; i < count; i++) {
                 var srcPath = basePath + browserCssList[i];
 
-                if (srcPath.indexOf(skinVar) > 0) {
+                if (srcPath.indexOf(skinVar) > -1) {
                     var skinsPath = srcPath.split(skinVar),
                         skinsList = fs.readdirSync(skinsPath[0]);
 
@@ -488,11 +488,12 @@ function makeJSPackage(modulesList, skin, isMsg) {
  *
  * @param {Array} modulesList
  * @param {String} skin
- * @param {Boolean} isIE
+ * @param {Boolean} addIE
+ * @param {Boolean} addClean
  * @param {Boolean} isMsg  Show messages on run CLI mode
  * @return {String}
  */
-function makeCSSPackage(modulesList, skin, isIE, isMsg) {
+function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
     var loadedFiles = {},
         countModules = 0,
         result = '';
@@ -533,14 +534,19 @@ function makeCSSPackage(modulesList, skin, isIE, isMsg) {
         }
     }
 
-    function processBrowsers(moduleBrowser) {
-        if (moduleBrowser.hasOwnProperty('all')) {
-            var moduleSrcAll = moduleBrowser['all'];
-            concatenateFiles(moduleSrcAll);
+    function processCssByType(type) {
+        if (moduleBrowser.hasOwnProperty(type)) {
+            var moduleSrc = moduleBrowser[type];
+            concatenateFiles(moduleSrc);
         }
-        if (isIE && moduleBrowser.hasOwnProperty('ie')) {
-            var moduleSrcIE = moduleBrowser['ie'];
-            concatenateFiles(moduleSrcIE);
+    }
+
+    function processBrowsers(moduleBrowser) {
+        if (addClean) {
+            processCssByType('all');
+        }
+        if (addIE) {
+            processCssByType('ie');
         }
     }
 
@@ -703,14 +709,14 @@ exports.setVersion = function () {
 /**
  * Copy all images (CLI command)
  */
-exports.copyImages = function() {
+exports.copyImages = function () {
     copyImages();
 };
 
 /**
  * Lint (CLI command)
  */
-exports.lint = function() {
+exports.lint = function () {
     modules = getModulesData();
     lintFiles(modules);
 };
@@ -718,12 +724,10 @@ exports.lint = function() {
 /**
  * Build (CLI command)
  */
-exports.build = function() {
+exports.build = function () {
     var modulesList,
         jsSrcContent,
         jsMinContent,
-        cssSrcContent,
-        cssMinContent,
         jsDest = config.js.custom,
         cssDest = config.css.custom,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
@@ -744,27 +748,34 @@ exports.build = function() {
 
     modulesList = getModulesList(pkg, true);
 
+    var packAndConcatCss = function (name, addIE, addClean) {
+        var cssSrcContent = makeCSSPackage(modulesList, skin, addIE, addClean, true);
+        fs.writeFileSync(cssDest[name], cssSrcContent);
+
+        console.log('\nCompressing CSS...\n');
+
+        var cssMinContent = minifyCSSPackage(cssSrcContent);
+        fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
+
+        console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
+        console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
+    };
+
     jsSrcContent = makeJSPackage(modulesList, skin, true);
-    cssSrcContent = makeCSSPackage(modulesList, skin, true, true);
 
     fs.writeFileSync(jsDest.src, jsSrcContent);
-    fs.writeFileSync(cssDest.src, cssSrcContent);
 
     console.log('Compressing JS...\n');
 
     jsMinContent = minifyJSPackage(jsSrcContent);
     fs.writeFileSync(jsDest.min, jsMinContent);
 
-    console.log('   Uncompressed size: ' + (jsSrcContent.length/1024).toFixed(1) + ' KB');
-    console.log('   Compressed size:   ' + (jsMinContent.length/1024).toFixed(1) + ' KB');
+    console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
+    console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
 
-    console.log('\nCompressing CSS...\n');
-
-    cssMinContent = minifyCSSPackage(cssSrcContent);
-    fs.writeFileSync(cssDest.min, cssMinContent);
-
-    console.log('   Uncompressed size: ' + (cssSrcContent.length/1024).toFixed(1) + ' KB');
-    console.log('   Compressed size:   ' + (cssMinContent.length/1024).toFixed(1) + ' KB');
+    packAndConcatCss('full', true, true);
+    packAndConcatCss('clean', false, true);
+    packAndConcatCss('ie', true, false);
 
     if (errors.length > 0) {
         console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
@@ -777,7 +788,7 @@ exports.build = function() {
 /**
  * Get params of app from config files (web app)
  */
-exports.getConfig = function() {
+exports.getConfig = function () {
     return getAppConfig();
 };
 
@@ -785,7 +796,7 @@ exports.getConfig = function() {
  * Load content of all source JS files to memory (web app)
  * Must run only 1 time on start app
  */
-exports.init = function() {
+exports.init = function () {
     modules = getModulesData();
     copyrights = getCopyrightsData();
     if (modules && copyrights) {
@@ -801,7 +812,7 @@ exports.init = function() {
  * @param {Object} params  Params of build (pkg, debug, skin, etc)
  * @param {Function} callback  Return JS result file
  */
-exports.getJS = function(params, callback) {
+exports.getJS = function (params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeJSPackage(modulesList, params.skin);
@@ -815,10 +826,10 @@ exports.getJS = function(params, callback) {
  * @param {Object} params  Params of build (pkg, debug, skin, etc)
  * @param {Function} callback  Return CSS result file
  */
-exports.getCSS = function(params, callback) {
+exports.getCSS = function (params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE);
+    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE, true, false);
     contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentRes);
 };
