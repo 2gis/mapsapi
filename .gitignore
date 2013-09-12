@@ -14,5 +14,6 @@ docbuilder/doc
 .jshintrc
 
 config.local.json
+.jshintrc
 
 public/dev*

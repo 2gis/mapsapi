@@ -120,7 +120,6 @@
                                 "title": "DGLocale",
                                 "uri": "doc/DGLocale/DGLocale.html",
                                 "_src": "DGLocale/doc/DGLocale.md",
-
                                 "hide": false
                             }
                         },
@@ -132,7 +131,39 @@
                                 "title": "DGWhen",
                                 "uri": "doc/DGWhen/DGWhen.html",
                                 "_src": "DGWhen/doc/DGWhen.md",
-
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "DGEntrance",
+                                "uri": "doc/DGEntrance/DGEntrance.html",
+                                "_src": "DGEntrance/doc/DGEntrance.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "DGFullScreen",
+                                "uri": "doc/DGFullScreen/DGFullScreen.html",
+                                "_src": "DGFullScreen/doc/DGFullScreen.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "DGTemplate",
+                                "uri": "doc/DGTemplate/DGTemplate.html",
+                                "_src": "DGTemplate/doc/DGTemplate.md",
                                 "hide": false
                             }
                         },
