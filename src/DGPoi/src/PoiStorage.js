@@ -56,9 +56,12 @@ L.DG.PoiStorage = L.Class.extend({
         var xyz = tileId.split(','),
             self = this;
 
-        L.DG.Ajax( L.Util.template('__HIGHLIGHT_POI_SERVER__', { z: xyz[2],
+        L.DG.Ajax(
+            L.Util.template('__HIGHLIGHT_POI_SERVER__', {
+                z: xyz[2],
                 x: xyz[0],
-                y: xyz[1] }), {
+                y: xyz[1]
+            }), {
             type: 'get',
             dataType: 'json',
             crossDomain: true,
@@ -67,7 +70,6 @@ L.DG.PoiStorage = L.Class.extend({
                 self._addPoisToTile(tileId, data.poi);
                 if (callback) {
                     callback(self._tilesPoi[tileId]);
-                }
                 }
             }
         });

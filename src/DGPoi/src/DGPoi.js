@@ -82,9 +82,12 @@ L.DG.Poi = L.Handler.extend({
     },
 
     _onMouseClick: function( event ){
-        if (this._currPoi) {    // TODO event.latlng
-            this._map.fire('dgPoiClick', {'poi': this._currPoi, latlng: event.latlng});
-            L.DomEvent.stopPropagation(event)
+        if (this._currPoi) {
+            this._map.fire('dgPoiClick', {
+                'poi': this._currPoi,
+                latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event))
+            });
+            L.DomEvent.stopPropagation(event);
         }
     },
 

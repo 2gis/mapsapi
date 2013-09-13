@@ -39,14 +39,16 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         }
     },
 
-    handleClick: function (latlng, zoom) { // (Object, Number)
+    handleClick: function (latlng, zoom, poiId) { // (Object, Number, ?Number)
         var self = this,
             args = Array.prototype.slice.call(arguments, 0);
 
         this._catalogApi.getLocations({
             latlng: latlng,
             zoom: zoom,
-            callback: L.bind(this.handleResponse, this),
+            callback: function(){
+                self.handleResponse(result, poiId);
+            },
             beforeRequest: function() {
                 self._view.showPopup(latlng);
                 self._lastHandleClickArguments = args;
@@ -54,7 +56,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         });
     },
 
-    handleResponse: function (result) { // (Object)
+    handleResponse: function (result, poiId) { // (Object, ?Number)
         var type;
 
         this._view.hideLoader();
@@ -66,7 +68,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             return;
         }
         while (type = this.findHandler(result)) {
-            if (this._runHandler(type, result)) {
+            if (this._runHandler(type, result, poiId)) {
                 return;
             }
             delete result[type];
