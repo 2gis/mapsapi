@@ -25,7 +25,6 @@ L.DG.Poi = L.Handler.extend({
                 .off('mousemove', this._onMouseMove, this)
                 .off('viewreset', this._onViewReset, this)
                 .off('mouseout', this._onMouseOut, this);
-         L.DomEvent.removeListener(this._mapPanes['tilePane'], 'click', this._onMouseClick);
     },
 
     getStorage: function () {
@@ -75,8 +74,8 @@ L.DG.Poi = L.Handler.extend({
 
             if (poiId && (!this._currPoi || this._currPoi.id != poiId)) {
                 this._currPoi = this._poistorage.getPoi(poiId);
-                L.DomEvent.addListener(this._mapPanes['tilePane'], 'click', this._onMouseClick, this);
                 this._map.fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
+                L.DomEvent.addListener(this._mapPanes['mapPane'], 'click', this._onMouseClick, this);
             }
         }
     },
@@ -105,6 +104,7 @@ L.DG.Poi = L.Handler.extend({
             this._map
                     .fire('dgPoiLeave', { 'poi': this._currPoi })
                     .off('click', this._onMouseClick, this);
+            L.DomEvent.removeListener(this._mapPanes['mapPane'], 'click', this._onMouseClick);
             this._currPoi = null;
         }
     },

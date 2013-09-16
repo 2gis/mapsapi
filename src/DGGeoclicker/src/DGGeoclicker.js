@@ -11,7 +11,6 @@ L.DG.Geoclicker = L.Handler.extend({
         this._map = map;
         this._controller = new L.DG.Geoclicker.Controller(map);
         this._labelHelper = new L.DG.Label();
-        this._hoveredPoi = null;
         this._fillEventsListeners();
     },
 
@@ -45,20 +44,20 @@ L.DG.Geoclicker = L.Handler.extend({
         },
 
         dgPoiHover: function (e) {
-            this._hoveredPoi = e.poi;
             this._labelHelper
                     .setPosition(e.latlng)
-                    .setContent(this._hoveredPoi.linked.name);
+                    .setContent(e.poi.linked.name);
             this._map
                     .on('mousemove', this._onMouseMove, this)
                     .addLayer(this._labelHelper);
+            this._setCursor('pointer');
         },
 
         dgPoiLeave: function () {
-            this._hoveredPoi = null;
             this._map
                 .off('mousemove', this._onMouseMove, this)
                 .removeLayer(this._labelHelper);
+            this._setCursor('auto');
         }
     },
 
@@ -73,7 +72,11 @@ L.DG.Geoclicker = L.Handler.extend({
         }
     },
 
-    _onMouseMove: function(e){
+    _setCursor: function(cursor) {
+        this._map.getContainer().style.cursor = cursor;
+    },
+
+    _onMouseMove: function(e) {
         this._labelHelper.setPosition( e.latlng );
     },
 
