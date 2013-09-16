@@ -14,21 +14,67 @@ L.DG.Poi = L.Handler.extend({
 
     addHooks: function () {
         this._calcTilesAtZoom();
-        this._map
-                .on('mousemove', this._onMouseMove, this)
-                .on('viewreset', this._onViewReset, this)
-                .on('mouseout', this._onMouseOut, this);
+        this._map.on(this._mapEventsListeners, this);
     },
 
     removeHooks: function () {
-        this._map
-                .off('mousemove', this._onMouseMove, this)
-                .off('viewreset', this._onViewReset, this)
-                .off('mouseout', this._onMouseOut, this);
+        this._map.off(this._mapEventsListeners, this);
     },
 
     getStorage: function () {
         return this._poistorage;
+    },
+
+    _mapEventsListeners : {
+        mousemove : function (e) { // (Object)
+            if (this._map._panTransition && this._map._panTransition._inProgress) { return; }
+
+            var xyz = this._getTileID(e);
+
+            if (!this._isEventTargetAllowed(e.originalEvent.target || e.originalEvent.srcElement)) {
+                if (this._currPoi) {
+                    this._leaveCurrentPoi();
+                }
+                return;
+            }
+
+            if (this._isTileChanged(xyz)) {
+                this._currTile = xyz;
+                this._pois = null;
+                this._poistorage.getTilePoiIds(xyz, this._poistorageCallback);
+            } else if (this._pois) {
+                var poiId = this._isPoiHovered(e.latlng, this._pois);
+
+                if (this._currPoi && this._currPoi.id != poiId) {
+                    this._leaveCurrentPoi();
+                }
+
+                if (poiId && (!this._currPoi || this._currPoi.id != poiId)) {
+                    this._currPoi = this._poistorage.getPoi(poiId);
+                    this._map.fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
+                    L.DomEvent.addListener(this._mapPanes['mapPane'], 'click', this._onDomMouseClick, this);
+                }
+            }
+        },
+
+        mouseout : function(){
+            this._leaveCurrentPoi();
+        },
+
+        viewreset : function(){
+            this._calcTilesAtZoom();
+            this._leaveCurrentPoi();
+        },
+    },
+
+    _onDomMouseClick: function( event ){ // (Object)
+        if (this._currPoi) {
+            this._map.fire('dgPoiClick', {
+                'poi': this._currPoi,
+                latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event))
+            });
+            L.DomEvent.stopPropagation(event);
+        }
     },
 
     _calcTilesAtZoom : function () {
@@ -49,62 +95,12 @@ L.DG.Poi = L.Handler.extend({
         return this._belongsToPane(target, 'tilePane') || this._belongsToPane(target, 'overlayPane');
     },
 
-    _onMouseMove: function (e) { // (Object)
-        if (this._map._panTransition && this._map._panTransition._inProgress) { return; }
-
-        var xyz = this._getTileID(e);
-
-        if (!this._isEventTargetAllowed(e.originalEvent.target || e.originalEvent.srcElement)) {
-            if (this._currPoi) {
-                this._leaveCurrentPoi();
-            }
-            return;
-        }
-
-        if (this._isTileChanged(xyz)) {
-            this._currTile = xyz;
-            this._pois = null;
-            this._poistorage.getTilePoiIds(xyz, this._poistorageCallback);
-        } else if (this._pois) {
-            var poiId = this._isPoiHovered(e.latlng, this._pois);
-
-            if (this._currPoi && this._currPoi.id != poiId) {
-                this._leaveCurrentPoi();
-            }
-
-            if (poiId && (!this._currPoi || this._currPoi.id != poiId)) {
-                this._currPoi = this._poistorage.getPoi(poiId);
-                this._map.fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
-                L.DomEvent.addListener(this._mapPanes['mapPane'], 'click', this._onMouseClick, this);
-            }
-        }
-    },
-
-    _onMouseClick: function( event ){
-        if (this._currPoi) {
-            this._map.fire('dgPoiClick', {
-                'poi': this._currPoi,
-                latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event))
-            });
-            L.DomEvent.stopPropagation(event);
-        }
-    },
-
-    _onMouseOut: function(){
-        this._leaveCurrentPoi();
-    },
-
-    _onViewReset: function(){
-        this._calcTilesAtZoom();
-        this._leaveCurrentPoi();
-    },
-
     _leaveCurrentPoi : function(){
         if (this._currPoi) {
             this._map
                     .fire('dgPoiLeave', { 'poi': this._currPoi })
-                    .off('click', this._onMouseClick, this);
-            L.DomEvent.removeListener(this._mapPanes['mapPane'], 'click', this._onMouseClick);
+                    .off('click', this._onDomMouseClick, this);
+            L.DomEvent.removeListener(this._mapPanes['mapPane'], 'click', this._onDomMouseClick);
             this._currPoi = null;
         }
     },
