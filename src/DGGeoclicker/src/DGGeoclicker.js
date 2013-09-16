@@ -12,6 +12,7 @@ L.DG.Geoclicker = L.Handler.extend({
         this._controller = new L.DG.Geoclicker.Controller(map);
         this._labelHelper = new L.DG.Label();
         this._hoveredPoi = null;
+        this._fillEventsListeners();
     },
 
     addHooks: function () {
@@ -34,8 +35,6 @@ L.DG.Geoclicker = L.Handler.extend({
             this._controller.reinvokeHandler();
         },
 
-        click: this._onClick,
-
         dblclick: function () {
             clearTimeout(this.pendingClick);
             this.clickCount = 0;
@@ -51,16 +50,20 @@ L.DG.Geoclicker = L.Handler.extend({
                     .setPosition(e.latlng)
                     .setContent(this._hoveredPoi.linked.name);
             this._map
-                    .addLayer(this._labelHelper)
-                    .on('mousemove', this._onMouseMove, this);
+                    .on('mousemove', this._onMouseMove, this)
+                    .addLayer(this._labelHelper);
         },
 
         dgPoiLeave: function () {
             this._hoveredPoi = null;
             this._map
-                .removeLayer(this._labelHelper)
-                .off('mousemove', this._onMouseMove, this);
+                .off('mousemove', this._onMouseMove, this)
+                .removeLayer(this._labelHelper);
         }
+    },
+
+    _fillEventsListeners: function(){
+        this._mapEventsListeners.click = this._mapEventsListeners.dgPoiClick = this._onClick;
     },
 
     _onClick: function (e) { // (Object)
@@ -82,8 +85,9 @@ L.DG.Geoclicker = L.Handler.extend({
         this.pendingClick = setTimeout(function () {
             var zoom = e.target._zoom,
                 latlng = e.latlng;
-                self._controller.handleClick(latlng, zoom, { poiId : self._hoveredPoi.linked.id });
-                self.clickCount = 0;
+
+            self._controller.handleClick(latlng, zoom, { poiId : e.poi ? e.poi.linked.id : null });
+            self.clickCount = 0;
         }, this.timeout);
     }
 });
