@@ -292,8 +292,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _onScroll: function (event) {
-            console.log(event);
-            this.fire('dgScroll', {originalEvent: window.event});
+            this.fire('dgScroll', {originalEvent: event});
         },
 
         _update: function () {
