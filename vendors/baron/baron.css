@@ -12,7 +12,8 @@
     width: 0;
 }
 .scroller__bar { /* The bar. You should define width, right and background */
-    position: absolute;
+    position: absolute;    
+    z-index: 1;
     right: 0;
     width: 10px;
     background: #999;
@@ -34,7 +35,4 @@
 .header__title_state_fixed {
     position: absolute;
     z-index: 1; /* Removing flicker effect */
-}
-.hidden {
-    display: none;
 }
