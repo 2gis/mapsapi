@@ -160,19 +160,19 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             this.options.minHeight = this._contentNode.offsetHeight;
             this.options.minWidth = this._contentNode.offsetWidth;
-            this.options.maxWidth = this._contentNode.offsetWidth;
+            // this.options.maxWidth = this._contentNode.offsetWidth;
         },
 
         _saveDefOptions: function () {
             this._back.minHeight = this.options.minHeight;
             this._back.minWidth = this.options.minWidth;
-            this._back.maxWidth = this.options.maxWidth;
+            // this._back.maxWidth = this.options.maxWidth;
         },
 
         _restoreDefoptions: function () {
             this.options.minHeight = this._back.minHeight || 0;
             this.options.minWidth = this._back.minWidth || 0;
-            this.options.maxWidth = this._back.maxWidth;
+            // this.options.maxWidth = this._back.maxWidth;
         },
 
         _updateScrollPosition: function() {
@@ -223,7 +223,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
                 $: function(selector, context) {
-                  return bonzo(qwery(selector, context));
+                    return bonzo(qwery(selector, context));
                 },
                 event: function(elem, event, func, mode) {
                     if (mode == 'trigger') {
@@ -293,7 +293,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         _onScroll: function (event) {
-            this.fire('dgScroll', {originalEvent: event});
+            this.fire('dgScroll', {originalEvent: window.event});
         },
 
         _update: function () {
@@ -313,6 +313,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             this._updatePopupStructure();
             this._resize();
+            L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
+            // L.DomEvent.disableClickPropagation(this._wrapper);
             // Delete this if fixed in new leaflet version (> 0.6.2)
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
