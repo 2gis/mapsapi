@@ -18,23 +18,25 @@ L.DG.PoiStorage = L.Class.extend({
     },
 
     _addPoisToTile: function (tileId, poi) { //(String, String)
+        this._tilesPoi[tileId] ? null : this._tilesPoi[tileId] = [];
+
         for (var i = 0, len = poi.length; i < len; i++) {
             var poiId = poi[i].id;
 
-            this._tilesPoi[tileId] ? null : this._tilesPoi[tileId] = [];
             this._tilesPoi[tileId].push(poiId);
-
             this._addPoi(poiId, poi[i]);
         }
     },
 
     _addPoi: function (poiId, poiInfo) { //(String, Object)
-        var randomPoiLink = poiInfo.links[ Math.floor( Math.random() * poiInfo.links.length ) ];
+        var randomPoiLink = poiInfo.links[Math.floor(Math.random() * poiInfo.links.length)];
 
         poiInfo.linked = {};
-        for (var prop in randomPoiLink)
-            if (randomPoiLink.hasOwnProperty(prop))
+        for (var prop in randomPoiLink) {
+            if (randomPoiLink.hasOwnProperty(prop)) {
                 poiInfo.linked[prop] = randomPoiLink[prop];
+            }
+        }
 
         poiInfo.links.length = 0;
         delete poiInfo.links;
@@ -61,31 +63,19 @@ L.DG.PoiStorage = L.Class.extend({
                 z: xyz[2],
                 x: xyz[0],
                 y: xyz[1]
-            }), {
-            type: 'get',
-            dataType: 'json',
-            crossDomain: true,
-            success : function(data){
-                if (!data.poi) return;
-                self._addPoisToTile(tileId, data.poi);
-                if (callback) {
-                    callback(self._tilesPoi[tileId]);
+            }),
+            {
+                type: 'get',
+                dataType: 'json',
+                crossDomain: true,
+                success : function(data){
+                    if (!data.poi) return;
+                    self._addPoisToTile(tileId, data.poi);
+                    if (callback) {
+                        callback(self._tilesPoi[tileId]);
+                    }
                 }
             }
-        });
-
-        // L.DG.Jsonp({
-        //     url : L.Util.template('__HIGHLIGHT_POI_SERVER__', {
-        //         z: xyz[2],
-        //         x: xyz[0],
-        //         y: xyz[1]
-        //     }),
-        //     success : function(data){
-        //         if (data.response.code != 200) return;
-        //         self._addPoisToTile(tileId, data.result.poi);
-        //         if (callback)
-        //             callback(self._tilesPoi[tileId]);
-        //     }
-        // });
+        );
     }
 });

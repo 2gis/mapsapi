@@ -25,7 +25,7 @@ L.DG.Geoclicker = L.Handler.extend({
         this._map.dgPoi.disable();
     },
 
-    getController: function() {
+    getController: function () {
         return this._controller;
     },
 
@@ -61,7 +61,7 @@ L.DG.Geoclicker = L.Handler.extend({
         }
     },
 
-    _fillEventsListeners: function(){
+    _fillEventsListeners: function () {
         this._mapEventsListeners.click = this._mapEventsListeners.dgPoiClick = this._onClick;
     },
 
@@ -72,12 +72,12 @@ L.DG.Geoclicker = L.Handler.extend({
         }
     },
 
-    _setCursor: function(cursor) {
+    _setCursor: function (cursor) {
         this._map.getContainer().style.cursor = cursor;
     },
 
-    _onMouseMove: function(e) {
-        this._labelHelper.setPosition( e.latlng );
+    _onMouseMove: function (e) {
+        this._labelHelper.setPosition(e.latlng);
     },
 
     _singleClick: function (e) {

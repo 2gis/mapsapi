@@ -45,29 +45,29 @@ L.DG.Poi = L.Handler.extend({
             } else if (this._pois) {
                 var poiId = this._isPoiHovered(e.latlng, this._pois);
 
-                if (this._currPoi && this._currPoi.id != poiId) {
+                if (this._currPoi && this._currPoi.id !== poiId) {
                     this._leaveCurrentPoi();
                 }
 
-                if (poiId && (!this._currPoi || this._currPoi.id != poiId)) {
+                if (poiId && (!this._currPoi || this._currPoi.id !== poiId)) {
                     this._currPoi = this._poistorage.getPoi(poiId);
                     this._map.fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
-                    L.DomEvent.addListener(this._mapPanes['mapPane'], 'click', this._onDomMouseClick, this);
+                    L.DomEvent.addListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick, this);
                 }
             }
         },
 
-        mouseout : function(){
+        mouseout: function () {
             this._leaveCurrentPoi();
         },
 
-        viewreset : function(){
+        viewreset: function () {
             this._calcTilesAtZoom();
             this._leaveCurrentPoi();
         },
     },
 
-    _onDomMouseClick: function( event ){ // (Object)
+    _onDomMouseClick: function (event) { // (Object)
         if (this._currPoi) {
             this._map.fire('dgPoiClick', {
                 'poi': this._currPoi,
@@ -77,13 +77,13 @@ L.DG.Poi = L.Handler.extend({
         }
     },
 
-    _calcTilesAtZoom : function () {
+    _calcTilesAtZoom: function () {
         this._tilesAtZoom = Math.pow(2, this._map.getZoom()); // counts tiles number on current zoom
     },
 
-    _belongsToPane : function(element, pane){
+    _belongsToPane: function (element, pane) {
         while (element && element !== this._mapPanes.mapPane) {
-            if (element == this._mapPanes[pane]) {
+            if (element === this._mapPanes[pane]) {
                 return true;
             }
             element = element.parentNode;
@@ -91,26 +91,26 @@ L.DG.Poi = L.Handler.extend({
         return false;
     },
 
-    _isEventTargetAllowed : function(target){
+    _isEventTargetAllowed: function (target) {
         return this._belongsToPane(target, 'tilePane') || this._belongsToPane(target, 'overlayPane');
     },
 
-    _leaveCurrentPoi : function(){
+    _leaveCurrentPoi: function () {
         if (this._currPoi) {
             this._map
                     .fire('dgPoiLeave', { 'poi': this._currPoi })
                     .off('click', this._onDomMouseClick, this);
-            L.DomEvent.removeListener(this._mapPanes['mapPane'], 'click', this._onDomMouseClick);
+            L.DomEvent.removeListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick);
             this._currPoi = null;
         }
     },
 
-    _poistorageCallback: function(tilePois){
+    _poistorageCallback: function (tilePois) {
         this._pois = tilePois;
     },
 
     _getTileID: function (e) { // (L.Event)
-        var p = this._map.project( e.latlng.wrap() ),
+        var p = this._map.project(e.latlng.wrap()),
             x = Math.floor(p.x / this._tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
             y = Math.floor(p.y / this._tileSize);
 
