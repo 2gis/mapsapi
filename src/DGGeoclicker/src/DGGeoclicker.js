@@ -16,7 +16,9 @@ L.DG.Geoclicker = L.Handler.extend({
 
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
-        //this._map.dgPoi.enable();
+        if (!L.Browser.touch) {
+            // this._map.dgPoi.enable();
+        }
     },
 
     removeHooks: function () {
@@ -43,7 +45,7 @@ L.DG.Geoclicker = L.Handler.extend({
             this._controller.handlePopupClose(e.popup);
         },
 
-        dgPoiHover: function (e) {
+        dgPoiHover: function (e) { // (Object)
             this._labelHelper
                     .setPosition(e.latlng)
                     .setContent(e.poi.linked.name);
@@ -72,15 +74,15 @@ L.DG.Geoclicker = L.Handler.extend({
         }
     },
 
-    _setCursor: function (cursor) {
+    _setCursor: function (cursor) { // (String)
         this._map.getContainer().style.cursor = cursor;
     },
 
-    _onMouseMove: function (e) {
+    _onMouseMove: function (e) { // (Object)
         this._labelHelper.setPosition(e.latlng);
     },
 
-    _singleClick: function (e) {
+    _singleClick: function (e) { // (Object)
         var self = this;
 
         clearTimeout(this.pendingClick);

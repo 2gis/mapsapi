@@ -21,12 +21,12 @@ L.DG.Poi = L.Handler.extend({
         this._map.off(this._mapEventsListeners, this);
     },
 
-    getStorage: function () {
+    getStorage: function () { // () -> Object
         return this._poistorage;
     },
 
     _mapEventsListeners : {
-        mousemove : function (e) { // (Object)
+        mousemove : function (e) { // (L.Event)
             if (this._map._panTransition && this._map._panTransition._inProgress) { return; }
 
             var xyz = this._getTileID(e);
@@ -81,7 +81,7 @@ L.DG.Poi = L.Handler.extend({
         this._tilesAtZoom = Math.pow(2, this._map.getZoom()); // counts tiles number on current zoom
     },
 
-    _belongsToPane: function (element, pane) {
+    _belongsToPane: function (element, pane) { // (HTMLElement, String) -> Boolean
         while (element && element !== this._mapPanes.mapPane) {
             if (element === this._mapPanes[pane]) {
                 return true;
@@ -91,7 +91,7 @@ L.DG.Poi = L.Handler.extend({
         return false;
     },
 
-    _isEventTargetAllowed: function (target) {
+    _isEventTargetAllowed: function (target) { // (HTMLElement) -> Boolean
         return this._belongsToPane(target, 'tilePane') || this._belongsToPane(target, 'overlayPane');
     },
 
@@ -105,11 +105,11 @@ L.DG.Poi = L.Handler.extend({
         }
     },
 
-    _poistorageCallback: function (tilePois) {
+    _poistorageCallback: function (tilePois) { // (Array)
         this._pois = tilePois;
     },
 
-    _getTileID: function (e) { // (L.Event)
+    _getTileID: function (e) { // (L.Event) -> String
         var p = this._map.project(e.latlng.wrap()),
             x = Math.floor(p.x / this._tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
             y = Math.floor(p.y / this._tileSize);
@@ -117,11 +117,11 @@ L.DG.Poi = L.Handler.extend({
         return x + ',' +  y + ',' + this._map._zoom;
     },
 
-    _isTileChanged: function (xyz) { // (String)
-        return !(this._currTile === xyz);
+    _isTileChanged: function (xyz) { // (String) -> Boolean
+        return this._currTile !== xyz;
     },
 
-    _isPoiHovered: function (point, pois) { // (L.Point)
+    _isPoiHovered: function (point, pois) { // (L.Point, Array) -> Object|Null
         var poi = null;
 
         for (var i = 0, len = pois.length; i < len; i++) {

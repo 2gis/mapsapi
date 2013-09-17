@@ -12,62 +12,11 @@
             var map = new L.Map('map', {
                 center: new L.LatLng(51.7302800, 36.1938900),
                 zoom: 17,
+                dgPoi: true,
                 dgGeoclicker: true
-                // dgGeoclicker: false,
-                // dgPoi: true
             });
 
-            var marker = L.marker([51.7302800, 36.1938900]).addTo(map);
-
-            // var _readWKT =function(selection) {
-            //     var _wktParser = L.DG.wkt();
-
-            //     _wktParser.read(selection);
-            //     return _wktParser.toObject();
-            // };
-
-            // var removeFromMap = function(){
-            //     if (map.hasLayer(this)){
-            //         map.removeLayer(this);
-            //     }
-            // }
-
-            // var __POI_SERVER__ = 'http://127.0.0.1:3100';
-
-            // var getTestpoi = function(z, x, y) {
-            //     L.DG.Jsonp({
-            //         url : [__POI_SERVER__, '/', z, '/', x, '/', y].join(''),
-            //         success : function(data){
-            //             if (data.response.code != 200) return;
-            //             var poi = data.result.poi[0],
-            //                 path = _readWKT(poi.hover);
-
-            //             path.on('click', function(){
-            //                     console.log(poi);
-            //                 })
-            //                 .setStyle({
-            //                     stroke: false,
-            //                     clickable: false
-            //                 })
-            //                 .addTo(map);
-            //             map.once('viewreset', removeFromMap, path);
-            //         }
-            //     });
-            // };
-
-            var canvasTiles = L.tileLayer.canvas();
-            canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
-                var ctx = canvas.getContext('2d');
-                ctx.fillText(tilePoint.x + ' ' + tilePoint.y, 10, 10);
-                ctx.beginPath();
-                ctx.moveTo(255, 0);
-                ctx.lineTo(255, 255);
-                ctx.lineTo(0, 255);
-                ctx.stroke();
-
-               // getTestpoi(zoom, tilePoint.x, tilePoint.y);
-            };
-            map.addLayer(canvasTiles);
+            var marker = L.marker(map.getCenter()).addTo(map);
 
             map.on('dgPoiHover', function (event) {
                 console.log('dgPoiHover on poi: ', event);
@@ -81,17 +30,7 @@
                 console.log('dgPoiClick poi', event);
             });
 
-            var langMenu = L.DomUtil.get('langMenu');
-            langMenu.onchange = function() {
-                map.setLang(this.options[this.selectedIndex].value);
-            }
-
         });
     </script>
-
-    Изменить язык карты: <select id="langMenu" size="1">
-    <option value="ru" selected="selected">ru</option>
-    <option value="it">it</option>
-    </select>
 </body>
 </html>
