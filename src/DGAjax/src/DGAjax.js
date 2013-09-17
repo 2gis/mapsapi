@@ -1,5 +1,4 @@
-
-L.DG.Ajax = (function(){
+L.DG.ajax = (function () {
 
     var win = window,
         doc = document,
@@ -23,10 +22,9 @@ L.DG.Ajax = (function(){
         xDomainRequest = 'XDomainRequest',
         noop = function () {},
 
-        isArray = typeof Array.isArray == 'function'
-                ? Array.isArray
+        isArray = typeof Array.isArray === 'function' ? Array.isArray
                 : function (a) {
-                    return a instanceof Array
+                    return a instanceof Array;
                 },
 
         defaultHeaders = {
@@ -42,88 +40,95 @@ L.DG.Ajax = (function(){
             }
         },
 
-    xhr = function(o) {
-        // is it x-domain
-        if (o.crossDomain === true) {
-            var xhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null
-            if (xhr && 'withCredentials' in xhr) {
-                return xhr
-            } else if (win[xDomainRequest]) {
-                return new XDomainRequest()
+        xhr = function (o) {
+            // is it x-domain
+            if (o.crossDomain === true) {
+                var xhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
+                if (xhr && 'withCredentials' in xhr) {
+                    return xhr;
+                } else if (win[xDomainRequest]) {
+                    return new XDomainRequest();
+                } else {
+                    throw new Error('Browser does not support cross-origin requests');
+                }
+            } else if (win[xmlHttpRequest]) {
+                return new XMLHttpRequest();
             } else {
-                throw new Error('Browser does not support cross-origin requests')
+                return new ActiveXObject('Microsoft.XMLHTTP');
             }
-        } else if (win[xmlHttpRequest]) {
-            return new XMLHttpRequest()
-        } else {
-            return new ActiveXObject('Microsoft.XMLHTTP')
-        }
-    },
+        },
 
-    globalSetupOptions = {
-        dataFilter: function (data) {
-            return data
-        }
-    };
+        globalSetupOptions = {
+            dataFilter: function (data) {
+                return data;
+            }
+        };
 
     // IE may throw an exception when accessing
     // a field from window.location if document.domain has been set
     try {
         ajaxLocation = location.href;
-    } catch( e ) {
+    } catch (e) {
         // Use the href attribute of an A element
         // since IE will modify it given document.location
-        ajaxLocation = document.createElement( "a" );
-        ajaxLocation.href = "";
+        ajaxLocation = document.createElement('a');
+        ajaxLocation.href = '';
         ajaxLocation = ajaxLocation.href;
     }
 
     // Segment location into parts
-    ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
+    ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [];
 
     function handleReadyState(r, success, error) {
         return function () {
             // use _aborted to mitigate against IE err c00c023f
             // (can't read props on aborted request objects)
-            if (r._aborted) return error(r.request)
-            if (r.request && r.request[readyState] == 4) {
-            r.request.onreadystatechange = noop
-            if (twoHundo.test(r.request.status))
-                success(r.request)
-            else
-                error(r.request)
+            if (r._aborted) {
+                return error(r.request);
             }
-        }
+            if (r.request && r.request[readyState] === 4) {
+                r.request.onreadystatechange = noop;
+                if (twoHundo.test(r.request.status)) {
+                    success(r.request);
+                } else {
+                    error(r.request);
+                }
+            }
+        };
     }
 
     function setHeaders(http, o) {
         var headers = o.headers || {},
             h;
 
-        headers.Accept = headers.Accept
-            || defaultHeaders.accept[o.dataType]
-            || defaultHeaders.accept['*']
+        headers.Accept = headers.Accept || defaultHeaders.accept[o.dataType] || defaultHeaders.accept['*'];
 
         // breaks cross-origin requests with legacy browsers
-        if (!o.crossDomain && !headers[requestedWith]) headers[requestedWith] = defaultHeaders.requestedWith
-        if (!headers[contentType]) headers[contentType] = o.contentType || defaultHeaders.contentType
-
-        for (h in headers)
-            headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
+        if (!o.crossDomain && !headers[requestedWith]) {
+            headers[requestedWith] = defaultHeaders.requestedWith;
+        }
+        if (!headers[contentType]) {
+            headers[contentType] = o.contentType || defaultHeaders.contentType;
+        }
+        for (h in headers) {
+            if (headers.hasOwnProperty(h) && 'setRequestHeader' in http) {
+                http.setRequestHeader(h, headers[h]);
+            }
+        }
     }
 
     function setCredentials(http, o) {
         if (typeof o.withCredentials !== 'undefined' && typeof http.withCredentials !== 'undefined') {
-            http.withCredentials = !!o.withCredentials
+            http.withCredentials = !!o.withCredentials;
         }
     }
 
     function generalCallback(data) {
-        lastValue = data
+        lastValue = data;
     }
 
-    function urlappend (url, s) {
-        return url + (/\?/.test(url) ? '&' : '?') + s
+    function urlappend(url, s) {
+        return url + (/\?/.test(url) ? '&' : '?') + s;
     }
 
     function handleJsonp(o, fn, err, progress, url) {
@@ -166,18 +171,20 @@ L.DG.Ajax = (function(){
                 return false;
             }
             script.onload = script.onreadystatechange = null;
-            script.onclick && script.onclick();
+            if (script.onclick) {
+                script.onclick();
+            }
             // Call the user callback with the last value stored and clean up values and scripts.
             fn(lastValue);
             lastValue = undefined;
             head.removeChild(script);
             loaded = 1;
-        }
+        };
 
         progress();
 
         // Add the script to the DOM head
-        head.appendChild(script)
+        head.appendChild(script);
 
         // Enable JSONP timeout
         return {
@@ -188,7 +195,7 @@ L.DG.Ajax = (function(){
                 head.removeChild(script);
                 loaded = 1;
             }
-        }
+        };
     }
 
     function getRequest(fn, err, progress) {
@@ -196,20 +203,20 @@ L.DG.Ajax = (function(){
             method = (o.type || 'GET').toUpperCase(),
             url = typeof o === 'string' ? o : o.url,
             // convert non-string objects to query-string form unless o.processData is false
-            data = (o.processData !== false && o.data && typeof o.data !== 'string')
-                    ? Ajax.toQueryString(o.data)
-                    : (o.data || null),
+            data = (o.processData !== false && o.data && typeof o.data !== 'string') ? Ajax.toQueryString(o.data) : (o.data || null),
             http,
             sendWait = false;
 
         // if we're working on a GET request and we have data then we should append
         // query string to end of URL and not post data
-        if ((o.type == 'jsonp' || method == 'GET') && data) {
+        if ((o.type === 'jsonp' || method === 'GET') && data) {
             url = urlappend(url, data);
             data = null;
         }
 
-        if (o.type == 'jsonp') return handleJsonp(o, fn, err, progress, url);
+        if (o.type === 'jsonp') {
+            return handleJsonp(o, fn, err, progress, url);
+        }
 
         http = xhr(o);
         http.open(method, url, o.async === false ? false : true);
@@ -222,15 +229,17 @@ L.DG.Ajax = (function(){
             http.onerror = err;
             // NOTE: see
             // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
-            http.onprogress = function() {};
+            http.onprogress = function () {};
             sendWait = true;
         } else {
             http.onreadystatechange = handleReadyState(this, fn, err);
         }
-        progress && progress(http);
+        if (progress) {
+            progress(http);
+        }
         if (sendWait) {
             setTimeout(function () {
-                http.send(data)
+                http.send(data);
             }, 200);
         } else {
             http.send(data);
@@ -243,25 +252,26 @@ L.DG.Ajax = (function(){
             rbracket = /\[\]$/;
 
         if (isArray(obj)) {
-          // Serialize array item.
-          for (i = 0; obj && i < obj.length; i++) {
-            v = obj[i]
-            if (traditional || rbracket.test(prefix)) {
-              // Treat each array item as a scalar.
-              add(prefix, v);
-            } else {
-              buildParams(prefix + '[' + (typeof v === 'object' ? i : '') + ']', v, traditional, add);
+        // Serialize array item.
+            for (i = 0; obj && i < obj.length; i++) {
+                v = obj[i];
+                if (traditional || rbracket.test(prefix)) {
+                    // Treat each array item as a scalar.
+                    add(prefix, v);
+                } else {
+                    buildParams(prefix + '[' + (typeof v === 'object' ? i : '') + ']', v, traditional, add);
+                }
             }
-          }
         } else if (obj && obj.toString() === '[object Object]') {
-          // Serialize object item.
-          for (name in obj) {
-            buildParams(prefix + '[' + name + ']', obj[name], traditional, add);
-          }
-
+            // Serialize object item.
+            for (name in obj) {
+                if (obj.hasOwnProperty(name)) {
+                    buildParams(prefix + '[' + name + ']', obj[name], traditional, add);
+                }
+            }
         } else {
-          // Serialize scalar item.
-          add(prefix, obj);
+            // Serialize scalar item.
+            add(prefix, obj);
         }
     }
 
@@ -270,59 +280,57 @@ L.DG.Ajax = (function(){
         return m ? m[1] : 'js';
     }
 
-    function isCrossDomain( url ) {
-        var parts = rurl.exec( url.toLowerCase() );
-        return !!( parts &&
-                ( parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
-                    ( parts[ 3 ] || ( parts[ 1 ] === "http:" ? "80" : "443" ) ) !==
-                        ( ajaxLocParts[ 3 ] || ( ajaxLocParts[ 1 ] === "http:" ? "80" : "443" ) ) )
+    function isCrossDomain(url) {
+        var parts = rurl.exec(url.toLowerCase());
+        return !!(parts &&
+                (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
+                    (parts[3] || (parts[1] === 'http:' ? '80' : '443')) !==
+                        (ajaxLocParts[3] || (ajaxLocParts[1] === 'http:' ? '80' : '443')))
             );
     }
 
     function doRequest(o) {
 
-        if ('crossDomain' in o) {
-            //
-        } else {
+        if (!('crossDomain' in o)) {
             o.crossDomain = isCrossDomain(o.url);
-            // console.log('crossDomain check', o.crossDomain);
         }
 
         var self = L.DG.when.defer();
 
-        self.abort = function() {
+        self.abort = function () {
             self._aborted = true;
             self.reject('aborted');
-        }
+        };
 
         self.url = o.url;
         self.timeout = null;
         self.options = o;
 
-        self._fulfilled = false;
+        self._aborted = false;
         self._erred = false;
         self._responseArgs = {};
 
-        var self = self,
-            type = o.type == 'jsonp' ? o.type : (o.dataType || setType(self.url));
+        var type = o.type === 'jsonp' ? o.type : (o.dataType || setType(self.url));
 
         if (o.timeout) {
             self.timeout = setTimeout(function () {
                 self.abort();
-            }, o.timeout)
+            }, o.timeout);
         }
 
-        function complete (resp) {
-            o.timeout && clearTimeout(self.timeout);
+        function complete(resp) {
+            if (o.timeout) {
+                clearTimeout(self.timeout);
+            }
             self.timeout = null;
-            if (self._erred){
+            if (self._erred) {
                 self.reject(resp);
             } else {
                 self.resolve(resp);
             }
         }
 
-        function success (resp) {
+        function success(resp) {
             resp = (type !== 'jsonp') ? self.request : resp;
             // use global data filter on response text
             var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type),
@@ -333,34 +341,29 @@ L.DG.Ajax = (function(){
             } catch (e) {
                 // can't assign this in IE<=8, just ignore
             }
+            /*jshint evil:true */
             if (r) {
                 switch (type) {
-                    case 'json':
-                        try {
-                            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
-                        } catch (err) {
-                            return error(resp, 'Could not parse JSON in response', err);
-                        }
-                        break;
-                    case 'js':
-                        resp = eval(r);
-                        break;
-                    case 'html':
-                        resp = r;
-                        break;
-                    case 'xml':
-                        resp = resp.responseXML
-                                && resp.responseXML.parseError // IE trololo
-                                && resp.responseXML.parseError.errorCode
-                                && resp.responseXML.parseError.reason
-                                ? null
-                                : resp.responseXML;
-                        break;
+                case 'json':
+                    try {
+                        resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
+                    } catch (err) {
+                        return error(resp, 'Could not parse JSON in response', err);
+                    }
+                    break;
+                case 'js':
+                    resp = eval('(' + r + ')');
+                    break;
+                case 'html':
+                    resp = r;
+                    break;
+                case 'xml':
+                    resp = resp.responseXML && resp.responseXML.parseError && resp.responseXML.parseError.errorCode && resp.responseXML.parseError.reason ? null : resp.responseXML;
+                    break;
                 }
             }
-
+            /*jshint evil:false */
             self._responseArgs.resp = resp;
-            self._fulfilled = true;
             complete(resp);
         }
 
@@ -384,10 +387,10 @@ L.DG.Ajax = (function(){
 
     function Ajax(url, options) {
 
-        if ( typeof url === "object" ) {
+        if (typeof url === 'object') {
             options = url;
             url = undefined;
-        } else if ( typeof options === "object" ) {
+        } else if (typeof options === 'object') {
             options.url = url || options.url;
         }
         options = options || {};
@@ -405,36 +408,42 @@ L.DG.Ajax = (function(){
     }
 
     Ajax.setup = function (options) {
-        options = options || {}
+        options = options || {};
         for (var k in options) {
-            globalSetupOptions[k] = options[k]
+            if (options.hasOwnProperty(k)) {
+                globalSetupOptions[k] = options[k];
+            }
         }
     };
 
     Ajax.toQueryString = function (o, trad) {
-        var prefix, i
-          , traditional = trad || false
-          , s = []
-          , enc = encodeURIComponent
-          , add = function (key, value) {
+        var prefix, i,
+            traditional = trad || false,
+            s = [],
+            enc = encodeURIComponent,
+            add = function (key, value) {
                 // If value is a function, invoke it and return its value
-                value = ('function' === typeof value) ? value() : (value == null ? '' : value)
-                s[s.length] = enc(key) + '=' + enc(value)
-            }
+                value = ('function' === typeof value) ? value() : (value ? value : '');
+                s[s.length] = enc(key) + '=' + enc(value);
+            };
 
         // If an array was passed in, assume that it is an array of form elements.
         if (isArray(o)) {
-            for (i = 0; o && i < o.length; i++) add(o[i].name, o[i].value)
+            for (i = 0; o && i < o.length; i++) {
+                add(o[i].name, o[i].value);
+            }
         } else {
             // If traditional, encode the "old" way (the way 1.3.2 or older
             // did it), otherwise encode params recursively.
             for (prefix in o) {
-                buildParams(prefix, o[prefix], traditional, add)
+                if (o.hasOwnProperty(prefix)) {
+                    buildParams(prefix, o[prefix], traditional, add);
+                }
             }
         }
 
         // spaces should be + according to spec
-        return s.join('&').replace(/%20/g, '+')
+        return s.join('&').replace(/%20/g, '+');
     };
 
     return Ajax;

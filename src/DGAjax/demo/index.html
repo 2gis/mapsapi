@@ -19,7 +19,7 @@
         });
 
         console.log('test_jsonp');
-        L.DG.Ajax('http://catalog.api.2gis.ru/project/list', {
+        L.DG.ajax('http://catalog.api.2gis.ru/project/list', {
             type: 'jsonp',
             data: {
                 output: 'jsonp',
@@ -44,12 +44,12 @@
 
         function test_get(){
             console.log('test_get');
-            L.DG.Ajax('http://tiles.api.dev.test/tiles', {
+            L.DG.ajax('http://catalog.api.2gis.ru/project/list', {
                 type: 'get',
                 data: {
-                    z: 16,
-                    x: 39356,
-                    y: 21727
+                    key: 'ruxlih0718',
+                    version: 1.3,
+                    lang: 'ru'
                 },
                 success: function(data) {
                     console.log('success', data);
@@ -61,22 +61,21 @@
                     console.log('beforeSend');
                 }
             }).then(
-                function(data) { console.log('resolve', data, this) },
-                function(error) { console.log('reject', error, this) },
-                function(data) { console.log('progress', data, this) }
+                function(data) { console.log('resolve', data) },
+                function(error) { console.log('reject', error) },
+                function(data) { console.log('progress', data) }
             ).then(test_post);
         };
 
         function test_post(){
-            L.DG.Ajax('http://tiles.api.dev.test/tiles', {
-                type: 'get',
+            console.log('test_post');
+            L.DG.ajax('http://catalog.api.2gis.ru/project/list', {
+                type: 'post',
                 data: {
-                    z: 16,
-                    x: 39356,
-                    y: 21727
+                    key: 'ruxlih0718',
+                    version: 1.3,
+                    lang: 'ru'
                 },
-                contentType: 'application/json',
-                crossOrigin: true,
                 success: function(data) {
                     console.log('success', data);
                 },
@@ -87,9 +86,9 @@
                     console.log('beforeSend');
                 }
             }).then(
-                function(data) { console.log('resolve', data, this) },
-                function(error) { console.log('reject', error, this) },
-                function(data) { console.log('progress', data, this) }
+                function(data) { console.log('resolve', data) },
+                function(error) { console.log('reject', error) },
+                function(data) { console.log('progress', data) }
             );
         }
 
