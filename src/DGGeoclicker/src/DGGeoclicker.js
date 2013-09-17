@@ -16,7 +16,7 @@ L.DG.Geoclicker = L.Handler.extend({
 
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
-        this._map.dgPoi.enable();
+        //this._map.dgPoi.enable();
     },
 
     removeHooks: function () {
