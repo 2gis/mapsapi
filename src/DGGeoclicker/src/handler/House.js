@@ -134,7 +134,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._loader = null;
         this._page = 1;
         this._isListOpenNow = false;
-        this._popup.clearHeaderFooter();
+        this._popup.clear('header', 'footer');
         this._clearEventHandlers();
     },
 
@@ -172,7 +172,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _clearAndRenderPopup: function (popupObject) {
         this._clearEventHandlers();
-        this._popup.clearHeaderFooter();
+        this._popup.clear('header', 'footer');
         this._view.renderPopup(popupObject);
     },
 
