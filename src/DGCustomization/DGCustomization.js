@@ -142,6 +142,10 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return this.clear('footer');
         },
 
+        findElement: function (node) {
+            return this._contentNode.querySelector(node);
+        },
+
         scrollTo: function (to) {
             var duration = 200,
                 element = this._scroller,
