@@ -728,19 +728,13 @@ exports.build = function () {
     var modulesList,
         jsSrcContent,
         jsMinContent,
-        jsDest = config.js.custom,
-        cssDest = config.css.custom,
+        jsDest = config.js.public,
+        cssDest = config.css.public,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
         skin = argv.skin || 'default';
 
     modules = modules || getModulesData();
     copyrights = getCopyrightsData();
-
-    if (pkg === 'public') {
-        jsDest = config.js.public;
-        cssDest = config.css.public;
-        console.log('Build public GitHub full package!\n');
-    }
 
     console.log('Skin: ' + skin + '\n');
 
