@@ -68,8 +68,10 @@ L.DG.PoiStorage = L.Class.extend({
                 type: 'get',
                 dataType: 'json',
                 success : function (data) {
-                    if (!data.poi) return;
-                    self._addPoisToTile(tileId, data.poi);
+                    if (data.response.code !== 200) {
+                        return;
+                    }
+                    self._addPoisToTile(tileId, data.result.poi);
                     if (callback) {
                         callback(self._tilesPoi[tileId]);
                     }
