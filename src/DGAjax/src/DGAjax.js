@@ -387,13 +387,12 @@ L.DG.ajax = (function () {
 
     function Ajax(url, options) {
 
-        if (typeof url === 'object') {
+        if (Object.prototype.toString.call(url) === '[object Object]') {
             options = url;
             url = undefined;
-        } else if (typeof options === 'object') {
-            options.url = url || options.url;
         }
         options = options || {};
+        options.url = url || options.url;
 
         var requestPromise = doRequest(options),
             resultPromise = requestPromise.promise;
