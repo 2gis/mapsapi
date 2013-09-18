@@ -70,7 +70,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         onRemove: function (map) {
-            // this._restoreDefoptions();
             map.off('dgEntranceShow', function () {
                 map.closePopup(this);
             }, this);
