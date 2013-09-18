@@ -149,8 +149,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _showListPopup: function () {
         if (!this._firmListObject) {
             this._fillFirmListObject();
-            this._popup.fixSize();
-            this._popup.setContent('<img class = "dg-geoclicker-loader" src="__BASE_URL__/img/loader_directory.gif" />');
+            this._popup.showLoader();
         } else {
             this._clearAndRenderPopup(this._firmListObject);
         }
@@ -165,7 +164,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _showHousePopup: function () {
-        this._popup._restoreDefoptions();
         this._isListOpenNow = false;
         this._clearAndRenderPopup(this._houseObject);
     },
@@ -196,25 +194,25 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _renderFirmList: function () {
-        if (this._isListOpenNow) return;
-        this._isListOpenNow = true;
-        this._popup._restoreDefoptions();
-        if (this._onFirmListReady) {
-            this._onFirmListReady(this._firmListObject);
-            this._onFirmListReady = null;
-        } else {
-            this._clearAndRenderPopup(this._firmListObject);
-        }
+        setTimeout(function(self) {
+            if (self._isListOpenNow) return;
+            self._isListOpenNow = true;
+            if (self._onFirmListReady) {
+                self._onFirmListReady(self._firmListObject);
+                self._onFirmListReady = null;
+            } else {
+                self._clearAndRenderPopup(self._firmListObject);
+            }
 
-        if (this._totalPages === 1) {
-            this._loader && this._view.hideLoader(this._loader);
-        }
+            if (self._totalPages === 1) {
+                self._loader && self._view.hideLoader(self._loader);
+            }
 
-        this._firmList.renderList();
-        this._popup._resize();
-        this._popup.fixSize();
-        this._onScroll = L.Util.limitExecByInterval(this._handlePopupScroll, this._scrollThrottleInterval, this);
-        this._popup.on('dgScroll', this._onScroll);
+            self._firmList.renderList();
+            self._popup._resize();
+            self._onScroll = L.Util.limitExecByInterval(self._handlePopupScroll, self._scrollThrottleInterval, self);
+            self._popup.on('dgScroll', self._onScroll);
+        }, 50, this);
     },
 
     _appendFirmList: function (results) { // (Object)

@@ -58,6 +58,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         _isFooterExist: false,
         _isBaronExist: false,
 
+        _templates: __DGCustomization_TMPL__,
+
         onAdd: function (map) {
             map.on('dgEntranceShow', function () {
                 map.closePopup(this);
@@ -68,7 +70,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         },
 
         onRemove: function (map) {
-            this._restoreDefoptions();
+            // this._restoreDefoptions();
             map.off('dgEntranceShow', function () {
                 map.closePopup(this);
             }, this);
@@ -146,6 +148,15 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return this._contentNode.querySelector(node);
         },
 
+        showLoader: function (tmpl) {
+            this.clear();
+            var html = tmpl || this._templates.loader;
+
+            this._contentNode.innerHTML = html;
+
+            return this;
+        },
+
         scrollTo: function (to) {
             var duration = 200,
                 element = this._scroller,
@@ -175,24 +186,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             L.Util.requestAnimFrame(animateScroll, element);
 
             return this;
-        },
-
-        //TODO change for better aproach
-        fixSize: function () {
-            this._saveDefOptions();
-
-            this.options.minHeight = this._contentNode.offsetHeight;
-            this.options.minWidth = this._contentNode.offsetWidth;
-        },
-
-        _saveDefOptions: function () {
-            this._back.minHeight = this.options.minHeight;
-            this._back.minWidth = this.options.minWidth;
-        },
-
-        _restoreDefoptions: function () {
-            this.options.minHeight = this._back.minHeight || 0;
-            this.options.minWidth = this._back.minWidth || 0;
         },
 
         _updateScrollPosition: function () {
@@ -288,7 +281,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 barWrapper = document.createElement('div'),
                 scrollerBar = document.createElement('div'),
                 contentNode = this._contentNode,
-                footer = contentNode.querySelector('.dg-popup-footer');
+                footer = this.findElement('.dg-popup-footer');
 
             this._detachEl(this._popupStructure.body);
             scroller.setAttribute('class', 'scroller');
