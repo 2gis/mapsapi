@@ -1,9 +1,5 @@
 L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
-    statics: {
-        Dictionary: {}
-    },
-
     _page : 1,
     _isListOpenNow: false,
     _firmsOnPage: 20,
