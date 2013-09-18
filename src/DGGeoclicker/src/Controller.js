@@ -58,9 +58,10 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     handleResponse: function (result) { // (Object)
-        var type = this.findHandler(result);
+        var type;
 
         this._view.hideLoader();
+
         if (!result) {
             this._runHandler('default');
             return;
@@ -68,7 +69,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         if (result.error && result.error === 'no type') {
             return;
         }
-        while (type) {
+        while (type = this.findHandler(result)) {
             if (this._runHandler(type, result)) {
                 return;
             }

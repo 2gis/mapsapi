@@ -67,7 +67,6 @@ L.DG.PoiStorage = L.Class.extend({
             {
                 type: 'get',
                 dataType: 'json',
-                crossDomain: true,
                 success : function (data) {
                     if (!data.poi) return;
                     self._addPoisToTile(tileId, data.poi);
