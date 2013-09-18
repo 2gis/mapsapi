@@ -107,14 +107,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return this;
         },
 
-        _clearElement: function (elem) {
-            if (this._popupStructure[elem]) {
-                this['_' + elem + 'Content'] = null;
-                this._contentNode.removeChild(this._popupStructure[elem]);
-                delete this._popupStructure[elem];
-            }
-        },
-
         clear: function () {
             var i;
             if (arguments.length) {
@@ -185,6 +177,14 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             L.Util.requestAnimFrame(animateScroll, element);
 
             return this;
+        },
+
+        _clearElement: function (elem) {
+            if (this._popupStructure[elem]) {
+                this['_' + elem + 'Content'] = null;
+                this._contentNode.removeChild(this._popupStructure[elem]);
+                delete this._popupStructure[elem];
+            }
         },
 
         _updateScrollPosition: function () {
