@@ -13,7 +13,42 @@ var deps = {
             ie: ['../vendors/leaflet/dist/leaflet.ie.css']
         },
         heading: '2GIS modules',
-        deps: ['Core', 'TileLayer', 'ControlLayers', 'ControlZoom', 'Popup', 'MapDrag', 'ControlAttrib', 'Marker', 'DivIcon']
+        deps: [ 'Core',
+                'EPSG3395',
+                'TileLayer',
+                'TileLayerWMS',
+                'TileLayerCanvas',
+                'ImageOverlay',
+                'Marker',
+                'DivIcon',
+                'Popup',
+                'LayerGroup',
+                'FeatureGroup',
+                'Path',
+                'PathVML',
+                'PathCanvas',
+                'Polyline',
+                'Polygon',
+                'MultiPoly',
+                'Rectangle',
+                'Circle',
+                'CircleMarker',
+                'VectorsCanvas',
+                'GeoJSON',
+                'MapDrag',
+                'MouseZoom',
+                'TouchZoom',
+                'BoxZoom',
+                'Keyboard',
+                'MarkerDrag',
+                'ControlZoom',
+                'ControlAttrib',
+                'ControlScale',
+                'ControlLayers',
+                'AnimationPan',
+                'AnimationTimer',
+                'AnimationZoom',
+                'Geolocation']
     },
 
     DGWhen: {
@@ -52,7 +87,7 @@ var deps = {
         src: ['DGWkt/Wkt.js',
               'DGWkt/DGWkt.js'
         ],
-        deps: ['DGCore', 'GeoJSON']
+        deps: ['DGCore']
     },
 
     DGCustomization: {
@@ -93,7 +128,8 @@ var deps = {
               'DGFullScreen/lang/en.js'
         ],
         css: {
-            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css']
+            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
+            ie: ['DGFullScreen/skin/{skin}/css/DGFullScreen.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
     },
@@ -108,7 +144,8 @@ var deps = {
         desc: '2GIS tile layer module',
         src: ['DGTileLayer/src/DGTileLayer.js'],
         css: {
-            all: ['DGTileLayer/skin/{skin}/css/style.css']
+            all: ['DGTileLayer/skin/{skin}/css/style.css'],
+            ie: ['DGTileLayer/skin/{skin}/css/ie.css']
         },
         deps: ['DGCore']
     },
@@ -132,7 +169,9 @@ var deps = {
     DGGeoclicker: {
         desc: '2GIS Geoclicker.',
         css: {
-            all: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.css']
+            all: [
+                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css'
+            ]
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
@@ -152,9 +191,21 @@ var deps = {
             'DGGeoclicker/lang/ru/handler/House.js',
             'DGGeoclicker/lang/en/handler/House.js',
             'DGGeoclicker/src/View.js',
-            'DGGeoclicker/src/Controller.js'
+            'DGGeoclicker/src/Controller.js',
+
+            '../vendors/firmcard/src/FirmCard.js',
+            '../vendors/firmcard/src/FirmCard.DataHelper.js',
+            '../vendors/firmcard/src/FirmList.js',
+            '../vendors/firmcard/src/vendors/underscore1.5.1.js',
+            '../vendors/firmcard/src/vendors/momentjs/moment.min.js',
+            '../vendors/firmcard/src/vendors/momentjs/lang/moment.ru.js',
+            '../vendors/firmcard/src/vendors/momentjs/lang/moment.cs.js',
+            '../vendors/firmcard/src/vendors/momentjs/lang/moment.it.js',
+            '../vendors/firmcard/src/Schedule.js',
+            '../vendors/firmcard/src/Dictionary.js',
+
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGLabel']
     },
 
     DGTemplate: {
@@ -175,7 +226,7 @@ var deps = {
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
-        deps: ['DGCore', 'DGWkt']
+        deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     }
 };
 

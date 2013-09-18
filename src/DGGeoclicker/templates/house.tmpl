@@ -2,4 +2,6 @@
 <div class="dg-map-geoclicker-address"><%=address%></div>
 <div class="dg-map-geoclicker-purpose"><%=purpose%></div>
 <div class="dg-map-geoclicker-elevation"><%=elevation%></div>
-<div><%=link%></div>
+<div><% if(firmsCount) { %>
+	<a id="dg-showmorehouse" href="javascript:void(0)"><%=showMoreText%></a><sup><%=firmsCount%></sup>
+<% } %></div>

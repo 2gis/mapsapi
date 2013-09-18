@@ -7,12 +7,17 @@ npm-debug.log
 
 public/js/dg-map-custom-src.js
 public/js/dg-map-custom.js
+public/css/dg-map-custom-src-full.css
+public/css/dg-map-custom-src-ie.css
 public/css/dg-map-custom-src.css
+public/css/dg-map-custom-full.css
+public/css/dg-map-custom-ie.css
 public/css/dg-map-custom.css
 
 docbuilder/doc
 .jshintrc
 
 config.local.json
+.jshintrc
 
 public/dev*

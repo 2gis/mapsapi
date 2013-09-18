@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="mocha.css">
+</head>
+
+<body>
+    <script src="mocha.js"></script>
+    <script src="sinon.js"></script>
+    <script src="../src/vendors/underscore1.5.1.js"></script>
+    <script src="../src/vendors/momentjs/moment.min.js"></script>
+    <script src="../src/vendors/momentjs/lang/moment.ru.js"></script>
+    <script src="../src/vendors/momentjs/lang/moment.cs.js"></script>
+    <script src="../src/vendors/momentjs/lang/moment.it.js"></script>
+    <script src="expect.js"></script>
+
+    <script src="../src/FirmCard.js"></script>
+    <script src="../src/FirmCard.DataHelper.js"></script>
+    <script src="../src/FirmList.js"></script>
+
+    <script src="../src/Schedule.js"></script>
+    <script src="../src/Dictionary.js"></script>
+
+    <script type="text/javascript">
+        mocha.setup('bdd');
+        mocha.ignoreLeaks();
+    </script>
+
+    <div id="mocha"></div>
+
+    <script src="FirmListSpec.js"></script>
+    <script type="text/javascript">
+        mocha.run();
+    </script>
+</body>
+</html>
