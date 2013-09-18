@@ -3,15 +3,15 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     options: {
         // if handler worked successfully, it should return rendering object that will be processed in View , otherwise it should return false
         // default handler always should return rendering object
-        "handlersSequence": {
+        'handlersSequence': {
 
-            "house": L.DG.Geoclicker.Handler.House,
+            'house': L.DG.Geoclicker.Handler.House,
 
-            "street": L.DG.Geoclicker.Handler.CityArea,
-            "district": L.DG.Geoclicker.Handler.CityArea,
-            "city": L.DG.Geoclicker.Handler.CityArea,
+            'street': L.DG.Geoclicker.Handler.CityArea,
+            'district': L.DG.Geoclicker.Handler.CityArea,
+            'city': L.DG.Geoclicker.Handler.CityArea,
 
-            "default": L.DG.Geoclicker.Handler.Default
+            'default': L.DG.Geoclicker.Handler.Default
 
 //            station_platform
 //            project
@@ -33,21 +33,24 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     handlePopupClose: function (popup) { // (Object)
-        if (popup == this._view.getPopup()) {
+        if (popup === this._view.getPopup()) {
             this._lastHandleClickArguments = null;
             this._catalogApi.cancelLastRequest();
         }
     },
 
-    handleClick: function (latlng, zoom) { // (Object, Number)
+    handleClick: function (latlng, zoom, extra) { // (Object, Number, ?Object)
         var self = this,
             args = Array.prototype.slice.call(arguments, 0);
 
         this._catalogApi.getLocations({
             latlng: latlng,
             zoom: zoom,
-            callback: L.bind(this.handleResponse, this),
-            beforeRequest: function() {
+            callback: function (result) {
+                result.extra = extra;
+                self.handleResponse(result);
+            },
+            beforeRequest: function () {
                 self._view.showPopup(latlng);
                 self._lastHandleClickArguments = args;
             }
@@ -58,11 +61,12 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         var type;
 
         this._view.hideLoader();
+
         if (!result) {
             this._runHandler('default');
             return;
         }
-        if (result.error && result.error == 'no type') {
+        if (result.error && result.error === 'no type') {
             return;
         }
         while (type = this.findHandler(result)) {
