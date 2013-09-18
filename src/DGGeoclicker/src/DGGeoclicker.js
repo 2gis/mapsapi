@@ -11,65 +11,78 @@ L.DG.Geoclicker = L.Handler.extend({
         this._map = map;
         this._controller = new L.DG.Geoclicker.Controller(map);
         this._labelHelper = new L.DG.Label();
-        this._hoveredPoiId = null;
+        this._fillEventsListeners();
     },
 
     addHooks: function () {
-        this._map
-                .on("click", this._onMapClick, this)
-                .on("dblclick", this._cancelHandler, this)
-                .on('popupclose', this._onPopupClose, this)
-                .on('dgPoiHover', this._onPoiHover, this)
-                .on('dgPoiLeave', this._onPoiLeave, this);
-        this._map.dgPoi.enable();
+        this._map.on(this._mapEventsListeners, this);
+        if (!L.Browser.touch) {
+            // this._map.dgPoi.enable();
+        }
     },
 
     removeHooks: function () {
-        this._map
-                .off("click", this._onMapClick, this)
-                .off("dblclick", this._cancelHandler, this)
-                .off('popupclose', this._onPopupClose, this)
-                .off('dgPoiHover', this._onPoiHover, this)
-                .off('dgPoiLeave', this._onPoiLeave, this)
-                .off('mousemove', this._onMouseMove, this);
+        this._map.off(this._mapEventsListeners, this);
+        this._map.off('mousemove', this._onMouseMove, this);
         this._map.dgPoi.disable();
     },
 
-    getController: function() {
+    getController: function () {
         return this._controller;
     },
 
-    _onPoiHover: function (e) {
-        var poiData = this._map.dgPoi.getStorage().getPoi(e.poiId);
-        this._hoveredPoiId = e.poiId;
-        this._labelHelper
-                .setPosition(e.latlng)
-                .setContent(poiData.text);
-        this._map
-                .addLayer(this._labelHelper)
-                .on('mousemove', this._onMouseMove, this);
+    _mapEventsListeners : {
+        dgLangChange: function () {
+            this._controller.reinvokeHandler();
+        },
+
+        dblclick: function () {
+            clearTimeout(this.pendingClick);
+            this.clickCount = 0;
+        },
+
+        popupclose: function (e) { // (Object)
+            this._controller.handlePopupClose(e.popup);
+        },
+
+        dgPoiHover: function (e) { // (Object)
+            this._labelHelper
+                    .setPosition(e.latlng)
+                    .setContent(e.poi.linked.name);
+            this._map
+                    .on('mousemove', this._onMouseMove, this)
+                    .addLayer(this._labelHelper);
+            this._setCursor('pointer');
+        },
+
+        dgPoiLeave: function () {
+            this._map
+                .off('mousemove', this._onMouseMove, this)
+                .removeLayer(this._labelHelper);
+            this._setCursor('auto');
+        }
     },
 
-    _onMouseMove: function(e){
-        this._labelHelper.setPosition( e.latlng );
+    _fillEventsListeners: function () {
+        this._mapEventsListeners.click = this._mapEventsListeners.dgPoiClick = this._onClick;
     },
 
-    _onPoiLeave: function () {
-        this._hoveredPoiId = null;
-        this._map
-                .removeLayer(this._labelHelper)
-                .off('mousemove', this._onMouseMove, this);
-    },
-
-    _onMapClick: function (e) { // (Object)
-
-        if  (this.clickCount === 0) {
+    _onClick: function (e) { // (Object)
+        if (this.clickCount === 0) {
             this.clickCount = 1;
             this._singleClick(e);
         }
     },
 
-    _singleClick: function (e) {
+    _setCursor: function (cursor) { // (String)
+        this._map.getContainer().style.cursor = cursor;
+    },
+
+    _onMouseMove: function (e) { // (Object)
+        this._labelHelper.setPosition(e.latlng);
+    },
+
+    _singleClick: function (e) { // (Object)
         var self = this;
 
         clearTimeout(this.pendingClick);
@@ -77,18 +90,10 @@ L.DG.Geoclicker = L.Handler.extend({
         this.pendingClick = setTimeout(function () {
             var zoom = e.target._zoom,
                 latlng = e.latlng;
-                self._controller.handleClick(latlng, zoom, { poiId : self._hoveredPoiId });
-                self.clickCount = 0;
+
+            self._controller.handleClick(latlng, zoom, { poiId : e.poi ? e.poi.linked.id : null });
+            self.clickCount = 0;
         }, this.timeout);
-    },
-
-    _cancelHandler: function () {
-        clearTimeout(this.pendingClick);
-        this.clickCount = 0;
-    },
-
-    _onPopupClose: function (e) { // (Object)
-        this._controller.handlePopupClose(e.popup);
     }
 });
 

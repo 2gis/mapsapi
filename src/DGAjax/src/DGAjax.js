@@ -1,93 +1,116 @@
 
-L.DG.Ajax = (function(){
+L.DG.ajax = (function(){
 
-  var win = window,
-      doc = document,
-      twoHundo = /^20\d$/,
-      byTag = 'getElementsByTagName',
-      readyState = 'readyState',
-      contentType = 'Content-Type',
-      requestedWith = 'X-Requested-With',
-      head = doc[byTag]('head')[0],
-      uniqid = 0,
-      callbackPrefix = 'l_dg_ajax_callback_' + (+new Date()),
-      lastValue, // data stored by the most recent JSONP callback
-      xmlHttpRequest = 'XMLHttpRequest',
-      xDomainRequest = 'XDomainRequest',
-      noop = function () {},
+    var win = window,
+        doc = document,
 
-      isArray = typeof Array.isArray == 'function'
-        ? Array.isArray
-        : function (a) {
-            return a instanceof Array
-          },
+        rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+        twoHundo = /^20\d$/,
 
-      defaultHeaders = {
-          contentType: 'application/x-www-form-urlencoded',
-          requestedWith: xmlHttpRequest,
-          accept: {
-            '*':  'text/javascript, text/html, application/xml, text/xml, */*',
-            xml:  'application/xml, text/xml',
-            html: 'text/html',
-            text: 'text/plain',
-            json: 'application/json, text/javascript',
-            js:   'application/javascript, text/javascript'
-          }
-      },
+        // Document location
+        ajaxLocParts,
+        ajaxLocation,
 
-      xhr = function(o) {
+        byTag = 'getElementsByTagName',
+        readyState = 'readyState',
+        contentType = 'Content-Type',
+        requestedWith = 'X-Requested-With',
+        head = doc[byTag]('head')[0],
+        uniqid = 0,
+        callbackPrefix = 'l_dg_ajax_callback_' + (+new Date()),
+        lastValue, // data stored by the most recent JSONP callback
+        xmlHttpRequest = 'XMLHttpRequest',
+        xDomainRequest = 'XDomainRequest',
+        noop = function () {},
+
+        isArray = typeof Array.isArray == 'function'
+                ? Array.isArray
+                : function (a) {
+                    return a instanceof Array
+                },
+
+        defaultHeaders = {
+            contentType: 'application/x-www-form-urlencoded',
+            requestedWith: xmlHttpRequest,
+            accept: {
+                '*':  'text/javascript, text/html, application/xml, text/xml, */*',
+                xml:  'application/xml, text/xml',
+                html: 'text/html',
+                text: 'text/plain',
+                json: 'application/json, text/javascript',
+                js:   'application/javascript, text/javascript'
+            }
+        },
+
+    xhr = function(o) {
         // is it x-domain
-        if (o.crossOrigin === true) {
-          var xhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null
-          if (xhr && 'withCredentials' in xhr) {
-            return xhr
-          } else if (win[xDomainRequest]) {
-            return new XDomainRequest()
-          } else {
-            throw new Error('Browser does not support cross-origin requests')
-          }
+        if (o.crossDomain === true) {
+            var xhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null
+            if (xhr && 'withCredentials' in xhr) {
+                return xhr
+            } else if (win[xDomainRequest]) {
+                return new XDomainRequest()
+            } else {
+                throw new Error('Browser does not support cross-origin requests')
+            }
         } else if (win[xmlHttpRequest]) {
-          return new XMLHttpRequest()
+            return new XMLHttpRequest()
         } else {
-          return new ActiveXObject('Microsoft.XMLHTTP')
+            return new ActiveXObject('Microsoft.XMLHTTP')
         }
-      },
+    },
 
-      globalSetupOptions = {
+    globalSetupOptions = {
         dataFilter: function (data) {
-          return data
+            return data
         }
-      };
+    };
 
-  function handleReadyState(r, success, error) {
-    return function () {
-      // use _aborted to mitigate against IE err c00c023f
-      // (can't read props on aborted request objects)
-      if (r._aborted) return error(r.request)
-      if (r.request && r.request[readyState] == 4) {
-        r.request.onreadystatechange = noop
-        if (twoHundo.test(r.request.status))
-          success(r.request)
-        else
-          error(r.request)
-      }
+    // IE may throw an exception when accessing
+    // a field from window.location if document.domain has been set
+    try {
+        ajaxLocation = location.href;
+    } catch( e ) {
+        // Use the href attribute of an A element
+        // since IE will modify it given document.location
+        ajaxLocation = document.createElement( "a" );
+        ajaxLocation.href = "";
+        ajaxLocation = ajaxLocation.href;
     }
-  }
 
-  function setHeaders(http, o) {
-    var headers = o.headers || {}
-      , h
+    // Segment location into parts
+    ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
 
-    headers.Accept = headers.Accept
-      || defaultHeaders.accept[o.type]
-      || defaultHeaders.accept['*']
+    function handleReadyState(r, success, error) {
+        return function () {
+            // use _aborted to mitigate against IE err c00c023f
+            // (can't read props on aborted request objects)
+            if (r._aborted) return error(r.request)
+            if (r.request && r.request[readyState] == 4) {
+            r.request.onreadystatechange = noop
+            if (twoHundo.test(r.request.status))
+                success(r.request)
+            else
+                error(r.request)
+            }
+        }
+    }
 
-    // breaks cross-origin requests with legacy browsers
-    if (!o.crossOrigin && !headers[requestedWith]) headers[requestedWith] = defaultHeaders.requestedWith
-    if (!headers[contentType]) headers[contentType] = o.contentType || defaultHeaders.contentType
-    for (h in headers)
-      headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
-  }
+    function setHeaders(http, o) {
+        var headers = o.headers || {},
+            h;
+
+        headers.Accept = headers.Accept
+            || defaultHeaders.accept[o.dataType]
+            || defaultHeaders.accept['*']
+
+        // breaks cross-origin requests with legacy browsers
+        if (!o.crossDomain && !headers[requestedWith]) headers[requestedWith] = defaultHeaders.requestedWith
+        if (!headers[contentType]) headers[contentType] = o.contentType || defaultHeaders.contentType
+
+        for (h in headers)
+            headers.hasOwnProperty(h) && 'setRequestHeader' in http && http.setRequestHeader(h, headers[h])
+    }
 
     function setCredentials(http, o) {
         if (typeof o.withCredentials !== 'undefined' && typeof http.withCredentials !== 'undefined') {
@@ -170,7 +193,7 @@ L.DG.Ajax = (function(){
 
     function getRequest(fn, err, progress) {
         var o = this.options,
-            method = (o.method || 'GET').toUpperCase(),
+            method = (o.type || 'GET').toUpperCase(),
             url = typeof o === 'string' ? o : o.url,
             // convert non-string objects to query-string form unless o.processData is false
             data = (o.processData !== false && o.data && typeof o.data !== 'string')
@@ -190,8 +213,10 @@ L.DG.Ajax = (function(){
 
         http = xhr(o);
         http.open(method, url, o.async === false ? false : true);
+
         setHeaders(http, o);
         setCredentials(http, o);
+
         if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
             http.onload = fn;
             http.onerror = err;
@@ -202,8 +227,7 @@ L.DG.Ajax = (function(){
         } else {
             http.onreadystatechange = handleReadyState(this, fn, err);
         }
-        // console.log(o);
-        // o.before && o.before(http);
+        progress && progress(http);
         if (sendWait) {
             setTimeout(function () {
                 http.send(data)
@@ -246,28 +270,44 @@ L.DG.Ajax = (function(){
         return m ? m[1] : 'js';
     }
 
-    function init(o) {
+    function isCrossDomain( url ) {
+        var parts = rurl.exec( url.toLowerCase() );
+        return !!( parts &&
+                ( parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
+                    ( parts[ 3 ] || ( parts[ 1 ] === "http:" ? "80" : "443" ) ) !==
+                        ( ajaxLocParts[ 3 ] || ( ajaxLocParts[ 1 ] === "http:" ? "80" : "443" ) ) )
+            );
+    }
 
-        this.url = typeof o == 'string' ? o : o.url;
-        this.timeout = null;
-        this.options = o;
+    function doRequest(o) {
 
-        // whether request has been fulfilled for purpose
-        // of tracking the Promises
-        this._fulfilled = false;
-        this._erred = false;
-        this._responseArgs = {};
-
-        this.abort = function () {
-            this._aborted = true
-            this.request.abort();
+        if ('crossDomain' in o) {
+            //
+        } else {
+            o.crossDomain = isCrossDomain(o.url);
+            // console.log('crossDomain check', o.crossDomain);
         }
 
-        var self = this,
-            type = o.type || setType(this.url);
+        var self = L.DG.when.defer();
+
+        self.abort = function() {
+            self._aborted = true;
+            self.reject('aborted');
+        }
+
+        self.url = o.url;
+        self.timeout = null;
+        self.options = o;
+
+        self._fulfilled = false;
+        self._erred = false;
+        self._responseArgs = {};
+
+        var self = self,
+            type = o.type == 'jsonp' ? o.type : (o.dataType || setType(self.url));
 
         if (o.timeout) {
-            this.timeout = setTimeout(function () {
+            self.timeout = setTimeout(function () {
                 self.abort();
             }, o.timeout)
         }
@@ -275,10 +315,11 @@ L.DG.Ajax = (function(){
         function complete (resp) {
             o.timeout && clearTimeout(self.timeout);
             self.timeout = null;
-            if (self._erred)
+            if (self._erred){
                 self.reject(resp);
-            else
+            } else {
                 self.resolve(resp);
+            }
         }
 
         function success (resp) {
@@ -333,27 +374,34 @@ L.DG.Ajax = (function(){
         }
 
         function progress() {
-            console.log( self );
             self.notify.call(self, arguments);
         }
 
-        this.request = getRequest.call(this, success, error, progress);
+        self.request = getRequest.call(self, success, error, progress);
+
+        return self;
     }
 
-    function Ajax(url, options, fn) {
-        var reqDeffered = L.DG.when.defer(),
-            promise = reqDeffered.promise;
+    function Ajax(url, options) {
 
-        options = options || {}
-        options.url = url;
-        setTimeout(function(){
-            init.call(reqDeffered, options)
-        }, 1);
-        console.log(options);
-        console.log(reqDeffered);
-        console.log(reqDeffered.promise);
-        reqDeffered.promise.abort = reqDeffered.abort;
-        return reqDeffered.promise;
+        if ( typeof url === "object" ) {
+            options = url;
+            url = undefined;
+        } else if ( typeof options === "object" ) {
+            options.url = url || options.url;
+        }
+        options = options || {};
+
+        var requestPromise = doRequest(options),
+            resultPromise = requestPromise.promise;
+
+        if (options.success || options.error || options.progress) {
+            resultPromise.then(options.success, options.error, options.progress);
+        }
+
+        resultPromise.abort = requestPromise.abort;
+
+        return resultPromise;
     }
 
     Ajax.setup = function (options) {

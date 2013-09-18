@@ -36,126 +36,357 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
-        originalSetContent = L.Popup.prototype.setContent,
         originalOnAdd = L.Popup.prototype.onAdd,
-        graf = baron.noConflict(),
-        baronInstance,
-        tmpl = __DGCustomization_TMPL__;
+        originalOnRemove = L.Popup.prototype.onRemove,
+        graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
-    L.Popup.prototype.onAdd = function (map) {
-        map.on('dgEntranceShow', function() {
-            map.closePopup(this);
-        }, this);
+    L.Popup.include({
+        _headerContent: null,
+        _footerContent: null,
+        _back: {},
+        //baron elements references
+        _scroller: null,
+        _scrollerBar: null,
+        _barWrapper: null,
+        _baron: null,
 
-        return originalOnAdd.call(this, map);
-    };
+        //structure flags
+        _isHeaderExist: false,
+        _isBodyExist: false,
+        _isFooterExist: false,
+        _isBaronExist: false,
 
-    L.Popup.prototype.setContent = function (content) {
-        this._shouldInitPopupContainer = true;
-        this._shouldInitBaronScroller = true;
-        return originalSetContent.call(this, content);
-    };
+        onAdd: function (map) {
+            map.on('dgEntranceShow', function() {
+                map.closePopup(this);
+            }, this);
+            this._popupStructure = {};
 
-    L.Popup.prototype.setHeaderContent = function(content) {
-        this._headerContent = content;
-    };
+            return originalOnAdd.call(this, map);
+        },
 
-    L.Popup.prototype.setFooterContent = function(content) {
-        this._footerContent = content;
-    };
+        onRemove: function (map) {
+            this._restoreDefoptions();
+            map.off('dgEntranceShow', function() {
+                map.closePopup(this);
+            }, this);
 
-    L.Popup.prototype._shouldInitHeaderFooter = function() {
-        return !!(this._headerContent && this._footerContent);
-    };
+            return originalOnRemove.call(this, map);
+        },
 
-    L.Popup.prototype._initHeaderFooter = function() {
-        this._content = L.Util.template(tmpl.header, {headerContent: this._headerContent, content: this._content});
-        this._content += L.Util.template(tmpl.footer, {footerContent: this._footerContent});
-    };
+        setContent: function (content) {
+            this._bodyContent = content;
+            this._update();
 
-    L.Popup.prototype.clearHeaderFooter = function() {
-        this._footerContent = undefined;
-        this._headerContent = undefined;
-    };
+            return this;
+        },
 
-    L.Popup.prototype._initPopupContainer = function () {
-        this._content = L.Util.template(tmpl.container, {content: this._content});
-        this._shouldInitPopupContainer = false;
-    };
+        setHeaderContent: function (content) {
+            this._headerContent = content;
+            this._update();
 
-    L.Popup.prototype._initBaronScroller = function () {
-        this._content = L.Util.template(tmpl.baron, {content: this._originalContent});
-        this._shouldInitBaronScroller = false;
-    };
+            return this;
+        },
 
-    L.Popup.prototype.updateScrollPosition = function() {
-        baronInstance && baronInstance.update();
-    };
+        setFooterContent: function (content) {
+            this._footerContent = content;
+            this._update();
 
-    L.Popup.prototype._update = function () {
-        var shouldInitBaron;
+            return this;
+        },
 
-        if (!this._map) {
-            return;
-        }
+        clearHeaderFooter: function() {
+            this.clearHeader();
+            this.clearFooter();
+            // think about remove this set to another public method
+            this._isBaronExist = false;
+            return this;
+        },
 
-        this._container.style.visibility = 'hidden';
-
-        if (this._shouldInitPopupContainer) {
-            this._originalContent =  this._content;
-            this._initPopupContainer();
-        }
-        this._updateContent();
-        this._updateLayout();
-        this._updatePosition();
-
-        shouldInitBaron = this._shouldInitBaron();
-
-        if (shouldInitBaron) {
-            if (this._shouldInitBaronScroller) {
-                this._initBaronScroller();
-                if (this._shouldInitHeaderFooter()) {
-                    this._initHeaderFooter();
-                }
-                this._updateContent();
+        clearHeader: function () {
+            if (this._popupStructure.header) {
+                this._headerContent = null;
+                this._contentNode.removeChild(this._popupStructure.header);
+                delete this._popupStructure.header;
             }
-            this._initBaron();
-        } else if (this._shouldInitHeaderFooter()) {
-            this._initHeaderFooter();
-            this._updateContent();
-        }
-        L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
-        this._container.style.visibility = '';
-        this._adjustPan();
-    };
+            return this;
+        },
 
-    L.Popup.prototype._shouldInitBaron = function () {
-        var popupHeight = this._contentNode.offsetHeight,
-            maxHeight = this.options.maxHeight;
+        clearFooter: function () {
+            if (this._popupStructure.footer) {
+                this._footerContent = null;
+                this._contentNode.removeChild(this._popupStructure.footer);
+                delete this._popupStructure.footer;
+            }
+
+            return this;
+        },
+
+        scrollTo: function(to) {
+            var duration = 200,
+                element = this._scroller,
+                start = element.scrollTop,
+                change = to - start
+                startTime = null;
+
+            var ease = function (t, b, c, d) {
+                return -c *(t/=d)*(t-2) + b;
+            };
+
+            var animateScroll = function(currentTime){
+                currentTime = currentTime ? currentTime : (new Date()).getTime();
+                if (!startTime) startTime = currentTime;
+                var timeFrame = currentTime - startTime;
+
+                element.scrollTop = ease(timeFrame, start, change, duration);
+
+                if (currentTime - startTime < duration) {
+                    L.Util.requestAnimFrame(arguments.callee, element);
+                } else {
+                    element.scrollTop = to;
+                }
+            };
+            L.Util.requestAnimFrame(animateScroll, element);
+
+            return this;
+        },
+
+        //TODO change for better aproach
+        fixSize: function () {
+            this._saveDefOptions();
+
+            this.options.minHeight = this._contentNode.offsetHeight;
+            this.options.minWidth = this._contentNode.offsetWidth;
+            this.options.maxWidth = this._contentNode.offsetWidth;
+        },
+
+        _saveDefOptions: function () {
+            this._back.minHeight = this.options.minHeight;
+            this._back.minWidth = this.options.minWidth;
+            this._back.maxWidth = this.options.maxWidth;
+        },
+
+        _restoreDefoptions: function () {
+            this.options.minHeight = this._back.minHeight || 0;
+            this.options.minWidth = this._back.minWidth || 0;
+            this.options.maxWidth = this._back.maxWidth;
+        },
+
+        _updateScrollPosition: function() {
+            this._baron && this._baron.update();
+        },
+
+        _resize: function () {
+            var isBaronExist = this._isBaronExist,
+                scrollTop = isBaronExist ? this._scroller.scrollTop : false,
+                shouldShowBaron;
+
+            this._updateLayout();
+            this._updatePosition();
+
+            shouldShowBaron = this._isContentHeightFit();
+            if (shouldShowBaron) {
+                if (!isBaronExist) {
+                    this._initBaronScroller();
+                    this._initBaron();
+                } else {
+                    L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
+                    L.DomUtil.addClass(this._scroller, 'scroller-with-header');
+                    L.DomUtil.addClass(this._scroller, 'scroller');
+                    if (scrollTop) this._scroller.scrollTop = scrollTop;
+                    this._updateScrollPosition();
+                }
+            } else {
+                if (isBaronExist){
+                    L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
+                    L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
+                    L.DomUtil.removeClass(this._scroller, 'scroller');
+                }
+            }
+
+            this._adjustPan();
+        },
+
+        _isContentHeightFit: function () {
+            var popupHeight = this._contentNode.offsetHeight,
+                maxHeight = this.options.maxHeight;
 
             return (maxHeight && maxHeight <= popupHeight);
-    };
+        },
 
-    L.Popup.prototype._initBaron = function () {
+        _initBaron: function () {
+            this._baron = graf({
+                scroller: '.scroller',
+                bar: '.scroller__bar',
+                track: '.scroller__bar-wrapper',
+                $: function(selector, context) {
+                  return bonzo(qwery(selector, context));
+                },
+                event: function(elem, event, func, mode) {
+                    if (mode == 'trigger') {
+                    mode = 'fire';
+                    }
+                    bean[mode || 'on'](elem, event, func);
+                }
+            });
+        },
 
-        baronInstance = graf({
-            scroller: '.scroller',
-            bar: '.scroller__bar',
-            track: '.scroller__bar-wrapper',
-            $: function(selector, context) {
-              return bonzo(qwery(selector, context));
-            },
-            event: function(elem, event, func, mode) {
-              if (mode == 'trigger') {
-                mode = 'fire';
-              }
-              bean[mode || 'on'](elem, event, func);
+        _initHeader: function () {
+            var headerContainer = document.createElement('div');
+            headerContainer.setAttribute('class', 'dg-popup-header');
+            this._contentNode.appendChild(headerContainer);
+
+            this._popupStructure.header = headerContainer;
+            this._isHeaderExist = true;
+        },
+
+        _initFooter: function () {
+            var footerContainer = document.createElement('div');
+            footerContainer.setAttribute('class', 'dg-popup-footer');
+            this._contentNode.appendChild(footerContainer);
+
+            this._popupStructure.footer = footerContainer;
+            this._isFooterExist = true;
+        },
+
+        _initBodyContainer: function () {
+            var container = document.createElement('div');
+            container.setAttribute('class', 'dg-popup-container');
+            this._contentNode.appendChild(container);
+
+            this._popupStructure.body = container;
+            this._isBodyExist = true;
+        },
+
+        _initBaronScroller: function () {
+            var scroller = document.createElement('div'),
+                barWrapper = document.createElement('div'),
+                scrollerBar = document.createElement('div'),
+                contentNode = this._contentNode,
+                footer = contentNode.querySelector('.dg-popup-footer'),
+                self = this;
+
+            this._detachEl(this._popupStructure.body);
+            scroller.setAttribute('class', 'scroller');
+            barWrapper.setAttribute('class', 'scroller__bar-wrapper');
+            scrollerBar.setAttribute('class', 'scroller__bar');
+
+            if (this._isFooterExist || this._isHeaderExist) {
+                scroller.className += ' scroller-with-header';
             }
-        });
-    };
+
+            barWrapper.appendChild(scrollerBar);
+            scroller.appendChild(this._popupStructure.body);
+            scroller.appendChild(barWrapper);
+
+            contentNode.insertBefore(scroller, footer);
+
+            this._scroller = scroller;
+            this._scrollerBar = scrollerBar;
+            this._barWrapper = barWrapper;
+            this._isBaronExist = true;
+
+            L.DomEvent.on(this._scroller, 'scroll', this._onScroll, this);
+        },
+
+        _onScroll: function (event) {
+            this.fire('dgScroll', {originalEvent: event});
+        },
+
+        _update: function () {
+            if (!this._map) { return; }
+
+            this._container.style.visibility = 'hidden';
+
+            this._clearStructure(this._contentNode);
+            this._isHeaderExist = false;
+            this._isBodyExist = false;
+            this._isFooterExist = false;
+
+            //init popup content dom structure
+            this._headerContent && this._initHeader();
+            this._bodyContent && this._initBodyContainer();
+            this._footerContent && this._initFooter();
+
+            this._updatePopupStructure();
+            this._resize();
+            // Delete this if fixed in new leaflet version (> 0.6.2)
+            L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
+
+            this._container.style.visibility = '';
+        },
+
+        _updateLayout: function () {
+            var container = this._contentNode,
+                style = container.style;
+
+            style.width = '';
+            style.whiteSpace = 'nowrap';
+
+            var width = container.offsetWidth;
+            width = Math.min(width, this.options.maxWidth);
+            width = Math.max(width, this.options.minWidth);
+
+            style.width = width + 'px';
+            style.whiteSpace = '';
+
+            style.height = '';
+
+            var height = container.offsetHeight,
+                maxHeight = this.options.maxHeight,
+                minHeight = this.options.minHeight || 0,
+                scrolledClass = 'leaflet-popup-scrolled';
+
+            if (maxHeight && height > maxHeight) {
+                style.height = maxHeight + 'px';
+                L.DomUtil.addClass(container, scrolledClass);
+            } else {
+                style.height = Math.max(height, minHeight) + 'px';
+                L.DomUtil.removeClass(container, scrolledClass);
+            }
+            this._containerWidth = this._container.offsetWidth;
+        },
+
+        _updatePopupStructure: function () {
+            var popupStructure = this._popupStructure;
+
+            for (var i in popupStructure) {
+                if (popupStructure.hasOwnProperty(i)) {
+                    this._insertContent(this['_'+ i +'Content'], popupStructure[i]);
+                }
+            }
+
+            this.fire('contentupdate');
+        },
+
+        _insertContent: function (content, node) {
+            if (!content) { return; }
+
+            if (typeof content === 'string') {
+                node.innerHTML = content;
+            } else {
+                if (!node) { return; }
+
+                this._clearStructure(node);
+                node.appendChild(content);
+            }
+        },
+
+        _clearStructure: function (node) {
+            while (node.hasChildNodes()) {
+                node.removeChild(node.firstChild);
+            }
+        },
+
+        _detachEl: function (elem) {
+            if (elem.parentNode) {
+                elem.parentNode.removeChild(elem);
+            }
+        }
+    });
 }());
 
 L.Map.include({
@@ -191,12 +422,12 @@ L.Map.include({
             this.removeLayer(popup);
             popup._isOpen = false;
         }
+
         return this;
     }
 });
 
 // Applies 2GIS divIcon to marker
-
 L.Marker.prototype.options.icon = L.DG.divIcon();
 
 // Adds posibility to change max zoom level

@@ -3,15 +3,15 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     options: {
         // if handler worked successfully, it should return rendering object that will be processed in View , otherwise it should return false
         // default handler always should return rendering object
-        "handlersSequence": {
+        'handlersSequence': {
 
-            "house": L.DG.Geoclicker.Handler.House,
+            'house': L.DG.Geoclicker.Handler.House,
 
-            "street": L.DG.Geoclicker.Handler.CityArea,
-            "district": L.DG.Geoclicker.Handler.CityArea,
-            "city": L.DG.Geoclicker.Handler.CityArea,
+            'street': L.DG.Geoclicker.Handler.CityArea,
+            'district': L.DG.Geoclicker.Handler.CityArea,
+            'city': L.DG.Geoclicker.Handler.CityArea,
 
-            "default": L.DG.Geoclicker.Handler.Default
+            'default': L.DG.Geoclicker.Handler.Default
 
 //            station_platform
 //            project
@@ -28,25 +28,31 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._catalogApi = new L.DG.Geoclicker.Provider.CatalogApi(map);
         this._map = map;
         this._view = new L.DG.Geoclicker.View(map);
+
+        this._lastHandleClickArguments = null;
     },
 
     handlePopupClose: function (popup) { // (Object)
-        if (popup == this._view.getPopup()) {
+        if (popup === this._view.getPopup()) {
+            this._lastHandleClickArguments = null;
             this._catalogApi.cancelLastRequest();
         }
     },
 
-    handleClick: function (latlng, zoom) { // (Object, Number)
-        var callback = L.bind(this.handleResponse, this),
-            self = this;
+    handleClick: function (latlng, zoom, extra) { // (Object, Number, ?Object)
+        var self = this,
+            args = Array.prototype.slice.call(arguments, 0);
 
         this._catalogApi.getLocations({
             latlng: latlng,
             zoom: zoom,
-            callback: callback,
-            showLoaderAndPopup: function() {
-                self._view.showLoader();
+            callback: function (result) {
+                result.extra = extra;
+                self.handleResponse(result);
+            },
+            beforeRequest: function () {
                 self._view.showPopup(latlng);
+                self._lastHandleClickArguments = args;
             }
         });
     },
@@ -55,11 +61,12 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         var type;
 
         this._view.hideLoader();
+
         if (!result) {
             this._runHandler('default');
             return;
         }
-        if (result.error && result.error == 'no type') {
+        if (result.error && result.error === 'no type') {
             return;
         }
         while (type = this.findHandler(result)) {
@@ -73,9 +80,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     },
 
     findHandler: function (result) { // (Object) -> String|Null
-        var i;
-
-        for (i in this.options.handlersSequence) {
+        for (var i in this.options.handlersSequence) {
             if (result[i]) {
                 return i;
             }
@@ -84,30 +89,34 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         return null;
     },
 
-    getCatalogApi: function() { // () -> Object
+    getCatalogApi: function () { // () -> Object
         return this._catalogApi;
     },
 
-    getMap: function() {
+    getMap: function () {
         return this._map;
     },
 
-    _runHandler: function(type, data) { // (String, Object) -> Boolean
-        data = data || {};
-        this._ensureHandlerIsInit(type);
-        var result = this._handlers[type].handle(data, type);
-        if (result) {
-            this._view.renderPopup(result);
-            return true;
+    reinvokeHandler: function () {
+        if (this._lastHandleClickArguments) {
+            this.handleClick.apply(this, this._lastHandleClickArguments);
         }
-
-        return false;
     },
 
-    _ensureHandlerIsInit: function (type) { // (String)
+    _runHandler: function (type, data) { // (String, Object) -> Boolean
+        data = data || {};
+        this._initHandlerOnce(type);
+
+        return this._handlers[type].handle(data, type, L.bind(this._renderHandlerResult, this));
+    },
+
+    _renderHandlerResult: function (result) {
+        this._view.renderPopup(result);
+    },
+
+    _initHandlerOnce: function (type) { // (String)
         if (!this._handlers[type]) {
             this._handlers[type] = new this.options.handlersSequence[type](this, this._view, this._map);
         }
     }
-
 });

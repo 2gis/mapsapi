@@ -64,8 +64,7 @@ L.DG.when = (function (global) {
 		 * @param [onProgress] {Function} progress handler
 		 * @return {Promise} new Promise
 		 */
-		then: function(onFulfilled, onRejected, onProgress) {
-			/*jshint unused:false */
+		then: function() { /* onFulfilled, onRejected, onProgress */
 			var args, sendMessage;
 
 			args = arguments;
