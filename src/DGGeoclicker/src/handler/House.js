@@ -20,7 +20,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmListObject = null;
         this._id = results.house.id;
         this._totalPages = 1;
-        //this._defaultFirm = 141265771962688; // TODO Remove this mock for filial click tests
+        this._defaultFirm = results.extra && results.extra.poiId ? results.extra.poiId : null;
 
         this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
