@@ -776,8 +776,6 @@ li.dg-map-firm-address .note {
 */
 
 .dg-geoclicker-loader {
-/*    margin: 0 auto !important;
-    display: block;*/
     position: absolute;
     top: 50%;
     left: 50%;
