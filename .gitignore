@@ -5,14 +5,8 @@
 node_modules
 npm-debug.log
 
-public/js/dg-map-custom-src.js
-public/js/dg-map-custom.js
-public/css/dg-map-custom-src-full.css
-public/css/dg-map-custom-src-ie.css
-public/css/dg-map-custom-src.css
-public/css/dg-map-custom-full.css
-public/css/dg-map-custom-ie.css
-public/css/dg-map-custom.css
+public/js/*
+public/css/*
 
 docbuilder/doc
 .jshintrc
