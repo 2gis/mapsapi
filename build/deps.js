@@ -98,7 +98,11 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            'DGCustomization/DGCustomization.js'
+            'DGCustomization/DGCustomization.js',
+            'DGCustomization/lang/ru.js',
+            'DGCustomization/lang/it.js',
+            'DGCustomization/lang/cs.js',
+            'DGCustomization/lang/en.js'
         ],
         css: {
             all: [

@@ -4,12 +4,14 @@ L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
 
-L.Control.Zoom.include({
-    include: L.DG.Locale,
-    statics: {
-        Dictionary: {}
-    }
-});
+(function () {
+    L.Control.Zoom.include({
+        include: L.DG.Locale,
+        statics: {
+            Dictionary: {}
+        }
+    });
+})();
 
 // TODO: think about pull request to leaflet with zoom control button's titles as options
 
