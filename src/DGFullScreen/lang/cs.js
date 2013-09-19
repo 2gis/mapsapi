@@ -1,4 +1,4 @@
 L.DG.FullScreen.Dictionary.cs = {
-    "title_max" : "cs - Expand",
-    "title_min" : "cs - Restore"
+    "title_max" : "Rozbalit",
+    "title_min" : "Obnovit"
 };

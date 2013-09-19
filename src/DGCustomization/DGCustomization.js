@@ -4,6 +4,13 @@ L.Control.Zoom.prototype.options = {
     position: L.DG.configTheme.controls.zoom.position
 };
 
+L.Control.Zoom.include({
+    include: L.DG.Locale,
+    statics: {
+        Dictionary: {}
+    }
+});
+
 // TODO: think about pull request to leaflet with zoom control button's titles as options
 
 L.Control.Zoom.prototype.onAdd = function (map) {
@@ -12,8 +19,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
 
     this._map = map;
-    this._zoomInButton = this._createButton('+', 'Приблизить', zoomName + '__in', container, this._zoomIn, this);
-    this._zoomOutButton = this._createButton('-', 'Отдалить', zoomName + '__out', container, this._zoomOut, this);
+    this._zoomInButton = this._createButton('+', this.t('zoom-in'), zoomName + '__in', container, this._zoomIn, this);
+    this._zoomOutButton = this._createButton('-', this.t('zoom-out'), zoomName + '__out', container, this._zoomOut, this);
 
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
     map.on('dgProjectLeave', function() {
