@@ -1,4 +1,4 @@
-var FirmCard = function(firm, options) {
+var FirmCard = function (firm, options) {
     var type;
 
     options = options || {};
@@ -13,9 +13,9 @@ var FirmCard = function(firm, options) {
     });
     type = Object.prototype.toString.call(firm);
 
-    if ("[object Object]" === type) {
+    if ('[object Object]' === type) {
         this._firmData = firm;
-        this._id = firm.id.split("_").shift();
+        this._id = firm.id.split('_').shift();
     } else {
         this._renderFullCardById(firm);
     }
@@ -23,19 +23,19 @@ var FirmCard = function(firm, options) {
 
 FirmCard.prototype = {
 
-    getContainer: function() {
+    getContainer: function () {
         return this._el;
     },
 
-    getId: function() {
+    getId: function () {
         return this._id;
     },
 
-    getSchedule: function() {
+    getSchedule: function () {
         return this._schedule;
     },
 
-    toggle: function() {
+    toggle: function () {
         var display,
             fullFirmElExists = !!this._fullFirmEl;
 
@@ -50,20 +50,20 @@ FirmCard.prototype = {
         }
     },
 
-    toggleSchedule: function() {
+    toggleSchedule: function () {
         var schedule = this._fullFirmEl.querySelector('.schedule__table'),
             display = 'block';
-            if (!schedule) return;
-            if (schedule.style.display === 'block') {
-                display = 'none';
-            }
-            schedule.style.display = display;
-            if (this.options.onToggleCard) {
-                this.options.onToggleCard(this.getContainer(), this.isExpanded());
-            }
+        if (!schedule) return;
+        if (schedule.style.display === 'block') {
+            display = 'none';
+        }
+        schedule.style.display = display;
+        if (this.options.onToggleCard) {
+            this.options.onToggleCard(this.getContainer(), this.isExpanded());
+        }
     },
 
-    render: function() {
+    render: function () {
         var html;
 
         if (!this._el) {
@@ -74,55 +74,59 @@ FirmCard.prototype = {
         return this._el;
     },
 
-    isExpanded: function() {
+    isExpanded: function () {
         return this._isExpanded;
     },
 
-    _renderFullCardById: function(firmId) {
+    _renderFullCardById: function (firmId) {
         var self = this,
             loader;
 
         this._id = firmId;
-        loader = this.options.render(this.options.tmpls['loader']);
+        loader = this.options.render(this.options.tmpls.loader);
         this._createEl(loader);
-        this.options.ajax(firmId, function(data) {
-            self._firmData = data[0];
-            self._el.innerHTML = self._getShortContent();
-            self.toggle.call(self);
+        this.options.ajax(firmId, function (data) {
+            if (data !== 'undefined') {
+                self._firmData = data[0];
+                self._el.innerHTML = self._getShortContent();
+                self.toggle.call(self);
+            }
         });
     },
 
-    _collapse: function() {
+    _collapse: function () {
         this._fullFirmEl.style.display = 'none';
         this._isExpanded = false;
     },
 
-    _createEl: function(html) {
-        this._el = document.createElement("div");
-        this._el.setAttribute("id", 'dg-map-firm-' + this._id);
-        this._el.setAttribute("class", 'dg-map-firm');
+    _createEl: function (html) {
+        this._el = document.createElement('div');
+        this._el.setAttribute('id', 'dg-map-firm-' + this._id);
+        this._el.setAttribute('class', 'dg-map-firm');
         this._el.innerHTML = html;
     },
 
-    _createFullFirmEl: function(html) {
-        this._fullFirmEl = document.createElement("div");
-        this._fullFirmEl.setAttribute("id", "dg-map-firm-full-" + this._id);
-        this._fullFirmEl.setAttribute("class", "dg-map-firm-full");
-        this._fullFirmEl.style.display = "block";
+    _createFullFirmEl: function (html) {
+        this._fullFirmEl = document.createElement('div');
+        this._fullFirmEl.setAttribute('id', 'dg-map-firm-full-' + this._id);
+        this._fullFirmEl.setAttribute('class', 'dg-map-firm-full');
+        this._fullFirmEl.style.display = 'block';
         this._fullFirmEl.innerHTML = html;
     },
 
-    _expand: function(fullFirmElExists) {
+    _expand: function (fullFirmElExists) {
         var self = this;
 
         if (!fullFirmElExists) {
             var loaderHtml = this.options.render(this.options.tmpls.loader);
-            this._el.insertAdjacentHTML("beforeend", loaderHtml);
-            this.options.ajax(this._id, function(data) {
-                self._renderFullCard.call(self, data[0]);
-                self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
-                if (self.options.onToggleCard) {
-                    self.options.onToggleCard(self.getContainer(), self.isExpanded());
+            this._el.insertAdjacentHTML('beforeend', loaderHtml);
+            this.options.ajax(this._id, function (data) {
+                if (data !== 'undefined') {
+                    self._renderFullCard.call(self, data[0]);
+                    self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
+                    if (self.options.onToggleCard) {
+                        self.options.onToggleCard(self.getContainer(), self.isExpanded());
+                    }
                 }
             });
         } else {
@@ -131,7 +135,7 @@ FirmCard.prototype = {
         this._isExpanded = true;
     },
 
-    _renderFullCard: function(data) {
+    _renderFullCard: function (data) {
         var html,
             schedule,
             forecast;
@@ -160,14 +164,14 @@ FirmCard.prototype = {
         this._isExpanded = true;
     },
 
-    _getShortContent: function(){
+    _getShortContent: function () {
         return this.options.render(this.options.tmpls.shortFirm, {
             name: this._firmData.name,
             id: this._id
         });
     },
 
-    _setOptions: function(options) {
+    _setOptions: function (options) {
         var option;
 
         this.options = this.options || {};
