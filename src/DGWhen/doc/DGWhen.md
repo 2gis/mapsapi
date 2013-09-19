@@ -1,11 +1,11 @@
 ## L.DG.when
 
-`L.DG.when()` может сделить за promise которые предоставляют из себя любой обьект с методом `.then()`, тоесть даже promise которые не соотвествуют спецификации Promises/A, например jQuery's Deferred. Он будет превращать такие promise в Promises/A.
+`L.DG.when()` отслеживает состояние аргумента Promise, который представляет любой обьект с методом `.then()`, даже тот, который не полностью соотвествуют спецификации Promises/A, например jQuery's Deferred. Он превращает такие Promise-like-objects в Promises/A.
 
-Другими словами, `L.DG.when()` будет всегда возвращать безопасный promise, который полностью соответсвует спецификации Promises/A.
+Другими словами, `L.DG.when()` всегда возвращает безопасный Promise, который полностью соответсвует спецификации Promises/A.
 
-#### Смотрите так же
-* [Здесь мы можете прочитать более подробно про when()](https://github.com/cujojs/when/wiki/when)
+#### Смотри так же
+* [рабочая спецификация Promises/A](http://promises-aplus.github.io/promises-spec/)
 
 ### Конструктор
 
@@ -23,9 +23,9 @@
         </td>
 
         <td>
-            Мы имеем возможность отслеживать promise или непосредственно значение переменной.<br/>
-            Если <code>promiseOrValue</code> представляет собой значение переменной, то <code>onFulfilled</code> будет выполнена с этим значением, и по умолчанию вернёт promise.<br/>
-            Если в <code>promiseOrValue</code> передан promise, то:
+            Отслеживает promise или просто оборачивает переменную в новый promise.<br/>
+            Если <code>promiseOrValue</code> - переменная, то <code>onFulfilled</code> будет сразу выполнена с этим значением, и по умолчанию вернёт promise.<br/>
+            Если в <code>promiseOrValue</code> - это promise, то:
             <ul>
                 <li><code>onFulfilled</code> будет вызван с значением которое вернёт <code>promiseOrValue</code> после того как он отработает, или</li>
                 <li><code>onRejected</code> будет вызван когда <code>promiseOrValue</code> получит статус rejected.</li>
@@ -57,21 +57,19 @@
         <td><code><a href="#promise">Promise</a></code></td>
         <td>
         Создаёт <code><a href="#promise">promise</a></code> с <code>resolved</code> статусом.
-
-        If promiseOrValue is a value, it will be the resolution value of the returned promise. Returns promiseOrValue if it's a trusted promise. If promiseOrValue is a foreign promise, returns a promise in the same state (resolved or rejected) and with the same value as promiseOrValue.</td>
+        </td>
     </tr>
     <tr>
         <td><code><b>reject</b>(<a href="#promise-or-value">&lt;promiseOrValue&gt;</a> promiseOrValue)</code></td>
         <td><code><a href="#promise">Promise</a></code></td>
         <td>
         Создаёт <code><a href="#promise">promise</a></code> с <code>rejected</code> статусом.
-
-        If promiseOrValue is a value, it will be the rejection value of the returned promise. If promiseOrValue is a promise, its completion value will be the rejected value of the returned promise.</td>
+        </td>
     </tr>
     <tr>
         <td><code><b>defer</b>()</code></td>
         <td><code>Deferred: {promise, <a href="#promise-resolver">resolver</a>}</code></td>
-        <td>Создаёт обьект <code>{promise, <a href="#promise-resolver">resolver</a>}</code> который ещё называют <code>Deferred</code>. В некоторых случаях бывает удобно иметь доступ, через один обьект, к <a href="#promise"><code>promise</code></a> и его набору поведенчиских? функций.</td>
+        <td>Создаёт обьект <code>Deferred</code>. В некоторых случаях бывает удобно иметь доступ, через один обьект, к <a href="#promise"><code>promise</code></a> и его <code>resolver</code></td>
     </tr>
     <tr>
         <td><code><b>isPromiseLike</b>(&lt;Object&gt; anything)</code></td>
