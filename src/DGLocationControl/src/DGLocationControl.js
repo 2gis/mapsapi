@@ -15,7 +15,7 @@ L.DG.LocationControl = L.Control.extend({
     options: {
         position: 'topleft',
         drawCircle: true,
-        follow: false,  // follow with zoom and pan the user's location
+        follow: true,  // follow with zoom and pan the user's location
         stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged
         metric: true,
         onLocationError: function (err) {
@@ -30,33 +30,9 @@ L.DG.LocationControl = L.Control.extend({
         locateOptions: {}
     },
 
-    _addPreloaders: function () {
-        var map = L.DomUtil.get('map');
-        this._loader = L.DomUtil.create('div', 'dg-loader', map);
-        this._loaderLocate = L.DomUtil.create('div', 'dg-loader-locate', map);
-        this._loaderLocateError = L.DomUtil.create('div', 'dg-loader-locate-error', map);
-        this._loaderLocateError.innerHTML = this.t('cant_find');
-    },
-    _showLoad: function () {
-        this._loader.style.display = 'block';
-        this._loaderLocate.style.display = 'block';
-        this._loaderLocateError.style.display = 'none';
-    },
-    _showLoadError: function () {
-        this._loader.style.display = 'none';
-        this._loaderLocate.style.display = 'block';
-        this._loaderLocateError.style.display = 'block';
-    },
-    _hideLoad: function () {
-        this._loader.style.display = 'none';
-        this._loaderLocate.style.display = 'none';
-        this._loaderLocateError.style.display = 'none';
-    },
-
     onAdd: function (map) {
         if (!navigator.geolocation)
             return;
-        this._addPreloaders();
 
         var container = L.DomUtil.create('div', 'leaflet-control-locate leaflet-bar');
 
@@ -82,7 +58,6 @@ L.DG.LocationControl = L.Control.extend({
             .on(link, 'click', L.DomEvent.stopPropagation)
             .on(link, 'click', L.DomEvent.preventDefault)
             .on(link, 'click', function () {
-                self._showLoad();
                 if (self._active && self._event && (map.getBounds().contains(self._event.latlng) ||
                     isOutsideMapBounds())) {
                     stopLocate();
@@ -101,13 +76,15 @@ L.DG.LocationControl = L.Control.extend({
 
                     if (self._event) {
                         visualizeLocation();
+                    } else {
+                        L.DomUtil.addClass(self._container, 'requesting');
+                        L.DomUtil.removeClass(self._container, 'active');
                     }
                 }
             })
             .on(link, 'dblclick', L.DomEvent.stopPropagation);
 
         var onLocationFound = function (e) {
-            self._hideLoad();
             // no need to do anything if the location has not changed
             if (self._event &&
                 (self._event.latlng.lat === e.latlng.lat &&
@@ -216,6 +193,9 @@ L.DG.LocationControl = L.Control.extend({
             if (!self._container) {
                 return;
             }
+
+            L.DomUtil.removeClass(self._container, 'requesting');
+            L.DomUtil.addClass(self._container, 'active');
         };
 
         var resetVariables = function () {
@@ -229,6 +209,8 @@ L.DG.LocationControl = L.Control.extend({
             map.stopLocate();
             map.off('dragstart', stopFollowing);
 
+            L.DomUtil.removeClass(self._container, 'requesting');
+            L.DomUtil.removeClass(self._container, 'active');
             resetVariables();
 
             self._layer.clearLayers();
@@ -243,10 +225,7 @@ L.DG.LocationControl = L.Control.extend({
             }
 
             stopLocate();
-            self._showLoadError();
-            setTimeout(function () {
-                self._hideLoad();
-            }, 3000);
+            //show location error
             self.options.onLocationError(err);
         };
 
