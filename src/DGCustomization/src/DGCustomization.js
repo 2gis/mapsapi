@@ -1,3 +1,15 @@
+//Inject observing localization change
+var controlAddTo = L.Control.prototype.addTo;
+
+L.Control.include({
+    addTo: function (map) {
+        map.on('dgLangChange', this._renderTitles, this);
+
+        return controlAddTo.call(this, map);
+    },
+    _renderTitles: function () {}
+});
+
 // Sets default zoom position from current theme
 
 L.Control.Zoom.prototype.options = {
@@ -33,6 +45,11 @@ L.Control.Zoom.prototype.onAdd = function (map) {
         }
     });
     return container;
+};
+
+L.Control.Zoom.prototype._renderTitles = function () {
+    this._zoomInButton.title = this.t('zoom-in');
+    this._zoomOutButton.title = this.t('zoom-out');
 };
 
 // Adds 2GIS-related popup content wrapper and offset

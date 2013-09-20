@@ -21,12 +21,12 @@ L.Map.mergeOptions({
 });
 
 L.Map.addInitHook(function () {
-    var html = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: 'en'});
+    var html = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: this.getLang()});
     var options = {
         position: 'bottomright',
         prefix: html
     };
-
+    
     new L.Control.Attribution(options).addTo(this);
     L.DG.tileLayer().addTo(this);
 });
