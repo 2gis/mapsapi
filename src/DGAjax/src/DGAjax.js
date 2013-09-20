@@ -1,5 +1,5 @@
 
-L.DG.Ajax = (function(){
+L.DG.ajax = (function(){
 
     var win = window,
         doc = document,

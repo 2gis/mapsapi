@@ -146,7 +146,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                 if (currentTime - startTime < duration) {
                     L.Util.requestAnimFrame(arguments.callee, element);
                 } else {
-                    element.scrollTop = to;                    
+                    element.scrollTop = to;
                 }
             };
             L.Util.requestAnimFrame(animateScroll, element);
@@ -154,21 +154,25 @@ L.Control.Zoom.prototype.onAdd = function (map) {
             return this;
         },
 
+        //TODO change for better aproach
         fixSize: function () {
             this._saveDefOptions();
 
             this.options.minHeight = this._contentNode.offsetHeight;
             this.options.minWidth = this._contentNode.offsetWidth;
+            this.options.maxWidth = this._contentNode.offsetWidth;
         },
 
         _saveDefOptions: function () {
             this._back.minHeight = this.options.minHeight;
             this._back.minWidth = this.options.minWidth;
+            this._back.maxWidth = this.options.maxWidth;
         },
 
         _restoreDefoptions: function () {
             this.options.minHeight = this._back.minHeight || 0;
             this.options.minWidth = this._back.minWidth || 0;
+            this.options.maxWidth = this._back.maxWidth;
         },
 
         _updateScrollPosition: function() {
@@ -309,7 +313,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             this._updatePopupStructure();
             this._resize();
-
+            // Delete this if fixed in new leaflet version (> 0.6.2)
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
             this._container.style.visibility = '';
