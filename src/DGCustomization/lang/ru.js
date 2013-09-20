@@ -1,4 +1,4 @@
-L.DG.Control.Zoom.Dictionary.ru = {
-    "zoom-in" : "Zoom in",
-    "zoom-out" : "Zoom out"
+L.Control.Zoom.Dictionary.ru = {
+    "zoom-in" : "Приблизить",
+    "zoom-out" : "Отдалить"
 };

@@ -6,8 +6,8 @@ L.DG.Locale = {
             dictionaryMsg,
             exp;
         if (typeof this.constructor.Dictionary[lang] === 'undefined') {
-            lang = "ru";
-            this._map.setLang("ru");
+            lang = '__DEFAULT_LANG__';
+            this._map.setLang(lang);
         }
         dictionaryMsg = this.constructor.Dictionary[lang][msg];
         msgIsset = typeof dictionaryMsg !== 'undefined';
@@ -28,16 +28,23 @@ L.DG.Locale = {
     }
 };
 
+function getPageLang() {
+    var root = document.documentElement,
+        lang = root.lang || root.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'lang');
+
+    return lang;
+}
+
 L.Map.mergeOptions({
-    currentLang: L.DG.loaderParams && L.DG.loaderParams.lang || "__DEFAULT_LANG__"
+    currentLang: L.DG.loaderParams && L.DG.loaderParams.lang || getPageLang()
 });
 
 L.Map.include({
 
     setLang: function (lang) { // (String)
-        if (lang && Object.prototype.toString.call(lang) === "[object String]") {
+        if (lang && Object.prototype.toString.call(lang) === '[object String]') {
             this.options.currentLang = lang;
-            this.fire("dgLangChange", {"lang": lang});
+            this.fire('dgLangChange', {'lang': lang});
         }
     },
 

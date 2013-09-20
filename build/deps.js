@@ -98,7 +98,7 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            'DGCustomization/DGCustomization.js',
+            'DGCustomization/src/DGCustomization.js',
             'DGCustomization/lang/ru.js',
             'DGCustomization/lang/it.js',
             'DGCustomization/lang/cs.js',
@@ -115,7 +115,7 @@ var deps = {
             ],
             ie: ['DGCustomization/skin/{skin}/css/baron.ie.css']
         },
-        deps: ['DGCore', 'DGDivIcon']
+        deps: ['DGCore', 'DGDivIcon', 'DGLocale']
     },
 
     DGLocale: {
