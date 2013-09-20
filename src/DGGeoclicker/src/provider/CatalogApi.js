@@ -21,12 +21,12 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         var zoom = options.zoom,
             latlng = options.latlng,
             callback = options.callback,
-            beforeRequest = options.beforeRequest || function() {},
+            beforeRequest = options.beforeRequest || function () {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
         if (!types) {
             callback({
-                "error": "no type"
+                'error': 'no type'
             });
             return;
         }
@@ -47,7 +47,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         this.cancelLastRequest();
 
         function responseHandler(res) {
-            if (res && res.response && res.response.code == 200 && res.result && res.result.data && res.result.data.length) {
+            if (res && res.response && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
                 callback(res.result.data);
             } else {
                 callback();
@@ -57,7 +57,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         this._performRequest(params, this.options.urlGeo, responseHandler, responseHandler);
     },
 
-    getFirmInfo: function(firmId, callback) {
+    getFirmInfo: function (firmId, callback) {
         L.DG.Jsonp({
             url: this.options.urlDetails,
             data: {
@@ -67,9 +67,9 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
                 id: firmId,
                 fields: this.options.firmInfoFields
             },
-            success: function(res) {
-                if (res && res.response.code == 200 && res.result && res.result.data && res.result.data.length) {
-                    callback(res.result.data)
+            success: function (res) {
+                if (res && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
+                    callback(res.result.data);
                 } else {
                     callback();
                 }
@@ -89,7 +89,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         this.cancelLastRequest();
 
         this._performRequest(params, this.options.urlGeo, callback, function () {
-            callback()
+            callback();
         });
     },
 
@@ -132,7 +132,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             timeout: this.options.timeoutMs,
             success: callback,
             error: failback
-        })
+        });
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object

@@ -1,13 +1,15 @@
 window.onload = function() {
     window.dima = baron({
-        scroller: '.wrapper_1 .scroller',
+        root: '.wrapper_1',
+        scroller: '.scroller',
         bar: '.scroller__bar',
         barOnCls: 'baron'
     }).fix({
         elements: '.header__title',
         outside: 'header__title_state_fixed',
         before: 'header__title_position_top',
-        after: 'header__title_position_bottom'
+        after: 'header__title_position_bottom',
+        clickable: true
     }).pull({
         block: '.load',
         elements: [{
@@ -15,7 +17,7 @@ window.onload = function() {
             property: 'width'
         }],
         limit: 115,
-        callback: function() {
+        onExpand: function() {
             $('.load').css('background', 'red');
         }
     });
