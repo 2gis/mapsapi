@@ -8,6 +8,8 @@
     display:none;
 }
 .dg-mapcopyright.dg-mapcopyright_lang_ru,
+.dg-mapcopyright.dg-mapcopyright_lang_en,
+.dg-mapcopyright.dg-mapcopyright_lang_cs,
 .dg-mapcopyright.dg-mapcopyright_lang_it {
     bottom: 5px;
     display:block !important;

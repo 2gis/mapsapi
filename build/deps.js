@@ -151,7 +151,7 @@ var deps = {
             all: ['DGTileLayer/skin/{skin}/css/style.css'],
             ie: ['DGTileLayer/skin/{skin}/css/ie.css']
         },
-        deps: ['DGCore']
+        deps: ['DGCore', 'DGTemplate']
     },
 
     DGProjectDetector: {

@@ -21,15 +21,10 @@ L.Map.mergeOptions({
 });
 
 L.Map.addInitHook(function () {
+    var html = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: 'en'});
     var options = {
         position: 'bottomright',
-        prefix: '<div class="dg-mapcopyright dg-mapcopyright_lang_ru">' +
-            '<a href="http://2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners" class="dg-mapcopyright__logolink" target="_blank" alt="ООО  ДубльГИС">' +
-            '<span class="dg-mapcopyright__logo"></span>' +
-            '</a>' +
-            '<a class="dg-link dg-mapcopyright__apilink" href="http://api.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners" target="_blank" alt="Работает на API 2ГИС"></a>' +
-            '<a class="dg-link dg-mapcopyright__license" href="http://help.2gis.ru/licensing-agreement/" target="_blank" alt="Лицензионное соглашение"></a>' +
-            '</div>'
+        prefix: html
     };
 
     new L.Control.Attribution(options).addTo(this);
