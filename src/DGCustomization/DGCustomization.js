@@ -120,7 +120,6 @@ L.Control.Zoom.prototype.onAdd = function (map) {
                     }
                 }
             }
-
             // think about remove this set to another public method
             this._isBaronExist = false;
 
@@ -326,6 +325,8 @@ L.Control.Zoom.prototype.onAdd = function (map) {
 
             this._updatePopupStructure();
             this._resize();
+            L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
+            // L.DomEvent.disableClickPropagation(this._wrapper);
             // Delete this if fixed in new leaflet version (> 0.6.2)
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 

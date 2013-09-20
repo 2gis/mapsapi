@@ -228,7 +228,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _handlePopupScroll: function (event) {
-        var scroller = event.originalEvent.target;
+        var scroller = event.originalEvent.target || event.target._scroller;
 
         if (this._totalPages <= 1) return;
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {

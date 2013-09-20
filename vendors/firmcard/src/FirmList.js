@@ -124,7 +124,7 @@
             if (this._container.addEventListener){
                 this._container.addEventListener(eventName, onClickHandler);
             } else {
-                this._container.attachEvent(eventName, onClickHandler);
+                this._container.attachEvent("on" + eventName, onClickHandler);
             }
         },
 
