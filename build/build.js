@@ -729,7 +729,9 @@ exports.build = function () {
         jsSrcContent,
         jsMinContent,
         jsDest = config.js.public,
+        jsDir = jsDest.dir,
         cssDest = config.css.public,
+        cssDir = cssDest.dir,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
         skin = argv.skin || 'default';
 
@@ -757,6 +759,10 @@ exports.build = function () {
 
     jsSrcContent = makeJSPackage(modulesList, skin, true);
 
+    if (!fs.existsSync(jsDir)) {
+        console.log("Creating " + jsDir + " dir...");
+        fs.mkdirSync(jsDir);
+    }
     fs.writeFileSync(jsDest.src, jsSrcContent);
 
     console.log('Compressing JS...\n');
@@ -767,6 +773,10 @@ exports.build = function () {
     console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
     console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
 
+    if (!fs.existsSync(cssDir)) {
+        console.log("Creating " + cssDir + " dir...");
+        fs.mkdirSync(cssDir);
+    }
     packAndConcatCss('full', true, true);
     packAndConcatCss('clean', false, true);
     packAndConcatCss('ie', true, false);

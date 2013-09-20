@@ -22,6 +22,7 @@ var config = {
 
     js: {
         public: {
+            dir: basePath + '/public/js/',
             src: basePath + '/public/js/dg-map-src.js',
             min: basePath + '/public/js/dg-map.js'
         },
@@ -34,6 +35,7 @@ var config = {
 
     css: {
         public: {
+            dir: basePath + '/public/css/',
             clean: basePath + '/public/css/dg-map-src.css',
             full: basePath + '/public/css/dg-map-src-full.css',
             ie: basePath + '/public/css/dg-map-src-ie.css',
