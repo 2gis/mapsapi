@@ -1,18 +1,15 @@
 L.DG.Meta = L.Handler.extend({
 
-    _currPoi: null,
-    _currTile: null,
-    _pois: null,
+    _currentPoi: null,
+    _currentBuilding: null,
+    _currentTile: null,
+    _currentTileMetaData: null,
 
     initialize: function (map) { // (Object)
         this._map = map;
         this._mapPanes = map.getPanes();
         this._tileSize = L.DG.TileLayer.prototype.options.tileSize;	// TODO: tileSize getter
-
-        this._buildingStorage = new L.DG.BuildingStorage();
-        this._poiStorage = new L.DG.PoiStorage();
-
-        this._poistorageCallback = L.bind(this._poistorageCallback, this);
+        this._metaHost = new L.DG.Meta.Host();
     },
 
     addHooks: function () {
@@ -24,42 +21,34 @@ L.DG.Meta = L.Handler.extend({
         this._map.off(this._mapEventsListeners, this);
     },
 
-    getPoiStorage: function () { // () -> Object
-        return this._poiStorage;
-    },
-
-    getBuildingStorage: function () { // () -> Object
-        return this._buildingStorage;
-    },
-
     _mapEventsListeners : {
         mousemove : function (e) { // (L.Event)
             if (this._map._panTransition && this._map._panTransition._inProgress) { return; }
 
             if (!this._isEventTargetAllowed(e.originalEvent.target || e.originalEvent.srcElement)) {
-                if (this._currPoi) {
-                    this._leaveCurrentPoi();
-                }
+                this._leaveCurrentPoi();
+                this._blurCurrentBuilding();
                 return;
             }
 
             var xyz = this._getTileID(e);
 
             if (this._isTileChanged(xyz)) {
-                this._currTile = xyz;
-                this._pois = null;
-                this._poiStorage.getTilePoiIds(xyz, this._poistorageCallback);
-            } else if (this._pois) {
-                var poiId = this._isPoiHovered(e.latlng, this._pois);
+                this._currentTileMetaData = this._metaHost.getTileData(this._currentTile = xyz);
+            } else {
+                var promiseState = this._currentTileMetaData.inspect();
 
-                if (this._currPoi && this._currPoi.id !== poiId) {
-                    this._leaveCurrentPoi();
-                }
+                if (promiseState.state === 'fulfilled') {
+                    var hoveredPoi = this._isPoiHovered(e.latlng, promiseState.value.poi);
 
-                if (poiId && (!this._currPoi || this._currPoi.id !== poiId)) {
-                    this._currPoi = this._poiStorage.getPoi(poiId);
-                    this._map.fire('dgPoiHover', {'poi': this._currPoi, latlng: e.latlng});
-                    L.DomEvent.addListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick, this);
+                    if (this._currentPoi && this._currentPoi.id !== hoveredPoi.id) {
+                        this._leaveCurrentPoi();
+                    }
+                    if (hoveredPoi && (!this._currentPoi || this._currentPoi.id !== hoveredPoi.id)) {
+                        this._currentPoi = hoveredPoi;
+                        this._map.fire('dgPoiHover', {'poi': this._currentPoi, latlng: e.latlng});
+                        L.DomEvent.addListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick, this);
+                    }
                 }
             }
         },
@@ -75,9 +64,9 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _onDomMouseClick: function (event) { // (Object)
-        if (this._currPoi) {
+        if (this._currentPoi) {
             this._map.fire('dgPoiClick', {
-                'poi': this._currPoi,
+                'poi': this._currentPoi,
                 latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event))
             });
             L.DomEvent.stopPropagation(event);
@@ -103,12 +92,19 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _leaveCurrentPoi: function () {
-        if (this._currPoi) {
+        if (this._currentPoi) {
             this._map
-                    .fire('dgPoiLeave', { 'poi': this._currPoi })
+                    .fire('dgPoiLeave', { 'poi': this._currentPoi })
                     .off('click', this._onDomMouseClick, this);
             L.DomEvent.removeListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick);
-            this._currPoi = null;
+            this._currentPoi = null;
+        }
+    },
+
+    _blurCurrentBuilding: function () {
+        if (this._currentBuilding) {
+            console.log('building click');
+            this._currentBuilding = null;
         }
     },
 
@@ -125,21 +121,17 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _isTileChanged: function (xyz) { // (String) -> Boolean
-        return this._currTile !== xyz;
+        return this._currentTile !== xyz;
     },
 
-    _isPoiHovered: function (point, pois) { // (L.Point, Array) -> Object|Null
-        var poi = null;
-
+    _isPoiHovered: function (point, pois) { // (L.Point, Array) -> Object|false
         for (var i = 0, len = pois.length; i < len; i++) {
-            var verts = this._poiStorage.getPoi(pois[i]).vertices;
-            if (L.PolyUtil.contains(point, verts)) {
-                poi = pois[i];
-                break;
+            if (L.PolyUtil.contains(point, pois[i].vertices)) {
+                return pois[i];
             }
         }
 
-        return poi;
+        return false;
     }
 
 });

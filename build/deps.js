@@ -156,12 +156,14 @@ var deps = {
         deps: ['DGCore', 'DGJsonp']
     },
 
-    DGPoi: {
-        desc: '2GIS POI module.',
+    DGMeta: {
+        desc: '2GIS POI & buildings module.',
         src: [
-            'DGPoi/src/DGPoi.js',
-            'DGPoi/src/PoiStorage.js',
-            'DGPoi/src/PolyUtilContains.js'
+            'DGMeta/src/DGMeta.js',
+            'DGMeta/src/storage/PoiStorage.js',
+            'DGMeta/src/storage/BuildingStorage.js',
+            'DGMeta/src/StorageHost.js',
+            'DGMeta/src/PolyUtilContains.js'
         ],
         deps: ['DGJsonp', 'DGCore', 'DGTileLayer', 'DGWkt']
     },
@@ -205,7 +207,7 @@ var deps = {
             '../vendors/firmcard/src/Dictionary.js',
 
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGLabel']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGMeta', 'DGLabel']
     },
 
     DGTemplate: {

@@ -1,4 +1,4 @@
-L.DG.PoiStorage = L.Class.extend({
+L.DG.Meta.PoiStorage = L.Class.extend({
 
     _pois: {},
     _tilesPoi: {},
@@ -8,12 +8,12 @@ L.DG.PoiStorage = L.Class.extend({
         return this._pois[id] || null;
     },
 
-    getTilePoiIds: function (tileId, callback) { //(String) -> Object|Null
+    getTilePoiIds: function (tileId) { //(String) -> Promise
 
         if (!this._tilesPoi.hasOwnProperty(tileId)) {
-            this._askByTile(tileId, callback);
+            return this._askByTile(tileId);
         } else {
-            callback(this._tilesPoi[tileId]);
+            L.DG.when(this._tilesPoi[tileId]);
         }
     },
 
@@ -54,28 +54,26 @@ L.DG.PoiStorage = L.Class.extend({
         return poi;
     },
 
-    _askByTile: function (tileId, callback) { //(String)
+    _askByTile: function (tileId) { //(String) -> Promise
         var xyz = tileId.split(','),
             self = this;
 
-        L.DG.ajax(
+        return L.DG.ajax(
             L.Util.template('__HIGHLIGHT_POI_SERVER__', {
                 z: xyz[2],
                 x: xyz[0],
                 y: xyz[1]
-            }),
-            {
+            }), {
                 type: 'get',
-                dataType: 'json',
-                success : function (data) {
-                    if (+data.response.code !== 200) {
-                        return;
-                    }
-                    self._addPoisToTile(tileId, data.result.poi);
-                    if (callback) {
-                        callback(self._tilesPoi[tileId]);
-                    }
+                dataType: 'json'
+            }
+        ).then(
+            function (data) {
+                if (+data.response.code !== 200) {
+                    return;
                 }
+                self._addPoisToTile(tileId, data.result.poi);
+                return data.result;
             }
         );
     }

@@ -1,4 +1,4 @@
-L.DG.BuildingStorage = L.Class.extend({
+L.DG.Meta.BuildingStorage = L.Class.extend({
 
     _pois: {},
     _tilesPoi: {},
