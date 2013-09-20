@@ -132,7 +132,6 @@
                                 "title": "DGEntrance",
                                 "uri": "doc/DGEntrance/DGEntrance.html",
                                 "_src": "DGEntrance/doc/DGEntrance.md",
-
                                 "hide": false
                             }
                         },
@@ -156,7 +155,6 @@
                                 "title": "DGFullScreen",
                                 "uri": "doc/DGFullScreen/DGFullScreen.html",
                                 "_src": "DGFullScreen/doc/DGFullScreen.md",
-
                                 "hide": false
                             }
                         },
@@ -168,7 +166,6 @@
                                 "title": "DGTemplate",
                                 "uri": "doc/DGTemplate/DGTemplate.html",
                                 "_src": "DGTemplate/doc/DGTemplate.md",
-
                                 "hide": false
                             }
                         },

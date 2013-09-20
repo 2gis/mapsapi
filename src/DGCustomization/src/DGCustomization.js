@@ -31,14 +31,14 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     this._zoomOutButton = this._createButton('-', this.t('zoom-out'), zoomName + '__out', container, this._zoomOut, this);
 
     map.on('zoomend zoomlevelschange', this._updateDisabled, this);
-    map.on('dgProjectLeave', function() {
+    map.on('dgProjectLeave', function () {
         map.setMaxZoom(projectLeaveMaxZoom);
         if (map.getZoom() > projectLeaveMaxZoom) {
             map.setZoom(projectLeaveMaxZoom);
-        };
+        }
     });
 
-    map.on('dgProjectChange', function(project) {
+    map.on('dgProjectChange', function (project) {
         var projectInfo = project.getProject();
         if (projectInfo) {
             map.setMaxZoom(projectInfo.max_zoom_level);
@@ -78,8 +78,10 @@ L.Control.Zoom.prototype._renderTitles = function () {
         _isFooterExist: false,
         _isBaronExist: false,
 
+        _templates: __DGCustomization_TMPL__,
+
         onAdd: function (map) {
-            map.on('dgEntranceShow', function() {
+            map.on('dgEntranceShow', function () {
                 map.closePopup(this);
             }, this);
             this._popupStructure = {};
@@ -88,8 +90,7 @@ L.Control.Zoom.prototype._renderTitles = function () {
         },
 
         onRemove: function (map) {
-            this._restoreDefoptions();
-            map.off('dgEntranceShow', function() {
+            map.off('dgEntranceShow', function () {
                 map.closePopup(this);
             }, this);
 
@@ -97,7 +98,16 @@ L.Control.Zoom.prototype._renderTitles = function () {
         },
 
         setContent: function (content) {
-            this._bodyContent = content;
+            if (typeof content === 'object' && typeof content !== null) {
+                for (var i in content) {
+                    if (content.hasOwnProperty(i)) {
+                        this['_' + i + 'Content'] = content[i];
+                    }
+                }
+            } else {
+                this._bodyContent = content;
+            }
+
             this._update();
 
             return this;
@@ -117,48 +127,62 @@ L.Control.Zoom.prototype._renderTitles = function () {
             return this;
         },
 
-        clearHeaderFooter: function() {
-            this.clearHeader();
-            this.clearFooter();
+        clear: function () {
+            var i;
+            if (arguments.length) {
+                for (i = arguments.length - 1; i >= 0; i--) {
+                    this._clearElement(arguments[i]);
+                }
+            } else {
+                for (i in this._popupStructure) {
+                    if (this._popupStructure.hasOwnProperty(i)) {
+                        this._clearElement(i);
+                    }
+                }
+            }
             // think about remove this set to another public method
             this._isBaronExist = false;
+
             return this;
         },
 
         clearHeader: function () {
-            if (this._popupStructure.header) {
-                this._headerContent = null;
-                this._contentNode.removeChild(this._popupStructure.header);
-                delete this._popupStructure.header;
-            }
-
-            return this;
+            return this.clear('header');
         },
 
         clearFooter: function () {
-            if (this._popupStructure.footer) {
-                this._footerContent = null;
-                this._contentNode.removeChild(this._popupStructure.footer);
-                delete this._popupStructure.footer;
-            }
+            return this.clear('footer');
+        },
+
+        findElement: function (node) {
+            return this._contentNode.querySelector(node);
+        },
+
+        showLoader: function (tmpl) {
+            this.clear();
+            var html = tmpl || this._templates.loader;
+
+            this._contentNode.innerHTML = html;
 
             return this;
         },
 
-        scrollTo: function(to) {
+        scrollTo: function (to) {
             var duration = 200,
                 element = this._scroller,
                 start = element.scrollTop,
-                change = to - start
+                change = to - start,
                 startTime = null;
 
             var ease = function (t, b, c, d) {
-                return -c *(t/=d)*(t-2) + b;
+                return -c * (t /= d) * (t - 2) + b;
             };
 
-            var animateScroll = function(currentTime){
+            var animateScroll = function (currentTime) {
                 currentTime = currentTime ? currentTime : (new Date()).getTime();
-                if (!startTime) startTime = currentTime;
+                if (!startTime) {
+                    startTime = currentTime;
+                }
                 var timeFrame = currentTime - startTime;
 
                 element.scrollTop = ease(timeFrame, start, change, duration);
@@ -174,28 +198,15 @@ L.Control.Zoom.prototype._renderTitles = function () {
             return this;
         },
 
-        //TODO change for better aproach
-        fixSize: function () {
-            this._saveDefOptions();
-
-            this.options.minHeight = this._contentNode.offsetHeight;
-            this.options.minWidth = this._contentNode.offsetWidth;
-            this.options.maxWidth = this._contentNode.offsetWidth;
+        _clearElement: function (elem) {
+            if (this._popupStructure[elem]) {
+                this['_' + elem + 'Content'] = null;
+                this._contentNode.removeChild(this._popupStructure[elem]);
+                delete this._popupStructure[elem];
+            }
         },
 
-        _saveDefOptions: function () {
-            this._back.minHeight = this.options.minHeight;
-            this._back.minWidth = this.options.minWidth;
-            this._back.maxWidth = this.options.maxWidth;
-        },
-
-        _restoreDefoptions: function () {
-            this.options.minHeight = this._back.minHeight || 0;
-            this.options.minWidth = this._back.minWidth || 0;
-            this.options.maxWidth = this._back.maxWidth;
-        },
-
-        _updateScrollPosition: function() {
+        _updateScrollPosition: function () {
             this._baron && this._baron.update();
         },
 
@@ -216,11 +227,13 @@ L.Control.Zoom.prototype._renderTitles = function () {
                     L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.addClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.addClass(this._scroller, 'scroller');
-                    if (scrollTop) this._scroller.scrollTop = scrollTop;
+                    if (scrollTop) {
+                        this._scroller.scrollTop = scrollTop;
+                    }
                     this._updateScrollPosition();
                 }
             } else {
-                if (isBaronExist){
+                if (isBaronExist) {
                     L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.removeClass(this._scroller, 'scroller');
@@ -242,12 +255,12 @@ L.Control.Zoom.prototype._renderTitles = function () {
                 scroller: '.scroller',
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
-                $: function(selector, context) {
-                  return bonzo(qwery(selector, context));
+                $: function (selector, context) {
+                    return bonzo(qwery(selector, context));
                 },
-                event: function(elem, event, func, mode) {
-                    if (mode == 'trigger') {
-                    mode = 'fire';
+                event: function (elem, event, func, mode) {
+                    if (mode === 'trigger') {
+                        mode = 'fire';
                     }
                     bean[mode || 'on'](elem, event, func);
                 }
@@ -286,8 +299,7 @@ L.Control.Zoom.prototype._renderTitles = function () {
                 barWrapper = document.createElement('div'),
                 scrollerBar = document.createElement('div'),
                 contentNode = this._contentNode,
-                footer = contentNode.querySelector('.dg-popup-footer'),
-                self = this;
+                footer = this.findElement('.dg-popup-footer');
 
             this._detachEl(this._popupStructure.body);
             scroller.setAttribute('class', 'scroller');
@@ -333,6 +345,8 @@ L.Control.Zoom.prototype._renderTitles = function () {
 
             this._updatePopupStructure();
             this._resize();
+            L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
+            // L.DomEvent.disableClickPropagation(this._wrapper);
             // Delete this if fixed in new leaflet version (> 0.6.2)
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
@@ -375,7 +389,7 @@ L.Control.Zoom.prototype._renderTitles = function () {
 
             for (var i in popupStructure) {
                 if (popupStructure.hasOwnProperty(i)) {
-                    this._insertContent(this['_'+ i +'Content'], popupStructure[i]);
+                    this._insertContent(this['_' + i + 'Content'], popupStructure[i]);
                 }
             }
 
@@ -451,6 +465,6 @@ L.Map.include({
 L.Marker.prototype.options.icon = L.DG.divIcon();
 
 // Adds posibility to change max zoom level
-L.Map.prototype.setMaxZoom = function(maxZoom) {
+L.Map.prototype.setMaxZoom = function (maxZoom) {
     this._layersMaxZoom = maxZoom;
 };
