@@ -166,11 +166,18 @@ L.DG.ajax = (function () {
             script.htmlFor = script.id = '_request_' + reqId;
         }
 
+        script.onerror = function (){
+            script.onerror = script.onload = script.onreadystatechange = null;
+            err({}, 'Request unknown error', {});
+            lastValue = undefined;
+            head.removeChild(script);
+            loaded = 1;
+        }
         script.onload = script.onreadystatechange = function () {
             if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
                 return false;
             }
-            script.onload = script.onreadystatechange = null;
+            script.onerror = script.onload = script.onreadystatechange = null;
             if (script.onclick) {
                 script.onclick();
             }
@@ -189,7 +196,7 @@ L.DG.ajax = (function () {
         // Enable JSONP timeout
         return {
             abort: function () {
-                script.onload = script.onreadystatechange = null;
+                script.onerror = script.onload = script.onreadystatechange = null;
                 err({}, 'Request is aborted: timeout', {});
                 lastValue = undefined;
                 head.removeChild(script);
@@ -397,8 +404,8 @@ L.DG.ajax = (function () {
         var requestPromise = doRequest(options),
             resultPromise = requestPromise.promise;
 
-        if (options.success || options.error || options.progress) {
-            resultPromise.then(options.success, options.error, options.progress);
+        if (options.success || options.error || options.progress || options.complete) {
+            resultPromise.then(options.success, options.error, options.progress).ensure(options.complete);
         }
 
         resultPromise.abort = requestPromise.abort;

@@ -6,6 +6,7 @@
 
 #### Смотри так же
 * [рабочая спецификация Promises/A](http://promises-aplus.github.io/promises-spec/)
+* [Cujojs|when.js](https://github.com/cujojs/when)
 
 ### Конструктор
 
@@ -37,7 +38,7 @@
 
 ### Методы
 
-**Класс L.DG.When**
+**Обьект L.DG.when**
 
 <table>
     <tr>

@@ -1,5 +1,18 @@
-
 L.DG.when = (function (global) {
+
+	/** @license MIT License (c) copyright 2011-2013 original author or authors */
+
+	/**
+	 * A lightweight CommonJS Promises/A and when() implementation
+	 * when is part of the cujo.js family of libraries (http://cujojs.com/)
+	 *
+	 * Licensed under the MIT License at:
+	 * http://www.opensource.org/licenses/mit-license.php
+	 *
+	 * @author Brian Cavalier
+	 * @author John Hann
+	 * @version 2.4.0
+	 */
 
 	// Public API
 
