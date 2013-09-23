@@ -99,6 +99,8 @@ var deps = {
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
             'DGCustomization/src/DGCustomization.js',
+            'DGCustomization/src/DGPopup.js',
+            'DGCustomization/src/DGZoom.js',
             'DGCustomization/lang/ru.js',
             'DGCustomization/lang/it.js',
             'DGCustomization/lang/cs.js',
