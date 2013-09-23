@@ -9,7 +9,7 @@ public/js/*
 public/css/*
 
 docbuilder/doc
-.jshintrc
+.tern-port
 
 config.local.json
 .jshintrc
