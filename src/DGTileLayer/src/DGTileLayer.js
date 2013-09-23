@@ -21,7 +21,8 @@ L.Map.mergeOptions({
 });
 
 L.Map.addInitHook(function () {
-    var html = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: this.getLang()}),
+    var tmpl = __DGTileLayer_TMPL__,
+        html = L.DG.template(tmpl.copyright, {lang: this.getLang()}),
         options = {
             position: 'bottomright',
             prefix: html
@@ -30,11 +31,11 @@ L.Map.addInitHook(function () {
 
     L.Control.Attribution.include({
         _renderTitles: function () {
-            this.options.prefix = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: self.getLang()});
+            this.options.prefix = L.DG.template(tmpl.copyright, {lang: self.getLang()});
             this._update();
         }
     });
     
-    new L.Control.Attribution(options).addTo(this);
+    L.control.attribution(options).addTo(this);
     L.DG.tileLayer().addTo(this);
 });
