@@ -2,7 +2,8 @@ L.DG.TileLayer = L.TileLayer.extend({
     dgTileLayerUrl: '__TILE_SERVER__',
     options: {
         subdomains: '0123',
-        errorTileUrl: '__ERROR_TILE_URL__'
+        errorTileUrl: '__ERROR_TILE_URL__',
+        detectRetina: true
     },
 
     initialize: function () {
