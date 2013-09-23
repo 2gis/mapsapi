@@ -57,12 +57,12 @@
                 if (clicked.length == 3) deferred.resolve(clicked);
             }
 
-            var buttons = document.getElementsByTagName('button'); 
+            var buttons = document.getElementsByTagName('button');
             for (var i = 0, len = buttons.length; i < len; i++) {
-                if ( buttons[i].getAttribute('id') == 'button_reject' ) { 
-                    L.DomEvent.addListener( buttons[i], 'click',  clickReject);
+                if ( buttons[i].getAttribute('id') == 'button_reject' ) {
+                    L.DomEvent.addListener(buttons[i], 'click',  clickReject);
                 } else {
-                    L.DomEvent.addListener( buttons[i], 'click',  clickProgress);
+                    L.DomEvent.addListener(buttons[i], 'click',  clickProgress);
                 }
             }
 
