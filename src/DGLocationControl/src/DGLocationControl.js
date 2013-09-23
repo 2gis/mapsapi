@@ -31,10 +31,11 @@ L.DG.LocationControl = L.Control.extend({
     },
 
     onAdd: function (map) {
-        if (!navigator.geolocation)
-            return;
-
         var container = L.DomUtil.create('div', 'leaflet-control-locate leaflet-bar');
+
+        if (!navigator.geolocation) {
+            return container;
+        }
 
         var self = this;
         this._layer = new L.LayerGroup();
@@ -50,14 +51,14 @@ L.DG.LocationControl = L.Control.extend({
                            // do setView manually
         });
 
-        var link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
-        link.href = '#';
-        link.title = this.t('button_title');
+        this._link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+        this._link.href = '#';
+        this._link.title = this.t('button_title');
 
         L.DomEvent
-            .on(link, 'click', L.DomEvent.stopPropagation)
-            .on(link, 'click', L.DomEvent.preventDefault)
-            .on(link, 'click', function () {
+            .on(this._link, 'click', L.DomEvent.stopPropagation)
+            .on(this._link, 'click', L.DomEvent.preventDefault)
+            .on(this._link, 'click', function () {
                 if (self._active && self._event && (map.getBounds().contains(self._event.latlng) ||
                     isOutsideMapBounds())) {
                     stopLocate();
@@ -74,6 +75,8 @@ L.DG.LocationControl = L.Control.extend({
                         startFollowing();
                     }
 
+                    clearError();
+
                     if (self._event) {
                         visualizeLocation();
                     } else {
@@ -82,7 +85,7 @@ L.DG.LocationControl = L.Control.extend({
                     }
                 }
             })
-            .on(link, 'dblclick', L.DomEvent.stopPropagation);
+            .on(this._link, 'dblclick', L.DomEvent.stopPropagation);
 
         var onLocationFound = function (e) {
             // no need to do anything if the location has not changed
@@ -225,8 +228,21 @@ L.DG.LocationControl = L.Control.extend({
             }
 
             stopLocate();
+            self._error = L.DomUtil.create('div', 'location-error', self._container);
+            self._error.innerHTML = this.t('cant_find');
+            setTimeout(function () {
+                clearError();
+            }, 3000);
+
             //show location error
             self.options.onLocationError(err);
+        };
+
+        var clearError = function () {
+            if (self._error) {
+                self._container.removeChild(self._error);
+                self._error = undefined;
+            }
         };
 
         // event hooks
@@ -234,6 +250,10 @@ L.DG.LocationControl = L.Control.extend({
         map.on('locationerror', onLocationError, self);
 
         return container;
+    },
+
+    _refreshTitles: function () {
+        this._link.title = this.t('button_title');
     }
 });
 
