@@ -45,12 +45,13 @@
 ## Примеры
 Базовое использование:
 
-    L.DG.ajax('http://catalog.api.2gis.ru/project/list', {
+    L.DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
         type: 'get',
         data: {
             key: 'ruxlih0718',
-            version: 1.3,
-            lang: 'ru'
+            type: 'filial',
+            house: 141373143572328,
+            page: 1
         },
         success: function(data) {
             console.log('success', data);
@@ -69,12 +70,13 @@
 
 Отмена запроса:
 
-    var requestPromise = L.DG.ajax('http://catalog.api.2gis.ru/project/list', {
+    var requestPromise = L.DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
         type: 'get',
         data: {
             key: 'ruxlih0718',
-            version: 1.3,
-            lang: 'ru'
+            type: 'filial',
+            house: 141373143572328,
+            page: 1
         },
         success: function(data) {
             console.log('success', data);
