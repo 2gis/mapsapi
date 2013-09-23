@@ -16,8 +16,32 @@ L.DG.Dictionary.ru = {
     }
 };
 
+// en
+L.DG.Dictionary.en = {
+    pluralRules: function (n) { // (Number)
+        if (n === 1) { // 1
+            return 0;
+        }
+        if (n >= 2) { // 2, 3, 4 ..
+            return 1;
+        }
+    }
+};
+
 // it
 L.DG.Dictionary.it = {
+    pluralRules: function (n) { // (Number)
+        if (n === 1) { // 1
+            return 0;
+        }
+        if (n >= 2) { // 2, 3, 4 ..
+            return 1;
+        }
+    }
+};
+
+// cs
+L.DG.Dictionary.cs = {
     pluralRules: function (n) { // (Number)
         if (n === 1) { // 1
             return 0;
