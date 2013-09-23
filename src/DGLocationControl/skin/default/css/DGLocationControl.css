@@ -1,18 +1,6 @@
-/* Compatible with Leaflet 0.6 */
-
-/*.leaflet-touch .leaflet-bar-part-single {
-	-webkit-border-radius: 7px 7px 7px 7px;
-	        border-radius: 7px 7px 7px 7px;
-	border-bottom: none;
-}*/
-
 .leaflet-control-locate a {
 	background-image: url(__BASE_URL__/img/locate.png);
 }
-
-/*.leaflet-touch .leaflet-control-locate a {
-
-}*/
 
 .leaflet-control-locate.requesting a {
 	background-image: url(__BASE_URL__/img/spinner.gif);
@@ -20,58 +8,8 @@
 }
 
 .leaflet-control-locate.active a {
-	/*background-position: -32px -2px;*/
-}
 
-.leaflet-control-locate.active.following a {
-	/*background-position: -62px -2px;*/
 }
-
-/*.leaflet-touch .leaflet-control-locate {
-	box-shadow: none;
-	border: 4px solid rgba(0,0,0,0.3);
-}*/
-
-/*.dg-loader, .dg-loader-locate, .dg-loader-locate-error{
-	position: absolute;
-	display: none;
-}
-.dg-loader{
-	background: url("__BASE_URL__/img/loader_large.gif") center center no-repeat;
-	z-index: 5;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-.dg-loader-locate{
-	margin-left: -42px;
-	margin-top: -42px;
-	width: 84px;
-	height: 84px;
-	left: 50%;
-	top: 50%;
-	background: url("__BASE_URL__/img/loader_locate_bg.png") center center no-repeat;
-	z-index: 4;
-}
-.dg-loader-locate-error{
-	box-sizing: border-box;
-	margin-left: 30px;
-	margin-top: -20px;
-	top: 50%;
-	left: 50%;
-	height: 40px;
-	width: 100px;
-	text-align: center;
-	line-height: 15px;
-	padding-top: 5px;
-	color: #727170;
-	font-size: 11px;
-	background: #fff;
-	border: 1px solid #c86464;
-	border-radius: 2px;
-	z-index: 5;
-}*/
 
 .dg-locate-pin{
 	background: url("__BASE_URL__/img/pin.png") no-repeat;
@@ -98,7 +36,6 @@
 	width: 140px;
 	text-align: center;
 	line-height: 25px;
-	/*padding-top: 5px;*/
 	color: #727170;
 	font-size: 11px;
 	background: #fff;
