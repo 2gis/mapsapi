@@ -603,7 +603,8 @@
     width: 0;
 }
 .scroller__bar { /* The bar. You should define width, right and background */
-    position: absolute;
+    position: absolute;    
+    z-index: 1;
     right: 0;
     width: 10px;
     background: #999;
@@ -626,10 +627,6 @@
     position: absolute;
     z-index: 1; /* Removing flicker effect */
 }
-.hidden {
-    display: none;
-}
-
 /*Zoom control styles*/
 
 .dg-zoom {
@@ -746,6 +743,13 @@
     position: relative;
     text-align: left;
     vertical-align: top;
+}
+
+.dg-popup-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -16px 0 0 -74px !important;
 }
 
 /* baron */
@@ -1883,7 +1887,9 @@ li.dg-map-firm-address .note {
 */
 
 .dg-geoclicker-loader {
-    margin: 0 auto !important;
-    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -16px 0 0 -74px !important;
 }
 

@@ -35,15 +35,30 @@ L.DG.Meta = L.Handler.extend({
 
             if (this._isTileChanged(xyz)) {
                 this._currentTileMetaData = this._metaHost.getTileData(this._currentTile = xyz);
+                // console.log('TileChanged: %s', this._currentTile);
             } else {
                 var promiseState = this._currentTileMetaData.inspect();
+                // console.log('metaStorage: %o', promiseState);
+                if (promiseState.state === 'fulfilled' && promiseState.value) {
 
-                if (promiseState.state === 'fulfilled') {
+                    // Checking Buildings
+                    var hoveredBuilding = this._isBuildingHovered(e.latlng, promiseState.value.buildings);
+
+                    if (this._currentBuilding && this._currentBuilding.id !== hoveredBuilding.id) {
+                        this._leaveCurrentBuilding();
+                    }
+
+                    if (hoveredBuilding && (!this._currentBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {
+                        this._hoverBuilding(this._currentBuilding = hoveredBuilding);
+                    }
+
+                    // Checking Pois
                     var hoveredPoi = this._isPoiHovered(e.latlng, promiseState.value.poi);
 
                     if (this._currentPoi && this._currentPoi.id !== hoveredPoi.id) {
                         this._leaveCurrentPoi();
                     }
+
                     if (hoveredPoi && (!this._currentPoi || this._currentPoi.id !== hoveredPoi.id)) {
                         this._currentPoi = hoveredPoi;
                         this._map.fire('dgPoiHover', {'poi': this._currentPoi, latlng: e.latlng});
@@ -101,9 +116,9 @@ L.DG.Meta = L.Handler.extend({
         }
     },
 
-    _blurCurrentBuilding: function () {
+    _leaveCurrentBuilding: function () {
         if (this._currentBuilding) {
-            console.log('building click');
+            console.log('building leave');
             this._currentBuilding = null;
         }
     },
@@ -130,6 +145,11 @@ L.DG.Meta = L.Handler.extend({
                 return pois[i];
             }
         }
+
+        return false;
+    },
+
+    _isBuildingHovered: function(point, buildings) { // (L.Point, Array) -> Object|false
 
         return false;
     }

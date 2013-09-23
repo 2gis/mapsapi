@@ -160,6 +160,7 @@ var deps = {
         desc: '2GIS POI & buildings module.',
         src: [
             'DGMeta/src/DGMeta.js',
+            'DGMeta/src/storage/Storage.js',
             'DGMeta/src/storage/PoiStorage.js',
             'DGMeta/src/storage/BuildingStorage.js',
             'DGMeta/src/StorageHost.js',
