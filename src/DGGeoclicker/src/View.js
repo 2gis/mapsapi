@@ -39,10 +39,11 @@ L.DG.Geoclicker.View = L.Class.extend({
     },
 
     render: function (options) { // (Object) -> String
-        var html;
+        var html,
+            data = {};
 
         options = options || {};
-        options.tmpl = options.tmpl || "";
+        options.tmpl = options.tmpl || '';
 
         if (options.data) {
             html = L.DG.template(options.tmpl, options.data);
@@ -53,9 +54,14 @@ L.DG.Geoclicker.View = L.Class.extend({
         options.beforeRender && options.beforeRender();
 
         if (options.popup) {
-            options.header && this._popup.setHeaderContent(options.header);
-            options.footer && this._popup.setFooterContent(options.footer);
-            this._popup.setContent(html);
+            if (options.header) {
+                data.header = options.header;
+            }
+            if (options.footer) {
+                data.footer = options.footer;
+            }
+            data.body = html;
+            this._popup.setContent(data);
         }
         options.afterRender && options.afterRender();
 
@@ -73,6 +79,6 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     getTemplate: function (tmplFile) {
         var tmpl = this._templates[tmplFile];
-        return tmpl ? tmpl : "";
+        return tmpl ? tmpl : '';
     }
 });

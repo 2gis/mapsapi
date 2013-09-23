@@ -43,7 +43,7 @@ If you want only to hide system scrollbar:
 }
 ```
 
-Note: you can choose any class names, and slyle them as you want.
+Note: you can choose any class names, and style them as you want.
 
 * Initialize baron:
 
@@ -57,7 +57,7 @@ $('.scroller').baron();
 <div class="scroller">
     Your scrollable content here
     <div class="scroller__track"><!-- Track is optional -->
-        <div class="scroller-bar"></div>
+        <div class="scroller__bar"></div>
     </div>
 </div>
 ```
@@ -312,7 +312,13 @@ params = {
 
     // Radius for element fixing in px
     // Default: 0
-    radius: 10
+    radius: 10,
+
+    // Wether click on element should scroll to
+    clickable: false,
+
+    // User defined callback on click (data == {x1: current scrollTop, x2: new scrollTop})
+    scroll: function(data) {}
 }
 ```
 

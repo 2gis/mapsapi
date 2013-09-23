@@ -1882,3 +1882,8 @@ li.dg-map-firm-address .note {
     Schedule End
 */
 
+.dg-geoclicker-loader {
+    margin: 0 auto !important;
+    display: block;
+}
+
