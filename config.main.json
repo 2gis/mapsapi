@@ -6,13 +6,13 @@
     "TILE_SERVER": "http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1",
     "ERROR_TILE_URL":"http://maps.api.2gis.ru/2.0/img/nomap.png",
 
-    "HIGHLIGHT_POI_SERVER": "http://127.0.0.1:3100/{z}/{x}/{y}",
+    "HIGHLIGHT_POI_SERVER": "http://tiles0.api.dev.test/tiles?z={z}&x={x}&y={y}&type=poi,buildings",
 
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
     "PROJECT_ADDITIONAL_FIELDS": "data.bound,data.max_zoom_level,data.min_zoom_level,data.time_zone,data.time_zone_as_offset",
-    "FIRM_INFO_FIELDS": "data.reviews,data.rating,data.geo.id,data.geo.entrances",
+    "FIRM_INFO_FIELDS": "data.reviews,data.geo.id,data.geo.entrances",
     "GEO_ADDITIONAL_FIELDS": "data.geometry.location",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
     "DEFAULT_LANG": "ru",
