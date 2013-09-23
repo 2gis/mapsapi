@@ -4,7 +4,6 @@
     if (!window) return; // Server side
 
 var
-    scrolls = [],
     _baron = window.baron, // Stored baron value for noConflict usage
     $ = window.jQuery, // Trying to use jQuery
     origin = {
@@ -52,7 +51,7 @@ var
         constructor: function(roots, input, $) {
             var params = validate(input);
 
-            params.$ = $;    
+            params.$ = $;
             each.call(this, roots, function(root, i) {
                 var localParams = clone(params);
 
@@ -64,19 +63,6 @@ var
                 } else {
                     localParams.scroller = root;
                 }
-                
-
-                // if (!params.root && params.scroller) {
-                //     localParams.scroller = root;
-                // }
-
-                // if (!params.root && !params.scroller) {
-                //     localParams.scroller = root;
-                // }
-
-                // if (params.root && !params.scroller) {
-                //     localParams.scroller = root;
-                // }
 
                 localParams.root = root;
                 this[i] = init(localParams);
@@ -87,16 +73,21 @@ var
         },
 
         dispose: function() {
+            var params = this.params;
+
             each(this, function(item) {
-                manageEvents(item, item.event, 'off');
-                item = null;
+                item.dispose(params);
             });
             this.params = null;
         },
 
         update: function() {
             var i = 0;
-            while (this[i]) this[i++].update();
+
+            while (this[i]) {
+                this[i].update.apply(this[i], arguments);
+                i++;
+            }
         },
 
         baron: function(params) {
@@ -113,68 +104,127 @@ var
         }
     };
 
-    function manageEvents(item, event, mode) {
-        item._eventHandlers = item._eventHandlers || { // Creating new functions for one baron item only one time
-            onScroll: function(e) {
-                item.scroll(e);
-            },
+    function manageEvents(item, eventManager, mode) {
+        item._eventHandlers = item._eventHandlers || [ // Creating new functions for one baron item only one time
+            {
+                // onScroll: 
+                element: item.scroller,
 
-            onMouseDown: function(e) {
-                e.preventDefault(); // Text selection disabling in Opera... and all other browsers?
-                item.selection(); // Disable text selection in ie8
-                item.drag.now = 1; // Save private byte
-            },
+                handler: function(e) {
+                    item.scroll(e);
+                },
 
-            onMouseUp: function() {
-                item.selection(1); // Enable text selection
-                item.drag.now = 0;
-            },
+                type: 'scroll'
+            }, {
+                // onMouseDown: 
+                element: item.bar,
 
-            onCoordinateReset: function(e) {
-                if (e.button != 2) { // Not RM
-                    item._pos0(e);
-                }
-            },
+                handler: function(e) {
+                    e.preventDefault(); // Text selection disabling in Opera... and all other browsers?
+                    item.selection(); // Disable text selection in ie8
+                    item.drag.now = 1; // Save private byte
+                },
 
-            onMouseMove: function(e) {
-                if (item.drag.now) {
-                    item.drag(e);
-                }
-            },
+                type: 'touchstart mousedown'
+            }, {
+                // onMouseUp: 
+                element: document,
 
-            onResize: function() {
-                item.update();
+                handler: function() {
+                    item.selection(1); // Enable text selection
+                    item.drag.now = 0;
+                },
+
+                type: 'mouseup blur touchend'
+            }, {
+                // onCoordinateReset: 
+                element: document,
+
+                handler: function(e) {
+                    if (e.button != 2) { // Not RM
+                        item._pos0(e);
+                    }
+                },
+
+                type: 'touchstart mousedown'
+            }, {
+                // onMouseMove: 
+                element: document,
+
+                handler: function(e) {
+                    if (item.drag.now) {
+                        item.drag(e);
+                    }
+                },
+
+                type: 'mousemove touchmove'
+            }, {
+                // onResize: 
+                element: window,
+
+                handler: function() {
+                    item.update();
+                },
+
+                type: 'resize'
+            }, {
+                // sizeChange: 
+                element: item.root,
+
+                handler: function() {
+                    item.update();
+                },
+
+                type: 'sizeChange'
             }
-        };
+        ];
 
-        if (item.scroller) {
-            event(item.scroller, 'scroll', item._eventHandlers.onScroll, mode);
+        each(item._eventHandlers, function(event) {
+            if (event.element) {
+                eventManager(event.element, event.type, event.handler, mode);
+            }
+        });
+
+        // if (item.scroller) {
+        //     event(item.scroller, 'scroll', item._eventHandlers.onScroll, mode);
+        // }
+        // if (item.bar) {
+        //     event(item.bar, 'touchstart mousedown', item._eventHandlers.onMouseDown, mode);
+        // }
+        // event(document, 'mouseup blur touchend', item._eventHandlers.onMouseUp, mode);
+        // event(document, 'touchstart mousedown', item._eventHandlers.onCoordinateReset, mode);
+        // event(document, 'mousemove touchmove', item._eventHandlers.onMouseMove, mode);
+        // event(window, 'resize', item._eventHandlers.onResize, mode);
+        // if (item.root) {
+        //     event(item.root, 'sizeChange', item._eventHandlers.onResize, mode); // Custon event for alternate baron update mechanism
+        // }
+    }
+
+    function manageAttr(node, direction, mode) {
+        var attrName = 'data-baron-' + direction;
+
+        if (mode == 'on') {
+            node.setAttribute(attrName, 'inited');
+        } else if (mode == 'off') {
+            node.removeAttribute(attrName);
+        } else {
+            return node.getAttribute(attrName);
         }
-        if (item.bar) {
-            event(item.bar, 'touchstart mousedown', item._eventHandlers.onMouseDown, mode);
-        }
-        event(document, 'mouseup blur touchend', item._eventHandlers.onMouseUp, mode);
-        event(document, 'touchstart mousedown', item._eventHandlers.onCoordinateReset, mode);
-        event(document, 'mousemove touchmove', item._eventHandlers.onMouseMove, mode);
-        event(window, 'resize', item._eventHandlers.onResize, mode);
-        if (item.root) {
-            event(item.root, 'sizeChange', item._eventHandlers.onResize, mode); // Custon event for alternate baron update mechanism
-        }
-    };
+    }
 
     function init(params) {
-        if (params.root.getAttribute('data-baron-' + params.direction)) return;
+        if (manageAttr(params.root, params.direction)) return;
 
         var out = new item.prototype.constructor(params); // __proto__ of returning object is baron.prototype
 
         manageEvents(out, params.event, 'on');
 
-        out.root.setAttribute('data-baron-' + params.direction, 'inited');
+        manageAttr(out.root, params.direction, 'on');
 
         out.update();
 
         return out;
-    };
+    }
 
     function clone(input) {
         var output = {};
@@ -188,7 +238,7 @@ var
         }
 
         return output;
-    };
+    }
 
     function validate(input) {
         var output = clone(input);
@@ -206,15 +256,18 @@ var
         };
 
         return output;
-    };
+    }
 
     function fire(eventName) {
+        /* jshint validthis:true */
         if (this.events && this.events[eventName]) {
             for (var i = 0 ; i < this.events[eventName].length ; i++) {
-                this.events[eventName][i].apply(this, Array.prototype.slice.call( arguments, 1 ));
+                var args = Array.prototype.slice.call( arguments, 1 );
+
+                this.events[eventName][i].apply(this, args);
             }
         }
-    };
+    }
 
     var item = {};
 
@@ -227,8 +280,10 @@ var
                 resizePauseTimer,
                 scrollPauseTimer,
                 pause,
-                scrollLastFire = new Date().getTime(),
-                resizeLastFire = scrollLastFire;
+                scrollLastFire,
+                resizeLastFire;
+
+            resizeLastFire = scrollLastFire = new Date().getTime();
 
             $ = this.$ = params.$;
             this.event = params.event;
@@ -236,7 +291,7 @@ var
 
             function getNode(sel, context) {
                 return $(sel, context)[0]; // Can be undefined
-            };
+            }
 
             // DOM elements
             this.root = params.root; // Always html node, not just selector
@@ -257,38 +312,43 @@ var
 
             // Updating height or width of bar
             function setBarSize(size) {
+                /* jshint validthis:true */
                 var barMinSize = this.barMinSize || 20;
 
-                if (size > 0 && size < this.barMinSize) {
-                    size = this.barMinSize;
+                if (size > 0 && size < barMinSize) {
+                    size = barMinSize;
                 }
 
                 if (this.bar) {
-                    $(this.bar).css(this.origin.size, parseInt(size) + 'px');
+                    $(this.bar).css(this.origin.size, parseInt(size, 10) + 'px');
                 }
-            };
+            }
 
             // Updating top or left bar position
             function posBar(pos) {
+                /* jshint validthis:true */
                 if (this.bar) {
                     $(this.bar).css(this.origin.pos, +pos + 'px');
                 }
-            };
+            }
 
             // Free path for bar
             function k() {
+                /* jshint validthis:true */
                 return track[this.origin.client] - this.barTopLimit - this.bar[this.origin.offset];
-            };
+            }
 
             // Relative content top position to bar top position
             function relToPos(r) {
+                /* jshint validthis:true */
                 return r * k.call(this) + this.barTopLimit;
-            };
+            }
 
             // Bar position to relative content position
             function posToRel(t) {
+                /* jshint validthis:true */
                 return (t - this.barTopLimit) / k.call(this);
-            };
+            }
 
             // Cursor position in main direction in px // Now with iOs support
             this.cursor = function(e) {
@@ -298,7 +358,7 @@ var
             // Text selection pos preventing
             function dontPosSelect() {
                 return false;
-            };
+            }
 
             this.pos = function(x) { // Absolute scroller position in px
                 var ie = 'page' + this.origin.x + 'Offset',
@@ -320,12 +380,12 @@ var
             };
 
             // Switch on the bar by adding user-defined CSS classname to scroller
-            this.barOn = function() {
+            this.barOn = function(dispose) {
                 if (this.barOnCls) {
-                    if (this.scroller[this.origin.client] < this.scroller[this.origin.scrollSize]) {
-                        $(this.root).addClass(this.barOnCls);
-                    } else {
+                    if (dispose || this.scroller[this.origin.client] >= this.scroller[this.origin.scrollSize]) {
                         $(this.root).removeClass(this.barOnCls);
+                    } else {
+                        $(this.root).addClass(this.barOnCls);
                     }
                 }
             };
@@ -361,22 +421,22 @@ var
                     }
                     $(self.scroller).css(self.origin.crossSize, self.clipper[self.origin.crossClient] + delta + 'px');
                     
-                    Array.prototype.unshift.call( arguments, 'resize' );
+                    Array.prototype.unshift.call(arguments, 'resize');
                     fire.apply(self, arguments);
 
                     resizeLastFire = new Date().getTime();
-                };
+                }
 
                 if (delay) {
                     resizePauseTimer = setTimeout(upd, delay);
                 } else {
                     upd();
                 }
-            }
+            };
 
             // onScroll handler
-            this.scroll = function(e) {
-                var scrollDelta, oldBarSize, newBarSize,
+            this.scroll = function() {
+                var oldBarSize, newBarSize,
                     delay = 0,
                     self = this;
 
@@ -404,7 +464,7 @@ var
                     fire.apply(self, arguments);
 
                     scrollLastFire = new Date().getTime();
-                };
+                }
 
                 if (delay) {
                     scrollPauseTimer = setTimeout(upd, delay);
@@ -412,17 +472,27 @@ var
                     upd();
                 }
                 
-            }
+            };
 
             return this;
         },
 
-        update: function() {
+        update: function(params) {
+            fire.call(this, 'upd', params); // Обновляем параметры всех плагинов
+
             this.resize(1);
             this.barOn();
             this.scroll();
 
             return this;
+        },
+
+        dispose: function(params) {
+            manageEvents(this, this.event, 'off');
+            manageAttr(this.root, params.direction, 'off');
+            $(this.scroller).css(this.origin.crossSize, '');
+            this.barOn(true);
+            fire.call(this, 'dispose');
         },
 
         on: function(eventName, func, arg) {
@@ -434,8 +504,8 @@ var
                 } else {
                     this.events[names[i]] = this.events[names[i]] || [];
 
-                    this.events[names[i]].push(function() {
-                        func.call(this, arg);
+                    this.events[names[i]].push(function(userArg) {
+                        func.call(this, userArg || arg);
                     });
                 }
             }
@@ -452,7 +522,7 @@ var
         return baron;
     };
 
-    baron.version = '0.6.3';
+    baron.version = '0.6.6';
 
     if ($ && $.fn) { // Adding baron to jQuery as plugin
         $.fn.baron = baron;

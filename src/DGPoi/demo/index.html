@@ -3,76 +3,32 @@
 <head>
     <meta charset='utf-8'>
     <title>DGPoi demo</title>
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug"></script>
 </head>
 <body>
     <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
     <script type="text/javascript">
         L.onLoad(function () {
             var map = new L.Map('map', {
-                center: new L.LatLng(54.980206086231, 82.898068362003),
-                zoom: 15,
+                center: new L.LatLng(51.7302800, 36.1938900),
+                zoom: 17,
+                dgPoi: true,
                 dgGeoclicker: true
             });
 
-            var _readWKT =function(selection) {
-                var _wktParser = L.DG.wkt();
+            var marker = L.marker(map.getCenter()).addTo(map);
 
-                _wktParser.read(selection);
-                return _wktParser.toObject();
-            };
+            map.on('dgPoiHover', function (event) {
+                console.log('dgPoiHover on poi: ', event);
+            });
 
-            var removeFromMap = function(){
-                if (map.hasLayer(this)){
-                    map.removeLayer(this);
-                }
-            }
+            map.on('dgPoiLeave', function (event) {
+                console.log('dgPoiLeave poi', event);
+            });
 
-            var __POI_SERVER__ = 'http://127.0.0.1:3100';
-
-            var getTestpoi = function(z, x, y) {
-                L.DG.Jsonp({
-                    url : [__POI_SERVER__, '/', z, '/', x, '/', y].join(''),
-                    success : function(data){
-                        if (data.response.code != 200) return;
-                        var poi = data.result.poi[0],
-                            path = _readWKT(poi.hover);
-
-                        path.on('click', function(){
-                                console.log(poi);
-                            })
-                            .setStyle({
-                                stroke: false,
-                                clickable: false
-                            })
-                            .addTo(map);
-                        map.once('viewreset', removeFromMap, path);
-                    }
-                });
-            };
-
-            var canvasTiles = L.tileLayer.canvas();
-            canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
-                var ctx = canvas.getContext('2d');
-                ctx.fillText(tilePoint.x + ' ' + tilePoint.y, 10, 10);
-                ctx.beginPath();
-                ctx.moveTo(255, 0);
-                ctx.lineTo(255, 255);
-                ctx.lineTo(0, 255);
-                ctx.stroke();
-
-                getTestpoi(zoom, tilePoint.x, tilePoint.y);
-            };
-            map.addLayer(canvasTiles);
-
-           // //check event firing
-           //  map.on('dgPoiHover', function (poi) {
-           //      console.log('dgPoiHover on poi: ', poi);
-           //  });
-
-           //  map.on('dgPoiLeave', function () {
-           //      console.log('dgPoiLeave poi');
-           //  });
+            map.on('dgPoiClick', function (event) {
+                console.log('dgPoiClick poi', event);
+            });
 
         });
     </script>

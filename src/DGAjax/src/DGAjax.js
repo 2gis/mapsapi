@@ -39,7 +39,7 @@ L.DG.ajax = (function () {
                 js:   'application/javascript, text/javascript'
             }
         },
-
+        /*global XDomainRequest:false, ActiveXObject:false */
         xhr = function (o) {
             // is it x-domain
             if (o.crossDomain === true) {
@@ -166,13 +166,13 @@ L.DG.ajax = (function () {
             script.htmlFor = script.id = '_request_' + reqId;
         }
 
-        script.onerror = function (){
+        script.onerror = function () {
             script.onerror = script.onload = script.onreadystatechange = null;
             err({}, 'Request unknown error', {});
             lastValue = undefined;
             head.removeChild(script);
             loaded = 1;
-        }
+        };
         script.onload = script.onreadystatechange = function () {
             if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
                 return false;

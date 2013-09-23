@@ -29,7 +29,6 @@ FirmCard.Schedule.prototype = {
         weekKeys = [], // Ключи дней недели, определяют порядок дней и первый день недели. 0 - первый день недели в регионе (не обязательно Mon)
         weekKeysLocal = [],
         weekFullKeysLocal = [],
-        orgWorkginDays, // Рабочие дни данной организации
 
         apiLang = 'en',//* добавлено, т.к. была ошибка
         localLang = params.localLang || this.localLang || 'en',
@@ -463,8 +462,7 @@ FirmCard.Schedule.prototype = {
     },
 
     forecast: function (schedule, params) {
-        var str,
-        interval = '',
+        var interval = '',
         open,
         today = {},
         nowText,
