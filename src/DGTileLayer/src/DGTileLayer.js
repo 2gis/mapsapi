@@ -21,11 +21,19 @@ L.Map.mergeOptions({
 });
 
 L.Map.addInitHook(function () {
-    var html = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: this.getLang()});
-    var options = {
-        position: 'bottomright',
-        prefix: html
-    };
+    var html = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: this.getLang()}),
+        options = {
+            position: 'bottomright',
+            prefix: html
+        },
+        self = this;
+
+    L.Control.Attribution.include({
+        _renderTitles: function () {
+            this.options.prefix = L.DG.template(__DGTileLayer_TMPL__.copyright, {lang: self.getLang()});
+            this._update();
+        }
+    });
     
     new L.Control.Attribution(options).addTo(this);
     L.DG.tileLayer().addTo(this);

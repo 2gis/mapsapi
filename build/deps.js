@@ -129,6 +129,7 @@ var deps = {
         src: ['DGFullScreen/src/DGFullScreen.js',
               'DGFullScreen/lang/ru.js',
               'DGFullScreen/lang/it.js',
+              'DGFullScreen/lang/cs.js',
               'DGFullScreen/lang/en.js'
         ],
         css: {
