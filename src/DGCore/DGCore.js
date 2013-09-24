@@ -11,5 +11,5 @@ L.Icon.Default.imagePath  = '__BASE_URL__/img/vendors/leaflet';
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', '__GA_CODE__', 'none');
+ga('create', '__GA_CODE__', 'maps.api.2gis.ru');
 ga('send', 'pageview');
