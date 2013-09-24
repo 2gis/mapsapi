@@ -36,7 +36,7 @@ function getPageLang() {
 }
 
 L.Map.mergeOptions({
-    currentLang: L.DG.loaderParams && L.DG.loaderParams.lang || getPageLang()
+    currentLang: getPageLang()
 });
 
 L.Map.include({
