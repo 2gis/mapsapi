@@ -257,13 +257,6 @@ L.DG.LocationControl = L.Control.extend({
     }
 });
 
-L.Map.addInitHook(function () {
-    if (this.options.locateControl) {
-        this.locateControl = L.DG.locate();
-        this.addControl(this.locateControl);
-    }
-});
-
 L.DG.locate = function (options) {
     return new L.DG.LocationControl(options);
 };

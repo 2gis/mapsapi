@@ -242,7 +242,7 @@ var deps = {
                 'DGLocationControl/skin/{skin}/css/DGLocationControl.css'
             ],
         },
-        deps: ['DGCore']
+        deps: ['DGCore', 'DGLocale']
     }
 };
 
