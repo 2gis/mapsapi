@@ -8,12 +8,18 @@ L.DG.Meta.Storage = L.Class.extend({
         return this._data[id] || null;
     },
 
-    getTileDataIds: function (tileId) { //(String) -> Promise
+    getTileDataIds: function (tileId) { //(String) -> Array|false
         return this._tilesData.hasOwnProperty(tileId) ? this._tilesData[tileId] : false;
     },
 
-    getTileData: function (tileId) { //(String) -> Promise
-        return this._tilesData.hasOwnProperty(tileId) ? this._tilesData[tileId] : false;
+    getTileData: function (tileId) { //(String) -> Array|false
+        if (!this._tilesData.hasOwnProperty(tileId)) {
+            return false;
+        }
+        for (var result = [], i = 0, len = this._tilesData[tileId].length; i < len; i++) {
+            result.push(this._data[this._tilesData[tileId][i]]);
+        }
+        return result;
     },
 
     addDataToTile: function (tileId, tileData) { //(String, Array)

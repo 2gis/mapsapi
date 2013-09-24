@@ -1,5 +1,8 @@
 L.DG.Meta.PoiStorage = L.DG.Meta.Storage.extend({
 
+    _data: {},
+    _tilesData: {},
+
     _addEntity: function (id, entity) { //(String, Object)
         var randomEntityLink = entity.links[Math.floor(Math.random() * entity.links.length)];
 
