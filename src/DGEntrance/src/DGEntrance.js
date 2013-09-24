@@ -221,19 +221,19 @@ L.DG.Entrance = L.Class.extend({
     _getArrowOptions: function () {
         return {
             clickable: false,
-            color: '#6f8497',
+            color: '#4C657E',
             weight: 3,
             opacity: 1,
             byZoom: {
                 16: {
                     marker: {
-                        viewBox: '0 0 24 24',
                         refX: 12,
                         refY: 12,
                         markerHeight: 24,
                         markerWidth: 24,
-                        polygon: {
-                            points: '15,12 10,7 9,8 11,11 11,13 9,16 10,17'
+                        path: {
+                            d:  'M11.068,13.011L9.5,17.285l6.379-5.169L9' +
+                                '.313,7.19l1.717,3.824'
                         }
                     },
                     lastPointOffset: 2,
@@ -241,13 +241,13 @@ L.DG.Entrance = L.Class.extend({
                 },
                 17: {
                     marker: {
-                        viewBox: '0 0 24 24',
                         refX: 12,
                         refY: 12,
                         markerHeight: 24,
                         markerWidth: 24,
-                        polygon: {
-                            points: '17,12 10,5 9,6 11,10 11,14 9,18 10,19'
+                        path: {
+                            d:  'M10.354,13.969l-2.184,5.18L16.993,12L7.' +
+                                '912,5.188l2.38,4.781'
                         }
                     },
                     lastPointOffset: 0,
@@ -255,13 +255,13 @@ L.DG.Entrance = L.Class.extend({
                 },
                 18: {
                     marker: {
-                        viewBox: '0 0 24 24',
                         refX: 12,
                         refY: 12,
                         markerHeight: 24,
                         markerWidth: 24,
-                        polygon: {
-                            points: '17,12 8,3 7,4 11,10 11,14 7,20 8,21'
+                        path: {
+                            d:  'M10.281,13.781L7.42,21.271l11.488-9.308' +
+                                'L7.083,3.093L10.219,10'
                         }
                     },
                     lastPointOffset: !L.Browser.vml ? -5 : 0,
