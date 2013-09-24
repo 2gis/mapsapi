@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <title>DGLocale demo</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&lang=it"></script>
+    <script src="http://maps.api.2gis.dev/2.0/loader.js?pkg=full"></script>
 </head>
 <body>
 
@@ -30,12 +30,12 @@
 
             onAdd: function (map) {
                 this._container = L.DomUtil.create('div', 'locale-example');
-                this._map.on('dgLangChange', this._updateText, this);
-                this._updateText();
+                this._renderTitles();
                 return this._container;
             },
 
-            _updateText:function () {
+            //this function will be called every time when we change language
+            _renderTitles:function () {
                 this._container.innerHTML = '<h1>' + this.t("{n} people", 16700000) + ' ' + this.t("regularly use 2GIS") + '</h1>';
             }
         });
