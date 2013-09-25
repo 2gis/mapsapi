@@ -89,4 +89,4 @@
         }
     });
 
-    requestPromise.abort():
+    requestPromise.abort();
