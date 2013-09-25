@@ -130,7 +130,7 @@ L.DG.Entrance = L.Class.extend({
 
         map.once('moveend', function () {
             if (this._map && !this._isAllowedZoom()) {
-                maxZoom = map.dgProjectDetector.getProject().max_zoomlevel;
+                maxZoom = map.dgProjectDetector.getProject().max_zoom_level;
                 map.setZoom(maxZoom, {animate: false});
             }
         }, this);
