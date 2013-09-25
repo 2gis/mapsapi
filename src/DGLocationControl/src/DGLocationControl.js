@@ -21,11 +21,11 @@ L.DG.LocationControl = L.Control.extend({
         onLocationError: function (err) {
             // this event is called in case of any location error
             // that is not a time out error.
-            console.log(err.message);
+            // console.log(err.message);
         },
         onLocationOutsideMapBounds: function (context) {
             // this event is repeatedly called when the location changes
-            console.log(context.t('outsideMapBoundsMsg'));
+            // console.log(context.t('outsideMapBoundsMsg'));
         },
         locateOptions: {}
     },
@@ -43,13 +43,11 @@ L.DG.LocationControl = L.Control.extend({
         this._event = undefined;
 
         this._locateOptions = {
-            watch: true  // if you overwrite this, visualization cannot be updated
+            watch: true,  // if you overwrite this, visualization cannot be updated
+            setView: true
         };
+        // console.log(map.dgProjectDetector.getProject());
         L.extend(this._locateOptions, this.options.locateOptions);
-        L.extend(this._locateOptions, {
-            setView: false // have to set this to false because we have to
-                           // do setView manually
-        });
 
         this._link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
         this._link.href = '#';
@@ -63,6 +61,10 @@ L.DG.LocationControl = L.Control.extend({
                     isOutsideMapBounds())) {
                     stopLocate();
                 } else {
+                    L.extend(self._locateOptions, {
+                        maxZoom: map.dgProjectDetector.getProject().max_zoom_level || 13
+                    });
+
                     self._locateOnNextLocationFound = true;
 
                     if (!self._active) {
@@ -138,14 +140,6 @@ L.DG.LocationControl = L.Control.extend({
             }
 
             var radius = self._event.accuracy;
-            if (self._locateOnNextLocationFound) {
-                if (isOutsideMapBounds()) {
-                    self.options.onLocationOutsideMapBounds(self);
-                } else {
-                    map.fitBounds(self._event.bounds);
-                }
-                self._locateOnNextLocationFound = false;
-            }
 
             // circle with the radius of the location's accuracy
             var style = {
@@ -219,6 +213,7 @@ L.DG.LocationControl = L.Control.extend({
             self._layer.clearLayers();
             self._marker = undefined;
             self._circle = undefined;
+            self._event = undefined;
         };
 
         var onLocationError = function (err) {
