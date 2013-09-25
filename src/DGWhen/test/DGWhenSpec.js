@@ -1,3 +1,4 @@
+/*global describe:false, it:false, expect:false */
 describe('L.DG.when', function () {
 
 	var fakePromise, sentinel, other;

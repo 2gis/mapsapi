@@ -156,14 +156,29 @@ var deps = {
         deps: ['DGCore', 'DGJsonp']
     },
 
-    DGPoi: {
-        desc: '2GIS POI module.',
+    DGMeta: {
+        desc: '2GIS POI & buildings data support module.',
         src: [
-            'DGPoi/src/DGPoi.js',
-            'DGPoi/src/PoiStorage.js',
-            'DGPoi/src/PolyUtilContains.js'
+            'DGMeta/src/DGMeta.js',
+            'DGMeta/src/storage/Storage.js',
+            'DGMeta/src/storage/PoiStorage.js',
+            'DGMeta/src/storage/BuildingStorage.js',
+            'DGMeta/src/StorageHost.js',
+            'DGMeta/src/PolyUtilContains.js'
         ],
         deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt']
+    },
+
+    DGPoi: {
+        desc: '2GIS POI module.',
+        src: ['DGPoi/src/DGPoi.js'],
+        deps: ['DGMeta', 'DGLabel']
+    },
+
+    DGBuildings: {
+        desc: '2GIS buildings module.',
+        src: ['DGBuildings/src/DGBuildings.js'],
+        deps: ['DGMeta']
     },
 
     DGGeoclicker: {
@@ -205,7 +220,7 @@ var deps = {
             '../vendors/firmcard/src/Dictionary.js',
 
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGLabel']
+        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
     },
 
     DGTemplate: {
