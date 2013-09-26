@@ -44,7 +44,7 @@ L.DG.LocationControl = L.Control.extend({
 
         this._locateOptions = {
             watch: true,  // if you overwrite this, visualization cannot be updated
-            setView: true
+            setView: false
         };
         // console.log(map.dgProjectDetector.getProject());
         L.extend(this._locateOptions, this.options.locateOptions);
@@ -61,10 +61,6 @@ L.DG.LocationControl = L.Control.extend({
                     isOutsideMapBounds())) {
                     stopLocate();
                 } else {
-                    L.extend(self._locateOptions, {
-                        maxZoom: map.dgProjectDetector.getProject().max_zoom_level || 13
-                    });
-
                     self._locateOnNextLocationFound = true;
 
                     if (!self._active) {
@@ -140,6 +136,17 @@ L.DG.LocationControl = L.Control.extend({
             }
 
             var radius = self._event.accuracy;
+
+            if (self._locateOnNextLocationFound) {
+                if (isOutsideMapBounds()) {
+                    self.options.onLocationOutsideMapBounds(self);
+                } else {
+                    map.setView(self._event.latlng, 13);
+                    var zoom = map.dgProjectDetector.getProject().max_zoom_level || 13;
+                    map.setZoom(zoom);
+                }
+                self._locateOnNextLocationFound = false;
+            }
 
             // circle with the radius of the location's accuracy
             var style = {
