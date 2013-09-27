@@ -221,7 +221,7 @@ L.DG.Entrance = L.Class.extend({
     _getArrowOptions: function () {
         return {
             clickable: false,
-            color: '#4C657E',
+            color: '#0085a0',
             weight: 3,
             opacity: 1,
             byZoom: {
