@@ -149,12 +149,18 @@ var deps = {
 
     DGTileLayer: {
         desc: '2GIS tile layer module',
-        src: ['DGTileLayer/src/DGTileLayer.js'],
+        src: [
+            'DGTileLayer/src/DGTileLayer.js',
+            'DGTileLayer/lang/ru.js',
+            'DGTileLayer/lang/en.js',
+            'DGTileLayer/lang/it.js',
+            'DGTileLayer/lang/cs.js'
+        ],
         css: {
             all: ['DGTileLayer/skin/{skin}/css/style.css'],
             ie: ['DGTileLayer/skin/{skin}/css/ie.css']
         },
-        deps: ['DGCore', 'DGTemplate']
+        deps: ['DGCore', 'DGTemplate', 'DGLocale']
     },
 
     DGProjectDetector: {
