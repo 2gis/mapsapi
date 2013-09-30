@@ -3,7 +3,7 @@ L.DG.Geoclicker.Handler.Default.Dictionary.cs = L.extend({
     "noname": "bez názvu",
     "street": "Ulice",
     "district": "Obvod",
-    "city": "Město - уточнить у переводчика",
+    "city": "Město",
     "Show organization in the building": "Zobrazit organizace v budově",
     "Hide organization in the building": "Skrýt organizace v budově",
     "{n} floors": ["{n} podlaží", "{n} podlaží"]
