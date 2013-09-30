@@ -1,4 +1,6 @@
-describe('Polygon', function() {
+/*global describe:false, it:false, expect:false */
+
+describe('Polygon', function () {
 
     var polygonPointSet = [
         new L.LatLng(54.97952237000778, 82.89766073226929),
@@ -36,7 +38,7 @@ describe('Polygon', function() {
         new L.LatLng(54.981049264127705, 82.90077209472656)
     ];
 
-    describe("#contains", function() {
+    describe('#contains', function () {
 
         it('should return true if points are inside', function () {
             for (var i = 0; i < innerPoints.length; i++) {
