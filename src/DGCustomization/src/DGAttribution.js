@@ -22,7 +22,7 @@ L.Control.Attribution.include({
             'PTC': this.t('PTC')
         };
     },
-    _renderTitles: function () {
+    _renderTranslation: function () {
         this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData());
         this._update();
     }

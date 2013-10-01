@@ -4,7 +4,7 @@ Copyright (c) 2013 Dominik Moritz
 This file is part of the leaflet locate control. It is licensed under the MIT license.
 You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
 */
-L.DG.LocationControl = L.Control.extend({
+L.DG.Location = L.Control.extend({
 
     includes: L.DG.Locale,
 
@@ -254,11 +254,14 @@ L.DG.LocationControl = L.Control.extend({
         return container;
     },
 
-    _refreshTitles: function () {
+    _renderTranslation: function () {
         this._link.title = this.t('button_title');
+        if (this._marker) {
+            this._marker.bindLabel(this.t('you_are_here'));
+        }
     }
 });
 
 L.DG.locate = function (options) {
-    return new L.DG.LocationControl(options);
+    return new L.DG.Location(options);
 };

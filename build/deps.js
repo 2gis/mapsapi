@@ -253,17 +253,17 @@ var deps = {
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     },
 
-    DGLocationControl: {
+    DGLocation: {
         desc: 'Location control module',
         src: [
-            'DGLocationControl/src/DGLocationControl.js',
-            'DGLocationControl/lang/ru.js',
-            'DGLocationControl/lang/it.js',
-            'DGLocationControl/lang/en.js'
+            'DGLocation/src/DGLocation.js',
+            'DGLocation/lang/ru.js',
+            'DGLocation/lang/it.js',
+            'DGLocation/lang/en.js'
         ],
         css: {
             all: [
-                'DGLocationControl/skin/{skin}/css/DGLocationControl.css'
+                'DGLocation/skin/{skin}/css/DGLocation.css'
             ],
         },
         deps: ['DGCore', 'DGLocale']

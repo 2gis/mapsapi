@@ -6,7 +6,7 @@ L.Control.Zoom.include({
     options: {
         position: L.DG.configTheme.controls.zoom.position
     },
-    
+
     // TODO: think about pull request to leaflet with zoom control button's titles as options
     onAdd: function (map) {
         var zoomName = 'dg-zoom',
@@ -34,8 +34,8 @@ L.Control.Zoom.include({
 
         return container;
     },
-    
-    _renderTitles: function () {
+
+    _renderTranslation: function () {
         this._zoomInButton.title = this.t('zoom-in');
         this._zoomOutButton.title = this.t('zoom-out');
     }

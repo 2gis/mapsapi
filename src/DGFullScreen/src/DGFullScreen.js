@@ -61,7 +61,7 @@ L.DG.FullScreen = L.Control.extend({
         container.href = '#';
         this.fullScreenControl = container;
         this._isFullscreen = false;
-        this._renderTitles();
+        this._renderTranslation();
 
         this._map = map;
 
@@ -81,7 +81,7 @@ L.DG.FullScreen = L.Control.extend({
         this._map.invalidateSize();
     },
 
-    _renderTitles: function () {
+    _renderTranslation: function () {
         if (this._isFullscreen) {
             this.fullScreenControl.title = this.t('title_min');
         } else {
