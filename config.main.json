@@ -7,6 +7,7 @@
     "ERROR_TILE_URL":"http://maps.api.2gis.ru/2.0/img/nomap.png",
 
     "HIGHLIGHT_POI_SERVER": "http://tiles0.api.dev.test/tiles?z={z}&x={x}&y={y}&type=poi,buildings",
+    "POI_LAYER_MIN_ZOOM": 15,
 
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",

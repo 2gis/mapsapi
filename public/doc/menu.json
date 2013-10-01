@@ -170,6 +170,18 @@
                             }
                         },
                         "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "DGLocationControl",
+                                "uri": "doc/DGLocationControl/DGLocationControl.html",
+                                "_src": "DGLocationControl/doc/DGLocationControl.md",
+
+                                "hide": false
+                            }
+                        },
+                        "children": null
                     }
                 ]
             }
