@@ -99,12 +99,17 @@ var deps = {
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
             'DGCustomization/src/DGCustomization.js',
+            'DGCustomization/src/DGAttribution.js',
             'DGCustomization/src/DGPopup.js',
             'DGCustomization/src/DGZoom.js',
-            'DGCustomization/lang/ru.js',
-            'DGCustomization/lang/it.js',
-            'DGCustomization/lang/cs.js',
-            'DGCustomization/lang/en.js'
+            'DGCustomization/lang/DGAttribution/ru.js',
+            'DGCustomization/lang/DGAttribution/it.js',
+            'DGCustomization/lang/DGAttribution/cs.js',
+            'DGCustomization/lang/DGAttribution/en.js',
+            'DGCustomization/lang/DGZoom/ru.js',
+            'DGCustomization/lang/DGZoom/it.js',
+            'DGCustomization/lang/DGZoom/cs.js',
+            'DGCustomization/lang/DGZoom/en.js'
         ],
         css: {
             all: [
@@ -150,11 +155,7 @@ var deps = {
     DGTileLayer: {
         desc: '2GIS tile layer module',
         src: [
-            'DGTileLayer/src/DGTileLayer.js',
-            'DGTileLayer/lang/ru.js',
-            'DGTileLayer/lang/en.js',
-            'DGTileLayer/lang/it.js',
-            'DGTileLayer/lang/cs.js'
+            'DGTileLayer/src/DGTileLayer.js'
         ],
         css: {
             all: ['DGTileLayer/skin/{skin}/css/style.css'],
