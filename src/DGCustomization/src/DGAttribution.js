@@ -5,14 +5,16 @@ L.Control.Attribution.include({
         position: 'bottomright'
     },
     onAdd: function (map) {
-        this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData());
+        if (!this.options.prefix) {
+            this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData());
+        }
         return this._onAdd.call(this, map);
     },
     _tmpl: __DGCustomization_TMPL__,
     _onAdd: L.Control.Attribution.prototype.onAdd,
-    _getData: function () {
+    _getData: function (lang) {
         return {
-            'lang': this._map.getLang(),
+            'lang': lang,
             'copyright_apilink': this.t('copyright apilink'),
             'copyright_license': this.t('copyright license'),
             'license_agreement': this.t('License agreement'),
@@ -22,8 +24,8 @@ L.Control.Attribution.include({
             'PTC': this.t('PTC')
         };
     },
-    _renderTranslation: function () {
-        this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData());
+    _renderTranslation: function (data) {
+        this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData(data.lang));
         this._update();
     }
 });
