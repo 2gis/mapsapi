@@ -1,11 +1,13 @@
+/*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false, sinon:false */
+
 describe('L.DG.Geoclicker.Controller', function () {
     var map,
-        mapContainer = document.createElement("div"),
+        mapContainer = document.createElement('div'),
         spy,
         initZoom = 17,
         controller;
 
-    beforeEach(function() {
+    beforeEach(function () {
         L.DG.Jsonp = sinon.stub(L.DG, 'Jsonp');
         map = new L.Map(mapContainer, {
             center: new L.LatLng(54.98117239821992, 82.88922250270844),
@@ -14,7 +16,7 @@ describe('L.DG.Geoclicker.Controller', function () {
         controller = map.dgGeoclicker.getController();
     });
 
-    afterEach(function() {
+    afterEach(function () {
         L.DG.Jsonp.restore();
         map.remove();
         map = null;
@@ -22,31 +24,31 @@ describe('L.DG.Geoclicker.Controller', function () {
         controller = null;
     });
 
-    describe("#findHandler", function() {
+    describe('#findHandler', function () {
 
-        it ("should return null if handler name was not found (as a result - the default handler will be called)", function() {
+        it('should return null if handler name was not found (as a result - the default handler will be called)', function () {
 
-            spy = sinon.spy(controller, "findHandler");
+            spy = sinon.spy(controller, 'findHandler');
 
-            controller.findHandler({"somedummyhandler" : 1});
+            controller.findHandler({'somedummyhandler': 1});
 
             expect(spy.returnValues.pop()).to.be.equal(null);
 
         });
 
 
-        it("should return correct handler name if handler was found", function() {
+        it('should return correct handler name if handler was found', function () {
 
-            spy = sinon.spy(controller, "findHandler");
+            spy = sinon.spy(controller, 'findHandler');
 
-            controller.findHandler({"house" : 2});
+            controller.findHandler({'house': 2});
 
-            expect(spy.returnValues.pop()).to.be.equal("house");
+            expect(spy.returnValues.pop()).to.be.equal('house');
         });
 
     });
 
-    describe("#handleResponse", function() {
+    describe('#handleResponse', function () {
         var defaultSpy,
             houseSpy,
             districtSpy,
@@ -56,11 +58,11 @@ describe('L.DG.Geoclicker.Controller', function () {
             districtHandler,
             houseHandler;
 
-        beforeEach(function() {
+        beforeEach(function () {
 
-            defaultSpy = sinon.stub().returns(true);
-            houseSpy = sinon.stub().returns(true);
-            citySpy = sinon.stub().returns(true);
+            defaultSpy = sinon.stub().returns(L.DG.when({}));
+            houseSpy = sinon.stub().returns(L.DG.when({}));
+            citySpy = sinon.stub().returns(L.DG.when({}));
             districtSpy = sinon.stub().returns(false);
 
             defaultHandler = L.Class.extend({
@@ -87,7 +89,7 @@ describe('L.DG.Geoclicker.Controller', function () {
 
         });
 
-        afterEach(function() {
+        afterEach(function () {
 
             defaultSpy = null;
             districtSpy = null;
@@ -101,7 +103,7 @@ describe('L.DG.Geoclicker.Controller', function () {
         });
 
 
-        it("should call only default handler if no result was received from WebApi", function() {
+        it('should call only default handler if no result was received from WebApi', function () {
 
             controller.handleResponse(undefined);
 
@@ -110,10 +112,10 @@ describe('L.DG.Geoclicker.Controller', function () {
 
         });
 
-        it("should call correct handler according to response of WebApi", function() {
+        it('should call correct handler according to response of WebApi', function () {
 
             controller.handleResponse({
-                "house" : 2
+                'house' : 2
             });
 
             expect(defaultSpy.called).to.not.be.ok();
@@ -121,11 +123,11 @@ describe('L.DG.Geoclicker.Controller', function () {
 
         });
 
-        it("should call next handler if previous returned false", function() {
+        it('should call next handler if previous returned false', function () {
 
             controller.handleResponse({
-                "district": 1,
-                "city" : 3
+                'district': 1,
+                'city': 3
             });
 
             expect(districtSpy.called).to.be.ok();
