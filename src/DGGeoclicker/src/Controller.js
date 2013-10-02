@@ -29,7 +29,6 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._map = map;
         this._view = new L.DG.Geoclicker.View(map);
 
-        this._renderHandlerResult = L.bind(this._renderHandlerResult, this);
         this._lastHandleClickArguments = null;
     },
 
@@ -108,7 +107,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         data = data || {};
         this._initHandlerOnce(type);
 
-        return this._handlers[type].handle(data, type).then(this._renderHandlerResult);
+        return this._handlers[type].handle(data, type, L.bind(this._renderHandlerResult, this));
     },
 
     _renderHandlerResult: function (result) {
