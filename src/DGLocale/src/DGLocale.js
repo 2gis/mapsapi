@@ -30,7 +30,7 @@ L.DG.Locale = {
 
 function getPageLang() {
     var root = document.documentElement,
-        lang = root.lang || root.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'lang') || '__DEFAULT_LANG__';
+        lang = root.lang || (root.getAttributeNS && root.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'lang')) || '__DEFAULT_LANG__';
 
     return lang;
 }

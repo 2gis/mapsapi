@@ -14,7 +14,7 @@ L.Control.Attribution.include({
     _onAdd: L.Control.Attribution.prototype.onAdd,
     _getData: function (lang) {
         return {
-            'lang': lang,
+            'lang': lang || this._map.getLang(),
             'copyright_apilink': this.t('copyright apilink'),
             'copyright_license': this.t('copyright license'),
             'license_agreement': this.t('License agreement'),
