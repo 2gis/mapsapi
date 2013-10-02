@@ -220,7 +220,7 @@ var deps = {
             '../vendors/firmcard/src/Dictionary.js',
 
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
+        deps: ['DGJsonp', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
     },
 
     DGTemplate: {
