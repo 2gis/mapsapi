@@ -108,7 +108,9 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         data = data || {};
         this._initHandlerOnce(type);
 
-        return this._handlers[type].handle(data, type).then(this._renderHandlerResult);
+        var handlerResult = this._handlers[type].handle(data, type);
+
+        return handlerResult ? handlerResult.then(this._renderHandlerResult) : false;
     },
 
     _renderHandlerResult: function (result) {
