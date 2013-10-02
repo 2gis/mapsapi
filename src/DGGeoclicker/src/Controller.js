@@ -10,6 +10,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             'street': L.DG.Geoclicker.Handler.CityArea,
             'district': L.DG.Geoclicker.Handler.CityArea,
             'city': L.DG.Geoclicker.Handler.CityArea,
+            'settlement': L.DG.Geoclicker.Handler.CityArea,
 
             'default': L.DG.Geoclicker.Handler.Default
 

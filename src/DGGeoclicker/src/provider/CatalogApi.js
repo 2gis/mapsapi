@@ -101,7 +101,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     getTypesByZoom: function (zoom) { // (Number) -> String|Null
         if (zoom > 15) {
-            return 'house,street,sight,station_platform,district';
+            return 'house,street,sight,station_platform,district,place';
         } else if (zoom > 14) {
             return 'house,street,district';
         } else if (zoom > 13) {
