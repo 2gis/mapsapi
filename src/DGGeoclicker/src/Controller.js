@@ -29,6 +29,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         this._map = map;
         this._view = new L.DG.Geoclicker.View(map);
 
+        this._renderHandlerResult = L.bind(this._renderHandlerResult, this);
         this._lastHandleClickArguments = null;
     },
 
@@ -61,7 +62,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         var type;
 
         this._view.hideLoader();
-        console.log(result);
+
         if (!result) {
             this._runHandler('default');
             return;
@@ -107,7 +108,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         data = data || {};
         this._initHandlerOnce(type);
 
-        return this._handlers[type].handle(data, type, L.bind(this._renderHandlerResult, this));
+        return this._handlers[type].handle(data, type).then(this._renderHandlerResult);
     },
 
     _renderHandlerResult: function (result) {
