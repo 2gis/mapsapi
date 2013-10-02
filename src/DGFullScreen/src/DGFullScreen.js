@@ -77,7 +77,7 @@ L.DG.FullScreen = L.Control.extend({
             this._exitFullScreen();
         }
 
-        this._renderTitles();
+        this._renderTranslation();
         this._map.invalidateSize();
     },
 
