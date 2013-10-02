@@ -1,10 +1,6 @@
 
 L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 
-	statics: {
-        Dictionary: {}
-    },
-
     _polylineStyleDefault : {
         fillColor: '#ff9387',
         color: '#ff9387',

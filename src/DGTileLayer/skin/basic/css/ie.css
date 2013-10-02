@@ -25,3 +25,18 @@ a.dg-mapcopyright__license:hover {
 .dg-mapcopyright_lang_it a.dg-mapcopyright__license {
     background-position:-41px -35px \9;
 }
+/* lang = en */
+.dg-mapcopyright_lang_en a.dg-mapcopyright__apilink {
+    background-position: -81px -46px \9;
+}
+.dg-mapcopyright_lang_en a.dg-mapcopyright__license {
+    background-position: -31px -56px \9;
+}
+
+/* lang = cs */
+.dg-mapcopyright_lang_cs a.dg-mapcopyright__apilink {
+    background-position: -81px -67px \9;
+}
+.dg-mapcopyright_lang_cs a.dg-mapcopyright__license {
+    background-position: -31px -76px \9;
+}
