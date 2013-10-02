@@ -63,12 +63,6 @@ var deps = {
         deps: ['DGCore', 'DGWhen']
     },
 
-    DGDivIcon: {
-        desc: '2GIS DivIcon module',
-        src: ['DGDivIcon/src/DGDivIcon.js'],
-        deps: ['DGCore']
-    },
-
     DGLabel: {
         desc: '2GIS Label module',
         src: [
@@ -111,7 +105,7 @@ var deps = {
             ],
             ie: ['DGCustomization/skin/{skin}/css/baron.ie.css']
         },
-        deps: ['DGCore', 'DGDivIcon']
+        deps: ['DGCore']
     },
 
     DGLocale: {

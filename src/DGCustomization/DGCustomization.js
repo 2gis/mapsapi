@@ -417,8 +417,9 @@ L.Map.include({
 
         this._popup = popup;
 
-        if (popup._source && popup._source._icon) {
-            L.DomUtil.addClass(popup._source._icon, 'leaflet-marker-active');
+        if (popup._source && popup._source._icon && popup._source._icon.className.indexOf('map__marker_type_mushroom') !== -1) {
+            L.DomUtil.removeClass(popup._source._icon, 'map__marker_appear');
+            L.DomUtil.addClass(popup._source._icon, 'map__marker_disappear');
         }
 
         return this.addLayer(popup);
@@ -430,8 +431,9 @@ L.Map.include({
             this._popup = null;
         }
         if (popup) {
-            if (popup._source && popup._source._icon) {
-                L.DomUtil.removeClass(popup._source._icon, 'leaflet-marker-active');
+            if (popup._source && popup._source._icon && popup._source._icon.className.indexOf('map__marker_type_mushroom') !== -1) {
+                L.DomUtil.removeClass(popup._source._icon, 'map__marker_disappear');
+                L.DomUtil.addClass(popup._source._icon, 'map__marker_appear');
             }
             this.removeLayer(popup);
             popup._isOpen = false;
@@ -441,8 +443,15 @@ L.Map.include({
     }
 });
 
+// add class to container if retina screen detected
+L.Map.addInitHook(function () {
+    if (L.Browser.retina) {
+        L.DomUtil.addClass(this._container, 'dg-retina');
+    }
+});
+
 // Applies 2GIS divIcon to marker
-L.Marker.prototype.options.icon = L.DG.divIcon();
+L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 
 // Adds posibility to change max zoom level
 L.Map.prototype.setMaxZoom = function (maxZoom) {

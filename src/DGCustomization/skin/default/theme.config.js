@@ -10,12 +10,9 @@ L.DG.configTheme = {
     },
 
     markersData: {
-        iconSize: [16, 24],
-        popupAnchor: [0, 3],
-        html: '<div class="dg-marker dg-marker_default dg-marker_animated"></div>',
-        className: 'leaflet-div-icon',
-        iconAnchor: [7, 23],
-        animation: true
+        iconSize: [24, 38],
+        className: 'map__marker map__marker_type_mushroom',
+        iconAnchor: [12, 33]
     },
 
     controls: {
