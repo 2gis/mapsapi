@@ -19,5 +19,6 @@
     "DEFAULT_LANG": "ru",
     "PROJECT_LEAVE_MAX_ZOOM" : 13,
     "FLAMP_URL" : "http://flamp.ru/r/",
-    "FLAMP_GOOGLE_ANALYTICS" : "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker"
+    "FLAMP_GOOGLE_ANALYTICS" : "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
+    "GA_CODE": "UA-38243181-2"
 }
