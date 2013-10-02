@@ -255,7 +255,9 @@ L.DG.Location = L.Control.extend({
     },
 
     _renderTranslation: function () {
-        this._link.title = this.t('button_title');
+        if (this._link) {
+            this._link.title = this.t('button_title');
+        }
         if (this._marker) {
             this._marker.bindLabel(this.t('you_are_here'));
         }
