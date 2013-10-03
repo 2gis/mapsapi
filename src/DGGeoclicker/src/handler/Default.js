@@ -14,8 +14,8 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
         this._map = map;
     },
 
-    handle: function (results, type, callback) {
-        return !!callback({
+    handle: function (results, type) { // (Object, String) -> Promise
+        return L.DG.when({
             tmpl: this.t("We haven't collected info about this place")
         });
     },
@@ -59,8 +59,8 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
 
 L.DG.Geoclicker.Handler.HandlerExample = L.DG.Geoclicker.Handler.Default.extend({
 
-    handle: function (results, type, callback) { // (Object, String, Function)
-        return !!callback({
+    handle: function (results, type) { // (Object, String) -> Promise
+        return L.DG.when({
             tmpl: type + ':<br/>' + results[type].id
         });
     }

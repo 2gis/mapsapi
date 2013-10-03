@@ -1,10 +1,6 @@
 
 L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 
-	statics: {
-        Dictionary: {}
-    },
-
     _polylineStyleDefault : {
         fillColor: '#ff9387',
         color: '#ff9387',
@@ -33,7 +29,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     },
 	_wktParser : L.DG.wkt(),
 
-    handle: function (results, type, callback) { // (Object, String, Function)
+    handle: function (results, type) { // (Object, String) -> Promise
     	if (!results[type]) {
             return false;
         }
@@ -53,11 +49,9 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         		.on('zoomend', this._onZoomChange, this)
         		.once('popupclose', this._onPopupClose, this);
 
-        callback({
+        return L.DG.when({
             tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname'))
         });
-
-        return true;
     },
 
     _initStyles : function(){

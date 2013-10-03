@@ -1,37 +1,3 @@
-// Sets default zoom position from current theme
-
-L.Control.Zoom.prototype.options = {
-    position: L.DG.configTheme.controls.zoom.position
-};
-
-// TODO: think about pull request to leaflet with zoom control button's titles as options
-
-L.Control.Zoom.prototype.onAdd = function (map) {
-    var zoomName = 'dg-zoom',
-        container = L.DomUtil.create('div', zoomName),
-        projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
-
-    this._map = map;
-    this._zoomInButton = this._createButton('+', 'Приблизить', zoomName + '__in', container, this._zoomIn, this);
-    this._zoomOutButton = this._createButton('-', 'Отдалить', zoomName + '__out', container, this._zoomOut, this);
-
-    map.on('zoomend zoomlevelschange', this._updateDisabled, this);
-    map.on('dgProjectLeave', function () {
-        map.setMaxZoom(projectLeaveMaxZoom);
-        if (map.getZoom() > projectLeaveMaxZoom) {
-            map.setZoom(projectLeaveMaxZoom);
-        }
-    });
-
-    map.on('dgProjectChange', function (project) {
-        var projectInfo = project.getProject();
-        if (projectInfo) {
-            map.setMaxZoom(projectInfo.max_zoom_level);
-        }
-    });
-    return container;
-};
-
 // Adds 2GIS-related popup content wrapper and offset
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
@@ -403,6 +369,7 @@ L.Control.Zoom.prototype.onAdd = function (map) {
     });
 }());
 
+
 L.Map.include({
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         var content;
@@ -440,11 +407,3 @@ L.Map.include({
         return this;
     }
 });
-
-// Applies 2GIS divIcon to marker
-L.Marker.prototype.options.icon = L.DG.divIcon();
-
-// Adds posibility to change max zoom level
-L.Map.prototype.setMaxZoom = function (maxZoom) {
-    this._layersMaxZoom = maxZoom;
-};

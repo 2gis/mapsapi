@@ -9,7 +9,8 @@ L.DG.ProjectDetector = L.Handler.extend({
             key: '__WEB_API_KEY__',
             fields: '__PROJECT_ADDITIONAL_FIELDS__',
             output: 'jsonp',
-            type: 'project'
+            type: 'project',
+            lang: 'all'
         }
     },
 

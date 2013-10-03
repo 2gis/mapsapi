@@ -98,7 +98,18 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            'DGCustomization/DGCustomization.js'
+            'DGCustomization/src/DGCustomization.js',
+            'DGCustomization/src/DGAttribution.js',
+            'DGCustomization/src/DGPopup.js',
+            'DGCustomization/src/DGZoom.js',
+            'DGCustomization/lang/DGAttribution/ru.js',
+            'DGCustomization/lang/DGAttribution/it.js',
+            'DGCustomization/lang/DGAttribution/cs.js',
+            'DGCustomization/lang/DGAttribution/en.js',
+            'DGCustomization/lang/DGZoom/ru.js',
+            'DGCustomization/lang/DGZoom/it.js',
+            'DGCustomization/lang/DGZoom/cs.js',
+            'DGCustomization/lang/DGZoom/en.js'
         ],
         css: {
             all: [
@@ -111,7 +122,7 @@ var deps = {
             ],
             ie: ['DGCustomization/skin/{skin}/css/baron.ie.css']
         },
-        deps: ['DGCore', 'DGDivIcon']
+        deps: ['DGCore', 'DGDivIcon', 'DGLocale']
     },
 
     DGLocale: {
@@ -125,6 +136,7 @@ var deps = {
         src: ['DGFullScreen/src/DGFullScreen.js',
               'DGFullScreen/lang/ru.js',
               'DGFullScreen/lang/it.js',
+              'DGFullScreen/lang/cs.js',
               'DGFullScreen/lang/en.js'
         ],
         css: {
@@ -142,12 +154,14 @@ var deps = {
 
     DGTileLayer: {
         desc: '2GIS tile layer module',
-        src: ['DGTileLayer/src/DGTileLayer.js'],
+        src: [
+            'DGTileLayer/src/DGTileLayer.js'
+        ],
         css: {
             all: ['DGTileLayer/skin/{skin}/css/style.css'],
             ie: ['DGTileLayer/skin/{skin}/css/ie.css']
         },
-        deps: ['DGCore']
+        deps: ['DGCore', 'DGTemplate', 'DGLocale']
     },
 
     DGProjectDetector: {
@@ -194,19 +208,14 @@ var deps = {
             'DGGeoclicker/src/provider/CatalogApi.js',
             'DGGeoclicker/src/handler/Handler.js',
             'DGGeoclicker/src/handler/Default.js',
-            'DGGeoclicker/lang/it/handler/Default.js',
-            'DGGeoclicker/lang/ru/handler/Default.js',
-            'DGGeoclicker/lang/en/handler/Default.js',
             'DGGeoclicker/src/handler/CityArea.js',
-            'DGGeoclicker/lang/it/handler/CityArea.js',
-            'DGGeoclicker/lang/ru/handler/CityArea.js',
-            'DGGeoclicker/lang/en/handler/CityArea.js',
             'DGGeoclicker/src/handler/House.js',
-            'DGGeoclicker/lang/it/handler/House.js',
-            'DGGeoclicker/lang/ru/handler/House.js',
-            'DGGeoclicker/lang/en/handler/House.js',
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js',
+            'DGGeoclicker/lang/it.js',
+            'DGGeoclicker/lang/ru.js',
+            'DGGeoclicker/lang/en.js',
+            'DGGeoclicker/lang/cs.js',
 
             '../vendors/firmcard/src/FirmCard.js',
             '../vendors/firmcard/src/FirmCard.DataHelper.js',
@@ -220,7 +229,7 @@ var deps = {
             '../vendors/firmcard/src/Dictionary.js',
 
         ],
-        deps: ['DGJsonp', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
+        deps: ['DGJsonp', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
     },
 
     DGTemplate: {
@@ -244,17 +253,17 @@ var deps = {
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     },
 
-    DGLocationControl: {
+    DGLocation: {
         desc: 'Location control module',
         src: [
-            'DGLocationControl/src/DGLocationControl.js',
-            'DGLocationControl/lang/ru.js',
-            'DGLocationControl/lang/it.js',
-            'DGLocationControl/lang/en.js'
+            'DGLocation/src/DGLocation.js',
+            'DGLocation/lang/ru.js',
+            'DGLocation/lang/it.js',
+            'DGLocation/lang/en.js'
         ],
         css: {
             all: [
-                'DGLocationControl/skin/{skin}/css/DGLocationControl.css'
+                'DGLocation/skin/{skin}/css/DGLocation.css'
             ],
         },
         deps: ['DGCore', 'DGLocale']
