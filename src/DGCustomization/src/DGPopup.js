@@ -2,8 +2,10 @@
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
+        originalInitLayout = L.Popup.prototype._initLayout,
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
+        /*global baron:false */
         graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
@@ -24,6 +26,7 @@
         _isFooterExist: false,
         _isBaronExist: false,
 
+        /*global __DGCustomization_TMPL__:false */
         _templates: __DGCustomization_TMPL__,
 
         onAdd: function (map) {
@@ -31,6 +34,11 @@
                 map.closePopup(this);
             }, this);
             this._popupStructure = {};
+
+            this.once('open', function () {
+                L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
+                L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');
+            }, this);
 
             return originalOnAdd.call(this, map);
         },
@@ -134,7 +142,7 @@
                 element.scrollTop = ease(timeFrame, start, change, duration);
 
                 if (currentTime - startTime < duration) {
-                    L.Util.requestAnimFrame(arguments.callee, element);
+                    L.Util.requestAnimFrame(animateScroll, element);
                 } else {
                     element.scrollTop = to;
                 }
@@ -142,6 +150,16 @@
             L.Util.requestAnimFrame(animateScroll, element);
 
             return this;
+        },
+
+        _initLayout: function () {
+            originalInitLayout.call(this);
+            this._innerContainer = L.DomUtil.create('div', 'leaflet-popup-inner leaflet-popup_show_false', this._container);
+            if (this.options.closeButton) {
+                this._innerContainer.appendChild(this._detachEl(this._closeButton));
+            }
+            this._innerContainer.appendChild(this._detachEl(this._wrapper));
+            this._innerContainer.appendChild(this._detachEl(this._tipContainer));
         },
 
         _clearElement: function (elem) {
@@ -153,7 +171,9 @@
         },
 
         _updateScrollPosition: function () {
-            this._baron && this._baron.update();
+            if (this._baron) {
+                this._baron.update();
+            }
         },
 
         _resize: function () {
@@ -193,6 +213,8 @@
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
 
+            console.log(maxHeight, maxHeight <= popupHeight);
+
             return (maxHeight && maxHeight <= popupHeight);
         },
 
@@ -202,6 +224,7 @@
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
                 $: function (selector, context) {
+                    /*global bonzo:false, qwery:false */
                     return bonzo(qwery(selector, context));
                 },
                 event: function (elem, event, func, mode) {
@@ -214,29 +237,17 @@
         },
 
         _initHeader: function () {
-            var headerContainer = document.createElement('div');
-            headerContainer.setAttribute('class', 'dg-popup-header');
-            this._contentNode.appendChild(headerContainer);
-
-            this._popupStructure.header = headerContainer;
+            this._popupStructure.header = L.DomUtil.create('div', 'dg-popup-header', this._contentNode);
             this._isHeaderExist = true;
         },
 
         _initFooter: function () {
-            var footerContainer = document.createElement('div');
-            footerContainer.setAttribute('class', 'dg-popup-footer');
-            this._contentNode.appendChild(footerContainer);
-
-            this._popupStructure.footer = footerContainer;
+            this._popupStructure.footer = L.DomUtil.create('div', 'dg-popup-footer', this._contentNode);
             this._isFooterExist = true;
         },
 
         _initBodyContainer: function () {
-            var container = document.createElement('div');
-            container.setAttribute('class', 'dg-popup-container');
-            this._contentNode.appendChild(container);
-
-            this._popupStructure.body = container;
+            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._contentNode);
             this._isBodyExist = true;
         },
 
@@ -285,14 +296,20 @@
             this._isFooterExist = false;
 
             //init popup content dom structure
-            this._headerContent && this._initHeader();
-            this._bodyContent && this._initBodyContainer();
-            this._footerContent && this._initFooter();
+            if (this._headerContent) {
+                this._initHeader();
+            }
+            if (this._bodyContent) {
+                this._initBodyContainer();
+            }
+            if (this._footerContent) {
+                this._initFooter();
+            }
 
             this._updatePopupStructure();
             this._resize();
             L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
-            // L.DomEvent.disableClickPropagation(this._wrapper);
+
             // Delete this if fixed in new leaflet version (> 0.6.2)
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
@@ -365,6 +382,7 @@
             if (elem.parentNode) {
                 elem.parentNode.removeChild(elem);
             }
+            return elem;
         }
     });
 }());
