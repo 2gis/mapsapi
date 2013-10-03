@@ -101,7 +101,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     getTypesByZoom: function (zoom) { // (Number) -> String|Null
         if (zoom > 15) {
-            return 'house,street,sight,station_platform,district,place';
+            return 'house,place,street,sight,station_platform,district';
         } else if (zoom > 14) {
             return 'house,street,district';
         } else if (zoom > 13) {
@@ -136,7 +136,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
-        var result = {}, i, len, item, found, data;
+        var result = {}, i, item, found, data;
 
         if (this._isNotFound(response)) {
             return false;
@@ -144,7 +144,9 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
         data = response.result.data;
 
-        for (i = 0, len = data.length; i < len; i++) {
+        console.log(data);
+
+        for (i = data.length - 1; i >= 0; i--) {
             item = data[i];
             if (allowedTypes && allowedTypes.indexOf(item.geo_type) === -1) {
                 continue;

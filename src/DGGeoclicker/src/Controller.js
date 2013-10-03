@@ -5,12 +5,16 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         // default handler always should return rendering object
         'handlersSequence': {
 
+            'sight': L.DG.Geoclicker.Handler.Sight,
             'house': L.DG.Geoclicker.Handler.House,
+
+            'place': L.DG.Geoclicker.Handler.CityArea,
 
             'street': L.DG.Geoclicker.Handler.CityArea,
             'district': L.DG.Geoclicker.Handler.CityArea,
             'city': L.DG.Geoclicker.Handler.CityArea,
             'settlement': L.DG.Geoclicker.Handler.CityArea,
+
 
             'default': L.DG.Geoclicker.Handler.Default
 
@@ -61,6 +65,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
     handleResponse: function (result) { // (Object)
         var type;
+
+        // console.log(result);
 
         this._view.hideLoader();
 

@@ -781,3 +781,9 @@ li.dg-map-firm-address .note {
     left: 50%;
     margin: -16px 0 0 -74px !important;
 }
+
+
+.dg-map-geoclicker-sight-description {
+    height: 3em;
+    overflow: hidden;
+}
