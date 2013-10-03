@@ -417,9 +417,14 @@ L.Map.include({
 
         this._popup = popup;
 
-        if (popup._source && popup._source._icon && popup._source._icon.className.indexOf('map__marker_type_mushroom') !== -1) {
-            L.DomUtil.removeClass(popup._source._icon, 'map__marker_appear');
-            L.DomUtil.addClass(popup._source._icon, 'map__marker_disappear');
+        if (popup._source && popup._source._icon) {
+            if (popup._source._icon.className.indexOf('map__marker-type-mushroom') !== -1) {
+                L.DomUtil.removeClass(popup._source._icon, 'map__marker-appear');
+                L.DomUtil.addClass(popup._source._icon, 'map__marker-disappear');
+            } else {
+                L.DomUtil.addClass(popup._source._icon, 'dg-hidden');
+                popup._source._shadow && L.DomUtil.addClass(popup._source._shadow, 'dg-hidden');
+            }
         }
 
         return this.addLayer(popup);
@@ -431,9 +436,14 @@ L.Map.include({
             this._popup = null;
         }
         if (popup) {
-            if (popup._source && popup._source._icon && popup._source._icon.className.indexOf('map__marker_type_mushroom') !== -1) {
-                L.DomUtil.removeClass(popup._source._icon, 'map__marker_disappear');
-                L.DomUtil.addClass(popup._source._icon, 'map__marker_appear');
+            if (popup._source && popup._source._icon) {
+                if (popup._source._icon.className.indexOf('map__marker-type-mushroom') !== -1) {
+                    L.DomUtil.removeClass(popup._source._icon, 'map__marker-disappear');
+                    L.DomUtil.addClass(popup._source._icon, 'map__marker-appear');
+                } else {
+                    L.DomUtil.removeClass(popup._source._icon, 'dg-hidden');
+                    popup._source._shadow && L.DomUtil.removeClass(popup._source._shadow, 'dg-hidden');
+                }
             }
             this.removeLayer(popup);
             popup._isOpen = false;

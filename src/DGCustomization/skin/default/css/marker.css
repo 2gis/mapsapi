@@ -1,13 +1,7 @@
 .map__marker {
-    -webkit-transform-origin: 50% 50%;
-    transform-origin: 50% 50%;
-    width: 10px;
-    height: 10px;
-    margin: -5px 0 0 -6px;
-    background-image: url(__BASE_URL__/img/pin_tile_ini.png);
     background-repeat: no-repeat;
 }
-.map__marker:before {
+.map__marker:before { /* markers dublicate */
     -webkit-transform-origin: 50% 100%;
     transform-origin: 50% 100%;
     -webkit-transform: scale(1, 1);
@@ -17,6 +11,7 @@
     top: 0;
     height: 100%;
     width: 100%;
+    background-size: 24px 38px;
     background-image: inherit;
     background-repeat: no-repeat;
     -webkit-transition:
@@ -27,75 +22,69 @@
         transform ease-in-out .2s;
 }
 
-.map__marker_type_mushroom {
-    -webkit-transform-origin: 50% 89%;
-    transform-origin: 50% 89%;
+.map__marker-type-mushroom {
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
     width: 24px;
     height: 38px;
     margin: -34px 0 0 -13px;
     background-image: url(__BASE_URL__/img/pin_ini.png);
 }
-.map__marker_type_mushroom.map__marker:hover {
+
+div.map__marker-type-mushroom:hover {
     background-image: url(__BASE_URL__/img/pin_hover.png);
 }
-.map__marker_type_mushroom.map__marker:active {
+div.map__marker-type-mushroom:active {
     background-image: url(__BASE_URL__/img/pin_pressed.png);
 }
 
-.map__marker_visibility_hidden {
-    display: none;
-    visibility: hidden;
-}
-
-.map__marker_appear.map__marker {
+.map__marker-appear.map__marker {
     background-position: 999px;
 }
-.map__marker_appear.map__marker:before {
+
+.map__marker-appear.map__marker:before {
     content: '';
 }
 
-.map__marker_disappear {
-    pointer-events: none;
+.map__marker-disappear {
+    pointer-events: none; /* click should work in hidden marker area */
 }
 
-.map__marker_disappear.map__marker {
+.map__marker-disappear.map__marker {
     background-position: 999px;
 }
-
-.map__marker_disappear.map__marker:before {
+.map__marker-disappear.map__marker:before {
     content: '';
     -webkit-transform: scale(1.2, 1.8);
     transform: scale(1.2, 1.8);
-    -webkit-animation: map__marker-to-callout .2s;
-    animation: map__marker-to-callout .2s;
+    -webkit-animation:  map__marker-to-callout .2s;
+    animation:          map__marker-to-callout .2s;
     opacity: 0;
     visibility: hidden;
-    }
-    @-webkit-keyframes map__marker-to-callout {
-        0% {-webkit-transform: scale(1, 1); opacity: 1; visibility: visible;}
-        100% {-webkit-transform: scale(1.2, 1.8); opacity: 0; visibility: visible;}
-    }
-    @keyframes map__marker-to-callout {
-        0% {transform: scale(1, 1); opacity: 1; visibility: visible;}
-        100% {transform: scale(1.2, 1.8); opacity: 0; visibility: visible;}
 }
-
-.leaflet-popup-content-wrapper {
-    color: #000;
+@-webkit-keyframes map__marker-to-callout {
+    0% {-webkit-transform: scale(1, 1); opacity: 1; visibility: visible;}
+    100% {-webkit-transform: scale(1.2, 1.8); opacity: 0; visibility: visible;}
 }
-
-.leaflet-div-icon {
-    background: none;
-    border: none;
+@keyframes map__marker-to-callout {
+    0% {transform: scale(1, 1); opacity: 1; visibility: visible;}
+    100% {transform: scale(1.2, 1.8); opacity: 0; visibility: visible;}
 }
 
 /*apply retina markers*/
-div.dg-retina .map__marker_type_mushroom {
+div.dg-retina .map__marker-type-mushroom {
     background-image: url(__BASE_URL__/img/pin_ini@2x.png);
+    background-size: 24px 38px;
 }
-div.dg-retina .map__marker_type_mushroom.map__marker:hover {
+div.dg-retina .map__marker-type-mushroom:hover {
     background-image: url(__BASE_URL__/img/pin_hover@2x.png);
+    background-size: 24px 38px;
 }
-div.dg-retina .map__marker_type_mushroom.map__marker:active {
+div.dg-retina .map__marker-type-mushroom:active {
     background-image: url(__BASE_URL__/img/pin_pressed@2x.png);
+    background-size: 24px 38px;
+}
+
+.dg-hidden {
+    display: none;
 }
