@@ -1,29 +1,31 @@
 L.Marker.include({
-	
+
 	bindLabel: function (content, options) {
 		if (this._label) {
 			this._label.setContent(content);
-			if (this.options.offset != options.offset) {
-				this._label.setOffset(this.options.offset = options.offset);
-			}
-			if (this.options.static != options.static) {
-				this.unbindLabel().bindLabel(content, options);
+			if (options) {
+				if (this.options.offset != options.offset) {
+					this._label.setOffset(this.options.offset = options.offset);
+				}
+				if (this.options.static != options.static) {
+					this.unbindLabel().bindLabel(content, options);
+				}
 			}
 		} else {
 			options = L.extend({
 				offset: new L.Point(5, 5)
 			}, options);
-			
+
 			this._label = L.DG.label(content, options);
-			
+
 			this.once('remove', this.unbindLabel);
-			
+
 			if (options.static) {
 				this.showLabel();
 			} else {
 				this.once('mouseover', this._mouseOverLabel);
 			}
-			
+
 			if (typeof this._map !== 'undefined') {
 				this._updateLabelZIndex();
 			} else {

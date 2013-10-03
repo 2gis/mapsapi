@@ -1,16 +1,12 @@
 L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
-    statics: {
-        Dictionary: {}
-    },
-
     _page : 1,
     _isListOpenNow: false,
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
 
-    handle: function (results, type, callback) { // (Object, String, Object, Function) -> Boolean
+    handle: function (results, type) { // (Object, String) -> Promise
         if (!results.house) {
             return false;
         }
@@ -28,14 +24,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._initedPopupClose = false;
 
-        if (this._defaultFirm) {
-            this._onFirmListReady = callback;
-            this._fillFirmListObject();
-        } else {
-            callback(this._houseObject);
-        }
-
-        return true;
+        return L.DG.when(this._defaultFirm ? this._fillFirmListObject() : this._houseObject);
     },
 
     _fillHouseObject: function (house) { // (Object)
@@ -196,12 +185,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _renderFirmList: function () {
         if (this._isListOpenNow) return;
         this._isListOpenNow = true;
-        if (this._onFirmListReady) {
-            this._onFirmListReady(this._firmListObject);
-            this._onFirmListReady = null;
-        } else {
-            this._clearAndRenderPopup(this._firmListObject);
-        }
+        this._clearAndRenderPopup(this._firmListObject);
 
         if (this._totalPages === 1) {
             this._loader && this._view.hideLoader(this._loader);

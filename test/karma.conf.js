@@ -18,10 +18,10 @@ files = [].concat([
     "vendors/leaflet/spec/expect.js"
 ],
 [
-    'public/js/dg-map-custom.js', // full 2GIS API dist
+    'public/js/dg-map.js', // full 2GIS API dist
     'src/**/test/*Spec.js' // 2GIS tests
 ],
-[   
+[
     "vendors/leaflet/spec/after.js",
     "node_modules/happen/happen.js",
     "vendors/leaflet/spec/suites/SpecHelper.js",
