@@ -265,10 +265,5 @@ L.DG.Location = L.Control.extend({
 });
 
 L.DG.locate = function (options) {
-<<<<<<< HEAD:src/DGLocationControl/src/DGLocationControl.js
-    return new L.DG.LocationControl(options);
-};
-=======
     return new L.DG.Location(options);
 };
->>>>>>> master:src/DGLocation/src/DGLocation.js
