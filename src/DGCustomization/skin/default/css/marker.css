@@ -72,15 +72,15 @@ div.map__marker-type-mushroom:active {
 }
 
 /*apply retina markers*/
-div.dg-retina .map__marker-type-mushroom {
+div.leaflet-retina .map__marker-type-mushroom {
     background-image: url(__BASE_URL__/img/pin_ini@2x.png);
     background-size: 24px 38px;
 }
-div.dg-retina .map__marker-type-mushroom:hover {
+div.leaflet-retina .map__marker-type-mushroom:hover {
     background-image: url(__BASE_URL__/img/pin_hover@2x.png);
     background-size: 24px 38px;
 }
-div.dg-retina .map__marker-type-mushroom:active {
+div.leaflet-retina .map__marker-type-mushroom:active {
     background-image: url(__BASE_URL__/img/pin_pressed@2x.png);
     background-size: 24px 38px;
 }

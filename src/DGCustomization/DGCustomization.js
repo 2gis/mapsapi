@@ -453,13 +453,6 @@ L.Map.include({
     }
 });
 
-// add class to container if retina screen detected
-L.Map.addInitHook(function () {
-    if (L.Browser.retina) {
-        L.DomUtil.addClass(this._container, 'dg-retina');
-    }
-});
-
 // Applies 2GIS divIcon to marker
 L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 
