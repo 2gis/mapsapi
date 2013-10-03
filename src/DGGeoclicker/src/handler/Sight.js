@@ -1,20 +1,14 @@
 L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
-    handle: function (results, type) { // (Object, String) -> Promise
+    handle: function (results) { // (Object, String) -> Promise
         if (!results.sight) {
             return false;
         }
 
-        this._sightObject = null;
-        this._id = results.sight.id;
-
-        this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
-        this._fillsightObject(results.sight);
-
         this._initedPopupClose = false;
 
-        return L.DG.when(this._sightObject);
+        return L.DG.when(this._fillsightObject(results.sight));
     },
 
     _fillsightObject: function (sight) { // (Object)
@@ -43,7 +37,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
         data.showMoreText = this.t('Show more about sight');
 
-        this._sightObject = {
+        return {
             tmpl: this._view.getTemplate('sight'),
             data: data,
             afterRender: function () {

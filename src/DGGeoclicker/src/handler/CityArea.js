@@ -49,9 +49,20 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
                 .on('zoomend', this._onZoomChange, this)
                 .once('popupclose', this._onPopupClose, this);
 
-        return L.DG.when({
-            tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname'))
-        });
+        return L.DG.when(this._fillCityAreaObject(results, type));
+    },
+
+    _fillCityAreaObject: function (results, type) {
+        var address = '';
+        for (var obj in results) {
+            if (obj !== type && obj !== 'extra') {
+                address = results[obj].name;
+                break;
+            }
+        }
+        return {
+            tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname')) + ', ' + address
+        };
     },
 
     _initStyles : function () {

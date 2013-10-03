@@ -6,22 +6,20 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         'handlersSequence': {
 
             'sight': L.DG.Geoclicker.Handler.Sight,
+
             'house': L.DG.Geoclicker.Handler.House,
 
-            'place': L.DG.Geoclicker.Handler.CityArea,
-
             'street': L.DG.Geoclicker.Handler.CityArea,
+            'place': L.DG.Geoclicker.Handler.CityArea,
             'district': L.DG.Geoclicker.Handler.CityArea,
-            'city': L.DG.Geoclicker.Handler.CityArea,
+            'division': L.DG.Geoclicker.Handler.CityArea,
             'settlement': L.DG.Geoclicker.Handler.CityArea,
-
+            'city': L.DG.Geoclicker.Handler.CityArea,
 
             'default': L.DG.Geoclicker.Handler.Default
 
 //            station_platform
 //            project
-//            sight
-//            place
 //            station
 //            crossbroad
 //            metro
