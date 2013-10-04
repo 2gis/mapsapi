@@ -8,32 +8,38 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
 
-        return L.DG.when(this._fillsightObject(results.sight));
+        return L.DG.when(this._fillsightObject(results));
     },
 
-    _fillsightObject: function (sight) { // (Object)
-        var attrs = sight.attributes,
+    _fillsightObject: function (results) { // (Object)
+        var attrs = results.sight.attributes,
             data = {
                 address: '',
                 buildingname: '',
                 purpose: '',
                 description: attrs.info.description
             },
-            self = this;
+            self = this,
+            abbr = '';
 
         if (attrs.building_name) {
             data.buildingname = attrs.building_name;
         } else {
-            data.buildingname = sight.short_name;
+            data.buildingname = results.sight.short_name;
         }
 
         if (attrs.sight_description) {
             data.purpose = attrs.sight_description;
         }
 
-        // if (attrs.info.description) {
-        //     data.description = attrs.info.description;
-        // }
+        for (var obj in results) {
+            if (obj !== 'sight' && obj !== 'extra') {
+                if (results[obj].attributes.abbreviation) {
+                    abbr = results[obj].attributes.abbreviation + ' ';
+                }
+                data.address = abbr + results[obj].name;
+            }
+        }
 
         data.showMoreText = this.t('Show more about sight');
 

@@ -64,8 +64,6 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     handleResponse: function (result) { // (Object)
         var type;
 
-        // console.log(result);
-
         this._view.hideLoader();
 
         if (!result) {

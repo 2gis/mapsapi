@@ -101,13 +101,13 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     getTypesByZoom: function (zoom) { // (Number) -> String|Null
         if (zoom >= 17) {
-            return 'sight,poi,house,place,street,station_platform,station,metro,district';
+            return 'sight,poi,house,place,street,station_platform,station,metro,district,division,settlement,city';
         } else if (zoom >= 15) {
-            return 'poi,house,place,street,station_platform,station,metro,district';
+            return 'poi,house,place,street,station_platform,station,metro,district,division,settlement,city';
         } else if (zoom >= 14) {
-            return 'house,street,station_platform,station,metro,district';
+            return 'house,street,station_platform,station,metro,district,division,settlement,city';
         } else if (zoom >= 12) {
-            return 'station_platform,station,metro,district';
+            return 'station_platform,station,metro,district,division,settlement,city';
         } else if (zoom >= 11) {
             return 'division,settlement,city';
         } else if (zoom >= 8) {
@@ -141,8 +141,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         }
 
         data = response.result.data;
-
-        // console.log(data);
 
         for (i = data.length - 1; i >= 0; i--) {
             item = data[i];

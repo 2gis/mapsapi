@@ -1,4 +1,3 @@
-
 L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 
     _polylineStyleDefault : {
@@ -53,15 +52,29 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _fillCityAreaObject: function (results, type) {
-        var address = '';
+        var data = {
+            name: this.t('noname'),
+            address: '',
+            purpose: this.t(type)
+        };
+
         for (var obj in results) {
             if (obj !== type && obj !== 'extra') {
-                address = results[obj].name;
+                if (results[obj].attributes.abbreviation) {
+                    data.address = results[obj].attributes.abbreviation + ' ';
+                }
+                data.address += results[obj].name;
                 break;
             }
         }
+
+        if (results[type].short_name) {
+            data.name = results[type].short_name;
+        }
+
         return {
-            tmpl: this.t(type) + ': ' + (!!(results[type].short_name) ? results[type].short_name : this.t('noname')) + ', ' + address
+            tmpl: this._view.getTemplate('cityarea'),
+            data: data
         };
     },
 
