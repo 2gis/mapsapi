@@ -106,6 +106,7 @@ if (L.Browser.svg) {
                         // last point should be 1, but some times it looks like 0.9999...
                         resultArr[resultArr.length - 1] = 1;
                     }
+
                 }
                 result = resultArr.join('; ');
             }
@@ -116,7 +117,7 @@ if (L.Browser.svg) {
         _getAnimationTime: function (verticesCount) {
             if (verticesCount === 2) { return '0.7s'; }
             else if (verticesCount === 3 || verticesCount === 4) { return '0.5s'; }
-            else { return '1.7s'; }
+            else { return '0.7s'; }
         }
     });
 }
