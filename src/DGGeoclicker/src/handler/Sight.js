@@ -34,7 +34,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
         for (var obj in results) {
             if (obj !== 'sight' && obj !== 'extra') {
-                if (results[obj].attributes.abbreviation) {
+                if (results[obj].attributes && results[obj].attributes.abbreviation) {
                     abbr = results[obj].attributes.abbreviation + ' ';
                 }
                 data.address = abbr + results[obj].name;
