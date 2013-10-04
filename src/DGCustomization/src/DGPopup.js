@@ -385,9 +385,9 @@ L.Map.include({
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
-            if (popup._source._icon.className.indexOf('map__marker-type-mushroom') !== -1) {
-                L.DomUtil.removeClass(popup._source._icon, 'map__marker-appear');
-                L.DomUtil.addClass(popup._source._icon, 'map__marker-disappear');
+            if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
+                L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_appear');
+                L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_disappear');
             } else {
                 L.DomUtil.addClass(popup._source._icon, 'dg-hidden');
                 popup._source._shadow && L.DomUtil.addClass(popup._source._shadow, 'dg-hidden');
@@ -404,9 +404,9 @@ L.Map.include({
         }
         if (popup) {
             if (popup._source && popup._source._icon) {
-                if (popup._source._icon.className.indexOf('map__marker-type-mushroom') !== -1) {
-                    L.DomUtil.removeClass(popup._source._icon, 'map__marker-disappear');
-                    L.DomUtil.addClass(popup._source._icon, 'map__marker-appear');
+                if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
+                    L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_disappear');
+                    L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_appear');
                 } else {
                     L.DomUtil.removeClass(popup._source._icon, 'dg-hidden');
                     popup._source._shadow && L.DomUtil.removeClass(popup._source._shadow, 'dg-hidden');
