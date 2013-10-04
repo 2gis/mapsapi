@@ -448,8 +448,8 @@ function makeJSPackage(modulesList, skin, isMsg) {
                     loadSkinsList.push('basic');
                 }
 
-                if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('default')) {
-                    var moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : 'default';
+                if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('light')) {
+                    var moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : 'light';
                     loadSkinsList.push(moduleSkinName);
                 }
 
@@ -511,8 +511,8 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
                 countModules++;
             }
 
-            if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('default')) {
-                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : 'default';
+            if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('light')) {
+                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : 'light';
                 var moduleBrowser = moduleSkins[skinName];
                 processBrowsers(moduleBrowser);
             }
@@ -567,7 +567,7 @@ function minifyJSPackage(source, isDebug) {
 
     //@todo async this blocked operation
     var min = uglify.minify(source, {
-        warnings: true,
+        warnings: !true,
         fromString: true
     }).code;
 
@@ -605,10 +605,9 @@ function lintFiles(modules) {
 
     for (var mod in modules) {
         if (modules.hasOwnProperty(mod)) {
-            var fileList = modules[mod].src;
+            var fileList = [] || modules[mod].js;
             for (var file in fileList) {
-                if (fileList.hasOwnProperty(file)) {
-
+                if (fileList.hasOwnProperty(file) && file.indexOf('vendors') === -1 && file.indexOf('DGWhen') === -1) {
                     jshint(fileList[file], hint.config, hint.namespace);
                     var errorsList = jshint.errors;
 
@@ -733,7 +732,7 @@ exports.build = function () {
         cssDest = config.css.public,
         cssDir = cssDest.dir,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
-        skin = argv.skin || 'default';
+        skin = argv.skin || 'light';
 
     modules = modules || getModulesData();
     copyrights = getCopyrightsData();

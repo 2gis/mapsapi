@@ -1,0 +1,131 @@
+/* Callout styles for Leaflet markup */
+.leaflet-popup-inner {
+    padding: 1px 16px;
+    color: #f0f0f0;
+    font: 14px/16px Arial;
+    border-radius: 3px;
+    background-color: rgba(50, 50, 50, 0.85);
+    -webkit-transform-origin: 50% 115%;
+    transform-origin: 50% 100%;
+}
+
+.leaflet-popup-content {
+    line-height: 1.4;
+    margin: 0;
+}
+
+.leaflet-popup-content p {
+    margin: 0 0;
+}
+
+.leaflet-popup-scrolled {
+    border: 0;
+}
+
+.leaflet-popup_show_true {
+    -webkit-transition:
+        -webkit-transform ease-in-out .2s,
+        opacity ease-in-out .2s,
+        height ease-out .2s;
+    transition:
+        transform ease-in-out .2s,
+        opacity ease-in-out .2s,
+        height ease-out .2s;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.leaflet-popup_show_false {
+    opacity: 0;
+    -webkit-transition: all ease-in-out .1s;
+    transition: all ease-in-out .1s;
+    -webkit-transform: scale(.2);
+    transform: scale(.2);
+}
+
+/* Коллаут показался, но контент ещё не загрузился */
+.leaflet-popup_preloader_true {
+    width: 384px;
+    height: 52px;
+}
+
+/* В коллауте ошибка вместо контента */
+.leaflet-popup_error_true {}
+
+.leaflet-popup-tip-container {
+    position: relative;
+    margin: auto auto -48px auto;
+    background: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -73px 0px;
+    width: 58px;
+    height: 47px;
+    pointer-events: none;
+}
+
+.leaflet-popup-tip {
+    display: none;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    position: absolute;
+    z-index: 1;
+    right: 4px;
+    top: 3px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    overflow: hidden;
+    text-indent: -999px;
+}
+    .leaflet-container a.leaflet-popup-close-button:hover {
+        border-radius: 2px;
+        background-color: #222;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    .leaflet-container a.leaflet-popup-close-button:active {
+        background-color: #323232;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+    }
+    .leaflet-container a.leaflet-popup-close-button:before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 9px;
+        background: url(__BASE_URL__/img/dg-callout-dark.png);
+        background-position: -131px -56px;
+        width: 11px;
+        height: 9px;
+    }
+    .leaflet-container a.leaflet-popup-close-button:hover:before {
+        top: 8px;
+        background: url(__BASE_URL__/img/dg-callout-dark.png);
+        background-position: -301px -40px;
+        width: 11px;
+        height: 10px;
+    }
+    .leaflet-container a.leaflet-popup-close-button:after {
+        content: '';
+        position: absolute;
+        z-index: 2;
+        right: -5px;
+        top: -3px;
+        width: 40px;
+        height: 40px;
+    }
+
+.dg-popup-container {
+    padding: 13px 0;
+    overflow: hidden;
+}
+
+.dg-popup-header {
+    position: absolute;
+    top: 0px;
+    padding-top: 13px;
+}
+
+.dg-popup-footer {
+    position: absolute;
+    bottom: 0px;
+    padding-bottom: 13px;
+}
