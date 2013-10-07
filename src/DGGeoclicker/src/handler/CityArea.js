@@ -74,7 +74,11 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 
         return {
             tmpl: this._view.getTemplate('cityarea'),
-            data: data
+            data: data,
+            header: this._view.render({
+                tmpl: this._view.getTemplate('popupHeader'),
+                data: {'addressWithoutIndex': data.name}
+            })
         };
     },
 
@@ -120,6 +124,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         this._map
                 .removeLayer(this._geometry)
                 .off('zoomend', this._onZoomChange, this);
+        // this._popup.clear('header');
     }
 
 });

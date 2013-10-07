@@ -46,6 +46,10 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         return {
             tmpl: this._view.getTemplate('sight'),
             data: data,
+            header: this._view.render({
+                tmpl: this._view.getTemplate('popupHeader'),
+                data: {'addressWithoutIndex': data.buildingname}
+            }),
             afterRender: function () {
                 self._initShowMore();
                 self._initPopupClose();
@@ -70,11 +74,13 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
     _initShowMore: function () {
         var link = this._popup.findElement('#dg-showmoresight'),
-            desc = this._popup.findElement('.dg-map-geoclicker-sight-description');
+            desc = this._popup.findElement('.dg-map-geoclicker-sight-description'),
+            self = this;
         if (link && desc) {
             this._addEventHandler('DgShowMoreClick', link, 'click', function () {
                 desc.style.height = 'auto';
                 link.parentNode.removeChild(link);
+                self._popup._resize();
             });
         }
     }

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'SuisseCond';
+    src: url('__BASE_URL__/fonts/suisseintl-cond.autohinted.ttf');
+}
+
 .dg-map-geoclicker-address {
     font-size: 15px;
 	margin-bottom: 1px;
@@ -39,6 +44,16 @@
 	overflow: hidden;
 
 }
+
+.dg-popup-header {
+    margin: 11px 15px 1px 0;
+    padding: 0 0 7px;
+    color: #ffc84b;
+    white-space: nowrap;
+    font: 22px/24px 'SuisseCond','Arial narrow',Arial;
+    font-weight: 400;
+}
+
 #dg-showlesshouse {
 	color: #0070C0;
 	font-size: 12px;
@@ -50,10 +65,13 @@
 }
 
 .dg-popup-header-title {
-	font-size: 15px;
+/*	font-size: 15px;
 	font-weight: bold;
 	padding-bottom: 4px;
-	margin: 0 15px 10px;
+	margin: 0 15px 10px;*/
+    display: inline;
+    white-space: normal;
+    font: 22px/24px 'SuisseCond','Arial narrow',Arial;
 }
 
 #dg-popup-firm-loading {
