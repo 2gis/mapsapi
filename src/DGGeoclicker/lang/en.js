@@ -6,6 +6,7 @@ L.DG.Geoclicker.Handler.Default.Dictionary.en = L.extend({
     "street": "Street",
     "district": "Disctict",
     "city": "City",
+    "goto": "Directions to here",
     "Show organization in the building": "Show organizations in the building",
     "Hide organization in the building": "Hide organizations in the building",
     "Show more about sight": "Read more",

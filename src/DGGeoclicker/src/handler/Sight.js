@@ -21,7 +21,15 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
                 description: attrs.info.description
             },
             self = this,
-            abbr;
+            abbr,
+            footer = {
+                btns: [
+                    {
+                        name: 'goto',
+                        label: this.t('goto')
+                    }
+                ]
+            };
 
         if (attrs.building_name) {
             data.buildingname = attrs.building_name;
@@ -38,6 +46,8 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             data.purpose = this.t('place');
         }
 
+        console.log(results);
+
         if (results.house) {
             var house = results.house.attributes,
                 buildAddress = function (array) {
@@ -52,12 +62,9 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
                         pushValue(array[i]);
                     }
 
-                    console.log(address);
-
                     return address.join(', ');
                 };
             if (house) {
-                    // console.log(house.addresses[0].number);
                 if (house.addresses && house.addresses.length) {
                     data.address = buildAddress([
                         house.addresses[0].street,
@@ -89,12 +96,26 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
         data.showMoreText = this.t('Show more about sight');
 
+        footer.btns[0].href =
+        'http://2gis.ru/#!/' +
+        this._map.dgProjectDetector.getProject().code +
+        '/transTo/' +
+        encodeURIComponent(data.buildingname) +
+        '/transToCr/' +
+        'POINT(' + this._popup._latlng.lng +
+        ' ' + this._popup._latlng.lat + ')' +
+        '/routeSearchShow/true';
+
         return {
             tmpl: this._view.getTemplate('sight'),
             data: data,
             header: this._view.render({
                 tmpl: this._view.getTemplate('popupHeader'),
                 data: {'addressWithoutIndex': data.buildingname}
+            }),
+            footer: this._view.render({
+                tmpl: this._view.getTemplate('popupFooterBtns'),
+                data: footer
             }),
             afterRender: function () {
                 self._initShowMore();
@@ -114,7 +135,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
     _onPopupClose: function () {
         this._initedPopupClose = false;
-        this._popup.clear('header');
+        this._popup.clear('header', 'footer');
         this._clearEventHandlers();
     },
 

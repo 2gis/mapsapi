@@ -6,6 +6,7 @@ L.DG.Geoclicker.Handler.Default.Dictionary.it = L.extend({
     "street": "Via",
     "district": "Località",
     "city": "Сittà",
+    "goto": "it - Directions to here",
     "Show organization in the building": "Mostra le aziende presenti nell'edificio",
     "Hide organization in the building": "Nascondere le aziende nell'edificio",
     "Show more about sight": "it - Read more",
