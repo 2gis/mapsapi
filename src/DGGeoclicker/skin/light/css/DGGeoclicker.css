@@ -4,11 +4,27 @@
 }
 
 .dg-map-geoclicker-address {
-    font-size: 15px;
-	margin-bottom: 1px;
+    position: relative;
+    margin: 6px 0 2px 24px;
+    font: 16px/16px Arial;
+}
+.dg-map-geoclicker-address:before {
+    position: absolute;
+    top: 3px;
+    left: -24px;
+    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -182px -82px;
+    width: 9px;
+    height: 11px;
+    content: '';
 }
 
-.dg-map-geoclicker-purpose,
+.dg-map-geoclicker-drilldown {
+    padding: 0 0 0 24px;
+    color: #aaa;
+    font: 12px/16px Arial;
+}
+
 .dg-map-geoclicker-elevation {
     color:#a0a0a0;
     display:block;
@@ -16,6 +32,43 @@
     margin-bottom:1px;
 }
 
+.dg-map-geoclicker-purpose {
+    position: relative;
+    padding: 6px 0 2px 24px;
+    font-size: 16px;
+}
+.dg-map-geoclicker-purpose:before {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    content: '';
+    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -339px -56px;
+    width: 8px;
+    height: 12px;
+}
+.dg-map-geoclicker-purpose__street:before {
+    background-position: -183px -70px;
+    width: 12px;
+}
+
+.dg-map-geoclicker-sight-description {
+    height: 2.9em;
+    overflow: hidden;
+    padding: 0.5em 0 0 24px;
+}
+
+#dg-showmoresight {
+    border-bottom: 1px dashed;
+    text-decoration: none;
+    margin-left: 24px;
+}
+#dg-showmoresight:after {
+    content: '>';
+    position: absolute;
+    margin-left: 5px;
+    font-weight: bold;
+}
 #dg-showmorehouse {
 	color: #0070C0;
 	font-size: 12px;
@@ -45,30 +98,18 @@
 
 }
 
-.dg-popup-header {
-    margin: 11px 15px 1px 0;
-    padding: 0 0 7px;
-    color: #ffc84b;
-    white-space: nowrap;
-    font: 22px/24px 'SuisseCond','Arial narrow',Arial;
-    font-weight: 400;
-}
-
 #dg-showlesshouse {
-	color: #0070C0;
-	font-size: 12px;
-	line-height: 24px;
-	position: relative;
-	text-decoration: none;
-	top: 6px;
-	margin: 0 15px 10px;
+    color: #0070C0;
+    font-size: 12px;
+    line-height: 24px;
+    position: relative;
+    text-decoration: none;
+    top: 6px;
+    margin: 0 15px 10px;
 }
 
 .dg-popup-header-title {
-/*	font-size: 15px;
-	font-weight: bold;
-	padding-bottom: 4px;
-	margin: 0 15px 10px;*/
+    color: #ffc84b;
     display: inline;
     white-space: normal;
     font: 22px/24px 'SuisseCond','Arial narrow',Arial;
@@ -801,7 +842,3 @@ li.dg-map-firm-address .note {
 }
 
 
-.dg-map-geoclicker-sight-description {
-    height: 3em;
-    overflow: hidden;
-}

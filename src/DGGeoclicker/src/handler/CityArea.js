@@ -37,6 +37,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
             this._initStyles();
         }
 
+        this._popup = this._view.getPopup();
         this._geometry = this._readWKT(results[type].geometry.location);
         this._geometryStyle = this._getPolyStyleNum(this._map.getZoom());
 
@@ -55,7 +56,8 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         var data = {
             name: this.t('noname'),
             address: '',
-            purpose: this.t(type)
+            purpose: this.t(type),
+            type: type
         };
 
         for (var obj in results) {
@@ -121,10 +123,10 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onPopupClose: function () {
+        this._popup.clear('header');
         this._map
                 .removeLayer(this._geometry)
                 .off('zoomend', this._onZoomChange, this);
-        // this._popup.clear('header');
     }
 
 });

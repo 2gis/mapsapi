@@ -15,12 +15,13 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         var attrs = results.sight.attributes,
             data = {
                 address: '',
+                drilldown: '',
                 buildingname: '',
                 purpose: '',
                 description: attrs.info.description
             },
             self = this,
-            abbr = '';
+            abbr;
 
         if (attrs.building_name) {
             data.buildingname = attrs.building_name;
@@ -32,12 +33,57 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             data.purpose = attrs.sight_description;
         }
 
-        for (var obj in results) {
-            if (obj !== 'sight' && obj !== 'extra') {
-                if (results[obj].attributes && results[obj].attributes.abbreviation) {
-                    abbr = results[obj].attributes.abbreviation + ' ';
+        if (data.buildingname === null) {
+            data.buildingname = data.purpose;
+            data.purpose = this.t('place');
+        }
+
+        if (results.house) {
+            var house = results.house.attributes,
+                buildAddress = function (array) {
+                    var address = [],
+                        pushValue = function (value) {
+                            if (value) {
+                                address.push(value);
+                            }
+                        };
+
+                    for (var i = 0; i < array.length; i++) {
+                        pushValue(array[i]);
+                    }
+
+                    console.log(address);
+
+                    return address.join(', ');
+                };
+            if (house) {
+                    // console.log(house.addresses[0].number);
+                if (house.addresses && house.addresses.length) {
+                    data.address = buildAddress([
+                        house.addresses[0].street,
+                        house.addresses[0].number
+                    ]);
                 }
-                data.address = abbr + results[obj].name;
+
+                data.drilldown = buildAddress([
+                    house.micro_district,
+                    house.district,
+                    house.city,
+                    house.postal_code
+                ]);
+            } else {
+                if (results.house.name) {
+                    data.address = results.house.name;
+                }
+            }
+        } else {
+            for (var obj in results) {
+                if (obj !== 'sight' && obj !== 'extra') {
+                    if (results[obj].attributes && results[obj].attributes.abbreviation) {
+                        abbr = results[obj].attributes.abbreviation + ' ';
+                    }
+                    data.drilldown = abbr + results[obj].name;
+                }
             }
         }
 
@@ -68,7 +114,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
     _onPopupClose: function () {
         this._initedPopupClose = false;
-
+        this._popup.clear('header');
         this._clearEventHandlers();
     },
 

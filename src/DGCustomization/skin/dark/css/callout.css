@@ -56,7 +56,7 @@
     position: relative;
     margin: auto auto -48px auto;
     background: url(__BASE_URL__/img/dg-callout-dark.png);
-    background-position: -73px 0px;
+    background-position: -113px 0;
     width: 58px;
     height: 47px;
     pointer-events: none;
@@ -92,14 +92,14 @@
         left: 8px;
         top: 9px;
         background: url(__BASE_URL__/img/dg-callout-dark.png);
-        background-position: -131px -56px;
+        background-position: -181px -103px;
         width: 11px;
         height: 9px;
     }
     .leaflet-container a.leaflet-popup-close-button:hover:before {
         top: 8px;
         background: url(__BASE_URL__/img/dg-callout-dark.png);
-        background-position: -301px -40px;
+        background-position: -237px -93px;
         width: 11px;
         height: 10px;
     }
