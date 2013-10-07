@@ -94,7 +94,7 @@
                     }
                 }
             }
-            // think about remove this set to another public method
+            // think about move this set to another public method
             this._isBaronExist = false;
 
             return this;
@@ -213,7 +213,7 @@
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
 
-            console.log(maxHeight, maxHeight <= popupHeight);
+            //console.log(maxHeight, maxHeight <= popupHeight);
 
             return (maxHeight && maxHeight <= popupHeight);
         },

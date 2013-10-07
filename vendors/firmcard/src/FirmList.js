@@ -142,7 +142,9 @@
             var self = this;
 
             if (this._defaultFirm) {
-                firms.unshift(this._defaultFirm);
+                //firms.unshift(this._defaultFirm);
+                firms = [];
+                firms.push(this._defaultFirm);
             }
 
             this.addFirms(firms);

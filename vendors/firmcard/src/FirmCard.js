@@ -23,33 +23,6 @@ var FirmCard = function (firm, options) {
 
 FirmCard.prototype = {
 
-    getContainer: function () {
-        return this._el;
-    },
-
-    getId: function () {
-        return this._id;
-    },
-
-    getSchedule: function () {
-        return this._schedule;
-    },
-
-    toggle: function () {
-        var display,
-            fullFirmElExists = !!this._fullFirmEl;
-
-        if (!fullFirmElExists) {
-            this._expand(fullFirmElExists);
-        } else {
-            display = this._fullFirmEl.style.display;
-            display === 'none' ? this._expand(fullFirmElExists) : this._collapse();
-            if (this.options.onToggleCard) {
-                this.options.onToggleCard(this.getContainer(), this.isExpanded());
-            }
-        }
-    },
-
     toggleSchedule: function () {
         var schedule = this._fullFirmEl.querySelector('.schedule__table'),
             display = 'block';
@@ -65,7 +38,7 @@ FirmCard.prototype = {
 
     render: function () {
         var html;
-
+        console.log(this._el);
         if (!this._el) {
             html = this._getShortContent();
             this._createEl(html);
@@ -79,17 +52,15 @@ FirmCard.prototype = {
     },
 
     _renderFullCardById: function (firmId) {
-        var self = this,
-            loader;
+        var self = this;
 
         this._id = firmId;
-        loader = this.options.render(this.options.tmpls.loader);
-        this._createEl(loader);
+        this._createEl();
         this.options.ajax(firmId, function (data) {
             if (data !== 'undefined') {
                 self._firmData = data[0];
                 self._el.innerHTML = self._getShortContent();
-                self.toggle.call(self);
+                self._expand();
             }
         });
     },
@@ -118,15 +89,9 @@ FirmCard.prototype = {
         var self = this;
 
         if (!fullFirmElExists) {
-            var loaderHtml = this.options.render(this.options.tmpls.loader);
-            this._el.insertAdjacentHTML('beforeend', loaderHtml);
             this.options.ajax(this._id, function (data) {
                 if (data !== 'undefined') {
                     self._renderFullCard.call(self, data[0]);
-                    self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
-                    if (self.options.onToggleCard) {
-                        self.options.onToggleCard(self.getContainer(), self.isExpanded());
-                    }
                 }
             });
         } else {
