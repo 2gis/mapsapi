@@ -9,9 +9,15 @@
     transform-origin: 50% 100%;
 }
 
+.leaflet-popup-content-wrapper {
+
+}
+
 .leaflet-popup-content {
     line-height: 1.4;
     margin: 0;
+    display: table;
+    height: 100%;
 }
 
 .leaflet-popup-content p {
@@ -114,18 +120,13 @@
     }
 
 .dg-popup-container {
-    padding: 13px 0;
-    overflow: hidden;
+    display: table-row;
 }
 
 .dg-popup-header {
-    position: absolute;
-    top: 0px;
-    padding-top: 13px;
+    display: table-header-group;
 }
 
 .dg-popup-footer {
-    position: absolute;
-    bottom: 0px;
-    padding-bottom: 13px;
+    display: table-footer-group;
 }

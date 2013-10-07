@@ -14,6 +14,7 @@
         _headerContent: null,
         _footerContent: null,
         _back: {},
+
         //baron elements references
         _scroller: null,
         _scrollerBar: null,
@@ -30,24 +31,14 @@
         _templates: __DGCustomization_TMPL__,
 
         onAdd: function (map) {
-            map.on('dgEntranceShow', function () {
-                map.closePopup(this);
-            }, this);
+            map.on('dgEntranceShow', this._closePopup, this);
             this._popupStructure = {};
-
-            this.once('open', function () {
-                L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
-                L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');
-            }, this);
-
+            this.once('open', this._animateOpening, this);
             return originalOnAdd.call(this, map);
         },
 
         onRemove: function (map) {
-            map.off('dgEntranceShow', function () {
-                map.closePopup(this);
-            }, this);
-
+            map.off('dgEntranceShow', this._closePopup, this);
             return originalOnRemove.call(this, map);
         },
 
@@ -82,43 +73,25 @@
         },
 
         clear: function () {
-            var i;
-            if (arguments.length) {
-                for (i = arguments.length - 1; i >= 0; i--) {
-                    this._clearElement(arguments[i]);
-                }
-            } else {
-                for (i in this._popupStructure) {
-                    if (this._popupStructure.hasOwnProperty(i)) {
-                        this._clearElement(i);
-                    }
+            for (var i in this._popupStructure) {
+                if (this._popupStructure.hasOwnProperty(i)) {
+                    this._clearElement(i);
                 }
             }
-            // think about remove this set to another public method
             this._isBaronExist = false;
-
             return this;
         },
 
         clearHeader: function () {
-            return this.clear('header');
+            return this._clearElement('header');
         },
 
         clearFooter: function () {
-            return this.clear('footer');
+            return this._clearElement('footer');
         },
 
         findElement: function (node) {
             return this._contentNode.querySelector(node);
-        },
-
-        showLoader: function (tmpl) {
-            this.clear();
-            var html = tmpl || this._templates.loader;
-
-            this._contentNode.innerHTML = html;
-
-            return this;
         },
 
         scrollTo: function (to) {
@@ -152,6 +125,20 @@
             return this;
         },
 
+        _animateOpening: function () {
+            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
+            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');
+        },
+
+        _animateClosing: function () {
+            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_false');
+            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_true');
+        },
+
+        _closePopup: function () {
+            this._map.closePopup(this);
+        },
+
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = L.DomUtil.create('div', 'leaflet-popup-inner leaflet-popup_show_false', this._container);
@@ -168,6 +155,7 @@
                 this._contentNode.removeChild(this._popupStructure[elem]);
                 delete this._popupStructure[elem];
             }
+            return this;
         },
 
         _updateScrollPosition: function () {
@@ -184,27 +172,27 @@
             this._updateLayout();
             this._updatePosition();
 
-            shouldShowBaron = this._isContentHeightFit();
-            if (shouldShowBaron) {
-                if (!isBaronExist) {
-                    this._initBaronScroller();
-                    this._initBaron();
-                } else {
-                    L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
-                    L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-                    L.DomUtil.addClass(this._scroller, 'scroller');
-                    if (scrollTop) {
-                        this._scroller.scrollTop = scrollTop;
-                    }
-                    this._updateScrollPosition();
-                }
-            } else {
-                if (isBaronExist) {
-                    L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
-                    L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
-                    L.DomUtil.removeClass(this._scroller, 'scroller');
-                }
-            }
+            // shouldShowBaron = this._isContentHeightFit();
+            // if (shouldShowBaron) {
+            //     if (!isBaronExist) {
+            //         this._initBaronScroller();
+            //         this._initBaron();
+            //     } else {
+            //         L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
+            //         L.DomUtil.addClass(this._scroller, 'scroller-with-header');
+            //         L.DomUtil.addClass(this._scroller, 'scroller');
+            //         if (scrollTop) {
+            //             this._scroller.scrollTop = scrollTop;
+            //         }
+            //         this._updateScrollPosition();
+            //     }
+            // } else {
+            //     if (isBaronExist) {
+            //         L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
+            //         L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
+            //         L.DomUtil.removeClass(this._scroller, 'scroller');
+            //     }
+            // }
 
             this._adjustPan();
         },
@@ -212,8 +200,6 @@
         _isContentHeightFit: function () {
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
-
-            console.log(maxHeight, maxHeight <= popupHeight);
 
             return (maxHeight && maxHeight <= popupHeight);
         },
@@ -231,6 +217,7 @@
                     if (mode === 'trigger') {
                         mode = 'fire';
                     }
+                    /*global bean:false */
                     bean[mode || 'on'](elem, event, func);
                 }
             });
@@ -318,7 +305,8 @@
 
         _updateLayout: function () {
             var container = this._contentNode,
-                style = container.style;
+                wrapper = this._wrapper,
+                style = wrapper.style;
 
             style.width = '';
             style.whiteSpace = 'nowrap';
@@ -339,10 +327,10 @@
 
             if (maxHeight && height > maxHeight) {
                 style.height = maxHeight + 'px';
-                L.DomUtil.addClass(container, scrolledClass);
+                L.DomUtil.addClass(wrapper, scrolledClass);
             } else {
                 style.height = Math.max(height, minHeight) + 'px';
-                L.DomUtil.removeClass(container, scrolledClass);
+                L.DomUtil.removeClass(wrapper, scrolledClass);
             }
             this._containerWidth = this._container.offsetWidth;
         },
