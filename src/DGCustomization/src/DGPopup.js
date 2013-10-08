@@ -14,6 +14,7 @@
         _headerContent: null,
         _footerContent: null,
         _back: {},
+
         //baron elements references
         _scroller: null,
         _scrollerBar: null,
@@ -30,24 +31,14 @@
         _templates: __DGCustomization_TMPL__,
 
         onAdd: function (map) {
-            map.on('dgEntranceShow', function () {
-                map.closePopup(this);
-            }, this);
+            map.on('dgEntranceShow', this._closePopup, this);
             this._popupStructure = {};
-
-            this.once('open', function () {
-                L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
-                L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');
-            }, this);
-
+            this.once('open', this._animateOpening, this);
             return originalOnAdd.call(this, map);
         },
 
         onRemove: function (map) {
-            map.off('dgEntranceShow', function () {
-                map.closePopup(this);
-            }, this);
-
+            map.off('dgEntranceShow', this._closePopup, this);
             return originalOnRemove.call(this, map);
         },
 
@@ -82,43 +73,25 @@
         },
 
         clear: function () {
-            var i;
-            if (arguments.length) {
-                for (i = arguments.length - 1; i >= 0; i--) {
-                    this._clearElement(arguments[i]);
-                }
-            } else {
-                for (i in this._popupStructure) {
-                    if (this._popupStructure.hasOwnProperty(i)) {
-                        this._clearElement(i);
-                    }
+            for (var i in this._popupStructure) {
+                if (this._popupStructure.hasOwnProperty(i)) {
+                    this._clearElement(i);
                 }
             }
-            // think about remove this set to another public method
             this._isBaronExist = false;
-
             return this;
         },
 
         clearHeader: function () {
-            return this.clear('header');
+            return this._clearElement('header');
         },
 
         clearFooter: function () {
-            return this.clear('footer');
+            return this._clearElement('footer');
         },
 
         findElement: function (node) {
             return this._contentNode.querySelector(node);
-        },
-
-        showLoader: function (tmpl) {
-            this.clear();
-            var html = tmpl || this._templates.loader;
-
-            this._contentNode.innerHTML = html;
-
-            return this;
         },
 
         scrollTo: function (to) {
@@ -152,6 +125,20 @@
             return this;
         },
 
+        _animateOpening: function () {
+            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
+            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');
+        },
+
+        _animateClosing: function () {
+            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_false');
+            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_true');
+        },
+
+        _closePopup: function () {
+            this._map.closePopup(this);
+        },
+
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = L.DomUtil.create('div', 'leaflet-popup-inner leaflet-popup_show_false', this._container);
@@ -168,6 +155,7 @@
                 this._contentNode.removeChild(this._popupStructure[elem]);
                 delete this._popupStructure[elem];
             }
+            return this;
         },
 
         _updateScrollPosition: function () {
@@ -184,12 +172,12 @@
             this._updateLayout();
             this._updatePosition();
 
-            shouldShowBaron = this._isContentHeightFit();
-            if (shouldShowBaron) {
+            if (shouldShowBaron = this._isContentHeightFit()) {
                 if (!isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
-                } else {
+                }
+                else {
                     L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.addClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.addClass(this._scroller, 'scroller');
@@ -213,9 +201,24 @@
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
 
-            console.log(maxHeight, maxHeight <= popupHeight);
-
             return (maxHeight && maxHeight <= popupHeight);
+        },
+
+        _initBaronScroller: function () {
+            var contentNode = this._popupStructure.body.parentNode,
+                scrollerWrapper = L.DomUtil.create('div', 'scroller-wrapper', contentNode),
+                scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
+                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller);
+
+            this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
+            scroller.appendChild(this._detachEl(this._popupStructure.body));
+            this._isBaronExist = true;
+
+            L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+        },
+
+        _onScroll: function (event) {
+            this.fire('dgScroll', {originalEvent: event});
         },
 
         _initBaron: function () {
@@ -231,6 +234,7 @@
                     if (mode === 'trigger') {
                         mode = 'fire';
                     }
+                    /*global bean:false */
                     bean[mode || 'on'](elem, event, func);
                 }
             });
@@ -247,42 +251,9 @@
         },
 
         _initBodyContainer: function () {
-            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._contentNode);
+            var bodyWrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
+            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', bodyWrapper);
             this._isBodyExist = true;
-        },
-
-        _initBaronScroller: function () {
-            var scroller = document.createElement('div'),
-                barWrapper = document.createElement('div'),
-                scrollerBar = document.createElement('div'),
-                contentNode = this._contentNode,
-                footer = this.findElement('.dg-popup-footer');
-
-            this._detachEl(this._popupStructure.body);
-            scroller.setAttribute('class', 'scroller');
-            barWrapper.setAttribute('class', 'scroller__bar-wrapper');
-            scrollerBar.setAttribute('class', 'scroller__bar');
-
-            if (this._isFooterExist || this._isHeaderExist) {
-                scroller.className += ' scroller-with-header';
-            }
-
-            barWrapper.appendChild(scrollerBar);
-            scroller.appendChild(this._popupStructure.body);
-            scroller.appendChild(barWrapper);
-
-            contentNode.insertBefore(scroller, footer);
-
-            this._scroller = scroller;
-            this._scrollerBar = scrollerBar;
-            this._barWrapper = barWrapper;
-            this._isBaronExist = true;
-
-            L.DomEvent.on(this._scroller, 'scroll', this._onScroll, this);
-        },
-
-        _onScroll: function (event) {
-            this.fire('dgScroll', {originalEvent: event});
         },
 
         _update: function () {
