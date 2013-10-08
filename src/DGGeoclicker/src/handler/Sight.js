@@ -47,8 +47,6 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             data.purpose = this.t('place');
         }
 
-        console.log(results);
-
         if (results.house) {
             var house = results.house.attributes,
                 buildAddress = function (array) {
