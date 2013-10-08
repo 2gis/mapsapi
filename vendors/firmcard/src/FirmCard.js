@@ -1,7 +1,7 @@
 var FirmCard = function (firm, options) {
 
     options = options || {};
-    this._firmContainer = null;
+    this._firmContainer = {};
     this._fullFirmEl = null;
     this._firmId = firm;
     options.lang = options.lang || 'ru';
@@ -9,6 +9,8 @@ var FirmCard = function (firm, options) {
     this._schedule = new FirmCard.Schedule({
         localLang : options.lang
     });
+
+    this._renderCardById(this._firmId);
 };
 
 FirmCard.prototype = {
@@ -24,43 +26,21 @@ FirmCard.prototype = {
         schedule.style.display = display;
     },
 
-    render: function () {
-        this._renderCardById(this._firmId);
-
-        return {tmpl: this._firmContainer};
-    },
-
     _renderCardById: function () {
         var self = this;
 
-        this._createContainer();
         this.options.ajax(this._firmId, function (data) {
             if (data !== 'undefined') {
-                //self._firmData = data[0];
-                //self._firmContainer.innerHTML = self._getShortContent();
                 self._renderFirmCard.call(self, data[0]);
             }
         });
     },
 
-    _createContainer: function () {
-        this._firmContainer = document.createElement('div');
-        this._firmContainer.setAttribute('id', 'dg-map-firm-' + this._firmId);
-    },
-
-    _createFullFirmEl: function (html) {
-        this._fullFirmEl = document.createElement('div');
-        this._fullFirmEl.setAttribute('id', 'dg-map-firm-full-' + this._firmId);
-        this._fullFirmEl.setAttribute('class', 'dg-map-firm-full');
-        this._fullFirmEl.style.display = 'block';
-        this._fullFirmEl.innerHTML = html;
-    },
-
     _renderFirmCard: function (data) {
-        var html,
+        var firmCardBody,
             schedule,
-            forecast;
-
+            forecast,
+            btns;
 
         schedule = this._schedule.transform(data.schedule, {
             zoneOffset: this.options.timezoneOffset,
@@ -69,9 +49,8 @@ FirmCard.prototype = {
         });
 
         forecast = this._schedule.forecast(schedule);
-
         //render firm body
-        html = this.options.render(this.options.tmpls.fullFirm, {
+        firmCardBody = this.options.render(this.options.tmpls.body, {
             firm: data,
             schedule: schedule,
             dict: FirmCard.Schedule.dictionary,
@@ -80,19 +59,28 @@ FirmCard.prototype = {
             dataHelper: FirmCard.DataHelper
         });
 
-        this._createFullFirmEl(html);
+        //render footer
+        btns = [
+            {
+                name: 'back',
+                label: 'Назад'
+            },
+            {
+                name: 'findway',
+                label: 'Проехать сюда'
+            },
+            {
+                name: 'entrance',
+                label: 'Найти вход'
+            }
+        ];
 
+        this._firmContainer.header = this.options.render(this.options.tmpls.header, {'addressWithoutIndex': data.name});
+        this._firmContainer.tmpl = firmCardBody;
+        this._firmContainer.footer = this.options.render(this.options.tmpls.footer, {'btns': btns});
 
-        this._firmContainer.appendChild(this._fullFirmEl);
-        //this.options.callback && this.options.callback(this._renderedFirm);
+        this.options.callback && this.options.callback(this._firmContainer);
     },
-
-    /*_getShortContent: function () {
-        return this.options.render(this.options.tmpls.shortFirm, {
-            name: this._firmData.name,
-            id: this._firmId
-        });
-    },*/
 
     _setOptions: function (options) {
         var option;
