@@ -118,6 +118,21 @@
     transition: all .2s;
 }
 
+.popup_footer_btn__icon{
+    padding-left: 1.5em;
+}
+.popup_footer_btn__icon:before {
+    position: absolute;
+    margin: 6px 0 0 -1.5em;
+    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
+    width: 12px;
+    height: 12px;
+    content: '';
+}
+#popup-btn-goto:before{
+    background-position: -264px -70px;
+}
+
 #dg-showlesshouse {
     color: #0070C0;
     font-size: 12px;

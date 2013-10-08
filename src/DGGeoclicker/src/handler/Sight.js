@@ -26,7 +26,8 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
                 btns: [
                     {
                         name: 'goto',
-                        label: this.t('goto')
+                        label: this.t('goto'),
+                        icon: true
                     }
                 ]
             };
