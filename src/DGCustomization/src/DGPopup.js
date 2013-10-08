@@ -173,24 +173,25 @@
             this._updatePosition();
 
             if (shouldShowBaron = this._isContentHeightFit()) {
-                // if (!isBaronExist) {
+                if (!isBaronExist) {
                     this._initBaronScroller();
-                    // this._initBaron();
-                // } else {
-                //     L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
-                //     L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-                //     L.DomUtil.addClass(this._scroller, 'scroller');
-                //     if (scrollTop) {
-                //         this._scroller.scrollTop = scrollTop;
-                //     }
-                //     this._updateScrollPosition();
-                // }
+                    this._initBaron();
+                }
+                else {
+                    L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
+                    L.DomUtil.addClass(this._scroller, 'scroller-with-header');
+                    L.DomUtil.addClass(this._scroller, 'scroller');
+                    if (scrollTop) {
+                        this._scroller.scrollTop = scrollTop;
+                    }
+                    this._updateScrollPosition();
+                }
             } else {
-                // if (isBaronExist) {
-                //     L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
-                //     L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
-                //     L.DomUtil.removeClass(this._scroller, 'scroller');
-                // }
+                if (isBaronExist) {
+                    L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
+                    L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
+                    L.DomUtil.removeClass(this._scroller, 'scroller');
+                }
             }
 
             this._adjustPan();
@@ -204,29 +205,16 @@
         },
 
         _initBaronScroller: function () {
-            var scroller = document.createElement('div'),
-                barWrapper = document.createElement('div'),
-                scrollerBar = document.createElement('div'),
-                contentNode = this._popupStructure.body.parentNode,
-                footer = this.findElement('.dg-popup-footer');
+            var contentNode = this._popupStructure.body.parentNode,
+                scrollerWrapper = L.DomUtil.create('div', 'scroller-wrapper', contentNode),
+                scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
+                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller);
 
-            this._detachEl(this._popupStructure.body);
-            scroller.setAttribute('class', 'scroller');
-            barWrapper.setAttribute('class', 'scroller__bar-wrapper');
-            scrollerBar.setAttribute('class', 'scroller__bar');
-
-            barWrapper.appendChild(scrollerBar);
-            scroller.appendChild(this._popupStructure.body);
-            scroller.appendChild(barWrapper);
-
-            contentNode.appendChild(scroller);
-
-            this._scroller = scroller;
-            this._scrollerBar = scrollerBar;
-            this._barWrapper = barWrapper;
+            this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
+            scroller.appendChild(this._detachEl(this._popupStructure.body));
             this._isBaronExist = true;
 
-            L.DomEvent.on(this._scroller, 'scroll', this._onScroll, this);
+            L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
         },
 
         _onScroll: function (event) {

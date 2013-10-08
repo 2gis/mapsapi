@@ -1,9 +1,10 @@
 /* baron */
 
-.scroller {
-    height: auto;
-    border-top: 1px solid #2d2d2d;
-    border-bottom: 1px solid #2d2d2d;
+.scroller-wrapper {
+    position: relative;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
 }
 
 .scroller::-webkit-scrollbar {
@@ -12,24 +13,19 @@
 
 .scroller__bar-wrapper {
     position: absolute;
-    top: 30px;
-    bottom: 10px;
-    right: 17px;
+    top: 4px;
+    bottom: 4px;
+    right: 3px;
     width: 6px;
     border-radius: 5px;
 }
 
-.scroller__bar-wrapper-with-header {
-    top: 25px;
-    bottom: 25px;
-}
-
 .scroller__bar-wrapper .scroller__bar {
-    background-color: rgba(100, 98, 86, 0.85);
+    background-color: rgba(100, 98, 86, 0.5);
 }
 
 .scroller__bar-wrapper:hover .scroller__bar {
-    background-color: rgba(100, 98, 86, 0.5);
+    background-color: rgba(100, 98, 86, 0.85);
 }
 
 .scroller__bar {
@@ -38,11 +34,6 @@
     border-radius: 3px;
     pointer-events: auto;
     min-height:20px;
-}
-
-.header__title {
-   background: #fff;
-   margin-bottom: 5px;
 }
 
 .dg-baron-hide {
