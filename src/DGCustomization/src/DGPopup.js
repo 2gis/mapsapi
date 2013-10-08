@@ -152,7 +152,7 @@
         _clearElement: function (elem) {
             if (this._popupStructure[elem]) {
                 this['_' + elem + 'Content'] = null;
-                this._contentNode.removeChild(this._popupStructure[elem]);
+                this._popupStructure[elem].parentNode.removeChild(this._popupStructure[elem]);
                 delete this._popupStructure[elem];
             }
             return this;
