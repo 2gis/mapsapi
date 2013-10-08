@@ -11,20 +11,24 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             return false;
         }
 
+        // initialization setup
         this._firmList = null;
         this._houseObject = null;
         this._firmListObject = null;
         this._id = results.house.id;
         this._totalPages = 1;
-        this._defaultFirm = '141265771576530';//|| results.extra && results.extra.poiId ? results.extra.poiId : null;
-
         this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
-        this._fillHouseObject(results.house);
-        // TEMPORARY
-        this._initFirmObject(this._defaultFirm);
-
         this._initedPopupClose = false;
+
+        this._defaultFirm = '141265771576530';//|| results.extra && results.extra.poiId ? results.extra.poiId : null;
+
+        // TODO: refactor it
+        if (this._defaultFirm) {
+            this._fillFirmCardObject();
+        } else {
+            this._fillHouseObject(results.house);
+        }
 
         return L.DG.when(this._defaultFirm ? this._firmCardObject : this._houseObject);
     },
@@ -79,7 +83,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     // init single firm card
-    _initFirmObject: function () {
+    _fillFirmCardObject: function () {
         var addOptions = {
                 tmpls: {
                     loader: this._view.getTemplate('loader'),
@@ -93,9 +97,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             },
             firmCard = new FirmCard (this._defaultFirm, addOptions);
 
-        this._firmCardObject = {
-            tmpl: firmCard.render(),
-        };
+        this._firmCardObject = firmCard.render();
     },
 
     _fillFirmListObject: function () {

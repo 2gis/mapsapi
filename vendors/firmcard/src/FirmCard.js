@@ -1,24 +1,14 @@
 var FirmCard = function (firm, options) {
-    var type;
 
     options = options || {};
-    this._el = null;
+    this._firmContainer = null;
     this._fullFirmEl = null;
-    this._isExpanded = false;
-
+    this._firmId = firm;
     options.lang = options.lang || 'ru';
     this._setOptions(options);
     this._schedule = new FirmCard.Schedule({
         localLang : options.lang
     });
-    type = Object.prototype.toString.call(firm);
-
-    if ('[object Object]' === type) {
-        this._firmData = firm;
-        this._id = firm.id.split('_').shift();
-    } else {
-        this._renderFullCardById(firm);
-    }
 };
 
 FirmCard.prototype = {
@@ -26,92 +16,61 @@ FirmCard.prototype = {
     toggleSchedule: function () {
         var schedule = this._fullFirmEl.querySelector('.schedule__table'),
             display = 'block';
-        if (!schedule) return;
+        if (!schedule) { return; }
+
         if (schedule.style.display === 'block') {
             display = 'none';
         }
         schedule.style.display = display;
-        if (this.options.onToggleCard) {
-            this.options.onToggleCard(this.getContainer(), this.isExpanded());
-        }
     },
 
     render: function () {
-        var html;
-        console.log(this._el);
-        if (!this._el) {
-            html = this._getShortContent();
-            this._createEl(html);
-        }
+        this._renderCardById(this._firmId);
 
-        return this._el;
+        return {tmpl: this._firmContainer};
     },
 
-    isExpanded: function () {
-        return this._isExpanded;
-    },
-
-    _renderFullCardById: function (firmId) {
+    _renderCardById: function () {
         var self = this;
 
-        this._id = firmId;
-        this._createEl();
-        this.options.ajax(firmId, function (data) {
+        this._createContainer();
+        this.options.ajax(this._firmId, function (data) {
             if (data !== 'undefined') {
-                self._firmData = data[0];
-                self._el.innerHTML = self._getShortContent();
-                self._expand();
+                //self._firmData = data[0];
+                //self._firmContainer.innerHTML = self._getShortContent();
+                self._renderFirmCard.call(self, data[0]);
             }
         });
     },
 
-    _collapse: function () {
-        this._fullFirmEl.style.display = 'none';
-        this._isExpanded = false;
-    },
-
-    _createEl: function (html) {
-        this._el = document.createElement('div');
-        this._el.setAttribute('id', 'dg-map-firm-' + this._id);
-        this._el.setAttribute('class', 'dg-map-firm');
-        this._el.innerHTML = html;
+    _createContainer: function () {
+        this._firmContainer = document.createElement('div');
+        this._firmContainer.setAttribute('id', 'dg-map-firm-' + this._firmId);
     },
 
     _createFullFirmEl: function (html) {
         this._fullFirmEl = document.createElement('div');
-        this._fullFirmEl.setAttribute('id', 'dg-map-firm-full-' + this._id);
+        this._fullFirmEl.setAttribute('id', 'dg-map-firm-full-' + this._firmId);
         this._fullFirmEl.setAttribute('class', 'dg-map-firm-full');
         this._fullFirmEl.style.display = 'block';
         this._fullFirmEl.innerHTML = html;
     },
 
-    _expand: function (fullFirmElExists) {
-        var self = this;
-
-        if (!fullFirmElExists) {
-            this.options.ajax(this._id, function (data) {
-                if (data !== 'undefined') {
-                    self._renderFullCard.call(self, data[0]);
-                }
-            });
-        } else {
-            this._fullFirmEl.style.display = 'block';
-        }
-        this._isExpanded = true;
-    },
-
-    _renderFullCard: function (data) {
+    _renderFirmCard: function (data) {
         var html,
             schedule,
             forecast;
 
-        this._firmData = data;
+
         schedule = this._schedule.transform(data.schedule, {
             zoneOffset: this.options.timezoneOffset,
             apiLang: this.options.lang,
             localLang: this.options.lang
         });
+
         forecast = this._schedule.forecast(schedule);
+
+        //render firm body
         html = this.options.render(this.options.tmpls.fullFirm, {
             firm: data,
             schedule: schedule,
@@ -124,17 +83,16 @@ FirmCard.prototype = {
         this._createFullFirmEl(html);
 
 
-        this._el.appendChild(this._fullFirmEl);
-        this.options.callback && this.options.callback(this._el);
-        this._isExpanded = true;
+        this._firmContainer.appendChild(this._fullFirmEl);
+        //this.options.callback && this.options.callback(this._renderedFirm);
     },
 
-    _getShortContent: function () {
+    /*_getShortContent: function () {
         return this.options.render(this.options.tmpls.shortFirm, {
             name: this._firmData.name,
-            id: this._id
+            id: this._firmId
         });
-    },
+    },*/
 
     _setOptions: function (options) {
         var option;
