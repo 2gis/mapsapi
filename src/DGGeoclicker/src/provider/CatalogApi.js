@@ -100,20 +100,18 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     getTypesByZoom: function (zoom) { // (Number) -> String|Null
-        if (zoom > 15) {
-            return 'house,street,sight,station_platform,district';
-        } else if (zoom > 14) {
-            return 'house,street,district';
-        } else if (zoom > 13) {
-            return 'district,house';
-        } else if (zoom > 12) {
-            return 'district';
-        } else if (zoom > 11) {
-            return 'settlement,city,district';
-        } else if (zoom > 8) {
+        if (zoom >= 17) {
+            return 'sight,poi,house,place,street,station_platform,station,metro,district,division,settlement,city';
+        } else if (zoom >= 15) {
+            return 'poi,house,place,street,station_platform,station,metro,district,division,settlement,city';
+        } else if (zoom >= 14) {
+            return 'house,street,station_platform,station,metro,district,division,settlement,city';
+        } else if (zoom >= 12) {
+            return 'station_platform,station,metro,district,division,settlement,city';
+        } else if (zoom >= 11) {
+            return 'division,settlement,city';
+        } else if (zoom >= 8) {
             return 'settlement,city';
-        } else if (zoom > 7) {
-            return 'city';
         } else {
             return null;
         }
@@ -136,7 +134,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
-        var result = {}, i, len, item, found, data;
+        var result = {}, i, item, found, data;
 
         if (this._isNotFound(response)) {
             return false;
@@ -144,7 +142,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
         data = response.result.data;
 
-        for (i = 0, len = data.length; i < len; i++) {
+        for (i = data.length - 1; i >= 0; i--) {
             item = data[i];
             if (allowedTypes && allowedTypes.indexOf(item.geo_type) === -1) {
                 continue;

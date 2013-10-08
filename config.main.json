@@ -12,7 +12,7 @@
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
-    "PROJECT_ADDITIONAL_FIELDS": "data.bound,data.max_zoom_level,data.min_zoom_level,data.time_zone,data.time_zone_as_offset",
+    "PROJECT_ADDITIONAL_FIELDS": "data.bound,data.max_zoom_level,data.min_zoom_level,data.time_zone,data.time_zone_as_offset,data.code",
     "FIRM_INFO_FIELDS": "data.reviews,data.geo.id,data.geo.entrances",
     "GEO_ADDITIONAL_FIELDS": "data.geometry.location",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",

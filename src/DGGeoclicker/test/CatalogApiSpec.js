@@ -33,18 +33,18 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
                     5: null,
                     6: null,
                     7: null,
-                    8: 'city',
+                    8: 'settlement,city',
                     9: 'settlement,city',
                     10: 'settlement,city',
-                    11: 'settlement,city',
-                    12: 'settlement,city,district',
-                    13: 'district',
-                    14: 'district,house',
-                    15: 'house,street,district',
-                    16: 'house,street,sight,station_platform,district',
-                    17: 'house,street,sight,station_platform,district',
-                    18: 'house,street,sight,station_platform,district',
-                    19: 'house,street,sight,station_platform,district'
+                    11: 'division,settlement,city',
+                    12: 'station_platform,station,metro,district,division,settlement,city',
+                    13: 'station_platform,station,metro,district,division,settlement,city',
+                    14: 'house,street,station_platform,station,metro,district,division,settlement,city',
+                    15: 'poi,house,place,street,station_platform,station,metro,district,division,settlement,city',
+                    16: 'poi,house,place,street,station_platform,station,metro,district,division,settlement,city',
+                    17: 'sight,poi,house,place,street,station_platform,station,metro,district,division,settlement,city',
+                    18: 'sight,poi,house,place,street,station_platform,station,metro,district,division,settlement,city',
+                    19: 'sight,poi,house,place,street,station_platform,station,metro,district,division,settlement,city'
                 },
                 zoom;
 
