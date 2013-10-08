@@ -172,27 +172,26 @@
             this._updateLayout();
             this._updatePosition();
 
-            // shouldShowBaron = this._isContentHeightFit();
-            // if (shouldShowBaron) {
-            //     if (!isBaronExist) {
-            //         this._initBaronScroller();
-            //         this._initBaron();
-            //     } else {
-            //         L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
-            //         L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-            //         L.DomUtil.addClass(this._scroller, 'scroller');
-            //         if (scrollTop) {
-            //             this._scroller.scrollTop = scrollTop;
-            //         }
-            //         this._updateScrollPosition();
-            //     }
-            // } else {
-            //     if (isBaronExist) {
-            //         L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
-            //         L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
-            //         L.DomUtil.removeClass(this._scroller, 'scroller');
-            //     }
-            // }
+            if (shouldShowBaron = this._isContentHeightFit()) {
+                // if (!isBaronExist) {
+                    this._initBaronScroller();
+                    // this._initBaron();
+                // } else {
+                //     L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
+                //     L.DomUtil.addClass(this._scroller, 'scroller-with-header');
+                //     L.DomUtil.addClass(this._scroller, 'scroller');
+                //     if (scrollTop) {
+                //         this._scroller.scrollTop = scrollTop;
+                //     }
+                //     this._updateScrollPosition();
+                // }
+            } else {
+                // if (isBaronExist) {
+                //     L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
+                //     L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
+                //     L.DomUtil.removeClass(this._scroller, 'scroller');
+                // }
+            }
 
             this._adjustPan();
         },
@@ -202,6 +201,36 @@
                 maxHeight = this.options.maxHeight;
 
             return (maxHeight && maxHeight <= popupHeight);
+        },
+
+        _initBaronScroller: function () {
+            var scroller = document.createElement('div'),
+                barWrapper = document.createElement('div'),
+                scrollerBar = document.createElement('div'),
+                contentNode = this._popupStructure.body.parentNode,
+                footer = this.findElement('.dg-popup-footer');
+
+            this._detachEl(this._popupStructure.body);
+            scroller.setAttribute('class', 'scroller');
+            barWrapper.setAttribute('class', 'scroller__bar-wrapper');
+            scrollerBar.setAttribute('class', 'scroller__bar');
+
+            barWrapper.appendChild(scrollerBar);
+            scroller.appendChild(this._popupStructure.body);
+            scroller.appendChild(barWrapper);
+
+            contentNode.appendChild(scroller);
+
+            this._scroller = scroller;
+            this._scrollerBar = scrollerBar;
+            this._barWrapper = barWrapper;
+            this._isBaronExist = true;
+
+            L.DomEvent.on(this._scroller, 'scroll', this._onScroll, this);
+        },
+
+        _onScroll: function (event) {
+            this.fire('dgScroll', {originalEvent: event});
         },
 
         _initBaron: function () {
@@ -234,42 +263,9 @@
         },
 
         _initBodyContainer: function () {
-            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._contentNode);
+            var bodyWrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
+            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', bodyWrapper);
             this._isBodyExist = true;
-        },
-
-        _initBaronScroller: function () {
-            var scroller = document.createElement('div'),
-                barWrapper = document.createElement('div'),
-                scrollerBar = document.createElement('div'),
-                contentNode = this._contentNode,
-                footer = this.findElement('.dg-popup-footer');
-
-            this._detachEl(this._popupStructure.body);
-            scroller.setAttribute('class', 'scroller');
-            barWrapper.setAttribute('class', 'scroller__bar-wrapper');
-            scrollerBar.setAttribute('class', 'scroller__bar');
-
-            if (this._isFooterExist || this._isHeaderExist) {
-                scroller.className += ' scroller-with-header';
-            }
-
-            barWrapper.appendChild(scrollerBar);
-            scroller.appendChild(this._popupStructure.body);
-            scroller.appendChild(barWrapper);
-
-            contentNode.insertBefore(scroller, footer);
-
-            this._scroller = scroller;
-            this._scrollerBar = scrollerBar;
-            this._barWrapper = barWrapper;
-            this._isBaronExist = true;
-
-            L.DomEvent.on(this._scroller, 'scroll', this._onScroll, this);
-        },
-
-        _onScroll: function (event) {
-            this.fire('dgScroll', {originalEvent: event});
         },
 
         _update: function () {
@@ -305,8 +301,7 @@
 
         _updateLayout: function () {
             var container = this._contentNode,
-                wrapper = this._wrapper,
-                style = wrapper.style;
+                style = container.style;
 
             style.width = '';
             style.whiteSpace = 'nowrap';
@@ -327,10 +322,10 @@
 
             if (maxHeight && height > maxHeight) {
                 style.height = maxHeight + 'px';
-                L.DomUtil.addClass(wrapper, scrolledClass);
+                L.DomUtil.addClass(container, scrolledClass);
             } else {
                 style.height = Math.max(height, minHeight) + 'px';
-                L.DomUtil.removeClass(wrapper, scrolledClass);
+                L.DomUtil.removeClass(container, scrolledClass);
             }
             this._containerWidth = this._container.offsetWidth;
         },

@@ -9,10 +9,6 @@
     transform-origin: 50% 100%;
 }
 
-.leaflet-popup-content-wrapper {
-
-}
-
 .leaflet-popup-content {
     line-height: 1.4;
     margin: 0;
@@ -119,13 +115,26 @@
         height: 40px;
     }
 
-.dg-popup-container {
+.dg-popup-container-wrapper {
     display: table-row;
 }
+
+.dg-popup-container {
+    width : 100%;
+}
+
+    .leaflet-popup-scrolled .dg-popup-container {
+        height: 100%;
+        overflow: auto;
+    }
 
 .dg-popup-header {
     display: table-header-group;
 }
+
+    .leaflet-popup-scrolled .dg-popup-header {
+        
+    }
 
 .dg-popup-footer {
     display: table-footer-group;

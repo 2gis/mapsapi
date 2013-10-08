@@ -29,7 +29,7 @@ var fs = require('fs'),
      * CLI colors theme settings
      * See: https://github.com/medikoo/cli-color
      */
-    okMsg = clc.xterm(34),
+    okMsg = clc.greenBright,
     errMsg = clc.xterm(9),
     depsMsg = clc.xterm(27);
 
