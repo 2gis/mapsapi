@@ -38,7 +38,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         this._popup = this._view.getPopup();
-        this._geometry = this._readWKT(results[type].geometry.location);
+        this._geometry = this._readWKT(results[type].geometry.selection);
         this._geometryStyle = this._getPolyStyleNum(this._map.getZoom());
 
         this._geometry
@@ -46,8 +46,8 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
                 .addTo(this._map);
 
         this._map
-                .on('zoomend', this._onZoomChange, this)
-                .once('popupclose', this._onPopupClose, this);
+                .on('zoomend', this._updateGeometry, this)
+                .once('popupclose', this._clearPopup, this);
 
         return L.DG.when(this._fillCityAreaObject(results, type));
     },
@@ -79,7 +79,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
             data: data,
             header: this._view.render({
                 tmpl: this._view.getTemplate('popupHeader'),
-                data: {'addressWithoutIndex': data.name}
+                data: {'title': data.name}
             })
         };
     },
@@ -113,7 +113,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         return false;
     },
 
-    _onZoomChange: function () {
+    _updateGeometry: function () {
         var newStyle = this._getPolyStyleNum(this._map.getZoom());
 
         if (newStyle && newStyle !== this._geometryStyle) {
@@ -122,11 +122,11 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _onPopupClose: function () {
+    _clearPopup: function () {
         this._popup.clear('header');
         this._map
                 .removeLayer(this._geometry)
-                .off('zoomend', this._onZoomChange, this);
+                .off('zoomend', this._updateGeometry, this);
     }
 
 });

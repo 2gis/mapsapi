@@ -8,20 +8,34 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
 
-        return L.DG.when(this._fillsightObject(results));
+        return L.DG.when(this._fillSightObject(results));
     },
 
-    _fillsightObject: function (results) { // (Object)
+    _buildAddress: function (array) {
+        var address = [];
+
+        for (var i = 0; i < array.length; i++) {
+            if (array[i]) {
+                address.push(array[i]);
+            }
+        }
+
+        return address.join(', ');
+    },
+
+    _fillSightObject: function (results) { // (Object) -> Object
         var attrs = results.sight.attributes,
             data = {
                 address: '',
-                drilldown: '',
-                buildingname: '',
+                drillDown: '',
+                buildingName: '',
                 purpose: '',
                 description: attrs.info.description
             },
             self = this,
             abbr,
+            house,
+            PPNOTUrl = '__PPNOT_LINK__',
             footer = {
                 btns: [
                     {
@@ -33,45 +47,31 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             };
 
         if (attrs.building_name) {
-            data.buildingname = attrs.building_name;
+            data.buildingName = attrs.building_name;
         } else {
-            data.buildingname = results.sight.short_name;
+            data.buildingName = results.sight.short_name;
         }
 
         if (attrs.sight_description) {
             data.purpose = attrs.sight_description;
         }
 
-        if (data.buildingname === null) {
-            data.buildingname = data.purpose;
+        if (data.buildingName === null) {
+            data.buildingName = data.purpose;
             data.purpose = this.t('place');
         }
 
         if (results.house) {
-            var house = results.house.attributes,
-                buildAddress = function (array) {
-                    var address = [],
-                        pushValue = function (value) {
-                            if (value) {
-                                address.push(value);
-                            }
-                        };
-
-                    for (var i = 0; i < array.length; i++) {
-                        pushValue(array[i]);
-                    }
-
-                    return address.join(', ');
-                };
+            house = results.house.attributes;
             if (house) {
                 if (house.addresses && house.addresses.length) {
-                    data.address = buildAddress([
+                    data.address = this._buildAddress([
                         house.addresses[0].street,
                         house.addresses[0].number
                     ]);
                 }
 
-                data.drilldown = buildAddress([
+                data.drillDown = this._buildAddress([
                     house.micro_district,
                     house.district,
                     house.city,
@@ -88,29 +88,25 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
                     if (results[obj].attributes && results[obj].attributes.abbreviation) {
                         abbr = results[obj].attributes.abbreviation + ' ';
                     }
-                    data.drilldown = abbr + results[obj].name;
+                    data.drillDown = abbr + results[obj].name;
                 }
             }
         }
 
         data.showMoreText = this.t('Show more about sight');
 
-        footer.btns[0].href =
-        'http://2gis.ru/#!/' +
-        this._map.dgProjectDetector.getProject().code +
-        '/transTo/' +
-        encodeURIComponent(data.buildingname) +
-        '/transToCr/' +
-        'POINT(' + this._popup._latlng.lng +
-        ' ' + this._popup._latlng.lat + ')' +
-        '/routeSearchShow/true';
+        footer.btns[0].href = L.Util.template(PPNOTUrl, {
+            'code': this._map.dgProjectDetector.getProject().code,
+            'name': encodeURIComponent(data.buildingName),
+            'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'
+        });
 
         return {
             tmpl: this._view.getTemplate('sight'),
             data: data,
             header: this._view.render({
                 tmpl: this._view.getTemplate('popupHeader'),
-                data: {'addressWithoutIndex': data.buildingname}
+                data: {'title': data.buildingName}
             }),
             footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
@@ -128,11 +124,11 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             return;
         }
 
-        this._controller.getMap().once('popupclose', L.bind(this._onPopupClose, this));
+        this._controller.getMap().once('popupclose', L.bind(this._clearPopup, this));
         this._initedPopupClose = true;
     },
 
-    _onPopupClose: function () {
+    _clearPopup: function () {
         this._initedPopupClose = false;
         this._popup.clear('header', 'footer');
         this._clearEventHandlers();
@@ -143,7 +139,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             desc = this._popup.findElement('.dg-map-geoclicker-sight-description'),
             self = this;
         if (link && desc) {
-            this._addEventHandler('DgShowMoreClick', link, 'click', function () {
+            this._addEventHandler('DgShowMoreClick', link, 'click', function showMoreText() {
                 desc.style.height = 'auto';
                 link.parentNode.removeChild(link);
                 self._popup._resize();
