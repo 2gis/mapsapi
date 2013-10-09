@@ -43,7 +43,13 @@ FirmCard.Schedule.dictionary = {
             }
         },
 
+        btnBack: 'Назад',
+        btnFindWay: 'Проехать сюда',
+        btnEntrance: 'Найти вход',
         tommorow: 'завтра',
+        linkReviews: ['отзыв', 'отзыва', 'отзывов'],
+        linkPhoto: ['фото'],
+        linkBooklet: ['Подробнее'],
         afterTommorow: 'послезавтра',
         afterWeek: 'через неделю',
         nextSun: 'в воскресенье',

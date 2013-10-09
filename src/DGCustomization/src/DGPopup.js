@@ -203,11 +203,6 @@
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
 
-<<<<<<< HEAD
-            //console.log(maxHeight, maxHeight <= popupHeight);
-
-=======
->>>>>>> JSAPI-3281
             return (maxHeight && maxHeight <= popupHeight);
         },
 
