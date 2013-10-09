@@ -1,0 +1,14 @@
+<div class="dg-popup-header-title"><%=firmName%></div>
+
+<% if (links.length > 0) {%>
+    <div class="popup_header_links">
+        <% for (var i=0; i < links.length; i++) {%>
+            <a id="popup-link-<%=links[i].name%>" class="popup_header_link"
+                <%  if (links[i].href) print('href=\'' + links[i].href + '\' target = \'_blank\'');
+                    else print('href=\'javascript:void(0)\'');
+                %>
+                ><%=links[i].label%></a>
+        <%}%>
+    </div>
+<%}%>
+

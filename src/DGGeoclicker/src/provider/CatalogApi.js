@@ -3,7 +3,8 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
         data: {
-            key: '__GEOCLICKER_CATALOG_API_KEY__'
+            key: '__GEOCLICKER_CATALOG_API_KEY__',
+            output: 'jsonp'
         },
         geoFields: '__GEO_ADDITIONAL_FIELDS__',
         firmInfoFields: '__FIRM_INFO_FIELDS__',

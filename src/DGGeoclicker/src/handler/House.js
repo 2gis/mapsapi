@@ -87,7 +87,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var addOptions = {
                 tmpls: {
                     loader: this._view.getTemplate('loader'),
-                    header: this._view.getTemplate('popupHeader'),
+                    header: this._view.getTemplate('firmCardHeader'),
                     body: this._view.getTemplate('fullFirm'),
                     footer: this._view.getTemplate('popupFooterBtns')
                 },
@@ -132,7 +132,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initPopupClose: function () {
-        if (this._initedPopupClose) return;
+        if (this._initedPopupClose) { return; }
 
         this._controller.getMap().once('popupclose', L.bind(this._onPopupClose, this));
         this._initedPopupClose = true;
@@ -208,7 +208,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _renderFirmList: function () {
-        if (this._isListOpenNow) return;
+        if (this._isListOpenNow) { return; }
         this._isListOpenNow = true;
         this._clearAndRenderPopup(this._firmListObject);
 

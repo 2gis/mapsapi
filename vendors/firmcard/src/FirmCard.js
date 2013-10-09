@@ -1,7 +1,7 @@
 var FirmCard = function (firm, options) {
 
     options = options || {};
-    this._firmContainer = {};
+    this._firmContentObject = {};
     this._fullFirmEl = null;
     this._firmId = firm;
     options.lang = options.lang || 'ru';
@@ -26,6 +26,15 @@ FirmCard.prototype = {
         schedule.style.display = display;
     },
 
+    render: function () {
+
+        if (!this._firmContentObject.isRendered) {
+            this._renderCardById(this._firmId);
+        }
+
+        return this._firmContentObject;
+    },
+
     _renderCardById: function () {
         var self = this;
 
@@ -40,6 +49,7 @@ FirmCard.prototype = {
         var firmCardBody,
             schedule,
             forecast,
+            links,
             btns;
 
         schedule = this._schedule.transform(data.schedule, {
@@ -47,9 +57,8 @@ FirmCard.prototype = {
             apiLang: this.options.lang,
             localLang: this.options.lang
         });
-
         forecast = this._schedule.forecast(schedule);
-        //render firm body
+
         firmCardBody = this.options.render(this.options.tmpls.body, {
             firm: data,
             schedule: schedule,
@@ -59,8 +68,21 @@ FirmCard.prototype = {
             dataHelper: FirmCard.DataHelper
         });
 
-        //render footer
-        btns = [
+        //fill header links
+        links = this._fillHeaderLinks(data);
+
+        btns = this._fillFooterButtons();
+
+        this._firmContentObject.header = this.options.render(this.options.tmpls.header, {'firmName': data.name, 'links': links});
+        this._firmContentObject.tmpl = firmCardBody;
+        this._firmContentObject.footer = this.options.render(this.options.tmpls.footer, {'btns': btns});
+        this._firmContentObject.isRendered = true;
+
+        this.options.callback && this.options.callback(this._firmContentObject);
+    },
+
+    _fillFooterButtons: function () {
+        return [
             {
                 name: 'back',
                 label: 'Назад'
@@ -74,12 +96,23 @@ FirmCard.prototype = {
                 label: 'Найти вход'
             }
         ];
+    },
 
-        this._firmContainer.header = this.options.render(this.options.tmpls.header, {'addressWithoutIndex': data.name});
-        this._firmContainer.tmpl = firmCardBody;
-        this._firmContainer.footer = this.options.render(this.options.tmpls.footer, {'btns': btns});
+    _fillHeaderLinks: function (data) {
+        var links = [], reviewData = data.reviews, booklet = data.booklet;
 
-        this.options.callback && this.options.callback(this._firmContainer);
+        if (reviewData && reviewData.is_allowed_to_show_reviews) {
+            links.push({name: 'flamp_reviews',
+                       label: 'stars ' + reviewData.rating + ' ' + reviewData.review_count + ' отзывов'});
+        }
+
+        if (booklet && booklet.url) {
+            links.push({name: 'booklet',
+                        href: data.booklet.url,
+                        label: 'Подробнее'});
+        }
+
+        return links;
     },
 
     _setOptions: function (options) {
