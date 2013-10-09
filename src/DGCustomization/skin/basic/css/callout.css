@@ -54,7 +54,6 @@
 
 .leaflet-popup-tip-container {
     position: relative;
-    margin: auto auto -51px auto;
     pointer-events: none;
 }
 
@@ -95,8 +94,7 @@
 }
 
 .dg-popup-container {
-    width: 100%;
-    margin: 10px 0 15px;
+    margin: 10px 10px 15px 0;
 }
 
 .dg-popup-header {

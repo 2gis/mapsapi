@@ -1,23 +1,24 @@
 /*CALLOUT*/
 .leaflet-popup-inner {
     color: #000;
-    background-color: #fff;
-    background-color: rgba(255, 255, 255, 0.95);
-    border: 1px solid #979797;
+    background-color: #fffefd;
+    background-color: rgba(255, 255, 255, .95);
+    border: 1px solid #bebdb5;
+    border: 1px solid rgba(151,151,151,.95);
 }
 
 .leaflet-popup-tip-container {
-    background: url(__BASE_URL__/img/dg-callout-dark.png);
-    background-position: -113px 0;
-    width: 58px;
-    height: 47px;
+    background: url(__BASE_URL__/img/popup-tip.png);
+    width: 52px;
+    height: 46px;
+    margin: auto auto -50px auto;
 }
 
 .leaflet-container a {
     color: #005b8f;
 }
 .leaflet-container a:hover {
-    color: #9cd;
+    color: #000;
 }
 
 .leaflet-popup-content-wrapper {
