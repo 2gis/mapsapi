@@ -38,6 +38,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             data = {
                 address: '',
                 addressWithoutIndex: '',
+                title: '',
                 purpose: '',
                 elevation: '',
                 link: '',
@@ -51,7 +52,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
 
         if (house.name) {
-            house.name = data.addressWithoutIndex = house.name.split(', ').slice(1).join(', ');
+
+            house.name = data.title = data.addressWithoutIndex = house.name.split(', ').slice(1).join(', ');
+
             data.address += house.name;
         }
 

@@ -9,6 +9,9 @@
 .popup_footer_btn-wrapper a{
     color: #e6e6e6;
 }
+.popup_footer_btn-wrapper a:hover{
+    color: #e6e6e6;
+}
 .popup_footer_btn {
     background: #000;
     background: rgba(0,0,0,.2);

@@ -1,6 +1,6 @@
 /* Callout styles for Leaflet markup */
 .leaflet-popup-inner {
-    padding: 1px 16px;
+    padding: 4px 16px;
     color: #f0f0f0;
     font: 14px/16px Arial;
     border-radius: 3px;
@@ -12,6 +12,8 @@
 .leaflet-popup-content {
     line-height: 1.4;
     margin: 0;
+    display: table;
+    height: 100%;
 }
 
 .leaflet-popup-content p {
@@ -113,19 +115,23 @@
         height: 40px;
     }
 
+.dg-popup-container-wrapper {
+    display: table-row;
+}
+
 .dg-popup-container {
-    padding: 13px 0;
-    overflow: hidden;
+    width: 100%;
+    margin: 10px 0 15px;
 }
 
 .dg-popup-header {
-    position: absolute;
-    top: 0px;
-    padding-top: 13px;
+    display: table-header-group;
 }
 
+    .leaflet-popup-scrolled .dg-popup-header {
+
+    }
+
 .dg-popup-footer {
-    position: absolute;
-    bottom: 0px;
-    padding-bottom: 13px;
+    display: table-footer-group;
 }

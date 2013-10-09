@@ -1,20 +1,18 @@
-.dg-popup-header-title {
-    /*color: #ffc84b;*/
-}
-
 .dg-map-geoclicker-drilldown {
     color: #444;
 }
 
 .popup_footer_btn-wrapper a{
-    /*color: #e6e6e6;*/
+    color: #647882;
+}
+.popup_footer_btn-wrapper a:hover{
+    color: #647882;
 }
 .popup_footer_btn {
-    /*background: #000;*/
-    /*background: rgba(0,0,0,.2);*/
+    background: #f5faff;
     box-shadow: 0 1px rgba(0,0,0,.1);
 }
 .popup_footer_btn:hover {
-    /*background: #222;*/
+    background: #e7f3ff;
     box-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
