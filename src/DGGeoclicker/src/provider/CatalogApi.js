@@ -3,8 +3,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
         data: {
-            key: '__GEOCLICKER_CATALOG_API_KEY__',
-            output: 'jsonp'
+            key: '__GEOCLICKER_CATALOG_API_KEY__'
         },
         geoFields: '__GEO_ADDITIONAL_FIELDS__',
         firmInfoFields: '__FIRM_INFO_FIELDS__',
@@ -58,7 +57,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     getFirmInfo: function (firmId, callback) {
-        L.DG.Jsonp({
+        /*L.DG.Jsonp({
             url: this.options.urlDetails,
             data: {
                 output: this.options.data.output,
@@ -67,6 +66,23 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
                 id: firmId,
                 fields: this.options.firmInfoFields
             },
+            success: function (res) {
+                if (res && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
+                    callback(res.result.data);
+                } else {
+                    callback();
+                }
+            }*/
+
+        L.DG.ajax(this.options.urlDetails, {
+            type: 'get',
+            data: {
+                key: this.options.data.key,
+                type: 'filial',
+                id: firmId,
+                fields: this.options.firmInfoFields
+            },
+
             success: function (res) {
                 if (res && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
                     callback(res.result.data);
