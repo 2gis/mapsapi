@@ -5,6 +5,9 @@
 .popup_footer_btn-wrapper a{
     color: #647882;
 }
+.popup_footer_btn-wrapper a:hover{
+    color: #647882;
+}
 .popup_footer_btn {
     background: #f5faff;
     box-shadow: 0 1px rgba(0,0,0,.1);
