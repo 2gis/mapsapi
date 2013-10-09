@@ -1,38 +1,45 @@
-(function(){
+(function () {
     FirmCard.List = function (options, firms) {
         this._firms = {}; // {'firmID': firmObj}
         this._defaultFirm = null;
         this._onReady = null;
         this._addOptions = {
-           ajax: function(){},
-           render: function(){},
-           onToggleCard: function(){},
-           lang: 'ru',
-           tmpls: {}
+            ajax: function () {},
+            render: function () {},
+            //onToggleCard: function () {},
+            lang: 'ru',
+            tmpls: {}
         };
-        this._container = options && options.container || document.createElement('div');
+        this._container = options && options.container || document.createElement('ul');
         this._container.setAttribute('class', 'dg-map-infocard-firmlist');
         this._innerFirmsList = document.createDocumentFragment();
 
         this._newPageFirms = {};
-
+        console.log(firms);
         this._eventHandlersInited = false;
 
         this._setOptions(options);
-        this._prepareList(firms);
-    }
+        this.renderList(firms);
+    };
 
     FirmCard.List.prototype = {
 
-        renderList : function () {
-            var firms = this._newPageFirms;
-            if (!this._eventHandlersInited) this._initEventHandlers();
-            for (var firm in firms)
+        renderList : function (firms) {
+            //var firms = this._newPageFirms;
+            //if (!this._eventHandlersInited) this._initEventHandlers();
+            /*for (var firm in firms)
                 if (firms.hasOwnProperty(firm)) {
                     this._innerFirmsList.appendChild(this._renderFirm(firm));
                 }
             this._container.appendChild(this._innerFirmsList);
-            this._newPageFirms = {};
+            this._newPageFirms = {};*/
+            var i, l, firm;
+            for (i = 0, l = firms.length; i < l; i++) {
+                firm = this._addOptions.render(this._addOptions.tmpls.firmlistItem, {'firm': firms[i]});
+                //firm = this._addOptions.render(this._addOptions.tmpls.firmlistItem);
+                console.log(firm);
+                this._container.insertAdjacentHTML('beforeend', firm);
+            }
 
             return this._container;
         },
@@ -81,7 +88,7 @@
             }
         },
 
-        toggleSchedule: function(id) {
+        toggleSchedule: function (id) {
             if (this._firms[id]) {
                 this._firms[id].toggleSchedule();
             }
@@ -102,29 +109,29 @@
                 eventName = this._hasTouch() ? 'touchend' : 'click';
 
             this._eventHandlersInited = true;
-            var onClickHandler =  function(e) {
+            var onClickHandler =  function (e) {
                 var e = e || window.event,
                 target = e.target || e.srcElement;
 
-                if (target && target.nodeName == "A") {
+                if (target && target.nodeName === 'A') {
                     if (target.className.indexOf('dg-firm-shortcard') !== -1) {
                         self.toggleFirm(target.id);
                     }
-                } else if (target && target.nodeName == "DIV" || target.nodeName == "SPAN") {
+                } else if (target && target.nodeName === 'DIV' || target.nodeName === 'SPAN') {
                     if (target.className.indexOf('schedule__today') !== -1) {
                         var wrapper = target.parentNode;
                         while (wrapper.className.indexOf('dg-map-firm-full') === -1) {
                             wrapper = wrapper.parentNode;
                         }
-                        var id = wrapper.id.split("-").pop();
+                        var id = wrapper.id.split('-').pop();
                         self.toggleSchedule(id);
                     }
                 }
             };
-            if (this._container.addEventListener){
+            if (this._container.addEventListener) {
                 this._container.addEventListener(eventName, onClickHandler);
             } else {
-                this._container.attachEvent("on" + eventName, onClickHandler);
+                this._container.attachEvent('on' + eventName, onClickHandler);
             }
         },
 
@@ -135,10 +142,10 @@
         },
 
         _isArray: function (obj) {
-            return {}.toString.call(obj) == '[object Array]';
+            return {}.toString.call(obj) === '[object Array]';
         },
 
-        _prepareList: function(firms) {
+        _prepareList: function (firms) {
             var self = this;
 
             if (this._defaultFirm) {
@@ -182,7 +189,7 @@
         },
 
         _addFirm: function (firmData) {
-            var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData;
+            var id = firmData.id ? firmData.id.split('_').slice(0, 1) : firmData;
 
             if (!(id in this._firms)) {
                 firmObject = this._createFirm(firmData);

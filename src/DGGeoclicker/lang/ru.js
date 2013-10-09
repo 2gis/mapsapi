@@ -7,8 +7,8 @@ L.DG.Geoclicker.Handler.Default.Dictionary.ru = L.extend({
     "district": "Район",
     "city": "Город",
     "goto": "Проехать сюда",
-    "Show organization in the building": "Показать организации в здании",
-    "Hide organization in the building": "Скрыть организации в здании",
+    "Show organization in the building": ["Всего {n} организация", "Всего {n} организации", "Всего {n} организаций"],
     "Show more about sight": "Подробнее",
+    "back button": "Назад",
     "{n} floors": ["{n} этаж", "{n} этажа", "{n} этажей"]
 }, L.DG.Dictionary.ru);

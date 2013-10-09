@@ -21,7 +21,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
 
-        this._defaultFirm = '141265771576530';// results.extra && results.extra.poiId ? results.extra.poiId : null;
+        this._defaultFirm = /*'141265771576530';*/ results.extra && results.extra.poiId ? results.extra.poiId : null;
 
         // TODO: refactor it
         if (this._defaultFirm) {
@@ -30,7 +30,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._fillHouseObject(results.house);
         }
 
-        return L.DG.when(!this._defaultFirm ? this._houseObject : null);
+        return L.DG.when(this._defaultFirm ? this._fillFirmListObject() : this._houseObject);
     },
 
     _fillHouseObject: function (house) { // (Object)
@@ -43,7 +43,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 elevation: '',
                 link: '',
                 buildingname: '',
-                firmsCount: attrs.filials_count
             },
             self = this;
 
@@ -72,12 +71,28 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (attrs.filials_count > 0) {
             this._totalPages = Math.ceil(attrs.filials_count / this._firmsOnPage);
-            data.showMoreText = this.t('Show organization in the building');
+            //data.showMoreText = this.t('{n} Show organization in the building', attrs.filials_count);
         }
 
         this._houseObject = {
             tmpl: this._view.getTemplate('house'),
             data: data,
+            footer: this._view.render({
+                tmpl: this._view.getTemplate('popupFooterBtns'),
+                data: {
+                    btns: [
+                        {
+                            name: 'all',
+                            label: this.t('Show organization in the building', attrs.filials_count)
+                        },
+                        {
+                            name: 'goto',
+                            label: this.t('goto'),
+                            icon: true
+                        }
+                    ]
+                }
+            }),
             afterRender: function () {
                 self._initShowMore();
                 self._initPopupClose();
@@ -115,9 +130,15 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 data: this._houseObject.data
             }),
             footer: this._view.render({
-                tmpl: this._view.getTemplate('popupFooter'),
+                tmpl: this._view.getTemplate('popupFooterBtns'),
                 data: {
-                    hideFirmsText: this.t('Hide organization in the building')
+                    btns: [
+                        {
+                            name: 'back',
+                            label: this.t('back button'),
+                            icon: true
+                        }
+                    ]
                 }
             }),
             afterRender: function () {
@@ -156,7 +177,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowMore: function () {
-        var link = this._popup.findElement('#dg-showmorehouse');
+        var link = this._popup.findElement('#popup-btn-all');
 
         if (link) {
             this._addEventHandler('DgShowMoreClick', link, 'click', L.bind(this._showListPopup, this));
@@ -166,14 +187,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _showListPopup: function () {
         if (!this._firmListObject) {
             this._fillFirmListObject();
-            this._popup.showLoader();
+            //this._popup.showLoader();
         } else {
             this._clearAndRenderPopup(this._firmListObject);
         }
     },
 
     _initShowLess: function () {
-        var link = this._popup.findElement('#dg-showlesshouse');
+        var link = this._popup.findElement('#popup-btn-back');
 
         if (link) {
             this._addEventHandler('DgShowLessClick', link, 'click', L.bind(this._showHousePopup, this));
@@ -195,8 +216,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmList = new FirmCard.List({
                 tmpls: {
                     loader: this._view.getTemplate('loader'),
-                    shortFirm: this._view.getTemplate('shortFirm'),
-                    fullFirm: this._view.getTemplate('fullFirm')
+                    /*shortFirm: this._view.getTemplate('shortFirm'),*/
+                    fullFirm: this._view.getTemplate('fullFirm'),
+                    firmlistItem: this._view.getTemplate('firmlistItem')
                 },
                 container: this._firmListObject.firmListContainer,
                 render: L.DG.template,
