@@ -3,6 +3,7 @@
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalInitLayout = L.Popup.prototype._initLayout,
+        originalOnClose = L.Popup.prototype._onCloseButtonClick,
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
         /*global baron:false */
@@ -165,15 +166,13 @@
         },
 
         _resize: function () {
-            var isBaronExist = this._isBaronExist,
-                scrollTop = isBaronExist ? this._scroller.scrollTop : false,
-                shouldShowBaron;
+            var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
             this._updateLayout();
             this._updatePosition();
 
-            if (shouldShowBaron = this._isContentHeightFit()) {
-                if (!isBaronExist) {
+            if (this._isContentHeightFit()) {
+                if (!this._isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
                 }
@@ -187,7 +186,7 @@
                     this._updateScrollPosition();
                 }
             } else {
-                if (isBaronExist) {
+                if (this._isBaronExist) {
                     L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.removeClass(this._scroller, 'scroller');
@@ -308,9 +307,11 @@
                 minHeight = this.options.minHeight || 0,
                 scrolledClass = 'leaflet-popup-scrolled';
 
+            this._isBaronExist = false; //may case bugs
             if (maxHeight && height > maxHeight) {
                 style.height = maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
+
             } else {
                 style.height = Math.max(height, minHeight) + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
@@ -354,6 +355,14 @@
                 elem.parentNode.removeChild(elem);
             }
             return elem;
+        },
+
+        _onCloseButtonClick: function (e) {
+            var self = this;
+            this._animateClosing();
+            setTimeout(function () { //devil action
+                originalOnClose.call(self, e);
+            }, 200);
         }
     });
 }());
