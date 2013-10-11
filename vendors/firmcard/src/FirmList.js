@@ -157,8 +157,9 @@
 
                 if (target && target.nodeName === 'SPAN') {
                     if (target.className.indexOf('building-callout__list-item-link') !== -1) {
-                        console.log(target.id);
-                        self._firmCard.render(target.id);
+                        if (target.id) {
+                            self._firmCard.render(target.id);
+                        }
                     }
                 } /*else if (target && target.nodeName === 'DIV' || target.nodeName === 'SPAN') {
                     if (target.className.indexOf('schedule__today') !== -1) {

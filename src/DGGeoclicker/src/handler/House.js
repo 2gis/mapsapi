@@ -20,6 +20,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
+        this._gotoUrl = this._getGotoUrl('__PPNOT_LINK__', results.house.name);
 
         this._defaultFirm = /*'141265771576530'; */  results.extra && results.extra.poiId ? results.extra.poiId : null;
 
@@ -44,7 +45,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 link: '',
                 buildingname: '',
             },
-            self = this;
+            self = this,
+            btns = [];
 
         if (attrs.postal_code) {
             data.address += attrs.postal_code + ', ';
@@ -71,8 +73,18 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         if (attrs.filials_count > 0) {
             this._totalPages = Math.ceil(attrs.filials_count / this._firmsOnPage);
-            //data.showMoreText = this.t('{n} Show organization in the building', attrs.filials_count);
+            btns.push({
+                name: 'all',
+                label: this.t('Show organization in the building', attrs.filials_count)
+            });
         }
+
+        btns.push({
+            name: 'goto',
+            label: this.t('goto'),
+            icon: true,
+            href: this._gotoUrl
+        });
 
         this._houseObject = {
             tmpl: this._view.getTemplate('house'),
@@ -80,17 +92,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
                 data: {
-                    btns: [
-                        {
-                            name: 'all',
-                            label: this.t('Show organization in the building', attrs.filials_count)
-                        },
-                        {
-                            name: 'goto',
-                            label: this.t('goto'),
-                            icon: true
-                        }
-                    ]
+                    'btns': btns
                 }
             }),
             afterRender: function () {
@@ -98,6 +100,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 self._initPopupClose();
             }
         };
+    },
+
+    _getGotoUrl: function (url, name) {
+        return L.Util.template(url, {
+            'code': this._map.dgProjectDetector.getProject().code,
+            'name': encodeURIComponent(name),
+            'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'
+        });
     },
 
     // init single firm card
@@ -110,8 +120,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                     footer: this._view.getTemplate('popupFooterBtns')
                 },
                 render: L.DG.template,
+                map: this._map,
+                showEntrance: L.DG.Entrance,
                 lang: this._map.getLang(),
+                gotoUrl: this._gotoUrl,
                 ajax: L.bind(this._api.getFirmInfo, this._api),
+                backBtn: L.bind(this._showListPopup, this),//L.bind(this._showHousePopup, this),
                 callback: L.bind(function (firmObject) {
                     this._clearAndRenderPopup(firmObject);
                 }, this),
@@ -135,7 +149,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 data: {
                     btns: [
                         {
-                            name: 'back',
+                            name: 'firmList-back',
                             label: this.t('back button'),
                             icon: true
                         }
@@ -216,7 +230,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowLess: function () {
-        var link = this._popup.findElement('#popup-btn-back');
+        var link = this._popup.findElement('#popup-btn-firmList-back');
 
         if (link) {
             this._addEventHandler('DgShowLessClick', link, 'click', L.bind(this._showHousePopup, this));
