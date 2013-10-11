@@ -37,26 +37,21 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _fillHouseObject: function (house) { // (Object)
         var attrs = house.attributes,
             data = {
-                address: '',
-                addressWithoutIndex: '',
                 title: '',
                 purpose: '',
                 elevation: '',
-                link: '',
                 buildingname: '',
             },
+            header = {},
             self = this,
             btns = [];
 
         if (attrs.postal_code) {
-            data.address += attrs.postal_code + ', ';
+            data.address = attrs.district + ' ' + this.t('district') + ', ' + attrs.city + ', ' +  attrs.postal_code;
         }
 
         if (house.name) {
-
-            house.name = data.title = data.addressWithoutIndex = house.name.split(', ').slice(1).join(', ');
-
-            data.address += house.name;
+            data.title = header.title = house.name.split(', ').slice(1).join(', ');
         }
 
         if (attrs.building_name) {
@@ -89,6 +84,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._houseObject = {
             tmpl: this._view.getTemplate('house'),
             data: data,
+            header: this._view.render({
+                tmpl: this._view.getTemplate('popupHeader'),
+                data: header
+            }),
             footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
                 data: {
@@ -142,7 +141,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             tmpl: content,
             header: this._view.render({
                 tmpl: this._view.getTemplate('popupHeader'),
-                data: this._houseObject.data
+                data: {'title': this._houseObject.data.title }
             }),
             footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
