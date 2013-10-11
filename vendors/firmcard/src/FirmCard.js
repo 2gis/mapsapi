@@ -1,21 +1,17 @@
 var FirmCard = function (firm, options) {
 
-    options = options || {};
-    this._firmContentObject = {};
-    this._fullFirmEl = null;
-    this._firmId = firm;
-    options.lang = options.lang || 'ru';
     this._setOptions(options);
+    this._firmContentObject = {};
     this._schedule = new FirmCard.Schedule({
-        localLang : options.lang
+        localLang: options.lang
     });
 
-    this._renderCardById(this._firmId);
+    this.render(firm);
 };
 
 FirmCard.prototype = {
 
-    toggleSchedule: function () {
+    /*toggleSchedule: function () {
         var schedule = this._fullFirmEl.querySelector('.schedule__table'),
             display = 'block';
         if (!schedule) { return; }
@@ -24,23 +20,25 @@ FirmCard.prototype = {
             display = 'none';
         }
         schedule.style.display = display;
-    },
+    },*/
 
-    render: function () {
+    render: function (firmId) {
 
-        if (!this._firmContentObject.isRendered) {
-            this._renderCardById(this._firmId);
+        if (firmId && firmId !== this._firmId) {
+            this._firmContentObject = {};
+            this._renderCardById(firmId);
         }
 
         return this._firmContentObject;
     },
 
-    _renderCardById: function () {
+    _renderCardById: function (firmId) {
         var self = this;
 
-        this.options.ajax(this._firmId, function (data) {
+        this.options.ajax(firmId, function (data) {
             if (data !== 'undefined') {
                 self._renderFirmCard.call(self, data[0]);
+                self._firmId = firmId;
             }
         });
     },
@@ -119,6 +117,7 @@ FirmCard.prototype = {
         var option;
 
         this.options = this.options || {};
+        options.lang = options.lang || 'ru';
 
         for (option in options) {
             if (options.hasOwnProperty(option)) {
