@@ -20,7 +20,9 @@
 
     FirmCard.List.prototype = {
 
-        renderList : function (firms) {
+        renderList: function (firms) {
+            if (!firms) { return; }
+
             if (!this._eventHandlersInited) { this._initEventHandlers(); }
 
             var i, l, firm;
@@ -34,10 +36,14 @@
                                                    this._addOptions.render(this._addOptions.tmpls.firmlistItem, {'firm': firm}));
             }
 
+            this._onListReady(this._container);
+
             return this._container;
         },
 
-        /*addFirms : function (firms) {
+
+        /*
+        addFirms : function (firms) {
             if (firms) {
                 if (this._isArray(firms)) {
                     for (var i = 0, l = firms.length; i < l; i++) {
@@ -48,7 +54,6 @@
                 }
             }
         },
-
         removeFirms : function (ids) {
             if (ids) {
                 if (this._isArray(ids)) {
@@ -210,11 +215,7 @@
         _setOptions: function (options) {
             options || (options = {});
 
-            //if ('onReady' in options) { this._onReady = options.onReady; }
-            //if ('firmsOnPage' in options) { this._firmsOnPage = options.firmsOnPage; }
-            //if ('firmCard' in options) { this._firmCard = options.firmCard; }
-            //if ('onToggleCard' in options) { this._addOptions.onToggleCard = options.onToggleCard; }
-
+            if ('onListReady' in options) { this._onListReady = options.onListReady; }
             //firmcard options
             if ('backBtn' in options) { this._addOptions.backBtn = options.backBtn; }
             if ('map' in options) { this._addOptions.map = options.map; }

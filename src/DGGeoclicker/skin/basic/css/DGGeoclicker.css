@@ -50,7 +50,59 @@
     background-position: -183px -70px;
     width: 12px;
 }
+/*NEW FIRM LIST*/
+.building-callout__list {
+    margin: 8px 16px 7px 23px;
+    padding: 0;
+    color: #ffe6aa;
+    list-style: none;
+}
 
+.building-callout__list-item {
+    position: relative;
+    margin: 0 0 4px;
+    font: 12px/16px Arial;
+}
+
+.building-callout__list-item:before {
+    position: absolute;
+    top: 6px;
+    left: -21px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: #aaa;
+    content: '';
+}
+
+.building-callout__list {
+    color: #ffe6aa;
+    list-style: none;
+}
+
+
+.link_scheme_dark {
+    color: #ffe6aa;
+
+    background-image: -webkit-linear-gradient(left,rgba(255,230,170,.3),rgba(255,230,170,.3)100%);
+    background-image: linear-gradient(to right,rgba(255,230,170,.3),rgba(255,230,170,.3)100%);
+}
+
+.link {
+    cursor: pointer;
+    text-decoration: none;
+    background-position: 0 95%;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+}
+
+.link_scheme_dark:hover {
+    color: #9cd;
+    background-image: -webkit-linear-gradient(left,rgba(153,204,221,.3),rgba(153,204,221,.3)100%);
+    background-image: linear-gradient(to right,rgba(153,204,221,.3),rgba(153,204,221,.3)100%);
+}
+
+/**/
 .dg-map-geoclicker-sight-description {
     height: 2.9em;
     overflow: hidden;

@@ -30,7 +30,7 @@ FirmCard.prototype = {
             this._firmContentObject = {};
             this._renderCardById(firmId);
         }
-        console.log(this._firmContentObject);
+
         return this._firmContentObject;
     },
 
@@ -167,8 +167,8 @@ FirmCard.prototype = {
     },
 
     _hasTouch: function () {
-        return (('ontouchstart' in window) ||       // html5 browsers
-                (navigator.maxTouchPoints > 0) ||   // future IE
-                (navigator.msMaxTouchPoints > 0));  // current IE10
+        return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
     }
 };

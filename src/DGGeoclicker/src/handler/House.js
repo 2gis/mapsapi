@@ -1,7 +1,6 @@
 L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _page : 1,
-    _isListOpenNow: false,
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
@@ -183,9 +182,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 render: L.DG.template,
                 lang: this._map.getLang(),
                 ajax: L.bind(this._api.getFirmInfo, this._api),
-                //onReady: L.bind(this._renderFirmList, this),
+                onListReady: L.bind(this._renderFirmList, this),
                 timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
-                //firmCard: this._firmCard,
                 //firm card options
                 backBtn: L.bind(this._showListPopup, this),
                 map: this._map,
@@ -214,7 +212,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
         this._loader = null;
         this._page = 1;
-        this._isListOpenNow = false;
         this._popup.clear();
         this._clearEventHandlers();
     },
@@ -244,7 +241,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _showHousePopup: function () {
-        this._isListOpenNow = false;
         this._clearAndRenderPopup(this._houseObject);
     },
 
@@ -255,38 +251,36 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _renderFirmList: function () {
-        if (this._isListOpenNow) { return; }
-        this._isListOpenNow = true;
-        this._clearAndRenderPopup(this._firmListObject);
+        /*this._clearAndRenderPopup(this._firmListObject);
 
         if (this._totalPages === 1) {
             this._loader && this._view.hideLoader(this._loader);
         }
 
-        this._firmList.renderList();
-        this._popup._resize();
+        this._firmList.renderList();*/
+        //this._popup._resize();
         this._onScroll = L.Util.limitExecByInterval(this._handlePopupScroll, this._scrollThrottleInterval, this);
         this._popup.on('dgScroll', this._onScroll);
     },
 
     _appendFirmList: function (results) { // (Object)
-        this._firmList.addFirms(results);
-        this._firmList.renderList();
+        this._firmList.renderList(results);
+        //this._firmList.renderList();
         this._popup._updateScrollPosition();
     },
 
-    _onFirmlistToggleCard: function (cardContainer, cardExpanded) {
+    /*_onFirmlistToggleCard: function (cardContainer, cardExpanded) {
         this._popup._resize();
 
         if (cardExpanded && this._popup._scroller) {
             this._popup.scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
         }
     },
-
+*/
     _handlePopupScroll: function (event) {
         var scroller = event.originalEvent.target || event.target._scroller;
 
-        if (this._totalPages <= 1) return;
+        if (this._totalPages <= 1) { return; }
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {
             this._handlePaging();
         }
@@ -300,6 +294,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         }
         if (this._page === this._totalPages) {
             this._loader && this._view.hideLoader(this._loader);
+            this._popup.off('dgScroll', this._onScroll);
         }
+        console.log(this._page, this._totalPages);
     }
 });
