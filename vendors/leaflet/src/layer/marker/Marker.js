@@ -31,7 +31,7 @@ L.Marker = L.Class.extend({
 		this._initIcon();
 		this.update();
 		this.fire('add');
-		
+
 		if (map.options.zoomAnimation && map.options.markerZoomAnimation) {
 			map.on('zoomanim', this._animateZoom, this);
 		}
@@ -237,9 +237,9 @@ L.Marker = L.Class.extend({
 	_onMouseClick: function (e) {
 		var wasDragged = this.dragging && this.dragging.moved();
 
-		if (this.hasEventListeners(e.type) || wasDragged) {
+		//if (this.hasEventListeners(e.type) || wasDragged) {
 			L.DomEvent.stopPropagation(e);
-		}
+		//}
 
 		if (wasDragged) { return; }
 

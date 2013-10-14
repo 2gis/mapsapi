@@ -10,9 +10,9 @@ L.DG.configTheme = {
     },
 
     markersData: {
-        iconSize: [24, 38],
+        iconSize: [20, 32],
         className: 'dg-customization__marker dg-customization__marker_type_mushroom',
-        iconAnchor: [12, 33]
+        iconAnchor: [10, 28]
     },
 
     controls: {

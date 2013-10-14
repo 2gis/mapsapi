@@ -114,7 +114,10 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/baron.css',
                 'DGCustomization/skin/{skin}/css/marker.css'
             ],
-            ie: ['DGCustomization/skin/{skin}/css/baron.ie.css']
+            ie: [
+                'DGCustomization/skin/{skin}/css/baron.ie.css',
+                'DGCustomization/skin/{skin}/css/marker.ie.css'
+            ]
         },
         deps: ['DGCore', 'DGLocale']
     },
