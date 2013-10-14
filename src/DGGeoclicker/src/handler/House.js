@@ -22,16 +22,15 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._initedPopupClose = false;
         this._gotoUrl = this._getGotoUrl('__PPNOT_LINK__', results.house.name);
 
-        this._defaultFirm = /*'141265771576530'; */  results.extra && results.extra.poiId ? results.extra.poiId : null;
+        this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
 
-        // TODO: refactor it
         if (this._defaultFirm) {
             this._fillFirmCardObject();
         } else {
             this._fillHouseObject(results.house);
         }
 
-        return L.DG.when(this._defaultFirm ? this._fillFirmListObject() : this._houseObject);
+        return L.DG.when(this._houseObject);
     },
 
     _fillHouseObject: function (house) { // (Object)
@@ -111,7 +110,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     // init single firm card
     _fillFirmCardObject: function () {
-        var addOptions = {
+        /*var addOptions = {
                 tmpls: {
                     loader: this._view.getTemplate('loader'),
                     header: this._view.getTemplate('firmCardHeader'),
@@ -124,14 +123,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 lang: this._map.getLang(),
                 gotoUrl: this._gotoUrl,
                 ajax: L.bind(this._api.getFirmInfo, this._api),
-                backBtn: L.bind(this._showListPopup, this),//L.bind(this._showHousePopup, this),
-                callback: L.bind(function (firmObject) {
+                //backBtn: L.bind(this._showListPopup, this),//L.bind(this._showHousePopup, this),
+                onFirmReady: L.bind(function (firmObject) {
                     this._clearAndRenderPopup(firmObject);
                 }, this),
                 timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset
             };
 
-        this._firmCard = new FirmCard (this._defaultFirm, addOptions);
+        this._firmCard = new FirmCard (this._defaultFirm, addOptions);*/
     },
 
     _fillFirmListObject: function () {
@@ -175,18 +174,26 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmList = new FirmCard.List({
                 tmpls: {
                     loader: this._view.getTemplate('loader'),
-                    fullFirm: this._view.getTemplate('fullFirm'),
-                    firmlistItem: this._view.getTemplate('firmlistItem')
+                    firmlistItem: this._view.getTemplate('firmlistItem'),
+                    header: this._view.getTemplate('firmCardHeader'),
+                    body: this._view.getTemplate('fullFirm'),
+                    footer: this._view.getTemplate('popupFooterBtns')
                 },
                 container: this._firmListObject.firmListContainer,
                 render: L.DG.template,
-                defaultFirm: this._defaultFirm,
                 lang: this._map.getLang(),
                 ajax: L.bind(this._api.getFirmInfo, this._api),
-                onReady: L.bind(this._renderFirmList, this),
+                //onReady: L.bind(this._renderFirmList, this),
                 timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
-                firmCard: this._firmCard
-                //onToggleCard: L.bind(this._onFirmlistToggleCard, this)
+                //firmCard: this._firmCard,
+                //firm card options
+                backBtn: L.bind(this._showListPopup, this),
+                map: this._map,
+                showEntrance: L.DG.Entrance,
+                gotoUrl: this._gotoUrl,
+                onFirmReady: L.bind(function (firmObject) {
+                    this._clearAndRenderPopup(firmObject);
+                }, this)
             }, results
         );
     },

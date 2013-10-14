@@ -1,11 +1,10 @@
 var FirmCard = function (firm, options) {
-
     this._setOptions(options);
     this._firmContentObject = {};
     this._schedule = new FirmCard.Schedule({
         localLang: options.lang
     });
-
+    this._footerContainer = document.createElement('div');
     this.render(firm);
 };
 
@@ -23,11 +22,15 @@ FirmCard.prototype = {
     },*/
 
     render: function (firmId) {
-        if (firmId && firmId !== this._firmId) {
+        if (!firmId) { return; }
+
+        this._initEventHandlers();
+
+        if (firmId !== this._firmId) {
             this._firmContentObject = {};
             this._renderCardById(firmId);
         }
-
+        console.log(this._firmContentObject);
         return this._firmContentObject;
     },
 
@@ -74,22 +77,22 @@ FirmCard.prototype = {
 
         this._firmContentObject.header = this.options.render(this.options.tmpls.header, {'firmName': data.name, 'links': links});
         this._firmContentObject.tmpl = firmCardBody;
-        this._firmContentObject.footer = this.options.render(this.options.tmpls.footer, {'btns': btns});
-
-        this.options.callback && this.options.callback(this._firmContentObject);
-
-        if (!this._eventHandlersInited) { this._events(); }
+        this._footerContainer.innerHTML = this.options.render(this.options.tmpls.footer, {'btns': btns});
+        this._firmContentObject.footer = this._footerContainer;
+        console.log(this._firmContentObject);
+        this.options.onFirmReady && this.options.onFirmReady(this._firmContentObject);
     },
 
     _fillFooterButtons: function () {
         var btns = [];
 
-        if (!this.options.defaultFirm) {
+        if (this.options.backBtn) {
             btns.push({ name: 'firmCard-back',
                         label: 'Назад',
                         icon: true
             });
         }
+
         btns.push({ name: 'goto',
                     label: 'Проехать сюда',
                     icon: true,
@@ -123,26 +126,31 @@ FirmCard.prototype = {
         return links;
     },
 
-    _events: function () {
+    _initEventHandlers: function () {
+
         var self = this,
             data = this._firmData,
-            // TODO Search inside card
-            back = document.querySelector('#popup-btn-firmCard-back'),
-            entrance = document.querySelector('#popup-btn-show-entrance');
+            eventName = this._hasTouch() ? 'touchend' : 'click';
 
-        this._eventHandlersInited = true;
+        var onClickHandler =  function (e) {
+            var e = e || window.event,
+            target = e.target || e.srcElement;
 
-        back && back.addEventListener('click', function () {
-            self.options.backBtn();
-        });
-
-        entrance && entrance.addEventListener('click', function () {
-            if (data.geo.entrances) {
-                var ent = new self.options.showEntrance({'vectors': data.geo.entrances[0].vectors});
-                ent.addTo(self.options.map).show();
+            if (target && target.nodeName === 'A') {
+                if (target.id === 'popup-btn-firmCard-back') {
+                    self.options.backBtn();
+                } else if (target.id ===  'popup-btn-show-entrance') {
+                    var ent = new self.options.showEntrance({'vectors': data.geo.entrances[0].vectors});
+                    ent.addTo(self.options.map).show();
+                }
             }
+        };
 
-        });
+        if (this._footerContainer.addEventListener) {
+            this._footerContainer.addEventListener(eventName, onClickHandler);
+        } else {
+            this._footerContainer.attachEvent('on' + eventName, onClickHandler);
+        }
     },
 
     _setOptions: function (options) {
@@ -157,4 +165,10 @@ FirmCard.prototype = {
             }
         }
     },
+
+    _hasTouch: function () {
+        return (('ontouchstart' in window) ||       // html5 browsers
+                (navigator.maxTouchPoints > 0) ||   // future IE
+                (navigator.msMaxTouchPoints > 0));  // current IE10
+    }
 };

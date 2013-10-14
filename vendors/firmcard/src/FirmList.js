@@ -1,38 +1,28 @@
 (function () {
     FirmCard.List = function (options, firms) {
         this._firms = {}; // {'firmID': firmObj}
-        this._defaultFirm = null;
-        this._onReady = null;
         this._addOptions = {
-            ajax: function () {},
+            /*ajax: function () {},
             render: function () {},
             //onToggleCard: function () {},
             lang: 'ru',
-            tmpls: {}
+            tmpls: {}*/
         };
         this._container = options && options.container || document.createElement('ul');
         this._container.setAttribute('class', 'dg-map-infocard-firmlist');
-        this._innerFirmsList = document.createDocumentFragment();
-
-        this._newPageFirms = {};
-
-        this._eventHandlersInited = false;
 
         this._setOptions(options);
+        this._eventHandlersInited = false;
+        this._firmCard = this._createFirm();
+
         this.renderList(firms);
     };
 
     FirmCard.List.prototype = {
 
         renderList : function (firms) {
-            //var firms = this._newPageFirms;
             if (!this._eventHandlersInited) { this._initEventHandlers(); }
-            /*for (var firm in firms)
-                if (firms.hasOwnProperty(firm)) {
-                    this._innerFirmsList.appendChild(this._renderFirm(firm));
-                }
-            this._container.appendChild(this._innerFirmsList);
-            this._newPageFirms = {};*/
+
             var i, l, firm;
             for (i = 0, l = firms.length; i < l; i++) {
                 firm = {
@@ -146,6 +136,20 @@
                 this._newPageFirms[id] = firmObject;
             }
         }*/
+        _createFirm: function (firmData) {
+            return new FirmCard (firmData, this._addOptions);
+        },
+
+        _isEmptyObj: function (obj) {
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
         _initEventHandlers : function () {
             var self = this,
                 eventName = this._hasTouch() ? 'touchend' : 'click';
@@ -158,7 +162,10 @@
                 if (target && target.nodeName === 'SPAN') {
                     if (target.className.indexOf('building-callout__list-item-link') !== -1) {
                         if (target.id) {
-                            self._firmCard.render(target.id);
+                            var s = self._firmCard.render(target.id);
+                            if (!self._isEmptyObj(s)) {
+                                self._addOptions.onFirmReady(s);
+                            }
                         }
                     }
                 } /*else if (target && target.nodeName === 'DIV' || target.nodeName === 'SPAN') {
@@ -187,8 +194,8 @@
         },
 
         clearList : function () {
-            this._newPageFirms = {};
-            this._firms = {};
+            //this._newPageFirms = {};
+            //this._firms = {};
             this._clearContainer();
         },
 
@@ -204,10 +211,16 @@
             options || (options = {});
 
             //if ('onReady' in options) { this._onReady = options.onReady; }
-            if ('defaultFirm' in options) { this._defaultFirm = options.defaultFirm; }
-            if ('firmsOnPage' in options) { this._firmsOnPage = options.firmsOnPage; }
-            if ('firmCard' in options) { this._firmCard = options.firmCard; }
+            //if ('firmsOnPage' in options) { this._firmsOnPage = options.firmsOnPage; }
+            //if ('firmCard' in options) { this._firmCard = options.firmCard; }
             //if ('onToggleCard' in options) { this._addOptions.onToggleCard = options.onToggleCard; }
+
+            //firmcard options
+            if ('backBtn' in options) { this._addOptions.backBtn = options.backBtn; }
+            if ('map' in options) { this._addOptions.map = options.map; }
+            if ('showEntrance' in options) { this._addOptions.showEntrance = options.showEntrance; }
+            if ('gotoUrl' in options) { this._addOptions.gotoUrl = options.gotoUrl; }
+            if ('onFirmReady' in options) { this._addOptions.onFirmReady = options.onFirmReady; }
             if ('ajax' in options) { this._addOptions.ajax = options.ajax; }
             if ('render' in options) { this._addOptions.render = options.render; }
             if ('tmpls' in options) { this._addOptions.tmpls = options.tmpls; }
