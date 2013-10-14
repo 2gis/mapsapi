@@ -9,7 +9,7 @@
 
 .leaflet-popup-content {
     line-height: 1.4;
-    margin: 0;
+    margin: 12px 0;
     display: table;
     height: 100%;
 }
@@ -101,14 +101,14 @@
     display: table-header-group;
 }
 .dg-popup-header > * {
-    margin: 11px 8px 0 0 !important;
+    margin: 0 8px 0 0 !important;
 }
 
 .dg-popup-footer {
     display: table-footer-group;
 }
 .dg-popup-footer > * {
-    margin: 0 0 15px 0 !important;
+    margin: 0 0 5px 0 !important;
 }
 
 .leaflet-popup-scrolled .dg-popup-container {
