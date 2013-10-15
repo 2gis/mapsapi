@@ -97,37 +97,6 @@
             return this._contentNode.querySelector(node);
         },
 
-        scrollTo: function (to) {
-            var duration = 200,
-                element = this._scroller,
-                start = element.scrollTop,
-                change = to - start,
-                startTime = null;
-
-            var ease = function (t, b, c, d) {
-                return -c * (t /= d) * (t - 2) + b;
-            };
-
-            var animateScroll = function (currentTime) {
-                currentTime = currentTime ? currentTime : (new Date()).getTime();
-                if (!startTime) {
-                    startTime = currentTime;
-                }
-                var timeFrame = currentTime - startTime;
-
-                element.scrollTop = ease(timeFrame, start, change, duration);
-
-                if (currentTime - startTime < duration) {
-                    L.Util.requestAnimFrame(animateScroll, element);
-                } else {
-                    element.scrollTop = to;
-                }
-            };
-            L.Util.requestAnimFrame(animateScroll, element);
-
-            return this;
-        },
-
         _animateOpening: function () {
             L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
             L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');

@@ -1,12 +1,11 @@
 (function () {
     FirmCard.List = function (options, firms) {
-        this._firms = {}; // {'firmID': firmObj}
+        this._firms = {}; // {'firmID': firmDomObj}
         this._setOptions(options);
 
         this._container = options && options.container || document.createElement('ul');
         this._container.setAttribute('class', 'building-callout__list');
-        this._wrapper = options.wrapper
-
+        this._wrapper = options.wrapper;
 
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
@@ -17,30 +16,18 @@
     FirmCard.List.prototype = {
 
         renderList: function (firms) {
-            if (!firms) { return; }
+            if (firms) {
 
-            if (!this._eventHandlersInited) { this._initEventHandlers(); }
-
-            var i, l, firm;
-            for (i = 0, l = firms.length; i < l; i++) {
-                firm = {
-                    name: firms[i].name,
-                    id: firms[i].id.split('_').slice(0, 1)
-                };
-
-                this._container.insertAdjacentHTML('beforeend',
-                                                   this._addOptions.render(this._addOptions.tmpls.firmlistItem, {'firm': firm}));
+                if (!this._eventHandlersInited) { this._initEventHandlers(); }
+                this.addFirms(firms);
             }
-
-            this._onListReady && this._onListReady(this._container);
             this._wrapper && this._wrapper.appendChild(this._container);
+            this._onListReady && this._onListReady(this._container);
 
             return this._container;
         },
 
-
-        /*
-        addFirms : function (firms) {
+        addFirms: function (firms) {
             if (firms) {
                 if (this._isArray(firms)) {
                     for (var i = 0, l = firms.length; i < l; i++) {
@@ -51,7 +38,8 @@
                 }
             }
         },
-        removeFirms : function (ids) {
+
+        removeFirms: function (ids) {
             if (ids) {
                 if (this._isArray(ids)) {
                     for (var i = 0, l = ids.length; i < l; i++) {
@@ -63,35 +51,22 @@
             }
         },
 
-
-
-        setLang : function (newLang) {
+        setLang: function (newLang) {
             this._addOptions.lang = newLang;
         },
 
-        getLang : function () {
+        getLang: function () {
             return this._addOptions.lang;
-        },
-
-        toggleFirm : function (id) {
-            if (this._firms[id]) {
-                this._firms[id].toggle();
-            }
-        },
-
-        toggleSchedule: function (id) {
-            if (this._firms[id]) {
-                this._firms[id].toggleSchedule();
-            }
         },
 
         getContainer: function () {
             return this._container;
         },
 
-
-
-
+        clearList : function () {
+            this._firms = {};
+            this._clearContainer();
+        },
 
         _removeFirm: function (id) {
             var firmCard = this._firms[id] ? this._firms[id].getContainer() : false;
@@ -99,45 +74,36 @@
             this._firms[id] ? delete this._firms[id] : false;
         },
 
+        _addFirm: function (firmData) {
+            var domFirm,
+                firm;
+
+            firm = {
+                name: firmData.name,
+                id: firmData.id.split('_').slice(0, 1)
+            };
+
+            if (!(firm.id in this._firms)) {
+                domFirm = this._createListItem();
+                domFirm.insertAdjacentHTML('beforeend',
+                                            this._addOptions.render(this._addOptions.tmpls.firmlistItem, {'firm': firm}));
+
+                this._firms[firm.id] = domFirm;
+                this._container.appendChild(domFirm);
+            }
+        },
+
+        _createListItem: function () {
+            var item = document.createElement('li');
+            item.setAttribute('class', 'building-callout__list-item');
+
+            return item;
+        },
+
         _isArray: function (obj) {
             return {}.toString.call(obj) === '[object Array]';
         },
 
-        _prepareList: function (firms) {
-            var self = this;
-
-            if (this._defaultFirm) {
-                //firms.unshift(this._defaultFirm);
-                firms = [];
-                firms.push(this._defaultFirm);
-            }
-
-            this.addFirms(firms);
-            setTimeout(self._onReady, 1);   // We need setTimeout here because _prepareList was called in constructor and would finish first
-        },
-
-
-
-        _createFirm: function (firmData) {
-            return new FirmCard (firmData, this._addOptions);
-        },
-
-
-
-        _renderFirm: function (id) {
-            return this._firms[id] ? this._firms[id].render() : null;
-        },
-
-        _addFirm: function (firmData) {
-            var id = firmData.id ? firmData.id.split('_').slice(0, 1) : firmData;
-
-            if (!(id in this._firms)) {
-                firmObject = this._createFirm(firmData);
-                this._firms[id] = firmObject;
-
-                this._newPageFirms[id] = firmObject;
-            }
-        }*/
         _createFirm: function (firmData) {
             return new FirmCard (firmData, this._addOptions);
         },
@@ -193,12 +159,6 @@
             return (('ontouchstart' in window) ||       // html5 browsers
                     (navigator.maxTouchPoints > 0) ||   // future IE
                     (navigator.msMaxTouchPoints > 0));  // current IE10
-        },
-
-        clearList : function () {
-            //this._newPageFirms = {};
-            //this._firms = {};
-            this._clearContainer();
         },
 
         _clearContainer: function () {

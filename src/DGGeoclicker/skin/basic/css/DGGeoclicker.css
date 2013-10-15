@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'SuisseCond';
-    src: url('__BASE_URL__/fonts/suisseintl-cond.autohinted.ttf') format('truetype');
+    src: url('__BASE_URL__/fonts/suisseintl-cond.autohinted.ttf');
 }
 
 .dg-map-geoclicker-address {
@@ -80,7 +80,6 @@
     list-style: none;
 }
 
-
 .link_scheme_dark {
     color: #ffe6aa;
 
@@ -104,7 +103,7 @@
 
 /**/
 .dg-map-geoclicker-sight-description {
-    max-height: 2.9em;
+    height: 2.9em;
     overflow: hidden;
     padding: 0.5em 0 0 24px;
 }
@@ -152,6 +151,7 @@
 .popup_footer_btns {
     width: 100%;
     display: table;
+    margin-bottom: 15px;
 }
 .popup_footer_btn-wrapper {
     display: table-cell;
@@ -185,6 +185,18 @@
     background-position: -264px -70px;
 }
 
+#popup-btn-show-entrance:before{
+    background-position: -276px -70px;
+}
+
+#popup-btn-firmCard-back:before{
+    background-position: -264px -70px;
+}
+
+#popup-btn-firmList-back:before{
+    background-position: -264px -70px;
+}
+
 #dg-showlesshouse {
     color: #0070C0;
     font-size: 12px;
@@ -197,7 +209,7 @@
 
 .dg-popup-header-title {
     display: block;
-    /*margin: 11px 8px 0 0;*/
+    margin: 11px 8px 0 0;
     white-space: normal;
     font: 22px/24px 'SuisseCond','Arial narrow',Arial;
 }
@@ -929,8 +941,3 @@ li.dg-map-firm-address .note {
 }
 
 
-/* baron with header*/
-
-.dg-popup-header + .dg-popup-container-wrapper .scroller__bar-wrapper {
-    top: 4px;
-}
