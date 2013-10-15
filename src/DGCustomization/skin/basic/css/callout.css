@@ -11,6 +11,7 @@
     line-height: 1.4;
     margin: 12px 0;
     display: table;
+    table-layout: fixed;
     height: 100%;
 }
 

@@ -5,6 +5,7 @@ L.DG.Geoclicker.View = L.Class.extend({
         this._popup = L.popup({
             maxHeight: 300,
             minHeight: 50,
+            maxWidth: 351,
             minWidth: 351
         });
 

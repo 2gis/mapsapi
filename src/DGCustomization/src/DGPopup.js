@@ -220,7 +220,7 @@
                 innerHeight -= this._popupStructure.footer.offsetHeight;
             }
             scrollerWrapper.style.height = innerHeight + 'px';
-            scrollerWrapper.style.width = this.options.minWidth || this.options.maxWidth + 'px';
+            scrollerWrapper.style.width = this._contentNode.offsetWidth + 'px';
 
             this._isBaronExist = true;
 
