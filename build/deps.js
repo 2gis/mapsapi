@@ -115,12 +115,13 @@ var deps = {
             all: [
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
                 '../vendors/baron/baron.css',
-                'DGCustomization/skin/{skin}/css/zoom.css',
-                'DGCustomization/skin/{skin}/css/callout.css',
-                'DGCustomization/skin/{skin}/css/baron.css',
-                'DGCustomization/skin/{skin}/css/marker.css'
+                'DGCustomization/skin/basic/css/zoom.css',
+                'DGCustomization/skin/basic/css/callout.css',
+                'DGCustomization/skin/basic/css/baron.css',
+                'DGCustomization/skin/basic/css/marker.css',
+                'DGCustomization/skin/{skin}/css/callout.css'
             ],
-            ie: ['DGCustomization/skin/{skin}/css/baron.ie.css']
+            ie: ['DGCustomization/skin/basic/css/baron.ie.css']
         },
         deps: ['DGCore', 'DGDivIcon', 'DGLocale']
     },

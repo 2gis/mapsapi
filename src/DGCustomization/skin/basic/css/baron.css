@@ -2,9 +2,8 @@
 
 .scroller-wrapper {
     position: relative;
-    overflow: auto;
-    width: 100%;
-    height: 100%;
+    overflow: hidden;
+    display: inline-block;
 }
 
 .scroller::-webkit-scrollbar {
@@ -13,7 +12,7 @@
 
 .scroller__bar-wrapper {
     position: absolute;
-    top: 4px;
+    top: 18px;
     bottom: 4px;
     right: 3px;
     width: 6px;

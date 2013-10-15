@@ -3,6 +3,7 @@
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
         originalInitLayout = L.Popup.prototype._initLayout,
+        originalOnClose = L.Popup.prototype._onCloseButtonClick,
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
         /*global baron:false */
@@ -167,15 +168,13 @@
         },
 
         _resize: function () {
-            var isBaronExist = this._isBaronExist,
-                scrollTop = isBaronExist ? this._scroller.scrollTop : false,
-                shouldShowBaron;
+            var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
             this._updateLayout();
             this._updatePosition();
 
-            if (shouldShowBaron = this._isContentHeightFit()) {
-                if (!isBaronExist) {
+            if (this._isContentHeightFit()) {
+                if (!this._isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
                 }
@@ -189,7 +188,7 @@
                     this._updateScrollPosition();
                 }
             } else {
-                if (isBaronExist) {
+                if (this._isBaronExist) {
                     L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.removeClass(this._scroller, 'scroller');
@@ -210,10 +209,21 @@
             var contentNode = this._popupStructure.body.parentNode,
                 scrollerWrapper = L.DomUtil.create('div', 'scroller-wrapper', contentNode),
                 scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
-                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller);
+                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
+                innerHeight = this.options.maxHeight;
 
             this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
+
+            if (this._popupStructure.header) {
+                innerHeight -= this._popupStructure.header.offsetHeight;
+            }
+            if (this._popupStructure.footer) {
+                innerHeight -= this._popupStructure.footer.offsetHeight;
+            }
+            scrollerWrapper.style.height = innerHeight + 'px';
+            scrollerWrapper.style.width = this.options.minWidth || this.options.maxWidth + 'px';
+
             this._isBaronExist = true;
 
             L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
@@ -310,6 +320,7 @@
                 minHeight = this.options.minHeight || 0,
                 scrolledClass = 'leaflet-popup-scrolled';
 
+            this._isBaronExist = false; //may case bugs
             if (maxHeight && height > maxHeight) {
                 style.height = maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
@@ -356,6 +367,14 @@
                 elem.parentNode.removeChild(elem);
             }
             return elem;
+        },
+
+        _onCloseButtonClick: function (e) {
+            var self = this;
+            this._animateClosing();
+            setTimeout(function () { //devil action
+                originalOnClose.call(self, e);
+            }, 200);
         }
     });
 }());

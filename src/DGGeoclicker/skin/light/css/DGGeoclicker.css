@@ -1,18 +1,19 @@
 .dg-map-geoclicker-drilldown {
-    color: #444;
+    color: #666;
 }
 
 .popup_footer_btn-wrapper a{
     color: #647882;
 }
 .popup_footer_btn-wrapper a:hover{
-    color: #647882;
+    color: #286482;
 }
 .popup_footer_btn {
     background: #f5faff;
+    border: 1px solid #e9edf2;
     box-shadow: 0 1px rgba(0,0,0,.1);
 }
 .popup_footer_btn:hover {
     background: #e7f3ff;
-    box-shadow: 0 1px 3px rgba(0,0,0,.5);
+    box-shadow: 0 -1px 1px rgba(0,0,0,.5);
 }

@@ -11,7 +11,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         return L.DG.when(this._fillSightObject(results));
     },
 
-    _buildAddress: function (array) {
+    _buildAddress: function (array) { // (Array) -> String
         var address = [];
 
         for (var i = 0; i < array.length; i++) {
@@ -98,7 +98,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         footer.btns[0].href = L.Util.template(PPNOTUrl, {
             'code': this._map.dgProjectDetector.getProject().code,
             'name': encodeURIComponent(data.buildingName),
-            'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'
+            'point': 'POINT(' + this._popup.getLatLng().lng + ' ' + this._popup.getLatLng().lat + ')'
         });
 
         return {
@@ -130,20 +130,22 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
     _clearPopup: function () {
         this._initedPopupClose = false;
-        this._popup.clear('header', 'footer');
+        this._popup.clear();
         this._clearEventHandlers();
     },
 
+    _showMoreText: function () {
+        this._desc.style.maxHeight = '100%';
+        this._link.parentNode.removeChild(this._link);
+        this._popup._resize();
+    },
+
     _initShowMore: function () {
-        var link = this._popup.findElement('#dg-showmoresight'),
-            desc = this._popup.findElement('.dg-map-geoclicker-sight-description'),
-            self = this;
-        if (link && desc) {
-            this._addEventHandler('DgShowMoreClick', link, 'click', function showMoreText() {
-                desc.style.height = 'auto';
-                link.parentNode.removeChild(link);
-                self._popup._resize();
-            });
+        this._link = this._popup.findElement('#dg-showmoresight'),
+        this._desc = this._popup.findElement('.dg-map-geoclicker-sight-description');
+
+        if (this._link && this._desc) {
+            this._addEventHandler('DgShowMoreClick', this._link, 'click', L.bind(this._showMoreText, this));
         }
     }
 });
