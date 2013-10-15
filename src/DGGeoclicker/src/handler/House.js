@@ -5,6 +5,27 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
 
+   /* _firmCardSetup: {
+        tmpls: {
+            loader: this._view.getTemplate('loader'),
+            //firmlistItem: this._view.getTemplate('firmlistItem'),
+            header: this._view.getTemplate('firmCardHeader'),
+            body: this._view.getTemplate('fullFirm'),
+            footer: this._view.getTemplate('popupFooterBtns')
+        },
+        //container: this._firmListObject.firmListContainer,
+        render: L.DG.template,
+        lang: this._map.getLang(),
+        ajax: L.bind(this._api.getFirmInfo, this._api),
+        //onListReady: L.bind(this._renderFirmList, this),
+        timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
+        //backBtn: L.bind(this._showHousePopup, this),//backBtn: L.bind(this._showListPopup, this),
+        map: this._map,
+        showEntrance: L.DG.Entrance,
+        gotoUrl: this._gotoUrl,
+        onFirmReady: L.bind(this._renderFirm,  this)
+    },*/
+
     handle: function (results) { // (Object, String) -> Promise
         if (!results.house) {
             return false;
@@ -12,8 +33,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         // initialization setup
         this._firmList = null;
+        this._shortFirmList = null;
         this._houseObject = null;
         this._firmListObject = null;
+        this._shortFirmListObject = null;
         this._id = results.house.id;
         this._totalPages = 1;
         this._api = this._controller.getCatalogApi();
@@ -42,7 +65,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             },
             header = {},
             self = this,
-            btns = [];
+            btns = [],
+            //wrap whole house data in dom-element to send it`s reference in shortFirmList
+            wrapper = document.createElement('div');
 
         if (attrs.postal_code) {
             data.address = attrs.district + ' ' + this.t('district') + ', ' + attrs.city + ', ' +  attrs.postal_code;
@@ -70,6 +95,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 name: 'all',
                 label: this.t('Show organization in the building', attrs.filials_count)
             });
+            // ask data for first 3 organizations
+            this._fillShortFirmListObject(wrapper);
         }
 
         btns.push({
@@ -79,9 +106,16 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             href: this._gotoUrl
         });
 
-        this._houseObject = {
+
+        var bodyContent = this._view.render({
             tmpl: this._view.getTemplate('house'),
-            data: data,
+            data: data
+        });
+
+        wrapper.insertAdjacentHTML('beforeend', bodyContent);
+
+        this._houseObject = {
+            tmpl: wrapper,
             header: this._view.render({
                 tmpl: this._view.getTemplate('popupHeader'),
                 data: header
@@ -97,6 +131,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 self._initPopupClose();
             }
         };
+        //DELETE IT!
+        this._title = data.title;
     },
 
     _getGotoUrl: function (url, name) {
@@ -105,6 +141,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             'name': encodeURIComponent(name),
             'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'
         });
+    },
+
+    _renderFirm: function (firmObject) {
+        this._clearAndRenderPopup(firmObject);
     },
 
     // init single firm card
@@ -132,14 +172,66 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._firmCard = new FirmCard (this._defaultFirm, addOptions);*/
     },
 
+    _initFirmListContainer: function () {
+        var container = document.createElement('ul');
+        container.setAttribute('class', 'building-callout__list');
+
+        return container;
+    },
+
+    _fillShortFirmListObject: function (wrapper) {
+        var content = this._initFirmListContainer();
+
+        this._shortFirmListObject = {
+            tmpl: content,
+            firmListContainer: content,
+            wrapper: wrapper
+        };
+
+        this._api.firmsInHouse(this._id, {page: 1, pageSize: 3}).then(
+            L.bind(this._initShortFirmList, this)
+        );
+    },
+
+    _initShortFirmList: function (res) {
+        var results = res.result.data;
+
+        this._shortFirmList = new FirmCard.List({
+                tmpls: {
+                    loader: this._view.getTemplate('loader'),
+                    firmlistItem: this._view.getTemplate('firmlistItem'),
+                    header: this._view.getTemplate('firmCardHeader'),
+                    body: this._view.getTemplate('fullFirm'),
+                    footer: this._view.getTemplate('popupFooterBtns')
+                },
+                wrapper: this._shortFirmListObject.wrapper,
+                //container: this._firmListObject.firmListContainer,
+                render: L.DG.template,
+                lang: this._map.getLang(),
+                ajax: L.bind(this._api.getFirmInfo, this._api),
+                onListReady: L.bind(this._renderFirmList, this),
+                timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
+                //firm card options
+                backBtn: L.bind(this._showHousePopup, this),
+                map: this._map,
+                showEntrance: L.DG.Entrance,
+                gotoUrl: this._gotoUrl,
+                onFirmReady: L.bind(function (firmObject) {
+                    this._clearAndRenderPopup(firmObject);
+                }, this)
+            }, results
+        );
+    },
+
     _fillFirmListObject: function () {
         var self = this,
-            content = document.createElement('div');
+            content = this._initFirmListContainer();
+
         this._firmListObject = {
             tmpl: content,
             header: this._view.render({
                 tmpl: this._view.getTemplate('popupHeader'),
-                data: {'title': this._houseObject.data.title }
+                data: {'title': this._title }
             }),
             footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
@@ -164,11 +256,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         };
 
         this._loader = this._view.initLoader();
-        this._api.firmsInHouse(this._id, L.bind(this._initFirmList, this));
+        this._api.firmsInHouse(this._id).then(L.bind(this._initFirmList, this));
     },
 
-    _initFirmList: function (results) {
-        this._fillFirmCardObject();
+    _initFirmList: function (res) {
+        var results = res.result.data;
 
         this._firmList = new FirmCard.List({
                 tmpls: {
@@ -269,14 +361,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup._updateScrollPosition();
     },
 
-    /*_onFirmlistToggleCard: function (cardContainer, cardExpanded) {
-        this._popup._resize();
-
-        if (cardExpanded && this._popup._scroller) {
-            this._popup.scrollTo(cardContainer.offsetTop - cardContainer.parentNode.offsetTop);
-        }
-    },
-*/
     _handlePopupScroll: function (event) {
         var scroller = event.originalEvent.target || event.target._scroller;
 
@@ -290,8 +374,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._page++;
 
         if (this._totalPages && this._page <= this._totalPages) {
-            this._api.firmsInHouse(this._id, L.bind(this._appendFirmList, this), this._page);
+            this._api.firmsInHouse(this._id).then(L.bind(this._appendFirmList, this));
         }
+
         if (this._page === this._totalPages) {
             this._loader && this._view.hideLoader(this._loader);
             this._popup.off('dgScroll', this._onScroll);

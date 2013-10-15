@@ -1,17 +1,13 @@
 (function () {
     FirmCard.List = function (options, firms) {
         this._firms = {}; // {'firmID': firmObj}
-        this._addOptions = {
-            /*ajax: function () {},
-            render: function () {},
-            //onToggleCard: function () {},
-            lang: 'ru',
-            tmpls: {}*/
-        };
-        this._container = options && options.container || document.createElement('ul');
-        this._container.setAttribute('class', 'dg-map-infocard-firmlist');
-
         this._setOptions(options);
+
+        this._container = options && options.container || document.createElement('ul');
+        this._container.setAttribute('class', 'building-callout__list');
+        this._wrapper = options.wrapper
+
+
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
 
@@ -36,7 +32,8 @@
                                                    this._addOptions.render(this._addOptions.tmpls.firmlistItem, {'firm': firm}));
             }
 
-            this._onListReady(this._container);
+            this._onListReady && this._onListReady(this._container);
+            this._wrapper && this._wrapper.appendChild(this._container);
 
             return this._container;
         },
@@ -214,7 +211,7 @@
 
         _setOptions: function (options) {
             options || (options = {});
-
+            this._addOptions = {};
             if ('onListReady' in options) { this._onListReady = options.onListReady; }
             //firmcard options
             if ('backBtn' in options) { this._addOptions.backBtn = options.backBtn; }

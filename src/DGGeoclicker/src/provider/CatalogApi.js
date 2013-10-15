@@ -38,7 +38,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     firmsInHouse: function (houseId, parameters) { // (String, Function, Number)
         parameters = parameters || {};
-        console.log(parameters);
+
         var params = L.extend(this.options.data, {
             type: 'filial',
             house: houseId,

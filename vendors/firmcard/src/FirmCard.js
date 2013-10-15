@@ -79,7 +79,7 @@ FirmCard.prototype = {
         this._firmContentObject.tmpl = firmCardBody;
         this._footerContainer.innerHTML = this.options.render(this.options.tmpls.footer, {'btns': btns});
         this._firmContentObject.footer = this._footerContainer;
-        console.log(this._firmContentObject);
+
         this.options.onFirmReady && this.options.onFirmReady(this._firmContentObject);
     },
 
