@@ -145,13 +145,11 @@
 
 .dg-popup-header-title {
     display: block;
-    /*margin: 11px 8px 0 0;*/
     white-space: normal;
     font: 22px/24px 'SuisseCond','Arial narrow',Arial;
 }
 
 #dg-popup-firm-loading {
-    /*display: none;*/
     background: url("__BASE_URL__/img/loader_directory.gif") no-repeat scroll 50% 50% transparent;
     height: 30px;
     padding-bottom: 12px;
@@ -259,12 +257,10 @@ h2.dg-map-firm-title a.link-text {
     line-height: 24px;
     position:relative;
     text-decoration:none;
-    /*top:6px;*/
 }
 
 .dg-map-firm-full .dg-map-firm-box {
     margin:0 0 8px;
-    /*padding-right:40px;*/
     padding-left:0;
 }
 .dg-map-firm-full .dg-map-firm-box-rubric {

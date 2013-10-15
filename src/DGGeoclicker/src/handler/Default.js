@@ -14,37 +14,37 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
         this._map = map;
     },
 
-    handle: function (results, type) { // (Object, String) -> Promise
+    handle: function () { // (Object, String) -> Promise
         return L.DG.when({
             tmpl: this._view.getTemplate('popupHeader'),
-            data: {'title': this.t("We haven't collected info about this place")}
+            data: {'title': this.t('We haven\'t collected info about this place')}
         });
     },
 
-    _removeEventHandler: function(name) { // (String)
+    _removeEventHandler: function (name) { // (String)
         var handlers = this._eventHandlers,
             handler,
             handlerName;
 
         for (handlerName in handlers) {
             handler = handlers[handlerName];
-            if (handlerName == name) {
+            if (handlerName === name) {
                 L.DomEvent.off(handler.el, handler.event, handler.handler);
                 delete handlers[handlerName];
             }
         }
     },
 
-    _addEventHandler: function(name, el, event, handler) { // (String, HTMLElement, String, Function)
+    _addEventHandler: function (name, el, event, handler) { // (String, HTMLElement, String, Function)
         L.DomEvent.on(el, event, handler);
         this._eventHandlers[name] = {
             el: el,
             event: event,
             handler: handler
-        }
+        };
     },
 
-    _clearEventHandlers: function() {
+    _clearEventHandlers: function () {
         var handlers = this._eventHandlers,
             i;
 

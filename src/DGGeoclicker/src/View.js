@@ -34,7 +34,6 @@ L.DG.Geoclicker.View = L.Class.extend({
     showPopup: function (latlng) { // (Object)
         this._popup
                 .setContent('')
-                // .setContent('<img src="__BASE_URL__/img/loader_directory.gif"/>')
                 .setLatLng(latlng)
                 .openOn(this._map);
     },
