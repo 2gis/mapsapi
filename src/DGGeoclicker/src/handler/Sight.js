@@ -98,7 +98,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         footer.btns[0].href = L.Util.template(PPNOTUrl, {
             'code': this._map.dgProjectDetector.getProject().code,
             'name': encodeURIComponent(data.buildingName),
-            'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'
+            'point': 'POINT(' + this._popup.getLatLng().lng + ' ' + this._popup.getLatLng().lat + ')'
         });
 
         return {

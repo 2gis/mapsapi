@@ -207,25 +207,21 @@
             var contentNode = this._popupStructure.body.parentNode,
                 scrollerWrapper = L.DomUtil.create('div', 'scroller-wrapper', contentNode),
                 scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
-                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller);
+                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
+                innerHeight = this.options.maxHeight;
 
             this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
-            // console.log(scrollerWrapper.offsetHeight);
-            var innerHeight = this.options.maxHeight,
-                height = [scrollerWrapper.offsetHeight, innerHeight];
 
-            // console.log(innerHeight);
             if (this._popupStructure.header) {
                 innerHeight -= this._popupStructure.header.offsetHeight;
-                height.push(innerHeight);
             }
             if (this._popupStructure.footer) {
                 innerHeight -= this._popupStructure.footer.offsetHeight;
-                height.push(innerHeight);
             }
-            console.log(height);
             scrollerWrapper.style.height = innerHeight + 'px';
+            scrollerWrapper.style.width = this.options.minWidth || this.options.maxWidth + 'px';
+
             this._isBaronExist = true;
 
             L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
