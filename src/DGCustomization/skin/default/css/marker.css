@@ -49,7 +49,7 @@
 }
 
 div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/pin_pressed.png);
+    background-image: url(__BASE_URL__/img/pin_pressed.png) !important;
 }
 
 .dg-customization__marker_appear.dg-customization__marker {
@@ -99,7 +99,7 @@ div.leaflet-retina:not(.leaflet-touch) .leaflet-clickable.dg-customization__mark
 }
 
 div.leaflet-retina .leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/pin_pressed@2x.png);
+    background-image: url(__BASE_URL__/img/pin_pressed@2x.png) !important;
     background-size: 20px 32px;
 }
 
