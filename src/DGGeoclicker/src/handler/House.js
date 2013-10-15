@@ -75,20 +75,22 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             data.address = attrs.district + ' ' + this.t('district') + ', ' + attrs.city + ', ' +  attrs.postal_code;
         }
 
-        if (house.name) {
-            data.title = header.title = house.name.split(', ').slice(1).join(', ');
+        if (attrs.building_name) {
+            header.title = attrs.building_name;
         }
 
-        if (attrs.building_name) {
-            data.buildingname = attrs.building_name;
+        if (house.name) {
+            var address = house.name.split(', ').slice(1).join(', ');
+            if(!header.title) {
+                header.title = address;
+                data.headAddress = '';
+            } else {
+                data.headAddress = address;
+            }
         }
 
         if (attrs.building_description) {
-            data.purpose = attrs.building_description;
-        }
-
-        if (attrs.floors_count) {
-            data.elevation = this.t('{n} floors', + attrs.floors_count);
+            data.purpose = attrs.building_description + ', ' + this.t('{n} floors', + attrs.floors_count);
         }
 
         if (attrs.filials_count > 0) {
@@ -133,7 +135,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             }
         };
         //DELETE IT!
-        this._title = data.title;
+        this._title = header.title;
     },
 
     _getGotoUrl: function (url, name) {
