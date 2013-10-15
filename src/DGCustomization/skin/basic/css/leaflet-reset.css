@@ -7,35 +7,29 @@
 .leaflet-dragging .leaflet-container {
     cursor: move;
 }
+
+/* Сброс стилей коллаута лифлета */
 .leaflet-popup-content-wrapper {
     padding: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
     border-radius: 0;
+    border: 0;
     background: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-}
-
-.leaflet-popup-content {
-    margin: 0;
-}
-.leaflet-popup-tip-container,
-.leaflet-popup-tip {
-    box-shadow: none;
-    margin: 0;
-    padding: 0;
-}
-.leaflet-popup-tip-container {
-    position: relative;
-}
-.leaflet-container a.leaflet-popup-close-button {
-    overflow: hidden;
-    text-indent: -999px;
-}
-.leaflet-container a.leaflet-popup-close-button::selection {
-    background-color: transparent;
-}
-.leaflet-container a.leaflet-popup-close-button::-moz-selection {
-    background-color: transparent;
-}
+    color: #e6e6e6;
+    }
+    .leaflet-popup-content {
+        margin: 0;
+        }
+    .leaflet-popup-tip {
+        display: none;
+        }
+    .leaflet-popup-tip-container {
+        height: 0;
+        }
+    .leaflet-container a {
+        color: #ffe6aa;
+        }
+    .leaflet-container a:hover {
+        color: #9cd;
+        }

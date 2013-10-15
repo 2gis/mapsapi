@@ -4,8 +4,8 @@ L.DG.Geoclicker.View = L.Class.extend({
         this._map = map;
         this._popup = L.popup({
             maxHeight: 300,
-            maxWidth: 438,
-            minWidth: 150
+            minHeight: 50,
+            minWidth: 351
         });
 
         this._templates = __DGGeoclicker_TMPL__;
@@ -33,7 +33,8 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     showPopup: function (latlng) { // (Object)
         this._popup
-                .setContent('<img src="__BASE_URL__/img/loader_directory.gif"/>')
+                .setContent('')
+                // .setContent('<img src="__BASE_URL__/img/loader_directory.gif"/>')
                 .setLatLng(latlng)
                 .openOn(this._map);
     },

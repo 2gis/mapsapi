@@ -1,9 +1,29 @@
-.dg-map-geoclicker-address {
-    font-size: 15px;
-	margin-bottom: 1px;
+@font-face {
+    font-family: 'SuisseCond';
+    src: url('__BASE_URL__/fonts/suisseintl-cond.autohinted.ttf') format('truetype');
 }
 
-.dg-map-geoclicker-purpose,
+.dg-map-geoclicker-address {
+    position: relative;
+    margin: 6px 0 2px 24px;
+    font: 16px/16px Arial;
+}
+.dg-map-geoclicker-address:before {
+    position: absolute;
+    top: 3px;
+    left: -24px;
+    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -182px -82px;
+    width: 9px;
+    height: 11px;
+    content: '';
+}
+
+.dg-map-geoclicker-drilldown {
+    padding: 0 0 0 24px;
+    font: 12px/16px Arial;
+}
+
 .dg-map-geoclicker-elevation {
     color:#a0a0a0;
     display:block;
@@ -11,6 +31,43 @@
     margin-bottom:1px;
 }
 
+.dg-map-geoclicker-purpose {
+    position: relative;
+    padding: 6px 0 2px 24px;
+    font-size: 16px;
+}
+.dg-map-geoclicker-purpose:before {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    content: '';
+    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -339px -56px;
+    width: 8px;
+    height: 12px;
+}
+.dg-map-geoclicker-purpose__street:before {
+    background-position: -183px -70px;
+    width: 12px;
+}
+
+.dg-map-geoclicker-sight-description {
+    max-height: 2.9em;
+    overflow: hidden;
+    padding: 0.5em 0 0 24px;
+}
+
+#dg-showmoresight {
+    border-bottom: 1px dashed;
+    text-decoration: none;
+    margin-left: 24px;
+}
+#dg-showmoresight:after {
+    content: '>';
+    position: absolute;
+    margin-left: 5px;
+    font-weight: bold;
+}
 #dg-showmorehouse {
 	color: #0070C0;
 	font-size: 12px;
@@ -39,21 +96,58 @@
 	overflow: hidden;
 
 }
+
+.popup_footer_btns {
+    width: 100%;
+    display: table;
+}
+.popup_footer_btn-wrapper {
+    display: table-cell;
+}
+.popup_footer_btn {
+    text-align: center;
+    margin: 0 4px;
+    display: block;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all .1s;
+    font: 12px/24px Arial;
+    text-decoration: none;
+}
+.popup_footer_btn:hover {
+    transition: all .2s;
+}
+
+.popup_footer_btn__icon{
+    padding-left: 1.5em;
+}
+.popup_footer_btn__icon:before {
+    position: absolute;
+    margin: 6px 0 0 -1.5em;
+    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
+    width: 12px;
+    height: 12px;
+    content: '';
+}
+#popup-btn-goto:before{
+    background-position: -264px -70px;
+}
+
 #dg-showlesshouse {
-	color: #0070C0;
-	font-size: 12px;
-	line-height: 24px;
-	position: relative;
-	text-decoration: none;
-	top: 6px;
-	margin: 0 15px 10px;
+    color: #0070C0;
+    font-size: 12px;
+    line-height: 24px;
+    position: relative;
+    text-decoration: none;
+    top: 6px;
+    margin: 0 15px 10px;
 }
 
 .dg-popup-header-title {
-	font-size: 15px;
-	font-weight: bold;
-	padding-bottom: 4px;
-	margin: 0 15px 10px;
+    display: block;
+    /*margin: 11px 8px 0 0;*/
+    white-space: normal;
+    font: 22px/24px 'SuisseCond','Arial narrow',Arial;
 }
 
 #dg-popup-firm-loading {
@@ -780,4 +874,11 @@ li.dg-map-firm-address .note {
     top: 50%;
     left: 50%;
     margin: -16px 0 0 -74px !important;
+}
+
+
+/* baron with header*/
+
+.dg-popup-header + .dg-popup-container-wrapper .scroller__bar-wrapper {
+    top: 4px;
 }

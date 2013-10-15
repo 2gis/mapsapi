@@ -1,0 +1,55 @@
+/*CALLOUT*/
+.leaflet-popup-inner {
+    color: #f0f0f0;
+    background-color: #323232;
+    background-color: rgba(50, 50, 50, 0.85);
+}
+
+.leaflet-popup-tip-container {
+    background: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -113px 0;
+    width: 58px;
+    height: 47px;
+    margin: auto auto -51px auto;
+}
+
+.leaflet-container a {
+    color: #ffe6aa;
+}
+.leaflet-container a:hover {
+    color: #9cd;
+}
+
+.leaflet-popup-content-wrapper {
+    color: #e6e6e6;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+    background-color: #222;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.leaflet-container a.leaflet-popup-close-button:active {
+    background-color: #323232;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+}
+.leaflet-container a.leaflet-popup-close-button:before {
+    left: 8px;
+    top: 9px;
+    background: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -181px -103px;
+    width: 11px;
+    height: 9px;
+}
+.leaflet-container a.leaflet-popup-close-button:hover:before {
+    top: 8px;
+    background: url(__BASE_URL__/img/dg-callout-dark.png);
+    background-position: -237px -93px;
+    width: 11px;
+    height: 10px;
+}
+.leaflet-container a.leaflet-popup-close-button:after {
+    right: -5px;
+    top: -3px;
+    width: 40px;
+    height: 40px;
+}

@@ -1,0 +1,43 @@
+/* baron */
+
+.scroller-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.scroller::-webkit-scrollbar {
+    width: 0;
+}
+
+.scroller__bar-wrapper {
+    position: absolute;
+    top: 18px;
+    bottom: 4px;
+    right: 3px;
+    width: 6px;
+    border-radius: 5px;
+}
+
+.scroller__bar-wrapper .scroller__bar {
+    background-color: rgba(100, 98, 86, 0.5);
+}
+
+.scroller__bar-wrapper:hover .scroller__bar {
+    background-color: rgba(100, 98, 86, 0.85);
+}
+
+.scroller__bar {
+    position: absolute;
+    width: 6px;
+    border-radius: 3px;
+    pointer-events: auto;
+    min-height:20px;
+}
+
+.dg-baron-hide {
+    overflow: auto;
+}
+.dg-baron-hide .scroller__bar-wrapper {
+    visibility: hidden;
+}
