@@ -211,6 +211,21 @@
 
             this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
+            // console.log(scrollerWrapper.offsetHeight);
+            var innerHeight = this.options.maxHeight,
+                height = [scrollerWrapper.offsetHeight, innerHeight];
+
+            // console.log(innerHeight);
+            if (this._popupStructure.header) {
+                innerHeight -= this._popupStructure.header.offsetHeight;
+                height.push(innerHeight);
+            }
+            if (this._popupStructure.footer) {
+                innerHeight -= this._popupStructure.footer.offsetHeight;
+                height.push(innerHeight);
+            }
+            console.log(height);
+            scrollerWrapper.style.height = innerHeight + 'px';
             this._isBaronExist = true;
 
             L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
@@ -311,7 +326,6 @@
             if (maxHeight && height > maxHeight) {
                 style.height = maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
-
             } else {
                 style.height = Math.max(height, minHeight) + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
