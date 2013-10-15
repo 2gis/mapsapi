@@ -12,7 +12,7 @@
     top: 0;
     height: 100%;
     width: 100%;
-    background-size: 20px 32px;
+    background-size: 22px 34px;
     background-image: inherit;
     background-repeat: no-repeat;
     -webkit-transition:
@@ -36,20 +36,20 @@
 .dg-customization__marker_type_mushroom {
     -webkit-transform-origin: 50% 100%;
     transform-origin: 50% 100%;
-    width: 20px;
-    height: 32px;
+    width: 22px;
+    height: 34px;
     margin: -34px 0 0 -13px;
-    background-image: url(__BASE_URL__/img/pin_ini.png);
+    background-image: url(__BASE_URL__/img/NonRetinaMarkerDefault.png);
     -webkit-animation: dg-customization__show-marker .2s;
     animation: dg-customization__show-marker .2s;
 }
 
 .leaflet-container:not(.leaflet-touch) div.leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    background-image: url(__BASE_URL__/img/pin_hover.png);
+    background-image: url(__BASE_URL__/img/NonRetinaMarkerHover.png);
 }
 
 div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/pin_pressed.png) !important;
+    background-image: url(__BASE_URL__/img/NonRetinaMarkerPressed.png) !important;
 }
 
 .dg-customization__marker_appear.dg-customization__marker {
@@ -89,18 +89,18 @@ div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
 
 /*apply retina markers*/
 div.leaflet-retina .dg-customization__marker_type_mushroom {
-    background-image: url(__BASE_URL__/img/pin_ini@2x.png);
-    background-size: 20px 32px;
+    background-image: url(__BASE_URL__/img/RetinaMarkerDefault.png);
+    background-size: 22px 34px;
 }
 
 div.leaflet-retina:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    background-image: url(__BASE_URL__/img/pin_hover@2x.png);
-    background-size: 20px 32px;
+    background-image: url(__BASE_URL__/img/RetinaMarkerHover.png);
+    background-size: 22px 34px;
 }
 
 div.leaflet-retina .leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/pin_pressed@2x.png) !important;
-    background-size: 20px 32px;
+    background-image: url(__BASE_URL__/img/RetinaMarkerPressed.png) !important;
+    background-size: 22px 34px;
 }
 
 .dg-hidden {
