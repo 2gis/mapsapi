@@ -3,9 +3,9 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
         data: {
-            key: '__GEOCLICKER_CATALOG_API_KEY__',
-            output: 'jsonp'
+            key: '__GEOCLICKER_CATALOG_API_KEY__'
         },
+        pageSize: 20,
         geoFields: '__GEO_ADDITIONAL_FIELDS__',
         firmInfoFields: '__FIRM_INFO_FIELDS__',
 
@@ -36,25 +36,19 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         }, this));
     },
 
-    firmsInHouse: function (houseId, callback, page) { // (String, Function, Number)
-        page = page || 1;
+    firmsInHouse: function (houseId, parameters) { // (String, Function, Number)
+        parameters = parameters || {};
+        console.log(parameters);
         var params = L.extend(this.options.data, {
             type: 'filial',
             house: houseId,
-            page: page
+            page: parameters.page || 1,
+            page_size: parameters.pageSize || this.options.pageSize
         });
 
         this.cancelLastRequest();
 
-        function responseHandler(res) {
-            if (res && res.response && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
-                callback(res.result.data);
-            } else {
-                callback();
-            }
-        }
-
-        this._performRequest(params, this.options.urlGeo, responseHandler, responseHandler);
+        return this._performRequest(params, this.options.urlGeo);
     },
 
     getFirmInfo: function (firmId, callback) {
@@ -75,7 +69,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
                 }
             }*/
 
-        L.DG.ajax(this.options.urlDetails, {
+        return L.DG.ajax(this.options.urlDetails, {
             type: 'get',
             data: {
                 key: this.options.data.key,
@@ -112,7 +106,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     cancelLastRequest: function () {
         if (this._lastRequest) {
-            this._lastRequest.cancel();
+            this._lastRequest.abort();
         }
     },
 
@@ -138,16 +132,26 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         var source = this.options.data,
             data = L.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key,
-                output: source.output
+                //output: source.output
             }, params);
 
-        this._lastRequest = L.DG.Jsonp({
+        /*this._lastRequest = L.DG.Jsonp({
             url: url,
             data: data,
             timeout: this.options.timeoutMs,
             success: callback,
             error: failback
+        });*/
+
+        var promise = this._lastRequest = L.DG.ajax(url, {
+            type: 'get',
+            data: data,
+            timeout: this.options.timeoutMs,
+            success: callback,
+            error: failback
         });
+
+        return promise;
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
