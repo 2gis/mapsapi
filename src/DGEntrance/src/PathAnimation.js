@@ -41,7 +41,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
 
             if (animationEl) {
                 animationEl.beginElement();
-                this._map.once('movestart', this._removeAnimation, this);
+                this._removeAnimation(animationEl);
             }
 
             return this;
@@ -79,9 +79,12 @@ if (L.Path.ANIMATION_AVAILABLE) {
             return animationEl;
         },
 
-        _removeAnimation: function () {
-            this._animationEl && this._path.removeChild(this._animationEl);
-            this._animationEl = null;
+        _removeAnimation: function (animationEl) {
+            var self = this;
+            this._map.once('zoomstart', function () {
+                animationEl && self._path.removeChild(animationEl);
+                self._animationEl = null;
+            });
         }
     });
 }
