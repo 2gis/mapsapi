@@ -351,9 +351,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup.on('dgScroll', this._onScroll);
     },
 
-    _appendFirmList: function (results) { // (Object)
-        this._firmList.renderList(results);
-        //this._firmList.renderList();
+    _appendFirmList: function (res) { // (Object)
+        this._firmList.addFirms(res.result.data);
         this._popup._updateScrollPosition();
     },
 
@@ -370,13 +369,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._page++;
 
         if (this._totalPages && this._page <= this._totalPages) {
-            this._api.firmsInHouse(this._id).then(L.bind(this._appendFirmList, this));
+            this._api.firmsInHouse(this._id, {page: this._page}).then(L.bind(this._appendFirmList, this));
         }
 
         if (this._page === this._totalPages) {
             this._loader && this._view.hideLoader(this._loader);
             this._popup.off('dgScroll', this._onScroll);
         }
-        console.log(this._page, this._totalPages);
     }
 });
