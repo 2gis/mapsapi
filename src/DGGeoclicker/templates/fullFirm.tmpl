@@ -1,4 +1,3 @@
-<div id="dg-map-firm-full-<%=firm.id%>" class="dg-map-firm-full" style="display:block">
     <!--Name and adress-->
     <ul class="dg-map-firm-box">
         <li class="dg-map-firm-row dg-map-firm-address"><%=firm.geo.address%>
@@ -100,7 +99,7 @@
 							                        <span class="schedule__string-time"><%=evently[j].from%>&ndash;<%=evently[j].to%></span>
 							                        <%if (evently[j].lunch.length) {%>
 								                        &nbsp;,&nbsp;
-								                        <%=dict.t(lang, 'lunch')%> 
+								                        <%=dict.t(lang, 'lunch')%>
 								                        <span class="schedule__string-time">
 								                        	<%=evently[j].lunch.from%>&ndash;<%=evently[j].lunch.to%>
 							                        	</span>
@@ -193,5 +192,3 @@
         </li>
     </ul>
     <% } %>
-
-</div>

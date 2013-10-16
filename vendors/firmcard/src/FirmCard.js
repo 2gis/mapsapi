@@ -4,27 +4,14 @@ var FirmCard = function (firm, options) {
     this._schedule = new FirmCard.Schedule({
         localLang: options.lang
     });
-    this._footerContainer = document.createElement('div');
+
     this.render(firm);
 };
 
 FirmCard.prototype = {
 
-    /*toggleSchedule: function () {
-        var schedule = this._fullFirmEl.querySelector('.schedule__table'),
-            display = 'block';
-        if (!schedule) { return; }
-
-        if (schedule.style.display === 'block') {
-            display = 'none';
-        }
-        schedule.style.display = display;
-    },*/
-
     render: function (firmId) {
         if (!firmId) { return; }
-
-        this._initEventHandlers();
 
         if (firmId !== this._firmId) {
             this._firmContentObject = {};
@@ -40,10 +27,19 @@ FirmCard.prototype = {
         this.options.ajax(firmId, function (data) {
             if (data !== 'undefined') {
                 self._firmData = data[0];
-                self._renderFirmCard();
                 self._firmId = firmId;
+                self._renderFirmCard();
+                self._initEventHandlers();
             }
         });
+    },
+
+    _createFirmContainer: function () {
+        var firm = document.createElement('div');
+        firm.setAttribute('id', 'dg-map-firm-full-' + this._firmId);
+        firm.setAttribute('class', 'dg-map-firm-full');
+
+        return firm;
     },
 
     _renderFirmCard: function () {
@@ -52,7 +48,10 @@ FirmCard.prototype = {
             forecast,
             links,
             btns,
-            data = this._firmData;
+            data = this._firmData,
+            container = this._container = this._createFirmContainer();
+
+        this._footerContainer = document.createElement('div');
 
         schedule = this._schedule.transform(data.schedule, {
             zoneOffset: this.options.timezoneOffset,
@@ -70,13 +69,14 @@ FirmCard.prototype = {
             dataHelper: FirmCard.DataHelper
         });
 
-        //fill header links
         links = this._fillHeaderLinks();
 
         btns = this._fillFooterButtons();
 
+        //fill object for view render
         this._firmContentObject.header = this.options.render(this.options.tmpls.header, {'firmName': data.name, 'links': links});
-        this._firmContentObject.tmpl = firmCardBody;
+        container.innerHTML = firmCardBody;
+        this._firmContentObject.tmpl = container;
         this._footerContainer.innerHTML = this.options.render(this.options.tmpls.footer, {'btns': btns});
         this._firmContentObject.footer = this._footerContainer;
 
@@ -126,29 +126,42 @@ FirmCard.prototype = {
         return links;
     },
 
-    _initEventHandlers: function () {
-
-        var self = this,
-            eventName = this._hasTouch() ? 'touchend' : 'click';
-
-        var onClickHandler =  function (e) {
-            var e = e || window.event,
+    _onFooterBtnClick: function (e) {
+        var e = e || window.event,
             target = e.target || e.srcElement;
 
-            if (target && target.nodeName === 'A') {
-                if (target.id === 'popup-btn-firmCard-back') {
-                    self.options.backBtn();
-                } else if (target.id ===  'popup-btn-show-entrance') {
-                    var ent = new self.options.showEntrance({'vectors': self._firmData.geo.entrances[0].vectors});
-                    ent.addTo(self.options.map).show();
-                }
+        if (target && target.nodeName === 'A') {
+            if (target.id === 'popup-btn-firmCard-back') {
+                this.options.backBtn();
+            } else if (target.id ===  'popup-btn-show-entrance') {
+                var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
+                ent.addTo(this.options.map).show();
             }
-        };
+        }
+    },
 
-        if (this._footerContainer.addEventListener) {
-            this._footerContainer.addEventListener(eventName, onClickHandler);
+    _onToggleSchedule: function () {
+        var schedule = this._container.querySelector('.schedule__table'),
+            display = 'block';
+        if (!schedule) { return; }
+
+        if (schedule.style.display === 'block') {
+            display = 'none';
+        }
+        schedule.style.display = display;
+    },
+
+    _initEventHandlers: function () {
+
+        var eventName = this._hasTouch() ? 'touchend' : 'click',
+            footer = this._footerContainer;
+
+        //TODO:  do it crossbrowser!
+        if (footer.addEventListener) {
+            footer.addEventListener(eventName, this._onFooterBtnClick.bind(this), false);
+            this._container.addEventListener(eventName, this._onToggleSchedule.bind(this), false);
         } else {
-            this._footerContainer.attachEvent('on' + eventName, onClickHandler);
+            footer.attachEvent('on' + eventName, this._onFooterBtnClick);
         }
     },
 
