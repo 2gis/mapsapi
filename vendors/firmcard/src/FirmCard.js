@@ -140,15 +140,19 @@ FirmCard.prototype = {
         }
     },
 
-    _onToggleSchedule: function () {
+    _onToggleSchedule: function (e) {
         var schedule = this._container.querySelector('.schedule__table'),
-            display = 'block';
+            display = 'block',
+            target = e.target || e.srcElement;
+
         if (!schedule) { return; }
 
-        if (schedule.style.display === 'block') {
-            display = 'none';
+        if (target && target.nodeName === 'DIV' && target.className.indexOf('schedule__today') !== -1) {
+            if (schedule.style.display === 'block') {
+                display = 'none';
+            }
+            schedule.style.display = display;
         }
-        schedule.style.display = display;
     },
 
     _initEventHandlers: function () {
