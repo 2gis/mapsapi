@@ -267,7 +267,24 @@ var deps = {
             ],
         },
         deps: ['DGCore', 'DGLocale']
+    },
+
+    DGRuler: {
+        desc: 'Ruler control module',
+        src: [
+            'DGRuler/src/DGRuler.js',
+            'DGRuler/lang/ru.js',
+            'DGRuler/lang/it.js',
+            'DGRuler/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRuler/skin/{skin}/css/DGRuler.css'
+            ],
+        },
+        deps: ['DGCore', 'DGLocale']
     }
+
 };
 
 if (typeof exports !== 'undefined') {

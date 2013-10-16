@@ -10,7 +10,7 @@ L.DG.Ruler = L.Control.extend({
     },
 
     _active: false,
-    _layers: null,
+    _layers: [],
 
     _line: null,
     _lineMarkerHelper: null,
@@ -47,9 +47,12 @@ L.DG.Ruler = L.Control.extend({
         this._map.on('click', this._addPoint, this);
         this._layers = L.featureGroup().addTo(this._map);
         this._line = L.polyline([], {
-            color: 'blue',
-            noClip : true
-        }).addTo(this._map).on(this._lineEvents, this);
+            color: '#0da5d5',   // Stroke color
+            opacity: 1,         // Stroke opacity
+            weight: 3           // Stroke weight
+        })
+            .addTo(this._map)
+            .on(this._lineEvents, this);
         this._points = [];
     },
 
@@ -69,11 +72,24 @@ L.DG.Ruler = L.Control.extend({
     },
 
     _addPoint: function (event) {
-        var marker = L.marker(event.latlng, { draggable : true }).on('drag', this._movePoint, this);
+        var marker = L.circleMarker(event.latlng, {
+                        color: '#fff',
+                        opacity: 1,
+                        fillColor: '#0da5d5',
+                        fillOpacity: 1,
+                        weight: 3
+            }).setRadius(10);//.on('drag', this._movePoint, this);
+
+        var markerInner = L.circleMarker(event.latlng, {
+                        color: '#fff',
+                        opacity: 1,
+                        weight: 3,
+                        fillOpacity: 0
+        }).setRadius(5);
 
         marker._rulerPointId = this._points.push(marker) - 1;
         this._addLeg(event.latlng);
-        this._layers.addLayer(marker);
+        this._layers.addLayer(marker).addLayer(markerInner);
     },
 
     _movePoint: function (event) {
