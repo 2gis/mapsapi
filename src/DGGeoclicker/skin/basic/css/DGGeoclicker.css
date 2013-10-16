@@ -189,7 +189,10 @@
     content: '';
 }
 #popup-btn-goto:before{
-    background-position: -264px -70px;
+    margin: 8px 0 0 -1.9em;
+    width: 20px;
+    height: 7px;
+    background-image: url(__BASE_URL__/img/path_dark.png);
 }
 
 #popup-btn-show-entrance:before{
@@ -197,11 +200,17 @@
 }
 
 #popup-btn-firmCard-back:before{
-    background-position: -264px -70px;
+    margin: 9px 0 0 -1.0em;
+    width: 10px;
+    height: 6px;
+    background-image: url(__BASE_URL__/img/back_dark.png);
 }
 
 #popup-btn-firmList-back:before{
-    background-position: -264px -70px;
+    margin: 9px 0 0 -1.0em;
+    width: 10px;
+    height: 6px;
+    background-image: url(__BASE_URL__/img/back_dark.png);
 }
 
 #dg-showlesshouse {

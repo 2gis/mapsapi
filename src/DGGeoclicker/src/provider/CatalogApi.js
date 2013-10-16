@@ -52,23 +52,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     getFirmInfo: function (firmId, callback) {
-        /*L.DG.Jsonp({
-            url: this.options.urlDetails,
-            data: {
-                output: this.options.data.output,
-                key: this.options.data.key,
-                type: 'filial',
-                id: firmId,
-                fields: this.options.firmInfoFields
-            },
-            success: function (res) {
-                if (res && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
-                    callback(res.result.data);
-                } else {
-                    callback();
-                }
-            }*/
-
         return L.DG.ajax(this.options.urlDetails, {
             type: 'get',
             data: {
@@ -131,17 +114,8 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     _performRequest: function (params, url, callback, failback) { // (Object, String, Function, Function)
         var source = this.options.data,
             data = L.extend({ // TODO clone function should be used instead of manually copying
-                key: source.key,
-                //output: source.output
+                key: source.key
             }, params);
-
-        /*this._lastRequest = L.DG.Jsonp({
-            url: url,
-            data: data,
-            timeout: this.options.timeoutMs,
-            success: callback,
-            error: failback
-        });*/
 
         var promise = this._lastRequest = L.DG.ajax(url, {
             type: 'get',

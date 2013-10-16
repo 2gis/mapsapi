@@ -129,7 +129,6 @@ FirmCard.prototype = {
     _initEventHandlers: function () {
 
         var self = this,
-            data = this._firmData,
             eventName = this._hasTouch() ? 'touchend' : 'click';
 
         var onClickHandler =  function (e) {
@@ -140,7 +139,7 @@ FirmCard.prototype = {
                 if (target.id === 'popup-btn-firmCard-back') {
                     self.options.backBtn();
                 } else if (target.id ===  'popup-btn-show-entrance') {
-                    var ent = new self.options.showEntrance({'vectors': data.geo.entrances[0].vectors});
+                    var ent = new self.options.showEntrance({'vectors': self._firmData.geo.entrances[0].vectors});
                     ent.addTo(self.options.map).show();
                 }
             }
