@@ -1,11 +1,11 @@
 /*firmCard address*/
-.firm-callout__address {
+.firm-card__address {
     position: relative;
     margin: 13px 0 9px 24px;
     font: 16px/16px Arial;
 }
 
-.firm-callout__address:before {
+.firm-card__address:before {
     position: absolute;
     top: 3px;
     left: -24px;
@@ -16,7 +16,7 @@
     content: '';
 }
 
-.firm-callout__comment {
+.firm-card__comment {
     vertical-align: top;
     position: relative;
     top: 2px;
@@ -27,13 +27,13 @@
 
 /*firmCard phone*/
 
-.firm-callout__phone {
+.firm-card__phone {
     position: relative;
     padding: 0 0 4px 24px;
     overflow: hidden;
 }
 
-.firm-callout__phone:before {
+.firm-card__phone:before {
     content: '';
     position: absolute;
     top: 3px;
@@ -44,13 +44,13 @@
     height: 10px;
 }
 
-.firm-callout__phone-num {
+.firm-card__phone-num {
     white-space: nowrap;
 }
 
 /*firmCard site*/
 
-.firm-callout__site {
+.firm-card__site {
     position: relative;
     padding: 0 0 0 24px;
     line-height: 16px;
@@ -61,7 +61,7 @@
     text-overflow: ellipsis;
 }
 
-.firm-callout__site:before {
+.firm-card__site:before {
     content: '';
     position: absolute;
     top: 2px;
@@ -74,12 +74,12 @@
 
 /*firmCard forecast*/
 
-.firm-callout__workhours {
+.firm-card__workhours {
     position: relative;
     padding: 0 0 9px 24px;
 }
 
-.firm-callout__workhours:before {
+.firm-card__workhours:before {
     position: absolute;
     top: 2px;
     left: 0;
@@ -87,4 +87,48 @@
     width: 11px;
     height: 11px;
     content: '';
+}
+
+/*firmCard rubrics*/
+
+.firm-card__rubrics {
+    overflow: hidden;
+    color: #aaa;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.firm-card__rubrics-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.firm-card__rubrics {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.firm-card__rubrics-list-item {
+    display: inline;
+    cursor: pointer;
+}
+
+.firm-card__rubrics-list-item:after {
+    content: '•';
+    display: inline-block;
+    margin: 0 4px;
+    color: #6e6964;
+}
+
+.firm-card__rubrics-list-item:last-child:after
+{
+  content: '';
+}
+
+.link, .link:hover {
+    background-position: 0 95%;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
 }
