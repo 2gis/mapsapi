@@ -7,8 +7,8 @@ L.DG.Geoclicker.Handler.Default.Dictionary.it = L.extend({
     "district": "Località",
     "city": "Сittà",
     "goto": "it - Directions to here",
-    "Show organization in the building": "Mostra le aziende presenti nell'edificio",
-    "Hide organization in the building": "Nascondere le aziende nell'edificio",
+    "Show organization in the building": ["Всего {n} Mostra le aziende", "Всего {n} Mostra le aziende", "Всего {n} Mostra le aziende"],
+    "back button": "Назад Nascondere",
     "Show more about sight": "it - Read more",
     "{n} floors": ["{n} piano", "{n} piani", "{n} piani"]
 }, L.DG.Dictionary.it);

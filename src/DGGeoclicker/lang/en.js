@@ -7,8 +7,8 @@ L.DG.Geoclicker.Handler.Default.Dictionary.en = L.extend({
     "district": "Disctict",
     "city": "City",
     "goto": "Directions to here",
-    "Show organization in the building": "Show organizations in the building",
-    "Hide organization in the building": "Hide organizations in the building",
+    "Show organization in the building": ["Show all {n} organization", "Show all {n} organizations"],
+    "back button": "Back",
     "Show more about sight": "Read more",
     "{n} floors": ["{n} floor", "{n} floors"]
 }, L.DG.Dictionary.en);
