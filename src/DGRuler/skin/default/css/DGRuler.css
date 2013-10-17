@@ -1,0 +1,26 @@
+.dg-ruler-label {
+	width: 300px;
+	left:0px;
+	top:0px;
+	max-width: none;
+	max-height: none;
+    position: absolute;
+}
+
+.dg-ruler-label div {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    min-width: 30px;
+    max-width: 300px;
+    width: auto;
+    padding: 1px 7px 2px;
+    font: 12px/17px Arial, sans-serif;
+    color: #fff;
+    background: #0da5d5;
+    border: 4px solid #fff;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+}
