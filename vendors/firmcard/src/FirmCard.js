@@ -2,7 +2,8 @@ var FirmCard = function (firm, options) {
     this._setOptions(options);
     this._firmContentObject = {};
     this._schedule = new FirmCard.Schedule({
-        localLang: options.lang
+        localLang: options.lang,
+        dict: this.dict
     });
 
     this.render(firm);
@@ -63,7 +64,7 @@ FirmCard.prototype = {
         firmCardBody = this.options.render(this.options.tmpls.body, {
             firm: data,
             schedule: schedule,
-            dict: FirmCard.Schedule.dictionary,
+            dict: this.dict,
             lang: this.options.lang,
             forecast: forecast,
             dataHelper: FirmCard.DataHelper
@@ -88,20 +89,20 @@ FirmCard.prototype = {
 
         if (this.options.backBtn) {
             btns.push({ name: 'firmCard-back',
-                        label: 'Назад',
+                        label: this.dict.t(this.options.lang, 'btnBack'),
                         icon: true
             });
         }
-
+        // console.log(this.dict);
         btns.push({ name: 'goto',
-                    label: 'Проехать сюда',
+                    label: this.dict.t(this.options.lang, 'btnFindWay'),
                     icon: true,
                     href: this.options.gotoUrl
         });
 
         if (this._firmData.geo.entrances) {
             btns.push({ name: 'show-entrance',
-                        label: 'Найти вход',
+                        label: this.dict.t(this.options.lang, 'btnEntrance'),
                         icon: true
             });
         }
@@ -113,14 +114,21 @@ FirmCard.prototype = {
         var links = [], reviewData = this._firmData.reviews, booklet = this._firmData.booklet;
 
         if (reviewData && reviewData.is_allowed_to_show_reviews) {
-            links.push({name: 'flamp_reviews',
-                       label: 'stars ' + reviewData.rating + ' ' + reviewData.review_count + ' отзывов'});
+            links.push({
+                name: 'flamp_reviews',
+                label: [
+                    this.dict.t(this.options.lang, 'stars'),
+                    reviewData.rating,
+                    reviewData.review_count,
+                    this.dict.t(this.options.lang, 'linkReviews', reviewData.review_count)
+                ].join(' ')
+            });
         }
 
         if (booklet && booklet.url) {
             links.push({name: 'booklet',
                         href: this._firmData.booklet.url,
-                        label: 'Подробнее'});
+                        label: this.dict.t(this.options.lang, 'linkBooklet')});
         }
 
         return links;

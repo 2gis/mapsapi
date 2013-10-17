@@ -1,7 +1,9 @@
+/*global
+    FirmCard:false
+*/
+// FirmCard.dictionary = {};
 
-FirmCard.Schedule.dictionary = {};
-
-FirmCard.Schedule.dictionary = {
+FirmCard.prototype.dict = {
 
     t: function (lang, msg, argument) { // (String, Number) -> String
         var result,
@@ -25,7 +27,6 @@ FirmCard.Schedule.dictionary = {
             exp = this[lang].pluralRules(argument);
             result = argument + ' ' + dictionaryMsg[exp];
         }
-
         return result ? result : msg;
     },
 
@@ -46,10 +47,11 @@ FirmCard.Schedule.dictionary = {
         btnBack: 'Назад',
         btnFindWay: 'Проехать сюда',
         btnEntrance: 'Найти вход',
-        tommorow: 'завтра',
         linkReviews: ['отзыв', 'отзыва', 'отзывов'],
         linkPhoto: ['фото'],
         linkBooklet: ['Подробнее'],
+        stars: 'звёзд',
+        tommorow: 'завтра',
         afterTommorow: 'послезавтра',
         afterWeek: 'через неделю',
         nextSun: 'в воскресенье',
@@ -120,6 +122,13 @@ FirmCard.Schedule.dictionary = {
             }
         },
 
+        btnBack: 'it Назад',
+        btnFindWay: 'it Проехать сюда',
+        btnEntrance: 'it Найти вход',
+        linkReviews: ['it отзыв', 'it отзыва', 'it отзывов'],
+        linkPhoto: ['it фото'],
+        linkBooklet: ['it Подробнее'],
+        stars: 'it звёзд',
         tommorow: 'it завтра',
         afterTommorow: 'it послезавтра',
         afterWeek: 'it через неделю',
@@ -187,6 +196,13 @@ FirmCard.Schedule.dictionary = {
             }
         },
 
+        btnBack: 'en Назад',
+        btnFindWay: 'en Проехать сюда',
+        btnEntrance: 'en Найти вход',
+        linkReviews: ['en отзыв', 'en отзыва', 'en отзывов'],
+        linkPhoto: ['en фото'],
+        linkBooklet: ['en Подробнее'],
+        stars: 'en звёзд',
         tommorow: 'en завтра',
         afterTommorow: 'en послезавтра',
         afterWeek: 'en через неделю',
@@ -219,6 +235,13 @@ FirmCard.Schedule.dictionary = {
             }
         },
 
+        btnBack: 'cs Назад',
+        btnFindWay: 'cs Проехать сюда',
+        btnEntrance: 'cs Найти вход',
+        linkReviews: ['cs отзыв', 'cs отзыва', 'cs отзывов'],
+        linkPhoto: ['cs фото'],
+        linkBooklet: ['cs Подробнее'],
+        stars: 'cs звёзд',
         tommorow: 'cs завтра',
         afterTommorow: 'cs послезавтра',
         afterWeek: 'cs через неделю',
