@@ -35,7 +35,6 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             self = this,
             abbr,
             house,
-            PPNOTUrl = '__PPNOT_LINK__',
             footer = {
                 btns: [
                     {
@@ -95,11 +94,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
 
         data.showMoreText = this.t('Show more about sight');
 
-        footer.btns[0].href = L.Util.template(PPNOTUrl, {
-            'code': this._map.dgProjectDetector.getProject().code,
-            'name': encodeURIComponent(data.buildingName),
-            'point': 'POINT(' + this._popup.getLatLng().lng + ' ' + this._popup.getLatLng().lat + ')'
-        });
+        footer.btns[0].href = this._getGotoUrl(data.buildingName);
 
         return {
             tmpl: this._view.getTemplate('sight'),
@@ -141,7 +136,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowMore: function () {
-        this._link = this._popup.findElement('#dg-showmoresight'),
+        this._link = this._popup.findElement('#dg-showmoresight');
         this._desc = this._popup.findElement('.dg-map-geoclicker-sight-description');
 
         if (this._link && this._desc) {

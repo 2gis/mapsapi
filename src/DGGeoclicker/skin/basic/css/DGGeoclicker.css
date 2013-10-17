@@ -155,7 +155,6 @@
 .popup_footer_btns {
     width: 100%;
     display: table;
-    margin-bottom: 15px;
 }
 .popup_footer_btn-wrapper {
     display: table-cell;
