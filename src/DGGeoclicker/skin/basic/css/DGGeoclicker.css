@@ -89,9 +89,7 @@
 
 .link_scheme_dark {
     color: #ffe6aa;
-
-    background-image: -webkit-linear-gradient(left,rgba(255,230,170,.3),rgba(255,230,170,.3)100%);
-    background-image: linear-gradient(to right,rgba(255,230,170,.3),rgba(255,230,170,.3)100%);
+    text-decoration: underline;
 }
 
 .link {
@@ -104,8 +102,7 @@
 
 .link_scheme_dark:hover {
     color: #9cd;
-    background-image: -webkit-linear-gradient(left,rgba(153,204,221,.3),rgba(153,204,221,.3)100%);
-    background-image: linear-gradient(to right,rgba(153,204,221,.3),rgba(153,204,221,.3)100%);
+    text-decoration: underline;
 }
 
 /**/
@@ -342,15 +339,6 @@ h2.dg-map-firm-title a.link-text {
     /*top:6px;*/
 }
 
-.dg-map-firm-full .dg-map-firm-box {
-    margin:0 0 8px;
-    /*padding-right:40px;*/
-    padding-left:0;
-}
-.dg-map-firm-full .dg-map-firm-box-rubric {
-    margin-bottom:8px;
-}
-
 .dg-map-firm-full .dg-map-firm-row {
     color: #666666;
     font-size: 12px;
@@ -364,22 +352,6 @@ h2.dg-map-firm-title a.link-text {
     margin: 6px 10px 5px 0;
 }
 
-.dg-map-infocard-firmlist li,
-.dg-map-firm-box li.dg-map-firm-row {
-    list-style: none outside none;
-}
-.dg-map-firm-box li.dg-map-firm-row.additional-addresses {
-    padding-top:2px;
-}
-.dg-map-firm-box li.dg-map-firm-row.dg-map-flamp-row {
-    margin-top:-12px;
-}
-
-li.dg-map-firm-address .note {
-    color: #70747A;
-    font-size: 12px;
-}
-
 .dg-map-firm-subcats {
     color: #5E6971;
     font-size: 11px;
@@ -390,12 +362,6 @@ li.dg-map-firm-address .note {
 }
 
 /* Time Shedule Start */
-
-.dg-map-firm-box li.dg-map-firm-row {
-    color: #666666;
-    font-size: 13px;
-    margin: 0;
-}
 
 .dg-map-contacts-list {
     font-size:13px;
@@ -761,39 +727,6 @@ li.dg-map-firm-address .note {
 *+html .dg-map-icon-schedule img { top: -135px; clip: rect(135px 11px 146px 0); }
 .dg-map-icon-lunch:before { top: -135px; left: -15px; clip: rect(135px, 26px, 146px, 15px); }
 *+html .dg-map-icon-lunch img { top: -135px; left: -15px; clip: rect(135px 26px 146px 15px); }
-
-
-.dg-map-firm-box .dg-map-icon {
-    background: url('__BASE_URL__/img/dg_sprite.png') no-repeat;
-}
-.dg-map-firm-box .dg-map-icon-featured{
-    background-position: 0 -240px;
-    width: 11px;
-    height: 12px;
-    position: absolute;
-    left: -18px;
-    top: 1px;
-}
-.dg-map-firm-box .dg-map-icon-advert{
-    margin-left: 0;
-    background-position: 0 -75px;
-    height: 15px;
-    width: 15px;
-    margin-top: -3px;
-}
-.dg-map-firm-box .dg-map-icon-flamp {
-    background-position: -22px -105px;
-    width: 8px;
-    height: 10px;
-}
-.dg-map-firm-box .dg-map-icon-expand,
-.dg-map-firm-box .dg-map-icon-collapse {
-    margin-top: -3px;
-    width: 5px;
-    height: 12px;
-}
-.dg-map-firm-box .dg-map-icon-expand { background-position: 0 -90px; }
-.dg-map-firm-box .dg-map-icon-collapse { background-position: 0 -105px; }
 
 .dg-map-firm-payments span {
     background-color: #eeeeee;

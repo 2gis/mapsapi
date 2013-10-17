@@ -1,0 +1,90 @@
+/*firmCard address*/
+.firm-callout__address {
+    position: relative;
+    margin: 13px 0 9px 24px;
+    font: 16px/16px Arial;
+}
+
+.firm-callout__address:before {
+    position: absolute;
+    top: 3px;
+    left: -24px;
+    background-image: url('__BASE_URL__/img/dg-callout-dark.png');
+    background-position: -182px -82px;
+    width: 9px;
+    height: 11px;
+    content: '';
+}
+
+.firm-callout__comment {
+    vertical-align: top;
+    position: relative;
+    top: 2px;
+    margin: 0 0 0 5px;
+    font: 12px/16px Arial;
+    color: #aaa;
+}
+
+/*firmCard phone*/
+
+.firm-callout__phone {
+    position: relative;
+    padding: 0 0 4px 24px;
+    overflow: hidden;
+}
+
+.firm-callout__phone:before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    background-image: url('__BASE_URL__/img/dg-callout-dark.png');
+    background-position: -260px -93px;
+    width: 10px;
+    height: 10px;
+}
+
+.firm-callout__phone-num {
+    white-space: nowrap;
+}
+
+/*firmCard site*/
+
+.firm-callout__site {
+    position: relative;
+    padding: 0 0 0 24px;
+    line-height: 16px;
+    margin: 0 0 4px;
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.firm-callout__site:before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 0;
+    background-image: url('__BASE_URL__/img/dg-callout-dark.png');
+    background-position: -255px -243px;
+    width: 11px;
+    height: 11px;
+}
+
+/*firmCard forecast*/
+
+.firm-callout__workhours {
+    position: relative;
+    padding: 0 0 9px 24px;
+}
+
+.firm-callout__workhours:before {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    background-image: url('__BASE_URL__/img/clock.png');
+    width: 11px;
+    height: 11px;
+    content: '';
+}

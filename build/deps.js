@@ -200,7 +200,8 @@ var deps = {
         desc: '2GIS Geoclicker.',
         css: {
             all: [
-                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css'
+                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
+                'DGGeoclicker/skin/{skin}/css/DGFirmCard.css'
             ]
         },
         src: [

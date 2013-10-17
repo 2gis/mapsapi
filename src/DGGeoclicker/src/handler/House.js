@@ -263,6 +263,9 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                     firmlistItem: this._view.getTemplate('firmlistItem'),
                     header: this._view.getTemplate('firmCardHeader'),
                     body: this._view.getTemplate('fullFirm'),
+                    addr: this._view.getTemplate('firmCardAddr'),
+                    contacts: this._view.getTemplate('firmCardContacts'),
+                    schedule: this._view.getTemplate('firmCardSchedule'),
                     footer: this._view.getTemplate('popupFooterBtns')
                 },
                 container: this._firmListObject.firmListContainer,

@@ -61,14 +61,18 @@ FirmCard.prototype = {
         });
         forecast = this._schedule.forecast(schedule);
 
-        firmCardBody = this.options.render(this.options.tmpls.body, {
+        /*firmCardBody = this.options.render(this.options.tmpls.body, {
             firm: data,
             schedule: schedule,
             dict: this.dict,
             lang: this.options.lang,
             forecast: forecast,
             dataHelper: FirmCard.DataHelper
-        });
+        });*/
+
+        firmCardBody = this.options.render(this.options.tmpls.addr, {data: data.geo});
+        firmCardBody += this.options.render(this.options.tmpls.contacts, {groups: data.contact_groups});
+        firmCardBody += this.options.render(this.options.tmpls.schedule, {forecast: forecast.now});
 
         links = this._fillHeaderLinks();
 
