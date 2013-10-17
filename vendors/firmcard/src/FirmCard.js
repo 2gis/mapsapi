@@ -124,7 +124,6 @@ FirmCard.prototype = {
                 label: [
                     this.dict.t(this.options.lang, 'stars'),
                     reviewData.rating,
-                    reviewData.review_count,
                     this.dict.t(this.options.lang, 'linkReviews', reviewData.review_count)
                 ].join(' ')
             });
@@ -140,8 +139,8 @@ FirmCard.prototype = {
     },
 
     _onFooterBtnClick: function (e) {
-        var e = e || window.event,
-            target = e.target || e.srcElement;
+        e = e || window.event;
+        var target = e.target || e.srcElement;
 
         if (target && target.nodeName === 'A') {
             if (target.id === 'popup-btn-firmCard-back') {

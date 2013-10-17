@@ -1,11 +1,13 @@
+/* global
+    FirmCard: false
+*/
 (function () {
-    FirmCard.List = function (options, firms) {
+    FirmCard.List = function (firms, options) {
         this._firms = {}; // {'firmID': firmDomObj}
         this._setOptions(options);
 
         this._container = options && options.container || document.createElement('ul');
         this._container.setAttribute('class', 'building-callout__list');
-        this._wrapper = options.wrapper;
 
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
@@ -17,12 +19,15 @@
 
         renderList: function (firms) {
             if (firms) {
+                if (!this._eventHandlersInited) {
+                    this._initEventHandlers();
+                }
 
-                if (!this._eventHandlersInited) { this._initEventHandlers(); }
                 this.addFirms(firms);
             }
-            this._wrapper && this._wrapper.appendChild(this._container);
-            this._onListReady && this._onListReady(this._container);
+            if (this._onListReady) {
+                this._onListReady(this._container);
+            }
 
             return this._container;
         },
@@ -105,7 +110,7 @@
         },
 
         _createFirm: function (firmData) {
-            return new FirmCard (firmData, this._addOptions);
+            return new FirmCard(firmData, this._addOptions);
         },
 
         _isEmptyObj: function (obj) {
@@ -124,8 +129,8 @@
 
             this._eventHandlersInited = true;
             var onClickHandler =  function (e) {
-                var e = e || window.event,
-                target = e.target || e.srcElement;
+                e = e || window.event;
+                var target = e.target || e.srcElement;
 
                 if (target && target.nodeName === 'SPAN') {
                     if (target.className.indexOf('building-callout__list-item-link') !== -1) {
