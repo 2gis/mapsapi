@@ -211,6 +211,7 @@ var deps = {
             'DGGeoclicker/src/handler/Default.js',
             'DGGeoclicker/src/handler/CityArea.js',
             'DGGeoclicker/src/handler/House.js',
+            'DGGeoclicker/src/handler/House.View.js',
             'DGGeoclicker/src/handler/Sight.js',
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js',
