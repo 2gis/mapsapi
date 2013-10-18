@@ -90,7 +90,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _fillShortFirmListObject: function () {
-        console.log(this._shortListContainer);
         var content = this._initShortFirmListContainer();
 
         if (!this._shortFirmListObject) {
