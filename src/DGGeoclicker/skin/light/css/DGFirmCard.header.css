@@ -1,0 +1,3 @@
+#popup-link-photos:before {
+    background-image: url(__BASE_URL__/img/photo_light.png);
+}

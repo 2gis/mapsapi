@@ -222,12 +222,12 @@
         },
 
         _initHeader: function () {
-            this._popupStructure.header = L.DomUtil.create('div', 'dg-popup-header', this._contentNode);
+            this._popupStructure.header = L.DomUtil.create('header', 'dg-popup-header', this._contentNode);
             this._isHeaderExist = true;
         },
 
         _initFooter: function () {
-            this._popupStructure.footer = L.DomUtil.create('div', 'dg-popup-footer', this._contentNode);
+            this._popupStructure.footer = L.DomUtil.create('footer', 'dg-popup-footer', this._contentNode);
             this._isFooterExist = true;
         },
 

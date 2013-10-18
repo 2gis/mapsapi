@@ -6,7 +6,8 @@
     "TILE_SERVER": "http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1",
     "ERROR_TILE_URL":"http://maps.api.2gis.ru/2.0/img/nomap.png",
 
-    "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true ",
+    "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
+    "PHOTOS_LINK": "http://build.online.test/{code}/photos/{id}",
 
     "HIGHLIGHT_POI_SERVER": "http://tiles0.api.dev.test/tiles?z={z}&x={x}&y={y}&type=poi,buildings",
     "POI_LAYER_MIN_ZOOM": 15,

@@ -31,6 +31,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
 
         this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
+        // this._defaultFirm = 141265771742807;
 
         if (this._defaultFirm) {
             this._fillFirmCardObject();
