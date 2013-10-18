@@ -48,7 +48,7 @@ FirmCard.prototype.dict = {
         btnFindWay: 'Проехать сюда',
         btnEntrance: 'Найти вход',
         linkReviews: ['отзыв', 'отзыва', 'отзывов'],
-        linkPhoto: ['фото'],
+        linkPhoto: ['фото', 'фото', 'фото'],
         linkBooklet: ['Подробнее'],
         stars: 'звёзд',
         tommorow: 'завтра',

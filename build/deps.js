@@ -201,7 +201,9 @@ var deps = {
         css: {
             all: [
                 'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCard.css'
+                'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
+                'DGGeoclicker/skin/basic/css/DGFirmCard.header.css',
+                'DGGeoclicker/skin/{skin}/css/DGFirmCard.header.css'
             ]
         },
         src: [

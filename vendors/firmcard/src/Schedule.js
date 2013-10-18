@@ -43,7 +43,6 @@ FirmCard.Schedule.prototype = {
             localWorkingDays = params.localWorkingDays || [0, 1, 1, 1, 1, 1, 0],
             firstdayOffset = params.firstdayOffset || 1,
             minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4;
-        // dict = FirmCard.prototype.dict; //TODO refactor this global variable
 
         function getHours(str) {
             return str.substr(0, 2);

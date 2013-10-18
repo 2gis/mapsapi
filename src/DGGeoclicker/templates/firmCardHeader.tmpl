@@ -3,11 +3,17 @@
 <% if (links.length > 0) {%>
     <div class="popup_header_links">
         <% for (var i=0; i < links.length; i++) {%>
-            <a id="popup-link-<%=links[i].name%>" class="popup_header_link"
-                <%  if (links[i].href) print('href=\'' + links[i].href + '\' target = \'_blank\'');
-                    else print('href=\'javascript:void(0)\'');
-                %>
-                ><%=links[i].label%></a>
+        	<% if (links[i].name == 'flamp_stars') {%>
+	        	<div id="popup-link-<%=links[i].name%>" class="popup-header-link">
+	                <div <% if (links[i].width) print('style=\'width:' + links[i].width + '%\''); %>></div>
+	            </div>
+        	<% } else {%>
+	            <a id="popup-link-<%=links[i].name%>" class="popup-header-link"
+	                <%  if (links[i].href) print('href=\'' + links[i].href + '\' target = \'_blank\'');
+	                    else print('href=\'javascript:void(0)\'');
+	                %>
+	                ><%=links[i].label%></a>
+	        <% } %>
         <%}%>
     </div>
 <%}%>

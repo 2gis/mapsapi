@@ -1,4 +1,4 @@
-<div class="popup_footer_btns">
+<footer class="popup_footer_btns">
 	<% for (var i=0; i < btns.length; i++) {%>
 	<div class="popup_footer_btn-wrapper">
 		<a id="popup-btn-<%=btns[i].name%>" class="popup_footer_btn<% if(btns[i].icon) print(' popup_footer_btn__icon');%>"
@@ -8,4 +8,4 @@
 			><%=btns[i].label%></a>
 	</div>
 	<%}%>
-</div>
+</footer>

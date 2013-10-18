@@ -38,9 +38,6 @@ L.DG.Geoclicker.Handler.House.include({
             header.title = house.name.split(', ').slice(1).join(', ');
         }
 
-        //DELETE IT!
-        this._title = header.title;
-
         this._header = this._view.render({
             tmpl: this._view.getTemplate('popupHeader'),
             data: header

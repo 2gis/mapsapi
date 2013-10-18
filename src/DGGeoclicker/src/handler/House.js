@@ -19,6 +19,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._houseObject = null;
         this._firmListObject = null;
         this._shortFirmListObject = null;
+        this._shortListContainer = null;
         this._isFirmlistOpen = false;
 
         this._id = results.house.id;
@@ -30,6 +31,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
 
         this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
+        // this._defaultFirm = 141265771742807;
 
         if (this._defaultFirm) {
             this._fillFirmCardObject();
@@ -82,18 +84,28 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         return container;
     },
 
+    _initShortFirmListContainer: function () {
+        if (!this._shortListContainer) {
+            this._shortListContainer = L.DomUtil.create('ul', 'building-callout__list');
+        }
+        return this._shortListContainer;
+    },
+
     _fillShortFirmListObject: function () {
-        var content = this._initFirmListContainer();
+        var content = this._initShortFirmListContainer();
 
-        this._shortFirmListObject = {
-            tmpl: content,
-            firmListContainer: content
-        };
+        if (!this._shortFirmListObject) {
+            this._shortFirmListObject = {
+                tmpl: content,
+                firmListContainer: content
+            };
+
+            this._api.firmsInHouse(this._id, {page: 1, pageSize: 3}).then(
+                L.bind(this._initShortFirmList, this)
+            );
+        }
+
         this._view._popup._popupStructure.body.appendChild(content);
-
-        this._api.firmsInHouse(this._id, {page: 1, pageSize: 3}).then(
-            L.bind(this._initShortFirmList, this)
-        );
     },
 
     _initShortFirmList: function (res) {
@@ -113,10 +125,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         this._firmListObject = {
             tmpl: content,
-            header: this._view.render({
-                tmpl: this._view.getTemplate('popupHeader'),
-                data: {'title': this._title }
-            }),
+            header: this._header,
             footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
                 data: {
