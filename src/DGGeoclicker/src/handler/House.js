@@ -50,6 +50,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 addr: this._view.getTemplate('firmCardAddr'),
                 contacts: this._view.getTemplate('firmCardContacts'),
                 schedule: this._view.getTemplate('firmCardSchedule'),
+                payments: this._view.getTemplate('frimCardPayments'),
                 rubrics: this._view.getTemplate('firmCardRubric'),
                 footer: this._view.getTemplate('popupFooterBtns')
             },

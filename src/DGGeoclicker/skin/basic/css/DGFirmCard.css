@@ -112,7 +112,7 @@
 
 .firm-card__rubrics-list-item {
     display: inline;
-    cursor: pointer;
+    cursor: default;
 }
 
 .firm-card__rubrics-list-item:after {
@@ -131,4 +131,40 @@
     background-position: 0 95%;
     background-size: 10px 1px;
     background-repeat: repeat-x;
+}
+
+/*firmCard payments*/
+
+.firm-card__aa {
+    padding: 0 0 0 24px;
+    margin: 0 0 4px;
+    font-size: 12px;
+}
+
+.firm-card__aa-list, .firm-card__aa-list-additional {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 16px;
+}
+
+.firm-card__aa-list-item {
+    display: inline;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 100%;
+    cursor: default;
+}
+
+.firm-card__aa-list-item:after {
+    content: '•';
+    display: inline-block;
+    margin: 0 4px;
+    color: #e6e6e6;
+}
+
+.firm-card__aa-list-item:last-child:after
+{
+  content: '';
 }

@@ -73,6 +73,7 @@ FirmCard.prototype = {
         firmCardBody = this.options.render(this.options.tmpls.addr, {data: data.geo});
         firmCardBody += this.options.render(this.options.tmpls.contacts, {groups: data.contact_groups});
         firmCardBody += this.options.render(this.options.tmpls.schedule, {forecast: forecast.now});
+        firmCardBody += this.options.render(this.options.tmpls.payments, {payments: data.attributes.general.items || {}});
         firmCardBody += this.options.render(this.options.tmpls.rubrics, {rubrics: data.rubrics});
 
         links = this._fillHeaderLinks();

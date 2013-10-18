@@ -103,6 +103,7 @@ FirmCard.prototype.dict = {
         goldcrown: 'Золотая Корона',
         dinersclub: 'Diners Club',
         mastercard: 'Mastercard',
+        maestrocard: 'MaestroCard',
         visa: 'Visa',
         cash: 'Наличный расчет',
         americanexpress: 'American Express',
