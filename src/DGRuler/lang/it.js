@@ -1,3 +1,3 @@
 L.DG.Ruler.Dictionary.it = {
-	"button_title": "Линейка йопта"
+	"button_title": "it Линейка йопта"
 };

@@ -273,6 +273,7 @@ var deps = {
         desc: 'Ruler control module',
         src: [
             'DGRuler/src/DGRuler.js',
+            'DGRuler/src/DrawingHelper.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
             'DGRuler/lang/en.js'
