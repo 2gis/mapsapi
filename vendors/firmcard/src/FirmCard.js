@@ -63,6 +63,8 @@ FirmCard.prototype = {
         });
         forecast = this._schedule.forecast(schedule);
 
+
+        console.log(schedule);
         /*firmCardBody = this.options.render(this.options.tmpls.body, {
             firm: data,
             schedule: schedule,
@@ -77,7 +79,8 @@ FirmCard.prototype = {
 
         firmCardBody = this.options.render(this.options.tmpls.addr, {data: data.geo});
         firmCardBody += this.options.render(this.options.tmpls.contacts, {groups: data.contact_groups});
-        firmCardBody += this.options.render(this.options.tmpls.schedule, {forecast: forecast.now});
+        firmCardBody += this.options.render(this.options.tmpls.schedule, {schedule: schedule,
+                                                                         forecast: forecast});
         firmCardBody += this.options.render(this.options.tmpls.payments, {payments: attributes});
         firmCardBody += this.options.render(this.options.tmpls.rubrics, {rubrics: data.rubrics});
 

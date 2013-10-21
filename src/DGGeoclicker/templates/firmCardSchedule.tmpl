@@ -1,3 +1,103 @@
-<%if (forecast) {%>
-    <div class="firm-card__workhours"><%=forecast%></div>
-<% } %>
+<div class="firm-card__schedule">
+    <%if (schedule) {%>
+        <%if (forecast.today) {%>
+            <div class="schedule__today schedule_open_<%if (forecast.open) {%>true<%}else{%>false<%}%><%if(schedule.everyday){%> schedule__no-table<%}%>">
+                <%=forecast.today.text%>
+                <%if (forecast.today.from) {%>
+                    <span class="schedule__today-time"><%=forecast.today.from%>&ndash;<%=forecast.today.to%></span>
+                <%}%>
+
+                <%if (schedule.lunch) {%>
+                    <%='dict lunch'%>
+                    <%for (var i = 0, l = schedule.lunch.length; i < l; i++) {%>
+                        <span class="schedule__today-time"><%=schedule.lunch[i].from%>&ndash;<%=schedule.lunch[i].to%></span>
+                    <%}%>
+                <%}%>
+            </div>
+        <%}%>
+
+        <%if (forecast.now) {%>
+            <div class="schedule__now">
+                <!--Вывод строки прогноза, например "откроется завтра" или "закроется через 15 минут" -->
+                <span class="schedule__now-text"><%=forecast.now%></span>
+            </div>
+        <%}%>
+
+        <%if (!schedule.everyday) {%>
+        <!--Если ежедневно одно и то же расписание - попап не нужен -->
+            <%if (schedule.week) {%>
+                <!--Упрощённое расписание -->
+                <%if (schedule.week.evently) {%>
+                    <div class="schedule__table">
+                        <%for (var j = 0, evently = schedule.week.evently, len = evently.length; j < len; j++) {%>
+                            <div class="schedule__string">
+                                <%if (evently[j].alltime) {%>
+                                    <%='dict worksAroundTheClock'%>
+                                <%}%>
+                                <%if (evently[j].everyday) {%>
+                                    <%='dict everyday'%>
+                                <%} else {%>
+                                    <%if (evently[j].budni) {%>
+                                        <%='dict weekdays'%>
+                                    <%} else {%>
+                                        <%=evently[j].dayList%>
+                                    <%}%>
+                                <%}%>
+                                <%if (evently[j].holiday) {%>
+                                    &mdash;<span class="schedule__string-time"><%='dict restDay'%></span>
+                                <%} else {%>
+                                    <span class="schedule__string-time"><%=evently[j].from%>&ndash;<%=evently[j].to%></span>
+                                    <%if (evently[j].lunch.length) {%>
+                                        &nbsp;,&nbsp;
+                                        <%='dict lunch'%>
+                                        <span class="schedule__string-time">
+                                            <%=evently[j].lunch.from%>&ndash;<%=evently[j].lunch.to%>
+                                        </span>
+                                    <%}%>
+                                <%}%>
+                            </div>
+                        <%}%>
+                    </div>
+                <%}%>
+
+                <!-- Неупрощаемое расписание - таблица -->
+                <%if (schedule.week.table) {%>
+                    <div>
+                        <div class="schedule__table">
+                            <div class="schedule__tc schedule__tc_pre">
+                                <div class="schedule__day-name">&nbsp;</div>
+                                <div class="schedule__table-clock schedule__td"></div>
+                                <%if (schedule.week.hasLunch) {%>
+                                    <div class="schedule__table-lunch schedule__td"></div>
+                                <%}%>
+                            </div>
+                            <%for (var k = 0, table = schedule.week.table, length = table.length; k < length; k++) {%>
+                                <div class="schedule__tc<%if (table[k].active) {%> schedule__tc_active_true<%}%>">
+                                    <div class="schedule__day-name"><%=table[k].key%></div>
+                                    <div class="schedule__td">
+                                        <%if (table[k].from) {%>
+                                            <%=table[k].from%> <%=table[k].to%>
+                                        <%} else {%>
+                                            &ndash;
+                                        <%}%>
+                                    </div>
+                                    <%if (table[k].lunch) {%>
+                                        <%for (var l = 0, lunch = table[k].lunch, leng = lunch.length; l < leng; l++) {%>
+                                            <div class="schedule__td">
+                                                <%if (lunch[l].from) {%>
+                                                    <%=lunch[l].from%> <%=lunch[l].to%>
+                                                <%} else {%>
+                                                    &ndash;
+                                                <%}%>
+                                            </div>
+                                        <%}%>
+                                    <%}%>
+                                </div> <!-- schedule__tc -->
+                            <%}%>
+                        </div>  <!-- schedule__table -->
+                    </div>
+                <%}%>
+            <%}%>
+        <%}%>
+    <%}%>
+</div>
