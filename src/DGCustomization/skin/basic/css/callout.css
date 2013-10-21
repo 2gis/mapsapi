@@ -74,6 +74,7 @@
 }
     .leaflet-container a.leaflet-popup-close-button:hover {
         border-radius: 2px;
+        transition: all .2s;
     }
     .leaflet-container a.leaflet-popup-close-button:before {
         content: '';

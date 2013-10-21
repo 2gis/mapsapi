@@ -15,10 +15,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         // initialization setup
         this._firmList = null;
-        this._shortFirmList = null;
         this._houseObject = null;
         this._firmListObject = null;
-        this._shortFirmListObject = null;
         this._shortListContainer = null;
         this._isFirmlistOpen = false;
 
@@ -52,6 +50,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 addr: this._view.getTemplate('firmCardAddr'),
                 contacts: this._view.getTemplate('firmCardContacts'),
                 schedule: this._view.getTemplate('firmCardSchedule'),
+                payments: this._view.getTemplate('frimCardPayments'),
                 rubrics: this._view.getTemplate('firmCardRubric'),
                 footer: this._view.getTemplate('popupFooterBtns')
             },
@@ -59,7 +58,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             lang: this._map.getLang(),
             ajax: L.bind(this._api.getFirmInfo, this._api),
             timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
-            //firm card options
             map: this._map,
             showEntrance: L.DG.Entrance,
             gotoUrl: this._gotoUrl,
@@ -71,7 +69,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._clearAndRenderPopup(firmObject);
     },
 
-    // init single firm card
+    // init single firm card in case of poi
     _fillFirmCardObject: function () {
         var options = this._firmCardSetup();
 
@@ -83,39 +81,15 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         return container;
     },
 
-    _initShortFirmListContainer: function () {
-        if (!this._shortListContainer) {
-            this._shortListContainer = L.DomUtil.create('ul', 'building-callout__list');
-        }
-        return this._shortListContainer;
-    },
-
-    _fillShortFirmListObject: function () {
-        var content = this._initShortFirmListContainer();
-
-        if (!this._shortFirmListObject) {
-            this._shortFirmListObject = {
-                tmpl: content,
-                firmListContainer: content
-            };
-
-            this._api.firmsInHouse(this._id, {page: 1, pageSize: 3}).then(
-                L.bind(this._initShortFirmList, this)
-            );
-        }
-
-        this._view._popup._popupStructure.body.appendChild(content);
-    },
-
-    _initShortFirmList: function (res) {
-        var results = res.result.data,
-            options = this._firmCardSetup();
+    _initShortFirmList: function (firms) {
+        var options = this._firmCardSetup(),
+            shortFirmList;
 
         options.tmpls.firmlistItem = this._view.getTemplate('firmlistItem');
         options.backBtn = L.bind(this._showHousePopup, this);
-        options.container = this._shortFirmListObject.firmListContainer;
+        shortFirmList = new FirmCard.List(firms, options);
 
-        this._shortFirmList = new FirmCard.List(results, options);
+        return shortFirmList.renderList();
     },
 
     _fillFirmListObject: function () {

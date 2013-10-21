@@ -10,10 +10,23 @@
                 </span>
             </div>
         <% } %>
+    <% } %>
+<% } %>
+<% for (var i = 0, gl = groups.length; i < gl; i++) { %>
+    <% for (var j = 0, l = groups[i].contacts.length; j < l; j++) { %>
         <% if(groups[i].contacts[j].type === 'website') { %>
             <div class="firm-card__site">
-                <a href="<%=groups[i].contacts[j].alias%>" target="_blank" class="link_scheme_dark firm-card__sitelink">  <%=groups[i].contacts[j].alias%> </a>
+                <a href="http://<%=groups[i].contacts[j].alias%>" target="_blank" class="link_scheme_dark firm-card__sitelink">  <%=groups[i].contacts[j].alias%> </a>
             </div>
+        <% } %>
+    <% } %>
+<% } %>
+<% for (var i = 0, gl = groups.length; i < gl; i++) { %>
+    <% for (var j = 0, l = groups[i].contacts.length; j < l; j++) { %>
+        <% if(groups[i].contacts[j].type === 'email') { %>
+            <address class="firm-card__site">
+                <a href="mailto: <%=groups[i].contacts[j].alias%>"> <%=groups[i].contacts[j].alias%></a>
+            </address>
         <% } %>
     <% } %>
 <% } %>

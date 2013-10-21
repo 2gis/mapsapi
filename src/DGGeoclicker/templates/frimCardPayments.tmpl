@@ -1,0 +1,13 @@
+<%if (payments && payments.length > 0) {%>
+    <section class="firm-card__aa">
+        <ul class="firm-card__aa-list">
+            <% for (var i = 0, l = payments.length; i < l; i++) { %>
+                <% if (payments[i].name == 'payment_type') {  %>
+                    <% for (var j = 0, vl = payments[i].label.length; j < vl; j++) { %>
+                        <li class="firm-card__aa-list-item"><%=payments[i].label[j]%> </li>
+                    <% } %>
+                <% } %>
+            <% } %>
+        </ul>
+    </section>
+<% } %>

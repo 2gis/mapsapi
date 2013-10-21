@@ -11,7 +11,6 @@
 
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
-
         this.renderList(firms);
     };
 
@@ -87,7 +86,6 @@
                 name: firmData.name,
                 id: firmData.id.split('_').slice(0, 1)
             };
-
             if (!(firm.id in this._firms)) {
                 domFirm = this._createListItem();
                 domFirm.insertAdjacentHTML('beforeend',

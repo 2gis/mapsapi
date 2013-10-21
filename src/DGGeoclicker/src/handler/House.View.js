@@ -1,5 +1,5 @@
 L.DG.Geoclicker.Handler.House.include({
-    _fillBody: function (house) { // (Object)
+    _fillBody: function (house) { // (DOMElement)
         var attrs = house.attributes,
             data = {
                 title: '',
@@ -7,7 +7,9 @@ L.DG.Geoclicker.Handler.House.include({
                 elevation: '',
                 buildingname: '',
                 headAddress: ''
-            };
+            },
+            htmlContent = '',
+            wrapper = L.DomUtil.create('div', 'building-callout__body');
 
         if (attrs.postal_code) {
             data.address = attrs.district + ' ' + this.t('district') + ', ' + attrs.city + ', ' +  attrs.postal_code;
@@ -25,10 +27,18 @@ L.DG.Geoclicker.Handler.House.include({
             this._totalPages = Math.ceil(attrs.filials_count / this._firmsOnPage);
         }
 
-        return data;
+        htmlContent = this._view.render({
+            tmpl: this._view.getTemplate('house'),
+            data: data
+        });
+
+        wrapper.innerHTML = htmlContent;
+        wrapper.appendChild(this._initShortFirmList(house.attributes.filials.popular));
+
+        return wrapper;
     },
 
-    _fillHeader: function (house) {
+    _fillHeader: function (house) { // (HTMLString)
         var attrs = house.attributes,
             header = {};
 
@@ -46,7 +56,7 @@ L.DG.Geoclicker.Handler.House.include({
         return this._header;
     },
 
-    _fillFooter: function (house) {
+    _fillFooter: function (house) { // (HTMLString)
         var attrs = house.attributes,
             btns = [];
 
@@ -64,28 +74,22 @@ L.DG.Geoclicker.Handler.House.include({
             href: this._gotoUrl
         });
 
-        this._footer = this._view.render({
+        return this._view.render({
             tmpl: this._view.getTemplate('popupFooterBtns'),
             data: {'btns': btns}
         });
-
-        return this._footer;
     },
 
     _fillHouseObject: function (house) { // (Object)
         var self = this;
 
         this._houseObject = {
-            tmpl: this._view.getTemplate('house'),
-            // data: data,
-            data: this._fillBody(house),
             header: this._fillHeader(house),
+            tmpl: this._fillBody(house),
             footer: this._fillFooter(house),
             afterRender: function () {
                 self._initShowMore();
                 self._initPopupClose();
-                // request data for first 3 organizations
-                self._fillShortFirmListObject();
             }
         };
     }
