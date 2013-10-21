@@ -25,7 +25,8 @@ FirmCard.prototype = {
     _renderCardById: function (firmId) {
         var self = this;
 
-        this.options.ajax(firmId, function (data) {
+        this.options.ajax(firmId).then(function (res) {
+            var data = res.result.data;
             if (data !== 'undefined') {
                 self._firmData = data[0];
                 self._firmId = firmId;
