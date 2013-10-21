@@ -2,6 +2,7 @@ L.DG.Geoclicker.Handler.Default.Dictionary.en = L.extend({
     "We haven't collected info about this place": "We haven't collected info about this place",
     "noname": "Without name",
     "place": "Place",
+    "division": "Division",
     "settlement": "Settlement",
     "street": "Street",
     "district": "Disctict",

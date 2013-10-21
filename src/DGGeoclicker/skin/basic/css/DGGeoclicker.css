@@ -33,7 +33,7 @@
 
 .dg-map-geoclicker-purpose {
     position: relative;
-    padding: 6px 0 2px 24px;
+    padding: 3px 0 2px 24px;
     font-size: 16px;
 }
 .dg-map-geoclicker-purpose:before {
@@ -43,16 +43,24 @@
     content: '';
     background-image: url(__BASE_URL__/img/dg-callout-dark.png);
     background-position: -339px -56px;
+    background-repeat: no-repeat;
     width: 8px;
     height: 12px;
 }
 .dg-map-geoclicker-purpose__street:before {
-    background-position: -183px -70px;
+    background-image: url(__BASE_URL__/img/icon-street.png);
+    background-position: 0 0;
     width: 12px;
+}
+
+.dg-map-geoclicker-purpose__sight:before {
+    background-image: url(__BASE_URL__/img/icon-sight.png);
+    background-position: 0 0;
 }
 
 .dg-map-geoclicker-sight-description {
     max-height: 2.9em;
+    /*visibility: hidden;*/
     overflow: hidden;
     padding: 0.5em 0 0 24px;
 }

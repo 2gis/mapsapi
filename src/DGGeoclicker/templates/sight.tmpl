@@ -1,9 +1,11 @@
-<div class="dg-map-geoclicker-purpose"><%=purpose%></div>
+<div class="dg-map-geoclicker-purpose dg-map-geoclicker-purpose__sight"><%=purpose%></div>
 <%if(address){%>
 	<div class="dg-map-geoclicker-address"><%=address%></div>
 <%}%>
 <div class="dg-map-geoclicker-drilldown"><%=drillDown%></div>
 <%if(description){%>
 <div class="dg-map-geoclicker-sight-description"><%=description%></div>
-<a id="dg-showmoresight" href="javascript:void(0)"><%=showMoreText%></a>
+	<%if(showMoreText){%>
+		<a id="dg-showmoresight" href="javascript:void(0)"><%=showMoreText%></a>
+	<%}%>
 <%}%>
