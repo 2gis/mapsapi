@@ -6,13 +6,16 @@ L.DG.Geoclicker.Handler.House.include({
                 purpose: '',
                 elevation: '',
                 buildingname: '',
-                headAddress: ''
+                headAddress: '',
+                address: ''
             },
-            htmlContent = '',
-            wrapper = L.DomUtil.create('div', 'building-callout__body');
+            wrapper = L.DomUtil.create('div', 'building-callout__body'),
+            filials = house.attributes.filials;
 
-        if (attrs.postal_code) {
-            data.address = attrs.district + ' ' + this.t('district') + ', ' + attrs.city + ', ' +  attrs.postal_code;
+        if (attrs.city) {
+            data.address = (attrs.district ? attrs.district : '' + ' ' + this.t('district') + ', ') +
+                            attrs.city +
+                            (attrs.postal_code ? ', ' + attrs.postal_code : '');
         }
 
         if (house.name && attrs.building_name) {
@@ -27,13 +30,14 @@ L.DG.Geoclicker.Handler.House.include({
             this._totalPages = Math.ceil(attrs.filials_count / this._firmsOnPage);
         }
 
-        htmlContent = this._view.render({
+        wrapper.innerHTML = this._view.render({
             tmpl: this._view.getTemplate('house'),
             data: data
         });
 
-        wrapper.innerHTML = htmlContent;
-        wrapper.appendChild(this._initShortFirmList(house.attributes.filials.popular));
+        if (filials) {
+            wrapper.appendChild(this._initShortFirmList(filials.popular));
+        }
 
         return wrapper;
     },
@@ -46,6 +50,8 @@ L.DG.Geoclicker.Handler.House.include({
             header.title = attrs.building_name;
         } else if (house.name) {
             header.title = house.name.split(', ').slice(1).join(', ');
+        } else {
+            header.title = '';
         }
 
         this._header = this._view.render({
