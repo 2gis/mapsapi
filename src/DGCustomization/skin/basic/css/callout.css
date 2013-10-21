@@ -1,5 +1,5 @@
 /* Callout styles for Leaflet markup */
-.leaflet-popup-inner {
+.leaflet-popup-content-wrapper {
     padding: 4px 16px;
     font: 14px/16px Arial;
     border-radius: 3px;
@@ -55,7 +55,8 @@
 
 .leaflet-popup-tip-container {
     position: relative;
-    pointer-events: none;
+    background-repeat: no-repeat;
+    margin: 0 auto;
 }
 
 .leaflet-popup-tip {

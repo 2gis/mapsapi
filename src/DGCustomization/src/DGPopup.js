@@ -148,6 +148,7 @@
             }
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
             this._innerContainer.appendChild(this._detachEl(this._tipContainer));
+            L.DomEvent.disableClickPropagation(this._tipContainer);
         },
 
         _clearElement: function (elem) {
@@ -373,6 +374,7 @@
             setTimeout(function () { //devil action
                 originalOnClose.call(self, e);
             }, 200);
+            L.DomEvent.stop(e);
         }
     });
 }());
