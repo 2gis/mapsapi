@@ -51,7 +51,8 @@ FirmCard.prototype = {
             links,
             btns,
             data = this._firmData,
-            container = this._container = this._createFirmContainer();
+            container = this._container = this._createFirmContainer(),
+            attributes;
 
         this._footerContainer = document.createElement('div');
 
@@ -70,11 +71,14 @@ FirmCard.prototype = {
             forecast: forecast,
             dataHelper: FirmCard.DataHelper
         });*/
+        if (!!(data.attributes && data.attributes.general.items)) {
+            data.attributes.general.items ? attributes = data.attributes.general.items : attributes = [];
+        }
 
         firmCardBody = this.options.render(this.options.tmpls.addr, {data: data.geo});
         firmCardBody += this.options.render(this.options.tmpls.contacts, {groups: data.contact_groups});
         firmCardBody += this.options.render(this.options.tmpls.schedule, {forecast: forecast.now});
-        firmCardBody += this.options.render(this.options.tmpls.payments, {payments: data.attributes.general.items || {}});
+        firmCardBody += this.options.render(this.options.tmpls.payments, {payments: attributes});
         firmCardBody += this.options.render(this.options.tmpls.rubrics, {rubrics: data.rubrics});
 
         links = this._fillHeaderLinks();
