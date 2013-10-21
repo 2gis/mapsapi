@@ -6,7 +6,7 @@ L.Path.ANIMATION_AVAILABLE =
 
 if (L.Path.ANIMATION_AVAILABLE) {
 
-   L.Map.include({
+    L.Map.include({
         _initPathRoot: function () {
             if (!this._pathRoot) {
                 this._pathRoot = L.Path.prototype._createElement('svg');
@@ -37,16 +37,11 @@ if (L.Path.ANIMATION_AVAILABLE) {
     L.Path.include({
 
         runAnimation: function () {
-            var delay,
-                self = this,
-                animationEl = this._addAnimation();
+            var animationEl = this._animationEl = this._addAnimation();
 
             if (animationEl) {
                 animationEl.beginElement();
-                delay = (animationEl.getAttribute('dur')).replace('s', '') * 1000;
-                window.setTimeout(function() {
-                    self._path.removeChild(animationEl);
-                }, delay);
+                this._removeAnimation(animationEl);
             }
 
             return this;
@@ -82,6 +77,14 @@ if (L.Path.ANIMATION_AVAILABLE) {
             }
 
             return animationEl;
+        },
+
+        _removeAnimation: function (animationEl) {
+            var self = this;
+            this._map.once('zoomstart', function () {
+                animationEl && self._path.removeChild(animationEl);
+                self._animationEl = null;
+            });
         }
     });
 }
