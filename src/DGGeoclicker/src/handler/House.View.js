@@ -13,7 +13,7 @@ L.DG.Geoclicker.Handler.House.include({
             filials = house.attributes.filials;
 
         if (attrs.city) {
-            data.address = (attrs.district ? attrs.district : '' + ' ' + this.t('district') + ', ') +
+            data.address = (attrs.district ? attrs.district + ' ' : ' ' + this.t('district') + ', ') +
                             attrs.city +
                             (attrs.postal_code ? ', ' + attrs.postal_code : '');
         }
@@ -51,7 +51,7 @@ L.DG.Geoclicker.Handler.House.include({
         } else if (house.name) {
             header.title = house.name.split(', ').slice(1).join(', ');
         } else {
-            header.title = '';
+            header.title = attrs.building_description;
         }
 
         this._header = this._view.render({

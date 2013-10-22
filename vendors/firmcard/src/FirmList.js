@@ -177,6 +177,7 @@
             this._addOptions = {};
             if ('onListReady' in options) { this._onListReady = options.onListReady; }
             //firmcard options
+            if ('onToggle' in options) { this._addOptions.onToggle = options.onToggle; }
             if ('backBtn' in options) { this._addOptions.backBtn = options.backBtn; }
             if ('map' in options) { this._addOptions.map = options.map; }
             if ('showEntrance' in options) { this._addOptions.showEntrance = options.showEntrance; }
