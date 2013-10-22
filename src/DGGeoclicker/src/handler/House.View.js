@@ -89,7 +89,7 @@ L.DG.Geoclicker.Handler.House.include({
     _fillHouseObject: function (house) { // (Object)
         var self = this;
 
-        this._houseObject = {
+        return {
             header: this._fillHeader(house),
             tmpl: this._fillBody(house),
             footer: this._fillFooter(house),

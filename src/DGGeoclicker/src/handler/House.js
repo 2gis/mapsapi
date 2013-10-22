@@ -28,25 +28,23 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._gotoUrl = this._getGotoUrl(results.house.name);
 
 
-        this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
-        // this._defaultFirm = 141265771742807;
+        //this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
+        this._defaultFirm = 141265771742807;
 
         if (this._defaultFirm) {
             this._fillFirmCardObject();
         } else {
-            this._fillHouseObject(results.house);
+            this._houseObject = this._fillHouseObject(results.house);
         }
 
-        return L.DG.when(this._houseObject);
+        return L.DG.when(this._defaultFirm ? this._houseObject : this._firmCard);
     },
 
     _firmCardSetup: function () {
         return {
             tmpls: {
                 loader: this._view.getTemplate('loader'),
-                firmlistItem: this._view.getTemplate('firmlistItem'),
                 header: this._view.getTemplate('firmCardHeader'),
-                body: this._view.getTemplate('fullFirm'),
                 addr: this._view.getTemplate('firmCardAddr'),
                 contacts: this._view.getTemplate('firmCardContacts'),
                 schedule: this._view.getTemplate('firmCardSchedule'),
@@ -72,12 +70,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     // init single firm card in case of poi
     _fillFirmCardObject: function () {
         var options = this._firmCardSetup();
-
         this._firmCard = new FirmCard(this._defaultFirm, options);
     },
 
     _initFirmListContainer: function () {
         var container = L.DomUtil.create('ul', 'building-callout__list');
+
         return container;
     },
 
@@ -122,7 +120,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         };
 
         this._loader = this._view.initLoader();
-        this._api.firmsInHouse(this._id).then(L.bind(this._initFirmList, this));
+
+        return this._api.firmsInHouse(this._id).then(L.bind(this._initFirmList, this));
     },
 
     _initFirmList: function (res) {
@@ -130,9 +129,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             options = this._firmCardSetup();
 
         options.tmpls.firmlistItem = this._view.getTemplate('firmlistItem');
-        options.backBtn = L.bind(this._showListPopup, this);
-        options.container = this._firmListObject.firmListContainer;
-        options.onListReady = L.bind(this._renderFirmList, this);
+        L.extend(options, {
+            backBtn: L.bind(this._showListPopup, this),
+            container: this._firmListObject.firmListContainer,
+            onListReady: L.bind(this._renderFirmList, this)
+        });
 
         this._firmList = new FirmCard.List(results, options);
     },
@@ -167,10 +168,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _showListPopup: function () {
         if (!this._firmListObject) {
-            this._fillFirmListObject();
-        } //else {
-        this._clearAndRenderPopup(this._firmListObject);
-        //}
+            this._fillFirmListObject().then(L.bind(this._clearAndRenderPopup(this._firmListObject), this));
+        } else {
+            this._clearAndRenderPopup(this._firmListObject);
+        }
     },
 
     _initShowLess: function () {
@@ -193,16 +194,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _renderFirmList: function () {
         if (!this._isFirmlistOpen) {
-            this._popup._resize();
+            this._popup.resize();
             this._isFirmlistOpen = true;
         }
-        /*this._clearAndRenderPopup(this._firmListObject);
 
         if (this._totalPages === 1) {
             this._loader && this._view.hideLoader(this._loader);
         }
 
-        this._firmList.renderList();*/
         this._onScroll = L.Util.limitExecByInterval(this._handlePopupScroll, this._scrollThrottleInterval, this);
         this._popup.on('dgScroll', this._onScroll);
     },
