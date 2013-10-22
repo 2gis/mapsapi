@@ -28,8 +28,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._gotoUrl = this._getGotoUrl(results.house.name);
 
 
-        //this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
-        this._defaultFirm = 141265771742807;
+        this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
+        //this._defaultFirm = 141265771742807;
 
         if (this._defaultFirm) {
             this._fillFirmCardObject();
@@ -37,7 +37,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._houseObject = this._fillHouseObject(results.house);
         }
 
-        return L.DG.when(this._defaultFirm ? this._houseObject : this._firmCard);
+        return L.DG.when(!this._defaultFirm ? this._houseObject : this._firmCard);
     },
 
     _firmCardSetup: function () {
@@ -90,12 +90,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         return shortFirmList.renderList();
     },
 
-    _fillFirmListObject: function () {
-        var self = this,
-            content = this._initFirmListContainer();
+    _fillFirmListObject: function (firmList) {
+        var self = this;
 
-        this._firmListObject = {
-            tmpl: content,
+        return {
+            tmpl: firmList,
             header: this._header,
             footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
@@ -115,27 +114,28 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 /*if (self._loader) {
                     this.firmListContainer.parentNode.appendChild(self._loader);  // "this" here is self._firmListObject
                 }*/
-            },
-            firmListContainer: content
+            }
         };
 
-        this._loader = this._view.initLoader();
+        /*this._loader = this._view.initLoader();
 
-        return this._api.firmsInHouse(this._id).then(L.bind(this._initFirmList, this));
+        this._clearAndRenderPopup(this._firmListObject);*/
     },
 
     _initFirmList: function (res) {
         var results = res.result.data,
-            options = this._firmCardSetup();
+            options = this._firmCardSetup(),
+            firmList;
 
         options.tmpls.firmlistItem = this._view.getTemplate('firmlistItem');
         L.extend(options, {
             backBtn: L.bind(this._showListPopup, this),
-            container: this._firmListObject.firmListContainer,
             onListReady: L.bind(this._renderFirmList, this)
         });
+        firmList = new FirmCard.List(results, options);
+        this._firmListObject = this._fillFirmListObject(firmList.renderList());
 
-        this._firmList = new FirmCard.List(results, options);
+        return L.DG.when(this._firmListObject);
     },
 
     _initPopupClose: function () {
@@ -168,7 +168,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _showListPopup: function () {
         if (!this._firmListObject) {
-            this._fillFirmListObject().then(L.bind(this._clearAndRenderPopup(this._firmListObject), this));
+            this._api.firmsInHouse(this._id).then(L.bind(this._initFirmList, this))
+                                            .then(L.bind(this._clearAndRenderPopup, this));
         } else {
             this._clearAndRenderPopup(this._firmListObject);
         }
