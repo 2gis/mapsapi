@@ -1,6 +1,7 @@
 /* Callout styles for Leaflet markup */
 .leaflet-popup-content-wrapper {
     padding: 16px;
+    /*box-sizing: border-box;*/
     font: 14px/16px Arial;
     border-radius: 3px;
     -webkit-transform-origin: 50% 115%;
@@ -21,7 +22,7 @@
     display: table;
     position: relative;
     table-layout: fixed;
-    height: 100%;
+    /*height: 100%;*/
 }
 
 .leaflet-popup-content p {
@@ -30,6 +31,7 @@
 
 .leaflet-popup-scrolled {
     border: 0;
+    overflow: hidden;
 }
 
 .leaflet-popup_show_true {
