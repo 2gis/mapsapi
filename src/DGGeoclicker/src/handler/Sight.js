@@ -30,6 +30,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
                 drillDown: '',
                 buildingName: '',
                 purpose: '',
+                showMoreText: '',
                 description: attrs.info.description
             },
             self = this,
@@ -83,16 +84,21 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             }
         } else {
             for (var obj in results) {
-                if (obj !== 'sight' && obj !== 'extra') {
+                if (['sight', 'place', 'extra'].indexOf(obj) === -1) {
                     if (results[obj].attributes && results[obj].attributes.abbreviation) {
                         abbr = results[obj].attributes.abbreviation + ' ';
                     }
-                    data.drillDown = abbr + results[obj].name;
+                    if (results[obj].name) {
+                        data.drillDown = abbr + results[obj].name;
+                    }
                 }
             }
         }
 
-        data.showMoreText = this.t('Show more about sight');
+
+        if (this._checkDescFieldHeight(data.description)) {
+            data.showMoreText = this.t('Show more about sight');
+        }
 
         footer.btns[0].href = this._getGotoUrl(data.buildingName);
 
@@ -108,7 +114,9 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
                 data: footer
             }),
             afterRender: function () {
-                self._initShowMore();
+                if (self._needShowMore) {
+                    self._initShowMore();
+                }
                 self._initPopupClose();
             }
         };
@@ -142,5 +150,20 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         if (this._link && this._desc) {
             this._addEventHandler('DgShowMoreClick', this._link, 'click', L.bind(this._showMoreText, this));
         }
+    },
+
+    _checkDescFieldHeight: function (desc) {
+        var el = L.DomUtil.create('div', ''),
+            height;
+
+        el.style.visibility = 'hidden';
+        el.innerHTML = desc;
+
+        this._popup._contentNode.appendChild(el);
+        height = el.offsetHeight;
+        this._popup._contentNode.removeChild(el);
+        this._needShowMore = (height > 40);
+
+        return this._needShowMore;
     }
 });

@@ -5,9 +5,9 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         // default handler always should return rendering object
         'handlersSequence': {
 
-            'sight': L.DG.Geoclicker.Handler.Sight,
-
             'house': L.DG.Geoclicker.Handler.House,
+
+            'sight': L.DG.Geoclicker.Handler.Sight,
 
             'street': L.DG.Geoclicker.Handler.CityArea,
             'place': L.DG.Geoclicker.Handler.CityArea,

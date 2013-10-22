@@ -39,9 +39,8 @@
 
 .dg-map-geoclicker-purpose {
     position: relative;
-    padding: 7px 0 1px 24px;
-    font-size: 14px;
-    min-height: 16px;
+    padding: 3px 0 2px 24px;
+    font-size: 16px;
 }
 .dg-map-geoclicker-purpose:before {
     position: absolute;
@@ -49,12 +48,14 @@
     left: 0;
     content: '';
     background-image: url(__BASE_URL__/img/dg-callout-dark.png);
-    background-position: -294px -56px;
-    width: 10px;
+    background-position: -339px -56px;
+    background-repeat: no-repeat;
+    width: 8px;
     height: 12px;
 }
 .dg-map-geoclicker-purpose__street:before {
-    background-position: -183px -70px;
+    background-image: url(__BASE_URL__/img/icon-street.png);
+    background-position: 0 0;
     width: 12px;
 }
 /*NEW FIRM LIST*/
@@ -105,9 +106,14 @@
     text-decoration: underline;
 }
 
-/**/
+
+.dg-map-geoclicker-purpose__sight:before {
+    background-image: url(__BASE_URL__/img/icon-sight.png);
+    background-position: 0 0;
+}
+
 .dg-map-geoclicker-sight-description {
-    height: 2.9em;
+    max-height: 2.9em;
     overflow: hidden;
     padding: 0.5em 0 0 24px;
 }
@@ -221,13 +227,11 @@
 
 .dg-popup-header-title {
     display: block;
-    margin: 11px 8px 0 0;
     white-space: normal;
     font: 22px/24px 'SuisseCond','Arial narrow',Arial;
 }
 
 #dg-popup-firm-loading {
-    /*display: none;*/
     background: url("__BASE_URL__/img/loader_directory.gif") no-repeat scroll 50% 50% transparent;
     height: 30px;
     padding-bottom: 12px;
@@ -335,7 +339,14 @@ h2.dg-map-firm-title a.link-text {
     line-height: 24px;
     position:relative;
     text-decoration:none;
-    /*top:6px;*/
+}
+
+.dg-map-firm-full .dg-map-firm-box {
+    margin:0 0 8px;
+    padding-left:0;
+}
+.dg-map-firm-full .dg-map-firm-box-rubric {
+    margin-bottom:8px;
 }
 
 .dg-map-firm-full .dg-map-firm-row {
@@ -480,8 +491,6 @@ h2.dg-map-firm-title a.link-text {
     background-color: #7ac115;
 }
 
-*+html .dg-map-firm-schedule { zoom:1; }
-
 .dg-map-work-info {
     color: #5E6971;
     display: block;
@@ -624,10 +633,7 @@ h2.dg-map-firm-title a.link-text {
 .dg-map-row-place {
     padding-left: 27px;
 }
-*+html .dg-map-row-with-img,
-*+html .dg-map-row-with-icon {
-    zoom: 1;
-}
+
 .dg-map-row-transport:before { margin-top: -1px; }
 .dg-map-row-place:before { margin-top: 2px; }
 .moz .dg-map-row-transport:before,
@@ -643,89 +649,6 @@ h2.dg-map-firm-title a.link-text {
 .opera .dg-map-row-place:before {
     margin-top: 1px;
 }
-*+html .dg-map-row-place img { margin-top: 3px !important; }
-*+html li.infocard-place { padding-left: 27px; }
-*+html .infocard-place .link-text { line-height: 21px; }
-*+html .infocard-place img { margin-top: 1px !important; }
-*+html .dg-map-row-transport img {
-    margin-top: -1px !important;
-    left: -1px !important;
-}
-.moz .dg-map-row-place:before { margin-top: 2px; }
-.dg-map-img-wrap:before,
-.dg-map-row-with-icon:before {
-    content: url('__BASE_URL__/img/dg_sprite.png');
-}
-*+html .dg-map-img-wrap,
-*+html .dg-map-row-with-icon {
-    /*hack1: expression(this.runtimeStyle.backgroundImage='none',this.innerHTML = '<img src="img/dg_sprite.png" />'+this.innerHTML);*/
-    hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="__BASE_URL__/img/dg_sprite.png" />'+this.innerHTML);
-    hack2: expression(this.executedExpressions = true);
-}
-*+html .dg-map-img-wrap img,
-*+html .dg-map-icon-pay img,
-*+html .dg-map-row-with-icon img,
-*+html .dg-map-row-with-img img {
-    position: absolute;
-    left: 0;
-    margin-top: 3px;
-}
-.dg-map-icon-pay-cash:before { content:url('__BASE_URL__/img/icons/cash.png'); }
-*+html .dg-map-icon-pay-cash { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/cash.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-icon-pay-americanexpress:before { content:url('__BASE_URL__/img/icons/american_express.png'); }
-*+html .dg-map-icon-pay-cash { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/american_express.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-icon-pay-visa:before { content:url('__BASE_URL__/img/icons/visa.png'); }
-*+html .dg-map-icon-pay-visa { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/visa.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-icon-pay-mastercard:before { content:url('__BASE_URL__/img/icons/mastercard.png'); }
-*+html .dg-map-icon-pay-mastercard { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/mastercard.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-icon-pay-dinersclub:before { content:url('__BASE_URL__/img/icons/dinersclub.png'); }
-*+html .dg-map-icon-pay-dinersclub { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/dinersclub.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-icon-pay-goldcrown:before { content:url('__BASE_URL__/img/icons/goldcrown.png'); }
-*+html .dg-map-icon-pay-goldcrown { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/goldcrown.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-icon-pay-internet:before { content:url('__BASE_URL__/img/icons/internet.png'); }
-*+html .dg-map-icon-pay-internet { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/internet.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-icon-pay-noncash:before { content:url('__BASE_URL__/img/icons/noncash.png'); }
-*+html .dg-map-icon-pay-noncash { hack1: expression(this.executedExpressions? void 0: this.innerHTML = '<img src="images/icons/noncash.png" />'+this.innerHTML); hack2: expression(this.executedExpressions = true); }
-
-.dg-map-row-phone:before { top: -15px; clip: rect(15px, 14px, 30px, 0); }
-*+html .dg-map-row-phone img { top: -15px; left: 1px; clip: rect(15px 14px 30px 0); }
-
-.dg-map-row-fax:before { top: -30px; clip: rect(30px, 14px, 45px, 0); }
-*+html .dg-map-row-fax img { top: -30px; clip: rect(30px 14px 45px 0); }
-
-.dg-map-row-website:before { top: -45px; clip: rect(45px, 14px, 59px, 0); }
-*+html .dg-map-row-website img { top: -45px; clip: rect(45px 14px 59px 0); }
-
-.dg-map-row-email:before { top: -58px; clip: rect(60px, 14px, 75px, 0); }
-*+html .dg-map-row-email img { top: -59px; clip: rect(60px 14px 75px 0); }
-
-.dg-map-row-icq:before { top: -240px; left: -15px; clip: rect(240px, 29px, 255px, 15px); }
-*+html .dg-map-row-icq img { top: -240px; left: -15px; clip: rect(240px 29px 255px 15px); }
-
-.dg-map-row-skype:before { top: -255px; left: -15px; clip: rect(255px, 29px, 270px, 15px); }
-*+html .dg-map-row-skype img { top: -255px; left: -15px; clip: rect(255px 29px 270px 15px); }
-
-.dg-map-row-jabber:before { top: -270px; left: -15px; clip: rect(270px, 29px, 285px, 15px); }
-*+html .dg-map-row-jabber img { top: -270px; left: -15px; clip: rect(270px 29px 285px 15px); }
-
-.dg-map-icon-schedule:before,
-*+html .dg-map-icon-schedule img,
-.dg-map-icon-lunch:before,
-*+html .dg-map-icon-lunch img {
-    margin-top: -14px;
-    margin-left: 3px;
-}
-.dg-map-icon-schedule:before { top: -135px; clip: rect(135px, 11px, 146px, 0); }
-*+html .dg-map-icon-schedule img { top: -135px; clip: rect(135px 11px 146px 0); }
-.dg-map-icon-lunch:before { top: -135px; left: -15px; clip: rect(135px, 26px, 146px, 15px); }
-*+html .dg-map-icon-lunch img { top: -135px; left: -15px; clip: rect(135px 26px 146px 15px); }
 
 .dg-map-firm-payments span {
     background-color: #eeeeee;

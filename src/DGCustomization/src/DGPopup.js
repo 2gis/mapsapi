@@ -119,6 +119,7 @@
             }
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
             this._innerContainer.appendChild(this._detachEl(this._tipContainer));
+            L.DomEvent.disableClickPropagation(this._tipContainer);
         },
 
         _clearElement: function (elem) {
@@ -191,7 +192,7 @@
                 innerHeight -= this._popupStructure.footer.offsetHeight;
             }
             scrollerWrapper.style.height = innerHeight + 'px';
-            scrollerWrapper.style.width = this.options.minWidth || this.options.maxWidth + 'px';
+            scrollerWrapper.style.width = this._contentNode.offsetWidth + 'px';
 
             this._isBaronExist = true;
 
@@ -246,6 +247,8 @@
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
+            this._wrapper.style.height = this.options.minHeight + 'px';
+            this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
             if (this._headerContent) {
@@ -291,12 +294,13 @@
 
             this._isBaronExist = false; //may case bugs
             if (maxHeight && height > maxHeight) {
-                style.height = maxHeight + 'px';
+                this._wrapper.style.height = maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
-                style.height = Math.max(height, minHeight) + 'px';
+                this._wrapper.style.height = Math.max(height, minHeight) + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
             }
+            this._wrapper.style.opacity = 1;
             this._containerWidth = this._container.offsetWidth;
         },
 
@@ -344,6 +348,7 @@
             setTimeout(function () { //devil action
                 originalOnClose.call(self, e);
             }, 200);
+            L.DomEvent.stop(e);
         }
     });
 }());
@@ -364,7 +369,13 @@ L.Map.include({
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
-            L.DomUtil.addClass(popup._source._icon, 'leaflet-marker-active');
+            if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
+                L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_appear');
+                L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_disappear');
+            } else {
+                L.DomUtil.addClass(popup._source._icon, 'dg-hidden');
+                popup._source._shadow && L.DomUtil.addClass(popup._source._shadow, 'dg-hidden');
+            }
         }
 
         return this.addLayer(popup);
@@ -377,7 +388,13 @@ L.Map.include({
         }
         if (popup) {
             if (popup._source && popup._source._icon) {
-                L.DomUtil.removeClass(popup._source._icon, 'leaflet-marker-active');
+                if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
+                    L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_disappear');
+                    L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_appear');
+                } else {
+                    L.DomUtil.removeClass(popup._source._icon, 'dg-hidden');
+                    popup._source._shadow && L.DomUtil.removeClass(popup._source._shadow, 'dg-hidden');
+                }
             }
             this.removeLayer(popup);
             popup._isOpen = false;

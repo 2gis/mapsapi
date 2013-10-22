@@ -2,6 +2,7 @@ L.DG.Geoclicker.Handler.Default.Dictionary.ru = L.extend({
     "We haven't collected info about this place": "Это место мы ещё не успели изучить",
     "noname": "Без названия",
     "place": "Место",
+    "division": "Округ",
     "settlement": "Населенный пункт",
     "street": "Улица",
     "district": "Район",

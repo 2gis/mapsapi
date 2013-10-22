@@ -1,16 +1,14 @@
 /*CALLOUT*/
-.leaflet-popup-inner {
+.leaflet-popup-content-wrapper {
     color: #f0f0f0;
     background-color: #323232;
     background-color: rgba(50, 50, 50, 0.85);
 }
 
 .leaflet-popup-tip-container {
-    background: url(__BASE_URL__/img/dg-callout-dark.png);
-    background-position: -113px 0;
+    background-image: url(__BASE_URL__/img/callout-tail-dark.png);
     width: 58px;
     height: 47px;
-    margin: auto auto -51px auto;
 }
 
 .leaflet-container a {

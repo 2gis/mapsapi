@@ -5,17 +5,14 @@ L.DG.configTheme = {
     balloonOptions: {
         offset: {
             x: 0,
-            y: -47
+            y: 0
         }
     },
 
     markersData: {
-        iconSize: [16, 24],
-        popupAnchor: [0, 3],
-        html: '<div class="dg-marker dg-marker_default dg-marker_animated"></div>',
-        className: 'leaflet-div-icon',
-        iconAnchor: [7, 23],
-        animation: true
+        iconSize: [22, 34],
+        className: 'dg-customization__marker dg-customization__marker_type_mushroom',
+        iconAnchor: [10, 28]
     },
 
     controls: {
