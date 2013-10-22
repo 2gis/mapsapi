@@ -3,7 +3,7 @@
 .scroller-wrapper {
     position: relative;
     overflow: hidden;
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 .scroller::-webkit-scrollbar {

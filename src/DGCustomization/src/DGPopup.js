@@ -276,6 +276,8 @@
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
+            this._wrapper.style.height = this.options.minHeight + 'px';
+            this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
             if (this._headerContent) {
@@ -321,12 +323,13 @@
 
             this._isBaronExist = false; //may case bugs
             if (maxHeight && height > maxHeight) {
-                style.height = maxHeight + 'px';
+                this._wrapper.style.height = maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
-                style.height = Math.max(height, minHeight) + 'px';
+                this._wrapper.style.height = Math.max(height, minHeight) + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
             }
+            this._wrapper.style.opacity = 1;
             this._containerWidth = this._container.offsetWidth;
         },
 
