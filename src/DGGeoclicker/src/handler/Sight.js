@@ -132,7 +132,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
     _showMoreText: function () {
         this._desc.style.maxHeight = '100%';
         this._link.parentNode.removeChild(this._link);
-        this._popup._resize();
+        this._popup.resize();
     },
 
     _initShowMore: function () {

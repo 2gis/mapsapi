@@ -219,9 +219,7 @@
   height: 6px;
   background: url("__BASE_URL__/img//maximize-popup.png") no-repeat;
 }
-.schedule__today-time {
-  color: #645a50;
-}
+
 .schedule__today-time:not(:last-of-type):after {
   content: ',';
 }

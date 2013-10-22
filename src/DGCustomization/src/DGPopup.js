@@ -136,7 +136,7 @@
             }
         },
 
-        _resize: function () {
+        resize: function () {
             var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
             this._updateLayout();
@@ -259,7 +259,7 @@
             }
 
             this._updatePopupStructure();
-            this._resize();
+            this.resize();
             L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
 
             // Delete this if fixed in new leaflet version (> 0.6.2)
