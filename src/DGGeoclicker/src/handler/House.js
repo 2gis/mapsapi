@@ -60,7 +60,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             showEntrance: L.DG.Entrance,
             gotoUrl: this._directionsUrl,
             onFirmReady: L.bind(this._clearAndRenderPopup, this),
-            //onToggle: L.bind(this._popup.resize, this._popup)
+            onToggle: L.bind(this._popup.resize, this._popup)
         };
     },
 

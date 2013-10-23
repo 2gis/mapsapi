@@ -87,25 +87,6 @@
     list-style: none;
 }
 
-.link_scheme_dark {
-    color: #ffe6aa;
-    text-decoration: underline;
-}
-
-.link {
-    cursor: pointer;
-    text-decoration: none;
-    background-position: 0 95%;
-    background-size: 10px 1px;
-    background-repeat: repeat-x;
-}
-
-.link_scheme_dark:hover {
-    color: #9cd;
-    text-decoration: underline;
-}
-
-
 .dg-map-geoclicker-purpose__sight:before {
     background-image: url(__BASE_URL__/img/icon-sight.png);
     background-position: 0 0;
