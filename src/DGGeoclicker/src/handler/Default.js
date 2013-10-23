@@ -55,7 +55,7 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
         this._eventHandlers = {};
     },
 
-    _getGotoUrl: function (name) {
+    _getDirectionsUrl: function (name) {
         return L.Util.template('__PPNOT_LINK__', {
             'code': this._map.dgProjectDetector.getProject().code,
             'name': encodeURIComponent(name),

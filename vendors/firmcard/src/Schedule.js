@@ -42,7 +42,15 @@ FirmCard.Schedule.prototype = {
             localLang = params.localLang || this.localLang || 'en',
             localWorkingDays = params.localWorkingDays || [0, 1, 1, 1, 1, 1, 0],
             firstdayOffset = params.firstdayOffset || 1,
-            minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4;
+            minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4,
+            t = bind(this.dict.t, this.dict);
+
+        function bind(fn, obj) { // (Function, Object) -> Function
+            var args = arguments.length > 2 ? Array.prototype.slice.call(arguments, 2) : null;
+            return function () {
+                return fn.apply(obj, args || arguments);
+            };
+        }
 
         function getHours(str) {
             return str.substr(0, 2);
@@ -166,17 +174,17 @@ FirmCard.Schedule.prototype = {
 
         function whenOpenInverse(h, d, num) {
             if (d === 1 && h > minHoursToDisplayClosure) {
-                return 'завтра';
+                return t(localLang, 'tommorow');
             } else if (d > 1) {
                 /* jshint -W015 */
                 switch (num) {
-                    case 0: return this.dict.t(localLang, 'nextSun');
-                    case 1: return this.dict.t(localLang, 'nextMon');
-                    case 2: return this.dict.t(localLang, 'nextTue');
-                    case 3: return this.dict.t(localLang, 'nextWed');
-                    case 4: return this.dict.t(localLang, 'nextThu');
-                    case 5: return this.dict.t(localLang, 'nextFri');
-                    case 6: return this.dict.t(localLang, 'nextSat');
+                    case 0: return t(localLang, 'nextSun');
+                    case 1: return t(localLang, 'nextMon');
+                    case 2: return t(localLang, 'nextTue');
+                    case 3: return t(localLang, 'nextWed');
+                    case 4: return t(localLang, 'nextThu');
+                    case 5: return t(localLang, 'nextFri');
+                    case 6: return t(localLang, 'nextSat');
                 }
                 /* jshint +W015 */
             }
@@ -243,7 +251,8 @@ FirmCard.Schedule.prototype = {
 
             if (from === to) { // Круглосуточно
                 schedule.today = {
-                    alltime: true
+                    alltime: true,
+                    alltimeStr: t(localLang, 'worksAroundTheClock')
                 };
             } else { // От from до to
                 schedule.today = {
@@ -254,6 +263,7 @@ FirmCard.Schedule.prototype = {
 
             if (periods.length > 0) { // Перерывы на обед
                 schedule.lunch = periods;
+                schedule.lunchStr = t(localLang, 'lunch');
             }
         }
 
@@ -336,9 +346,11 @@ FirmCard.Schedule.prototype = {
 
                 if (day.round_the_clock) {
                     out.alltime = true;
+                    out.alltimeStr = t(localLang, 'worksAroundTheClock');
                 }
             } else { // Выходной
                 out.holiday = true;
+                out.holidayStr = t(localLang, 'restDay');
             }
 
             // Формируем список дней на локальном языке
@@ -367,7 +379,6 @@ FirmCard.Schedule.prototype = {
 
             // Список дней в данной группе идентичен списку будних дней, значит можно заменить словом "Будни"
             out.budni = _.isEqual(localWorkingDays, groupWorkingDays);
-
             // Список рабочих дней - все дни недели, значит нужно выводить фразу "Ежедневно"
             out.everyday = (_.min(groupWorkingDays) === 1);
 
@@ -510,6 +521,9 @@ FirmCard.Schedule.prototype = {
             today.from = schedule.today.from;
             today.to = schedule.today.to;
             today.lunch = schedule.lunch;
+            if (today.lunch) {
+                today.lunchStr = this.dict.t(this.localLang, 'lunch');
+            }
         } else {
             today.text = this.dict.t(this.localLang, 'todayIsRestDay');
         }

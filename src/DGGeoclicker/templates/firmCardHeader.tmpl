@@ -4,11 +4,11 @@
     <div class="popup_header_links">
         <% for (var i=0; i < links.length; i++) {%>
         	<% if (links[i].name == 'flamp_stars') {%>
-	        	<div id="popup-link-<%=links[i].name%>" class="popup-header-link">
+	        	<div id="popup-link-<%=links[i].name%>" class="popup-header-link popup-link">
 	                <div <% if (links[i].width) print('style=\'width:' + links[i].width + '%\''); %>></div>
 	            </div>
         	<% } else {%>
-	            <a id="popup-link-<%=links[i].name%>" class="popup-header-link"
+	            <a id="popup-link-<%=links[i].name%>" class="popup-header-link popup-link"
 	                <%  if (links[i].href) print('href=\'' + links[i].href + '\' target = \'_blank\'');
 	                    else print('href=\'javascript:void(0)\'');
 	                %>

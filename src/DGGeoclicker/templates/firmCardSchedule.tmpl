@@ -4,13 +4,13 @@
             <div class="schedule__today schedule_open_<%if (forecast.open) {%>true<%}else{%>false<%}%><%if(schedule.everyday){%> schedule__no-table<%}%>">
                 <%=forecast.today.text%>
                 <%if (forecast.today.from) {%>
-                    <span class="schedule__today-time"><%=forecast.today.from%>&ndash;<%=forecast.today.to%></span>
+                    <%=forecast.today.from%>&ndash;<%=forecast.today.to%>
                 <%}%>
 
                 <%if (schedule.lunch) {%>
-                    <%='dict lunch'%>
+                    <%=forecast.today.lunchStr%>
                     <%for (var i = 0, l = schedule.lunch.length; i < l; i++) {%>
-                        <span class="schedule__today-time"><%=schedule.lunch[i].from%>&ndash;<%=schedule.lunch[i].to%></span>
+                        <%=schedule.lunch[i].from%>&ndash;<%=schedule.lunch[i].to%>
                     <%}%>
                 <%}%>
             </div>
@@ -32,24 +32,20 @@
                         <%for (var j = 0, evently = schedule.week.evently, len = evently.length; j < len; j++) {%>
                             <div class="schedule__string">
                                 <%if (evently[j].alltime) {%>
-                                    <%='dict worksAroundTheClock'%>
+                                    <%=evently[j].alltimeStr%>
                                 <%}%>
                                 <%if (evently[j].everyday) {%>
-                                    <%='dict everyday'%>
+                                    <%=forecast.today.text%>
                                 <%} else {%>
-                                    <%if (evently[j].budni) {%>
-                                        <%='dict weekdays'%>
-                                    <%} else {%>
-                                        <%=evently[j].dayList%>
-                                    <%}%>
+                                    <%=evently[j].dayList%>
                                 <%}%>
                                 <%if (evently[j].holiday) {%>
-                                    &mdash;<span class="schedule__string-time"><%='dict restDay'%></span>
+                                    &mdash;<span class="schedule__string-time">&nbsp;<%=evently[j].holidayStr%></span>
                                 <%} else {%>
-                                    <span class="schedule__string-time"><%=evently[j].from%>&ndash;<%=evently[j].to%></span>
+                                    &mdash;<span class="schedule__string-time">&nbsp;<%=evently[j].from%>&ndash;<%=evently[j].to%></span>
                                     <%if (evently[j].lunch.length) {%>
                                         &nbsp;,&nbsp;
-                                        <%='dict lunch'%>
+                                        <%=evently[j].lunchStr%>
                                         <span class="schedule__string-time">
                                             <%=evently[j].lunch.from%>&ndash;<%=evently[j].lunch.to%>
                                         </span>

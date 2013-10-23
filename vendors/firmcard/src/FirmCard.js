@@ -134,13 +134,12 @@ FirmCard.prototype = {
         if (reviewData && reviewData.is_allowed_to_show_reviews) {
             links.push({
                 name: 'flamp_stars',
-                label: this.dict.t(this.options.lang, 'stars'),
                 width: reviewData.rating * 20
             });
             links.push({
                 name: 'flamp_reviews',
                 label: this.dict.t(this.options.lang, 'linkReviews', reviewData.review_count),
-                href: '__FLAMP_URL__' + this._firmId + '?' + '__FLAMP_GOOGLE_ANALYTICS__'
+                href: FirmCard.DataHelper.getFlampUrl(this._firmId)
             });
         }
 
@@ -183,16 +182,23 @@ FirmCard.prototype = {
 
     _onToggleSchedule: function (e) {
         var schedule = this._container.querySelector('.schedule__table'),
-            display = 'block',
+            forecast = this._container.querySelector('.schedule__now'),
+            showClass = ' show_schedule',
             target = e.target || e.srcElement;
 
         if (!schedule) { return; }
 
         if (target && target.nodeName === 'DIV' && target.className.indexOf('schedule__today') !== -1) {
             if (schedule.style.display === 'block') {
-                display = 'none';
+                schedule.style.display = 'none';
+                forecast.style.display = 'block';
+                target.className = target.className.replace(showClass, '');
+            } else {
+                forecast.style.display = 'none';
+                schedule.style.display = 'block';
+                target.className += showClass;
             }
-            schedule.style.display = display;
+
             this.options.onToggle && this.options.onToggle();
         }
     },

@@ -77,7 +77,7 @@ L.DG.Geoclicker.Handler.House.include({
             name: 'goto',
             label: this.t('goto'),
             icon: true,
-            href: this._gotoUrl
+            href: this._directionsUrl
         });
 
         return this._view.render({

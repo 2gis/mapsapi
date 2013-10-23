@@ -100,7 +100,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
             data.showMoreText = this.t('Show more about sight');
         }
 
-        footer.btns[0].href = this._getGotoUrl(data.buildingName);
+        footer.btns[0].href = this._getDirectionsUrl(data.buildingName);
 
         return {
             tmpl: this._view.getTemplate('sight'),

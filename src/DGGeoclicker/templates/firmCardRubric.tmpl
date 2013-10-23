@@ -4,7 +4,7 @@
             <ul class="firm-card__rubrics-list firm-card__rubrics_primary">
                 <% for (var r = 0, primary = rubrics.primary.length; r < primary; r++) { %>
                     <li class="firm-card__rubrics-list-item">
-                        <span class="link "><%=rubrics.primary[r].name%></span>
+                        <%=rubrics.primary[r].name%>
                     </li>
                 <% } %>
             </ul>
@@ -13,7 +13,7 @@
             <ul class="firm-card__rubrics-list firm-card__rubrics_additional">
                 <% for (var s = 0, additional = rubrics.additional.length; s < additional; s++) { %>
                     <li class="firm-card__rubrics-list-item">
-                        <span class="link "><%=rubrics.additional[s].name%></span>
+                        <%=rubrics.additional[s].name%>
                     </li>
                 <% } %>
             </ul>
