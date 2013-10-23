@@ -141,6 +141,7 @@
             var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
             this._updateLayout();
+            console.log(this._contentNode.offsetHeight);
             this._updatePosition();
 
             if (this._isContentHeightFit()) {
@@ -171,6 +172,8 @@
         _isContentHeightFit: function () {
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
+            console.log(popupHeight);
+            // popupHeight = 0;
 
             return (maxHeight && maxHeight <= popupHeight);
         },
@@ -244,6 +247,9 @@
             this._container.style.visibility = 'hidden';
 
             this._clearStructure(this._contentNode);
+            // debugger;
+            // this._contentNode.clientHeight = 0;
+            // this._contentNode.offsetHeight = 0;
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
@@ -297,8 +303,9 @@
                 this._wrapper.style.height = maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
-                this._wrapper.style.height = Math.max(height, minHeight) + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
+                this._wrapper.style.height = Math.max(this._contentNode.offsetHeight, minHeight) + 'px';
+                // console.log(this._contentNode.offsetHeight, height, minHeight);
             }
             this._wrapper.style.opacity = 1;
             this._containerWidth = this._container.offsetWidth;
