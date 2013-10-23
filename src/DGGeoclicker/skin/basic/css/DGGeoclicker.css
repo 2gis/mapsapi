@@ -47,15 +47,17 @@
     top: 8px;
     left: 0;
     content: '';
-    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
-    background-position: -339px -56px;
+    background-image: url(__BASE_URL__/img/callout-place.png);
     background-repeat: no-repeat;
     width: 8px;
     height: 12px;
 }
 .dg-map-geoclicker-purpose__street:before {
     background-image: url(__BASE_URL__/img/icon-street.png);
-    background-position: 0 0;
+    width: 12px;
+}
+.dg-map-geoclicker-purpose__settlement:before {
+    background-image: url(__BASE_URL__/img/callout-settlement.png);
     width: 12px;
 }
 /*NEW FIRM LIST*/
@@ -174,6 +176,7 @@
     transition: all .1s;
     font: 12px/24px Arial;
     text-decoration: none;
+    position: relative;
 }
 .popup_footer_btn:hover {
     transition: all .2s;

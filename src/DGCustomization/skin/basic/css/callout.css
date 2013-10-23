@@ -1,7 +1,10 @@
 /* Callout styles for Leaflet markup */
 .leaflet-popup-content-wrapper {
-    padding: 16px;
-    /*box-sizing: border-box;*/
+    /*padding: 16px;*/
+    border: 16px solid transparent;
+    box-sizing: border-box;
+    min-width: 60px;
+    min-height: 50px;
     font: 14px/16px Arial;
     border-radius: 3px;
     -webkit-transform-origin: 50% 115%;
@@ -18,8 +21,9 @@
 
 .leaflet-popup-content {
     line-height: 1.4;
-    /*margin: 12px 0;*/
+    /*margin: auto;*/
     display: table;
+    /*width: 100%;*/
     position: relative;
     table-layout: fixed;
     /*height: 100%;*/
@@ -108,21 +112,23 @@
 }
 
 .dg-popup-container {
-    margin: 10px 10px 10px 0;
+    /*margin: 10px 10px 10px 0;*/
+    margin: 0;
+    overflow: hidden;
 }
 
 .dg-popup-header {
     display: table-header-group;
 }
 .dg-popup-header > * {
-    margin: 0 8px 0 0 !important;
+    margin: 0 8px 10px 0 !important;
 }
 
 .dg-popup-footer {
     display: table-footer-group;
 }
 .dg-popup-footer > * {
-    margin: 0 0 5px 0 !important;
+    margin: 10px 0 5px 0 !important;
 }
 
 .leaflet-popup-scrolled .dg-popup-container {
