@@ -130,8 +130,8 @@
                 e = e || window.event;
                 var target = e.target || e.srcElement;
 
-                if (target && target.nodeName === 'SPAN') {
-                    if (target.className.indexOf('building-callout__list-item-link') !== -1) {
+                if (target && target.nodeName === 'A') {
+                    if (target.className.indexOf('popup-link') !== -1) {
                         if (target.id) {
                             var s = self._firmCard.render(target.id);
                             if (!self._isEmptyObj(s)) {

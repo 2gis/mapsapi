@@ -78,7 +78,7 @@ FirmCard.prototype.dict = {
         reviewsOnFlamp: 'Отзывы на Флампе',
         writeReviewOnFlamp: 'Написать отзыв на Флампе',
         payment: 'оплата',
-        everyday: 'Ежедневно',
+        everyday: 'Ежедневно c',
         worksAroundTheClock: 'Работает круглосуточно',
         aroundTheClock: 'Круглосуточно',
         knowMore: 'узнать больше',

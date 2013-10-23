@@ -1,3 +1,35 @@
 #popup-link-photos:before {
     background-image: url(__BASE_URL__/img/photo_light.png);
 }
+
+.schedule__table-clock {
+    background: url("__BASE_URL__/img/clock_off_light.png") no-repeat;
+}
+
+.schedule_open_false:before {
+    background: url("__BASE_URL__/img/clock_off_light.png");
+}
+
+.schedule__table-lunch {
+    background: url("__BASE_URL__/img/lunch_light.png") no-repeat;
+}
+
+#popup-btn-firmCard-back:before {
+    background-image: url(__BASE_URL__/img/back_light.png);
+}
+
+#popup-btn-firmList-back:before {
+    background-image: url(__BASE_URL__/img/back_light.png);
+}
+
+#popup-btn-goto:before {
+    background-image: url(__BASE_URL__/img/path_light.png);
+}
+
+#popup-btn-show-entrance:before{
+    background-image: url(__BASE_URL__/img/enter_light.png);
+}
+
+.building-callout__list-item:before {
+    background: #6e6964
+}

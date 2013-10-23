@@ -208,7 +208,6 @@
     height: 11px;
     top: 0;
     left: -24px;
-    /* background: url("__BASE_URL__/img/clock.png") no-repeat; */
 }
 
 .schedule__today:after {
@@ -218,17 +217,18 @@
     right: -12px;
     width: 10px;
     height: 6px;
-    background: url("__BASE_URL__/img//maximize-popup.png") no-repeat;
+    background: url("__BASE_URL__/img/show_schedule.png") no-repeat;
 }
 
-.schedule__today-time:not(:last-of-type):after {
-    content: ',';
+.schedule__today.show_schedule:after {
+    background: url("__BASE_URL__/img/hide_schedule.png") no-repeat;
 }
+/*.schedule__today-time:not(:last-of-type):after {
+    content: ',';
+}*/
 
 .schedule__now {
     margin: 1px 7px 0px 36px;
-    /* Справа до края карточки должно быть 24px */
-
     color: #aaa5a0;
     font-size: 12px;
 }
@@ -246,16 +246,6 @@
 .schedule__table {
     display:none;
     text-align: center;
-}
-
-/* Иконка часов слева от ряда периодов работы */
-.schedule__table-clock {
-    background: url("__BASE_URL__/img/clock.png") no-repeat;
-}
-
-/* Иконка чашки чая слева от ряда периодов обеда */
-.schedule__table-lunch {
-    background: url("__BASE_URL__/img/lunch.png") no-repeat;
 }
 
 .schedule__tc {
@@ -297,10 +287,6 @@
 /* Открытость фирмы */
 .schedule_open_true:before {
     background: url("__BASE_URL__/img/clock.png") no-repeat;
-}
-.schedule_open_false:before {
-    /* Сейчас закрыто */
-    background: url("__BASE_URL__/img/clock_off.png");
 }
 
 /* Local dashed link */
