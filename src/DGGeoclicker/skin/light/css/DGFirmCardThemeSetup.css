@@ -31,5 +31,33 @@
 }
 
 .building-callout__list-item:before {
-    background: #6e6964
+    background: #666
+}
+
+.firm-card__comment {
+    color: #666;
+}
+
+.schedule__now {
+    color: #666;
+}
+
+.schedule__td {
+    color: #000;
+}
+
+.schedule__tc_active_true {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.schedule__string-time {
+    color: #666;
+}
+
+.firm-card__rubrics-list-item:after {
+    color: #666;
+}
+
+.firm-card__rubrics {
+    color: #666;
 }

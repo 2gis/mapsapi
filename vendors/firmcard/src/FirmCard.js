@@ -182,7 +182,7 @@ FirmCard.prototype = {
 
     _onToggleSchedule: function (e) {
         var schedule = this._container.querySelector('.schedule__table'),
-            display = 'block',
+            forecast = this._container.querySelector('.schedule__now'),
             showClass = ' show_schedule',
             target = e.target || e.srcElement;
 
@@ -191,8 +191,10 @@ FirmCard.prototype = {
         if (target && target.nodeName === 'DIV' && target.className.indexOf('schedule__today') !== -1) {
             if (schedule.style.display === 'block') {
                 schedule.style.display = 'none';
+                forecast.style.display = 'block';
                 target.className = target.className.replace(showClass, '');
             } else {
+                forecast.style.display = 'none';
                 schedule.style.display = 'block';
                 target.className += showClass;
             }

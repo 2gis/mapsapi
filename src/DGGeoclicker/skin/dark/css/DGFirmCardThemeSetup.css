@@ -33,3 +33,35 @@
 .building-callout__list-item:before {
     background: #aaa;
 }
+
+.firm-card__comment {
+    color: #aaa;
+}
+
+.schedule__now {
+    color: #aaa;
+}
+
+.schedule__td {
+    color: #e6e6e6;
+}
+
+.schedule__tc_active_true {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.schedule__string-time {
+    color: #e6e6e6;
+}
+
+.firm-card__aa-list-item:after {
+    color: #e6e6e6;
+}
+
+.firm-card__rubrics-list-item:after {
+    color: #6e6964;
+}
+
+.firm-card__rubrics {
+    color: #aaa;
+}
