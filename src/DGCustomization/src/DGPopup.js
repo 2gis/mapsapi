@@ -141,7 +141,6 @@
             var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
             this._updateLayout();
-            console.log(this._contentNode.offsetHeight);
             this._updatePosition();
 
             if (this._isContentHeightFit()) {
@@ -172,8 +171,6 @@
         _isContentHeightFit: function () {
             var popupHeight = this._contentNode.offsetHeight,
                 maxHeight = this.options.maxHeight;
-            console.log(popupHeight);
-            // popupHeight = 0;
 
             return (maxHeight && maxHeight <= popupHeight);
         },
@@ -183,7 +180,7 @@
                 scrollerWrapper = L.DomUtil.create('div', 'scroller-wrapper', contentNode),
                 scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
                 barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
-                innerHeight = this.options.maxHeight;
+                innerHeight = this.options.maxHeight - 32; //TODO: remove bone
 
             this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
@@ -195,7 +192,7 @@
                 innerHeight -= this._popupStructure.footer.offsetHeight;
             }
             scrollerWrapper.style.height = innerHeight + 'px';
-            scrollerWrapper.style.width = this._contentNode.offsetWidth + 'px';
+            scrollerWrapper.style.width = contentNode.offsetWidth + 'px';
 
             this._isBaronExist = true;
 
@@ -247,9 +244,6 @@
             this._container.style.visibility = 'hidden';
 
             this._clearStructure(this._contentNode);
-            // debugger;
-            // this._contentNode.clientHeight = 0;
-            // this._contentNode.offsetHeight = 0;
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
@@ -279,35 +273,44 @@
 
         _updateLayout: function () {
             var container = this._contentNode,
-                style = container.style;
+                style = container.style,
+                wrapperStyle = this._wrapper.style,
+                width,
+                height,
+                maxHeight,
+                minHeight,
+                scrolledClass;
 
             style.width = '';
             style.whiteSpace = 'nowrap';
 
-            var width = container.offsetWidth;
+            width = container.offsetWidth + 32; //TODO: remove bone
             width = Math.min(width, this.options.maxWidth);
             width = Math.max(width, this.options.minWidth);
 
-            style.width = width + 'px';
+            // style.width = width + 'px';
             style.whiteSpace = '';
 
             style.height = '';
 
-            var height = container.offsetHeight,
-                maxHeight = this.options.maxHeight,
-                minHeight = this.options.minHeight || 0,
-                scrolledClass = 'leaflet-popup-scrolled';
+            height = container.offsetHeight + 32; //TODO: remove bone
+            maxHeight = this.options.maxHeight;
+            minHeight = this.options.minHeight || 0;
+            scrolledClass = 'leaflet-popup-scrolled';
+
 
             this._isBaronExist = false; //may case bugs
             if (maxHeight && height > maxHeight) {
-                this._wrapper.style.height = maxHeight + 'px';
+                wrapperStyle.height = maxHeight + 'px';
+                width += 10; //TODO: remove bone
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
                 L.DomUtil.removeClass(container, scrolledClass);
-                this._wrapper.style.height = Math.max(this._contentNode.offsetHeight, minHeight) + 'px';
-                // console.log(this._contentNode.offsetHeight, height, minHeight);
+                wrapperStyle.height = Math.max(this._contentNode.offsetHeight + 32, minHeight) + 'px';  //TODO: remove bone
             }
-            this._wrapper.style.opacity = 1;
+            style.width = width - 32 + 'px';
+            wrapperStyle.width = width + 'px';
+            wrapperStyle.opacity = 1;
             this._containerWidth = this._container.offsetWidth;
         },
 
