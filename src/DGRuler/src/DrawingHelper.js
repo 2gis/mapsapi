@@ -18,6 +18,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _firstPoint: null,
     _lastPoint: null,
 
+    _morphingNow: false,
+
     initialize: function (map) {
         this._map = map;
     },
@@ -48,12 +50,6 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             }
         }
 
-        this._points.length = 0;
-        this._points = null;
-
-        this._frontline = null;
-        this._backline = null;
-
         if (this._label) {
             this._map.removeLayer(this._label);
             this._label = null;
@@ -62,8 +58,12 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     _lineMouseEvents: {
         'mouseover' : function (event) {
-            // console.log('mouseover');
-            var point = this_lineMarkerHelper = this._createPoint(event.latlng, true);
+            var point;
+            console.log('mouseover', this._morphingNow);
+            if (this._morphingNow) {
+                return;
+            }
+            point = this._lineMarkerHelper = this._createPoint(event.latlng, true);
             this._layers.back.addLayer(point._outer);
             this._layers.front
                         .addLayer(point._inner)
@@ -73,13 +73,16 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._layers.mouse.bringToFront();
         },
         'mouseout' : function () {
-            // console.log('mouseout');
-            this._layers.back.removeLayer(this_lineMarkerHelper._outer);
+            if (this._lineMarkerHelper == null) {
+                return;
+            }
+            console.log('mouseout');
+            this._layers.back.removeLayer(this._lineMarkerHelper._outer);
             this._layers.front
-                        .removeLayer(this_lineMarkerHelper._inner)
-                        .removeLayer(this_lineMarkerHelper._pipka)
-                        .removeLayer(this_lineMarkerHelper);
-            this_lineMarkerHelper = null;
+                        .removeLayer(this._lineMarkerHelper._inner)
+                        .removeLayer(this._lineMarkerHelper._pipka)
+                        .removeLayer(this._lineMarkerHelper);
+            this._lineMarkerHelper = null;
         },
         'mousemove' : function (event) {
             var latlng = event.latlng,
@@ -87,16 +90,20 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 point = target._point,
                 distance = this._calcDistance(point) + point._prev.getLatLng().distanceTo(latlng) / 1000;
 
-            this_lineMarkerHelper.setLatLng(this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng));
+            if (this._morphingNow) {
+                return;
+            }
+            this._lineMarkerHelper.setLatLng(this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng));
             // console.log( distance );
         }
     },
 
     _insertPointInLine : function (event) {
-        var latlng = this_lineMarkerHelper.getLatLng(),
+        var latlng = this._lineMarkerHelper.getLatLng(),
             point = this._createPoint(latlng);
 
         console.log('mousedown');
+
         this._layers.back.addLayer(point._outer);
         this._layers.front
                         .addLayer(point._inner)
@@ -106,9 +113,16 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         this._addLeg(point);
 
         point
-            .on('drag', this._movePoint, this)
-            .addTo(this._layers.mouse)
-            .fire('mousedown');
+            .on(this._pointDragEvents, this)
+            .addTo(this._layers.mouse);
+
+        var e = document.createEvent('MouseEvents');
+        e.initMouseEvent('mousedown', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
+        point._icon.dispatchEvent(e);
+        this._morphingNow = true;
+
+        this._lineMouseEvents.mouseout.apply(this);
+        this._updatePointLegs(point);
 
         this._layers.back.bringToBack();
     },
@@ -196,7 +210,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                         .addLayer(point._inner)
                         .addLayer(point._pipka);
         point
-            .on('drag', this._movePoint, this)
+            .on(this._pointDragEvents, this)
             .addTo(this._layers.mouse);
 
         this._insertPointBefore(point);
@@ -209,6 +223,19 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
         this._layers.back.bringToBack();
         this._updateDistance();
+    },
+
+    _pointDragEvents: {
+        'drag' : function (event) {
+            this._updatePointLegs(event.target);
+            this._updateDistance();
+        },
+        'dragend' : function () {
+            this._morphingNow = false;
+        },
+        'dragstart' : function () {
+            this._morphingNow = true;
+        }
     },
 
     _addLeg: function (point) {
@@ -234,16 +261,13 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         point._lines[2]._point = point;
     },
 
-    _movePoint: function (event) {
-        var point = event.target,
-            next = point._next,
+    _updatePointLegs: function (point) {
+        var next = point._next,
             latlng = point.getLatLng(),
             i;
 
         for (i = 0; point._prev && i < 3; point._lines[i].spliceLatLngs(1, 1, latlng), i++);
         for (i = 0; next && i < 3; next._lines[i].spliceLatLngs(0, 1, latlng), i++);
-
-        this._updateDistance();
     },
 
     _initLabel: function () {
