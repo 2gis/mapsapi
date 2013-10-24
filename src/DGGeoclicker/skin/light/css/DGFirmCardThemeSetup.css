@@ -3,31 +3,59 @@
 }
 
 .schedule__table-clock {
-    background: url("__BASE_URL__/img/clock_off_light.png") no-repeat;
+    background: url("__BASE_URL__/img/clock-off-light.png") no-repeat;
 }
 
 .schedule_open_false:before {
-    background: url("__BASE_URL__/img/clock_off_light.png");
+    background: url("__BASE_URL__/img/clock-off-light.png");
 }
 
 .schedule__table-lunch {
-    background: url("__BASE_URL__/img/lunch_light.png") no-repeat;
+    background: url("__BASE_URL__/img/lunch-light.png") no-repeat;
 }
 
 #popup-btn-firmCard-back:before {
-    background-image: url(__BASE_URL__/img/back_light.png);
+    background-image: url(__BASE_URL__/img/back-light.png);
 }
 
 #popup-btn-firmList-back:before {
-    background-image: url(__BASE_URL__/img/back_light.png);
+    background-image: url(__BASE_URL__/img/back-light.png);
 }
 
 #popup-btn-goto:before {
-    background-image: url(__BASE_URL__/img/path_light.png);
+    background-image: url(__BASE_URL__/img/path-light.png);
 }
 
 #popup-btn-show-entrance:before{
-    background-image: url(__BASE_URL__/img/enter_light.png);
+    background-image: url(__BASE_URL__/img/enter-light.png);
+}
+
+.dg-map-geoclicker-purpose:before {
+    background-image: url(__BASE_URL__/img/purp-light.png);
+}
+
+.dg-map-geoclicker-address-header:before {
+    background-image: url(__BASE_URL__/img/marker-light.png);
+}
+
+.firm-card__address:before {
+    background-image: url(__BASE_URL__/img/marker-light.png);
+}
+
+.firm-card__phone:before {
+    background-image: url(__BASE_URL__/img/phone-light.png);
+}
+
+.firm-card__site:before {
+    background-image: url(__BASE_URL__/img/globe-light.png);
+}
+
+.firm-card__email:before {
+    background-image: url(__BASE_URL__/img/evenlope-light.png);
+}
+
+.dg-map-geoclicker-purpose__street:before {
+    background-image: url(__BASE_URL__/img/street-light.png);
 }
 
 .building-callout__list-item:before {

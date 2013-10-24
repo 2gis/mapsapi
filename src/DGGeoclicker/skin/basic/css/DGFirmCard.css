@@ -9,8 +9,6 @@
     position: absolute;
     top: 3px;
     left: -24px;
-    background-image: url('__BASE_URL__/img/dg-callout-dark.png');
-    background-position: -182px -82px;
     width: 9px;
     height: 11px;
     content: '';
@@ -37,8 +35,6 @@
     position: absolute;
     top: 3px;
     left: 0;
-    background-image: url('__BASE_URL__/img/dg-callout-dark.png');
-    background-position: -260px -93px;
     width: 10px;
     height: 10px;
 }
@@ -65,18 +61,13 @@
     position: absolute;
     top: 2px;
     left: 0;
-    background-image: url('__BASE_URL__/img/dg-callout-dark.png');
     width: 11px;
     height: 11px;
 }
 
-.firm-card__site:before {
-    background-position: -255px -243px;
-}
-
 .firm-card__email:before {
     top: 5px;
-    background-position: -232px -264px;
+    height: 8px;
 }
 
 /*firmCard forecast*/
@@ -274,7 +265,7 @@
 
 /* Открытость фирмы */
 .schedule_open_true:before {
-    background: url("__BASE_URL__/img/clock.png") no-repeat;
+    background: url("__BASE_URL__/img/clock.png");
 }
 
 /* Local dashed link */
