@@ -285,8 +285,6 @@
             style.whiteSpace = 'nowrap';
 
             width = container.offsetWidth + 32; //TODO: remove bone
-            width = Math.min(width, this.options.maxWidth);
-            width = Math.max(width, this.options.minWidth);
 
             // style.width = width + 'px';
             style.whiteSpace = '';
@@ -298,7 +296,6 @@
             minHeight = this.options.minHeight || 0;
             scrolledClass = 'leaflet-popup-scrolled';
 
-
             this._isBaronExist = false; //may case bugs
             if (maxHeight && height > maxHeight) {
                 wrapperStyle.height = maxHeight + 'px';
@@ -308,6 +305,8 @@
                 L.DomUtil.removeClass(container, scrolledClass);
                 wrapperStyle.height = Math.max(this._contentNode.offsetHeight + 32, minHeight) + 'px';  //TODO: remove bone
             }
+            width = Math.min(width, this.options.maxWidth);
+            width = Math.max(width, this.options.minWidth);
             style.width = width - 32 + 'px';
             wrapperStyle.width = width + 'px';
             wrapperStyle.opacity = 1;
