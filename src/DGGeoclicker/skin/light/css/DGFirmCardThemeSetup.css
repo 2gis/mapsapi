@@ -58,6 +58,14 @@
     background-image: url(__BASE_URL__/img/street-light.png);
 }
 
+.schedule__today:after {
+    background: url(__BASE_URL__/img/show-schedule-light.png);
+}
+
+.schedule__today.show_schedule:after {
+    background: url(__BASE_URL__/img/hide-schedule-light.png);
+}
+
 .building-callout__list-item:before {
     background: #666
 }
