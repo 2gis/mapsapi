@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>DGPoi demo</title>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark"></script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+    <script type="text/javascript">
+        L.onLoad(function () {
+            map = new L.Map('map', {
+                center: new L.LatLng(51.7302800, 36.1938900)
+                , zoom: 17
+                , maxZoom: 17
+                , dgGeoclicker: true
+                , rullerControl: true
+            });
+
+            var marker = L.marker([51.7302800, 36.1938900]).addTo(map);
+
+            var langMenu = L.DomUtil.get('langMenu');
+            langMenu.onchange = function() {
+                map.setLang(this.options[this.selectedIndex].value);
+            }
+
+        });
+    </script>
+
+    Изменить язык карты: <select id="langMenu" size="1">
+    <option value="ru" selected="selected">ru</option>
+    <option value="it">it</option>
+    </select>
+</body>
+</html>
