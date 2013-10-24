@@ -1,27 +1,48 @@
 L.DG.Ruler.DrawingHelper = L.Class.extend({
 
-    _layersContainer: null,
-    _layers: {
-        back : null,
-        front : null,
-        mouse : null
+    includes: L.Mixin.Events,
+
+    statics : {
+        smallIcon : L.icon({
+            iconUrl: '__BASE_URL__/img/spacer.gif',
+            iconSize: [26, 26],
+            iconAnchor: [13, 13]
+        }),
+        largeIcon : L.icon({
+            iconUrl: '__BASE_URL__/img/spacer.gif',
+            iconSize: [26, 26],
+            iconAnchor: [13, 13]
+        }),
+        spaceIcon : L.icon({
+            iconUrl: '__BASE_URL__/img/spacer.gif',
+            iconSize: [0, 0],
+            iconAnchor: [0, 0]
+        })
     },
 
-    _label: null,
-
-    _labelDistanceNode: null,
-    _labelDeleteNode: null,
-
-    _lineMarkerHelper: null,
-
-    _points: null,
-    _firstPoint: null,
-    _lastPoint: null,
-
-    _morphingNow: false,
-
     initialize: function (map) {
-        this._map = map;
+        L.extend(this, {
+            _map : map,
+            _layersContainer: null,
+            _layers: {
+                back : null,
+                front : null,
+                mouse : null
+            },
+
+            _label: null,
+
+            _labelDistanceNode: null,
+            _labelDeleteNode: null,
+
+            _lineMarkerHelper: null,
+
+            _points: null,
+            _firstPoint: null,
+            _lastPoint: null,
+
+            _morphingNow: false
+        });
     },
 
     startDrawing: function () {
@@ -138,17 +159,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     _createPoint: function (latlng, expanded) {
         var point = expanded ? L.marker(latlng, {
-                icon : L.icon({
-                    iconUrl: '__BASE_URL__/img/spacer.gif',
-                    iconSize: [0, 0],
-                    iconAnchor: [0, 0]
-                }),
+                icon : L.DG.Ruler.DrawingHelper.spaceIcon,
             }) : L.marker(latlng, {
-                icon : L.icon({
-                    iconUrl: '__BASE_URL__/img/spacer.gif',
-                    iconSize: [12, 12],
-                    iconAnchor: [6, 6]
-                }),
+                icon : L.DG.Ruler.DrawingHelper.largeIcon,
                 opacity : 0,
                 draggable: true
             });
