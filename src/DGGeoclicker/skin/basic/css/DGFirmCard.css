@@ -81,7 +81,7 @@
     position: absolute;
     top: 2px;
     left: 0;
-    background-image: url('__BASE_URL__/img/clock.png');
+    background-image: url('__BASE_URL__/img/clock-on.png');
     width: 11px;
     height: 11px;
     content: '';
@@ -212,7 +212,7 @@
 
 .schedule__string {
     text-align: left;
-    padding: 3px 16px 3px 36px;
+    padding: 3px 16px 3px 24px;
 }
 
 .schedule__string-time {
@@ -257,7 +257,7 @@
 
 /* Открытость фирмы */
 .schedule_open_true:before {
-    background: url("__BASE_URL__/img/clock.png");
+    background: url("__BASE_URL__/img/clock-on.png");
 }
 
 /* Local dashed link */

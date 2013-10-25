@@ -52,6 +52,10 @@ FirmCard.Schedule.prototype = {
             };
         }
 
+        function capitaliseFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
         function getHours(str) {
             return str.substr(0, 2);
         }
@@ -340,7 +344,8 @@ FirmCard.Schedule.prototype = {
                 for (var i = 0; i < lunchesTime.length; i += 2) {
                     out.lunch.push({
                         from: lunchesTime[i],
-                        to: lunchesTime[i + 1]
+                        to: lunchesTime[i + 1],
+                        lunchStr: capitaliseFirstLetter(t(localLang, 'lunch'))
                     });
                 }
 
