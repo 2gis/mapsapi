@@ -139,16 +139,7 @@
                             }
                         }
                     }
-                } /*else if (target && target.nodeName === 'DIV' || target.nodeName === 'SPAN') {
-                    if (target.className.indexOf('schedule__today') !== -1) {
-                        var wrapper = target.parentNode;
-                        while (wrapper.className.indexOf('dg-map-firm-full') === -1) {
-                            wrapper = wrapper.parentNode;
-                        }
-                        var id = wrapper.id.split('-').pop();
-                        self.toggleSchedule(id);
-                    }
-                }*/
+                }
             };
 
             if (this._container.addEventListener) {
