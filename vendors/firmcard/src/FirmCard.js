@@ -63,7 +63,6 @@ FirmCard.prototype = {
         });
         forecast = this._schedule.forecast(schedule);
 
-
         /*firmCardBody = this.options.render(this.options.tmpls.body, {
             firm: data,
             schedule: schedule,
