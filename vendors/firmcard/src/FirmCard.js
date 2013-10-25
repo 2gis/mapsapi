@@ -64,7 +64,6 @@ FirmCard.prototype = {
         forecast = this._schedule.forecast(schedule);
 
 
-        console.log(schedule);
         /*firmCardBody = this.options.render(this.options.tmpls.body, {
             firm: data,
             schedule: schedule,
@@ -107,7 +106,7 @@ FirmCard.prototype = {
                         icon: true
             });
         }
-        // console.log(this.dict);
+
         btns.push({ name: 'goto',
                     label: this.dict.t(this.options.lang, 'btnFindWay'),
                     icon: true,
@@ -206,15 +205,23 @@ FirmCard.prototype = {
     _initEventHandlers: function () {
 
         var eventName = this._hasTouch() ? 'touchend' : 'click',
-            footer = this._footerContainer;
+            footer = this._footerContainer,
+            container = this._container;
 
-        //TODO:  do it crossbrowser!
         if (footer.addEventListener) {
-            footer.addEventListener(eventName, this._onFooterBtnClick.bind(this), false);
-            this._container.addEventListener(eventName, this._onToggleSchedule.bind(this), false);
+            footer.addEventListener(eventName, this._bind(this._onFooterBtnClick, this), false);
+            container.addEventListener(eventName, this._bind(this._onToggleSchedule, this), false);
         } else {
-            footer.attachEvent('on' + eventName, this._onFooterBtnClick);
+            footer.attachEvent('on' + eventName, this._bind(this._onFooterBtnClick, this));
+            container.attachEvent('on' + eventName, this._bind(this._onToggleSchedule, this));
         }
+    },
+
+    _bind: function (fn, obj) { // (Function, Object) -> Function
+        var args = arguments.length > 2 ? Array.prototype.slice.call(arguments, 2) : null;
+        return function () {
+            return fn.apply(obj, args || arguments);
+        };
     },
 
     _setOptions: function (options) {

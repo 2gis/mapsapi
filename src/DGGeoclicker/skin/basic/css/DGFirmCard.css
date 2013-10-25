@@ -203,15 +203,7 @@
     right: -12px;
     width: 10px;
     height: 6px;
-    background: url("__BASE_URL__/img/show_schedule.png") no-repeat;
 }
-
-.schedule__today.show_schedule:after {
-    background: url("__BASE_URL__/img/hide_schedule.png") no-repeat;
-}
-/*.schedule__today-time:not(:last-of-type):after {
-    content: ',';
-}*/
 
 .schedule__now {
     margin: 1px 7px 0px 36px;
