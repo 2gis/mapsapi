@@ -233,8 +233,8 @@
         },
 
         _initBodyContainer: function () {
-            var bodyWrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
-            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', bodyWrapper);
+            this._popupStructure.wrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
+            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
             this._isBodyExist = true;
         },
 
@@ -271,15 +271,32 @@
             this._container.style.visibility = '';
         },
 
+        _getDelta: function () {
+            var delta = 0,
+                popup = this._popupStructure;
+
+            if (this._isHeaderExist) {
+                delta += popup.header.offsetHeight;
+            }
+            if (this._isFooterExist) {
+                delta += popup.footer.offsetHeight;
+            }
+
+            return delta;
+        },
+
         _updateLayout: function () {
-            var container = this._contentNode,
+            var container = this._contentNode, // leaflet-popup-content
+                wrapper = this._wrapper, //leaflet-popup-content-wrapper
                 style = container.style,
-                wrapperStyle = this._wrapper.style,
+                wrapperStyle = wrapper.style,
                 width,
                 height,
                 maxHeight,
                 minHeight,
                 scrolledClass;
+
+            console.log(container, this._popupStructure);
 
             style.width = '';
             style.whiteSpace = 'nowrap';
