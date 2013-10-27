@@ -25,7 +25,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
-        this._gotoUrl = this._getGotoUrl(results.house.name);
+        this._directionsUrl = this._getDirectionsUrl(results.house.name);
 
 
         this._defaultFirm = /*'141265771576530';*/  results.extra && results.extra.poiId ? results.extra.poiId : null;
@@ -58,7 +58,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
             map: this._map,
             showEntrance: L.DG.Entrance,
-            gotoUrl: this._gotoUrl,
+            gotoUrl: this._directionsUrl,
             onFirmReady: L.bind(this._clearAndRenderPopup, this),
             //onToggle: L.bind(this._popup.resize, this._popup)
         };
