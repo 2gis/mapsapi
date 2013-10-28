@@ -36,6 +36,11 @@
     overflow: hidden;
 }
 
+.leaflet-popup-inner {
+    position: relative;
+    z-index: 0;
+}
+
 .leaflet-popup_show_true {
     -webkit-transition:
         -webkit-transform ease-in-out .2s,

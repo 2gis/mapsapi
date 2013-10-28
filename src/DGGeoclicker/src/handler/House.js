@@ -94,7 +94,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _fillFirmListObject: function (firmList) {
         var self = this;
 
-        //this._loader = this._view.initLoader();
+        this._loader = this._view.initLoader();
         return {
             tmpl: firmList,
             header: this._header,
@@ -126,8 +126,14 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         options.tmpls.firmlistItem = this._view.getTemplate('firmlistItem');
         L.extend(options, {
-            backBtn: L.bind(this._showListPopup, this),
-            onListReady: L.bind(this._renderFirmList, this)
+            backBtn: L.bind(function () {
+                this._popup.on('dgScroll', this._onScroll);
+                this._showListPopup();
+            }, this),
+            onListReady: L.bind(this._renderFirmList, this),
+            onFirmClick: L.bind(function () {
+                this._popup.off('dgScroll', this._onScroll);
+            }, this)
         });
         this._firmList = new FirmCard.List(results, options);
         this._firmListObject = this._fillFirmListObject(this._firmList.renderList());
@@ -219,7 +225,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _handlePaging: function () {
         this._page++;
-        console.log(this._page);
+
         if (this._totalPages && this._page <= this._totalPages) {
             this._api.firmsInHouse(this._id, {page: this._page}).then(L.bind(this._appendFirmList, this));
         }

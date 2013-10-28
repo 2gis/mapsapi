@@ -133,6 +133,10 @@
                 if (target && target.nodeName === 'A') {
                     if (target.className.indexOf('popup-link') !== -1) {
                         if (target.id) {
+
+                            // unsubscribe from scroll event
+                            self._addOptions.onFirmClick && self._addOptions.onFirmClick();
+
                             var s = self._firmCard.render(target.id);
                             if (!self._isEmptyObj(s)) {
                                 self._addOptions.onFirmReady(s);
@@ -169,6 +173,7 @@
             if ('onListReady' in options) { this._onListReady = options.onListReady; }
             //firmcard options
             if ('onToggle' in options) { this._addOptions.onToggle = options.onToggle; }
+            if ('onFirmClick' in options) { this._addOptions.onFirmClick = options.onFirmClick; }
             if ('backBtn' in options) { this._addOptions.backBtn = options.backBtn; }
             if ('map' in options) { this._addOptions.map = options.map; }
             if ('showEntrance' in options) { this._addOptions.showEntrance = options.showEntrance; }
