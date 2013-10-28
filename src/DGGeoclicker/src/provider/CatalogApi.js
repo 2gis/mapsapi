@@ -23,12 +23,12 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             beforeRequest = options.beforeRequest || function () {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
+
         if (!types) {
-            callback({
-                'error': 'no type'
-            });
+            callback({'error': 'no type'});
             return;
         }
+
         beforeRequest();
         this.geoSearch(q, types, zoom).then(L.bind(function (result) {
             callback(this._filterResponse(result, types));
@@ -50,6 +50,8 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     },
 
     getFirmInfo: function (firmId) {
+        this.cancelLastRequest();
+
         return this._performRequest({
             type: 'filial',
             id: firmId,
@@ -105,7 +107,12 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             type: 'get',
             data: data,
             timeout: this.options.timeoutMs
-        });
+        }).then(
+            null,
+            function () {
+                return false;
+            }
+        );
 
         return promise;
     },

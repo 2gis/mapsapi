@@ -313,8 +313,6 @@
             minHeight = this.options.minHeight || 0;
             scrolledClass = 'leaflet-popup-scrolled';
 
-            console.log(height, maxHeight);
-
             // this._isBaronExist = false; //may case bugs
             if (this._isContentHeightFit()) {
                 wrapperStyle.height = maxHeight + 'px';
