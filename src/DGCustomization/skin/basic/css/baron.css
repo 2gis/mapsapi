@@ -20,11 +20,11 @@
 }
 
 .scroller__bar-wrapper .scroller__bar {
-    background-color: rgba(100, 98, 86, 0.5);
+    /*background-color: rgba(100, 98, 86, 0.5);*/
 }
 
 .scroller__bar-wrapper:hover .scroller__bar {
-    background-color: rgba(100, 98, 86, 0.85);
+    /*background-color: rgba(100, 98, 86, 0.85);*/
 }
 
 .scroller__bar {
