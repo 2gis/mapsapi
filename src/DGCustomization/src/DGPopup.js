@@ -169,14 +169,17 @@
             this._bindAdjustPan();
         },
 
-        _adjustPan: function (ie9) {
+        _adjustPan: function () {
+            var transEv;
+
             originalAdjustPan.call(this);
-            if (!ie9) {
-                L.DomEvent.off(this._wrapper, this._whichTransitionEvent(), this._adjustPan);
+            transEv = this._whichTransitionEvent();
+            if (transEv) {
+                L.DomEvent.off(this._wrapper, transEv, this._adjustPan);
             }
         },
 
-        _whichTransitionEvent: function () {
+        _whichTransitionEvent: function () { // () -> String | Null
             var t,
                 el = document.createElement('fakeelement'),
                 transitions = {
@@ -191,14 +194,16 @@
                     return transitions[t];
                 }
             }
+
+            return null;
         },
 
         _bindAdjustPan: function () {
-            var event = this._whichTransitionEvent();
-            if (event) {
-                L.DomEvent.on(this._wrapper, this._whichTransitionEvent(), this._adjustPan, this);
+            var transEv = this._whichTransitionEvent();
+            if (transEv) {
+                L.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
             } else {
-                this._adjustPan(true);
+                this._adjustPan();
             }
         },
 
@@ -382,12 +387,21 @@
         },
 
         _onCloseButtonClick: function (e) {
-            var self = this;
+            var transEv;
+
             this._animateClosing();
-            setTimeout(function () { //devil action
-                originalOnClose.call(self, e);
-            }, 200);
-            L.DomEvent.stop(e);
+            transEv = this._whichTransitionEvent();
+
+            if (transEv) {
+                function origOnClose () {
+                    originalOnClose.call(this, e);
+                    L.DomEvent.off(this._innerContainer, transEv, origOnClose);
+                }
+                L.DomEvent.on(this._innerContainer, transEv, origOnClose, this);
+            }
+            else {
+                originalOnClose.call(this, e);
+            }
         }
     });
 }());
