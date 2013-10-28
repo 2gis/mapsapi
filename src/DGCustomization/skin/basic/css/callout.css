@@ -135,19 +135,7 @@
 .leaflet-popup-scrolled .dg-popup-header:after,
 .leaflet-popup-scrolled .dg-popup-footer:before {
     content: '';
-    background-color: #000;
-    border-style: solid;
-    border-color: #fff;
-    opacity: .1;
     display: block;
     width: 100%;
     height: 1px;
-}
-
-.leaflet-popup-scrolled .dg-popup-header:after {
-    border-width: 0 0 1px 0;
-}
-
-.leaflet-popup-scrolled .dg-popup-footer:before {
-    border-width: 1px 0 0 0;
 }
