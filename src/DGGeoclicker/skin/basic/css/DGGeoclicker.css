@@ -205,19 +205,17 @@
 
 #dg-popup-firm-loading {
     background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
-    height: 30px;
-    padding-bottom: 12px;
+    height: 40px;
     width: 200px;
-    height: 100px;
     margin: 0 auto;
 }
 
-.dg-map-infocard-firmlist .dg-map-firm-loading {
+/*.dg-map-infocard-firmlist .dg-map-firm-loading {
     display: none;
     background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
     height: 30px;
     padding-bottom: 12px;
-}
+}*/
 
 .dg-geoclicker-loader {
     position: absolute;

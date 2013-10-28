@@ -23,12 +23,12 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             beforeRequest = options.beforeRequest || function () {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
+
         if (!types) {
-            callback({
-                'error': 'no type'
-            });
+            callback({'error': 'no type'});
             return;
         }
+
         beforeRequest();
         this.geoSearch(q, types, zoom).then(L.bind(function (result) {
             callback(this._filterResponse(result, types));
@@ -43,8 +43,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             house: houseId,
             page: parameters.page || 1
         });
-
-        this.cancelLastRequest();
 
         return this._performRequest(params, this.options.urlGeo);
     },
@@ -65,8 +63,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             type: 'geo',
             fields: this.options.geoFields
         };
-
-        this.cancelLastRequest();
 
         return this._performRequest(params, this.options.urlGeo);
     },
@@ -99,13 +95,21 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         var source = this.options.data,
             data = L.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key
-            }, params);
+            }, params),
+            promise;
 
-        var promise = this._lastRequest = L.DG.ajax(url, {
+        this.cancelLastRequest();
+
+        this._lastRequest = L.DG.ajax(url, {
             type: 'get',
             data: data,
             timeout: this.options.timeoutMs
         });
+
+        promise = this._lastRequest.then(
+            null,
+            function () { return false; }
+        );
 
         return promise;
     },
