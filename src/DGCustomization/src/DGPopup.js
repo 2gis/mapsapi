@@ -169,7 +169,7 @@
         },
 
         _isContentHeightFit: function () {
-            var popupHeight = this._contentNode.offsetHeight,
+            var popupHeight = this._contentNode.offsetHeight + 32,
                 maxHeight = this.options.maxHeight;
 
             return (maxHeight && maxHeight <= popupHeight);
@@ -296,12 +296,11 @@
                 minHeight,
                 scrolledClass;
 
-            console.log(container, this._popupStructure);
-
             style.width = '';
             style.whiteSpace = 'nowrap';
 
-            width = container.offsetWidth + 32; //TODO: remove bone
+            // width = container.offsetWidth + 32; //TODO: remove bone
+            width = wrapper.offsetWidth;
 
             // style.width = width + 'px';
             style.whiteSpace = '';
@@ -309,22 +308,26 @@
             style.height = '';
 
             height = container.offsetHeight + 32; //TODO: remove bone
+            // height = wrapper.offsetHeight; //TODO: remove bone
             maxHeight = this.options.maxHeight;
             minHeight = this.options.minHeight || 0;
             scrolledClass = 'leaflet-popup-scrolled';
 
-            this._isBaronExist = false; //may case bugs
-            if (maxHeight && height > maxHeight) {
+            console.log(height, maxHeight);
+
+            // this._isBaronExist = false; //may case bugs
+            if (this._isContentHeightFit()) {
                 wrapperStyle.height = maxHeight + 'px';
                 width += 10; //TODO: remove bone
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
                 L.DomUtil.removeClass(container, scrolledClass);
-                wrapperStyle.height = Math.max(this._contentNode.offsetHeight + 32, minHeight) + 'px';  //TODO: remove bone
+                // wrapperStyle.height = Math.max(height, minHeight) + 'px';  //TODO: remove bone
+                wrapperStyle.height = 'auto';  //TODO: remove bone
             }
             width = Math.min(width, this.options.maxWidth);
             width = Math.max(width, this.options.minWidth);
-            style.width = width - 32 + 'px';
+            // style.width = width - 32 + 'px';
             wrapperStyle.width = width + 'px';
             wrapperStyle.opacity = 1;
             this._containerWidth = this._container.offsetWidth;

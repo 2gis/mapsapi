@@ -222,12 +222,14 @@
 .schedule__table {
     display:none;
     text-align: center;
+    font-size: 0;
 }
 
 .schedule__tc {
     display: inline-block;
     vertical-align: top;
-    width: 42px;
+    width: 41px;
+    font-size: 14px;
     padding: 2px 0 20px;
 }
 
@@ -241,9 +243,6 @@
 }
 
 .schedule__td {
-    -webkit-flex: 1 1 auto;
-    -moz-flex: 1 1 auto;
-    flex: 1 1 auto;
     min-height: 32px;
     margin: 10px 0 0;
 }

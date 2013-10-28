@@ -22,7 +22,7 @@
 
 .leaflet-popup-content {
     line-height: 1.4;
-    width: 100%;
+    width: auto;
     margin: 16px;
     position: relative;
 }
@@ -130,7 +130,7 @@
     bottom: 0;
 }
 .dg-popup-footer > * {
-    margin: 10px 0 5px 0 !important;
+    margin: 10px 0 0 0 !important;
 }
 
 .leaflet-popup-scrolled .dg-popup-container {
