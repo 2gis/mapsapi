@@ -169,9 +169,11 @@
             this._bindAdjustPan();
         },
 
-        _adjustPan: function () {
+        _adjustPan: function (ie9) {
             originalAdjustPan.call(this);
-            L.DomEvent.off(this._wrapper, this._whichTransitionEvent(), this._adjustPan);
+            if (!ie9) {
+                L.DomEvent.off(this._wrapper, this._whichTransitionEvent(), this._adjustPan);
+            }
         },
 
         _whichTransitionEvent: function () {
@@ -192,7 +194,12 @@
         },
 
         _bindAdjustPan: function () {
-            L.DomEvent.on(this._wrapper, this._whichTransitionEvent(), this._adjustPan, this);
+            var event = this._whichTransitionEvent();
+            if (event) {
+                L.DomEvent.on(this._wrapper, this._whichTransitionEvent(), this._adjustPan, this);
+            } else {
+                this._adjustPan(true);
+            }
         },
 
         _isContentHeightFit: function () {
