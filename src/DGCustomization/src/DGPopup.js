@@ -167,7 +167,6 @@
             }
 
             this._bindAdjustPan();
-
         },
 
         _adjustPan: function () {
@@ -407,7 +406,9 @@ L.Map.include({
                 L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_disappear');
             } else {
                 L.DomUtil.addClass(popup._source._icon, 'dg-hidden');
-                popup._source._shadow && L.DomUtil.addClass(popup._source._shadow, 'dg-hidden');
+                if (popup._source._shadow) {
+                    L.DomUtil.addClass(popup._source._shadow, 'dg-hidden');
+                }
             }
         }
 
@@ -426,7 +427,9 @@ L.Map.include({
                     L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_appear');
                 } else {
                     L.DomUtil.removeClass(popup._source._icon, 'dg-hidden');
-                    popup._source._shadow && L.DomUtil.removeClass(popup._source._shadow, 'dg-hidden');
+                    if (popup._source._shadow) {
+                        L.DomUtil.removeClass(popup._source._shadow, 'dg-hidden');
+                    }
                 }
             }
             this.removeLayer(popup);
