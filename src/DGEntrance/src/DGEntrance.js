@@ -126,17 +126,14 @@ L.DG.Entrance = L.Class.extend({
 
     _fitBounds: function () {
         var map = this._map,
-            maxZoom;
+            maxZoom,
+            bounds = this.getBounds();
 
-        if (this._map && !this._isAllowedZoom()) {
-            map.once('moveend', function () {
-                maxZoom = map.dgProjectDetector.getProject().max_zoom_level;
-                map.setZoom(maxZoom, {animate: false});
-            }, this);
-        }
-
-        if (!map.getBounds().contains(this.getBounds()) || !this._isAllowedZoom()) {
-            map.panTo(this.getBounds().getCenter(), {animate: false});
+        if (!map.getBounds().contains(bounds) || !this._isAllowedZoom()) {
+            maxZoom = map.dgProjectDetector.getProject().max_zoom_level || L.DG.Entrance.SHOW_FROM_ZOOM;
+            map.setView(bounds.getCenter(), maxZoom, {
+                    animate : true
+                });
         }
     },
 
