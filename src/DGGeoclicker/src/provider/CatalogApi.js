@@ -44,14 +44,10 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             page: parameters.page || 1
         });
 
-        this.cancelLastRequest();
-
         return this._performRequest(params, this.options.urlGeo);
     },
 
     getFirmInfo: function (firmId) {
-        this.cancelLastRequest();
-
         return this._performRequest({
             type: 'filial',
             id: firmId,
@@ -67,8 +63,6 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             type: 'geo',
             fields: this.options.geoFields
         };
-
-        this.cancelLastRequest();
 
         return this._performRequest(params, this.options.urlGeo);
     },
@@ -101,17 +95,20 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         var source = this.options.data,
             data = L.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key
-            }, params);
+            }, params),
+            promise;
 
-        var promise = this._lastRequest = L.DG.ajax(url, {
+        this.cancelLastRequest();
+
+        this._lastRequest = L.DG.ajax(url, {
             type: 'get',
             data: data,
             timeout: this.options.timeoutMs
-        }).then(
+        });
+
+        promise = this._lastRequest.then(
             null,
-            function () {
-                return false;
-            }
+            function () { return false; }
         );
 
         return promise;
