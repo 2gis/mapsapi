@@ -6,6 +6,7 @@
         originalOnClose = L.Popup.prototype._onCloseButtonClick,
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
+        originalAdjustPan = L.Popup.prototype._adjustPan,
         /*global baron:false */
         graf = baron.noConflict();
 
@@ -165,11 +166,38 @@
                 }
             }
 
-            this._adjustPan();
+            this._bindAdjustPan();
+
+        },
+
+        _adjustPan: function () {
+            originalAdjustPan.call(this);
+            L.DomEvent.off(this._wrapper, this._whichTransitionEvent(), this._adjustPan);
+        },
+
+        _whichTransitionEvent: function () {
+            var t,
+                el = document.createElement('fakeelement'),
+                transitions = {
+                'transition': 'transitionend',
+                'OTransition': 'oTransitionEnd',
+                'MozTransition': 'transitionend',
+                'WebkitTransition': 'webkitTransitionEnd'
+            };
+
+            for (t in transitions) {
+                if (el.style[t] !== undefined) {
+                    return transitions[t];
+                }
+            }
+        },
+
+        _bindAdjustPan: function () {
+            L.DomEvent.on(this._wrapper, this._whichTransitionEvent(), this._adjustPan, this);
         },
 
         _isContentHeightFit: function () {
-            var popupHeight = this._contentNode.offsetHeight + 32,
+            var popupHeight = this._contentNode.offsetHeight + 32, //TODO: remove bone
                 maxHeight = this.options.maxHeight;
 
             return (maxHeight && maxHeight <= popupHeight);
@@ -185,12 +213,7 @@
             this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
 
-            if (this._popupStructure.header) {
-                innerHeight -= this._popupStructure.header.offsetHeight;
-            }
-            if (this._popupStructure.footer) {
-                innerHeight -= this._popupStructure.footer.offsetHeight;
-            }
+            innerHeight -= this._getDelta();
             scrollerWrapper.style.height = innerHeight + 'px';
             scrollerWrapper.style.width = contentNode.offsetWidth + 'px';
 
@@ -247,7 +270,7 @@
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
-            this._wrapper.style.height = this.options.minHeight + 'px';
+            // this._wrapper.style.height = this.options.minHeight + 'px';
             this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
@@ -291,43 +314,24 @@
                 style = container.style,
                 wrapperStyle = wrapper.style,
                 width,
-                height,
-                maxHeight,
-                minHeight,
-                scrolledClass;
+                scrolledClass = 'leaflet-popup-scrolled';
 
-            style.width = '';
             style.whiteSpace = 'nowrap';
-
-            // width = container.offsetWidth + 32; //TODO: remove bone
             width = wrapper.offsetWidth;
-
-            // style.width = width + 'px';
             style.whiteSpace = '';
 
-            style.height = '';
-
-            height = container.offsetHeight + 32; //TODO: remove bone
-            // height = wrapper.offsetHeight; //TODO: remove bone
-            maxHeight = this.options.maxHeight;
-            minHeight = this.options.minHeight || 0;
-            scrolledClass = 'leaflet-popup-scrolled';
-
-            console.log(height, maxHeight);
-
-            // this._isBaronExist = false; //may case bugs
             if (this._isContentHeightFit()) {
-                wrapperStyle.height = maxHeight + 'px';
+                wrapperStyle.height = this.options.maxHeight + 'px';
                 width += 10; //TODO: remove bone
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
+                wrapperStyle.height = 'auto';
                 L.DomUtil.removeClass(container, scrolledClass);
-                // wrapperStyle.height = Math.max(height, minHeight) + 'px';  //TODO: remove bone
-                wrapperStyle.height = 'auto';  //TODO: remove bone
             }
+
             width = Math.min(width, this.options.maxWidth);
             width = Math.max(width, this.options.minWidth);
-            // style.width = width - 32 + 'px';
+
             wrapperStyle.width = width + 'px';
             wrapperStyle.opacity = 1;
             this._containerWidth = this._container.offsetWidth;

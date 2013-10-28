@@ -28,6 +28,8 @@
     position: relative;
     padding: 0 0 4px 24px;
     overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 .firm-card__phone:before {
