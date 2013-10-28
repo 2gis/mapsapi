@@ -7,7 +7,6 @@
          url('__BASE_URL__/fonts/suisseintl-cond/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
 
 .dg-map-geoclicker-address {
@@ -83,7 +82,6 @@
     left: -21px;
     width: 6px;
     height: 6px;
-    border-radius: 3px;
     content: '';
 }
 
