@@ -30,21 +30,6 @@
     background-color: #323232;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
 }
-.leaflet-container a.leaflet-popup-close-button:before {
-    left: 8px;
-    top: 9px;
-    background: url(__BASE_URL__/img/dg-callout-dark.png);
-    background-position: -181px -103px;
-    width: 11px;
-    height: 9px;
-}
-.leaflet-container a.leaflet-popup-close-button:hover:before {
-    top: 8px;
-    background: url(__BASE_URL__/img/dg-callout-dark.png);
-    background-position: -237px -93px;
-    width: 11px;
-    height: 10px;
-}
 .leaflet-container a.leaflet-popup-close-button:after {
     right: -5px;
     top: -3px;

@@ -67,7 +67,7 @@
 }
 
 .building-callout__list-item:before {
-    background: #aaa;
+    background-image: url(__BASE_URL__/img/bullet-dark.png);
 }
 
 .firm-card__comment {
