@@ -3,15 +3,15 @@
 }
 
 .schedule__table-clock {
-    background: url("__BASE_URL__/img/clock-off-dark.png") no-repeat;
+    background-image: url(__BASE_URL__/img/clock-off-dark.png);
 }
 
 .schedule_open_false:before {
-    background: url("__BASE_URL__/img/clock-off-dark.png");
+    background-image: url(__BASE_URL__/img/clock-off-dark.png);
 }
 
 .schedule__table-lunch {
-    background: url("__BASE_URL__/img/lunch-dark.png") no-repeat;
+    background-image: url(__BASE_URL__/img/lunch-dark.png);
 }
 
 #popup-btn-firmCard-back:before {
@@ -59,11 +59,11 @@
 }
 
 .schedule__today:after {
-    background: url(__BASE_URL__/img/show-schedule-dark.png);
+    background-image: url(__BASE_URL__/img/show-schedule-dark.png);
 }
 
 .schedule__today.show_schedule:after {
-    background: url(__BASE_URL__/img/hide-schedule-dark.png);
+    background-image: url(__BASE_URL__/img/hide-schedule-dark.png);
 }
 
 .building-callout__list-item:before {
@@ -100,4 +100,78 @@
 
 .firm-card__rubrics {
     color: #aaa;
+}
+
+/*retina icons*/
+
+.leaflet-retina #popup-link-photos:before {
+    background-image: url(__BASE_URL__/img/photo-dark-2x.png);
+}
+
+.leaflet-retina .schedule__table-clock {
+    background-image: url(__BASE_URL__/img/clock-off-dark-2x.png);
+}
+
+.leaflet-retina .schedule_open_false:before {
+    background-image: url(__BASE_URL__/img/clock-off-dark-2x.png);
+}
+
+.leaflet-retina .schedule__table-lunch {
+    background-image: url(__BASE_URL__/img/lunch-dark-2x.png);
+}
+
+.leaflet-retina #popup-btn-firmCard-back:before {
+    background-image: url(__BASE_URL__/img/back-dark-2x.png);
+}
+
+.leaflet-retina #popup-btn-firmList-back:before {
+    background-image: url(__BASE_URL__/img/back-dark-2x.png);
+}
+
+.leaflet-retina #popup-btn-goto:before {
+    background-image: url(__BASE_URL__/img/path-dark-2x.png);
+}
+
+.leaflet-retina #popup-btn-show-entrance:before{
+    background-image: url(__BASE_URL__/img/enter-dark-2x.png);
+}
+
+.leaflet-retina .dg-map-geoclicker-purpose:before {
+    background-image: url(__BASE_URL__/img/purp-dark-2x.png);
+}
+
+.leaflet-retina .dg-map-geoclicker-address-header:before {
+    background-image: url(__BASE_URL__/img/marker-dark-2x.png);
+}
+
+.leaflet-retina .firm-card__address:before {
+    background-image: url(__BASE_URL__/img/marker-dark-2x.png);
+}
+
+.leaflet-retina .firm-card__phone:before {
+    background-image: url(__BASE_URL__/img/phone-dark-2x.png);
+}
+
+.leaflet-retina .firm-card__site:before {
+    background-image: url(__BASE_URL__/img/globe-dark-2x.png);
+}
+
+.leaflet-retina .firm-card__email:before {
+    background-image: url(__BASE_URL__/img/evenlope-dark-2x.png);
+}
+
+.leaflet-retina .dg-map-geoclicker-purpose__street:before {
+    background-image: url(__BASE_URL__/img/street-dark-2x.png);
+}
+
+.leaflet-retina .schedule__today:after {
+    background-image: url(__BASE_URL__/img/show-schedule-dark-2x.png);
+}
+
+.leaflet-retina .schedule__today.show_schedule:after {
+    background-image: url(__BASE_URL__/img/hide-schedule-dark-2x.png);
+}
+
+.leaflet-retina .building-callout__list-item:before {
+    background-image: url(__BASE_URL__/img/bullet-dark-2x.png);
 }
