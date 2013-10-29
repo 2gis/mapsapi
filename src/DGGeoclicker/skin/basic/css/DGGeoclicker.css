@@ -151,8 +151,11 @@
 
 .popup_footer_btn {
     text-align: center;
-    margin-left: 8px;
-    display: block;
+    /*margin-left: 8px;*/
+    /*display: block;*/
+    display: inline-block;
+    width: 95%;
+    margin-left: 5%;
     border-radius: 2px;
     cursor: pointer;
     transition: all .1s;
@@ -163,6 +166,7 @@
 
 .popup_footer_btn-wrapper:first-child .popup_footer_btn {
     margin: 0;
+    width: 100%;
 }
 
 .popup_footer_btn:hover {
@@ -170,30 +174,32 @@
 }
 
 .popup_footer_btn__icon{
-    padding-left: 1.5em;
+    /*padding-left: 1.5em;*/
 }
 .popup_footer_btn__icon:before {
-    position: absolute;
-    margin: 6px 0 0 -1.5em;
-    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
+    /*position: absolute;*/
+    /*margin: 6px 0 0 -1.5em;*/
+    vertical-align: middle;
+    margin-right: 1em;
+    display: inline-block;
     width: 12px;
     height: 12px;
     content: '';
 }
 #popup-btn-goto:before{
-    margin: 8px 0 0 -1.9em;
+    /*margin: 8px 0 0 -1.9em;*/
     width: 20px;
     height: 7px;
 }
 
 #popup-btn-firmCard-back:before{
-    margin: 9px 0 0 -1.0em;
+    /*margin: 9px 0 0 -1.0em;*/
     width: 10px;
     height: 6px;
 }
 
 #popup-btn-firmList-back:before{
-    margin: 9px 0 0 -1.0em;
+    /*margin: 9px 0 0 -1.0em;*/
     width: 10px;
     height: 6px;
 }

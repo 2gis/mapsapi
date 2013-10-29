@@ -342,6 +342,7 @@
                 wrapperStyle.height = this.options.maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
+                console.log(wrapper.offsetHeight);
                 wrapperStyle.height = 'auto';
                 L.DomUtil.removeClass(container, scrolledClass);
             }
