@@ -148,9 +148,10 @@
 .popup_footer_btn-wrapper {
     display: table-cell;
 }
+
 .popup_footer_btn {
     text-align: center;
-    margin: 0 4px;
+    margin-left: 8px;
     display: block;
     border-radius: 2px;
     cursor: pointer;
@@ -159,6 +160,11 @@
     text-decoration: none;
     position: relative;
 }
+
+.popup_footer_btn-wrapper:first-child .popup_footer_btn {
+    margin: 0;
+}
+
 .popup_footer_btn:hover {
     transition: all .2s;
 }

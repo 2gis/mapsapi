@@ -118,7 +118,7 @@
     top: 0;
 }
 .dg-popup-header > * {
-    margin: 0 8px 8px 0 !important;
+    margin: 0 18px 8px 0 !important;
 }
 
 .dg-popup-footer {
@@ -129,7 +129,7 @@
 }
 
 .leaflet-popup-scrolled .dg-popup-container {
-    margin: 0 10px 0 0;
+    padding: 0 10px 0 0;
 }
 
 .leaflet-popup-scrolled .dg-popup-header:after,
