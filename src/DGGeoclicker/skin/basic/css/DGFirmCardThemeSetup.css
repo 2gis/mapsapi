@@ -4,7 +4,7 @@
 
 .popup-link {
     height: 14px;
-    line-height: 16px;
+    line-height: 14px;
     margin: 0 0.6em 0 0;
     vertical-align: top;
     background-size: contain;
@@ -23,12 +23,12 @@
 
 #popup-link-flamp_stars div {
     background-image: url(__BASE_URL__/img/star-on.png);
-    height: 15px;
+    height: 14px;
 }
 
 .leaflet-retina #popup-link-flamp_stars div {
     background-image: url(__BASE_URL__/img/star-on-2x.png);
-    height: 15px;
+    height: 14px;
     background-size: contain;
 }
 

@@ -185,9 +185,9 @@
 }
 .popup_footer_btn__icon:before {
     /*position: absolute;*/
-    /*margin: 6px 0 0 -1.5em;*/
+    margin: -2px 0 0 0;
     vertical-align: middle;
-    margin-right: 1em;
+    margin-right: 0.4em;
     display: inline-block;
     width: 12px;
     height: 12px;
