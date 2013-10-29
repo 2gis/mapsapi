@@ -65,24 +65,13 @@ FirmCard.prototype = {
         });
         forecast = this._schedule.forecast(schedule);
 
-        /*firmCardBody = this.options.render(this.options.tmpls.body, {
-            firm: data,
-            schedule: schedule,
-            dict: this.dict,
-            lang: this.options.lang,
-            forecast: forecast,
-            dataHelper: FirmCard.DataHelper
-        });*/
         if (!!(data.attributes && data.attributes.general.items)) {
             data.attributes.general.items ? attributes = data.attributes.general.items : attributes = [];
         }
 
-        firmCardBody = this.options.render(this.options.tmpls.addr, {data: data.geo});
-        firmCardBody += this.options.render(this.options.tmpls.contacts, {groups: data.contact_groups});
-        firmCardBody += this.options.render(this.options.tmpls.schedule, {schedule: schedule,
-                                                                         forecast: forecast});
-        firmCardBody += this.options.render(this.options.tmpls.payments, {payments: attributes});
-        firmCardBody += this.options.render(this.options.tmpls.rubrics, {rubrics: data.rubrics});
+        firmCardBody = this._buildFirmCardBody(
+            this._getConfigFirmCardBody(data, schedule, forecast, attributes)
+        );
 
         links = this._fillHeaderLinks();
 
@@ -95,7 +84,53 @@ FirmCard.prototype = {
         this._footerContainer.innerHTML = this.options.render(this.options.tmpls.footer, {'btns': btns});
         this._firmContentObject.footer = this._footerContainer;
 
-        this.options.onFirmReady && this.options.onFirmReady(this._firmContentObject);
+        if (this.options.onFirmReady) {
+            this.options.onFirmReady(this._firmContentObject);
+        }
+    },
+
+    _getConfigFirmCardBody: function (data, schedule, forecast, attributes) {
+        return [
+            {
+                tmpl: 'addr',
+                data: {
+                    data: data.geo
+                }
+            },
+            {
+                tmpl: 'contacts',
+                data: {
+                    groups: data.contact_groups
+                }
+            },
+            {
+                tmpl: 'schedule',
+                data: {
+                    schedule: schedule,
+                    forecast: forecast
+                }
+            },
+            {
+                tmpl: 'payments',
+                data: {
+                    payments: attributes
+                }
+            },
+            {
+                tmpl: 'rubrics',
+                data: {
+                    rubrics: data.rubrics
+                }
+            }
+        ];
+    },
+
+    _buildFirmCardBody: function (parts) {
+        var self = this;
+        return parts.reduce(function (body, item) {
+            var html = self.options.render(self.options.tmpls[item.tmpl], item.data);
+            return body + html;
+        }, '');
     },
 
     _fillFooterButtons: function () {
@@ -199,7 +234,9 @@ FirmCard.prototype = {
                 target.className += showClass;
             }
 
-            this.options.onToggle && this.options.onToggle();
+            if (this.options.onToggle) {
+                this.options.onToggle();
+            }
         }
     },
 

@@ -413,6 +413,7 @@
             else {
                 originalOnClose.call(this, e);
             }
+            L.DomEvent.stop(e);
         }
     });
 }());

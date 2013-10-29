@@ -40,18 +40,51 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         return L.DG.when(!this._defaultFirm ? this._houseObject : this._firmCard);
     },
 
+    _firmCardTmplsSetup: function () {
+        var tmpls = [
+            {
+                name: 'loader',
+                tmpl: 'loader'
+            },
+            {
+                name: 'header',
+                tmpl: 'firmCardHeader'
+            },
+            {
+                name: 'addr',
+                tmpl: 'firmCardAddr'
+            },
+            {
+                name: 'contacts',
+                tmpl: 'firmCardContacts'
+            },
+            {
+                name: 'schedule',
+                tmpl: 'firmCardSchedule'
+            },
+            {
+                name: 'payments',
+                tmpl: 'frimCardPayments'
+            },
+            {
+                name: 'rubrics',
+                tmpl: 'firmCardRubric'
+            },
+            {
+                name: 'footer',
+                tmpl: 'popupFooterBtns'
+            }
+        ],
+        self = this;
+        return tmpls.reduce(function (obj, item) {
+            obj[item.name] = self._view.getTemplate(item.tmpl);
+            return obj;
+        }, {});
+    },
+
     _firmCardSetup: function () {
         return {
-            tmpls: {
-                loader: this._view.getTemplate('loader'),
-                header: this._view.getTemplate('firmCardHeader'),
-                addr: this._view.getTemplate('firmCardAddr'),
-                contacts: this._view.getTemplate('firmCardContacts'),
-                schedule: this._view.getTemplate('firmCardSchedule'),
-                payments: this._view.getTemplate('frimCardPayments'),
-                rubrics: this._view.getTemplate('firmCardRubric'),
-                footer: this._view.getTemplate('popupFooterBtns')
-            },
+            tmpls: this._firmCardTmplsSetup(),
             render: L.DG.template,
             lang: this._map.getLang(),
             ajax: L.bind(this._api.getFirmInfo, this._api),

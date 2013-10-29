@@ -4,7 +4,8 @@ var deps = {
         desc: 'Main module',
         src: [
             'DGCore/DGCore.js',
-            '../vendors/polyfills/json2.js'
+            '../vendors/polyfills/json2.js',
+            '../vendors/polyfills/es5.js'
         ],
         css: {
             all: [
