@@ -11,11 +11,15 @@
     height: 47px;
 }
 
-.leaflet-container a {
+.dg-popup-header a,
+.dg-popup-container a {
     color: #ffe6aa;
+    background-image: linear-gradient(to right, rgba(255,230,170,.3), rgba(255,230,170,.3) 100%);
 }
-.leaflet-container a:hover {
+.dg-popup-header a:hover,
+.dg-popup-container a:hover {
     color: #9cd;
+    background-image: linear-gradient(to right, rgba(153,204,221,.3), rgba(153,204,221,.3) 100%);
 }
 
 .leaflet-popup-content-wrapper {

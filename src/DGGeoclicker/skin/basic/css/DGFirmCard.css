@@ -100,16 +100,6 @@
     cursor: default;
 }
 
-.firm-card__rubrics-list-item:after {
-    content: '•';
-    display: inline-block;
-    margin: 0 4px;
-}
-
-.firm-card__rubrics-list-item:last-child:after {
-  content: '';
-}
-
 .link, .link:hover {
     background-position: 0 95%;
     background-size: 10px 1px;
@@ -140,15 +130,17 @@
     cursor: default;
 }
 
-.firm-card__aa-list-item:after {
+.firm-card__rubrics-list-item:before,
+.firm-card__aa-list-item:before {
     content: '•';
     display: inline-block;
     margin: 0 4px;
 }
 
-.firm-card__aa-list-item:last-child:after
-{
+.firm-card__rubrics-list-item:first-child:before,
+.firm-card__aa-list-item:first-child:before {
     content: '';
+    margin: 0;
 }
 
 /*frimCard schedule*/
@@ -202,6 +194,7 @@
 
 .schedule__string {
     text-align: left;
+    font-size: 14px;
     padding: 3px 16px 3px 24px;
 }
 
@@ -279,10 +272,14 @@
     margin: 14px 0 0 0;
 }
 
-.schedule_open_false {
+.schedule_open_false:after {
     background-size: contain;
+    background-repeat: no-repeat;
     width: 11px;
     height: 11px;
+    position: absolute;
+    top: 3px;
+    right: -14px;
 }
 
 .schedule__table-lunch {
