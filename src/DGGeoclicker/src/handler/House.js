@@ -42,42 +42,18 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _firmCardTmplsSetup: function () {
         var tmpls = [
-            {
-                name: 'loader',
-                tmpl: 'loader'
-            },
-            {
-                name: 'header',
-                tmpl: 'firmCardHeader'
-            },
-            {
-                name: 'addr',
-                tmpl: 'firmCardAddr'
-            },
-            {
-                name: 'contacts',
-                tmpl: 'firmCardContacts'
-            },
-            {
-                name: 'schedule',
-                tmpl: 'firmCardSchedule'
-            },
-            {
-                name: 'payments',
-                tmpl: 'frimCardPayments'
-            },
-            {
-                name: 'rubrics',
-                tmpl: 'firmCardRubric'
-            },
-            {
-                name: 'footer',
-                tmpl: 'popupFooterBtns'
-            }
+            'loader',
+            'firmCardHeader',
+            'firmCardAddr',
+            'firmCardContacts',
+            'firmCardSchedule',
+            'frimCardPayments',
+            'firmCardRubric',
+            'popupFooterBtns'
         ],
         self = this;
         return tmpls.reduce(function (obj, item) {
-            obj[item.name] = self._view.getTemplate(item.tmpl);
+            obj[item] = self._view.getTemplate(item);
             return obj;
         }, {});
     },

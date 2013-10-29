@@ -78,10 +78,10 @@ FirmCard.prototype = {
         btns = this._fillFooterButtons();
 
         //fill object for view render
-        this._firmContentObject.header = this.options.render(this.options.tmpls.header, {'firmName': data.name, 'links': links});
+        this._firmContentObject.header = this.options.render(this.options.tmpls.firmCardHeader, {'firmName': data.name, 'links': links});
         container.innerHTML = firmCardBody;
         this._firmContentObject.tmpl = container;
-        this._footerContainer.innerHTML = this.options.render(this.options.tmpls.footer, {'btns': btns});
+        this._footerContainer.innerHTML = this.options.render(this.options.tmpls.popupFooterBtns, {'btns': btns});
         this._firmContentObject.footer = this._footerContainer;
 
         if (this.options.onFirmReady) {
@@ -92,32 +92,32 @@ FirmCard.prototype = {
     _getConfigFirmCardBody: function (data, schedule, forecast, attributes) {
         return [
             {
-                tmpl: 'addr',
+                tmpl: 'firmCardAddr',
                 data: {
                     data: data.geo
                 }
             },
             {
-                tmpl: 'contacts',
+                tmpl: 'firmCardContacts',
                 data: {
                     groups: data.contact_groups
                 }
             },
             {
-                tmpl: 'schedule',
+                tmpl: 'firmCardSchedule',
                 data: {
                     schedule: schedule,
                     forecast: forecast
                 }
             },
             {
-                tmpl: 'payments',
+                tmpl: 'frimCardPayments',
                 data: {
                     payments: attributes
                 }
             },
             {
-                tmpl: 'rubrics',
+                tmpl: 'firmCardRubric',
                 data: {
                     rubrics: data.rubrics
                 }
