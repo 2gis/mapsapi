@@ -56,6 +56,8 @@ FirmCard.prototype = {
 
         this._footerContainer = document.createElement('div');
 
+        this._footerContainer.className = 'footer-btns';
+
         schedule = this._schedule.transform(data.schedule, {
             zoneOffset: this.options.timezoneOffset,
             apiLang: this.options.lang,
