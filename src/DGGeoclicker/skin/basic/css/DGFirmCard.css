@@ -12,6 +12,7 @@
     width: 9px;
     height: 11px;
     content: '';
+    background-size: contain;
 }
 
 .firm-card__comment {
@@ -39,6 +40,7 @@
     left: 0;
     width: 10px;
     height: 10px;
+    background-size: contain;
 }
 
 .firm-card__phone-num {
@@ -65,28 +67,12 @@
     left: 0;
     width: 11px;
     height: 11px;
+    background-size: contain;
 }
 
 .firm-card__email:before {
     top: 5px;
     height: 8px;
-}
-
-/*firmCard forecast*/
-
-.firm-card__workhours {
-    position: relative;
-    padding: 0 0 9px 24px;
-}
-
-.firm-card__workhours:before {
-    position: absolute;
-    top: 2px;
-    left: 0;
-    background-image: url('__BASE_URL__/img/clock-on.png');
-    width: 11px;
-    height: 11px;
-    content: '';
 }
 
 /*firmCard rubrics*/
@@ -196,6 +182,7 @@
     height: 11px;
     top: 0;
     left: -24px;
+    background-size: contain;
 }
 
 .schedule__today:after {
@@ -205,6 +192,7 @@
     right: -12px;
     width: 10px;
     height: 6px;
+    background-size: contain;
 }
 
 .schedule__now {
@@ -258,7 +246,11 @@
 
 /* Открытость фирмы */
 .schedule_open_true:before {
-    background: url("__BASE_URL__/img/clock-on.png");
+    background-image: url(__BASE_URL__/img/clock-on.png);
+}
+
+.leaflet-retina .schedule_open_true:before {
+    background-image: url(__BASE_URL__/img/clock-on-2x.png);
 }
 
 /* Local dashed link */
@@ -277,4 +269,17 @@
     /* Нужна высокая специфичность, .link в начале не убирать */
 
     background-size: 6px 1px;
+}
+
+.schedule__table-clock {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 11px;
+    height: 11px;
+}
+
+.schedule_open_false {
+    background-size: contain;
+    width: 11px;
+    height: 11px;
 }

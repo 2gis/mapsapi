@@ -27,6 +27,7 @@
     left: -24px;
     width: 9px;
     height: 11px;
+    background-size: contain;
     content: '';
 }
 
@@ -47,23 +48,28 @@
     padding: 3px 0 2px 24px;
     font-size: 16px;
 }
+
 .dg-map-geoclicker-purpose:before {
     position: absolute;
     top: 8px;
     left: 0;
     content: '';
     background-repeat: no-repeat;
+    background-size: contain;
     width: 8px;
     height: 12px;
 }
+
 .dg-map-geoclicker-purpose__street:before {
     width: 12px;
 }
+
 .dg-map-geoclicker-purpose__settlement:before {
     background-image: url(__BASE_URL__/img/callout-settlement.png);
     width: 12px;
 }
-/*NEW FIRM LIST*/
+
+/*FIRM LIST*/
 .building-callout__list {
     margin: 8px 16px 7px 23px;
     padding: 0;
@@ -84,6 +90,7 @@
     width: 6px;
     height: 6px;
     content: '';
+    background-size: contain;
 }
 
 .building-callout__list {
@@ -170,27 +177,34 @@
 .popup_footer_btn__icon:before {
     position: absolute;
     margin: 6px 0 0 -1.5em;
-    background-image: url(__BASE_URL__/img/dg-callout-dark.png);
     width: 12px;
     height: 12px;
     content: '';
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 #popup-btn-goto:before{
     margin: 8px 0 0 -1.9em;
     width: 20px;
     height: 7px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 #popup-btn-firmCard-back:before{
     margin: 9px 0 0 -1.0em;
     width: 10px;
     height: 6px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 #popup-btn-firmList-back:before{
     margin: 9px 0 0 -1.0em;
     width: 10px;
     height: 6px;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 #dg-showlesshouse {
@@ -215,13 +229,6 @@
     width: 200px;
     margin: 0 auto;
 }
-
-/*.dg-map-infocard-firmlist .dg-map-firm-loading {
-    display: none;
-    background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
-    height: 30px;
-    padding-bottom: 12px;
-}*/
 
 .dg-geoclicker-loader {
     position: absolute;

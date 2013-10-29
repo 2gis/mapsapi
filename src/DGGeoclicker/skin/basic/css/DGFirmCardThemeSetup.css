@@ -10,16 +10,29 @@
     line-height: 16px;
     margin: 0 0.6em 0 0;
     vertical-align: top;
+    background-size: contain;
+    background-repeat: repeat-x;
 }
 
 #popup-link-flamp_stars {
-    background: url(__BASE_URL__/img/star-off.png) repeat-x;
+    background-image: url(__BASE_URL__/img/star-off.png);
     width: 70px;
 }
 
-#popup-link-flamp_stars div {
-    background: url(__BASE_URL__/img/star-on.png) repeat-x;
+.leaflet-retina #popup-link-flamp_stars {
+    background-image: url(__BASE_URL__/img/star-off-2x.png);
     height: inherit;
+}
+
+#popup-link-flamp_stars div {
+    background-image: url(__BASE_URL__/img/star-on.png);
+    height: 15px;
+}
+
+.leaflet-retina #popup-link-flamp_stars div {
+    background-image: url(__BASE_URL__/img/star-on-2x.png);
+    height: 15px;
+    background-size: contain;
 }
 
 #popup-link-booklet:before,
@@ -29,9 +42,14 @@
     height: 10px;
     margin-right: 0.5em;
     background-repeat: no-repeat;
+    background-size: contain;
     display: inherit;
 }
 
 #popup-link-booklet:before {
-    background: url(__BASE_URL__/img/booklet.png) no-repeat;
+    background-image: url(__BASE_URL__/img/booklet.png);
+}
+
+.leaflet-retina #popup-link-booklet:before {
+    background-image: url(__BASE_URL__/img/booklet-2x.png);
 }
