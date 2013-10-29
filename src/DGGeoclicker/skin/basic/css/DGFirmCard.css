@@ -202,6 +202,7 @@
 
 .schedule__string {
     text-align: left;
+    font-size: 14px;
     padding: 3px 16px 3px 24px;
 }
 
@@ -279,10 +280,14 @@
     margin: 14px 0 0 0;
 }
 
-.schedule_open_false {
+.schedule_open_false:after {
     background-size: contain;
+    background-repeat: no-repeat;
     width: 11px;
     height: 11px;
+    position: absolute;
+    top: 3px;
+    right: -14px;
 }
 
 .schedule__table-lunch {
