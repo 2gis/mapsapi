@@ -78,6 +78,15 @@
     display: none;
 }
 
+.dg-popup-header a,
+.dg-popup-container a {
+    text-decoration: none;
+    background-repeat: repeat-x;
+    -webkit-background-size: 10px 1px;
+    background-size: 10px 1px;
+    background-position: center bottom;
+}
+
 .leaflet-container a.leaflet-popup-close-button {
     position: absolute;
     z-index: 1;

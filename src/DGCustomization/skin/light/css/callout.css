@@ -5,8 +5,6 @@
 .leaflet-popup-content-wrapper {
     color: #000;
     background-color: #fff;
-    /*background-color: #fffefd;*/
-    /*background-color: rgba(255, 255, 255, .95);*/
     border: 1px solid #bebdb5;
     border: 1px solid rgba(151,151,151,.6);
 }
@@ -18,11 +16,15 @@
     margin-top: -1px;
 }
 
-.leaflet-container a {
+.dg-popup-header a,
+.dg-popup-container a {
     color: #005b8f;
+    background-image: linear-gradient(to right, rgba(0,91,143,.3), rgba(0,91,143,.3) 100%);
 }
-.leaflet-container a:hover {
+.dg-popup-header a:hover,
+.dg-popup-container a:hover {
     color: #000;
+    background-image: linear-gradient(to right, rgba(0,0,0,.3), rgba(0,0,0,.3) 100%);
 }
 
 .leaflet-popup-content-wrapper {
