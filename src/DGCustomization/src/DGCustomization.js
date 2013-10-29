@@ -10,7 +10,6 @@ L.Control.include({
     _renderTranslation: function () {}
 });
 
-
 // Applies 2GIS divIcon to marker
 L.Marker.prototype.options.icon = L.DG.divIcon();
 

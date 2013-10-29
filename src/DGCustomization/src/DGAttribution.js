@@ -8,6 +8,7 @@ L.Control.Attribution.include({
         if (!this.options.prefix) {
             this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData());
         }
+        map._copyright = true;
         return this._onAdd.call(this, map);
     },
     _tmpl: __DGCustomization_TMPL__,

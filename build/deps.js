@@ -41,8 +41,8 @@ var deps = {
                 'BoxZoom',
                 'Keyboard',
                 'MarkerDrag',
-                'ControlZoom',
                 'ControlAttrib',
+                'ControlZoom',
                 'ControlScale',
                 'ControlLayers',
                 'AnimationPan',
@@ -115,6 +115,7 @@ var deps = {
             all: [
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
                 '../vendors/baron/baron.css',
+                'DGCustomization/skin/{skin}/css/control.css',
                 'DGCustomization/skin/{skin}/css/zoom.css',
                 'DGCustomization/skin/{skin}/css/callout.css',
                 'DGCustomization/skin/{skin}/css/baron.css',
