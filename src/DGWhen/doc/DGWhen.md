@@ -1,8 +1,8 @@
 ## L.DG.when
 
-`L.DG.when()` отслеживает состояние аргумента Promise, который представляет любой обьект с методом `.then()`, даже тот, который не полностью соотвествуют спецификации Promises/A, например jQuery's Deferred. Он превращает такие Promise-like-objects в Promises/A.
+`L.DG.when()` отслеживает состояние аргумента Promise, который представляет любой объект с методом `.then()`, даже тот, который не полностью соответствуют спецификации Promises/A, например jQuery's Deferred. Он превращает такие Promise-like-objects в Promises/A.
 
-Другими словами, `L.DG.when()` всегда возвращает безопасный Promise, который полностью соответсвует спецификации Promises/A.
+Другими словами, `L.DG.when()` всегда возвращает безопасный Promise, который полностью соответствует спецификации Promises/A.
 
 #### Смотри так же
 * [рабочая спецификация Promises/A](http://promises-aplus.github.io/promises-spec/)
@@ -38,7 +38,7 @@
 
 ### Методы
 
-**Обьект L.DG.when**
+**Объект L.DG.when**
 
 <table>
     <tr>
@@ -50,7 +50,7 @@
         <td><code><b>promise</b>(<a href="#promise-resolver">&lt;Resolver&gt;</a> resolver)</code></td>
         <td><code><a href="#promise">Promise</a></code></td>
         <td>
-        Создаёт <a href="#promise"><code>promise</code></a> с обьектом поведения <a href="#promise-resolver"><code>Resolver</code></a>
+        Создаёт <a href="#promise"><code>promise</code></a> с объектом поведения <a href="#promise-resolver"><code>Resolver</code></a>
         </td>
     </tr>
     <tr>
@@ -70,16 +70,16 @@
     <tr>
         <td><code><b>defer</b>()</code></td>
         <td><code>Deferred: {promise, <a href="#promise-resolver">resolver</a>}</code></td>
-        <td>Создаёт обьект <code>Deferred</code>. В некоторых случаях бывает удобно иметь доступ, через один обьект, к <a href="#promise"><code>promise</code></a> и его <code>resolver</code></td>
+        <td>Создаёт объект <code>Deferred</code>. В некоторых случаях бывает удобно иметь доступ, через один объект, к <a href="#promise"><code>promise</code></a> и его <code>resolver</code></td>
     </tr>
     <tr>
         <td><code><b>isPromiseLike</b>(&lt;Object&gt; anything)</code></td>
         <td><code>Boolean</code></td>
-        <td>Возвращает <code>true</code> если у обьекта или функции <code>anything</code> есть метод <code>then()</code>.</td>
+        <td>Возвращает <code>true</code> если у объекта или функции <code>anything</code> есть метод <code>then()</code>.</td>
     </tr>
 </table>
 
-### Вспомогательные обьекты
+### Вспомогательные объекты
 
 <table>
     <tr>
@@ -90,7 +90,7 @@
     <tr id="promise-or-value">
         <td><code><b>promiseOrValue</b></code></td>
         <td><code>Promise | anything</code></td>
-        <td>Любое значение, либо безопасный <code><a href="#promise">promise</a></code> (обьект у которого есть метод <code>then()</code>)</td>
+        <td>Любое значение, либо безопасный <code><a href="#promise">promise</a></code> (объект у которого есть метод <code>then()</code>)</td>
     </tr>
     <tr id="promise">
         <td><code><b>Promise</b></code></td>
