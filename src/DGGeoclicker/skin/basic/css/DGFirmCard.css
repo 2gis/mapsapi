@@ -276,10 +276,19 @@
     background-size: contain;
     width: 11px;
     height: 11px;
+    margin: 14px 0 0 0;
 }
 
 .schedule_open_false {
     background-size: contain;
     width: 11px;
     height: 11px;
+}
+
+.schedule__table-lunch {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 11px;
+    height: 11px;
+    margin: 16px 0 0 0;
 }
