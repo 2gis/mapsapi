@@ -342,7 +342,6 @@
                 wrapperStyle.maxHeight = this.options.maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
-                console.log(wrapper.offsetHeight);
                 wrapperStyle.maxHeight = container.offsetHeight + this.options.border * 2 + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
             }
