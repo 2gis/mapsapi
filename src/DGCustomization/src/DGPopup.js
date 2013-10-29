@@ -339,11 +339,11 @@
 
             style.margin = this.options.border + 'px';
             if (this._isContentHeightFit()) {
-                wrapperStyle.height = this.options.maxHeight + 'px';
+                wrapperStyle.maxHeight = this.options.maxHeight + 'px';
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
                 console.log(wrapper.offsetHeight);
-                wrapperStyle.height = 'auto';
+                wrapperStyle.maxHeight = container.offsetHeight + this.options.border * 2 + 'px';
                 L.DomUtil.removeClass(container, scrolledClass);
             }
 
