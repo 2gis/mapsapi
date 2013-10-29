@@ -118,7 +118,7 @@
     top: 0;
 }
 .dg-popup-header > * {
-    margin: 0 8px 10px 0 !important;
+    margin: 0 18px 8px 0 !important;
 }
 
 .dg-popup-footer {
@@ -129,27 +129,13 @@
 }
 
 .leaflet-popup-scrolled .dg-popup-container {
-    margin: 0 10px 0 0;
+    padding: 0 10px 0 0;
 }
 
 .leaflet-popup-scrolled .dg-popup-header:after,
 .leaflet-popup-scrolled .dg-popup-footer:before {
     content: '';
-    background-color: #000;
-    border-style: solid;
-    border-color: #fff;
-    opacity: .1;
     display: block;
     width: 100%;
     height: 1px;
-}
-
-.leaflet-popup-scrolled .dg-popup-header:after {
-    border-width: 0 0 1px 0;
-    margin-top: 12px;
-}
-
-.leaflet-popup-scrolled .dg-popup-footer:before {
-    border-width: 1px 0 0 0;
-    margin-bottom: 12px;
 }

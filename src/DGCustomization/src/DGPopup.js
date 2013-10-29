@@ -2,6 +2,7 @@
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
+        originalInitialize = L.Popup.prototype.initialize,
         originalInitLayout = L.Popup.prototype._initLayout,
         originalOnClose = L.Popup.prototype._onCloseButtonClick,
         originalOnAdd = L.Popup.prototype.onAdd,
@@ -31,6 +32,13 @@
 
         /*global __DGCustomization_TMPL__:false */
         _templates: __DGCustomization_TMPL__,
+
+        initialize: function (options, sourse) {
+            if (!options.border) {
+                options.border = 16;
+            }
+            originalInitialize.call(this, options, sourse);
+        },
 
         onAdd: function (map) {
             map.on('dgEntranceShow', this._closePopup, this);
@@ -170,11 +178,16 @@
         },
 
         _adjustPan: function () {
+            var transEv;
+
             originalAdjustPan.call(this);
-            L.DomEvent.off(this._wrapper, this._whichTransitionEvent(), this._adjustPan);
+            transEv = this._whichTransitionEvent();
+            if (transEv) {
+                L.DomEvent.off(this._wrapper, transEv, this._adjustPan);
+            }
         },
 
-        _whichTransitionEvent: function () {
+        _whichTransitionEvent: function () { // () -> String | Null
             var t,
                 el = document.createElement('fakeelement'),
                 transitions = {
@@ -189,14 +202,21 @@
                     return transitions[t];
                 }
             }
+
+            return null;
         },
 
         _bindAdjustPan: function () {
-            L.DomEvent.on(this._wrapper, this._whichTransitionEvent(), this._adjustPan, this);
+            var transEv = this._whichTransitionEvent();
+            if (transEv) {
+                L.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
+            } else {
+                this._adjustPan();
+            }
         },
 
         _isContentHeightFit: function () {
-            var popupHeight = this._contentNode.offsetHeight + 32, //TODO: remove bone
+            var popupHeight = this._contentNode.offsetHeight + this.options.border * 2,
                 maxHeight = this.options.maxHeight;
 
             return (maxHeight && maxHeight <= popupHeight);
@@ -207,7 +227,7 @@
                 scrollerWrapper = L.DomUtil.create('div', 'scroller-wrapper', contentNode),
                 scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
                 barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
-                innerHeight = this.options.maxHeight - 32; //TODO: remove bone
+                innerHeight = this.options.maxHeight - this.options.border * 2;
 
             this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
@@ -269,7 +289,9 @@
             this._isHeaderExist = false;
             this._isBodyExist = false;
             this._isFooterExist = false;
-            // this._wrapper.style.height = this.options.minHeight + 'px';
+            // console.log(this._wrapper.offsetHeight);
+            // // this._wrapper.style.height = this.options.minHeight + 'px';
+            // this._wrapper.style.height = '';
             this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
@@ -315,24 +337,26 @@
                 width,
                 scrolledClass = 'leaflet-popup-scrolled';
 
-            style.whiteSpace = 'nowrap';
-            width = wrapper.offsetWidth;
-            style.whiteSpace = '';
-
+            style.margin = this.options.border + 'px';
             if (this._isContentHeightFit()) {
                 wrapperStyle.height = this.options.maxHeight + 'px';
-                width += 10; //TODO: remove bone
                 L.DomUtil.addClass(container, scrolledClass);
             } else {
+                console.log(wrapper.offsetHeight);
                 wrapperStyle.height = 'auto';
                 L.DomUtil.removeClass(container, scrolledClass);
             }
+
+            style.whiteSpace = 'nowrap';
+            width = wrapper.offsetWidth;
+            style.whiteSpace = '';
 
             width = Math.min(width, this.options.maxWidth);
             width = Math.max(width, this.options.minWidth);
 
             wrapperStyle.width = width + 'px';
             wrapperStyle.opacity = 1;
+
             this._containerWidth = this._container.offsetWidth;
         },
 
@@ -375,12 +399,21 @@
         },
 
         _onCloseButtonClick: function (e) {
-            var self = this;
+            var transEv;
+
             this._animateClosing();
-            setTimeout(function () { //devil action
-                originalOnClose.call(self, e);
-            }, 200);
-            L.DomEvent.stop(e);
+            transEv = this._whichTransitionEvent();
+
+            if (transEv) {
+                function origOnClose() {
+                    originalOnClose.call(this, e);
+                    L.DomEvent.off(this._innerContainer, transEv, origOnClose);
+                }
+                L.DomEvent.on(this._innerContainer, transEv, origOnClose, this);
+            }
+            else {
+                originalOnClose.call(this, e);
+            }
         }
     });
 }());

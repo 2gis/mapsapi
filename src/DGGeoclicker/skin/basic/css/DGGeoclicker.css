@@ -7,7 +7,6 @@
          url('__BASE_URL__/fonts/suisseintl-cond/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
 
 .dg-map-geoclicker-address {
@@ -156,10 +155,14 @@
 .popup_footer_btn-wrapper {
     display: table-cell;
 }
+
 .popup_footer_btn {
     text-align: center;
-    margin: 0 4px;
-    display: block;
+    /*margin-left: 8px;*/
+    /*display: block;*/
+    display: inline-block;
+    width: 95%;
+    margin-left: 5%;
     border-radius: 2px;
     cursor: pointer;
     transition: all .1s;
@@ -167,16 +170,25 @@
     text-decoration: none;
     position: relative;
 }
+
+.popup_footer_btn-wrapper:first-child .popup_footer_btn {
+    margin: 0;
+    width: 100%;
+}
+
 .popup_footer_btn:hover {
     transition: all .2s;
 }
 
 .popup_footer_btn__icon{
-    padding-left: 1.5em;
+    /*padding-left: 1.5em;*/
 }
 .popup_footer_btn__icon:before {
-    position: absolute;
-    margin: 6px 0 0 -1.5em;
+    /*position: absolute;*/
+    /*margin: 6px 0 0 -1.5em;*/
+    vertical-align: middle;
+    margin-right: 1em;
+    display: inline-block;
     width: 12px;
     height: 12px;
     content: '';
@@ -184,7 +196,7 @@
     background-repeat: no-repeat;
 }
 #popup-btn-goto:before{
-    margin: 8px 0 0 -1.9em;
+    /*margin: 8px 0 0 -1.9em;*/
     width: 20px;
     height: 7px;
     background-size: contain;
@@ -192,7 +204,7 @@
 }
 
 #popup-btn-firmCard-back:before{
-    margin: 9px 0 0 -1.0em;
+    /*margin: 9px 0 0 -1.0em;*/
     width: 10px;
     height: 6px;
     background-size: contain;
@@ -200,7 +212,7 @@
 }
 
 #popup-btn-firmList-back:before{
-    margin: 9px 0 0 -1.0em;
+    /*margin: 9px 0 0 -1.0em;*/
     width: 10px;
     height: 6px;
     background-size: contain;

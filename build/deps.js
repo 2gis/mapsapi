@@ -113,11 +113,13 @@ var deps = {
                 'DGCustomization/skin/basic/css/callout.css',
                 'DGCustomization/skin/basic/css/baron.css',
                 'DGCustomization/skin/basic/css/marker.css',
-                'DGCustomization/skin/{skin}/css/callout.css'
+                'DGCustomization/skin/{skin}/css/callout.css',
+                'DGCustomization/skin/{skin}/css/baron.css'
             ],
             ie: [
                 'DGCustomization/skin/basic/css/baron.ie.css',
-                'DGCustomization/skin/basic/css/marker.ie.css'
+                'DGCustomization/skin/basic/css/marker.ie.css',
+                'DGCustomization/skin/{skin}/css/callout.ie.css'
             ]
         },
         deps: ['DGCore', 'DGLocale']

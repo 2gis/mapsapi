@@ -1,4 +1,4 @@
-/*CALLOUT*/
+/*callout*/
 .leaflet-popup-content-wrapper {
     color: #f0f0f0;
     background-color: #323232;
@@ -35,4 +35,9 @@
     top: -3px;
     width: 40px;
     height: 40px;
+}
+.leaflet-popup-scrolled .dg-popup-header:after,
+.leaflet-popup-scrolled .dg-popup-footer:before {
+    background-color: #494949;
+    border-bottom: 1px solid #636363;
 }
