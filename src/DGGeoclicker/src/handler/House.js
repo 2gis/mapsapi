@@ -157,11 +157,13 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _pasteLoader: function () {
-        var dd  = L.DomUtil.create('div', 'loader-wrapper');
-        dd.appendChild(this._loader);
-        dd.setAttribute('style', 'height: ' + Math.min(300, this._popup._container.offsetHeight - 64-15) + 'px;');
-        this._view.showLoader(this._loader);
-        this._clearAndRenderPopup({tmpl: dd});
+        var loaderWrapper  = L.DomUtil.create('div', 'loader-wrapper'),
+            loader = this._view.initLoader(),
+            popup = this._popup;
+
+        loaderWrapper.appendChild(loader);
+        loaderWrapper.setAttribute('style', 'height: ' + Math.min(300, this._popup._container.offsetHeight - 64 - 15) + 'px;');
+        this._clearAndRenderPopup({tmpl: loaderWrapper});
     },
 
     _initPopupClose: function () {
