@@ -2,7 +2,7 @@ var FirmCard = function (firm, options) {
     this._setOptions(options);
     this._firmContentObject = {};
     this._schedule = new FirmCard.Schedule({
-        localLang: options.lang,
+        localLang: this.options.lang,
         dict: this.dict
     });
 
@@ -20,6 +20,10 @@ FirmCard.prototype = {
         }
 
         return this._firmContentObject;
+    },
+
+    getSchedule: function () {
+        return this._schedule;
     },
 
     _renderCardById: function (firmId) {
@@ -263,9 +267,10 @@ FirmCard.prototype = {
     },
 
     _setOptions: function (options) {
-        var option;
+        var option,
+            options = options || {};
 
-        this.options = this.options || {};
+        this.options = options;
         options.lang = options.lang || 'ru';
 
         for (option in options) {
