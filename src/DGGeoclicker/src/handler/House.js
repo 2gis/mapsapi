@@ -158,11 +158,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
     _pasteLoader: function () {
         var loaderWrapper  = L.DomUtil.create('div', 'loader-wrapper'),
-            loader = this._view.initLoader(),
-            popup = this._popup;
+            loader = this._view.initLoader();
 
         loaderWrapper.appendChild(loader);
-        loaderWrapper.setAttribute('style', 'height: ' + Math.min(300, this._popup._container.offsetHeight - 64 - 15) + 'px;');
+        loaderWrapper.style.height = this._popup._contentNode.offsetHeight - 1 + 'px'; // MAGIC
+        loaderWrapper.style.width = this._popup._contentNode.offsetWidth + 'px';
         this._clearAndRenderPopup({tmpl: loaderWrapper});
     },
 
@@ -231,8 +231,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._popup.on('dgScroll', this._onScroll);
         }
 
-        if (this._totalPages === 1) {
-            this._loader && this._view.hideLoader(this._loader);
+        if (this._totalPages === 1 && this._loader) {
+            this._view.hideLoader(this._loader);
         }
     },
 
