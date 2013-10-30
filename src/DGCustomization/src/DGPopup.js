@@ -23,26 +23,23 @@
         _scrollerBar: null,
         _barWrapper: null,
         _baron: null,
-
-        //structure flags
-        _isHeaderExist: false,
-        _isBodyExist: false,
-        _isFooterExist: false,
         _isBaronExist: false,
 
         /*global __DGCustomization_TMPL__:false */
         _templates: __DGCustomization_TMPL__,
+        _popupShowClass: 'leaflet-popup_show_true',
+        _popupHideClass: 'leaflet-popup_show_false',
 
         initialize: function (options, sourse) {
             if (!options.border) {
                 options.border = 16;
             }
+            this._popupStructure = {};
             originalInitialize.call(this, options, sourse);
         },
 
         onAdd: function (map) {
             map.on('dgEntranceShow', this._closePopup, this);
-            this._popupStructure = {};
             this.once('open', this._animateOpening, this);
             return originalOnAdd.call(this, map);
         },
@@ -102,18 +99,18 @@
             return this._clearElement('footer');
         },
 
-        findElement: function (node) {
-            return this._contentNode.querySelector(node);
+        findElement: function (element) {
+            return this._contentNode.querySelector(element);
         },
 
         _animateOpening: function () {
-            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
-            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');
+            L.DomUtil.addClass(this._innerContainer, this._popupShowClass);
+            L.DomUtil.removeClass(this._innerContainer, this._popupHideClass);
         },
 
         _animateClosing: function () {
-            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_false');
-            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_true');
+            L.DomUtil.addClass(this._innerContainer, this._popupHideClass);
+            L.DomUtil.removeClass(this._innerContainer, this._popupShowClass);
         },
 
         _closePopup: function () {
@@ -141,7 +138,7 @@
         _clearElement: function (elem) {
             if (this._popupStructure[elem]) {
                 this['_' + elem + 'Content'] = null;
-                this._popupStructure[elem].parentNode.removeChild(this._popupStructure[elem]);
+                this._detachEl(this._popupStructure[elem]);
                 delete this._popupStructure[elem];
             }
             return this;
@@ -188,13 +185,13 @@
             var transEv;
 
             originalAdjustPan.call(this);
-            transEv = this._whichTransitionEvent();
+            transEv = this._whichTransitionEndEvent();
             if (transEv) {
                 L.DomEvent.off(this._wrapper, transEv, this._adjustPan);
             }
         },
 
-        _whichTransitionEvent: function () { // () -> String | Null
+        _whichTransitionEndEvent: function () { // () -> String | Null
             var t,
                 el = document.createElement('fakeelement'),
                 transitions = {
@@ -214,7 +211,7 @@
         },
 
         _bindAdjustPan: function () {
-            var transEv = this._whichTransitionEvent();
+            var transEv = this._whichTransitionEndEvent();
             if (transEv) {
                 L.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
             } else {
@@ -273,18 +270,15 @@
 
         _initHeader: function () {
             this._popupStructure.header = L.DomUtil.create('header', 'dg-popup-header', this._contentNode);
-            this._isHeaderExist = true;
         },
 
         _initFooter: function () {
             this._popupStructure.footer = L.DomUtil.create('footer', 'dg-popup-footer', this._contentNode);
-            this._isFooterExist = true;
         },
 
         _initBodyContainer: function () {
             this._popupStructure.wrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
             this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
-            this._isBodyExist = true;
         },
 
         _update: function () {
@@ -292,13 +286,7 @@
 
             this._container.style.visibility = 'hidden';
 
-            this._clearStructure(this._contentNode);
-            this._isHeaderExist = false;
-            this._isBodyExist = false;
-            this._isFooterExist = false;
-            // console.log(this._wrapper.offsetHeight);
-            // // this._wrapper.style.height = this.options.minHeight + 'px';
-            // this._wrapper.style.height = '';
+            this._clearNode(this._contentNode);
             this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
@@ -326,10 +314,10 @@
             var delta = 0,
                 popup = this._popupStructure;
 
-            if (this._isHeaderExist) {
+            if (popup.header) {
                 delta += popup.header.offsetHeight;
             }
-            if (this._isFooterExist) {
+            if (popup.footer) {
                 delta += popup.footer.offsetHeight;
             }
 
@@ -379,19 +367,17 @@
         },
 
         _insertContent: function (content, node) {
-            if (!content) { return; }
+            if (!content || !node) { return; }
 
             if (typeof content === 'string') {
                 node.innerHTML = content;
             } else {
-                if (!node) { return; }
-
-                this._clearStructure(node);
+                this._clearNode(node);
                 node.appendChild(content);
             }
         },
 
-        _clearStructure: function (node) {
+        _clearNode: function (node) {
             while (node.hasChildNodes()) {
                 node.removeChild(node.firstChild);
             }
@@ -408,25 +394,35 @@
             var transEv;
 
             this._animateClosing();
-            transEv = this._whichTransitionEvent();
+            transEv = this._whichTransitionEndEvent();
 
             if (transEv) {
-                function origOnClose() {
-                    originalOnClose.call(this, e);
-                    L.DomEvent.off(this._innerContainer, transEv, origOnClose);
-                }
-                L.DomEvent.on(this._innerContainer, transEv, origOnClose, this);
+                L.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
             }
             else {
-                originalOnClose.call(this, e);
+                this._firePopupClose(e);
             }
             L.DomEvent.stop(e);
+        },
+
+        _firePopupClose: function (e) {
+            var transEv = this._whichTransitionEndEvent();
+
+            originalOnClose.call(this, e);
+
+            if (this._whichTransitionEndEvent()) {
+                L.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
+            }
         }
     });
 }());
 
 
 L.Map.include({
+    _markerClass: 'dg-customization__marker_type_mushroom',
+    _markerShowClass: 'dg-customization__marker_appear',
+    _markerHideClass: 'dg-customization__marker_disappear',
+    _dgHideClass: 'dg-hidden',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         var content;
 
@@ -441,13 +437,13 @@ L.Map.include({
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
-            if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
-                L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_appear');
-                L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_disappear');
+            if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
+                L.DomUtil.removeClass(popup._source._icon, this._markerShowClass);
+                L.DomUtil.addClass(popup._source._icon, this._markerHideClass);
             } else {
-                L.DomUtil.addClass(popup._source._icon, 'dg-hidden');
+                L.DomUtil.addClass(popup._source._icon, this._dgHideClass);
                 if (popup._source._shadow) {
-                    L.DomUtil.addClass(popup._source._shadow, 'dg-hidden');
+                    L.DomUtil.addClass(popup._source._shadow, this._dgHideClass);
                 }
             }
         }
@@ -462,13 +458,13 @@ L.Map.include({
         }
         if (popup) {
             if (popup._source && popup._source._icon) {
-                if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
-                    L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_disappear');
-                    L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_appear');
+                if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
+                    L.DomUtil.removeClass(popup._source._icon, this._markerHideClass);
+                    L.DomUtil.addClass(popup._source._icon, this._markerShowClass);
                 } else {
-                    L.DomUtil.removeClass(popup._source._icon, 'dg-hidden');
+                    L.DomUtil.removeClass(popup._source._icon, this._dgHideClass);
                     if (popup._source._shadow) {
-                        L.DomUtil.removeClass(popup._source._shadow, 'dg-hidden');
+                        L.DomUtil.removeClass(popup._source._shadow, this._dgHideClass);
                     }
                 }
             }
