@@ -231,8 +231,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._popup.on('dgScroll', this._onScroll);
         }
 
-        if (this._totalPages === 1) {
-            this._loader && this._view.hideLoader(this._loader);
+        if (this._totalPages === 1 && this._loader) {
+            this._view.hideLoader(this._loader);
         }
     },
 
