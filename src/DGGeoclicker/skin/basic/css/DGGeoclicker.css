@@ -240,6 +240,14 @@
     height: 40px;
     width: 200px;
     margin: 0 auto;
+    vertical-align: middle;
+}
+
+.loader-wrapper {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 355px;
 }
 
 .dg-geoclicker-loader {

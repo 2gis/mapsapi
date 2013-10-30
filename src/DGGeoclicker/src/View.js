@@ -32,9 +32,9 @@ L.DG.Geoclicker.View = L.Class.extend({
         return loader;
     },
 
-    showPopup: function (latlng) { // (Object)
+    showPopup: function (latlng, content) { // (Object)
         this._popup
-                .setContent('')
+                .setContent(content)
                 .setLatLng(latlng)
                 .openOn(this._map);
     },

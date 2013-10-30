@@ -53,7 +53,7 @@
         },
 
         setContent: function (content) {
-            if (typeof content === 'object' && typeof content !== null) {
+            if (!this._isNode(content) && typeof content === 'object' && typeof content !== null) {
                 for (var i in content) {
                     if (content.hasOwnProperty(i)) {
                         this['_' + i + 'Content'] = content[i];
@@ -118,6 +118,13 @@
 
         _closePopup: function () {
             this._map.closePopup(this);
+        },
+
+        _isNode: function (o) {
+            return (
+                typeof Node === 'object' ? o instanceof Node :
+                o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string'
+            );
         },
 
         _initLayout: function () {
