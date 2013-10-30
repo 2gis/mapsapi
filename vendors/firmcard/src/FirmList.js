@@ -73,23 +73,25 @@
         },
 
         _removeFirm: function (id) {
-            var firmCard = this._firms[id] ? this._firms[id].getContainer() : false;
+            var firmCard = this._firms[id] ? this._firms[id] : false;
             firmCard ? this._container.removeChild(firmCard) : false;
             this._firms[id] ? delete this._firms[id] : false;
         },
 
         _addFirm: function (firmData) {
-            var domFirm,
-                firm;
+            var tmpl = this._addOptions.tmpls.firmlistItem,
+                domFirm, firm, content;
 
             firm = {
                 name: firmData.name,
                 id: firmData.id.split('_').slice(0, 1)
             };
+
             if (!(firm.id in this._firms)) {
                 domFirm = this._createListItem();
-                domFirm.insertAdjacentHTML('beforeend',
-                                            this._addOptions.render(this._addOptions.tmpls.firmlistItem, {'firm': firm}));
+
+                tmpl ? content = this._addOptions.render(tmpl, {'firm': firm}) : content = firm.name;
+                domFirm.insertAdjacentHTML('beforeend', content);
 
                 this._firms[firm.id] = domFirm;
                 this._container.appendChild(domFirm);
@@ -170,6 +172,7 @@
         _setOptions: function (options) {
             options || (options = {});
             this._addOptions = {};
+            this._addOptions.tmpls = {};
             if ('onListReady' in options) { this._onListReady = options.onListReady; }
             //firmcard options
             if ('onToggle' in options) { this._addOptions.onToggle = options.onToggle; }
