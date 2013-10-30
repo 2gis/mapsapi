@@ -20,9 +20,6 @@ L.DG.tileLayer = function () {
 L.Map.addInitHook(function () {
     if (!this._copyright) {
         L.control.attribution().addTo(this);
-
     }
-    delete L.control.attribution;
-    delete L.Control.Attribution;
     L.DG.tileLayer().addTo(this);
 });

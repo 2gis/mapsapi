@@ -5,11 +5,37 @@ L.Control.Attribution.include({
         position: 'bottomright'
     },
     onAdd: function (map) {
-        if (!this.options.prefix) {
-            this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData());
+        if (!map._copyright) {
+            map._copyright = true;
+            this._first = true;
         }
-        map._copyright = true;
         return this._onAdd.call(this, map);
+    },
+    _update: function () {
+        if (!this._map) { return; }
+
+        var attribs = [];
+
+        for (var i in this._attributions) {
+            if (this._attributions[i]) {
+                attribs.push(i);
+            }
+        }
+
+        var prefixAndAttribs = [];
+
+        if (this._first) {
+            prefixAndAttribs.push(this._getAttributionHTML());
+        }
+
+        if (this.options.prefix) {
+            prefixAndAttribs.push(this.options.prefix);
+        }
+        if (attribs.length) {
+            prefixAndAttribs.push(attribs.join(', '));
+        }
+
+        this._container.innerHTML = prefixAndAttribs.join(' | ');
     },
     _tmpl: __DGCustomization_TMPL__,
     _onAdd: L.Control.Attribution.prototype.onAdd,
@@ -25,8 +51,10 @@ L.Control.Attribution.include({
             'PTC': this.t('PTC')
         };
     },
-    _renderTranslation: function (data) {
-        this.options.prefix = L.DG.template(this._tmpl.copyright, this._getData(data.lang));
+    _getAttributionHTML: function () {
+        return L.DG.template(this._tmpl.copyright, this._getData());
+    },
+    _renderTranslation: function () {
         this._update();
     }
 });
