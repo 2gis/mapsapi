@@ -9,8 +9,11 @@ L.DG.Geoclicker.View = L.Class.extend({
             minWidth: 355
         });
 
+        /*global __DGGeoclicker_TMPL__:false */
         this._templates = __DGGeoclicker_TMPL__;
-        options && L.Util.setOptions(this, options);
+        if (options) {
+            L.Util.setOptions(this, options);
+        }
     },
 
     showLoader: function (loader) {
@@ -52,7 +55,9 @@ L.DG.Geoclicker.View = L.Class.extend({
             html = options.tmpl;
         }
 
-        options.beforeRender && options.beforeRender();
+        if (options.beforeRender) {
+            options.beforeRender();
+        }
 
         if (options.popup) {
             if (options.header) {
@@ -64,7 +69,9 @@ L.DG.Geoclicker.View = L.Class.extend({
             data.body = html;
             this._popup.setContent(data);
         }
-        options.afterRender && options.afterRender();
+        if (options.afterRender) {
+            options.afterRender();
+        }
 
         return html;
     },
