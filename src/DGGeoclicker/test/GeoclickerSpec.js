@@ -28,16 +28,14 @@ describe('L.DG.Geoclicker', function () {
 
         });
 
-        it('should be active by default', sinon.test(function () {
+        it('should be active by default', function () {
             map = new L.Map(mapContainer, {
                 center: new L.LatLng(54.98117239821992, 82.88922250270844),
                 zoom: 17
             });
 
             expect(map.dgGeoclicker.enabled()).to.be.equal(true);
-
-
-        }));
+        });
 
     });
 
