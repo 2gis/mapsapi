@@ -13,6 +13,10 @@
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
 
+    L.Popup.mergeOptions({
+        border: 16
+    });
+
     L.Popup.include({
         _headerContent: null,
         _footerContent: null,
@@ -23,36 +27,30 @@
         _scrollerBar: null,
         _barWrapper: null,
         _baron: null,
-
-        //structure flags
-        _isHeaderExist: false,
-        _isBodyExist: false,
-        _isFooterExist: false,
         _isBaronExist: false,
 
         /*global __DGCustomization_TMPL__:false */
         _templates: __DGCustomization_TMPL__,
+        _popupShowClass: 'leaflet-popup_show_true',
+        _popupHideClass: 'leaflet-popup_show_false',
 
-        initialize: function (options, sourse) {
-            if (!options.border) {
-                options.border = 16;
-            }
+        initialize: function (options, sourse) { // (Object, Object)
+            this._popupStructure = {};
             originalInitialize.call(this, options, sourse);
         },
 
-        onAdd: function (map) {
+        onAdd: function (map) { // (Map)
             map.on('dgEntranceShow', this._closePopup, this);
-            this._popupStructure = {};
             this.once('open', this._animateOpening, this);
             return originalOnAdd.call(this, map);
         },
 
-        onRemove: function (map) {
+        onRemove: function (map) { // (Map)
             map.off('dgEntranceShow', this._closePopup, this);
             return originalOnRemove.call(this, map);
         },
 
-        setContent: function (content) {
+        setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
             if (!this._isNode(content) && typeof content === 'object' && typeof content !== null) {
                 for (var i in content) {
                     if (content.hasOwnProperty(i)) {
@@ -68,63 +66,58 @@
             return this;
         },
 
-        setHeaderContent: function (content) {
+        setHeaderContent: function (content) { // (HTML) -> Popup
             this._headerContent = content;
             this._update();
 
             return this;
         },
 
-        setFooterContent: function (content) {
+        setFooterContent: function (content) { // (HTML) -> Popup
             this._footerContent = content;
             this._update();
 
             return this;
         },
 
-        clear: function () {
-            for (var i in this._popupStructure) {
-                if (this._popupStructure.hasOwnProperty(i)) {
-                    this._clearElement(i);
-                }
-            }
+        clear: function () { // () -> Popup
+            Object.keys(this._popupStructure).forEach(function (elem) {
+                this._clearElement(elem);
+            }, this);
 
             // think about move this set to another public method
             this._isBaronExist = false;
             return this;
         },
 
-        clearHeader: function () {
+        clearHeader: function () { // () -> Popup
             return this._clearElement('header');
         },
 
-        clearFooter: function () {
+        clearFooter: function () { // () -> Popup
             return this._clearElement('footer');
         },
 
-        findElement: function (node) {
-            return this._contentNode.querySelector(node);
+        findElement: function (element) { // (String) -> DOMElement
+            return this._contentNode.querySelector(element);
         },
 
         _animateOpening: function () {
-            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_true');
-            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_false');
+            L.DomUtil.addClass(this._innerContainer, this._popupShowClass);
+            L.DomUtil.removeClass(this._innerContainer, this._popupHideClass);
         },
 
         _animateClosing: function () {
-            L.DomUtil.addClass(this._innerContainer, 'leaflet-popup_show_false');
-            L.DomUtil.removeClass(this._innerContainer, 'leaflet-popup_show_true');
+            L.DomUtil.addClass(this._innerContainer, this._popupHideClass);
+            L.DomUtil.removeClass(this._innerContainer, this._popupShowClass);
         },
 
         _closePopup: function () {
             this._map.closePopup(this);
         },
 
-        _isNode: function (o) {
-            return (
-                typeof Node === 'object' ? o instanceof Node :
-                o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string'
-            );
+        _isNode: function (o) { // (Object) -> Boolean
+            return (o.nodeName ? true : false);
         },
 
         _initLayout: function () {
@@ -138,10 +131,10 @@
             L.DomEvent.disableClickPropagation(this._tipContainer);
         },
 
-        _clearElement: function (elem) {
+        _clearElement: function (elem) { // (DOMElement) -> Popup
             if (this._popupStructure[elem]) {
                 this['_' + elem + 'Content'] = null;
-                this._popupStructure[elem].parentNode.removeChild(this._popupStructure[elem]);
+                this._detachEl(this._popupStructure[elem]);
                 delete this._popupStructure[elem];
             }
             return this;
@@ -178,23 +171,24 @@
                     L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.removeClass(this._scroller, 'scroller');
+                    L.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
             }
 
-            this._bindAdjustPan();
+            this._bindAdjustPanOnTransitionEnd();
         },
 
         _adjustPan: function () {
             var transEv;
 
             originalAdjustPan.call(this);
-            transEv = this._whichTransitionEvent();
+            transEv = this._whichTransitionEndEvent();
             if (transEv) {
                 L.DomEvent.off(this._wrapper, transEv, this._adjustPan);
             }
         },
 
-        _whichTransitionEvent: function () { // () -> String | Null
+        _whichTransitionEndEvent: function () { // () -> String | Null
             var t,
                 el = document.createElement('fakeelement'),
                 transitions = {
@@ -213,8 +207,8 @@
             return null;
         },
 
-        _bindAdjustPan: function () {
-            var transEv = this._whichTransitionEvent();
+        _bindAdjustPanOnTransitionEnd: function () {
+            var transEv = this._whichTransitionEndEvent();
             if (transEv) {
                 L.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
             } else {
@@ -222,7 +216,7 @@
             }
         },
 
-        _isContentHeightFit: function () {
+        _isContentHeightFit: function () { // () -> Boolean
             var popupHeight = this._contentNode.offsetHeight + this.options.border * 2,
                 maxHeight = this.options.maxHeight;
 
@@ -273,18 +267,15 @@
 
         _initHeader: function () {
             this._popupStructure.header = L.DomUtil.create('header', 'dg-popup-header', this._contentNode);
-            this._isHeaderExist = true;
         },
 
         _initFooter: function () {
             this._popupStructure.footer = L.DomUtil.create('footer', 'dg-popup-footer', this._contentNode);
-            this._isFooterExist = true;
         },
 
         _initBodyContainer: function () {
             this._popupStructure.wrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
             this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
-            this._isBodyExist = true;
         },
 
         _update: function () {
@@ -292,13 +283,7 @@
 
             this._container.style.visibility = 'hidden';
 
-            this._clearStructure(this._contentNode);
-            this._isHeaderExist = false;
-            this._isBodyExist = false;
-            this._isFooterExist = false;
-            // console.log(this._wrapper.offsetHeight);
-            // // this._wrapper.style.height = this.options.minHeight + 'px';
-            // this._wrapper.style.height = '';
+            this._clearNode(this._contentNode);
             this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
@@ -322,14 +307,14 @@
             this._container.style.visibility = '';
         },
 
-        _getDelta: function () {
+        _getDelta: function () { // () -> Number
             var delta = 0,
                 popup = this._popupStructure;
 
-            if (this._isHeaderExist) {
+            if (popup.header) {
                 delta += popup.header.offsetHeight;
             }
-            if (this._isFooterExist) {
+            if (popup.footer) {
                 delta += popup.footer.offsetHeight;
             }
 
@@ -378,55 +363,63 @@
             this.fire('contentupdate');
         },
 
-        _insertContent: function (content, node) {
-            if (!content) { return; }
+        _insertContent: function (content, node) { // (String | DOMElement, DOMElement)
+            if (!content || !node) { return; }
 
             if (typeof content === 'string') {
                 node.innerHTML = content;
             } else {
-                if (!node) { return; }
-
-                this._clearStructure(node);
+                this._clearNode(node);
                 node.appendChild(content);
             }
         },
 
-        _clearStructure: function (node) {
+        _clearNode: function (node) { // (DOMElement)
             while (node.hasChildNodes()) {
                 node.removeChild(node.firstChild);
             }
         },
 
-        _detachEl: function (elem) {
+        _detachEl: function (elem) { // (DOMElement) -> DOMElement
             if (elem.parentNode) {
                 elem.parentNode.removeChild(elem);
             }
             return elem;
         },
 
-        _onCloseButtonClick: function (e) {
+        _onCloseButtonClick: function (e) { // (Event)
             var transEv;
 
             this._animateClosing();
-            transEv = this._whichTransitionEvent();
+            transEv = this._whichTransitionEndEvent();
 
             if (transEv) {
-                function origOnClose() {
-                    originalOnClose.call(this, e);
-                    L.DomEvent.off(this._innerContainer, transEv, origOnClose);
-                }
-                L.DomEvent.on(this._innerContainer, transEv, origOnClose, this);
+                L.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
             }
             else {
-                originalOnClose.call(this, e);
+                this._firePopupClose(e);
             }
             L.DomEvent.stop(e);
+        },
+
+        _firePopupClose: function (e) { // (Event)
+            var transEv = this._whichTransitionEndEvent();
+
+            originalOnClose.call(this, e);
+
+            if (this._whichTransitionEndEvent()) {
+                L.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
+            }
         }
     });
 }());
 
 
 L.Map.include({
+    _markerClass: 'dg-customization__marker_type_mushroom',
+    _markerShowClass: 'dg-customization__marker_appear',
+    _markerHideClass: 'dg-customization__marker_disappear',
+    _dgHideClass: 'dg-hidden',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         var content;
 
@@ -441,13 +434,13 @@ L.Map.include({
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
-            if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
-                L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_appear');
-                L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_disappear');
+            if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
+                L.DomUtil.removeClass(popup._source._icon, this._markerShowClass);
+                L.DomUtil.addClass(popup._source._icon, this._markerHideClass);
             } else {
-                L.DomUtil.addClass(popup._source._icon, 'dg-hidden');
+                L.DomUtil.addClass(popup._source._icon, this._dgHideClass);
                 if (popup._source._shadow) {
-                    L.DomUtil.addClass(popup._source._shadow, 'dg-hidden');
+                    L.DomUtil.addClass(popup._source._shadow, this._dgHideClass);
                 }
             }
         }
@@ -455,20 +448,20 @@ L.Map.include({
         return this.addLayer(popup);
     },
 
-    closePopup: function (popup) {
+    closePopup: function (popup) {  // (Popup) -> Popup
         if (!popup || popup === this._popup) {
             popup = this._popup;
             this._popup = null;
         }
         if (popup) {
             if (popup._source && popup._source._icon) {
-                if (popup._source._icon.className.indexOf('dg-customization__marker_type_mushroom') !== -1) {
-                    L.DomUtil.removeClass(popup._source._icon, 'dg-customization__marker_disappear');
-                    L.DomUtil.addClass(popup._source._icon, 'dg-customization__marker_appear');
+                if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
+                    L.DomUtil.removeClass(popup._source._icon, this._markerHideClass);
+                    L.DomUtil.addClass(popup._source._icon, this._markerShowClass);
                 } else {
-                    L.DomUtil.removeClass(popup._source._icon, 'dg-hidden');
+                    L.DomUtil.removeClass(popup._source._icon, this._dgHideClass);
                     if (popup._source._shadow) {
-                        L.DomUtil.removeClass(popup._source._shadow, 'dg-hidden');
+                        L.DomUtil.removeClass(popup._source._shadow, this._dgHideClass);
                     }
                 }
             }

@@ -48,7 +48,8 @@ L.DG.ProjectDetector = L.Handler.extend({
             if (!this.project) {
                 this._searchProject();
             } else {
-                if (!this.project.LatLngBounds.intersects(this._map.getBounds())) {
+                if (!this.project.LatLngBounds.intersects(this._map.getBounds()) ||
+                    (this._map.getZoom() < this.project.min_zoom_level)) {
                     this.project = null;
                     this._map.fire('dgProjectLeave');
                     this._searchProject();
@@ -82,8 +83,9 @@ L.DG.ProjectDetector = L.Handler.extend({
 
     _searchProject: function () {
         try {
-            for (var i = 0; i < this.projectsList.length; i++) {
-                if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())) {
+            for (var i = 0, mapZoom = this._map.getZoom(); i < this.projectsList.length; i++) {
+                if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())
+                    && (mapZoom >= this.projectsList[i].min_zoom_level)) {
                     this.project = this.projectsList[i];
                     this._map.fire('dgProjectChange', {'getProject': L.Util.bind(this.getProject, this)});
                     return;

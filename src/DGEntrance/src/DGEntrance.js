@@ -124,19 +124,25 @@ L.DG.Entrance = L.Class.extend({
         this._map.removeLayer(this._arrows.clearLayers());
     },
 
+    _getFitZoom: function () {
+        return this._map.dgProjectDetector.getProject().max_zoom_level || L.DG.Entrance.SHOW_FROM_ZOOM;
+    },
+
     _fitBounds: function () {
         var map = this._map,
-            maxZoom;
+            fitZoom,
+            bounds = this.getBounds();
 
-        if (this._map && !this._isAllowedZoom()) {
-            map.once('moveend', function () {
-                maxZoom = map.dgProjectDetector.getProject().max_zoom_level;
-                map.setZoom(maxZoom, {animate: false});
-            }, this);
-        }
-
-        if (!map.getBounds().contains(this.getBounds()) || !this._isAllowedZoom()) {
-            map.panTo(this.getBounds().getCenter(), {animate: false});
+        if (!map.getBounds().contains(bounds) || !this._isAllowedZoom()) {
+            fitZoom = this._getFitZoom();
+            if (!map.dgProjectDetector.getProject()) {
+                map.once('moveend', function(){
+                    map.setZoom(this._getFitZoom());
+                }, this);
+            }
+            map.setView(bounds.getCenter(), fitZoom, {
+                animate : true
+            });
         }
     },
 
