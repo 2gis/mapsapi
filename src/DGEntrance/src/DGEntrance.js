@@ -51,25 +51,25 @@ L.DG.Entrance = L.Class.extend({
     },
 
     show: function (fitBounds) { // () -> L.DG.Entrance
+        if (!this._arrows) {
+            return this;
+        }
         if (fitBounds !== false) {
             fitBounds = true;
         }
+        if (fitBounds) {
+            this._fitBounds();
+        }
+        if (this._isAllowedZoom()) {
+            this._arrows.eachLayer(function (arrow) {
+                arrow.setStyle({ visibility: 'visible' });
+                if (L.Path.ANIMATION_AVAILABLE) {
+                    arrow.runAnimation('animateArrowPathGeom');
+                }
+            });
 
-        if (!this.isShown() && this._arrows) {
-            if (fitBounds) {
-                this._fitBounds();
-            }
-            if (this._isAllowedZoom()) {
-                this._arrows.eachLayer(function (arrow) {
-                    arrow.setStyle({ visibility: 'visible' });
-                    if (L.Path.ANIMATION_AVAILABLE) {
-                        arrow.runAnimation('animateArrowPathGeom');
-                    }
-                });
-
-                this._isShown = true;
-                this._map.fire('dgEntranceShow');
-            }
+            this._isShown = true;
+            this._map.fire('dgEntranceShow');
         }
 
         return this;
