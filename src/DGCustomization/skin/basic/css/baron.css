@@ -18,6 +18,9 @@
     width: 6px;
     border-radius: 5px;
 }
+.dg-popup-header + .dg-popup-container-wrapper .scroller__bar-wrapper {
+    top: 4px;
+}
 
 .scroller__bar-wrapper .scroller__bar {
     /*background-color: rgba(100, 98, 86, 0.5);*/
