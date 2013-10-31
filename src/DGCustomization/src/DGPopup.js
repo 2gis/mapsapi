@@ -117,10 +117,7 @@
         },
 
         _isNode: function (o) { // (Object) -> Boolean
-            return (
-                typeof Node === 'object' ? o instanceof Node :
-                o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string'
-            );
+            return (o.nodeName ? true : false);
         },
 
         _initLayout: function () {
