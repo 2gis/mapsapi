@@ -24,8 +24,8 @@
 
                 this.addFirms(firms);
             }
-            if (this._onListReady) {
-                this._onListReady(this._container);
+            if (this.options.onListReady) {
+                this.options.onListReady(this._container);
             }
 
             return this._container;
@@ -56,11 +56,11 @@
         },
 
         setLang: function (newLang) {
-            this._addOptions.lang = newLang;
+            this.options.firmCard.lang = newLang;
         },
 
         getLang: function () {
-            return this._addOptions.lang;
+            return this.options.firmCard.lang;
         },
 
         getContainer: function () {
@@ -79,7 +79,7 @@
         },
 
         _addFirm: function (firmData) {
-            var tmpl = this._addOptions.tmpls.firmlistItem,
+            var tmpl = this.options.firmlistItemTmpl,
                 domFirm, firm, content;
 
             firm = {
@@ -90,7 +90,7 @@
             if (!(firm.id in this._firms)) {
                 domFirm = this._createListItem();
 
-                tmpl ? content = this._addOptions.render(tmpl, {'firm': firm}) : content = firm.name;
+                tmpl ? content = this.options.firmCard.render(tmpl, {'firm': firm}) : content = firm.name;
                 domFirm.insertAdjacentHTML('beforeend', content);
 
                 this._firms[firm.id] = domFirm;
@@ -110,7 +110,7 @@
         },
 
         _createFirm: function (firmData) {
-            return new FirmCard(firmData, this._addOptions);
+            return new FirmCard(firmData, this.options.firmCard);
         },
 
         _isEmptyObj: function (obj) {
@@ -137,11 +137,11 @@
                         if (target.id) {
 
                             // unsubscribe from scroll event
-                            self._addOptions.onFirmClick && self._addOptions.onFirmClick();
+                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick();
 
                             var s = self._firmCard.render(target.id);
                             if (!self._isEmptyObj(s)) {
-                                self._addOptions.onFirmReady(s);
+                                self.options.firmCard.onFirmReady(s);
                             }
                         }
                     }
@@ -171,22 +171,15 @@
 
         _setOptions: function (options) {
             options || (options = {});
-            this._addOptions = {};
-            this._addOptions.tmpls = {};
-            if ('onListReady' in options) { this._onListReady = options.onListReady; }
-            //firmcard options
-            if ('onToggle' in options) { this._addOptions.onToggle = options.onToggle; }
-            if ('onFirmClick' in options) { this._addOptions.onFirmClick = options.onFirmClick; }
-            if ('backBtn' in options) { this._addOptions.backBtn = options.backBtn; }
-            if ('map' in options) { this._addOptions.map = options.map; }
-            if ('showEntrance' in options) { this._addOptions.showEntrance = options.showEntrance; }
-            if ('gotoUrl' in options) { this._addOptions.gotoUrl = options.gotoUrl; }
-            if ('onFirmReady' in options) { this._addOptions.onFirmReady = options.onFirmReady; }
-            if ('ajax' in options) { this._addOptions.ajax = options.ajax; }
-            if ('render' in options) { this._addOptions.render = options.render; }
-            if ('tmpls' in options) { this._addOptions.tmpls = options.tmpls; }
-            if ('lang' in options) { this._addOptions.lang = options.lang; }
-            if ('timezoneOffset' in options) { this._addOptions.timezoneOffset = options.timezoneOffset; }
+            this.options = options;
+            this.options.firmCard = {};
+            this.options.firmCard.lang = 'ru';
+
+            for (var option in options) {
+                if (options.hasOwnProperty(option)) {
+                    this.options[option] = options[option];
+                }
+            }
         }
     };
 })();

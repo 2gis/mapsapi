@@ -211,13 +211,13 @@
 .schedule__tc {
     display: inline-block;
     vertical-align: top;
-    width: 41px;
+    width: 46px;
     font-size: 14px;
     padding: 2px 0 20px;
 }
 
 .schedule__tc_pre {
-  width: 17px;
+  width: 19px;
 }
 
 .schedule__day-name {

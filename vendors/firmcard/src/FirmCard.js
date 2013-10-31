@@ -49,14 +49,9 @@ FirmCard.prototype = {
     },
 
     _renderFirmCard: function () {
-        var firmCardBody,
-            schedule,
-            forecast,
-            links,
-            btns,
+        var firmCardBody, schedule, forecast, links, btns, attributes,
             data = this._firmData,
-            container = this._container = this._createFirmContainer(),
-            attributes;
+            container = this._container = this._createFirmContainer();
 
         this._footerContainer = document.createElement('div');
 
@@ -153,7 +148,7 @@ FirmCard.prototype = {
                     href: this.options.gotoUrl
         });
 
-        if (this._firmData.geo.entrances) {
+        if (this._firmData.geo.entrances && this.options.showEntrance) {
             btns.push({ name: 'show-entrance',
                         label: this.dict.t(this.options.lang, 'btnEntrance'),
                         icon: true

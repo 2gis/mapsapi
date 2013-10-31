@@ -1,5 +1,5 @@
 L.DG.Geoclicker.Handler.House.include({
-    _fillBody: function (house) { // (DOMElement)
+    _fillBody: function (house) { // // (Object) -> (DOMElement)
         var attrs = house.attributes,
             data = {
                 title: '',
@@ -42,7 +42,7 @@ L.DG.Geoclicker.Handler.House.include({
         return wrapper;
     },
 
-    _fillHeader: function (house) { // (HTMLString)
+    _fillHeader: function (house) { // (Object) -> (HTMLString)
         var attrs = house.attributes,
             header = {};
 
@@ -62,7 +62,7 @@ L.DG.Geoclicker.Handler.House.include({
         return this._header;
     },
 
-    _fillFooter: function (house) { // (HTMLString)
+    _fillFooter: function (house) { // (Object) -> (HTMLString)
         var attrs = house.attributes,
             btns = [];
 
@@ -86,7 +86,7 @@ L.DG.Geoclicker.Handler.House.include({
         });
     },
 
-    _fillHouseObject: function (house) { // (Object)
+    _fillHouseObject: function (house) { // (Object) -> (Object)
         var self = this;
 
         return {
