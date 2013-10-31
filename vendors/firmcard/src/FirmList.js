@@ -172,7 +172,7 @@
         _setOptions: function (options) {
             options || (options = {});
             this.options = options;
-            this.options.firmCard = {};
+            this.options.firmCard || (this.options.firmCard = {});
             this.options.firmCard.lang = 'ru';
 
             for (var option in options) {
