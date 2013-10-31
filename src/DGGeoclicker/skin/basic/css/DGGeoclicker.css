@@ -160,6 +160,7 @@
     text-align: center;
     /*margin-left: 8px;*/
     /*display: block;*/
+    outline: none;
     display: inline-block;
     width: 95%;
     margin-left: 5%;
