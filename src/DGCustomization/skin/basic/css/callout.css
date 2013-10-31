@@ -24,6 +24,10 @@
     position: relative;
 }
 
+.leaflet-popup a {
+    outline: none;
+}
+
 .leaflet-popup-content p {
     margin: 0;
 }

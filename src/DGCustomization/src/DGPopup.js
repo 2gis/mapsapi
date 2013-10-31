@@ -122,7 +122,7 @@
 
         _initLayout: function () {
             originalInitLayout.call(this);
-            this._innerContainer = L.DomUtil.create('div', 'leaflet-popup-inner leaflet-popup_show_false', this._container);
+            this._innerContainer = L.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
             if (this.options.closeButton) {
                 this._innerContainer.appendChild(this._detachEl(this._closeButton));
             }
@@ -234,7 +234,7 @@
             scroller.appendChild(this._detachEl(this._popupStructure.body));
 
             innerHeight -= this._getDelta();
-            scrollerWrapper.style.height = innerHeight + 'px';
+            scrollerWrapper.style.height = Math.max(18, innerHeight) + 'px';
             scrollerWrapper.style.width = contentNode.offsetWidth + 'px';
 
             this._isBaronExist = true;
