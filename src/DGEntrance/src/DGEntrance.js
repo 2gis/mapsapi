@@ -67,9 +67,10 @@ L.DG.Entrance = L.Class.extend({
                     arrow.runAnimation('animateArrowPathGeom');
                 }
             });
-
-            this._isShown = true;
-            this._map.fire('dgEntranceShow');
+            if (!this._isShown) {
+                this._map.fire('dgEntranceShow');
+                this._isShown = true;
+            }
         }
 
         return this;
