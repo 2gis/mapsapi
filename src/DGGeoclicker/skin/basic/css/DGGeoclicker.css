@@ -150,10 +150,10 @@
 
 .popup_footer_btns {
     width: 100%;
-    /*display: table;*/
+    display: table;
 }
 .popup_footer_btn-wrapper {
-    /*display: table-cell;*/
+    display: table-cell;
 }
 
 .popup_footer_btn {
