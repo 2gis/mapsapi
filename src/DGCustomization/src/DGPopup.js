@@ -178,13 +178,14 @@
             this._bindAdjustPanOnTransitionEnd();
         },
 
-        _adjustPan: function () {
-            var transEv;
-
-            originalAdjustPan.call(this);
-            transEv = this._whichTransitionEndEvent();
-            if (transEv) {
-                L.DomEvent.off(this._wrapper, transEv, this._adjustPan);
+        _adjustPan: function (e) {
+            if (e) {
+                if (e.propertyName === 'max-height') {
+                    originalAdjustPan.call(this);
+                    L.DomEvent.off(this._wrapper, this._whichTransitionEndEvent(), this._adjustPan);
+                }
+            } else {
+                originalAdjustPan.call(this);
             }
         },
 
