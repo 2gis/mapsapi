@@ -5,15 +5,24 @@
 .popup-link {
     height: 14px;
     line-height: 14px;
-    margin: 0 0.6em 0 0;
     vertical-align: top;
     background-size: contain;
     background-repeat: repeat-x;
+    position: relative;
+}
+
+.popup-link:not(:last-child) {
+    margin-right: 1.6em;
+}
+
+.popup-header-link:first-child {
+    margin-left: 16px;
 }
 
 #popup-link-flamp_stars {
     background-image: url(__BASE_URL__/img/star-off.png);
     width: 70px;
+    margin: 0;
 }
 
 .leaflet-retina #popup-link-flamp_stars {
@@ -37,10 +46,12 @@
     content: '';
     width: 12px;
     height: 10px;
-    margin-right: 0.5em;
     background-repeat: no-repeat;
     background-size: contain;
     display: inherit;
+    position: absolute;
+    top: 2px;
+    left: -16px;
 }
 
 #popup-link-booklet:before {

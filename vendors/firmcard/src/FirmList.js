@@ -136,13 +136,13 @@
                     if (target.className.indexOf('popup-link') !== -1) {
                         if (target.id) {
 
-                            // unsubscribe from scroll event
-                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick();
-
                             var s = self._firmCard.render(target.id);
                             if (!self._isEmptyObj(s)) {
                                 self.options.firmCard.onFirmReady(s);
                             }
+
+                            // unsubscribe from scroll event
+                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick();
                         }
                     }
                 }
