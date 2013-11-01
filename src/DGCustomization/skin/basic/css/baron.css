@@ -14,8 +14,8 @@
     position: absolute;
     top: 18px;
     bottom: 4px;
-    right: 3px;
-    width: 6px;
+    right: 2px;
+    width: 7px;
     border-radius: 5px;
 }
 .dg-popup-header + .dg-popup-container-wrapper .scroller__bar-wrapper {
@@ -32,7 +32,7 @@
 
 .scroller__bar {
     position: absolute;
-    width: 6px;
+    width: 7px;
     border-radius: 3px;
     pointer-events: auto;
     min-height:20px;
