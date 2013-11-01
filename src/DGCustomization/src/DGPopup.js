@@ -235,7 +235,7 @@
 
             innerHeight -= this._getDelta();
             scrollerWrapper.style.height = Math.max(18, innerHeight) + 'px';
-            scrollerWrapper.style.width = contentNode.offsetWidth + 'px';
+            scrollerWrapper.style.width = contentNode.offsetWidth + 5 + 'px'; //TODO
 
             this._isBaronExist = true;
 
