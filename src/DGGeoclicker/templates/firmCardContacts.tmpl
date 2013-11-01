@@ -16,7 +16,7 @@
     <% for (var j = 0, l = groups[i].contacts.length; j < l; j++) { %>
         <% if(groups[i].contacts[j].type === 'website') { %><!--
             --><div class="firm-card__link firm-card__site"><!--
-                --><a href="http://<%=groups[i].contacts[j].alias%>" target="_blank" class="link_scheme_dark firm-card__sitelink">&nbsp;&nbsp;<%=groups[i].contacts[j].alias%> </a></div>
+                --><a href="http://<%=groups[i].contacts[j].alias%>" target="_blank" class="link_scheme_dark firm-card__sitelink"><%=groups[i].contacts[j].alias%> </a></div>
         <% } %>
     <% } %>
 <% } %>
@@ -24,7 +24,7 @@
     <% for (var j = 0, l = groups[i].contacts.length; j < l; j++) { %>
         <% if(groups[i].contacts[j].type === 'email') { %>
             <div class="firm-card__link firm-card__email"><!--
-                --><a href="mailto: <%=groups[i].contacts[j].value%>">&nbsp;&nbsp;<%=groups[i].contacts[j].value%></a>
+                --><a href="mailto: <%=groups[i].contacts[j].value%>"><%=groups[i].contacts[j].value%></a>
             </div>
         <% } %>
     <% } %>

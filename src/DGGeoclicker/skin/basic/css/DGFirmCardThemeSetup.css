@@ -11,8 +11,12 @@
     position: relative;
 }
 
-.popup-link:not(:last-child) {
+.popup-link {
     margin-right: 1.6em;
+}
+
+.popup-link:last-child {
+    margin-right: 0em;
 }
 
 .popup-header-link:first-child {
