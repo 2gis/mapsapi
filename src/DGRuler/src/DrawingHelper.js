@@ -3,21 +3,75 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     includes: L.Mixin.Events,
 
     statics : {
-        smallIcon : L.icon({
-            iconUrl: '__BASE_URL__/img/spacer.gif',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13]
-        }),
-        largeIcon : L.icon({
-            iconUrl: '__BASE_URL__/img/spacer.gif',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13]
-        }),
         spaceIcon : L.icon({
             iconUrl: '__BASE_URL__/img/spacer.gif',
             iconSize: [0, 0],
             iconAnchor: [0, 0]
-        })
+        }),
+        iconStyles : {
+            large : {
+                icon : L.icon({
+                    iconUrl: '__BASE_URL__/img/spacer.gif',
+                    iconSize: [26, 26],
+                    iconAnchor: [13, 13]
+                }),
+                outer : {
+                    color: '#fff',
+                    opacity: 1,
+                    fillColor: '#fff',
+                    fillOpacity: 1,
+                    weight: 1,
+                    radius: 13
+                },
+                inner : {
+                    color: '#0da5d5',
+                    opacity: 1,
+                    fillColor: '#0da5d5',
+                    fillOpacity: 1,
+                    weight: 1,
+                    radius: 9
+                },
+                pipka : {
+                    color: '#fff',
+                    opacity: 1,
+                    fillColor: '#0da5d5',
+                    fillOpacity: 0,
+                    weight: 4,
+                    radius: 5
+                }
+            },
+            small : {
+                icon : L.icon({
+                    iconUrl: '__BASE_URL__/img/spacer.gif',
+                    iconSize: [26, 26],
+                    iconAnchor: [13, 13]
+                }),
+                outer : {
+                    color: '#fff',
+                    opacity: 1,
+                    fillColor: '#fff',
+                    fillOpacity: 1,
+                    weight: 1,
+                    radius: 9
+                },
+                inner : {
+                    color: '#0da5d5',
+                    opacity: 1,
+                    fillColor: '#0da5d5',
+                    fillOpacity: 1,
+                    weight: 1,
+                    radius: 5
+                },
+                pipka : {
+                    color: '#fff',
+                    opacity: 1,
+                    fillColor: '#0da5d5',
+                    fillOpacity: 0,
+                    weight: 4,
+                    radius: 2
+                }
+            }
+        }
     },
 
     initialize: function (map) {
@@ -30,14 +84,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 mouse : null
             },
 
-            _label: null,
-
-            _labelDistanceNode: null,
-            _labelDeleteNode: null,
-
             _lineMarkerHelper: null,
 
-            _points: null,
+            _pointsCount: 0,
             _firstPoint: null,
             _lastPoint: null,
 
@@ -57,6 +106,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
 		this._layers.mouse.on(this._lineMouseEvents, this);
         L.DomEvent.addListener(this._map.getPanes().mapPane, 'click', this._addPoint, this);
+        return this;
     },
 
     finishDrawing: function () {
@@ -75,12 +125,34 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._map.removeLayer(this._label);
             this._label = null;
         }
+        return this;
+    },
+
+    deleteFirstPoint: function (event) {
+        var point = this._firstPoint,
+            newFirst = point._next;
+
+        L.DomEvent.stop(event);
+        if (!newFirst) {
+            return;
+        }
+
+        this._layers.back.removeLayer(point._outer);
+        this._layers.front.removeLayer(point._inner).removeLayer(point._pipka);
+        this._layers.mouse.removeLayer(point);
+
+        for (var i = 0; i < 3; this._map.removeLayer(newFirst._lines[i]), i++);
+        newFirst.prev = null;
+
+        this._firstPoint = newFirst._setPointStyle('large');
+        this._initLabel();
+        this._updateDistance();
     },
 
     _lineMouseEvents: {
         'mouseover' : function (event) {
             var point;
-            console.log('mouseover', this._morphingNow);
+            // console.log('mouseover', this._morphingNow);
             if (this._morphingNow) {
                 return;
             }
@@ -94,10 +166,10 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._layers.mouse.bringToFront();
         },
         'mouseout' : function () {
-            if (this._lineMarkerHelper == null) {
+            if (this._lineMarkerHelper === null) {
                 return;
             }
-            console.log('mouseout');
+            // console.log('mouseout');
             this._layers.back.removeLayer(this._lineMarkerHelper._outer);
             this._layers.front
                         .removeLayer(this._lineMarkerHelper._inner)
@@ -152,48 +224,45 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         var k = (to.lng - from.lng) / (to.lat - from.lat),
             b = from.lng - k * from.lat;
 
-        here.lat = (here.lat + k * here.lng - k * b) / (k * k + 1);
+        here.lat = (here.lat + k * here.lng - k * b) / (k * k + 1); // Don't even ask me!
 
         return [here.lat, k * here.lat + b];
     },
 
-    _createPoint: function (latlng, expanded) {
-        var point = expanded ? L.marker(latlng, {
-                icon : L.DG.Ruler.DrawingHelper.spaceIcon,
+    _createPoint: function (latlng, transparent) {
+        var style = this.constructor.iconStyles.large,
+            point = transparent ? L.marker(latlng, {
+                icon : this.constructor.spaceIcon,
             }) : L.marker(latlng, {
-                icon : L.DG.Ruler.DrawingHelper.largeIcon,
+                icon : style.icon,
                 opacity : 0,
                 draggable: true
             });
 
-        point._outer = L.circleMarker(latlng, {
-            color: '#fff',
-            opacity: 1,
-            fillColor: '#fff',
-            fillOpacity: 1,
-            weight: 1
-        }).setRadius(13);
-        point._inner = L.circleMarker(latlng, {
-            color: '#0da5d5',
-            opacity: 1,
-            fillColor: '#0da5d5',
-            fillOpacity: 1,
-            weight: 1
-        }).setRadius(9);
-        point._pipka = L.circleMarker(latlng, {
-            color: '#fff',
-            opacity: 1,
-            fillColor: '#fff',
-            fillOpacity: 1,
-            weight: 1
-        }).setRadius(5);
+        L.extend(point, {
+            _outer : L.circleMarker(latlng, style.outer),
+            _inner : L.circleMarker(latlng, style.inner),
+            _pipka : L.circleMarker(latlng, style.pipka),
+            _setPointStyle : this._setPointStyle
+        });
 
         return point.on('move', function (event) {
             var latlng = event.target.getLatLng();
-            this._outer.setLatLng(latlng);
+            this._outer.setLatLng(latlng);  // Here I'm only dreaming about google's .bindTo :)
             this._inner.setLatLng(latlng);
             this._pipka.setLatLng(latlng);
         });
+    },
+
+    _setPointStyle : function (styleName) {
+        var style = L.DG.Ruler.DrawingHelper.iconStyles[styleName];
+
+        this._outer.setStyle(style.outer);
+        this._inner.setStyle(style.inner);
+        this._pipka.setStyle(style.pipka);
+        this.setIcon(style.icon);
+
+        return this;
     },
 
     _insertPointBefore : function (point, before) {
@@ -229,6 +298,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         this._insertPointBefore(point);
         if (point._prev) {
             this._addLeg(point);
+            if (point._prev._prev) {
+                point._prev._setPointStyle('small');
+            }
         } else {
             this._firstPoint = point;
             this._initLabel();
@@ -283,40 +355,6 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         for (i = 0; next && i < 3; next._lines[i].spliceLatLngs(0, 1, latlng), i++);
     },
 
-    _initLabel: function () {
-        this._firstPoint.bindLabel('<span class="dg-ruler-label-distance">0</span> км<a href="#" class="dg-ruler-label-close">X</a>', {
-            static: true,
-            className: 'dg-ruler-label',
-            offset: new L.Point(-15, -40)
-        });
-
-        var labelNode = this._map.getContainer().querySelector('.dg-ruler-label');
-
-        this._labelDistanceNode = labelNode.querySelector('.dg-ruler-label-distance');
-        this._labelDeleteNode = labelNode.querySelector('.dg-ruler-label-close');
-
-        L.DomEvent.addListener(this._labelDeleteNode, 'click', this._deleteFirstPoint, this);
-    },
-
-    _deleteFirstPoint: function (event) {
-        var newFirst = this._firstPoint._next;
-
-        L.DomEvent.stop(event);
-        if (!newFirst) {
-            return;
-        }
-
-        this._layers.back.removeLayer(this._firstPoint._outer);
-        this._layers.front
-                        .removeLayer(this._firstPoint._inner)
-                        .removeLayer(this._firstPoint._pipka);
-        for (var i = 0; i < 3; this._map.removeLayer(newFirst._lines[i]), i++);
-        newFirst.prev = null;
-
-        this._firstPoint = newFirst;
-        this._updateDistance();
-    },
-
     _calcDistance: function (finishPoint) {
         var sum = 0,
             point = this._firstPoint,
@@ -329,12 +367,12 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         return sum / 1000;
     },
 
+    _initLabel: function () {
+        this.fire('dgRulerAddLabel', { marker : this._firstPoint });
+    },
+
     _updateDistance: function () {
-        var distance = this._calcDistance();
-        if (distance) {
-            distance = distance.toFixed(2).split('.').join(',');
-        }
-        this._labelDistanceNode.innerHTML = distance;
+        this.fire('dgRulerUpdateDistance', { distance : this._calcDistance() });
     }
 
 });
