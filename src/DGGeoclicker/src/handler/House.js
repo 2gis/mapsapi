@@ -265,7 +265,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._page++;
 
         if (this._totalPages && this._page <= this._totalPages) {
-            this._api.firmsInHouse(this._id, {page: this._page});//.then(L.bind(this._appendFirmList, this));
+            this._api.firmsInHouse(this._id, {page: this._page}).then(L.bind(this._appendFirmList, this));
         }
 
         if (this._page === this._totalPages) {
