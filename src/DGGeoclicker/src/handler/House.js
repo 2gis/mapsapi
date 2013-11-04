@@ -92,7 +92,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         L.extend(options.firmCard, {
             backBtn: L.bind(this._showHousePopup, this),
-            onFirmClick: L.bind(this._onFirmListClickfunction, this)
+            onFirmClick: L.bind(this._onFirmListClick, this),
+            pasteLoader: L.bind(this._pasteLoader, this)
         });
 
         L.extend(options, {
@@ -141,7 +142,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 this._popup.on('dgScroll', this._onScroll);
                 this._showListPopup();
             }, this),
-            onFirmClick: L.bind(this._onFirmListClickfunction, this)
+            onFirmClick: L.bind(this._onFirmListClick, this),
+            pasteLoader: L.bind(this._pasteLoader, this)
         });
 
         L.extend(options, {
@@ -164,7 +166,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     },
 
     _onFirmListClick: function (e) {
-        this._pasteLoader();
         this._popup.off('dgScroll', this._onScroll);
         L.DomEvent.stop(e);
     },

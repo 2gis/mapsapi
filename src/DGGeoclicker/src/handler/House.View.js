@@ -64,14 +64,23 @@ L.DG.Geoclicker.Handler.House.include({
 
     _fillFooter: function (house) { // (Object) -> (HTMLString)
         var attrs = house.attributes,
-            btns = [];
-
-        if (attrs.filials_count > 0) {
-            btns.push({
+            btns = [],
+            isShowOrgs = false,
+            showOrgs = {
                 name: 'all',
                 label: this.t('Show organization in the building', attrs.filials_count)
-            });
+            };
+
+        if (attrs.filials_count > 0) {
+            if (attrs.filials) {
+                if (attrs.filials_count > attrs.filials.popular.length) {
+                    isShowOrgs = true;
+                }
+            } else {
+                isShowOrgs = true;
+            }
         }
+        isShowOrgs && btns.push(showOrgs);
 
         btns.push({
             name: 'goto',

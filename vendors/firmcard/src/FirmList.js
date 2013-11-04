@@ -139,9 +139,10 @@
                             var s = self._firmCard.render(target.id);
                             if (!self._isEmptyObj(s)) {
                                 self.options.firmCard.onFirmReady(s);
+                            } else {
+                                self.options.firmCard.pasteLoader();
                             }
 
-                            // unsubscribe from scroll event
                             self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
                         }
                     }
