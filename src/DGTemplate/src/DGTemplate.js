@@ -25,7 +25,6 @@ L.DG.template = (function(){
           .split("\t").join("');")
           .split("%>").join("p.push('")
           .split("\r").join("\\'")
-          // .replace(/\s*(\\r\\n|\\n)+\s*/gm, "")
           .replace(/(^|>)([\r\t\n\s]+)/g, "$1")
           .replace(/([\r\t\n\s]+)(<)/g, "$2")
           .replace(/<!--[^>]*-->/gm, "")
