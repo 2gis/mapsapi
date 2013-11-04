@@ -142,7 +142,7 @@
                             }
 
                             // unsubscribe from scroll event
-                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick();
+                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
                         }
                     }
                 }
