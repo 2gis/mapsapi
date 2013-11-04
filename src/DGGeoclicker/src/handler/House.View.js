@@ -72,7 +72,7 @@ L.DG.Geoclicker.Handler.House.include({
             };
 
         if (attrs.filials_count > 0) {
-            if (attrs.filials) {
+            if (attrs.filials && attrs.filials.popular) {
                 if (attrs.filials_count > attrs.filials.popular.length) {
                     isShowOrgs = true;
                 }
@@ -82,12 +82,13 @@ L.DG.Geoclicker.Handler.House.include({
         }
         isShowOrgs && btns.push(showOrgs);
 
-        btns.push({
+        //UNCOMMENT WHEN ONLINE 4 WILL BE READY
+        /*btns.push({
             name: 'goto',
             label: this.t('goto'),
             icon: true,
             href: this._directionsUrl
-        });
+        });*/
 
         return this._view.render({
             tmpl: this._view.getTemplate('popupFooterBtns'),
