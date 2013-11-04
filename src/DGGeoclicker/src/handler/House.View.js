@@ -82,12 +82,13 @@ L.DG.Geoclicker.Handler.House.include({
         }
         isShowOrgs && btns.push(showOrgs);
 
-        btns.push({
+        //UNCOMMENT WHEN ONLINE 4 WILL BE READY
+        /*btns.push({
             name: 'goto',
             label: this.t('goto'),
             icon: true,
             href: this._directionsUrl
-        });
+        });*/
 
         return this._view.render({
             tmpl: this._view.getTemplate('popupFooterBtns'),
