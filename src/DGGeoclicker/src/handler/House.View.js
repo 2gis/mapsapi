@@ -72,7 +72,7 @@ L.DG.Geoclicker.Handler.House.include({
             };
 
         if (attrs.filials_count > 0) {
-            if (attrs.filials) {
+            if (attrs.filials && attrs.filials.popular) {
                 if (attrs.filials_count > attrs.filials.popular.length) {
                     isShowOrgs = true;
                 }
