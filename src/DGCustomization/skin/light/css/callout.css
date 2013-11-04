@@ -16,12 +16,12 @@
     margin-top: -1px;
 }
 
-.popup-link,
+a.popup-link,
 .firm-card__link a {
     color: #005b8f;
     background-image: linear-gradient(to right, rgba(0,91,143,.3), rgba(0,91,143,.3) 100%);
 }
-.popup-link:hover,
+a.popup-link:hover,
 .firm-card__link a:hover {
     color: #000;
     background-image: linear-gradient(to right, rgba(0,0,0,.3), rgba(0,0,0,.3) 100%);

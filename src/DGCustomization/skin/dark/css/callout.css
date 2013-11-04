@@ -11,12 +11,12 @@
     height: 47px;
 }
 
-.popup-link,
+a.popup-link,
 .firm-card__link a {
     color: #ffe6aa;
     background-image: linear-gradient(to right, rgba(255,230,170,.3), rgba(255,230,170,.3) 100%);
 }
-.popup-link:hover,
+a.popup-link:hover,
 .firm-card__link a:hover {
     color: #9cd;
     background-image: linear-gradient(to right, rgba(153,204,221,.3), rgba(153,204,221,.3) 100%);
