@@ -180,7 +180,7 @@ FirmCard.prototype = {
             });
         }
 
-        if (photos && photos.length) {
+        if (!this.options.isMobile && photos && photos.length) {
             link = L.Util.template('__PHOTOS_LINK__',
                 {
                     'code': this.options.map.dgProjectDetector.getProject().code,
@@ -193,7 +193,7 @@ FirmCard.prototype = {
             });
         }
 
-        if (booklet && booklet.url) {
+        if (!this.options.isMobile && booklet && booklet.url) {
             links.push({name: 'booklet',
                         href:  booklet.url,
                         label: this.dict.t(this.options.lang, 'linkBooklet')});
