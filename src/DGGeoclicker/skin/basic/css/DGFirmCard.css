@@ -223,6 +223,7 @@
 .schedule__day-name {
     margin: 0;
     color: #8c8782;
+    text-transform: capitalize;
 }
 
 .schedule__td {
