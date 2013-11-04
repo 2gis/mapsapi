@@ -28,7 +28,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
         this._directionsUrl = this._getDirectionsUrl(results.house.name);
-        this._loader = this._view.initLoader();
+        this._firmListLoader = this._view.initLoader();
 
         this._defaultFirm = results.extra && results.extra.poiId ? results.extra.poiId : null;
 
@@ -126,8 +126,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             afterRender: function () {
                 self._initShowLess();
                 self._initPopupClose();
-                if (self._loader) {
-                    this.tmpl.parentNode.appendChild(self._loader);  // "this" here is self._firmListObject
+                console.log(self._firmListLoader);
+                self._firmListLoader.className += ' preloader_small';
+                if (self._firmListLoader) {
+                    this.tmpl.parentNode.appendChild(self._firmListLoader);  // "this" here is self._firmListObject
                 }
             }
         };
@@ -184,7 +186,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._firmList = null;
             this._popup.off('dgScroll', this._onScroll);
         }
-        this._loader = null;
+        this._firmListLoader = null;
         this._page = 1;
         this._popup.clear();
         this._clearEventHandlers();
@@ -240,8 +242,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._popup.on('dgScroll', this._onScroll);
         }
 
-        if (this._totalPages === 1 && this._loader) {
-            this._view.hideLoader(this._loader);
+        if (this._totalPages === 1 && this._firmListLoader) {
+            this._view.hideLoader(this._firmListLoader);
         }
     },
 
@@ -263,12 +265,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._page++;
 
         if (this._totalPages && this._page <= this._totalPages) {
-            this._api.firmsInHouse(this._id, {page: this._page}).then(L.bind(this._appendFirmList, this));
+            this._api.firmsInHouse(this._id, {page: this._page});//.then(L.bind(this._appendFirmList, this));
         }
 
         if (this._page === this._totalPages) {
-            if (this._loader) {
-                this._view.hideLoader(this._loader);
+            if (this._firmListLoader) {
+                this._view.hideLoader(this._firmListLoader);
             }
             this._popup.off('dgScroll', this._onScroll);
         }

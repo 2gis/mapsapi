@@ -253,3 +253,93 @@
     left: 50%;
     margin: -16px 0 0 -74px !important;
 }
+
+
+@-webkit-keyframes preloader__outer {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes preloader__outer {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes preloader__inner {
+  to {
+    -webkit-transform: rotate(-360deg);
+  }
+}
+@keyframes preloader__inner {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+.preloader {
+/*  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;*/
+  position: relative;
+  height: 44px;
+  width: 200px;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+.preloader:before {
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  image-rendering: optimizeQuality;
+  outline: 1px solid transparent;
+  /* фикс рендера изображения для Firefox */
+
+  -webkit-animation: preloader__outer 5s linear infinite;
+  animation: preloader__outer 5s linear infinite;
+}
+.preloader:after {
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  image-rendering: optimizeQuality;
+  outline: 1px solid transparent;
+  /* фикс рендера изображения для Firefox */
+
+  -webkit-animation: preloader__inner 4s linear infinite;
+  animation: preloader__inner 4s linear infinite;
+}
+.preloader_small:before {
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  background-repeat: no-repeat;
+}
+.preloader_small:after {
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  background-repeat: no-repeat;
+}
+/* Regular  scheme */
+.preloader_scheme_regular:before {
+  background-image: url('svg/preloader_regular-big-outer.svg');
+}
+.preloader_scheme_regular:after {
+  background-image: url('svg/preloader_regular-big-inner.svg');
+}
+.preloader_scheme_regular.preloader_small:before {
+  background-image: url('svg/preloader_regular-small-outer.svg');
+}
+.preloader_scheme_regular.preloader_small:after {
+  background-image: url('svg/preloader_regular-small-inner.svg');
+}
