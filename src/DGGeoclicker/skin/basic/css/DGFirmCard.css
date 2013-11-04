@@ -146,7 +146,7 @@
 /*frimCard schedule*/
 
 .firm-card__schedule {
-    margin: 0 0 15px;
+    margin: 0 0 10px;
 }
 
 .schedule__no-table {
@@ -213,7 +213,7 @@
     vertical-align: top;
     width: 46px;
     font-size: 14px;
-    padding: 2px 0 20px;
+    padding: 2px 0 15px;
 }
 
 .schedule__tc_pre {
