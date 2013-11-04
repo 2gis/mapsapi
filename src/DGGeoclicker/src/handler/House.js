@@ -92,11 +92,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
 
         L.extend(options.firmCard, {
             backBtn: L.bind(this._showHousePopup, this),
-            onFirmClick: L.bind(function (e) {
-                this._pasteLoader();
-                this._popup.off('dgScroll', this._onScroll);
-                L.DomEvent.stop(e);
-            }, this)
+            onFirmClick: L.bind(this._onFirmListClickfunction, this)
         });
 
         L.extend(options, {
@@ -145,11 +141,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 this._popup.on('dgScroll', this._onScroll);
                 this._showListPopup();
             }, this),
-            onFirmClick: L.bind(function (e) {
-                this._pasteLoader();
-                this._popup.off('dgScroll', this._onScroll);
-                L.DomEvent.stop(e);
-            }, this)
+            onFirmClick: L.bind(this._onFirmListClickfunction, this)
         });
 
         L.extend(options, {
@@ -169,6 +161,12 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         loaderWrapper.style.height = this._popup._contentNode.offsetHeight - 1 + 'px'; // MAGIC
         loaderWrapper.style.width = this._popup._contentNode.offsetWidth + 'px';
         this._clearAndRenderPopup({tmpl: loaderWrapper});
+    },
+
+    _onFirmListClick: function (e) {
+        this._pasteLoader();
+        this._popup.off('dgScroll', this._onScroll);
+        L.DomEvent.stop(e);
     },
 
     _initPopupClose: function () {
