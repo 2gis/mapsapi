@@ -28,9 +28,14 @@ L.DG.Geoclicker.View = L.Class.extend({
         }
     },
 
-    initLoader: function () {
+    initLoader: function (isSmall) {
         var loader = document.createElement('div');
-        loader.innerHTML = L.DG.template(this.getTemplate('loader'));
+        loader.innerHTML = L.DG.template(this.getTemplate('loader'),
+            {
+                small: isSmall,
+                anim: this._detectCssAnimation()
+            }
+        );
 
         return loader.firstChild;
     },
@@ -88,5 +93,29 @@ L.DG.Geoclicker.View = L.Class.extend({
     getTemplate: function (tmplFile) {
         var tmpl = this._templates[tmplFile];
         return tmpl ? tmpl : '';
+    },
+
+    _detectCssAnimation: function () {
+        var animation = false,
+            animationstring = 'animation',
+            keyframeprefix = '',
+            domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
+            elm = document.createElement('div'),
+            pfx  = '';
+
+        if (elm.style.animationName) { animation = true; }
+
+        if (animation === false) {
+            for (var i = 0; i < domPrefixes.length; i++) {
+                if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
+                    pfx = domPrefixes[i];
+                    animationstring = pfx + 'Animation';
+                    keyframeprefix = '-' + pfx.toLowerCase() + '-';
+                    animation = true;
+                    break;
+                }
+            }
+        }
+        return animation;
     }
 });

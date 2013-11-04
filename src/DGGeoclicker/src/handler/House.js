@@ -28,7 +28,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
         this._directionsUrl = this._getDirectionsUrl(results.house.name);
-        this._firmListLoader = this._view.initLoader();
+        this._firmListLoader = this._view.initLoader(true);
 
         this._defaultFirm = results.extra && results.extra.poiId ? results.extra.poiId : null;
 
@@ -126,7 +126,6 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             afterRender: function () {
                 self._initShowLess();
                 self._initPopupClose();
-                self._firmListLoader.className += ' preloader_small';
                 if (self._firmListLoader) {
                     this.tmpl.parentNode.appendChild(self._firmListLoader);  // "this" here is self._firmListObject
                 }
