@@ -97,7 +97,7 @@
     list-style: none;
 }
 
-.dg-map-geoclicker-purpose__sight:before {
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
     background-image: url(__BASE_URL__/img/icon-sight.png);
     background-position: 0 0;
 }
