@@ -59,11 +59,11 @@
     height: 12px;
 }
 
-.dg-map-geoclicker-purpose__street:before {
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
     width: 12px;
 }
 
-.dg-map-geoclicker-purpose__settlement:before {
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
     background-image: url(__BASE_URL__/img/callout-settlement.png);
     width: 12px;
 }
