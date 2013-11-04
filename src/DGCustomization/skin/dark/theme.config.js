@@ -5,7 +5,7 @@ L.DG.configTheme = {
     balloonOptions: {
         offset: {
             x: 0,
-            y: 0
+            y: 1
         }
     },
 
