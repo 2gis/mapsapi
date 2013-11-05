@@ -2,12 +2,12 @@
     <%if (schedule) {%>
         <%if (forecast.today) {%>
             <div class="schedule__today schedule_open_<%if (forecast.open) {%>true<%}else{%>false<%}%><%if(schedule.everyday){%> schedule__no-table<%}%>">
-                <%=forecast.today.text%>
+                <%=forecast.today.text%>&nbsp;
                 <%if (forecast.today.from) {%>
                     <%=forecast.today.from%>&ndash;<%=forecast.today.to%>
                 <%}%>
                 <%if (schedule.lunch) {%>
-                    ,&nbsp;<%=forecast.today.lunchStr%>
+                    ,&nbsp;<%=forecast.today.lunchStr%>&nbsp;
                     <%for (var i = 0, l = schedule.lunch.length; i < l; i++) {%>
                         <%=schedule.lunch[i].from%>&ndash;<%=schedule.lunch[i].to%>
                     <%}%>
