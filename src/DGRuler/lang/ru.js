@@ -1,3 +1,5 @@
 L.DG.Ruler.Dictionary.ru = {
-	"button_title": "Линейка йопта"
+	"button_title": "Линейка йопта",
+	"distanceUnit": "км",
+	",": ","
 };

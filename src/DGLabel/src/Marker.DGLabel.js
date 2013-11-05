@@ -69,7 +69,7 @@ L.Marker.include({
 		return this;
 	},
 
-	showLabel : function(){
+	showLabel : function () {
 		if (this._label) {
 			this
 				.on('move', this._updatePosition)

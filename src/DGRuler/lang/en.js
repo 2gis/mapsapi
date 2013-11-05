@@ -1,3 +1,5 @@
 L.DG.Ruler.Dictionary.en = {
-	"button_title": "OMGRuler"
+	"button_title": "OMGRuler",
+	"distanceUnit": "км",
+	",": ","
 };

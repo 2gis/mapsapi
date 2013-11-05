@@ -2,7 +2,8 @@ L.DG.Ruler = L.Control.extend({
     includes: L.DG.Locale,
 
     statics: {
-        Dictionary: {}
+        Dictionary: {},
+        _tmpl: __DGRuler_TMPL__
     },
 
     options: {
@@ -54,36 +55,48 @@ L.DG.Ruler = L.Control.extend({
                 helper.on(this._drawingHelperEvents, this);
             }
         } else {
-            helper.finishDrawing()
+            helper.finishDrawing();
             if (!this.options.disableLabel) {
                 helper.off(this._drawingHelperEvents, this);
             }
         }
-        L.DomUtil[this._active ? 'addClass' : 'removeClass']( this._container, 'leaflet-control-ruler-active' )
+        L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._container, 'leaflet-control-ruler-active');
     },
 
     _drawingHelperEvents : {
-        dgRulerAddLabel : function (event) {
-            event.marker.bindLabel('<span class="dg-ruler-label-distance">0</span> км<a href="#" class="dg-ruler-label-close">X</a>', {
-                static: true,
-                className: 'dg-ruler-label',
-                offset: new L.Point(-15, -40)
-            });
+        // startChange : function (event) {
+        //     event.marker.bindLabel(L.DG.template(this.constructor._tmpl.mainLabel, { distanceUnit : this.t('distanceUnit') }), {
+        //         static: true,
+        //         className: 'dg-ruler-label',
+        //         offset: new L.Point(-15, -40)
+        //     });
 
-            var labelNode = this._map.getContainer().querySelector('.dg-ruler-label');
+        //     var labelNode = this._map.getContainer().querySelector('.dg-ruler-label');
+        //     this._labelDistanceNode = labelNode.querySelector('.dg-ruler-label-distance');
+        //     this._labelDeleteNode = labelNode.querySelector('.dg-ruler-label-close');
 
-            this._labelDistanceNode = labelNode.querySelector('.dg-ruler-label-distance');
-            this._labelDeleteNode = labelNode.querySelector('.dg-ruler-label-close');
+        //     L.DomEvent.addListener(this._labelDeleteNode, 'click', this._drawingHelper.deleteFirstPoint, this._drawingHelper);
+        // },
+        // change : function (event) {
+        //     this._labelDistanceNode.innerHTML = this._formatDistance(event.distance);
+        // },
+        // hover : function (event) {
+        //     this._label = L.DG.label(L.DG.template(this.constructor._tmpl.hoverLabel), {
+        //         static: true,
+        //         className: 'dg-ruler-label',
+        //         offset: new L.Point(-15, -15)
+        //     });
+        //     event.layerGroup.addLayer(this._label);
+        // },
+        // mousemove : function (event) {
+        //     this._label
+        //             .setPosition(event.latlng)
+        //             .setContent(this._formatDistance(event.distance) + this.t('distanceUnit'));
+        // }
+    },
 
-            L.DomEvent.addListener(this._labelDeleteNode, 'click', this._drawingHelper.deleteFirstPoint, this._drawingHelper);
-        },
-        dgRulerUpdateDistance : function (event) {
-            var distance = event.distance;
-            if (distance) {
-                distance = distance.toFixed(2).split('.').join(',');
-            }
-            this._labelDistanceNode.innerHTML = distance;
-        }
+    _formatDistance: function (distance) {
+        return distance ? distance.toFixed(2).split('.').join(this.t(',')) : 0;
     },
 
     _renderTranslation: function () {

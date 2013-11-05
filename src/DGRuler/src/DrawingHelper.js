@@ -3,11 +3,26 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     includes: L.Mixin.Events,
 
     statics : {
-        spaceIcon : L.icon({
-            iconUrl: '__BASE_URL__/img/spacer.gif',
-            iconSize: [0, 0],
-            iconAnchor: [0, 0]
+        distanceIcon : L.DG.Ruler.distanceMarkerIcon({
+            iconAnchor: [15, 15]
         }),
+        pathStyles : {
+            back : {
+                color: '#fff',
+                opacity: 1,
+                weight: 12
+            },
+            front : {
+                color: '#0da5d5',
+                opacity: 1,
+                weight: 4
+            },
+            mouse : {
+                color: '#ff0000',
+                opacity: 0,
+                weight: 20
+            }
+        },
         iconStyles : {
             large : {
                 icon : L.icon({
@@ -133,6 +148,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             newFirst = point._next;
 
         L.DomEvent.stop(event);
+
         if (!newFirst) {
             return;
         }
@@ -141,7 +157,10 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         this._layers.front.removeLayer(point._inner).removeLayer(point._pipka);
         this._layers.mouse.removeLayer(point);
 
-        for (var i = 0; i < 3; this._map.removeLayer(newFirst._lines[i]), i++);
+        L.Util.invokeEach(newFirst._legs, function (layer, line) {
+            this._layers[layer].removeLayer(line);
+        }, this);
+
         newFirst.prev = null;
 
         this._firstPoint = newFirst._setPointStyle('large');
@@ -152,8 +171,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _lineMouseEvents: {
         'mouseover' : function (event) {
             var point;
-            // console.log('mouseover', this._morphingNow);
-            if (this._morphingNow) {
+            console.log('mouseover', this._morphingNow);
+            if (this._morphingNow || !(event.layer instanceof L.Path)) {
                 return;
             }
             point = this._lineMarkerHelper = this._createPoint(event.latlng, true);
@@ -164,12 +183,13 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                         .addLayer(point);
             this._layers.back.bringToBack();
             this._layers.mouse.bringToFront();
+            this._initHoverLabel(point);
         },
         'mouseout' : function () {
+            console.log('mouseout');
             if (this._lineMarkerHelper === null) {
                 return;
             }
-            // console.log('mouseout');
             this._layers.back.removeLayer(this._lineMarkerHelper._outer);
             this._layers.front
                         .removeLayer(this._lineMarkerHelper._inner)
@@ -187,15 +207,13 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 return;
             }
             this._lineMarkerHelper.setLatLng(this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng));
-            // console.log( distance );
+            this.fire('mousemove', { latlng : latlng, distance : distance });
         }
     },
 
     _insertPointInLine : function (event) {
         var latlng = this._lineMarkerHelper.getLatLng(),
             point = this._createPoint(latlng);
-
-        console.log('mousedown');
 
         this._layers.back.addLayer(point._outer);
         this._layers.front
@@ -207,7 +225,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
         point
             .on(this._pointDragEvents, this)
-            .addTo(this._layers.mouse);
+            .addTo(this._layers.mouse)
+            ._setPointStyle('small');
 
         var e = document.createEvent('MouseEvents');
         e.initMouseEvent('mousedown', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
@@ -232,10 +251,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _createPoint: function (latlng, transparent) {
         var style = this.constructor.iconStyles.large,
             point = transparent ? L.marker(latlng, {
-                icon : this.constructor.spaceIcon,
+                icon : this.constructor.distanceIcon,
             }) : L.marker(latlng, {
                 icon : style.icon,
-                opacity : 0,
                 draggable: true
             });
 
@@ -326,53 +344,57 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _addLeg: function (point) {
         var coordinates = [point._prev.getLatLng(), point.getLatLng()];
 
-        point._lines = [
-            L.polyline(coordinates, {
-                color: '#fff',
-                opacity: 1,
-                weight: 12
-            }).addTo(this._layers.back),
-            L.polyline(coordinates, {
-                color: '#0da5d5',
-                opacity: 1,
-                weight: 4
-            }).addTo(this._layers.front).bringToBack(),
-            L.polyline(coordinates, {
-                color: '#ff0000',
-                opacity: 0,
-                weight: 20
-            }).on('mousedown', this._insertPointInLine, this).addTo(this._layers.mouse)
-        ];
-        point._lines[2]._point = point;
+        point._legs = {};
+
+        L.Util.invokeEach(this.constructor.pathStyles, function (layer, style) {
+            point._legs[layer] = L.polyline(coordinates, style).addTo(this._layers[layer]);
+        }, this);
+
+        point._legs.front.bringToBack();
+        point._legs.mouse.on('mousedown', this._insertPointInLine, this);
+        point._legs.mouse._point = point;
     },
 
     _updatePointLegs: function (point) {
-        var next = point._next,
-            latlng = point.getLatLng(),
-            i;
+        var latlng = point.getLatLng();
 
-        for (i = 0; point._prev && i < 3; point._lines[i].spliceLatLngs(1, 1, latlng), i++);
-        for (i = 0; next && i < 3; next._lines[i].spliceLatLngs(0, 1, latlng), i++);
+        if (point._prev) {
+            L.Util.invokeEach(point._legs, function (layer, line) {
+                line.spliceLatLngs(1, 1, latlng);
+            });
+        }
+        if (point._next) {
+            L.Util.invokeEach(point._next._legs, function (layer, line) {
+                line.spliceLatLngs(0, 1, latlng);
+            });
+        }
     },
 
     _calcDistance: function (finishPoint) {
         var sum = 0,
             point = this._firstPoint,
-            finishPoint = finishPoint || null;
+            stopPoint = finishPoint || null;
 
-        while ((point = point._next) != finishPoint) {
+        while ((point = point._next) !== stopPoint) {
             sum += point._prev.getLatLng().distanceTo(point.getLatLng());
         }
 
         return sum / 1000;
     },
 
+    _formatDistance: function (distance) {
+        return distance ? distance.toFixed(2).split('.').join(this.t(',')) : 0;
+    },
+
     _initLabel: function () {
-        this.fire('dgRulerAddLabel', { marker : this._firstPoint });
+        this.fire('startChange', { marker : this._firstPoint });
     },
 
     _updateDistance: function () {
-        this.fire('dgRulerUpdateDistance', { distance : this._calcDistance() });
-    }
+        this.fire('change', { distance : this._calcDistance() });
+    },
 
+    _initHoverLabel: function (marker) {
+        this.fire('hover', { layerGroup : this._layers.mouse });
+    }
 });
