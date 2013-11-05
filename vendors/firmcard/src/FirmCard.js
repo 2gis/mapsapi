@@ -183,8 +183,7 @@ FirmCard.prototype = {
         if (!this.options.isMobile && photos && photos.length) {
             link = L.Util.template('__PHOTOS_LINK__',
                 {
-                    'code': this.options.map.dgProjectDetector.getProject().code,
-                    'id': this._firmId,
+                    'id': this._firmId
                 });
 
             links.push({name: 'photos',
