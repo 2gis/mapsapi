@@ -19,14 +19,13 @@ L.DG.template = (function(){
         // Convert the template into pure JavaScript
         str
           .replace(/[\r\t\n]/g, " ")
+          .replace(/(|>)([\r\t\n\s]{2,})(<|,)/g, "$1$3")
           .split("<%").join("\t")
           .replace(/((^|%>)[^\t]*)'/g, "$1\r")
           .replace(/\t=(.*?)%>/g, "',$1,'")
           .split("\t").join("');")
           .split("%>").join("p.push('")
           .split("\r").join("\\'")
-          .replace(/(^|>)([\r\t\n\s]+)/g, "$1")
-          .replace(/([\r\t\n\s]+)(<)/g, "$2")
           .replace(/<!--[^>]*-->/gm, "")
       + "');}return p.join('');");
     // Provide some basic currying to the user
