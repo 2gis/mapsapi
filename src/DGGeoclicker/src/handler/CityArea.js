@@ -62,7 +62,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
 
         for (var obj in results) {
             if (obj !== type && obj !== 'extra') {
-                if (results[obj].attributes.abbreviation) {
+                if (results[obj].attributes && results[obj].attributes.abbreviation) {
                     data.address = results[obj].attributes.abbreviation + ' ';
                 }
                 data.address += results[obj].name;
