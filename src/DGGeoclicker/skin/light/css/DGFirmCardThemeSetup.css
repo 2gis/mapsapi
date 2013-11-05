@@ -34,7 +34,7 @@
     background-image: url(__BASE_URL__/img/purp-light.png);
 }
 
-.dg-map-geoclicker-address-header:before {
+.building-callout__body:first-child:before {
     background-image: url(__BASE_URL__/img/marker-light.png);
 }
 
@@ -136,7 +136,7 @@
     background-image: url(__BASE_URL__/img/purp-light-2x.png);
 }
 
-.leaflet-retina .dg-map-geoclicker-address-header:before {
+.leaflet-retina .building-callout__body:first-child:before {
     background-image: url(__BASE_URL__/img/marker-light-2x.png);
 }
 
