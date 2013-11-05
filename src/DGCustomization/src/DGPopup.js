@@ -228,8 +228,6 @@
 
             popupHeight += this.options.border * 2;
 
-            console.log(popupHeight);
-
             return (maxHeight && maxHeight < popupHeight); // dont need scroll on 300 height
         },
 
