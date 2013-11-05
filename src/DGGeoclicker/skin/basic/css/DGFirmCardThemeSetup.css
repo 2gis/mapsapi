@@ -1,5 +1,6 @@
 .popup-header-link {
     display: inline-block;
+    margin-right: 2em;
 }
 
 .popup-link {
@@ -11,14 +12,14 @@
     position: relative;
 }
 
-.popup-link {
+/*.popup-link {
     margin-right: 1.6em;
 }
 
 .popup-link:last-child {
     margin-right: 0em;
 }
-
+*/
 .popup-header-link:first-child {
     margin-left: 16px;
 }
@@ -26,7 +27,7 @@
 #popup-link-flamp_stars {
     background-image: url(__BASE_URL__/img/star-off.png);
     width: 70px;
-    margin: 0;
+    margin: 0 .5em 0 0;
 }
 
 .leaflet-retina #popup-link-flamp_stars {

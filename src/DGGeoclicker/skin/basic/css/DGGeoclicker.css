@@ -70,7 +70,7 @@
 
 /*FIRM LIST*/
 .building-callout__list {
-    margin: 8px 16px 7px 23px;
+    margin: 8px 8px 8px 24px;
     padding: 0;
     color: #ffe6aa;
     list-style: none;
@@ -145,7 +145,6 @@
 .dg-popup-header, .dg-popup-footer {
 	position: relative;
 	overflow: hidden;
-
 }
 
 .popup_footer_btns {
@@ -231,6 +230,8 @@
     display: block;
     white-space: normal;
     font: 22px/24px 'SuisseCond','Arial narrow',Arial;
+    overflow: hidden;
+    max-height: 2.1em;
 }
 
 #dg-popup-firm-loading {
