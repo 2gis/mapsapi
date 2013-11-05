@@ -174,7 +174,9 @@
             options || (options = {});
             this.options = options;
             this.options.firmCard || (this.options.firmCard = {});
-            this.options.firmCard.lang = 'ru';
+            if (!options.firmCard.lang) {
+                this.options.firmCard.lang = 'ru';
+            }
 
             for (var option in options) {
                 if (options.hasOwnProperty(option)) {
