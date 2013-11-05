@@ -221,7 +221,7 @@
             var popupHeight = this._contentNode.offsetHeight + this.options.border * 2,
                 maxHeight = this.options.maxHeight;
 
-            return (maxHeight && maxHeight < popupHeight); // dont need scroll on 300 height
+            return (maxHeight && maxHeight <= popupHeight); // dont need scroll on 300 height
         },
 
         _initBaronScroller: function () {
