@@ -9,7 +9,9 @@
 .scroller::-webkit-scrollbar {
     width: 0;
 }
-
+.scroller {
+    height: auto;
+}
 .scroller__bar-wrapper {
     position: absolute;
     top: 18px;

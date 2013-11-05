@@ -147,6 +147,7 @@
         resize: function () {
             var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
+            // this._resetScrollWrapper();
             this._updateLayout();
             this._updatePosition();
 
@@ -227,12 +228,14 @@
 
             popupHeight += this.options.border * 2;
 
-            return (maxHeight && maxHeight <= popupHeight); // dont need scroll on 300 height
+            console.log(popupHeight);
+
+            return (maxHeight && maxHeight < popupHeight); // dont need scroll on 300 height
         },
 
         _initBaronScroller: function () {
             var contentNode = this._popupStructure.body.parentNode,
-                scrollerWrapper = L.DomUtil.create('div', 'scroller-wrapper', contentNode),
+                scrollerWrapper = this._scrollerWrapper =  L.DomUtil.create('div', 'scroller-wrapper', contentNode),
                 scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
                 barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
                 innerHeight = this.options.maxHeight - this.options.border * 2;
@@ -241,12 +244,18 @@
             scroller.appendChild(this._detachEl(this._popupStructure.body));
 
             innerHeight -= this._getDelta();
-            scrollerWrapper.style.height = Math.max(18, innerHeight) + 'px';
+            scrollerWrapper.style.maxHeight = Math.max(18, innerHeight) + 'px';
             scrollerWrapper.style.width = contentNode.offsetWidth + 5 + 'px'; //TODO
 
             this._isBaronExist = true;
 
             L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+        },
+
+        _resetScrollWrapper: function () {
+            if (this._scrollerWrapper) {
+                this._scrollerWrapper.style = '';
+            }
         },
 
         _onScroll: function (event) {
