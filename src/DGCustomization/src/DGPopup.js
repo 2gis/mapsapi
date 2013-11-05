@@ -216,10 +216,12 @@
         },
 
         _isContentHeightFit: function () { // () -> Boolean
-            var popupHeight = this._contentNode.offsetHeight + this.options.border * 2,
+            var popupHeight =   this._popupStructure.body.offsetHeight +
+                                this._getDelta() +
+                                this.options.border * 2,
                 maxHeight = this.options.maxHeight;
 
-            return (maxHeight && maxHeight <= popupHeight); // dont need scroll on 300 height
+            return (maxHeight && maxHeight <= popupHeight);
         },
 
         _initBaronScroller: function () {
