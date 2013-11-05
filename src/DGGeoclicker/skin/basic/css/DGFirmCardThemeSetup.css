@@ -1,6 +1,6 @@
 .popup-header-link {
     display: inline-block;
-    margin-right: 2em;
+    margin-right: 2.5em;
 }
 
 .popup-link {
@@ -12,14 +12,10 @@
     position: relative;
 }
 
-/*.popup-link {
-    margin-right: 1.6em;
-}
-
-.popup-link:last-child {
+.popup-header-link:last-child {
     margin-right: 0em;
 }
-*/
+
 .popup-header-link:first-child {
     margin-left: 16px;
 }

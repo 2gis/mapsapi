@@ -8,8 +8,8 @@ L.DG.Geoclicker.Handler.Default.Dictionary.cs = L.extend({
     "district": "Obvod",
     "city": "Město",
     "goto": "cs - Directions to here",
-    "Show organization in the building": ["Всего {n} v budově", "Всего {n} v budově", "Всего {n} v budově"],
+    "Show organization in the building": ["Всего {n} v budově", "Всего {n} v budově", "cs отзыва"],
     "back button": "Назад Skrýt",
     "Show more about sight": "cs - Read more",
-    "{n} floors": ["{n} podlaží", "{n} podlaží"]
+    "{n} floors": ["{n} podlaží", "{n} podlaží", "cs отзыва"]
 }, L.DG.Dictionary.cs);
