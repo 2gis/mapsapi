@@ -52,11 +52,9 @@
 
         setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
             if (!this._isNode(content) && typeof content === 'object' && typeof content !== null) {
-                for (var i in content) {
-                    if (content.hasOwnProperty(i)) {
-                        this['_' + i + 'Content'] = content[i];
-                    }
-                }
+                Object.keys(content).forEach(function (item) {
+                    this['_' + item + 'Content'] = content[item];
+                }, this);
             } else {
                 this._bodyContent = content;
             }
@@ -353,13 +351,9 @@
         },
 
         _updatePopupStructure: function () {
-            var popupStructure = this._popupStructure;
-
-            for (var i in popupStructure) {
-                if (popupStructure.hasOwnProperty(i)) {
-                    this._insertContent(this['_' + i + 'Content'], popupStructure[i]);
-                }
-            }
+            Object.keys(this._popupStructure).forEach(function (item) {
+                this._insertContent(this['_' + item + 'Content'], this._popupStructure[item]);
+            }, this);
 
             this.fire('contentupdate');
         },
