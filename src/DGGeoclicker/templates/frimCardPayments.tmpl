@@ -1,5 +1,5 @@
 <%if (payments && payments.length > 0) {%>
-    <div class="firm-card__aa">
+    <section class="firm-card__aa">
         <ul class="firm-card__aa-list">
             <% for (var i = 0, l = payments.length; i < l; i++) { %>
                 <% if (payments[i].name == 'payment_type') {  %>
@@ -9,5 +9,5 @@
                 <% } %>
             <% } %>
         </ul>
-    </div>
+    </section>
 <% } %>
