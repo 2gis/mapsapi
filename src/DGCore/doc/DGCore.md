@@ -494,7 +494,7 @@
 		<td>Устанавливает область просмотра карты так, чтобы она содержала заданные границы на максимально возможном уровне масштаба.</td>
 	</tr>
 	<tr id="map-fitworld">
-		<code><b>fitWorld</b>(
+		<td><code><b>fitWorld</b>(
 			<nobr>&lt;<a href="#map-fitboundsoptions">fitBounds options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
