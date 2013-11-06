@@ -1,6 +1,6 @@
 .popup-header-link {
     display: inline-block;
-    margin-right: 2.5em;
+    margin-left: 2.5em;
 }
 
 .popup-link {
@@ -12,18 +12,19 @@
     position: relative;
 }
 
-.popup-header-link:last-child {
-    margin-right: 0em;
+.popup-header-link:first-child {
+    margin-left: 1.2em;
 }
 
-.popup-header-link:first-child {
-    margin-left: 16px;
+#popup-link-flamp_reviews {
+    margin-left: 0.1em;
 }
 
 #popup-link-flamp_stars {
     background-image: url(__BASE_URL__/img/star-off.png);
     width: 70px;
-    margin: 0 .5em 0 0;
+    margin: 0 .4em 0 0;
+    display: inline-block;
 }
 
 .leaflet-retina #popup-link-flamp_stars {
