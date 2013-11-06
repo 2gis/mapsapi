@@ -109,10 +109,10 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
                 tmpl: this._view.getTemplate('popupHeader'),
                 data: {'title': data.buildingName}
             }),
-            footer: this._view.render({
+            /*footer: this._view.render({
                 tmpl: this._view.getTemplate('popupFooterBtns'),
                 data: footer
-            }),
+            }),*/
             afterRender: function () {
                 if (self._needShowMore) {
                     self._initShowMore();

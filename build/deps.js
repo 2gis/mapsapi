@@ -5,6 +5,7 @@ var deps = {
         src: [
             'DGCore/DGCore.js',
             '../vendors/polyfills/json2.js',
+            '../vendors/polyfills/html5shiv.js',
             '../vendors/polyfills/es5.js'
         ],
         css: {
