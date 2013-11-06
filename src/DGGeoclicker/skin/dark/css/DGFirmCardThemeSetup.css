@@ -54,7 +54,7 @@
     background-image: url(__BASE_URL__/img/evenlope-dark.png);
 }
 
-.dg-map-geoclicker-purpose__street:before {
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
     background-image: url(__BASE_URL__/img/street-dark.png);
 }
 
@@ -136,7 +136,7 @@
     background-image: url(__BASE_URL__/img/enter-dark-2x.png);
 }
 
-.leaflet-retina .dg-map-geoclicker-purpose:before {
+.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose:before {
     background-image: url(__BASE_URL__/img/purp-dark-2x.png);
 }
 
@@ -160,7 +160,7 @@
     background-image: url(__BASE_URL__/img/evenlope-dark-2x.png);
 }
 
-.leaflet-retina .dg-map-geoclicker-purpose__street:before {
+.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
     background-image: url(__BASE_URL__/img/street-dark-2x.png);
 }
 
