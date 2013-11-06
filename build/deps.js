@@ -202,8 +202,8 @@ var deps = {
             all: [
                 'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
                 'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
-                'DGGeoclicker/skin/basic/css/DGFirmCardThemeSetup.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCardThemeSetup.css'
+                'DGGeoclicker/skin/{skin}/css/DGFirmCardThemeSetup.css',
+                'DGGeoclicker/skin/basic/css/DGFirmCardThemeSetup.css'
             ]
         },
         src: [
