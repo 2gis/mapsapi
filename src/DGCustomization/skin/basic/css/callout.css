@@ -82,8 +82,8 @@
     display: none;
 }
 
-.dg-popup-header a,
-.dg-popup-container a {
+a.popup-link,
+.firm-card__link a{
     text-decoration: none;
     background-repeat: repeat-x;
     -webkit-background-size: 10px 1px;

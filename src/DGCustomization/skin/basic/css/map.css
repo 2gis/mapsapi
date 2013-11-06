@@ -4,15 +4,15 @@
     overflow: hidden;
     position: relative;
 }
-    .dg-map__inner {
-        height: 100%;
-        position: relative;
-        width: 100%;
-    }
-    .leaflet-container {
-        background: rgb(247, 243, 223);
-        cursor: default;
-    }
+.dg-map__inner {
+    height: 100%;
+    position: relative;
+    width: 100%;
+}
+.leaflet-container {
+    background: rgb(247, 243, 223);
+    cursor: default;
+}
 
 /* Map inner shadow */
 .dg-map:before,

@@ -17,19 +17,19 @@
     -webkit-box-shadow: none;
     box-shadow: none;
     color: #e6e6e6;
-    }
-    .leaflet-popup-content {
-        margin: 0;
-        }
-    .leaflet-popup-tip {
-        display: none;
-        }
-    .leaflet-popup-tip-container {
-        height: 0;
-        }
-    .leaflet-container a {
-        color: #ffe6aa;
-        }
-    .leaflet-container a:hover {
-        color: #9cd;
-        }
+}
+.leaflet-popup-content {
+    margin: 0;
+}
+.leaflet-popup-tip {
+    display: none;
+}
+.leaflet-popup-tip-container {
+    height: 0;
+}
+.leaflet-container a {
+    color: #ffe6aa;
+}
+.leaflet-container a:hover {
+    color: #9cd;
+}

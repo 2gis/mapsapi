@@ -3,15 +3,11 @@
 .scroller-wrapper {
     position: relative;
     overflow: hidden;
-    /*display: inline-block;*/
 }
 
 .scroller::-webkit-scrollbar {
     width: 0;
 }
-/*.scroller {
-    height: auto;
-}*/
 .scroller__bar-wrapper {
     position: absolute;
     top: 18px;
@@ -22,14 +18,6 @@
 }
 .dg-popup-header + .dg-popup-container-wrapper .scroller__bar-wrapper {
     top: 4px;
-}
-
-.scroller__bar-wrapper .scroller__bar {
-    /*background-color: rgba(100, 98, 86, 0.5);*/
-}
-
-.scroller__bar-wrapper:hover .scroller__bar {
-    /*background-color: rgba(100, 98, 86, 0.85);*/
 }
 
 .scroller__bar {

@@ -182,11 +182,7 @@
     transition: all .2s;
 }
 
-.popup_footer_btn__icon {
-    /*padding-left: 1.5em;*/
-}
 .popup_footer_btn__icon:before {
-    /*position: absolute;*/
     margin: -2px 0 0 0;
     vertical-align: middle;
     margin-right: 0.4em;
@@ -198,7 +194,6 @@
     background-repeat: no-repeat;
 }
 #popup-btn-goto:before{
-    /*margin: 8px 0 0 -1.9em;*/
     width: 20px;
     height: 7px;
     background-size: contain;
@@ -206,7 +201,6 @@
 }
 
 #popup-btn-firmCard-back:before{
-    /*margin: 9px 0 0 -1.0em;*/
     width: 10px;
     height: 6px;
     background-size: contain;
@@ -214,7 +208,6 @@
 }
 
 #popup-btn-firmList-back:before{
-    /*margin: 9px 0 0 -1.0em;*/
     width: 10px;
     height: 6px;
     background-size: contain;
