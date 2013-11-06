@@ -273,16 +273,6 @@
     margin: 14px 0 0 0;
 }
 
-.schedule_open_false:after {
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 11px;
-    height: 11px;
-    position: absolute;
-    top: 3px;
-    right: -14px;
-}
-
 .schedule__table-lunch {
     background-repeat: no-repeat;
     background-size: contain;
