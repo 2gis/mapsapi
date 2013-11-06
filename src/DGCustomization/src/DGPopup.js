@@ -242,7 +242,7 @@
             scroller.appendChild(this._detachEl(this._popupStructure.body));
 
             innerHeight -= this._getDelta();
-            scrollerWrapper.style.maxHeight = Math.max(18, innerHeight) + 'px';
+            scrollerWrapper.style.height = Math.max(18, innerHeight) + 'px';
             scrollerWrapper.style.width = contentNode.offsetWidth + 5 + 'px'; //TODO
 
             this._isBaronExist = true;
