@@ -4,7 +4,7 @@
     <div class="popup_header_links">
         <% for (var i=0; i < links.length; i++) {%>
         	<% if (links[i].name == 'flamp_stars') {%>
-	        	<div id="popup-link-<%=links[i].name%>" class="popup-header-link popup-link">
+	        	<div id="popup-link-<%=links[i].name%>" class="popup-link">
 	                <div <% if (links[i].width) print('style=\'width:' + links[i].width + '%\''); %>></div>
 	            </div>
         	<% } else {%>
