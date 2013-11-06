@@ -1,12 +1,12 @@
 .popup-header-link {
     display: inline-block;
     margin-left: 2.5em;
+    vertical-align: middle;
 }
 
 .popup-link {
     height: 14px;
     line-height: 14px;
-    vertical-align: top;
     background-size: contain;
     background-repeat: repeat-x;
     position: relative;
@@ -23,8 +23,9 @@
 #popup-link-flamp_stars {
     background-image: url(__BASE_URL__/img/star-off.png);
     width: 70px;
-    margin: 0 .4em 0 0;
+    margin: 0 .4em 3px 0;
     display: inline-block;
+    vertical-align: middle;
 }
 
 .leaflet-retina #popup-link-flamp_stars {
