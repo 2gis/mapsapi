@@ -116,17 +116,16 @@ FirmCard.prototype.dict = {
         pluralRules: function (n) { // (Number)
             if (n === 1) { // 1
                 return 0;
-            }
-            if (n >= 2) { // 2, 3, 4 ..
-                return 1;
+            } else {
+                return 1; //0, 2, 3, 4 ..
             }
         },
 
         btnBack: 'it Назад',
         btnFindWay: 'it Проехать сюда',
         btnEntrance: 'it Найти вход',
-        linkReviews: ['it отзыв', 'it отзыва', 'it отзывов'],
-        linkPhoto: ['it фото', 'it фото', 'it фото'],
+        linkReviews: ['it отзыв', 'it отзыва'],
+        linkPhoto: ['it фото', 'it фото'],
         linkBooklet: ['it Буклет'],
         tommorow: 'it завтра',
         afterTommorow: 'it послезавтра',
@@ -146,8 +145,8 @@ FirmCard.prototype.dict = {
         openAt: 'it Откроется в ',
         openIn: 'it Откроется через ',
         open: 'it Откроется ',
-        nHours: ['it час', 'часа', 'часов'],
-        nMins: ['it минуту', 'минуты', 'минут'],
+        nHours: ['it час', 'часа'],
+        nMins: ['it минуту', 'it минуты'],
         lunch: 'it обед',
         Lunch: 'it Обед. ',
         workingDays: 'it Рабочие дни',
@@ -194,17 +193,16 @@ FirmCard.prototype.dict = {
         pluralRules: function (n) { // (Number)
             if (n === 1) { // 1
                 return 0;
-            }
-            if (n >= 2) { // 2, 3, 4 ..
-                return 1;
+            } else {
+                return 1; //0, 2, 3, 4 ..
             }
         },
 
         btnBack: 'en Назад',
         btnFindWay: 'en Проехать сюда',
         btnEntrance: 'en Найти вход',
-        linkReviews: ['en отзыв', 'en отзыва', 'en отзывов'],
-        linkPhoto: ['en фото', 'en фото', 'en фото'],
+        linkReviews: ['en отзыв', 'en отзыва'],
+        linkPhoto: ['en фото', 'en фото'],
         linkBooklet: ['en Буклет'],
         tommorow: 'en завтра',
         afterTommorow: 'en послезавтра',
@@ -224,8 +222,8 @@ FirmCard.prototype.dict = {
         openAt: 'en Откроется в ',
         openIn: 'en Откроется через ',
         open: 'en Откроется ',
-        nHours: ['en час', 'часа', 'часов'],
-        nMins: ['en минуту', 'минуты', 'минут'],
+        nHours: ['en час', 'en часа'],
+        nMins: ['en минуту', 'en минуты'],
         lunch: 'en обед',
         Lunch: 'en Обед. ',
         workingDays: 'en Рабочие дни',
@@ -270,19 +268,14 @@ FirmCard.prototype.dict = {
 
     cs: {
         pluralRules: function (n) { // (Number)
-            if (n === 1) { // 1
-                return 0;
-            }
-            if (n >= 2) { // 2, 3, 4 ..
-                return 1;
-            }
+            return (n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;
         },
 
         btnBack: 'cs Назад',
         btnFindWay: 'cs Проехать сюда',
         btnEntrance: 'cs Найти вход',
-        linkReviews: ['cs отзыв', 'cs отзыва', 'cs отзывов'],
-        linkPhoto: ['cs фото', 'cs фото', 'cs фото'],
+        linkReviews: ['cs отзыв', 'cs отзыва', 'cs отзыва'],
+        linkPhoto: ['cs фото', 'cs фото', 'cs отзыва'],
         linkBooklet: ['cs Буклет'],
         tommorow: 'cs завтра',
         afterTommorow: 'cs послезавтра',
@@ -302,8 +295,8 @@ FirmCard.prototype.dict = {
         openAt: 'cs Откроется в ',
         openIn: 'cs Откроется через ',
         open: 'cs Откроется ',
-        nHours: ['cs час', 'часа', 'часов'],
-        nMins: ['cs минуту', 'минуты', 'минут'],
+        nHours: ['cs час', 'cs часа', 'cs отзыва'],
+        nMins: ['cs минуту', 'cs минуты', 'cs отзыва'],
         lunch: 'cs обед',
         Lunch: 'cs Обед. ',
         workingDays: 'cs Рабочие дни',

@@ -65,11 +65,7 @@ L.DG.Geoclicker.Handler.House.include({
     _fillFooter: function (house) { // (Object) -> (HTMLString)
         var attrs = house.attributes,
             btns = [],
-            isShowOrgs = false,
-            showOrgs = {
-                name: 'all',
-                label: this.t('Show organization in the building', attrs.filials_count)
-            };
+            isShowOrgs = false;
 
         if (attrs.filials_count > 0) {
             if (attrs.filials && attrs.filials.popular) {
@@ -80,7 +76,7 @@ L.DG.Geoclicker.Handler.House.include({
                 isShowOrgs = true;
             }
         }
-        isShowOrgs && btns.push(showOrgs);
+        isShowOrgs && btns.push(this._getShowAllData(attrs.filials_count));
 
         //UNCOMMENT WHEN ONLINE 4 WILL BE READY
         /*btns.push({
@@ -94,6 +90,13 @@ L.DG.Geoclicker.Handler.House.include({
             tmpl: this._view.getTemplate('popupFooterBtns'),
             data: {'btns': btns}
         });
+    },
+
+    _getShowAllData: function (filialsCount) {
+        return {
+            name: 'all',
+            label: this.t('Show organization in the building', filialsCount)
+        };
     },
 
     _fillHouseObject: function (house) { // (Object) -> (Object)
