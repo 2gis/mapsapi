@@ -314,6 +314,13 @@
             this._updatePopupStructure();
             this.resize();
             L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
+            if (L.Browser.ielt9) {
+                // alert('tadam3');
+                var elem = this._popupStructure.footer;
+                if (elem) {
+                    elem.className += ' ie-shit';
+                }
+            }
 
             // Delete this if fixed in new leaflet version (> 0.6.2)
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);

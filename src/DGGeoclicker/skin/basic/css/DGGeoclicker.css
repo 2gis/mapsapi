@@ -193,7 +193,7 @@
     display: inline-block;
     width: 12px;
     height: 12px;
-    content: '';
+    content: '   ';
     background-size: contain;
     background-repeat: no-repeat;
 }
