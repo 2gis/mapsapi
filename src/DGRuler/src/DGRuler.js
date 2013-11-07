@@ -51,14 +51,8 @@ L.DG.Ruler = L.Control.extend({
         L.DomEvent.stop(event);
         if (this._active = !this._active) {
             helper.startDrawing();
-            if (!this.options.disableLabel) {
-                helper.on(this._drawingHelperEvents, this);
-            }
         } else {
             helper.finishDrawing();
-            if (!this.options.disableLabel) {
-                helper.off(this._drawingHelperEvents, this);
-            }
         }
         L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._container, 'leaflet-control-ruler-active');
     },
@@ -95,10 +89,6 @@ L.DG.Ruler = L.Control.extend({
         // }
     },
 
-    _formatDistance: function (distance) {
-        return distance ? distance.toFixed(2).split('.').join(this.t(',')) : 0;
-    },
-
     _renderTranslation: function () {
         this._link.title = this.t('button_title');
     }
@@ -109,7 +99,7 @@ L.DG.ruler = function (options) {
 };
 
 L.Map.mergeOptions({
-    rulerControl: true
+    rulerControl: false
 });
 
 L.Map.addInitHook(function () {
