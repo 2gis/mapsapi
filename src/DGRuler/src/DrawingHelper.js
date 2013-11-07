@@ -119,7 +119,11 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             }
         }
 
-		this._layers.mouse.on(this._lineMouseEvents, this);
+		this._layers.mouse
+                        .on('mouseover mouseout', this._mouselayerHover, this)
+                        .on('mousemove', this._lineMouseEvents.mousemove, this);
+        this._mouselayerHovered = false;
+
         L.DomEvent.addListener(this._map.getPanes().mapPane, 'click', this._addPoint, this);
         return this;
     },
@@ -168,6 +172,24 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         this._updateDistance();
     },
 
+    _mouselayerHover: function (event) {
+        var that = this,
+            type = event.type;
+
+        clearTimeout(this._mouselayerHoverTimer);
+        if (this._mouselayerHovered === true && type === 'mouseover') {
+            return;
+        } else if (type === 'mouseover') {
+            this._lineMouseEvents[type].call(this, event);
+            this._mouselayerHovered = true;
+        } else {
+            this._mouselayerHoverTimer = setTimeout(function(){
+                that._lineMouseEvents[type].call(that, event);
+                that._mouselayerHovered = false;
+            }, 10);
+        }
+    },
+
     _lineMouseEvents: {
         'mouseover' : function (event) {
             var point;
@@ -179,8 +201,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._layers.back.addLayer(point._outer);
             this._layers.front
                         .addLayer(point._inner)
-                        .addLayer(point._pipka)
-                        .addLayer(point);
+                        .addLayer(point._pipka);
+            this._layers.mouse.addLayer(point);
             this._layers.back.bringToBack();
             this._layers.mouse.bringToFront();
             this._initHoverLabel(point);
@@ -193,8 +215,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._layers.back.removeLayer(this._lineMarkerHelper._outer);
             this._layers.front
                         .removeLayer(this._lineMarkerHelper._inner)
-                        .removeLayer(this._lineMarkerHelper._pipka)
-                        .removeLayer(this._lineMarkerHelper);
+                        .removeLayer(this._lineMarkerHelper._pipka);
+            this._layers.mouse.removeLayer(this._lineMarkerHelper);
             this._lineMarkerHelper = null;
         },
         'mousemove' : function (event) {
