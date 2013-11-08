@@ -4,7 +4,7 @@ L.Control.Zoom.Dictionary = {};
 L.Control.Zoom.include({
     // Sets default zoom position from current theme
     options: {
-        position: L.DG.configTheme.controls.zoom[!L.Browser.touch ? 'touchPosition' : 'position']
+        position: L.DG.configTheme.controls.zoom[L.Browser.touch ? 'touchPosition' : 'position']
     },
 
     // TODO: think about pull request to leaflet with zoom control button's titles as options

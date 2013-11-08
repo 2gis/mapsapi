@@ -1,4 +1,4 @@
-L.DG.FullScreen = L.Control.extend({
+L.DG.FullScreen = L.DG.Control.extend({
 
     includes: L.DG.Locale,
 
@@ -8,8 +8,8 @@ L.DG.FullScreen = L.Control.extend({
 
     options: {
         position: L.DG.configTheme ? L.DG.configTheme.controls.fullScreen.position : 'topright',
-        containerClass: 'maxi dg-fullscreen',
-        iconClass: 'dg-fullscreen-icon'
+        // containerClass: 'maxi dg-fullscreen',
+        iconClass: 'fullscreen'
     },
 
     _isLegacy: false,
@@ -50,58 +50,68 @@ L.DG.FullScreen = L.Control.extend({
         scrollTop: null
     },
 
-    onAdd: function (map) { // (Object)
-
-        // Check if browser supports native fullscreen API
-        if (!fullScreenApi.supportsFullScreen) {
-            this._isLegacy = true;
-        }
-
-        var container = L.DomUtil.create('a', this.options.containerClass);
-        container.href = '#';
-        this.fullScreenControl = container;
-        this._isFullscreen = false;
-        this._renderTranslation();
-
-        this._map = map;
-
-        this._createButton(this.options.iconClass, container, this.toggleFullscreen);
-
-        return container;
+    initialize: function (options) {
+        L.Util.setOptions(this, options);
+        this.on('enable', this._enterFullScreen);
+        this.on('disable', this._exitFullScreen);
+        this.on('update', this._updateState);
     },
 
-    toggleFullscreen: function () {
-        if (!this._isFullscreen) {
-            this._enterFullScreen();
-        } else {
-            this._exitFullScreen();
-        }
+    // onAdd: function (map) { // (Object)
 
+    //     // Check if browser supports native fullscreen API
+    //     if (!fullScreenApi.supportsFullScreen) {
+    //         this._isLegacy = true;
+    //     }
+
+    //     var container = L.DomUtil.create('a', this.options.containerClass);
+    //     container.href = '#';
+    //     this.fullScreenControl = container;
+    //     this._isFullscreen = false;
+    //     this._renderTranslation();
+
+    //     this._map = map;
+
+    //     this._createButton(this.options.iconClass, container, this.toggleFullscreen);
+
+    //     return container;
+    // },
+
+    // toggleFullscreen: function () {
+    //     if (!this._isFullscreen) {
+    //         this._enterFullScreen();
+    //     } else {
+    //         this._exitFullScreen();
+    //     }
+
+    // },
+
+    _updateState: function () {
         this._renderTranslation();
         this._map.invalidateSize();
     },
 
-    _renderTranslation: function () {
-        if (this._isFullscreen) {
-            this.fullScreenControl.title = this.t('title_min');
-        } else {
-            this.fullScreenControl.title = this.t('title_max');
-        }
-    },
+    // _renderTranslation: function () {
+    //     if (this._isFullscreen) {
+    //         this.fullScreenControl.title = this.t('title_min');
+    //     } else {
+    //         this.fullScreenControl.title = this.t('title_max');
+    //     }
+    // },
 
-    _createButton: function (className, container, fn) { // () ->  HTMLAnchorElement
-        var link = L.DomUtil.create('a', className, container);
-        link.href = '#';
+    // _createButton: function (className, container, fn) { // () ->  HTMLAnchorElement
+    //     var link = L.DomUtil.create('a', className, container);
+    //     link.href = '#';
 
-        L.DomEvent
-            .addListener(container, 'mousedown', L.DomEvent.stopPropagation)
-            .addListener(container, 'mousedown', L.DomEvent.preventDefault)
-            .addListener(container, 'click', L.DomEvent.stopPropagation)
-            .addListener(container, 'click', L.DomEvent.preventDefault)
-            .addListener(container, 'click', fn, this);
+    //     L.DomEvent
+    //         .addListener(container, 'mousedown', L.DomEvent.stopPropagation)
+    //         .addListener(container, 'mousedown', L.DomEvent.preventDefault)
+    //         .addListener(container, 'click', L.DomEvent.stopPropagation)
+    //         .addListener(container, 'click', L.DomEvent.preventDefault)
+    //         .addListener(container, 'click', fn, this);
 
-        return link;
-    },
+    //     return link;
+    // },
 
     _storePosition: function (container) { // (HTMLDivElement)
 
@@ -178,9 +188,9 @@ L.DG.FullScreen = L.Control.extend({
         var container = this._map._container;
 
         // update state
-        L.DomUtil.addClass(this.fullScreenControl, 'mini');
-        L.DomUtil.removeClass(this.fullScreenControl, 'maxi');
-        this._isFullscreen = true;
+        // L.DomUtil.addClass(this.fullScreenControl, 'mini');
+        // L.DomUtil.removeClass(this.fullScreenControl, 'maxi');
+        // this._isFullscreen = true;
 
         if (!this._isLegacy) {
             fullScreenApi.requestFullScreen(container);
@@ -219,9 +229,9 @@ L.DG.FullScreen = L.Control.extend({
         var container = this._map._container;
 
         // update state
-        L.DomUtil.addClass(this.fullScreenControl, 'maxi');
-        L.DomUtil.removeClass(this.fullScreenControl, 'mini');
-        this._isFullscreen = false;
+        // L.DomUtil.addClass(this.fullScreenControl, 'maxi');
+        // L.DomUtil.removeClass(this.fullScreenControl, 'mini');
+        // this._isFullscreen = false;
 
         if (!this._isLegacy) {
             fullScreenApi.cancelFullScreen();

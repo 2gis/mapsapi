@@ -111,15 +111,11 @@ var deps = {
             all: [
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
                 '../vendors/baron/baron.css',
-<<<<<<< HEAD
-                'DGCustomization/skin/{skin}/css/control.css',
-                'DGCustomization/skin/{skin}/css/zoom.css',
-=======
+                'DGCustomization/skin/basic/css/control.css',
                 'DGCustomization/skin/basic/css/zoom.css',
                 'DGCustomization/skin/basic/css/callout.css',
                 'DGCustomization/skin/basic/css/baron.css',
                 'DGCustomization/skin/basic/css/marker.css',
->>>>>>> master
                 'DGCustomization/skin/{skin}/css/callout.css',
                 'DGCustomization/skin/{skin}/css/baron.css'
             ],
@@ -150,7 +146,7 @@ var deps = {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
             ie: ['DGFullScreen/skin/{skin}/css/DGFullScreen.ie.css']
         },
-        deps: ['DGCore', 'DGLocale']
+        deps: ['DGCore', 'DGLocale', 'DGControl']
     },
 
     DGJsonp: {
@@ -276,6 +272,19 @@ var deps = {
         css: {
             all: [
                 'DGLocation/skin/{skin}/css/DGLocation.css'
+            ],
+        },
+        deps: ['DGCore', 'DGLocale']
+    },
+
+    DGControl: {
+        desc: 'Control helper',
+        src: [
+            'DGControl/src/DGControl.js'
+        ],
+        css: {
+            all: [
+                'DGControl/skin/{skin}/css/DGControl.css'
             ],
         },
         deps: ['DGCore', 'DGLocale']

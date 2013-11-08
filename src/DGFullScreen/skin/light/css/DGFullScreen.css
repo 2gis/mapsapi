@@ -6,14 +6,19 @@
 
 
 .dg-fullscreen-icon {
-    background: url(__BASE_URL__/img/dg-fullscreen-default-sprite.png) no-repeat 0 0;
     content: '';
     position: absolute;
     display: block;
+    background: url(__BASE_URL__/img/dg-fullscreen-default-sprite.png) no-repeat 0 0;
     width: 14px;
     height: 15px;
     top: 8px;
     left: 8px;
+}
+.dg-control-icon-fullscreen:before {
+    background-image: url(__BASE_URL__/img/dg-fullscreen-default-sprite.png);
+    width: 14px;
+    height: 15px;
 }
 
 .dg-fullscreen.maxi .dg-fullscreen-icon{ background-position: 0 0px; }
