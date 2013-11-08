@@ -3,8 +3,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
         data: {
-            key: '__GEOCLICKER_CATALOG_API_KEY__',
-            output: 'jsonp'
+            key: '__GEOCLICKER_CATALOG_API_KEY__'
         },
         geoFields: '__GEO_ADDITIONAL_FIELDS__',
         firmInfoFields: '__FIRM_INFO_FIELDS__',
@@ -24,60 +23,39 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             beforeRequest = options.beforeRequest || function () {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
+
         if (!types) {
-            callback({
-                'error': 'no type'
-            });
+            callback({'error': 'no type'});
             return;
         }
+
         beforeRequest();
-        this.geoSearch(q, types, zoom, L.bind(function (result) {
+        this.geoSearch(q, types, zoom).then(L.bind(function (result) {
             callback(this._filterResponse(result, types));
         }, this));
     },
 
-    firmsInHouse: function (houseId, callback, page) { // (String, Function, Number)
-        page = page || 1;
+    firmsInHouse: function (houseId, parameters) { // (String, Function, Number)
+        parameters = parameters || {};
+
         var params = L.extend(this.options.data, {
             type: 'filial',
             house: houseId,
-            page: page
+            page: parameters.page || 1
         });
 
-        this.cancelLastRequest();
-
-        function responseHandler(res) {
-            if (res && res.response && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
-                callback(res.result.data);
-            } else {
-                callback();
-            }
-        }
-
-        this._performRequest(params, this.options.urlGeo, responseHandler, responseHandler);
+        return this._performRequest(params, this.options.urlGeo);
     },
 
-    getFirmInfo: function (firmId, callback) {
-        L.DG.Jsonp({
-            url: this.options.urlDetails,
-            data: {
-                output: this.options.data.output,
-                key: this.options.data.key,
-                type: 'filial',
-                id: firmId,
-                fields: this.options.firmInfoFields
-            },
-            success: function (res) {
-                if (res && res.response.code === 200 && res.result && res.result.data && res.result.data.length) {
-                    callback(res.result.data);
-                } else {
-                    callback();
-                }
-            }
-        });
+    getFirmInfo: function (firmId) {
+        return this._performRequest({
+            type: 'filial',
+            id: firmId,
+            fields: this.options.firmInfoFields
+        }, this.options.urlDetails);
     },
 
-    geoSearch: function (q, types, zoomlevel, callback) { // (String, String, Number, Function)
+    geoSearch: function (q, types, zoomlevel) { // (String, String, Number)
         var params = {
             point: q,
             geo_type: types,
@@ -86,57 +64,70 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             fields: this.options.geoFields
         };
 
-        this.cancelLastRequest();
-
-        this._performRequest(params, this.options.urlGeo, callback, function () {
-            callback();
-        });
+        return this._performRequest(params, this.options.urlGeo);
     },
 
     cancelLastRequest: function () {
         if (this._lastRequest) {
-            this._lastRequest.cancel();
+            this._lastRequest.abort();
         }
     },
 
     getTypesByZoom: function (zoom) { // (Number) -> String|Null
-        if (zoom > 15) {
-            return 'house,street,sight,station_platform,district';
-        } else if (zoom > 14) {
-            return 'house,street,district';
-        } else if (zoom > 13) {
-            return 'district,house';
-        } else if (zoom > 12) {
-            return 'district';
-        } else if (zoom > 11) {
-            return 'settlement,city,district';
-        } else if (zoom > 8) {
-            return 'settlement,city';
-        } else if (zoom > 7) {
-            return 'city';
+        var types = {
+            settlement:         8,
+            city:               8,
+            division:           11,
+            district:           12,
+            station:            12,
+            metro:              12,
+            station_platform:   12,
+            street:             14,
+            house:              14,
+            place:              15,
+            poi:                15,
+            sight:              17
+        },
+        selectedTypes = [];
+
+        Object.keys(types).forEach(function (type) {
+            if (zoom >= types[type]) {
+                selectedTypes.push(type);
+            }
+        });
+
+        if (selectedTypes.length) {
+            return selectedTypes.join(',');
         } else {
             return null;
         }
     },
 
-    _performRequest: function (params, url, callback, failback) { // (Object, String, Function, Function)
+    _performRequest: function (params, url) { // (Object, String, Function, Function)
         var source = this.options.data,
             data = L.extend({ // TODO clone function should be used instead of manually copying
-                key: source.key,
-                output: source.output
-            }, params);
+                key: source.key
+            }, params),
+            promise;
 
-        this._lastRequest = L.DG.Jsonp({
-            url: url,
+        this.cancelLastRequest();
+
+        this._lastRequest = L.DG.ajax(url, {
+            type: 'get',
             data: data,
-            timeout: this.options.timeoutMs,
-            success: callback,
-            error: failback
+            timeout: this.options.timeoutMs
         });
+
+        promise = this._lastRequest.then(
+            null,
+            function () { return false; }
+        );
+
+        return promise;
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
-        var result = {}, i, len, item, found, data;
+        var result = {}, i, item, found, data;
 
         if (this._isNotFound(response)) {
             return false;
@@ -144,7 +135,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
         data = response.result.data;
 
-        for (i = 0, len = data.length; i < len; i++) {
+        for (i = data.length - 1; i >= 0; i--) {
             item = data[i];
             if (allowedTypes && allowedTypes.indexOf(item.geo_type) === -1) {
                 continue;

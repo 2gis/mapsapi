@@ -1,0 +1,287 @@
+/*firmCard address*/
+.firm-card__address {
+    position: relative;
+    margin: 13px 0 9px 24px;
+    font: 16px/16px Arial;
+}
+
+.firm-card__address:before {
+    position: absolute;
+    top: 3px;
+    left: -24px;
+    width: 9px;
+    height: 11px;
+    content: '';
+    background-size: contain;
+}
+
+.firm-card__comment {
+    vertical-align: top;
+    position: relative;
+    top: 1px;
+    margin: 0 0 0 5px;
+    font: 12px/16px Arial;
+}
+
+/*firmCard phone*/
+
+.firm-card__phone {
+    position: relative;
+    padding: 0 0 4px 24px;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.firm-card__phone:before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background-size: contain;
+}
+
+.firm-card__phone-num {
+    white-space: nowrap;
+}
+
+/*firmCard site/email*/
+
+.firm-card__link {
+    position: relative;
+    padding: 0 0 0 24px;
+    line-height: 16px;
+    margin: 0 0 4px;
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.firm-card__link:before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 11px;
+    height: 11px;
+    background-size: contain;
+}
+
+.firm-card__email:before {
+    top: 5px;
+    height: 8px;
+}
+
+/*firmCard rubrics*/
+
+.firm-card__rubrics {
+    overflow: hidden;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.firm-card__rubrics-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.firm-card__rubrics {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.firm-card__rubrics-list-item {
+    display: inline;
+    cursor: default;
+}
+
+.link, .link:hover {
+    background-position: 0 95%;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+}
+
+/*firmCard payments*/
+
+.firm-card__aa {
+    padding: 0 0 0 24px;
+    margin: 0 0 4px;
+    font-size: 12px;
+}
+
+.firm-card__aa-list, .firm-card__aa-list-additional {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 16px;
+}
+
+.firm-card__aa-list-item {
+    display: inline;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 100%;
+    cursor: default;
+}
+
+.firm-card__rubrics-list-item:before,
+.firm-card__aa-list-item:before {
+    content: '•';
+    display: inline-block;
+    margin: 0 4px;
+}
+
+.firm-card__rubrics-list-item:first-child:before,
+.firm-card__aa-list-item:first-child:before {
+    content: '';
+    margin: 0;
+}
+
+/*frimCard schedule*/
+
+.firm-card__schedule {
+    margin: 0 0 10px;
+}
+
+.schedule__no-table {
+    border-bottom: none !important;
+    cursor: default !important;
+}
+
+.schedule__no-table:after {
+    background-image:none !important;
+}
+
+.schedule__today {
+    position: relative;
+    display: inline-block;
+    margin-left: 24px;
+    border-bottom: 1px dashed #aaa5a0;
+    font-size: 14px;
+    line-height: 11px;
+    cursor: pointer;
+}
+.schedule__today:before {
+    position: absolute;
+    content: '';
+    width: 11px;
+    height: 11px;
+    top: 0;
+    left: -24px;
+    background-size: contain;
+}
+
+.schedule__today:after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    right: -12px;
+    width: 10px;
+    height: 6px;
+    background-size: contain;
+}
+
+.schedule__now {
+    margin: 1px 7px 0px 36px;
+    font-size: 12px;
+}
+
+.schedule__string {
+    text-align: left;
+    font-size: 14px;
+    padding: 3px 16px 3px 24px;
+}
+
+.schedule__string-time {
+    white-space: nowrap;
+}
+
+.schedule__table {
+    display:none;
+    text-align: center;
+    font-size: 0;
+}
+
+.schedule__tc {
+    display: inline-block;
+    vertical-align: top;
+    width: 47px;
+    font-size: 14px;
+    padding: 2px 0 15px;
+}
+
+.schedule__tc_pre {
+  width: 19px;
+}
+
+.schedule__day-name {
+    margin: 0;
+    color: #8c8782;
+    text-transform: capitalize;
+}
+
+.schedule__td {
+    min-height: 32px;
+    margin: 10px 0 0;
+}
+
+.schedule_state_expanded .schedule__popup {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    max-height: 1000px;
+}
+
+/* Открытость фирмы */
+.schedule_open_true:before {
+    background-image: url(__BASE_URL__/img/clock-on.png);
+}
+
+.leaflet-retina .schedule_open_true:before {
+    background-image: url(__BASE_URL__/img/clock-on-2x.png);
+}
+
+/* Local dashed link */
+.link_type_local {
+    background: -webkit-linear-gradient(left, #99ccdd, #99ccdd 50%, transparent 50%);
+    background: -moz-linear-gradient(left, #99ccdd, #99ccdd 50%, transparent 50%);
+    background: linear-gradient(left, #99ccdd, #99ccdd 50%, transparent 50%);
+}
+.link_type_local:hover {
+    background: -webkit-linear-gradient(left, #99bbcc, #99bbcc 50%, transparent 50%);
+    background: -moz-linear-gradient(left, #99bbcc, #99bbcc 50%, transparent 50%);
+    background: linear-gradient(left, #99bbcc, #99bbcc 50%, transparent 50%);
+}
+.link.link_type_local,
+.link.link_type_local:hover {
+    /* Нужна высокая специфичность, .link в начале не убирать */
+
+    background-size: 6px 1px;
+}
+
+.schedule__table-clock {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 11px;
+    height: 11px;
+    margin: 14px 0 0 0;
+}
+
+.schedule__table-lunch {
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 11px;
+    height: 11px;
+    margin: 16px 0 0 0;
+}
+
+.footer-btns {
+    display:table;
+    width:100%;
+}

@@ -1,43 +1,37 @@
-(function(){
-    FirmCard.List = function (options, firms) {
-        this._firms = {}; // {'firmID': firmObj}
-        this._defaultFirm = null;
-        this._onReady = null;
-        this._addOptions = {
-           ajax: function(){},
-           render: function(){},
-           onToggleCard: function(){},
-           lang: 'ru',
-           tmpls: {}
-        };
-        this._container = options && options.container || document.createElement('div');
-        this._container.setAttribute('class', 'dg-map-infocard-firmlist');
-        this._innerFirmsList = document.createDocumentFragment();
+/* global
+    FirmCard: false
+*/
+(function () {
+    FirmCard.List = function (firms, options) {
+        this._firms = {}; // {'firmID': firmDomObj}
+        this._setOptions(options);
 
-        this._newPageFirms = {};
+        this._container = options && options.container || document.createElement('ul');
+        this._container.setAttribute('class', 'building-callout__list');
 
         this._eventHandlersInited = false;
-
-        this._setOptions(options);
-        this._prepareList(firms);
-    }
+        this._firmCard = this._createFirm();
+        this.renderList(firms);
+    };
 
     FirmCard.List.prototype = {
 
-        renderList : function () {
-            var firms = this._newPageFirms;
-            if (!this._eventHandlersInited) this._initEventHandlers();
-            for (var firm in firms)
-                if (firms.hasOwnProperty(firm)) {
-                    this._innerFirmsList.appendChild(this._renderFirm(firm));
+        renderList: function (firms) {
+            if (firms) {
+                if (!this._eventHandlersInited) {
+                    this._initEventHandlers();
                 }
-            this._container.appendChild(this._innerFirmsList);
-            this._newPageFirms = {};
+
+                this.addFirms(firms);
+            }
+            if (this.options.onListReady) {
+                this.options.onListReady(this._container);
+            }
 
             return this._container;
         },
 
-        addFirms : function (firms) {
+        addFirms: function (firms) {
             if (firms) {
                 if (this._isArray(firms)) {
                     for (var i = 0, l = firms.length; i < l; i++) {
@@ -49,7 +43,7 @@
             }
         },
 
-        removeFirms : function (ids) {
+        removeFirms: function (ids) {
             if (ids) {
                 if (this._isArray(ids)) {
                     for (var i = 0, l = ids.length; i < l; i++) {
@@ -61,40 +55,72 @@
             }
         },
 
-        clearList : function () {
-            this._newPageFirms = {};
-            this._firms = {};
-            this._clearContainer();
+        setLang: function (newLang) {
+            this.options.firmCard.lang = newLang;
         },
 
-        setLang : function (newLang) {
-            this._addOptions.lang = newLang;
-        },
-
-        getLang : function () {
-            return this._addOptions.lang;
-        },
-
-        toggleFirm : function (id) {
-            if (this._firms[id]) {
-                this._firms[id].toggle();
-            }
-        },
-
-        toggleSchedule: function(id) {
-            if (this._firms[id]) {
-                this._firms[id].toggleSchedule();
-            }
+        getLang: function () {
+            return this.options.firmCard.lang;
         },
 
         getContainer: function () {
             return this._container;
         },
 
-        _hasTouch: function () {
-            return (('ontouchstart' in window) ||       // html5 browsers
-                    (navigator.maxTouchPoints > 0) ||   // future IE
-                    (navigator.msMaxTouchPoints > 0));  // current IE10
+        clearList : function () {
+            this._firms = {};
+            this._clearContainer();
+        },
+
+        _removeFirm: function (id) {
+            var firmCard = this._firms[id] ? this._firms[id] : false;
+            firmCard ? this._container.removeChild(firmCard) : false;
+            this._firms[id] ? delete this._firms[id] : false;
+        },
+
+        _addFirm: function (firmData) {
+            var tmpl = this.options.firmlistItemTmpl,
+                domFirm, firm, content;
+
+            firm = {
+                name: firmData.name,
+                id: firmData.id.split('_').slice(0, 1)
+            };
+
+            if (!(firm.id in this._firms)) {
+                domFirm = this._createListItem();
+
+                tmpl ? content = this.options.firmCard.render(tmpl, {'firm': firm}) : content = firm.name;
+                domFirm.insertAdjacentHTML('beforeend', content);
+
+                this._firms[firm.id] = domFirm;
+                this._container.appendChild(domFirm);
+            }
+        },
+
+        _createListItem: function () {
+            var item = document.createElement('li');
+            item.setAttribute('class', 'building-callout__list-item');
+
+            return item;
+        },
+
+        _isArray: function (obj) {
+            return {}.toString.call(obj) === '[object Array]';
+        },
+
+        _createFirm: function (firmData) {
+            return new FirmCard(firmData, this.options.firmCard);
+        },
+
+        _isEmptyObj: function (obj) {
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    return false;
+                }
+            }
+
+            return true;
         },
 
         _initEventHandlers : function () {
@@ -102,51 +128,38 @@
                 eventName = this._hasTouch() ? 'touchend' : 'click';
 
             this._eventHandlersInited = true;
-            var onClickHandler =  function(e) {
-                var e = e || window.event,
-                target = e.target || e.srcElement;
+            var onClickHandler =  function (e) {
+                e = e || window.event;
+                var target = e.target || e.srcElement;
 
-                if (target && target.nodeName == "A") {
-                    if (target.className.indexOf('dg-firm-shortcard') !== -1) {
-                        self.toggleFirm(target.id);
-                    }
-                } else if (target && target.nodeName == "DIV" || target.nodeName == "SPAN") {
-                    if (target.className.indexOf('schedule__today') !== -1) {
-                        var wrapper = target.parentNode;
-                        while (wrapper.className.indexOf('dg-map-firm-full') === -1) {
-                            wrapper = wrapper.parentNode;
+                if (target && target.nodeName === 'A') {
+                    if (target.className.indexOf('popup-link') !== -1) {
+                        if (target.id) {
+
+                            var s = self._firmCard.render(target.id);
+                            if (!self._isEmptyObj(s)) {
+                                self.options.firmCard.onFirmReady(s);
+                            } else {
+                                self.options.firmCard.pasteLoader();
+                            }
+
+                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
                         }
-                        var id = wrapper.id.split("-").pop();
-                        self.toggleSchedule(id);
                     }
                 }
             };
-            if (this._container.addEventListener){
+
+            if (this._container.addEventListener) {
                 this._container.addEventListener(eventName, onClickHandler);
             } else {
-                this._container.attachEvent("on" + eventName, onClickHandler);
+                this._container.attachEvent('on' + eventName, onClickHandler);
             }
         },
 
-        _removeFirm: function (id) {
-            var firmCard = this._firms[id] ? this._firms[id].getContainer() : false;
-            firmCard ? this._container.removeChild(firmCard) : false;
-            this._firms[id] ? delete this._firms[id] : false;
-        },
-
-        _isArray: function (obj) {
-            return {}.toString.call(obj) == '[object Array]';
-        },
-
-        _prepareList: function(firms) {
-            var self = this;
-
-            if (this._defaultFirm) {
-                firms.unshift(this._defaultFirm);
-            }
-
-            this.addFirms(firms);
-            setTimeout(self._onReady, 1);   // We need setTimeout here because _prepareList was called in constructor and would finish first
+        _hasTouch: function () {
+            return (('ontouchstart' in window) ||       // html5 browsers
+                    (navigator.maxTouchPoints > 0) ||   // future IE
+                    (navigator.msMaxTouchPoints > 0));  // current IE10
         },
 
         _clearContainer: function () {
@@ -157,37 +170,19 @@
             }
         },
 
-        _createFirm: function (firmData) {
-            return new FirmCard (firmData, this._addOptions);
-        },
-
         _setOptions: function (options) {
             options || (options = {});
+            this.options = options;
+            this.options.firmCard || (this.options.firmCard = {});
+            if (!options.firmCard.lang) {
+                this.options.firmCard.lang = 'ru';
+            }
 
-            if ('onReady' in options) this._onReady = options.onReady;
-            if ('defaultFirm' in options) this._defaultFirm = options.defaultFirm;
-            if ('firmsOnPage' in options) this._firmsOnPage = options.firmsOnPage;
-            if ('onToggleCard' in options) this._addOptions.onToggleCard = options.onToggleCard;
-            if ('ajax' in options) this._addOptions.ajax = options.ajax;
-            if ('render' in options) this._addOptions.render = options.render;
-            if ('tmpls' in options) this._addOptions.tmpls = options.tmpls;
-            if ('lang' in options) this._addOptions.lang = options.lang;
-            if ('timezoneOffset' in options) this._addOptions.timezoneOffset = options.timezoneOffset;
-        },
-
-        _renderFirm: function (id) {
-            return this._firms[id] ? this._firms[id].render() : null;
-        },
-
-        _addFirm: function (firmData) {
-            var id = firmData.id ? firmData.id.split("_").slice(0, 1) : firmData;
-
-            if (!(id in this._firms)) {
-                firmObject = this._createFirm(firmData);
-                this._firms[id] = firmObject;
-
-                this._newPageFirms[id] = firmObject;
+            for (var option in options) {
+                if (options.hasOwnProperty(option)) {
+                    this.options[option] = options[option];
+                }
             }
         }
-    }
+    };
 })();

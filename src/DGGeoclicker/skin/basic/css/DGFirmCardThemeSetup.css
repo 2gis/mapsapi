@@ -1,0 +1,66 @@
+.popup-header-link {
+    display: inline-block;
+    margin-left: 2.5em;
+    vertical-align: middle;
+}
+
+.popup-link {
+    height: 14px;
+    line-height: 14px;
+    background-size: contain;
+    background-repeat: repeat-x;
+    position: relative;
+}
+
+.popup-header-link:first-child {
+    margin-left: 1.2em;
+}
+
+#popup-link-flamp_reviews {
+    margin-left: 0.1em;
+}
+
+#popup-link-flamp_stars {
+    background-image: url(__BASE_URL__/img/star-off.png);
+    width: 70px;
+    margin: 0 .4em 3px 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.leaflet-retina #popup-link-flamp_stars {
+    background-image: url(__BASE_URL__/img/star-off-2x.png);
+    height: inherit;
+}
+
+#popup-link-flamp_stars div {
+    background-image: url(__BASE_URL__/img/star-on.png);
+    height: 14px;
+    width: 0;
+}
+
+.leaflet-retina #popup-link-flamp_stars div {
+    background-image: url(__BASE_URL__/img/star-on-2x.png);
+    background-size: contain;
+}
+
+#popup-link-booklet:before,
+#popup-link-photos:before {
+    content: '';
+    width: 12px;
+    height: 10px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: inherit;
+    position: absolute;
+    top: 2px;
+    left: -16px;
+}
+
+#popup-link-booklet:before {
+    background-image: url(__BASE_URL__/img/booklet.png);
+}
+
+.leaflet-retina #popup-link-booklet:before {
+    background-image: url(__BASE_URL__/img/booklet-2x.png);
+}
