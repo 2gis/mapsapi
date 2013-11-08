@@ -30,8 +30,7 @@ L.DomUtil = {
 		    el = element,
 		    docBody = document.body,
 		    docEl = document.documentElement,
-		    pos,
-		    ie7 = L.Browser.ie7;
+		    pos;
 
 		do {
 			top  += el.offsetTop  || 0;
@@ -77,19 +76,6 @@ L.DomUtil = {
 
 			top  -= el.scrollTop  || 0;
 			left -= el.scrollLeft || 0;
-
-			// webkit (and ie <= 7) handles RTL scrollLeft different to everyone else
-			// https://code.google.com/p/closure-library/source/browse/trunk/closure/goog/style/bidi.js
-			if (!L.DomUtil.documentIsLtr() && (L.Browser.webkit || ie7)) {
-				left += el.scrollWidth - el.clientWidth;
-
-				// ie7 shows the scrollbar by default and provides clientWidth counting it, so we
-				// need to add it back in if it is visible; scrollbar is on the left as we are RTL
-				if (ie7 && L.DomUtil.getStyle(el, 'overflow-y') !== 'hidden' &&
-				           L.DomUtil.getStyle(el, 'overflow') !== 'hidden') {
-					left += 17;
-				}
-			}
 
 			el = el.parentNode;
 		} while (el);
@@ -238,49 +224,45 @@ L.DomUtil.TRANSITION_END =
         L.DomUtil.TRANSITION + 'End' : 'transitionend';
 
 (function () {
-	var userSelectProperty = L.DomUtil.testProp(
-		['userSelect', 'WebkitUserSelect', 'OUserSelect', 'MozUserSelect', 'msUserSelect']);
+    if ('onselectstart' in document) {
+        L.extend(L.DomUtil, {
+            disableTextSelection: function () {
+                L.DomEvent.on(window, 'selectstart', L.DomEvent.preventDefault);
+            },
 
-	var userDragProperty = L.DomUtil.testProp(
-		['userDrag', 'WebkitUserDrag', 'OUserDrag', 'MozUserDrag', 'msUserDrag']);
+            enableTextSelection: function () {
+                L.DomEvent.off(window, 'selectstart', L.DomEvent.preventDefault);
+            }
+        });
+    } else {
+        var userSelectProperty = L.DomUtil.testProp(
+            ['userSelect', 'WebkitUserSelect', 'OUserSelect', 'MozUserSelect', 'msUserSelect']);
+
+        L.extend(L.DomUtil, {
+            disableTextSelection: function () {
+                if (userSelectProperty) {
+                    var style = document.documentElement.style;
+                    this._userSelect = style[userSelectProperty];
+                    style[userSelectProperty] = 'none';
+                }
+            },
+
+            enableTextSelection: function () {
+                if (userSelectProperty) {
+                    document.documentElement.style[userSelectProperty] = this._userSelect;
+                    delete this._userSelect;
+                }
+            }
+        });
+    }
 
 	L.extend(L.DomUtil, {
-		disableTextSelection: function () {
-			if (userSelectProperty) {
-				var style = document.documentElement.style;
-				this._userSelect = style[userSelectProperty];
-				style[userSelectProperty] = 'none';
-			} else {
-				L.DomEvent.on(window, 'selectstart', L.DomEvent.stop);
-			}
-		},
-
-		enableTextSelection: function () {
-			if (userSelectProperty) {
-				document.documentElement.style[userSelectProperty] = this._userSelect;
-				delete this._userSelect;
-			} else {
-				L.DomEvent.off(window, 'selectstart', L.DomEvent.stop);
-			}
-		},
-
 		disableImageDrag: function () {
-			if (userDragProperty) {
-				var style = document.documentElement.style;
-				this._userDrag = style[userDragProperty];
-				style[userDragProperty] = 'none';
-			} else {
-				L.DomEvent.on(window, 'dragstart', L.DomEvent.stop);
-			}
+			L.DomEvent.on(window, 'dragstart', L.DomEvent.preventDefault);
 		},
 
 		enableImageDrag: function () {
-			if (userDragProperty) {
-				document.documentElement.style[userDragProperty] = this._userDrag;
-				delete this._userDrag;
-			} else {
-				L.DomEvent.off(window, 'dragstart', L.DomEvent.stop);
-			}
+			L.DomEvent.off(window, 'dragstart', L.DomEvent.preventDefault);
 		}
 	});
 })();

@@ -12,6 +12,7 @@ L.Map.BoxZoom = L.Handler.extend({
 		this._map = map;
 		this._container = map._container;
 		this._pane = map._panes.overlayPane;
+		this._moved = false;
 	},
 
 	addHooks: function () {
@@ -20,9 +21,16 @@ L.Map.BoxZoom = L.Handler.extend({
 
 	removeHooks: function () {
 		L.DomEvent.off(this._container, 'mousedown', this._onMouseDown);
+		this._moved = false;
+	},
+
+	moved: function () {
+		return this._moved;
 	},
 
 	_onMouseDown: function (e) {
+		this._moved = false;
+
 		if (!e.shiftKey || ((e.which !== 1) && (e.button !== 1))) { return false; }
 
 		L.DomUtil.disableTextSelection();
@@ -56,6 +64,8 @@ L.Map.BoxZoom = L.Handler.extend({
 		        Math.min(layerPoint.y, startPoint.y));
 
 		L.DomUtil.setPosition(box, newPos);
+
+		this._moved = true;
 
 		// TODO refactor: remove hardcoded 4 pixels
 		box.style.width  = (Math.max(0, Math.abs(offset.x) - 4)) + 'px';

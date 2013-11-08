@@ -118,6 +118,7 @@
     text-decoration: none;
     margin-left: 24px;
 }
+
 #dg-showmoresight:after {
     content: '>';
     position: absolute;

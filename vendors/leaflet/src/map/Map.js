@@ -23,8 +23,13 @@ L.Map = L.Class.extend({
 	initialize: function (id, options) { // (HTMLElement or String, Object)
 		options = L.setOptions(this, options);
 
+
 		this._initContainer(id);
 		this._initLayout();
+
+		// hack for https://github.com/Leaflet/Leaflet/issues/1980
+		this._onResize = L.bind(this._onResize, this);
+
 		this._initEvents();
 
 		if (options.maxBounds) {
@@ -51,11 +56,16 @@ L.Map = L.Class.extend({
 
 	// replaced by animation-powered implementation in Map.PanAnimation.js
 	setView: function (center, zoom) {
+		zoom = zoom === undefined ? this.getZoom() : zoom;
 		this._resetView(L.latLng(center), this._limitZoom(zoom));
 		return this;
 	},
 
 	setZoom: function (zoom, options) {
+		if (!this._loaded) {
+			this._zoom = this._limitZoom(zoom);
+			return this;
+		}
 		return this.setView(this.getCenter(), zoom, {zoom: options});
 	},
 
@@ -93,6 +103,8 @@ L.Map = L.Class.extend({
 		    nePoint = this.project(bounds.getNorthEast(), zoom),
 		    center = this.unproject(swPoint.add(nePoint).divideBy(2).add(paddingOffset), zoom);
 
+		zoom = options && options.maxZoom ? Math.min(options.maxZoom, zoom) : zoom;
+
 		return this.setView(center, zoom, options);
 	},
 
@@ -114,7 +126,7 @@ L.Map = L.Class.extend({
 		return this.fire('moveend');
 	},
 
-	setMaxBounds: function (bounds) {
+	setMaxBounds: function (bounds, options) {
 		bounds = L.latLngBounds(bounds);
 
 		this.options.maxBounds = bounds;
@@ -131,7 +143,7 @@ L.Map = L.Class.extend({
 
 		if (this._loaded) {
 			if (this._zoom < minZoom) {
-				this.setView(bounds.getCenter(), minZoom);
+				this.setView(bounds.getCenter(), minZoom, options);
 			} else {
 				this.panInsideBounds(bounds);
 			}
@@ -205,14 +217,18 @@ L.Map = L.Class.extend({
 	removeLayer: function (layer) {
 		var id = L.stamp(layer);
 
-		if (!this._layers[id]) { return; }
+		if (!this._layers[id]) { return this; }
 
 		if (this._loaded) {
 			layer.onRemove(this);
-			this.fire('layerremove', {layer: layer});
 		}
 
 		delete this._layers[id];
+
+		if (this._loaded) {
+			this.fire('layerremove', {layer: layer});
+		}
+
 		if (this._zoomBoundLayers[id]) {
 			delete this._zoomBoundLayers[id];
 			this._updateZoomLevels();
@@ -249,6 +265,7 @@ L.Map = L.Class.extend({
 
 		var oldSize = this.getSize();
 		this._sizeChanged = true;
+		this._initialCenter = null;
 
 		if (this.options.maxBounds) {
 			this.setMaxBounds(this.options.maxBounds);
@@ -257,7 +274,9 @@ L.Map = L.Class.extend({
 		if (!this._loaded) { return this; }
 
 		var newSize = this.getSize(),
-		    offset = oldSize.subtract(newSize).divideBy(2).round();
+		    oldCenter = oldSize.divideBy(2).round(),
+		    newCenter = newSize.divideBy(2).round(),
+		    offset = oldCenter.subtract(newCenter);
 
 		if (!offset.x && !offset.y) { return this; }
 
@@ -284,7 +303,7 @@ L.Map = L.Class.extend({
 
 	// TODO handler.addTo
 	addHandler: function (name, HandlerClass) {
-		if (!HandlerClass) { return; }
+		if (!HandlerClass) { return this; }
 
 		var handler = this[name] = new HandlerClass(this);
 
@@ -304,7 +323,12 @@ L.Map = L.Class.extend({
 
 		this._initEvents('off');
 
-		delete this._container._leaflet;
+		try {
+			// throws error in IE6-8
+			delete this._container._leaflet;
+		} catch (e) {
+			this._container._leaflet = undefined;
+		}
 
 		this._clearPanes();
 		if (this._clearControlPos) {
@@ -322,7 +346,7 @@ L.Map = L.Class.extend({
 	getCenter: function () { // (Boolean) -> LatLng
 		this._checkIfLoaded();
 
-		if (!this._moved()) {
+		if (this._initialCenter && !this._moved()) {
 			return this._initialCenter;
 		}
 		return this.layerPointToLatLng(this._getCenterLayerPoint());
@@ -341,18 +365,15 @@ L.Map = L.Class.extend({
 	},
 
 	getMinZoom: function () {
-		var z1 = this.options.minZoom || 0,
-		    z2 = this._layersMinZoom || 0,
-		    z3 = this._boundsMinZoom || 0;
-
-		return Math.max(z1, z2, z3);
+		var z1 = this._layersMinZoom === undefined ? 0 : this._layersMinZoom,
+		    z2 = this._boundsMinZoom === undefined ? 0 : this._boundsMinZoom;
+		return this.options.minZoom === undefined ? Math.max(z1, z2) : this.options.minZoom;
 	},
 
 	getMaxZoom: function () {
-		var z1 = this.options.maxZoom === undefined ? Infinity : this.options.maxZoom,
-		    z2 = this._layersMaxZoom  === undefined ? Infinity : this._layersMaxZoom;
-
-		return Math.min(z1, z2);
+		return this.options.maxZoom === undefined ?
+			(this._layersMaxZoom === undefined ? Infinity : this._layersMaxZoom) :
+			this.options.maxZoom;
 	},
 
 	getBoundsZoom: function (bounds, inside, padding) { // (LatLngBounds[, Boolean, Point]) -> Number
@@ -672,16 +693,17 @@ L.Map = L.Class.extend({
 	},
 
 	_onMouseClick: function (e) {
-		// jshint camelcase: false
-		if (!this._loaded || (!e._simulated && this.dragging && this.dragging.moved()) || e._leaflet_stop) { return; }
+		if (!this._loaded || (!e._simulated &&
+		        ((this.dragging && this.dragging.moved()) ||
+		         (this.boxZoom  && this.boxZoom.moved()))) ||
+		            L.DomEvent._skipped(e)) { return; }
 
 		this.fire('preclick');
 		this._fireMouseEvent(e);
 	},
 
 	_fireMouseEvent: function (e) {
-		// jshint camelcase: false
-		if (!this._loaded || e._leaflet_stop) { return; }
+		if (!this._loaded || L.DomEvent._skipped(e)) { return; }
 
 		var type = e.type;
 
