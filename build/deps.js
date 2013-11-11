@@ -271,7 +271,7 @@ var deps = {
         css: {
             all: [
                 'DGLocation/skin/{skin}/css/DGLocation.css'
-            ],
+            ]
         },
         deps: ['DGCore', 'DGLocale']
     }
