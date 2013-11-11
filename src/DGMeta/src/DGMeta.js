@@ -84,7 +84,7 @@ L.DG.Meta = L.Handler.extend({
             this._calcTilesAtZoom();
             this._leaveCurrentPoi();
             this._leaveCurrentBuilding();
-        },
+        }
     },
 
     _checkPoiHover: function (latLng) { // (L.LatLng)
