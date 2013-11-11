@@ -40,6 +40,8 @@ L.DG.Control = L.Control.extend({
 
         L.DomEvent
             .disableClickPropagation(this._link)
+            // .on(this._link, 'mousedown', L.DomEvent.stopPropagation)
+            // .on(this._link, 'mousedown', L.DomEvent.preventDefault)
             .on(this._link, 'click', this._toggleControl, this);
 
         return container;
