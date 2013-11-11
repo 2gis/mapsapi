@@ -4,17 +4,17 @@
     width: 40px;
     height: 74px;
 }
-.dg-zoom__in {
+.dg-control-round.dg-zoom__in {
     position: absolute;
     top: 0;
     left: 0;
-    border: 5px solid #3d3d3d;
-    border-radius: 21px;
-    width: 30px;
-    height: 30px;
-    box-shadow: 0 3px 5px 0 rgba(0,0,0,.3);
-    }
-.dg-zoom__in:before {
+    /*border: 5px solid #3d3d3d;*/
+    /*border-radius: 21px;*/
+    /*width: 30px;*/
+    /*height: 30px;*/
+    /*box-shadow: 0 3px 5px 0 rgba(0,0,0,.3);*/
+}
+.dg-zoom__in:after {
     content: '';
     position: absolute;
     top: 35px;
@@ -24,70 +24,84 @@
     margin: 0 0 0 -7px;
     box-shadow: 0 0 3px 2px rgba(0,0,0,.3);
     z-index: -1;
-    }
-.dg-zoom__out {
+}
+.dg-control-round.dg-zoom__out {
     position: absolute;
     top: 40px;
     left: 4px;
-    border: 6px solid #3d3d3d;
-    border-radius: 21px;
+    /*border: 6px solid #3d3d3d;*/
+    /*border-radius: 21px;*/
     width: 22px;
     height: 22px;
-    border-width: 5px;
-    border-radius: 17px;
+    /*border-width: 5px;*/
+    /*border-radius: 17px;*/
     box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
-    }
+}
+.leaflet-disabled .dg-zoom__control {
+    /*background: #b0b1af;*/
+    box-shadow: none;
+    cursor: default;
+}
+.leaflet-disabled .dg-control-round_icon.dg-zoom__out-button:after,
+.leaflet-disabled .dg-control-round_icon.dg-zoom__in-button:after,
+.leaflet-disabled .dg-control-round_icon.dg-zoom__in-button:before {
+    box-shadow: none;
+}
+
+
     .dg-zoom__control {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background-color: #fff;
-        background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .12) 100%);
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .12) 100%);
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .4);
-        color: #2b2a29;
-        text-shadow: 0 1px 0 #fff;
-        font-size: 30px;
-        line-height: 30px;
-        text-align: center;
-        cursor: pointer;
-        }
+        /*position: absolute;*/
+        /*width: 100%;*/
+        /*height: 100%;*/
+        /*border-radius: 50%;*/
+        /*background-color: #fff;*/
+        /*background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .12) 100%);*/
+        /*background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .12) 100%);*/
+        /*box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .4);*/
+        /*color: #2b2a29;*/
+        /*text-shadow: 0 1px 0 #fff;*/
+        /*font-size: 30px;*/
+        /*line-height: 30px;*/
+        /*text-align: center;*/
+        /*cursor: pointer;*/
+    }
     /* Hover */
     .dg-zoom__control:hover {
-        background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .08) 0%, rgba(0, 0, 0, 0) 100%);
+        /*background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .08) 0%, rgba(0, 0, 0, 0) 100%);
         background-image: linear-gradient(to bottom, rgba(0, 0, 0, .08) 0%, rgba(0, 0, 0, 0) 100%);
         box-shadow:
             0 1px #fff inset,
             0 0 0 1px rgba(0, 0, 0, .3),
-            0 1px 0 1px rgba(0, 0, 0, .4);
-        }
+            0 1px 0 1px rgba(0, 0, 0, .4);*/
+    }
     .dg-zoom__in-button:hover:before,
     .dg-zoom__in-button:hover:after,
     .dg-zoom__out-button:hover:after {
         background: #000;
-        }
+    }
     /* Active */
     .dg-zoom__control:active {
-        background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 100%);
+        /*background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 100%);
         background-image: linear-gradient(to bottom, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, 0) 100%);
         box-shadow:
             0 1px 1px 1px rgba(0, 0, 0, .2) inset,
             0 0 0 1px rgba(0, 0, 0, .3),
-            0 -1px 1px 0 #000;
-        }
+            0 -1px 1px 0 #000;*/
+    }
     /* Buttons appearance */
-    .dg-zoom__in-button:before { /* Горизонтальная плашка плюсика */
+    .dg-control-round_icon.dg-zoom__in-button:before { /* Горизонтальная плашка плюсика */
         content: '';
         position: absolute;
+        right: auto;
+        bottom: auto;
         top: 14px;
         left: 8px;
         width: 14px;
         height: 2px;
         background: #3a3b39;
         box-shadow: 0 1px #fff;
-        }
-    .dg-zoom__in-button:after { /* Вертикальная плашка плюсика */
+    }
+    .dg-control-round_icon.dg-zoom__in-button:after { /* Вертикальная плашка плюсика */
         content: '';
         position: absolute;
         top: 8px;
@@ -96,17 +110,19 @@
         width: 2px;
         background: #50524f;
         box-shadow: 0 1px #fff;
-        }
-    .dg-zoom__out-button:before { /* Плашка для визуального слития двух кнопок в одну */
+    }
+    .dg-control-round_icon.dg-zoom__out-button:before { /* Плашка для визуального слития двух кнопок в одну */
         content: '';
         position: absolute;
+        right: auto;
+        bottom: auto;
         width: 14px;
         height: 4px;
         top: -7px;
         left: 4px;
-        background: #3d3d3d;
-        }
-    .dg-zoom__out-button:after { /* Плашка изображающая минусик */
+        /*background: #3d3d3d;*/
+    }
+    .dg-control-round_icon.dg-zoom__out-button:after { /* Плашка изображающая минусик */
         content: '';
         position: absolute;
         top: 10px;
@@ -115,4 +131,4 @@
         height: 2px;
         background: #515354;
         box-shadow: 0 1px #fff;
-        }
+    }

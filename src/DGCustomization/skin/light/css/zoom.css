@@ -1,0 +1,6 @@
+.dg-control-round_icon.dg-zoom__out-button:before { /* Горизонтальная плашка плюсика */
+    background: rgba(240,240,240,.8);
+}
+.leaflet-disabled .dg-zoom__control {
+    background: #fff;
+}

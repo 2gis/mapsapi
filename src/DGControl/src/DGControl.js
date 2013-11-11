@@ -29,7 +29,7 @@ L.DG.Control = L.Control.extend({
     onAdd: function (map) {
         var container = L.DomUtil.create('div', 'dg-control-round');
 
-        this._link = L.DomUtil.create('a', 'dg-control-icon dg-control-icon-' + this.options.iconClass, container);
+        this._link = L.DomUtil.create('a', 'dg-control-round_icon dg-control-round_icon__' + this.options.iconClass, container);
         this._link.href = '#';
         this._renderTranslation();
         this._resetState();
@@ -72,7 +72,7 @@ L.DG.Control = L.Control.extend({
             // helper.finishDrawing();
         }
         this.fireEvent('update');
-        L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._container, 'dg-control-round-active');
+        L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._container, 'dg-control-round__active');
     },
 
     _renderTranslation: function () {

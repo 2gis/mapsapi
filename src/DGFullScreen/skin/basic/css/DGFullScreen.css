@@ -5,7 +5,7 @@
 .leaflet-container:fullscreen { width: 100% !important; height: 100% !important; }
 
 
-.dg-fullscreen-icon {
+/*.dg-fullscreen-icon {
     content: '';
     position: absolute;
     display: block;
@@ -14,11 +14,17 @@
     height: 15px;
     top: 8px;
     left: 8px;
+}*/
+.dg-control-round_icon__fullscreen:before {
+    background-image: url(__BASE_URL__/img/fullscreen-icon.png);
+    width: 16px;
+    height: 16px;
 }
-.dg-control-icon-fullscreen:before {
-    background-image: url(__BASE_URL__/img/dg-fullscreen-default-sprite.png);
-    width: 14px;
-    height: 15px;
+.dg-control-round_icon__fullscreen:before:hover {
+    background-image: url(__BASE_URL__/img/fullscreen-icon-hover.png);
+}
+.dg-control-round__active .dg-control-round_icon__fullscreen:before {
+    background-image: url(__BASE_URL__/img/fullscreen-icon-active.png);
 }
 
 .dg-fullscreen.maxi .dg-fullscreen-icon{ background-position: 0 0px; }

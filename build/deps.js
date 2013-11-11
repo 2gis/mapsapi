@@ -111,21 +111,19 @@ var deps = {
             all: [
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
                 '../vendors/baron/baron.css',
-                'DGCustomization/skin/basic/css/control.css',
-                'DGCustomization/skin/basic/css/zoom.css',
-                'DGCustomization/skin/basic/css/callout.css',
-                'DGCustomization/skin/basic/css/baron.css',
-                'DGCustomization/skin/basic/css/marker.css',
+                'DGCustomization/skin/{skin}/css/zoom.css',
+                'DGCustomization/skin/{skin}/css/baron.css',
+                'DGCustomization/skin/{skin}/css/marker.css',
                 'DGCustomization/skin/{skin}/css/callout.css',
                 'DGCustomization/skin/{skin}/css/baron.css'
             ],
             ie: [
-                'DGCustomization/skin/basic/css/baron.ie.css',
+                'DGCustomization/skin/{skin}/css/baron.ie.css',
                 'DGCustomization/skin/{skin}/css/callout.ie.css',
-                'DGCustomization/skin/basic/css/marker.ie.css'
+                'DGCustomization/skin/{skin}/css/marker.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale']
+        deps: ['DGCore', 'DGLocale', 'DGControl']
     },
 
     DGLocale: {
@@ -204,8 +202,7 @@ var deps = {
             all: [
                 'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
                 'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCardThemeSetup.css',
-                'DGGeoclicker/skin/basic/css/DGFirmCardThemeSetup.css'
+                'DGGeoclicker/skin/{skin}/css/DGFirmCardThemeSetup.css'
             ]
         },
         src: [
