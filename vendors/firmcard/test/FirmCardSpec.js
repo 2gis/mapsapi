@@ -1,22 +1,19 @@
-describe('Расписание работы организации', function() {
+describe('Расписание работы организации', function () {
 
     function mockTime(timestamp) {
-        return timestamp + (7 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
+        return timestamp + (6 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
     }
-    var d = new FirmCard({
-        id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
-        /*name: "Азимут Оптика, сеть салонов"*/
-    }, {
+    var d = new FirmCard(null, {
         localLang: 'ru'
     });
 
-    it('!model', function() {
+    it('!model', function () {
         var result =  d.getSchedule().transform();
 
         expect(result).to.not.be.ok();
     });
 
-    it('!params', function() {
+    it('!params', function () {
         var result =  d.getSchedule().transform(scheduleDemoData['default'].model);
 
         expect(result).to.be.ok();
@@ -24,7 +21,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Comment', function() {
+    it('Comment', function () {
         var result =  d.getSchedule().transform({
             comment: 'comment'
         });
@@ -34,12 +31,11 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Будни одинаково, выходные выходные', function() {
+    it('Будни одинаково, выходные выходные', function () {
         var result =  d.getSchedule().transform(scheduleDemoData['default'].model, {
-            now: mockTime(1366610753162), 
-            
-        }); // 13:06 пн 22 апреля 2013
+            now: mockTime(1366610753162),
 
+        }); // 13:06 пн 22 апреля 2013
         expect(result.now.open).to.be.ok();
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(4);
@@ -57,7 +53,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Будни одинаково, выходные выходные, до нуля', function() {
+    it('Будни одинаково, выходные выходные, до нуля', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.evently.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -82,7 +78,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Будни одинаково, суббота сокращённо', function() {
+    it('Будни одинаково, суббота сокращённо', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.eventlySat.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -108,7 +104,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Будни одинаково, суббота сокращённо, максимум часов в субботу', function() {
+    it('Будни одинаково, суббота сокращённо, максимум часов в субботу', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.eventlySatMax.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -133,7 +129,7 @@ describe('Расписание работы организации', function() 
         expect(result.everyday).to.not.be.ok();
     });
 
-    it('Круглосуточно без выходных', function() {
+    it('Круглосуточно без выходных', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.alltime.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -151,7 +147,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Круглосуточно кроме выходных среды и воскресенья', function() {
+    it('Круглосуточно кроме выходных среды и воскресенья', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.thuHol.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -176,7 +172,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Среда–пятница', function() {
+    it('Среда–пятница', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.strangeWeek.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -202,7 +198,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Работает только в воскресенье с обедом', function() {
+    it('Работает только в воскресенье с обедом', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.periods3.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -228,7 +224,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Закроется через 1 минуту', function() {
+    it('Закроется через 1 минуту', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.oneMinuteLeft.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -242,7 +238,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Сегодня уже закрыто, откроется через неделю', function() {
+    it('Сегодня уже закрыто, откроется через неделю', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.foraWeek.model, {
             now: mockTime(1366610753162)
         }); // 13:06 пн 22 апреля 2013
@@ -257,7 +253,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Ещё закрыто, откроется через час с лишним', function() {
+    it('Ещё закрыто, откроется через час с лишним', function () {
         var result =  d.getSchedule().transform(scheduleDemoData.tooEarly.model, {
             now: mockTime(1366773607003)
         }); // 10:20 ср 24 апреля 2013
@@ -269,11 +265,11 @@ describe('Расписание работы организации', function() 
         expect(result.will.h).to.be(1);
         expect(result.will.m).to.be(40);
         expect(result.will.when).to.be(undefined);
-        expect(result.comment).to.ok("до последнего клиента");
+        expect(result.comment).to.ok('до последнего клиента');
 
     });
 
-    it('Откроется завтра если сегодня воскресенье', function() { // Баг сбербанка
+    it('Откроется завтра если сегодня воскресенье', function () { // Баг сбербанка
         var result =  d.getSchedule().transform(scheduleDemoData.sberBank.model, {
             now: mockTime(1367138129777)
         }); // Воскресенье, 28 апреля 2013
@@ -284,7 +280,7 @@ describe('Расписание работы организации', function() 
 
     });
 
-    it('Ежедневно одинаково, откроется завтра', function() { // Баг с неправильной сортировкой timestamps
+    it('Ежедневно одинаково, откроется завтра', function () { // Баг с неправильной сортировкой timestamps
         var result =  d.getSchedule().transform(scheduleDemoData.everyday.model, {
             now: mockTime(1368015897543)
         }); // Среда, 8 мая 2013, 19+
@@ -292,7 +288,7 @@ describe('Расписание работы организации', function() 
         expect(result.will.d).to.be(1);
     });
 
-    it('Timespamp совпадает с открытием – должен быть объект will', function() { // Баг с неправильной сортировкой timestamps
+    it('Timespamp совпадает с открытием – должен быть объект will', function () { // Баг с неправильной сортировкой timestamps
         var result =  d.getSchedule().transform(scheduleDemoData.everyday.model, {
             now: mockTime(1368015897543 + 52560000)
         }); // Точно совпадает с временем открытия
@@ -301,49 +297,36 @@ describe('Расписание работы организации', function() 
     });
 });
 
-describe("FirmCard", function() {
+describe('FirmCard', function () {
 
-    it("Установка ID фирмы", function() {
-        var firmCard = new FirmCard({
-            id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
-        });
-        expect(firmCard.getId()).to.be.eql("141265770546806");
-    });
-
-    it("При повторном toggle ajax не вызывается", function() {
-        var render = sinon.stub(FirmCard.prototype, "render", function() {
-                this._el = document.createElement("div");
+    it('При повторном render ajax не вызывается', function () {
+        var render = sinon.stub(FirmCard.prototype, '_renderCardById', function (firmId) {
+                this._firmId = firmId;
+                this.options.ajax();
             }),
-            ajaxSpy = sinon.spy(function() {
-                firmCard._fullFirmEl = document.createElement("div");
+            ajaxSpy = sinon.spy(function () {
+                firmCard._fullFirmEl = document.createElement('div');
             }),
-            firmCard = new FirmCard({
-                id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810"
-            },{
+            firmCard = new FirmCard(undefined,
+            {
                 ajax: ajaxSpy,
                 tmpls: {
                     loader: ''
                 },
-                render: function() {return ""}
+                render: function () {return ''; }
             });
-        
-        firmCard.render();
 
-        firmCard.toggle();
-        expect(firmCard.isExpanded()).to.be.ok();
-        firmCard.toggle();
-        expect(firmCard.isExpanded()).to.not.be.ok();
+        firmCard.render('141265770546806');
+        firmCard.render('141265770546806');
 
-       expect(ajaxSpy.callCount).to.be.eql(1); 
+       expect(ajaxSpy.callCount).to.be.eql(1);
 
        render.restore();
 
     });
 
-    it("#getSchedule возвращает объект типа FirmCard.Schedule", function() {
-        var firmCard = new FirmCard({
-            id: "141265770546806_f1i6jh2909H3J1HB2c99uvDn5A711J34b6324428576B971Bc1h619G4AJ0I79810",
-        });
+    it('#getSchedule возвращает объект типа FirmCard.Schedule', function () {
+        var firmCard = new FirmCard();
 
         expect(firmCard.getSchedule()).to.be.a(FirmCard.Schedule);
     });

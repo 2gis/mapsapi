@@ -16,11 +16,11 @@ FirmCard.DataHelper = {
 
 	_msgs : {},
 
-	getFlampUrl : function(id) {
+	getFlampUrl : function (id) {
 	    return this.FLAMP_URL.concat(id, '?', this.FLAMP_GOOGLE_ANALYTICS);
 	},
 
-	msg : function(msg) {
+	msg : function (msg) {
 		if (this._msgs.hasOwnProperty(msg)) {
 			return this._msgs[msg];
 		}

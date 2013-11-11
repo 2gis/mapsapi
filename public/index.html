@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&skin=dark&mode=debug"></script>
 </head>
 <body>
 
@@ -23,13 +23,12 @@
             "worldCopyJump": true
         });
         balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
-<img src="2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
-<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
-(МФК «Сан Сити»), 13 этаж';
+        <img src="2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
+        <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
+        (МФК «Сан Сити»), 13 этаж';
 
         L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
     });
-
 </script>
 
 </body>

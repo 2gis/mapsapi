@@ -7,16 +7,19 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
             'house': L.DG.Geoclicker.Handler.House,
 
+            'sight': L.DG.Geoclicker.Handler.Sight,
+
             'street': L.DG.Geoclicker.Handler.CityArea,
+            'place': L.DG.Geoclicker.Handler.CityArea,
             'district': L.DG.Geoclicker.Handler.CityArea,
+            'division': L.DG.Geoclicker.Handler.CityArea,
+            'settlement': L.DG.Geoclicker.Handler.CityArea,
             'city': L.DG.Geoclicker.Handler.CityArea,
 
             'default': L.DG.Geoclicker.Handler.Default
 
 //            station_platform
 //            project
-//            sight
-//            place
 //            station
 //            crossbroad
 //            metro
@@ -52,7 +55,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
                 self.handleResponse(result);
             },
             beforeRequest: function () {
-                self._view.showPopup(latlng);
+                var loader = self._view.initLoader();
+                self._view.showPopup(latlng, loader);
                 self._lastHandleClickArguments = args;
             }
         });

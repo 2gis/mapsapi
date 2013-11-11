@@ -4,7 +4,9 @@ var deps = {
         desc: 'Main module',
         src: [
             'DGCore/DGCore.js',
-            '../vendors/polyfills/json2.js'
+            '../vendors/polyfills/json2.js',
+            '../vendors/polyfills/html5shiv.js',
+            '../vendors/polyfills/es5.js'
         ],
         css: {
             all: [
@@ -63,12 +65,6 @@ var deps = {
         deps: ['DGCore', 'DGWhen']
     },
 
-    DGDivIcon: {
-        desc: '2GIS DivIcon module',
-        src: ['DGDivIcon/src/DGDivIcon.js'],
-        deps: ['DGCore']
-    },
-
     DGLabel: {
         desc: '2GIS Label module',
         src: [
@@ -115,14 +111,20 @@ var deps = {
             all: [
                 'DGCustomization/skin/basic/css/leaflet-reset.css',
                 '../vendors/baron/baron.css',
-                'DGCustomization/skin/{skin}/css/zoom.css',
+                'DGCustomization/skin/basic/css/zoom.css',
+                'DGCustomization/skin/basic/css/callout.css',
+                'DGCustomization/skin/basic/css/baron.css',
+                'DGCustomization/skin/basic/css/marker.css',
                 'DGCustomization/skin/{skin}/css/callout.css',
-                'DGCustomization/skin/{skin}/css/baron.css',
-                'DGCustomization/skin/{skin}/css/marker.css'
+                'DGCustomization/skin/{skin}/css/baron.css'
             ],
-            ie: ['DGCustomization/skin/{skin}/css/baron.ie.css']
+            ie: [
+                'DGCustomization/skin/basic/css/baron.ie.css',
+                'DGCustomization/skin/{skin}/css/callout.ie.css',
+                'DGCustomization/skin/basic/css/marker.ie.css'
+            ]
         },
-        deps: ['DGCore', 'DGDivIcon', 'DGLocale']
+        deps: ['DGCore', 'DGLocale']
     },
 
     DGLocale: {
@@ -199,7 +201,10 @@ var deps = {
         desc: '2GIS Geoclicker.',
         css: {
             all: [
-                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css'
+                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
+                'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
+                'DGGeoclicker/skin/{skin}/css/DGFirmCardThemeSetup.css',
+                'DGGeoclicker/skin/basic/css/DGFirmCardThemeSetup.css'
             ]
         },
         src: [
@@ -210,6 +215,8 @@ var deps = {
             'DGGeoclicker/src/handler/Default.js',
             'DGGeoclicker/src/handler/CityArea.js',
             'DGGeoclicker/src/handler/House.js',
+            'DGGeoclicker/src/handler/House.View.js',
+            'DGGeoclicker/src/handler/Sight.js',
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js',
             'DGGeoclicker/lang/it.js',
@@ -264,7 +271,7 @@ var deps = {
         css: {
             all: [
                 'DGLocation/skin/{skin}/css/DGLocation.css'
-            ],
+            ]
         },
         deps: ['DGCore', 'DGLocale']
     }

@@ -8,7 +8,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         data: {
             key: '__WEB_API_KEY__',
             fields: '__PROJECT_ADDITIONAL_FIELDS__',
-            output: 'jsonp',
+            // output: 'jsonp',
             type: 'project',
             lang: 'all'
         }
@@ -51,7 +51,7 @@ L.DG.ProjectDetector = L.Handler.extend({
                 if (!this.project.LatLngBounds.intersects(this._map.getBounds()) ||
                     (this._map.getZoom() < this.project.min_zoom_level)) {
                     this.project = null;
-                    this._map.fire("dgProjectLeave");
+                    this._map.fire('dgProjectLeave');
                     this._searchProject();
                 }
             }
@@ -62,9 +62,10 @@ L.DG.ProjectDetector = L.Handler.extend({
         var options = this.options,
             self = this;
 
-        L.DG.Jsonp({
-            url: options.url,
+        return L.DG.ajax(options.url, {
+            type: 'get',
             data: options.data,
+
             success: function (data) {
                 var projectsList = data.result.data;
                 if (!data.result || (Object.prototype.toString.call(projectsList) !== '[object Array]')) {
@@ -86,7 +87,7 @@ L.DG.ProjectDetector = L.Handler.extend({
                 if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())
                     && (mapZoom >= this.projectsList[i].min_zoom_level)) {
                     this.project = this.projectsList[i];
-                    this._map.fire("dgProjectChange", {"getProject": L.Util.bind(this.getProject, this)});
+                    this._map.fire('dgProjectChange', {'getProject': L.Util.bind(this.getProject, this)});
                     return;
                 }
             }

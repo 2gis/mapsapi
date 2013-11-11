@@ -2,54 +2,59 @@
 (function () {
     var offsetX = L.DG.configTheme.balloonOptions.offset.x,
         offsetY = L.DG.configTheme.balloonOptions.offset.y,
+        originalInitialize = L.Popup.prototype.initialize,
+        originalInitLayout = L.Popup.prototype._initLayout,
+        originalOnClose = L.Popup.prototype._onCloseButtonClick,
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
+        originalAdjustPan = L.Popup.prototype._adjustPan,
+        /*global baron:false */
         graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
+
+    L.Popup.mergeOptions({
+        border: 16
+    });
 
     L.Popup.include({
         _headerContent: null,
         _footerContent: null,
         _back: {},
+
         //baron elements references
         _scroller: null,
         _scrollerBar: null,
         _barWrapper: null,
         _baron: null,
-
-        //structure flags
-        _isHeaderExist: false,
-        _isBodyExist: false,
-        _isFooterExist: false,
         _isBaronExist: false,
 
+        /*global __DGCustomization_TMPL__:false */
         _templates: __DGCustomization_TMPL__,
+        _popupShowClass: 'leaflet-popup_show_true',
+        _popupHideClass: 'leaflet-popup_show_false',
 
-        onAdd: function (map) {
-            map.on('dgEntranceShow', function () {
-                map.closePopup(this);
-            }, this);
+        initialize: function (options, sourse) { // (Object, Object)
             this._popupStructure = {};
+            originalInitialize.call(this, options, sourse);
+        },
 
+        onAdd: function (map) { // (Map)
+            map.on('dgEntranceShow', this._closePopup, this);
+            this.once('open', this._animateOpening, this);
             return originalOnAdd.call(this, map);
         },
 
-        onRemove: function (map) {
-            map.off('dgEntranceShow', function () {
-                map.closePopup(this);
-            }, this);
-
+        onRemove: function (map) { // (Map)
+            map.off('dgEntranceShow', this._closePopup, this);
             return originalOnRemove.call(this, map);
         },
 
-        setContent: function (content) {
-            if (typeof content === 'object' && typeof content !== null) {
-                for (var i in content) {
-                    if (content.hasOwnProperty(i)) {
-                        this['_' + i + 'Content'] = content[i];
-                    }
-                }
+        setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
+            if (!this._isNode(content) && typeof content === 'object' && typeof content !== null) {
+                Object.keys(content).forEach(function (item) {
+                    this['_' + item + 'Content'] = content[item];
+                }, this);
             } else {
                 this._bodyContent = content;
             }
@@ -59,117 +64,99 @@
             return this;
         },
 
-        setHeaderContent: function (content) {
+        setHeaderContent: function (content) { // (HTML) -> Popup
             this._headerContent = content;
             this._update();
 
             return this;
         },
 
-        setFooterContent: function (content) {
+        setFooterContent: function (content) { // (HTML) -> Popup
             this._footerContent = content;
             this._update();
 
             return this;
         },
 
-        clear: function () {
-            var i;
-            if (arguments.length) {
-                for (i = arguments.length - 1; i >= 0; i--) {
-                    this._clearElement(arguments[i]);
-                }
-            } else {
-                for (i in this._popupStructure) {
-                    if (this._popupStructure.hasOwnProperty(i)) {
-                        this._clearElement(i);
-                    }
-                }
-            }
-            // think about remove this set to another public method
+        clear: function () { // () -> Popup
+            Object.keys(this._popupStructure).forEach(function (elem) {
+                this._clearElement(elem);
+            }, this);
+
+            // think about move this set to another public method
             this._isBaronExist = false;
-
             return this;
         },
 
-        clearHeader: function () {
-            return this.clear('header');
+        clearHeader: function () { // () -> Popup
+            return this._clearElement('header');
         },
 
-        clearFooter: function () {
-            return this.clear('footer');
+        clearFooter: function () { // () -> Popup
+            return this._clearElement('footer');
         },
 
-        findElement: function (node) {
-            return this._contentNode.querySelector(node);
+        findElement: function (element) { // (String) -> DOMElement
+            return this._contentNode.querySelector(element);
         },
 
-        showLoader: function (tmpl) {
-            this.clear();
-            var html = tmpl || this._templates.loader;
-
-            this._contentNode.innerHTML = html;
-
-            return this;
+        _animateOpening: function () {
+            L.DomUtil.addClass(this._innerContainer, this._popupShowClass);
+            L.DomUtil.removeClass(this._innerContainer, this._popupHideClass);
         },
 
-        scrollTo: function (to) {
-            var duration = 200,
-                element = this._scroller,
-                start = element.scrollTop,
-                change = to - start,
-                startTime = null;
-
-            var ease = function (t, b, c, d) {
-                return -c * (t /= d) * (t - 2) + b;
-            };
-
-            var animateScroll = function (currentTime) {
-                currentTime = currentTime ? currentTime : (new Date()).getTime();
-                if (!startTime) {
-                    startTime = currentTime;
-                }
-                var timeFrame = currentTime - startTime;
-
-                element.scrollTop = ease(timeFrame, start, change, duration);
-
-                if (currentTime - startTime < duration) {
-                    L.Util.requestAnimFrame(arguments.callee, element);
-                } else {
-                    element.scrollTop = to;
-                }
-            };
-            L.Util.requestAnimFrame(animateScroll, element);
-
-            return this;
+        _animateClosing: function () {
+            L.DomUtil.addClass(this._innerContainer, this._popupHideClass);
+            L.DomUtil.removeClass(this._innerContainer, this._popupShowClass);
         },
 
-        _clearElement: function (elem) {
+        _closePopup: function () {
+            this._map.closePopup(this);
+        },
+
+        _isNode: function (o) { // (Object) -> Boolean
+            return (o.nodeName ? true : false);
+        },
+
+        _initLayout: function () {
+            originalInitLayout.call(this);
+            this._innerContainer = L.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
+            if (this.options.closeButton) {
+                this._innerContainer.appendChild(this._detachEl(this._closeButton));
+            }
+            this._innerContainer.appendChild(this._detachEl(this._wrapper));
+            this._innerContainer.appendChild(this._detachEl(this._tipContainer));
+            L.DomEvent.disableClickPropagation(this._tipContainer);
+        },
+
+        _clearElement: function (elem) { // (DOMElement) -> Popup
             if (this._popupStructure[elem]) {
                 this['_' + elem + 'Content'] = null;
-                this._contentNode.removeChild(this._popupStructure[elem]);
+                this._detachEl(this._popupStructure[elem]);
                 delete this._popupStructure[elem];
             }
+            return this;
         },
 
         _updateScrollPosition: function () {
-            this._baron && this._baron.update();
+            if (this._baron) {
+                this._baron.update();
+            }
         },
 
-        _resize: function () {
-            var isBaronExist = this._isBaronExist,
-                scrollTop = isBaronExist ? this._scroller.scrollTop : false,
-                shouldShowBaron;
+        resize: function () {
+            var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
+            // this._resetScrollWrapper();
             this._updateLayout();
             this._updatePosition();
 
-            shouldShowBaron = this._isContentHeightFit();
-            if (shouldShowBaron) {
-                if (!isBaronExist) {
+            if (this._isContentHeightFit()) {
+                if (!this._isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
-                } else {
+                }
+                else {
                     L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.addClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.addClass(this._scroller, 'scroller');
@@ -179,21 +166,98 @@
                     this._updateScrollPosition();
                 }
             } else {
-                if (isBaronExist) {
+                if (this._isBaronExist) {
                     L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
                     L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
                     L.DomUtil.removeClass(this._scroller, 'scroller');
+                    L.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
             }
 
-            this._adjustPan();
+            this._bindAdjustPanOnTransitionEnd();
         },
 
-        _isContentHeightFit: function () {
-            var popupHeight = this._contentNode.offsetHeight,
+        _adjustPan: function (e) {
+            if (e) {
+                if (e.propertyName === 'max-height') {
+                    originalAdjustPan.call(this);
+                    L.DomEvent.off(this._wrapper, this._whichTransitionEndEvent(), this._adjustPan);
+                }
+            } else {
+                originalAdjustPan.call(this);
+            }
+        },
+
+        _whichTransitionEndEvent: function () { // () -> String | Null
+            var t,
+                el = document.createElement('fakeelement'),
+                transitions = {
+                'transition': 'transitionend',
+                'OTransition': 'oTransitionEnd',
+                'MozTransition': 'transitionend',
+                'WebkitTransition': 'webkitTransitionEnd'
+            };
+
+            for (t in transitions) {
+                if (el.style[t] !== undefined) {
+                    return transitions[t];
+                }
+            }
+
+            return null;
+        },
+
+        _bindAdjustPanOnTransitionEnd: function () {
+            var transEv = this._whichTransitionEndEvent();
+            if (transEv) {
+                L.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
+            } else {
+                this._adjustPan();
+            }
+        },
+
+        _isContentHeightFit: function () { // () -> Boolean
+            var popupHeight,
                 maxHeight = this.options.maxHeight;
 
-            return (maxHeight && maxHeight <= popupHeight);
+            if (this._popupStructure.body) {
+                popupHeight = this._popupStructure.body.offsetHeight + this._getDelta();
+            } else {
+                popupHeight = this._contentNode.offsetHeight;
+            }
+
+            popupHeight += this.options.border * 2;
+
+            return (maxHeight && maxHeight < popupHeight); // dont need scroll on 300 height
+        },
+
+        _initBaronScroller: function () {
+            var contentNode = this._popupStructure.body.parentNode,
+                scrollerWrapper = this._scrollerWrapper =  L.DomUtil.create('div', 'scroller-wrapper', contentNode),
+                scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
+                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
+                innerHeight = this.options.maxHeight - this.options.border * 2;
+
+            this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
+            scroller.appendChild(this._detachEl(this._popupStructure.body));
+
+            innerHeight -= this._getDelta();
+            scrollerWrapper.style.height = Math.max(18, innerHeight) + 'px';
+            scrollerWrapper.style.width = contentNode.offsetWidth + 5 + 'px'; //TODO
+
+            this._isBaronExist = true;
+
+            L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+        },
+
+        _resetScrollWrapper: function () {
+            if (this._scrollerWrapper) {
+                this._scrollerWrapper.style = '';
+            }
+        },
+
+        _onScroll: function (event) {
+            this.fire('dgScroll', {originalEvent: event});
         },
 
         _initBaron: function () {
@@ -202,76 +266,30 @@
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
                 $: function (selector, context) {
+                    /*global bonzo:false, qwery:false */
                     return bonzo(qwery(selector, context));
                 },
                 event: function (elem, event, func, mode) {
                     if (mode === 'trigger') {
                         mode = 'fire';
                     }
+                    /*global bean:false */
                     bean[mode || 'on'](elem, event, func);
                 }
             });
         },
 
         _initHeader: function () {
-            var headerContainer = document.createElement('div');
-            headerContainer.setAttribute('class', 'dg-popup-header');
-            this._contentNode.appendChild(headerContainer);
-
-            this._popupStructure.header = headerContainer;
-            this._isHeaderExist = true;
+            this._popupStructure.header = L.DomUtil.create('header', 'dg-popup-header', this._contentNode);
         },
 
         _initFooter: function () {
-            var footerContainer = document.createElement('div');
-            footerContainer.setAttribute('class', 'dg-popup-footer');
-            this._contentNode.appendChild(footerContainer);
-
-            this._popupStructure.footer = footerContainer;
-            this._isFooterExist = true;
+            this._popupStructure.footer = L.DomUtil.create('footer', 'dg-popup-footer', this._contentNode);
         },
 
         _initBodyContainer: function () {
-            var container = document.createElement('div');
-            container.setAttribute('class', 'dg-popup-container');
-            this._contentNode.appendChild(container);
-
-            this._popupStructure.body = container;
-            this._isBodyExist = true;
-        },
-
-        _initBaronScroller: function () {
-            var scroller = document.createElement('div'),
-                barWrapper = document.createElement('div'),
-                scrollerBar = document.createElement('div'),
-                contentNode = this._contentNode,
-                footer = this.findElement('.dg-popup-footer');
-
-            this._detachEl(this._popupStructure.body);
-            scroller.setAttribute('class', 'scroller');
-            barWrapper.setAttribute('class', 'scroller__bar-wrapper');
-            scrollerBar.setAttribute('class', 'scroller__bar');
-
-            if (this._isFooterExist || this._isHeaderExist) {
-                scroller.className += ' scroller-with-header';
-            }
-
-            barWrapper.appendChild(scrollerBar);
-            scroller.appendChild(this._popupStructure.body);
-            scroller.appendChild(barWrapper);
-
-            contentNode.insertBefore(scroller, footer);
-
-            this._scroller = scroller;
-            this._scrollerBar = scrollerBar;
-            this._barWrapper = barWrapper;
-            this._isBaronExist = true;
-
-            L.DomEvent.on(this._scroller, 'scroll', this._onScroll, this);
-        },
-
-        _onScroll: function (event) {
-            this.fire('dgScroll', {originalEvent: event});
+            this._popupStructure.wrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
+            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
         },
 
         _update: function () {
@@ -279,91 +297,135 @@
 
             this._container.style.visibility = 'hidden';
 
-            this._clearStructure(this._contentNode);
-            this._isHeaderExist = false;
-            this._isBodyExist = false;
-            this._isFooterExist = false;
+            this._clearNode(this._contentNode);
+            this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
-            this._headerContent && this._initHeader();
-            this._bodyContent && this._initBodyContainer();
-            this._footerContent && this._initFooter();
+            if (this._headerContent) {
+                this._initHeader();
+            }
+            if (this._bodyContent) {
+                this._initBodyContainer();
+            }
+            if (this._footerContent) {
+                this._initFooter();
+            }
 
             this._updatePopupStructure();
-            this._resize();
+            this.resize();
             L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
-            // L.DomEvent.disableClickPropagation(this._wrapper);
+            if (L.Browser.ielt9) {
+                // alert('tadam3');
+                var elem = this._popupStructure.footer;
+                if (elem) {
+                    elem.className += ' ie-shit';
+                }
+            }
+
             // Delete this if fixed in new leaflet version (> 0.6.2)
             L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
 
             this._container.style.visibility = '';
         },
 
+        _getDelta: function () { // () -> Number
+            var delta = 0,
+                popup = this._popupStructure;
+
+            if (popup.header) {
+                delta += popup.header.offsetHeight;
+            }
+            if (popup.footer) {
+                delta += popup.footer.offsetHeight;
+            }
+
+            return delta;
+        },
+
         _updateLayout: function () {
-            var container = this._contentNode,
-                style = container.style;
+            var container = this._contentNode, // leaflet-popup-content
+                wrapper = this._wrapper, //leaflet-popup-content-wrapper
+                style = container.style,
+                wrapperStyle = wrapper.style,
+                width,
+                scrolledClass = 'leaflet-popup-scrolled';
 
-            style.width = '';
+            style.margin = this.options.border + 'px';
+            if (this._isContentHeightFit()) {
+                wrapperStyle.maxHeight = this.options.maxHeight + 'px';
+                L.DomUtil.addClass(container, scrolledClass);
+            } else {
+                wrapperStyle.maxHeight = container.offsetHeight + this.options.border * 2 + 'px';
+                L.DomUtil.removeClass(container, scrolledClass);
+            }
+
             style.whiteSpace = 'nowrap';
+            width = wrapper.offsetWidth;
+            style.whiteSpace = '';
 
-            var width = container.offsetWidth;
             width = Math.min(width, this.options.maxWidth);
             width = Math.max(width, this.options.minWidth);
 
-            style.width = width + 'px';
-            style.whiteSpace = '';
+            wrapperStyle.width = width + 'px';
+            wrapperStyle.opacity = 1;
 
-            style.height = '';
-
-            var height = container.offsetHeight,
-                maxHeight = this.options.maxHeight,
-                minHeight = this.options.minHeight || 0,
-                scrolledClass = 'leaflet-popup-scrolled';
-
-            if (maxHeight && height > maxHeight) {
-                style.height = maxHeight + 'px';
-                L.DomUtil.addClass(container, scrolledClass);
-            } else {
-                style.height = Math.max(height, minHeight) + 'px';
-                L.DomUtil.removeClass(container, scrolledClass);
-            }
             this._containerWidth = this._container.offsetWidth;
         },
 
         _updatePopupStructure: function () {
-            var popupStructure = this._popupStructure;
-
-            for (var i in popupStructure) {
-                if (popupStructure.hasOwnProperty(i)) {
-                    this._insertContent(this['_' + i + 'Content'], popupStructure[i]);
-                }
-            }
+            Object.keys(this._popupStructure).forEach(function (item) {
+                this._insertContent(this['_' + item + 'Content'], this._popupStructure[item]);
+            }, this);
 
             this.fire('contentupdate');
         },
 
-        _insertContent: function (content, node) {
-            if (!content) { return; }
+        _insertContent: function (content, node) { // (String | DOMElement, DOMElement)
+            if (!content || !node) { return; }
 
             if (typeof content === 'string') {
                 node.innerHTML = content;
             } else {
-                if (!node) { return; }
-
-                this._clearStructure(node);
+                this._clearNode(node);
                 node.appendChild(content);
             }
         },
 
-        _clearStructure: function (node) {
+        _clearNode: function (node) { // (DOMElement)
             while (node.hasChildNodes()) {
                 node.removeChild(node.firstChild);
             }
         },
 
-        _detachEl: function (elem) {
+        _detachEl: function (elem) { // (DOMElement) -> DOMElement
             if (elem.parentNode) {
                 elem.parentNode.removeChild(elem);
+            }
+            return elem;
+        },
+
+        _onCloseButtonClick: function (e) { // (Event)
+            var transEv;
+
+            this._animateClosing();
+            transEv = this._whichTransitionEndEvent();
+
+            if (transEv) {
+                L.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
+            }
+            else {
+                this._firePopupClose(e);
+            }
+            L.DomEvent.stop(e);
+        },
+
+        _firePopupClose: function (e) { // (Event)
+            var transEv = this._whichTransitionEndEvent();
+
+            originalOnClose.call(this, e);
+
+            if (this._whichTransitionEndEvent()) {
+                L.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
             }
         }
     });
@@ -371,6 +433,10 @@
 
 
 L.Map.include({
+    _markerClass: 'dg-customization__marker_type_mushroom',
+    _markerShowClass: 'dg-customization__marker_appear',
+    _markerHideClass: 'dg-customization__marker_disappear',
+    _dgHideClass: 'dg-hidden',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         var content;
 
@@ -385,20 +451,36 @@ L.Map.include({
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
-            L.DomUtil.addClass(popup._source._icon, 'leaflet-marker-active');
+            if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
+                L.DomUtil.removeClass(popup._source._icon, this._markerShowClass);
+                L.DomUtil.addClass(popup._source._icon, this._markerHideClass);
+            } else {
+                L.DomUtil.addClass(popup._source._icon, this._dgHideClass);
+                if (popup._source._shadow) {
+                    L.DomUtil.addClass(popup._source._shadow, this._dgHideClass);
+                }
+            }
         }
 
         return this.addLayer(popup);
     },
 
-    closePopup: function (popup) {
+    closePopup: function (popup) {  // (Popup) -> Popup
         if (!popup || popup === this._popup) {
             popup = this._popup;
             this._popup = null;
         }
         if (popup) {
             if (popup._source && popup._source._icon) {
-                L.DomUtil.removeClass(popup._source._icon, 'leaflet-marker-active');
+                if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
+                    L.DomUtil.removeClass(popup._source._icon, this._markerHideClass);
+                    L.DomUtil.addClass(popup._source._icon, this._markerShowClass);
+                } else {
+                    L.DomUtil.removeClass(popup._source._icon, this._dgHideClass);
+                    if (popup._source._shadow) {
+                        L.DomUtil.removeClass(popup._source._shadow, this._dgHideClass);
+                    }
+                }
             }
             this.removeLayer(popup);
             popup._isOpen = false;
