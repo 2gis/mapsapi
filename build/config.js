@@ -42,7 +42,7 @@ var config = {
             clean_min: basePath + '/public/css/dg-map.css',
             full_min: basePath + '/public/css/dg-map-full.css',
             ie_min: basePath + '/public/css/dg-map-ie.css'
-        },
+        }
     },
 
     tmpl: {
