@@ -1,30 +1,14 @@
 L.DG.Control = L.Control.extend({
-    includes: //[ L.DG.Locale,
-                L.Mixin.Events
-    //]
-    ,
+    includes: L.Mixin.Events,
 
     statics: {
-        Dictionary: {}//,
-        // _tmpl: __DGRuler_TMPL__
+        Dictionary: {}
     },
 
     options: {
         position: 'topright',
         iconClass: 'default'
     },
-
-    // initialize: function (options) {
-    //     L.Util.setOptions(this, options);
-    //     L.extend(this, {
-    //         _active: false,
-    //     //     // _drawingHelper: null,
-
-    //     //     // _label: null,
-    //     //     // _labelDistanceNode: null,
-    //     //     // _labelDeleteNode: null
-    //     });
-    // },
 
     onAdd: function (map) {
         var container = L.DomUtil.create('div', 'dg-control-round');
@@ -36,12 +20,8 @@ L.DG.Control = L.Control.extend({
 
         this._map = map;
 
-        // this._drawingHelper = new L.DG.Ruler.DrawingHelper(map);
-
         L.DomEvent
             .disableClickPropagation(this._link)
-            // .on(this._link, 'mousedown', L.DomEvent.stopPropagation)
-            // .on(this._link, 'mousedown', L.DomEvent.preventDefault)
             .on(this._link, 'click', this._toggleControl, this);
 
         return container;
@@ -49,9 +29,6 @@ L.DG.Control = L.Control.extend({
 
     onRemove: function () {
         L.DomEvent.off(this._link, 'click', this._toggleControl);
-        // if (this._active) {
-        //     this._drawingHelper.finishDrawing();
-        // }
         this._resetState();
     },
 
@@ -60,16 +37,13 @@ L.DG.Control = L.Control.extend({
     },
 
     _toggleControl: function (event) {
-        // var helper = this._drawingHelper;
         L.DomEvent.stop(event);
         if (this._active = !this._active) {
-            // helper.startDrawing();
             console.log('enable');
             this.fireEvent('enable');
         } else {
             console.log('disable');
             this.fireEvent('disable');
-            // helper.finishDrawing();
         }
         this.fireEvent('update');
         L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._container, 'dg-control-round__active');

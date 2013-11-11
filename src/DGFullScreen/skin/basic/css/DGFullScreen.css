@@ -4,17 +4,6 @@
 .leaflet-container:-moz-full-screen { width: 100% !important; height: 100% !important; }
 .leaflet-container:fullscreen { width: 100% !important; height: 100% !important; }
 
-
-/*.dg-fullscreen-icon {
-    content: '';
-    position: absolute;
-    display: block;
-    background: url(__BASE_URL__/img/dg-fullscreen-default-sprite.png) no-repeat 0 0;
-    width: 14px;
-    height: 15px;
-    top: 8px;
-    left: 8px;
-}*/
 .dg-control-round_icon__fullscreen:before {
     background-image: url(__BASE_URL__/img/fullscreen-icon.png);
     width: 16px;
@@ -26,11 +15,6 @@
 .dg-control-round__active .dg-control-round_icon__fullscreen:before {
     background-image: url(__BASE_URL__/img/fullscreen-icon-active.png);
 }
-
-.dg-fullscreen.maxi .dg-fullscreen-icon{ background-position: 0 0px; }
-.dg-fullscreen.mini .dg-fullscreen-icon{ background-position: 0 -30px; }
-.dg-fullscreen.maxi:hover .dg-fullscreen-icon{ background-position: 0 -15px; }
-.dg-fullscreen.mini:hover .dg-fullscreen-icon{ background-position: 0 -45px; }
 
 .dg-fullscreen {
     cursor: pointer !important;
