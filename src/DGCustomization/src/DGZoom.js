@@ -11,8 +11,7 @@ L.Control.Zoom.include({
     onAdd: function (map) {
         var zoomName = 'dg-zoom',
             buttonTemplate = '<div class="dg-control-round_icon dg-zoom__control dg-zoom__{type}-button"></div>',
-            container = L.DomUtil.create('div', zoomName),
-            projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
+            container = L.DomUtil.create('div', zoomName);
 
         this._map = map;
 
@@ -26,20 +25,21 @@ L.Control.Zoom.include({
     },
 
     onRemove: function () {
-        map.off(this._eventListeners, this);
+        this._map.off(this._eventListeners, this);
     },
 
     _eventListeners : {
         dgProjectLeave : function () {
-            map.setMaxZoom(projectLeaveMaxZoom);
-            if (map.getZoom() > projectLeaveMaxZoom) {
-                map.setZoom(projectLeaveMaxZoom);
+            var projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
+            this._map.setMaxZoom(projectLeaveMaxZoom);
+            if (this._map.getZoom() > projectLeaveMaxZoom) {
+                this._map.setZoom(projectLeaveMaxZoom);
             }
         },
         dgProjectChange : function (project) {
             var projectInfo = project.getProject();
             if (projectInfo) {
-                map.setMaxZoom(projectInfo.max_zoom_level);
+                this._map.setMaxZoom(projectInfo.max_zoom_level);
             }
         }
     },
