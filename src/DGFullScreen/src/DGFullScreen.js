@@ -8,7 +8,6 @@ L.DG.FullScreen = L.DG.Control.extend({
 
     options: {
         position: L.DG.configTheme ? L.DG.configTheme.controls.fullScreen.position : 'topright',
-        // containerClass: 'maxi dg-fullscreen',
         iconClass: 'fullscreen'
     },
 
@@ -52,6 +51,9 @@ L.DG.FullScreen = L.DG.Control.extend({
 
     initialize: function (options) {
         L.Util.setOptions(this, options);
+        if (!fullScreenApi.supportsFullScreen) {
+            this._isLegacy = true;
+        }
         this.on('enable', this._enterFullScreen);
         this.on('disable', this._exitFullScreen);
         this.on('update', this._updateState);
@@ -146,10 +148,8 @@ L.DG.FullScreen = L.DG.Control.extend({
 
         if (!this._isLegacy) {
             fullScreenApi.requestFullScreen(container);
-            console.log('fc');
         } else {
             this._storePosition(container);
-            console.log('legacy');
 
             // set full map mode style
             container.style.position = 'fixed';
