@@ -1,3 +1,6 @@
+.leaflet-control a {
+    outline: none;
+}
 .dg-control-round {
     border-radius: 50%;
     width: 30px;
@@ -20,6 +23,8 @@
     cursor: pointer;
 }
 
+.leaflet-disabled .dg-control-round_icon:active,
+.leaflet-disabled .dg-control-round_icon:hover,
 .leaflet-disabled .dg-control-round_icon {
     box-shadow: none;
     cursor: default;
