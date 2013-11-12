@@ -20,6 +20,11 @@
     cursor: pointer;
 }
 
+.leaflet-disabled .dg-control-round_icon {
+    box-shadow: none;
+    cursor: default;
+}
+
 .dg-control-round_icon:hover {
     background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
     background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);

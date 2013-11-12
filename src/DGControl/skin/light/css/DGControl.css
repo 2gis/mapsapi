@@ -15,6 +15,10 @@
     border: 1px solid #fff;
 }
 
+.leaflet-disabled .dg-control-round_icon {
+    background: #fff;
+}
+
 .dg-control-round_icon {
     box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4);
 }

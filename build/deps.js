@@ -120,6 +120,7 @@ var deps = {
             ie: [
                 'DGCustomization/skin/{skin}/css/baron.ie.css',
                 'DGCustomization/skin/{skin}/css/callout.ie.css',
+                'DGCustomization/skin/{skin}/css/zoom.ie.css',
                 'DGCustomization/skin/{skin}/css/marker.ie.css'
             ]
         },
@@ -283,6 +284,9 @@ var deps = {
             all: [
                 'DGControl/skin/{skin}/css/DGControl.css'
             ],
+            ie: [
+                'DGControl/skin/{skin}/css/DGControl.ie.css'
+            ]
         },
         deps: ['DGCore', 'DGLocale']
     }

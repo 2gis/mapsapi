@@ -7,6 +7,10 @@
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
 }
 
+.leaflet-disabled .dg-control-round_icon {
+    background: #b0b1af;
+}
+
 .dg-control-round_icon:hover {
     box-shadow: 0 1px #ffffff inset, 0 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 1px rgba(0, 0, 0, 0.4);
 }

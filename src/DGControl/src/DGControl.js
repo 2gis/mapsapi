@@ -39,18 +39,12 @@ L.DG.Control = L.Control.extend({
     _toggleControl: function (event) {
         L.DomEvent.stop(event);
         if (this._active = !this._active) {
-            console.log('enable');
             this.fireEvent('enable');
         } else {
-            console.log('disable');
             this.fireEvent('disable');
         }
         this.fireEvent('update');
         L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._container, 'dg-control-round__active');
-    },
-
-    _renderTranslation: function () {
-        // this._link.title = this.t('button_title');
     }
 });
 
