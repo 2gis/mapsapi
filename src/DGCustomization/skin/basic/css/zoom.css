@@ -30,10 +30,6 @@
     height: 22px;
     box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
 }
-/*.leaflet-disabled .dg-zoom__control {
-    box-shadow: none;
-    cursor: default;
-}*/
 .leaflet-disabled .dg-control-round_icon.dg-zoom__out-button:after,
 .leaflet-disabled .dg-control-round_icon.dg-zoom__in-button:after,
 .leaflet-disabled .dg-control-round_icon.dg-zoom__in-button:before {
@@ -46,22 +42,12 @@
     }
     /* Buttons appearance */
     .dg-control-round_icon.dg-zoom__in-button:before { /* Горизонтальная плашка плюсика */
-        /*content: '';*/
-        /*position: absolute;*/
-        /*right: auto;*/
-        /*bottom: auto;*/
-        /*top: 14px;*/
-        /*left: 8px;*/
         width: 14px;
         height: 2px;
-        /*background: #3a3b39;*/
-        /*box-shadow: 0 1px #fff;*/
     }
     .dg-control-round_icon.dg-zoom__in-button:after { /* Вертикальная плашка плюсика */
         content: '';
         position: absolute;
-        /*top: 8px;*/
-        /*left: 14px;*/
         top: 0;
         right: 0;
         bottom: 0;
@@ -69,24 +55,16 @@
         margin: auto;
         height: 14px;
         width: 2px;
-        /*background: #50524f;*/
-        /*box-shadow: 0 1px #fff;*/
     }
     .dg-control-round_icon.dg-zoom__out-button:before { /* Плашка для визуального слития двух кнопок в одну */
-        /*content: '';*/
-        /*position: absolute;*/
-        /*right: auto;*/
         bottom: auto;
         width: 14px;
         height: 4px;
         top: -7px;
-        /*left: 4px;*/
     }
     .dg-control-round_icon.dg-zoom__out-button:after { /* Плашка изображающая минусик */
         content: '';
         position: absolute;
-        /*top: 10px;*/
-        /*left: 6px;*/
         top: 0;
         right: 0;
         bottom: 0;
@@ -94,8 +72,6 @@
         margin: auto;
         width: 10px;
         height: 2px;
-        /*background: #515354;*/
-        /*box-shadow: 0 1px #fff;*/
     }
     .dg-control-round_icon.dg-zoom__in-button:before, /* Горизонтальная плашка плюсика */
     .dg-control-round_icon.dg-zoom__in-button:after, /* Вертикальная плашка плюсика */
