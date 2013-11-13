@@ -53,7 +53,6 @@ L.Control.Attribution.include({
         };
     },
     _getAttributionHTML: function (lang) {
-        console.log(lang);
         return L.DG.template(this._tmpl.copyright, this._getData(lang));
     },
     _renderTranslation: function (e) {

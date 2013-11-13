@@ -95,13 +95,8 @@ var deps = {
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
             'DGCustomization/src/DGCustomization.js',
-            'DGCustomization/src/DGAttribution.js',
             'DGCustomization/src/DGPopup.js',
             'DGCustomization/src/DGZoom.js',
-            'DGCustomization/lang/DGAttribution/ru.js',
-            'DGCustomization/lang/DGAttribution/it.js',
-            'DGCustomization/lang/DGAttribution/cs.js',
-            'DGCustomization/lang/DGAttribution/en.js',
             'DGCustomization/lang/DGZoom/ru.js',
             'DGCustomization/lang/DGZoom/it.js',
             'DGCustomization/lang/DGZoom/cs.js',
@@ -125,6 +120,22 @@ var deps = {
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGControl']
+    },
+
+    DGAttribution: {
+        desc: 'Our copyright',
+        src: [
+            'DGAttribution/src/DGAttribution.js',
+            'DGAttribution/lang/ru.js',
+            'DGAttribution/lang/it.js',
+            'DGAttribution/lang/cs.js',
+            'DGAttribution/lang/en.js'
+        ],
+        css: {
+            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
+            ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
+        },
+        deps: ['DGCore', 'DGTemplate', 'DGLocale']
     },
 
     DGLocale: {
@@ -159,10 +170,6 @@ var deps = {
         src: [
             'DGTileLayer/src/DGTileLayer.js'
         ],
-        css: {
-            all: ['DGTileLayer/skin/{skin}/css/style.css'],
-            ie: ['DGTileLayer/skin/{skin}/css/ie.css']
-        },
         deps: ['DGCore', 'DGTemplate', 'DGLocale']
     },
 
