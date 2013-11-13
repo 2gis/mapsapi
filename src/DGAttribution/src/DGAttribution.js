@@ -37,8 +37,8 @@ L.Control.Attribution.include({
 
         this._container.innerHTML = prefixAndAttribs.join(' | ');
     },
-    /* global __DGCustomization_TMPL__ */
-    _tmpl: __DGCustomization_TMPL__,
+    /* global __DGAttribution_TMPL__ */
+    _tmpl: __DGAttribution_TMPL__,
     _onAdd: L.Control.Attribution.prototype.onAdd,
     _getData: function (lang) {
         return {
