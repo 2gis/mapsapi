@@ -11,7 +11,7 @@ L.Control.Attribution.include({
         }
         return this._onAdd.call(this, map);
     },
-    _update: function () {
+    _update: function (lang) {
         if (!this._map) { return; }
 
         var attribs = [];
@@ -25,7 +25,7 @@ L.Control.Attribution.include({
         var prefixAndAttribs = [];
 
         if (this._first) {
-            prefixAndAttribs.push(this._getAttributionHTML());
+            prefixAndAttribs.push(this._getAttributionHTML(lang));
         }
 
         if (this.options.prefix) {
@@ -37,6 +37,7 @@ L.Control.Attribution.include({
 
         this._container.innerHTML = prefixAndAttribs.join(' | ');
     },
+    /* global __DGCustomization_TMPL__ */
     _tmpl: __DGCustomization_TMPL__,
     _onAdd: L.Control.Attribution.prototype.onAdd,
     _getData: function (lang) {
@@ -51,10 +52,11 @@ L.Control.Attribution.include({
             'PTC': this.t('PTC')
         };
     },
-    _getAttributionHTML: function () {
-        return L.DG.template(this._tmpl.copyright, this._getData());
+    _getAttributionHTML: function (lang) {
+        console.log(lang);
+        return L.DG.template(this._tmpl.copyright, this._getData(lang));
     },
-    _renderTranslation: function () {
-        this._update();
+    _renderTranslation: function (e) {
+        this._update(e.lang);
     }
 });

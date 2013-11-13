@@ -265,6 +265,7 @@ var deps = {
             'DGLocation/src/DGLocation.js',
             'DGLocation/lang/ru.js',
             'DGLocation/lang/it.js',
+            'DGLocation/lang/cs.js',
             'DGLocation/lang/en.js'
         ],
         css: {
