@@ -5,13 +5,15 @@
 .leaflet-container:fullscreen { width: 100% !important; height: 100% !important; }
 
 .dg-control-round_icon__fullscreen:before {
-    background-image: url(__BASE_URL__/img/fullscreen-icon.png);
     width: 16px;
     height: 16px;
-}
-.dg-control-round_icon__fullscreen:before:hover {
-    background-image: url(__BASE_URL__/img/fullscreen-icon-hover.png);
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 .dg-control-round__active .dg-control-round_icon__fullscreen:before {
-    background-image: url(__BASE_URL__/img/fullscreen-icon-active.png);
+    background-image: url(__BASE_URL__/img/FullScreenPressed.png);
+}
+
+.leaflet-retina .dg-control-round__active .dg-control-round_icon__fullscreen:before {
+    background-image: url(__BASE_URL__/img/RetinaFullScreenPressed.png);
 }
