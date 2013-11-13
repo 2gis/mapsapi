@@ -1508,6 +1508,14 @@
 		<td>Устанавливает географические координаты точки открытия балуна.</td>
 	</tr>
 	<tr>
+		<td><code><b>getLatLng</b>(
+			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+		</code></td>
+
+		<td><code>this</code></td>
+		<td>Возвращает географические координаты точки открытия балуна.</td>
+	</tr>
+	<tr>
 		<td><code><b>setHeaderContent</b>(
 			<nobr>&lt;String&gt;/&lt;DOM-element&gt;  <i>content</i> )</nobr>
 		</code></td>
@@ -1708,6 +1716,11 @@
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при окончании загрузки видимых тайлов.</td>
 	</tr>
+	<tr>
+      <td><code><b>tileloadstart</b></code></td>
+      <td><code><a href="#tile-event">TileEvent</a></code></td>
+      <td>Вызывается при запросе тайла и начале его загрузки.</td>
+    </tr>
 	<tr>
 		<td><code><b>tileload</b></code></td>
 		<td><code><a href="#tile-event">Event</a></code>
@@ -2795,7 +2808,7 @@
 			<nobr>&lt;String&gt; <i>id</i> )</nobr>
 		</code></td>
 
-		<td><code>Boolean</code></td>
+		<td><code><a href="#ilayer">ILayer</a></code></td>
 		<td>Возвращает слой по переданному id.</td>
 	</tr>
 	<tr>
@@ -4036,7 +4049,7 @@
 
 ## L.Control.Scale
 
-Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Реализует интерфейс [IControl][53].
+Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет Control.
 
     L.control.scale().addTo(map);
 
