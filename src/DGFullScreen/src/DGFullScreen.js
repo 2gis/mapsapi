@@ -176,7 +176,7 @@ L.DG.FullScreen = L.DG.Control.extend({
             document.body.style.padding = '0px';
         }
 
-        L.DomEvent.addListener(document, 'keyup', this._onKeyUp, this);
+        L.DomEvent.on(document, 'keyup', this._onKeyUp, this);
 
         this._map.fire('dgEnterFullScreen');
     },
@@ -193,7 +193,7 @@ L.DG.FullScreen = L.DG.Control.extend({
             this._restorePosition(container);
         }
 
-        L.DomEvent.removeListener(document, 'keyup', this._onKeyUp);
+        L.DomEvent.off(document, 'keyup', this._onKeyUp);
 
         this._map.fire('dgExitFullScreen');
     },
