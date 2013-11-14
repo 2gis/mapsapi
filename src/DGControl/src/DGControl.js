@@ -44,7 +44,7 @@ L.DG.Control = L.Control.extend({
             this.fireEvent('disable');
         }
         this.fireEvent('update');
-        L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._container, 'dg-control-round__active');
+        L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._link, 'dg-control-round_icon__active');
     }
 });
 
