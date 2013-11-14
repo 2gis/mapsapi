@@ -1,23 +1,23 @@
-(function() {
+(function () {
     'use strict';
 
-    var onLoadJs = function(){},
+    var onLoadJs = function () {},
         baseURL,
         queryString,
-        params,
+        //params,
         version = 'v=959583';
 
     function processURL() {
         var scripts, scriptURL;
-        scripts = document.getElementsByTagName("script");
-        scriptURL = scripts[scripts.length-1].src;
+        scripts = document.getElementsByTagName('script');
+        scriptURL = scripts[scripts.length - 1].src;
         return scriptURL.split('?');
     }
 
     function getBaseURL() {
         var pattern = /loader.js/,
             url = processURL();
-        return (url[0]) ? url[0].replace(pattern, "") : '/';
+        return (url[0]) ? url[0].replace(pattern, '') : '/';
     }
 
     function getParamsURI() {
@@ -43,17 +43,17 @@
         if (!queryString) {
             return {};
         }
-        if (queryString[0] == "?") {
-            queryString = queryString.slice(1);    
+        if (queryString[0] === '?') {
+            queryString = queryString.slice(1);
         }
-        var paramString = queryString.split("&"),
+        var paramString = queryString.split('&'),
             length = paramString.length,
             buffer = {},
             param,
             i;
 
         for (i = 0; i < length; i++) {
-            param = paramString[i].split("=");
+            param = paramString[i].split('=');
             buffer[param[0]] = param[1];
         }
         return buffer;
@@ -72,14 +72,14 @@
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('src', link);
         if (js.readyState) {
-            js.onreadystatechange = function() {
+            js.onreadystatechange = function () {
                 if (js.readyState === 'loaded' || js.readyState === 'complete') {
                     js.onreadystatechange = null;
                     onLoadJs();
                 }
             };
         } else {
-            js.onload = function() {
+            js.onload = function () {
                 onLoadJs();
             };
         }
@@ -87,7 +87,7 @@
     }
 
     window.L = window.L || {};
-    window.L.onLoad = function(callback) {
+    window.L.onLoad = function (callback) {
         onLoadJs = callback;
     };
 
@@ -100,11 +100,11 @@
     loadCSS(baseURL + 'css' + queryString);
     // load js on document ready
     if (document.addEventListener) {
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadJS(baseURL + 'js' + queryString);
-        }, false );
+        }, false);
     } else if (document.attachEvent) {
-        document.attachEvent('onreadystatechange', function() {
+        document.attachEvent('onreadystatechange', function () {
             if (document.readyState === 'complete') {
                 loadJS(baseURL + 'js' + queryString);
             }

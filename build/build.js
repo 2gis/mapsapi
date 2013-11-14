@@ -7,7 +7,7 @@
  */
 var fs = require('fs'),
     path = require('path'),
-    exec = require('child_process').exec,
+    //exec = require('child_process').exec,
     grunt = require('grunt'),
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
@@ -18,6 +18,8 @@ var fs = require('fs'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     hint = require(__dirname + '/hintrc.js'),
+    async = require('async'),
+    defaultTheme = 'light',
     /**
      * Global data stores
      */
@@ -29,7 +31,7 @@ var fs = require('fs'),
      * CLI colors theme settings
      * See: https://github.com/medikoo/cli-color
      */
-    okMsg = clc.greenBright,
+    okMsg = clc.xterm(28),
     errMsg = clc.xterm(9),
     depsMsg = clc.xterm(27);
 
@@ -78,7 +80,7 @@ function getModulesData() {
                     var moduleConf = modulesList[moduleName];
 
                     modulesData[moduleName] = {};
-                    modulesData[moduleName].js = processJs(moduleConf.src, basePath, moduleName);
+                    modulesData[moduleName] = processJs(moduleConf.src, basePath, moduleName);
                     modulesData[moduleName].css = processCss(moduleConf.css, basePath);
                     modulesData[moduleName].conf = processSkinConf(moduleConf.src, basePath);
                     modulesData[moduleName].deps = modulesList[moduleName].deps;
@@ -99,26 +101,32 @@ function getModulesData() {
  * @return {Object}
  */
 function processJs(srcList, basePath, moduleName) {
-    var jsContent = {}, key;
+    var jsContent = {js: {}, jsmin: {}}, key;
 
-    if (srcList) {
-        if (moduleName.indexOf("DG") === 0) {
-            var tmplConfig = getTemplates(moduleName);
+    if (!srcList) { return; }
 
-             // add template content to config vars
-            for (key in tmplConfig) {
+    if (moduleName.indexOf('DG') === 0) {
+        var tmplConfig = getTemplates(moduleName);
+
+         // add template content to config vars
+        for (key in tmplConfig) {
+            if (tmplConfig.hasOwnProperty(key)) {
                 appConfig[key] = tmplConfig[key];
             }
         }
-        for (var i = 0, count = srcList.length; i < count; i++) {
-            var srcPath = basePath + srcList[i];
-            if (srcPath.indexOf(config.skin.var) < 0) {
-                if (fs.existsSync(srcPath)) {
-                    var jsData = fs.readFileSync(srcPath, 'utf8') + '\n\n';
-                    jsContent[srcPath] = setParams(jsData, appConfig);
-                } else {
-                    console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
-                }
+    }
+    for (var i = 0, count = srcList.length; i < count; i++) {
+        var srcPath = basePath + srcList[i];
+        if (srcPath.indexOf(config.skin.var) < 0) {
+            if (fs.existsSync(srcPath)) {
+                var jsData = setParams(fs.readFileSync(srcPath, 'utf8') + '\n\n', appConfig);
+                jsContent.js[srcPath] = jsData;
+                jsContent.jsmin[srcPath] = uglify.minify(jsData, {
+                    warnings: false,
+                    fromString: true
+                }).code;
+            } else {
+                console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
             }
         }
     }
@@ -426,17 +434,20 @@ function getModulesList(pkg, isMsg) {
  * @param {Boolean} isMsg  Show messages on run CLI mode
  * @return {String}
  */
-function makeJSPackage(modulesList, skin, isMsg) {
+function makeJSPackage(modulesList, params) {
     var loadedFiles = {},
         countModules = 0,
-        result = '';
+        result = '',
+        moduleSkinName, moduleSkinId,
+        skin = params.skin,
+        isMsg = params.isMsg;
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
             moduleData = modules[moduleName];
 
         if (moduleData && moduleData.js) {
-            var moduleSrc = moduleData.js;
+            var moduleSrc = params.isDebug ? moduleData.js : moduleData.jsmin;
             countModules++;
 
             // Load skins config (if exist) before main module code
@@ -448,15 +459,16 @@ function makeJSPackage(modulesList, skin, isMsg) {
                     loadSkinsList.push('basic');
                 }
 
-                if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('light')) {
-                    var moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : 'light';
+                if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty(defaultTheme)) {
+                    moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
                     loadSkinsList.push(moduleSkinName);
                 }
 
                 // process list of skins
                 for (var j = 0, cnt = loadSkinsList.length; j < cnt; j++) {
-                    var moduleSkinName = loadSkinsList[j],
-                        moduleSkinId = moduleSkinName + ':' + moduleName;
+                    moduleSkinName = loadSkinsList[j];
+                    moduleSkinId = moduleSkinName + ':' + moduleName;
+
                     if (!loadedFiles[moduleSkinId]) {
                         result += moduleSkins[moduleSkinName];
                         loadedFiles[moduleSkinId] = true;
@@ -511,8 +523,8 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
                 countModules++;
             }
 
-            if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty('light')) {
-                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : 'light';
+            if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty(defaultTheme)) {
+                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
                 var moduleBrowser = moduleSkins[skinName];
                 processBrowsers(moduleBrowser);
             }
@@ -732,7 +744,7 @@ exports.build = function () {
         cssDest = config.css.public,
         cssDir = cssDest.dir,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
-        skin = argv.skin || 'light';
+        skin = argv.skin || defaultTheme;
 
     modules = modules || getModulesData();
     copyrights = getCopyrightsData();
@@ -756,7 +768,7 @@ exports.build = function () {
         console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
     };
 
-    jsSrcContent = makeJSPackage(modulesList, skin, true);
+    jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
 
     if (!fs.existsSync(jsDir)) {
         console.log("Creating " + jsDir + " dir...");
@@ -818,9 +830,9 @@ exports.init = function () {
 exports.getJS = function (params, callback) {
     var modulesList, contentSrc, contentRes;
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeJSPackage(modulesList, params.skin);
-    contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
-    callback(contentRes);
+    contentSrc = makeJSPackage(modulesList, {skin: params.skin, isDebug: params.isDebug});
+    //contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
+    callback(contentSrc);
 };
 
 /**
