@@ -1,180 +1,271 @@
 var FirmCard = function (firm, options) {
-    var type;
-
-    options = options || {};
-    this._el = null;
-    this._fullFirmEl = null;
-    this._isExpanded = false;
-
-    options.lang = options.lang || 'ru';
     this._setOptions(options);
+    this._firmContentObject = {};
     this._schedule = new FirmCard.Schedule({
-        localLang : options.lang
+        localLang: this.options.lang,
+        dict: this.dict
     });
-    type = Object.prototype.toString.call(firm);
 
-    if ('[object Object]' === type) {
-        this._firmData = firm;
-        this._id = firm.id.split('_').shift();
-    } else {
-        this._renderFullCardById(firm);
-    }
+    this.render(firm);
 };
 
 FirmCard.prototype = {
 
-    getContainer: function () {
-        return this._el;
-    },
+    render: function (firmId) {
+        if (!firmId) { return; }
 
-    getId: function () {
-        return this._id;
+        if (firmId !== this._firmId) {
+            this._firmContentObject = {};
+            this._renderCardById(firmId);
+        }
+
+        return this._firmContentObject;
     },
 
     getSchedule: function () {
         return this._schedule;
     },
 
-    toggle: function () {
-        var display,
-            fullFirmElExists = !!this._fullFirmEl;
+    _renderCardById: function (firmId) {
+        var self = this;
 
-        if (!fullFirmElExists) {
-            this._expand(fullFirmElExists);
-        } else {
-            display = this._fullFirmEl.style.display;
-            display === 'none' ? this._expand(fullFirmElExists) : this._collapse();
-            if (this.options.onToggleCard) {
-                this.options.onToggleCard(this.getContainer(), this.isExpanded());
-            }
-        }
-    },
-
-    toggleSchedule: function () {
-        var schedule = this._fullFirmEl.querySelector('.schedule__table'),
-            display = 'block';
-        if (!schedule) return;
-        if (schedule.style.display === 'block') {
-            display = 'none';
-        }
-        schedule.style.display = display;
-        if (this.options.onToggleCard) {
-            this.options.onToggleCard(this.getContainer(), this.isExpanded());
-        }
-    },
-
-    render: function () {
-        var html;
-
-        if (!this._el) {
-            html = this._getShortContent();
-            this._createEl(html);
-        }
-
-        return this._el;
-    },
-
-    isExpanded: function () {
-        return this._isExpanded;
-    },
-
-    _renderFullCardById: function (firmId) {
-        var self = this,
-            loader;
-
-        this._id = firmId;
-        loader = this.options.render(this.options.tmpls.loader);
-        this._createEl(loader);
-        this.options.ajax(firmId, function (data) {
+        this.options.ajax(firmId).then(function (res) {
+            var data = res.result.data;
             if (data !== 'undefined') {
                 self._firmData = data[0];
-                self._el.innerHTML = self._getShortContent();
-                self.toggle.call(self);
+                self._firmId = firmId;
+                self._renderFirmCard();
+                self._initEventHandlers();
             }
         });
     },
 
-    _collapse: function () {
-        this._fullFirmEl.style.display = 'none';
-        this._isExpanded = false;
+    _createFirmContainer: function () {
+        var firm = document.createElement('div');
+        firm.setAttribute('id', 'dg-map-firm-full-' + this._firmId);
+        firm.setAttribute('class', 'dg-map-firm-full');
+
+        return firm;
     },
 
-    _createEl: function (html) {
-        this._el = document.createElement('div');
-        this._el.setAttribute('id', 'dg-map-firm-' + this._id);
-        this._el.setAttribute('class', 'dg-map-firm');
-        this._el.innerHTML = html;
-    },
+    _renderFirmCard: function () {
+        var firmCardBody, schedule, forecast, links, btns, attributes,
+            data = this._firmData,
+            container = this._container = this._createFirmContainer();
 
-    _createFullFirmEl: function (html) {
-        this._fullFirmEl = document.createElement('div');
-        this._fullFirmEl.setAttribute('id', 'dg-map-firm-full-' + this._id);
-        this._fullFirmEl.setAttribute('class', 'dg-map-firm-full');
-        this._fullFirmEl.style.display = 'block';
-        this._fullFirmEl.innerHTML = html;
-    },
+        this._footerContainer = document.createElement('div');
 
-    _expand: function (fullFirmElExists) {
-        var self = this;
+        this._footerContainer.className = 'footer-btns';
 
-        if (!fullFirmElExists) {
-            var loaderHtml = this.options.render(this.options.tmpls.loader);
-            this._el.insertAdjacentHTML('beforeend', loaderHtml);
-            this.options.ajax(this._id, function (data) {
-                if (data !== 'undefined') {
-                    self._renderFullCard.call(self, data[0]);
-                    self._el.removeChild(document.getElementById('dg-popup-firm-loading'));
-                    if (self.options.onToggleCard) {
-                        self.options.onToggleCard(self.getContainer(), self.isExpanded());
-                    }
-                }
-            });
-        } else {
-            this._fullFirmEl.style.display = 'block';
-        }
-        this._isExpanded = true;
-    },
-
-    _renderFullCard: function (data) {
-        var html,
-            schedule,
-            forecast;
-
-        this._firmData = data;
         schedule = this._schedule.transform(data.schedule, {
             zoneOffset: this.options.timezoneOffset,
             apiLang: this.options.lang,
             localLang: this.options.lang
         });
         forecast = this._schedule.forecast(schedule);
-        html = this.options.render(this.options.tmpls.fullFirm, {
-            firm: data,
-            schedule: schedule,
-            dict: FirmCard.Schedule.dictionary,
-            lang: this.options.lang,
-            forecast: forecast,
-            dataHelper: FirmCard.DataHelper
-        });
 
-        this._createFullFirmEl(html);
+        if (!!(data.attributes && data.attributes.general.items)) {
+            data.attributes.general.items ? attributes = data.attributes.general.items : attributes = [];
+        }
 
+        firmCardBody = this._buildFirmCardBody(
+            this._getConfigFirmCardBody(data, schedule, forecast, attributes)
+        );
 
-        this._el.appendChild(this._fullFirmEl);
-        this.options.callback && this.options.callback(this._el);
-        this._isExpanded = true;
+        links = this._fillHeaderLinks();
+
+        btns = this._fillFooterButtons();
+
+        //fill object for view render
+        this._firmContentObject.header = this.options.render(this.options.tmpls.firmCardHeader, {'firmName': data.name, 'links': links});
+        container.innerHTML = firmCardBody;
+        this._firmContentObject.tmpl = container;
+        this._footerContainer.innerHTML = this.options.render(this.options.tmpls.popupFooterBtns, {'btns': btns});
+        this._firmContentObject.footer = this._footerContainer;
+
+        if (this.options.onFirmReady) {
+            this.options.onFirmReady(this._firmContentObject);
+        }
     },
 
-    _getShortContent: function () {
-        return this.options.render(this.options.tmpls.shortFirm, {
-            name: this._firmData.name,
-            id: this._id
-        });
+    _getConfigFirmCardBody: function (data, schedule, forecast, attributes) {
+        return [
+            {
+                tmpl: 'firmCardAddr',
+                data: {
+                    data: data.geo
+                }
+            },
+            {
+                tmpl: 'firmCardContacts',
+                data: {
+                    groups: data.contact_groups
+                }
+            },
+            {
+                tmpl: 'firmCardSchedule',
+                data: {
+                    schedule: schedule,
+                    forecast: forecast
+                }
+            },
+            {
+                tmpl: 'frimCardPayments',
+                data: {
+                    payments: attributes
+                }
+            },
+            {
+                tmpl: 'firmCardRubric',
+                data: {
+                    rubrics: data.rubrics
+                }
+            }
+        ];
+    },
+
+    _buildFirmCardBody: function (parts) {
+        var self = this;
+        return parts.reduce(function (body, item) {
+            var html = self.options.render(self.options.tmpls[item.tmpl], item.data);
+            return body + html;
+        }, '');
+    },
+
+    _fillFooterButtons: function () {
+        var btns = [];
+
+        if (this.options.backBtn) {
+            btns.push({ name: 'firmCard-back',
+                        label: this.dict.t(this.options.lang, 'btnBack'),
+                        icon: true
+            });
+        }
+        //UNCOMMENT WHEN ONLINE 4 WILL BE READY
+       /* btns.push({ name: 'goto',
+                    label: this.dict.t(this.options.lang, 'btnFindWay'),
+                    icon: true,
+                    href: this.options.gotoUrl
+        });*/
+
+        /*if (this._firmData.geo.entrances && this.options.showEntrance) {
+            btns.push({ name: 'show-entrance',
+                        label: this.dict.t(this.options.lang, 'btnEntrance'),
+                        icon: true
+            });
+        }*/
+
+        return btns;
+    },
+
+    _fillHeaderLinks: function () {
+        var links = [],
+            reviewData = this._firmData.reviews,
+            photos = this._firmData.photos,
+            booklet = this._firmData.booklet,
+            link;
+
+        if (reviewData && reviewData.is_allowed_to_show_reviews) {
+            links.push({
+                name: 'flamp_stars',
+                width: reviewData.rating * 20
+            });
+            links.push({
+                name: 'flamp_reviews',
+                label: this.dict.t(this.options.lang, 'linkReviews', reviewData.review_count),
+                href: FirmCard.DataHelper.getFlampUrl(this._firmId)
+            });
+        }
+
+        /*if (!this.options.isMobile && photos && photos.length) {
+            link = L.Util.template('__PHOTOS_LINK__',
+                {
+                    'id': this._firmId
+                });
+
+            links.push({name: 'photos',
+                        href: link,
+                        label: this.dict.t(this.options.lang, 'linkPhoto', photos.length)
+            });
+        }
+
+        if (!this.options.isMobile && booklet && booklet.url) {
+            links.push({name: 'booklet',
+                        href:  booklet.url,
+                        label: this.dict.t(this.options.lang, 'linkBooklet')});
+        }*/
+
+
+        return links;
+    },
+
+    _onFooterBtnClick: function (e) {
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+
+        if (target && target.nodeName === 'A') {
+            if (target.id === 'popup-btn-firmCard-back') {
+                this.options.backBtn();
+            } else if (target.id ===  'popup-btn-show-entrance') {
+                var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
+                ent.addTo(this.options.map).show();
+            }
+        }
+    },
+
+    _onToggleSchedule: function (e) {
+        var schedule = this._container.querySelector('.schedule__table'),
+            forecast = this._container.querySelector('.schedule__now'),
+            showClass = ' show_schedule',
+            target = e.target || e.srcElement;
+
+        if (!schedule) { return; }
+
+        if (target && target.nodeName === 'DIV' && target.className.indexOf('schedule__today') !== -1) {
+            if (schedule.style.display === 'block') {
+                schedule.style.display = 'none';
+                forecast.style.display = 'block';
+                target.className = target.className.replace(showClass, '');
+            } else {
+                forecast.style.display = 'none';
+                schedule.style.display = 'block';
+                target.className += showClass;
+            }
+
+            if (this.options.onToggle) {
+                this.options.onToggle();
+            }
+        }
+    },
+
+    _initEventHandlers: function () {
+
+        var eventName = this._hasTouch() ? 'touchend' : 'click',
+            footer = this._footerContainer,
+            container = this._container;
+
+        if (footer.addEventListener) {
+            footer.addEventListener(eventName, this._bind(this._onFooterBtnClick, this), false);
+            container.addEventListener(eventName, this._bind(this._onToggleSchedule, this), false);
+        } else {
+            footer.attachEvent('on' + eventName, this._bind(this._onFooterBtnClick, this));
+            container.attachEvent('on' + eventName, this._bind(this._onToggleSchedule, this));
+        }
+    },
+
+    _bind: function (fn, obj) { // (Function, Object) -> Function
+        var args = arguments.length > 2 ? Array.prototype.slice.call(arguments, 2) : null;
+        return function () {
+            return fn.apply(obj, args || arguments);
+        };
     },
 
     _setOptions: function (options) {
-        var option;
+        var option,
+            options = options || {};
 
-        this.options = this.options || {};
+        this.options = options;
+        options.lang = options.lang || 'ru';
 
         for (option in options) {
             if (options.hasOwnProperty(option)) {
@@ -182,4 +273,10 @@ FirmCard.prototype = {
             }
         }
     },
+
+    _hasTouch: function () {
+        return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
+    }
 };

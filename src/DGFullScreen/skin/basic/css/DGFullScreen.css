@@ -1,0 +1,19 @@
+/*Full screen control styles*/
+
+.leaflet-container:-webkit-full-screen { width: 100% !important; height: 100% !important; }
+.leaflet-container:-moz-full-screen { width: 100% !important; height: 100% !important; }
+.leaflet-container:fullscreen { width: 100% !important; height: 100% !important; }
+
+.dg-control-round_icon__fullscreen:before {
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
+    background-image: url(__BASE_URL__/img/FullScreenPressed.png);
+}
+
+.leaflet-retina .dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
+    background-image: url(__BASE_URL__/img/RetinaFullScreenPressed.png);
+}

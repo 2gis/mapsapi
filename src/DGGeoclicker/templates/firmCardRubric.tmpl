@@ -1,0 +1,22 @@
+<%if (rubrics) {%>
+    <section class="firm-card__rubrics">
+        <%if (rubrics.primary.length > 0) {%>
+            <ul class="firm-card__rubrics-list firm-card__rubrics_primary">
+                <% for (var r = 0, primary = rubrics.primary.length; r < primary; r++) { %>
+                    <li class="firm-card__rubrics-list-item">
+                        <%=rubrics.primary[r].name%>
+                    </li>
+                <% } %>
+            </ul>
+        <% } %>
+        <%if (rubrics.additional.length > 0) {%>
+            <ul class="firm-card__rubrics-list firm-card__rubrics_additional">
+                <% for (var s = 0, additional = rubrics.additional.length; s < additional; s++) { %>
+                    <li class="firm-card__rubrics-list-item">
+                        <%=rubrics.additional[s].name%>
+                    </li>
+                <% } %>
+            </ul>
+        <% } %>
+    </section>
+<% } %>

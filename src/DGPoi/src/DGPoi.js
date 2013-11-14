@@ -4,25 +4,31 @@ L.Map.mergeOptions({
 
 L.DG.Poi = L.Handler.extend({
 
-    initialize: function (map) { // (Object)
+    options: {
+        disableLabel: false
+    },
+
+    initialize: function (map, options) { // (Object)
         this._map = map;
-        this._labelHelper = new L.DG.Label();
+        L.Util.setOptions(this, options);
     },
 
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
         this._map.dgMeta.enablePoiListening();
+        if (!this.options.disableLabel) {
+            this._labelHelper = new L.DG.Label();
+        }
     },
 
     removeHooks: function () {
         this._map.off(this._mapEventsListeners, this);
         this._map.off('mousemove', this._onMouseMove, this);
         this._map.dgMeta.disablePoiListening();
-    },
-
-    disableLabel: function () {
-        this._map.removeLayer(this._labelHelper);
-        this._labelHelper = null;
+        if (this._labelHelper) {
+            this._map.removeLayer(this._labelHelper);
+            this._labelHelper = null;
+        }
     },
 
     _mapEventsListeners : {

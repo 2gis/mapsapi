@@ -51,24 +51,25 @@ L.DG.Entrance = L.Class.extend({
     },
 
     show: function (fitBounds) { // () -> L.DG.Entrance
+        if (!this._arrows) {
+            return this;
+        }
         if (fitBounds !== false) {
             fitBounds = true;
         }
-
-        if (!this.isShown() && this._arrows) {
-            if (fitBounds) {
-                this._fitBounds();
-            }
-            if (this._isAllowedZoom()) {
-                this._arrows.eachLayer(function (arrow) {
-                    arrow.setStyle({ visibility: 'visible' });
-                    if (L.Path.ANIMATION_AVAILABLE) {
-                        arrow.runAnimation('animateArrowPathGeom');
-                    }
-                });
-
-                this._isShown = true;
+        if (fitBounds) {
+            this._fitBounds();
+        }
+        if (this._isAllowedZoom()) {
+            this._arrows.eachLayer(function (arrow) {
+                arrow.setStyle({ visibility: 'visible' });
+                if (L.Path.ANIMATION_AVAILABLE) {
+                    arrow.runAnimation('animateArrowPathGeom');
+                }
+            });
+            if (!this._isShown) {
                 this._map.fire('dgEntranceShow');
+                this._isShown = true;
             }
         }
 
@@ -124,19 +125,25 @@ L.DG.Entrance = L.Class.extend({
         this._map.removeLayer(this._arrows.clearLayers());
     },
 
+    _getFitZoom: function () {
+        return this._map.dgProjectDetector.getProject().max_zoom_level || L.DG.Entrance.SHOW_FROM_ZOOM;
+    },
+
     _fitBounds: function () {
         var map = this._map,
-            maxZoom;
+            fitZoom,
+            bounds = this.getBounds();
 
-        map.once('moveend', function () {
-            if (this._map && !this._isAllowedZoom()) {
-                maxZoom = map.dgProjectDetector.getProject().max_zoom_level;
-                map.setZoom(maxZoom, {animate: false});
+        if (!map.getBounds().contains(bounds) || !this._isAllowedZoom()) {
+            fitZoom = this._getFitZoom();
+            if (!map.dgProjectDetector.getProject()) {
+                map.once('moveend', function(){
+                    map.setZoom(this._getFitZoom());
+                }, this);
             }
-        }, this);
-
-        if (!map.getBounds().contains(this.getBounds()) || !this._isAllowedZoom()) {
-            map.panTo(this.getBounds().getCenter(), {animate: false});
+            map.setView(bounds.getCenter(), fitZoom, {
+                animate : true
+            });
         }
     },
 

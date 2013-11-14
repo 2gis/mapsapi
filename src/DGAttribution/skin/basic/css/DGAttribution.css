@@ -1,0 +1,163 @@
+.leaflet-container .leaflet-control-attribution {
+    background-color:transparent;
+    box-shadow: none;
+}
+
+/* copyright */
+.dg-mapcopyright {
+    display:none;
+}
+.dg-mapcopyright.dg-mapcopyright_lang_ru,
+.dg-mapcopyright.dg-mapcopyright_lang_en,
+.dg-mapcopyright.dg-mapcopyright_lang_cs,
+.dg-mapcopyright.dg-mapcopyright_lang_it {
+    bottom: 5px;
+    display:block !important;
+    height:26px !important;
+    position:relative !important;
+    right: 2px;
+}
+.dg-mapcopyright__logo,
+a.dg-mapcopyright__apilink,
+a.dg-mapcopyright__license {
+    background-repeat:no-repeat !important;
+}
+a.dg-mapcopyright__logolink {
+    border:none !important;
+    color:transparent !important;
+    cursor:pointer !important;
+    display:block !important;
+    height:26px !important;
+    outline:none !important;
+    overflow:hidden !important;
+    position:absolute !important;
+    right:0 !important;
+    top:0 !important;
+    width:60px !important;
+}
+
+.dg-mapcopyright__logo {
+    background:url("__BASE_URL__/img/dg-tilelayer-base-copyright.png") -304px 0 no-repeat;
+    border:none !important;
+    color:transparent !important;
+    display:block !important;
+    height:25px !important;
+    overflow:hidden !important;
+    position:absolute !important;
+    right:1px !important;
+    top:1px !important;
+    width:56px !important;
+}
+
+a.dg-mapcopyright__apilink,
+a.dg-mapcopyright__license {
+    background-image:url("__BASE_URL__/img/dg-tilelayer-base-copyright.png"), url("__BASE_URL__/img/dg-tilelayer-base-copyright.png");
+    background-repeat:no-repeat !important;
+    color:transparent !important;
+    cursor:pointer !important;
+    display:block !important;
+    font-size:9px !important;
+    height:10px !important;
+    margin:0 !important;
+    outline:none !important;
+    overflow:hidden !important;
+    padding:0 !important;
+    position:absolute !important;
+    opacity:0.7 !important;
+    overflow:hidden !important;
+    text-indent:-9999px !important;
+    text-decoration:none;
+    -webkit-transition:opacity 0.15s ease-out;
+    -moz-transition:opacity 0.15s ease-out;
+    -o-transition:opacity 0.15s ease-out;
+    -ms-transition:opacity 0.15s ease-out;
+    transition:opacity 0.15s ease-out;
+}
+
+a.dg-mapcopyright__apilink:hover,
+a.dg-mapcopyright__license:hover {
+    opacity:1 !important;
+}
+
+/* lang = ru */
+.dg-mapcopyright_lang_ru a.dg-mapcopyright__apilink {
+    background-position:-29px -2px, -9999px -9999px;
+    right:60px !important;
+    top:6px !important;
+    width:84px !important;
+}
+.dg-mapcopyright_lang_ru a.dg-mapcopyright__license {
+    background-position:0 -13px, -9999px -9999px;
+    right:60px !important;
+    top:16px !important;
+    width:113px !important;
+}
+.dg-mapcopyright_lang_ru a.dg-mapcopyright__apilink:hover {
+    background-position:-29px -2px, -182px -2px;
+}
+.dg-mapcopyright_lang_ru a.dg-mapcopyright__license:hover {
+    background-position:0 -13px, -153px -13px;
+}
+/* lang = it */
+.dg-mapcopyright_lang_it a.dg-mapcopyright__apilink {
+    background-position:-81px -24px, -9999px -9999px;
+    right:60px !important;
+    top:6px !important;
+    width:32px !important;
+}
+.dg-mapcopyright_lang_it a.dg-mapcopyright__license {
+    background-position:-41px -35px, -9999px -9999px;
+    right:60px !important;
+    top:16px !important;
+    width:72px !important;
+}
+.dg-mapcopyright_lang_it a.dg-mapcopyright__apilink:hover {
+    background-position:-81px -24px, -234px -24px;
+}
+.dg-mapcopyright_lang_it a.dg-mapcopyright__license:hover {
+    background-position:-41px -35px, -194px -35px;
+}
+
+/* lang = en */
+.dg-mapcopyright_lang_en a.dg-mapcopyright__apilink {
+    background-position: -81px -46px, -9999px -9999px;
+    right: 60px !important;
+    top: 6px !important;
+    width: 32px !important;
+}
+.dg-mapcopyright_lang_en a.dg-mapcopyright__license {
+    background-position: -31px -56px, -9999px -9999px;
+    right: 60px !important;
+    top: 16px !important;
+    width: 80px !important;
+}
+.dg-mapcopyright_lang_en a.dg-mapcopyright__apilink:hover {
+    background-position: -81px -46px, -236px -46px;
+}
+.dg-mapcopyright_lang_en a.dg-mapcopyright__license:hover {
+    background-position: -31px -56px, -185px -57px;
+}
+
+/* lang = cs */
+.dg-mapcopyright_lang_cs a.dg-mapcopyright__apilink {
+    background-position: -81px -67px, -9999px -9999px;
+    right: 60px !important;
+    top: 6px !important;
+    width: 32px !important;
+}
+.dg-mapcopyright_lang_cs a.dg-mapcopyright__license {
+    background-position: -31px -76px, -9999px -9999px;
+    right: 60px !important;
+    top: 16px !important;
+    width: 80px !important;
+}
+.dg-mapcopyright_lang_cs a.dg-mapcopyright__apilink:hover {
+    background-position:-81px -67px, -236px -67px;
+}
+.dg-mapcopyright_lang_cs a.dg-mapcopyright__license:hover {
+    background-position: -31px -76px, -185px -76px;
+}
+
+.leaflet-container {
+    background: #F7F3DF;
+}
