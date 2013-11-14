@@ -22,8 +22,8 @@ L.DG.Control = L.Control.extend({
         this._map = map;
 
         L.DomEvent
-            .on(this._link, 'click', this._toggleControl, this)
-            .on(this._link, 'dblclick', L.DomEvent.stopPropagation);
+            .on(container, 'click', this._toggleControl, this)
+            .on(container, 'dblclick', L.DomEvent.stopPropagation);
 
         return container;
     },

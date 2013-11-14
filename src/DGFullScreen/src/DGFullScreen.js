@@ -152,7 +152,6 @@ L.DG.FullScreen = L.DG.Control.extend({
             fullScreenApi.requestFullScreen(container);
         } else {
             this._storePosition(container);
-
             // set full map mode style
             container.style.position = 'fixed';
             container.style.margin = '0px';
