@@ -17,7 +17,8 @@ L.DG.configTheme = {
 
     controls: {
         zoom: {
-            position: 'topleft'
+            position: 'topleft',
+            touchPosition: 'bottomright'
         },
         fullScreen: {
             position: 'topright'
