@@ -4,7 +4,6 @@
     "BASE_URL": "http://maps.api.2gis.ru/2.0",
 
     "TILE_SERVER": "http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1",
-    "RETINA_MAX_ZOOM": 17,
     "ERROR_TILE_URL":"http://maps.api.2gis.ru/2.0/img/nomap.png",
 
     "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
