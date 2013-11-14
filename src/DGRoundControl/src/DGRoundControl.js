@@ -12,39 +12,39 @@ L.DG.Control = L.Control.extend({
 
     onAdd: function (map) {
         var container = L.DomUtil.create('div', 'dg-control-round');
+        this._activeCLass = 'dg-control-round__active';
+        this._activeIconCLass = 'dg-control-round_icon__active';
 
         this._link = L.DomUtil.create('a', 'dg-control-round_icon dg-control-round_icon__' + this.options.iconClass, container);
         this._link.href = '#';
         this._renderTranslation();
-        this._resetState();
 
         this._map = map;
 
-        L.DomEvent
-            .disableClickPropagation(this._link)
-            .on(this._link, 'click', this._toggleControl, this);
+        L.DomEvent.on(this._link, 'click', this._toggleControl, this);
 
         return container;
     },
 
     onRemove: function () {
         L.DomEvent.off(this._link, 'click', this._toggleControl);
-        this._resetState();
     },
 
-    _resetState: function () {
-        this._active = false;
+    _toggleControl: function (e) {
+        L.DomEvent.stop(e);
+        this.fireEvent('click');
     },
 
-    _toggleControl: function (event) {
-        L.DomEvent.stop(event);
-        if (this._active = !this._active) {
-            this.fireEvent('enable');
-        } else {
-            this.fireEvent('disable');
-        }
-        this.fireEvent('update');
-        L.DomUtil[this._active ? 'addClass' : 'removeClass'](this._link, 'dg-control-round_icon__active');
+    enableControl: function () {
+        L.DomUtil.addClass(this._container, this._activeCLass);
+        L.DomUtil.addClass(this._link, this._activeIconCLass);
+        return this;
+    },
+
+    disableControl: function () {
+        L.DomUtil.removeClass(this._container, this._activeCLass);
+        L.DomUtil.removeClass(this._link, this._activeIconCLass);
+        return this;
     }
 });
 

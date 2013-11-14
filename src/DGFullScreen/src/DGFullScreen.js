@@ -48,12 +48,17 @@ L.DG.FullScreen = L.DG.Control.extend({
         if (!fullScreenApi.supportsFullScreen) {
             this._isLegacy = true;
         }
-        this.on('enable', this._enterFullScreen);
-        this.on('disable', this._exitFullScreen);
-        this.on('update', this._updateState);
+        this._isFullscreen = false;
+        this.on('click', this.toggleFullscreen);
     },
 
-    _updateState: function () {
+    toggleFullscreen: function () {
+        if (!this._isFullscreen) {
+            this._enterFullScreen();
+        } else {
+            this._exitFullScreen();
+        }
+
         this._renderTranslation();
         this._map.invalidateSize();
     },
@@ -140,6 +145,9 @@ L.DG.FullScreen = L.DG.Control.extend({
     _enterFullScreen: function () {
         var container = this._map._container;
 
+        this._isFullscreen = true;
+        this.enableControl();
+
         if (!this._isLegacy) {
             fullScreenApi.requestFullScreen(container);
         } else {
@@ -176,6 +184,9 @@ L.DG.FullScreen = L.DG.Control.extend({
     _exitFullScreen: function () {
         var container = this._map._container;
 
+        this._isFullscreen = false;
+        this.disableControl();
+
         if (!this._isLegacy) {
             fullScreenApi.cancelFullScreen();
         } else {
@@ -191,7 +202,7 @@ L.DG.FullScreen = L.DG.Control.extend({
         if (!e) {
             e = window.event;
         }
-        if (e.keyCode === 27 && this._active === true) {
+        if (e.keyCode === 27) {
             this._exitFullScreen();
         }
     }
@@ -207,7 +218,7 @@ L.Map.mergeOptions({
 
 L.Map.addInitHook(function () {
     if (this.options.fullScreenControl) {
-        this.fullScreenControl = L.DG.fullscreen();
+        this.fullScreenControl = L.DG.fullscreen(this.options.fullScreenControl);
         this.addControl(this.fullScreenControl);
     }
 });

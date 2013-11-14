@@ -119,7 +119,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/marker.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
 
     DGAttribution: {
@@ -156,7 +156,7 @@ var deps = {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
             ie: ['DGFullScreen/skin/{skin}/css/DGFullScreen.ie.css']
         },
-        deps: ['DGCore', 'DGLocale', 'DGControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
 
     DGJsonp: {
@@ -283,17 +283,17 @@ var deps = {
         deps: ['DGCore', 'DGLocale']
     },
 
-    DGControl: {
+    DGRoundControl: {
         desc: 'Control helper',
         src: [
-            'DGControl/src/DGControl.js'
+            'DGRoundControl/src/DGRoundControl.js'
         ],
         css: {
             all: [
-                'DGControl/skin/{skin}/css/DGControl.css'
+                'DGRoundControl/skin/{skin}/css/DGRoundControl.css'
             ],
             ie: [
-                'DGControl/skin/{skin}/css/DGControl.ie.css'
+                'DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css'
             ]
         },
         deps: ['DGCore', 'DGLocale']
