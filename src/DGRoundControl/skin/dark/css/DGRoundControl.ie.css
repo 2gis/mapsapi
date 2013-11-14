@@ -1,0 +1,25 @@
+.dg-control-round {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+    src='__BASE_URL__/img/dark-round-control.png',
+    sizingMethod='scale');
+}
+
+.leaflet-disabled.dg-control-round,
+.leaflet-disabled.dg-control-round:hover {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+    src='__BASE_URL__/img/dark-round-control-disabled.png',
+    sizingMethod='scale');
+}
+
+.dg-control-round:hover,
+.dg-control-round__active.dg-control-round:hover {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+    src='__BASE_URL__/img/dark-round-control-hover.png',
+    sizingMethod='scale');
+}
+
+.dg-control-round:active, .dg-control-round__active.dg-control-round {
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+    src='__BASE_URL__/img/dark-round-control-active.png',
+    sizingMethod='scale');
+}

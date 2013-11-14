@@ -9,7 +9,7 @@
     "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
     "PHOTOS_LINK": "http://build.online.test/photos/{id}",
 
-    "HIGHLIGHT_POI_SERVER": "http://tile0.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1&type=poi",
+    "HIGHLIGHT_POI_SERVER": "http://tile0.maps.2gis.ru/?x={x}&y={y}&z={z}&v=1&type=poi",
     "POI_LAYER_MIN_ZOOM": 15,
 
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",

@@ -17,11 +17,9 @@ L.DG.tileLayer = function () {
     return new L.DG.TileLayer();
 };
 
-L.Map.mergeOptions({
-    attributionControl: false
-});
-
 L.Map.addInitHook(function () {
-    L.control.attribution().addTo(this);
+    if (!this._copyright) {
+        L.control.attribution().addTo(this);
+    }
     L.DG.tileLayer().addTo(this);
 });
