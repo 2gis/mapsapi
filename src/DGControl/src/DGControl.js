@@ -48,6 +48,8 @@ L.DG.Control = L.Control.extend({
     }
 });
 
+L.DG.Control.include(L.DG.Locale);
+
 L.DG.control = function (options) {
     return new L.DG.Control(options);
 };

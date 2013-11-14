@@ -1,11 +1,5 @@
 L.DG.FullScreen = L.DG.Control.extend({
 
-    includes: L.DG.Locale,
-
-    statics: {
-        Dictionary: {}
-    },
-
     options: {
         position: L.DG.configTheme ? L.DG.configTheme.controls.fullScreen.position : 'topright',
         iconClass: 'fullscreen'
