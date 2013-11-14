@@ -18,8 +18,7 @@ L.DG.tileLayer = function () {
 };
 
 L.Map.mergeOptions({
-    attributionControl: false,
-    maxZoom: (L.Browser.retina && L.Browser.touch) ? '__RETINA_MAX_ZOOM__' : 18
+    attributionControl: false
 });
 
 L.Map.addInitHook(function () {
