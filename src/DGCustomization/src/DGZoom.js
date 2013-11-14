@@ -24,8 +24,8 @@ L.Control.Zoom.include({
         return container;
     },
 
-    onRemove: function () {
-        this._map.off(this._eventListeners, this);
+    onRemove: function (map) {
+        map.off(this._eventListeners, this);
     },
 
     _eventListeners : {
