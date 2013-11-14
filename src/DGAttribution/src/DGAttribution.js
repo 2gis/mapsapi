@@ -22,10 +22,11 @@ L.Control.Attribution.include({
             }
         }
 
-        var prefixAndAttribs = [];
+        var prefixAndAttribs = [],
+            copyright = '';
 
         if (this._first) {
-            prefixAndAttribs.push(this._getAttributionHTML(lang));
+            copyright = this._getAttributionHTML(lang);
         }
 
         if (this.options.prefix) {
@@ -35,7 +36,7 @@ L.Control.Attribution.include({
             prefixAndAttribs.push(attribs.join(', '));
         }
 
-        this._container.innerHTML = prefixAndAttribs.join(' | ');
+        this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
     },
     /* global __DGAttribution_TMPL__ */
     _tmpl: __DGAttribution_TMPL__,
