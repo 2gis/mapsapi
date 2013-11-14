@@ -10,10 +10,10 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
-.dg-control-round_icon__active .dg-control-round_icon__fullscreen:before {
+.dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
     background-image: url(__BASE_URL__/img/FullScreenPressed.png);
 }
 
-.leaflet-retina .dg-control-round_icon__active .dg-control-round_icon__fullscreen:before {
+.leaflet-retina .dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
     background-image: url(__BASE_URL__/img/RetinaFullScreenPressed.png);
 }

@@ -21,7 +21,8 @@ L.DG.configTheme = {
             touchPosition: 'bottomright'
         },
         fullScreen: {
-            position: 'topright'
+            position: 'topright',
+            touchPosition: 'bottomright'
         },
         whereami: {
             position: 'topright'

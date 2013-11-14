@@ -4,6 +4,9 @@
     width: 40px;
     height: 74px;
 }
+.leaflet-bottom .dg-zoom {
+    margin-bottom: 30px;
+}
 .dg-control-round.dg-zoom__in {
     position: absolute;
     top: 0;

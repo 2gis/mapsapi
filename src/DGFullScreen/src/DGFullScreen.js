@@ -1,7 +1,7 @@
 L.DG.FullScreen = L.DG.Control.extend({
 
     options: {
-        position: L.DG.configTheme ? L.DG.configTheme.controls.fullScreen.position : 'topright',
+        position: L.DG.configTheme.controls.fullScreen[L.Browser.touch ? 'touchPosition' : 'position'],
         iconClass: 'fullscreen'
     },
 
@@ -64,7 +64,7 @@ L.DG.FullScreen = L.DG.Control.extend({
     },
 
     _renderTranslation: function () {
-        if (this._active) {
+        if (this._isFullscreen) {
             this._link.title = this.t('title_min');
         } else {
             this._link.title = this.t('title_max');
