@@ -1,13 +1,5 @@
-/**
- * Main build script of 2GIS Maps API 2.0
- *
- * Version 2.0.0
- *
- * Copyright (c) 2013, 2GIS, Andrey Chizh
- */
 var fs = require('fs'),
     path = require('path'),
-    //exec = require('child_process').exec,
     grunt = require('grunt'),
     jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
@@ -20,50 +12,17 @@ var fs = require('fs'),
     hint = require(__dirname + '/hintrc.js'),
     async = require('async'),
     defaultTheme = 'light',
-    /**
-     * Global data stores
-     */
+    //Global data stores
     modules,
     copyrights,
     appConfig,
     errors = [],
-    /**
-     * CLI colors theme settings
-     * See: https://github.com/medikoo/cli-color
-     */
+    //CLI colors theme settings
     okMsg = clc.xterm(28),
     errMsg = clc.xterm(9),
     depsMsg = clc.xterm(27);
 
-/**
- * Get content of source files all modules
- * For best performance must run only 1 time on start app or run CLI script
- *
- * @return {Object} Return list of modules with some data:
- *
- * {
- *    js: {
- *       './path/to/src/Script1.js': 'Script1.js file connent...',
- *       './path/to/src/Script2.js': 'Script2.js file connent...'
- *    },
- *    css: {
- *       basic: {
- *           all: {
- *               './path/to/skin/basic/css/Style1.css': 'Style1.css file connent...',
- *               './path/to/skin/basic/css/Style2.css': 'Style2.css file connent...'
- *           },
- *           ie: {
- *               './path/to/skin/basic/css/Style1-ie.css': 'Style1-ie.css file connent...'
- *           }
- *       }
- *    },
- *    conf: {
- *       './path/to/skin/Config.js': 'Config.js file connent...'
- *    },
- *    deps: [ 'Module3, Module4' ]
- * }
- *
- */
+// Get content of source files all modules
 function getModulesData() {
     var source = config.source,
         modulesData = {};
@@ -93,14 +52,8 @@ function getModulesData() {
     return modulesData;
 }
 
-/**
- * Get content of JS files
- *
- * @param {Array} srcList  List of path to JS files
- * @param {String} basePath  Base path of JS files
- * @return {Object}
- */
-function processJs(srcList, basePath, moduleName) {
+//Get content of JS files
+function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
     var jsContent = {js: {}, jsmin: {}}, key;
 
     if (!srcList) { return; }
@@ -108,7 +61,7 @@ function processJs(srcList, basePath, moduleName) {
     if (moduleName.indexOf('DG') === 0) {
         var tmplConfig = getTemplates(moduleName);
 
-         // add template content to config vars
+        // add template content to config vars
         for (key in tmplConfig) {
             if (tmplConfig.hasOwnProperty(key)) {
                 appConfig[key] = tmplConfig[key];
@@ -121,10 +74,7 @@ function processJs(srcList, basePath, moduleName) {
             if (fs.existsSync(srcPath)) {
                 var jsData = setParams(fs.readFileSync(srcPath, 'utf8') + '\n\n', appConfig);
                 jsContent.js[srcPath] = jsData;
-                jsContent.jsmin[srcPath] = uglify.minify(jsData, {
-                    warnings: false,
-                    fromString: true
-                }).code;
+                jsContent.jsmin[srcPath] = minifyJSPackage(jsData);
             } else {
                 console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
             }
@@ -134,14 +84,8 @@ function processJs(srcList, basePath, moduleName) {
     return jsContent;
 }
 
-/**
- * Get content of JS skins config files
- *
- * @param {Array} srcList  List of path to JS files
- * @param {String} basePath  Base path of JS files
- * @return {Object}
- */
-function processSkinConf(srcList, basePath) {
+// Get content of JS skins config files
+function processSkinConf(srcList, basePath) { //(Array, String)->Object
     var skinConfContent = {},
         skinVar = config.skin.var;
 
@@ -168,14 +112,8 @@ function processSkinConf(srcList, basePath) {
     return skinConfContent;
 }
 
-/**
- * Get content of CSS files each skins (+ IE support)
- *
- * @param {Object} srcConf  Config of path to CSS files
- * @param {String} basePath  Base path of CSS files
- * @return {Object}
- */
-function processCss(srcConf, basePath) {
+// Get content of CSS files each skins (+ IE support)
+function processCss(srcConf, basePath) { //(Object, String)->Object
     var cssContent = {},
         skinVar = config.skin.var;
 
@@ -209,14 +147,14 @@ function processCss(srcConf, basePath) {
         cssContent[name] = cssContent[name] || {};
         cssContent[name][browser] = cssContent[name][browser] || {};
         cssContent[name][browser][path] = {source: cssData,
-                                           sourcemin: cleanCss.process(cssData)};
+                                           sourcemin: minifyCSSPackage(cssData)};
     }
 
     return cssContent;
 }
 
-function getTemplates(moduleName) {
-
+// Generate templates object for specified module
+function getTemplates(moduleName) { //(string)->Object
     var tmplConf = config.tmpl,
         tmplPath = config.source.dg.path + moduleName + '/' + tmplConf.dir + '/',
         modulesTmpls = {};
@@ -241,7 +179,7 @@ function getTemplates(moduleName) {
         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
     }
 
-    function escapeJson (str) {
+    function escapeJson(str) {
         return str
                 .replace(/[\\]/g, '\\\\')
                 .replace(/[\']/g, '\\\\"')
@@ -256,9 +194,7 @@ function getTemplates(moduleName) {
     return modulesTmpls;
 }
 
-/**
- * Clear img folder and copy all images from skins folder
- */
+// Clear img folder and copy all images from skins folder
 function copyImages() {
     var sourceDeps = config.source,
         publicImgPath = config.img.dest,
@@ -332,13 +268,8 @@ function copyImages() {
     }
 }
 
-/**
- * Get content of source files all copyrights
- * Must run only 1 time on start app or run CLI script
- *
- * @return {String}
- */
-function getCopyrightsData() {
+// Get content of source files all copyrights. Must run only 1 time on start app or run CLI script
+function getCopyrightsData() { //()->String
     var source = config.js.copyrights,
         copyrights = '';
 
@@ -349,14 +280,8 @@ function getCopyrightsData() {
     return copyrights;
 }
 
-/**
- * Generates a list of modules by pkg
- *
- * @param {String|Null} pkg  Name of package, module or list of modules
- * @param {Boolean} isMsg  Show messages on run CLI mode
- * @return {Array}
- */
-function getModulesList(pkg, isMsg) {
+// Generates a list of modules by pkg
+function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
     var modulesListOrig = ['Core'],
         modulesListRes = [],
         loadedModules = {};
@@ -428,15 +353,8 @@ function getModulesList(pkg, isMsg) {
     return modulesListRes;
 }
 
-/**
- * Generates build content
- *
- * @param {Array} modulesList
- * @param {String} skin  Set skin for builder
- * @param {Boolean} isMsg  Show messages on run CLI mode
- * @return {String}
- */
-function makeJSPackage(modulesList, params) {
+// Generates JS content
+function makeJSPackage(modulesList, params) { //(Array, Object)->String
     var loadedFiles = {},
         countModules = 0,
         result = '',
@@ -497,20 +415,12 @@ function makeJSPackage(modulesList, params) {
     return copyrights + config.js.intro + result + config.js.outro;
 }
 
-/**
- * Generates build content
- *
- * @param {Array} modulesList
- * @param {String} skin
- * @param {Boolean} addIE
- * @param {Boolean} addClean
- * @param {Boolean} isMsg  Show messages on run CLI mode
- * @return {String}
- */
-function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg, isDebug) {
+// Generates CSS content
+function makeCSSPackage(modulesList, params) { //(Array, Object)->String
     var loadedFiles = {},
         countModules = 0,
-        result = '', moduleBrowser;
+        result = '', moduleBrowser,
+        skin = params.skin;
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
@@ -533,7 +443,7 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg, isDebug) {
         }
     }
 
-    if (isMsg) {
+    if (params.isMsg) {
         console.log('Concatenating CSS in ' + countModules + ' modules...\n');
     }
 
@@ -541,7 +451,7 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg, isDebug) {
         for (var file in moduleSrc) {
             if (moduleSrc.hasOwnProperty(file)) {
                 if (!loadedFiles[file]) {
-                    result += isDebug ? moduleSrc[file].source : moduleSrc[file].sourcemin;
+                    result += params.isDebug ? moduleSrc[file].source : moduleSrc[file].sourcemin;
                     loadedFiles[file] = true;
                 }
             }
@@ -556,10 +466,10 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg, isDebug) {
     }
 
     function processBrowsers(moduleBrowser) {
-        if (addClean) {
+        if (params.addClean) {
             processCssByType('all');
         }
-        if (addIE) {
+        if (params.addIE) {
             processCssByType('ie');
         }
     }
@@ -567,52 +477,21 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg, isDebug) {
     return copyrights + result;
 }
 
-/**
- * Minify JS source files
- *
- * @param {String} source  Source content of JS file
- * @param {Boolean} isDebug  Is minify JS file
- * @return {String} Result content of JS file
- */
-function minifyJSPackage(source, isDebug) {
-    if (isDebug) {
-        return source;
-    }
-
-    //@todo async this blocked operation
-    var min = uglify.minify(source, {
+// Minify JS source files
+function minifyJSPackage(source) { //(String)->String
+    return uglify.minify(source, {
         warnings: !true,
         fromString: true
     }).code;
-
-    return copyrights + min;
 }
 
-/**
- * Minify CSS source files
- *
- * @param {String} source  Source content of JS file
- * @param {Boolean} isDebug  Is minify JS file
- * @return {String} Result content of JS file
- */
-function minifyCSSPackage(source, isDebug) {
-    if (isDebug) {
-        return source;
-    }
-
-    //@todo async this blocked operation
-    var min = cleanCss.process(source);
-
-    return copyrights + min;
+// Minify CSS source files
+function minifyCSSPackage(source) { //(String)->String
+    return cleanCss.process(source);
 }
 
-
-/**
- * Check JS files for errors
- *
- * @param {Object} modules
- */
-function lintFiles(modules) {
+// Lint JS files for errors
+function lintFiles(modules) { //(Object)
     var errorsCount = 0;
 
     console.log('\nCheck all source JS files for errors with JSHint...\n');
@@ -644,12 +523,8 @@ function lintFiles(modules) {
 
 }
 
-
-/**
- * Reeturn actual configuration for replace
- * @return {Object} config to replace
- */
-function getAppConfig() {
+// Reeturn actual configuration for replace
+function getAppConfig() { // ()->Object
     var mainConfigPath = config.mainAppConfig,
         localConfigPath = config.localAppConfig,
         mainConfig,
@@ -670,21 +545,8 @@ function getAppConfig() {
     return mainConfig;
 }
 
-/**
- * Replaces the content according to the configuration files
- *
- * Demo using:
- *
- * var config = getMainConfig("./src");
- * var content = fs.readFileSync("./src/DGTileLayer/src/DGTileLayer.js", "utf8");
- * console.log(setParams(content, config));
- *
- * @param {String}  content to replace
- * @param {Object} config to replace
- * @return {String} modified content
- *
- */
-function setParams(content, config) {
+// Replace content according to the configuration files
+function setParams(content, config) { //(String, Object)->String
     for (var pattern in config ) {
         var search = "__" + pattern + "__",
             replace = config[pattern];
@@ -693,10 +555,7 @@ function setParams(content, config) {
     return content;
 }
 
-/**
- * Write version api in loader.js
- *
- */
+// Update version api in loader.js (CLI command)
 exports.setVersion = function () {
     var loaderPath = config.loader.dir,
         loaderFileName = config.loader.name,
@@ -719,24 +578,18 @@ exports.setVersion = function () {
     fs.writeFileSync(loaderPath + '/' + loaderFileName, loaderContent);
 };
 
-/**
- * Copy all images (CLI command)
- */
+// Copy all images (CLI command)
 exports.copyImages = function () {
     copyImages();
 };
 
-/**
- * Lint (CLI command)
- */
+// Lint (CLI command)
 exports.lint = function () {
     modules = getModulesData();
     lintFiles(modules);
 };
 
-/**
- * Build (CLI command)
- */
+// Build (CLI command)
 exports.build = function () {
     var modulesList,
         jsSrcContent,
@@ -758,12 +611,12 @@ exports.build = function () {
     modulesList = getModulesList(pkg, true);
 
     var packAndConcatCss = function (name, addIE, addClean) {
-        var cssSrcContent = makeCSSPackage(modulesList, skin, addIE, addClean, true);
+        var cssSrcContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isMsg: true});
         fs.writeFileSync(cssDest[name], cssSrcContent);
 
         console.log('\nCompressing CSS...\n');
 
-        var cssMinContent = minifyCSSPackage(cssSrcContent);
+        var cssMinContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isDebug: true});
         fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
 
         console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
@@ -773,14 +626,14 @@ exports.build = function () {
     jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
 
     if (!fs.existsSync(jsDir)) {
-        console.log("Creating " + jsDir + " dir...");
+        console.log('Creating ' + jsDir + ' dir...');
         fs.mkdirSync(jsDir);
     }
     fs.writeFileSync(jsDest.src, jsSrcContent);
 
     console.log('Compressing JS...\n');
 
-    jsMinContent = minifyJSPackage(jsSrcContent);
+    jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: true});
     fs.writeFileSync(jsDest.min, jsMinContent);
 
     console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
@@ -802,17 +655,12 @@ exports.build = function () {
 
 };
 
-/**
- * Get params of app from config files (web app)
- */
+// Get params of app from config files (web app)
 exports.getConfig = function () {
     return getAppConfig();
 };
 
-/**
- * Load content of all source JS files to memory (web app)
- * Must run only 1 time on start app
- */
+// Load content of all source files to memory (web app). Must run only 1 time on start app
 exports.init = function () {
     modules = getModulesData();
     copyrights = getCopyrightsData();
@@ -823,28 +671,18 @@ exports.init = function () {
     }
 };
 
-/**
- * Get JS content (web app)
- *
- * @param {Object} params  Params of build (pkg, debug, skin, etc)
- * @param {Function} callback  Return JS result file
- */
-exports.getJS = function (params, callback) {
+// Get JS content (web app)
+exports.getJS = function (params, callback) { // (Object, Function)
     var modulesList, contentSrc;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeJSPackage(modulesList, {skin: params.skin, isDebug: params.isDebug});
     callback(contentSrc);
 };
 
-/**
- * Get CSS content (web app)
- *
- * @param {Object} params  Params of build (pkg, debug, skin, etc)
- * @param {Function} callback  Return CSS result file
- */
-exports.getCSS = function (params, callback) {
+// Get CSS content (web app)
+exports.getCSS = function (params, callback) { // (Object, Function)
     var modulesList, contentSrc;
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE, true, false, params.isDebug);
+    contentSrc = makeCSSPackage(modulesList, {skin: params.skin, addIE: params.isIE, addClean: true, isMsg: false, isDebug: params.isDebug});
     callback(contentSrc);
 };
