@@ -1,54 +1,13 @@
-/*Full screen control styles*/
-
-.leaflet-container:-webkit-full-screen { width: 100% !important; height: 100% !important; }
-.leaflet-container:-moz-full-screen { width: 100% !important; height: 100% !important; }
-.leaflet-container:fullscreen { width: 100% !important; height: 100% !important; }
-
-
-.dg-fullscreen-icon {
-    background: url(__BASE_URL__/img/dg-fullscreen-default-sprite.png) no-repeat 0 0;
-    content: '';
-    position: absolute;
-    display: block;
-    width: 14px;
-    height: 15px;
-    top: 8px;
-    left: 8px;
+.dg-control-round_icon__fullscreen:before {
+    background-image: url(__BASE_URL__/img/WhiteFullScreenActive.png);
+}
+.dg-control-round_icon__fullscreen:before:hover {
+    background-image: url(__BASE_URL__/img/WhiteFullScreenHover.png);
 }
 
-.dg-fullscreen.maxi .dg-fullscreen-icon{ background-position: 0 0px; }
-.dg-fullscreen.mini .dg-fullscreen-icon{ background-position: 0 -30px; }
-.dg-fullscreen.maxi:hover .dg-fullscreen-icon{ background-position: 0 -15px; }
-.dg-fullscreen.mini:hover .dg-fullscreen-icon{ background-position: 0 -45px; }
-
-.dg-fullscreen {
-    cursor: pointer !important;
-    width: 30px;
-    height: 30px;
-    opacity: .8;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-box-shadow: 0 2px 3px 0.5px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 2px 3px 0.5px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 2px 3px 0.5px rgba(0, 0, 0, 0.2);
-    color: #727170;
-    background: #fff;
-    background: -webkit-linear-gradient(#fff, #f5f7f9);
-    background: -moz-linear-gradient(#fff, #f5f7f9);
-    background: -o-linear-gradient(#fff, #f5f7f9);
-    background: -ms-linear-gradient(#fff, #f5f7f9);
-    background: linear-gradient(#fff, #f5f7f9);
+.leaflet-retina .dg-control-round_icon__fullscreen:before {
+    background-image: url(__BASE_URL__/img/RetinaWhiteFullScreenActive.png);
 }
-
-.dg-fullscreen:hover {
-    background: url("__BASE_URL__/img/dg-fullscreen-default-btn-shadow.png") center top no-repeat, linear-gradient(#fff, #f5f7f9);
-    opacity: 1;
-}
-
-.dg-fullscreen:active {
-    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
-    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
-    -o-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) inset;
+.leaflet-retina .dg-control-round_icon__fullscreen:before:hover {
+    background-image: url(__BASE_URL__/img/RetinaWhiteFullScreenHover.png);
 }

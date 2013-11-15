@@ -1,6 +1,6 @@
 .leaflet-container .leaflet-control-attribution {
     background-color:transparent;
-    box-shadow: 0 0 5px #bbb;
+    box-shadow: none;
 }
 
 /* copyright */

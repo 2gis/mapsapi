@@ -29,11 +29,10 @@ describe('DG Locale Module', function () {
 
 		it('should return language that was set: it', function () {
 			map.getLang();
-			map.setLang('it');
+			map.setLang('it');  //sometimes it called getLang and we will have 3 getLang calls
 			map.getLang();
 
 			expect(setLangSpy.calledOnce).to.be.ok();
-
 			expect(getLangSpy.calledTwice).to.be.ok();
 			expect(getLangSpy.returnValues).to.eql(['ru', 'it']);
 		});
