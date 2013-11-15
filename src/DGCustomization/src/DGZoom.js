@@ -19,6 +19,7 @@ L.Control.Zoom.include({
         this._zoomOutButton = this._createButton(L.Util.template(buttonTemplate, { type : 'out' }), this.t('zoom-out'), 'dg-control-round ' + zoomName + '__out', container, this._zoomOut, this);
 
         this._eventListeners.zoomend = this._eventListeners.zoomlevelschange = this._updateDisabled;
+        this._updateDisabled();
         map.on(this._eventListeners, this);
 
         return container;
