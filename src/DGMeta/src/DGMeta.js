@@ -135,7 +135,8 @@ L.DG.Meta = L.Handler.extend({
         if (this._currentPoi) {
             this._map.fire('dgPoiClick', {
                 'poi': this._currentPoi,
-                latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event))
+                // latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
+                latlng: (new L.LatLngBounds(this._currentPoi.vertices)).getCenter()
             });
             L.DomEvent.stopPropagation(event);
         }
