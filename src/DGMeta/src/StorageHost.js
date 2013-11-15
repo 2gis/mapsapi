@@ -24,11 +24,22 @@ L.DG.Meta.Host = L.Class.extend({
 
         return this._askByTile(tileId).then(
             function (tileData) {
-                if (+tileData.response.code !== 200) {
-                    return false;
-                }
+                var code = +tileData.response.code,
+                    result;
 
-                var result = tileData.result;
+                switch (code) {
+                    case 200:
+                        result = tileData.result;
+                        break;
+                    case 204:
+                        result = {
+                            buildings: [],
+                            poi: []
+                        };
+                        break;
+                    default:
+                        return false;
+                }
 
                 self._poiStorage.addDataToTile(tileId, result.poi);
                 self._buildingStorage.addDataToTile(tileId, result.buildings);
