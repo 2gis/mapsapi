@@ -56,6 +56,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
             },
             beforeRequest: function () {
                 var loader = self._view.initLoader();
+                self._view._popup.clear();
                 self._view.showPopup(latlng, loader);
                 self._lastHandleClickArguments = args;
             }
