@@ -130,11 +130,9 @@
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
-            // if (this._popupStructure[elem]) {
-                this['_' + elem + 'Content'] = null;
-                this._detachEl(this._popupStructure[elem]);
-                delete this._popupStructure[elem];
-            // }
+            this['_' + elem + 'Content'] = null;
+            this._detachEl(this._popupStructure[elem]);
+            delete this._popupStructure[elem];
             return this;
         },
 
@@ -147,7 +145,6 @@
         resize: function () {
             var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
-            // this._resetScrollWrapper();
             this._updateLayout();
             this._updatePosition();
 
@@ -248,12 +245,6 @@
             this._isBaronExist = true;
 
             L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
-        },
-
-        _resetScrollWrapper: function () {
-            if (this._scrollerWrapper) {
-                this._scrollerWrapper.style = '';
-            }
         },
 
         _onScroll: function (event) {
