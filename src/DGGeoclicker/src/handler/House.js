@@ -81,7 +81,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _fillFirmCardObject: function () {
         var options = this._firmCardSetup(),
             firmCard;
-        this.firmCard = new FirmCard(this._defaultFirm, options);
+        this.firmCard = new FirmCard(this._defaultFirm, options.firmCard);
 
         return firmCard.getContainer();
     },
