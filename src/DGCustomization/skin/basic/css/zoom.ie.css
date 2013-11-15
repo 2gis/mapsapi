@@ -1,6 +1,6 @@
 .dg-control-round.dg-zoom__out {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 33px;
 }
 
 .dg-control-round_icon.dg-zoom__out-button:before { /* Плашка для визуального слития двух кнопок в одну */
