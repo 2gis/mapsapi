@@ -194,20 +194,22 @@ function processCss(srcConf, basePath) {
                         var skinName = skinsList[j],
                             skinPath = skinsPath[0] + skinName + skinsPath[1];
                         if (fs.existsSync(skinPath)) {
-                            var cssData = fs.readFileSync(skinPath, 'utf8') + '\n';
-                            cssContent[skinName] = cssContent[skinName] || {};
-                            cssContent[skinName][browser] = cssContent[skinName][browser] || {};
-                            cssContent[skinName][browser][skinPath] = setParams(cssData, appConfig);
+                            getCssSource(skinPath, skinName);
                         }
                     }
                 } else {
-                    var cssData = fs.readFileSync(srcPath, 'utf8') + '\n';
-                    cssContent.basic = cssContent.basic || {};
-                    cssContent.basic[browser] = cssContent.basic[browser] || {};
-                    cssContent.basic[browser][srcPath] = setParams(cssData, appConfig);
+                    getCssSource(srcPath, 'basic');
                 }
             }
         }
+    }
+
+    function getCssSource(path, name) {
+        var cssData = setParams(fs.readFileSync(path, 'utf8') + '\n', appConfig);
+        cssContent[name] = cssContent[name] || {};
+        cssContent[name][browser] = cssContent[name][browser] || {};
+        cssContent[name][browser][path] = {source: cssData,
+                                           sourcemin: cleanCss.process(cssData)};
     }
 
     return cssContent;
@@ -505,10 +507,10 @@ function makeJSPackage(modulesList, params) {
  * @param {Boolean} isMsg  Show messages on run CLI mode
  * @return {String}
  */
-function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
+function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg, isDebug) {
     var loadedFiles = {},
         countModules = 0,
-        result = '';
+        result = '', moduleBrowser;
 
     for (var i = 0, count = modulesList.length; i < count; i++) {
         var moduleName = modulesList[i],
@@ -518,14 +520,14 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
             var moduleSkins = moduleData.css;
 
             if (moduleSkins.hasOwnProperty('basic')) {
-                var moduleBrowser = moduleSkins['basic'];
+                moduleBrowser = moduleSkins.basic;
                 processBrowsers(moduleBrowser);
                 countModules++;
             }
 
             if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty(defaultTheme)) {
                 var skinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
-                var moduleBrowser = moduleSkins[skinName];
+                moduleBrowser = moduleSkins[skinName];
                 processBrowsers(moduleBrowser);
             }
         }
@@ -539,7 +541,7 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
         for (var file in moduleSrc) {
             if (moduleSrc.hasOwnProperty(file)) {
                 if (!loadedFiles[file]) {
-                    result += moduleSrc[file];
+                    result += isDebug ? moduleSrc[file].source : moduleSrc[file].sourcemin;
                     loadedFiles[file] = true;
                 }
             }
@@ -562,7 +564,7 @@ function makeCSSPackage(modulesList, skin, addIE, addClean, isMsg) {
         }
     }
 
-    return result;
+    return copyrights + result;
 }
 
 /**
@@ -828,10 +830,9 @@ exports.init = function () {
  * @param {Function} callback  Return JS result file
  */
 exports.getJS = function (params, callback) {
-    var modulesList, contentSrc, contentRes;
+    var modulesList, contentSrc;
     modulesList = getModulesList(params.pkg);
     contentSrc = makeJSPackage(modulesList, {skin: params.skin, isDebug: params.isDebug});
-    //contentRes = minifyJSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
     callback(contentSrc);
 };
 
@@ -842,9 +843,8 @@ exports.getJS = function (params, callback) {
  * @param {Function} callback  Return CSS result file
  */
 exports.getCSS = function (params, callback) {
-    var modulesList, contentSrc, contentRes;
+    var modulesList, contentSrc;
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE, true, false);
-    contentRes = minifyCSSPackage(contentSrc, params.isDebug); //@todo async this blocked operation
-    callback(contentRes);
+    contentSrc = makeCSSPackage(modulesList, params.skin, params.isIE, true, false, params.isDebug);
+    callback(contentSrc);
 };
