@@ -130,11 +130,11 @@
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
-            if (this._popupStructure[elem]) {
+            // if (this._popupStructure[elem]) {
                 this['_' + elem + 'Content'] = null;
                 this._detachEl(this._popupStructure[elem]);
                 delete this._popupStructure[elem];
-            }
+            // }
             return this;
         },
 
