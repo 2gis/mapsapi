@@ -53,9 +53,6 @@ FirmCard.prototype = {
             data = this._firmData,
             container = this._container = this._createFirmContainer();
 
-        this._footerContainer = document.createElement('div');
-
-        this._footerContainer.className = 'footer-btns';
 
         schedule = this._schedule.transform(data.schedule, {
             zoneOffset: this.options.timezoneOffset,
@@ -80,8 +77,13 @@ FirmCard.prototype = {
         this._firmContentObject.header = this.options.render(this.options.tmpls.firmCardHeader, {'firmName': data.name, 'links': links});
         container.innerHTML = firmCardBody;
         this._firmContentObject.tmpl = container;
-        this._footerContainer.innerHTML = this.options.render(this.options.tmpls.popupFooterBtns, {'btns': btns});
-        this._firmContentObject.footer = this._footerContainer;
+        if (btns.length) {
+            this._footerContainer = document.createElement('div');
+
+            this._footerContainer.className = 'footer-btns';
+            this._footerContainer.innerHTML = this.options.render(this.options.tmpls.popupFooterBtns, {'btns': btns});
+            this._firmContentObject.footer = this._footerContainer;
+        }
 
         if (this.options.onFirmReady) {
             this.options.onFirmReady(this._firmContentObject);
@@ -244,11 +246,15 @@ FirmCard.prototype = {
             footer = this._footerContainer,
             container = this._container;
 
-        if (footer.addEventListener) {
-            footer.addEventListener(eventName, this._bind(this._onFooterBtnClick, this), false);
+        if (container.addEventListener) { //TODO: make this code better
+            if (footer) {
+                footer.addEventListener(eventName, this._bind(this._onFooterBtnClick, this), false);
+            }
             container.addEventListener(eventName, this._bind(this._onToggleSchedule, this), false);
         } else {
-            footer.attachEvent('on' + eventName, this._bind(this._onFooterBtnClick, this));
+            if (footer) {
+                footer.attachEvent('on' + eventName, this._bind(this._onFooterBtnClick, this));
+            }
             container.attachEvent('on' + eventName, this._bind(this._onToggleSchedule, this));
         }
     },

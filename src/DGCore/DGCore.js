@@ -13,3 +13,23 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', '__GA_CODE__', 'none');
 ga('send', 'pageview');
+
+// Improve IHandler
+
+L.Map.include({
+    addHandler: function (name, HandlerClass) {
+        if (!HandlerClass) { return; }
+
+        var options = this.options[name],
+            param = (options === Object(options)) ? options : null,
+            handler = this[name] = new HandlerClass(this, param);
+
+        this._handlers.push(handler);
+
+        if (options) {
+            handler.enable();
+        }
+
+        return this;
+    }
+});
