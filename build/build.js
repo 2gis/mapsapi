@@ -23,17 +23,26 @@ var fs = require('fs'),
     depsMsg = clc.xterm(27);
 
 // Get content of source files all modules
-function getModulesData(callback) {
+function getModulesData(done) {
     var source = config.source,
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
-
-    Object.keys(source).forEach(function (creator) {
+    async.forEach(Object.keys(source), function(creator, cbSource) {
         var modulesList = source[creator].deps,
             basePath = source[creator].path;
 
-        Object.keys(modulesList).forEach(function (moduleName) {
+        async.forEach(Object.keys(modulesList), function(moduleName, cb) {
+            var moduleConf = modulesList[moduleName];
+
+            modulesData[moduleName] = {};
+            modulesData[moduleName].deps = modulesList[moduleName].deps;
+            asyncBuild(moduleConf.src, basePath, cb);
+        }, function(res) {
+            cbSource(res);
+        });
+
+        /*Object.keys(modulesList).forEach(function (moduleName) {
             var moduleConf = modulesList[moduleName];
 
             modulesData[moduleName] = {};
@@ -45,11 +54,23 @@ function getModulesData(callback) {
             modulesData[moduleName] = processJs(moduleConf.src, basePath, moduleName);
             modulesData[moduleName].css = processCss(moduleConf.css, basePath);
             modulesData[moduleName].conf = processSkinConf(moduleConf.src, basePath);
-            */
-        });
-    });
 
-    callback(null, modulesData);
+        });*/
+    }, function(res) {
+        console.log(res);
+        //done(null, res);
+    });
+}
+
+function asyncBuild (src, path, cb) {
+    async.parallel({
+        conf: function(callback){
+            processSkinConf(src, path, callback);
+        }
+    },
+    function(results) {
+        console.log(results);
+    });
 }
 
 //Get content of JS files
@@ -85,12 +106,11 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
 }
 
 // Get content of JS skins config files
-function processSkinConf(srcList, basePath, callback) { //(Array, String)->Object
+function processSkinConf(srcList, basePath, done) { //(Array, String)->Object
     var skinConfContent = {},
         skinVar = config.skin.var;
-
     if (srcList) {
-        srcList.forEach(function (item) {
+        async.forEach(srcList, function (item, cbList) {
             var srcPath = basePath + item;
 
             if (srcPath.indexOf(skinVar) > 0) {
@@ -99,15 +119,22 @@ function processSkinConf(srcList, basePath, callback) { //(Array, String)->Objec
                 fs.readdir(skinsPath[0], function (err, skins) {
                     if (err) { return; }
 
-                    skins.forEach(function (skin) {
+                    async.forEach(skins, function (skin, cb) {
                         var skinPath = skinsPath[0] + skin + skinsPath[1];
+
+                        // TODO: fix this method
                         fs.readFile(skinPath,  {encoding: 'utf8'}, function (err, skinContent) {
                             if (err) { return; }
                             skinConfContent[skin] = setParams(skinContent, appConfig);
+                            return cb(skinConfContent);
                         });
+                    }, function(res){
+                        cbList(res);
                     });
                 });
             }
+        }, function (res) {
+            done(res);
         });
     }
 }
