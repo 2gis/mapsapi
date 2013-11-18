@@ -146,7 +146,7 @@ L.DG.FullScreen = L.DG.Control.extend({
         var container = this._map._container;
 
         this._isFullscreen = true;
-        this.enableControl();
+        this.setState('active');
 
         if (!this._isLegacy) {
             fullScreenApi.requestFullScreen(container);
@@ -184,7 +184,7 @@ L.DG.FullScreen = L.DG.Control.extend({
         var container = this._map._container;
 
         this._isFullscreen = false;
-        this.disableControl();
+        this.setState();
 
         if (!this._isLegacy) {
             fullScreenApi.cancelFullScreen();
