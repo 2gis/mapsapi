@@ -232,7 +232,8 @@
 
 .dg-popup-header-title__firmcard {
     overflow: hidden;
-    max-height: 2.1em;
+    position: relative;
+    /*max-height: 2.1em;*/
 }
 
 #dg-popup-firm-loading {
