@@ -136,7 +136,7 @@
     background-image: url(__BASE_URL__/img/enter-dark-2x.png);
 }
 
-.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose:before {
+.leaflet-retina .dg-map-geoclicker-purpose:before {
     background-image: url(__BASE_URL__/img/purp-dark-2x.png);
 }
 

@@ -73,6 +73,10 @@
     width: 12px;
 }
 
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
+    background-image: url(__BASE_URL__/img/icon-sight.png);
+}
+
 /*FIRM LIST*/
 .building-callout__list {
     margin: 8px 8px 8px 24px;
@@ -102,10 +106,6 @@
     list-style: none;
 }
 
-.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(__BASE_URL__/img/icon-sight.png);
-    background-position: 0 0;
-}
 
 .dg-map-geoclicker-sight-description {
     max-height: 2.9em;
@@ -235,6 +235,25 @@
     position: relative;
     /*max-height: 2.1em;*/
 }
+.dg-popup-header-title__teaser {
+    height: 72px;
+}
+.dg-popup-header-title__teaser:after {
+    position: absolute;
+    content: '';
+    right: 0;
+    bottom: 0;
+    width: 2em;
+    height: 1em;
+    display: block;
+    background: -moz-linear-gradient(left,  rgba(224,224,224,0) 0%, rgba(224,224,224,1) 38%, rgba(224,224,224,1) 99%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(224,224,224,0)), color-stop(38%,rgba(224,224,224,1)), color-stop(99%,rgba(224,224,224,1)));
+    background: -webkit-linear-gradient(left,  rgba(224,224,224,0) 0%,rgba(224,224,224,1) 38%,rgba(224,224,224,1) 99%);
+    background: -o-linear-gradient(left,  rgba(224,224,224,0) 0%,rgba(224,224,224,1) 38%,rgba(224,224,224,1) 99%);
+    background: -ms-linear-gradient(left,  rgba(224,224,224,0) 0%,rgba(224,224,224,1) 38%,rgba(224,224,224,1) 99%);
+    background: linear-gradient(to right,  rgba(224,224,224,0) 0%,rgba(224,224,224,1) 38%,rgba(224,224,224,1) 99%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e0e0e0', endColorstr='#e0e0e0',GradientType=1 );
+}
 
 #dg-popup-firm-loading {
     background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
@@ -255,6 +274,15 @@
     top: 50%;
     left: 50%;
     margin: -16px 0 0 -74px !important;
+}
+
+
+.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
+    background-image: url(__BASE_URL__/img/callout-settlement-2x.png);
+}
+
+.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
+    background-image: url(__BASE_URL__/img/icon-sight-2x.png);
 }
 
 

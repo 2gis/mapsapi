@@ -1,11 +1,4 @@
-<div class="dg-popup-header-title dg-popup-header-title__firmcard" title="<%=firmName%>">
-	<% 	if (firmName.length > 80) {
-			print(firmName.substring(0, 80) + '...');
-		} else {
-			print(firmName);
-		}
-	%>
-</div>
+<div class="dg-popup-header-title dg-popup-header-title__firmcard" title="<%=firmName%>"><%=firmName%></div>
 
 <% if (links.length > 0) {%>
     <div class="popup_header_links">
