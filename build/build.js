@@ -11,6 +11,7 @@ var fs = require('fs'),
     packages = require(__dirname + '/packs.js').packages,
     hint = require(__dirname + '/hintrc.js'),
     async = require('async'),
+    glob = require('glob'),
     defaultTheme = 'light',
     //Global data stores
     modules,
@@ -264,6 +265,58 @@ function copyImages() {
                 grunt.file.copy(srcPath, destPath);
                 countImg++;
             }
+        }
+    }
+}
+
+// Clear fonts folder and copy all fonts from skins folder
+function copyFonts(callback) {
+    var sourceDeps = config.source.dg.path,
+        publicFontPath = config.font.dest;
+
+    cleanFontsDir();
+    copyFont();
+
+    function cleanFontsDir() {
+        if (grunt.file.isDir(publicFontPath)) {
+            grunt.file.delete(publicFontPath);
+            grunt.file.mkdir(publicFontPath);
+
+            console.log('Clear public/fonts folder.');
+        }
+    }
+
+    function copyFont() {
+        fs.readdir(sourceDeps, function (err, files) {
+            if (err) { return; }
+
+            console.log('Copy all fonts to public/fonts...');
+
+            files.forEach(function (module) {
+                var skinsPath = sourceDeps + module + '/' + config.skin.dir + '/';
+
+
+                glob(skinsPath + config.font.pattern, {}, function (err, files) {
+                    if (err) { return; }
+
+                    files.forEach(function (src) {
+                        copySkinFont(src);
+                    });
+                });
+            });
+
+            console.log('Done. Copy  fonts.');
+            callback(null, true);
+        });
+    }
+
+    function copySkinFont(fontPath) {
+        var fileName, destPath;
+
+        if (grunt.file.isFile(fontPath)) {
+            fileName = path.basename(fontPath);
+            destPath = config.font.dest + fileName;
+            grunt.file.copy(fontPath, destPath);
         }
     }
 }
@@ -583,6 +636,11 @@ exports.copyImages = function () {
     copyImages();
 };
 
+// Copy all fonts (CLI command)
+exports.copyFonts = function () {
+    copyFonts();
+};
+
 // Lint (CLI command)
 exports.lint = function () {
     modules = getModulesData();
@@ -607,6 +665,7 @@ exports.build = function () {
     console.log('Skin: ' + skin + '\n');
 
     copyImages();
+    copyFonts();
 
     modulesList = getModulesList(pkg, true);
 
@@ -664,11 +723,15 @@ exports.getConfig = function () {
 exports.init = function () {
     modules = getModulesData();
     copyrights = getCopyrightsData();
-    if (modules && copyrights) {
-        console.log(okMsg('Load source files successfully completed'));
-    } else {
-        console.log(errMsg('Load source files ended with errors!'));
-    }
+
+    async.parallel([/*copyImages,*/ copyFonts],
+    function () {
+        if (modules && copyrights) {
+            console.log(okMsg('Load source files successfully completed'));
+        } else {
+            console.log(errMsg('Load source files ended with errors!'));
+        }
+    });
 };
 
 // Get JS content (web app)

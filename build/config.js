@@ -59,6 +59,11 @@ var config = {
         destVendor: basePath + '/public/img/vendors'
     },
 
+    font: {
+        pattern: '**/fonts/**/*',
+        dest: basePath + '/public/fonts/'
+    },
+
     skin: {
         dir: 'skin',
         var: '{skin}'

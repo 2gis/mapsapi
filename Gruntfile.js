@@ -1,43 +1,26 @@
-/**
- * Main CLI 2GIS Maps API 2.0
- *
- * Depending list:
- *   node.js (ver > 0.8)
- *
- * Install of the environment:
- *   npm install -g grunt-cli
- *   npm install
- *
- * See tasks list:
- *   grunt
- *
- * Tasks list:
- *   grunt lint
- *   grunt build
- *   grunt test
- *
- */
+// Main CLI 2GIS Maps API 2.0
+// See tasks list: grunt
 
 var build = require('./build/build.js'),
     test = require('./test/test.js'),
     gendoc = require('./docbuilder/gendoc.js');
 
 module.exports = function (grunt) {
-    "use strict";
+    'use strict';
 
     // Check JS files for errors with JSHint
-    grunt.registerTask('lint', function() {
+    grunt.registerTask('lint', function () {
         build.lint();
     });
 
     // Combine and minify source files
-    grunt.registerTask('build', function() {
+    grunt.registerTask('build', function () {
         build.lint();
         build.build();
     });
 
     //Rebuild and run unit tests
-    grunt.registerTask('test', function() {
+    grunt.registerTask('test', function () {
         build.lint();
         build.build();
         grunt.task.run('karma:continuous');
@@ -45,18 +28,19 @@ module.exports = function (grunt) {
 
     // Generate documentation from source files
     grunt.registerTask('doc', function () {
-        var doc = grunt.config.get("doc");
+        var doc = grunt.config.get('doc');
         gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
     });
 
-    // Set version API in loader.js and copy images
+    // Set version API in loader.js and copy images and fonts
     grunt.registerTask('release', function () {
         build.setVersion();
         build.copyImages();
+        build.copyFonts();
     });
 
     // Default task
-    grunt.registerTask('default', function() {
+    grunt.registerTask('default', function () {
         grunt.log.writeln('\nTasks list:\n');
         grunt.log.writeln('grunt lint        # Check JS files for errors with JSHint');
         grunt.log.writeln('grunt build       # Combine and minify source files');
@@ -80,7 +64,7 @@ module.exports = function (grunt) {
             dev: {
             }
         },
-        doc:{
+        doc: {
             menu: './src/menu.json',
             input: './src/',
             output: './public/doc'
