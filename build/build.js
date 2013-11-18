@@ -15,7 +15,6 @@ var fs = require('fs'),
     defaultTheme = 'light',
     //Global data stores
     modules,
-    copyrights,
     appConfig,
     errors = [],
     //CLI colors theme settings
@@ -174,7 +173,7 @@ function getTemplates(moduleName) { //(string)->Object
                 tmplName = path.basename(srcPath, tmplConf.ext);
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
-                (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = "";
+                (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
         }
 
         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
@@ -196,76 +195,61 @@ function getTemplates(moduleName) { //(string)->Object
 }
 
 // Clear img folder and copy all images from skins folder
-function copyImages() {
+function copyImages(callback) {
     var sourceDeps = config.source,
         publicImgPath = config.img.dest,
         countImg = 0;
 
-    console.log('Clear public/img folder.');
     cleanImgDir();
-    console.log('Copy all skins and vendors images to public/img...');
-    copyImg();
-    console.log('Done. Copy ' + countImg + ' images.');
+    processImg();
 
     function cleanImgDir() {
         if (grunt.file.isDir(publicImgPath)) {
             grunt.file.delete(publicImgPath);
             grunt.file.mkdir(publicImgPath);
+            console.log('Clear public/img folder.');
         }
     }
 
-    function copyImg() {
-        for (var creator in sourceDeps) {
-            if (sourceDeps.hasOwnProperty(creator)) {
-                var basePath = sourceDeps[creator].path,
-                    modulesList = fs.readdirSync(basePath);
+    function processImg() {
 
-                if (creator !== 'dg') {
-                    var imgPath = sourceDeps[creator].pathImg;
-                    if (fs.existsSync(imgPath)) {
-                        copyVendorImg(imgPath, creator);
-                    }
-                }
+        console.log('Copy all skins and vendors images to public/img...');
+        Object.keys(sourceDeps).forEach(function (creator) {
+            var creatorPath = sourceDeps[creator].path;
 
-                for (var i = 0, count = modulesList.length; i < count; i++) {
-                    var moduleName = modulesList[i],
-                        skinsPath = basePath + moduleName + '/' + config.skin.dir + '/';
-                    if (fs.existsSync(skinsPath)) {
-                        copySkinImg(skinsPath);
-                    }
-                }
-            }
-        }
+            // need cache creator var since async function inside
+            (function (creator) {
+                fs.readdir(creatorPath, function (err, files) {
+                    if (err) { return; }
+
+                    files.forEach(function (module) {
+                        var skinsPath = creatorPath + module + '/' + config.skin.dir + '/',
+                            isDg = (creator === 'dg'),
+                            pattern = isDg ? skinsPath + config.img.pattern : sourceDeps[creator].pathImg + config.img.patternVendor;
+
+                        glob(pattern, {}, function (err, img) {
+                            if (err) { return; }
+
+                            img.forEach(function (src) {
+                                copyImg(src, isDg, creator);
+                            });
+                        });
+                    });
+                });
+            })(creator);
+        });
+
+        console.log('Done. Copy ' + countImg + ' images.');
+        callback(null, true);
     }
 
-    function copySkinImg(skinsPath) {
-        var imgList = grunt.file.expand([skinsPath + config.img.pattern]);
+    function copyImg(imgPath, isDg, creator) {
+        var fileName = path.basename(imgPath),
+            destPath = isDg ? config.img.dest + fileName :
+                              config.img.destVendor + '/' + creator + '/' + fileName;
 
-        for (var i = 0, count = imgList.length; i < count; i++) {
-            var srcPath = imgList[i],
-                fileName = path.basename(srcPath),
-                destPath = config.img.dest + fileName;
-
-            if (fs.existsSync(srcPath)) {
-                grunt.file.copy(srcPath, destPath);
-                countImg++;
-            }
-        }
-    }
-
-    function copyVendorImg(vendorPath, creator) {
-        var imgList = grunt.file.expand([vendorPath + config.img.patternVendor]);
-
-        for (var i = 0, count = imgList.length; i < count; i++) {
-            var srcPath = imgList[i],
-                fileName = path.basename(srcPath),
-                destPath = config.img.destVendor + '/' + creator + '/' + fileName;
-
-            if (fs.existsSync(srcPath)) {
-                grunt.file.copy(srcPath, destPath);
-                countImg++;
-            }
-        }
+        grunt.file.copy(imgPath, destPath);
+        countImg++;
     }
 }
 
@@ -275,7 +259,7 @@ function copyFonts(callback) {
         publicFontPath = config.font.dest;
 
     cleanFontsDir();
-    copyFont();
+    processFont();
 
     function cleanFontsDir() {
         if (grunt.file.isDir(publicFontPath)) {
@@ -286,7 +270,7 @@ function copyFonts(callback) {
         }
     }
 
-    function copyFont() {
+    function processFont() {
         fs.readdir(sourceDeps, function (err, files) {
             if (err) { return; }
 
@@ -300,17 +284,17 @@ function copyFonts(callback) {
                     if (err) { return; }
 
                     files.forEach(function (src) {
-                        copySkinFont(src);
+                        copyFont(src);
                     });
                 });
             });
 
-            console.log('Done. Copy  fonts.');
+            console.log('Done. Copy fonts.');
             callback(null, true);
         });
     }
 
-    function copySkinFont(fontPath) {
+    function copyFont(fontPath) {
         var fileName, destPath;
 
         if (grunt.file.isFile(fontPath)) {
@@ -465,7 +449,7 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
         console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
     }
 
-    return copyrights + config.js.intro + result + config.js.outro;
+    return getCopyrightsData() + config.js.intro + result + config.js.outro;
 }
 
 // Generates CSS content
@@ -527,7 +511,7 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
         }
     }
 
-    return copyrights + result;
+    return getCopyrightsData() + result;
 }
 
 // Minify JS source files
@@ -660,7 +644,6 @@ exports.build = function () {
         skin = argv.skin || defaultTheme;
 
     modules = modules || getModulesData();
-    copyrights = getCopyrightsData();
 
     console.log('Skin: ' + skin + '\n');
 
@@ -699,7 +682,7 @@ exports.build = function () {
     console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
 
     if (!fs.existsSync(cssDir)) {
-        console.log("Creating " + cssDir + " dir...");
+        console.log('Creating ' + cssDir + ' dir...');
         fs.mkdirSync(cssDir);
     }
     packAndConcatCss('full', true, true);
@@ -722,11 +705,10 @@ exports.getConfig = function () {
 // Load content of all source files to memory (web app). Must run only 1 time on start app
 exports.init = function () {
     modules = getModulesData();
-    copyrights = getCopyrightsData();
 
-    async.parallel([/*copyImages,*/ copyFonts],
+    async.parallel([copyImages, copyFonts],
     function () {
-        if (modules && copyrights) {
+        if (modules) {
             console.log(okMsg('Load source files successfully completed'));
         } else {
             console.log(errMsg('Load source files ended with errors!'));
