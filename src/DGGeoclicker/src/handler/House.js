@@ -82,8 +82,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         firmContentObject.afterRender = function () {
             var headerTitle = self._popup._popupStructure.header.firstChild;
 
-            if (headerTitle.offsetHeight > 72 && !L.Browser.webkit) {
-                L.DG.Geoclicker.ClampHelper(headerTitle, 3);
+            if (headerTitle.offsetHeight > 72 && !L.Browser.webkit) { //TODO: magic number
+                L.DG.Geoclicker.clampHelper(headerTitle, 3);
             }
         };
         this._clearAndRenderPopup(firmContentObject);

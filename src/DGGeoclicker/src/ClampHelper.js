@@ -1,4 +1,4 @@
-L.DG.Geoclicker.ClampHelper = function (el, lineClamp) {
+L.DG.Geoclicker.clampHelper = function (el, lineClamp) {
     var measure, text, lineWidth,
         lineStart, lineCount, wordStart,
         line, lineText, wasNewLine,
