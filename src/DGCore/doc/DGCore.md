@@ -90,15 +90,15 @@
 	</tr>
 	<tr>
 		<td><code><b>scrollWheelZoom</b></code></td>
-		<td><code>Boolean</code></td>
-		<td><code>true</code></td>
-		<td>Разрешено ли изменять масштаб карты колесиком мышки.</td>
+		<td><code>Boolean/String</code></td>
+		<td><code>true/''</code></td>
+		<td>Разрешено ли изменять масштаб карты колесиком мышки. Если передано значение 'center', карта всегда зумится в центр вьюпорта, независимо от положения курсора.</td>
 	</tr>
 	<tr>
 		<td><code><b>doubleClickZoom</b></code></td>
-		<td><code>Boolean</code></td>
-		<td><code>true</code></td>
-		<td>Разрешено ли изменять масштаб карты двойным кликом мышки.</td>
+		<td><code>Boolean/String</code></td>
+		<td><code>true/''</code></td>
+		<td>Разрешено ли изменять масштаб карты двойным кликом мышки. Если передано значение 'center', карта всегда зумится в центр вьюпорта, независимо от положения курсора.</td>
 	</tr>
 	<tr>
 		<td><code><b>boxZoom</b></code></td>
@@ -123,6 +123,12 @@
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
 		<td>Закрывать ли балуны при клике на карту.</td>
+	</tr>
+	<tr>
+		<td><code><b>bounceAtZoomLimits</b></code></td>
+		<td><code>Boolean</code></td>
+		<td><code>false</code></td>
+		<td>Опция позволяет установить анимацию восстановления карты при зуме пальцами на тач-устройствах на min/max уровнях зума.</td>
 	</tr>
 </table>
 
@@ -351,7 +357,7 @@
 	</tr>
 	<tr>
 		<td><code><b>dragend</b></code></td>
-		<td><code><a href="#event">Event</a></code>
+		<td><code><a href="#dragend-event">DragEndEvent</a></code>
 		<td>Вызывается когда пользователь прекращает перетаскивать карту.</td>
 	</tr>
 	<tr>
@@ -446,7 +452,7 @@
 	<tr>
 		<td><code><b>setView</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>center</i>,</nobr>
-			<nobr>&lt;Number&gt; <i>zoom</i>,</nobr>
+			<nobr>&lt;Number&gt; <i>zoom?</i>,</nobr>
 			<nobr>&lt;<a href="#map-zoompanoptions">zoom/pan options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
@@ -510,10 +516,11 @@
 	</tr>
 	<tr id="map-paninsidebounds">
 		<td><code><b>panInsideBounds</b>(
-			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
+			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>,
+        	<nobr>&lt;<a href="#map-panoptions">pan options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td><code>this</code></td>
-		<td>Перемещает карту в ближайшую область просмотра, лежащую в пределах заданных границ.</td>
+		<td>Перемещает карту в ближайшую область просмотра, лежащую в пределах заданных границ. Можно контролировать анимацию, передавая объект опций вторым параметром.</td>
 	</tr>
 	<tr>
 		<td><code><b>panBy</b>(
@@ -978,6 +985,12 @@
 		<td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
 		<td>Эквивалентно установке и верхнего левого и нижнего правого отступов в одинаковые значения.</td>
 	</tr>
+	<tr>
+		<td><code><b>maxZoom</b></code></td>
+		<td><code>Number</code></td>
+		<td><code><nobr>null</nobr>
+		<td>Максимальный уровень зума.</td>
+	</tr>
 </table>
 
 ### Свойства
@@ -1143,6 +1156,12 @@
 		<td><code>''</code></td>
 		<td>Текст для отображения подсказки при наведении курсора на маркер (по умолчанию не отображается).</td>
 	</tr>
+	<tr>
+		<td><code><b>alt</b></code></td>
+		<td><code>String</code></td>
+		<td><code>''</code></td>
+		<td>Текст для alt аттрибута иконки.</td>
+	</tr>
 	<tr id="marker-zindexoffset">
 		<td><code><b>zIndexOffset</b></code></td>
 		<td><code>Number</code></td>
@@ -1221,7 +1240,7 @@
 	</tr>
 	<tr>
 		<td><code><b>dragend</b></code></td>
-		<td><code><a href="#event">Event</a></code>
+		<td><code><a href="#dragend-event">DragEndEvent</a></code>
 		<td>Вызывается когда пользователь прекращает перетаскивание маркера.</td>
 	</tr>
 	<tr>
@@ -1229,6 +1248,11 @@
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при перемещении маркера с помощью метода setLatLng.</td>
 	</tr>
+	<tr>
+		<td><code><b>add</b></code></td>
+		<td><code><a href="#event">Event</a></code></td>
+		<td>Вызывается при добавлении маркера на карту.</td>
+    </tr>
 	<tr>
 		<td><code><b>remove</b></code></td>
 		<td><code><a href="#event">Event</a></code>
@@ -1393,14 +1417,14 @@
 	<tr>
 		<td><code><b>L.Popup</b>(
 			<nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i>,</nobr>
-			<nobr>&lt;object&gt; <i>source?</i> )</nobr>
+			<nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>source?</i> )</nobr>
 		</code></td>
 
 		<td>
 			<code>L.popup(&hellip;)</code>
 		</td>
 
-		<td>Создает объект <code>Popup</code> с переданными опциями, описывающими внешний вид и расположение балуна, и объектом, указывающим привязку балуна к определенному элементу.</td>
+		<td>Создает объект <code>Popup</code> с переданными опциями, описывающими внешний вид и расположение балуна, и объектом, указывающим привязку балуна к определенному ILayer.</td>
 	</tr>
 </table>
 
@@ -1456,11 +1480,25 @@
 		<td>Устанавливает отступ позиции балуна. Удобно для управления ножкой балуна.</td>
 	</tr>
 	<tr>
+		<td><code><b>autoPanPaddingTopLeft</b></code></td>
+		<td><code><a href="#point">Point</a></code></td>
+		<td><code><nobr>null</nobr>
+		</code></td>
+		<td>Задает расстояние от края балуна до левого верхнего угла карты при автоматическом сдвиге.</td>
+	</tr>
+	<tr>
+		<td><code><b>autoPanPaddingBottomRight</b></code></td>
+		<td><code><a href="#point">Point</a></code></td>
+		<td><code><nobr>null</nobr>
+		</code></td>
+		<td>Задает расстояние от края балуна до правого нижнего угла карты при автоматическом сдвиге.</td>
+	</tr>
+	<tr>
 		<td><code><b>autoPanPadding</b></code></td>
 		<td><code><a href="#point">Point</a></code></td>
 		<td><code><nobr>Point(5, 5)</nobr>
 		</code></td>
-		<td>Задает расстояние от края балуна до границы карты при автоматическом сдвиге.</td>
+		<td>Задает расстояние от края балуна до границы карты при автоматическом сдвиге, устанавливает одинаковые значения для autoPanPaddingBottomRight и autoPanPaddingTopLeft.</td>
 	</tr>
 	<tr>
 		<td><code><b>zoomAnimation</b></code></td>
@@ -1539,6 +1577,11 @@
 		<td><code>this</code></td>
 		<td>Задает содержимое секции footer балуна. Может принимать HTML строку или DOM-элемент.</td>
 	</tr>
+	<tr>
+		<td><code><b>getContent</b>()</code></td>
+		<td><code>&lt;String|HTMLElement&gt;</code></td>
+		<td>Возвращает контент балуна.</td>
+	</tr>
 </table>
 
 ## L.TileLayer
@@ -1604,6 +1647,12 @@
 		<td><code>Number</code></td>
 		<td><code>18</code></td>
 		<td>Максимальный уровень зума.</td>
+	</tr>
+	<tr>
+		<td><code><b>maxNativeZoom</b></code></td>
+		<td><code>Number</code></td>
+		<td><code><span>null</span></code></td>
+		<td>Максимальный уровень зума исходных тайлов. Если значение установлено, на всех уровнях зума больших <code>maxNativeZoom</code> будут отображены смасштабированные тайлы максимально доступного зума.</td>
 	</tr>
 	<tr>
 		<td><code><b>tileSize</b></code></td>
@@ -2011,6 +2060,12 @@
 		<td><code>1.0</code></td>
 		<td>Прозрачность слоя.</td>
 	</tr>
+	<tr>
+		<td><code><b>attribution</b></code></td>
+		<td><code>String</code></td>
+		<td><code>''</code></td>
+		<td>Текст аттрибуции слоя.</td>
+	</tr>
 </table>
 
 ### Методы
@@ -2035,6 +2090,14 @@
 
 		<td><code>this</code></td>
 		<td>Устанавливает прозрачность слоя.</td>
+	</tr>
+	<tr>
+		<td><code><b>setUrl</b>(
+		<nobr>&lt;String&gt; <i>imageUrl</i> )</nobr>
+		</code></td>
+
+		<td><code><span>this</span></code></td>
+		<td>Меняет URL адрес изображения.</td>
 	</tr>
 	<tr>
 		<td><code><b>bringToFront</b>()</code></td>
@@ -2109,6 +2172,18 @@
 		<td>Строка <a href="https://developer.mozilla.org/en/SVG/Attribute/stroke-dasharray">шаблона границы</a>. Не работает на canvas слоях (например, Android 2).</td>
 	</tr>
 	<tr>
+		<td><code><b>lineCap</b></code></td>
+		<td><code>String</code></td>
+		<td><code>null</code></td>
+		<td>Определяет <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap">фигуру, которая будет использована как наконечник</a> геометрии, если у нее задана граница(stroke).</td>
+	</tr>
+	<tr>
+		<td><code><b>lineJoin</b></code></td>
+		<td><code>String</code></td>
+		<td><code>null</code></td>
+		<td>Определяет <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin">фигуру, которая будет использована на углах изгибов</a> геометрии, если у нее задана граница(stroke).</td>
+	</tr>
+	<tr>
 		<td><code><b>clickable</b></code></td>
 		<td><code>Boolean</code></td>
 		<td><code>true</code></td>
@@ -2119,6 +2194,12 @@
 		<td><code>String</code></td>
 		<td><code><span class="literal">null</span></code></td>
 		<td>Устанавливает геометрии атрибут <code>pointer-events</code>, если для отрисовки используется SVG.</td>
+	</tr>
+	<tr>
+		<td><code><b>className</b></code></td>
+		<td><code>String</code></td>
+		<td><code>''</code></td>
+		<td>Добавляет класс в соотвествующий аттрибут элемента.</td>
 	</tr>
 </table>
 
@@ -2219,6 +2300,11 @@
 		<td><code>this</code></td>
 		<td>Открывает балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a> в указанной точке.</td>
 	</tr>
+	<tr>
+		<td><code><b>getPopup</b>()</code></td>
+		<td><code><a href="#popup">Popup</a>&gt; <i>popup</i></code></td>
+		<td>Возвращает балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a>.</td>
+    </tr>
 	<tr id="path-closepopup">
 		<td><code><b>closePopup</b>()</code></td>
 
@@ -2445,6 +2531,11 @@
 		</code></td>
 		<td>Возвращает многомерный массив географических координат каждой ломаной.</td>
     </tr>
+    <tr>
+		<td><code><b>openPopup</b>()</code></td>
+		<td><code>this</code></td>
+		<td>Открывает балун, предварительно прикрепленный с помощью метода <a href="#marker-bindpopup">bindPopup</a>.</td>
+	</tr>
 	<tr id="multipolyline-togeojson">
 		<td><code><b>toGeoJSON</b>()</code></td>
 		<td><code>Object</code></td>
@@ -2548,6 +2639,11 @@
 		</code></td>
 		<td>Возвращает многомерный массив географических координат каждого многоугольника.</td>
     </tr>
+    <tr>
+		<td><code><b>openPopup</b>()</code></td>
+		<td><code>this</code></td>
+		<td>Открывает балун, предварительно прикрепленный с помощью метода <a href="#marker-bindpopup">bindPopup</a>.</td>
+	</tr>
 	<tr id="multipolygon-togeojson">
 		<td><code><b>toGeoJSON</b>()</code></td>
 		<td><code>Object</code></td>
@@ -3045,6 +3141,8 @@
 	</tr>
 </table>
 
+<p>Также принимает все <a href="#path-options">опции</a> для полилайнов и полигонов.</p>
+
 ### Методы
 <table>
 	<tr>
@@ -3057,7 +3155,7 @@
 			<nobr>&lt;GeoJSON&gt; <i>data</i> )</nobr>
 		</code></td>
 
-		<td><code>Boolean</code></td>
+		<td><code>this</code></td>
 		<td>Добавляет GeoJSON объект на слой.</td>
 	</tr>
 	<tr id="geojson-setstyle">
@@ -3140,13 +3238,14 @@
         <td>
             <code><b>L.LatLng</b>(
             &lt;Number&gt; <i>latitude</i>,
-            &lt;Number&gt; <i>longitude</i> )</code>
+            &lt;Number&gt; <i>longitude</i> )</code>,
+            &lt;Number&gt; <i>altitude?</i> )</code>
         </td>
         <td>
             <code>L.latLng(…)</code>
             <code>L.latLng([…]</code>
         </td>
-        <td>Создает объект, представляющий географическую точку с определенной широтой и долготой.</td>
+        <td>Создает объект, представляющий географическую точку с определенной широтой и долготой (и опционально высоту).</td>
     </tr>
 </table>
 
@@ -3508,12 +3607,25 @@
         <td>Возвращает копию текущей точки с округленными координатами.</td>
     </tr>
     <tr>
+        <td><code><b>floor</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки с округленными в меньшую сторону координатами.</td>
+    </tr>
+    <tr>
         <td><code><b>equals</b>(
             <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
         </code></td>
 
         <td><code>Boolean</code></td>
         <td>Возвращает <code>true</code>, если переданная точка имеет такие же координаты, как и текущая.</td>
+    </tr>
+    <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если обе координаты переданной точки меньше соотвествующих координат текущей точки.</td>
     </tr>
     <tr>
         <td><code><b>toString</b>()</code></td>
@@ -3963,8 +4075,32 @@
 	<tr>
 		<td><code><b>position</b></code></td>
 		<td><code>String</code></td>
-		<td><code><span class="string">'topleft'</span></td>
+		<td><code><span>'topleft'</span></td>
 		<td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+	</tr>
+	<tr>
+		<td><code><b>zoomInText</b></code></td>
+		<td><code>String</code></td>
+		<td><code><span>'+'</span></td>
+		<td>Текст кнопки зум-ин.</td>
+	</tr>
+	<tr>
+		<td><code><b>zoomOutText</b></code></td>
+		<td><code>String</code></td>
+		<td><code><span>'-'</span></td>
+		<td>Текст кнопки зум-аут.</td>
+	</tr>
+	<tr>
+		<td><code><b>zoomInTitle</b></code></td>
+		<td><code>String</code></td>
+		<td><code><span>'Zoom in'</span></td>
+		<td>Значение аттрибута title для конпки зум-ин.</td>
+	</tr>
+	<tr>
+		<td><code><b>zoomInTitle</b></code></td>
+		<td><code>String</code></td>
+		<td><code><span>'Zoom out'</span></td>
+		<td>Значение аттрибута title для конпки зум-аут.</td>
 	</tr>
 </table>
 
@@ -4211,7 +4347,7 @@
         <td>Инициирует событие определенного типа. Опционально можно передать объект с данными события, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
     </tr>
     <tr>
-        <td><code><b>cleanAllEventListeners</b>()</code></td>
+        <td><code><b>clearAllEventListeners</b>()</code></td>
         <td><code>this</code></td>
         <td>Удаляет все обработчики всех событий объекта.</code></td>
     </tr>
@@ -4463,6 +4599,21 @@
         <td><code><a href="#popup">Popup</a></code></td>
         <td>Балун, который был открыт или закрыт.</td>
     </tr>
+</table>
+
+### DragEndEvent
+
+<table>
+	<tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+	<tr>
+		<td><code><b>distance</b></code></td>
+		<td><code>Number</code></td>
+		<td>Расстояние в пикселях на которое был сдвинут элемент.</td>
+	</tr>
 </table>
 
 ## L.Class
@@ -4725,6 +4876,14 @@
 
         <td><code>Function</code></td>
         <td>Возвращает функцию, которая выполняет функцию <code>fn</code> с определенным объектом контекста <code>obj</code> (так, чтобы ключевое слово <code>this</code> внутри функции указывало на <code>obj</code>). Также имеется псевдоним <code>L.bind</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>stamp</b>(
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td> Применяет уникальный ключ к объекту и возвращает его значение. Полезно для получения быстрого доступа к объекту, находящемуся в группе.</td>
     </tr>
     <!-- TODO Commented out for the time being:
     https://github.com/Leaflet/Leaflet/pull/793#discussion_r1134904
@@ -5229,7 +5388,7 @@
 
 ## L.Draggable
 
-Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств).
+Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств). Работает только в том случае, если элемент был позиционирован с помошью <a href="#domutil-setposition">DomUtil#setPosition</a>
 
     var draggable = new L.Draggable(elementToDrag);
     draggable.enable();
