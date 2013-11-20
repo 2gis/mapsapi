@@ -80,16 +80,10 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _onFirmReady: function (firmContentObject) {
         var self = this;
         firmContentObject.afterRender = function () {
-            var headerTitle = self._popup._popupStructure.header.firstChild,
-                headerText = headerTitle.innerHTML,
-                max = 100;
-            // console.log(headerTitle.innerHTML.length);
-            if (headerTitle.offsetHeight > 72) {
-                L.DomUtil.addClass(headerTitle, 'dg-popup-header-title__teaser');
-                max = 80;
-            }
-            if (headerText.length > max) {
-                // headerTitle.innerHTML = headerTitle.innerHTML.substring(0, max) + '...';
+            var headerTitle = self._popup._popupStructure.header.firstChild;
+
+            if (headerTitle.offsetHeight > 72 && !L.Browser.webkit) {
+                L.DG.Geoclicker.ClampHelper(headerTitle, 3);
             }
         };
         this._clearAndRenderPopup(firmContentObject);

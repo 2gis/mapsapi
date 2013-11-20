@@ -215,6 +215,7 @@ var deps = {
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
+            'DGGeoclicker/src/ClampHelper.js',
             'DGGeoclicker/src/provider/Provider.js',
             'DGGeoclicker/src/provider/CatalogApi.js',
             'DGGeoclicker/src/handler/Handler.js',
