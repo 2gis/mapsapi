@@ -139,6 +139,45 @@ describe("Map", function () {
 		});
 	});
 
+	describe('#setMaxBounds', function () {
+		it("aligns pixel-wise map view center with maxBounds center if it cannot move view bounds inside maxBounds (#1908)", function () {
+			var container = map.getContainer();
+			// large view, cannot fit within maxBounds
+			container.style.width = container.style.height = "1000px";
+			document.body.appendChild(container);
+			// maxBounds
+			var bounds = L.latLngBounds([51.5, -0.05], [51.55, 0.05]);
+			map.setMaxBounds(bounds, {animate: false});
+			// set view outside
+			map.setView(L.latLng([53.0, 0.15]), 12, {animate: false});
+			// get center of bounds in pixels
+			var boundsCenter = map.project(bounds.getCenter()).round();
+			expect(map.project(map.getCenter()).round()).to.eql(boundsCenter);
+			document.body.removeChild(container);
+		});
+		it("moves map view within maxBounds by changing one coordinate", function () {
+			var container = map.getContainer();
+			// small view, can fit within maxBounds
+			container.style.width = container.style.height = "200px";
+			document.body.appendChild(container);
+			// maxBounds
+			var bounds = L.latLngBounds([51, -0.2], [52, 0.2]);
+			map.setMaxBounds(bounds, {animate: false});
+			// set view outside maxBounds on one direction only
+			// leaves untouched the other coordinate (that is not already centered)
+			var initCenter = [53.0, 0.1];
+			map.setView(L.latLng(initCenter), 16, {animate: false});
+			// one pixel coordinate hasn't changed, the other has
+			var pixelCenter = map.project(map.getCenter()).round();
+			var pixelInit = map.project(initCenter).round();
+			expect(pixelCenter.x).to.eql(pixelInit.x);
+			expect(pixelCenter.y).not.to.eql(pixelInit.y);
+			// the view is inside the bounds
+			expect(bounds.contains(map.getBounds())).to.be(true);
+			document.body.removeChild(container);
+		});
+	});
+
 	describe("#getMinZoom and #getMaxZoom", function () {
 		describe('#getMinZoom', function () {
 			it('returns 0 if not set by Map options or TileLayer options', function () {
@@ -396,7 +435,8 @@ describe("Map", function () {
 
 	describe("#invalidateSize", function () {
 		var container,
-		    origWidth = 100;
+		    origWidth = 100,
+			clock;
 
 		beforeEach(function () {
 			container = map.getContainer();
@@ -404,10 +444,12 @@ describe("Map", function () {
 			document.body.appendChild(container);
 			map.setView([0, 0], 0);
 			map.invalidateSize({pan: false});
+			clock = sinon.useFakeTimers();
 		});
 
 		afterEach(function () {
 			document.body.removeChild(container);
+			clock.restore();
 		});
 
 		it("pans by the right amount when growing in 1px increments", function () {
@@ -446,6 +488,49 @@ describe("Map", function () {
 			map.invalidateSize();
 
 			expect(map._getMapPanePos().x).to.be(0);
+		});
+
+		it("emits no move event if the size has not changed", function () {
+			var spy = sinon.spy();
+			map.on("move", spy);
+
+			map.invalidateSize();
+
+			expect(spy.called).not.to.be.ok();
+		});
+
+		it("emits a move event if the size has changed", function () {
+			var spy = sinon.spy();
+			map.on("move", spy);
+
+			container.style.width = (origWidth + 5) + "px";
+			map.invalidateSize();
+
+			expect(spy.called).to.be.ok();
+		});
+
+		it("emits a moveend event if the size has changed", function () {
+			var spy = sinon.spy();
+			map.on("moveend", spy);
+
+			container.style.width = (origWidth + 5) + "px";
+			map.invalidateSize();
+
+			expect(spy.called).to.be.ok();
+		});
+
+		it("debounces the moveend event if the debounceMoveend option is given", function () {
+			var spy = sinon.spy();
+			map.on("moveend", spy);
+
+			container.style.width = (origWidth + 5) + "px";
+			map.invalidateSize({debounceMoveend: true});
+
+			expect(spy.called).not.to.be.ok();
+
+			clock.tick(200);
+
+			expect(spy.called).to.be.ok();
 		});
 	});
 });

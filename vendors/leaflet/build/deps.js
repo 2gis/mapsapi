@@ -200,17 +200,17 @@ var deps = {
 		desc: 'Makes markers draggable (by mouse or touch).'
 	},
 
-	ControlAttrib: {
-		src: ['control/Control.js',
-		      'control/Control.Attribution.js'],
-		desc: 'Attribution control.'
-	},
-
 	ControlZoom: {
 		src: ['control/Control.js',
 		      'control/Control.Zoom.js'],
 		heading: 'Controls',
 		desc: 'Basic zoom control with two buttons (zoom in / zoom out).'
+	},
+
+	ControlAttrib: {
+		src: ['control/Control.js',
+		      'control/Control.Attribution.js'],
+		desc: 'Attribution control.'
 	},
 
 	ControlScale: {
@@ -231,6 +231,7 @@ var deps = {
 			'dom/PosAnimation.js',
 			'map/anim/Map.PanAnimation.js'
 			],
+		heading: 'Animation',
 		desc: 'Core panning animation support.'
 	},
 
