@@ -288,7 +288,7 @@ L.TileLayer = L.Class.extend({
 		    zoom = map.getZoom(),
 		    tileSize = this._getTileSize();
 
-		if (zoom > this.options.maxZoom || zoom < this.options.minZoom) {
+		if (zoom > this.options.maxZoom + this.options.zoomOffset || zoom < this.options.minZoom) {
 			return;
 		}
 
