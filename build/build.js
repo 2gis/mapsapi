@@ -1,7 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
     grunt = require('grunt'),
-    jshint = require('jshint').JSHINT,
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
@@ -9,7 +8,6 @@ var fs = require('fs'),
     execSync = require('execSync'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
-    hint = require(__dirname + '/hintrc.js'),
     async = require('async'),
     glob = require('glob'),
     defaultTheme = 'light',
@@ -28,7 +26,7 @@ function getModulesData(callback) {
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
-
+    console.log(source);
     Object.keys(source).forEach(function (creator) {
         var modulesList = source[creator].deps,
             basePath = source[creator].path;
@@ -522,39 +520,6 @@ function minifyCSSPackage(source) { //(String)->String
     return cleanCss.process(source);
 }
 
-// Lint JS files for errors
-function lintFiles(modules) { //(Object)
-    var errorsCount = 0;
-
-    console.log('\nCheck all source JS files for errors with JSHint...\n');
-
-    for (var mod in modules) {
-        if (modules.hasOwnProperty(mod)) {
-            var fileList = [] || modules[mod].js;
-            for (var file in fileList) {
-                if (fileList.hasOwnProperty(file) && file.indexOf('vendors') === -1 && file.indexOf('DGWhen') === -1) {
-                    jshint(fileList[file], hint.config, hint.namespace);
-                    var errorsList = jshint.errors;
-
-                    for (var i = 0, count = errorsList.length; i < count; i++) {
-                        var e = errorsList[i];
-                        console.log('  ' + file + '    line ' + e.line + ' col ' + e.character + '    ' + e.reason);
-                        errorsCount++;
-                    }
-                }
-            }
-        }
-    }
-
-    if (errorsCount > 0) {
-        console.log(errMsg('\nJSHint find ' + errorsCount + ' errors.\n'));
-        errors.push('JSHint');
-    } else {
-        console.log('JSHint not find errors.\n');
-    }
-
-}
-
 // Reeturn actual configuration for replace
 function getAppConfig() { // ()->Object
     var mainConfigPath = config.mainAppConfig,
@@ -618,12 +583,6 @@ exports.copyImages = function () {
 // Copy all fonts (CLI command)
 exports.copyFonts = function () {
     copyFonts();
-};
-
-// Lint (CLI command)
-exports.lint = function () {
-    modules = getModulesData();
-    lintFiles(modules);
 };
 
 // Build (CLI command)

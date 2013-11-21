@@ -9,19 +9,17 @@ module.exports = function (grunt) {
     'use strict';
 
     // Check JS files for errors with JSHint
-    grunt.registerTask('lint', function () {
-        build.lint();
-    });
+    grunt.registerTask('jshint', ['jshint']);
 
-    // Combine and minify source files
-    grunt.registerTask('build', function () {
-        build.lint();
+    grunt.registerTask('prepare', function () {
         build.build();
     });
 
+    // Combine and minify source files
+    grunt.registerTask('build', [/*'jshint',*/ 'prepare']);
+
     //Rebuild and run unit tests
     grunt.registerTask('test', function () {
-        build.lint();
         build.build();
         grunt.task.run('karma:continuous');
     });
@@ -42,7 +40,7 @@ module.exports = function (grunt) {
     // Default task
     grunt.registerTask('default', function () {
         grunt.log.writeln('\nTasks list:\n');
-        grunt.log.writeln('grunt lint        # Check JS files for errors with JSHint');
+        grunt.log.writeln('grunt jshint      # Check JS files for errors with JSHint');
         grunt.log.writeln('grunt build       # Combine and minify source files');
         grunt.log.writeln('grunt doc         # Generate documentation from .md files');
         grunt.log.writeln('grunt test        # Rebuild and run unit tests');
@@ -51,6 +49,12 @@ module.exports = function (grunt) {
 
 
     grunt.initConfig({
+        jshint: {
+            options: {
+                jshintrc: true
+            },
+            src: ['src/*/src/**/*.js']
+        },
         karma: {
             options: {
                 configFile: 'test/karma.conf.js',
@@ -72,5 +76,6 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
 };
