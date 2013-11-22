@@ -1,5 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
+    exec = require('child_process').exec,
     grunt = require('grunt'),
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
@@ -188,7 +189,7 @@ function getTemplates(moduleName) { //(string)->Object
 }
 
 // Clear img folder and copy all images from skins folder
-function copyImages(callback) {
+function copyImages(done) {
     var sourceDeps = config.source,
         publicImgPath = config.img.dest,
         countImg = 0;
@@ -233,7 +234,7 @@ function copyImages(callback) {
         });
 
         console.log('Done. Copy ' + countImg + ' images.');
-        callback(null, true);
+        done(null);
     }
 
     function copyImg(imgPath, isDg, creator) {
@@ -247,7 +248,7 @@ function copyImages(callback) {
 }
 
 // Clear fonts folder and copy all fonts from skins folder
-function copyFonts(callback) {
+function copyFonts(done) {
     var sourceDeps = config.source.dg.path,
         publicFontPath = config.font.dest;
 
@@ -283,7 +284,7 @@ function copyFonts(callback) {
             });
 
             console.log('Done. Copy fonts.');
-            callback(null, true);
+            done(null);
         });
     }
 
@@ -544,36 +545,44 @@ function getAppConfig() { // ()->Object
 
 // Replace content according to the configuration files
 function setParams(content, config) { //(String, Object)->String
-    for (var pattern in config ) {
+    Object.keys(config).forEach(function (pattern) {
         var search = '__' + pattern + '__',
             replace = config[pattern];
         content = content.split(search).join(replace);
-    }
+    });
+
     return content;
 }
 
-// Update version api in loader.js (CLI command)
-exports.setVersion = function () {
+
+function setVersion(done) {
     var loaderPath = config.loader.dir,
         loaderFileName = config.loader.name,
         command = 'git rev-parse --verify HEAD',
-        loaderContent,
-        smallHash,
         hash;
 
-    if (!fs.existsSync(loaderPath + '/' + loaderFileName)) {
-        throw new Error("Not search file 'loader.js' in " + loaderPath);
-    }
+    fs.exists(loaderPath + '/' + loaderFileName, function (exists) {
 
-    loaderContent = fs.readFileSync(loaderPath + '/' + loaderFileName).toString();
-    hash = execSync.stdout(command);
-    smallHash = hash.substr(0, 6);
+        if (!exists) { throw new Error('Not search file \'loader.js\' in ' + loaderPath); }
+        exec(command, function (error, stdout) {
 
-    console.log('Set version of stat files: ' + smallHash + '\n');
+            if (error) { return; }
+            fs.readFile(loaderPath + '/' + loaderFileName, {encoding: 'utf8'}, function (err, loaderContent) {
 
-    loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})([\w]+=)*.*(['"]{1})/g, "$1$2" + smallHash + "$3");
-    fs.writeFileSync(loaderPath + '/' + loaderFileName, loaderContent);
-};
+                if (err) { throw err; }
+
+                hash = stdout.substr(0, 6);
+
+                console.log('Set version of stat files: ' + hash + '\n');
+
+                loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})([\w]+=)*.*(['"]{1})/g, '$1$2' + hash + '$3');
+                fs.writeFile(loaderPath + '/' + loaderFileName, loaderContent, function () {
+                    done();
+                });
+            });
+        });
+    });
+}
 
 // Copy all images (CLI command)
 exports.copyImages = function () {
@@ -583,6 +592,16 @@ exports.copyImages = function () {
 // Copy all fonts (CLI command)
 exports.copyFonts = function () {
     copyFonts();
+};
+
+//Make preperations for release (CLI command)
+exports.release = function (done) {
+    async.parallel([copyImages, copyFonts, setVersion],
+    function (err) {
+        if (!err) {
+            done();
+        }
+    });
 };
 
 // Build (CLI command)

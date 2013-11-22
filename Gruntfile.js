@@ -3,6 +3,7 @@
 
 var build = require('./build/build.js'),
     test = require('./test/test.js'),
+    async = require('async'),
     gendoc = require('./docbuilder/gendoc.js');
 
 module.exports = function (grunt) {
@@ -30,11 +31,11 @@ module.exports = function (grunt) {
         gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
     });
 
-    // Set version API in loader.js and copy images and fonts
+    // Set version API in loader.js, copy images and fonts
     grunt.registerTask('release', function () {
-        build.setVersion();
-        build.copyImages();
-        build.copyFonts();
+        var done = this.async();
+
+        build.release(done);
     });
 
     // Default task
