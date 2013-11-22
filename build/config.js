@@ -10,7 +10,7 @@ var config = {
 
     source: {
         leaflet: {
-            deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
+            deps: {},//require(basePath + '/vendors/leaflet/build/deps.js').deps,
             path: basePath + '/vendors/leaflet/src/',
             pathImg: basePath + '/vendors/leaflet/dist/images/'
         },

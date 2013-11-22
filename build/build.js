@@ -6,7 +6,6 @@ var fs = require('fs'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
-    execSync = require('execSync'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     async = require('async'),
@@ -27,7 +26,7 @@ function getModulesData(callback) {
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
-    console.log(source);
+
     Object.keys(source).forEach(function (creator) {
         var modulesList = source[creator].deps,
             basePath = source[creator].path;
@@ -37,9 +36,9 @@ function getModulesData(callback) {
 
             modulesData[moduleName] = {};
             modulesData[moduleName] = processJs(moduleConf.src, basePath, moduleName);
-            modulesData[moduleName].css = processCss(moduleConf.css, basePath);
+            /*modulesData[moduleName].css = processCss(moduleConf.css, basePath);
             modulesData[moduleName].conf = processSkinConf(moduleConf.src, basePath);
-            modulesData[moduleName].deps = modulesList[moduleName].deps;
+            modulesData[moduleName].deps = modulesList[moduleName].deps;*/
         });
     });
 
@@ -52,7 +51,7 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
 
     if (!srcList) { return; }
 
-    if (moduleName.indexOf('DG') === 0) {
+    /*if (moduleName.indexOf('DG') === 0) {
         var tmplConfig = getTemplates(moduleName);
 
         // add template content to config vars
@@ -61,19 +60,23 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
                 appConfig[key] = tmplConfig[key];
             }
         }
-    }
-    for (var i = 0, count = srcList.length; i < count; i++) {
-        var srcPath = basePath + srcList[i];
-        if (srcPath.indexOf(config.skin.var) < 0) {
-            if (fs.existsSync(srcPath)) {
-                var jsData = setParams(fs.readFileSync(srcPath, 'utf8') + '\n\n', appConfig);
-                jsContent.js[srcPath] = jsData;
-                jsContent.jsmin[srcPath] = minifyJSPackage(jsData);
-            } else {
+    }*/
+
+    async.forEach(srcList, function (src) {
+        var srcPath = basePath + src;
+
+        fs.readFile(srcPath, {encoding: 'utf8'}, function (err, data) {
+            if (err) {
                 console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
+                return;
             }
-        }
-    }
+
+            var jsData = setParams(fs.readFileSync(srcPath, 'utf8') + '\n\n', appConfig);
+            jsContent.js[srcPath] = jsData;
+            jsContent.jsmin[srcPath] = minifyJSPackage(jsData);
+        });
+
+    });
 
     return jsContent;
 }
@@ -147,6 +150,17 @@ function processCss(srcConf, basePath) { //(Object, String)->Object
     return cssContent;
 }
 
+// Replace content according to the configuration files
+function setParams(content, config) { //(String, Object)->String
+    Object.keys(config).forEach(function (pattern) {
+        var search = '__' + pattern + '__',
+            replace = config[pattern];
+        content = content.split(search).join(replace);
+    });
+
+    return content;
+}
+
 // Generate templates object for specified module
 function getTemplates(moduleName) { //(string)->Object
     var tmplConf = config.tmpl,
@@ -164,7 +178,7 @@ function getTemplates(moduleName) { //(string)->Object
 
         for (var i = 0, len = tmplList.length; i < len; i++) {
             var srcPath = tmplList[i],
-                tmplName = path.basename(srcPath, tmplConf.ext);
+                tmplName = path.basename(srcPath, tmplConf.ext),
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
                 (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
@@ -543,16 +557,6 @@ function getAppConfig() { // ()->Object
     return mainConfig;
 }
 
-// Replace content according to the configuration files
-function setParams(content, config) { //(String, Object)->String
-    Object.keys(config).forEach(function (pattern) {
-        var search = '__' + pattern + '__',
-            replace = config[pattern];
-        content = content.split(search).join(replace);
-    });
-
-    return content;
-}
 
 
 function setVersion(done) {
