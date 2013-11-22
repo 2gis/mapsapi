@@ -25,10 +25,13 @@ L.DG.Control = L.Control.extend({
             .on(container, 'click', this._toggleControl, this)
             .on(container, 'dblclick', L.DomEvent.stopPropagation);
 
+        this.fireEvent('add');
+
         return container;
     },
 
     onRemove: function () {
+        this.fireEvent('remove');
         L.DomEvent.off(this._link, 'click', this._toggleControl);
     },
 

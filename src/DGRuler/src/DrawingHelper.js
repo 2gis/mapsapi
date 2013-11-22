@@ -360,11 +360,12 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         this._updateDistance();
     },
 
+
     _isEventOutside: function (event, parent) {
         var element = event.relatedTarget || event.toElement || event.fromElement;
-        console.log(element);
-        console.log(element = element.parentNode);
-        console.log(element = element.parentNode);
+        // console.log(element);
+        // console.log(element = element.parentNode);
+        // console.log(elemrent = element.parentNode);
         // while ( element && element !== parent) {
         //     element = element.parentNode;
         // }

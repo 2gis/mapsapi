@@ -19,7 +19,7 @@ L.DG.Ruler.DistanceMarkerIcon = L.Icon.extend({
         div.innerHTML = '<div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span></div>';
 
         if (this.constructor._pointerEventsSupported) {
-            // div.style.pointerEvents = 'none';
+            div.style.pointerEvents = 'none';
         } else {
             console.log('_pointerEventsSupported not supported');
             L.DomEvent.addListener( div, 'mousemove', function (event) {

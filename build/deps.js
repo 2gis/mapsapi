@@ -304,6 +304,7 @@ var deps = {
         src: [
             'DGRuler/src/DGRuler.js',
             'DGRuler/src/DistanceMarkerIcon.js',
+            'DGRuler/src/LayeredMarker.js',
             'DGRuler/src/DrawingHelper.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
