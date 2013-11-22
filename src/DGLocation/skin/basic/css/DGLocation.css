@@ -1,0 +1,79 @@
+/*.leaflet-control-locate a {
+	background-image: url(__BASE_URL__/img/locate.png);
+}
+
+.leaflet-control-locate.requesting a {
+	background-image: url(__BASE_URL__/img/spinner.gif);
+	background-position: 50% 50%;
+}
+
+.leaflet-control-locate.active a {
+
+}
+
+
+.leaflet-touch .leaflet-bar a {
+	width: 26px;
+	height: 26px;
+	border-radius: 4px !important;
+}
+
+.leaflet-bar {
+	box-shadow: none;
+}*/
+.dg-locate-pin{
+	background: url("__BASE_URL__/img/pin.png") no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.dg-control-round_icon__locate__active:before {
+	background-image: url(__BASE_URL__/img/GeoPressed.png);
+}
+
+.dg-control-round_icon__locate:before {
+	background-image: url(__BASE_URL__/img/BlackGeoActive.png);
+	width: 17px;
+	height: 17px;
+	padding-right: 3px;
+}
+.dg-control-round_icon__locate:before:hover {
+	background-image: url(__BASE_URL__/img/BlackGeoHover.png);
+}
+@-webkit-keyframes preloader {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes preloader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.dg-control-round_icon__locate__requesting:before {
+	background-image: url(__BASE_URL__/img/BlackGeoInProgress.png);
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	image-rendering: optimizeQuality;
+	outline: 1px solid transparent;
+	-webkit-animation: preloader 1s linear infinite;
+	animation: preloader 1s linear infinite;
+}
+
+.location-error {
+	margin-left: 30px;
+	margin-top: -25px;
+	top: 50%;
+	left: 50%;
+	height: 25px;
+	width: 140px;
+	text-align: center;
+	line-height: 25px;
+	color: #727170;
+	font-size: 11px;
+	background: #fff;
+	border: 1px solid #cfcfcf;
+	border-radius: 2px;
+	z-index: 5;
+}

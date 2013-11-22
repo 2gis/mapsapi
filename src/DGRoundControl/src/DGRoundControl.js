@@ -21,6 +21,8 @@ L.DG.Control = L.Control.extend({
 
         this._map = map;
 
+        this.fireEvent('add');
+
         L.DomEvent
             .on(container, 'click', this._toggleControl, this)
             .on(container, 'dblclick', L.DomEvent.stopPropagation);
@@ -41,6 +43,7 @@ L.DG.Control = L.Control.extend({
         if (this._state) {
             L.DomUtil.removeClass(this._container, this._controlCLass + '__' + this._state);
             L.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this._state);
+            L.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
         }
 
         if (!state) {
@@ -51,6 +54,7 @@ L.DG.Control = L.Control.extend({
 
         L.DomUtil.addClass(this._container, this._controlCLass + '__' + this._state);
         L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this._state);
+        L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
 
         return this;
     }
