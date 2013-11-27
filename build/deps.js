@@ -280,7 +280,7 @@ var deps = {
                 'DGLocation/skin/{skin}/css/DGLocation.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale']
+        deps: ['DGCore', 'DGLocale', 'DGLabel']
     },
 
     DGRoundControl: {

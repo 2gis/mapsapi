@@ -105,7 +105,7 @@ L.DG.Location = L.DG.Control.extend({
 
     _onLocationFound: function (e) {
         // no need to do anything if the location has not changed
-        return;
+        // return;
         if (this._event &&
             (this._event.latlng.lat === e.latlng.lat &&
              this._event.latlng.lng === e.latlng.lng &&
@@ -248,10 +248,13 @@ L.DG.Location = L.DG.Control.extend({
         }
 
         this._stopLocate();
-        this._error = L.DomUtil.create('div', 'location-error', this._container);
-        this._error.innerHTML = this.t('cant_find');
+        this._error = L.DomUtil.create('div', 'dg-label dg-label_location-error', this._container);
+        this._errorText = L.DomUtil.create('div', 'dg-label__content', this._error);
+        this._errorText.innerHTML = this.t('cant_find');
+
+        var self = this;
         setTimeout(function () {
-            this._clearError();
+            // self._clearError();
         }, 3000);
 
         //show location error
@@ -262,6 +265,7 @@ L.DG.Location = L.DG.Control.extend({
         if (this._error) {
             this._container.removeChild(this._error);
             this._error = undefined;
+            this._errorText = undefined;
         }
     },
 
