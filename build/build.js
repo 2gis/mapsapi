@@ -6,7 +6,6 @@ var fs = require('fs'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
-    execSync = require('execSync'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     async = require('async'),
@@ -27,7 +26,7 @@ function getModulesData(callback) {
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
-    console.log(source);
+    //console.log(source);
     Object.keys(source).forEach(function (creator) {
         var modulesList = source[creator].deps,
             basePath = source[creator].path;
@@ -62,8 +61,8 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
             }
         }
     }
-    for (var i = 0, count = srcList.length; i < count; i++) {
-        var srcPath = basePath + srcList[i];
+    srcList.forEach(function (src) {
+        var srcPath = basePath + src;
         if (srcPath.indexOf(config.skin.var) < 0) {
             if (fs.existsSync(srcPath)) {
                 var jsData = setParams(fs.readFileSync(srcPath, 'utf8') + '\n\n', appConfig);
@@ -73,7 +72,7 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
                 console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
             }
         }
-    }
+    });
 
     return jsContent;
 }
@@ -250,7 +249,8 @@ function copyImages(done) {
 // Clear fonts folder and copy all fonts from skins folder
 function copyFonts(done) {
     var sourceDeps = config.source.dg.path,
-        publicFontPath = config.font.dest;
+        publicFontPath = config.font.dest,
+        fontCount = 0;
 
     cleanFontsDir();
     processFont();
@@ -295,6 +295,7 @@ function copyFonts(done) {
             fileName = path.basename(fontPath);
             destPath = config.font.dest + fileName;
             grunt.file.copy(fontPath, destPath);
+            fontCount++;
         }
     }
 }
@@ -616,59 +617,64 @@ exports.build = function () {
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
         skin = argv.skin || defaultTheme;
 
-    modules = modules || getModulesData(function (result) {
+    /*modules = modules || getModulesData(function (result) {
         modules = result;
-    });
+    });*/
 
     console.log('Skin: ' + skin + '\n');
 
-    copyImages();
-    copyFonts();
+    /*copyImages();
+    copyFonts();*/
 
-    modulesList = getModulesList(pkg, true);
+    async.parallel({img: copyImages, fonts: copyFonts, modules: getModulesData},
+    function (err, results) {
+        modulesList = getModulesList(pkg, true);
 
-    var packAndConcatCss = function (name, addIE, addClean) {
-        var cssSrcContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isMsg: true});
-        fs.writeFileSync(cssDest[name], cssSrcContent);
+        var packAndConcatCss = function (name, addIE, addClean) {
+            var cssSrcContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isMsg: true});
+            fs.writeFileSync(cssDest[nname], cssSrcContent);
 
-        console.log('\nCompressing CSS...\n');
+            console.log('\nCompressing CSS...\n');
 
-        var cssMinContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isDebug: true});
-        fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
+            var cssMinContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isDebug: true});
+            fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
 
-        console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
-        console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
-    };
+            console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
+            console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
+        };
 
-    jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
+        jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
 
-    if (!fs.existsSync(jsDir)) {
-        console.log('Creating ' + jsDir + ' dir...');
-        fs.mkdirSync(jsDir);
-    }
-    fs.writeFileSync(jsDest.src, jsSrcContent);
+        if (!fs.existsSync(jsDir)) {
+            console.log('Creating ' + jsDir + ' dir...');
+            fs.mkdirSync(jsDir);
+        }
+        fs.writeFileSync(jsDest.src, jsSrcContent);
 
-    console.log('Compressing JS...\n');
+        console.log('Compressing JS...\n');
 
-    jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: true});
-    fs.writeFileSync(jsDest.min, jsMinContent);
+        jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: true});
+        fs.writeFileSync(jsDest.min, jsMinContent);
 
-    console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
-    console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
+        console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
+        console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
 
-    if (!fs.existsSync(cssDir)) {
-        console.log('Creating ' + cssDir + ' dir...');
-        fs.mkdirSync(cssDir);
-    }
-    packAndConcatCss('full', true, true);
-    packAndConcatCss('clean', false, true);
-    packAndConcatCss('ie', true, false);
+        if (!fs.existsSync(cssDir)) {
+            console.log('Creating ' + cssDir + ' dir...');
+            fs.mkdirSync(cssDir);
+        }
+        packAndConcatCss('full', true, true);
+        packAndConcatCss('clean', false, true);
+        packAndConcatCss('ie', true, false);
 
-    if (errors.length > 0) {
-        console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
-    } else {
-        console.log(okMsg('\nBuild successfully completed!'));
-    }
+        if (errors.length > 0) {
+            console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
+        } else {
+            console.log(okMsg('\nBuild successfully completed!'));
+        }
+
+    });
+
 
 };
 

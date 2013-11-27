@@ -3,7 +3,6 @@
 
 var build = require('./build/build.js'),
     test = require('./test/test.js'),
-    async = require('async'),
     gendoc = require('./docbuilder/gendoc.js');
 
 module.exports = function (grunt) {
