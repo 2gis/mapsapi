@@ -1,17 +1,7 @@
 .dg-label__content {
-	color: #000;
-    display: inline-block;
-    vertical-align: top;
     background-color: #fff;
-    font: 12px/16px Arial, sans-serif;
-    overflow: hidden;
-    min-width: 30px;
-    max-width: 300px;
-    width: auto;
     padding: 3px 7px;
     border: 1px solid #bebdb5;
     border: 1px solid rgba(151,151,151,.6);
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
+    color: #000;
 }

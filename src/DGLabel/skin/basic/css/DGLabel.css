@@ -6,3 +6,16 @@
 	max-height: none;
     position: absolute;
 }
+
+.dg-label__content {
+	display: inline-block;
+    vertical-align: top;
+    font: 12px/16px Arial, sans-serif;
+    overflow: hidden;
+    min-width: 30px;
+    max-width: 300px;
+    width: auto;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
