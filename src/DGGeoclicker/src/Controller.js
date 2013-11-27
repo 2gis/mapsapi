@@ -75,13 +75,12 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         if (result.error && result.error === 'no type') {
             return;
         }
-        while (type = this.findHandler(result)) {
+        while (type = this.findHandler(result)) { // jshint ignore:line
             if (this._runHandler(type, result)) {
                 return;
             }
             delete result[type];
         }
-
         this._runHandler('default');
     },
 

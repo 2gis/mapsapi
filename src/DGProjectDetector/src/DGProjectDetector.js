@@ -84,8 +84,8 @@ L.DG.ProjectDetector = L.Handler.extend({
     _searchProject: function () {
         try {
             for (var i = 0, mapZoom = this._map.getZoom(); i < this.projectsList.length; i++) {
-                if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds())
-                    && (mapZoom >= this.projectsList[i].min_zoom_level)) {
+                if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds()) &&
+                    (mapZoom >= this.projectsList[i].min_zoom_level)) {
                     this.project = this.projectsList[i];
                     this._map.fire('dgProjectChange', {'getProject': L.Util.bind(this.getProject, this)});
                     return;

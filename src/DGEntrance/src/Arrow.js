@@ -28,7 +28,7 @@ L.DG.Entrance.Arrow = L.Polyline.extend({
             offsetVector = {
                 x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
                 y: origPoints[pointsLen - 1].y - origPoints[pointsLen - 2].y
-            }
+            };
 
             offsetTo.x = Math.round(offsetVector.x * lastSegmentInPercents / 100);
             offsetTo.y = Math.round(offsetVector.y * lastSegmentInPercents / 100);

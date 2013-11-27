@@ -1,3 +1,5 @@
+/* global fullScreenApi */
+
 L.DG.FullScreen = L.DG.Control.extend({
 
     options: {
