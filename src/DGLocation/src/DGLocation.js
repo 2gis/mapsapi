@@ -27,7 +27,7 @@ L.DG.Location = L.DG.Control.extend({
 
     initialize: function (options) {
         L.Util.setOptions(this, options);
-        if (!navigator.geolocation) {
+        if (navigator.geolocation) {
             this.setState('disable');
         }
 
@@ -46,23 +46,6 @@ L.DG.Location = L.DG.Control.extend({
             'add': this._initLocate
         });
     },
-
-    // onAdd: function (map) {
-    //     var container = L.DomUtil.create('div', 'leaflet-control-locate leaflet-bar');
-
-    //     this._link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
-    //     this._link.href = '#';
-    //     this._link.title = this.t('button_title');
-
-    //     L.DomEvent
-    //         .on(this._link, 'click', L.DomEvent.stopPropagation)
-    //         .on(this._link, 'click', L.DomEvent.preventDefault)
-    //         .on(this._link, 'click', this._handleLocate, this)
-    //         .on(this._link, 'dblclick', L.DomEvent.stopPropagation);
-
-
-    //     return container;
-    // },
 
     _initLocate: function () {
         this._layer = new L.LayerGroup();
@@ -105,7 +88,6 @@ L.DG.Location = L.DG.Control.extend({
 
     _onLocationFound: function (e) {
         // no need to do anything if the location has not changed
-        // return;
         if (this._event &&
             (this._event.latlng.lat === e.latlng.lat &&
              this._event.latlng.lng === e.latlng.lng &&
@@ -230,8 +212,6 @@ L.DG.Location = L.DG.Control.extend({
         this._map.stopLocate();
         this._map.off('dragstart', this._stopFollowing);
 
-        // L.DomUtil.removeClass(this._container, 'requesting');
-        // L.DomUtil.removeClass(this._container, 'active');
         this.setState();
         this._resetVariables();
 
@@ -254,7 +234,7 @@ L.DG.Location = L.DG.Control.extend({
 
         var self = this;
         setTimeout(function () {
-            // self._clearError();
+            self._clearError();
         }, 3000);
 
         //show location error
