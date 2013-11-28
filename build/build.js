@@ -8,9 +8,9 @@ var fs = require('fs'),
     clc = require('cli-color'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
-    defaultTheme = 'light',
     //Global data stores
     modules,
+    defaultSkin,
     appConfig,
     errors = [],
     //CLI colors theme settings
@@ -24,6 +24,7 @@ function getModulesData() {
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
+    defaultSkin = appConfig.DEFAULT_SKIN;
 
     Object.keys(source).forEach(function (creator) {
         var modulesList = source[creator].deps,
@@ -290,8 +291,8 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
                     loadSkinsList.push('basic');
                 }
 
-                if (skin in moduleSkins || defaultTheme in moduleSkins) {
-                    moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
+                if (skin in moduleSkins || defaultSkin in moduleSkins) {
+                    moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultSkin;
                     loadSkinsList.push(moduleSkinName);
                 }
 
@@ -345,8 +346,8 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
                 countModules++;
             }
 
-            if (skin in moduleSkins || defaultTheme in moduleSkins) {
-                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
+            if (skin in moduleSkins || defaultSkin in moduleSkins) {
+                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultSkin;
                 moduleBrowser = moduleSkins[skinName];
                 processBrowsers(moduleBrowser);
             }
@@ -470,7 +471,7 @@ exports.buildSrc = function () {
         cssDest = config.css.public,
         cssDir = cssDest.dir,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
-        skin = argv.skin || defaultTheme;
+        skin = argv.skin || defaultSkin;
 
     modules = getModulesData();
 
