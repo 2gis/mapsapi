@@ -1,18 +1,17 @@
-L.DG.Location = L.DG.Control.extend({
+L.DG.Location = L.DG.RoundControl.extend({
 
     options: {
-        position: 'topleft',
         iconClass: 'locate',
         drawCircle: true,
         follow: true,  // follow with zoom and pan the user's location
         stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged
         metric: true,
-        onLocationError: function (err) {
+        onLocationError: function (/*err*/) {
             // this event is called in case of any location error
             // that is not a time out error.
             // console.log(err.message);
         },
-        onLocationOutsideMapBounds: function (context) {
+        onLocationOutsideMapBounds: function (/*context*/) {
             // this event is repeatedly called when the location changes
             // console.log(context.t('outsideMapBoundsMsg'));
         },
@@ -137,8 +136,9 @@ L.DG.Location = L.DG.Control.extend({
             if (this._isOutsideMapBounds()) {
                 this.options.onLocationOutsideMapBounds(this);
             } else {
-                this._map.setView(this._event.latlng, 13);
-                var zoom = this._map.dgProjectDetector.getProject().max_zoom_level || 13;
+                /* global __PROJECT_LEAVE_MAX_ZOOM__:false*/
+                this._map.setView(this._event.latlng, __PROJECT_LEAVE_MAX_ZOOM__);
+                var zoom = this._map.dgProjectDetector.getProject().max_zoom_level || __PROJECT_LEAVE_MAX_ZOOM__;
                 this._map.setZoom(zoom);
             }
             this._locateOnNextLocationFound = false;

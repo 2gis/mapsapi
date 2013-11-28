@@ -25,7 +25,8 @@ L.DG.configTheme = {
             touchPosition: 'bottomright'
         },
         whereami: {
-            position: 'topright'
+            position: 'topright',
+            touchPosition: 'bottomright'
         }
     }
 };

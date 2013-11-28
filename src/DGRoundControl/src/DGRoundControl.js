@@ -1,4 +1,4 @@
-L.DG.Control = L.Control.extend({
+L.DG.RoundControl = L.Control.extend({
     includes: L.Mixin.Events,
 
     statics: {
@@ -39,11 +39,6 @@ L.DG.Control = L.Control.extend({
         L.DomEvent.off(this._link, 'click', this._toggleControl);
     },
 
-    _toggleControl: function (e) {
-        L.DomEvent.stop(e);
-        this.fireEvent('click');
-    },
-
     setState: function (state) {
         if (!this._link || !this._container) {
             return this;
@@ -53,24 +48,28 @@ L.DG.Control = L.Control.extend({
             L.DomUtil.removeClass(this._container, this._controlCLass + '__' + this._state);
             L.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this._state);
             L.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
+            this._state = null;
         }
 
-        if (!state) {
-            return this;
+        if (state) {
+            this._state = state;
+
+            L.DomUtil.addClass(this._container, this._controlCLass + '__' + this._state);
+            L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this._state);
+            L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
         }
-
-        this._state = state;
-
-        L.DomUtil.addClass(this._container, this._controlCLass + '__' + this._state);
-        L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this._state);
-        L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
 
         return this;
+    },
+
+    _toggleControl: function (e) {
+        L.DomEvent.stop(e);
+        this.fireEvent('click');
     }
 });
 
-L.DG.Control.include(L.DG.Locale);
+L.DG.RoundControl.include(L.DG.Locale);
 
-L.DG.control = function (options) {
-    return new L.DG.Control(options);
+L.DG.roundControl = function (options) {
+    return new L.DG.RoundControl(options);
 };
