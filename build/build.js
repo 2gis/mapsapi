@@ -8,8 +8,6 @@ var fs = require('fs'),
     clc = require('cli-color'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
-    async = require('async'),
-    glob = require('glob'),
     defaultTheme = 'light',
     //Global data stores
     modules,
@@ -21,12 +19,12 @@ var fs = require('fs'),
     depsMsg = clc.xterm(27);
 
 // Get content of source files all modules
-function getModulesData(callback) {
+function getModulesData() {
     var source = config.source,
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
-    //console.log(source);
+
     Object.keys(source).forEach(function (creator) {
         var modulesList = source[creator].deps,
             basePath = source[creator].path;
@@ -42,7 +40,7 @@ function getModulesData(callback) {
         });
     });
 
-    callback(null, modulesData);
+    return modulesData;
 }
 
 //Get content of JS files
@@ -185,119 +183,6 @@ function getTemplates(moduleName) { //(string)->Object
     }
 
     return modulesTmpls;
-}
-
-// Clear img folder and copy all images from skins folder
-function copyImages(done) {
-    var sourceDeps = config.source,
-        publicImgPath = config.img.dest,
-        countImg = 0;
-
-    cleanImgDir();
-    processImg();
-
-    function cleanImgDir() {
-        if (grunt.file.isDir(publicImgPath)) {
-            grunt.file.delete(publicImgPath);
-            grunt.file.mkdir(publicImgPath);
-            console.log('Clear public/img folder.');
-        }
-    }
-
-    function processImg() {
-
-        console.log('Copy all skins and vendors images to public/img...');
-        Object.keys(sourceDeps).forEach(function (creator) {
-            var creatorPath = sourceDeps[creator].path;
-
-            // need cache creator var since async function inside
-            (function (creator) {
-                fs.readdir(creatorPath, function (err, files) {
-                    if (err) { return; }
-
-                    files.forEach(function (module) {
-                        var skinsPath = creatorPath + module + '/' + config.skin.dir + '/',
-                            isDg = (creator === 'dg'),
-                            pattern = isDg ? skinsPath + config.img.pattern : sourceDeps[creator].pathImg + config.img.patternVendor;
-
-                        glob(pattern, {}, function (err, img) {
-                            if (err) { return; }
-
-                            img.forEach(function (src) {
-                                copyImg(src, isDg, creator);
-                            });
-                        });
-                    });
-                });
-            })(creator);
-        });
-
-        console.log('Done. Copy ' + countImg + ' images.');
-        done(null);
-    }
-
-    function copyImg(imgPath, isDg, creator) {
-        var fileName = path.basename(imgPath),
-            destPath = isDg ? config.img.dest + fileName :
-                              config.img.destVendor + '/' + creator + '/' + fileName;
-
-        grunt.file.copy(imgPath, destPath);
-        countImg++;
-    }
-}
-
-// Clear fonts folder and copy all fonts from skins folder
-function copyFonts(done) {
-    var sourceDeps = config.source.dg.path,
-        publicFontPath = config.font.dest,
-        fontCount = 0;
-
-    cleanFontsDir();
-    processFont();
-
-    function cleanFontsDir() {
-        if (grunt.file.isDir(publicFontPath)) {
-            grunt.file.delete(publicFontPath);
-            grunt.file.mkdir(publicFontPath);
-
-            console.log('Clear public/fonts folder.');
-        }
-    }
-
-    function processFont() {
-        fs.readdir(sourceDeps, function (err, files) {
-            if (err) { return; }
-
-            console.log('Copy all fonts to public/fonts...');
-
-            files.forEach(function (module) {
-                var skinsPath = sourceDeps + module + '/' + config.skin.dir + '/';
-
-
-                glob(skinsPath + config.font.pattern, {}, function (err, files) {
-                    if (err) { return; }
-
-                    files.forEach(function (src) {
-                        copyFont(src);
-                    });
-                });
-            });
-
-            console.log('Done. Copy fonts.');
-            done(null);
-        });
-    }
-
-    function copyFont(fontPath) {
-        var fileName, destPath;
-
-        if (grunt.file.isFile(fontPath)) {
-            fileName = path.basename(fontPath);
-            destPath = config.font.dest + fileName;
-            grunt.file.copy(fontPath, destPath);
-            fontCount++;
-        }
-    }
 }
 
 // Get content of source files all copyrights. Must run only 1 time on start app or run CLI script
@@ -527,19 +412,18 @@ function getAppConfig() { // ()->Object
     var mainConfigPath = config.mainAppConfig,
         localConfigPath = config.localAppConfig,
         mainConfig,
-        localConfig,
-        key;
+        localConfig;
 
     if (!fs.existsSync(mainConfigPath)) {
-        throw new Error("Not search file 'config.main.json' in " + mainConfigPath);
+        throw new Error('Not search file \'config.main.json\' in ' + mainConfigPath);
     }
 
     mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
     if (fs.existsSync(localConfigPath)) {
         localConfig = JSON.parse(fs.readFileSync(localConfigPath));
-        for (key in localConfig) {
-            mainConfig[key] = localConfig[key];
-        }
+        Object.keys(localConfig).forEach(function (option, key) {
+            mainConfig[key] = option;
+        });
     }
     return mainConfig;
 }
@@ -555,8 +439,8 @@ function setParams(content, config) { //(String, Object)->String
     return content;
 }
 
-
-function setVersion(done) {
+// Update code version in loader.js (CLI command)
+exports.setVersion =  function(done) {
     var loaderPath = config.loader.dir,
         loaderFileName = config.loader.name,
         command = 'git rev-parse --verify HEAD',
@@ -585,28 +469,8 @@ function setVersion(done) {
     });
 }
 
-// Copy all images (CLI command)
-exports.copyImages = function () {
-    copyImages();
-};
-
-// Copy all fonts (CLI command)
-exports.copyFonts = function () {
-    copyFonts();
-};
-
-//Make preperations for release (CLI command)
-exports.release = function (done) {
-    async.parallel([copyImages, copyFonts, setVersion],
-    function (err) {
-        if (!err) {
-            done();
-        }
-    });
-};
-
-// Build (CLI command)
-exports.build = function () {
+// Combine and minify source files (CLI command)
+exports.buildSrc = function () {
     var modulesList,
         jsSrcContent,
         jsMinContent,
@@ -617,65 +481,54 @@ exports.build = function () {
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
         skin = argv.skin || defaultTheme;
 
-    /*modules = modules || getModulesData(function (result) {
-        modules = result;
-    });*/
+    modules = getModulesData();
 
     console.log('Skin: ' + skin + '\n');
 
-    /*copyImages();
-    copyFonts();*/
+    modulesList = getModulesList(pkg, true);
 
-    async.parallel({img: copyImages, fonts: copyFonts, modules: getModulesData},
-    function (err, results) {
-        modulesList = getModulesList(pkg, true);
+    var packAndConcatCss = function (name, addIE, addClean) {
+        var cssSrcContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isMsg: true});
+        fs.writeFileSync(cssDest[name], cssSrcContent);
 
-        var packAndConcatCss = function (name, addIE, addClean) {
-            var cssSrcContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isMsg: true});
-            fs.writeFileSync(cssDest[nname], cssSrcContent);
+        console.log('\nCompressing CSS...\n');
 
-            console.log('\nCompressing CSS...\n');
+        var cssMinContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isDebug: true});
+        fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
 
-            var cssMinContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isDebug: true});
-            fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
+        console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
+        console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
+    };
 
-            console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
-            console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
-        };
+    jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
 
-        jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
+    if (!fs.existsSync(jsDir)) {
+        console.log('Creating ' + jsDir + ' dir...');
+        fs.mkdirSync(jsDir);
+    }
+    fs.writeFileSync(jsDest.src, jsSrcContent);
 
-        if (!fs.existsSync(jsDir)) {
-            console.log('Creating ' + jsDir + ' dir...');
-            fs.mkdirSync(jsDir);
-        }
-        fs.writeFileSync(jsDest.src, jsSrcContent);
+    console.log('Compressing JS...\n');
 
-        console.log('Compressing JS...\n');
+    jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: true});
+    fs.writeFileSync(jsDest.min, jsMinContent);
 
-        jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: true});
-        fs.writeFileSync(jsDest.min, jsMinContent);
+    console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
+    console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
 
-        console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
-        console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
+    if (!fs.existsSync(cssDir)) {
+        console.log('Creating ' + cssDir + ' dir...');
+        fs.mkdirSync(cssDir);
+    }
+    packAndConcatCss('full', true, true);
+    packAndConcatCss('clean', false, true);
+    packAndConcatCss('ie', true, false);
 
-        if (!fs.existsSync(cssDir)) {
-            console.log('Creating ' + cssDir + ' dir...');
-            fs.mkdirSync(cssDir);
-        }
-        packAndConcatCss('full', true, true);
-        packAndConcatCss('clean', false, true);
-        packAndConcatCss('ie', true, false);
-
-        if (errors.length > 0) {
-            console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
-        } else {
-            console.log(okMsg('\nBuild successfully completed!'));
-        }
-
-    });
-
-
+    if (errors.length > 0) {
+        console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
+    } else {
+        console.log(okMsg('\nBuild successfully completed!'));
+    }
 };
 
 // Get params of app from config files (web app)
@@ -684,17 +537,14 @@ exports.getConfig = function () {
 };
 
 // Load content of all source files to memory (web app). Must run only 1 time on start app
-exports.init = function (callback) {
-    async.parallel({img: copyImages, fonts: copyFonts, modules: getModulesData},
-    function (err, results) {
-        if (results.modules) {
-            modules = results.modules;
-            console.log(okMsg('Load source files successfully completed'));
-            callback();
-        } else {
-            console.log(errMsg('Load source files ended with errors!'));
-        }
-    });
+exports.init = function () {
+    modules = getModulesData();
+
+    if (modules) {
+        console.log(okMsg('Load source files successfully completed'));
+    } else {
+        console.log(errMsg('Load source files ended with errors!'));
+    }
 };
 
 // Get JS content (web app)
