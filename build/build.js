@@ -45,7 +45,7 @@ function getModulesData() {
 
 //Get content of JS files
 function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
-    var jsContent = {js: {}, jsmin: {}}, key;
+    var jsContent = {js: {}, jsmin: {}};
 
     if (!srcList) { return; }
 
@@ -53,11 +53,9 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
         var tmplConfig = getTemplates(moduleName);
 
         // add template content to config vars
-        for (key in tmplConfig) {
-            if (tmplConfig.hasOwnProperty(key)) {
-                appConfig[key] = tmplConfig[key];
-            }
-        }
+        Object.keys(tmplConfig).forEach(function (key) {
+            appConfig[key] = tmplConfig[key];
+        });
     }
     srcList.forEach(function (src) {
         var srcPath = basePath + src;
@@ -80,25 +78,23 @@ function processSkinConf(srcList, basePath) { //(Array, String)->Object
     var skinConfContent = {},
         skinVar = config.skin.var;
 
-    if (srcList) {
-        for (var i = 0, count = srcList.length; i < count; i++) {
-            var srcPath = basePath + srcList[i];
+    srcList.forEach(function (src) {
+        var srcPath = basePath + src;
 
-            if (srcPath.indexOf(skinVar) > 0) {
-                var skinsPath = srcPath.split(skinVar),
-                    skinsList = fs.readdirSync(skinsPath[0]);
+        if (srcPath.indexOf(skinVar) > 0) {
+            var skinsPath = srcPath.split(skinVar),
+                skinsList = fs.readdirSync(skinsPath[0]);
 
-                for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-                    var skinName = skinsList[j],
-                        skinPath = skinsPath[0] + skinName + skinsPath[1];
-                    if (fs.existsSync(skinPath)) {
-                        var skinConfData = fs.readFileSync(skinPath, 'utf8') + '\n';
-                        skinConfContent[skinName] = setParams(skinConfData, appConfig);
-                    }
+            skinsList.forEach(function (skin) {
+                var skinName = skin,
+                    skinPath = skinsPath[0] + skinName + skinsPath[1];
+                if (fs.existsSync(skinPath)) {
+                    var skinConfData = fs.readFileSync(skinPath, 'utf8') + '\n';
+                    skinConfContent[skinName] = setParams(skinConfData, appConfig);
                 }
-            }
+            });
         }
-    }
+    });
 
     return skinConfContent;
 }
@@ -108,32 +104,32 @@ function processCss(srcConf, basePath) { //(Object, String)->Object
     var cssContent = {},
         skinVar = config.skin.var;
 
-    for (var browser in srcConf) {
-        if (srcConf.hasOwnProperty(browser)) {
+    if (srcConf) {
+        Object.keys(srcConf).forEach(function (browser) {
             var browserCssList = srcConf[browser];
 
-            for (var i = 0, count = browserCssList.length; i < count; i++) {
-                var srcPath = basePath + browserCssList[i];
+            browserCssList.forEach(function (browserCss) {
+                var srcPath = basePath + browserCss;
 
                 if (srcPath.indexOf(skinVar) > -1) {
                     var skinsPath = srcPath.split(skinVar),
                         skinsList = fs.readdirSync(skinsPath[0]);
 
-                    for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-                        var skinName = skinsList[j],
+                    skinsList.forEach(function (skin) {
+                        var skinName = skin,
                             skinPath = skinsPath[0] + skinName + skinsPath[1];
                         if (fs.existsSync(skinPath)) {
-                            getCssSource(skinPath, skinName);
+                            getCssSource(skinPath, skinName, browser);
                         }
-                    }
+                    });
                 } else {
-                    getCssSource(srcPath, 'basic');
+                    getCssSource(srcPath, 'basic', browser);
                 }
-            }
-        }
+            });
+        });
     }
 
-    function getCssSource(path, name) {
+    function getCssSource(path, name, browser) {
         var cssData = setParams(fs.readFileSync(path, 'utf8') + '\n', appConfig);
         cssContent[name] = cssContent[name] || {};
         cssContent[name][browser] = cssContent[name][browser] || {};
@@ -159,13 +155,13 @@ function getTemplates(moduleName) { //(string)->Object
         var tmplList = grunt.file.expand([tmplPath + tmplConf.pattern]),
             tmpl = {};
 
-        for (var i = 0, len = tmplList.length; i < len; i++) {
-            var srcPath = tmplList[i],
+        tmplList.forEach(function (template) {
+            var srcPath = template,
                 tmplName = path.basename(srcPath, tmplConf.ext);
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
                 (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
-        }
+        });
 
         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
     }
@@ -190,9 +186,9 @@ function getCopyrightsData() { //()->String
     var source = config.js.copyrights,
         copyrights = '';
 
-    for (var i = 0, count = source.length; i < count; i++) {
-        copyrights += fs.readFileSync(source[i], 'utf8') + '\n';
-    }
+    source.forEach(function (src) {
+        copyrights += fs.readFileSync(src, 'utf8') + '\n';
+    });
 
     return copyrights;
 }
@@ -204,7 +200,7 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         loadedModules = {};
 
     // Package name with no empty modules list on packs.js (example: 'base')
-    if (pkg && packages.hasOwnProperty(pkg) && packages[pkg].modules.length > 0) {
+    if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
         modulesListOrig = packages[pkg].modules;
 
     // Modules list (example: 'Core,JSONP,TileLayer')
@@ -212,26 +208,24 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         modulesListOrig = pkg.split(',');
 
     // Modules single (example: 'Core')
-    } else if (pkg && modules.hasOwnProperty(pkg)) {
+    } else if (pkg && pkg in modules) {
         modulesListOrig.push(pkg);
 
     // Others (null / full package / not correct value)
     } else {
-        for (var mod in modules) {
-            if (modules.hasOwnProperty(mod)) {
-                modulesListOrig.push(mod);
-            }
-        }
+        Object.keys(modules).forEach(function (mod) {
+            modulesListOrig.push(mod);
+        });
     }
 
     if (isMsg) {
         console.log('\nBuild modules:');
     }
 
-    for (var i = 0, count = modulesListOrig.length; i < count; i++) {
-        var moduleName = modulesListOrig[i];
+    modulesListOrig.forEach(function (module) {
+        var moduleName = module;
 
-        if (modules.hasOwnProperty(moduleName)) {
+        if (moduleName in modules) {
             if (!loadedModules[moduleName]) {
                 getDepsList(moduleName);
                 modulesListRes.push(moduleName);
@@ -246,13 +240,13 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
                 errors.push('Unknown modules');
             }
         }
-    }
+    });
 
     function getDepsList(moduleName) {
         if (modules[moduleName] && modules[moduleName].deps) {
             var moduleDeps = modules[moduleName].deps;
-            for (var i = 0, count = moduleDeps.length; i < count; i++) {
-                var moduleNameDeps = moduleDeps[i];
+            moduleDeps.forEach(function (module) {
+                var moduleNameDeps = module;
                 if (modules[moduleNameDeps] && modules[moduleNameDeps].deps) {
                     getDepsList(moduleNameDeps);
                 }
@@ -263,7 +257,7 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
                         console.log(depsMsg('  + ' + moduleNameDeps + ' (deps of ' + moduleName + ')'));
                     }
                 }
-            }
+            });
         }
     }
 
@@ -279,8 +273,8 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
         skin = params.skin,
         isMsg = params.isMsg;
 
-    for (var i = 0, count = modulesList.length; i < count; i++) {
-        var moduleName = modulesList[i],
+    modulesList.forEach(function (module) {
+        var moduleName = module,
             moduleData = modules[moduleName];
 
         if (moduleData && moduleData.js) {
@@ -296,34 +290,32 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
                     loadSkinsList.push('basic');
                 }
 
-                if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty(defaultTheme)) {
+                if (skin in moduleSkins || defaultTheme in moduleSkins) {
                     moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
                     loadSkinsList.push(moduleSkinName);
                 }
 
                 // process list of skins
-                for (var j = 0, cnt = loadSkinsList.length; j < cnt; j++) {
-                    moduleSkinName = loadSkinsList[j];
+                loadSkinsList.forEach(function (skin) {
+                    moduleSkinName = skin;
                     moduleSkinId = moduleSkinName + ':' + moduleName;
 
                     if (!loadedFiles[moduleSkinId]) {
                         result += moduleSkins[moduleSkinName];
                         loadedFiles[moduleSkinId] = true;
                     }
-                }
+                });
             }
 
             // Load main module code
-            for (var file in moduleSrc) {
-                if (moduleSrc.hasOwnProperty(file)) {
-                    if (!loadedFiles[file]) {
-                        result += moduleSrc[file];
-                        loadedFiles[file] = true;
-                    }
+            Object.keys(moduleSrc).forEach(function (file) {
+                if (!loadedFiles[file]) {
+                    result += moduleSrc[file];
+                    loadedFiles[file] = true;
                 }
-            }
+            });
         }
-    }
+    });
 
     if (isMsg) {
         console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
@@ -336,11 +328,12 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
 function makeCSSPackage(modulesList, params) { //(Array, Object)->String
     var loadedFiles = {},
         countModules = 0,
-        result = '', moduleBrowser,
+        result = '',
+        moduleBrowser,
         skin = params.skin;
 
-    for (var i = 0, count = modulesList.length; i < count; i++) {
-        var moduleName = modulesList[i],
+    modulesList.forEach(function (module) {
+        var moduleName = module,
             moduleData = modules[moduleName];
 
         if (moduleData && moduleData.css) {
@@ -352,31 +345,29 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
                 countModules++;
             }
 
-            if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty(defaultTheme)) {
+            if (skin in moduleSkins || defaultTheme in moduleSkins) {
                 var skinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
                 moduleBrowser = moduleSkins[skinName];
                 processBrowsers(moduleBrowser);
             }
         }
-    }
+    });
 
     if (params.isMsg) {
         console.log('Concatenating CSS in ' + countModules + ' modules...\n');
     }
 
     function concatenateFiles(moduleSrc) {
-        for (var file in moduleSrc) {
-            if (moduleSrc.hasOwnProperty(file)) {
-                if (!loadedFiles[file]) {
-                    result += params.isDebug ? moduleSrc[file].source : moduleSrc[file].sourcemin;
-                    loadedFiles[file] = true;
-                }
+        Object.keys(moduleSrc).forEach(function (file) {
+            if (!loadedFiles[file]) {
+                result += params.isDebug ? moduleSrc[file].source : moduleSrc[file].sourcemin;
+                loadedFiles[file] = true;
             }
-        }
+        });
     }
 
     function processCssByType(type) {
-        if (moduleBrowser.hasOwnProperty(type)) {
+        if (type in moduleBrowser) {
             var moduleSrc = moduleBrowser[type];
             concatenateFiles(moduleSrc);
         }
@@ -397,7 +388,7 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
 // Minify JS source files
 function minifyJSPackage(source) { //(String)->String
     return uglify.minify(source, {
-        warnings: !true,
+        warnings: false,
         fromString: true
     }).code;
 }
@@ -415,7 +406,7 @@ function getAppConfig() { // ()->Object
         localConfig;
 
     if (!fs.existsSync(mainConfigPath)) {
-        throw new Error('Not search file \'config.main.json\' in ' + mainConfigPath);
+        throw new Error('File \'config.main.json\' was not found in ' + mainConfigPath);
     }
 
     mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
@@ -448,7 +439,7 @@ exports.setVersion =  function(done) {
 
     fs.exists(loaderPath + '/' + loaderFileName, function (exists) {
 
-        if (!exists) { throw new Error('Not search file \'loader.js\' in ' + loaderPath); }
+        if (!exists) { throw new Error('File \'loader.js\' was not found in ' + loaderPath); }
         exec(command, function (error, stdout) {
 
             if (error) { return; }
