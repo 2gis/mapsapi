@@ -13,7 +13,12 @@ L.DG.Control = L.Control.extend({
     onAdd: function (map) {
         var controlClass = this._controlCLass = 'dg-control-round',
             controlIconClass = this._controlIconCLass = this._controlCLass + '_icon',
-            container = L.DomUtil.create('div', controlClass);
+            container = L.DomUtil.create('div', '');
+
+        if (this._disable) {
+            return container;
+        }
+        L.DomUtil.addClass(container, controlClass);
 
         this._link = L.DomUtil.create('a', controlIconClass + ' ' + controlIconClass + '__' + this.options.iconClass, container);
         this._link.href = '#';
@@ -40,6 +45,10 @@ L.DG.Control = L.Control.extend({
     },
 
     setState: function (state) {
+        if (!this._link || !this._container) {
+            return this;
+        }
+
         if (this._state) {
             L.DomUtil.removeClass(this._container, this._controlCLass + '__' + this._state);
             L.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this._state);

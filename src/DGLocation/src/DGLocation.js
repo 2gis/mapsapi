@@ -1,9 +1,3 @@
-/*
-Copyright (c) 2013 Dominik Moritz
-
-This file is part of the leaflet locate control. It is licensed under the MIT license.
-You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
-*/
 L.DG.Location = L.DG.Control.extend({
 
     options: {
@@ -27,8 +21,10 @@ L.DG.Location = L.DG.Control.extend({
 
     initialize: function (options) {
         L.Util.setOptions(this, options);
-        if (navigator.geolocation) {
-            this.setState('disable');
+
+        if (!navigator.geolocation) {
+            this._disable = true;
+            return;
         }
 
         this._event = undefined;
@@ -59,7 +55,6 @@ L.DG.Location = L.DG.Control.extend({
     },
 
     _handleLocate: function () {
-
         if (this._active && this._event && (this._map.getBounds().contains(this._event.latlng) ||
             this._isOutsideMapBounds())) {
             this._stopLocate();
