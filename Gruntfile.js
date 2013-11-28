@@ -3,7 +3,8 @@
 
 var build = require('./build/build.js'),
     test = require('./test/test.js'),
-    gendoc = require('./docbuilder/gendoc.js');
+    gendoc = require('./docbuilder/gendoc.js'),
+    config = require('./build/config.js').config;
 
 module.exports = function (grunt) {
     'use strict';
@@ -49,19 +50,18 @@ module.exports = function (grunt) {
         grunt.log.writeln('grunt jshint      # Check JS files for errors with JSHint');
         grunt.log.writeln('grunt build       # Lint, combine and minify source files, copy assets');
         grunt.log.writeln('grunt doc         # Generate documentation from .md files');
-        grunt.log.writeln('grunt test        # Rebuild and run unit tests');
+        grunt.log.writeln('grunt test        # Rebuild source and run unit tests');
         grunt.log.writeln('grunt release     # Preparation for release (set version stat files and copy assets)');
     });
-
 
     grunt.initConfig({
         copy: {
             main: {
                 files: [
-                    {expand: true, flatten: true, src: ['src/**/img/*'], dest: 'public/img/', filter: 'isFile'}, //dg images
-                    {expand: true, flatten: true, src: ['vendors/leaflet/dist/images/*'], dest: 'public/img/vendors/leaflet', filter: 'isFile'}, //leaflet images
-                    {expand: true, flatten: true, src: ['src/**/fonts/**'], dest: 'public/fonts', filter: 'isFile'}, //dg fonts
-                    {expand: true, flatten: true, src: ['src/**/svg/*'], dest: 'public/svg', filter: 'isFile'} //dg svg
+                    {expand: true, flatten: true, src: [config.img.pattern], dest: config.img.dest, filter: 'isFile'}, //dg images
+                    {expand: true, flatten: true, src: [config.img.patternLeaflet], dest: config.img.destLeaflet, filter: 'isFile'}, //leaflet images
+                    {expand: true, flatten: true, src: [config.font.pattern], dest: config.font.dest, filter: 'isFile'}, //dg fonts
+                    {expand: true, flatten: true, src: [config.svg.pattern], dest: config.svg.dest, filter: 'isFile'} //dg svg
                 ]
             }
         },

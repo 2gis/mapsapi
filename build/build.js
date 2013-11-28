@@ -76,31 +76,31 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
 }
 
 // Get content of JS skins config files
-function processSkinConf(srcList, basePath, callback) { //(Array, String)->Object
+function processSkinConf(srcList, basePath) { //(Array, String)->Object
     var skinConfContent = {},
         skinVar = config.skin.var;
 
     if (srcList) {
-        srcList.forEach(function (item) {
-            var srcPath = basePath + item;
+        for (var i = 0, count = srcList.length; i < count; i++) {
+            var srcPath = basePath + srcList[i];
 
             if (srcPath.indexOf(skinVar) > 0) {
-                var skinsPath = srcPath.split(skinVar);
+                var skinsPath = srcPath.split(skinVar),
+                    skinsList = fs.readdirSync(skinsPath[0]);
 
-                fs.readdir(skinsPath[0], function (err, skins) {
-                    if (err) { return; }
-
-                    skins.forEach(function (skin) {
-                        var skinPath = skinsPath[0] + skin + skinsPath[1];
-                        fs.readFile(skinPath,  {encoding: 'utf8'}, function (err, skinContent) {
-                            if (err) { return; }
-                            skinConfContent[skin] = setParams(skinContent, appConfig);
-                        });
-                    });
-                });
+                for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
+                    var skinName = skinsList[j],
+                        skinPath = skinsPath[0] + skinName + skinsPath[1];
+                    if (fs.existsSync(skinPath)) {
+                        var skinConfData = fs.readFileSync(skinPath, 'utf8') + '\n';
+                        skinConfContent[skinName] = setParams(skinConfData, appConfig);
+                    }
+                }
             }
-        });
+        }
     }
+
+    return skinConfContent;
 }
 
 // Get content of CSS files each skins (+ IE support)
@@ -421,8 +421,8 @@ function getAppConfig() { // ()->Object
     mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
     if (fs.existsSync(localConfigPath)) {
         localConfig = JSON.parse(fs.readFileSync(localConfigPath));
-        Object.keys(localConfig).forEach(function (option, key) {
-            mainConfig[key] = option;
+        Object.keys(localConfig).forEach(function (option) {
+            mainConfig[option] = localConfig[option];
         });
     }
     return mainConfig;
