@@ -6,7 +6,7 @@ L.DG.Ruler.DistanceMarkerIcon = L.Icon.extend({
     },
 
     statics: {
-        _pointerEventsSupported : (function(){
+        _pointerEventsSupported : (function () {
             var element = document.createElement('x');
             element.style.cssText = 'pointer-events:none';
             return element.style.pointerEvents === 'none';
@@ -21,17 +21,17 @@ L.DG.Ruler.DistanceMarkerIcon = L.Icon.extend({
         if (this.constructor._pointerEventsSupported) {
             div.style.pointerEvents = 'none';
         } else {
-            console.log('_pointerEventsSupported not supported');
-            L.DomEvent.addListener( div, 'mousemove', function (event) {
-                var underneathElem,
-                    eventObject = document.createEventObject();
-                div.style.display = 'none';
-                underneathElem = document.elementFromPoint(event.clientX, event.clientY);
-                div.style.display = '';
-                L.extend(eventObject, event);
-                eventObject.target = underneathElem;
-                underneathElem.fireEvent('onMouseMove', eventObject);
-            });
+        //     console.log('_pointerEventsSupported not supported');
+        //     L.DomEvent.addListener( div, 'mousemove', function (event) {
+        //         var underneathElem,
+        //             eventObject = document.createEventObject();
+        //         div.style.display = 'none';
+        //         underneathElem = document.elementFromPoint(event.clientX, event.clientY);
+        //         div.style.display = '';
+        //         L.extend(eventObject, event);
+        //         eventObject.target = underneathElem;
+        //         underneathElem.fireEvent('onMouseMove', eventObject);
+        //     });
         }
         this._setIconStyles(div, 'icon');
         return this._div = div;
