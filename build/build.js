@@ -4,6 +4,7 @@ var fs = require('fs'),
     grunt = require('grunt'),
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
+    extend = require('extend'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
     config = require(__dirname + '/config.js').config,
@@ -13,6 +14,7 @@ var fs = require('fs'),
     defaultSkin,
     appConfig,
     errors = [],
+    skinVar = config.skin.var,
     //CLI colors theme settings
     okMsg = clc.xterm(28),
     errMsg = clc.xterm(9),
@@ -51,13 +53,9 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
     if (!srcList) { return; }
 
     if (moduleName.indexOf('DG') === 0) {
-        var tmplConfig = getTemplates(moduleName);
-
-        // add template content to config vars
-        Object.keys(tmplConfig).forEach(function (key) {
-            appConfig[key] = tmplConfig[key];
-        });
+        setTemplates(moduleName);
     }
+
     srcList.forEach(function (src) {
         var srcPath = basePath + src;
         if (srcPath.indexOf(config.skin.var) < 0) {
@@ -76,13 +74,12 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
 
 // Get content of JS skins config files
 function processSkinConf(srcList, basePath) { //(Array, String)->Object
-    var skinConfContent = {},
-        skinVar = config.skin.var;
+    var skinConfContent = {};
 
     srcList.forEach(function (src) {
         var srcPath = basePath + src;
 
-        if (srcPath.indexOf(skinVar) > 0) {
+        if (srcPath.indexOf(skinVar) > -1) {
             var skinsPath = srcPath.split(skinVar),
                 skinsList = fs.readdirSync(skinsPath[0]);
 
@@ -102,15 +99,15 @@ function processSkinConf(srcList, basePath) { //(Array, String)->Object
 
 // Get content of CSS files each skins (+ IE support)
 function processCss(srcConf, basePath) { //(Object, String)->Object
-    var cssContent = {},
-        skinVar = config.skin.var;
+    var cssContent = {};
 
     if (srcConf) {
+        //browser here: "all" || "ie" from deps file
         Object.keys(srcConf).forEach(function (browser) {
             var browserCssList = srcConf[browser];
 
-            browserCssList.forEach(function (browserCss) {
-                var srcPath = basePath + browserCss;
+            browserCssList.forEach(function (pathToCssFile) {
+                var srcPath = basePath + pathToCssFile;
 
                 if (srcPath.indexOf(skinVar) > -1) {
                     var skinsPath = srcPath.split(skinVar),
@@ -142,7 +139,7 @@ function processCss(srcConf, basePath) { //(Object, String)->Object
 }
 
 // Generate templates object for specified module
-function getTemplates(moduleName) { //(string)->Object
+function setTemplates(moduleName) { //(string)->Object
     var tmplConf = config.tmpl,
         tmplPath = config.source.dg.path + moduleName + '/' + tmplConf.dir + '/',
         modulesTmpls = {};
@@ -158,7 +155,7 @@ function getTemplates(moduleName) { //(string)->Object
 
         tmplList.forEach(function (template) {
             var srcPath = template,
-                tmplName = path.basename(srcPath, tmplConf.ext);
+                tmplName = path.basename(srcPath, tmplConf.ext),
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
                 (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
@@ -179,7 +176,7 @@ function getTemplates(moduleName) { //(string)->Object
                 .replace(/[\t]/g, '\\t');
     }
 
-    return modulesTmpls;
+    extend(appConfig, modulesTmpls);
 }
 
 // Get content of source files all copyrights. Must run only 1 time on start app or run CLI script
@@ -200,6 +197,7 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         modulesListRes = [],
         loadedModules = {};
 
+    // Package name with no empty modules list on packs.js (example: 'base')
     // Package name with no empty modules list on packs.js (example: 'base')
     if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
         modulesListOrig = packages[pkg].modules;
@@ -223,18 +221,9 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         console.log('\nBuild modules:');
     }
 
-    modulesListOrig.forEach(function (module) {
-        var moduleName = module;
-
+    modulesListOrig.forEach(function (moduleName) {
         if (moduleName in modules) {
-            if (!loadedModules[moduleName]) {
-                getDepsList(moduleName);
-                modulesListRes.push(moduleName);
-                loadedModules[moduleName] = true;
-                if (isMsg) {
-                    console.log('  * ' + moduleName);
-                }
-            }
+            processModule(moduleName);
         } else {
             if (isMsg) {
                 console.log(errMsg('  - ' + moduleName + ' (not found)'));
@@ -242,6 +231,17 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
             }
         }
     });
+
+    function processModule(moduleName) {
+        if (!loadedModules[moduleName]) {
+            getDepsList(moduleName);
+            modulesListRes.push(moduleName);
+            loadedModules[moduleName] = true;
+            if (isMsg) {
+                console.log('  * ' + moduleName);
+            }
+        }
+    }
 
     function getDepsList(moduleName) {
         if (modules[moduleName] && modules[moduleName].deps) {
@@ -274,9 +274,8 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
         skin = params.skin,
         isMsg = params.isMsg;
 
-    modulesList.forEach(function (module) {
-        var moduleName = module,
-            moduleData = modules[moduleName];
+    modulesList.forEach(function (moduleName) {
+        var moduleData = modules[moduleName];
 
         if (moduleData && moduleData.js) {
             var moduleSrc = params.isDebug ? moduleData.js : moduleData.jsmin;
@@ -287,12 +286,12 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
                 var moduleSkins = moduleData.conf;
                 var loadSkinsList = [];
 
-                if (moduleSkins.hasOwnProperty('basic')) {
+                if ('basic' in moduleSkins) {
                     loadSkinsList.push('basic');
                 }
 
                 if (skin in moduleSkins || defaultSkin in moduleSkins) {
-                    moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultSkin;
+                    moduleSkinName = (skin in moduleSkins) ? skin : defaultSkin;
                     loadSkinsList.push(moduleSkinName);
                 }
 
@@ -340,14 +339,14 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
         if (moduleData && moduleData.css) {
             var moduleSkins = moduleData.css;
 
-            if (moduleSkins.hasOwnProperty('basic')) {
+            if ('basic' in moduleSkins) {
                 moduleBrowser = moduleSkins.basic;
                 processBrowsers(moduleBrowser);
                 countModules++;
             }
 
             if (skin in moduleSkins || defaultSkin in moduleSkins) {
-                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultSkin;
+                var skinName = (skin in moduleSkins) ? skin : defaultSkin;
                 moduleBrowser = moduleSkins[skinName];
                 processBrowsers(moduleBrowser);
             }
@@ -378,7 +377,7 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
         if (params.addClean) {
             processCssByType('all');
         }
-        if (params.addIE) {
+        if (params.isIE) {
             processCssByType('ie');
         }
     }
@@ -413,9 +412,7 @@ function getAppConfig() { // ()->Object
     mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
     if (fs.existsSync(localConfigPath)) {
         localConfig = JSON.parse(fs.readFileSync(localConfigPath));
-        Object.keys(localConfig).forEach(function (option) {
-            mainConfig[option] = localConfig[option];
-        });
+        extend(mainConfig, localConfig);
     }
     return mainConfig;
 }
@@ -479,14 +476,14 @@ exports.buildSrc = function () {
 
     modulesList = getModulesList(pkg, true);
 
-    var packAndConcatCss = function (name, addIE, addClean) {
-        var cssSrcContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isMsg: true});
-        fs.writeFileSync(cssDest[name], cssSrcContent);
+    var packAndConcatCss = function (opt) {
+        var cssSrcContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isMsg: true}));
+        fs.writeFileSync(cssDest[opt.name], cssSrcContent);
 
         console.log('\nCompressing CSS...\n');
 
-        var cssMinContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isDebug: true});
-        fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
+        var cssMinContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isDebug: true}));
+        fs.writeFileSync(cssDest[opt.name + '_min'], cssMinContent);
 
         console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
         console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
@@ -512,9 +509,9 @@ exports.buildSrc = function () {
         console.log('Creating ' + cssDir + ' dir...');
         fs.mkdirSync(cssDir);
     }
-    packAndConcatCss('full', true, true);
-    packAndConcatCss('clean', false, true);
-    packAndConcatCss('ie', true, false);
+    packAndConcatCss({name: 'full', isIE: true, addClean: true});
+    packAndConcatCss({name: 'clean', isIE: false, addClean: true});
+    packAndConcatCss({name: 'ie', isIE: true, addClean: false});
 
     if (errors.length > 0) {
         console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
@@ -528,7 +525,7 @@ exports.getConfig = function () {
     return getAppConfig();
 };
 
-// Load content of all source files to memory (web app). Must run only 1 time on start app
+// Load content of all source files to memory (web app). Should be run once
 exports.init = function () {
     modules = getModulesData();
 
@@ -543,14 +540,14 @@ exports.init = function () {
 exports.getJS = function (params, callback) { // (Object, Function)
     var modulesList, contentSrc;
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeJSPackage(modulesList, {skin: params.skin, isDebug: params.isDebug});
+    contentSrc = makeJSPackage(modulesList, params);
     callback(contentSrc);
 };
 
 // Get CSS content (web app)
 exports.getCSS = function (params, callback) { // (Object, Function)
-    var modulesList, contentSrc;
+    var modulesList, contentSrc, options = {addClean: true, isMsg: false};
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeCSSPackage(modulesList, {skin: params.skin, addIE: params.isIE, addClean: true, isMsg: false, isDebug: params.isDebug});
+    contentSrc = makeCSSPackage(modulesList, extend(options, params));
     callback(contentSrc);
 };

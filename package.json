@@ -25,6 +25,7 @@
     "grunt-karma": "0.4.5",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-copy": "~0.4.1",
+    "extend": "~1.2.1",
     "optimist": "0.6.0",
     "cli-color": "0.2.2",
     "marked": "0.2.9",
