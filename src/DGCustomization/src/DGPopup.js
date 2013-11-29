@@ -59,21 +59,21 @@
                 this._bodyContent = content;
             }
 
-            this._update();
+            this.update();
 
             return this;
         },
 
         setHeaderContent: function (content) { // (HTML) -> Popup
             this._headerContent = content;
-            this._update();
+            this.update();
 
             return this;
         },
 
         setFooterContent: function (content) { // (HTML) -> Popup
             this._footerContent = content;
-            this._update();
+            this.update();
 
             return this;
         },
@@ -130,11 +130,9 @@
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
-            if (this._popupStructure[elem]) {
-                this['_' + elem + 'Content'] = null;
-                this._detachEl(this._popupStructure[elem]);
-                delete this._popupStructure[elem];
-            }
+            this['_' + elem + 'Content'] = null;
+            this._detachEl(this._popupStructure[elem]);
+            delete this._popupStructure[elem];
             return this;
         },
 
@@ -147,7 +145,6 @@
         resize: function () {
             var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
-            // this._resetScrollWrapper();
             this._updateLayout();
             this._updatePosition();
 
@@ -250,12 +247,6 @@
             L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
         },
 
-        _resetScrollWrapper: function () {
-            if (this._scrollerWrapper) {
-                this._scrollerWrapper.style = '';
-            }
-        },
-
         _onScroll: function (event) {
             this.fire('dgScroll', {originalEvent: event});
         },
@@ -292,7 +283,7 @@
             this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
         },
 
-        _update: function () {
+        update: function () {
             if (!this._map) { return; }
 
             this._container.style.visibility = 'hidden';

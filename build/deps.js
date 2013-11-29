@@ -11,8 +11,7 @@ var deps = {
         css: {
             all: [
                 '../vendors/leaflet/dist/leaflet.css'
-            ],
-            ie: ['../vendors/leaflet/dist/leaflet.ie.css']
+            ]
         },
         heading: '2GIS modules',
         deps: [ 'Core',
