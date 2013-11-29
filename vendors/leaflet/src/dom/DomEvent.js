@@ -16,8 +16,8 @@ L.DomEvent = {
 			return fn.call(context || obj, e || L.DomEvent._getEvent());
 		};
 
-		if (L.Browser.msTouch && type.indexOf('touch') === 0) {
-			return this.addMsTouchListener(obj, type, handler, id);
+		if (L.Browser.pointer && type.indexOf('touch') === 0) {
+			return this.addPointerListener(obj, type, handler, id);
 		}
 		if (L.Browser.touch && (type === 'dblclick') && this.addDoubleTapListener) {
 			this.addDoubleTapListener(obj, handler, id);
@@ -69,8 +69,8 @@ L.DomEvent = {
 
 		if (!handler) { return this; }
 
-		if (L.Browser.msTouch && type.indexOf('touch') === 0) {
-			this.removeMsTouchListener(obj, type, id);
+		if (L.Browser.pointer && type.indexOf('touch') === 0) {
+			this.removePointerListener(obj, type, id);
 		} else if (L.Browser.touch && (type === 'dblclick') && this.removeDoubleTapListener) {
 			this.removeDoubleTapListener(obj, id);
 
@@ -101,19 +101,29 @@ L.DomEvent = {
 		} else {
 			e.cancelBubble = true;
 		}
+		L.DomEvent._skipped(e);
+
 		return this;
+	},
+
+	disableScrollPropagation: function (el) {
+		var stop = L.DomEvent.stopPropagation;
+
+		return L.DomEvent
+			.on(el, 'mousewheel', stop)
+			.on(el, 'MozMousePixelScroll', stop);
 	},
 
 	disableClickPropagation: function (el) {
 		var stop = L.DomEvent.stopPropagation;
 
 		for (var i = L.Draggable.START.length - 1; i >= 0; i--) {
-			L.DomEvent.addListener(el, L.Draggable.START[i], stop);
+			L.DomEvent.on(el, L.Draggable.START[i], stop);
 		}
 
 		return L.DomEvent
-			.addListener(el, 'click', L.DomEvent._fakeStop)
-			.addListener(el, 'dblclick', stop);
+			.on(el, 'click', L.DomEvent._fakeStop)
+			.on(el, 'dblclick', stop);
 	},
 
 	preventDefault: function (e) {
@@ -127,18 +137,32 @@ L.DomEvent = {
 	},
 
 	stop: function (e) {
-		return L.DomEvent.preventDefault(e).stopPropagation(e);
+		return L.DomEvent
+			.preventDefault(e)
+			.stopPropagation(e);
 	},
 
 	getMousePosition: function (e, container) {
-
 		var body = document.body,
 		    docEl = document.documentElement,
-		    x = e.pageX ? e.pageX : e.clientX + body.scrollLeft + docEl.scrollLeft,
-		    y = e.pageY ? e.pageY : e.clientY + body.scrollTop + docEl.scrollTop,
+		    //gecko makes scrollLeft more negative as you scroll in rtl, other browsers don't
+			//ref: https://code.google.com/p/closure-library/source/browse/closure/goog/style/bidi.js
+			x = L.DomUtil.documentIsLtr() ?
+					(e.pageX ? e.pageX - body.scrollLeft - docEl.scrollLeft : e.clientX) :
+						(L.Browser.gecko ? e.pageX - body.scrollLeft - docEl.scrollLeft :
+						 e.pageX ? e.pageX - body.scrollLeft + docEl.scrollLeft : e.clientX),
+		    y = e.pageY ? e.pageY - body.scrollTop - docEl.scrollTop: e.clientY,
 		    pos = new L.Point(x, y);
 
-		return (container ? pos._subtract(L.DomUtil.getViewportOffset(container)) : pos);
+		if (!container) {
+			return pos;
+		}
+
+		var rect = container.getBoundingClientRect(),
+		    left = rect.left - container.clientLeft,
+		    top = rect.top - container.clientTop;
+
+		return pos._subtract(new L.Point(left, top));
 	},
 
 	getWheelDelta: function (e) {
@@ -154,10 +178,18 @@ L.DomEvent = {
 		return delta;
 	},
 
-	_fakeStop: function stop(e) {
-		// fakes stopPropagation by setting a special event flag checked in Map mouse events handler
-		// jshint camelcase: false
-		e._leaflet_stop = true;
+	_skipEvents: {},
+
+	_fakeStop: function (e) {
+		// fakes stopPropagation by setting a special event flag, checked/reset with L.DomEvent._skipped(e)
+		L.DomEvent._skipEvents[e.type] = true;
+	},
+
+	_skipped: function (e) {
+		var skipped = this._skipEvents[e.type];
+		// reset when checking, as it's only used in map container and propagates outside of the map
+		this._skipEvents[e.type] = false;
+		return skipped;
 	},
 
 	// check if element really left/entered the event target (for mouseenter/mouseleave)
