@@ -22,6 +22,8 @@ L.DG.ajax = (function () {
         xDomainRequest = 'XDomainRequest',
         noop = function () {},
 
+        corsSupport = true,
+
         isArray = typeof Array.isArray === 'function' ? Array.isArray
                 : function (a) {
                     return a instanceof Array;
@@ -302,6 +304,10 @@ L.DG.ajax = (function () {
             o.crossDomain = isCrossDomain(o.url);
         }
 
+        if (o.crossDomain && !corsSupport) {
+            o.type = 'jsonp';
+        }
+
         var self = L.DG.when.defer();
 
         self.abort = function () {
@@ -451,6 +457,15 @@ L.DG.ajax = (function () {
         // spaces should be + according to spec
         return s.join('&').replace(/%20/g, '+');
     };
+
+    // TODO REFACTOR!!
+        var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
+        if (testxhr && 'withCredentials' in testxhr) {
+        } else if (win[xDomainRequest]) {
+        } else {
+            corsSupport = false;
+        }
+    //
 
     return Ajax;
 })();
