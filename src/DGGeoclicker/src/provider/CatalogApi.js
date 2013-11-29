@@ -114,8 +114,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         this.cancelLastRequest();
 
         if (!L.DG.ajax.corsSupport) {
-            data.output = 'jsonp';
-            type = 'jsonp';
+            type = data.output = 'jsonp';
         }
 
         this._lastRequest = L.DG.ajax(url, {

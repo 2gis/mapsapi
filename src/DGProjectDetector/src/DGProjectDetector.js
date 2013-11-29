@@ -64,8 +64,7 @@ L.DG.ProjectDetector = L.Handler.extend({
             type = 'get';
 
         if (!L.DG.ajax.corsSupport) {
-            options.data.output = 'jsonp';
-            type = 'jsonp';
+            type = options.data.output = 'jsonp';
         }
 
         return L.DG.ajax(options.url, {

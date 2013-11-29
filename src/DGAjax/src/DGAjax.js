@@ -304,10 +304,6 @@ L.DG.ajax = (function () {
             o.crossDomain = isCrossDomain(o.url);
         }
 
-        if (o.crossDomain && !corsSupport) {
-            o.type = 'jsonp';
-        }
-
         var self = L.DG.when.defer();
 
         self.abort = function () {
@@ -458,15 +454,12 @@ L.DG.ajax = (function () {
         return s.join('&').replace(/%20/g, '+');
     };
 
-    // TODO REFACTOR!!
     var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
-    if (testxhr && 'withCredentials' in testxhr) {
-    } else if (win[xDomainRequest]) {
-    } else {
+    if (!(testxhr && 'withCredentials' in testxhr) && !win[xDomainRequest]) {
         corsSupport = false;
     }
+
     Ajax.corsSupport = corsSupport;
-    //
 
     return Ajax;
 })();
