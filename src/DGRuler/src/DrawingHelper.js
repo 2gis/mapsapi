@@ -1,7 +1,6 @@
 L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     statics : {
-        distanceIcon : L.DG.Ruler.distanceMarkerIcon(),
         pathStyles : {
             back : {
                 color: '#fff',
@@ -26,29 +25,31 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                     iconSize: [26, 26],
                     iconAnchor: [13, 13]
                 }),
-                back : {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#fff',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 13
-                },
-                middle : {
-                    color: '#0da5d5',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 9
-                },
-                front : {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 0,
-                    weight: 4,
-                    radius: 5
+                layers : {
+                    back : {
+                        color: '#fff',
+                        opacity: 1,
+                        fillColor: '#fff',
+                        fillOpacity: 1,
+                        weight: 1,
+                        radius: 13
+                    },
+                    middle : {
+                        color: '#0da5d5',
+                        opacity: 1,
+                        fillColor: '#0da5d5',
+                        fillOpacity: 1,
+                        weight: 1,
+                        radius: 9
+                    },
+                    front : {
+                        color: '#fff',
+                        opacity: 1,
+                        fillColor: '#0da5d5',
+                        fillOpacity: 0,
+                        weight: 4,
+                        radius: 5
+                    }
                 }
             },
             small : {
@@ -57,29 +58,31 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                     iconSize: [26, 26],
                     iconAnchor: [13, 13]
                 }),
-                back : {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#fff',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 9
-                },
-                middle : {
-                    color: '#0da5d5',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 5
-                },
-                front : {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 0,
-                    weight: 4,
-                    radius: 2
+                layers : {
+                    back : {
+                        color: '#fff',
+                        opacity: 1,
+                        fillColor: '#fff',
+                        fillOpacity: 1,
+                        weight: 1,
+                        radius: 9
+                    },
+                    middle : {
+                        color: '#0da5d5',
+                        opacity: 1,
+                        fillColor: '#0da5d5',
+                        fillOpacity: 1,
+                        weight: 1,
+                        radius: 5
+                    },
+                    front : {
+                        color: '#fff',
+                        opacity: 1,
+                        fillColor: '#0da5d5',
+                        fillOpacity: 0,
+                        weight: 4,
+                        radius: 2
+                    }
                 }
             }
         }
@@ -224,7 +227,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _addRunningLabel : function (latlng) {
         var style = { opacity : 0 };
         point = this._lineMarkerHelper = this._createPoint(latlng, {
-            front : style, middle : style, back : style
+            layers : { front : style, middle : style, back : style },
+            icon : L.DG.Ruler.distanceMarkerIcon({ transparent : true })
         });
         point.addTo(this._layers.mouse, this._layers);
         this._layers.back.bringToBack();
@@ -285,10 +289,11 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     _addPoint: function (event) {
         var latlng = this._map.mouseEventToLatLng(event),
-            point = this._createPoint(latlng, !this._firstPoint);
+            point;
 
         L.DomEvent.stop(event);
 
+        point = this._createPoint(latlng);
         point
             .addTo(this._layers.mouse, this._layers)
             .on(this._pointEvents, this);
@@ -308,13 +313,14 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     },
 
     _createPoint: function (latlng, style) {
-        var pointStyle = style ? style : this.constructor.iconStyles.large,
+        var pointStyle = style ? style : this.constructor.iconStyles['large'],
+            layers = pointStyle.layers,
             point = L.DG.Ruler.layeredMarker(latlng, {
-                icon : style ? this.constructor.distanceIcon : pointStyle.icon,
+                icon : pointStyle.icon,
                 layers : {
-                    back : L.circleMarker(latlng, pointStyle.back),
-                    middle : L.circleMarker(latlng, pointStyle.middle),
-                    front : L.circleMarker(latlng, pointStyle.front)
+                    back : L.circleMarker(latlng, layers.back),
+                    middle : L.circleMarker(latlng, layers.middle),
+                    front : L.circleMarker(latlng, layers.front)
                 }
             });
 
@@ -347,10 +353,11 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         },
         'mouseover' : function (event) {
             // if (this._isEventOutside(event.originalEvent, event.layer._icon)) {
-                // event.layer.setIcon(L.DG.Ruler.distanceMarkerIcon());
+                event.layer.setIcon(L.DG.Ruler.distanceMarkerIcon());
             // }
         },
         'mouseout' : function (event) {
+            console.log('-- mouseout');
             // if (this._isEventOutside(event.originalEvent, event.layer._icon)) {
                 // event.layer.setIcon(this.constructor.iconStyles.large.icon);
             // }
