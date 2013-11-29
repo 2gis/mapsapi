@@ -6,6 +6,7 @@ L.Path.include({
             this.on(this._labelEvents, this);
         } else {
             this._label.setContent(content);
+
             if (this._label.options.offset !== options.offset) {
                 this._label.setOffset(options.offset);
             }

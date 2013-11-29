@@ -46,6 +46,7 @@ L.Marker.include({
                 .off('dragend', this._dragEndLabel)
                 .off('move', this._updatePosition)
                 .off('add', this._updateLabelZIndex);
+
             this._label = null;
         }
         return this;
@@ -75,6 +76,7 @@ L.Marker.include({
                 .on('move', this._updatePosition)
                 ._map.addLayer(this._label.setPosition(this.getLatLng()));
         }
+
         return this;
     },
 

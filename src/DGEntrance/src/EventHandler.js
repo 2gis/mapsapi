@@ -11,6 +11,10 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
             'layeradd': this._removeEntrance,
             'zoomend': this._showOrHideEntrance
         }, this);
+
+        if (L.Browser.ie) {
+            this._map.on('moveend', this._refresh, this); //JSAPI-3379
+        }
     },
 
     _showOrHideEntrance: function () { // (L.Event)
@@ -19,6 +23,16 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
         }
         else {
             this._entrance.hide();
+        }
+    },
+
+    _refresh: function () {
+        var arrows = this._entrance._arrows;
+        if (arrows) {
+            Object.keys(arrows._layers).forEach(function (arrow) {
+                var item = arrows._layers[arrow]._container;
+                item.parentNode.insertBefore(item, item);
+            }, this);
         }
     },
 
@@ -36,5 +50,9 @@ L.DG.Entrance.EventHandler = L.Handler.extend({
             'zoomend': this._showOrHideEntrance,
             'layeradd': this._removeEntrance
         }, this);
+
+        if (L.Browser.ie) {
+            this._map.off('moveend', this._refresh, this); //JSAPI-3379
+        }
     }
 });
