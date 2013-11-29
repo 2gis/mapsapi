@@ -159,12 +159,6 @@ var deps = {
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
 
-    DGJsonp: {
-        desc: 'JSONP module',
-        src: ['DGJsonp/src/DGJsonp.js'],
-        deps: ['DGCore']
-    },
-
     DGTileLayer: {
         desc: '2GIS tile layer module',
         src: [
@@ -176,7 +170,7 @@ var deps = {
     DGProjectDetector: {
         desc: '2GIS project detector module.',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGCore', 'DGJsonp']
+        deps: ['DGCore', 'DGAjax']
     },
 
     DGMeta: {
@@ -242,7 +236,7 @@ var deps = {
             '../vendors/firmcard/src/Dictionary.js',
 
         ],
-        deps: ['DGJsonp', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
+        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
     },
 
     DGTemplate: {
