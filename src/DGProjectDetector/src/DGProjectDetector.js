@@ -60,10 +60,16 @@ L.DG.ProjectDetector = L.Handler.extend({
 
     _loadProjectList: function () {
         var options = this.options,
-            self = this;
+            self = this,
+            type = 'get';
+
+        if (!L.DG.ajax.corsSupport) {
+            options.data.output = 'jsonp';
+            type = 'jsonp';
+        }
 
         return L.DG.ajax(options.url, {
-            type: 'get',
+            type: type,
             data: options.data,
 
             success: function (data) {

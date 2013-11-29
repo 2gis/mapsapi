@@ -459,12 +459,13 @@ L.DG.ajax = (function () {
     };
 
     // TODO REFACTOR!!
-        var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
-        if (testxhr && 'withCredentials' in testxhr) {
-        } else if (win[xDomainRequest]) {
-        } else {
-            corsSupport = false;
-        }
+    var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
+    if (testxhr && 'withCredentials' in testxhr) {
+    } else if (win[xDomainRequest]) {
+    } else {
+        corsSupport = false;
+    }
+    Ajax.corsSupport = corsSupport;
     //
 
     return Ajax;
