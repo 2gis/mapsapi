@@ -22,8 +22,6 @@ L.DG.ajax = (function () {
         xDomainRequest = 'XDomainRequest',
         noop = function () {},
 
-        corsSupport = true,
-
         isArray = typeof Array.isArray === 'function' ? Array.isArray
                 : function (a) {
                     return a instanceof Array;
@@ -455,11 +453,8 @@ L.DG.ajax = (function () {
     };
 
     var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
-    if (!(testxhr && 'withCredentials' in testxhr) && !win[xDomainRequest]) {
-        corsSupport = false;
-    }
 
-    Ajax.corsSupport = corsSupport;
+    Ajax.corsSupport = !(!(testxhr && 'withCredentials' in testxhr) && !win[xDomainRequest]);
 
     return Ajax;
 })();
