@@ -9,6 +9,7 @@ L.Marker = L.Class.extend({
 	options: {
 		icon: new L.Icon.Default(),
 		title: '',
+		alt: '',
 		clickable: true,
 		draggable: false,
 		keyboard: true,
@@ -88,6 +89,10 @@ L.Marker = L.Class.extend({
 			this.update();
 		}
 
+		if (this._popup) {
+			this.bindPopup(this._popup);
+		}
+
 		return this;
 	},
 
@@ -119,6 +124,10 @@ L.Marker = L.Class.extend({
 			if (options.title) {
 				icon.title = options.title;
 			}
+			
+			if (options.alt) {
+				icon.alt = options.alt;
+			}
 		}
 
 		L.DomUtil.addClass(icon, classToAdd);
@@ -143,10 +152,10 @@ L.Marker = L.Class.extend({
 		if (newShadow !== this._shadow) {
 			this._removeShadow();
 			addShadow = true;
+		}
 
-			if (newShadow) {
-				L.DomUtil.addClass(newShadow, classToAdd);
-			}
+		if (newShadow) {
+			L.DomUtil.addClass(newShadow, classToAdd);
 		}
 		this._shadow = newShadow;
 
@@ -203,7 +212,7 @@ L.Marker = L.Class.extend({
 	},
 
 	_animateZoom: function (opt) {
-		var pos = this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center);
+		var pos = this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).round();
 
 		this._setPos(pos);
 	},
@@ -237,9 +246,9 @@ L.Marker = L.Class.extend({
 	_onMouseClick: function (e) {
 		var wasDragged = this.dragging && this.dragging.moved();
 
-		//if (this.hasEventListeners(e.type) || wasDragged) {
+		if (this.hasEventListeners(e.type) || wasDragged) {
 			L.DomEvent.stopPropagation(e);
-		//}
+		}
 
 		if (wasDragged) { return; }
 
@@ -284,6 +293,8 @@ L.Marker = L.Class.extend({
 		if (this._map) {
 			this._updateOpacity();
 		}
+
+		return this;
 	},
 
 	_updateOpacity: function () {

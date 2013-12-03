@@ -59,21 +59,21 @@
                 this._bodyContent = content;
             }
 
-            this._update();
+            this.update();
 
             return this;
         },
 
         setHeaderContent: function (content) { // (HTML) -> Popup
             this._headerContent = content;
-            this._update();
+            this.update();
 
             return this;
         },
 
         setFooterContent: function (content) { // (HTML) -> Popup
             this._footerContent = content;
-            this._update();
+            this.update();
 
             return this;
         },
@@ -283,7 +283,7 @@
             this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
         },
 
-        _update: function () {
+        update: function () {
             if (!this._map) { return; }
 
             this._container.style.visibility = 'hidden';

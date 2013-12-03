@@ -176,7 +176,7 @@ var deps = {
 	TouchZoom: {
 		src: ['dom/DomEvent.js',
 		      'dom/DomEvent.DoubleTap.js',
-		      'dom/DomEvent.MsTouch.js',
+		      'dom/DomEvent.Pointer.js',
 		      'core/Handler.js',
 		      'map/handler/Map.TouchZoom.js',
 		      'map/handler/Map.Tap.js'],
@@ -231,6 +231,7 @@ var deps = {
 			'dom/PosAnimation.js',
 			'map/anim/Map.PanAnimation.js'
 			],
+		heading: 'Animation',
 		desc: 'Core panning animation support.'
 	},
 
