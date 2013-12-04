@@ -9,17 +9,11 @@ var build = require('./build/build.js'),
 module.exports = function (grunt) {
     'use strict';
 
-    grunt.registerTask('githooks', ['githooks']);
-
-    // Check JS files for errors with JSHint
-    grunt.registerTask('jshint', ['jshint:all']);
+    // grunt.registerTask('githooks', ['githooks']);
 
     grunt.registerTask('buildSrc', function () {
         build.buildSrc();
     });
-
-    // Combine and minify source files
-    grunt.registerTask('build', ['jshint', 'buildSrc']);
 
     grunt.registerTask('setVersion', function () {
         var done = this.async();
@@ -31,10 +25,10 @@ module.exports = function (grunt) {
     grunt.registerTask('assets', ['copy']);
 
     // Check JS files for errors with JSHint
-    grunt.registerTask('jshint', ['jshint:all']);
+    grunt.registerTask('hint', ['jshint:force']);
 
     // Lint, combine and minify source files, copy assets
-    grunt.registerTask('build', ['jshint', 'assets', 'buildSrc']);
+    grunt.registerTask('build', ['hint', 'assets', 'buildSrc', 'githooks']);
 
     // Generate documentation from source files
     grunt.registerTask('doc', function () {
@@ -44,7 +38,7 @@ module.exports = function (grunt) {
 
     // Rebuild and run unit tests
     grunt.registerTask('test', function () {
-        build.buildSrc();
+        build.buildSrc(false);
         grunt.task.run('karma:continuous');
     });
 
@@ -55,7 +49,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', function () {
         grunt.log.writeln('\nTasks list:\n');
         grunt.log.writeln('grunt assets      # Copy all assets to public/');
-        grunt.log.writeln('grunt jshint      # Check JS files for errors with JSHint');
+        grunt.log.writeln('grunt hint        # Check JS files for errors with JSHint');
         grunt.log.writeln('grunt build       # Lint, combine and minify source files, copy assets');
         grunt.log.writeln('grunt doc         # Generate documentation from .md files');
         grunt.log.writeln('grunt test        # Rebuild source and run unit tests');
@@ -74,7 +68,7 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            all: {
+            force: {
                 options: {
                     jshintrc: true,
                     force: true

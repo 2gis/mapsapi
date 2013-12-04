@@ -459,7 +459,7 @@ exports.setVersion =  function(done) {
 }
 
 // Combine and minify source files (CLI command)
-exports.buildSrc = function () {
+exports.buildSrc = function (isMsg) {
     var modulesList,
         jsSrcContent,
         jsMinContent,
@@ -470,43 +470,60 @@ exports.buildSrc = function () {
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
         skin = argv.skin || defaultSkin;
 
+    if (typeof isMsg === 'undefined') isMsg = true;
+
     modules = getModulesData();
 
-    console.log('Skin: ' + skin + '\n');
+    if (isMsg) {
+        console.log('Skin: ' + skin + '\n');
+    }
 
-    modulesList = getModulesList(pkg, true);
+
+    modulesList = getModulesList(pkg, isMsg);
 
     var packAndConcatCss = function (opt) {
-        var cssSrcContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isMsg: true}));
+        var cssSrcContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isMsg: isMsg}));
         fs.writeFileSync(cssDest[opt.name], cssSrcContent);
 
-        console.log('\nCompressing CSS...\n');
+        if (isMsg) {
+            console.log('\nCompressing CSS...\n');
+        }
 
         var cssMinContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isDebug: true}));
         fs.writeFileSync(cssDest[opt.name + '_min'], cssMinContent);
 
-        console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
-        console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
+        if (isMsg) {
+            console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
+            console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
+        }
     };
 
-    jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
+    jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: isMsg});
 
     if (!fs.existsSync(jsDir)) {
-        console.log('Creating ' + jsDir + ' dir...');
+        if (isMsg) {
+            console.log('Creating ' + jsDir + ' dir...');
+        }
         fs.mkdirSync(jsDir);
     }
     fs.writeFileSync(jsDest.src, jsSrcContent);
 
-    console.log('Compressing JS...\n');
+    if (isMsg) {
+        console.log('Compressing JS...\n');
+    }
 
     jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: true});
     fs.writeFileSync(jsDest.min, jsMinContent);
 
-    console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
-    console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
+    if (isMsg) {
+        console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
+        console.log('   Compressed size:   ' + (jsMinContent.length / 1024).toFixed(1) + ' KB');
+    }
 
     if (!fs.existsSync(cssDir)) {
-        console.log('Creating ' + cssDir + ' dir...');
+        if (isMsg) {
+            console.log('Creating ' + cssDir + ' dir...');
+        }
         fs.mkdirSync(cssDir);
     }
     packAndConcatCss({name: 'full', isIE: true, addClean: true});
