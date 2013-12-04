@@ -1,5 +1,6 @@
 L.Path.ANIMATION_AVAILABLE =
     L.Browser.svg &&
+    !L.Browser.mobileWebkit &&
     navigator.userAgent.toLowerCase().indexOf('presto') === -1 &&
     Object.prototype.toString.call(
         document.createElementNS(L.Path.SVG_NS, 'animate').beginElement) === '[object Function]';
