@@ -100,7 +100,6 @@ if (L.Browser.svg) {
                     }
 
                     this._defs.appendChild(marker);
-
                 }
             }
 

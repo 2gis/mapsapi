@@ -11,8 +11,7 @@ var deps = {
         css: {
             all: [
                 '../vendors/leaflet/dist/leaflet.css'
-            ],
-            ie: ['../vendors/leaflet/dist/leaflet.ie.css']
+            ]
         },
         heading: '2GIS modules',
         deps: [ 'Core',
@@ -55,7 +54,7 @@ var deps = {
 
     DGWhen: {
         desc: 'Promise/Deffered object module',
-        src: [ 'DGWhen/src/DGWhen.js' ],
+        src: [ 'DGWhen/src/DGWhen.js'],
         deps: ['DGCore']
     },
 

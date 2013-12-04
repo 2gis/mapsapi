@@ -56,7 +56,7 @@ L.DG.Label = L.Class.extend({
                         this._map.getPanes().markerPane);
         this._el.style.zIndex = this._defaultZIndex + this.options.zIndexOffset;
 
-        this._container = L.DomUtil.create('div', '', this._el);
+        this._container = L.DomUtil.create('div', this.options.className + '__content', this._el);
         L.DomUtil.disableTextSelection(this._container);
         L.DomEvent
             .disableClickPropagation(this._el)
@@ -109,6 +109,7 @@ L.DG.Label = L.Class.extend({
         if (!(latlng instanceof L.LatLng)) {
             return this;
         }
+
         this._latlng = latlng;
         this._onViewReset();
         return this;

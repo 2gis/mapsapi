@@ -31,7 +31,7 @@ var
     },
 
     baron = function(params) { // this - window or jQuery instance
-        var jQueryMode = (this && this[0] && this[0].nodeType),
+        var jQueryMode = false,//(this && this[0] && this[0].nodeType),
             roots,
             $;
 
@@ -107,7 +107,7 @@ var
     function manageEvents(item, eventManager, mode) {
         item._eventHandlers = item._eventHandlers || [ // Creating new functions for one baron item only one time
             {
-                // onScroll: 
+                // onScroll:
                 element: item.scroller,
 
                 handler: function(e) {
@@ -116,7 +116,7 @@ var
 
                 type: 'scroll'
             }, {
-                // onMouseDown: 
+                // onMouseDown:
                 element: item.bar,
 
                 handler: function(e) {
@@ -127,7 +127,7 @@ var
 
                 type: 'touchstart mousedown'
             }, {
-                // onMouseUp: 
+                // onMouseUp:
                 element: document,
 
                 handler: function() {
@@ -137,7 +137,7 @@ var
 
                 type: 'mouseup blur touchend'
             }, {
-                // onCoordinateReset: 
+                // onCoordinateReset:
                 element: item.bar,
 
                 handler: function(e) {
@@ -148,7 +148,7 @@ var
 
                 type: 'touchstart mousedown'
             }, {
-                // onMouseMove: 
+                // onMouseMove:
                 element: document,
 
                 handler: function(e) {
@@ -159,7 +159,7 @@ var
 
                 type: 'mousemove touchmove'
             }, {
-                // onResize: 
+                // onResize:
                 element: window,
 
                 handler: function() {
@@ -168,7 +168,7 @@ var
 
                 type: 'resize'
             }, {
-                // sizeChange: 
+                // sizeChange:
                 element: item.root,
 
                 handler: function() {
@@ -420,7 +420,7 @@ var
                         $(self.clipper).css(self.origin.crossSize, self.clipper[self.origin.crossClient] - delta + 'px');
                     }
                     $(self.scroller).css(self.origin.crossSize, self.clipper[self.origin.crossClient] + delta + 'px');
-                    
+
                     Array.prototype.unshift.call(arguments, 'resize');
                     fire.apply(self, arguments);
 
@@ -454,7 +454,7 @@ var
                             setBarSize.call(self, newBarSize);
                             oldBarSize = newBarSize;
                         }
-                        
+
                         barPos = relToPos.call(self, self.rpos());
 
                         posBar.call(self, barPos);
@@ -471,7 +471,7 @@ var
                 } else {
                     upd();
                 }
-                
+
             };
 
             return this;
@@ -637,7 +637,7 @@ var
 
             var event = {
                 element: elements,
-                
+
                 handler: function() {
                     var parent = $(this)[0].parentNode,
                         top = parent.offsetTop,
@@ -758,7 +758,7 @@ var
 
             this.event(forward, 'click', function() {
                 var y = self.pos() - params.delta || 30;
-                
+
                 self.pos(y);
             });
         }
@@ -846,7 +846,7 @@ var
 
         function step(x, force) {
             var k = x * 0.0005;
-            
+
             return Math.floor(force - k * (x + 550));
         }
 
@@ -918,7 +918,7 @@ var
                 _zeroXCount++;
             } else {
                 _zeroXCount = 0;
-                
+
             }
             if (_zeroXCount > 1) {
                 toggle(false);

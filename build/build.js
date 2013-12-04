@@ -4,26 +4,30 @@ var fs = require('fs'),
     grunt = require('grunt'),
     uglify = require('uglify-js'),
     cleanCss = require('clean-css'),
+    extend = require('extend'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
-    defaultTheme = 'light',
     //Global data stores
     modules,
+    defaultSkin,
     appConfig,
     errors = [],
+    skinVar = config.skin.var,
     //CLI colors theme settings
     okMsg = clc.xterm(28),
     errMsg = clc.xterm(9),
     depsMsg = clc.xterm(27);
 
 // Get content of source files all modules
-function getModulesData(callback) {
+function getModulesData() {
     var source = config.source,
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
+    defaultSkin = appConfig.DEFAULT_SKIN;
+
     Object.keys(source).forEach(function (creator) {
         var modulesList = source[creator].deps,
             basePath = source[creator].path;
@@ -39,27 +43,21 @@ function getModulesData(callback) {
         });
     });
 
-    callback(null, modulesData);
+    return modulesData;
 }
 
 //Get content of JS files
 function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
-    var jsContent = {js: {}, jsmin: {}}, key;
+    var jsContent = {js: {}, jsmin: {}};
 
     if (!srcList) { return; }
 
     if (moduleName.indexOf('DG') === 0) {
-        var tmplConfig = getTemplates(moduleName);
-
-        // add template content to config vars
-        for (key in tmplConfig) {
-            if (tmplConfig.hasOwnProperty(key)) {
-                appConfig[key] = tmplConfig[key];
-            }
-        }
+        setTemplates(moduleName);
     }
-    for (var i = 0, count = srcList.length; i < count; i++) {
-        var srcPath = basePath + srcList[i];
+
+    srcList.forEach(function (src) {
+        var srcPath = basePath + src;
         if (srcPath.indexOf(config.skin.var) < 0) {
             if (fs.existsSync(srcPath)) {
                 var jsData = setParams(fs.readFileSync(srcPath, 'utf8') + '\n\n', appConfig);
@@ -69,70 +67,67 @@ function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
                 console.log(errMsg('Error! File ' + srcPath + ' not found!\n'));
             }
         }
-    }
+    });
 
     return jsContent;
 }
 
 // Get content of JS skins config files
-function processSkinConf(srcList, basePath, callback) { //(Array, String)->Object
-    var skinConfContent = {},
-        skinVar = config.skin.var;
+function processSkinConf(srcList, basePath) { //(Array, String)->Object
+    var skinConfContent = {};
 
-    if (srcList) {
-        srcList.forEach(function (item) {
-            var srcPath = basePath + item;
+    srcList.forEach(function (src) {
+        var srcPath = basePath + src;
 
-            if (srcPath.indexOf(skinVar) > 0) {
-                var skinsPath = srcPath.split(skinVar);
+        if (srcPath.indexOf(skinVar) > -1) {
+            var skinsPath = srcPath.split(skinVar),
+                skinsList = fs.readdirSync(skinsPath[0]);
 
-                fs.readdir(skinsPath[0], function (err, skins) {
-                    if (err) { return; }
+            skinsList.forEach(function (skin) {
+                var skinName = skin,
+                    skinPath = skinsPath[0] + skinName + skinsPath[1];
+                if (fs.existsSync(skinPath)) {
+                    var skinConfData = fs.readFileSync(skinPath, 'utf8') + '\n';
+                    skinConfContent[skinName] = setParams(skinConfData, appConfig);
+                }
+            });
+        }
+    });
 
-                    skins.forEach(function (skin) {
-                        var skinPath = skinsPath[0] + skin + skinsPath[1];
-                        fs.readFile(skinPath,  {encoding: 'utf8'}, function (err, skinContent) {
-                            if (err) { return; }
-                            skinConfContent[skin] = setParams(skinContent, appConfig);
-                        });
-                    });
-                });
-            }
-        });
-    }
+    return skinConfContent;
 }
 
 // Get content of CSS files each skins (+ IE support)
 function processCss(srcConf, basePath) { //(Object, String)->Object
-    var cssContent = {},
-        skinVar = config.skin.var;
+    var cssContent = {};
 
-    for (var browser in srcConf) {
-        if (srcConf.hasOwnProperty(browser)) {
+    if (srcConf) {
+        //browser here: "all" || "ie" from deps file
+        Object.keys(srcConf).forEach(function (browser) {
             var browserCssList = srcConf[browser];
 
-            for (var i = 0, count = browserCssList.length; i < count; i++) {
-                var srcPath = basePath + browserCssList[i];
+            browserCssList.forEach(function (pathToCssFile) {
+                var srcPath = basePath + pathToCssFile;
 
                 if (srcPath.indexOf(skinVar) > -1) {
                     var skinsPath = srcPath.split(skinVar),
                         skinsList = fs.readdirSync(skinsPath[0]);
 
-                    for (var j = 0, cnt = skinsList.length; j < cnt; j++) {
-                        var skinName = skinsList[j],
+                    skinsList.forEach(function (skin) {
+                        var skinName = skin,
                             skinPath = skinsPath[0] + skinName + skinsPath[1];
                         if (fs.existsSync(skinPath)) {
-                            getCssSource(skinPath, skinName);
+                            getCssSource(skinPath, skinName, browser);
                         }
-                    }
+                    });
                 } else {
-                    getCssSource(srcPath, 'basic');
+                    getCssSource(srcPath, 'basic', browser);
                 }
-            }
-        }
+            });
+        });
     }
 
-    function getCssSource(path, name) {
+    function getCssSource(path, name, browser) {
         var cssData = setParams(fs.readFileSync(path, 'utf8') + '\n', appConfig);
         cssContent[name] = cssContent[name] || {};
         cssContent[name][browser] = cssContent[name][browser] || {};
@@ -144,7 +139,7 @@ function processCss(srcConf, basePath) { //(Object, String)->Object
 }
 
 // Generate templates object for specified module
-function getTemplates(moduleName) { //(string)->Object
+function setTemplates(moduleName) { //(string)->Object
     var tmplConf = config.tmpl,
         tmplPath = config.source.dg.path + moduleName + '/' + tmplConf.dir + '/',
         modulesTmpls = {};
@@ -158,13 +153,13 @@ function getTemplates(moduleName) { //(string)->Object
         var tmplList = grunt.file.expand([tmplPath + tmplConf.pattern]),
             tmpl = {};
 
-        for (var i = 0, len = tmplList.length; i < len; i++) {
-            var srcPath = tmplList[i],
-                tmplName = path.basename(srcPath, tmplConf.ext);
+        tmplList.forEach(function (template) {
+            var srcPath = template,
+                tmplName = path.basename(srcPath, tmplConf.ext),
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
                 (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
-        }
+        });
 
         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
     }
@@ -181,118 +176,7 @@ function getTemplates(moduleName) { //(string)->Object
                 .replace(/[\t]/g, '\\t');
     }
 
-    return modulesTmpls;
-}
-
-// Clear img folder and copy all images from skins folder
-function copyImages(done) {
-    var sourceDeps = config.source,
-        publicImgPath = config.img.dest,
-        countImg = 0;
-
-    cleanImgDir();
-    processImg();
-
-    function cleanImgDir() {
-        if (grunt.file.isDir(publicImgPath)) {
-            grunt.file.delete(publicImgPath);
-            grunt.file.mkdir(publicImgPath);
-            console.log('Clear public/img folder.');
-        }
-    }
-
-    function processImg() {
-
-        console.log('Copy all skins and vendors images to public/img...');
-        Object.keys(sourceDeps).forEach(function (creator) {
-            var creatorPath = sourceDeps[creator].path;
-
-            // need cache creator var since async function inside
-            (function (creator) {
-                fs.readdir(creatorPath, function (err, files) {
-                    if (err) { return; }
-
-                    files.forEach(function (module) {
-                        var skinsPath = creatorPath + module + '/' + config.skin.dir + '/',
-                            isDg = (creator === 'dg'),
-                            pattern = isDg ? skinsPath + config.img.pattern : sourceDeps[creator].pathImg + config.img.patternVendor;
-
-                        glob(pattern, {}, function (err, img) {
-                            if (err) { return; }
-
-                            img.forEach(function (src) {
-                                copyImg(src, isDg, creator);
-                            });
-                        });
-                    });
-                });
-            })(creator);
-        });
-
-        console.log('Done. Copy ' + countImg + ' images.');
-        done(null);
-    }
-
-    function copyImg(imgPath, isDg, creator) {
-        var fileName = path.basename(imgPath),
-            destPath = isDg ? config.img.dest + fileName :
-                              config.img.destVendor + '/' + creator + '/' + fileName;
-
-        grunt.file.copy(imgPath, destPath);
-        countImg++;
-    }
-}
-
-// Clear fonts folder and copy all fonts from skins folder
-function copyFonts(done) {
-    var sourceDeps = config.source.dg.path,
-        publicFontPath = config.font.dest;
-
-    cleanFontsDir();
-    processFont();
-
-    function cleanFontsDir() {
-        if (grunt.file.isDir(publicFontPath)) {
-            grunt.file.delete(publicFontPath);
-            grunt.file.mkdir(publicFontPath);
-
-            console.log('Clear public/fonts folder.');
-        }
-    }
-
-    function processFont() {
-        fs.readdir(sourceDeps, function (err, files) {
-            if (err) { return; }
-
-            console.log('Copy all fonts to public/fonts...');
-
-            files.forEach(function (module) {
-                var skinsPath = sourceDeps + module + '/' + config.skin.dir + '/';
-
-
-                glob(skinsPath + config.font.pattern, {}, function (err, files) {
-                    if (err) { return; }
-
-                    files.forEach(function (src) {
-                        copyFont(src);
-                    });
-                });
-            });
-
-            console.log('Done. Copy fonts.');
-            done(null);
-        });
-    }
-
-    function copyFont(fontPath) {
-        var fileName, destPath;
-
-        if (grunt.file.isFile(fontPath)) {
-            fileName = path.basename(fontPath);
-            destPath = config.font.dest + fileName;
-            grunt.file.copy(fontPath, destPath);
-        }
-    }
+    extend(appConfig, modulesTmpls);
 }
 
 // Get content of source files all copyrights. Must run only 1 time on start app or run CLI script
@@ -300,9 +184,9 @@ function getCopyrightsData() { //()->String
     var source = config.js.copyrights,
         copyrights = '';
 
-    for (var i = 0, count = source.length; i < count; i++) {
-        copyrights += fs.readFileSync(source[i], 'utf8') + '\n';
-    }
+    source.forEach(function (src) {
+        copyrights += fs.readFileSync(src, 'utf8') + '\n';
+    });
 
     return copyrights;
 }
@@ -314,7 +198,8 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         loadedModules = {};
 
     // Package name with no empty modules list on packs.js (example: 'base')
-    if (pkg && packages.hasOwnProperty(pkg) && packages[pkg].modules.length > 0) {
+    // Package name with no empty modules list on packs.js (example: 'base')
+    if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
         modulesListOrig = packages[pkg].modules;
 
     // Modules list (example: 'Core,JSONP,TileLayer')
@@ -322,38 +207,38 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         modulesListOrig = pkg.split(',');
 
     // Modules single (example: 'Core')
-    } else if (pkg && modules.hasOwnProperty(pkg)) {
+    } else if (pkg && pkg in modules) {
         modulesListOrig.push(pkg);
 
     // Others (null / full package / not correct value)
     } else {
-        for (var mod in modules) {
-            if (modules.hasOwnProperty(mod)) {
-                modulesListOrig.push(mod);
-            }
-        }
+        Object.keys(modules).forEach(function (mod) {
+            modulesListOrig.push(mod);
+        });
     }
 
     if (isMsg) {
         console.log('\nBuild modules:');
     }
 
-    for (var i = 0, count = modulesListOrig.length; i < count; i++) {
-        var moduleName = modulesListOrig[i];
-
-        if (modules.hasOwnProperty(moduleName)) {
-            if (!loadedModules[moduleName]) {
-                getDepsList(moduleName);
-                modulesListRes.push(moduleName);
-                loadedModules[moduleName] = true;
-                if (isMsg) {
-                    console.log('  * ' + moduleName);
-                }
-            }
+    modulesListOrig.forEach(function (moduleName) {
+        if (moduleName in modules) {
+            processModule(moduleName);
         } else {
             if (isMsg) {
                 console.log(errMsg('  - ' + moduleName + ' (not found)'));
                 errors.push('Unknown modules');
+            }
+        }
+    });
+
+    function processModule(moduleName) {
+        if (!loadedModules[moduleName]) {
+            getDepsList(moduleName);
+            modulesListRes.push(moduleName);
+            loadedModules[moduleName] = true;
+            if (isMsg) {
+                console.log('  * ' + moduleName);
             }
         }
     }
@@ -361,8 +246,8 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
     function getDepsList(moduleName) {
         if (modules[moduleName] && modules[moduleName].deps) {
             var moduleDeps = modules[moduleName].deps;
-            for (var i = 0, count = moduleDeps.length; i < count; i++) {
-                var moduleNameDeps = moduleDeps[i];
+            moduleDeps.forEach(function (module) {
+                var moduleNameDeps = module;
                 if (modules[moduleNameDeps] && modules[moduleNameDeps].deps) {
                     getDepsList(moduleNameDeps);
                 }
@@ -373,7 +258,7 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
                         console.log(depsMsg('  + ' + moduleNameDeps + ' (deps of ' + moduleName + ')'));
                     }
                 }
-            }
+            });
         }
     }
 
@@ -389,9 +274,8 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
         skin = params.skin,
         isMsg = params.isMsg;
 
-    for (var i = 0, count = modulesList.length; i < count; i++) {
-        var moduleName = modulesList[i],
-            moduleData = modules[moduleName];
+    modulesList.forEach(function (moduleName) {
+        var moduleData = modules[moduleName];
 
         if (moduleData && moduleData.js) {
             var moduleSrc = params.isDebug ? moduleData.js : moduleData.jsmin;
@@ -402,38 +286,36 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
                 var moduleSkins = moduleData.conf;
                 var loadSkinsList = [];
 
-                if (moduleSkins.hasOwnProperty('basic')) {
+                if ('basic' in moduleSkins) {
                     loadSkinsList.push('basic');
                 }
 
-                if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty(defaultTheme)) {
-                    moduleSkinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
+                if (skin in moduleSkins || defaultSkin in moduleSkins) {
+                    moduleSkinName = (skin in moduleSkins) ? skin : defaultSkin;
                     loadSkinsList.push(moduleSkinName);
                 }
 
                 // process list of skins
-                for (var j = 0, cnt = loadSkinsList.length; j < cnt; j++) {
-                    moduleSkinName = loadSkinsList[j];
+                loadSkinsList.forEach(function (skin) {
+                    moduleSkinName = skin;
                     moduleSkinId = moduleSkinName + ':' + moduleName;
 
                     if (!loadedFiles[moduleSkinId]) {
                         result += moduleSkins[moduleSkinName];
                         loadedFiles[moduleSkinId] = true;
                     }
-                }
+                });
             }
 
             // Load main module code
-            for (var file in moduleSrc) {
-                if (moduleSrc.hasOwnProperty(file)) {
-                    if (!loadedFiles[file]) {
-                        result += moduleSrc[file];
-                        loadedFiles[file] = true;
-                    }
+            Object.keys(moduleSrc).forEach(function (file) {
+                if (!loadedFiles[file]) {
+                    result += moduleSrc[file];
+                    loadedFiles[file] = true;
                 }
-            }
+            });
         }
-    }
+    });
 
     if (isMsg) {
         console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
@@ -446,47 +328,46 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
 function makeCSSPackage(modulesList, params) { //(Array, Object)->String
     var loadedFiles = {},
         countModules = 0,
-        result = '', moduleBrowser,
+        result = '',
+        moduleBrowser,
         skin = params.skin;
 
-    for (var i = 0, count = modulesList.length; i < count; i++) {
-        var moduleName = modulesList[i],
+    modulesList.forEach(function (module) {
+        var moduleName = module,
             moduleData = modules[moduleName];
 
         if (moduleData && moduleData.css) {
             var moduleSkins = moduleData.css;
 
-            if (moduleSkins.hasOwnProperty('basic')) {
+            if ('basic' in moduleSkins) {
                 moduleBrowser = moduleSkins.basic;
                 processBrowsers(moduleBrowser);
                 countModules++;
             }
 
-            if (moduleSkins.hasOwnProperty(skin) || moduleSkins.hasOwnProperty(defaultTheme)) {
-                var skinName = moduleSkins.hasOwnProperty(skin) ? skin : defaultTheme;
+            if (skin in moduleSkins || defaultSkin in moduleSkins) {
+                var skinName = (skin in moduleSkins) ? skin : defaultSkin;
                 moduleBrowser = moduleSkins[skinName];
                 processBrowsers(moduleBrowser);
             }
         }
-    }
+    });
 
     if (params.isMsg) {
         console.log('Concatenating CSS in ' + countModules + ' modules...\n');
     }
 
     function concatenateFiles(moduleSrc) {
-        for (var file in moduleSrc) {
-            if (moduleSrc.hasOwnProperty(file)) {
-                if (!loadedFiles[file]) {
-                    result += params.isDebug ? moduleSrc[file].source : moduleSrc[file].sourcemin;
-                    loadedFiles[file] = true;
-                }
+        Object.keys(moduleSrc).forEach(function (file) {
+            if (!loadedFiles[file]) {
+                result += params.isDebug ? moduleSrc[file].source : moduleSrc[file].sourcemin;
+                loadedFiles[file] = true;
             }
-        }
+        });
     }
 
     function processCssByType(type) {
-        if (moduleBrowser.hasOwnProperty(type)) {
+        if (type in moduleBrowser) {
             var moduleSrc = moduleBrowser[type];
             concatenateFiles(moduleSrc);
         }
@@ -496,7 +377,7 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
         if (params.addClean) {
             processCssByType('all');
         }
-        if (params.addIE) {
+        if (params.isIE) {
             processCssByType('ie');
         }
     }
@@ -507,7 +388,7 @@ function makeCSSPackage(modulesList, params) { //(Array, Object)->String
 // Minify JS source files
 function minifyJSPackage(source) { //(String)->String
     return uglify.minify(source, {
-        warnings: !true,
+        warnings: false,
         fromString: true
     }).code;
 }
@@ -522,19 +403,16 @@ function getAppConfig() { // ()->Object
     var mainConfigPath = config.mainAppConfig,
         localConfigPath = config.localAppConfig,
         mainConfig,
-        localConfig,
-        key;
+        localConfig;
 
     if (!fs.existsSync(mainConfigPath)) {
-        throw new Error("Not search file 'config.main.json' in " + mainConfigPath);
+        throw new Error('File \'config.main.json\' was not found in ' + mainConfigPath);
     }
 
     mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
     if (fs.existsSync(localConfigPath)) {
         localConfig = JSON.parse(fs.readFileSync(localConfigPath));
-        for (key in localConfig) {
-            mainConfig[key] = localConfig[key];
-        }
+        extend(mainConfig, localConfig);
     }
     return mainConfig;
 }
@@ -550,8 +428,8 @@ function setParams(content, config) { //(String, Object)->String
     return content;
 }
 
-
-function setVersion(done) {
+// Update code version in loader.js (CLI command)
+exports.setVersion =  function(done) {
     var loaderPath = config.loader.dir,
         loaderFileName = config.loader.name,
         command = 'git rev-parse --verify HEAD',
@@ -559,7 +437,7 @@ function setVersion(done) {
 
     fs.exists(loaderPath + '/' + loaderFileName, function (exists) {
 
-        if (!exists) { throw new Error('Not search file \'loader.js\' in ' + loaderPath); }
+        if (!exists) { throw new Error('File \'loader.js\' was not found in ' + loaderPath); }
         exec(command, function (error, stdout) {
 
             if (error) { return; }
@@ -580,28 +458,8 @@ function setVersion(done) {
     });
 }
 
-// Copy all images (CLI command)
-exports.copyImages = function () {
-    copyImages();
-};
-
-// Copy all fonts (CLI command)
-exports.copyFonts = function () {
-    copyFonts();
-};
-
-//Make preperations for release (CLI command)
-exports.release = function (done) {
-    async.parallel([copyImages, copyFonts, setVersion],
-    function (err) {
-        if (!err) {
-            done();
-        }
-    });
-};
-
-// Build (CLI command)
-exports.build = function () {
+// Combine and minify source files (CLI command)
+exports.buildSrc = function () {
     var modulesList,
         jsSrcContent,
         jsMinContent,
@@ -610,27 +468,22 @@ exports.build = function () {
         cssDest = config.css.public,
         cssDir = cssDest.dir,
         pkg = argv.p || argv.m || argv.pkg || argv.mod,
-        skin = argv.skin || defaultTheme;
+        skin = argv.skin || defaultSkin;
 
-    modules = modules || getModulesData(function (result) {
-        modules = result;
-    });
+    modules = getModulesData();
 
     console.log('Skin: ' + skin + '\n');
 
-    copyImages();
-    copyFonts();
-
     modulesList = getModulesList(pkg, true);
 
-    var packAndConcatCss = function (name, addIE, addClean) {
-        var cssSrcContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isMsg: true});
-        fs.writeFileSync(cssDest[name], cssSrcContent);
+    var packAndConcatCss = function (opt) {
+        var cssSrcContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isMsg: true}));
+        fs.writeFileSync(cssDest[opt.name], cssSrcContent);
 
         console.log('\nCompressing CSS...\n');
 
-        var cssMinContent = makeCSSPackage(modulesList, {skin: skin, addIE: addIE, addClean: addClean, isDebug: true});
-        fs.writeFileSync(cssDest[name + '_min'], cssMinContent);
+        var cssMinContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isDebug: true}));
+        fs.writeFileSync(cssDest[opt.name + '_min'], cssMinContent);
 
         console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
         console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
@@ -656,16 +509,15 @@ exports.build = function () {
         console.log('Creating ' + cssDir + ' dir...');
         fs.mkdirSync(cssDir);
     }
-    packAndConcatCss('full', true, true);
-    packAndConcatCss('clean', false, true);
-    packAndConcatCss('ie', true, false);
+    packAndConcatCss({name: 'full', isIE: true, addClean: true});
+    packAndConcatCss({name: 'clean', isIE: false, addClean: true});
+    packAndConcatCss({name: 'ie', isIE: true, addClean: false});
 
     if (errors.length > 0) {
         console.log(errMsg('\nBuild ended with errors! [' + errors + ']'));
     } else {
         console.log(okMsg('\nBuild successfully completed!'));
     }
-
 };
 
 // Get params of app from config files (web app)
@@ -673,32 +525,29 @@ exports.getConfig = function () {
     return getAppConfig();
 };
 
-// Load content of all source files to memory (web app). Must run only 1 time on start app
-exports.init = function (callback) {
-    async.parallel({img: copyImages, fonts: copyFonts, modules: getModulesData},
-    function (err, results) {
-        if (results.modules) {
-            modules = results.modules;
-            console.log(okMsg('Load source files successfully completed'));
-            callback();
-        } else {
-            console.log(errMsg('Load source files ended with errors!'));
-        }
-    });
+// Load content of all source files to memory (web app). Should be run once
+exports.init = function () {
+    modules = getModulesData();
+
+    if (modules) {
+        console.log(okMsg('Load source files successfully completed'));
+    } else {
+        console.log(errMsg('Load source files ended with errors!'));
+    }
 };
 
 // Get JS content (web app)
 exports.getJS = function (params, callback) { // (Object, Function)
     var modulesList, contentSrc;
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeJSPackage(modulesList, {skin: params.skin, isDebug: params.isDebug});
+    contentSrc = makeJSPackage(modulesList, params);
     callback(contentSrc);
 };
 
 // Get CSS content (web app)
 exports.getCSS = function (params, callback) { // (Object, Function)
-    var modulesList, contentSrc;
+    var modulesList, contentSrc, options = {addClean: true, isMsg: false};
     modulesList = getModulesList(params.pkg);
-    contentSrc = makeCSSPackage(modulesList, {skin: params.skin, addIE: params.isIE, addClean: true, isMsg: false, isDebug: params.isDebug});
+    contentSrc = makeCSSPackage(modulesList, extend(options, params));
     callback(contentSrc);
 };
