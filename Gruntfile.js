@@ -85,10 +85,7 @@ module.exports = function (grunt) {
         githooks: {
             all: {
                 // Will run the jshint and test:unit tasks at every push
-                'pre-push': 'jshint:hook test',
-                options: {
-                    startMarker: 'start tasting your code'
-                }
+                'pre-push': 'jshint:hook test'
             }
         },
         karma: {
