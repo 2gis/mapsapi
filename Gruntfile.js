@@ -3,11 +3,12 @@
 
 var build = require('./build/build.js'),
     test = require('./test/test.js'),
-    async = require('async'),
     gendoc = require('./docbuilder/gendoc.js');
 
 module.exports = function (grunt) {
     'use strict';
+
+    grunt.registerTask('githooks', ['githooks']);
 
     // Check JS files for errors with JSHint
     grunt.registerTask('jshint', ['jshint']);
@@ -17,7 +18,7 @@ module.exports = function (grunt) {
     });
 
     // Combine and minify source files
-    grunt.registerTask('build', [/*'jshint',*/ 'prepare']);
+    grunt.registerTask('build', ['jshint', 'prepare']);
 
     //Rebuild and run unit tests
     grunt.registerTask('test', function () {
@@ -48,13 +49,18 @@ module.exports = function (grunt) {
         grunt.log.writeln('grunt release     # Preparation release (set version stat files and copy img)');
     });
 
-
     grunt.initConfig({
         jshint: {
             options: {
                 jshintrc: true
             },
             src: ['src/*/src/**/*.js']
+        },
+        githooks: {
+            all: {
+                // Will run the jshint and test:unit tasks at every commit
+                'pre-commit': 'jshint'
+            }
         },
         karma: {
             options: {
@@ -78,5 +84,5 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-
+    grunt.loadNpmTasks('grunt-githooks');
 };
