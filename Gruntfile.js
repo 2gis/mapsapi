@@ -9,8 +9,6 @@ var build = require('./build/build.js'),
 module.exports = function (grunt) {
     'use strict';
 
-    // grunt.registerTask('githooks', ['githooks']);
-
     grunt.registerTask('buildSrc', function () {
         build.buildSrc();
     });
@@ -27,7 +25,7 @@ module.exports = function (grunt) {
     // Check JS files for errors with JSHint
     grunt.registerTask('hint', ['jshint:force']);
 
-    // Lint, combine and minify source files, copy assets
+    // Lint, combine and minify source files, copy assets, and add hook on push
     grunt.registerTask('build', ['hint', 'assets', 'buildSrc', 'githooks']);
 
     // Generate documentation from source files
@@ -73,13 +71,13 @@ module.exports = function (grunt) {
                     jshintrc: true,
                     force: true
                 },
-                src: ['src/*/src/**/*.js']
+                src: config.hint
             },
             hook: {
                 options: {
                     jshintrc: true
                 },
-                src: ['src/*/src/**/*.js']
+                src: config.hint
             }
         },
         githooks: {
