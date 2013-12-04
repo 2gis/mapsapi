@@ -8,8 +8,6 @@ var fs = require('fs'),
     clc = require('cli-color'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
-    async = require('async'),
-    glob = require('glob'),
     defaultTheme = 'light',
     //Global data stores
     modules,
@@ -26,7 +24,6 @@ function getModulesData(callback) {
         modulesData = {};
 
     appConfig = appConfig || getAppConfig();
-    console.log(source);
     Object.keys(source).forEach(function (creator) {
         var modulesList = source[creator].deps,
             basePath = source[creator].path;
