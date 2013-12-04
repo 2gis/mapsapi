@@ -8,7 +8,6 @@
         originalOnAdd = L.Popup.prototype.onAdd,
         originalOnRemove = L.Popup.prototype.onRemove,
         originalAdjustPan = L.Popup.prototype._adjustPan,
-        /*global baron:false */
         graf = baron.noConflict();
 
     L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
