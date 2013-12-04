@@ -2,7 +2,7 @@
 
 var exec = require('child_process').exec;
 
-exec('grunt jshint', function (err, stdout, stderr) {
+exec('grunt jshint:hook', function (err, stdout, stderr) {
 
   console.log(stdout);
   if (!err) {

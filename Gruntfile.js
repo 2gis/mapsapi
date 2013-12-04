@@ -12,7 +12,7 @@ module.exports = function (grunt) {
     grunt.registerTask('githooks', ['githooks']);
 
     // Check JS files for errors with JSHint
-    grunt.registerTask('jshint', ['jshint']);
+    grunt.registerTask('jshint', ['jshint:all']);
 
     grunt.registerTask('buildSrc', function () {
         build.buildSrc();
@@ -31,7 +31,7 @@ module.exports = function (grunt) {
     grunt.registerTask('assets', ['copy']);
 
     // Check JS files for errors with JSHint
-    grunt.registerTask('jshint', ['jshint']);
+    grunt.registerTask('jshint', ['jshint:all']);
 
     // Lint, combine and minify source files, copy assets
     grunt.registerTask('build', ['jshint', 'assets', 'buildSrc']);
@@ -74,11 +74,19 @@ module.exports = function (grunt) {
             }
         },
         jshint: {
-            options: {
-                jshintrc: true,
-                force: true
+            all: {
+                options: {
+                    jshintrc: true,
+                    force: true
+                },
+                src: ['src/*/src/**/*.js']
             },
-            src: ['src/*/src/**/*.js']
+            hook: {
+                options: {
+                    jshintrc: true
+                },
+                src: ['src/*/src/**/*.js']
+            }
         },
         githooks: {
             all: {
@@ -86,7 +94,7 @@ module.exports = function (grunt) {
                 options: {
                     template: 'hooks/pre-push.js'
                 },
-                'pre-push': 'test'
+                'pre-commit': 'test'
             }
         },
         karma: {
