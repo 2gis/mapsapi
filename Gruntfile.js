@@ -88,7 +88,7 @@ module.exports = function (grunt) {
                 options: {
                     template: 'hooks/pre-push.js'
                 },
-                'pre-commit': 'test'
+                'pre-push': 'test'
             }
         },
         karma: {
