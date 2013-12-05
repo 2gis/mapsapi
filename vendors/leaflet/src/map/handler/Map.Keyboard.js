@@ -15,7 +15,7 @@ L.Map.Keyboard = L.Handler.extend({
 		right:   [39],
 		down:    [40],
 		up:      [38],
-		zoomIn:  [187, 107, 61],
+		zoomIn:  [187, 107, 61, 171],
 		zoomOut: [189, 109, 173]
 	},
 
@@ -65,7 +65,7 @@ L.Map.Keyboard = L.Handler.extend({
 		var body = document.body,
 		    docEl = document.documentElement,
 		    top = body.scrollTop || docEl.scrollTop,
-		    left = body.scrollTop || docEl.scrollLeft;
+		    left = body.scrollLeft || docEl.scrollLeft;
 
 		this._map._container.focus();
 

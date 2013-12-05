@@ -15,7 +15,9 @@ L.FeatureGroup = L.LayerGroup.extend({
 			return this;
 		}
 
-		layer.on(L.FeatureGroup.EVENTS, this._propagateEvent, this);
+		if ('on' in layer) {
+			layer.on(L.FeatureGroup.EVENTS, this._propagateEvent, this);
+		}
 
 		L.LayerGroup.prototype.addLayer.call(this, layer);
 
@@ -27,6 +29,9 @@ L.FeatureGroup = L.LayerGroup.extend({
 	},
 
 	removeLayer: function (layer) {
+		if (!this.hasLayer(layer)) {
+			return this;
+		}
 		if (layer in this._layers) {
 			layer = this._layers[layer];
 		}
@@ -46,6 +51,15 @@ L.FeatureGroup = L.LayerGroup.extend({
 		this._popupContent = content;
 		this._popupOptions = options;
 		return this.invoke('bindPopup', content, options);
+	},
+
+	openPopup: function (latlng) {
+		// open popup on the first layer
+		for (var id in this._layers) {
+			this._layers[id].openPopup(latlng);
+			break;
+		}
+		return this;
 	},
 
 	setStyle: function (style) {
@@ -71,11 +85,10 @@ L.FeatureGroup = L.LayerGroup.extend({
 	},
 
 	_propagateEvent: function (e) {
-		if (!e.layer) {
-			e.layer = e.target;
-		}
-		e.target = this;
-
+		e = L.extend({}, e, {
+			layer: e.target,
+			target: this
+		});
 		this.fire(e.type, e);
 	}
 });
