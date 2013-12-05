@@ -235,6 +235,8 @@
     overflow: hidden;
     position: relative;
     max-height: 3.3em;
+}
+.dg-popup-header-title__firmcard__teaser {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
