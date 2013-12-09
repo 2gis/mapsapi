@@ -4,7 +4,6 @@
 	<title>Leaflet debug page</title>
 
 	<link rel="stylesheet" href="../../dist/leaflet.css" />
-	<!--[if lte IE 8]><link rel="stylesheet" href="../../dist/leaflet.ie.css" /><![endif]-->
 
 	<link rel="stylesheet" href="../css/screen.css" />
 
@@ -30,7 +29,13 @@
 
 		var map = new L.Map('map', {center: latlng, zoom: 15, layers: [cloudmade]});
 
+		var s = '';
+		for (var i = 0; i < 100; i++) s += 'Test<br>';
 
+		var popup = L.popup({maxHeight: 100})
+			.setContent(s)
+			.setLatLng(latlng)
+			.openOn(map);
 	</script>
 </body>
 </html>
