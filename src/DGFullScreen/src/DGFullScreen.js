@@ -1,5 +1,9 @@
 L.DG.FullScreen = L.DG.RoundControl.extend({
 
+    statics: {
+        Dictionary: {}
+    },
+
     options: {
         position: L.DG.configTheme.controls.fullScreen[L.Browser.touch ? 'touchPosition' : 'position'],
         iconClass: 'fullscreen'

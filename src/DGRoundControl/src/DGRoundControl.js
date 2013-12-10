@@ -1,10 +1,6 @@
 L.DG.RoundControl = L.Control.extend({
     includes: L.Mixin.Events,
 
-    statics: {
-        Dictionary: {}
-    },
-
     options: {
         position: 'topright',
         iconClass: 'default'

@@ -29,7 +29,17 @@
 	animation: preloader 1s linear infinite;
 }
 
-.dg-label_location-error {
-	left: 40px;
+.leaflet-top .dg-label_location-error {
 	top: 5px;
+}
+.leaflet-right .dg-label_location-error {
+	right: 40px;
+	left: auto;
+	text-align: right;
+}
+.leaflet-bottom .dg-label_location-error {
+	top: 4px;
+}
+.leaflet-left .dg-label_location-error {
+	left: 40px;
 }
