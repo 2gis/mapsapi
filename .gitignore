@@ -12,6 +12,5 @@ docbuilder/doc
 .tern-port
 
 config.local.json
-.jshintrc
 
 public/dev*

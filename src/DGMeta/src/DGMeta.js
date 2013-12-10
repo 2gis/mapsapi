@@ -48,6 +48,7 @@ L.DG.Meta = L.Handler.extend({
 
     _mapEventsListeners : {
         mousemove : function (e) { // (L.Event)
+            /* global __POI_LAYER_MIN_ZOOM__ */
             if (this._map.getZoom() < __POI_LAYER_MIN_ZOOM__ ||
                 !(this._listenPoi || this._listenBuildings) ||
                  (this._map._panTransition && this._map._panTransition._inProgress)) { return; }
