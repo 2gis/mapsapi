@@ -59,7 +59,7 @@ L.DG.Meta = L.Handler.extend({
             }
 
             var xyz = this._getTileID(e),
-                zoom = xyz.split(',')[2],
+                zoom = this._map._zoom,
                 self = this;
             if (this._isTileChanged(xyz)) {
                 this._currentTileMetaData = null;
@@ -87,7 +87,7 @@ L.DG.Meta = L.Handler.extend({
         }
     },
 
-    _checkPoiHover: function (latLng, zoom) { // (L.LatLng)
+    _checkPoiHover: function (latLng, zoom) { // (L.LatLng, String)
         var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
 
         if (this._currentPoi && (!hoveredPoi || this._currentPoi.id !== hoveredPoi.id)) {
@@ -172,7 +172,7 @@ L.DG.Meta = L.Handler.extend({
         return this._currentTile !== xyz;
     },
 
-    _isMetaHovered: function (point, data, zoom) { // (L.Point, Array) -> Object|false
+    _isMetaHovered: function (point, data, zoom) { // (L.Point, Array, String) -> Object|false
         var vertKey = zoom ? zoom + 'vertices' : 'vertices';
 
         for (var i = 0, len = data.length; i < len; i++) {
