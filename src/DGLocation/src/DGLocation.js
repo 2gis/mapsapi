@@ -63,7 +63,6 @@ L.DG.Location = L.DG.RoundControl.extend({
             this._isOutsideMapBounds())) {
             this._stopLocate();
         } else {
-            console.log(this);
             this._locateOnNextLocationFound = true;
 
             if (!this._active) {
@@ -145,9 +144,6 @@ L.DG.Location = L.DG.RoundControl.extend({
                 /* global __PROJECT_LEAVE_MAX_ZOOM__:false*/
                 this._map.setView(this._event.latlng, __PROJECT_LEAVE_MAX_ZOOM__);
                 var zoom = this._map.dgProjectDetector.getProject().max_zoom_level || __PROJECT_LEAVE_MAX_ZOOM__;
-                if (L.Browser.retina) {
-                    zoom--;
-                }
                 this._map.setZoom(zoom);
             }
             this._locateOnNextLocationFound = false;
