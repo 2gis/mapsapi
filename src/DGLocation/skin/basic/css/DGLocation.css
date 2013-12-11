@@ -5,9 +5,10 @@
 }
 
 .dg-control-round_icon__locate:before {
-	width: 17px;
 	height: 17px;
-	padding-right: 3px;
+	width: 17px;
+	right: 3px;
+	top: 3px;
 }
 @-webkit-keyframes preloader {
   to {
