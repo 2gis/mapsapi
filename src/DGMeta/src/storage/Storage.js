@@ -4,14 +4,6 @@ L.DG.Meta.Storage = L.Class.extend({
     _tilesData: {},
     _wkt: new L.DG.Wkt(),
 
-    getEntity: function (id) { //(String) -> Object|Null
-        return this._data[id] || null;
-    },
-
-    getTileDataIds: function (tileId) { //(String) -> Array|false
-        return this._tilesData.hasOwnProperty(tileId) ? this._tilesData[tileId] : false;
-    },
-
     getTileData: function (tileId) { //(String) -> Array|false
         if (!this._tilesData.hasOwnProperty(tileId)) {
             return false;
@@ -19,6 +11,7 @@ L.DG.Meta.Storage = L.Class.extend({
         for (var result = [], i = 0, len = this._tilesData[tileId].length; i < len; i++) {
             result.push(this._data[this._tilesData[tileId][i]]);
         }
+
         return result;
     },
 
@@ -28,10 +21,11 @@ L.DG.Meta.Storage = L.Class.extend({
         }
 
         for (var i = 0, len = tileData.length; i < len; i++) {
-            var id = tileData[i].id;
+            var id = tileData[i].id,
+                zoom = tileId.split(',')[2];
 
             this._tilesData[tileId].push(id);
-            this._addEntity(id, tileData[i]);
+            this._addEntity(id, tileData[i], zoom);
         }
     },
 
@@ -39,9 +33,11 @@ L.DG.Meta.Storage = L.Class.extend({
         this._data[id] = entity;
     },
 
-    _wktToVert: function (entity) { //(Object)
-        var vert = this._wkt.read(entity.hover);
-        entity.vertices = this._wkt.toObject(vert)._latlngs;
+    _wktToVert: function (entity, zoom) { //(Object)
+        var vert = this._wkt.read(entity.hover),
+            key = zoom ? zoom + 'vertices' : 'vertices';
+
+        entity[key] = this._wkt.toObject(vert)._latlngs;
         delete entity.hover;
 
         return entity;

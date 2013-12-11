@@ -3,22 +3,21 @@ L.DG.Meta.PoiStorage = L.DG.Meta.Storage.extend({
     _data: {},
     _tilesData: {},
 
-    _addEntity: function (id, entity) { //(String, Object)
+    _addEntity: function (id, entity, zoom) { //(String, Object)
         var randomEntityLink = entity.links[Math.floor(Math.random() * entity.links.length)];
 
         entity.linked = {};
-        for (var prop in randomEntityLink) {
-            if (randomEntityLink.hasOwnProperty(prop)) {
-                entity.linked[prop] = randomEntityLink[prop];
-            }
-        }
+        Object.keys(randomEntityLink).forEach(function (prop) {
+            entity.linked[prop] = randomEntityLink[prop];
+        });
 
         entity.links.length = 0;
         delete entity.links;
 
-        entity = this._wktToVert(entity);
+        entity = this._wktToVert(entity, zoom);
 
-        this._data[id] = entity;
+        if (!this._data[id]) { this._data[id] = {}; }
+        this._data[id] = L.extend(this._data[id], entity);
     }
 
 });

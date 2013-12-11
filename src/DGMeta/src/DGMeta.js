@@ -59,8 +59,8 @@ L.DG.Meta = L.Handler.extend({
             }
 
             var xyz = this._getTileID(e),
+                zoom = xyz.split(',')[2],
                 self = this;
-
             if (this._isTileChanged(xyz)) {
                 this._currentTileMetaData = null;
                 this._currentTile = xyz;
@@ -69,7 +69,7 @@ L.DG.Meta = L.Handler.extend({
                 });
             } else {
                 if (this._currentTileMetaData) {
-                    if (this._listenPoi) { this._checkPoiHover(e.latlng); }
+                    if (this._listenPoi) { this._checkPoiHover(e.latlng, zoom); }
                     if (this._listenBuildings) { this._checkBuildingHover(e.latlng); }
                 }
             }
@@ -87,8 +87,8 @@ L.DG.Meta = L.Handler.extend({
         }
     },
 
-    _checkPoiHover: function (latLng) { // (L.LatLng)
-        var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi);
+    _checkPoiHover: function (latLng, zoom) { // (L.LatLng)
+        var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
 
         if (this._currentPoi && (!hoveredPoi || this._currentPoi.id !== hoveredPoi.id)) {
             this._leaveCurrentPoi();
@@ -135,8 +135,8 @@ L.DG.Meta = L.Handler.extend({
         if (this._currentPoi) {
             this._map.fire('dgPoiClick', {
                 'poi': this._currentPoi,
-                // latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
-                latlng: (new L.LatLngBounds(this._currentPoi.vertices)).getCenter()
+                //latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
+                latlng: L.latLngBounds(this._currentPoi.vertices).getCenter()
             });
             L.DomEvent.stopPropagation(event);
         }
@@ -172,10 +172,13 @@ L.DG.Meta = L.Handler.extend({
         return this._currentTile !== xyz;
     },
 
-    _isMetaHovered: function (point, data) { // (L.Point, Array) -> Object|false
+    _isMetaHovered: function (point, data, zoom) { // (L.Point, Array) -> Object|false
+        var vertKey = zoom ? zoom + 'vertices' : 'vertices';
+
         for (var i = 0, len = data.length; i < len; i++) {
             if (!data[i].verticesArray) {
-                if (L.PolyUtil.contains(point, data[i].vertices)) {
+                if (data[i][vertKey] && L.PolyUtil.contains(point, data[i][vertKey])) {
+                    data[i].vertices = data[i][vertKey];
                     return data[i];
                 }
             } else {
