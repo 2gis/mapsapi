@@ -75,13 +75,7 @@ L.DG.Geoclicker.clampHelper = function (el, lineClamp) {
     // create the last line element
     line = ce('span');
     // give styles required for text-overflow to kick in
-    (function (s) {
-        s.display = 'inline-block';
-        s.overflow = 'hidden';
-        s.textOverflow = 'ellipsis';
-        s.whiteSpace = 'nowrap';
-        s.width = '100%';
-    })(line.style);
+    line.className = 'clamped-line';
     // add all remaining text to the line element
     line.appendChild(ctn(text.substr(lineStart)));
     // add the line element to the container

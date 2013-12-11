@@ -234,12 +234,20 @@
 .dg-popup-header-title__firmcard {
     overflow: hidden;
     position: relative;
-    max-height: 3.3em;
 }
 .dg-popup-header-title__firmcard__teaser {
+    max-height: 3.3em;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+}
+.clamped-line {
+    display: inline-block;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 }
 
 #dg-popup-firm-loading {

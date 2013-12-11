@@ -81,9 +81,11 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
         var self = this;
         firmContentObject.afterRender = function () {
             var headerTitle = self._popup._popupStructure.header.firstChild;
-            L.DomUtil.addClass(headerTitle, 'dg-popup-header-title__firmcard__teaser');
-            if (headerTitle.offsetHeight > 72 && !L.Browser.webkit) { //TODO: magic number
-                L.DG.Geoclicker.clampHelper(headerTitle, 3);
+            if (!L.Browser.ielt9) {
+                L.DomUtil.addClass(headerTitle, 'dg-popup-header-title__firmcard__teaser');
+                if (headerTitle.offsetHeight > 72 && !L.Browser.webkit) { //TODO: magic number
+                    L.DG.Geoclicker.clampHelper(headerTitle, 3);
+                }
             }
         };
         this._clearAndRenderPopup(firmContentObject);
