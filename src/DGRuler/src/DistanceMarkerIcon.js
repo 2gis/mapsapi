@@ -6,18 +6,12 @@ L.DG.Ruler.DistanceMarkerIcon = L.Icon.extend({
         transparent: false
     },
 
-    statics: {
-        _pointerEventsSupported : (function () {
-            var element = document.createElement('x');
-            element.style.cssText = 'pointer-events:none';
-            return element.style.pointerEvents === 'none';
-        })()
-    },
+
 
     createIcon: function () {
         var div = document.createElement('div');
 
-        div.innerHTML = '<div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span></div>';
+        div.innerHTML = '';
 
         if (this.options.transparent) {
             if (this.constructor._pointerEventsSupported) {
@@ -41,8 +35,18 @@ L.DG.Ruler.DistanceMarkerIcon = L.Icon.extend({
         return this._div = div;
     },
 
+    collapse: function () {
+        this._collapsed = true;
+        this._div.innerHTML = '<img src="__BASE_URL__/img/spacer.gif" width="26" height="26" />';
+    },
+
     setDistance: function (distance) {
-        this._div.querySelector('.dg-ruler-label-distance').innerHTML = distance + 'км';
+        if (this._collapsed) {
+            this._div.innerHTML = '<div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">' + distance + 'км</span></div>';
+            this._collapsed = false;
+        } else {
+            this._div.querySelector('.dg-ruler-label-distance').innerHTML = distance + 'км';
+        }
     },
 
     createShadow: function () {

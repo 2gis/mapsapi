@@ -1,3 +1,7 @@
+.dg-ruler-spacer {
+    margin: -13px 0 0 -13px;
+}
+
 .dg-ruler-label {
 	width: 300px;
 	left:0px;
