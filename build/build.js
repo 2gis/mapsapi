@@ -429,7 +429,7 @@ function setParams(content, config) { //(String, Object)->String
 }
 
 // Update code version in loader.js (CLI command)
-exports.setVersion =  function(done) {
+exports.setVersion =  function (done) {
     var loaderPath = config.loader.dir,
         loaderFileName = config.loader.name,
         command = 'git rev-parse --verify HEAD',
@@ -467,29 +467,30 @@ exports.buildSrc = function () {
         jsDir = jsDest.dir,
         cssDest = config.css.public,
         cssDir = cssDest.dir,
-        pkg = argv.p || argv.m || argv.pkg || argv.mod,
-        skin = argv.skin || defaultSkin;
+        pkg = argv.mod || argv.pkg,
+        skin;
 
     modules = getModulesData();
 
+    skin = argv.skin ? argv.skin : defaultSkin;
     console.log('Skin: ' + skin + '\n');
 
     modulesList = getModulesList(pkg, true);
 
     var packAndConcatCss = function (opt) {
-        var cssSrcContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isMsg: true}));
+        var cssSrcContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isMsg: true, isDebug: true}));
         fs.writeFileSync(cssDest[opt.name], cssSrcContent);
 
         console.log('\nCompressing CSS...\n');
 
-        var cssMinContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isDebug: true}));
+        var cssMinContent = makeCSSPackage(modulesList, extend(opt, {skin: skin, isDebug: false}));
         fs.writeFileSync(cssDest[opt.name + '_min'], cssMinContent);
 
         console.log('   Uncompressed size: ' + (cssSrcContent.length / 1024).toFixed(1) + ' KB');
         console.log('   Compressed size:   ' + (cssMinContent.length / 1024).toFixed(1) + ' KB');
     };
 
-    jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true});
+    jsSrcContent = makeJSPackage(modulesList, {skin: skin, isMsg: true, isDebug: true});
 
     if (!fs.existsSync(jsDir)) {
         console.log('Creating ' + jsDir + ' dir...');
@@ -499,7 +500,7 @@ exports.buildSrc = function () {
 
     console.log('Compressing JS...\n');
 
-    jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: true});
+    jsMinContent = makeJSPackage(modulesList, {skin: skin, isDebug: false});
     fs.writeFileSync(jsDest.min, jsMinContent);
 
     console.log('   Uncompressed size: ' + (jsSrcContent.length / 1024).toFixed(1) + ' KB');
@@ -539,7 +540,7 @@ exports.init = function () {
 // Get JS content (web app)
 exports.getJS = function (params, callback) { // (Object, Function)
     var modulesList, contentSrc;
-    modulesList = getModulesList(params.pkg);
+    modulesList = getModulesList(params.mod || params.pkg);
     contentSrc = makeJSPackage(modulesList, params);
     callback(contentSrc);
 };
@@ -547,7 +548,7 @@ exports.getJS = function (params, callback) { // (Object, Function)
 // Get CSS content (web app)
 exports.getCSS = function (params, callback) { // (Object, Function)
     var modulesList, contentSrc, options = {addClean: true, isMsg: false};
-    modulesList = getModulesList(params.pkg);
+    modulesList = getModulesList(params.mod || params.pkg);
     contentSrc = makeCSSPackage(modulesList, extend(options, params));
     callback(contentSrc);
 };
