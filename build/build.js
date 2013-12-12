@@ -47,12 +47,12 @@ function getModulesData() {
 }
 
 //Get content of JS files
-function processJs(srcList, basePath, moduleName) { // (Array, String)->Object
+function processJs(srcList, basePath, moduleName) { // (Array, String, String)->Object
     var jsContent = {js: {}, jsmin: {}};
 
     if (!srcList) { return; }
 
-    if (moduleName.indexOf('DG') === 0) {
+    if (moduleName.indexOf('DG') > -1) {
         setTemplates(moduleName);
     }
 
@@ -203,7 +203,7 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         modulesListOrig = packages[pkg].modules;
 
     // Modules list (example: 'Core,JSONP,TileLayer')
-    } else if (pkg && pkg.indexOf(',') > 0) {
+    } else if (pkg && pkg.indexOf(',') > -1) {
         modulesListOrig = pkg.split(',');
 
     // Modules single (example: 'Core')
