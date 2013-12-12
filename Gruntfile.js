@@ -41,7 +41,7 @@ module.exports = function (grunt) {
     });
 
     // Set version API in loader.js, copy all assets
-    grunt.registerTask('release', ['setVersion', 'assets']);
+    grunt.registerTask('release', ['setVersion', 'assets', 'push']);
 
     // Default task
     grunt.registerTask('default', function () {
@@ -51,7 +51,6 @@ module.exports = function (grunt) {
         grunt.log.writeln('grunt build       # Lint, combine and minify source files, copy assets');
         grunt.log.writeln('grunt doc         # Generate documentation from .md files');
         grunt.log.writeln('grunt test        # Rebuild source and run unit tests');
-        grunt.log.writeln('grunt release     # Preparation for release (set version stat files and copy assets)');
     });
 
     grunt.initConfig({
@@ -99,6 +98,17 @@ module.exports = function (grunt) {
             dev: {
             }
         },
+        push: {
+            options: {
+                files: ['package.json'],
+                addFiles: ['package.json', 'public/loader.js'], // '.' for all files except ingored files in .gitignore
+                commitMessage: 'Release %VERSION%',
+                tagName: '%VERSION%',
+                tagMessage: 'Version %VERSION%',
+                push: false,
+                pushTo: 'origin'
+            }
+        },
         doc: {
             menu: './src/menu.json',
             input: './src/',
@@ -110,4 +120,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-githooks');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-push-release');
 };

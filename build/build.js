@@ -470,7 +470,7 @@ exports.buildSrc = function (isMsg) {
         pkg = argv.mod || argv.pkg,
         skin;
 
-    if (typeof isMsg === 'undefined') isMsg = true;
+    if (typeof isMsg === 'undefined') { isMsg = true; }
 
     modules = getModulesData();
 
