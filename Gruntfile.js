@@ -40,8 +40,12 @@ module.exports = function (grunt) {
         grunt.task.run('karma:continuous');
     });
 
-    // Set version API in loader.js, copy all assets
-    grunt.registerTask('release', ['setVersion', 'assets', 'push']);
+    // Set version API in loader.js, copy all assets, increment product version, push to production repo
+    grunt.registerTask('release', function (incType) {
+        grunt.task.run('setVersion');
+        grunt.task.run('assets');
+        incType ? grunt.task.run('push:' + incType) : grunt.task.run('push');
+    });
 
     // Default task
     grunt.registerTask('default', function () {
@@ -101,7 +105,7 @@ module.exports = function (grunt) {
         push: {
             options: {
                 files: ['package.json'],
-                addFiles: ['package.json', 'public/loader.js'], // '.' for all files except ingored files in .gitignore
+                addFiles: ['package.json', 'public/loader.js'],
                 commitMessage: 'Release %VERSION%',
                 tagName: '%VERSION%',
                 tagMessage: 'Version %VERSION%',
