@@ -76,7 +76,11 @@ var config = {
     loader: {
         dir: basePath + '/public/',
         name: 'loader.js'
-    }
+    },
+
+    hint: [
+        'src/*/src/**/*.js'
+    ]
 
 };
 
