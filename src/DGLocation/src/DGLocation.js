@@ -262,3 +262,10 @@ L.DG.Location = L.DG.RoundControl.extend({
 L.DG.locate = function (options) {
     return new L.DG.Location(options);
 };
+
+L.Map.addInitHook(function () {
+    if (this.options.locateControl) {
+        this.locateControl = L.DG.locate(this.options.locateControl);
+        this.addControl(this.locateControl);
+    }
+});

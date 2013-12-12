@@ -25,7 +25,7 @@ L.DG.configTheme = {
             touchPosition: 'bottomright'
         },
         locate: {
-            position: 'topright',
+            position: 'topleft',
             touchPosition: 'bottomright'
         }
     }

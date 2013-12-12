@@ -143,6 +143,23 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGLocation: {
+        desc: 'Location control module',
+        src: [
+            'DGLocation/src/DGLocation.js',
+            'DGLocation/lang/ru.js',
+            'DGLocation/lang/it.js',
+            'DGLocation/lang/cs.js',
+            'DGLocation/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGLocation/skin/{skin}/css/DGLocation.css'
+            ]
+        },
+        deps: ['DGCore', 'DGLocale', 'DGLabel']
+    },
+
     DGFullScreen: {
         desc: 'Full screen module',
         src: ['DGFullScreen/src/DGFullScreen.js',
@@ -265,22 +282,6 @@ var deps = {
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     },
 
-    DGLocation: {
-        desc: 'Location control module',
-        src: [
-            'DGLocation/src/DGLocation.js',
-            'DGLocation/lang/ru.js',
-            'DGLocation/lang/it.js',
-            'DGLocation/lang/cs.js',
-            'DGLocation/lang/en.js'
-        ],
-        css: {
-            all: [
-                'DGLocation/skin/{skin}/css/DGLocation.css'
-            ]
-        },
-        deps: ['DGCore', 'DGLocale', 'DGLabel']
-    },
 
     DGRoundControl: {
         desc: 'Control helper',
