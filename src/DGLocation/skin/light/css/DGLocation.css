@@ -1,9 +1,9 @@
 .leaflet-control-locate a {
-	background-image: url(__BASE_URL__/img/locate.png);
+	background-image: url(../img/locate.png);
 }
 
 .leaflet-control-locate.requesting a {
-	background-image: url(__BASE_URL__/img/spinner.gif);
+	background-image: url(../img/spinner.gif);
 	background-position: 50% 50%;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .dg-locate-pin{
-	background: url("__BASE_URL__/img/pin.png") no-repeat;
+	background: url("../img/pin.png") no-repeat;
 	width: 20px;
 	height: 20px;
 }
