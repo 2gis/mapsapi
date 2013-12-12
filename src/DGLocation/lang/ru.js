@@ -1,5 +1,5 @@
 L.DG.Location.Dictionary.ru = {
-	"cant_find": "Мы не смогли вас найти",
+	"cant_find": "Мы не смогли Вас найти",
 	"you_are_here": "Вы здесь",
-	"button_title": "Найти вас на карте"
+	"button_title": "Найти Вас на карте"
 };
