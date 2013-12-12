@@ -1,7 +1,5 @@
 L.DG = L.DG || {};
 L.DG.configTheme = {
-    name: 'dark',
-
     balloonOptions: {
         offset: {
             x: 0,
