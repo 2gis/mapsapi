@@ -14,7 +14,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             },
             mouse : {
                 color: '#ff0000',
-                opacity: 1,
+                opacity: 0,
                 weight: 20
             }
         },
@@ -162,11 +162,13 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             if (this._morphingNow || !(target instanceof L.Path)) {
                 return;
             }
-            console.log('mouseover', target._point);
-            this._addRunningLabel(this._interpolate(point._prev.getLatLng(), point.getLatLng(), event.latlng));
+            this._lineMarkerHelper = this._addRunningLabel(this._interpolate(point._prev.getLatLng(), point.getLatLng(), event.latlng));
+            // this._layers.back.bringToBack();    // WTF magic
+            // this._layers.mouse.bringToFront();  //
+            this._reorderLayers();
+
         },
-        'mouseout' : function () {
-            console.log('mouseout');
+        'mouseout' : function (event) {
             if (this._lineMarkerHelper) {
                 this._layers.mouse.removeLayer(this._lineMarkerHelper);
                 this._lineMarkerHelper = null;
@@ -178,26 +180,23 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 point = target._point,
                 distance = this._calcDistance(point) + point._prev.getLatLng().distanceTo(latlng) / 1000;
 
-            console.log('mousemove', target instanceof L.Path);
-
             if (this._morphingNow) {
                 return;
             }
-            if (!this._lineMarkerHelper) {
-                this._addRunningLabel(latlng);
+            if (this._lineMarkerHelper) {
+                this._lineMarkerHelper.setLatLng(this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng));
+                this._lineMarkerHelper.setText(this._formatDistance(distance));
             }
-            this._lineMarkerHelper.setLatLng(this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng));
-            this._lineMarkerHelper.setText(this._formatDistance(distance));
         }
     },
 
     _addRunningLabel : function (latlng) {
-        var style = { opacity : 0 };
-        point = this._lineMarkerHelper = this._createPoint(latlng, {
+        var style = { opacity : 0, fillOpacity: 1 };
+        point = this._createPoint(latlng, {
             layers : { front : style, middle : style, back : style },
             eventTransparent : true
         });
-        point.addTo(this._layers.mouse, this._layers);
+        return point.addTo(this._layers.mouse, this._layers);
     },
 
     _insertPointInLine : function (event) {
@@ -211,6 +210,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             .on(this._pointEvents, this)
             .addTo(this._layers.mouse, this._layers)
             .setPointStyle(this.constructor.iconStyles['small'].layers);
+
+        this._reorderLayers();
 
         var e = document.createEvent('MouseEvents');
         e.initMouseEvent('mousedown', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
@@ -320,15 +321,15 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._morphingNow = true;
         },
         'mouseover' : function (event) {
-            console.log('-- mouseover', event);
-            event.target.setText('ratata');
+            var point = event.target;
+            // console.log('-- mouseover', event);
+            if (point._prev) {
+                point.setText(this._formatDistance(this._calcDistance(point)));
+            }
         },
         'mouseout' : function (event) {
-            console.log('-- mouseout');
+            // console.log('-- mouseout');
             event.target.collapse();
-            // if (this._isEventOutside(event.originalEvent, event.layer._icon)) {
-                // event.layer.setIcon(this.constructor.iconStyles.large.icon);
-            // }
         }
     },
 

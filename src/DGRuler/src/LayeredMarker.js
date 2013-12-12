@@ -3,7 +3,8 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     options: {
         draggable: true,
         keyboard: false,
-        eventTransparent: true
+        eventTransparent: true,
+
     },
 
     statics: {
@@ -44,7 +45,6 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
     setPointStyle : function (styles) {
         L.Util.invokeEach(styles, function (name, style) {
-            console.log('setting', name);
             if (this._layers.hasOwnProperty(name)) {
                 this._layers[name].setStyle(style);
             }
@@ -59,12 +59,14 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         this._iconCollapsed = false;
         this._iconNodes.container.style.display = 'block';
         this._iconNodes.spacer.style.display = 'none';
+        return this;
     },
 
     collapse : function () {
         this._iconCollapsed = true;
         this._iconNodes.container.style.display = 'none';
         this._iconNodes.spacer.style.display = 'block';
+        return this;
     },
 
     _onMove : function (event) {
@@ -106,6 +108,8 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         this._layers = this.options.layers || null;
         this.options.icon = L.divIcon({
             className: 'dg-ruler-label',
+            iconSize: [26, 26],
+            iconAnchor: [13, 13],
             html: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span></div>'
         });
     }
