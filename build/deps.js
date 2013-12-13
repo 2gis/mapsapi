@@ -302,7 +302,6 @@ var deps = {
         desc: 'Ruler control module',
         src: [
             'DGRuler/src/DGRuler.js',
-            'DGRuler/src/DistanceMarkerIcon.js',
             'DGRuler/src/LayeredMarker.js',
             'DGRuler/src/DrawingHelper.js',
             'DGRuler/lang/ru.js',

@@ -15,7 +15,12 @@ L.DG.Ruler = L.DG.Control.extend({
 
     _controlEvents: {
         add: function () {
-            this._drawingHelper = new L.DG.Ruler.DrawingHelper(this._map);
+            var self = this;
+            this._drawingHelper = new L.DG.Ruler.DrawingHelper(this._map, {
+                translate : function (word) {
+                    return self.t(word);
+                }
+            });
         },
         click: function () {
             this.setState(this._active = !this._active ? 'active' : '');
@@ -33,6 +38,9 @@ L.DG.Ruler = L.DG.Control.extend({
 
     _renderTranslation: function () {
         this._link.title = this.t('button_title');
+        if (this._active) {
+            this._drawingHelper.renderTranslation();
+        }
     }
 });
 

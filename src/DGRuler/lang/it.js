@@ -1,5 +1,6 @@
 L.DG.Ruler.Dictionary.it = {
 	"button_title": "it Линейка йопта",
-	"distanceUnit": "км",
+	"km": "km",
+	"m": "m",
 	",": ","
 };

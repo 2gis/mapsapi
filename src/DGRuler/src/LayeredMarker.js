@@ -3,8 +3,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     options: {
         draggable: true,
         keyboard: false,
-        eventTransparent: true,
-
+        eventTransparent: true
     },
 
     statics: {
@@ -21,6 +20,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
                 layers[name].addLayer(this._layers[name]);
             }
         }, this);
+
         this._viewport = layers;
         return this.on('move', this._onMove).super.addTo.call(this, map);
     },
@@ -41,6 +41,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
             this.expand();
         }
         this._iconNodes.label.innerHTML = text;
+        return this;
     },
 
     setPointStyle : function (styles) {
@@ -88,19 +89,21 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
             if (this.constructor._pointerEventsSupported) {
                 this._icon.style.pointerEvents = 'none';
             } else {
-                // console.log('_pointerEventsSupported not supported');
-                // L.DomEvent.addListener( div, 'mousemove', function (event) {
-                //     var underneathElem,
-                //         eventObject = document.createEventObject();
-                //     div.style.display = 'none';
-                //     underneathElem = document.elementFromPoint(event.clientX, event.clientY);
-                //     div.style.display = '';
-                //     L.extend(eventObject, event);
-                //     eventObject.target = underneathElem;
-                //     underneathElem.fireEvent('onMouseMove', eventObject);
-                // });
+                L.DomEvent.addListener( this._icon, 'mousemove', this._explorerEventTransit, this);
             }
         }
+    },
+
+    _explorerEventTransit : function (event) {
+        var underneathElem,
+            eventObject = document.createEventObject();
+
+        this._icon.style.display = 'none';
+        underneathElem = document.elementFromPoint(event.clientX, event.clientY);
+        this._icon.style.display = '';
+        L.extend(eventObject, event);
+        eventObject.target = underneathElem;
+        underneathElem.fireEvent('onMouseMove', eventObject);
     },
 
     _afterInit : function () {
