@@ -1,0 +1,47 @@
+.dg-locate-pin{
+	background: url(../img/pin.png) no-repeat;
+	width: 20px;
+	height: 20px;
+}
+
+.dg-control-round_icon__locate:before {
+	height: 17px;
+	width: 17px;
+	right: 3px;
+	top: 3px;
+}
+@-webkit-keyframes preloader {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes preloader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.dg-control-round_icon__locate__requesting:before {
+	width: 24px;
+	height: 24px;
+	top: 0;
+	right: 0;
+	image-rendering: optimizeQuality;
+	outline: 1px solid transparent;
+	-webkit-animation: preloader 1s linear infinite;
+	animation: preloader 1s linear infinite;
+}
+
+.leaflet-top .dg-label_location-error {
+	top: 5px;
+}
+.leaflet-right .dg-label_location-error {
+	right: 40px;
+	left: auto;
+	text-align: right;
+}
+.leaflet-bottom .dg-label_location-error {
+	top: 4px;
+}
+.leaflet-left .dg-label_location-error {
+	left: 40px;
+}

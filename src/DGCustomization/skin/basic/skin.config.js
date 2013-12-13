@@ -22,8 +22,9 @@ L.DG.configTheme = {
             position: 'topright',
             touchPosition: 'bottomright'
         },
-        whereami: {
-            position: 'topright'
+        locate: {
+            position: 'topleft',
+            touchPosition: 'bottomright'
         }
     }
 };
