@@ -12,6 +12,7 @@ L.DG.Geoclicker.clampHelper = function (el, lineClamp) {
         s.position = 'absolute'; // prevent page reflow
         s.whiteSpace = 'pre'; // cross-browser width results
         s.visibility = 'hidden'; // prevent drawing
+        s.margin = '0 18px 8px 0';
     })(measure.style);
 
     // make sure the element belongs to the document
@@ -32,7 +33,7 @@ L.DG.Geoclicker.clampHelper = function (el, lineClamp) {
     // add measurement element within so it inherits styles
     el.appendChild(measure);
     // http://ejohn.org/blog/search-and-dont-replace/
-    text.replace(/ /g, function (m, pos) {
+    text.replace(/ |-/g, function (m, pos) {
         // ignore any further processing if we have total lines
         if (lineCount === lineClamp) {
             return;
@@ -58,6 +59,7 @@ L.DG.Geoclicker.clampHelper = function (el, lineClamp) {
             line.appendChild(ctn(lineText));
             // add the line element to the container
             el.appendChild(line);
+            line.className = 'clamped-line';
             // yes, we created a new line
             wasNewLine = true;
             lineCount++;
@@ -75,7 +77,7 @@ L.DG.Geoclicker.clampHelper = function (el, lineClamp) {
     // create the last line element
     line = ce('span');
     // give styles required for text-overflow to kick in
-    line.className = 'clamped-line';
+    line.className = 'clamped-line clamped-line-last';
     // add all remaining text to the line element
     line.appendChild(ctn(text.substr(lineStart)));
     // add the line element to the container
