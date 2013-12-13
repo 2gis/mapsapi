@@ -242,11 +242,13 @@
     -webkit-box-orient: vertical;
 }
 .clamped-line {
-    display: inline-block;
+    white-space: nowrap;
+    display: block;
+}
+.clamped-line-last {
     overflow: hidden;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    white-space: nowrap;
     width: 100%;
 }
 

@@ -61,7 +61,7 @@ FirmCard.prototype = {
         });
         forecast = this._schedule.forecast(schedule);
 
-        if (!!(data.attributes && data.attributes.general.items)) {
+        if (!!(data.attributes && data.attributes.general && data.attributes.general.items)) {
             data.attributes.general.items ? attributes = data.attributes.general.items : attributes = [];
         }
 
