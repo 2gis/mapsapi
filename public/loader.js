@@ -84,12 +84,16 @@
         }
         document.getElementsByTagName('head')[0].appendChild(js);
     }
+    window.handlers = [];
 
     window.L = window.L || {};
-    window.L.onLoad = function (callback) {
-        onLoadJs = callback;
-    };
+    window.L.then = function (callback) {
+        //onLoadJs = callback;
+        handlers.push(callback);
+        //console.log(handlers);
 
+        return this;
+    };
 
     baseURL = getBaseURL();
     queryString = getParams();
@@ -109,5 +113,4 @@
             }
         });
     }
-
 })();
