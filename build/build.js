@@ -14,7 +14,7 @@ var fs = require('fs'),
     cleanCss = require('clean-css'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
-    execSync = require('execSync'),
+    //execSync = require('execSync'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     hint = require(__dirname + '/hintrc.js'),
@@ -696,7 +696,7 @@ exports.setVersion = function () {
     }
 
     loaderContent = fs.readFileSync(loaderPath + '/' + loaderFileName).toString();
-    hash = execSync.stdout(command);
+    hash = '123';//execSync.stdout(command);
     smallHash = hash.substr(0, 6);
 
     console.log('Set version of stat files: ' + smallHash + '\n');

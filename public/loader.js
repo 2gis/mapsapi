@@ -70,27 +70,15 @@
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('src', link);
-        if (js.readyState) {
-            js.onreadystatechange = function () {
-                if (js.readyState === 'loaded' || js.readyState === 'complete') {
-                    js.onreadystatechange = null;
-                    onLoadJs();
-                }
-            };
-        } else {
-            js.onload = function () {
-                onLoadJs();
-            };
-        }
         document.getElementsByTagName('head')[0].appendChild(js);
     }
-    window.handlers = [];
 
     window.L = window.L || {};
-    window.L.then = function (callback) {
-        //onLoadJs = callback;
-        handlers.push(callback);
-        //console.log(handlers);
+    window.L.DG = {};
+    window.__dgApi_callbacks = [];
+
+    window.L.DG.then = function (callback) {
+        __dgApi_callbacks.push(callback);
 
         return this;
     };

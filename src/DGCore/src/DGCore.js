@@ -1,7 +1,3 @@
-L.DG = L.DG || {};
-
-console.log(handlers);
-
 L.DG.loaderParams = window.loaderBackup;
 window.loaderBackup = undefined;
 

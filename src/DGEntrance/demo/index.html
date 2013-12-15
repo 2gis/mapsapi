@@ -31,7 +31,7 @@
             document.getElementById('buildingEntrance')
         ];
 
-    L.onLoad(function () {
+    L.DG.then(function () {
         for (var i = 0; i < btns.length; i++) {
             btns[i].onclick = addEntrance;
         };
