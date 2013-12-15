@@ -1,4 +1,5 @@
 var handlers = window.__dgApi_callbacks || [];
+window.__dgApi_callbacks = undefined;
 
 L.DG.def = L.DG.when.defer();
 

@@ -7,10 +7,13 @@
         version = 'v=8210d6';
 
     function processURL() {
-        var scripts, scriptURL;
+        var scripts;
         scripts = document.getElementsByTagName('script');
-        scriptURL = scripts[scripts.length - 1].src;
-        return scriptURL.split('?');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].getAttribute('data-id') === 'dgLoader') {
+                return scripts[i].src.split('?');
+            }  
+        };
     }
 
     function getBaseURL() {

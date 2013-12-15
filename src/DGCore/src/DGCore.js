@@ -12,7 +12,6 @@ ga('create', '__GA_CODE__', 'none');
 ga('send', 'pageview');
 
 // Improve IHandler
-
 L.Map.include({
     addHandler: function (name, HandlerClass) {
         if (!HandlerClass) { return; }
