@@ -28,9 +28,9 @@ L.DG.Ruler = L.DG.RoundControl.extend({
             });
         },
         click: function () {
-            if (this._active = !this._active) {
+            if (this._active = !this._active) { // jshint ignore:line
                 this.setState('active')._drawingHelper.startDrawing();
-                if (this._geoclickerNeedRestore = this._map.dgGeoclicker.enabled()) {
+                if (this._geoclickerNeedRestore = this._map.dgGeoclicker.enabled()) { // jshint ignore:line
                     this._map.dgGeoclicker.disable();
                 }
             } else {

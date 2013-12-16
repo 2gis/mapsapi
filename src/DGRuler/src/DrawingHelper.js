@@ -228,7 +228,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         var k = (to.lng - from.lng) / (to.lat - from.lat),
             b = from.lng - k * from.lat;
 
-        if (k == Infinity) { // Infinity is not the limit!
+        if (k === Infinity) { // Infinity is not the limit!
             here.lat = to.lat;
         } else {
             here.lat = (here.lat + k * here.lng - k * b) / (k * k + 1); // Don't even ask me!
@@ -293,7 +293,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 front: L.circleMarker(latlng, layers.front),
                 middle: L.circleMarker(latlng, layers.middle),
                 back: L.circleMarker(latlng, layers.back)
-        }});
+            }
+        });
     },
 
     _pointEvents: {

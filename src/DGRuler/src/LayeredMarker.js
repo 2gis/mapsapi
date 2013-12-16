@@ -4,7 +4,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         draggable: true,
         keyboard: false,
         eventTransparent: true,
-        iconHTML: '<img class="dg-ruler-label-spacer" src="../img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
+        iconHTML: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
     },
 
     statics: {
@@ -68,7 +68,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
     _onMove : function (event) {
         var latlng = event.latlng;
-        Object.keys(this._layers).forEach(function(name){
+        Object.keys(this._layers).forEach(function (name) {
             this._layers[name].setLatLng(latlng);
         }, this);
     },
@@ -86,7 +86,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
             if (this.constructor._pointerEventsSupported) {
                 this._icon.style.pointerEvents = 'none';
             } else {
-                L.DomEvent.addListener( this._icon, 'mousemove', this._explorerEventTransit, this);
+                L.DomEvent.addListener(this._icon, 'mousemove', this._explorerEventTransit, this);
             }
         }
     },
