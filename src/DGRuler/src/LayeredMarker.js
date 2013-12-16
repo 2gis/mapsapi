@@ -84,7 +84,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
     _initIcon : function () {
         this.super._initIcon.call(this);
-        this._iconCollapsed = false;
+        this._iconCollapsed = true;
         this._iconNodes = {
             label : this.querySelector('.dg-ruler-label-distance'),
             spacer : this.querySelector('.dg-ruler-label-spacer'),

@@ -43,7 +43,12 @@
     border-radius: 5px;
 }
 
+.dg-ruler-label-spacer {
+    display: block;
+}
+
 .dg-ruler-label-inner {
+    display: none;
     position: absolute;
     left: 0px;
     top: 0px;

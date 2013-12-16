@@ -13,7 +13,8 @@ L.DG.Ruler = L.DG.RoundControl.extend({
         L.Util.setOptions(this, options);
         L.extend(this, {
             _active: false,
-            _drawingHelper: null
+            _drawingHelper: null,
+            _geoclickerNeedRestore: false
         }).on(this._controlEvents, this);
     },
 
@@ -27,8 +28,17 @@ L.DG.Ruler = L.DG.RoundControl.extend({
             });
         },
         click: function () {
-            this.setState(this._active = !this._active ? 'active' : '');
-            this._drawingHelper[this._active ? 'startDrawing' : 'finishDrawing']();
+            if (this._active = !this._active) {
+                this.setState('active')._drawingHelper.startDrawing();
+                if (this._geoclickerNeedRestore = this._map.dgGeoclicker.enabled()) {
+                    this._map.dgGeoclicker.disable();
+                }
+            } else {
+                this.setState('')._drawingHelper.finishDrawing();
+                if (this._geoclickerNeedRestore) {
+                    this._map.dgGeoclicker.enable();
+                }
+            }
         },
         remove: function () {
             this.off(this._controlEvents, this);

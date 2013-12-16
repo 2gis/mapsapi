@@ -135,7 +135,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             if (this._morphingNow) {
                 return;
             }
-            if (target instanceof L.Marker && target !== this._firstPoint) {
+            if (target instanceof L.Marker && target._hoverable && target !== this._firstPoint) {
                 target.setText(this._calcDistance(target._next));
             } else if (target instanceof L.Path) {
                 var point = target._point,
@@ -152,6 +152,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 return;
             }
             if (target instanceof L.Marker) {
+                target._hoverable = true;
                 target.collapse();
             } else {
                 this._removeRunningLabel();
