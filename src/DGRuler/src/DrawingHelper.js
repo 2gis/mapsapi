@@ -1,82 +1,6 @@
 L.DG.Ruler.DrawingHelper = L.Class.extend({
 
-    statics : {
-        pathStyles: {
-            back: {
-                color: '#fff',
-                opacity: 1,
-                weight: 12
-            },
-            middle: {
-                color: '#0da5d5',
-                opacity: 1,
-                weight: 4
-            },
-            mouse: {
-                color: '#ff0000',
-                opacity: 0,
-                weight: 20
-            }
-        },
-        iconStyles: {
-            large: {
-                layers: {
-                    back: {
-                        color: '#fff',
-                        opacity: 1,
-                        fillColor: '#fff',
-                        fillOpacity: 1,
-                        weight: 1,
-                        radius: 13
-                    },
-                    middle: {
-                        color: '#0da5d5',
-                        opacity: 1,
-                        fillColor: '#0da5d5',
-                        fillOpacity: 1,
-                        weight: 1,
-                        radius: 9
-                    },
-                    front: {
-                        color: '#fff',
-                        opacity: 1,
-                        fillColor: '#0da5d5',
-                        fillOpacity: 1,
-                        weight: 4,
-                        radius: 5
-                    }
-                }
-            },
-            small: {
-                layers: {
-                    back: {
-                        color: '#fff',
-                        opacity: 1,
-                        fillColor: '#fff',
-                        fillOpacity: 1,
-                        weight: 1,
-                        radius: 9
-                    },
-                    middle: {
-                        color: '#0da5d5',
-                        opacity: 1,
-                        fillColor: '#0da5d5',
-                        fillOpacity: 1,
-                        weight: 1,
-                        radius: 5
-                    },
-                    front: {
-                        color: '#fff',
-                        opacity: 1,
-                        fillColor: '#0da5d5',
-                        fillOpacity: 1,
-                        weight: 4,
-                        radius: 2
-                    }
-                }
-            }
-        }
-    },
+    statics : L.DG.Ruler.Styles,
 
     initialize: function (map, options) {
         this._map = map;
@@ -169,8 +93,8 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
             if (this._lineMarkerHelper) {
                 this._lineMarkerHelper
-                                    .setLatLng(interpolated)
-                                    .setText(this._calcDistance(point, point._prev.getLatLng().distanceTo(interpolated)));
+                            .setLatLng(interpolated)
+                            .setText(this._calcDistance(point, point._prev.getLatLng().distanceTo(interpolated)));
             }
         },
         layeradd : function () {
@@ -353,7 +277,6 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         var latlng = point.getLatLng();
 
         if (point._prev) {
-            console.log(point._legs, Object.keys(point._legs));
             Object.keys(point._legs).forEach(function (layer) {
                 point._legs[layer].spliceLatLngs(1, 1, latlng);
             });
