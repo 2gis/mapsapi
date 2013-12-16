@@ -32,7 +32,7 @@ L.DG.Poi = L.Handler.extend({
     },
 
     _mapEventsListeners : {
-        dgPoiHover: function (e) { // (Object)
+        poihover: function (e) { // (Object)
             this._setCursor('pointer');
             if (this._labelHelper) {
                 this._labelHelper
@@ -44,7 +44,7 @@ L.DG.Poi = L.Handler.extend({
             }
         },
 
-        dgPoiLeave: function () {
+        poileave: function () {
             this._setCursor('auto');
             if (this._labelHelper) {
                 this._map

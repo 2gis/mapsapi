@@ -68,7 +68,7 @@ L.DG.Entrance = L.Class.extend({
                 }
             });
             if (!this._isShown) {
-                this._map.fire('dgEntranceShow');
+                this._map.fire('entranceshow');
                 this._isShown = true;
             }
         }
@@ -83,7 +83,7 @@ L.DG.Entrance = L.Class.extend({
                 arrow.setStyle({ visibility: 'hidden' });
             });
             this._isShown = false;
-            this._map.fire('dgEntranceHide');
+            this._map.fire('entrancehide');
         }
 
         return this;

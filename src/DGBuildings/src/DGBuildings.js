@@ -19,10 +19,10 @@ L.DG.Buildings = L.Handler.extend({
     },
 
     _mapEventsListeners : {
-        dgBuildingHover : function () {
+        buildinghover : function () {
             this._setCursor('pointer');
         },
-        dgBuildingLeave : function () {
+        buildingleave : function () {
             this._setCursor('auto');
         }
     },

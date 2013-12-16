@@ -44,7 +44,7 @@ L.Map.include({
     setLang: function (lang) { // (String)
         if (lang && Object.prototype.toString.call(lang) === '[object String]') {
             this.options.currentLang = lang;
-            this.fire('dgLangChange', {'lang': lang});
+            this.fire('langchange', {'lang': lang});
         }
     },
 

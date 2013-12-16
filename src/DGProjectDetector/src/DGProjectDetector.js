@@ -22,11 +22,11 @@ L.DG.ProjectDetector = L.Handler.extend({
     },
 
     addHooks: function () {
-        this._map.on('move', this._projectChange, this);
+        this._map.on('move', this._projectchange, this);
     },
 
     removeHooks: function () {
-        this._map.off('move', this._projectChange, this);
+        this._map.off('move', this._projectchange, this);
     },
 
     getProject: function () {
@@ -43,7 +43,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         return this.projectsList.slice(0);
     },
 
-    _projectChange: function () {
+    _projectchange: function () {
         if (this.projectsList) {
             if (!this.project) {
                 this._searchProject();
@@ -51,7 +51,7 @@ L.DG.ProjectDetector = L.Handler.extend({
                 if (!this.project.LatLngBounds.intersects(this._map.getBounds()) ||
                     (this._map.getZoom() < this.project.min_zoom_level)) {
                     this.project = null;
-                    this._map.fire('dgProjectLeave');
+                    this._map.fire('projectleave');
                     this._searchProject();
                 }
             }
@@ -87,7 +87,7 @@ L.DG.ProjectDetector = L.Handler.extend({
                 if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds()) &&
                     (mapZoom >= this.projectsList[i].min_zoom_level)) {
                     this.project = this.projectsList[i];
-                    this._map.fire('dgProjectChange', {'getProject': L.Util.bind(this.getProject, this)});
+                    this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
                     return;
                 }
             }

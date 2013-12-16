@@ -17,11 +17,11 @@
 
             var marker = L.marker(map.getCenter()).addTo(map);
 
-            map.on('dgBuildingHover', function (event) {
+            map.on('buildinghover', function (event) {
                 console.log('%s event: %o', event.type, event);
             });
 
-            map.on('dgBuildingLeave', function (event) {
+            map.on('buildingleave', function (event) {
                 console.log('%s event: %o', event.type, event);
             });
 

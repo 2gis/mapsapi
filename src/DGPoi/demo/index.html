@@ -17,15 +17,15 @@
 
             var marker = L.marker(map.getCenter()).addTo(map);
 
-            map.on('dgPoiHover', function (event) {
+            map.on('poihover', function (event) {
                 console.log('%s event: %o', event.type, event);
             });
 
-            map.on('dgPoiLeave', function (event) {
+            map.on('poileave', function (event) {
                 console.log('%s event: %o', event.type, event);
             });
 
-            map.on('dgPoiClick', function (event) {
+            map.on('poiclick', function (event) {
                 console.log('%s event: %o', event.type, event);
             });
 

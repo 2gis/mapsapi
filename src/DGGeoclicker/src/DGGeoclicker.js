@@ -30,7 +30,7 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _mapEventsListeners : {
-        dgLangChange: function () {
+        langchange: function () {
             this._controller.reinvokeHandler();
         },
 
@@ -45,7 +45,7 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _fillEventsListeners: function () {
-        this._mapEventsListeners.click = this._mapEventsListeners.dgPoiClick = this._onClick;
+        this._mapEventsListeners.click = this._mapEventsListeners.poiclick = this._onClick;
     },
 
     _onClick: function (e) { // (Object)
