@@ -49,7 +49,7 @@ L.DG.Label = L.Class.extend({
         this._el = null;
     },
 
-    _initDOM: function(){
+    _initDOM: function () {
         this._el = L.DomUtil.create(
                         'div',
                         this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
@@ -64,19 +64,19 @@ L.DG.Label = L.Class.extend({
             .on(this._container, 'contextmenu', L.DomEvent.stopPropagation);
     },
 
-    _onViewReset: function(){
+    _onViewReset: function () {
         if (this._visible && this._latlng) {
-            L.DomUtil.setPosition( this._el, this._map.latLngToLayerPoint(this._latlng).add(this.options.offset), L.Browser.ie );
+            L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._latlng).add(this.options.offset), L.Browser.ie);
         }
     },
 
     _onZoomAnimation: function (opt) {
         if (this._latlng) {
-            L.DomUtil.setPosition( this._el, this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).add(this.options.offset) );
+            L.DomUtil.setPosition(this._el, this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).add(this.options.offset));
         }
     },
 
-    setOffset: function( point ) {
+    setOffset: function (point) {
         if (point instanceof L.Point) {
             this.options.offset = point;
             this._onViewReset();
@@ -84,11 +84,12 @@ L.DG.Label = L.Class.extend({
         return this;
     },
 
-    setZIndexOffset: function( zIndex ){
-        if ( !isNaN( +zIndex ) ) {
+    setZIndexOffset: function (zIndex) {
+        if (!isNaN(+zIndex)) {
             this.options.zIndexOffset = +zIndex;
-            if (this._visible)
+            if (this._visible) {
                 this._el.style.zIndex = this._defaultZIndex + this.options.zIndexOffset;
+            }
         }
         return this;
     },
@@ -105,13 +106,16 @@ L.DG.Label = L.Class.extend({
     },
 
     setPosition: function (latlng) {
-        if (!(latlng instanceof L.LatLng)) return this;
+        if (!(latlng instanceof L.LatLng)) {
+            return this;
+        }
+
         this._latlng = latlng;
         this._onViewReset();
         return this;
     }
 });
 
-L.DG.label = function(content, options){
+L.DG.label = function (content, options) {
     return new L.DG.Label(content, options);
-}
+};

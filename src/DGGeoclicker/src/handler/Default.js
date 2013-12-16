@@ -27,10 +27,12 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
             handlerName;
 
         for (handlerName in handlers) {
-            handler = handlers[handlerName];
-            if (handlerName === name) {
-                L.DomEvent.off(handler.el, handler.event, handler.handler);
-                delete handlers[handlerName];
+            if (handlers.hasOwnProperty(handlerName)) {
+                handler = handlers[handlerName];
+                if (handlerName === name) {
+                    L.DomEvent.off(handler.el, handler.event, handler.handler);
+                    delete handlers[handlerName];
+                }
             }
         }
     },
@@ -49,7 +51,9 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
             i;
 
         for (i in handlers) {
-            L.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
+            if (handlers.hasOwnProperty(i)) {
+                L.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
+            }
         }
 
         this._eventHandlers = {};

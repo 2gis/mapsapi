@@ -39,20 +39,20 @@
     width: 22px;
     height: 34px;
     margin: -34px 0 0 -13px;
-    background-image: url(__BASE_URL__/img/NonRetinaMarkerDefault.png);
+    background-image: url(../img/NonRetinaMarkerDefault.png);
     -webkit-animation: dg-customization__show-marker .2s;
     animation: dg-customization__show-marker .2s;
 }
 
 .leaflet-container:not(.leaflet-touch) div.leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    background-image: url(__BASE_URL__/img/NonRetinaMarkerHover.png);
+    background-image: url(../img/NonRetinaMarkerHover.png);
 }
 
 .dg-customization__marker_type_mushroom:focus {
     outline: 0;
 }
 div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/NonRetinaMarkerPressed.png) !important;
+    background-image: url(../img/NonRetinaMarkerPressed.png) !important;
 }
 
 .dg-customization__marker_appear.dg-customization__marker {
@@ -92,17 +92,17 @@ div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
 
 /*apply retina markers*/
 div.leaflet-retina .dg-customization__marker_type_mushroom {
-    background-image: url(__BASE_URL__/img/RetinaMarkerDefault.png);
+    background-image: url(../img/RetinaMarkerDefault.png);
     background-size: 22px 34px;
 }
 
 div.leaflet-retina:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    background-image: url(__BASE_URL__/img/RetinaMarkerHover.png);
+    background-image: url(../img/RetinaMarkerHover.png);
     background-size: 22px 34px;
 }
 
 div.leaflet-retina .leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/RetinaMarkerPressed.png) !important;
+    background-image: url(../img/RetinaMarkerPressed.png) !important;
     background-size: 22px 34px;
 }
 

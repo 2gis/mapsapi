@@ -10,7 +10,7 @@ L.DG.template = (function () {
 
           // Generate a reusable function that will serve as a template
           // generator (and which will be cached).
-          new Function("obj",
+          new Function("obj", // jshint ignore:line
             "var p=[],print=function(){p.push.apply(p,arguments);};" +
 
             // Introduce the data as local variables using with(){}

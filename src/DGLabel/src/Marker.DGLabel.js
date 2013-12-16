@@ -4,10 +4,10 @@ L.Marker.include({
         if (this._label) {
             this._label.setContent(content);
             if (options) {
-                if (this.options.offset != options.offset) {
+                if (this.options.offset !== options.offset) {
                     this._label.setOffset(this.options.offset = options.offset);
                 }
-                if (this.options.static != options.static) {
+                if (this.options.static !== options.static) {
                     this.unbindLabel().bindLabel(content, options);
                 }
             }
@@ -29,7 +29,7 @@ L.Marker.include({
             if (typeof this._map !== 'undefined') {
                 this._updateLabelZIndex();
             } else {
-                this.once( 'add', this._updateLabelZIndex );
+                this.once('add', this._updateLabelZIndex);
             }
         }
         return this;
@@ -39,13 +39,14 @@ L.Marker.include({
         if (this._label) {
             this
                 .hideLabel()
-                .off( 'remove', this.unbindLabel )
-                .off( 'mouseover', this._mouseOverLabel )
-                .off( 'mouseout', this._mouseOutLabel )
-                .off( 'dragstart', this._dragStartLabel )
-                .off( 'dragend', this._dragEndLabel )
-                .off( 'move', this._updatePosition )
-                .off( 'add', this._updateLabelZIndex);
+                .off('remove', this.unbindLabel)
+                .off('mouseover', this._mouseOverLabel)
+                .off('mouseout', this._mouseOutLabel)
+                .off('dragstart', this._dragStartLabel)
+                .off('dragend', this._dragEndLabel)
+                .off('move', this._updatePosition)
+                .off('add', this._updateLabelZIndex);
+
             this._label = null;
         }
         return this;
@@ -62,36 +63,37 @@ L.Marker.include({
         return this;
     },
 
-    _updateLabelZIndex: function(){
+    _updateLabelZIndex: function () {
         if (this._label && this._icon) {
-            this._label.setZIndexOffset( this._icon.style.zIndex );
+            this._label.setZIndexOffset(this._icon.style.zIndex);
         }
         return this;
     },
 
-    showLabel : function(){
+    showLabel : function () {
         if (this._label) {
             this
                 .on('move', this._updatePosition)
-                ._map.addLayer( this._label.setPosition( this.getLatLng() ) );
+                ._map.addLayer(this._label.setPosition(this.getLatLng()));
         }
+
         return this;
     },
 
-    hideLabel : function(){
+    hideLabel : function () {
         if (this._label) {
             this
                 .off('move', this._updatePosition)
-                ._map.removeLayer( this._label );
+                ._map.removeLayer(this._label);
         }
         return this;
     },
 
-    _updatePosition : function(){
-        this._label.setPosition( this.getLatLng() );
+    _updatePosition : function () {
+        this._label.setPosition(this.getLatLng());
     },
 
-    _dragStartLabel: function(){
+    _dragStartLabel: function () {
         this
             .off('mouseout', this._mouseOutLabel)
             .off('dragstart', this._mouseOutLabel)
@@ -99,28 +101,28 @@ L.Marker.include({
             .hideLabel();
     },
 
-    _dragEndLabel: function(){
-        this.once('mouseover', this._mouseOverLabel );
+    _dragEndLabel: function () {
+        this.once('mouseover', this._mouseOverLabel);
     },
 
-    _mouseOverLabel: function(){
+    _mouseOverLabel: function () {
         this
             .showLabel()
             .on('dragstart', this._dragStartLabel)
             .on('mouseout', this._mouseOutLabel);
     },
 
-    _mouseOutLabel: function(){
+    _mouseOutLabel: function () {
         this
             .hideLabel()
             .off('mouseout', this._mouseOutLabel)
             .off('dragstart', this._dragStartLabel)
-            .once('mouseover', this._mouseOverLabel );
+            .once('mouseover', this._mouseOverLabel);
     }
 });
 
-L.Marker.addInitHook(function (){
+L.Marker.addInitHook(function () {
     if (typeof this.options.label !== 'undefined') {
-        this.bindLabel( this.options.label );
+        this.bindLabel(this.options.label);
     }
 });
