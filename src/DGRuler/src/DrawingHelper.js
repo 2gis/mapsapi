@@ -306,15 +306,13 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _deleteFirstPoint: function (event) {
         var point = this._firstPoint,
             newFirst = point._next;
-        console.log('_deleteFirstPoint');
+
         L.DomEvent.stop(event);
 
         if (!newFirst) {
             return;
         }
 
-        this._layers.back.removeLayer(point._outer);
-        this._layers.front.removeLayer(point._inner).removeLayer(point._pipka);
         this._layers.mouse.removeLayer(point);
 
         L.Util.invokeEach(newFirst._legs, function (layer, line) {
@@ -324,6 +322,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         newFirst.prev = null;
 
         this._firstPoint = newFirst.setPointStyle('large');
+        this._addCloseHandler(this._firstPoint);
         this._updateDistance();
     },
 

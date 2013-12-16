@@ -1,8 +1,12 @@
-L.DG.Ruler = L.DG.Control.extend({
+L.DG.Ruler = L.DG.RoundControl.extend({
 
     options: {
         position: 'topright',
         iconClass: 'ruler'
+    },
+
+    statics: {
+        Dictionary: {}
     },
 
     initialize: function (options) {
