@@ -148,7 +148,7 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _isAllowedZoom: function () {
-        return !(this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM); //TODO: understand this ****
+        return !(this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM);  // jshint ignore:line
     },
 
     _getArrowStrokeOptions: function () {

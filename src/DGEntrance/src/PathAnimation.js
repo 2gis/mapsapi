@@ -83,7 +83,9 @@ if (L.Path.ANIMATION_AVAILABLE) {
         _removeAnimation: function (animationEl) {
             var self = this;
             this._map.once('zoomstart', function () {
-                animationEl && self._path.removeChild(animationEl);
+                if (animationEl) {
+                    self._path.removeChild(animationEl);
+                }
                 self._animationEl = null;
             });
         }

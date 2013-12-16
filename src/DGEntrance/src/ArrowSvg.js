@@ -10,8 +10,9 @@ if (L.Browser.svg) {
         _markersPolygons: [],
 
         initialize: function (latlngs, options) { // (Array, Object)
+            /*jshint shadow: true */
             var options = options || {};
-
+            /*jshint shadow: false */
             options.animation = this.getArrowAnimation(this._convertLatLngs(latlngs));
 
             this._markersPath = [];
@@ -20,7 +21,7 @@ if (L.Browser.svg) {
             L.Polyline.prototype.initialize.call(this, latlngs, options);
         },
 
-        onAdd: function (map){ // (L.Map)
+        onAdd: function (map) { // (L.Map)
             L.Polyline.prototype.onAdd.call(this, map);
             this._initMarkers();
 
@@ -33,7 +34,7 @@ if (L.Browser.svg) {
             map.on({'moveend': this._hideMarker}, this);
         },
 
-        onRemove: function (map){ // (L.Map)
+        onRemove: function (map) { // (L.Map)
             L.Polyline.prototype.onRemove.call(this, map);
             map.off({'zoomend': this._updateMarker}, this);
             map.off({'zoomend': this._updateStyle}, this);
@@ -106,21 +107,21 @@ if (L.Browser.svg) {
             this._updateMarker();
         },
 
-        _initDefs: function() {
-            if(!this._defs) {
+        _initDefs: function () {
+            if (!this._defs) {
                 this._defs = this._createElement('defs');
             }
             return this._defs;
         },
 
-        _removeMarkers: function() {
+        _removeMarkers: function () {
             var defs = this._defs;
             if (defs) {
                 defs.parentNode.removeChild(defs);
             }
         },
 
-        _updateMarker: function() {
+        _updateMarker: function () {
             var zoom = this._map.getZoom();
             if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
                 this._showMarker();
@@ -129,7 +130,7 @@ if (L.Browser.svg) {
             }
         },
 
-        _showMarker: function() {
+        _showMarker: function () {
             var zoom = this._map.getZoom();
 
             if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
@@ -137,7 +138,7 @@ if (L.Browser.svg) {
             }
         },
 
-        _hideMarker: function(onlyOutsideViewport) { // (Boolean)
+        _hideMarker: function (onlyOutsideViewport) { // (Boolean)
             var origPoints = this._originalPoints,
                 endPoint;
 
@@ -158,7 +159,8 @@ if (L.Browser.svg) {
 
         _updateStyle: function () {
             var optionsByZoom =  this.options.byZoom,
-                zoom = this._map.getZoom();
+                zoom = this._map.getZoom(),
+                i;
 
             L.Polyline.prototype._updateStyle.call(this);
 
@@ -168,14 +170,14 @@ if (L.Browser.svg) {
             }
 
             if (typeof this.options.visibility !== 'undefined') {
-                this._path.setAttribute('visibility', this.options.visibility)
+                this._path.setAttribute('visibility', this.options.visibility);
             }
 
-            for (var i = 0; i < this._markersPath.length; i++) {
+            for (i = 0; i < this._markersPath.length; i++) {
                 this._markersPath[i].setAttribute('fill-opacity', this.options.opacity);
             }
 
-            for (var i = 0; i < this._markersPolygons.length; i++) {
+            for (i = 0; i < this._markersPolygons.length; i++) {
                 this._markersPolygons[i].setAttribute('fill-opacity', this.options.opacity);
             }
         }
