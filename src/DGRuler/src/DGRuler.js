@@ -1,7 +1,7 @@
 L.DG.Ruler = L.DG.RoundControl.extend({
 
     options: {
-        position: 'topright',
+        position: L.DG.configTheme.controls.ruler.position,
         iconClass: 'ruler'
     },
 
@@ -10,7 +10,7 @@ L.DG.Ruler = L.DG.RoundControl.extend({
     },
 
     initialize: function (options) {
-        L.Util.setOptions(this, options);
+        L.setOptions(this, options);
         L.extend(this, {
             _active: false,
             _drawingHelper: null,

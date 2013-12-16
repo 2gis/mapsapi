@@ -1,27 +1,27 @@
 L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     statics : {
-        pathStyles : {
-            back : {
+        pathStyles: {
+            back: {
                 color: '#fff',
                 opacity: 1,
                 weight: 12
             },
-            middle : {
+            middle: {
                 color: '#0da5d5',
                 opacity: 1,
                 weight: 4
             },
-            mouse : {
+            mouse: {
                 color: '#ff0000',
                 opacity: 0,
                 weight: 20
             }
         },
-        iconStyles : {
-            large : {
-                layers : {
-                    back : {
+        iconStyles: {
+            large: {
+                layers: {
+                    back: {
                         color: '#fff',
                         opacity: 1,
                         fillColor: '#fff',
@@ -29,7 +29,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                         weight: 1,
                         radius: 13
                     },
-                    middle : {
+                    middle: {
                         color: '#0da5d5',
                         opacity: 1,
                         fillColor: '#0da5d5',
@@ -37,7 +37,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                         weight: 1,
                         radius: 9
                     },
-                    front : {
+                    front: {
                         color: '#fff',
                         opacity: 1,
                         fillColor: '#0da5d5',
@@ -47,9 +47,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                     }
                 }
             },
-            small : {
-                layers : {
-                    back : {
+            small: {
+                layers: {
+                    back: {
                         color: '#fff',
                         opacity: 1,
                         fillColor: '#fff',
@@ -57,7 +57,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                         weight: 1,
                         radius: 9
                     },
-                    middle : {
+                    middle: {
                         color: '#0da5d5',
                         opacity: 1,
                         fillColor: '#0da5d5',
@@ -65,7 +65,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                         weight: 1,
                         radius: 5
                     },
-                    front : {
+                    front: {
                         color: '#fff',
                         opacity: 1,
                         fillColor: '#0da5d5',
@@ -116,10 +116,10 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         L.extend(this, {
             _layersContainer: null,
             _layers: {
-                back : null,
-                middle : null,
-                front : null,
-                mouse : null
+                back: null,
+                middle: null,
+                front: null,
+                mouse: null
             },
             _lineMarkerHelper: null,
             _firstPoint: null,
@@ -181,11 +181,18 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     },
 
     _addRunningLabel : function (latlng, previousPoint) {
-        var style = { opacity : 0, fillOpacity: 1 },
+        var style = {
+                opacity: 0,
+                fillOpacity: 0
+            },
             point = this._createPoint(latlng, {
-                layers : { front : style, middle : style, back : style },
-                eventTransparent : true,
-                text : this._calcDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng))
+                layers : {
+                    front: style,
+                    middle: style,
+                    back: style
+                },
+                eventTransparent: true,
+                text: this._calcDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng))
             });
         return point.addTo(this._layers.mouse, this._layers);
     },
@@ -199,7 +206,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     _insertPointInLine : function (event) {
         var latlng = this._lineMarkerHelper.getLatLng(),
-            point = this._createPoint(latlng, this.constructor.iconStyles['small']);
+            point = this._createPoint(latlng, this.constructor.iconStyles.small);
 
         this._setPointLinks(point, event.target._point);
         this._addLeg(point);
@@ -261,7 +268,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         if (point._prev) {
             this._addLeg(point);
             if (point._prev._prev) {
-                point._prev.setPointStyle(this.constructor.iconStyles['small'].layers);
+                point._prev.setPointStyle(this.constructor.iconStyles.small.layers);
             }
         } else {
             this._addCloseHandler(this._firstPoint = point);
@@ -272,20 +279,20 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     _addCloseHandler: function (point) {
         var closeNode = point.querySelector('.dg-ruler-label-delete');
-        closeNode.style.display = 'block';
+        closeNode.style.display = 'inline-block';
         L.DomEvent.addListener(closeNode, 'click', this._deleteFirstPoint, this);
     },
 
     _createPoint: function (latlng, style) {
-        var pointStyle = style ? style : this.constructor.iconStyles['large'],
+        var pointStyle = style ? style : this.constructor.iconStyles.large,
             layers = pointStyle.layers;
 
         return L.DG.Ruler.layeredMarker(latlng, {
             eventTransparent : !!pointStyle.eventTransparent,
             layers : {
-                front : L.circleMarker(latlng, layers.front),
-                middle : L.circleMarker(latlng, layers.middle),
-                back : L.circleMarker(latlng, layers.back)
+                front: L.circleMarker(latlng, layers.front),
+                middle: L.circleMarker(latlng, layers.middle),
+                back: L.circleMarker(latlng, layers.back)
         }});
     },
 
@@ -322,7 +329,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
         newFirst.prev = null;
 
-        this._firstPoint = newFirst.setPointStyle(this.constructor.iconStyles['large'].layers);
+        this._firstPoint = newFirst.setPointStyle(this.constructor.iconStyles.large.layers);
         this._addCloseHandler(this._firstPoint);
         this._updateDistance();
     },
@@ -345,13 +352,14 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         var latlng = point.getLatLng();
 
         if (point._prev) {
+            console.log(point._legs, Object.keys(point._legs));
             Object.keys(point._legs).forEach(function (layer) {
                 point._legs[layer].spliceLatLngs(1, 1, latlng);
             });
         }
         if (point._next) {
-            Object.keys(point._legs).forEach(function (layer) {
-                point._legs[layer].spliceLatLngs(0, 1, latlng);
+            Object.keys(point._next._legs).forEach(function (layer) {
+                point._next._legs[layer].spliceLatLngs(0, 1, latlng);
             });
         }
     },
@@ -371,7 +379,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             distance = distance.toFixed(2).split('.').join(this._translate(','));
             units = 'km';
         } else {
-            distance = ~~distance;
+            distance = Math.round(distance);
         }
 
         return [distance || 0, ' ', this._translate(units)].join('');

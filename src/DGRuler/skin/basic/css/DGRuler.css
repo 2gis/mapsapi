@@ -17,11 +17,8 @@
 }
 
 .dg-ruler-label {
-	width: 300px;
 	left:0px;
 	top:0px;
-	max-width: none;
-	max-height: none;
     position: absolute;
 }
 
@@ -29,10 +26,13 @@
     display: none;
     width: 14px;
     height: 15px;
+    margin: -1px 0 0 4px;
+    vertical-align: top;
     background: url(../img/delete.png);
 }
 
 .dg-ruler-label-point {
+    display: inline-block;
     background: white;
     width:10px;
     height:10px;
@@ -49,14 +49,8 @@
 
 .dg-ruler-label-inner {
     display: none;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    overflow: hidden;
-    min-width: 30px;
-    max-width: 300px;
-    width: auto;
-    padding: 2px 7px 2px 4px;
+    white-space: nowrap;
+    padding: 2px 20px 2px 4px;
     font: 12px/14px Arial, sans-serif;
     color: #fff;
     background: #0da5d5;

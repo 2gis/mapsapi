@@ -4,7 +4,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         draggable: true,
         keyboard: false,
         eventTransparent: true,
-        iconHTML: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
+        iconHTML: '<img class="dg-ruler-label-spacer" src="../img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
     },
 
     statics: {
@@ -76,6 +76,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     _initIcon : function () {
         this.super._initIcon.call(this);
         this._iconCollapsed = true;
+        this._icon.style.width = '';
         this._iconNodes = {
             label : this.querySelector('.dg-ruler-label-distance'),
             spacer : this.querySelector('.dg-ruler-label-spacer'),
