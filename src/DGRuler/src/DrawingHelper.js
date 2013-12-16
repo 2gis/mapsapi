@@ -86,7 +86,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
     startDrawing: function () {
         this._layersContainer = L.featureGroup().addTo(this._map);
-        L.Util.invokeEach(this._layers, function (name) {
+        Object.keys(this._layers).forEach(function (name) {
             this._layersContainer.addLayer(this._layers[name] = L.featureGroup());
         }, this);
 
@@ -101,7 +101,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 .removeLayer((this._layersContainer.clearLayers()))
                 .off('click', this._addPoint, this);
 
-        L.Util.invokeEach(this._layers, function (name) {
+        Object.keys(this._layers).forEach(function (name) {
             this._layers[name].clearLayers();
         }, this);
 
@@ -174,7 +174,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             }
         },
         layeradd : function () {
-            L.Util.invokeEach(this._layers, function (name) {
+            Object.keys(this._layers).forEach(function (name) {
                 this._layers[name].bringToFront();
             }, this);
         }
@@ -316,24 +316,25 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
         this._layers.mouse.removeLayer(point);
 
-        L.Util.invokeEach(newFirst._legs, function (layer, line) {
-            this._layers[layer].removeLayer(line);
+        Object.keys(newFirst._legs).forEach(function (layer) {
+            this._layers[layer].removeLayer(newFirst._legs[layer]);
         }, this);
 
         newFirst.prev = null;
 
-        this._firstPoint = newFirst.setPointStyle('large');
+        this._firstPoint = newFirst.setPointStyle(this.constructor.iconStyles['large'].layers);
         this._addCloseHandler(this._firstPoint);
         this._updateDistance();
     },
 
     _addLeg: function (point) {
-        var coordinates = [point._prev.getLatLng(), point.getLatLng()];
+        var coordinates = [point._prev.getLatLng(), point.getLatLng()],
+            pathStyles = this.constructor.pathStyles;
 
         point._legs = {};
 
-        L.Util.invokeEach(this.constructor.pathStyles, function (layer, style) {
-            point._legs[layer] = L.polyline(coordinates, style).addTo(this._layers[layer]);
+        Object.keys(pathStyles).forEach(function (layer) {
+            point._legs[layer] = L.polyline(coordinates, pathStyles[layer]).addTo(this._layers[layer]);
         }, this);
 
         point._legs.mouse.on('mousedown', this._insertPointInLine, this);
@@ -344,13 +345,13 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         var latlng = point.getLatLng();
 
         if (point._prev) {
-            L.Util.invokeEach(point._legs, function (layer, line) {
-                line.spliceLatLngs(1, 1, latlng);
+            Object.keys(point._legs).forEach(function (layer) {
+                point._legs[layer].spliceLatLngs(1, 1, latlng);
             });
         }
         if (point._next) {
-            L.Util.invokeEach(point._next._legs, function (layer, line) {
-                line.spliceLatLngs(0, 1, latlng);
+            Object.keys(point._legs).forEach(function (layer) {
+                point._legs[layer].spliceLatLngs(0, 1, latlng);
             });
         }
     },

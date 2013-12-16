@@ -16,10 +16,8 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     },
 
     addTo : function (map, layers) {
-        L.Util.invokeEach(this._layers, function (name, layer) {
-            if (layers.hasOwnProperty(name)) {
-                layers[name].addLayer(this._layers[name]);
-            }
+        Object.keys(this._layers).forEach(function (name) {
+            layers[name].addLayer(this._layers[name]);
         }, this);
 
         this._viewport = layers;
@@ -27,10 +25,8 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     },
 
     onRemove : function (map) {
-        L.Util.invokeEach(this._layers, function (name, layer) {
-            if (this._viewport.hasOwnProperty(name)) {
-                this._viewport[name].removeLayer(this._layers[name]);
-            }
+        Object.keys(this._layers).forEach(function (name) {
+            this._viewport[name].removeLayer(this._layers[name]);
         }, this);
         this.off('move', this._onMove);
         this._viewport = null;
@@ -46,14 +42,9 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     },
 
     setPointStyle : function (styles) {
-        L.Util.invokeEach(styles, function (name, style) {
-            if (this._layers.hasOwnProperty(name)) {
-                this._layers[name].setStyle(style);
-            }
+        Object.keys(styles).forEach(function (name) {
+            this._layers[name].setStyle(styles[name]);
         }, this);
-        if (styles.hasOwnProperty('icon')) {
-            this.setIcon(styles.icon);
-        }
         return this;
     },
 
@@ -77,9 +68,9 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
     _onMove : function (event) {
         var latlng = event.latlng;
-        L.Util.invokeEach(this._layers, function (name, layer) {
-            layer.setLatLng(latlng);
-        });
+        Object.keys(this._layers).forEach(function(name){
+            this._layers[name].setLatLng(latlng);
+        }, this);
     },
 
     _initIcon : function () {
