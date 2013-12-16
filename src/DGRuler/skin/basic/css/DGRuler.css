@@ -1,3 +1,21 @@
+.dg-control-round_icon__ruler:before {
+    width: 16px;
+    height: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.dg-control-round_icon__ruler:before {
+    background-image: url(__BASE_URL__/img/Ruler.png);
+}
+.dg-control-round_icon__ruler:before:hover {
+    background-image: url(__BASE_URL__/img/RulerHover.png);
+}
+
+.dg-control-round_icon__active.dg-control-round_icon__ruler:before {
+    background-image: url(__BASE_URL__/img/RulerPressed.png);
+}
+
 .dg-ruler-label {
 	width: 300px;
 	left:0px;
@@ -5,6 +23,13 @@
 	max-width: none;
 	max-height: none;
     position: absolute;
+}
+
+.dg-ruler-label-delete {
+    display: none;
+    width: 14px;
+    height: 15px;
+    background: url(__BASE_URL__/img/delete.png);
 }
 
 .dg-ruler-label-point {

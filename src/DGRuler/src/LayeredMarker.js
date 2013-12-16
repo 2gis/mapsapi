@@ -3,7 +3,8 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     options: {
         draggable: true,
         keyboard: false,
-        eventTransparent: true
+        eventTransparent: true,
+        iconHTML: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
     },
 
     statics: {
@@ -70,6 +71,10 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         return this;
     },
 
+    querySelector : function (selector) {
+        return this._icon.querySelector(selector);
+    },
+
     _onMove : function (event) {
         var latlng = event.latlng;
         L.Util.invokeEach(this._layers, function (name, layer) {
@@ -81,9 +86,9 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         this.super._initIcon.call(this);
         this._iconCollapsed = false;
         this._iconNodes = {
-            label : this._icon.querySelector('.dg-ruler-label-distance'),
-            spacer : this._icon.querySelector('.dg-ruler-label-spacer'),
-            container : this._icon.querySelector('.dg-ruler-label-inner')
+            label : this.querySelector('.dg-ruler-label-distance'),
+            spacer : this.querySelector('.dg-ruler-label-spacer'),
+            container : this.querySelector('.dg-ruler-label-inner')
         };
         if (this.options.eventTransparent) {
             if (this.constructor._pointerEventsSupported) {
@@ -113,7 +118,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
             className: 'dg-ruler-label',
             iconSize: [26, 26],
             iconAnchor: [13, 13],
-            html: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span></div>'
+            html: this.options.iconHTML
         });
     }
 

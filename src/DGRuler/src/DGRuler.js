@@ -2,7 +2,7 @@ L.DG.Ruler = L.DG.Control.extend({
 
     options: {
         position: 'topright',
-        iconClass: 'ruller'
+        iconClass: 'ruler'
     },
 
     initialize: function (options) {

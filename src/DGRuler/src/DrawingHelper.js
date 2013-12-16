@@ -263,10 +263,16 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 point._prev.setPointStyle(this.constructor.iconStyles['small'].layers);
             }
         } else {
-            this._firstPoint = point;
+            this._addCloseHandler(this._firstPoint = point);
         }
 
         this._updateDistance();
+    },
+
+    _addCloseHandler: function (point) {
+        var closeNode = point.querySelector('.dg-ruler-label-delete');
+        closeNode.style.display = 'block';
+        L.DomEvent.addListener(closeNode, 'click', this._deleteFirstPoint, this);
     },
 
     _createPoint: function (latlng, style) {
@@ -300,7 +306,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _deleteFirstPoint: function (event) {
         var point = this._firstPoint,
             newFirst = point._next;
-
+        console.log('_deleteFirstPoint');
         L.DomEvent.stop(event);
 
         if (!newFirst) {
