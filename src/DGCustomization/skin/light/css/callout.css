@@ -10,7 +10,7 @@
 }
 
 .leaflet-popup-tip-container {
-    background-image: url(__BASE_URL__/img/callout-tail-white.png);
+    background-image: url(../img/callout-tail-white.png);
     width: 58px;
     height: 47px;
     margin-top: -1px;

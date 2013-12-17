@@ -6,14 +6,10 @@ L.DG.Jsonp = function (params) {
         callbackId, callbackName,
         url = params.url || '',
         data = params.data || {},
-        success = params.success || function () {
-        },
-        error = params.error || function () {
-        },
-        beforeSend = params.beforeSend || function () {
-        },
-        complete = params.complete || function () {
-        },
+        success = params.success || function () {},
+        error = params.error || function () {},
+        beforeSend = params.beforeSend || function () {},
+        complete = params.complete || function () {},
         timeout = params.timeout || 30 * 1000;
 
     head = document.getElementsByTagName('head')[0];

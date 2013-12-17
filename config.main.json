@@ -2,6 +2,7 @@
     "HOST": null,
     "PORT": "3000",
     "BASE_URL": "http://maps.api.2gis.ru/2.0",
+    "DEFAULT_SKIN": "light",
 
     "TILE_SERVER": "http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1",
     "ERROR_TILE_URL":"http://maps.api.2gis.ru/2.0/img/nomap.png",

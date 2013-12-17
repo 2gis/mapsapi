@@ -5,14 +5,14 @@ if (L.Browser.vml) {
 
         _endArrowStroke: null,
 
-        onAdd: function (map){ // (L.Map)
+        onAdd: function (map) { // (L.Map)
             L.Polyline.prototype.onAdd.call(this, map);
 
             map.on({'zoomend': this._updateEndArrow}, this);
             map.on({'zoomend': this._updateStyle}, this);
         },
 
-        onRemove: function (map){ // (L.Map)
+        onRemove: function (map) { // (L.Map)
             L.Polyline.prototype.onRemove.call(this, map);
 
             map.off({'zoomend': this._updateEndArrow}, this);
@@ -38,7 +38,7 @@ if (L.Browser.vml) {
 
             if (typeof byZoom[zoom] !== 'undefined' &&
                 typeof byZoom[zoom].vmlEndArrow !== 'undefined') {
-                
+
                 this._endArrowStroke.endarrow = byZoom[zoom].vmlEndArrow;
             }
             else {
