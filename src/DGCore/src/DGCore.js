@@ -1,4 +1,3 @@
-/*global ga:false*/
 L.DG.loaderParams = window.loaderBackup;
 window.loaderBackup = undefined;
 
@@ -11,6 +10,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 /* jshint ignore:end */
 
+/*global ga:false*/
 ga('create', '__GA_CODE__', 'none');
 ga('send', 'pageview');
 
