@@ -452,5 +452,9 @@ L.DG.ajax = (function () {
         return s.join('&').replace(/%20/g, '+');
     };
 
+    var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
+
+    Ajax.corsSupport = !(!(testxhr && 'withCredentials' in testxhr) && !win[xDomainRequest]);
+
     return Ajax;
 })();
