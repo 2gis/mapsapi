@@ -12,8 +12,8 @@
         for (var i = scripts.length - 1; i >= 0; i--) {
             if (scripts[i].getAttribute('data-id') === 'dgLoader') {
                 return scripts[i].src.split('?');
-            }  
-        };
+            }
+        }
     }
 
     function getBaseURL() {

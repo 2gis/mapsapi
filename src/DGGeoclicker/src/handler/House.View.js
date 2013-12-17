@@ -13,7 +13,7 @@ L.DG.Geoclicker.Handler.House.include({
             filials = house.attributes.filials;
 
         if (attrs.city) {
-            data.address = (attrs.district ? this.t('district') + ' ' + attrs.district  + ', ' : '' ) +
+            data.address = (attrs.district ? this.t('district') + ' ' + attrs.district  + ', ' : '') +
                             attrs.city +
                             (attrs.postal_code ? ', ' + attrs.postal_code : '');
         }

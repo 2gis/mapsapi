@@ -56,7 +56,8 @@ var deps = {
 
     DGWhen: {
         desc: 'Promise/Deffered object module',
-        src: [ 'DGWhen/src/DGWhen.js' ]
+        src: [ 'DGWhen/src/DGWhen.js'],
+        deps: ['DGCore']
     },
 
     DGAjax: {
@@ -89,7 +90,7 @@ var deps = {
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
-            'DGCustomization/skin/{skin}/theme.config.js',
+            'DGCustomization/skin/basic/skin.config.js',
             '../vendors/baron/baron.js',
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
