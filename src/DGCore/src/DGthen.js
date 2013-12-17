@@ -7,7 +7,7 @@ L.DG.then = function (cb) {
     L.DG.def.promise.then(cb);
 
     return this;
-}
+};
 
 //promise will be resolved asynchronously
 L.DG.def.resolve();
