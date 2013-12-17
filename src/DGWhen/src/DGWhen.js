@@ -1,5 +1,5 @@
 /* jshint ignore:start */
-gsL.DG = L.DG || {};
+L.DG = L.DG || {};
 
 L.DG.when = (function (global) {
 
