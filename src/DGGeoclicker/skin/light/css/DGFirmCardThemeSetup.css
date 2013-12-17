@@ -1,33 +1,33 @@
 #popup-link-photos:before {
-    background-image: url(__BASE_URL__/img/photo-light.png);
+    background-image: url(../img/photo-light.png);
 }
 
 .schedule__table-clock {
-    background-image: url(__BASE_URL__/img/clock-off-light.png);
+    background-image: url(../img/clock-off-light.png);
 }
 
 .schedule_open_false:before {
-    background-image: url(__BASE_URL__/img/clock-off-light.png);
+    background-image: url(../img/clock-off-light.png);
 }
 
 .schedule__table-lunch {
-    background-image: url(__BASE_URL__/img/lunch-light.png);
+    background-image: url(../img/lunch-light.png);
 }
 
 #popup-btn-firmCard-back:before {
-    background-image: url(__BASE_URL__/img/back-light.png);
+    background-image: url(../img/back-light.png);
 }
 
 #popup-btn-firmList-back:before {
-    background-image: url(__BASE_URL__/img/back-light.png);
+    background-image: url(../img/back-light.png);
 }
 
 #popup-btn-goto:before {
-    background-image: url(__BASE_URL__/img/path-light.png);
+    background-image: url(../img/path-light.png);
 }
 
 #popup-btn-show-entrance:before{
-    background-image: url(__BASE_URL__/img/enter-light.png);
+    background-image: url(../img/enter-light.png);
 }
 
 #dg-showmoresight {
@@ -39,43 +39,43 @@
 }
 
 .dg-map-geoclicker-purpose:before {
-    background-image: url(__BASE_URL__/img/purp-light.png);
+    background-image: url(../img/purp-light.png);
 }
 
 .building-callout__body:first-child:before {
-    background-image: url(__BASE_URL__/img/marker-light.png);
+    background-image: url(../img/marker-light.png);
 }
 
 .firm-card__address:before {
-    background-image: url(__BASE_URL__/img/marker-light.png);
+    background-image: url(../img/marker-light.png);
 }
 
 .firm-card__phone:before {
-    background-image: url(__BASE_URL__/img/phone-light.png);
+    background-image: url(../img/phone-light.png);
 }
 
 .firm-card__site:before {
-    background-image: url(__BASE_URL__/img/globe-light.png);
+    background-image: url(../img/globe-light.png);
 }
 
 .firm-card__email:before {
-    background-image: url(__BASE_URL__/img/evenlope-light.png);
+    background-image: url(../img/evenlope-light.png);
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
-    background-image: url(__BASE_URL__/img/street-light.png);
+    background-image: url(../img/street-light.png);
 }
 
 .schedule__today:after {
-    background-image: url(__BASE_URL__/img/show-schedule-light.png);
+    background-image: url(../img/show-schedule-light.png);
 }
 
 .schedule__today.show_schedule:after {
-    background-image: url(__BASE_URL__/img/hide-schedule-light.png);
+    background-image: url(../img/hide-schedule-light.png);
 }
 
 .building-callout__list-item:before {
-    background-image: url(__BASE_URL__/img/bullet-light.png);
+    background-image: url(../img/bullet-light.png);
 }
 
 .firm-card__comment {
@@ -109,73 +109,73 @@
 /*retina icons*/
 
 .leaflet-retina #popup-link-photos:before {
-    background-image: url(__BASE_URL__/img/photo-light-2x.png);
+    background-image: url(../img/photo-light-2x.png);
 }
 
 .leaflet-retina .schedule__table-clock {
-    background-image: url(__BASE_URL__/img/clock-off-light-2x.png);
+    background-image: url(../img/clock-off-light-2x.png);
 }
 
 .leaflet-retina .schedule_open_false:before {
-    background-image: url(__BASE_URL__/img/clock-off-light-2x.png);
+    background-image: url(../img/clock-off-light-2x.png);
 }
 
 .leaflet-retina .schedule__table-lunch {
-    background-image: url(__BASE_URL__/img/lunch-light-2x.png);
+    background-image: url(../img/lunch-light-2x.png);
 }
 
 .leaflet-retina #popup-btn-firmCard-back:before {
-    background-image: url(__BASE_URL__/img/back-light-2x.png);
+    background-image: url(../img/back-light-2x.png);
 }
 
 .leaflet-retina #popup-btn-firmList-back:before {
-    background-image: url(__BASE_URL__/img/back-light-2x.png);
+    background-image: url(../img/back-light-2x.png);
 }
 
 .leaflet-retina #popup-btn-goto:before {
-    background-image: url(__BASE_URL__/img/path-light-2x.png);
+    background-image: url(../img/path-light-2x.png);
 }
 
 .leaflet-retina #popup-btn-show-entrance:before{
-    background-image: url(__BASE_URL__/img/enter-light-2x.png);
+    background-image: url(../img/enter-light-2x.png);
 }
 
 .leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose:before {
-    background-image: url(__BASE_URL__/img/purp-light-2x.png);
+    background-image: url(../img/purp-light-2x.png);
 }
 
 .leaflet-retina .building-callout__body:first-child:before {
-    background-image: url(__BASE_URL__/img/marker-light-2x.png);
+    background-image: url(../img/marker-light-2x.png);
 }
 
 .leaflet-retina .firm-card__address:before {
-    background-image: url(__BASE_URL__/img/marker-light-2x.png);
+    background-image: url(../img/marker-light-2x.png);
 }
 
 .leaflet-retina .firm-card__phone:before {
-    background-image: url(__BASE_URL__/img/phone-light-2x.png);
+    background-image: url(../img/phone-light-2x.png);
 }
 
 .leaflet-retina .firm-card__site:before {
-    background-image: url(__BASE_URL__/img/globe-light-2x.png);
+    background-image: url(../img/globe-light-2x.png);
 }
 
 .leaflet-retina .firm-card__email:before {
-    background-image: url(__BASE_URL__/img/evenlope-light-2x.png);
+    background-image: url(../img/evenlope-light-2x.png);
 }
 
 .leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
-    background-image: url(__BASE_URL__/img/street-light-2x.png);
+    background-image: url(../img/street-light-2x.png);
 }
 
 .leaflet-retina .schedule__today:after {
-    background-image: url(__BASE_URL__/img/show-schedule-light-2x.png);
+    background-image: url(../img/show-schedule-light-2x.png);
 }
 
 .leaflet-retina .schedule__today.show_schedule:after {
-    background-image: url(__BASE_URL__/img/hide-schedule-light-2x.png);
+    background-image: url(../img/hide-schedule-light-2x.png);
 }
 
 .leaflet-retina .building-callout__list-item:before {
-    background-image: url(__BASE_URL__/img/bullet-light-2x.png);
+    background-image: url(../img/bullet-light-2x.png);
 }

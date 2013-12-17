@@ -6,7 +6,8 @@ L.Path.include({
             this.on(this._labelEvents, this);
         } else {
             this._label.setContent(content);
-            if (this._label.options.offset != options.offset) {
+
+            if (this._label.options.offset !== options.offset) {
                 this._label.setOffset(options.offset);
             }
         }
@@ -28,19 +29,19 @@ L.Path.include({
 
     _labelEvents : {
         'mouseover': function (event) {
-            this._map.addLayer( this._label.setPosition( event.latlng ) );
+            this._map.addLayer(this._label.setPosition(event.latlng));
         },
         'mousemove': function (event) {
-            this._label.setPosition( event.latlng )
+            this._label.setPosition(event.latlng);
         },
         'mouseout remove': function () {
-            this._map.removeLayer( this._label );
+            this._map.removeLayer(this._label);
         }
     }
 });
 
-L.Path.addInitHook(function (){
+L.Path.addInitHook(function () {
     if (typeof this.options.label !== 'undefined') {
-        this.bindLabel( this.options.label );
+        this.bindLabel(this.options.label);
     }
 });

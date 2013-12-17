@@ -240,11 +240,11 @@
 
 /* Открытость фирмы */
 .schedule_open_true:before {
-    background-image: url(__BASE_URL__/img/clock-on.png);
+    background-image: url(../img/clock-on.png);
 }
 
 .leaflet-retina .schedule_open_true:before {
-    background-image: url(__BASE_URL__/img/clock-on-2x.png);
+    background-image: url(../img/clock-on-2x.png);
 }
 
 /* Local dashed link */

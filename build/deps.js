@@ -54,7 +54,7 @@ var deps = {
 
     DGWhen: {
         desc: 'Promise/Deffered object module',
-        src: [ 'DGWhen/src/DGWhen.js' ],
+        src: [ 'DGWhen/src/DGWhen.js'],
         deps: ['DGCore']
     },
 
@@ -88,7 +88,7 @@ var deps = {
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
-            'DGCustomization/skin/{skin}/theme.config.js',
+            'DGCustomization/skin/basic/skin.config.js',
             '../vendors/baron/baron.js',
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
@@ -141,6 +141,23 @@ var deps = {
         desc: 'Localization module',
         src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
         deps: ['DGCore']
+    },
+
+    DGLocation: {
+        desc: 'Location control module',
+        src: [
+            'DGLocation/src/DGLocation.js',
+            'DGLocation/lang/ru.js',
+            'DGLocation/lang/it.js',
+            'DGLocation/lang/cs.js',
+            'DGLocation/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGLocation/skin/{skin}/css/DGLocation.css'
+            ]
+        },
+        deps: ['DGCore', 'DGLocale', 'DGLabel']
     },
 
     DGFullScreen: {
@@ -259,22 +276,6 @@ var deps = {
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     },
 
-    DGLocation: {
-        desc: 'Location control module',
-        src: [
-            'DGLocation/src/DGLocation.js',
-            'DGLocation/lang/ru.js',
-            'DGLocation/lang/it.js',
-            'DGLocation/lang/cs.js',
-            'DGLocation/lang/en.js'
-        ],
-        css: {
-            all: [
-                'DGLocation/skin/{skin}/css/DGLocation.css'
-            ]
-        },
-        deps: ['DGCore', 'DGLocale']
-    },
 
     DGRoundControl: {
         desc: 'Control helper',

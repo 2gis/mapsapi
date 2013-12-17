@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'SuisseCond';
-    src: url('__BASE_URL__/fonts/suisseintl-cond/suisseintl-cond.eot');
-    src: url('__BASE_URL__/fonts/suisseintl-cond/suisseintl-cond.eot?#iefix') format('embedded-opentype'),
-         url('__BASE_URL__/fonts/suisseintl-cond/suisseintl-cond.woff') format('woff'),
-         url('__BASE_URL__/fonts/suisseintl-cond/suisseintl-cond.ttf') format('truetype'),
-         url('__BASE_URL__/fonts/suisseintl-cond/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
+    src: url('../fonts/suisseintl-cond.eot');
+    src: url('../fonts/suisseintl-cond.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/suisseintl-cond.woff') format('woff'),
+         url('../fonts/suisseintl-cond.ttf') format('truetype'),
+         url('../fonts/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -69,7 +69,7 @@
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
-    background-image: url(__BASE_URL__/img/callout-settlement.png);
+    background-image: url(../img/callout-settlement.png);
     width: 12px;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(__BASE_URL__/img/icon-sight.png);
+    background-image: url(../img/icon-sight.png);
     background-position: 0 0;
 }
 
@@ -237,7 +237,7 @@
 }
 
 #dg-popup-firm-loading {
-    background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
+    background: url("../img/loader.gif") no-repeat scroll 50% 50% transparent;
     height: 40px;
     width: 200px;
     margin: 0 auto;
@@ -286,7 +286,7 @@
   vertical-align: middle;
 }
 .preloader_animation_false {
-    background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
+    background: url("../img/loader.gif") no-repeat scroll 50% 50% transparent;
 }
 .preloader_animation_true.preloader:before {
   position: absolute;

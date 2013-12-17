@@ -1,14 +1,4 @@
-/**
- * JSHint namespace
- * See: http://jshint.com/docs/
- */
-exports.namespace = { L: true };
-
-/**
- * JSHint config
- * See: http://jshint.com/docs/
- */
-exports.config = {
+{
     "browser": true,
     "node": true,
     "predef": [],
@@ -27,7 +17,7 @@ exports.config = {
     "curly": true,
     "eqnull": false,
     "evil": false,
-    "expr": false,
+    "expr": true,
     "forin": true,
     "immed": true,
     "latedef": true,
@@ -53,5 +43,6 @@ exports.config = {
     "eqeqeq": true,
     "trailing": true,
     "white": true,
-    "smarttabs": true
-};
+    "smarttabs": true,
+    "globals": { "L": true }
+}

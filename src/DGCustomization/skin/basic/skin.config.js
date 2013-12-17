@@ -1,7 +1,5 @@
 L.DG = L.DG || {};
 L.DG.configTheme = {
-    name: 'dark',
-
     balloonOptions: {
         offset: {
             x: 0,
@@ -24,8 +22,9 @@ L.DG.configTheme = {
             position: 'topright',
             touchPosition: 'bottomright'
         },
-        whereami: {
-            position: 'topright'
+        locate: {
+            position: 'topleft',
+            touchPosition: 'bottomright'
         }
     }
 };
