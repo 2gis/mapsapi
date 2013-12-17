@@ -70,8 +70,8 @@ L.DG.Meta = L.Handler.extend({
                 });
             } else {
                 if (this._currentTileMetaData) {
-                    if (this._listenPoi) { this._checkpoihover(e.latlng, zoom); }
-                    if (this._listenBuildings) { this._checkbuildinghover(e.latlng); }
+                    if (this._listenPoi) { this._checkPoiHover(e.latlng, zoom); }
+                    if (this._listenBuildings) { this._checkBuildingHover(e.latlng); }
                 }
             }
         },
@@ -88,7 +88,7 @@ L.DG.Meta = L.Handler.extend({
         }
     },
 
-    _checkpoihover: function (latLng, zoom) { // (L.LatLng, String)
+    _checkPoiHover: function (latLng, zoom) { // (L.LatLng, String)
         var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
 
         if (this._currentPoi && (!hoveredPoi || this._currentPoi.id !== hoveredPoi.id)) {
@@ -102,7 +102,7 @@ L.DG.Meta = L.Handler.extend({
         }
     },
 
-    _checkbuildinghover: function (latLng) { // (L.LatLng)
+    _checkBuildingHover: function (latLng) { // (L.LatLng)
         var hoveredBuilding = this._isMetaHovered(latLng, this._currentTileMetaData.buildings);
 
         if (this._currentBuilding && (!hoveredBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {

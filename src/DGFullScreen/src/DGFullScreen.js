@@ -1,3 +1,4 @@
+
 /* global fullScreenApi */
 
 L.DG.FullScreen = L.DG.RoundControl.extend({
@@ -155,7 +156,7 @@ L.DG.FullScreen = L.DG.RoundControl.extend({
         this.setState('active');
 
         if (!this._isLegacy) {
-            fullScreenApi.requestfullscreen(container);
+            fullScreenApi.requestFullScreen(container);
         } else {
             this._storePosition(container);
             // set full map mode style
@@ -193,7 +194,7 @@ L.DG.FullScreen = L.DG.RoundControl.extend({
         this.setState();
 
         if (!this._isLegacy) {
-            fullScreenApi.cancelfullscreen();
+            fullScreenApi.cancelFullScreen();
         } else {
             this._restorePosition(container);
         }
@@ -236,15 +237,17 @@ L.Map.addInitHook(function () {
 
 (function () {
     var fullScreenApi = {
-            supportsFullScreen: false,
-            isFullScreen: function () { return false; },
-            requestfullscreen: function () {},
-            cancelfullscreen: function () {},
-            fullScreenEventName: '',
-            prefix: ''
+        supportsFullScreen: false,
+        isFullScreen: function () {
+            return false;
         },
+        requestFullScreen: function () {},
+        cancelFullScreen: function () {},
+        fullScreenEventName: '',
+        prefix: ''
+    },
     browserPrefixes = 'webkit moz o ms khtml'.split(' '),
-    ua = navigator.userAgent.toLowerCase();
+        ua = navigator.userAgent.toLowerCase();
 
     // check for native support exclude safari
     if (typeof document.exitFullscreen !== 'undefined') {
@@ -255,8 +258,7 @@ L.Map.addInitHook(function () {
         for (var i = 0, il = browserPrefixes.length; i < il; i++) {
             fullScreenApi.prefix = browserPrefixes[i];
 
-            if ((typeof document[fullScreenApi.prefix + 'cancelfullscreen'] !== 'undefined') &&
-                !(ua.indexOf('safari') !== -1 && ua.indexOf('chrome')  === -1)) {
+            if ((typeof document[fullScreenApi.prefix + 'CancelFullScreen'] !== 'undefined') && !(ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1)) {
                 fullScreenApi.supportsFullScreen = true;
                 break;
             }
@@ -277,11 +279,11 @@ L.Map.addInitHook(function () {
                 return document[this.prefix + 'FullScreen'];
             }
         };
-        fullScreenApi.requestfullscreen = function (el) {
-            return (this.prefix === '') ? el.requestfullscreen() : el[this.prefix + 'requestfullscreen']();
+        fullScreenApi.requestFullScreen = function (el) {
+            return (this.prefix === '') ? el.requestFullscreen() : el[this.prefix + 'RequestFullScreen']();
         };
-        fullScreenApi.cancelfullscreen = function () {
-            return (this.prefix === '') ? document.exitFullscreen() : document[this.prefix + 'cancelfullscreen']();
+        fullScreenApi.cancelFullScreen = function () {
+            return (this.prefix === '') ? document.exitFullscreen() : document[this.prefix + 'CancelFullScreen']();
         };
     }
 
