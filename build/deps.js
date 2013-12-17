@@ -227,6 +227,9 @@ var deps = {
                 'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
                 'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
                 'DGGeoclicker/skin/{skin}/css/DGFirmCardSkinSetup.css'
+            ],
+            ie: [
+                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.ie.css'
             ]
         },
         src: [
