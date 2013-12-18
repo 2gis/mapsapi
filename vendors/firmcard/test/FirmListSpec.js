@@ -9,7 +9,6 @@ describe('DGFirmList', function () {
     });
 
     afterEach(function () {
-        sinon.restore(render);
         results = addFirms = alreadyInList = defaultFirm = null;
     });
 
