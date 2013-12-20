@@ -1,5 +1,5 @@
-L.DG.loaderParams = window.loaderBackup;
-window.loaderBackup = undefined;
+L.DG.loaderParams = window.__dgApi_params;
+window.__dgApi_params = undefined;
 
 L.Icon.Default.imagePath  = '../img/vendors/leaflet';
 

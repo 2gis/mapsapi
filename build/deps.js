@@ -3,11 +3,11 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            'DGCore/src/DGCore.js',
-            'DGCore/src/DGthen.js',
             '../vendors/polyfills/json2.js',
             '../vendors/polyfills/html5shiv.js',
-            '../vendors/polyfills/es5.js'
+            '../vendors/polyfills/es5.js',
+            'DGCore/src/DGCore.js',
+            'DGCore/src/DGthen.js'
         ],
         css: {
             all: [
