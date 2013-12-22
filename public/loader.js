@@ -77,16 +77,12 @@
         document.getElementsByTagName('head')[0].appendChild(js);
     }
 
-    var DOMContentLoaded = function() {
-            if ( document.addEventListener ) {
-                    document.removeEventListener( "DOMContentLoaded", DOMContentLoaded, false );
-                    //loadJS(baseURL + 'js' + queryString);
-            } else if ( document.readyState === "complete" ) {
-                    // we're here because readyState === "complete" in oldIE
-                    // which is good enough for us to call the dom ready!
-                    document.detachEvent( "onreadystatechange", DOMContentLoaded );
-                    //loadJS(baseURL + 'js' + queryString);
-            }
+    function DOMContentLoaded() {
+        if (document.addEventListener) {
+            document.removeEventListener('DOMContentLoaded', DOMContentLoaded, false);
+        } else if (document.readyState === 'complete') {
+            document.detachEvent('onreadystatechange', DOMContentLoaded);
+        }
     }
 
     function ready () {
@@ -94,66 +90,37 @@
     }
 
     function subcribeToDOMLoaded() {
-
-
-        if ( document.readyState === "complete" ) {
+        if (document.readyState === 'complete') {
                 // Handle it asynchronously to allow scripts the opportunity to delay ready
-                setTimeout( ready, 1 );
-
-        // Standards-based browsers support DOMContentLoaded
+                setTimeout(ready, 1);
         } else if ( document.addEventListener ) {
-                // Use the handy event callback
-                document.addEventListener( "DOMContentLoaded", DOMContentLoaded, false );
-
-                // A fallback to window.onload, that will always work
-                window.addEventListener( "load", ready, false );
-
-        // If IE event model is used
+                document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+                window.addEventListener( 'load', ready, false );
         } else {
-                // Ensure firing before onload, maybe late but safe also for iframes
-                document.attachEvent( "onreadystatechange", DOMContentLoaded );
+            document.attachEvent('onreadystatechange', DOMContentLoaded);
+            window.attachEvent('onload', ready);
+            // If IE and not a frame
+            // continually check to see if the document is ready
+            var top = false;
+            try {
+                top = window.frameElement === null && document.documentElement;
+            } catch(e) {}
 
-                // A fallback to window.onload, that will always work
-                window.attachEvent( "onload", ready );
-
-                // If IE and not a frame
-                // continually check to see if the document is ready
-                var top = false;
-
-                try {
-                        top = window.frameElement == null && document.documentElement;
-                } catch(e) {}
-
-                if ( top && top.doScroll ) {
-                        (function doScrollCheck() {
-                                if ( !jQuery.isReady ) {
-
-                                        try {
-                                                // Use the trick by Diego Perini
-                                                // http://javascript.nwbox.com/IEContentLoaded/
-                                                top.doScroll("left");
-                                        } catch(e) {
-                                                return setTimeout( doScrollCheck, 50 );
-                                        }
-
-                                        // and execute any waiting functions
-                                        ready();
-                                }
-                        })();
-                }
+            if (top && top.doScroll) {
+                (function doScrollCheck() {
+                    if (!jQuery.isReady) { // HANDLE!!!
+                        try {
+                            // Use the trick by Diego Perini
+                            // http://javascript.nwbox.com/IEContentLoaded/
+                            top.doScroll('left');
+                        } catch(e) {
+                            return setTimeout(doScrollCheck, 50);
+                        }
+                        ready();
+                    }
+                })();
+            }
         }
-
-        /*if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', function () {
-                loadJS(baseURL + 'js' + queryString);
-            }, false);
-        } else if (document.attachEvent) {
-            document.attachEvent('onreadystatechange', function () {
-                if (document.readyState === 'complete') {
-                    loadJS(baseURL + 'js' + queryString);
-                }
-            });
-        }*/
     }
 
     function loadApi() {
