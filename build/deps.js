@@ -268,19 +268,19 @@ var deps = {
         ]
     },
 
-    DGEntrance: {
-        desc: '2GIS Entrances.',
-        src: [
-            'DGEntrance/src/DGEntrance.js',
-            'DGEntrance/src/PathAnimation.js',
-            'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/ArrowSvg.js',
-            'DGEntrance/src/ArrowVml.js',
-            'DGEntrance/src/ArrowSvgAnimationOptions.js',
-            'DGEntrance/src/EventHandler.js'
-        ],
-        deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
-    },
+    // DGEntrance: {
+    //     desc: '2GIS Entrances.',
+    //     src: [
+    //         'DGEntrance/src/DGEntrance.js',
+    //         'DGEntrance/src/PathAnimation.js',
+    //         'DGEntrance/src/Arrow.js',
+    //         'DGEntrance/src/ArrowSvg.js',
+    //         'DGEntrance/src/ArrowVml.js',
+    //         'DGEntrance/src/ArrowSvgAnimationOptions.js',
+    //         'DGEntrance/src/EventHandler.js'
+    //     ],
+    //     deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
+    // },
 
 
     DGRoundControl: {
@@ -314,6 +314,9 @@ var deps = {
             all: [
                 'DGRuler/skin/{skin}/css/DGRuler.css'
             ],
+            ie: [
+                'DGRuler/skin/{skin}/css/DGRuler.ie.css'
+            ]
         },
         deps: ['DGCore', 'DGLocale', 'DGTemplate', 'DGRoundControl']
     }

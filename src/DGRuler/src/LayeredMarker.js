@@ -21,7 +21,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         }, this);
 
         this._viewport = layers;
-        return this.on('move', this._onMove).super.addTo.call(this, map);
+        return L.Marker.prototype.addTo.call(this.on('move', this._onMove), map);
     },
 
     onRemove : function (map) {
@@ -30,7 +30,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         }, this);
         this.off('move', this._onMove);
         this._viewport = null;
-        return this.super.onRemove.call(this, map);
+        return L.Marker.prototype.onRemove.call(this, map);
     },
 
     setText : function (text) {
@@ -74,7 +74,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     },
 
     _initIcon : function () {
-        this.super._initIcon.call(this);
+        L.Marker.prototype._initIcon.call(this);
         this._iconCollapsed = true;
         this._icon.style.width = '';
         this._iconNodes = {
@@ -93,18 +93,16 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
     _explorerEventTransit : function (event) {
         var underneathElem,
-            eventObject = document.createEventObject();
+            eventObject = document.createEventObject(event);
 
         this._icon.style.display = 'none';
         underneathElem = document.elementFromPoint(event.clientX, event.clientY);
         this._icon.style.display = '';
-        L.extend(eventObject, event);
         eventObject.target = underneathElem;
         underneathElem.fireEvent('onMouseMove', eventObject);
     },
 
     _afterInit : function () {
-        this.super = this.constructor.__super__;
         this._layers = this.options.layers || null;
         this.options.icon = L.divIcon({
             className: 'dg-ruler-label',

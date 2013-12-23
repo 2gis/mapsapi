@@ -36,6 +36,10 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         this._updateDistance();
     },
 
+    getDistance: function () {
+        return this._calcDistance();
+    },
+
     _reset : function () {
         L.extend(this, {
             _layersContainer: null,
@@ -59,6 +63,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             if (this._morphingNow) {
                 return;
             }
+
             if (target instanceof L.Marker && target._hoverable && target !== this._firstPoint) {
                 target.setText(this._calcDistance(target._next));
             } else if (target instanceof L.Path) {
@@ -70,32 +75,32 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             }
         },
         mouseout : function (event) {
-            var target = event.layer;
+            // var target = event.layer;
 
-            if (this._morphingNow || target === this._firstPoint) {
-                return;
-            }
-            if (target instanceof L.Marker) {
-                target._hoverable = true;
-                target.collapse();
-            } else {
-                this._removeRunningLabel();
-            }
+            // if (this._morphingNow || target === this._firstPoint) {
+            //     return;
+            // }
+            // if (target instanceof L.Marker) {
+            //     target._hoverable = true;
+            //     target.collapse();
+            // } else {
+            //     this._removeRunningLabel();
+            // }
         },
         mousemove : function (event) {
-            if (this._morphingNow) {
-                return;
-            }
+            // if (this._morphingNow) {
+            //     return;
+            // }
 
-            var latlng = event.latlng,
-                point = event.layer._point,
-                interpolated = this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng);
+            // var latlng = event.latlng,
+            //     point = event.layer._point,
+            //     interpolated = this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng);
 
-            if (this._lineMarkerHelper) {
-                this._lineMarkerHelper
-                            .setLatLng(interpolated)
-                            .setText(this._calcDistance(point, point._prev.getLatLng().distanceTo(interpolated)));
-            }
+            // if (this._lineMarkerHelper) {
+            //     this._lineMarkerHelper
+            //                 .setLatLng(interpolated)
+            //                 .setText(this._calcDistance(point, point._prev.getLatLng().distanceTo(interpolated)));
+            // }
         },
         layeradd : function () {
             Object.keys(this._layers).forEach(function (name) {
@@ -107,7 +112,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _addRunningLabel : function (latlng, previousPoint) {
         var style = {
                 opacity: 0,
-                fillOpacity: 0
+                fillOpacity: 1
             },
             point = this._createPoint(latlng, {
                 layers : {

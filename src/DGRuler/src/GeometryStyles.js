@@ -3,17 +3,23 @@ L.DG.Ruler.Styles = {
         back: {
             color: '#fff',
             opacity: 1,
-            weight: 12
+            weight: 12,
+            pointerEvents: 'none',
+            noClip: true
         },
         middle: {
             color: '#0da5d5',
             opacity: 1,
-            weight: 4
+            weight: 4,
+            pointerEvents: 'none',
+            noClip: true
         },
         mouse: {
-            color: '#ff0000',
-            opacity: 0,
-            weight: 20
+            color: '#fff',
+            opacity: L.Path.VML ? 0.01 : 0,
+            weight: 20,
+            pointerEvents: 'all',
+            noClip: true
         }
     },
     iconStyles: {
