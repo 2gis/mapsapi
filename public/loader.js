@@ -85,17 +85,17 @@
         }
     }
 
-    function ready () {
+    function ready() {
         loadJS(baseURL + 'js' + queryString);
     }
 
     function subcribeToDOMLoaded() {
         if (document.readyState === 'complete') {
-                // Handle it asynchronously to allow scripts the opportunity to delay ready
-                setTimeout(ready, 1);
-        } else if ( document.addEventListener ) {
-                document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
-                window.addEventListener( 'load', ready, false );
+            // Handle it asynchronously to allow scripts the opportunity to delay ready
+            setTimeout(ready, 1);
+        } else if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
+            window.addEventListener('load', ready, false);
         } else {
             document.attachEvent('onreadystatechange', DOMContentLoaded);
             window.attachEvent('onload', ready);
@@ -108,7 +108,7 @@
 
             if (top && top.doScroll) {
                 (function doScrollCheck() {
-                    if (!jQuery.isReady) { // HANDLE!!!
+                    if (false/*!jQuery.isReady*/) { // HANDLE!!!
                         try {
                             // Use the trick by Diego Perini
                             // http://javascript.nwbox.com/IEContentLoaded/
