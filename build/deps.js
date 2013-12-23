@@ -255,8 +255,7 @@ var deps = {
             '../vendors/firmcard/src/vendors/momentjs/lang/moment.cs.js',
             '../vendors/firmcard/src/vendors/momentjs/lang/moment.it.js',
             '../vendors/firmcard/src/Schedule.js',
-            '../vendors/firmcard/src/Dictionary.js',
-
+            '../vendors/firmcard/src/Dictionary.js'
         ],
         deps: ['DGJsonp', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
     },
@@ -318,7 +317,7 @@ var deps = {
                 'DGRuler/skin/{skin}/css/DGRuler.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGTemplate', 'DGRoundControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     }
 
 };
