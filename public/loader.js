@@ -3,7 +3,7 @@
 
     var baseURL,
         isLazy = false,
-        isApiRequested = false,
+        isJsRequested = false,
         queryString,
         version = 'v=8210d6';
 
@@ -89,7 +89,8 @@
         loadJS(baseURL + 'js' + queryString);
     }
 
-    function subcribeToDOMLoaded() {
+    function requestJs() {
+        isJsRequested = true;
         if (document.readyState === 'complete') {
             // Handle it asynchronously to allow scripts the opportunity to delay ready
             setTimeout(ready, 1);
@@ -125,9 +126,7 @@
 
     function loadApi() {
         loadCSS(baseURL + 'css' + queryString);
-
-        subcribeToDOMLoaded();
-        isApiRequested = true;
+        requestJs();
     }
 
     baseURL = getBaseURL();
@@ -138,16 +137,16 @@
 
     window.L = window.L || {};
     window.L.DG = {};
-    window.dgApi_callbacks = [];
+    window.__dgApi_callbacks = [];
     window.__dgApi_params = parseQueryString(queryString);
 
     window.L.DG.then = function (callback) {
         if (isLazy) {
             //load api on demand
-            if (!isApiRequested) { loadApi(); }
+            if (!isJsRequested) { loadApi(); }
         }
 
-        dgApi_callbacks.push(callback);
+        __dgApi_callbacks.push(callback);
 
         return this;
     };

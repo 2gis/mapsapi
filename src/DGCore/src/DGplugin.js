@@ -1,7 +1,6 @@
 L.DG.plugin = function (plugins) {
-    var count, assetInterval;
-
-    L.DG.plugDef = L.DG.when.defer();
+    var count,
+        pluginDef = L.DG.when.defer();
 
     if ([].isArray(plugins)) {
         count = plugins.length;
@@ -15,32 +14,29 @@ L.DG.plugin = function (plugins) {
         appendScript(plugins);
     }
 
-    assetInterval = window.setInterval(checkLoading, 100);
-
     function checkLoading() {
         if (count === 0) {
-            L.DG.plugDef.resolve();
-            clearInterval(assetInterval);
+            pluginDef.resolve();
             console.log('resolved');
         }
     }
 
     function appendScript(link) {
-
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('src', link);
         js.onload = function () {
-            count--;
             console.log('suc!');
+            count--;
+            checkLoading();
         };
         js.onreadystatechange = function () {
             //count--;
-            console.log(arguments);
+            console.log('rsc', arguments);
         };
+
         document.getElementsByTagName('head')[0].appendChild(js);
     }
 
-    L.DG.plugDef.promise.then(handlers[1]);
-    return L.DG.plugDef.promise;
+    return pluginDef.promise;
 }

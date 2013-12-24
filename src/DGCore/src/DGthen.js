@@ -1,18 +1,18 @@
-var handlers = window.dgApi_callbacks || [];
-window.dgApi_callbacks = undefined;
-
-L.DG.def = L.DG.when.defer();
+var handlers = window.__dgApi_callbacks || [],
+    def = L.DG.when.defer(),
+    chain = def.promise;
+window.__dgApi_callbacks = undefined;
 
 L.DG.then = function (cb) {
-    L.DG.def.promise.then(cb);
+    def.promise.then(cb);
 
     return this;
 };
 
 //execute callbacks after api loading if any
-//handlers.forEach(function (cb) {
-    L.DG.def.promise.then(handlers[0]);
-//});
+handlers.forEach(function (cb) {
+    chain = chain.then(cb);
+});
 
 //promise will be resolved asynchronously
-L.DG.def.resolve();
+def.resolve();
