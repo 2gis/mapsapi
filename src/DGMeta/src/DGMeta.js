@@ -185,7 +185,7 @@ L.DG.Meta = L.Handler.extend({
 
     _getTileID: function (e) { // (L.Event) -> String
         var dataZoom = this._getDataZoom(),
-            tileSize = this._tileSize * ((this._map._zoom === dataZoom) + 1),
+            tileSize = this._tileSize * ((this.options.zoomOffset && this._map._zoom === dataZoom) + 1),
             p = this._map.project(e.latlng.wrap()),
             x = Math.floor(p.x / tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
             y = Math.floor(p.y / tileSize);
