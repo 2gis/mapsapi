@@ -20,7 +20,6 @@ L.DG.Meta = L.Handler.extend({
         this._tileSize = L.DG.TileLayer.prototype.options.tileSize;
         if (!this.options.zoomOffset) {
             map.eachLayer(function (layer) {
-                console.log(layer, layer.options.zoomOffset, layer.options.tileSize, this);
                 if (layer instanceof L.TileLayer && layer.options.zoomOffset) {
                     this.options.zoomOffset = layer.options.zoomOffset;
                     this.options.maxNativeZoom = layer.options.maxNativeZoom;
@@ -185,7 +184,7 @@ L.DG.Meta = L.Handler.extend({
 
     _getTileID: function (e) { // (L.Event) -> String
         var dataZoom = this._getDataZoom(),
-            tileSize = this._tileSize * ((this.options.zoomOffset && this._map._zoom === dataZoom) + 1),
+            tileSize = this._tileSize * ((this.options.zoomOffset && this._map._zoom === dataZoom) + 1), // remove when 19 level tiles will be ready (maxNativeZoom == maxZoom)
             p = this._map.project(e.latlng.wrap()),
             x = Math.floor(p.x / tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
             y = Math.floor(p.y / tileSize);
