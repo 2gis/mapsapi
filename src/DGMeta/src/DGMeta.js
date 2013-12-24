@@ -1,6 +1,6 @@
 L.DG.Meta = L.Handler.extend({
 
-    _currentPoi: null,
+    _currentPoi: null,                          // TODO: refactor #reset in add/remove
     _currentBuilding: null,
     _currentTile: null,
     _currentTileMetaData: null,
@@ -8,10 +8,27 @@ L.DG.Meta = L.Handler.extend({
     _listenPoi: false,
     _listenBuildings: false,
 
-    initialize: function (map) { // (Object)
+    options: {
+        zoomOffset: 0
+    },
+
+    initialize: function (map, options) { // (Object)
+        L.setOptions(this, options);
         this._map = map;
         this._mapPanes = map.getPanes();
-        this._tileSize = L.DG.TileLayer.prototype.options.tileSize;	// TODO: tileSize getter
+
+        this._tileSize = L.DG.TileLayer.prototype.options.tileSize;
+        if (!this.options.zoomOffset) {
+            map.eachLayer(function (layer) {
+                console.log(layer, layer.options.zoomOffset, layer.options.tileSize, this);
+                if (layer instanceof L.TileLayer && layer.options.zoomOffset) {
+                    this.options.zoomOffset = layer.options.zoomOffset;
+                    this.options.maxNativeZoom = layer.options.maxNativeZoom;
+                    this._tileSize = layer.options.tileSize;
+                }
+            }, this);
+        }
+
         this._metaHost = new L.DG.Meta.Host();
     },
 
@@ -60,7 +77,7 @@ L.DG.Meta = L.Handler.extend({
             }
 
             var xyz = this._getTileID(e),
-                zoom = this._map._zoom,
+                zoom = this._getDataZoom(),
                 self = this;
             if (this._isTileChanged(xyz)) {
                 this._currentTileMetaData = null;
@@ -86,6 +103,11 @@ L.DG.Meta = L.Handler.extend({
             this._leaveCurrentPoi();
             this._leaveCurrentBuilding();
         }
+    },
+
+    _getDataZoom: function () {
+        var zoom = this._map._zoom + this.options.zoomOffset;
+        return this.options.maxNativeZoom ? Math.min(zoom, this.options.maxNativeZoom) : zoom;
     },
 
     _checkPoiHover: function (latLng, zoom) { // (L.LatLng, String)
@@ -144,7 +166,7 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _calcTilesAtZoom: function () {
-        this._tilesAtZoom = Math.pow(2, this._map.getZoom()); // counts tiles number on current zoom
+        this._tilesAtZoom = Math.pow(2, this._getDataZoom()); // counts tiles number on current zoom
     },
 
     _belongsToPane: function (element, pane) { // (HTMLElement, String) -> Boolean
@@ -162,11 +184,13 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _getTileID: function (e) { // (L.Event) -> String
-        var p = this._map.project(e.latlng.wrap()),
-            x = Math.floor(p.x / this._tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
-            y = Math.floor(p.y / this._tileSize);
+        var dataZoom = this._getDataZoom(),
+            tileSize = this._tileSize * ((this._map._zoom === dataZoom) + 1),
+            p = this._map.project(e.latlng.wrap()),
+            x = Math.floor(p.x / tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
+            y = Math.floor(p.y / tileSize);
 
-        return x + ',' +  y + ',' + this._map._zoom;
+        return x + ',' +  y + ',' + dataZoom;
     },
 
     _isTileChanged: function (xyz) { // (String) -> Boolean

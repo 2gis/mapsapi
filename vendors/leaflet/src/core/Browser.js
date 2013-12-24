@@ -1,7 +1,7 @@
 /*
  * L.Browser handles different browser and feature detections for internal Leaflet use.
  */
-
+window.devicePixelRatio = 2;
 (function () {
 
 	var ie = 'ActiveXObject' in window,
