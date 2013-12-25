@@ -44,16 +44,20 @@ L.DG.plugin = function (plugins) {
         return url.match(/\.[0-9a-z]+$/i)[0] === '.js';
     }
 
+    function appendAsset(asset) {
+        isJs(asset) ? appendJS(asset) : appendCSS(asset);
+    }
+
     if ([].isArray(plugins)) {
         count = plugins.length;
         plugins.forEach(function (plugin) {
-            isJs(plugin) ? appendJS(plugin) : appendCSS(plugin);
+            appendAsset(plugin);
         });
     }
 
     if (typeof plugins === 'string') {
         count = 1;
-        isJs(plugins) ? appendJS(plugins) : appendCSS(plugins);
+        appendAsset(plugins);
     }
 
     return pluginDef.promise;
