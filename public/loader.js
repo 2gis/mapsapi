@@ -56,10 +56,11 @@
             param,
             i;
 
-        for (i = length - 1; i >= 0; i--) {
+        for (i = 0; i < length; i++) {
             param = paramString[i].split('=');
             buffer[param[0]] = param[1];
         }
+
         return buffer;
     }
 
@@ -116,7 +117,7 @@
             var top = false;
             try {
                 top = window.frameElement === null && document.documentElement;
-            } catch(e) {}
+            } catch (e) {}
 
             if (top && top.doScroll) {
                 (function doScrollCheck() {
@@ -125,7 +126,7 @@
                             // Use the trick by Diego Perini
                             // http://javascript.nwbox.com/IEContentLoaded/
                             top.doScroll('left');
-                        } catch(e) {
+                        } catch (e) {
                             return setTimeout(doScrollCheck, 50);
                         }
                         ready();
@@ -140,7 +141,7 @@
     }
 
     function runRejects() {
-        for (var i = rejects.length - 1; i >= 0; i--) {
+        for (var i = 0, len = rejects.length; i < len; i++) {
             (typeof(rejects[i]) === 'function') && rejects[i]();
         }
     }
