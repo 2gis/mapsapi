@@ -142,7 +142,7 @@
 
             if (top && top.doScroll) {
                 (function doScrollCheck() {
-                    if (false/*!jQuery.isReady*/) { // HANDLE!!!
+                    if (!L.DG.ready) {
                         try {
                             // Use the trick by Diego Perini
                             // http://javascript.nwbox.com/IEContentLoaded/
@@ -155,6 +155,10 @@
                 })();
             }
         }
+    }
+
+    function setReady() {
+        L.DG.ready = true;
     }
 
     function runRejects() {
@@ -176,7 +180,9 @@
 
     window.L = window.L || {};
     window.L.DG = {};
+    window.L.DG.ready = false;
     window.__dgApi_callbacks = [];
+    window.__dgApi_callbacks.push(setReady);
     window.__dgApi_params = parseQueryString(queryString);
 
     window.L.DG.then = function (resolve, reject) {
