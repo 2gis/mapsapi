@@ -138,8 +138,8 @@ if (!Object.keys) {
   }());
 }
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
-if (!Array.prototype.isArray) {
-    Array.prototype.isArray = function (vArg) {
+if (!Array.isArray) {
+    Array.isArray = function (vArg) {
         return Object.prototype.toString.call(vArg) === '[object Array]';
     };
 }
