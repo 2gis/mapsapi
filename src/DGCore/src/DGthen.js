@@ -14,7 +14,7 @@ def.resolve();
 
 //public api for adding callbacks
 L.DG.then = function (resolve, reject) {
-    def.promise.then(resolve, reject);
+    chain.then(resolve, reject);
 
     return this;
 };
