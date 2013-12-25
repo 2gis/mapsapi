@@ -71,10 +71,26 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 isMobile: L.Browser.mobile,
                 showEntrance: L.DG.Entrance,
                 gotoUrl: this._directionsUrl,
-                onFirmReady: L.bind(this._clearAndRenderPopup, this),
+                onFirmReady: L.bind(this._onFirmReady, this),
                 onToggle: L.bind(this._popup.resize, this._popup)
             }
         };
+    },
+
+    _onFirmReady: function (firmContentObject) {
+        var self = this;
+        firmContentObject.afterRender = function () {
+            var headerTitle = self._popup._popupStructure.header.firstChild;
+            if (!L.Browser.ielt9) {
+                if (headerTitle.offsetHeight > 72) { //TODO: magic number
+                    L.DomUtil.addClass(headerTitle, 'dg-popup-header-title__firmcard__teaser');
+                    if (!L.Browser.webkit) {
+                        L.DG.Geoclicker.clampHelper(headerTitle, 3);
+                    }
+                }
+            }
+        };
+        this._clearAndRenderPopup(firmContentObject);
     },
 
     // init single firm card in case of poi

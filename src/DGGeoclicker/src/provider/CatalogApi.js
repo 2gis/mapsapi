@@ -108,12 +108,17 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
             data = L.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key
             }, params),
-            promise;
+            promise,
+            type = 'get';
 
         this.cancelLastRequest();
 
+        if (!L.DG.ajax.corsSupport) {
+            type = data.output = 'jsonp';
+        }
+
         this._lastRequest = L.DG.ajax(url, {
-            type: 'get',
+            type: type,
             data: data,
             timeout: this.options.timeoutMs
         });

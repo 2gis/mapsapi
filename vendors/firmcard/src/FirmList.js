@@ -150,7 +150,7 @@
             };
 
             if (this._container.addEventListener) {
-                this._container.addEventListener(eventName, onClickHandler);
+                this._container.addEventListener(eventName, onClickHandler, false);
             } else {
                 this._container.attachEvent('on' + eventName, onClickHandler);
             }
