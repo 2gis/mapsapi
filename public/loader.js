@@ -1,3 +1,25 @@
+(function() {
+        var method;
+        var noop = function () {};
+        var methods = [
+            'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+            'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+            'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+            'timeStamp', 'trace', 'warn'
+        ];
+        var length = methods.length;
+        var console = (window.console = window.console || {});
+
+        while (length--) {
+            method = methods[length];
+
+            if (!console[method]) {
+                console[method] = noop;
+            }
+        }
+    }());
+
+
 (function () {
     'use strict';
 
@@ -5,6 +27,7 @@
         isLazy = false,
         isJsRequested = false,
         queryString,
+        rejects = [],
         version = 'v=8210d6';
 
     function processURL() {
@@ -74,6 +97,16 @@
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('src', link);
+        js.onerror = function () {
+            runRejects();
+        };
+        //IE
+        js.onreadystatechange = function () {
+            if (js.readyState !== 'complete' && js.readyState !== 'loaded') {
+                runRejects();
+            }
+        };
+
         document.getElementsByTagName('head')[0].appendChild(js);
     }
 
@@ -124,6 +157,12 @@
         }
     }
 
+    function runRejects() {
+        for (var i = rejects.length - 1; i >= 0; i--) {
+            (typeof(rejects[i]) === 'function') && rejects[i]();
+        }
+    }
+
     function loadApi() {
         loadCSS(baseURL + 'css' + queryString);
         requestJs();
@@ -140,13 +179,14 @@
     window.__dgApi_callbacks = [];
     window.__dgApi_params = parseQueryString(queryString);
 
-    window.L.DG.then = function (callback) {
+    window.L.DG.then = function (resolve, reject) {
         if (isLazy) {
             //load api on demand
             if (!isJsRequested) { loadApi(); }
         }
 
-        __dgApi_callbacks.push(callback);
+        window.__dgApi_callbacks.push(resolve);
+        reject && rejects.push(reject);
 
         return this;
     };
