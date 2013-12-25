@@ -1,10 +1,10 @@
 ## Loader
 
-Чтобы быстро начать использовать API достаточно подключить наш загрузчик в <head>:
+Чтобы быстро начать использовать API достаточно подключить наш загрузчик в `<head></head>`:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark&lazy=true" data-id="dgLoader"></script>
+`<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark&lazy=true" data-id="dgLoader"></script>`
 
-* аттрибут data-id="dgLoader" является обязательным.
+* аттрибут `data-id="dgLoader"` является обязательным.
 
 ### Опции
 
@@ -17,7 +17,7 @@
 	<tr>
 		<td><code><b>pkg</b></code></td>
 		<td><code>full</code></td>
-		<td>Загрузка пакета, содержаещего набор определенных модулей (full - содержит в себе все доступные модули).</td>
+		<td>Загрузка пакета, содержащего набор определенных модулей (full - содержит в себе все доступные модули).</td>
 	</tr>
 	<tr>
 		<td><code><b>mod</b></code></td>
@@ -45,7 +45,7 @@
 
 Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:
 
-L.DG.then(function () {
+	L.DG.then(function () {
              map = new L.Map('map', {
                 'center': new L.LatLng(54.980206086231, 82.898068362003),
                 'zoom': 13,
@@ -68,7 +68,7 @@ L.DG.then(function () {
 	<tr>
 		<td><code><b>L.DG.then</b>(
 			<nobr>&lt;Function&gt; <i>resolve</i>,</nobr>
-			<nobr>&lt;Function&gt; <i>reject</i></nobr>
+			<nobr>&lt;Function&gt; <i>reject</i></nobr>)
 		</code></td>
 		<td><code>Promise</code></td>
 		<td>Регистрирует обработчики для выполнения по завершению загрузки API, resolve - отрабатывают в случае успешной загрузки, reject - в случае, если сервер не отдал собранные js и css исходники.</td>
@@ -81,7 +81,7 @@ L.DG.then(function () {
 
 Интерфейс для подключения плагинов, зависящих от API или Leaflet:
 
-L.DG.then(function () {
+	L.DG.then(function () {
 			//загрузка плагинов
             return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
         })
@@ -96,9 +96,9 @@ L.DG.then(function () {
             var hash = new L.Hash(map);
         })
 
-Если плагин не является необходимым, удобно использовать его отложенную загрузку и инициализацию:
+Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:
 
-L.DG.then(function () {
+	L.DG.then(function () {
             /инициализация карты
             var map = new L.Map('map', {
                 'center': new L.LatLng(54.980206086231, 82.898068362003),
@@ -124,10 +124,10 @@ L.DG.then(function () {
 	<tr>
 		<td><code><b>L.DG.plugin</b>(
 			<nobr>&lt;String&gt; <i>String Url</i>/</nobr>
-			<nobr>&lt;Array&gt; <i>[String Url, String Url...]</i></nobr>
+			<nobr>&lt;Array&gt; <i>[String Url, String Url...]</i></nobr>)
 		</code></td>
 		<td><code>Promise</code></td>
-		<td>Загружает и добавляет сторонние плагины в head секцию html-документа, принимает прямые ссылки на js и css файлы. Файлы должны быть указанны в правильном порядке</td>
+		<td>Загружает и добавляет сторонние плагины в head секцию html-документа, принимает прямые ссылки на js и css файлы. Файлы должны быть указанны в правильном порядке.</td>
 	</tr>
 </table>
 
