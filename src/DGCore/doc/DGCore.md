@@ -1,10 +1,10 @@
 ## Loader
 
-Чтобы быстро начать использовать API достаточно подключить наш загрузчик в <code><head></head></code>:
+Чтобы быстро начать использовать API достаточно подключить наш загрузчик в `<head></head>`:
 
-<code><script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark&lazy=true" data-id="dgLoader"></script></code>
+`<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark&lazy=true" data-id="dgLoader"></script>`
 
-* аттрибут data-id="dgLoader" является обязательным.
+* аттрибут `data-id="dgLoader"` является обязательным.
 
 ### Опции
 
@@ -44,8 +44,8 @@
 ## L.DG.then
 
 Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:
-<code>
-L.DG.then(function () {
+
+	L.DG.then(function () {
              map = new L.Map('map', {
                 'center': new L.LatLng(54.980206086231, 82.898068362003),
                 'zoom': 13,
@@ -55,7 +55,7 @@ L.DG.then(function () {
         .then(function () {
             console.log('deferred handler');}
         })
-</code>
+
 
 ### Интерфейс
 
@@ -80,8 +80,8 @@ L.DG.then(function () {
 ## L.DG.plugin
 
 Интерфейс для подключения плагинов, зависящих от API или Leaflet:
-<code>
-L.DG.then(function () {
+
+	L.DG.then(function () {
 			//загрузка плагинов
             return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
         })
@@ -95,10 +95,10 @@ L.DG.then(function () {
             //инициализация плагина
             var hash = new L.Hash(map);
         })
-</code>
-Если плагин не является необходимым, удобно использовать его отложенную загрузку и инициализацию:
-<code>
-L.DG.then(function () {
+
+Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:
+
+	L.DG.then(function () {
             /инициализация карты
             var map = new L.Map('map', {
                 'center': new L.LatLng(54.980206086231, 82.898068362003),
@@ -112,7 +112,7 @@ L.DG.then(function () {
             //инициализация плагина
             var hash = new L.Hash(map);
         })
-</code>
+
 ### Интерфейс
 
 <table>
@@ -127,7 +127,7 @@ L.DG.then(function () {
 			<nobr>&lt;Array&gt; <i>[String Url, String Url...]</i></nobr>)
 		</code></td>
 		<td><code>Promise</code></td>
-		<td>Загружает и добавляет сторонние плагины в head секцию html-документа, принимает прямые ссылки на js и css файлы. Файлы должны быть указанны в правильном порядке</td>
+		<td>Загружает и добавляет сторонние плагины в head секцию html-документа, принимает прямые ссылки на js и css файлы. Файлы должны быть указанны в правильном порядке.</td>
 	</tr>
 </table>
 
