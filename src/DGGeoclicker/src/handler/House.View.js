@@ -24,7 +24,7 @@ L.DG.Geoclicker.Handler.House.include({
 
         if (attrs.building_description) {
             data.purpose = attrs.building_description + 
-            attrs.floors_count !== null ? ', ' + this.t('{n} floors', attrs.floors_count) : '';
+                attrs.floors_count !== null ? ', ' + this.t('{n} floors', attrs.floors_count) : '';
 
         }
 
