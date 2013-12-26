@@ -1,5 +1,5 @@
 L.Map.mergeOptions({
-    dgProjectDetector: true
+    projectDetector: true
 });
 
 L.DG.ProjectDetector = L.Handler.extend({
@@ -120,4 +120,4 @@ L.DG.ProjectDetector = L.Handler.extend({
     }
 });
 
-L.Map.addInitHook('addHandler', 'dgProjectDetector', L.DG.ProjectDetector);
+L.Map.addInitHook('addHandler', 'projectDetector', L.DG.ProjectDetector);

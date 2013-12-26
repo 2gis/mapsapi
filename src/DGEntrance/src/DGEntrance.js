@@ -126,7 +126,7 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _getFitZoom: function () {
-        return this._map.dgProjectDetector.getProject().max_zoom_level || L.DG.Entrance.SHOW_FROM_ZOOM;
+        return this._map.projectDetector.getProject().max_zoom_level || L.DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _fitBounds: function () {
@@ -136,7 +136,7 @@ L.DG.Entrance = L.Class.extend({
 
         if (!map.getBounds().contains(bounds) || !this._isAllowedZoom()) {
             fitZoom = this._getFitZoom();
-            if (!map.dgProjectDetector.getProject()) {
+            if (!map.projectDetector.getProject()) {
                 map.once('moveend', function () {
                     map.setZoom(this._getFitZoom());
                 }, this);

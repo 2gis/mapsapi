@@ -195,4 +195,4 @@ L.DG.Meta = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'dgMeta', L.DG.Meta);
+L.Map.addInitHook('addHandler', 'meta', L.DG.Meta);

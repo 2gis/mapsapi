@@ -66,7 +66,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 render: L.DG.template,
                 lang: this._map.getLang(),
                 ajax: L.bind(this._api.getFirmInfo, this._api),
-                timezoneOffset: this._controller.getMap().dgProjectDetector.getProject().time_zone_as_offset,
+                timezoneOffset: this._controller.getMap().projectDetector.getProject().time_zone_as_offset,
                 map: this._map,
                 isMobile: L.Browser.mobile,
                 showEntrance: L.DG.Entrance,

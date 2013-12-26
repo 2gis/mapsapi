@@ -143,7 +143,7 @@ L.DG.Location = L.DG.RoundControl.extend({
             } else {
                 /* global __PROJECT_LEAVE_MAX_ZOOM__:false*/
                 this._map.setView(this._event.latlng, __PROJECT_LEAVE_MAX_ZOOM__);
-                var zoom = this._map.dgProjectDetector.getProject().max_zoom_level || __PROJECT_LEAVE_MAX_ZOOM__;
+                var zoom = this._map.projectDetector.getProject().max_zoom_level || __PROJECT_LEAVE_MAX_ZOOM__;
                 this._map.setZoom(zoom);
             }
             this._locateOnNextLocationFound = false;
