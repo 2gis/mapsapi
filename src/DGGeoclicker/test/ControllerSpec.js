@@ -8,7 +8,6 @@ describe('L.DG.Geoclicker.Controller', function () {
         controller;
 
     beforeEach(function () {
-        L.DG.Jsonp = sinon.stub(L.DG, 'Jsonp');
         map = new L.Map(mapContainer, {
             center: new L.LatLng(54.98117239821992, 82.88922250270844),
             zoom: initZoom
@@ -17,7 +16,6 @@ describe('L.DG.Geoclicker.Controller', function () {
     });
 
     afterEach(function () {
-        L.DG.Jsonp.restore();
         map.remove();
         map = null;
         spy = null;
