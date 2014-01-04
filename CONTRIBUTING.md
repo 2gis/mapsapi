@@ -67,6 +67,51 @@
 После выполнения описанных выше действий вы сможете открыть в браузере карту по адресу http://127.0.0.1:3000/
 
 ## Установка окружения для разных ОС
+### Mac OS X
+
+* Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/). Или с помощью homebrew:
+    
+        brew install node
+
+* Установите Grunt из командной строки:
+
+        npm install -g grunt-cli
+
+* Установите PhantomJS с помощью [PhantomJS Installer](http://phantomjs.org/download.html). Или с помощью homebrew:
+
+        brew update && brew install phantomjs
+
+### Ubuntu
+
+Установите NodeJS из командной строки:
+    
+        sudo apt-get install python-software-properties
+        sudo add-apt-repository -y ppa:chris-lea/node.js
+        sudo apt-get update
+        sudo apt-get install nodejs
+
+* Установите Grunt из командной строки:
+        npm install -g grunt-cli
+
+* Установите PhantomJS из командной строки:
+
+        cd /usr/local/share
+        sudo wget http://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-x86_64.tar.bz2
+        sudo tar xjf phantomjs-1.8.1-linux-x86_64.tar.bz2
+        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
+        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
+        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+        sudo apt-get install libfontconfig1
+
+## Windows
+
+* Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/)
+
+* Установите Grunt из командной строки:
+
+        npm install -g grunt-cli
+
+* Установите PhantomJS, скачав [архив](http://phantomjs.org/download.html), и распаковав его содержимое в папку C:\Program Files\PhantomJS\
 
 ## Структура репозитория
 
