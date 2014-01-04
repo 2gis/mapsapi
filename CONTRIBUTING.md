@@ -112,7 +112,7 @@
 
         npm install -g grunt-cli
 
-* Установите PhantomJS, скачав [архив](http://phantomjs.org/download.html), и распаковав его содержимое в папку C:\Program Files\PhantomJS\
+* Установите PhantomJS, для этого скачайте [архив](http://phantomjs.org/download.html) и распакуйте его содержимое в папку C:\Program Files\PhantomJS\
 
 ## Структура репозитория
 
