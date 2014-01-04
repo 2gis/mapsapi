@@ -47,6 +47,7 @@ git clone git@github.com:2gis/maps-api-2.0.git mapsapi-folder
     * [Node.js](http://nodejs.org/);
     * [GruntJS](http://gruntjs.com/);
     * [PhantomJS](http://phantomjs.org/download.html) (не является обязательным, но необходим для запуска тестов).
+    
     Дополнительно вы можете [ознакомиться с инструкцией](https://github.com/2gis/maps-api-2.0/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BE%D0%BA%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-Maps-API-2.0-%D0%BD%D0%B0-%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D1%85-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%D1%85) по установке окружения для разных операционных систем.
 * Установка зависимостей:
 ```bash
