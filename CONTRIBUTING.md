@@ -79,7 +79,7 @@
 
 * Установите PhantomJS с помощью [PhantomJS Installer](http://phantomjs.org/download.html). Или с помощью homebrew:
 
-        brew update && brew install phantomjs
+        `brew update && brew install phantomjs`
 
 ### Ubuntu
 
