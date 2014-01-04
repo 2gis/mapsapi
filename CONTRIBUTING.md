@@ -84,13 +84,14 @@
 ### Ubuntu
 
 Установите NodeJS из командной строки:
-    
+
         sudo apt-get install python-software-properties
         sudo add-apt-repository -y ppa:chris-lea/node.js
         sudo apt-get update
         sudo apt-get install nodejs
 
 * Установите Grunt из командной строки:
+
         npm install -g grunt-cli
 
 * Установите PhantomJS из командной строки:
