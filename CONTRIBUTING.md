@@ -1,0 +1,38 @@
+## Быстрый старт (для разработчиков)
+**1. Клонируем репозиторий**
+```bash
+git clone git@github.com:2gis/maps-api-2.0.git mapsapi-folder
+```
+
+**2. Установка окружения**
+
+1. [Node.js](http://nodejs.org/)
+2. [GruntJS](http://gruntjs.com/)
+3. [PhantomJS](http://phantomjs.org/download.html) (не является обязательным, необходим только для запуска тестов)
+4. Устанавливаем зависимости:
+
+    ```bash
+    cd ~/mapsapi-folder
+    npm install
+    ```
+[Подробно про установку окружения](https://github.com/2gis/maps-api-2.0/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BE%D0%BA%D1%80%D1%83%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-Maps-API-2.0-%D0%BD%D0%B0-%D1%80%D0%B0%D0%B7%D0%BD%D1%8B%D1%85-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0%D1%85) для разных операционных систем
+
+**3. Сборка приложения**
+```bash
+grunt build
+```
+
+**4. Запуск приложения**
+```bash
+node app
+```
+
+**5. Просмотр результата**
+
+Приложение будет доступно по адресу:
+
+http://127.0.0.1:3000/
+
+## Дальнейшие шаги
+
+Ознакомьтесь с [детальным описанием работы приложения и соглашениями по его разработке](https://github.com/yarikos/DG.MapsAPI/wiki)
