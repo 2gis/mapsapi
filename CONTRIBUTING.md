@@ -108,7 +108,7 @@
         sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
         sudo apt-get install libfontconfig1
 
-## Windows
+### Windows
 
 * Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/)
 
