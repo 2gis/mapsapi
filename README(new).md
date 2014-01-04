@@ -1,4 +1,4 @@
-![2GIS](http://company.2gis.ru/upload/images/4145.png) API карт 2ГИС
+API карт 2ГИС
 ====
 
 При помощи API карт вы сможете:
