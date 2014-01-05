@@ -62,7 +62,6 @@
 Так как наш модуль довольно простой, он будет состоять всего из одного исходного JS файла, назовем его DGDemoPlugin.js и напишем в нем весь основной код:
 
    L.DG.DemoPlugin = L.Handler.extend({
-   
        _lastFirms: L.layerGroup(),
    
        addHooks: function() {
