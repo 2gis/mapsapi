@@ -39,7 +39,7 @@
 
 ## Как разработать собственный модуль
 
-Ниже приведен пример разработки простого модуля. С помощью этого модуля мы расширим функционал API карт таким образом, чтобы у пользователей была возможность кликнуть в любой дом на карте и увидеть инфраструктуру вокруг него в радиусе 500 метров: школы, аптеки, магазины.
+Ниже приведен пример разработки простого модуля. С помощью этого модуля мы расширим функционал API карт таким образом, чтобы у пользователей была возможность кликнуть в любой дом на карте и увидеть вокруг него магазины в радиусе 500 метров.
 
 Перед началом разработки рекомендуется ознакомиться со [стандартами кодирования](#стандартами-кодирования) и [документацией](http://api.2gis.ru/doc/maps/manual/base-classes/) API карт.
 
@@ -59,12 +59,50 @@
     LICENSE.md
 
 ### Исходные JS файлы
-Так как наш модуль простой, он будет состоять всего из одного исходного JS файла, назовем его DGDemoPlugin.js и напишем в нем весь основной код:
+Так как наш модуль довольно простой, он будет состоять всего из одного исходного JS файла, назовем его DGDemoPlugin.js и напишем в нем весь основной код:
 
-    L.DG.Geoclicker = L.Handler.extend({
-    });
+   L.DG.DemoPlugin = L.Handler.extend({
+   
+       _lastFirms: L.layerGroup(),
+   
+       addHooks: function() {
+           this._map.on('click', this._searchFirms, this);
+       },
+   
+       removeHooks: function() {
+           this._map.off('click', this._searchFirms, this);
+       },
+   
+       _searchFirms: function(e) { // (MouseEvent)
+           L.DG.ajax({
+               url: 'http://catalog.api.2gis.ru/2.0/search',
+               data: {
+                   what: 'магазин',
+                   point: e.latlng.lng + ',' + e.latlng.lat,
+                   radius: 500,
+                   page_size: 50,
+                   type: 'filial',
+                   key: 1
+               },
+               success: L.bind(this._showFirms, this)
+           })
+       },
+   
+       _showFirms: function(data) { // (Object)
+           var firms = data.result.data;
+           
+           this._lastFirms.clearLayers();
+           for (var i = 0; i < firms.length; i++) {
+               var marker = L.marker([firms[i].geo.lat, firms[i].geo.lon]);
+               marker.bindPopup(firms[i].firm.name);
+               marker.addTo(this._lastFirms);
+           };
+           this._lastFirms.addTo(this._map);
+       }
+   });
 
-    
+TODO
+
 ## Как внести изменения в исходный код
 Для внесения изменений в исходный код API карт (например, для исправления ошибки) вам потребуется:
 * сделать [форк](https://help.github.com/articles/fork-a-repo) репозитория API карт;
