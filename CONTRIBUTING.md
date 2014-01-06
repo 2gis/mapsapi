@@ -150,7 +150,7 @@
     README.md
     LICENSE.md
 
-В качестве примера модуля с описанной выше файловой структурой можно изучить [DGGeoclicker](https://github.com/2gis/maps-api-2.0/tree/master/src/DGGeoclicker)
+В качестве примера модуля с описанной выше файловой структурой можно изучить [DGGeoclicker](https://github.com/2gis/maps-api-2.0/tree/master/src/DGGeoclicker).
 
 Не забывайте снабжать модули тестами, это позволит упростить их поддержку в будущем. В качестве тестового фреймворка в API карт используется [Mocha](http://visionmedia.github.io/mocha/).
 
