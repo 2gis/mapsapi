@@ -61,16 +61,17 @@
 Так как наш модуль довольно простой, он будет состоять всего из одного исходного JS файла, назовем его DGDemoPlugin.js и напишем в нем необходимый для работы код:
 
     L.DG.DemoPlugin = L.Handler.extend({
+
         _lastFirms: L.layerGroup(),
-   
+
         addHooks: function() {
             this._map.on('click', this._searchFirms, this);
         },
-   
+
         removeHooks: function() {
             this._map.off('click', this._searchFirms, this);
         },
-        
+
         _searchFirms: function(e) { // (MouseEvent)
             L.DG.ajax({
                 url: 'http://catalog.api.2gis.ru/2.0/search',
@@ -80,26 +81,28 @@
                     radius: 500,
                     page_size: 50,
                     type: 'filial',
-                    key: 1
+                    key: 'ruhcbx0197'
                 },
                 success: L.bind(this._showFirms, this)
-            })
+            });
         },
-   
+
         _showFirms: function(data) { // (Object)
             var marker,
                 firms = data.result.data;
         
             this._lastFirms.clearLayers();
-            for (var i = 0; i < firms.length; i++) {
-                marker = L.marker([firms[i].geo.lat, firms[i].geo.lon]);
-                marker.bindPopup(firms[i].firm.name);
+
+            firms.forEach(function(firmInfo) {
+                marker = L.marker([firmInfo.geo.lat, firmInfo.geo.lon]);
+                marker.bindPopup(firmInfo.firm.name);
                 marker.addTo(this._lastFirms);
-            }
+            }, this);
+        
             this._lastFirms.addTo(this._map);
         }
     });
-    
+
     L.Map.addInitHook('addHandler', 'demoPlugin', L.DG.DemoPlugin);
 
 Наш модуль предполагает взаимодействие пользователя с картой, потому мы его отнаследовали от класса `L.Handler`. Благодаря этому можно будет контролировать его поведение в процессе исполнения приложения (например, у разработчика будет возможность включить или выключить модуль).
