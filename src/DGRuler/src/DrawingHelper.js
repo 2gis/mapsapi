@@ -75,32 +75,32 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             }
         },
         mouseout : function (event) {
-            // var target = event.layer;
+            var target = event.layer;
 
-            // if (this._morphingNow || target === this._firstPoint) {
-            //     return;
-            // }
-            // if (target instanceof L.Marker) {
-            //     target._hoverable = true;
-            //     target.collapse();
-            // } else {
-            //     this._removeRunningLabel();
-            // }
+            if (this._morphingNow || target === this._firstPoint) {
+                return;
+            }
+            if (target instanceof L.Marker) {
+                target._hoverable = true;
+                target.collapse();
+            } else {
+                this._removeRunningLabel();
+            }
         },
         mousemove : function (event) {
-            // if (this._morphingNow) {
-            //     return;
-            // }
+            if (this._morphingNow) {
+                return;
+            }
 
-            // var latlng = event.latlng,
-            //     point = event.layer._point,
-            //     interpolated = this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng);
+            var latlng = event.latlng,
+                point = event.layer._point,
+                interpolated = this._interpolate(point._prev.getLatLng(), point.getLatLng(), latlng);
 
-            // if (this._lineMarkerHelper) {
-            //     this._lineMarkerHelper
-            //                 .setLatLng(interpolated)
-            //                 .setText(this._calcDistance(point, point._prev.getLatLng().distanceTo(interpolated)));
-            // }
+            if (this._lineMarkerHelper) {
+                this._lineMarkerHelper
+                            .setLatLng(interpolated)
+                            .setText(this._calcDistance(point, point._prev.getLatLng().distanceTo(interpolated)));
+            }
         },
         layeradd : function () {
             Object.keys(this._layers).forEach(function (name) {
@@ -112,7 +112,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     _addRunningLabel : function (latlng, previousPoint) {
         var style = {
                 opacity: 0,
-                fillOpacity: 1
+                fillOpacity: 0,
+                radius: 0,
+                weight: 0
             },
             point = this._createPoint(latlng, {
                 layers : {
@@ -123,6 +125,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 eventTransparent: true,
                 text: this._calcDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng))
             });
+
         return point.addTo(this._layers.mouse, this._layers);
     },
 
@@ -183,11 +186,14 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     },
 
     _addPoint: function (event) {
-        var latlng = event.latlng,
+        var latlng = event.latlng.wrap(),
             point;
 
         L.DomEvent.stop(event);
 
+        if (!latlng.equals(event.latlng)) {
+            this._map.fitWorld();
+        }
         point = this._createPoint(latlng);
         point
             .addTo(this._layers.mouse, this._layers)
@@ -231,7 +237,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             var point = event.target;
             this._updatePointLegs(point);
             this._updateDistance();
-            point.setText(this._calcDistance(point._next));
+            if (point !== this._firstPoint) {
+                point.setText(this._calcDistance(point._next));
+            }
         },
         'dragend' : function () {
             this._morphingNow = false;
@@ -257,9 +265,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._layers[layer].removeLayer(newFirst._legs[layer]);
         }, this);
 
+        newFirst.setPointStyle(this.constructor.iconStyles.large.layers);
         newFirst.prev = null;
-
-        this._firstPoint = newFirst.setPointStyle(this.constructor.iconStyles.large.layers);
+        this._firstPoint = newFirst;
         this._addCloseHandler(this._firstPoint);
         this._updateDistance();
     },
