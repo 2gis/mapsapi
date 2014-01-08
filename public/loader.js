@@ -16,6 +16,9 @@
                 return scripts[i].src.split('?');
             }
         }
+
+        //delete it!
+        return fallbackLoaderSearch();
     }
 
     function getBaseURL() {
@@ -176,6 +179,14 @@
         return this;
     };
 
-    //temporary fallback
+    //temporary fallback, delete it
     window.L.onLoad = window.L.DG.then;
+
+    function fallbackLoaderSearch() {
+        var scripts, scriptURL;
+        scripts = document.getElementsByTagName('script');
+        scriptURL = scripts[scripts.length - 1].src;
+        return scriptURL.split('?');
+    }
+
 })();
