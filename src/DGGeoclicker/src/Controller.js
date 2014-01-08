@@ -26,8 +26,8 @@ L.DG.Geoclicker.Controller = L.Class.extend({
         }
     },
 
-    initialize: function (map, options) { // (Object)
-        L.setOptions(this, options);
+    initialize: function (map, options) { // (Object, Object)
+        this._options = options;
         this._handlers = {};
         this._catalogApi = new L.DG.Geoclicker.Provider.CatalogApi(map);
         this._map = map;
@@ -124,7 +124,7 @@ L.DG.Geoclicker.Controller = L.Class.extend({
 
     _initHandlerOnce: function (type) { // (String)
         if (!this._handlers[type]) {
-            this._handlers[type] = new this.options.handlersSequence[type](this, this._view, this._map, this.options);
+            this._handlers[type] = new this.options.handlersSequence[type](this, this._view, this._map, this._options);
         }
     }
 });
