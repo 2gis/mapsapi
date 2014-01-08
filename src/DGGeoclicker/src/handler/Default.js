@@ -8,7 +8,18 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
 
     _eventHandlers: {},
 
-    initialize: function (controller, view, map) { // (Object, Object, Object)
+    initialize: function (controller, view, map, options) { // (Object, Object, Object, Object)
+        // L.setOptions(this, options);
+        if ('showPhotos' in options) {
+            this._showPhotos = options.showPhotos;
+        } else {
+            this._showPhotos = true;
+        }
+        if ('showBooklet' in options) {
+            this._showBooklet = options.showBooklet;
+        } else {
+            this._showBooklet = true;
+        }
         this._controller = controller;
         this._view = view;
         this._map = map;
