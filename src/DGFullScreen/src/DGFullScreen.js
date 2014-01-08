@@ -1,3 +1,4 @@
+
 /* global fullScreenApi */
 
 L.DG.FullScreen = L.DG.RoundControl.extend({
@@ -183,7 +184,7 @@ L.DG.FullScreen = L.DG.RoundControl.extend({
 
         L.DomEvent.on(document, 'keyup', this._onKeyUp, this);
 
-        this._map.fire('dgEnterFullScreen');
+        this._map.fire('requestfullscreen');
     },
 
     _exitFullScreen: function () {
@@ -200,7 +201,7 @@ L.DG.FullScreen = L.DG.RoundControl.extend({
 
         L.DomEvent.off(document, 'keyup', this._onKeyUp);
 
-        this._map.fire('dgExitFullScreen');
+        this._map.fire('cancelfullscreen');
     },
 
     _onKeyUp: function (e) { // (Object)
@@ -236,15 +237,17 @@ L.Map.addInitHook(function () {
 
 (function () {
     var fullScreenApi = {
-            supportsFullScreen: false,
-            isFullScreen: function () { return false; },
-            requestFullScreen: function () {},
-            cancelFullScreen: function () {},
-            fullScreenEventName: '',
-            prefix: ''
+        supportsFullScreen: false,
+        isFullScreen: function () {
+            return false;
         },
+        requestFullScreen: function () {},
+        cancelFullScreen: function () {},
+        fullScreenEventName: '',
+        prefix: ''
+    },
     browserPrefixes = 'webkit moz o ms khtml'.split(' '),
-    ua = navigator.userAgent.toLowerCase();
+        ua = navigator.userAgent.toLowerCase();
 
     // check for native support exclude safari
     if (typeof document.exitFullscreen !== 'undefined') {
@@ -255,8 +258,7 @@ L.Map.addInitHook(function () {
         for (var i = 0, il = browserPrefixes.length; i < il; i++) {
             fullScreenApi.prefix = browserPrefixes[i];
 
-            if ((typeof document[fullScreenApi.prefix + 'CancelFullScreen'] !== 'undefined') &&
-                !(ua.indexOf('safari') !== -1 && ua.indexOf('chrome')  === -1)) {
+            if ((typeof document[fullScreenApi.prefix + 'CancelFullScreen'] !== 'undefined') && !(ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1)) {
                 fullScreenApi.supportsFullScreen = true;
                 break;
             }

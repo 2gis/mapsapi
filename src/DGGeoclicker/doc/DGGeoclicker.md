@@ -29,17 +29,17 @@
 <pre>
 <code>
 	//отключение Геокликера
-	map.dgGeoclicker.disable();
+	map.geoclicker.disable();
 
 	//включение Геокликера:
-    map.dgGeoclicker.enable();
+    map.geoclicker.enable();
 
     //отменить активацию Геокликера при загрузке карты
     L.Map.mergeOptions({
-        dgGeoclicker: false
+        geoclicker: false
     });
 
     //после такого отключения можно будет включить геокликер с помощью
-     map.dgGeoclicker.enable();
+     map.geoclicker.enable();
 </code>
 </pre>

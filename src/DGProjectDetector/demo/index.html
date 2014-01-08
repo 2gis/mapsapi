@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DGProjectDetector demo</title>
+    <title>projectDetector demo</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
@@ -19,14 +19,14 @@
                 zoom:10
             });
 
-        map.on('dgProjectChange', function (e) {
-            // dgProjectChange event
+        map.on('projectchange', function (e) {
+            // projectchange event
             var bounds = e.getProject().LatLngBounds;
             currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
         });
 
-        map.on('dgProjectLeave', function (e) {
-            // dgProjectLeave event
+        map.on('projectleave', function (e) {
+            // projectleave event
             if (currentProjectBound) {
                 currentProjectBound.onRemove(map);
             }

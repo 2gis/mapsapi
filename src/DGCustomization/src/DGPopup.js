@@ -40,13 +40,13 @@
         },
 
         onAdd: function (map) { // (Map)
-            map.on('dgEntranceShow', this._closePopup, this);
+            map.on('entranceshow', this._closePopup, this);
             this.once('open', this._animateOpening, this);
             return originalOnAdd.call(this, map);
         },
 
         onRemove: function (map) { // (Map)
-            map.off('dgEntranceShow', this._closePopup, this);
+            map.off('entranceshow', this._closePopup, this);
             return originalOnRemove.call(this, map);
         },
 
@@ -248,7 +248,7 @@
         },
 
         _onScroll: function (event) {
-            this.fire('dgScroll', {originalEvent: event});
+            this.fire('scroll', {originalEvent: event});
         },
 
         _initBaron: function () {

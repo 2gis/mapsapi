@@ -62,11 +62,11 @@ describe('DG Locale Module', function () {
 			expect(getLangSpy.returnValues).to.eql(['ru', 'ru', 'ru', 'ru', 'ru', 'ru']);
 		});
 
-		it('should call dgLangChange event when setting new lang through setLang method', function () {
+		it('should call langchange event when setting new lang through setLang method', function () {
 			var callback = sinon.spy(function () {
 				return 5;
 			});
-			map.on('dgLangChange', callback);
+			map.on('langchange', callback);
 			map.setLang('it');
 
 			expect(setLangSpy.calledOnce).to.be.ok();

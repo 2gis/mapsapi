@@ -1,5 +1,5 @@
 L.Map.mergeOptions({
-    dgBuildings: false
+    buildings: false
 });
 
 L.DG.Buildings = L.Handler.extend({
@@ -9,20 +9,20 @@ L.DG.Buildings = L.Handler.extend({
     },
 
     addHooks: function () {
-        this._map.dgMeta.enableBuildingsListening();
+        this._map.meta.enableBuildingsListening();
         this._map.on(this._mapEventsListeners, this);
     },
 
     removeHooks: function () {
-        this._map.dgMeta.disableBuildingsListening();
+        this._map.meta.disableBuildingsListening();
         this._map.off(this._mapEventsListeners, this);
     },
 
     _mapEventsListeners : {
-        dgBuildingHover : function () {
+        buildinghover : function () {
             this._setCursor('pointer');
         },
-        dgBuildingLeave : function () {
+        buildingleave : function () {
             this._setCursor('auto');
         }
     },
@@ -32,4 +32,4 @@ L.DG.Buildings = L.Handler.extend({
     }
 });
 
-L.Map.addInitHook('addHandler', 'dgBuildings', L.DG.Buildings);
+L.Map.addInitHook('addHandler', 'buildings', L.DG.Buildings);

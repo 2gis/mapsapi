@@ -46,17 +46,17 @@ describe('L.DG.Entrance', function () {
                 expect(entrance.show()).to.be.a(L.DG.Entrance);
             });
 
-            it('should fire "dgEntranceShow" event', function () {
+            it('should fire "entranceshow" event', function () {
                 spy = sinon.spy();
-                map.on('dgEntranceShow', spy);
+                map.on('entranceshow', spy);
                 entrance.show();
                 expect(spy.called).to.be.ok();
             });
 
-            it('should not fire "dgEntranceShow" event if already shown', function () {
+            it('should not fire "entranceshow" event if already shown', function () {
                 entrance.show();
                 spy = sinon.spy();
-                map.on('dgEntranceShow', spy);
+                map.on('entranceshow', spy);
                 entrance.show();
                 expect(spy.called).not.to.be.ok();
             });
@@ -81,17 +81,17 @@ describe('L.DG.Entrance', function () {
             expect(entrance.hide()).to.be.a(L.DG.Entrance);
         });
         if (!ff) {
-            it('should fire "dgEntranceHide" event', function () {
+            it('should fire "entrancehide" event', function () {
                 entrance.show();
                 spy = sinon.spy();
-                map.on('dgEntranceHide', spy);
+                map.on('entrancehide', spy);
                 entrance.hide();
                 expect(spy.called).to.be.ok();
             });
         }
-        it('should not fire "dgEntranceHide" event if already hidden (hidden by default)', function () {
+        it('should not fire "entrancehide" event if already hidden (hidden by default)', function () {
             spy = sinon.spy();
-            map.on('dgEntranceHide', spy);
+            map.on('entrancehide', spy);
             entrance.hide();
             expect(spy.called).not.to.be.ok();
         });
