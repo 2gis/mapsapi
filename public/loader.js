@@ -175,4 +175,7 @@
 
         return this;
     };
+
+    //temporary fallback
+    window.L.onLoad = window.L.DG.then;
 })();
