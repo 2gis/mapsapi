@@ -4,7 +4,7 @@ describe('L.DG.Geoclicker', function () {
 
     afterEach(function () {
         L.Map.mergeOptions({
-            dgGeoclicker: true
+            geoclicker: true
         });
         map && map.remove();
         map = null;
@@ -12,10 +12,10 @@ describe('L.DG.Geoclicker', function () {
 
     describe("#enabled", function() {
 
-        it('should be inactive, if L.Map.options.dgGeoClicker was set to false', function () {
+        it('should be inactive, if L.Map.options.geoclicker was set to false', function () {
 
             L.Map.mergeOptions({
-                dgGeoclicker: false
+                geoclicker: false
             });
 
             map = new L.Map(mapContainer, {
@@ -23,7 +23,7 @@ describe('L.DG.Geoclicker', function () {
                 zoom: 17
             });
 
-            expect(map.dgGeoclicker.enabled()).to.be.equal(false);
+            expect(map.geoclicker.enabled()).to.be.equal(false);
 
 
         });
@@ -34,7 +34,7 @@ describe('L.DG.Geoclicker', function () {
                 zoom: 17
             });
 
-            expect(map.dgGeoclicker.enabled()).to.be.equal(true);
+            expect(map.geoclicker.enabled()).to.be.equal(true);
         });
 
     });

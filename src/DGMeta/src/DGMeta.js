@@ -118,7 +118,7 @@ L.DG.Meta = L.Handler.extend({
 
         if (hoveredPoi && (!this._currentPoi || this._currentPoi.id !== hoveredPoi.id)) {
             this._currentPoi = hoveredPoi;
-            this._map.fire('dgPoiHover', {'poi': this._currentPoi, latlng: latLng});
+            this._map.fire('poihover', {'poi': this._currentPoi, latlng: latLng});
             L.DomEvent.addListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick, this);
         }
     },
@@ -132,14 +132,14 @@ L.DG.Meta = L.Handler.extend({
 
         if (hoveredBuilding && (!this._currentBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {
             this._currentBuilding = hoveredBuilding;
-            this._map.fire('dgBuildingHover', {'building': this._currentBuilding, latlng: latLng});
+            this._map.fire('buildinghover', {'building': this._currentBuilding, latlng: latLng});
         }
     },
 
     _leaveCurrentPoi: function () {
         if (this._currentPoi) {
             this._map
-                    .fire('dgPoiLeave', { 'poi': this._currentPoi })
+                    .fire('poileave', { 'poi': this._currentPoi })
                     .off('click', this._onDomMouseClick, this);
             L.DomEvent.removeListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick);
             this._currentPoi = null;
@@ -148,14 +148,14 @@ L.DG.Meta = L.Handler.extend({
 
     _leaveCurrentBuilding: function () {
         if (this._currentBuilding) {
-            this._map.fire('dgBuildingLeave', { 'building': this._currentBuilding });
+            this._map.fire('buildingleave', { 'building': this._currentBuilding });
             this._currentBuilding = null;
         }
     },
 
     _onDomMouseClick: function (event) { // (Object)
         if (this._currentPoi) {
-            this._map.fire('dgPoiClick', {
+            this._map.fire('poiclick', {
                 'poi': this._currentPoi,
                 //latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
                 latlng: L.latLngBounds(this._currentPoi.vertices).getCenter()
@@ -218,4 +218,4 @@ L.DG.Meta = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'dgMeta', L.DG.Meta);
+L.Map.addInitHook('addHandler', 'meta', L.DG.Meta);

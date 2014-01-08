@@ -381,12 +381,12 @@
 		<td>Вызывается при изменении размера карты.</td>
 	</tr>
 	<tr>
-		<td><code><b>dgEnterFullScreen</b></code></td>
+		<td><code><b>requestfullscreen</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при активации полноэкранного режима.</td>
 	</tr>
 	<tr>
-		<td><code><b>dgExitFullScreen</b></code></td>
+		<td><code><b>cancelfullscreen</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при выходе из полноэкранного режима.</td>
 	</tr>
@@ -421,22 +421,22 @@
 		<td>Вызывается при закрытии балуна (используется метод <code>closePopup</code>).</td>
 	</tr>
 	<tr>
-		<td><code><b>dgEntranceShow</b></code></td>
+		<td><code><b>entranceshow</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при отображении входа в здание.</td>
 	</tr>
 	<tr>
-		<td><code><b>dgEntranceHide</b></code></td>
+		<td><code><b>entrancehide</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при скрытии входа в здание.</td>
 	</tr>
 	<tr>
-		<td><code><b>dgPoiHover</b></code></td>
+		<td><code><b>poihover</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается при наведении курсора мышки на POI.</td>
 	</tr>
 	<tr>
-		<td><code><b>dgPoiLeave</b></code></td>
+		<td><code><b>poileave</b></code></td>
 		<td><code><a href="#event">Event</a></code>
 		<td>Вызывается когда курсор мышки покидает область POI.</td>
 	</tr>

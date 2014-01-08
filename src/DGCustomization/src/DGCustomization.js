@@ -3,7 +3,7 @@ var controlAddTo = L.Control.prototype.addTo;
 
 L.Control.include({
     addTo: function (map) {
-        map.on('dgLangChange', this._renderTranslation, this);
+        map.on('langchange', this._renderTranslation, this);
 
         return controlAddTo.call(this, map);
     },

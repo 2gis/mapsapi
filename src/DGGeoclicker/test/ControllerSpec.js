@@ -12,7 +12,7 @@ describe('L.DG.Geoclicker.Controller', function () {
             center: new L.LatLng(54.98117239821992, 82.88922250270844),
             zoom: initZoom
         });
-        controller = map.dgGeoclicker.getController();
+        controller = map.geoclicker.getController();
     });
 
     afterEach(function () {

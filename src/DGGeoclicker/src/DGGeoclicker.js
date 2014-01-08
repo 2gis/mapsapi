@@ -1,5 +1,5 @@
 L.Map.mergeOptions({
-    dgGeoclicker: false
+    geoclicker: false
 });
 
 L.DG.Geoclicker = L.Handler.extend({
@@ -16,13 +16,13 @@ L.DG.Geoclicker = L.Handler.extend({
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
         if (!L.Browser.touch) {
-            this._map.dgPoi.enable();
+            this._map.poi.enable();
         }
     },
 
     removeHooks: function () {
         this._map.off(this._mapEventsListeners, this);
-        this._map.dgPoi.disable();
+        this._map.poi.disable();
     },
 
     getController: function () {
@@ -30,7 +30,7 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _mapEventsListeners : {
-        dgLangChange: function () {
+        langchange: function () {
             this._controller.reinvokeHandler();
         },
 
@@ -45,7 +45,7 @@ L.DG.Geoclicker = L.Handler.extend({
     },
 
     _fillEventsListeners: function () {
-        this._mapEventsListeners.click = this._mapEventsListeners.dgPoiClick = this._onClick;
+        this._mapEventsListeners.click = this._mapEventsListeners.poiclick = this._onClick;
     },
 
     _onClick: function (e) { // (Object)
@@ -74,4 +74,4 @@ L.DG.Geoclicker = L.Handler.extend({
     }
 });
 
-L.Map.addInitHook('addHandler', 'dgGeoclicker', L.DG.Geoclicker);
+L.Map.addInitHook('addHandler', 'geoclicker', L.DG.Geoclicker);
