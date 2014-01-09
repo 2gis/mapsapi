@@ -9,9 +9,7 @@ var deps = {
             '../vendors/polyfills/es5.js'
         ],
         css: {
-            all: [
-                '../vendors/leaflet/dist/leaflet.css'
-            ]
+            all: ['../vendors/leaflet/dist/leaflet.css']
         },
         heading: '2GIS modules',
         deps: [ 'Core',
@@ -79,8 +77,9 @@ var deps = {
 
     DGWkt: {
         desc: 'WKT parser module',
-        src: ['DGWkt/Wkt.js',
-              'DGWkt/DGWkt.js'
+        src: [
+            'DGWkt/Wkt.js',
+            'DGWkt/DGWkt.js'
         ],
         deps: ['DGCore']
     },
@@ -139,8 +138,9 @@ var deps = {
 
     DGLocale: {
         desc: 'Localization module',
-        src: ['DGLocale/src/DGDictionary.js',
-              'DGLocale/src/DGLocale.js'
+        src: [
+            'DGLocale/src/DGDictionary.js',
+            'DGLocale/src/DGLocale.js'
         ],
         deps: ['DGCore']
     },
@@ -155,20 +155,19 @@ var deps = {
             'DGLocation/lang/en.js'
         ],
         css: {
-            all: [
-                'DGLocation/skin/{skin}/css/DGLocation.css'
-            ]
+            all: ['DGLocation/skin/{skin}/css/DGLocation.css']
         },
         deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
     },
 
     DGFullScreen: {
         desc: 'Full screen module',
-        src: ['DGFullScreen/src/DGFullScreen.js',
-              'DGFullScreen/lang/ru.js',
-              'DGFullScreen/lang/it.js',
-              'DGFullScreen/lang/cs.js',
-              'DGFullScreen/lang/en.js'
+        src: [
+            'DGFullScreen/src/DGFullScreen.js',
+            'DGFullScreen/lang/ru.js',
+            'DGFullScreen/lang/it.js',
+            'DGFullScreen/lang/cs.js',
+            'DGFullScreen/lang/en.js'
         ],
         css: {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
@@ -179,9 +178,7 @@ var deps = {
 
     DGTileLayer: {
         desc: '2GIS tile layer module',
-        src: [
-            'DGTileLayer/src/DGTileLayer.js'
-        ],
+        src: ['DGTileLayer/src/DGTileLayer.js'],
         deps: ['DGCore']
     },
 
@@ -224,9 +221,7 @@ var deps = {
                 'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
                 'DGGeoclicker/skin/{skin}/css/DGFirmCardSkinSetup.css'
             ],
-            ie: [
-                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.ie.css'
-            ]
+            ie: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.ie.css']
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
@@ -262,9 +257,7 @@ var deps = {
 
     DGTemplate: {
         desc: '2GIS Template',
-        src: [
-            'DGTemplate/src/DGTemplate.js'
-        ]
+        src: ['DGTemplate/src/DGTemplate.js']
     },
 
     DGEntrance: {
@@ -284,16 +277,10 @@ var deps = {
 
     DGRoundControl: {
         desc: 'Control helper',
-        src: [
-            'DGRoundControl/src/DGRoundControl.js'
-        ],
+        src: ['DGRoundControl/src/DGRoundControl.js'],
         css: {
-            all: [
-                'DGRoundControl/skin/{skin}/css/DGRoundControl.css'
-            ],
-            ie: [
-                'DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css'
-            ]
+            all: ['DGRoundControl/skin/{skin}/css/DGRoundControl.css'],
+            ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
     }
