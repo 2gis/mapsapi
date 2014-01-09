@@ -657,10 +657,10 @@
 	</tr>
 	<tr>
 		<td><code><b>getLayer</b>(
-			<nobr>&lt;String&gt)</nobr>
+			<nobr>&lt;String&gt;)</nobr>
 		</code></td>
 
-		<td><code><a href="#ilayer">ILayer</a>&gt; <i>layer</i></code></td>
+		<td><code><a href="#ilayer">&lt;ILayer</a>&gt; <i>layer</i></code></td>
 		<td>Возвращает cлой по заданному идентификатору. Указать свой идентификатор для слоя можно, задав значения свойства options.uid обекту слоя.</td>
 	</tr>
 
