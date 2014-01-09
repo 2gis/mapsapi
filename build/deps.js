@@ -54,7 +54,7 @@ var deps = {
 
     DGWhen: {
         desc: 'Promise/Deffered object module',
-        src: [ 'DGWhen/src/DGWhen.js'],
+        src: ['DGWhen/src/DGWhen.js'],
         deps: ['DGCore']
     },
 
@@ -78,7 +78,7 @@ var deps = {
     },
 
     DGWkt: {
-        desc: 'WKT parser module.',
+        desc: 'WKT parser module',
         src: ['DGWkt/Wkt.js',
               'DGWkt/DGWkt.js'
         ],
@@ -122,7 +122,7 @@ var deps = {
     },
 
     DGAttribution: {
-        desc: 'Our copyright',
+        desc: '2GIS copyright',
         src: [
             'DGAttribution/src/DGAttribution.js',
             'DGAttribution/lang/ru.js',
@@ -139,7 +139,9 @@ var deps = {
 
     DGLocale: {
         desc: 'Localization module',
-        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
+        src: ['DGLocale/src/DGDictionary.js',
+              'DGLocale/src/DGLocale.js'
+        ],
         deps: ['DGCore']
     },
 
@@ -157,7 +159,7 @@ var deps = {
                 'DGLocation/skin/{skin}/css/DGLocation.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGLabel']
+        deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
     },
 
     DGFullScreen: {
@@ -180,17 +182,17 @@ var deps = {
         src: [
             'DGTileLayer/src/DGTileLayer.js'
         ],
-        deps: ['DGCore', 'DGTemplate', 'DGLocale']
+        deps: ['DGCore']
     },
 
     DGProjectDetector: {
-        desc: '2GIS project detector module.',
+        desc: '2GIS project detector module',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
         deps: ['DGCore', 'DGAjax']
     },
 
     DGMeta: {
-        desc: '2GIS POI & buildings data support module.',
+        desc: '2GIS POI & buildings data support module',
         src: [
             'DGMeta/src/DGMeta.js',
             'DGMeta/src/storage/Storage.js',
@@ -203,19 +205,19 @@ var deps = {
     },
 
     DGPoi: {
-        desc: '2GIS POI module.',
+        desc: '2GIS POI module',
         src: ['DGPoi/src/DGPoi.js'],
         deps: ['DGMeta', 'DGLabel']
     },
 
     DGBuildings: {
-        desc: '2GIS buildings module.',
+        desc: '2GIS buildings module',
         src: ['DGBuildings/src/DGBuildings.js'],
         deps: ['DGMeta']
     },
 
     DGGeoclicker: {
-        desc: '2GIS Geoclicker.',
+        desc: '2GIS Geoclicker',
         css: {
             all: [
                 'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
@@ -253,8 +255,7 @@ var deps = {
             '../vendors/firmcard/src/vendors/momentjs/lang/moment.cs.js',
             '../vendors/firmcard/src/vendors/momentjs/lang/moment.it.js',
             '../vendors/firmcard/src/Schedule.js',
-            '../vendors/firmcard/src/Dictionary.js',
-
+            '../vendors/firmcard/src/Dictionary.js'
         ],
         deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
     },
@@ -267,7 +268,7 @@ var deps = {
     },
 
     DGEntrance: {
-        desc: '2GIS Entrances.',
+        desc: '2GIS Entrances',
         src: [
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/PathAnimation.js',

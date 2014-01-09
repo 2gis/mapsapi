@@ -1,8 +1,8 @@
 var packages = {
 
-    standard: {
-        name: 'Standard package',
-        desc: 'Provides standard functionality: map, markers, balloons, geometries',
+    light: {
+        name: 'Light package',
+        desc: 'Provides basic functionality: map, markers, popups, geometries',
         modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen']
     },
 
