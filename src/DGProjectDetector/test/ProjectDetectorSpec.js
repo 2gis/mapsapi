@@ -75,4 +75,41 @@ describe('L.DG.ProjectDetector', function(){
         });
 
     });
+
+    describe('#setZoom', function () {
+
+        it('go to 18 zoom level in desert', function() {
+            map.setView(desert1, maxDesertZoom);
+
+            map.setZoom(maxZoom);
+            expect(map.getZoom()).to.be(maxDesertZoom);
+            expect(map.getCenter()).to.be.equal(desert1);
+        });
+
+        it('go to 18 zoom level from 0', function() {
+            map.setView(project1, 0);
+
+            map.setZoom(maxZoom);
+            expect(map.getZoom()).to.be(maxZoom);
+            expect(map.getCenter()).to.be.equal(project1);
+        });
+
+        it('go to 0 zoom level from 18', function() {
+            map.setView(project1, maxZoom);
+
+            map.setZoom(0);
+            expect(map.getZoom()).to.be(0);
+            expect(map.getCenter()).to.be.equal(project1);
+        });
+
+        it('go to max zoom level + 1', function() {
+            map.setZoom(map.getMaxZoom() + 1);
+            expect(map.getZoom()).to.be(map.getMaxZoom());
+        });
+
+        it('go to min zoom level - 1', function() {
+            map.setZoom(map.getMinZoom() - 1);
+            expect(map.getZoom()).to.be(map.getMinZoom());
+        });
+    });
 });
