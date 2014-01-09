@@ -7,6 +7,19 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,
 
+    options: {
+        'showBooklet': true,
+        'showPhotos': true
+    },
+
+    initialize: function (controller, view, map, options) { // (Object, Object, Object, Object)
+        L.setOptions(this, options);
+
+        this._controller = controller;
+        this._view = view;
+        this._map = map;
+    },
+
     handle: function (results) { // (Object) -> Promise
         if (!results.house) {
             return false;
@@ -72,8 +85,8 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             gotoUrl: this._directionsUrl,
             onFirmReady: L.bind(this._onFirmReady, this),
             onToggle: L.bind(this._popup.resize, this._popup),
-            showBooklet: this._showBooklet,
-            showPhotos: this._showPhotos
+            showBooklet: this.options.showBooklet,
+            showPhotos: this.options.showPhotos
         };
     },
 
