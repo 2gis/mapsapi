@@ -5,7 +5,7 @@ L.DG.TileLayer = L.TileLayer.extend({
         errorTileUrl: '__ERROR_TILE_URL__',
         detectRetina: true,
         maxNativeZoom: 18,
-        uid: 'dgLayer'
+        uid: 'dgTileLayer'
     },
 
     initialize: function () {
