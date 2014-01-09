@@ -33,3 +33,16 @@ L.Map.include({
         return this;
     }
 });
+
+// adjust stamp method, need to pull request this to leaflet
+L.Util.stamp = (function () {
+    var lastId = 0,
+        key = '_leaflet_id';
+    return function (obj) {
+        var id = obj.options && obj.options.uid;
+        obj[key] = id ? id : (obj[key] || ++lastId);
+        return obj[key];
+    };
+}())
+
+L.stamp = L.Util.stamp;

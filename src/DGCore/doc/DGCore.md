@@ -655,6 +655,14 @@
 		<td><code>Boolean</code></td>
 		<td>Возвращает <code>true</code>, если переданный слой в данный момент добавлен на карту.</td>
 	</tr>
+	<tr>
+		<td><code><b>getLayer</b>(
+			<nobr>&lt;String&gt;)</nobr>
+		</code></td>
+
+		<td><code><a href="#ilayer">&lt;ILayer</a>&gt; <i>layer</i></code></td>
+		<td>Возвращает cлой по заданному идентификатору. Указать свой идентификатор для слоя можно, задав значения свойства options.uid объекту слоя.</td>
+	</tr>
 
 	<tr id="map-openpopup">
 		<td><code><b>openPopup</b>(
