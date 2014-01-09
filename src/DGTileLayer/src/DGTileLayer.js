@@ -19,9 +19,16 @@ L.DG.tileLayer = function () {
     return new L.DG.TileLayer();
 };
 
+L.Map.include({
+    getLayer: function (id) {
+        return this._layers[id];
+    }
+});
+
 L.Map.addInitHook(function () {
     if (!this._copyright) {
         L.control.attribution().addTo(this);
     }
     L.DG.tileLayer().addTo(this);
 });
+
