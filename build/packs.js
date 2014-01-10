@@ -3,7 +3,7 @@ var packages = {
     light: {
         name: 'Light package',
         desc: 'Provides basic functionality: map, markers, popups, geometries',
-        modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen']
+        modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen', 'DGAttribution']
     },
 
     full: {

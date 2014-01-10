@@ -252,7 +252,7 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
+        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
     DGTemplate: {
