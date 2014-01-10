@@ -1,7 +1,6 @@
 L.SvgIcon = L.Icon.extend({
         options: {
-                iconSize: [12, 12],
-                className: 'leaflet-div-icon',
+                iconSize: [26, 26],
                 html: false
         },
 
@@ -9,8 +8,8 @@ L.SvgIcon = L.Icon.extend({
                 var div = (oldIcon && oldIcon.tagName === 'SVG') ? oldIcon : document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
                     options = this.options;
 
-                div.innerHTML = options.html !== false ? options.html : '';
                 this._setIconStyles(div, 'icon');
+                div.setAttribute('class', 'leaflet-marker-icon');
                 return div;
         },
 
@@ -30,8 +29,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         keyboard: false,
         eventTransparent: true,
         // iconHTML: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
-        iconHTML: '<g class="dg-ruler-label-spacer"><circle opacity="0" r="10" cy="14" cx="15" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" stroke="#ffffff" fill="#ffffff"/></g><g class="dg-ruler-label-inner"><path d="m1.5,1.5l117,0l0,26l-117,0l0,-26z" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="#ffffff" fill="#00007f"/><text class="dg-ruler-label-distance" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="12" id="svg_3" y="18" x="76" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" stroke="#ffffff" fill="#ffffff">km</text><circle class="dg-ruler-label-delete" r="9.88356" cy="15" cx="103" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" stroke="#ffffff" fill="#ffffff"/></g>'
-    },
+        iconHTML: '<g class="dg-ruler-label-spacer"><circle opacity="0" r="10" cy="14" cx="15" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" stroke="#ffffff" fill="#ffffff"/></g><g class="dg-ruler-label-inner"><path d="m1.5,1.5l117,0l0,26l-117,0l0,-26z" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" stroke="#ffffff" fill="#00007f"/><text class="dg-ruler-label-distance" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="12" id="svg_3" y="18" x="76" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" stroke="#ffffff" fill="#ffffff">km</text><circle class="dg-ruler-label-delete" r="9.88356" cy="15" cx="103" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" stroke="#ffffff" fill="#ffffff"/></g>'    },
 
     statics: {
         _pointerEventsSupported : (function () {
@@ -74,14 +72,14 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         return this;
     },
 
-    expand : function () {
+    expand : function () { return this;
         this._iconCollapsed = false;
         this._iconNodes.container.style.display = 'block';
         this._iconNodes.spacer.style.display = 'none';
         return this;
     },
 
-    collapse : function () {
+    collapse : function () { return this;
         this._iconCollapsed = true;
         this._iconNodes.container.style.display = 'none';
         this._iconNodes.spacer.style.display = 'block';
@@ -110,13 +108,14 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     _initIcon : function () {
         L.Marker.prototype._initIcon.call(this);
         this._iconCollapsed = true;
-        this._icon.style.width = '';
+        this._icon.style.width = '100px';
         // this._iconNodes = {
         //     label : this.querySelector('.dg-ruler-label-distance'),
         //     spacer : this.querySelector('.dg-ruler-label-spacer'),
         //     container : this.querySelector('.dg-ruler-label-inner')
         // };
-        this._iconNodes.spacer = this_createOn(this._icon, 'circle', {
+        this._iconNodes = {};
+        this._iconNodes.spacer = this._createOn(this._icon, 'circle', {
             opacity: 0,
             r: 10,
             cy: 14,
@@ -127,18 +126,18 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
             'stroke': '#ffffff',
             'fill': '#ffffff'
         });
-        this._iconNodes.container = this_createOn(this._icon, 'g');
-        this._iconNodes.label = this_createOn(
-            this_createOn(
+        this._iconNodes.container = this._createOn(this._icon, 'g');
+        this._iconNodes.label = this._createOn(
+            this._createOn(
                 this._iconNodes.container,
                 'path',
                 {
-                    d:"m1.5,1.5l117,0l0,26l-117,0l0,-26z",
-                    'stroke-linecap': "round",
-                    'stroke-linejoin': "round",
-                    'stroke-width': "3",
-                    stroke: "#ffffff",
-                    fill="#00007f"
+                    d: 'm1.5,1.5l117,0l0,26l-117,0l0,-26z',
+                    'stroke-linecap': 'round',
+                    'stroke-linejoin': 'round',
+                    'stroke-width': '3',
+                    stroke: '#ffffff',
+                    fill: '#00007f'
                 }
             ),
             'text'
