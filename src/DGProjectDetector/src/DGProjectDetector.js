@@ -8,7 +8,6 @@ L.DG.ProjectDetector = L.Handler.extend({
         data: {
             key: '__WEB_API_KEY__',
             fields: '__PROJECT_ADDITIONAL_FIELDS__',
-            // output: 'jsonp',
             type: 'project',
             lang: 'all'
         }
@@ -18,6 +17,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         this._map = map;
         this.project = null;
         this.projectsList = null;
+        this._wkt = new L.DG.Wkt();
         this._loadProjectList();
     },
 
@@ -61,13 +61,14 @@ L.DG.ProjectDetector = L.Handler.extend({
     _loadProjectList: function () {
         var options = this.options,
             self = this,
-            type = 'get';
+            type = 'get',
+            promise;
 
         if (!L.DG.ajax.corsSupport) {
             type = options.data.output = 'jsonp';
         }
 
-        return L.DG.ajax(options.url, {
+        promise = L.DG.ajax(options.url, {
             type: type,
             data: options.data,
 
@@ -77,51 +78,35 @@ L.DG.ProjectDetector = L.Handler.extend({
                     return;
                 }
 
-                for (var i = 0, len = projectsList.length; i < len; i++) {
-                    projectsList[i].LatLngBounds = self._boundsFromWktPolygon(projectsList[i].bound);
-                }
+                projectsList.forEach(function (project) {
+                    var verts = self._wkt.read(project.bound),
+                        path = self._wkt.toObject(verts);
+                    project.LatLngBounds = path.getBounds();
+                });
+
                 self.projectsList = projectsList;
                 self._searchProject();
             }
         });
+
+        return promise;
     },
 
     _searchProject: function () {
         try {
-            for (var i = 0, mapZoom = this._map.getZoom(); i < this.projectsList.length; i++) {
-                if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds()) &&
-                    (mapZoom >= this.projectsList[i].min_zoom_level)) {
-                    this.project = this.projectsList[i];
-                    this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
+            var self = this,
+                mapZoom = self._map.getZoom();
+
+            this.projectsList.forEach(function (project) {
+                if (project.LatLngBounds.intersects(self._map.getBounds()) &&
+                    (mapZoom >= project.min_zoom_level)) {
+                    self.project = project;
+                    self._map.fire('projectchange', {'getProject': L.Util.bind(self.getProject, self)});
                     return;
                 }
-            }
+            });
         }
         catch (err) {}
-    },
-
-    _boundsFromWktPolygon: function (wkt) { // (String)
-        var arr,
-            pointsArr,
-            bracketsContent,
-            regExp,
-            southWest,
-            northEast;
-
-        wkt = wkt.replace(/, /g, ',');
-        wkt.replace(' (', '(');
-
-        arr = /^POLYGON\((.*)\)/.exec(wkt);
-        regExp = /\((.*?)\)/g;
-
-        bracketsContent = (regExp).exec(arr[1]);
-        pointsArr = bracketsContent[1].split(',');
-        southWest = pointsArr[0].split(' ');
-        northEast = pointsArr[2].split(' ');
-
-        return new L.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
-            [parseFloat(northEast[1]), parseFloat(northEast[0])]
-        );
     }
 });
 
