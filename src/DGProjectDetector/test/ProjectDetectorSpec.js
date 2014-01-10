@@ -9,15 +9,17 @@ describe('L.DG.ProjectDetector', function () {
         start =        new L.LatLng(54.98117239821992, 82.88922250270844),
         project1 =     new L.LatLng(54.97902673261798, 82.819265127182),
         project2 =     new L.LatLng(54.98620210307464, 73.41429233551025),
-        edgeProject1 =  new L.LatLng(55.24446959522988, 82.85625815391539),
+        edgeProject1 = new L.LatLng(55.24446959522988, 82.85625815391539),
         edgeProject2 = new L.LatLng(55.27354174049191, 82.869873046875),
+        edgeProject3 = new L.LatLng(55.28664323349526, 82.87656784057617),
         desert1 =      new L.LatLng(54.89635451954825, 82.40295410156249),
         desert2 =      new L.LatLng(61.1128985047811, 89.5414924621582);
 
+    document.body.appendChild(mapContainer);
+    mapContainer.style.width = 1900 + 'px';
+    mapContainer.style.height = 600 + 'px';
+
     beforeEach(function () {
-        document.body.appendChild(mapContainer);
-        mapContainer.style.width = 1600 + 'px';
-        mapContainer.style.height = 800 + 'px';
         map = new L.Map(mapContainer, {
             center: start,
             zoom: initZoom,
@@ -178,6 +180,44 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.setZoomAround(edgeProject2, maxZoom)).to.be(map);
             expect(map.getBounds().contains(edgeProject2)).to.be.ok();
             expect(map.getZoom()).to.be(maxDesertZoom);
+        });
+    });
+
+    describe('#fitBounds', function () {
+
+        it('bound on project edge', function () {
+            map.setView(project1, 8);
+
+            expect(map.fitBounds(new L.LatLngBounds(edgeProject1, edgeProject2))).to.be(map);
+            expect(map.getZoom()).to.be(maxDesertZoom);
+        });
+
+        it('bound on project1 from project1 small zoom', function () {
+            map.setView(project1, 8);
+
+            expect(map.fitBounds(new L.LatLngBounds(project1, start))).to.be(map);
+            expect(map.getZoom()).to.be(15);
+        });
+
+        it('bound on project1 from project2 small zoom', function () {
+            map.setView(project2, 8);
+
+            expect(map.fitBounds(new L.LatLngBounds(project1, start))).to.be(map);
+            expect(map.getZoom()).to.be(15);
+        });
+
+        it('bound on desert from project1 max zoom', function () {
+            map.setView(project1, 18);
+
+            expect(map.fitBounds(new L.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
+            expect(map.getZoom()).to.be(13);
+        });
+
+        it('bound on desert from desert small zoom', function () {
+            map.setView(edgeProject2, 8);
+
+            expect(map.fitBounds(new L.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
+            expect(map.getZoom()).to.be(13);
         });
     });
 
