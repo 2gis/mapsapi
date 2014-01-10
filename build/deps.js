@@ -186,7 +186,7 @@ var deps = {
     DGProjectDetector: {
         desc: '2GIS project detector module.',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGCore', 'DGAjax']
+        deps: ['DGCore', 'DGAjax', 'DGWkt']
     },
 
     DGMeta: {
