@@ -221,4 +221,102 @@ describe('L.DG.ProjectDetector', function () {
         });
     });
 
+    describe('#fitWorld', function () {
+
+        it('fire from max zoom', function () {
+            map.setView(project1, maxZoom);
+
+            expect(map.fitWorld()).to.be(map);
+            expect(map.getZoom()).to.be(1);
+        });
+
+        it('fire from min zoom', function () {
+            map.setView(project1, 0);
+
+            expect(map.fitWorld()).to.be(map);
+            expect(map.getZoom()).to.be(1);
+        });
+
+        it('fire after min zoom 15', function () {
+            map.setZoom(15);
+
+            expect(map.fitWorld()).to.be(map);
+            expect(map.getZoom()).to.be(1);
+        });
+
+        it('fire after min zoom 15', function () {
+            map.setMaxZoom(1);
+
+            expect(map.fitWorld()).to.be(map);
+            expect(map.getZoom()).to.be(1);
+        });
+    });
+
+    describe('#panTo', function () {
+
+        it('fire on project2 from project1', function () {
+            map.setView(project1, 16);
+
+            expect(map.panTo(project2)).to.be(map);
+            expect(map.getZoom()).to.be(16);
+            expect(map.getCenter()).to.be.equal(project2);
+        });
+
+        it('fire on desert from project1 max zoom', function () {
+            map.setView(project1, maxZoom);
+
+            expect(map.panTo(desert1)).to.be(map);
+            expect(map.getZoom()).to.be(maxDesertZoom);
+            expect(map.getCenter()).to.be.equal(desert1);
+        });
+
+        it('fire on project1 from desert', function () {
+            map.setView(desert1, maxDesertZoom);
+
+            expect(map.panTo(project1)).to.be(map);
+            expect(map.getZoom()).to.be(maxDesertZoom);
+            expect(map.getCenter()).to.be.equal(project1);
+        });
+
+        it('fire on project1 from project1', function () {
+            map.setView(start, 15);
+
+            expect(map.panTo(project1)).to.be(map);
+            expect(map.getZoom()).to.be(15);
+            expect(map.getCenter().distanceTo(project1)).to.be.below(15);
+        });
+    });
+
+    describe('#panInsideBounds', function () {
+
+        it('bound on project1 from project2', function () {
+            map.setView(project2, 15);
+
+            expect(map.panInsideBounds(new L.LatLngBounds(project1, start))).to.be(map);
+            expect(map.getZoom()).to.be(15);
+        });
+
+        it('bound on desert from project1 max zoom', function () {
+            map.setView(project1, 18);
+
+            expect(map.panInsideBounds(new L.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
+            expect(map.getZoom()).to.be(13);
+        });
+
+        it('bound on project1 from desert', function () {
+            map.setView(desert1, maxDesertZoom);
+
+            expect(map.panInsideBounds(new L.LatLngBounds(project1, start))).to.be(map);
+            expect(map.getZoom()).to.be(maxDesertZoom);
+        });
+
+        it('bound on project1 from project1 small zoom', function () {
+            map.setView(project1, 15);
+
+            expect(map.panInsideBounds(new L.LatLngBounds(project1, start))).to.be(map);
+            expect(map.getZoom()).to.be(15);
+        });
+
+    });
+
 });
