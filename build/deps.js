@@ -63,7 +63,7 @@ var deps = {
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGCore', 'DGWhen']
+        deps: ['DGCore']
     },
 
     DGLabel: {
@@ -258,7 +258,7 @@ var deps = {
             '../vendors/firmcard/src/Dictionary.js',
 
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
+        deps: ['DGAjax', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
     },
 
     DGTemplate: {
