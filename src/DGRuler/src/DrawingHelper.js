@@ -16,7 +16,11 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
 		this._layers.mouse.on(this._lineMouseEvents, this);
         this._map.on('click', this._addPoint, this);
-
+        window.map = this._map;
+        if (this._map._pathRoot) {
+            this._pathRoot = this._map._pathRoot.cloneNode(false);
+            L.DomUtil.create('div', 'dg-ruler-pane', this._map.getPanes().objectsPane).appendChild(this._pathRoot);
+        }
         return this;
     },
 
@@ -49,11 +53,16 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 front: null,
                 mouse: null
             },
+            _pathRoot: null,
             _lineMarkerHelper: null,
             _firstPoint: null,
             _lastPoint: null,
             _morphingNow: false
         });
+    },
+
+    _initPathRoot : function () {
+        
     },
 
     _lineMouseEvents: {
