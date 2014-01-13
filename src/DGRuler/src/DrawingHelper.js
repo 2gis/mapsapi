@@ -16,11 +16,10 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
 		this._layers.mouse.on(this._lineMouseEvents, this);
         this._map.on('click', this._addPoint, this);
+
         window.map = this._map;
-        if (this._map._pathRoot) {
-            this._pathRoot = this._map._pathRoot.cloneNode(false);
-            L.DomUtil.create('div', 'dg-ruler-pane', this._map.getPanes().objectsPane).appendChild(this._pathRoot);
-        }
+        this._rulerPane = L.DomUtil.create('div', 'dg-ruler-pane', this._map.getPanes().objectsPane);
+
         return this;
     },
 
@@ -53,6 +52,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                 front: null,
                 mouse: null
             },
+            _rulerPane: null,
             _pathRoot: null,
             _lineMarkerHelper: null,
             _firstPoint: null,
@@ -62,7 +62,23 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
     },
 
     _initPathRoot : function () {
-        
+        if (!this._map._pathRoot) {
+            return;
+        }
+        this._pathRoot = this._map._pathRoot.cloneNode(false);
+        this._rulerPane.appendChild(this._pathRoot);
+        this._map.on(this._pathRootEvents, this);
+    },
+
+    _pathRootEvents: {
+        zoomanim: function () {
+            this._pathRoot.style[L.DomUtil.TRANSFORM] = this._map._pathRoot.style[L.DomUtil.TRANSFORM];
+        },
+        moveend : function () {
+            ['width', 'height', 'viewBox', 'style'].forEach(function(attr){
+                this._pathRoot.setAttribute(attr, this._map._pathRoot.getAttribute(attr));
+            }, this);
+        }
     },
 
     _lineMouseEvents: {
@@ -72,10 +88,11 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             if (this._morphingNow) {
                 return;
             }
-
+            // console.log('mouseover', event, 'Marker: ' + target instanceof L.Marker);
+            // console.dir(event);
             if (target instanceof L.Marker && target._hoverable && target !== this._firstPoint) {
                 target.setText(this._calcDistance(target._next));
-            } else if (target instanceof L.Path) {
+            } else if (target instanceof L.Path && !this._lineMarkerHelper) {
                 var point = target._point,
                     prevLatlng = point._prev.getLatLng(),
                     interpolated = this._interpolate(prevLatlng, point.getLatLng(), event.latlng);
@@ -85,6 +102,9 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         },
         mouseout : function (event) {
             var target = event.layer;
+
+            // console.log('mouseout', event, 'Marker: ' + target instanceof L.Marker);
+            // console.dir(event);
 
             if (this._morphingNow || target === this._firstPoint) {
                 return;
@@ -149,13 +169,15 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         var latlng = this._lineMarkerHelper.getLatLng(),
             point = this._createPoint(latlng, this.constructor.iconStyles.small);
 
-        this._setPointLinks(point, event.target._point);
-        this._addLeg(point);
-
         point
             .on(this._pointEvents, this)
             .addTo(this._layers.mouse, this._layers)
             .setText(this._calcDistance(point._next));
+
+        this._rulerPane.appendChild(point._icon);
+
+        this._setPointLinks(point, event.target._point);
+        this._addLeg(point);
 
         var e = document.createEvent('MouseEvents');
         e.initMouseEvent('mousedown', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
@@ -205,8 +227,10 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         }
         point = this._createPoint(latlng);
         point
-            .addTo(this._layers.mouse, this._layers)
-            .on(this._pointEvents, this);
+            .on(this._pointEvents, this)
+            .addTo(this._layers.mouse, this._layers);
+
+        this._rulerPane.appendChild(point._icon);
 
         this._setPointLinks(point);
         if (point._prev) {
@@ -290,6 +314,12 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         Object.keys(pathStyles).forEach(function (layer) {
             point._legs[layer] = L.polyline(coordinates, pathStyles[layer]).addTo(this._layers[layer]);
         }, this);
+
+        if (!this._pathRoot) {
+            this._initPathRoot();
+        }
+
+        this._pathRoot.appendChild(point._legs['mouse']._container);
 
         point._legs.mouse.on('mousedown', this._insertPointInLine, this);
         point._legs.mouse._point = point;

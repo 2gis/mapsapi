@@ -16,6 +16,17 @@
     background-image: url(../img/RulerPressed.png);
 }
 
+.dg-ruler-pane {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 6;
+}
+
+.dg-ruler-pane svg {
+    position: absolute;
+}
+
 .dg-ruler-label {
 	left:0px;
 	top:0px;
@@ -50,7 +61,7 @@
 .dg-ruler-label-inner {
     display: none;
     white-space: nowrap;
-    padding: 2px 20px 2px 4px;
+    padding: 2px 4px 2px 4px;
     font: 12px/14px Arial, sans-serif;
     color: #fff;
     background: #0da5d5;

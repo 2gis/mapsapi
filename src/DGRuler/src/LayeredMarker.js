@@ -73,14 +73,6 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         }, this);
     },
 
-    _createOn : function ( root, name, attrs ) {
-        var el = document.createElementNS('http://www.w3.org/2000/svg', name);
-        for (var attr in attrs) {
-            if (attrs.hasOwnProperty(attr)) el.setAttribute(attr,attrs[attr]);
-        }
-        return root.appendChild(el);
-    },
-
     _initIcon : function () {
         L.Marker.prototype._initIcon.call(this);
         this._iconCollapsed = true;
@@ -91,24 +83,13 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
             container : this.querySelector('.dg-ruler-label-inner')
         };
 
-        if (this.options.eventTransparent) {
-            if (this.constructor._pointerEventsSupported) {
-                this._icon.style.pointerEvents = 'none';
-            } else {
-                L.DomEvent.addListener(this._icon, 'mousemove', this._explorerEventTransit, this);
-            }
-        }
-    },
-
-    _explorerEventTransit : function (event) {
-        var underneathElem,
-            eventObject = document.createEventObject(event);
-
-        this._icon.style.display = 'none';
-        underneathElem = document.elementFromPoint(event.clientX, event.clientY);
-        this._icon.style.display = '';
-        eventObject.target = underneathElem;
-        underneathElem.fireEvent('onMouseMove', eventObject);
+        // if (this.options.eventTransparent) {
+        //     if (this.constructor._pointerEventsSupported) {
+        //         this._icon.style.pointerEvents = 'none';
+        //     } else {
+        //         L.DomEvent.addListener(this._icon, 'mousemove', this._explorerEventTransit, this);
+        //     }
+        // }
     },
 
     _afterInit : function () {
