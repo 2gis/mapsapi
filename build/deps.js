@@ -117,7 +117,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/marker.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
     },
 
     DGAttribution: {

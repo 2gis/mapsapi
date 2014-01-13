@@ -1,7 +1,3 @@
-L.Map.mergeOptions({
-    projectDetector: true
-});
-
 L.DG.ProjectDetector = L.Handler.extend({
     options: {
         url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
@@ -22,11 +18,11 @@ L.DG.ProjectDetector = L.Handler.extend({
     },
 
     addHooks: function () {
-        this._map.on('move', this._projectchange, this);
+        this._map.on('moveend', this._projectchange, this);
     },
 
     removeHooks: function () {
-        this._map.off('move', this._projectchange, this);
+        this._map.off('moveend', this._projectchange, this);
     },
 
     getProject: function () {
@@ -41,6 +37,24 @@ L.DG.ProjectDetector = L.Handler.extend({
             return false;
         }
         return this.projectsList.slice(0);
+    },
+
+    // REFACTOR!!!
+    isProjectHere: function (latLng) {
+        if (!latLng || !this.projectsList) { return; }
+
+        var projectsList = this.projectsList, pr = false;
+
+        projectsList.forEach(function (project) {
+            //console.log(project.name, project.LatLngBounds.contains(latLng));
+            if (project.LatLngBounds.contains(latLng)) {
+                pr = project;
+                //return project;
+               // break;
+            }
+        });
+
+        return pr;
     },
 
     _projectchange: function () {
@@ -73,14 +87,14 @@ L.DG.ProjectDetector = L.Handler.extend({
             data: options.data,
 
             success: function (data) {
-                var projectsList = data.result.data;
-                if (!data.result || (Object.prototype.toString.call(projectsList) !== '[object Array]')) {
-                    return;
-                }
+                var projectsList = data.result.data,
+                    verts, path;
+                if (!data.result || !L.Util.isArray(projectsList)) { return; }
 
                 projectsList.forEach(function (project) {
-                    var verts = self._wkt.read(project.bound),
-                        path = self._wkt.toObject(verts);
+                    verts = self._wkt.read(project.bound);
+                    path = self._wkt.toObject(verts);
+
                     project.LatLngBounds = path.getBounds();
                 });
 
@@ -108,6 +122,10 @@ L.DG.ProjectDetector = L.Handler.extend({
         }
         catch (err) {}
     }
+});
+
+L.Map.mergeOptions({
+    projectDetector: true
 });
 
 L.Map.addInitHook('addHandler', 'projectDetector', L.DG.ProjectDetector);
