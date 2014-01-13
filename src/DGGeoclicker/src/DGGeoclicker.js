@@ -7,9 +7,9 @@ L.DG.Geoclicker = L.Handler.extend({
     pendingClick: 0,
     timeout: 250, // should be equal to 'delay' value in DoubleTap event
 
-    initialize: function (map) { // (Object)
+    initialize: function (map, options) { // (Object)
         this._map = map;
-        this._controller = new L.DG.Geoclicker.Controller(map);
+        this._controller = new L.DG.Geoclicker.Controller(map, options);
         this._fillEventsListeners();
     },
 

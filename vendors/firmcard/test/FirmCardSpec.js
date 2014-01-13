@@ -1,6 +1,7 @@
 describe('Расписание работы организации', function () {
 
     function mockTime(timestamp) {
+        //rid of magic 6 (local time)
         return timestamp + (6 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
     }
     var d = new FirmCard(null, {

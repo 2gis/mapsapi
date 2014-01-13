@@ -150,12 +150,12 @@ FirmCard.prototype = {
                     href: this.options.gotoUrl
         });*/
 
-        /*if (this._firmData.geo.entrances && this.options.showEntrance) {
+        if (this._firmData.geo.entrances && this.options.showEntrance) {
             btns.push({ name: 'show-entrance',
                         label: this.dict.t(this.options.lang, 'btnEntrance'),
                         icon: true
             });
-        }*/
+        }
 
         return btns;
     },
@@ -179,7 +179,7 @@ FirmCard.prototype = {
             });
         }
 
-        /*if (!this.options.isMobile && photos && photos.length) {
+        if (!this.options.isMobile && photos && photos.length && this.options.showPhotos) {
             link = L.Util.template('__PHOTOS_LINK__',
                 {
                     'id': this._firmId
@@ -191,11 +191,11 @@ FirmCard.prototype = {
             });
         }
 
-        if (!this.options.isMobile && booklet && booklet.url) {
+        if (!this.options.isMobile && booklet && booklet.url && this.options.showBooklet) {
             links.push({name: 'booklet',
                         href:  booklet.url,
                         label: this.dict.t(this.options.lang, 'linkBooklet')});
-        }*/
+        }
 
 
         return links;
