@@ -4,7 +4,8 @@ L.DG.TileLayer = L.TileLayer.extend({
         subdomains: '0123',
         errorTileUrl: '__ERROR_TILE_URL__',
         detectRetina: true,
-        maxNativeZoom: 18
+        maxNativeZoom: 18,
+        uid: 'dgTileLayer'
     },
 
     initialize: function () {
@@ -18,9 +19,16 @@ L.DG.tileLayer = function () {
     return new L.DG.TileLayer();
 };
 
+L.Map.include({
+    getLayer: function (id) {
+        return this._layers[id];
+    }
+});
+
 L.Map.addInitHook(function () {
     if (!this._copyright) {
         L.control.attribution().addTo(this);
     }
     L.DG.tileLayer().addTo(this);
 });
+
