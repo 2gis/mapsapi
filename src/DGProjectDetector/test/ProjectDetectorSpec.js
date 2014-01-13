@@ -347,4 +347,42 @@ describe('L.DG.ProjectDetector', function () {
 
     });
 
+    describe('#setMaxZoom', function () {
+
+        it('set max 15 and zoom to 18 in project', function () {
+            map.setView(project1);
+
+            expect(map.setMaxZoom(15)).to.be(map);
+            expect(map.setZoom(maxZoom).getZoom()).to.be(15);
+        });
+
+        it('set max 15 and zoom to 18 in desert', function () {
+            map.setView(desert1);
+
+            expect(map.setMaxZoom(15)).to.be(map);
+            expect(map.setZoom(maxZoom).getZoom()).to.be(maxDesertZoom);
+        });
+
+        it('set max 10 and zoom to 18 in desert', function () {
+            map.setView(desert1);
+
+            expect(map.setMaxZoom(10)).to.be(map);
+            expect(map.setZoom(maxZoom).getZoom()).to.be(10);
+        });
+
+        it('setMaxZoom without parametrs in project', function () {
+            map.setView(project1);
+
+            expect(map.setMaxZoom()).to.be(map);
+            expect(map.setZoom(28).getZoom()).to.be(maxZoom);
+        });
+
+        it('setMaxZoom without parametrs in desert', function () {
+            map.setView(desert1);
+
+            expect(map.setMaxZoom()).to.be(map);
+            expect(map.setZoom(28).getZoom()).to.be(maxDesertZoom);
+        });
+    });
+
 });
