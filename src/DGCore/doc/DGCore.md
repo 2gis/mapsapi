@@ -4,7 +4,7 @@
 
 `<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark&lazy=true" data-id="dgLoader"></script>`
 
-* аттрибут `data-id="dgLoader"` является обязательным.
+* атрибут `data-id="dgLoader"` является обязательным.
 
 ### Опции
 
@@ -37,7 +37,7 @@
 	<tr>
 		<td><code><b>lazy</b></code></td>
 		<td><code>false</code></td>
-		<td>Если указать значение true, API загрузится отложенно, при первом вызове L.DG.then.</td>
+		<td>Если указать значение true, API загрузится отложено, при первом вызове L.DG.then.</td>
 	</tr>
 </table>
 
@@ -99,7 +99,7 @@
 Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:
 
 	L.DG.then(function () {
-            /инициализация карты
+            //инициализация карты
             var map = new L.Map('map', {
                 'center': new L.LatLng(54.980206086231, 82.898068362003),
                 'zoom': 13,
@@ -1301,7 +1301,7 @@
 		<td><code><b>alt</b></code></td>
 		<td><code>String</code></td>
 		<td><code>''</code></td>
-		<td>Текст для alt аттрибута иконки.</td>
+		<td>Текст для alt атрибута иконки.</td>
 	</tr>
 	<tr id="marker-zindexoffset">
 		<td><code><b>zIndexOffset</b></code></td>
@@ -2205,7 +2205,7 @@
 		<td><code><b>attribution</b></code></td>
 		<td><code>String</code></td>
 		<td><code>''</code></td>
-		<td>Текст аттрибуции слоя.</td>
+		<td>Текст атрибуции слоя.</td>
 	</tr>
 </table>
 
@@ -2340,7 +2340,7 @@
 		<td><code><b>className</b></code></td>
 		<td><code>String</code></td>
 		<td><code>''</code></td>
-		<td>Добавляет класс в соотвествующий аттрибут элемента.</td>
+		<td>Добавляет класс в соотвествующий атрибут элемента.</td>
 	</tr>
 </table>
 
@@ -4235,13 +4235,13 @@
 		<td><code><b>zoomInTitle</b></code></td>
 		<td><code>String</code></td>
 		<td><code><span>'Zoom in'</span></td>
-		<td>Значение аттрибута title для конпки зум-ин.</td>
+		<td>Значение атрибута title для конпки зум-ин.</td>
 	</tr>
 	<tr>
 		<td><code><b>zoomInTitle</b></code></td>
 		<td><code>String</code></td>
 		<td><code><span>'Zoom out'</span></td>
-		<td>Значение аттрибута title для конпки зум-аут.</td>
+		<td>Значение атрибута title для конпки зум-аут.</td>
 	</tr>
 </table>
 
