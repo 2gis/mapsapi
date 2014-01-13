@@ -42,6 +42,6 @@ L.Util.stamp = (function () {
         obj[key] = id ? id : (obj[key] || ++lastId);
         return obj[key];
     };
-}())
+}());
 
 L.stamp = L.Util.stamp;
