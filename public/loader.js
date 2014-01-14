@@ -154,18 +154,18 @@
         requestJs();
     }
 
-    baseURL = getBaseURL();
-    queryString = getParams();
-    isLazy = (queryString.indexOf('lazy=true')  > -1);
-    //load api in normal mode
-    !isLazy && loadApi();
-
     window.L = window.L || {};
     window.L.DG = {};
     window.L.DG.ready = false;
     window.__dgApi_callbacks = [];
     window.__dgApi_callbacks.push(setReady);
     window.__dgApi_params = parseQueryString(queryString);
+
+    baseURL = getBaseURL();
+    queryString = getParams();
+    isLazy = (queryString.indexOf('lazy=true')  > -1);
+    //load api in normal mode
+    !isLazy && loadApi();
 
     window.L.DG.then = function (resolve, reject) {
         if (isLazy) {
