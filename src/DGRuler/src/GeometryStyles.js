@@ -16,7 +16,7 @@ L.DG.Ruler.Styles = {
         },
         mouse: {
             color: '#fff',
-            opacity: L.Path.VML ? 0.01 : 0.5,
+            opacity: L.Path.VML ? 0.1 : 0,
             weight: 20,
             pointerEvents: 'all',
             noClip: true

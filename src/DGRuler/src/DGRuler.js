@@ -53,7 +53,7 @@ L.DG.Ruler = L.DG.RoundControl.extend({
     _renderTranslation: function () {
         this._link.title = this.t('button_title');
         if (this._active) {
-            this._drawingHelper.renderTranslation();
+            this._drawingHelper.updateLabel();
         }
     }
 });

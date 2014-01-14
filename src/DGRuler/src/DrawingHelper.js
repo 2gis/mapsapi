@@ -1,46 +1,71 @@
 L.DG.Ruler.DrawingHelper = L.Class.extend({
 
-    statics : L.DG.Ruler.Styles,
+    // statics : L.DG.Ruler.Styles,
 
-    initialize: function (map, options) {
-        this._map = map;
-        this._translate = options.translate;
+    statics: {
+        Dictionary: {}
+    },
+
+    options: {
+        editable: true
+    }
+
+    initialize: function () {
         this._reset();
     },
 
-    startDrawing: function () {
+    onAdd: function (map) {
+        this._map = map;
+
+        this._rulerPane = L.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
+
         this._layersContainer = L.featureGroup().addTo(this._map);
         Object.keys(this._layers).forEach(function (name) {
             this._layersContainer.addLayer(this._layers[name] = L.featureGroup());
         }, this);
-
 		this._layers.mouse.on(this._lineMouseEvents, this);
-        this._map.on('click', this._addPoint, this);
 
-        window.map = this._map;
-        this._rulerPane = L.DomUtil.create('div', 'dg-ruler-pane', this._map.getPanes().objectsPane);
-
-        return this;
+        map
+            .on('click', this._addPoint, this)
+            .on('dgLangChange', this._updateDistance, this);
     },
 
-    finishDrawing: function () {
-        this._map
-                .removeLayer((this._layersContainer.clearLayers()))
-                .off('click', this._addPoint, this);
+    onRemove: function (map) {
+        map
+            .off('click', this._addPoint, this)
+            .off('dgLangChange', this._updateDistance, this)
+            .removeLayer((this._layersContainer.clearLayers()));
 
         Object.keys(this._layers).forEach(function (name) {
             this._layers[name].clearLayers();
         }, this);
 
-        return this._reset();
+        if (this._pathRoot) {
+            this._rulerPane.removeChild(this._pathRoot);
+        }
+        this._rulerPane.parentNode.removeChild(this._rulerPane);
+
+        this._reset();
     },
 
-    renderTranslation : function () {
-        this._updateDistance();
-    },
-
-    getDistance: function () {
+    getTotalDistance: function () {
         return this._calcDistance();
+    },
+
+    addLatLng: function (latlng) {
+        return this;
+    },
+
+    setLatLngs: function (latlngs) {
+        return this;
+    },
+    
+    getLatLngs: function () {
+        return this;
+    },
+
+    spliceLatLngs: function (index, pointsToRemove) {
+        return this;
     },
 
     _reset : function () {
@@ -68,6 +93,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         this._pathRoot = this._map._pathRoot.cloneNode(false);
         this._rulerPane.appendChild(this._pathRoot);
         this._map.on(this._pathRootEvents, this);
+        L.DomUtil.addClass(this._pathRoot, 'dg-ruler-pane__pathroot');
     },
 
     _pathRootEvents: {
@@ -75,7 +101,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._pathRoot.style[L.DomUtil.TRANSFORM] = this._map._pathRoot.style[L.DomUtil.TRANSFORM];
         },
         moveend : function () {
-            ['width', 'height', 'viewBox', 'style'].forEach(function(attr){
+            ['width', 'height', 'viewBox', 'style'].forEach(function (attr) {
                 this._pathRoot.setAttribute(attr, this._map._pathRoot.getAttribute(attr));
             }, this);
         }
@@ -88,8 +114,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             if (this._morphingNow) {
                 return;
             }
-            // console.log('mouseover', event, 'Marker: ' + target instanceof L.Marker);
-            // console.dir(event);
+
             if (target instanceof L.Marker && target._hoverable && target !== this._firstPoint) {
                 target.setText(this._calcDistance(target._next));
             } else if (target instanceof L.Path && !this._lineMarkerHelper) {
@@ -102,9 +127,6 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
         },
         mouseout : function (event) {
             var target = event.layer;
-
-            // console.log('mouseout', event, 'Marker: ' + target instanceof L.Marker);
-            // console.dir(event);
 
             if (this._morphingNow || target === this._firstPoint) {
                 return;
@@ -151,11 +173,12 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
                     middle: style,
                     back: style
                 },
-                eventTransparent: true,
                 text: this._calcDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng))
-            });
+            }).addTo(this._layers.mouse, this._layers);
 
-        return point.addTo(this._layers.mouse, this._layers);
+        this._rulerPane.appendChild(point._icon);
+
+        return point;
     },
 
     _removeRunningLabel : function () {
@@ -171,17 +194,26 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
 
         point
             .on(this._pointEvents, this)
-            .addTo(this._layers.mouse, this._layers)
-            .setText(this._calcDistance(point._next));
+            .addTo(this._layers.mouse, this._layers);
 
-        this._rulerPane.appendChild(point._icon);
+        // this._rulerPane.appendChild(point._icon);
 
         this._setPointLinks(point, event.target._point);
         this._addLeg(point);
 
-        var e = document.createEvent('MouseEvents');
-        e.initMouseEvent('mousedown', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
-        point._icon.dispatchEvent(e);
+        point.setText(this._calcDistance(point._next));
+
+        if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initMouseEvent('mousedown', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
+            point._icon.dispatchEvent(e);
+        } else {
+            point._icon.fireEvent('onMouseDown', L.extend(document.createEventObject(), {
+                button: 1,
+                bubbles: true,
+                cancelable: true
+            }));
+        }
 
         this._removeRunningLabel();
         this._updatePointLegs(point);
@@ -230,7 +262,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             .on(this._pointEvents, this)
             .addTo(this._layers.mouse, this._layers);
 
-        this._rulerPane.appendChild(point._icon);
+        // this._rulerPane.appendChild(point._icon);
 
         this._setPointLinks(point);
         if (point._prev) {
@@ -256,7 +288,6 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             layers = pointStyle.layers;
 
         return L.DG.Ruler.layeredMarker(latlng, {
-            eventTransparent : !!pointStyle.eventTransparent,
             layers : {
                 front: L.circleMarker(latlng, layers.front),
                 middle: L.circleMarker(latlng, layers.middle),
@@ -319,7 +350,7 @@ L.DG.Ruler.DrawingHelper = L.Class.extend({
             this._initPathRoot();
         }
 
-        this._pathRoot.appendChild(point._legs['mouse']._container);
+        this._pathRoot.appendChild(point._legs.mouse._container);
 
         point._legs.mouse.on('mousedown', this._insertPointInLine, this);
         point._legs.mouse._point = point;

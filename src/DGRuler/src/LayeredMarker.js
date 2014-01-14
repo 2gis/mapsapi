@@ -3,16 +3,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     options: {
         draggable: true,
         keyboard: false,
-        eventTransparent: true,
         iconHTML: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
-    },
-
-    statics: {
-        _pointerEventsSupported : (function () {
-            var element = document.createElement('x');
-            element.style.cssText = 'pointer-events:none';
-            return element.style.pointerEvents === 'none';
-        })()
     },
 
     addTo : function (map, layers) {
@@ -82,14 +73,6 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
             spacer : this.querySelector('.dg-ruler-label-spacer'),
             container : this.querySelector('.dg-ruler-label-inner')
         };
-
-        // if (this.options.eventTransparent) {
-        //     if (this.constructor._pointerEventsSupported) {
-        //         this._icon.style.pointerEvents = 'none';
-        //     } else {
-        //         L.DomEvent.addListener(this._icon, 'mousemove', this._explorerEventTransit, this);
-        //     }
-        // }
     },
 
     _afterInit : function () {

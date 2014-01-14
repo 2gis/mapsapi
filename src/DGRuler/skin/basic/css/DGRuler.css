@@ -16,21 +16,18 @@
     background-image: url(../img/RulerPressed.png);
 }
 
-.dg-ruler-pane {
+.dg-ruler-pane, .dg-ruler-label, .dg-ruler-pane__pathroot {
     position: absolute;
     left: 0;
     top: 0;
+}
+
+.dg-ruler-pane {
     z-index: 6;
 }
 
-.dg-ruler-pane svg {
-    position: absolute;
-}
-
-.dg-ruler-label {
-	left:0px;
-	top:0px;
-    position: absolute;
+.dg-ruler-pane__pathroot {
+    z-index: 7999;
 }
 
 .dg-ruler-label-delete {
@@ -61,7 +58,7 @@
 .dg-ruler-label-inner {
     display: none;
     white-space: nowrap;
-    padding: 2px 4px 2px 4px;
+    padding: 2px 20px 2px 4px;
     font: 12px/14px Arial, sans-serif;
     color: #fff;
     background: #0da5d5;
