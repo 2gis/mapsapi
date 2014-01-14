@@ -53,6 +53,8 @@ L.DG.plugin = function (plugins) {
             appendJS(asset);
         } else if (isCss(asset)) {
             appendCSS(asset);
+        } else {
+            count--;
         }
     }
 
