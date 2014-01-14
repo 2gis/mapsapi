@@ -1,6 +1,8 @@
 L.DG.plugin = function (plugins) {
     var count,
-        pluginDef = L.DG.when.defer();
+        pluginDef = L.DG.when.defer(),
+        jsReg = new RegExp(/.js$/i),
+        cssReg = new RegExp(/.css$/i);
 
     function checkLoading() {
         count--;
@@ -41,11 +43,11 @@ L.DG.plugin = function (plugins) {
     }
 
     function isJs(url) {
-        return url.match(/\.[0-9a-z]+$/i)[0] === '.js';
+        return jsReg.test(url);
     }
 
     function isCss(url) {
-        return url.match(/\.[0-9a-z]+$/i)[0] === '.css';
+        return cssReg.test(url);
     }
 
     function appendAsset(asset) {
@@ -58,7 +60,7 @@ L.DG.plugin = function (plugins) {
         }
     }
 
-    if (Array.isArray(plugins)) {
+    if (L.Util.isArray(plugins)) {
         count = plugins.length;
         plugins.forEach(function (plugin) {
             appendAsset(plugin);
