@@ -62,48 +62,60 @@
 
     L.DG.DemoPlugin = L.Handler.extend({
 
-        _lastFirms: L.layerGroup(),
+       _lastFirms: L.layerGroup(),
+   
+       addHooks: function() {
+           this._map.on('click', this._searchFirms, this);
+       },
+   
+       removeHooks: function() {
+           this._map.off('click', this._searchFirms, this);
+       },
+   
+       _searchFirms: function(e) { // (MouseEvent)
+           var latlng = e.latlng.wrap();
+   
+           L.DG.ajax({
+               url: 'http://catalog.api.2gis.ru/2.0/search',
+               data: {
+                   what: 'магазин',
+                   point: latlng.lng + ',' + latlng.lat,
+                   radius: 500,
+                   page_size: 50,
+                   type: 'filial',
+                   key: 'ruhcbx0197'
+               },
+               success: L.bind(this._showFirms, this),
+               error: L.bind(this._logError, this)
+           });
+       },
+   
+       _showFirms: function(data) { // (Object)
+           var firms, marker;
+   
+           if (data.response.code > 200) {
+               this._logError(data);
+               return;
+           }
+   
+           this._lastFirms.clearLayers();
+   
+           firms = data.result.data;
+           firms.forEach(function(firmInfo) {
+               marker = L.marker([firmInfo.geo.lat, firmInfo.geo.lon]);
+               marker.bindPopup(firmInfo.firm.name);
+               marker.addTo(this._lastFirms);
+           }, this);
+           
+           this._lastFirms.addTo(this._map);
+       },
+   
+       _logError: function(data) {
+           console.log('Error: ', data);
+       }
+   });
 
-        addHooks: function() {
-            this._map.on('click', this._searchFirms, this);
-        },
-
-        removeHooks: function() {
-            this._map.off('click', this._searchFirms, this);
-        },
-
-        _searchFirms: function(e) { // (MouseEvent)
-            L.DG.ajax({
-                url: 'http://catalog.api.2gis.ru/2.0/search',
-                data: {
-                    what: 'магазин',
-                    point: e.latlng.lng + ',' + e.latlng.lat,
-                    radius: 500,
-                    page_size: 50,
-                    type: 'filial',
-                    key: 'ruhcbx0197'
-                },
-                success: L.bind(this._showFirms, this)
-            });
-        },
-
-        _showFirms: function(data) { // (Object)
-            var marker,
-                firms = data.result.data;
-        
-            this._lastFirms.clearLayers();
-
-            firms.forEach(function(firmInfo) {
-                marker = L.marker([firmInfo.geo.lat, firmInfo.geo.lon]);
-                marker.bindPopup(firmInfo.firm.name);
-                marker.addTo(this._lastFirms);
-            }, this);
-        
-            this._lastFirms.addTo(this._map);
-        }
-    });
-
-    L.Map.addInitHook('addHandler', 'demoPlugin', L.DG.DemoPlugin);
+   L.Map.addInitHook('addHandler', 'demoPlugin', L.DG.DemoPlugin);
 
 Наш модуль предполагает взаимодействие пользователя с картой, потому мы его отнаследовали от класса `L.Handler`. Благодаря этому можно будет контролировать его поведение в процессе исполнения приложения (например, у разработчика будет возможность включить или выключить модуль).
 
@@ -114,6 +126,8 @@
 Метод `_searchFirms` отправляет AJAX-запрос к [REST API справочника 2ГИС](http://catalog.api.2gis.ru/doc/2.0/catalog/filial/search-by-what-and-radius) и в случае успешного ответа вызывает метод `_showFirms`.
 
 Метод `_showFirms` удаляет с карты все предыдущие маркеры и показывает новые.
+
+Метод `_logError` при возникновении ошибки печатает в консоль браузера данные о ней. 
 
 Конструкция `L.Map.addInitHook('addHandler', 'demoPlugin', L.DG.DemoPlugin)` позволяет карте зарегистрировать написанный нами обработчик пользовательских действий, после чего к нему можно будет обратиться по соответствующему имени, например:
     
