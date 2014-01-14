@@ -110,7 +110,7 @@ module.exports = function (grunt) {
                 tagName: '%VERSION%',
                 tagMessage: 'Version %VERSION%',
                 push: true,
-                pushTo: ['origin', 'github']
+                pushTo: 'all'
             }
         },
         doc: {
