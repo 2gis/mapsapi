@@ -18,11 +18,11 @@ L.DG.ProjectDetector = L.Handler.extend({
     },
 
     addHooks: function () {
-        this._map.on('moveend', this._projectchange, this);
+        this._map.on('move', this._projectchange, this);
     },
 
     removeHooks: function () {
-        this._map.off('moveend', this._projectchange, this);
+        this._map.off('move', this._projectchange, this);
     },
 
     getProject: function () {
@@ -46,11 +46,9 @@ L.DG.ProjectDetector = L.Handler.extend({
         var projectsList = this.projectsList, pr = false;
 
         projectsList.forEach(function (project) {
-            //console.log(project.name, project.LatLngBounds.contains(latLng));
             if (project.LatLngBounds.contains(latLng)) {
                 pr = project;
                 //return project;
-               // break;
             }
         });
 
@@ -62,7 +60,8 @@ L.DG.ProjectDetector = L.Handler.extend({
             if (!this.project) {
                 this._searchProject();
             } else {
-                if (!this.project.LatLngBounds.intersects(this._map.getBounds()) ||
+                if (!this._map.getBounds().contains(this.project.LatLngBounds) ||
+                //if (!this.project.LatLngBounds.intersects(this._map.getBounds()) ||
                     (this._map.getZoom() < this.project.min_zoom_level)) {
                     this.project = null;
                     this._map.fire('projectleave');
@@ -112,7 +111,8 @@ L.DG.ProjectDetector = L.Handler.extend({
                 mapZoom = self._map.getZoom();
 
             this.projectsList.forEach(function (project) {
-                if (project.LatLngBounds.intersects(self._map.getBounds()) &&
+                if (self._map.getBounds().contains(project.LatLngBounds) &&
+                //if (project.LatLngBounds.intersects(self._map.getBounds()) &&
                     (mapZoom >= project.min_zoom_level)) {
                     self.project = project;
                     self._map.fire('projectchange', {'getProject': L.Util.bind(self.getProject, self)});

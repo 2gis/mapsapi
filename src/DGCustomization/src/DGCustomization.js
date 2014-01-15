@@ -13,23 +13,15 @@ L.Control.include({
 // Applies 2GIS divIcon to marker
 L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 
-// Adds posibility to change max zoom level
+// Restrict zoom level according to 2gis projects, in case if dgTileLayer is only one
 L.Map.include({
-    setMaxZoom: function (maxZoom) {
-    /*if (this.getZoom() > maxZoom) {
-        this.setZoom(maxZoom);
-    }*/
-       /* if (maxZoom) {
-            this.getLayer('dgTileLayer').options.maxZoom = maxZoom;
-            this._updateZoomLevels();
-        }
-*/
-        return this;
-    },
+    _resctrictZoom: function (coords) {
+        if (this._layers &&
+            this.projectDetector.enabled() &&
+            this._tileLayersNum === 1 &&
+            this.getLayer('dgTileLayer')) {
 
-    setView: function (center, zoom, options) {
-        if (this._layers) {
-            var project = this.projectDetector.isProjectHere(center);
+            var project = this.projectDetector.isProjectHere(coords);
 
             if (project) {
                 this.getLayer('dgTileLayer').options.maxZoom = project.max_zoom_level;
@@ -40,7 +32,15 @@ L.Map.include({
             }
         }
 
-        zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
+        //(this.getZoom() > this.getMaxZoom()) && this.setZoom(this.getMaxZoom());
+    },
+
+    setView: function (center, zoom, options) {
+        //debugger;
+        this._resctrictZoom(center);
+
+        zoom = this._limitZoom(zoom === undefined ? this._zoom : zoom);
+        console.log('limited', zoom);
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
 
