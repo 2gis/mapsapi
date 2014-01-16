@@ -3,10 +3,12 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            'DGCore/DGCore.js',
             '../vendors/polyfills/json2.js',
             '../vendors/polyfills/html5shiv.js',
-            '../vendors/polyfills/es5.js'
+            '../vendors/polyfills/es5.js',
+            'DGCore/src/DGCore.js',
+            'DGCore/src/DGplugin.js',
+            'DGCore/src/DGthen.js'
         ],
         css: {
             all: ['../vendors/leaflet/dist/leaflet.css']
@@ -47,19 +49,19 @@ var deps = {
                 'AnimationPan',
                 'AnimationTimer',
                 'AnimationZoom',
-                'Geolocation']
+                'Geolocation',
+                'DGWhen']
     },
 
     DGWhen: {
         desc: 'Promise/Deffered object module',
-        src: ['DGWhen/src/DGWhen.js'],
-        deps: ['DGCore']
+        src: [ 'DGWhen/src/DGWhen.js']
     },
 
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGCore', 'DGWhen']
+        deps: ['DGCore']
     },
 
     DGLabel: {

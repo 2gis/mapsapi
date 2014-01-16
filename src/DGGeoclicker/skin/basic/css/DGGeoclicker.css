@@ -74,7 +74,7 @@
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(__BASE_URL__/img/icon-sight.png);
+    background-image: url(../img/icon-sight.png);
 }
 
 /*FIRM LIST*/
@@ -283,11 +283,11 @@
 
 
 .leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
-    background-image: url(__BASE_URL__/img/callout-settlement-2x.png);
+    background-image: url(../img/callout-settlement-2x.png);
 }
 
 .leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(__BASE_URL__/img/icon-sight-2x.png);
+    background-image: url(../img/icon-sight-2x.png);
 }
 
 

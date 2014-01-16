@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="/2.0/loader.js?load=full&mode=debug"></script>
+    <script src="/2.0/loader.js?load=full&mode=debug" data-id="dgLoader"></script>
 </head>
 <body>
 
@@ -13,7 +13,7 @@
 
 <script type="text/javascript">
     var map;
-    L.onLoad(function () {
+    L.DG.then(function () {
         map = new L.Map('map', {
             'center': new L.LatLng(54.980206086231, 82.898068362003),
             'zoom': 13,

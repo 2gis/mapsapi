@@ -3,7 +3,7 @@
 <head>
   <meta charset='utf-8'>
   <title>Leaflet.Control.Locate Demo</title>
-  <script src="http://maps.api.2gis.dev/2.0/loader.js?pkg=full&mode=debug"></script>
+  <script src="http://maps.api.2gis.dev/2.0/loader.js?pkg=full&mode=debug" data-id="dgLoader"></script>
 
 </head>
 <body>
@@ -12,7 +12,7 @@
 
   <script type="text/javascript">
 
-  L.onLoad(function () {
+  L.DG.then(function () {
 
     map = new L.Map('map', {
         center: new L.LatLng(54.980206086231, 82.898068362003),
