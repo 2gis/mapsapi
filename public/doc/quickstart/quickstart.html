@@ -1,0 +1,91 @@
+<h2>Общие сведения</h2>
+<p>При помощи API карт вы сможете:</p>
+<ul>
+<li>создавать интерактивные карты на веб-странице;</li>
+<li>показывать на карте различные объекты (маркеры, балуны, геометрические фигуры);</li>
+<li>производить поиск на карте: определять координаты геообъектов по их названиям и названия по координатам.</li>
+</ul>
+<h2>Начало работы</h2>
+<p>Ниже приведен простой пример создания карты.</p>
+<h3>Подключите API</h3>
+<p>Для подключения JavaScript кода API добавьте в секцию head HTML-страницы следующий код:</p>
+<pre><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;</code></pre>
+<h3>Создайте контейнер карты</h3>
+<p>Для создания контейнера, в котором будет отображаться карта, необходимо добавить блочный HTML-элемент необходимого вам размера:</p>
+<pre><code>&lt;body&gt;
+    &lt;div id=&quot;map&quot; style=&quot;width:500px; height:400px&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;</code></pre>
+<h3>Создайте карту</h3>
+<p>Теперь все готово к тому, чтобы создать карту. Для этого добавьте следующий код в секцию head:</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    var map;
+
+    DG.then(function () {
+        map = DG.map(&#39;map&#39;, {
+            &quot;center&quot;: [54.98, 82.89],
+            &quot;zoom&quot;: 13
+        });
+    });
+&lt;/script&gt;</code></pre>
+<p>В данном примере карта принимает два параметра:</p>
+<ul>
+<li>center - координаты центра карты в формате [широта, долгота];</li>
+<li>zoom - коэффициент масштабирования в диапазоне от 1 до 18.</li>
+</ul>
+<h3>Добавьте маркер на карту</h3>
+<p>После создания карты вы можете отобразить на ней маркер, добавив одну строку кода в написанный ранее код:</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    var map;
+
+    DG.then(function () {
+        map = DG.map(&#39;map&#39;, {
+            &quot;center&quot;: [54.98, 82.89],
+            &quot;zoom&quot;: 13
+        });
+
+        DG.marker([54.98, 82.89]).addTo(map);
+    });
+&lt;/script&gt;</code></pre>
+<h3>Покажите балун с информацией</h3>
+<p>Если немного расширить добавленную выше строку кода с маркером, тогда при клике в маркер будет отображаться балун (всплывающий блок) с необходимой вам информацией:</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    var map;
+
+    DG.then(function () {
+        map = DG.map(&#39;map&#39;, {
+            &quot;center&quot;: [54.98, 82.89],
+            &quot;zoom&quot;: 13
+        });
+
+        DG.marker([54.98, 82.89]).addTo(map).bindPopup(&#39;Вы кликнули по мне!&#39;);
+    });
+&lt;/script&gt;</code></pre>
+<h3>Всё вместе</h3>
+<p>Результирующий код:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=utf-8 /&gt;
+        &lt;title&gt;API карт 2ГИС&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot;&gt;
+            var map;
+
+            DG.then(function () {
+                map = DG.map(&#39;map&#39;, {
+                    &quot;center&quot;: [54.98, 82.89],
+                    &quot;zoom&quot;: 13
+                });
+
+                DG.marker([54.98, 82.89]).addTo(map).bindPopup(&#39;Вы кликнули по мне!&#39;);
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width:500px; height:400px&quot;&gt;&lt;/div&gt;  
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h2>Дальнейшие шаги</h2>
+<p>Всё получилось? Теперь можно ознакомиться с <a href="/doc/2.0/maps/manual/loading">руководством для разработчиков</a> и <a href="doc/2.0/maps/examples/base">примерами использования</a>.</p>
+<h2>Техническая поддержка</h2>
+<p>Если у вас возникли сложности в работе с API карт &mdash; ознакомьтесь с разделом <a href="https://api2gis.uservoice.com">Идеи и вопросы</a>, либо <a href="mailto:api@2gis.ru">напишите нам письмо</a> и мы обязательно поможем вам разобраться.</p>

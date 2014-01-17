@@ -1,12 +1,150 @@
-<h2>L.Map</h2>
-<p>Основной класс API &mdash; используется для создания и управления картами на странице.</p>
-<h3>Пример использования</h3>
-<pre><code>// инициализация карты в элементе div с id &quot;map&quot; с указанием координат центра карты и уровня зума
-var map = L.map(&#39;map&#39;, {
-    center: [51.505, -0.09],
-    zoom: 13
-});</code></pre>
-<h3>Конструктор</h3>
+## Loader
+
+Чтобы быстро начать использовать API достаточно подключить наш загрузчик в `<head></head>`:
+
+`<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark&lazy=true" data-id="dgLoader"></script>`
+
+* атрибут `data-id="dgLoader"` является обязательным.
+
+### Опции
+
+<table>
+    <tr>
+        <th>Опции</th>
+        <th>По умолчанию</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>pkg</b></code></td>
+        <td><code>full</code></td>
+        <td>Загрузка пакета, содержащего набор определенных модулей (full - содержит в себе все доступные модули).</td>
+    </tr>
+    <tr>
+        <td><code><b>mod</b></code></td>
+        <td><code>null</code></td>
+        <td>Указание конкретных модулей для загрузки. Если задать этот параметр, то параметр pkg будет проигнорирован.</td>
+    </tr>
+    <tr>
+        <td><code><b>skin</b></code></td>
+        <td><code>light</code></td>
+        <td>Указать желаемый скин приложения, в базовой поставке доступны cкины light и dark.</td>
+    </tr>
+    <tr>
+        <td><code><b>mode</b></code></td>
+        <td><code>null</code></td>
+        <td>Если указать значение debug, загрузится не минифицированная версия API.</td>
+    </tr>
+    <tr>
+        <td><code><b>lazy</b></code></td>
+        <td><code>false</code></td>
+        <td>Если указать значение true, API загрузится отложено, при первом вызове L.DG.then.</td>
+    </tr>
+</table>
+
+## L.DG.then
+
+Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:
+
+    L.DG.then(function () {
+             map = new L.Map('map', {
+                'center': new L.LatLng(54.980206086231, 82.898068362003),
+                'zoom': 13,
+                'dgGeoclicker': true
+            });
+        }, function () {console.log('rejected');})
+        .then(function () {
+            console.log('deferred handler');}
+        })
+
+
+### Интерфейс
+
+<table>
+    <tr>
+        <th>Вызов</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.DG.then</b>(
+            <nobr>&lt;Function&gt; <i>resolve</i>,</nobr>
+            <nobr>&lt;Function&gt; <i>reject</i></nobr>)
+        </code></td>
+        <td><code>Promise</code></td>
+        <td>Регистрирует обработчики для выполнения по завершению загрузки API, resolve - отрабатывают в случае успешной загрузки, reject - в случае, если сервер не отдал собранные js и css исходники.</td>
+    </tr>
+</table>
+
+Т.к. в основе L.DG.then использованы Promise, вызов L.DG.then в любой момент после загрузки API, мгновенно выполнит обработчик.
+
+## L.DG.plugin
+
+Интерфейс для подключения плагинов, зависящих от API или Leaflet:
+
+    L.DG.then(function () {
+            //загрузка плагинов
+            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+        })
+        .then(function () {
+            //инициализация карты
+            var map = new L.Map('map', {
+                'center': new L.LatLng(54.980206086231, 82.898068362003),
+                'zoom': 13,
+                'dgGeoclicker': true
+            });
+            //инициализация плагина
+            var hash = new L.Hash(map);
+        })
+
+Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:
+
+    L.DG.then(function () {
+            //инициализация карты
+            var map = new L.Map('map', {
+                'center': new L.LatLng(54.980206086231, 82.898068362003),
+                'zoom': 13,
+                'dgGeoclicker': true
+            });
+        }).then(function () {
+            //загрузка плагинов
+            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+        }).then(function () {
+            //инициализация плагина
+            var hash = new L.Hash(map);
+        })
+
+### Интерфейс
+
+<table>
+    <tr>
+        <th>Вызов</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>L.DG.plugin</b>(
+            <nobr>&lt;String&gt; <i>String Url</i>/</nobr>
+            <nobr>&lt;Array&gt; <i>[String Url, String Url...]</i></nobr>)
+        </code></td>
+        <td><code>Promise</code></td>
+        <td>Загружает и добавляет сторонние плагины в head секцию html-документа, принимает прямые ссылки на js и css файлы. Файлы должны быть указанны в правильном порядке.</td>
+    </tr>
+</table>
+
+## L.Map
+
+Основной класс API &mdash; используется для создания и управления картами на странице.
+
+### Пример использования
+
+    // инициализация карты в элементе div с id "map" с указанием координат центра карты и уровня зума
+    var map = L.map('map', {
+        center: [51.505, -0.09],
+        zoom: 13
+    });
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -27,7 +165,8 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
+
 <table>
     <tr>
         <th>Опции</th>
@@ -57,11 +196,12 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>maxBounds</b></code></td>
         <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
         <td><code>null</code></td>
-        <td>Если свойство установлено, карта ограничивает область просмотра согласно заданным географическим границам, &quot;отбрасывая&quot; пользователя назад, если он пытается выйти за пределы установленных границ, а также не позволяет уменьшить масштаб так, чтобы можно было просмотреть неразрешенные участки карты. Для установки ограничения динамически используйте метод <a href="#map-setmaxbounds">setMaxBounds</a>.</td>
+        <td>Если свойство установлено, карта ограничивает область просмотра согласно заданным географическим границам, "отбрасывая" пользователя назад, если он пытается выйти за пределы установленных границ, а также не позволяет уменьшить масштаб так, чтобы можно было просмотреть неразрешенные участки карты. Для установки ограничения динамически используйте метод <a href="#map-setmaxbounds">setMaxBounds</a>.</td>
     </tr>
 </table>
 
-<h4>Опции взаимодействия</h4>
+#### Опции взаимодействия
+
 <table>
   <tr>
         <th>Опция</th>
@@ -79,19 +219,19 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>touchZoom</b></code></td>
         <td><code>Boolean</code></td>
         <td><code>true</code></td>
-        <td>Разрешено ли изменять масштаб карты 2мя пальцами на тач-устройствах.</td>
+        <td>Разрешено ли изменять масштаб карты двумя пальцами на тач-устройствах.</td>
     </tr>
     <tr>
         <td><code><b>scrollWheelZoom</b></code></td>
-        <td><code>Boolean</code></td>
-        <td><code>true</code></td>
-        <td>Разрешено ли изменять масштаб карты колесиком мышки.</td>
+        <td><code>Boolean/String</code></td>
+        <td><code>true/''</code></td>
+        <td>Разрешено ли изменять масштаб карты колесиком мышки. Если передано значение 'center', карта всегда зумится в центр вьюпорта, независимо от положения курсора.</td>
     </tr>
     <tr>
         <td><code><b>doubleClickZoom</b></code></td>
-        <td><code>Boolean</code></td>
-        <td><code>true</code></td>
-        <td>Разрешено ли изменять масштаб карты двойным кликом мышки.</td>
+        <td><code>Boolean/String</code></td>
+        <td><code>true/''</code></td>
+        <td>Разрешено ли изменять масштаб карты двойным кликом мышки. Если передано значение 'center', карта всегда зумится в центр вьюпорта, независимо от положения курсора.</td>
     </tr>
     <tr>
         <td><code><b>boxZoom</b></code></td>
@@ -117,9 +257,16 @@ var map = L.map(&#39;map&#39;, {
         <td><code>true</code></td>
         <td>Закрывать ли балуны при клике на карту.</td>
     </tr>
+    <tr>
+        <td><code><b>bounceAtZoomLimits</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code>false</code></td>
+        <td>Опция позволяет установить анимацию восстановления карты при зуме пальцами на тач-устройствах на min/max уровнях зума.</td>
+    </tr>
 </table>
 
-<h4>Навигация клавишами</h4>
+#### Навигация клавишами
+
 <table>
   <tr>
     <th>Опция</th>
@@ -137,18 +284,18 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>keyboardPanOffset</b></code></td>
         <td><code>Number</code></td>
         <td><code>80</code></td>
-        <td>Указывает, на сколько пикселей сдвинется катра при нажатии стрелки на клавиатуре.</td>
+        <td>Указывает, на сколько пикселей сдвинется карта при нажатии стрелки на клавиатуре.</td>
     </tr>
     <tr>
         <td><code><b>keyboardZoomOffset</b></code></td>
         <td><code>Number</code></td>
         <td><code>1</code></td>
-        <td>Указывает, на сколько уровней изменится масштаб при нажанитии на кнопки <code>+</code>/<code>-</code>.</td>
+        <td>Указывает, на сколько уровней изменится масштаб при нажатии на кнопки <code>+</code>/<code>-</code>.</td>
     </tr>
 </table>
 
 
-<h4>Инерция движения карты</h4>
+#### Инерция движения карты
 <table>
   <tr>
     <th>Опция</th>
@@ -178,12 +325,12 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>inertiaThreshold</b></code></td>
         <td><code>Number</code></td>
         <td><code>depends</code></td>
-        <td>Колличество миллисекунд, которое должно пройти между остановкой движения карты и отпусканием кнопки мышки, для прекращения эффекта инерции. По умолчанию <code>32</code> для тач-устройств и <code>14</code> для остальных.</td>
+        <td>Количество миллисекунд, которое должно пройти между остановкой движения карты и отпусканием кнопки мышки, для прекращения эффекта инерции. По умолчанию <code>32</code> для тач-устройств и <code>14</code> для остальных.</td>
     </tr>
 </table>
 
 
-<h4>Элементы управления</h4>
+#### Элементы управления
 <table>
     <tr>
         <th>Опция</th>
@@ -206,7 +353,7 @@ var map = L.map(&#39;map&#39;, {
 </table>
 
 
-<h4>Опции анимации</h4>
+#### Опции анимации
 <table>
     <tr>
         <th>Опция</th>
@@ -218,7 +365,7 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>fadeAnimation</b></code></td>
         <td><code>Boolean</code></td>
         <td>depends</td>
-        <td>Включена ли анимция затухания тайлов. По умолчанию включена во всех браузерах поддерживающих CSS3 transitions, кроме Android.</td>
+        <td>Включена ли анимация затухания тайлов. По умолчанию включена во всех браузерах поддерживающих CSS3 transitions, кроме Android.</td>
     </tr>
     <tr>
         <td><code><b>zoomAnimation</b></code></td>
@@ -241,8 +388,10 @@ var map = L.map(&#39;map&#39;, {
 </table>
 
 
-<h3>События</h3>
-<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+### События
+
+Вы можете подписаться на следующие события используя [эти методы][39].
+
 <table>
     <tr>
         <th>События</th>
@@ -307,7 +456,7 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>load</b></code></td>
         <td><code><a href="#event">Event</a></code>
-        <td>Вызыватся при инициализации карты (при первой установке ее центра и масштаба).</td>
+        <td>Вызывается при инициализации карты (при первой установке ее центра и масштаба).</td>
     </tr>
     <tr id="map-viewreset">
         <td><code><b>viewreset</b></code></td>
@@ -327,7 +476,7 @@ var map = L.map(&#39;map&#39;, {
     <tr id="map-moveend">
         <td><code><b>moveend</b></code></td>
         <td><code><a href="#event">Event</a></code>
-        <td>Вызывается при окончании передвижения краты (непример, когда пользователь прекращает перетаскивать карту).</td>
+        <td>Вызывается при окончании передвижения краты (например, когда пользователь прекращает перетаскивать карту).</td>
     </tr>
     <tr>
         <td><code><b>dragstart</b></code></td>
@@ -341,7 +490,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
     <tr>
         <td><code><b>dragend</b></code></td>
-        <td><code><a href="#event">Event</a></code>
+        <td><code><a href="#dragend-event">DragEndEvent</a></code>
         <td>Вызывается когда пользователь прекращает перетаскивать карту.</td>
     </tr>
     <tr>
@@ -365,12 +514,12 @@ var map = L.map(&#39;map&#39;, {
         <td>Вызывается при изменении размера карты.</td>
     </tr>
     <tr>
-        <td><code><b>dgEnterFullScreen</b></code></td>
+        <td><code><b>requestfullscreen</b></code></td>
         <td><code><a href="#event">Event</a></code>
         <td>Вызывается при активации полноэкранного режима.</td>
     </tr>
     <tr>
-        <td><code><b>dgExitFullScreen</b></code></td>
+        <td><code><b>cancelfullscreen</b></code></td>
         <td><code><a href="#event">Event</a></code>
         <td>Вызывается при выходе из полноэкранного режима.</td>
     </tr>
@@ -387,7 +536,7 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>locationfound</b></code></td>
         <td><code><a href="#location-event">LocationEvent</a></code>
-        <td>Вызываеся при успешном обнаружении местоположения пользователя (используется метод <a href="#map-locate">locate</a>).</td>
+        <td>Вызывается при успешном обнаружении местоположения пользователя (используется метод <a href="#map-locate">locate</a>).</td>
     </tr>
     <tr>
         <td><code><b>locationerror</b></code></td>
@@ -405,28 +554,28 @@ var map = L.map(&#39;map&#39;, {
         <td>Вызывается при закрытии балуна (используется метод <code>closePopup</code>).</td>
     </tr>
     <tr>
-        <td><code><b>dgEntranceShow</b></code></td>
+        <td><code><b>entranceshow</b></code></td>
         <td><code><a href="#event">Event</a></code>
         <td>Вызывается при отображении входа в здание.</td>
     </tr>
     <tr>
-        <td><code><b>dgEntranceHide</b></code></td>
+        <td><code><b>entrancehide</b></code></td>
         <td><code><a href="#event">Event</a></code>
         <td>Вызывается при скрытии входа в здание.</td>
     </tr>
     <tr>
-        <td><code><b>dgPoiHover</b></code></td>
+        <td><code><b>poihover</b></code></td>
         <td><code><a href="#event">Event</a></code>
         <td>Вызывается при наведении курсора мышки на POI.</td>
     </tr>
     <tr>
-        <td><code><b>dgPoiLeave</b></code></td>
+        <td><code><b>poileave</b></code></td>
         <td><code><a href="#event">Event</a></code>
         <td>Вызывается когда курсор мышки покидает область POI.</td>
     </tr>
 </table>
 
-<h3>Методы изменения состояния карты</h3>
+### Методы изменения состояния карты
 <table>
     <tr>
         <th>Метод</th>
@@ -436,11 +585,11 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>setView</b>(
             <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>center</i>,</nobr>
-            <nobr>&lt;Number&gt; <i>zoom</i>,</nobr>
+            <nobr>&lt;Number&gt; <i>zoom?</i>,</nobr>
             <nobr>&lt;<a href="#map-zoompanoptions">zoom/pan options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
         <td><code>this</code></td>
-        <td>Устнавливает область просмотра карты (географический центр и масштаб). Если <code>forceReset</code> установлен в <code>true</code>, карта перезагружается при перетаскивании и изменении масштаба (по умолчанию <code>false</code>).</td>
+        <td>Устанавливает область просмотра карты (географический центр и масштаб). Если <code>forceReset</code> установлен в <code>true</code>, карта перезагружается при перетаскивании и изменении масштаба (по умолчанию <code>false</code>).</td>
     </tr>
     <tr>
         <td><code><b>setZoom</b>(
@@ -484,7 +633,7 @@ var map = L.map(&#39;map&#39;, {
         <td>Устанавливает область просмотра карты так, чтобы она содержала заданные границы на максимально возможном уровне масштаба.</td>
     </tr>
     <tr id="map-fitworld">
-        <code><b>fitWorld</b>(
+        <td><code><b>fitWorld</b>(
             <nobr>&lt;<a href="#map-fitboundsoptions">fitBounds options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
         <td><code>this</code></td>
@@ -500,10 +649,11 @@ var map = L.map(&#39;map&#39;, {
     </tr>
     <tr id="map-paninsidebounds">
         <td><code><b>panInsideBounds</b>(
-            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
+            <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>,
+            <nobr>&lt;<a href="#map-panoptions">pan options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
         <td><code>this</code></td>
-        <td>Перемещает карту в ближайшую область просмотра, лежащую в пределах заданных границ.</td>
+        <td>Перемещает карту в ближайшую область просмотра, лежащую в пределах заданных границ. Можно контролировать анимацию, передавая объект опций вторым параметром.</td>
     </tr>
     <tr>
         <td><code><b>panBy</b>(
@@ -547,7 +697,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Методы получения состояния карты</h3>
+### Методы получения состояния карты
 <table>
     <tr>
         <th>Метод</th>
@@ -606,7 +756,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Методы слоев и элементов управления</h3>
+### Методы слоев и элементов управления
 <table>
     <tr>
         <th>Метод</th>
@@ -637,6 +787,14 @@ var map = L.map(&#39;map&#39;, {
 
         <td><code>Boolean</code></td>
         <td>Возвращает <code>true</code>, если переданный слой в данный момент добавлен на карту.</td>
+    </tr>
+    <tr>
+        <td><code><b>getLayer</b>(
+            <nobr>&lt;String&gt;)</nobr>
+        </code></td>
+
+        <td><code><a href="#ilayer">&lt;ILayer</a>&gt; <i>layer</i></code></td>
+        <td>Возвращает cлой по заданному идентификатору. Указать свой идентификатор для слоя можно, задав значения свойства options.uid объекту слоя.</td>
     </tr>
 
     <tr id="map-openpopup">
@@ -681,7 +839,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Методы преобразования</h3>
+### Методы преобразования
 <table>
     <tr>
         <th>Метод</th>
@@ -702,7 +860,7 @@ var map = L.map(&#39;map&#39;, {
         </code></td>
 
         <td><code><a href="#latlng">LatLng</a></code></td>
-        <td>Возвращает георграфические координаты, соответствующие переданной точке на карте.</td>
+        <td>Возвращает географические координаты, соответствующие переданной точке на карте.</td>
     </tr>
     <tr>
         <td><code><b>containerPointToLayerPoint</b>(
@@ -780,7 +938,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Другие методы</h3>
+### Другие методы
 <table>
     <tr>
         <th>Метод</th>
@@ -802,11 +960,11 @@ var map = L.map(&#39;map&#39;, {
             <nobr>&lt;Function&gt; <i>fn</i></nobr>,
             <nobr>&lt;Object&gt; <i>context?</i> )</nobr></code></td>
         <td><code>this</code></td>
-        <td>Выполняет функцию <code>fn</code> после инициализации карты или сразу, если она была инициализирована ранее. Опцинально можно передать контекст выполнения.</td>
+        <td>Выполняет функцию <code>fn</code> после инициализации карты или сразу, если она была инициализирована ранее. Опционально можно передать контекст выполнения.</td>
     </tr>
 </table>
 
-<h3>Опции определения местоположения</h3>
+### Опции определения местоположения
 <table>
     <tr>
         <th>Опция</th>
@@ -824,7 +982,7 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>setView</b></code></td>
         <td><code>Boolean</code></td>
         <td><code>false</code></td>
-        <td>Если <code>true</code>, тогда автоматически устанавливает область просмотра карты в точку местоположения пользователя в соотвествии с точностью определения. В случае ошибки поиска отображаетcя карта мира.</td>
+        <td>Если <code>true</code>, тогда автоматически устанавливает область просмотра карты в точку местоположения пользователя в соответствии с точностью определения. В случае ошибки поиска отображаетcя карта мира.</td>
     </tr>
     <tr>
         <td><code><b>maxZoom</b></code></td>
@@ -836,7 +994,7 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>timeout</b></code></td>
         <td><code>Number</code></td>
         <td><code>10000</code></td>
-        <td>Колличество миллисекунд ожидания ответа геолокации перед тем как вызовется событие <code>locationerror</code>.</td>
+        <td>Количество миллисекунд ожидания ответа геолокации перед тем как вызовется событие <code>locationerror</code>.</td>
     </tr>
     <tr>
         <td><code><b>maximumAge</b></code></td>
@@ -968,13 +1126,24 @@ var map = L.map(&#39;map&#39;, {
         <td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
         <td>Эквивалентно установке и верхнего левого и нижнего правого отступов в одинаковые значения.</td>
     </tr>
+    <tr>
+        <td><code><b>maxZoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><nobr>null</nobr>
+        <td>Максимальный уровень зума.</td>
+    </tr>
 </table>
 
-<h3>Свойства</h3>
-<p>Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение опредленных возможностей карты, таких как зум и тач-события (см. методы <a href="#ihandler">IHandler</a>). Например:</p>
-<pre><code>map.doubleClickZoom.disable();</code></pre>
-<p>Вы также можете получить доступ к элементам управления картой, которые включены по умолчанию, например, к элементу управления масштабом:</p>
-<pre><code>map.zoomControl.setPosition(&#39;topright&#39;);</code></pre>
+### Свойства
+
+Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение определенных возможностей карты, таких как зум и тач-события (см. методы [IHandler][51]). Например:
+
+    map.doubleClickZoom.disable();
+
+Вы также можете получить доступ к элементам управления картой, которые включены по умолчанию, например, к элементу управления масштабом:
+
+    map.zoomControl.setPosition('topright');
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -999,17 +1168,17 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>scrollWheelZoom</b></code></td>
         <td><a href="#ihandler"><code>IHandler</code></a></td>
-        <td>Обработчик масштабирования по скролу.</td>
+        <td>Обработчик масштабирования по скроллу.</td>
     </tr>
     <tr>
         <td><code><b>boxZoom</b></code></td>
         <td><a href="#ihandler"><code>IHandler</code></a></td>
-        <td>Обработчик вox-масштабирования (shift + выделение мышкой).</td>
+        <td>Обработчик box-масштабирования (shift + выделение мышкой).</td>
     </tr>
     <tr>
         <td><code><b>keyboard</b></code></td>
         <td><a href="#ihandler"><code>IHandler</code></a></td>
-        <td>Обработчк навигации с помощью клавиатуры.</td>
+        <td>Обработчик навигации с помощью клавиатуры.</td>
     </tr>
     <tr>
         <td><code><b>zoomControl</b></code></td>
@@ -1023,8 +1192,9 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Панели карты</h3>
-<p>Объект (возвращаемый методом <a href="#map-getpanes">map.getPanes</a>) содержит панели карты, которые можно использовать для собственных слоев. Основное различие панелей в параметре <code>zIndex</code>, определяющем очередь наложения.</p>
+### Панели карты
+
+Объект (возвращаемый методом [map.getPanes][74]) содержит панели карты, которые можно использовать для собственных слоев. Основное различие панелей в параметре `zIndex`, определяющем очередь наложения.
 <table>
     <tr>
         <th>Свойство</th>
@@ -1068,10 +1238,13 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h2>L.Marker</h2>
-<p>Используется для добавления маркеров на карту.</p>
-<pre><code>L.marker([50.5, 30.5]).addTo(map);</code></pre>
-<h3>Конструктор</h3>
+## L.Marker
+
+Используется для добавления маркеров на карту.
+
+    L.marker([50.5, 30.5]).addTo(map);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -1092,7 +1265,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
 <table>
     <tr>
         <th>Опция</th>
@@ -1121,14 +1294,20 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>title</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;&#39;</code></td>
-        <td>Текст для отображения подсказки при наведении курсора на маркер (по умолчанию не ототбражается).</td>
+        <td><code>''</code></td>
+        <td>Текст для отображения подсказки при наведении курсора на маркер (по умолчанию не отображается).</td>
+    </tr>
+    <tr>
+        <td><code><b>alt</b></code></td>
+        <td><code>String</code></td>
+        <td><code>''</code></td>
+        <td>Текст для alt атрибута иконки.</td>
     </tr>
     <tr id="marker-zindexoffset">
         <td><code><b>zIndexOffset</b></code></td>
         <td><code>Number</code></td>
         <td><code>0</code></td>
-        <td>По умолчанию изображению маркера свойство z-index устнавливается автоматически. Используйте эту опцию, если необходимо разместить маркер поверх (или снизу) других элементов, указав наибольшее (или наименьшее) значние.</td>
+        <td>По умолчанию изображению маркера свойство z-index устанавливается автоматически. Используйте эту опцию, если необходимо разместить маркер поверх (или снизу) других элементов, указав наибольшее (или наименьшее) значение.</td>
     </tr>
     <tr>
         <td><code><b>opacity</b></code></td>
@@ -1150,8 +1329,10 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>События</h3>
-<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+### События
+
+Вы можете подписаться на следующие события используя [эти методы][39].
+
 <table>
     <tr>
         <th>Событие</th>
@@ -1200,13 +1381,18 @@ var map = L.map(&#39;map&#39;, {
     </tr>
     <tr>
         <td><code><b>dragend</b></code></td>
-        <td><code><a href="#event">Event</a></code>
+        <td><code><a href="#dragend-event">DragEndEvent</a></code>
         <td>Вызывается когда пользователь прекращает перетаскивание маркера.</td>
     </tr>
     <tr>
         <td><code><b>move</b></code></td>
         <td><code><a href="#event">Event</a></code>
         <td>Вызывается при перемещении маркера с помощью метода setLatLng.</td>
+    </tr>
+    <tr>
+        <td><code><b>add</b></code></td>
+        <td><code><a href="#event">Event</a></code></td>
+        <td>Вызывается при добавлении маркера на карту.</td>
     </tr>
     <tr>
         <td><code><b>remove</b></code></td>
@@ -1225,7 +1411,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -1304,7 +1490,7 @@ var map = L.map(&#39;map&#39;, {
     <tr id="marker-closepopup">
         <td><code><b>closePopup</b>()</code></td>
         <td><code>this</code></td>
-        <td>Закрвает балун, если тот был открыт.</td>
+        <td>Закрывает балун, если тот был открыт.</td>
     </tr>
     <tr id="marker-togglepopup">
         <td><code><b>togglePopup</b>()</code></td>
@@ -1326,9 +1512,12 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Обработчики взаимодействия</h3>
-<p>Свойства маркера включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение маркера, а также подключение и отключение определенных возможностей, таких как перетаскивание (см. <a href="#ihandler">IHandler</a>). Например:</p>
-<pre><code>marker.dragging.disable();</code></pre>
+### Обработчики взаимодействия
+
+Свойства маркера включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение маркера, а также подключение и отключение определенных возможностей, таких как перетаскивание (см. [IHandler][51]). Например:
+
+    marker.dragging.disable();
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -1342,17 +1531,24 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h2>L.Popup</h2>
-<p>Используется для отображения балунов на карте. Для открытия балуна можно использовать метод <a href="#map-openpopup">Map#openPopup</a>, в таком случе одновременно может быть открыт лишь один балун, либо <a href="#map-addlayer">Map#addLayer</a> для отображения любого колличества балунов.</p>
-<h3>Пример использования</h3>
-<p>Включить отображения балуна по клику на маркер очень легко:</p>
-<pre><code>marker.bindPopup(popupContent).openPopup();</code></pre>
-<p>У дополнительных слоев, таких как ломаные также есть метод <code>bindPopup</code>. Вот более сложный пример отображения балуна:</p>
-<pre><code>var popup = L.popup()
-    .setLatLng(latlng)
-    .setContent(&#39;&lt;p&gt;Привет!&lt;br /&gt;Я балун.&lt;/p&gt;&#39;)
-    .openOn(map);</code></pre>
-<h3>Конструктор</h3>
+## L.Popup
+
+Используется для отображения балунов на карте. Для открытия балуна можно использовать метод [Map#openPopup][72], в таком случае одновременно может быть открыт лишь один балун, либо [Map#addLayer][81] для отображения любого количества балунов.
+
+### Пример использования
+
+Включить отображения балуна по клику на маркер очень легко:
+
+    marker.bindPopup(popupContent).openPopup();
+
+У дополнительных слоев, таких как ломаные также есть метод `bindPopup`. Вот более сложный пример отображения балуна:
+
+    var popup = L.popup()
+        .setLatLng(latlng)
+        .setContent('<p>Привет!<br />Я балун.</p>')
+        .openOn(map);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -1362,18 +1558,18 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>L.Popup</b>(
             <nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i>,</nobr>
-            <nobr>&lt;object&gt; <i>source?</i> )</nobr>
+            <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>source?</i> )</nobr>
         </code></td>
 
         <td>
             <code>L.popup(&hellip;)</code>
         </td>
 
-        <td>Создает объект <code>Popup</code> с переданными опциями, описывающими внешний вид и расположение балуна, и объектом, указывающим привязку балуна к определенному элементу.</td>
+        <td>Создает объект <code>Popup</code> с переданными опциями, описывающими внешний вид и расположение балуна, и объектом, указывающим привязку балуна к определенному ILayer.</td>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
 <table>
     <tr>
         <th>Опция</th>
@@ -1425,11 +1621,25 @@ var map = L.map(&#39;map&#39;, {
         <td>Устанавливает отступ позиции балуна. Удобно для управления ножкой балуна.</td>
     </tr>
     <tr>
+        <td><code><b>autoPanPaddingTopLeft</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td><code><nobr>null</nobr>
+        </code></td>
+        <td>Задает расстояние от края балуна до левого верхнего угла карты при автоматическом сдвиге.</td>
+    </tr>
+    <tr>
+        <td><code><b>autoPanPaddingBottomRight</b></code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td><code><nobr>null</nobr>
+        </code></td>
+        <td>Задает расстояние от края балуна до правого нижнего угла карты при автоматическом сдвиге.</td>
+    </tr>
+    <tr>
         <td><code><b>autoPanPadding</b></code></td>
         <td><code><a href="#point">Point</a></code></td>
         <td><code><nobr>Point(5, 5)</nobr>
         </code></td>
-        <td>Задает расстояние от края балуна до границы карты при автоматическом сдвиге.</td>
+        <td>Задает расстояние от края балуна до границы карты при автоматическом сдвиге, устанавливает одинаковые значения для autoPanPaddingBottomRight и autoPanPaddingTopLeft.</td>
     </tr>
     <tr>
         <td><code><b>zoomAnimation</b></code></td>
@@ -1445,7 +1655,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -1477,6 +1687,14 @@ var map = L.map(&#39;map&#39;, {
         <td>Устанавливает географические координаты точки открытия балуна.</td>
     </tr>
     <tr>
+        <td><code><b>getLatLng</b>(
+            <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+        </code></td>
+
+        <td><code>this</code></td>
+        <td>Возвращает географические координаты точки открытия балуна.</td>
+    </tr>
+    <tr>
         <td><code><b>setHeaderContent</b>(
             <nobr>&lt;String&gt;/&lt;DOM-element&gt;  <i>content</i> )</nobr>
         </code></td>
@@ -1500,16 +1718,25 @@ var map = L.map(&#39;map&#39;, {
         <td><code>this</code></td>
         <td>Задает содержимое секции footer балуна. Может принимать HTML строку или DOM-элемент.</td>
     </tr>
+    <tr>
+        <td><code><b>getContent</b>()</code></td>
+        <td><code>&lt;String|HTMLElement&gt;</code></td>
+        <td>Возвращает контент балуна.</td>
+    </tr>
 </table>
 
-<h2>L.TileLayer</h2>
-<p>Используется для загрузки и отображения тайлового слоя на карте, реализует интерфейс <a href="#ilayer">ILayer</a>.</p>
-<h3>Пример использования</h3>
-<pre><code>L.tileLayer(&#39;http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png&#39;, {
-    key: &#39;API-key&#39;,
-    styleId: 997
-}).addTo(map);</code></pre>
-<h3>Конструктор</h3>
+## L.TileLayer
+
+Используется для загрузки и отображения тайлового слоя на карте, реализует интерфейс [ILayer][52].
+
+### Пример использования
+
+    L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
+        key: 'API-key',
+        styleId: 997
+    }).addTo(map);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -1530,13 +1757,19 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>URL шаблон</h3>
-<p>Строка следующего вида:</p>
-<pre><code>&#39;http://{s}.somedomain.com/blabla/{z}/{x}/{y}.png&#39;</code></pre>
-<p><code>{s}</code> &mdash; один из доступных поддоменов (используется для параллельной загрузки тайлов браузером). Поддомены указываются в опциях. <code>a</code>, <code>b</code> или <code>c</code> &mdash; значения по умочанию, <code>{z}</code> &mdash; уровень зума, <code>{x}</code> и <code>{y}</code> &mdash; координаты тайлов в тайловой сетке.</p>
-<p>В шаблонах можно использовать собственные ключи, например так:</p>
-<pre><code>L.tileLayer(&#39;http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png&#39;, {foo: &#39;bar&#39;});</code></pre>
-<h3>Опции</h3>
+### URL шаблон
+
+Строка следующего вида:
+
+    'http://{s}.somedomain.com/blabla/{z}/{x}/{y}.png'
+
+`{s}` &mdash; один из доступных поддоменов (используется для параллельной загрузки тайлов браузером). Поддомены указываются в опциях. `a`, `b` или `c` &mdash; значения по умолчанию, `{z}` &mdash; уровень зума, `{x}` и `{y}` &mdash; координаты тайлов в тайловой сетке.
+
+В шаблонах можно использовать собственные ключи, например так:
+
+    L.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
+
+### Опции
 <table>
     <tr>
         <th>Опция</th>
@@ -1557,6 +1790,12 @@ var map = L.map(&#39;map&#39;, {
         <td>Максимальный уровень зума.</td>
     </tr>
     <tr>
+        <td><code><b>maxNativeZoom</b></code></td>
+        <td><code>Number</code></td>
+        <td><code><span>null</span></code></td>
+        <td>Максимальный уровень зума исходных тайлов. Если значение установлено, на всех уровнях зума больших <code>maxNativeZoom</code> будут отображены смасштабированные тайлы максимально доступного зума.</td>
+    </tr>
+    <tr>
         <td><code><b>tileSize</b></code></td>
         <td><code>Number</code></td>
         <td><code>256</code></td>
@@ -1565,19 +1804,19 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>subdomains</b></code></td>
         <td><code>String</code> or <code>String[]</code></td>
-        <td><code>&#39;abc&#39;</code></td>
+        <td><code>'abc'</code></td>
         <td>Поддомены тайлового сервиса. Могут передаваться одной строкой (где каждая буква &mdash; имя поддомена) или массивом строк.</td>
     </tr>
     <tr>
         <td><code><b>errorTileUrl</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;&#39;</code></td>
+        <td><code>''</code></td>
         <td>URL тайла, который будет показан в случае ошибки загрузки.</td>
     </tr>
     <tr>
         <td><code><b>attribution</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;&#39;</code></td>
+        <td><code>''</code></td>
         <td>Копирайты слоя.</td>
     </tr>
     <tr>
@@ -1590,7 +1829,7 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>continuousWorld</b></code></td>
         <td><code>Boolean</code></td>
         <td><code>false</code></td>
-        <td>Если установлено значение <code>true</code>, тогда координаты тайлов не будут &quot;заворачиваться&quot; по ширине (от -180&deg; до 180&deg; долготы) или высоте (от -90&deg; до 90&deg; широты). Удобно, если вы используете API для собственных карт, не отражающих реальный мир (например, игры, карты помещений, фото).</td>
+        <td>Если установлено значение <code>true</code>, тогда координаты тайлов не будут "заворачиваться" по ширине (от -180&deg; до 180&deg; долготы) или высоте (от -90&deg; до 90&deg; широты). Удобно, если вы используете API для собственных карт, не отражающих реальный мир (например, игры, карты помещений, фото).</td>
     </tr>
     <tr>
         <td><code><b>noWrap</b></code></td>
@@ -1638,18 +1877,19 @@ var map = L.map(&#39;map&#39;, {
         <td><code><b>detectRetina</b></code></td>
         <td><code><code>Boolean</code></code></td>
         <td><code>false</code></td>
-        <td>Если установлено значение <code>true</code> и у пользователя устройство с Retina экраном, тогда вместо 1го тайла будет загружено 4 с большим уровнем масштабирования, также изображениям устанавливается размер на 50% меньше их реального разрешения. Таким образом достигается лучшее качество отображения тайлов на экранах с высоким разрешением.</td>
+        <td>Если установлено значение <code>true</code> и у пользователя устройство с Retina экраном, тогда вместо одного тайла будет загружено 4 с большим уровнем масштабирования, также изображениям устанавливается размер на 50% меньше их реального разрешения. Таким образом достигается лучшее качество отображения тайлов на экранах с высоким разрешением.</td>
     </tr>
     <tr>
         <td><code><b>reuseTiles</b></code></td>
         <td><code><code>Boolean</code></code></td>
         <td><code>false</code></td>
-        <td>Если установлено значение <code>true</code>, тогда все тайлы которые не видны после изменения центра карты добавлюется в очередь переиспользования, из которой они будут взяты, если опять попадут в область видимости.</td>
+        <td>Если установлено значение <code>true</code>, тогда все тайлы которые не видны после изменения центра карты добавляются в очередь переиспользования, из которой они будут взяты, если опять попадут в область видимости.</td>
     </tr>
 </table>
 
-<h3>События</h3>
-<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+### События
+
+Вы можете подписаться на следующие события используя [эти методы][39].
 <table>
     <tr>
         <th>Событие</th>
@@ -1667,6 +1907,11 @@ var map = L.map(&#39;map&#39;, {
         <td>Вызывается при окончании загрузки видимых тайлов.</td>
     </tr>
     <tr>
+      <td><code><b>tileloadstart</b></code></td>
+      <td><code><a href="#tile-event">TileEvent</a></code></td>
+      <td>Вызывается при запросе тайла и начале его загрузки.</td>
+    </tr>
+    <tr>
         <td><code><b>tileload</b></code></td>
         <td><code><a href="#tile-event">Event</a></code>
         <td>Вызывается после загрузки тайла.</td>
@@ -1678,7 +1923,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -1739,16 +1984,20 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h2>L.TileLayer.WMS</h2>
-<p>Испльзуется для отображения данных WMS сервисов. Расширяет <a href="#tilelayer">TileLayer</a>.</p>
-<h3>Пример использования</h3>
-<pre><code>var nexrad = L.tileLayer.wms(&quot;http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi&quot;, {
-    layers: &#39;nexrad-n0r-900913&#39;,
-    format: &#39;image/png&#39;,
-    transparent: true,
-    attribution: &quot;Weather data © 2012 IEM Nexrad&quot;
-});</code></pre>
-<h3>Конструктор</h3>
+## L.TileLayer.WMS
+
+Используется для отображения данных WMS сервисов. Расширяет [TileLayer][13].
+
+### Пример использования
+
+    var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+        layers: 'nexrad-n0r-900913',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Weather data © 2012 IEM Nexrad"
+    });
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -1770,8 +2019,9 @@ var map = L.map(&#39;map&#39;, {
 </table>
 
 
-<h3>Опции</h3>
-<p>Включает все <a href="#tilelayer-options">опции TileLayer</a> и дополнительные:</p>
+### Опции
+
+Включает все [опции TileLayer][83] и дополнительные:
 <table>
     <tr>
         <th>Опция</th>
@@ -1782,20 +2032,20 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>layers</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;&#39;</code></td>
+        <td><code>''</code></td>
         <td>(обязательная) Список WMS слоев для отображения, разделяются запятой.</td>
     </tr>
     <tr>
         <td><code><b>styles</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;&#39;</code></td>
+        <td><code>''</code></td>
         <td>Список WMS стилей, разделяются запятой.</td>
     </tr>
     <tr>
         <td><code><b>format</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;image/jpeg&#39;</code></td>
-        <td>Формат WMS-изображений (используйте <code>&#39;image/png&#39;</code> для слоев с прозрачностью).</td>
+        <td><code>'image/jpeg'</code></td>
+        <td>Формат WMS-изображений (используйте <code>'image/png'</code> для слоев с прозрачностью).</td>
     </tr>
     <tr>
         <td><code><b>transparent</b></code></td>
@@ -1806,7 +2056,7 @@ var map = L.map(&#39;map&#39;, {
     <tr>
         <td><code><b>version</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;1.1.1&#39;</code></td>
+        <td><code>'1.1.1'</code></td>
         <td>Используемая версия WMS сервиса.</td>
     </tr>
     <tr>
@@ -1817,7 +2067,7 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -1834,16 +2084,20 @@ var map = L.map(&#39;map&#39;, {
     </tr>
 </table>
 
-<h2>L.TileLayer.Canvas</h2>
-<p>Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет <a href="#tilelayer">TileLayer</a>.</p>
-<h3>Пример использования</h3>
-<pre><code>var canvasTiles = L.tileLayer.canvas();
+## L.TileLayer.Canvas
 
-canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
-    var ctx = canvas.getContext(&#39;2d&#39;);
-    // отрисовываем тайл
-}</code></pre>
-<h3>Конструктор</h3>
+Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет [TileLayer][13].
+
+### Пример использования
+
+    var canvasTiles = L.tileLayer.canvas();
+
+    canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
+        var ctx = canvas.getContext('2d');
+        // отрисовываем тайл
+    }
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -1861,7 +2115,7 @@ canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
 <table>
     <tr>
         <th>Опция</th>
@@ -1877,7 +2131,7 @@ canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -1900,14 +2154,18 @@ canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
     </tr>
 </table>
 
-<h2>L.ImageOverlay</h2>
-<p>Используется для загрузки и отображаения одного изображения в определенной области карты, реализует интерфейс <a href="#ilayer">ILayer</a>.</p>
-<h3>Пример использования</h3>
-<pre><code>var imageUrl = &#39;http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg&#39;,
-    imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
+## L.ImageOverlay
 
-L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
-<h3>Конструктор</h3>
+Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс [ILayer][52].
+
+### Пример использования
+
+    var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
+        imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
+
+    L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -1929,7 +2187,7 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
 <table>
     <tr>
         <th>Опция</th>
@@ -1943,9 +2201,15 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
         <td><code>1.0</code></td>
         <td>Прозрачность слоя.</td>
     </tr>
+    <tr>
+        <td><code><b>attribution</b></code></td>
+        <td><code>String</code></td>
+        <td><code>''</code></td>
+        <td>Текст атрибуции слоя.</td>
+    </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -1969,6 +2233,14 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
         <td>Устанавливает прозрачность слоя.</td>
     </tr>
     <tr>
+        <td><code><b>setUrl</b>(
+        <nobr>&lt;String&gt; <i>imageUrl</i> )</nobr>
+        </code></td>
+
+        <td><code><span>this</span></code></td>
+        <td>Меняет URL адрес изображения.</td>
+    </tr>
+    <tr>
         <td><code><b>bringToFront</b>()</code></td>
         <td><code>this</code></td>
         <td>Позиционирует слой поверх остальных.</td>
@@ -1976,13 +2248,15 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
     <tr>
         <td><code><b>bringToBack</b>()</code></td>
         <td><code>this</code></td>
-        <td>Позиционирует слой под осталными.</td>
+        <td>Позиционирует слой под остальными.</td>
     </tr>
 </table>
 
-<h2>L.Path</h2>
-<p>Абстрактный класс, содержащий опции и константы векторных слоев (Polygon, Polyline, Circle). Никогда не используется напрямую.</p>
-<h3>Опции</h3>
+## L.Path
+
+Абстрактный класс, содержащий опции и константы векторных слоев (Polygon, Polyline, Circle). Никогда не используется напрямую.
+
+### Опции
 <table>
     <tr>
         <th>Опция</th>
@@ -1999,7 +2273,7 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
     <tr>
         <td><code><b>color</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;#03f&#39;</code></td>
+        <td><code>'#03f'</code></td>
         <td>Цвет границы.</td>
     </tr>
     <tr>
@@ -2039,10 +2313,22 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
         <td>Строка <a href="https://developer.mozilla.org/en/SVG/Attribute/stroke-dasharray">шаблона границы</a>. Не работает на canvas слоях (например, Android 2).</td>
     </tr>
     <tr>
+        <td><code><b>lineCap</b></code></td>
+        <td><code>String</code></td>
+        <td><code>null</code></td>
+        <td>Определяет <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap">фигуру, которая будет использована как наконечник</a> геометрии, если у нее задана граница(stroke).</td>
+    </tr>
+    <tr>
+        <td><code><b>lineJoin</b></code></td>
+        <td><code>String</code></td>
+        <td><code>null</code></td>
+        <td>Определяет <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin">фигуру, которая будет использована на углах изгибов</a> геометрии, если у нее задана граница(stroke).</td>
+    </tr>
+    <tr>
         <td><code><b>clickable</b></code></td>
         <td><code>Boolean</code></td>
         <td><code>true</code></td>
-        <td>Если установлено значение <code>false</code>, тогда события мышки геометрии не обрабатывются.</td>
+        <td>Если установлено значение <code>false</code>, тогда события мышки геометрии не обрабатываются.</td>
     </tr>
     <tr>
         <td><code><b>pointerEvents</b></code></td>
@@ -2050,10 +2336,17 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
         <td><code><span class="literal">null</span></code></td>
         <td>Устанавливает геометрии атрибут <code>pointer-events</code>, если для отрисовки используется SVG.</td>
     </tr>
+    <tr>
+        <td><code><b>className</b></code></td>
+        <td><code>String</code></td>
+        <td><code>''</code></td>
+        <td>Добавляет класс в соотвествующий атрибут элемента.</td>
+    </tr>
 </table>
 
-<h3>События</h3>
-<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+### События
+
+Вы можете подписаться на следующие события используя [эти методы][39].
 <table>
     <tr>
         <th>Событие</th>
@@ -2112,7 +2405,7 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -2146,7 +2439,12 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
         </code></td>
 
         <td><code>this</code></td>
-        <td>Открывате балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a> в указанной точке.</td>
+        <td>Открывает балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a> в указанной точке.</td>
+    </tr>
+    <tr>
+        <td><code><b>getPopup</b>()</code></td>
+        <td><code><a href="#popup">Popup</a>&gt; <i>popup</i></code></td>
+        <td>Возвращает балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a>.</td>
     </tr>
     <tr id="path-closepopup">
         <td><code><b>closePopup</b>()</code></td>
@@ -2184,7 +2482,7 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h3>Статические свойства</h3>
+### Статические свойства
 <table>
     <tr>
         <th>Константа</th>
@@ -2218,15 +2516,19 @@ L.imageOverlay(imageUrl, imageBounds).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h2>L.Polyline</h2>
-<p>Класс для отрисовки ломаных линий на карте. Расширяет <a href="#path">Path</a>. Используйте <a href="#map-addlayer">Map#addLayer</a> для добавления на карту.</p>
-<h3>Примеры использования</h3>
-<pre><code>// создаем красную ломаную из массива географических точек
-var polyline = L.polyline(latlngs, {color: &#39;red&#39;}).addTo(map);
+## L.Polyline
 
-// подстраиваем центр карты и масштаб так, чтобы ломаную было видно
-map.fitBounds(polyline.getBounds());</code></pre>
-<h3>Конструктор</h3>
+Класс для отрисовки ломаных линий на карте. Расширяет [Path][17]. Используйте [Map#addLayer][81] для добавления на карту.
+
+### Примеры использования
+
+    // создаем красную ломаную из массива географических точек
+    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+
+    // подстраиваем центр карты и масштаб так, чтобы ломаную было видно
+    map.fitBounds(polyline.getBounds());
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2247,8 +2549,9 @@ map.fitBounds(polyline.getBounds());</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
-<p>Возможно использование <a href="#path-options">опций класса Path</a> и дополнительных опций:</p>
+### Опции
+
+Возможно использование [опций класса Path][91] и дополнительных опций:
 <table>
     <tr>
         <th>Опция</th>
@@ -2260,7 +2563,7 @@ map.fitBounds(polyline.getBounds());</code></pre>
         <td><code><b>smoothFactor</b></code></td>
         <td><code>Number</code></td>
         <td><code>1.0</code></td>
-        <td>Степень упрощения ломаной на каждом уровне масштаба. Большее значние означает выше производительность и меньшее качество, меньшее значение &mdash; лучшее качество, но ниже производительность.</td>
+        <td>Степень упрощения ломаной на каждом уровне масштаба. Большее значение означает выше производительность и меньшее качество, меньшее значение &mdash; лучшее качество, но ниже производительность.</td>
     </tr>
     <tr>
         <td><code><b>noClip</b></code></td>
@@ -2270,8 +2573,9 @@ map.fitBounds(polyline.getBounds());</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
-<p>Возможно использование <a href="#path-methods">методов класса Path</a> и дополнительных методов:</p>
+### Методы
+
+Возможно использование [методов класса Path][93] и дополнительных методов:
 <table>
     <tr>
         <th>Метод</th>
@@ -2318,9 +2622,11 @@ map.fitBounds(polyline.getBounds());</code></pre>
     </tr>
 </table>
 
-<h2>L.MultiPolyline</h2>
-<p>Расширяет <a href="#featuregroup">FeatureGroup</a> и позволяет создавать мультиполилайны (один слой, содержащий несколько ломаных с общими стилями и балуном).</p>
-<h3>Constructor</h3>
+## L.MultiPolyline
+
+Расширяет [FeatureGroup][26] и позволяет создавать мультиполилайны (один слой, содержащий несколько ломаных с общими стилями и балуном).
+
+### Constructor
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2341,7 +2647,8 @@ map.fitBounds(polyline.getBounds());</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <p>Мультиполилайны содержат все методы класса <a href="#polyline">Polyline</a>, но их поведение отличается, так как мультиполилайны содержат несколько ломаных.</p>
 
 <table data-id='multipolyline'>
@@ -2365,6 +2672,11 @@ map.fitBounds(polyline.getBounds());</code></pre>
         </code></td>
         <td>Возвращает многомерный массив географических координат каждой ломаной.</td>
     </tr>
+    <tr>
+        <td><code><b>openPopup</b>()</code></td>
+        <td><code>this</code></td>
+        <td>Открывает балун, предварительно прикрепленный с помощью метода <a href="#marker-bindpopup">bindPopup</a>.</td>
+    </tr>
     <tr id="multipolyline-togeojson">
         <td><code><b>toGeoJSON</b>()</code></td>
         <td><code>Object</code></td>
@@ -2373,10 +2685,13 @@ map.fitBounds(polyline.getBounds());</code></pre>
 </table>
 
 
-<h2>L.Polygon</h2>
-<p>Класс для отрисовки многоугольников на карте. Расширяет <a href="#polyline">Polyline</a>. Используйте <a href="#map-addlayer">Map#addLayer</a> для добавления на карту.</p>
-<p>Обратите внимание на то, что среди точек которые передаются для создания многоугольника не должно быть дополнительной точки, совпадающей с первой.</p>
-<h3>Конструктор</h3>
+## L.Polygon
+
+Класс для отрисовки многоугольников на карте. Расширяет [Polyline][18]. Используйте [Map#addLayer][81] для добавления на карту.
+
+Обратите внимание на то, что среди точек которые передаются для создания многоугольника не должно быть дополнительной точки, совпадающей с первой.
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2398,8 +2713,10 @@ map.fitBounds(polyline.getBounds());</code></pre>
 </table>
 
 
-<h3>Методы</h3>
-<p>У многоугольника те же опции и методы, что и у ломаной, но с некоторыми отличиями.</p>
+### Методы
+
+У многоугольника те же опции и методы, что и у ломаной, но с некоторыми отличиями.
+
 <table>
     <tr>
         <th>Метод</th>
@@ -2413,9 +2730,11 @@ map.fitBounds(polyline.getBounds());</code></pre>
     </tr>
 </table>
 
-<h2>L.MultiPolygon</h2>
-<p>Расширяет <a href="#featuregroup">FeatureGroup</a>, позволяя создавать мультиполигоны (один слой, содержащий несколько многоугольников с общими стилями и балуном).</p>
-<h3>Конструктор</h3>
+## L.MultiPolygon
+
+Расширяет [FeatureGroup][26], позволяя создавать мультиполигоны (один слой, содержащий несколько многоугольников с общими стилями и балуном).
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2436,7 +2755,8 @@ map.fitBounds(polyline.getBounds());</code></pre>
     </tr>
 </table>
 
-<h3>Methods</h3>
+### Methods
+
 <p>Мультиполигоны содержат все методы класса <a href="#polyline">Polyline</a>, но их поведение отличается, так как мультиполилайны содержат несколько многоугольников.</p>
 
 <table data-id='multipolygon'>
@@ -2460,6 +2780,11 @@ map.fitBounds(polyline.getBounds());</code></pre>
         </code></td>
         <td>Возвращает многомерный массив географических координат каждого многоугольника.</td>
     </tr>
+    <tr>
+        <td><code><b>openPopup</b>()</code></td>
+        <td><code>this</code></td>
+        <td>Открывает балун, предварительно прикрепленный с помощью метода <a href="#marker-bindpopup">bindPopup</a>.</td>
+    </tr>
     <tr id="multipolygon-togeojson">
         <td><code><b>toGeoJSON</b>()</code></td>
         <td><code>Object</code></td>
@@ -2468,18 +2793,22 @@ map.fitBounds(polyline.getBounds());</code></pre>
 </table>
 
 
-<h2>L.Rectangle</h2>
-<p>Класс для отрисовки прямоугольников на карте. Расширяет <a href="#polygon">Polygon</a>. Используйте <a href="#map-addlayer">Map#addLayer</a> для добавления на карту.</p>
-<h3>Пример использования</h3>
-<pre><code>// создаем географические границы прямоугольника
-var bounds = [[54.559322, -5.767822], [56.1210604, -3.021240]];
+## L.Rectangle
 
-// создаем оранжевый прямоугольник
-L.rectangle(bounds, {color: &quot;#ff7800&quot;, weight: 1}).addTo(map);
+Класс для отрисовки прямоугольников на карте. Расширяет [Polygon][20]. Используйте [Map#addLayer][81] для добавления на карту.
 
-// подстраиваем центр карты и масштаб так, чтобы прямоугольник было видно
-map.fitBounds(bounds);</code></pre>
-<h3>Конструктор</h3>
+### Пример использования
+
+    // создаем географические границы прямоугольника
+    var bounds = [[54.559322, -5.767822], [56.1210604, -3.021240]];
+
+    // создаем оранжевый прямоугольник
+    L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
+
+    // подстраиваем центр карты и масштаб так, чтобы прямоугольник было видно
+    map.fitBounds(bounds);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2496,12 +2825,14 @@ map.fitBounds(bounds);</code></pre>
             <code>L.rectangle(&hellip;)</code>
         </td>
 
-        <td>Создает объект прямоугольника по переданым географическим границам и необязательному объекту опций.</td>
+        <td>Создает объект прямоугольника по переданным географическим границам и необязательному объекту опций.</td>
     </tr>
 </table>
 
-<h3>Методы</h3>
-<p>Возможно использование <a href="#path-methods">методов класса Path</a> и дополнительно следующих методов:</p>
+### Методы
+
+Возможно использование [методов класса Path][93] и дополнительно следующих методов:
+
 <table>
     <tr>
         <th>Метод</th>
@@ -2519,10 +2850,13 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h2>L.Circle</h2>
-<p>Класс для отрисовки круга на карте. Расширяет <a href="#path">Path</a>. Используйте <a href="#map-addlayer">Map#addLayer</a> для добавления на карту.</p>
-<pre><code>L.circle([50.5, 30.5], 200).addTo(map);</code></pre>
-<h3>Конструктор</h3>
+## L.Circle
+
+Класс для отрисовки круга на карте. Расширяет [Path][17]. Используйте [Map#addLayer][81] для добавления на карту.
+
+    L.circle([50.5, 30.5], 200).addTo(map);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2544,7 +2878,7 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -2584,9 +2918,11 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h2>L.CircleMarker</h2>
-<p>Круг фиксированного размера с радиусом указанным в пикселях. Расширяет <a href="#circle">Circle</a>. Используйте <a href="#map-addlayer">Map#addLayer</a> для добавления на карту.</p>
-<h3>Конструктор</h3>
+## L.CircleMarker
+
+Круг фиксированного размера с радиусом указанным в пикселях. Расширяет [Circle][23]. Используйте [Map#addLayer][81] для добавления на карту.
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2607,7 +2943,7 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -2637,12 +2973,15 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h2>L.LayerGroup</h2>
-<p>Используется для группировки нескольких слоев, чтобы обрабатывать их как один. Если группа добавлена на карту, тогда удалив элемент из группы он уаляется и с карты. Реализует интерфейс <a href="#ilayer">ILayer</a>.</p>
-<pre><code>L.layerGroup([marker1, marker2])
-    .addLayer(polyline)
-    .addTo(map);</code></pre>
-<h3>Конструктор</h3>
+## L.LayerGroup
+
+Используется для группировки нескольких слоев, чтобы обрабатывать их как один. Если группа добавлена на карту, тогда удалив элемент из группы он удаляется и с карты. Реализует интерфейс [ILayer][52].
+
+    L.layerGroup([marker1, marker2])
+        .addLayer(polyline)
+        .addTo(map);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2662,7 +3001,7 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -2706,7 +3045,7 @@ map.fitBounds(bounds);</code></pre>
             <nobr>&lt;String&gt; <i>id</i> )</nobr>
         </code></td>
 
-        <td><code>Boolean</code></td>
+        <td><code><a href="#ilayer">ILayer</a></code></td>
         <td>Возвращает слой по переданному id.</td>
     </tr>
     <tr>
@@ -2727,7 +3066,7 @@ map.fitBounds(bounds);</code></pre>
         <td><code>this</code></td>
         <td>Обходит циклом все слои группы, опционально можно передать контекст исполнения функции итератора.
 <pre><code>group.eachLayer(function (layer) {
-    layer.bindPopup(&#39;Hello&#39;);
+    layer.bindPopup('Hello');
 });</code></pre>
         </td>
     </tr>
@@ -2738,13 +3077,16 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h2>L.FeatureGroup</h2>
-<p>Расширяет <a href="#layergroup">LayerGroup</a>, включает в себя события мышки (инициированные членами группы) и общий метод bindPopup. Реализует интерфейс <a href="#ilayer">ILayer</a>.</p>
-<pre><code>L.featureGroup([marker1, marker2, polyline])
-    .bindPopup(&#39;Hello world!&#39;)
-    .on(&#39;click&#39;, function() { alert(&#39;Clicked on a group!&#39;); })
-    .addTo(map);</code></pre>
-<h3>Конструктор</h3>
+## L.FeatureGroup
+
+Расширяет [LayerGroup][25], включает в себя события мышки (инициированные членами группы) и общий метод bindPopup. Реализует интерфейс [ILayer][52].
+
+    L.featureGroup([marker1, marker2, polyline])
+        .bindPopup('Hello world!')
+        .on('click', function() { alert('Clicked on a group!'); })
+        .addTo(map);
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2764,8 +3106,9 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
-<p>Содержит все методы <a href="#layergroup">LayerGroup</a> и дополнительно:</p>
+### Методы
+
+Содержит все методы [LayerGroup][25] и дополнительно:
 <table>
     <tr>
         <th>Метод</th>
@@ -2805,8 +3148,10 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h3>События</h3>
-<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+### События
+
+Вы можете подписаться на следующие события используя [эти методы][39].
+
 <table>
     <tr>
         <th>Событие</th>
@@ -2855,18 +3200,22 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h2>L.GeoJSON</h2>
-<p>Представляет <a href="http://geojson.org/geojson-spec.html">GeoJSON</a> слой. Позволяет анализировать данные в формате GeoJSON и отображать их на карте. Расширяет <a href="#featuregroup">FeatureGroup</a>.</p>
-<pre><code>L.geoJson(data, {
-    style: function (feature) {
-        return {color: feature.properties.color};
-    },
-    onEachFeature: function (feature, layer) {
-        layer.bindPopup(feature.properties.description);
-    }
-}).addTo(map);</code></pre>
-<p>Каждый созданный слой получает свойство <code>feature</code>, которое связывает его с GeoJSON данными, на основе которых он был создан.</p>
-<h3>Конструктор</h3>
+## L.GeoJSON
+
+Представляет [GeoJSON][95] слой. Позволяет анализировать данные в формате GeoJSON и отображать их на карте. Расширяет [FeatureGroup][26].
+
+    L.geoJson(data, {
+        style: function (feature) {
+            return {color: feature.properties.color};
+        },
+        onEachFeature: function (feature, layer) {
+            layer.bindPopup(feature.properties.description);
+        }
+    }).addTo(map);
+
+Каждый созданный слой получает свойство `feature`, которое связывает его с GeoJSON данными, на основе которых он был создан.
+
+### Конструктор
 <table>
     <tr>
         <th>Конструктор</th>
@@ -2887,7 +3236,7 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
 <table>
     <tr>
         <th>Опция</th>
@@ -2933,7 +3282,9 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+<p>Также принимает все <a href="#path-options">опции</a> для полилайнов и полигонов.</p>
+
+### Методы
 <table>
     <tr>
         <th>Метод</th>
@@ -2945,7 +3296,7 @@ map.fitBounds(bounds);</code></pre>
             <nobr>&lt;GeoJSON&gt; <i>data</i> )</nobr>
         </code></td>
 
-        <td><code>Boolean</code></td>
+        <td><code>this</code></td>
         <td>Добавляет GeoJSON объект на слой.</td>
     </tr>
     <tr id="geojson-setstyle">
@@ -2962,11 +3313,11 @@ map.fitBounds(bounds);</code></pre>
         </code></td>
 
         <td><code>this</code></td>
-        <td>Сбрасывает стиль векторного слоя на GeoJSON стиль по умлочанию, полезно для сброса стилей после событий hover.</td>
+        <td>Сбрасывает стиль векторного слоя на GeoJSON стиль по умолчанию, полезно для сброса стилей после событий hover.</td>
     </tr>
 </table>
 
-<h3>Статические методы</h3>
+### Статические методы
 <table>
     <tr>
         <th>Метод</th>
@@ -2989,7 +3340,7 @@ map.fitBounds(bounds);</code></pre>
         </code></td>
 
         <td><code><a href="#latlng">LatLng</a></code></td>
-        <td>Создает объект <a href="#latlng">LatLng</a> по переданному масиву из двух чисел (широта, долгота), используется для GeoJSON точек. Если опция <code>reverse</code> установлена в <code>true</code>, тогда числа будут восприняты как (долгота, широта).</td>
+        <td>Создает объект <a href="#latlng">LatLng</a> по переданному массиву из двух чисел (широта, долгота), используется для GeoJSON точек. Если опция <code>reverse</code> установлена в <code>true</code>, тогда числа будут восприняты как (долгота, широта).</td>
     </tr>
     <tr>
         <td><code><b>coordsToLatlngs</b>(
@@ -3003,15 +3354,21 @@ map.fitBounds(bounds);</code></pre>
     </tr>
 </table>
 
-<h2>L.LatLng</h2>
-<p>Географическая точка с определенной широтой и долготой.</p>
-<pre><code>var latlng = L.latLng(50.5, 30.5);</code></pre>
-<p>Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива или объекта, то есть данные записи эквивалентны:</p>
-<pre><code>map.panTo(L.latLng(50, 30));
-map.panTo([50, 30]);
-map.panTo({lon: 30, lat: 50});
-map.panTo({lat: 50, lng: 30});</code></pre>
-<h3>Конструктор</h3>
+## L.LatLng
+
+Географическая точка с определенной широтой и долготой.
+
+    var latlng = L.latLng(50.5, 30.5);
+
+Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива или объекта, то есть данные записи эквивалентны:
+
+    map.panTo(L.latLng(50, 30));
+    map.panTo([50, 30]);
+    map.panTo({lon: 30, lat: 50});
+    map.panTo({lat: 50, lng: 30});
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3022,17 +3379,19 @@ map.panTo({lat: 50, lng: 30});</code></pre>
         <td>
             <code><b>L.LatLng</b>(
             &lt;Number&gt; <i>latitude</i>,
-            &lt;Number&gt; <i>longitude</i> )</code>
+            &lt;Number&gt; <i>longitude</i> )</code>,
+            &lt;Number&gt; <i>altitude?</i> )</code>
         </td>
         <td>
             <code>L.latLng(…)</code>
             <code>L.latLng([…]</code>
         </td>
-        <td>Создает объект, представляющий географическую точку с определенной широтой и долготой.</td>
+        <td>Создает объект, представляющий географическую точку с определенной широтой и долготой (и опционально высоту).</td>
     </tr>
 </table>
 
-<h3>Свойства</h3>
+### Свойства
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -3051,7 +3410,8 @@ map.panTo({lat: 50, lng: 30});</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -3081,7 +3441,8 @@ map.panTo({lat: 50, lng: 30});</code></pre>
     </tr>
 </table>
 
-<h3>Константы</h3>
+### Константы
+
 <table>
     <tr>
         <th>Константа</th>
@@ -3109,17 +3470,23 @@ map.panTo({lat: 50, lng: 30});</code></pre>
     </tr>
 </table>
 
-<h2>L.LatLngBounds</h2>
-<p>Прямоугольная географическая область на карте.</p>
-<pre><code>var southWest = L.latLng(40.712, -74.227),
-    northEast = L.latLng(40.774, -74.125),
-    bounds = L.latLngBounds(southWest, northEast);</code></pre>
-<p>Все методы, которые принимают объекты LatLngBounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:</p>
-<pre><code>map.fitBounds([
-    [40.712, -74.227],
-    [40.774, -74.125]
-]);</code></pre>
-<h3>Конструктор</h3>
+## L.LatLngBounds
+
+Прямоугольная географическая область на карте.
+
+    var southWest = L.latLng(40.712, -74.227),
+        northEast = L.latLng(40.774, -74.125),
+        bounds = L.latLngBounds(southWest, northEast);
+
+Все методы, которые принимают объекты LatLngBounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
+
+    map.fitBounds([
+        [40.712, -74.227],
+        [40.774, -74.125]
+    ]);
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3151,7 +3518,8 @@ map.panTo({lat: 50, lng: 30});</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -3247,7 +3615,7 @@ map.panTo({lat: 50, lng: 30});</code></pre>
         <td><code><b>toBBoxString</b>()</code></td>
         <td><code>String</code></td>
         <td>
-Возвращает строку с координатами границ в формате <code>&#39;southwest_lng,southwest_lat,northeast_lng,northeast_lat&#39;</code>. Удобно использовать для отправки запросов к веб-сервисам, возвращающим геоданные.</td>
+Возвращает строку с координатами границ в формате <code>'southwest_lng,southwest_lat,northeast_lng,northeast_lat'</code>. Удобно использовать для отправки запросов к веб-сервисам, возвращающим геоданные.</td>
     </tr>
     <tr>
         <td><code><b>pad</b>(
@@ -3265,13 +3633,19 @@ map.panTo({lat: 50, lng: 30});</code></pre>
     </tr>
 </table>
 
-<h2>L.Point</h2>
-<p>Точка с пиксельными координатами x и y.</p>
-<pre><code>var point = new L.Point(200, 300);</code></pre>
-<p>Все методы, которые принимают объекты Point также принимают координаты в виде простого массива, то есть данные записи эквивалентны:</p>
-<pre><code>map.panBy([200, 300]);
-map.panBy(L.point(200, 300));</code></pre>
-<h3>Конструктор</h3>
+## L.Point
+
+Точка с пиксельными координатами x и y.
+
+    var point = new L.Point(200, 300);
+
+Все методы, которые принимают объекты Point также принимают координаты в виде простого массива, то есть данные записи эквивалентны:
+
+    map.panBy([200, 300]);
+    map.panBy(L.point(200, 300));
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3294,7 +3668,8 @@ map.panBy(L.point(200, 300));</code></pre>
 </table>
 
 
-<h3>Свойства</h3>
+### Свойства
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -3313,7 +3688,8 @@ map.panBy(L.point(200, 300));</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -3372,6 +3748,11 @@ map.panBy(L.point(200, 300));</code></pre>
         <td>Возвращает копию текущей точки с округленными координатами.</td>
     </tr>
     <tr>
+        <td><code><b>floor</b>()</code></td>
+        <td><code><a href="#point">Point</a></code></td>
+        <td>Возвращает копию текущей точки с округленными в меньшую сторону координатами.</td>
+    </tr>
+    <tr>
         <td><code><b>equals</b>(
             <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
         </code></td>
@@ -3380,20 +3761,34 @@ map.panBy(L.point(200, 300));</code></pre>
         <td>Возвращает <code>true</code>, если переданная точка имеет такие же координаты, как и текущая.</td>
     </tr>
     <tr>
+        <td><code><b>contains</b>(
+            <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+        </code></td>
+
+        <td><code>Boolean</code></td>
+        <td>Возвращает <code>true</code>, если обе координаты переданной точки меньше соотвествующих координат текущей точки.</td>
+    </tr>
+    <tr>
         <td><code><b>toString</b>()</code></td>
         <td><code>String</code></td>
         <td>Возвращает строковое представление точки (для отладки).</td>
     </tr>
 </table>
 
-<h2>L.Bounds</h2>
-<p>Прямоугольная область на карте в пиксельных координатах.</p>
-<pre><code>var p1 = L.point(10, 10),
-    p2 = L.point(40, 60),
-    bounds = L.bounds(p1, p2);</code></pre>
-<p>Все методы, которые принимают объекты Bounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:</p>
-<pre><code>otherBounds.intersects([[10, 10], [40, 60]]);</code></pre>
-<h3>Конструктор</h3>
+## L.Bounds
+
+Прямоугольная область на карте в пиксельных координатах.
+
+    var p1 = L.point(10, 10),
+        p2 = L.point(40, 60),
+        bounds = L.bounds(p1, p2);
+
+Все методы, которые принимают объекты Bounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
+
+    otherBounds.intersects([[10, 10], [40, 60]]);
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3426,7 +3821,8 @@ map.panBy(L.point(200, 300));</code></pre>
     </tr>
 </table>
 
-<h3>Свойства</h3>
+### Свойства
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -3445,7 +3841,8 @@ map.panBy(L.point(200, 300));</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -3503,22 +3900,26 @@ map.panBy(L.point(200, 300));</code></pre>
     </tr>
 </table>
 
-<h2>L.Icon</h2>
-<p>Иконка маркера.</p>
-<pre><code>var myIcon = L.icon({
-    iconUrl: &#39;my-icon.png&#39;,
-    iconRetinaUrl: &#39;my-icon@2x.png&#39;,
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    shadowUrl: &#39;my-icon-shadow.png&#39;,
-    shadowRetinaUrl: &#39;my-icon-shadow@2x.png&#39;,
-    shadowSize: [68, 95],
-    shadowAnchor: [22, 94]
-});
+## L.Icon
 
-L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
-<h3>Конструктор</h3>
+Иконка маркера.
+
+    var myIcon = L.icon({
+        iconUrl: 'my-icon.png',
+        iconRetinaUrl: 'my-icon@2x.png',
+        iconSize: [38, 95],
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76],
+        shadowUrl: 'my-icon-shadow.png',
+        shadowRetinaUrl: 'my-icon-shadow@2x.png',
+        shadowSize: [68, 95],
+        shadowAnchor: [22, 94]
+    });
+
+    L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3538,7 +3939,8 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
+
 <table>
     <tr>
         <th>Опция</th>
@@ -3563,8 +3965,8 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
     <tr>
         <td><code><b>iconAnchor</b></code></td>
         <td><code><a href="#point">Point</a></code>
-        <td>Координаты &quot;ножки&quot; иконки (относительно ее левого верхнего угла).
-            Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию &quot;ножка&quot; располагается по центру иконки.</td>
+        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла).
+            Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки.</td>
     </tr>
     <tr>
         <td><code><b>shadowUrl</b></code></td>
@@ -3584,7 +3986,7 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
     <tr>
         <td><code><b>shadowAnchor</b></code></td>
         <td><code><a href="#point">Point</a></code>
-        <td>Координаты &quot;ножки&quot; тени (относительно ее левого верхнего угла). Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
+        <td>Координаты "ножки" тени (относительно ее левого верхнего угла). Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
     </tr>
     <tr>
         <td><code><b>popupAnchor</b></code></td>
@@ -3598,14 +4000,19 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h2>L.DivIcon</h2>
-<p>Простая иконка для маркеров, которые используют простой элемент <code>div</code> вместо изображения.</p>
-<pre><code>var myIcon = L.divIcon({className: &#39;my-div-icon&#39;});
-// вы можете установить стиль класса .my-div-icon в CSS
+## L.DivIcon
 
-L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
-<p>По умолчанию установлен класс <code>&#39;leaflet-div-icon&#39;</code>, который стилизирован как маленький белый квадрат с тенью.</p>
-<h3>Конструктор</h3>
+Простая иконка для маркеров, которые используют простой элемент `div` вместо изображения.
+
+    var myIcon = L.divIcon({className: 'my-div-icon'});
+    // вы можете установить стиль класса .my-div-icon в CSS
+
+    L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+
+По умолчанию установлен класс `'leaflet-div-icon'`, который стилизован как маленький белый квадрат с тенью.
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3625,7 +4032,8 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
+
 <table>
     <tr>
         <th>Опция</th>
@@ -3640,12 +4048,12 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
     <tr>
         <td><code><b>iconAnchor</b></code></td>
         <td><code><a href="#point">Point</a></code>
-        <td>Координаты &quot;ножки&quot; иконки (относительно ее левого верхнего угла). Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию &quot;ножка&quot; располагается по центру иконки, если указан ее размер.</td>
+        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла). Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки, если указан ее размер.</td>
     </tr>
     <tr>
         <td><code><b>className</b></code></td>
         <td><code>String</code>
-        <td>Значение класса, которое будет присвоено иконке. По умолчанию <code>&#39;leaflet-div-icon&#39;</code>.
+        <td>Значение класса, которое будет присвоено иконке. По умолчанию <code>'leaflet-div-icon'</code>.
     </tr>
     <tr>
         <td><code><b>html</b></code></td>
@@ -3654,12 +4062,16 @@ L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);</code></pre>
     </tr>
 </table>
 
-<h2>L.Control</h2>
-<p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="#icontrol">IControl</a>. Элементы на карту добавляются следующим образом:</p>
-<pre><code>control.addTo(map);
-// то же самое, что
-map.addControl(control);</code></pre>
-<h3>Конструктор</h3>
+## L.Control
+
+Базовый класс для всех элементов управления. Реализует интерфейс [IControl][53]. Элементы на карту добавляются следующим образом:
+
+    control.addTo(map);
+    // то же самое, что
+    map.addControl(control);
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3679,7 +4091,8 @@ map.addControl(control);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
+
 <table>
     <tr>
         <th>Опция</th>
@@ -3690,12 +4103,13 @@ map.addControl(control);</code></pre>
     <tr>
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;topright&#39;</td>
+        <td><code>'topright'</td>
         <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -3738,34 +4152,39 @@ map.addControl(control);</code></pre>
     </tr>
 </table>
 
-<h3>Позиции элементов управления</h3>
-<p>Позиции элементов управления (углы карты, в которых располагаются элементы) устанавливаются с помощью строк. Отступы между границами карты и элементами управления можно установить с помощью CSS.</p>
+### Позиции элементов управления
+
+Позиции элементов управления (углы карты, в которых располагаются элементы) устанавливаются с помощью строк. Отступы между границами карты и элементами управления можно установить с помощью CSS.
+
 <table>
     <tr>
         <th>Позиция</th>
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code>&#39;topleft&#39;</code></td>
+        <td><code>'topleft'</code></td>
         <td>Верхний левый угол карты.</td>
     </tr>
     <tr>
-        <td><code>&#39;topright&#39;</code></td>
+        <td><code>'topright'</code></td>
         <td>Верхний правый угол карты.</td>
     </tr>
     <tr>
-        <td><code>&#39;bottomleft&#39;</code></td>
+        <td><code>'bottomleft'</code></td>
         <td>Нижний левый угол карты.</td>
     </tr>
     <tr>
-        <td><code>&#39;bottomright&#39;</code></td>
+        <td><code>'bottomright'</code></td>
         <td>Нижний правый угол карты.</td>
     </tr>
 </table>
 
-<h2>L.Control.Zoom</h2>
-<p>Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если не передана опция zoomControl со значением <code>false</code>. Расширяет <a href="#control">Control</a>.</p>
-<h3>Конструктор</h3>
+## L.Control.Zoom
+
+Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если не передана опция zoomControl со значением `false`. Расширяет [Control][34].
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3785,7 +4204,8 @@ map.addControl(control);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
+
 <table>
     <tr>
         <th>Опция</th>
@@ -3796,14 +4216,41 @@ map.addControl(control);</code></pre>
     <tr>
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
-        <td><code><span class="string">&#39;topleft&#39;</span></td>
+        <td><code><span>'topleft'</span></td>
         <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomInText</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span>'+'</span></td>
+        <td>Текст кнопки зум-ин.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomOutText</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span>'-'</span></td>
+        <td>Текст кнопки зум-аут.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomInTitle</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span>'Zoom in'</span></td>
+        <td>Значение атрибута title для конпки зум-ин.</td>
+    </tr>
+    <tr>
+        <td><code><b>zoomInTitle</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span>'Zoom out'</span></td>
+        <td>Значение атрибута title для конпки зум-аут.</td>
     </tr>
 </table>
 
-<h2>L.Control.Attribution</h2>
-<p>Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет <a href="#control">Control</a>.</p>
-<h3>Конструктор</h3>
+## L.Control.Attribution
+
+Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет [Control][34].
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3823,7 +4270,8 @@ map.addControl(control);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
+
 <table>
     <tr>
         <th>Опция</th>
@@ -3834,18 +4282,19 @@ map.addControl(control);</code></pre>
     <tr>
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
-        <td><code><span class="string">&#39;bottomright&#39;</span></td>
+        <td><code><span class="string">'bottomright'</span></td>
         <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
     </tr>
     <tr>
         <td><code><b>prefix</b></code></td>
         <td><code>String</code></td>
-        <td><code>&#39;Leaflet&#39;</td>
+        <td><code>'Leaflet'</td>
         <td>Текст, который будет показан перед атрибутикой. Для отключения необходимо указать <code>false</code>.</td>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -3864,7 +4313,7 @@ map.addControl(control);</code></pre>
             <nobr>&lt;String&gt; <i>text</i> )</nobr>
         </code></td>
         <td><code>this</code></td>
-        <td>Добавляет текст атрибутики (например, <code>&#39;Картографические данные &amp;copy; 2GIS&#39;</code>).</td>
+        <td>Добавляет текст атрибутики (например, <code>'Картографические данные &amp;copy; 2GIS'</code>).</td>
     </tr>
     <tr>
         <td><code><b>removeAttribution</b>(
@@ -3875,10 +4324,14 @@ map.addControl(control);</code></pre>
     </tr>
 </table>
 
-<h2>L.Control.Scale</h2>
-<p>Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Реализует интерфейс <a href="#icontrol">IControl</a>.</p>
-<pre><code>L.control.scale().addTo(map);</code></pre>
-<h3>Конструктор</h3>
+## L.Control.Scale
+
+Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет Control.
+
+    L.control.scale().addTo(map);
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -3898,7 +4351,8 @@ map.addControl(control);</code></pre>
     </tr>
 </table>
 
-<h3>Опции</h3>
+### Опции
+
 <table>
     <tr>
         <th>Опция</th>
@@ -3909,7 +4363,7 @@ map.addControl(control);</code></pre>
     <tr>
         <td><code><b>position</b></code></td>
         <td><code>String</code></td>
-        <td><code><span class="string">&#39;bottomleft&#39;</span></td>
+        <td><code><span class="string">'bottomleft'</span></td>
         <td>Расположение элемента управления (один из углов карты). См. <a href="#control-positions">позиции элементов управления</a>.</td>
     </tr>
     <tr>
@@ -3938,18 +4392,25 @@ map.addControl(control);</code></pre>
     </tr>
 </table>
 
-<h2>Методы событий</h2>
-<p>Набор методов, позволяющих работать с событиями. События позволяют выполнить какое-либо действие в тот момент, когда что-то происходит с объектом (например, когда пользователь кликает по карте).</p>
-<h3>Пример</h3>
-<pre><code>map.on(&#39;click&#39;, function(e) {
-    alert(e.latlng);
-});</code></pre>
-<p>Управлять событиями можно с помощью ссылок на обработчики, например, если необходимо добавить и затем удалить обработчик, определите его как функцию:</p>
-<pre><code>function onClick(e) { ... }
+## Методы событий
 
-map.on(&#39;click&#39;, onClick);
-map.off(&#39;click&#39;, onClick);</code></pre>
-<h3>Методы</h3>
+Набор методов, позволяющих работать с событиями. События позволяют выполнить какое-либо действие в тот момент, когда что-то происходит с объектом (например, когда пользователь кликает по карте).
+
+### Пример
+
+    map.on('click', function(e) {
+        alert(e.latlng);
+    });
+
+Управлять событиями можно с помощью ссылок на обработчики, например, если необходимо добавить и затем удалить обработчик, определите его как функцию:
+
+    function onClick(e) { ... }
+
+    map.on('click', onClick);
+    map.off('click', onClick);
+
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -3964,7 +4425,7 @@ map.off(&#39;click&#39;, onClick);</code></pre>
         </code></td>
 
         <td><code>this</code></td>
-        <td>Подписывает обработчик (<code>fn</code>) на определенный тип события. Опционально вы можете указать контекст обработчика (объект, на который будет указывать <code>this</code>). Также вы можете подписаться на несколько типов событий, указав их через пробел (например, <code>&#39;click dblclick&#39;</code>).</td>
+        <td>Подписывает обработчик (<code>fn</code>) на определенный тип события. Опционально вы можете указать контекст обработчика (объект, на который будет указывать <code>this</code>). Также вы можете подписаться на несколько типов событий, указав их через пробел (например, <code>'click dblclick'</code>).</td>
     </tr>
     <tr>
         <th>Метод</th>
@@ -4015,7 +4476,7 @@ map.off(&#39;click&#39;, onClick);</code></pre>
         </code></td>
 
         <td><code>Boolean</code></td>
-        <td>Возвращет <code>true</code>, если у переданного типа события есть подписчики.</td>
+        <td>Возвращает <code>true</code>, если у переданного типа события есть подписчики.</td>
     </tr>
     <tr>
         <td><code><b>fireEvent</b>(
@@ -4027,7 +4488,7 @@ map.off(&#39;click&#39;, onClick);</code></pre>
         <td>Инициирует событие определенного типа. Опционально можно передать объект с данными события, тогда этот объект будет передан первым параметром в функцию-обработчик.</td>
     </tr>
     <tr>
-        <td><code><b>cleanAllEventListeners</b>()</code></td>
+        <td><code><b>clearAllEventListeners</b>()</code></td>
         <td><code>this</code></td>
         <td>Удаляет все обработчики всех событий объекта.</code></td>
     </tr>
@@ -4053,13 +4514,18 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h2>Объекты событий</h2>
-<p>Каждый объект события &mdash; это объект с данными о событии, передаваемый параметром в функцию-обработчик, подписанную на это событие при возникновении последнего. Например:</p>
-<pre><code>map.on(&#39;click&#39;, function(e) {
-    alert(e.latlng); // e является объектом события (в данном случае MouseEvent)
-});</code></pre>
-<h3>Event</h3>
-<p>Базовый объект события. Все объекты событий содержат такие же свойства, как и этот объект.</p>
+## Объекты событий
+
+Каждый объект события &mdash; это объект с данными о событии, передаваемый параметром в функцию-обработчик, подписанную на это событие при возникновении последнего. Например:
+
+    map.on('click', function(e) {
+        alert(e.latlng); // e является объектом события (в данном случае MouseEvent)
+    });
+
+### Event
+
+Базовый объект события. Все объекты событий содержат такие же свойства, как и этот объект.
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4069,7 +4535,7 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     <tr>
         <td><code><b>type</b></code></td>
         <td><code>String</code></td>
-        <td>Тип события (например, <code>&#39;click&#39;</code>).</td>
+        <td>Тип события (например, <code>'click'</code>).</td>
     </tr>
     <tr>
         <td><code><b>target</b></code></td>
@@ -4078,7 +4544,8 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h3>MouseEvent</h3>
+### MouseEvent
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4107,7 +4574,8 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h3>LocationEvent</h3>
+### LocationEvent
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4156,7 +4624,8 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h3>ErrorEvent</h3>
+### ErrorEvent
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4188,7 +4657,8 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h3>TileEvent</h3>
+### TileEvent
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4207,7 +4677,8 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h3>ResizeEvent</h3>
+### ResizeEvent
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4226,7 +4697,8 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h3>GeoJSON event</h3>
+### GeoJSON event
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4255,7 +4727,8 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h3>Popup event</h3>
+### Popup event
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4269,128 +4742,181 @@ map.off(&#39;click&#39;, onClick);</code></pre>
     </tr>
 </table>
 
-<h2>L.Class</h2>
-<p><code>L.Class</code> предоставляет возможность использовать ООП подход в разработке функционала API, используется для реализации большинства классов из данной документации.</p>
-<p>Кроме реализации простой классической модели наследования имеются несколько свойств для удобной организации кода, такие как <code>options</code>, <code>includes</code> и <code>statics</code>.</p>
-<pre><code>var MyClass = L.Class.extend({
-    initialize: function (greeter) {
-        this.greeter = greeter;
-        // конструктор класса
-    },
+### DragEndEvent
 
-    greet: function (name) {
-        alert(this.greeter + &#39;, &#39; + name)
+<table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>distance</b></code></td>
+        <td><code>Number</code></td>
+        <td>Расстояние в пикселях на которое был сдвинут элемент.</td>
+    </tr>
+</table>
+
+## L.Class
+
+`L.Class` предоставляет возможность использовать ООП подход в разработке функционала API, используется для реализации большинства классов из данной документации.
+
+Кроме реализации простой классической модели наследования имеются несколько свойств для удобной организации кода, такие как `options`, `includes` и `statics`.
+
+    var MyClass = L.Class.extend({
+        initialize: function (greeter) {
+            this.greeter = greeter;
+            // конструктор класса
+        },
+
+        greet: function (name) {
+            alert(this.greeter + ', ' + name)
+        }
+    });
+
+    // создает объект класса MyClass и передает "Hello" в конструктор
+    var a = new MyClass("Hello");
+
+    // вызывает метод greet, который показывает всплывающее окно с текстом "Hello, World"
+    a.greet("World");
+
+
+### Наследование
+
+Для определения новых классов используется конструкция `L.Class.extend`, также метод `extend` можно использовать в любом классе, который наследуется от `L.Class`:
+
+    var MyChildClass = MyClass.extend({
+        // ... новые свойства и методы
+    });
+
+Данный код создаст класс, который наследует все методы и свойства родительского класса (через цепочку прототипов), также возможно добавление или переопределение родительских методов и свойств. Кроме того, корректно обрабатывается оператор `instanceof`:
+
+    var a = new MyChildClass();
+    a instanceof MyChildClass; // true
+    a instanceof MyClass; // true
+
+Вы можете вызывать родительские методы (включая конструктор) из потомков (так, как вы бы делали это с помощью вызова `super` в других языках программирования) с помощью JavaScript функций `call` или `apply`:
+
+    var MyChildClass = MyClass.extend({
+        initialize: function () {
+            MyClass.prototype.initialize.call("Yo");
+        },
+
+        greet: function (name) {
+            MyClass.prototype.greet.call(this, 'bro ' + name + '!');
+        }
+    });
+
+    var a = new MyChildClass();
+    a.greet('Jason'); // выведет "Yo, bro Jason!"
+
+### Опции
+
+`options` &mdash; это специальное свойство, которое в отличии от других объектов передаваемых через `extend` будет слито с аналогичным свойством родителя, вместо полного переопределения, это позволяет управлять конфигурацией объектов и значениями по умолчанию:
+
+    var MyClass = L.Class.extend({
+        options: {
+            myOption1: 'foo',
+            myOption2: 'bar'
+        }
+    });
+
+    var MyChildClass = L.Class.extend({
+        options: {
+            myOption1: 'baz',
+            myOption3: 5
+        }
+    });
+
+    var a = new MyChildClass();
+    a.options.myOption1; // 'baz'
+    a.options.myOption2; // 'bar'
+    a.options.myOption3; // 5
+
+Также имеется метод `L.Util.setOptions`, который позволяет сливать опции переданные в конструктор с изначально заданными опциями:
+
+    var MyClass = L.Class.extend({
+        options: {
+            foo: 'bar',
+            bla: 5
+        },
+
+        initialize: function (options) {
+            L.Util.setOptions(this, options);
+            ...
+        }
+    });
+
+    var a = new MyClass({bla: 10});
+    a.options; // {foo: 'bar', bla: 10}
+
+### Включения
+
+`includes` &mdash; это специальное свойство, которое подмешивает объекты в класс (такие объекты называются mixin-ами). Хорошим примером является `L.Mixin.Events`, который подмешивает [методы событий][39], такие как `on`, `off` и `fire` в класс.
+
+     var MyMixin = {
+        foo: function () { ... },
+        bar: 5
+    };
+
+    var MyClass = L.Class.extend({
+        includes: MyMixin
+    });
+
+    var a = new MyClass();
+    a.foo();
+
+Также вы можете подмешивать объекты в процессе выполнения программы с помощью метода `include`:
+
+    MyClass.include(MyMixin);
+
+### Статика
+
+`statics` &mdash; это свойство, в котором описываются статические элементы класса, удобно использовать для определения констант:
+
+    var MyClass = L.Class.extend({
+        statics: {
+            FOO: 'bar',
+            BLA: 5
+        }
+    });
+
+    MyClass.FOO; // 'bar'
+
+### Фабрики классов
+
+Для создания новых объектов классов используются фабричные методы, которые имеют такое же название, как и у класса, но начинаются с нижнего регистра. Это аналог ключевого слова `new`, то есть, данные строки кода эквивалентны:
+
+    new L.Map('map');
+    L.map('map');
+
+Реализовать фабричный метод в ваших собственных классах довольно просто, например:
+
+    L.map = function (id, options) {
+        return new L.Map(id, options);
+    };
+
+### Зацепки конструктора
+
+Если вы разрабатываете плагин к API, тогда велика вероятность того, что вам понадобится выполнить дополнительные действия при инициализации объектов существующих классов (например, при инициализации объекта `L.Polyline`). Для подобного рода задач имеется метод `addInitHook`:
+
+    MyClass.addInitHook(function () {
+        // ... выполнить дополнительные действия при вызове конструктора
+        // например, добавить обработчики событий, установить значения свойств и т.п.
+    });
+
+Также можно использовать сокращенную запись, если необходимо вызвать лишь один метод при инициализации:
+
+    MyClass.addInitHook('methodName', arg1, arg2, …);
+
+## L.Browser
+
+Объект со свойствами, необходимыми для определения браузера/фичи.
+
+    if (L.Browser.ie6) {
+        alert('Вам срочно нужно обновить свой браузер!');
     }
-});
 
-// создает объект класса MyClass и передает &quot;Hello&quot; в конструктор
-var a = new MyClass(&quot;Hello&quot;);
-
-// вызывает метод greet, который показывает всплывающее окно с текстом &quot;Hello, World&quot;
-a.greet(&quot;World&quot;);</code></pre>
-<h3>Наследование</h3>
-<p>Для определения новых классов используется конструкция <code>L.Class.extend</code>, также метод <code>extend</code> можно использовать в любом классе, который наследуется от <code>L.Class</code>:</p>
-<pre><code>var MyChildClass = MyClass.extend({
-    // ... новые свойства и методы
-});</code></pre>
-<p>Данный код создаст класс, который наследует все методы и свойства родительского класса (через цепочку прототипов), также возможно добавление или переопределение родительских методов и свойств. Кроме того, корректно обрабатывается оператор <code>instanceof</code>:</p>
-<pre><code>var a = new MyChildClass();
-a instanceof MyChildClass; // true
-a instanceof MyClass; // true</code></pre>
-<p>Вы можете вызывать родительские методы (включая конструктор) из потомков (так, как вы бы делали это с помощью вызова <code>super</code> в других языках программирования) с помощью JavaScript функций <code>call</code> или <code>apply</code>:</p>
-<pre><code>var MyChildClass = MyClass.extend({
-    initialize: function () {
-        MyClass.prototype.initialize.call(&quot;Yo&quot;);
-    },
-
-    greet: function (name) {
-        MyClass.prototype.greet.call(this, &#39;bro &#39; + name + &#39;!&#39;);
-    }
-});
-
-var a = new MyChildClass();
-a.greet(&#39;Jason&#39;); // выведет &quot;Yo, bro Jason!&quot;</code></pre>
-<h3>Опции</h3>
-<p><code>options</code> &mdash; это специальное свойство, которое в отличии от других объектов передаваемых через <code>extend</code> будет слито с аналогичным свойством родителея, вместо полного переопределения, это позволяет управлять конфигурацией объектов и значениями по умолчанию:</p>
-<pre><code>var MyClass = L.Class.extend({
-    options: {
-        myOption1: &#39;foo&#39;,
-        myOption2: &#39;bar&#39;
-    }
-});
-
-var MyChildClass = L.Class.extend({
-    options: {
-        myOption1: &#39;baz&#39;,
-        myOption3: 5
-    }
-});
-
-var a = new MyChildClass();
-a.options.myOption1; // &#39;baz&#39;
-a.options.myOption2; // &#39;bar&#39;
-a.options.myOption3; // 5</code></pre>
-<p>Также имеется метод <code>L.Util.setOptions</code>, который позволяет сливать опции переданные в конструктор с изначально заданными опциями:</p>
-<pre><code>var MyClass = L.Class.extend({
-    options: {
-        foo: &#39;bar&#39;,
-        bla: 5
-    },
-
-    initialize: function (options) {
-        L.Util.setOptions(this, options);
-        ...
-    }
-});
-
-var a = new MyClass({bla: 10});
-a.options; // {foo: &#39;bar&#39;, bla: 10}</code></pre>
-<h3>Включения</h3>
-<p><code>includes</code> &mdash; это специальное свойство, которое подмешивает объекты в класс (такие объекты называются mixin-ами). Хорошим примером является <code>L.Mixin.Events</code>, который подмешивает <a href="#events">методы событий</a>, такие как <code>on</code>, <code>off</code> и <code>fire</code> в класс.</p>
-<pre><code> var MyMixin = {
-    foo: function () { ... },
-    bar: 5
-};
-
-var MyClass = L.Class.extend({
-    includes: MyMixin
-});
-
-var a = new MyClass();
-a.foo();</code></pre>
-<p>Также вы можете подмешивать объекты в процессе выполнения программы с помощью метода <code>include</code>:</p>
-<pre><code>MyClass.include(MyMixin);</code></pre>
-<h3>Статика</h3>
-<p><code>statics</code> &mdash; это свойство, в котором описываются статические элементы класса, удобно использовать для определения констант:</p>
-<pre><code>var MyClass = L.Class.extend({
-    statics: {
-        FOO: &#39;bar&#39;,
-        BLA: 5
-    }
-});
-
-MyClass.FOO; // &#39;bar&#39;</code></pre>
-<h3>Фабрики классов</h3>
-<p>Для создания новых объектов классов используются фабричные методы, которые имеют такое же название, как и у класса, но начинаются с нижнего регистра. Это аналог ключевого слова <code>new</code>, то есть, данные строки кода эквивалентны:</p>
-<pre><code>new L.Map(&#39;map&#39;);
-L.map(&#39;map&#39;);</code></pre>
-<p>Реализовать фабричный метод в ваших собственных классах довольно просто, например:</p>
-<pre><code>L.map = function (id, options) {
-    return new L.Map(id, options);
-};</code></pre>
-<h3>Зацепки конструктора</h3>
-<p>Если вы разрабатываете плагин к API, тогда велика вероятность того, что вам понадобится выполнить дополнительные действия при инициализациии объектов существующих классов (например, при инициализации объекта <code>L.Polyline</code>). Для подобного рода задач имеется метод <code>addInitHook</code>:</p>
-<pre><code>MyClass.addInitHook(function () {
-    // ... выполнить дополнительные действия при вызове конструктора
-    // например, добавить обработчики событий, установить значения свойств и т.п.
-});</code></pre>
-<p>Также можно использовать сокращенную запись, если необходимо вызвать лишь один метод при инициализации:</p>
-<pre><code>MyClass.addInitHook(&#39;methodName&#39;, arg1, arg2, …);</code></pre>
-<h2>L.Browser</h2>
-<p>Объект со свойствами, необходимыми для определения браузера/фичи.</p>
-<pre><code>if (L.Browser.ie6) {
-    alert(&#39;Вам срочно нужно обновить свой браузер!&#39;);
-}</code></pre>
 <table>
     <tr>
         <th>Свойство</th>
@@ -4464,8 +4990,10 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h2>L.Util</h2>
-<p>Служебные функции.</p>
+## L.Util
+
+Служебные функции.
+
 <table>
     <tr>
         <th>Метод</th>
@@ -4489,6 +5017,14 @@ L.map(&#39;map&#39;);</code></pre>
 
         <td><code>Function</code></td>
         <td>Возвращает функцию, которая выполняет функцию <code>fn</code> с определенным объектом контекста <code>obj</code> (так, чтобы ключевое слово <code>this</code> внутри функции указывало на <code>obj</code>). Также имеется псевдоним <code>L.bind</code>.</td>
+    </tr>
+    <tr>
+        <td><code><b>stamp</b>(
+            <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+        </code></td>
+
+        <td><code>String</code></td>
+        <td> Применяет уникальный ключ к объекту и возвращает его значение. Полезно для получения быстрого доступа к объекту, находящемуся в группе.</td>
     </tr>
     <!-- TODO Commented out for the time being:
     https://github.com/Leaflet/Leaflet/pull/793#discussion_r1134904
@@ -4545,7 +5081,7 @@ L.map(&#39;map&#39;);</code></pre>
         </code></td>
 
         <td><code>String</code></td>
-        <td>Преобразует объект в URL-строку, например, <nobr><code>{a: &quot;foo&quot;, b: &quot;bar&quot;}</code></nobr> будет преобразован в <code><span class="string">&#39;?a=foo&amp;b=bar&#39;</span></code>.</td>
+        <td>Преобразует объект в URL-строку, например, <nobr><code>{a: "foo", b: "bar"}</code></nobr> будет преобразован в <code><span class="string">'?a=foo&amp;b=bar'</span></code>.</td>
     </tr>
     <tr>
         <td><code><b>template</b>(
@@ -4553,7 +5089,7 @@ L.map(&#39;map&#39;);</code></pre>
         </code></td>
 
         <td><code>String</code></td>
-        <td>Простая функция-шаблонизатор, создает строку применяя значения из объекта <code>data</code> в формате <code>{a: &#39;foo&#39;, b: &#39;bar&#39;, &hellip;}</code> к строке шаблона в формате <code>&#39;Hello {a}, {b}&#39;</code> &mdash; в этом примере будет возвращена строка <code>&#39;Hello foo, bar&#39;</code>.</td>
+        <td>Простая функция-шаблонизатор, создает строку применяя значения из объекта <code>data</code> в формате <code>{a: 'foo', b: 'bar', &hellip;}</code> к строке шаблона в формате <code>'Hello {a}, {b}'</code> &mdash; в этом примере будет возвращена строка <code>'Hello foo, bar'</code>.</td>
     </tr>
     <tr>
         <td><code><b>isArray</b>(
@@ -4573,7 +5109,8 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h3>Свойства</h3>
+### Свойства
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4587,8 +5124,10 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h2>L.LineUtil</h2>
-<p>Набор методов для обработки точек ломаных.</p>
+## L.LineUtil
+
+Набор методов для обработки точек ломаных.
+
 <table>
     <tr>
         <th>Метод</th>
@@ -4640,9 +5179,12 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h2>L.PolyUtil</h2>
-<p>Набор методов для обработки точек многоугольников.</p>
-<h3>Методы</h3>
+## L.PolyUtil
+
+Набор методов для обработки точек многоугольников.
+
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -4661,8 +5203,10 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h2>L.DomEvent</h2>
-<p>Служебные методы для работы с DOM событиями.</p>
+## L.DomEvent
+
+Служебные методы для работы с DOM событиями.
+
 <table>
     <tr>
         <th>Метод</th>
@@ -4697,7 +5241,7 @@ L.map(&#39;map&#39;);</code></pre>
 
         <td><code><span class="keyword">this</span></code></td>
         <td>Останавливает всплытие события к родительским элементам. Используется внутри функции-обработчика:
-            <code>L.DomEvent.addListener(div, &#39;click&#39;, function (e) {
+            <code>L.DomEvent.addListener(div, 'click', function (e) {
                 L.DomEvent.stopPropagation(e);
             });</code>
         </td>
@@ -4724,7 +5268,7 @@ L.map(&#39;map&#39;);</code></pre>
         </code></td>
 
         <td><code>this</code></td>
-        <td>Добавляет <code>stopPropagation</code> к DOM элементу для событий <code>&#39;click&#39;</code>, <code>&#39;doubleclick&#39;</code>, <code>&#39;mousedown&#39;</code> и <code>&#39;touchstart&#39;</code>.</td>
+        <td>Добавляет <code>stopPropagation</code> к DOM элементу для событий <code>'click'</code>, <code>'doubleclick'</code>, <code>'mousedown'</code> и <code>'touchstart'</code>.</td>
     </tr>
     <tr>
         <td><code><b>getMousePosition</b>(
@@ -4745,9 +5289,12 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h2>L.DomUtil</h2>
-<p>Служебные методы для работы с DOM деревом.</p>
-<h3>Методы</h3>
+## L.DomUtil
+
+Служебные методы для работы с DOM деревом.
+
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -4798,7 +5345,7 @@ L.map(&#39;map&#39;);</code></pre>
     <tr>
         <td><code><b>enableTextSelection</b>()</code></td>
         <td>-</td>
-        <td>Включает позможность выделения текста.</td>
+        <td>Включает возможность выделения текста.</td>
     </tr>
     <tr>
         <td><code><b>hasClass</b>(
@@ -4884,7 +5431,8 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h3>Properties</h3>
+### Properties
+
 <table>
     <tr>
         <th>Свойство</th>
@@ -4895,7 +5443,7 @@ L.map(&#39;map&#39;);</code></pre>
         <td><code><b>TRANSITION</b></nobr>
         </code></td>
         <td><code>String</code></td>
-        <td>Название CSS свойства transition с учетом префикса производителя браузера (например, <code>&#39;webkitTransition&#39;</code> для WebKit).</td>
+        <td>Название CSS свойства transition с учетом префикса производителя браузера (например, <code>'webkitTransition'</code> для WebKit).</td>
     </tr>
     <tr>
         <td><code><b>TRANSFORM</b></nobr>
@@ -4905,11 +5453,15 @@ L.map(&#39;map&#39;);</code></pre>
     </tr>
 </table>
 
-<h2>L.PosAnimation</h2>
-<p>Используется для плавного перемещения элементов, использует CSS3 transitions для современных браузеров и таймер для IE6-9.</p>
-<pre><code>var fx = new L.PosAnimation();
-fx.run(el, [300, 500], 0.5);</code></pre>
-<h3>Конструктор</h3>
+## L.PosAnimation
+
+Используется для плавного перемещения элементов, использует CSS3 transitions для современных браузеров и таймер для IE6-9\.
+
+    var fx = new L.PosAnimation();
+    fx.run(el, [300, 500], 0.5);
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -4927,7 +5479,8 @@ fx.run(el, [300, 500], 0.5);</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -4947,8 +5500,10 @@ fx.run(el, [300, 500], 0.5);</code></pre>
     </tr>
 </table>
 
-<h3>События</h3>
-<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+### События
+
+Вы можете подписаться на следующие события используя [эти методы][39].
+
 <table>
     <tr>
         <th>Событие</th>
@@ -4972,11 +5527,15 @@ fx.run(el, [300, 500], 0.5);</code></pre>
     </tr>
 </table>
 
-<h2>L.Draggable</h2>
-<p>Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств).</p>
-<pre><code>var draggable = new L.Draggable(elementToDrag);
-draggable.enable();</code></pre>
-<h3>Конструктор</h3>
+## L.Draggable
+
+Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств). Работает только в том случае, если элемент был позиционирован с помошью <a href="#domutil-setposition">DomUtil#setPosition</a>
+
+    var draggable = new L.Draggable(elementToDrag);
+    draggable.enable();
+
+### Конструктор
+
 <table>
     <tr>
         <th>Конструктор</th>
@@ -4998,8 +5557,10 @@ draggable.enable();</code></pre>
     </tr>
 </table>
 
-<h3>События</h3>
-<p>Вы можете подписаться на следующие события используя <a href="#events">эти методы</a>.</p>
+### События
+
+Вы можете подписаться на следующие события используя [эти методы][39].
+
 <table>
     <tr>
         <th>Событие</th>
@@ -5028,7 +5589,8 @@ draggable.enable();</code></pre>
     </tr>
 </table>
 
-<h3>Методы</h3>
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -5047,8 +5609,10 @@ draggable.enable();</code></pre>
     </tr>
 </table>
 
-<h2>IHandler</h2>
-<p>Интерфейс, который реализуется <a href="#map-interaction-handlers">обработчиками взаимодействия</a>.</p>
+## IHandler
+
+Интерфейс, который реализуется [обработчиками взаимодействия][114].
+
 <table>
     <tr>
         <th>Метод</th>
@@ -5072,9 +5636,12 @@ draggable.enable();</code></pre>
     </tr>
 </table>
 
-<h2>ILayer</h2>
-<p>Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как <a href="#tilelayer">тайловые слои</a>, <a href="#marker">маркеры</a>, <a href="#popup">балуны</a>, <a href="#imageoverlay">растровые слои</a>, <a href="#path">векторные слои</a> и <a href="#layergroup">группы слоев</a>.</p>
-<h3>Методы</h3>
+## ILayer
+
+Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как [тайловые слои][13], [маркеры][11], [балуны][12], [растровые слои][16], [векторные слои][17] и [группы слоев][25].
+
+### Методы
+
 <table>
     <tr>
         <th>Метод</th>
@@ -5095,57 +5662,69 @@ draggable.enable();</code></pre>
         </code></td>
 
         <td>-</td>
-        <td>Должен содержать код очистки, который удаляет элементы слоя и отписывает ранее добавленные обработчики событий. Вызывется при <code>map.removeLayer(layer)</code>.</td>
+        <td>Должен содержать код очистки, который удаляет элементы слоя и отписывает ранее добавленные обработчики событий. Вызывается при <code>map.removeLayer(layer)</code>.</td>
     </tr>
 </table>
 
-<h3>Реализация пользовательских слоев</h3>
-<p>Наиболее важными при разработке пользовательских слоев являются событие <a href="#map-viewreset">viewreset</a> и метод <a href="#map-latlngtolayerpoint">latLngToLayerPoint</a> карты. <code>viewreset</code> возникает когда карта должна спозиционировать свои слои (например, при изменении масштаба), а <code>latLngToLayerPoint</code> используется для получения новых координат слоя.</p>
-<p>Еще одним событием, которое часто используется при разработке слоев является <a href="#map-moveend">moveend</a>, оно возникает после любых движений карты (перемещение, изменение масштаба и т.п.).</p>
-<p>Еще одна важная особенность, которую необходимо знать &mdash; для всех DOM элементов, которые должны быть скрыты во время анимации изменения масштаба карты необходимо добавить класс <code>leaflet-zoom-hide</code>.</p>
-<h3>Пример пользовательского слоя</h3>
-<p>Пример реализации пользовательского слоя:</p>
-<pre><code>var MyCustomLayer = L.Class.extend({
+### Реализация пользовательских слоев
 
-    initialize: function (latlng) {
-        // сохраняет позицию или другие опции конструктора
-        this._latlng = latlng;
-    },
+Наиболее важными при разработке пользовательских слоев являются событие [viewreset][115] и метод [latLngToLayerPoint][116] карты. `viewreset` возникает когда карта должна спозиционировать свои слои (например, при изменении масштаба), а `latLngToLayerPoint` используется для получения новых координат слоя.
 
-    onAdd: function (map) {
-        this._map = map;
+Еще одним событием, которое часто используется при разработке слоев является [moveend][117], оно возникает после любых движений карты (перемещение, изменение масштаба и т.п.).
 
-        // создает DOM элемент и добавляет его на панели карты
-        this._el = L.DomUtil.create(&#39;div&#39;, &#39;my-custom-layer leaflet-zoom-hide&#39;);
-        map.getPanes().overlayPane.appendChild(this._el);
+Еще одна важная особенность, которую необходимо знать &mdash; для всех DOM элементов, которые должны быть скрыты во время анимации изменения масштаба карты необходимо добавить класс `leaflet-zoom-hide`.
 
-        // подписка на событие viewreset для обновления позиции слоя
-        map.on(&#39;viewreset&#39;, this._reset, this);
-        this._reset();
-    },
+### Пример пользовательского слоя
 
-    onRemove: function (map) {
-        // удаляет DOM элементы слоя и отписывает обработчики событий
-        map.getPanes().overlayPane.removeChild(this._el);
-        map.off(&#39;viewreset&#39;, this._reset, this);
-    },
+Пример реализации пользовательского слоя:
 
-    _reset: function () {
-        // обновляет позицию слоя
-        var pos = this._map.latLngToLayerPoint(this._latlng);
-        L.DomUtil.setPosition(this._el, pos);
-    }
-});
+    var MyCustomLayer = L.Class.extend({
 
-map.addLayer(new MyCustomLayer(latlng));</code></pre>
-<h2>IControl</h2>
-<p>Графические элементы управления, которые располагаются в одном из углов карты. Реализуется элементами <a href="#control-zoom">zoom</a>, <a href="#control-attribution">attribution</a>, <a href="#control-scale">scale</a> и т.п.</p>
-<h3>Методы</h3>
-<p>Каждый элемент управления API должен наследоваться от класса <a href="#control">Control</a> и иметь следующие методы:</p>
+        initialize: function (latlng) {
+            // сохраняет позицию или другие опции конструктора
+            this._latlng = latlng;
+        },
+
+        onAdd: function (map) {
+            this._map = map;
+
+            // создает DOM элемент и добавляет его на панели карты
+            this._el = L.DomUtil.create('div', 'my-custom-layer leaflet-zoom-hide');
+            map.getPanes().overlayPane.appendChild(this._el);
+
+            // подписка на событие viewreset для обновления позиции слоя
+            map.on('viewreset', this._reset, this);
+            this._reset();
+        },
+
+        onRemove: function (map) {
+            // удаляет DOM элементы слоя и отписывает обработчики событий
+            map.getPanes().overlayPane.removeChild(this._el);
+            map.off('viewreset', this._reset, this);
+        },
+
+        _reset: function () {
+            // обновляет позицию слоя
+            var pos = this._map.latLngToLayerPoint(this._latlng);
+            L.DomUtil.setPosition(this._el, pos);
+        }
+    });
+
+    map.addLayer(new MyCustomLayer(latlng));
+
+
+## IControl
+
+Графические элементы управления, которые располагаются в одном из углов карты. Реализуется элементами [zoom][35], [attribution][36], [scale][38] и т.п.
+
+### Методы
+
+Каждый элемент управления API должен наследоваться от класса [Control][34] и иметь следующие методы:
+
 <table>
     <tr>
         <th>Метод</th>
-        <th>Возвращет</th>
+        <th>Возвращает</th>
         <th>Описание</th>
     </tr>
     <tr>
@@ -5166,30 +5745,158 @@ map.addLayer(new MyCustomLayer(latlng));</code></pre>
     </tr>
 </table>
 
-<h3>Пример реализации элемента управления</h3>
-<pre><code>var MyControl = L.Control.extend({
-    options: {
-        position: &#39;topright&#39;
-    },
+### Пример реализации элемента управления
 
-    onAdd: function (map) {
-        // создает контейнер элемента управления с определенным именем класса
-        var container = L.DomUtil.create(&#39;div&#39;, &#39;my-custom-control&#39;);
+    var MyControl = L.Control.extend({
+        options: {
+            position: 'topright'
+        },
 
-        // ... инициализирует другие DOM элементы, добавляет обработчики событий и т.п.
+        onAdd: function (map) {
+            // создает контейнер элемента управления с определенным именем класса
+            var container = L.DomUtil.create('div', 'my-custom-control');
 
-        return container;
-    }
-});
+            // ... инициализирует другие DOM элементы, добавляет обработчики событий и т.п.
 
-map.addControl(new MyControl());</code></pre>
-<p>Если вы задаете собственный конструктор элемента управления, тогда необходимо корректно обработать опции:</p>
-<pre><code>var MyControl = L.Control.extend({
-    initialize: function (foo, options) {
+            return container;
+        }
+    });
+
+    map.addControl(new MyControl());
+
+
+Если вы задаете собственный конструктор элемента управления, тогда необходимо корректно обработать опции:
+
+    var MyControl = L.Control.extend({
+        initialize: function (foo, options) {
+            // ...
+            L.Util.setOptions(this, options);
+        },
         // ...
-        L.Util.setOptions(this, options);
-    },
-    // ...
-});</code></pre>
-<p>Это позволит передавать такие опции, как, например, <code>position</code> при создании объекта элемента управления:</p>
-<pre><code>map.addControl(new MyControl(&#39;bar&#39;, {position: &#39;bottomleft&#39;}));</code></pre>
+    });
+
+Это позволит передавать такие опции, как, например, `position` при создании объекта элемента управления:
+
+    map.addControl(new MyControl('bar', {position: 'bottomleft'}));
+
+[0]: #map-usage
+[1]: #map-constructor
+[2]: #map-options
+[3]: #map-events
+[4]: #map-set-methods
+[5]: #map-get-methods
+[6]: #map-stuff-methods
+[7]: #map-conversion-methods
+[8]: #map-misc-methods
+[9]: #map-properties
+[10]: #map-panes
+[11]: #marker
+[12]: #popup
+[13]: #tilelayer
+[14]: #tilelayer-wms
+[15]: #tilelayer-canvas
+[16]: #imageoverlay
+[17]: #path
+[18]: #polyline
+[19]: #multipolyline
+[20]: #polygon
+[21]: #multipolygon
+[22]: #rectangle
+[23]: #circle
+[24]: #circlemarker
+[25]: #layergroup
+[26]: #featuregroup
+[27]: #geojson
+[28]: #latlng
+[29]: #latlngbounds
+[30]: #point
+[31]: #bounds
+[32]: #icon
+[33]: #divicon
+[34]: #control
+[35]: #control-zoom
+[36]: #control-attribution
+[37]: #control-layers
+[38]: #control-scale
+[39]: #events
+[40]: #event-objects
+[41]: #class
+[42]: #browser
+[43]: #util
+[44]: #transformation
+[45]: #lineutil
+[46]: #polyutil
+[47]: #domevent
+[48]: #domutil
+[49]: #posanimation
+[50]: #draggable
+[51]: #ihandler
+[52]: #ilayer
+[53]: #icontrol
+[54]: #iprojection
+[55]: #icrs
+[56]: #global
+[57]: #noconflict
+[58]: #version
+[59]: https://github.com/Leaflet/Leaflet/zipball/gh-pages-master
+[60]: #map-setmaxbounds
+[61]: #mouse-event
+[62]: #event
+[63]: #layer-event
+[64]: #location-event
+[65]: #map-locate
+[66]: #error-event
+[67]: map-locate
+[68]: #popup-event
+[69]: #map-maxbounds
+[70]: #map-locate-options
+[71]: https://en.wikipedia.org/wiki/W3C_Geolocation_API
+[72]: #map-openpopup
+[73]: http://dev.w3.org/geo/api/spec-source.html#high-accuracy
+[74]: #map-getpanes
+[75]: #marker-options
+[76]: #map
+[77]: #marker-zindexoffset
+[78]: #popup-options
+[79]: #marker-openpopup
+[80]: #marker-bindpopup
+[81]: #map-addlayer
+[82]: #url-template
+[83]: #tilelayer-options
+[84]: #tile-event
+[85]: #tilelayer-wms-options
+[86]: #tilelayer-canvas-tiledrawn
+[87]: #tilelayer-canvas-drawtile
+[88]: #imageoverlay-options
+[89]: https://developer.mozilla.org/en/SVG/Attribute/stroke-dasharray
+[90]: #path-bindpopup
+[91]: #path-options
+[92]: #polyline-options
+[93]: #path-methods
+[94]: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/splice
+[95]: http://geojson.org/geojson-spec.html
+[96]: #geojson-options
+[97]: #geojson-style
+[98]: #geojson-pointtolayer
+[99]: http://en.wikipedia.org/wiki/Haversine_formula
+[100]: #map-fitbounds
+[101]: #icon-options
+[102]: #divicon-options
+[103]: #control-options
+[104]: #control-positions
+[105]: #control-zoom-options
+[106]: #control-attribution-options
+[107]: examples/layers-control.html
+[108]: #control-layers-config
+[109]: #control-layers-options
+[110]: #control-scale-options
+[111]: #class-options
+[112]: http://mourner.github.com/simplify-js/
+[113]: http://cubic-bezier.com/#0,0,.5,1
+[114]: #map-interaction-handlers
+[115]: #map-viewreset
+[116]: #map-latlngtolayerpoint
+[117]: #map-moveend
+[118]: http://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D1%80%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%86%D0%B8%D1%8F
+[119]: http://en.wikipedia.org/wiki/Coordinate_reference_system
+[120]: https://github.com/kartena/Proj4Leaflet
