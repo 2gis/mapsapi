@@ -1,7 +1,7 @@
 L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
     options: {
-        draggable: true,
+        draggable: false,
         keyboard: false,
         iconHTML: '<img class="dg-ruler-label-spacer" src="__BASE_URL__/img/spacer.gif" width="26" height="26" /><div class="dg-ruler-label-inner"><div class="dg-ruler-label-point"></div><span class="dg-ruler-label-distance">0 км</span><a class="dg-ruler-label-delete" href="#"></a></div>'
     },

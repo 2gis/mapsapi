@@ -1,4 +1,4 @@
-L.DG.Ruler.Styles = {
+L.DG.Ruler.mergeOptions({
     pathStyles: {
         back: {
             color: '#fff',
@@ -24,60 +24,56 @@ L.DG.Ruler.Styles = {
     },
     iconStyles: {
         large: {
-            layers: {
-                back: {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#fff',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 13
-                },
-                middle: {
-                    color: '#0da5d5',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 9
-                },
-                front: {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 1,
-                    weight: 4,
-                    radius: 5
-                }
+            back: {
+                color: '#fff',
+                opacity: 1,
+                fillColor: '#fff',
+                fillOpacity: 1,
+                weight: 1,
+                radius: 13
+            },
+            middle: {
+                color: '#0da5d5',
+                opacity: 1,
+                fillColor: '#0da5d5',
+                fillOpacity: 1,
+                weight: 1,
+                radius: 9
+            },
+            front: {
+                color: '#fff',
+                opacity: 1,
+                fillColor: '#0da5d5',
+                fillOpacity: 1,
+                weight: 4,
+                radius: 5
             }
         },
         small: {
-            layers: {
-                back: {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#fff',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 9
-                },
-                middle: {
-                    color: '#0da5d5',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 1,
-                    weight: 1,
-                    radius: 5
-                },
-                front: {
-                    color: '#fff',
-                    opacity: 1,
-                    fillColor: '#0da5d5',
-                    fillOpacity: 1,
-                    weight: 4,
-                    radius: 2
-                }
+            back: {
+                color: '#fff',
+                opacity: 1,
+                fillColor: '#fff',
+                fillOpacity: 1,
+                weight: 1,
+                radius: 9
+            },
+            middle: {
+                color: '#0da5d5',
+                opacity: 1,
+                fillColor: '#0da5d5',
+                fillOpacity: 1,
+                weight: 1,
+                radius: 5
+            },
+            front: {
+                color: '#fff',
+                opacity: 1,
+                fillColor: '#0da5d5',
+                fillOpacity: 1,
+                weight: 4,
+                radius: 2
             }
         }
     }
-};
+});

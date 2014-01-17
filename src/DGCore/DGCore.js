@@ -1,4 +1,5 @@
 L.DG = L.DG || {};
+L.DG.Control = L.DG.Control || {};
 
 L.DG.loaderParams = window.loaderBackup;
 

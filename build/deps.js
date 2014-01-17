@@ -267,19 +267,19 @@ var deps = {
         ]
     },
 
-    // DGEntrance: {
-    //     desc: '2GIS Entrances.',
-    //     src: [
-    //         'DGEntrance/src/DGEntrance.js',
-    //         'DGEntrance/src/PathAnimation.js',
-    //         'DGEntrance/src/Arrow.js',
-    //         'DGEntrance/src/ArrowSvg.js',
-    //         'DGEntrance/src/ArrowVml.js',
-    //         'DGEntrance/src/ArrowSvgAnimationOptions.js',
-    //         'DGEntrance/src/EventHandler.js'
-    //     ],
-    //     deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
-    // },
+    DGEntrance: {
+        desc: '2GIS Entrances.',
+        src: [
+            'DGEntrance/src/DGEntrance.js',
+            'DGEntrance/src/PathAnimation.js',
+            'DGEntrance/src/Arrow.js',
+            'DGEntrance/src/ArrowSvg.js',
+            'DGEntrance/src/ArrowVml.js',
+            'DGEntrance/src/ArrowSvgAnimationOptions.js',
+            'DGEntrance/src/EventHandler.js'
+        ],
+        deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
+    },
 
 
     DGRoundControl: {
@@ -299,12 +299,12 @@ var deps = {
     },
 
     DGRuler: {
-        desc: 'Ruler control module',
+        desc: 'Ruler module',
         src: [
-            'DGRuler/src/DGRuler.js',
-            'DGRuler/src/GeometryStyles.js',
+            'DGRuler/src/Ruler.js',
             'DGRuler/src/LayeredMarker.js',
-            'DGRuler/src/DrawingHelper.js',
+            'DGRuler/src/GeometryStyles.js',
+            'DGRuler/src/Control.Ruler.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
             'DGRuler/lang/en.js'
