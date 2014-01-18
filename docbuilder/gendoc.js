@@ -76,7 +76,49 @@ function generateDocumentation(config, rootPath, destPath) {
             htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
             pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
             renderer = new marked.Renderer(),
+            menu = {childs: []},
             html;
+
+        var prevDepth = 1,
+            tocHtml = '',
+            tokens = marked.lexer(mdData[i].content),
+            headers = [];
+        
+        tokens.forEach(function(token){
+            if (token.type = 'heading' && token.depth > 1) headers.push(token);
+        });
+
+        for (var j = 0; j < headers.length; j++) {
+            var header = headers[j],
+                nextHeader = headers[j+1];
+
+            header.text = '<a href="#">' + header.text + '</a>';
+
+            if (header.depth > prevDepth) { // enter to the list
+                tocHtml += prevDepth === 1 ? '<ul class="page-contents">' : '<ul>';
+                tocHtml += '<li>' + header.text;
+            }
+            else if (header.depth === prevDepth) { // move by list
+                tocHtml += '<li>' + header.text;
+            }
+            else if (header.depth < prevDepth) {
+                tocHtml += '</ul></li>';
+                tocHtml += '<li>' + header.text;
+            }
+
+            // if hasn't childs
+            if (typeof nextHeader === 'undefined' || nextHeader.depth <= header.depth) {
+                tocHtml += '</li>';
+            }
+            // if last header
+            if (typeof nextHeader === 'undefined') {
+                tocHtml += '</ul>';
+            }
+
+            prevDepth = header.depth;
+        }
+        tocHtml = '<dl class="api-incut">' + tocHtml + '</dl>';
+        console.log(tocHtml);
 
         renderer.listitem = function (text) {            
             return '<li><div class="restore-color">' + text + '</div></li>';
@@ -85,6 +127,7 @@ function generateDocumentation(config, rootPath, destPath) {
         html = marked(mdData[i].content, {renderer: renderer});
 
         html = html.replace(new RegExp('<ul>', 'g'), '<ul class="list-v-disc">');
+        html = html.replace(/{toc}/g, tocHtml);
 
         grunt.file.write(destPath + '/' + pluginDirName + '/' + htmlFileName, html);
     }
