@@ -75,7 +75,16 @@ function generateDocumentation(config, rootPath, destPath) {
         var mdFilePath = mdData[i].path,
             htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
             pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
-            html = marked(mdData[i].content);
+            renderer = new marked.Renderer(),
+            html;
+
+        renderer.listitem = function (text) {            
+            return '<li><div class="restore-color">' + text + '</div></li>';
+        }
+
+        html = marked(mdData[i].content, {renderer: renderer});
+
+        html = html.replace(new RegExp('<ul>', 'g'), '<ul class="list-v-disc">');
 
         grunt.file.write(destPath + '/' + pluginDirName + '/' + htmlFileName, html);
     }
