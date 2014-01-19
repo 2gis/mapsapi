@@ -143,6 +143,7 @@ function generateTableOfContents(tokens) { // (Array) -> String
 
 function getHeaderId(text, num) { // (String, Number) -> String
     var id = text.toLowerCase().replace(/ /g, '-');
+    id = id.replace(/\./g, '');
     id = num > 0 ? id + '-' + num : id;
     return id;
 }
