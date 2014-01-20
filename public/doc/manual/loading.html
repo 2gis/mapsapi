@@ -1,11 +1,9 @@
-<h2>Подключение API</h2>
-<p>Чтобы быстро начать использовать API достаточно подключить наш загрузчик в <code>&lt;head&gt;&lt;/head&gt;</code>:</p>
+<p><dl class="api-incut"><ul class="page-contents"><li><a href="#подключение-api">Подключение API</a><ul><li><a href="#опции">Опции</a></li></ul></li><li><a href="#ldgthen">L.DG.then</a><ul><li><a href="#интерфейс">Интерфейс</a></li></ul></li><li><a href="#ldgplugin">L.DG.plugin</a><ul><li><a href="#интерфейс-1">Интерфейс</a></li></ul></dl></p>
+<h2 id="подключение-api">Подключение API</h2><p>Чтобы быстро начать использовать API достаточно подключить наш загрузчик в <code>&lt;head&gt;&lt;/head&gt;</code>:</p>
 <p><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&amp;mode=debug&amp;skin=dark&amp;lazy=true&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;</code></p>
-<ul>
-<li>атрибут <code>data-id=&quot;dgLoader&quot;</code> является обязательным.</li>
-</ul>
-<h3>Опции</h3>
-<table>
+<ul class="list-v-disc">
+<li><div class="restore-color">атрибут <code>data-id=&quot;dgLoader&quot;</code> является обязательным.</div></li></ul>
+<h3 id="опции">Опции</h3><table>
     <tr>
         <th>Опции</th>
         <th>По умолчанию</th>
@@ -38,8 +36,7 @@
     </tr>
 </table>
 
-<h2>L.DG.then</h2>
-<p>Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:</p>
+<h2 id="ldgthen">L.DG.then</h2><p>Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:</p>
 <pre><code>L.DG.then(function () {
          map = new L.Map(&#39;map&#39;, {
             &#39;center&#39;: new L.LatLng(54.980206086231, 82.898068362003),
@@ -49,9 +46,8 @@
     }, function () {console.log(&#39;rejected&#39;);})
     .then(function () {
         console.log(&#39;deferred handler&#39;);}
-    })</code></pre>
-<h3>Интерфейс</h3>
-<table>
+    })
+</code></pre><h3 id="интерфейс">Интерфейс</h3><table>
     <tr>
         <th>Вызов</th>
         <th>Возвращает</th>
@@ -68,8 +64,7 @@
 </table>
 
 <p>Т.к. в основе L.DG.then использованы Promise, вызов L.DG.then в любой момент после загрузки API, мгновенно выполнит обработчик.</p>
-<h2>L.DG.plugin</h2>
-<p>Интерфейс для подключения плагинов, зависящих от API или Leaflet:</p>
+<h2 id="ldgplugin">L.DG.plugin</h2><p>Интерфейс для подключения плагинов, зависящих от API или Leaflet:</p>
 <pre><code>L.DG.then(function () {
         //загрузка плагинов
         return L.DG.plugin(&#39;https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js&#39;);
@@ -83,8 +78,8 @@
         });
         //инициализация плагина
         var hash = new L.Hash(map);
-    })</code></pre>
-<p>Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:</p>
+    })
+</code></pre><p>Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:</p>
 <pre><code>L.DG.then(function () {
         //инициализация карты
         var map = new L.Map(&#39;map&#39;, {
@@ -98,9 +93,8 @@
     }).then(function () {
         //инициализация плагина
         var hash = new L.Hash(map);
-    })</code></pre>
-<h3>Интерфейс</h3>
-<table>
+    })
+</code></pre><h3 id="интерфейс-1">Интерфейс</h3><table>
     <tr>
         <th>Вызов</th>
         <th>Возвращает</th>
