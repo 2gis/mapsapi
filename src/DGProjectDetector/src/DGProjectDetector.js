@@ -39,20 +39,12 @@ L.DG.ProjectDetector = L.Handler.extend({
         return this.projectsList.slice(0);
     },
 
-    // REFACTOR!!!
     isProjectHere: function (latLng) {
         if (!latLng || !this.projectsList) { return; }
 
-        var projectsList = this.projectsList, pr = false;
-
-        projectsList.forEach(function (project) {
-            if (project.LatLngBounds.contains(latLng)) {
-                pr = project;
-                //return project;
-            }
-        });
-
-        return pr;
+        return this.projectsList.filter(function (project) {
+            return project.LatLngBounds.contains(latLng);
+        })[0];
     },
 
     _projectchange: function () {
@@ -60,9 +52,8 @@ L.DG.ProjectDetector = L.Handler.extend({
             if (!this.project) {
                 this._searchProject();
             } else {
-                if (!this._map.getBounds().contains(this.project.LatLngBounds) ||
-                //if (!this.project.LatLngBounds.intersects(this._map.getBounds()) ||
-                    (this._map.getZoom() < this.project.min_zoom_level)) {
+                // if (!this._map.getBounds().contains(this.project.LatLngBounds) ||
+                if (!this._boundInProject(this.project) || !this._zoomInProject(this.project)) {
                     this.project = null;
                     this._map.fire('projectleave');
                     this._searchProject();
@@ -106,21 +97,26 @@ L.DG.ProjectDetector = L.Handler.extend({
     },
 
     _searchProject: function () {
-        try {
-            var self = this,
-                mapZoom = self._map.getZoom();
+        // try {
+        this.projectsList.some(function (project) {
+            // if (self._map.getBounds().contains(project.LatLngBounds) &&
+            if (this._boundInProject(project) && this._zoomInProject(project)) {
+                this.project = project;
+                this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
+                return true;
+            }
+        }, this);
+        // }
+        // catch (err) {}
+    },
 
-            this.projectsList.forEach(function (project) {
-                if (self._map.getBounds().contains(project.LatLngBounds) &&
-                //if (project.LatLngBounds.intersects(self._map.getBounds()) &&
-                    (mapZoom >= project.min_zoom_level)) {
-                    self.project = project;
-                    self._map.fire('projectchange', {'getProject': L.Util.bind(self.getProject, self)});
-                    return;
-                }
-            });
-        }
-        catch (err) {}
+    _boundInProject: function (project) {
+        return project.LatLngBounds.intersects(this._map.getBounds());
+    },
+
+    _zoomInProject: function (project) {
+        var mapZoom = this._map.getZoom();
+        return (mapZoom >= project.min_zoom_level);
     }
 });
 
