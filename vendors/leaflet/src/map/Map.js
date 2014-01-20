@@ -46,9 +46,6 @@ L.Map = L.Class.extend({
 		this._zoomBoundLayers = {};
 		this._tileLayersNum = 0;
 
-		this.on('layeradd', this._updateTln);
-		this.on('layerremove', this._updateTln);
-
 		this.callInitHooks();
 
 		this._addLayers(options.layers);

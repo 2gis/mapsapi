@@ -13,21 +13,34 @@ L.Control.include({
 // Applies 2GIS divIcon to marker
 L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 
+var mapInit = L.Map.prototype.initialize;
 // Restrict zoom level according to 2gis projects, in case if dgTileLayer is only one
 L.Map.include({
 
     _tln: 0,
     _mapMaxZoomCache: undefined,
 
-    _updateTln: function () {
-        var self = this;
+    initialize: function (id, options) {
+        this.on('layeradd layerremove', this._updateTln);
+        mapInit.call(this, id, options);
+    },
 
-        this._tln = 0;
-        Object.keys(this._layers).forEach(function (l) {
-            if (self._layers[l] instanceof L.DG.TileLayer) {
-                self._tln++;
-            }
-        });
+    _updateTln: function (e) {
+        var layerTest = function (l) {
+            return (l instanceof L.DG.TileLayer) ||
+                    (l instanceof L.TileLayer);
+        };
+
+        if (!layerTest(e.layer)) {
+            return;
+        }
+
+        this._tln = Object.keys(this._layers)
+            .map(function (l) {
+                return this._layers[l];
+            }, this)
+            .filter(layerTest, this)
+            .length;
     },
 
     _resctrictZoom: function (coords) {
