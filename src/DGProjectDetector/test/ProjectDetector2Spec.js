@@ -458,4 +458,20 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.getZoom()).to.be.equal(20);
         });
     });
+
+    describe('#isProjectHere', function () {
+
+        it('without params', function () {
+            expect(map.projectDetector.isProjectHere()).to.not.be.ok();
+        });
+
+        it('in desert', function () {
+            expect(map.projectDetector.isProjectHere(desert1)).to.not.be.ok();
+        });
+
+        it('in project', function () {
+            expect(map.projectDetector.isProjectHere(project1)).to.have.property('name');
+            expect(map.projectDetector.isProjectHere(project1).code).to.be.eql('novosibirsk');
+        });
+    });
 });
