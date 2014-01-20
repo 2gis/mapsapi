@@ -48,7 +48,7 @@ describe('L.DG.ProjectDetector', function () {
 
         loadProjectList = sinon.stub(L.DG.ProjectDetector.prototype, '_loadProjectList', function () {
             var projectsList = projects,
-                    verts, path;
+                verts, path;
             projectsList.forEach(function (project) {
                 project.LatLngBounds = wktToBnd(project.bound);
             });
@@ -61,7 +61,7 @@ describe('L.DG.ProjectDetector', function () {
             center: start,
             'zoom': 17,
             'geoclicker': true,
-            'zoomAnimation': false
+//            'zoomAnimation': false
         });
     });
 

@@ -17,6 +17,7 @@ L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 L.Map.include({
 
     _tln: 0,
+    _mapMaxZoomCache: undefined,
 
     _updateTln: function () {
         var self = this;
@@ -30,20 +31,32 @@ L.Map.include({
     },
 
     _resctrictZoom: function (coords) {
-
         if (this._layers &&
             this.projectDetector.enabled() &&
             this._tln === 1 &&
             this.getLayer('dgTileLayer')) {
 
-            var project = this.projectDetector.isProjectHere(coords);
+            var isMapMaxZoom = !!this.options.maxZoom,
+                /*mapOptions = this.options,
+                optToRestrict = isMapMaxZoom ? mapOptions : this.getLayer('dgTileLayer').options,*/
+                project = this.projectDetector.isProjectHere(coords);
             //console.log('limit, mthfc!');
             if (project) {
-                this.getLayer('dgTileLayer').options.maxZoom = project.max_zoom_level;
-                this._updateZoomLevels();
+                if (isMapMaxZoom) {
+                    this.options.maxZoom = this._mapMaxZoomCache;
+                } else {
+                    this.getLayer('dgTileLayer').options.maxZoom = project.max_zoom_level;
+                    this._updateZoomLevels();
+                }
             } else {
-                this.getLayer('dgTileLayer').options.maxZoom = 13;
-                this._updateZoomLevels();
+                if (isMapMaxZoom) {
+                    this._mapMaxZoomCache = this.options.maxZoom;
+                    this.options.maxZoom = 13;
+                } else {
+                    this.getLayer('dgTileLayer').options.maxZoom = 13;
+                    this._updateZoomLevels();
+                }
+
             }
         }
     },
@@ -52,7 +65,7 @@ L.Map.include({
         //debugger;
         this._resctrictZoom(center);
 
-        zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
+        zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
         console.log('limit zoom: ', zoom);
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
