@@ -59,7 +59,7 @@ L.DG.Ruler = L.Class.extend({
                 return point._latlng;
             }, this);
 
-        for (var i = mutationStart, length = this._points.length; i < length; i++) {
+        for (var i = mutationStart, length = this._points.length, style; i < length; i++) {
             if (!(this._points[i] instanceof L.DG.Ruler.LayeredMarker)) {
                 this._points[i] = this._createPoint(this._points[i])
                                         .on(this._pointEvents, this)
@@ -68,10 +68,13 @@ L.DG.Ruler = L.Class.extend({
             if (i && !this._points[i - 1]._legs) {
                 this._addLegs(this._points[i - 1]);
             }
+            this._points[i].setPointStyle(this.options.iconStyles[i && i < length - 1 ? 'small' : 'large']);
             this._points[i]._pos = i;
         }
         if (mutationStart === 0) {
             this._addCloseHandler(this._points[0]);
+        } else {
+            this._points[mutationStart - 1].setPointStyle(this.options.iconStyles.small);
         }
         this._updateDistance();
         return removed;

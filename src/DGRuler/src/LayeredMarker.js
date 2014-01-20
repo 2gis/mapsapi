@@ -21,6 +21,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         }, this);
         this.off('move', this._onMove);
         this._viewport = null;
+        this._style = null;
         return L.Marker.prototype.onRemove.call(this, map);
     },
 
@@ -32,10 +33,12 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         return this;
     },
 
-    setPointStyle : function (styles) {
-        Object.keys(styles).forEach(function (name) {
-            this._layers[name].setStyle(styles[name]);
-        }, this);
+    setPointStyle : function (style) {
+        if (this._style !== style) {
+            Object.keys(this._style = style).forEach(function (name) {
+                this._layers[name].setStyle(style[name]);
+            }, this);
+        }
         return this;
     },
 
