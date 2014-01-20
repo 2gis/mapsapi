@@ -13,11 +13,17 @@ L.Control.include({
 // Applies 2GIS divIcon to marker
 L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 
+var mapInit = L.Map.prototype.initialize;
 // Restrict zoom level according to 2gis projects, in case if dgTileLayer is only one
 L.Map.include({
 
     _tln: 0,
     _mapMaxZoomCache: undefined,
+
+    initialize: function (id, options) {
+        this.on('layeradd layerremove', this._updateTln);
+        mapInit.call(this, id, options);
+    },
 
     _updateTln: function (e) {
         var layerTest = function (l) {
