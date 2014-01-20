@@ -19,15 +19,22 @@ L.Map.include({
     _tln: 0,
     _mapMaxZoomCache: undefined,
 
-    _updateTln: function () {
-        var self = this;
+    _updateTln: function (e) {
+        var layerTest = function (l) {
+            return (l instanceof L.DG.TileLayer) ||
+                    (l instanceof L.TileLayer);
+        };
 
-        this._tln = 0;
-        Object.keys(this._layers).forEach(function (l) {
-            if (self._layers[l] instanceof L.DG.TileLayer) {
-                self._tln++;
-            }
-        });
+        if (!layerTest(e.layer)) {
+            return;
+        }
+
+        this._tln = Object.keys(this._layers)
+            .map(function (l) {
+                return this._layers[l];
+            }, this)
+            .filter(layerTest, this)
+            .length;
     },
 
     _resctrictZoom: function (coords) {
