@@ -21,12 +21,6 @@ L.DG.ajax = (function () {
         xmlHttpRequest = 'XMLHttpRequest',
         xDomainRequest = 'XDomainRequest',
         noop = function () {},
-
-        isArray = typeof Array.isArray === 'function' ? Array.isArray
-                : function (a) {
-                    return a instanceof Array;
-                },
-
         defaultHeaders = {
             contentType: 'application/x-www-form-urlencoded',
             requestedWith: xmlHttpRequest,
@@ -258,7 +252,7 @@ L.DG.ajax = (function () {
         var name, i, v,
             rbracket = /\[\]$/;
 
-        if (isArray(obj)) {
+        if (L.Util.isArray(obj)) {
         // Serialize array item.
             for (i = 0; obj && i < obj.length; i++) {
                 v = obj[i];
@@ -434,7 +428,7 @@ L.DG.ajax = (function () {
             };
 
         // If an array was passed in, assume that it is an array of form elements.
-        if (isArray(o)) {
+        if (L.Util.isArray(o)) {
             for (i = 0; o && i < o.length; i++) {
                 add(o[i].name, o[i].value);
             }
@@ -451,6 +445,10 @@ L.DG.ajax = (function () {
         // spaces should be + according to spec
         return s.join('&').replace(/%20/g, '+');
     };
+
+    var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
+
+    Ajax.corsSupport = !(!(testxhr && 'withCredentials' in testxhr) && !win[xDomainRequest]);
 
     return Ajax;
 })();

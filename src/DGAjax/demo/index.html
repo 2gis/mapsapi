@@ -4,7 +4,7 @@
     <title>DGAjax & DGPromise demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug" data-id="dgLoader"></script>
 </head>
 <body>
 
@@ -34,12 +34,12 @@
         }
     }());
 
-    L.onLoad(function () {
+    L.DG.then(function () {
 
         var map = new L.Map('map', {
             center: new L.LatLng(54.980206086231, 82.898068362003),
             zoom: 17,
-            dgGeoclicker: true
+            geoclicker: true
         });
 
         function test_jsonp(){
@@ -63,7 +63,7 @@
                     console.warn('error', error);
                 },
                 complete: function(){
-                    console.log('complete');    
+                    console.log('complete');
                 }
             }).then(
                 function(data) { console.log('promise resolve', data) },
@@ -94,7 +94,7 @@
                     console.warn('error', error);
                 },
                 complete: function(){
-                    console.log('complete');    
+                    console.log('complete');
                 }
             }).then(
                 function(data) { console.log('promise resolve', data) },
@@ -125,7 +125,7 @@
                     console.warn('error', error);
                 },
                 complete: function(){
-                    console.log('complete');    
+                    console.log('complete');
                 }
             }).then(
                 function(data) { console.log('promise resolve', data) },

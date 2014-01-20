@@ -73,6 +73,10 @@
     width: 12px;
 }
 
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
+    background-image: url(../img/icon-sight.png);
+}
+
 /*FIRM LIST*/
 .building-callout__list {
     margin: 8px 8px 8px 24px;
@@ -172,6 +176,9 @@
     font: 12px/24px Arial;
     text-decoration: none;
     position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .popup_footer_btn-wrapper:first-child .popup_footer_btn {
@@ -233,7 +240,24 @@
 
 .dg-popup-header-title__firmcard {
     overflow: hidden;
-    max-height: 2.1em;
+    position: relative;
+    max-height: 3.4em;
+}
+.dg-popup-header-title__firmcard__teaser {
+    height: 3.3em;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.clamped-line {
+    white-space: nowrap;
+    display: block;
+}
+.clamped-line-last {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 #dg-popup-firm-loading {
@@ -255,6 +279,15 @@
     top: 50%;
     left: 50%;
     margin: -16px 0 0 -74px !important;
+}
+
+
+.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
+    background-image: url(../img/callout-settlement-2x.png);
+}
+
+.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
+    background-image: url(../img/icon-sight-2x.png);
 }
 
 

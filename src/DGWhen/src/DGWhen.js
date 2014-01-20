@@ -1,4 +1,5 @@
 /* jshint ignore:start */
+L.DG = L.DG || {};
 
 L.DG.when = (function (global) {
 

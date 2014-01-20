@@ -30,14 +30,14 @@ L.Control.Zoom.include({
     },
 
     _eventListeners : {
-        dgProjectLeave : function () {
-            var projectLeaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
-            this._map.setMaxZoom(projectLeaveMaxZoom);
-            if (this._map.getZoom() > projectLeaveMaxZoom) {
-                this._map.setZoom(projectLeaveMaxZoom);
+        projectleave : function () {
+            var projectleaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
+            this._map.setMaxZoom(projectleaveMaxZoom);
+            if (this._map.getZoom() > projectleaveMaxZoom) {
+                this._map.setZoom(projectleaveMaxZoom);
             }
         },
-        dgProjectChange : function (project) {
+        projectchange : function (project) {
             var projectInfo = project.getProject();
             if (projectInfo) {
                 this._map.setMaxZoom(projectInfo.max_zoom_level);

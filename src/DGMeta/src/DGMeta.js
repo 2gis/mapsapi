@@ -1,6 +1,6 @@
 L.DG.Meta = L.Handler.extend({
 
-    _currentPoi: null,
+    _currentPoi: null,                          // TODO: refactor #reset in add/remove
     _currentBuilding: null,
     _currentTile: null,
     _currentTileMetaData: null,
@@ -8,10 +8,26 @@ L.DG.Meta = L.Handler.extend({
     _listenPoi: false,
     _listenBuildings: false,
 
-    initialize: function (map) { // (Object)
+    options: {
+        zoomOffset: 0
+    },
+
+    initialize: function (map, options) { // (Object)
+        L.setOptions(this, options);
         this._map = map;
         this._mapPanes = map.getPanes();
-        this._tileSize = L.DG.TileLayer.prototype.options.tileSize;	// TODO: tileSize getter
+
+        this._tileSize = L.DG.TileLayer.prototype.options.tileSize;
+        if (!this.options.zoomOffset) {
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.TileLayer && layer.options.zoomOffset) {
+                    this.options.zoomOffset = layer.options.zoomOffset;
+                    this.options.maxNativeZoom = layer.options.maxNativeZoom;
+                    this._tileSize = layer.options.tileSize;
+                }
+            }, this);
+        }
+
         this._metaHost = new L.DG.Meta.Host();
     },
 
@@ -60,7 +76,7 @@ L.DG.Meta = L.Handler.extend({
             }
 
             var xyz = this._getTileID(e),
-                zoom = this._map._zoom,
+                zoom = this._getDataZoom(),
                 self = this;
             if (this._isTileChanged(xyz)) {
                 this._currentTileMetaData = null;
@@ -88,6 +104,11 @@ L.DG.Meta = L.Handler.extend({
         }
     },
 
+    _getDataZoom: function () {
+        var zoom = this._map._zoom + this.options.zoomOffset;
+        return this.options.maxNativeZoom ? Math.min(zoom, this.options.maxNativeZoom) : zoom;
+    },
+
     _checkPoiHover: function (latLng, zoom) { // (L.LatLng, String)
         var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
 
@@ -97,7 +118,7 @@ L.DG.Meta = L.Handler.extend({
 
         if (hoveredPoi && (!this._currentPoi || this._currentPoi.id !== hoveredPoi.id)) {
             this._currentPoi = hoveredPoi;
-            this._map.fire('dgPoiHover', {'poi': this._currentPoi, latlng: latLng});
+            this._map.fire('poihover', {'poi': this._currentPoi, latlng: latLng});
             L.DomEvent.addListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick, this);
         }
     },
@@ -111,14 +132,14 @@ L.DG.Meta = L.Handler.extend({
 
         if (hoveredBuilding && (!this._currentBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {
             this._currentBuilding = hoveredBuilding;
-            this._map.fire('dgBuildingHover', {'building': this._currentBuilding, latlng: latLng});
+            this._map.fire('buildinghover', {'building': this._currentBuilding, latlng: latLng});
         }
     },
 
     _leaveCurrentPoi: function () {
         if (this._currentPoi) {
             this._map
-                    .fire('dgPoiLeave', { 'poi': this._currentPoi })
+                    .fire('poileave', { 'poi': this._currentPoi })
                     .off('click', this._onDomMouseClick, this);
             L.DomEvent.removeListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick);
             this._currentPoi = null;
@@ -127,14 +148,14 @@ L.DG.Meta = L.Handler.extend({
 
     _leaveCurrentBuilding: function () {
         if (this._currentBuilding) {
-            this._map.fire('dgBuildingLeave', { 'building': this._currentBuilding });
+            this._map.fire('buildingleave', { 'building': this._currentBuilding });
             this._currentBuilding = null;
         }
     },
 
     _onDomMouseClick: function (event) { // (Object)
         if (this._currentPoi) {
-            this._map.fire('dgPoiClick', {
+            this._map.fire('poiclick', {
                 'poi': this._currentPoi,
                 //latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
                 latlng: L.latLngBounds(this._currentPoi.vertices).getCenter()
@@ -144,7 +165,7 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _calcTilesAtZoom: function () {
-        this._tilesAtZoom = Math.pow(2, this._map.getZoom()); // counts tiles number on current zoom
+        this._tilesAtZoom = Math.pow(2, this._getDataZoom()); // counts tiles number on current zoom
     },
 
     _belongsToPane: function (element, pane) { // (HTMLElement, String) -> Boolean
@@ -162,11 +183,13 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _getTileID: function (e) { // (L.Event) -> String
-        var p = this._map.project(e.latlng.wrap()),
-            x = Math.floor(p.x / this._tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
-            y = Math.floor(p.y / this._tileSize);
+        var dataZoom = this._getDataZoom(),
+            tileSize = this._tileSize * ((this.options.zoomOffset && this._map._zoom === dataZoom) + 1), // remove when 19 level tiles will be ready (maxNativeZoom == maxZoom)
+            p = this._map.project(e.latlng.wrap()),
+            x = Math.floor(p.x / tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
+            y = Math.floor(p.y / tileSize);
 
-        return x + ',' +  y + ',' + this._map._zoom;
+        return x + ',' +  y + ',' + dataZoom;
     },
 
     _isTileChanged: function (xyz) { // (String) -> Boolean
@@ -195,4 +218,4 @@ L.DG.Meta = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'dgMeta', L.DG.Meta);
+L.Map.addInitHook('addHandler', 'meta', L.DG.Meta);

@@ -109,8 +109,8 @@ module.exports = function (grunt) {
                 commitMessage: 'Release %VERSION%',
                 tagName: '%VERSION%',
                 tagMessage: 'Version %VERSION%',
-                push: false,
-                pushTo: ['origin', 'github']
+                push: true,
+                pushTo: 'all'
             }
         },
         doc: {

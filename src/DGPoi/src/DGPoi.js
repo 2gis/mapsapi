@@ -1,5 +1,5 @@
 L.Map.mergeOptions({
-    dgPoi: false
+    poi: false
 });
 
 L.DG.Poi = L.Handler.extend({
@@ -15,7 +15,7 @@ L.DG.Poi = L.Handler.extend({
 
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
-        this._map.dgMeta.enablePoiListening();
+        this._map.meta.enablePoiListening();
         if (!this.options.disableLabel) {
             this._labelHelper = new L.DG.Label();
         }
@@ -24,7 +24,7 @@ L.DG.Poi = L.Handler.extend({
     removeHooks: function () {
         this._map.off(this._mapEventsListeners, this);
         this._map.off('mousemove', this._onMouseMove, this);
-        this._map.dgMeta.disablePoiListening();
+        this._map.meta.disablePoiListening();
         if (this._labelHelper) {
             this._map.removeLayer(this._labelHelper);
             this._labelHelper = null;
@@ -32,7 +32,7 @@ L.DG.Poi = L.Handler.extend({
     },
 
     _mapEventsListeners : {
-        dgPoiHover: function (e) { // (Object)
+        poihover: function (e) { // (Object)
             this._setCursor('pointer');
             if (this._labelHelper) {
                 this._labelHelper
@@ -44,7 +44,7 @@ L.DG.Poi = L.Handler.extend({
             }
         },
 
-        dgPoiLeave: function () {
+        poileave: function () {
             this._setCursor('auto');
             if (this._labelHelper) {
                 this._map
@@ -64,4 +64,4 @@ L.DG.Poi = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'dgPoi', L.DG.Poi);
+L.Map.addInitHook('addHandler', 'poi', L.DG.Poi);

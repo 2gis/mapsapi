@@ -15,12 +15,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td>dgProjectChange</td>
+        <td>projectchange</td>
         <td>ProjectEvent</td>
         <td>Возникает, когда пользователь переходит из одного проекта в другой.</td>
     </tr>
     <tr>
-        <td>dgProjectLeave</td>
+        <td>projectleave</td>
         <td>ProjectEvent</td>
         <td>Возникает, когда пользователь выходит за пределы текущего проекта.</td>
     </tr>
@@ -51,14 +51,14 @@
 </table>
 
 # Примеры
-Подписка на событие dgProjectChange:
+Подписка на событие projectchange:
 
-    map.on('dgProjectChange', function (e) {
+    map.on('projectchange', function (e) {
         console.log(e);
     });
 
-Подписка на событие dgProjectLeave:
+Подписка на событие projectleave:
 
-    map.on('dgProjectLeave', function (e) {
+    map.on('projectleave', function (e) {
        console.log(e);
     });

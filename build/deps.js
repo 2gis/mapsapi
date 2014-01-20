@@ -3,15 +3,15 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            'DGCore/DGCore.js',
             '../vendors/polyfills/json2.js',
             '../vendors/polyfills/html5shiv.js',
-            '../vendors/polyfills/es5.js'
+            '../vendors/polyfills/es5.js',
+            'DGCore/src/DGCore.js',
+            'DGCore/src/DGplugin.js',
+            'DGCore/src/DGthen.js'
         ],
         css: {
-            all: [
-                '../vendors/leaflet/dist/leaflet.css'
-            ]
+            all: ['../vendors/leaflet/dist/leaflet.css']
         },
         heading: '2GIS modules',
         deps: [ 'Core',
@@ -49,19 +49,19 @@ var deps = {
                 'AnimationPan',
                 'AnimationTimer',
                 'AnimationZoom',
-                'Geolocation']
+                'Geolocation',
+                'DGWhen']
     },
 
     DGWhen: {
         desc: 'Promise/Deffered object module',
-        src: [ 'DGWhen/src/DGWhen.js'],
-        deps: ['DGCore']
+        src: [ 'DGWhen/src/DGWhen.js']
     },
 
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGCore', 'DGWhen']
+        deps: ['DGCore']
     },
 
     DGLabel: {
@@ -78,9 +78,10 @@ var deps = {
     },
 
     DGWkt: {
-        desc: 'WKT parser module.',
-        src: ['DGWkt/Wkt.js',
-              'DGWkt/DGWkt.js'
+        desc: 'WKT parser module',
+        src: [
+            'DGWkt/Wkt.js',
+            'DGWkt/DGWkt.js'
         ],
         deps: ['DGCore']
     },
@@ -122,7 +123,7 @@ var deps = {
     },
 
     DGAttribution: {
-        desc: 'Our copyright',
+        desc: '2GIS copyright',
         src: [
             'DGAttribution/src/DGAttribution.js',
             'DGAttribution/lang/ru.js',
@@ -139,7 +140,10 @@ var deps = {
 
     DGLocale: {
         desc: 'Localization module',
-        src: ['DGLocale/src/DGDictionary.js', 'DGLocale/src/DGLocale.js'],
+        src: [
+            'DGLocale/src/DGDictionary.js',
+            'DGLocale/src/DGLocale.js'
+        ],
         deps: ['DGCore']
     },
 
@@ -153,20 +157,19 @@ var deps = {
             'DGLocation/lang/en.js'
         ],
         css: {
-            all: [
-                'DGLocation/skin/{skin}/css/DGLocation.css'
-            ]
+            all: ['DGLocation/skin/{skin}/css/DGLocation.css']
         },
-        deps: ['DGCore', 'DGLocale', 'DGLabel']
+        deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
     },
 
     DGFullScreen: {
         desc: 'Full screen module',
-        src: ['DGFullScreen/src/DGFullScreen.js',
-              'DGFullScreen/lang/ru.js',
-              'DGFullScreen/lang/it.js',
-              'DGFullScreen/lang/cs.js',
-              'DGFullScreen/lang/en.js'
+        src: [
+            'DGFullScreen/src/DGFullScreen.js',
+            'DGFullScreen/lang/ru.js',
+            'DGFullScreen/lang/it.js',
+            'DGFullScreen/lang/cs.js',
+            'DGFullScreen/lang/en.js'
         ],
         css: {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
@@ -175,28 +178,20 @@ var deps = {
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
 
-    DGJsonp: {
-        desc: 'JSONP module',
-        src: ['DGJsonp/src/DGJsonp.js'],
+    DGTileLayer: {
+        desc: '2GIS tile layer module',
+        src: ['DGTileLayer/src/DGTileLayer.js'],
         deps: ['DGCore']
     },
 
-    DGTileLayer: {
-        desc: '2GIS tile layer module',
-        src: [
-            'DGTileLayer/src/DGTileLayer.js'
-        ],
-        deps: ['DGCore', 'DGTemplate', 'DGLocale']
-    },
-
     DGProjectDetector: {
-        desc: '2GIS project detector module.',
+        desc: '2GIS project detector module',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGCore', 'DGJsonp']
+        deps: ['DGCore', 'DGAjax']
     },
 
     DGMeta: {
-        desc: '2GIS POI & buildings data support module.',
+        desc: '2GIS POI & buildings data support module',
         src: [
             'DGMeta/src/DGMeta.js',
             'DGMeta/src/storage/Storage.js',
@@ -209,28 +204,30 @@ var deps = {
     },
 
     DGPoi: {
-        desc: '2GIS POI module.',
+        desc: '2GIS POI module',
         src: ['DGPoi/src/DGPoi.js'],
         deps: ['DGMeta', 'DGLabel']
     },
 
     DGBuildings: {
-        desc: '2GIS buildings module.',
+        desc: '2GIS buildings module',
         src: ['DGBuildings/src/DGBuildings.js'],
         deps: ['DGMeta']
     },
 
     DGGeoclicker: {
-        desc: '2GIS Geoclicker.',
+        desc: '2GIS Geoclicker',
         css: {
             all: [
                 'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
                 'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCardThemeSetup.css'
-            ]
+                'DGGeoclicker/skin/{skin}/css/DGFirmCardSkinSetup.css'
+            ],
+            ie: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.ie.css']
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
+            'DGGeoclicker/src/ClampHelper.js',
             'DGGeoclicker/src/provider/Provider.js',
             'DGGeoclicker/src/provider/CatalogApi.js',
             'DGGeoclicker/src/handler/Handler.js',
@@ -257,18 +254,16 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGJsonp', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi']
+        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
     DGTemplate: {
         desc: '2GIS Template',
-        src: [
-            'DGTemplate/src/DGTemplate.js'
-        ]
+        src: ['DGTemplate/src/DGTemplate.js']
     },
 
     DGEntrance: {
-        desc: '2GIS Entrances.',
+        desc: '2GIS Entrances',
         src: [
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/PathAnimation.js',
@@ -284,16 +279,10 @@ var deps = {
 
     DGRoundControl: {
         desc: 'Control helper',
-        src: [
-            'DGRoundControl/src/DGRoundControl.js'
-        ],
+        src: ['DGRoundControl/src/DGRoundControl.js'],
         css: {
-            all: [
-                'DGRoundControl/skin/{skin}/css/DGRoundControl.css'
-            ],
-            ie: [
-                'DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css'
-            ]
+            all: ['DGRoundControl/skin/{skin}/css/DGRoundControl.css'],
+            ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
     },
