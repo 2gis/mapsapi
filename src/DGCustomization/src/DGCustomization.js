@@ -36,22 +36,20 @@ L.Map.include({
             this._tln === 1 &&
             this.getLayer('dgTileLayer')) {
 
-            var isMapMaxZoom = !!this.options.maxZoom,
-                /*mapOptions = this.options,
-                optToRestrict = isMapMaxZoom ? mapOptions : this.getLayer('dgTileLayer').options,*/
+            var mapOptions = this.options,
+                isMapMaxZoom = !!mapOptions.maxZoom,
                 project = this.projectDetector.isProjectHere(coords);
-            //console.log('limit, mthfc!');
             if (project) {
                 if (isMapMaxZoom) {
-                    this.options.maxZoom = this._mapMaxZoomCache;
+                    if (this._mapMaxZoomCache) { mapOptions.maxZoom = this._mapMaxZoomCache; }
                 } else {
                     this.getLayer('dgTileLayer').options.maxZoom = project.max_zoom_level;
                     this._updateZoomLevels();
                 }
             } else {
                 if (isMapMaxZoom) {
-                    this._mapMaxZoomCache = this.options.maxZoom;
-                    this.options.maxZoom = 13;
+                    this._mapMaxZoomCache = mapOptions.maxZoom;
+                    mapOptions.maxZoom = 13;
                 } else {
                     this.getLayer('dgTileLayer').options.maxZoom = 13;
                     this._updateZoomLevels();
@@ -61,12 +59,11 @@ L.Map.include({
         }
     },
 
-    setView: function (center, zoom, options) {
-        //debugger;
+    setView: function (center, zoom, options, originCenter) {
+        center = originCenter ? originCenter : center;
         this._resctrictZoom(center);
 
         zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
-        console.log('limit zoom: ', zoom);
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
 

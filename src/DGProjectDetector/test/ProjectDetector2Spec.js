@@ -61,7 +61,7 @@ describe('L.DG.ProjectDetector', function () {
             center: start,
             'zoom': 17,
             'geoclicker': true,
-//            'zoomAnimation': false
+            'zoomAnimation': false
         });
     });
 
