@@ -379,7 +379,7 @@ describe('L.DG.ProjectDetector', function () {
 
     describe('#MaxZoom in options', function () {
 
-        it('set max 16 and zoom to 20 in project', function () {
+        it('set less max project zoom and zoom to 20 in project', function () {
             expect(map.options.maxZoom = 16).to.be.equal(16);
 
             map.setView(project1, 20);
@@ -387,7 +387,7 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.getZoom()).to.be.equal(16);
         });
 
-        it('set max 16 and zoom to 20 in desert', function () {
+        it('set less max project zoom and zoom to 20 in desert', function () {
             expect(map.options.maxZoom = 16).to.be.equal(16);
 
             map.setView(desert1, 20);
@@ -395,7 +395,7 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
 
-        it('set max 19 and zoom to 20 in project', function () {
+        it('set more max project zoom and zoom to 20 in project', function () {
             expect(map.options.maxZoom = 19).to.be.equal(19);
 
             map.setView(project1, 20);
@@ -403,7 +403,7 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.getZoom()).to.be.equal(19);
         });
 
-        it('set max 19 and zoom to 20 in desert', function () {
+        it('set more max project zoom and zoom to 20 in desert', function () {
             expect(map.options.maxZoom = 19).to.be.equal(19);
 
             map.setView(desert1, 20);
@@ -426,36 +426,10 @@ describe('L.DG.ProjectDetector', function () {
             map.removeLayer(cloudmade2);
         });
 
-        it('set max 16 and zoom to 20 in project', function () {
-            expect(map.options.maxZoom = 16).to.be.equal(16);
+        it('zoom to 18 in desert', function () {
+            map.setView(desert1, maxZoom);
 
-            map.setView(project1, 20);
-
-            expect(map.getZoom()).to.be.equal(20);
-        });
-
-        it('set max 16 and zoom to 20 in desert', function () {
-            expect(map.options.maxZoom = 16).to.be.equal(16);
-
-            map.setView(desert1, 20);
-
-            expect(map.getZoom()).to.be.equal(20);
-        });
-
-        it('set max 19 and zoom to 20 in project', function () {
-            expect(map.options.maxZoom = 19).to.be.equal(19);
-
-            map.setView(project1, 20);
-
-            expect(map.getZoom()).to.be.equal(20);
-        });
-
-        it('set max 19 and zoom to 20 in desert', function () {
-            expect(map.options.maxZoom = 19).to.be.equal(19);
-
-            map.setView(desert1, 20);
-
-            expect(map.getZoom()).to.be.equal(20);
+            expect(map.getZoom()).to.be.equal(maxZoom);
         });
     });
 
