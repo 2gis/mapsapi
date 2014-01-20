@@ -1,3 +1,5 @@
+L.DG.Control = {};
+
 //Inject observing localization change
 var controlAddTo = L.Control.prototype.addTo;
 

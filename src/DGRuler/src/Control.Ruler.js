@@ -26,14 +26,14 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
             if (this._active = !this._active) { // jshint ignore:line
                 this.setState('active');
                 this._map.addLayer(this._drawingHelper);
-                if (this._geoclickerNeedRestore = this._map.dgGeoclicker.enabled()) { // jshint ignore:line
-                    this._map.dgGeoclicker.disable();
+                if (this._geoclickerNeedRestore = this._map.geoclicker.enabled()) { // jshint ignore:line
+                    this._map.geoclicker.disable();
                 }
             } else {
                 this.setState('');
                 this._map.removeLayer(this._drawingHelper);
                 if (this._geoclickerNeedRestore) {
-                    this._map.dgGeoclicker.enable();
+                    this._map.geoclicker.enable();
                 }
             }
         },
