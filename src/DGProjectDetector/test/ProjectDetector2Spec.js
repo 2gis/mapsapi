@@ -376,4 +376,86 @@ describe('L.DG.ProjectDetector', function () {
         });
 
     });
+
+    describe('#MaxZoom in options', function () {
+
+        it('set max 16 and zoom to 20 in project', function () {
+            expect(map.options.maxZoom = 16).to.be.equal(16);
+
+            map.setView(project1, 20);
+
+            expect(map.getZoom()).to.be.equal(16);
+        });
+
+        it('set max 16 and zoom to 20 in desert', function () {
+            expect(map.options.maxZoom = 16).to.be.equal(16);
+
+            map.setView(desert1, 20);
+
+            expect(map.getZoom()).to.be.equal(maxDesertZoom);
+        });
+
+        it('set max 19 and zoom to 20 in project', function () {
+            expect(map.options.maxZoom = 19).to.be.equal(19);
+
+            map.setView(project1, 20);
+
+            expect(map.getZoom()).to.be.equal(19);
+        });
+
+        it('set max 19 and zoom to 20 in desert', function () {
+            expect(map.options.maxZoom = 19).to.be.equal(19);
+
+            map.setView(desert1, 20);
+
+            expect(map.getZoom()).to.be.equal(maxDesertZoom);
+        });
+
+    });
+
+    describe('#multiLayers', function () {
+        var cloudmade2;
+        beforeEach(function () {
+            function getCloudMadeUrl(styleId) {
+                return 'http://{s}.tile.cloudmade.com/d4fc77ea4a63471cab2423e66626cbb6/' + styleId + '/256/{z}/{x}/{y}.png';
+            }
+            cloudmade2 = L.tileLayer(getCloudMadeUrl(998), {attribution: 'Hello world', minZoom: 5, maxZoom: 18}).addTo(map);
+        });
+
+        afterEach(function () {
+            map.removeLayer(cloudmade2);
+        });
+
+        it('set max 16 and zoom to 20 in project', function () {
+            expect(map.options.maxZoom = 16).to.be.equal(16);
+
+            map.setView(project1, 20);
+
+            expect(map.getZoom()).to.be.equal(20);
+        });
+
+        it('set max 16 and zoom to 20 in desert', function () {
+            expect(map.options.maxZoom = 16).to.be.equal(16);
+
+            map.setView(desert1, 20);
+
+            expect(map.getZoom()).to.be.equal(20);
+        });
+
+        it('set max 19 and zoom to 20 in project', function () {
+            expect(map.options.maxZoom = 19).to.be.equal(19);
+
+            map.setView(project1, 20);
+
+            expect(map.getZoom()).to.be.equal(20);
+        });
+
+        it('set max 19 and zoom to 20 in desert', function () {
+            expect(map.options.maxZoom = 19).to.be.equal(19);
+
+            map.setView(desert1, 20);
+
+            expect(map.getZoom()).to.be.equal(20);
+        });
+    });
 });
