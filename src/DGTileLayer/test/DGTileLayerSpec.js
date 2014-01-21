@@ -35,7 +35,7 @@ describe("DG TileLayer Module", function () {
         });
     });
 
-    it("when remove 2gis tilelayer ProjectDetector should be disabled", function ()
+    it("when remove 2gis tilelayer ProjectDetector should be disabled", function () {
         expect(map.projectDetector.enabled()).to.be.ok();
         map.removeLayer(map._layers.dgTileLayer);
         expect(map.projectDetector.enabled()).to.not.be.ok();
