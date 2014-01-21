@@ -2,64 +2,82 @@
 
 ## Подключение API
 
-Чтобы быстро начать использовать API достаточно подключить наш загрузчик в `<head></head>`:
+Работа с картой возможна только после того, как будет загружена библиотека. Есть несколько способов это сделать. Начнем с простого.
 
-`<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug&skin=dark&lazy=true" data-id="dgLoader"></script>`
+### Простой способ
 
-* атрибут `data-id="dgLoader"` является обязательным.
+Сперва подключим API карт, поместив в секцию head HTML-страницы следующий код:
 
-### Опции
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+
+Атрибут `data-id="dgLoader"` обязательный.
+
+Затем воспользуемся функцией DG.then, в которую поместим код инициализации карты:
+
+    DG.then(function() {
+        map = DG.map('map', {
+            'center': [54.98, 82.89],
+            'zoom': 13
+        });
+    });
+
+Внутри себя эта функция добавляет обработчик события загрузки страницы. Именно такой способ рассматривался в разделе «Быстрый старт».
+
+### Загрузка по требованию
+
+Вы можете загрузить API карт именно в тот момент, когда карта станет нужна. Для этого в URL подключения API необходимо добавить параметр `lazy=true`:
+
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true" data-id="dgLoader"></script>
+
+Затем в нужный момент времени (например, при нажатии на кнопку) необходимо вызвать функцию DG.then:
+
+    DG.then(function() {
+        map = DG.map('map', {
+            'center': [54.98, 82.89],
+            'zoom': 13
+        });
+    });
+
+### Опции подключения
+
+Ниже описаны все опции, которые может принимать URL загрузки API карт:
 
 <table>
     <tr>
-        <th>Опции</th>
+        <th>Опция</th>
         <th>По умолчанию</th>
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>pkg</b></code></td>
+        <td><code>pkg</code></td>
         <td><code>full</code></td>
-        <td>Загрузка пакета, содержащего набор определенных модулей (full - содержит в себе все доступные модули).</td>
+        <td>Пакет загружаемых модулей. На данный момент поддерживается 2 пакета: `full` - все модули API, `light` - базовая функциональность (балуны, маркера, геометрии).</td>
     </tr>
-    <tr>
-        <td><code><b>mod</b></code></td>
+    <!--<tr>
+        <td><code>mod</code></td>
         <td><code>null</code></td>
-        <td>Указание конкретных модулей для загрузки. Если задать этот параметр, то параметр pkg будет проигнорирован.</td>
-    </tr>
+        <td>Перечень конкретных модулей для загрузки (через запятую). Если задать этот параметр, тогда параметр pkg будет проигнорирован.</td>
+    </tr>-->
     <tr>
-        <td><code><b>skin</b></code></td>
+        <td><code>skin</code></td>
         <td><code>light</code></td>
-        <td>Указать желаемый скин приложения, в базовой поставке доступны cкины light и dark.</td>
+        <td>Тема карты (светлая или темная). Принимает значение `light` или `dark`.</td>
     </tr>
     <tr>
-        <td><code><b>mode</b></code></td>
+        <td><code>mode</code></td>
         <td><code>null</code></td>
-        <td>Если указать значение debug, загрузится не минифицированная версия API.</td>
+        <td>Если указать значение `debug`, тогда загрузится несжатый JavaScript код API (удобно при отладке приложений).</td>
     </tr>
     <tr>
-        <td><code><b>lazy</b></code></td>
+        <td><code>lazy</code></td>
         <td><code>false</code></td>
-        <td>Если указать значение true, API загрузится отложено, при первом вызове L.DG.then.</td>
+        <td>Если указать значение `true`, тогда API карт загрузится отложено, при первом вызове `DG.then`.</td>
     </tr>
 </table>
 
-## L.DG.then
+### Функция DG.then
 
-Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:
-
-    L.DG.then(function () {
-             map = new L.Map('map', {
-                'center': new L.LatLng(54.980206086231, 82.898068362003),
-                'zoom': 13,
-                'dgGeoclicker': true
-            });
-        }, function () {console.log('rejected');})
-        .then(function () {
-            console.log('deferred handler');}
-        })
-
-
-### Интерфейс
+Как было описано ранее, функция `DG.then` отвечает за отслеживание момента загрузки API карт и добавление обработчиков этого действия. Параметры функции:
 
 <table>
     <tr>
@@ -68,54 +86,61 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.then</b>(
+        <td>DG.then</b>(
             <nobr>&lt;Function&gt; <i>resolve</i>,</nobr>
             <nobr>&lt;Function&gt; <i>reject</i></nobr>)
         </code></td>
         <td><code>Promise</code></td>
-        <td>Регистрирует обработчики для выполнения по завершению загрузки API, resolve - отрабатывают в случае успешной загрузки, reject - в случае, если сервер не отдал собранные js и css исходники.</td>
+        <td>Регистрирует обработчики загрузки API. Пареметры: resolve - сработает при успешной загрузке API карт, reject - в случае ошибки сервера.</td>
     </tr>
 </table>
 
-Т.к. в основе L.DG.then использованы Promise, вызов L.DG.then в любой момент после загрузки API, мгновенно выполнит обработчик.
+Вызов функции `DG.then` в любой момент после загрузки API мгновенно выполнит обработчик.
 
-## L.DG.plugin
+## Подключение сторонних модулей
 
-Интерфейс для подключения плагинов, зависящих от API или Leaflet:
+API карт совместим с большинством модулей библиотеки Leaflet, также вы можете разработать и подключить <a href="https://github.com/2gis/maps-api-2.0/blob/master/CONTRIBUTING.md#%D0%9A%D0%B0%D0%BA-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8C" target="_blank">собственный модуль</a>. Для подключения модулей используется функция `DG.plugin`. Ниже мы рассмотрим несколько примеров ее использования.
 
-    L.DG.then(function () {
-            //загрузка плагинов
-            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
-        })
-        .then(function () {
-            //инициализация карты
-            var map = new L.Map('map', {
-                'center': new L.LatLng(54.980206086231, 82.898068362003),
-                'zoom': 13,
-                'dgGeoclicker': true
-            });
-            //инициализация плагина
-            var hash = new L.Hash(map);
-        })
+Использование функции `DG.plugin` в случае, когда модуль должен быть загружен до начала инициализации карты:
 
-Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:
+    // загрузка кода API карт
+    DG.then(function() {
+        // загрузка кода модуля
+        return DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+    })
+    .then(function() {
+        // инициализация карты
+        var map = DG.map('map', {
+            'center': [54.98, 82.89],
+            'zoom': 13
+        });
+        // инициализация модуля
+        L.hash(map);
+    });
 
-    L.DG.then(function () {
-            //инициализация карты
-            var map = new L.Map('map', {
-                'center': new L.LatLng(54.980206086231, 82.898068362003),
-                'zoom': 13,
-                'dgGeoclicker': true
-            });
-        }).then(function () {
-            //загрузка плагинов
-            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
-        }).then(function () {
-            //инициализация плагина
-            var hash = new L.Hash(map);
-        })
+Если модуль не нужен на начальном этапе работы с картой, тогда можно использовать его отложенную загрузку и инициализацию (например, при клике на кнопку):
 
-### Интерфейс
+    // загрузка кода API карт
+    DG.then(function() {
+        // инициализация карты
+        map = DG.map('map', {
+            'center': [54.98, 82.89],
+            'zoom': 13
+        });
+    });
+
+    // код, который может быть вызван по требованию
+    DG.then(function() {
+        // загрузка кода модуля
+        return DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+    }).then(function () {
+        // инициализация модуля
+        L.hash(map);
+    });
+
+### Функция DG.plugin
+
+Функция `DG.plugin` отвечает за загрузку модулей, которые не входят в базовые пакеты API карт и расположены на сторонних серверах. Параметры функции:
 
 <table>
     <tr>
@@ -124,11 +149,11 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.plugin</b>(
-            <nobr>&lt;String&gt; <i>String Url</i>/</nobr>
-            <nobr>&lt;Array&gt; <i>[String Url, String Url...]</i></nobr>)
+        <td>DG.plugin</b>(
+            <nobr>&lt;String&gt; <i>String url</i>|</nobr>
+            <nobr>&lt;Array&gt; <i>[String url, String url, ...]</i></nobr>)
         </code></td>
         <td><code>Promise</code></td>
-        <td>Загружает и добавляет сторонние плагины в head секцию html-документа, принимает прямые ссылки на js и css файлы. Файлы должны быть указанны в правильном порядке.</td>
+        <td>Загружает модули. В качестве параметров должны быть указкны прямые ссылки на js и css файлы.</td>
     </tr>
 </table>
