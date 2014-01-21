@@ -254,7 +254,7 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', /*'DGEntrance',*/ 'DGProjectDetector']
+        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
     DGTemplate: {
@@ -262,7 +262,7 @@ var deps = {
         src: ['DGTemplate/src/DGTemplate.js']
     },
 
-    /*DGEntrance: {
+    DGEntrance: {
         desc: '2GIS Entrances',
         src: [
             'DGEntrance/src/DGEntrance.js',
@@ -274,7 +274,7 @@ var deps = {
             'DGEntrance/src/EventHandler.js'
         ],
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
-    },*/
+    },
 
 
     DGRoundControl: {

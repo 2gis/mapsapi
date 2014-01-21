@@ -18,14 +18,14 @@ files = [].concat([
     'vendors/leaflet/spec/expect.js'
 ],
 [
-    'public/js/dg-map-src.js', // full 2GIS API dist
-    'src/**/test/*2Spec.js' // 2GIS tests
+    'public/js/dg-map.js', // full 2GIS API dist
+    'src/**/test/*Spec.js' // 2GIS tests
 ],
 [
     'vendors/leaflet/spec/after.js',
     'node_modules/happen/happen.js',
-    'vendors/leaflet/spec/suites/SpecHelper.js'
-    //'vendors/leaflet/spec/suites/**/*.js'
+    'vendors/leaflet/spec/suites/SpecHelper.js',
+    'vendors/leaflet/spec/suites/**/*.js'
 ]);
 
 // list of files to exclude

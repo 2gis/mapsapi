@@ -2,7 +2,7 @@ describe('L.DG.Entrance', function () {
     var map,
         spy,
         entrance,
-        mapContainer = document.createElement("div"),
+        mapContainer = document.createElement('div'),
         ua = navigator.userAgent.toLowerCase(),
         ff = ua.indexOf('firefox') > -1;
 
@@ -12,10 +12,10 @@ describe('L.DG.Entrance', function () {
             zoom: 17
         });
         entrance = new L.DG.Entrance({
-            "is_primary":false,
-            "name":"ЗАГС",
-            "points":["POINT(87.75222519148015 69.349552990994837)"],
-            "vectors":["LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)"]
+            'is_primary': false,
+            'name': 'ЗАГС',
+            'points': ['POINT(87.75222519148015 69.349552990994837)'],
+            'vectors': ['LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)']
         });
         entrance.addTo(map);
     });
@@ -26,13 +26,13 @@ describe('L.DG.Entrance', function () {
         map = null;
     });
 
-    describe("#addTo and #removeFrom", function() {
-        it('should return "L.DG.Entrance" instance', function () {
+    describe('#addTo and #removeFrom', function() {
+        it('should return \'L.DG.Entrance\' instance', function () {
             var entrance1 = new L.DG.Entrance({
-                "is_primary":false,
-                "name":"ЗАГС",
-                "points":["POINT(87.75222519148015 69.349552990994837)"],
-                "vectors":["LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)"]
+                'is_primary': false,
+                'name': 'ЗАГС',
+                'points': ['POINT(87.75222519148015 69.349552990994837)'],
+                'vectors': ['LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)']
             });
             expect(entrance1.addTo(map)).to.be.a(L.DG.Entrance);
             expect(entrance1.removeFrom(map)).to.be.a(L.DG.Entrance);
@@ -40,20 +40,20 @@ describe('L.DG.Entrance', function () {
     });
     // since ff/mocha/phantom has some strange bug with svg beginElement()
     if (!ff) {
-        describe("#show", function() {
+        describe('#show', function() {
 
-            it('should return "L.DG.Entrance" instance', function () {
+            it('should return \'L.DG.Entrance\' instance', function () {
                 expect(entrance.show()).to.be.a(L.DG.Entrance);
             });
 
-            it('should fire "entranceshow" event', function () {
+            it('should fire \'entranceshow\' event', function () {
                 spy = sinon.spy();
                 map.on('entranceshow', spy);
                 entrance.show();
                 expect(spy.called).to.be.ok();
             });
 
-            it('should not fire "entranceshow" event if already shown', function () {
+            it('should not fire \'entranceshow\' event if already shown', function () {
                 entrance.show();
                 spy = sinon.spy();
                 map.on('entranceshow', spy);
@@ -67,7 +67,7 @@ describe('L.DG.Entrance', function () {
             //     expect(map.getCenter()).to.eql(entrance.getBounds().getCenter()); // Kayerkan
             // });
 
-            it('should not adjust map center if entrance is shown already and "fitBounds" is set to false', function () {
+            it('should not adjust map center if entrance is shown already and \'fitBounds\' is set to false', function () {
                 entrance.show();
                 map.setView([54.980206086231, 82.898068362003], 17); // Novosibirsk
                 entrance.show(false);
@@ -75,13 +75,13 @@ describe('L.DG.Entrance', function () {
             });
         });
     }
-    describe("#hide", function() {
+    describe('#hide', function () {
 
-        it('should return "L.DG.Entrance" instance', function () {
+        it('should return \'L.DG.Entrance\' instance', function () {
             expect(entrance.hide()).to.be.a(L.DG.Entrance);
         });
         if (!ff) {
-            it('should fire "entrancehide" event', function () {
+            it('should fire \'entrancehide\' event', function () {
                 entrance.show();
                 spy = sinon.spy();
                 map.on('entrancehide', spy);
@@ -89,7 +89,7 @@ describe('L.DG.Entrance', function () {
                 expect(spy.called).to.be.ok();
             });
         }
-        it('should not fire "entrancehide" event if already hidden (hidden by default)', function () {
+        it('should not fire \'entrancehide\' event if already hidden (hidden by default)', function () {
             spy = sinon.spy();
             map.on('entrancehide', spy);
             entrance.hide();
@@ -98,13 +98,13 @@ describe('L.DG.Entrance', function () {
 
     });
 
-    describe("#isShown", function() {
+    describe('#isShown', function () {
 
-        it('should return "false" by default', function () {
+        it('should return \'false\' by default', function () {
             expect(entrance.isShown()).not.to.be.ok();
         });
         if (!ff) {
-            it('should return "true" after show and "false" after hide', function () {
+            it('should return \'true\' after show and \'false\' after hide', function () {
                 entrance.show();
                 expect(entrance.isShown()).to.be.ok();
                 entrance.hide();
@@ -113,7 +113,7 @@ describe('L.DG.Entrance', function () {
         }
     });
 
-    describe("#getBounds", function() {
+    describe('#getBounds', function () {
 
         it('should return bounds of all arrows of the entrance', function () {
             var entranceBounds = new L.LatLngBounds(

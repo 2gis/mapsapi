@@ -97,17 +97,17 @@ L.DG.ProjectDetector = L.Handler.extend({
     },
 
     _searchProject: function () {
-        // try {
-        this.projectsList.some(function (project) {
-            // if (self._map.getBounds().contains(project.LatLngBounds) &&
-            if (this._boundInProject(project) && this._zoomInProject(project)) {
-                this.project = project;
-                this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
-                return true;
-            }
-        }, this);
-        // }
-        // catch (err) {}
+        try {
+            this.projectsList.some(function (project) {
+                // if (self._map.getBounds().contains(project.LatLngBounds) &&
+                if (this._boundInProject(project) && this._zoomInProject(project)) {
+                    this.project = project;
+                    this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
+                    return true;
+                }
+            }, this);
+        }
+        catch (err) {}
     },
 
     _boundInProject: function (project) {

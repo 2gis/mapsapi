@@ -350,7 +350,7 @@ describe('L.DG.ProjectDetector', function () {
 
     describe('#panBy', function () {
 
-        it('fire with viewport size', function () {
+        it('call with viewport size', function () {
             map.setView(project1, 16);
 
             expect(map.panBy([1901, 601])).to.be(map);
@@ -358,7 +358,7 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.getCenter()).to.be.eql(new L.LatLng(54.971628386497684, 82.86006689071654));
         });
 
-        it('fire on project edge from desert', function () {
+        it('call on project edge from desert', function () {
             map.setView(edgeProject1, maxZoom);
 
             expect(map.panBy([0, -2000])).to.be(map);
@@ -366,7 +366,7 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.getCenter()).to.be.equal(new L.LatLng(55.250493647659134, 82.85625815391539));
         });
 
-        it('fire on project viewport', function () {
+        it('call on project viewport', function () {
             map.setView(project1, maxZoom);
 
             expect(map.panBy([100, -200])).to.be(map);
