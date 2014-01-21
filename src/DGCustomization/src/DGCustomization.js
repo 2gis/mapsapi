@@ -118,9 +118,13 @@ L.Map.include({
             if (isMapMaxZoom) {
                 this._mapMaxZoomCache = mapOptions.maxZoom;
                 mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  '__PROJECT_LEAVE_MAX_ZOOM__';
+
+                return mapOptions.maxZoom;
             } else {
                 dgTileLayer.options.maxZoom = project ? project.max_zoom_level : '__PROJECT_LEAVE_MAX_ZOOM__';
                 this._updateZoomLevels();
+
+                return dgTileLayer.options.maxZoom;
             }
         }
     }

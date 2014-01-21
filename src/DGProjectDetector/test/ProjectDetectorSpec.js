@@ -363,7 +363,7 @@ describe('L.DG.ProjectDetector', function () {
 
             expect(map.panBy([0, -2000])).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
-            expect(map.getCenter()).to.be.equal(new L.LatLng(55.250493647659134, 82.85625815391539));
+            expect(map.getCenter()).to.be.eql(new L.LatLng(55.439726578880006, 82.8563117980957));
         });
 
         it('call on project viewport', function () {
