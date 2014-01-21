@@ -18,49 +18,9 @@ L.Map.include({
     _tln: 0,
     _mapMaxZoomCache: undefined,
 
-    _updateTln: function (e) {
-        var layerTest = function (l) {
-            return (l instanceof L.DG.TileLayer) ||
-                    (l instanceof L.TileLayer);
-        };
-
-        if (!layerTest(e.layer)) { return; }
-
-        e.type === 'layeradd' ? this._tln++ : this._tln--;
-    },
-
-    _resctrictZoom: function (coords) {
-        if (this._layers &&
-            this.projectDetector.enabled() &&
-            this._tln === 1 &&
-            this.getLayer('dgTileLayer')) {
-
-            var mapOptions = this.options,
-                isMapMaxZoom = !!mapOptions.maxZoom,
-                project = this.projectDetector.isProjectHere(coords);
-            if (project) {
-                if (isMapMaxZoom) {
-                    if (this._mapMaxZoomCache) { mapOptions.maxZoom = this._mapMaxZoomCache; }
-                } else {
-                    this.getLayer('dgTileLayer').options.maxZoom = project.max_zoom_level;
-                    this._updateZoomLevels();
-                }
-            } else {
-                if (isMapMaxZoom) {
-                    this._mapMaxZoomCache = mapOptions.maxZoom;
-                    mapOptions.maxZoom = 13;
-                } else {
-                    this.getLayer('dgTileLayer').options.maxZoom = 13;
-                    this._updateZoomLevels();
-                }
-
-            }
-        }
-    },
-
     setView: function (center, zoom, options, originCenter) {
-        center = originCenter ? originCenter : center;
-        this._resctrictZoom(center);
+        //center = originCenter ? originCenter : center;
+        this._resctrictZoom(originCenter ? originCenter : center);
 
         zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
@@ -93,6 +53,43 @@ L.Map.include({
         this._resetView(center, zoom);
 
         return this;
+    },
+
+    _updateTln: function (e) {
+        if (!((e.layer instanceof L.DG.TileLayer) ||
+              (e.layer instanceof L.TileLayer))) { return; }
+
+        e.type === 'layeradd' ? this._tln++ : this._tln--;
+    },
+
+    _resctrictZoom: function (coords) {
+        if (this._layers &&
+            this.projectDetector.enabled() &&
+            this._tln === 1 &&
+            this.getLayer('dgTileLayer')) {
+
+            var mapOptions = this.options,
+                isMapMaxZoom = !!mapOptions.maxZoom,
+                dgTileLayer = this.getLayer('dgTileLayer'),
+                project = this.projectDetector.isProjectHere(coords);
+            if (project) {
+                if (isMapMaxZoom) {
+                    if (this._mapMaxZoomCache) { mapOptions.maxZoom = this._mapMaxZoomCache; }
+                } else {
+                    dgTileLayer.options.maxZoom = project.max_zoom_level;
+                    this._updateZoomLevels();
+                }
+            } else {
+                if (isMapMaxZoom) {
+                    this._mapMaxZoomCache = mapOptions.maxZoom;
+                    mapOptions.maxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
+                } else {
+                    dgTileLayer.options.maxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
+                    this._updateZoomLevels();
+                }
+
+            }
+        }
     }
 });
 
