@@ -65,29 +65,19 @@ L.Map.include({
     _resctrictZoom: function (coords) {
         if (this._layers &&
             this.projectDetector.enabled() &&
-            this._tln === 1 &&
-            this.getLayer('dgTileLayer')) {
+            this._tln === 1) {
 
             var mapOptions = this.options,
                 isMapMaxZoom = !!mapOptions.maxZoom,
                 dgTileLayer = this.getLayer('dgTileLayer'),
                 project = this.projectDetector.isProjectHere(coords);
-            if (project) {
-                if (isMapMaxZoom) {
-                    if (this._mapMaxZoomCache) { mapOptions.maxZoom = this._mapMaxZoomCache; }
-                } else {
-                    dgTileLayer.options.maxZoom = project.max_zoom_level;
-                    this._updateZoomLevels();
-                }
-            } else {
-                if (isMapMaxZoom) {
-                    this._mapMaxZoomCache = mapOptions.maxZoom;
-                    mapOptions.maxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
-                } else {
-                    dgTileLayer.options.maxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
-                    this._updateZoomLevels();
-                }
 
+            if (isMapMaxZoom) {
+                this._mapMaxZoomCache = mapOptions.maxZoom;
+                mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  '__PROJECT_LEAVE_MAX_ZOOM__';
+            } else {
+                dgTileLayer.options.maxZoom = project ? project.max_zoom_level : '__PROJECT_LEAVE_MAX_ZOOM__';
+                this._updateZoomLevels();
             }
         }
     }
