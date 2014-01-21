@@ -12,6 +12,11 @@ L.DG.TileLayer = L.TileLayer.extend({
         var url = this.dgTileLayerUrl,
             options = L.setOptions(this, this.options);
         L.TileLayer.prototype.initialize.call(this, url, options);
+    },
+
+    onRemove: function (map) {
+        map.projectDetector.disable();
+        L.TileLayer.prototype.onRemove.call(this, map);
     }
 });
 

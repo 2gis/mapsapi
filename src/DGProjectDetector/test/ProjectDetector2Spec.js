@@ -438,6 +438,13 @@ describe('L.DG.ProjectDetector', function () {
 
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
+
+        it('zoom to 18 in desert with remove 2gis tilelayer', function () {
+            map.removeLayer(map._layers.dgTileLayer);
+            map.setView(desert1, maxZoom);
+
+            expect(map.getZoom()).to.be.equal(maxZoom);
+        });
     });
 
     describe('#isProjectHere', function () {
