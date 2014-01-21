@@ -426,10 +426,17 @@ describe('L.DG.ProjectDetector', function () {
             map.removeLayer(cloudmade2);
         });
 
-        it('zoom to 18 in desert', function () {
+        it('zoom to 18 in desert with added layer', function () {
             map.setView(desert1, maxZoom);
 
             expect(map.getZoom()).to.be.equal(maxZoom);
+        });
+
+        it('zoom to 18 in desert with remove layer', function () {
+            map.removeLayer(cloudmade2);
+            map.setView(desert1, maxZoom);
+
+            expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
     });
 

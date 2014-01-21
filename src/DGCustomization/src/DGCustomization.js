@@ -19,19 +19,14 @@ L.Map.include({
     _mapMaxZoomCache: undefined,
 
     _updateTln: function (e) {
-        if (!layerTest(e.layer)) { return; }
-
-        this._tln = Object.keys(this._layers)
-            .map(function (l) {
-                return this._layers[l];
-            }, this)
-            .filter(layerTest)
-            .length;
-
-        function layerTest(l) {
+        var layerTest = function (l) {
             return (l instanceof L.DG.TileLayer) ||
                     (l instanceof L.TileLayer);
-        }
+        };
+
+        if (!layerTest(e.layer)) { return; }
+
+        e.type === 'layeradd' ? this._tln++ : this._tln--;
     },
 
     _resctrictZoom: function (coords) {
