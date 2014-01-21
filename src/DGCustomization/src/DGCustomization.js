@@ -54,6 +54,50 @@ L.Map.include({
         return this;
     },
 
+    panBy: function (offset, options) {
+
+        var ll = this.layerPointToLatLng(this._getMapPanePos().add(offset));
+        var zoom = this._resctrictZoom(ll);
+
+        if (this.getZoom() > zoom) {
+            this.setZoom(zoom);
+        }
+
+        offset = L.point(offset).round();
+        options = options || {};
+
+        if (!offset.x && !offset.y) {
+            return this;
+        }
+
+        if (!this._panAnim) {
+            this._panAnim = new L.PosAnimation();
+
+            this._panAnim.on({
+                'step': this._onPanTransitionStep,
+                'end': this._onPanTransitionEnd
+            }, this);
+        }
+
+        // don't fire movestart if animating inertia
+        if (!options.noMoveStart) {
+            this.fire('movestart');
+        }
+
+        // animate pan unless animate: false specified
+        if (options.animate !== false) {
+            L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
+
+            var newPos = this._getMapPanePos().subtract(offset);
+            this._panAnim.run(this._mapPane, newPos, options.duration || 0.25, options.easeLinearity);
+        } else {
+            this._rawPanBy(offset);
+            this.fire('move').fire('moveend');
+        }
+
+        return this;
+    },
+
     _updateTln: function (e) {
         if (!((e.layer instanceof L.DG.TileLayer) ||
               (e.layer instanceof L.TileLayer))) { return; }

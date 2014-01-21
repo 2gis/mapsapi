@@ -29,23 +29,6 @@ L.Control.Zoom.include({
         map.off(this._eventListeners, this);
     },
 
-    // move to Project Detector
-    _eventListeners: {
-     /*   projectleave: function () {
-            var projectleaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
-            this._map.setMaxZoom(projectleaveMaxZoom);
-            if (this._map.getZoom() > projectleaveMaxZoom) {
-                this._map.setZoom(projectleaveMaxZoom);
-            }
-        },
-        projectchange: function (project) {
-            var projectInfo = project.getProject();
-            if (projectInfo) {
-                this._map.setMaxZoom(projectInfo.max_zoom_level);
-            }
-        }*/
-    },
-
     _renderTranslation: function () {
         this._zoomInButton.title = this.t('zoom-in');
         this._zoomOutButton.title = this.t('zoom-out');
