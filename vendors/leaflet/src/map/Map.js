@@ -85,7 +85,7 @@ L.Map = L.Class.extend({
 		    centerOffset = containerPoint.subtract(viewHalf).multiplyBy(1 - 1 / scale),
 		    newCenter = this.containerPointToLatLng(viewHalf.add(centerOffset));
 
-		return this.setView(newCenter, zoom, {zoom: options}/*, latlng*/);
+		return this.setView(newCenter, zoom, {zoom: options});
 	},
 
 	fitBounds: function (bounds, options) {

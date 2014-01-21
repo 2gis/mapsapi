@@ -18,9 +18,8 @@ L.Map.include({
     _tln: 0,
     _mapMaxZoomCache: undefined,
 
-    setView: function (center, zoom, options, originCenter) {
-        //center = originCenter ? originCenter : center;
-        this._resctrictZoom(originCenter ? originCenter : center);
+    setView: function (center, zoom, options) {
+        this._resctrictZoom(center);
 
         zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
         center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);

@@ -199,8 +199,7 @@ describe('L.DG.ProjectDetector', function () {
             map.setView(project1);
 
             expect(map.setZoomAround(project2, maxZoom)).to.be(map);
-            expect(map.getZoom()).to.be(maxZoom);
-            expect(map.getBounds().contains(project2)).to.be.ok();
+            expect(map.getZoom()).to.be(maxDesertZoom);
         });
 
         it('zoom in the project', function () {
@@ -211,7 +210,7 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.getZoom()).to.be(maxZoom);
         });
 
-        it('zoom in the project', function () {
+        it('zoom in the project edge', function () {
             map.setView(edgeProject1, 12);
 
             expect(map.setZoomAround(edgeProject2, maxZoom)).to.be(map);
