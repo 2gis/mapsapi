@@ -6,7 +6,7 @@ DG.Control.Location = DG.RoundControl.extend({
 
     options: {
         iconClass: 'locate',
-        position: DG.configTheme.controls.location[DG.Browser.touch ? 'touchPosition' : 'position'],
+        position: DG.Browser.touch ? 'bottomright' : 'topleft',
         drawCircle: true,
         follow: true,  // follow with zoom and pan the user's location
         stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged

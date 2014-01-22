@@ -8,7 +8,7 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
     },
 
     options: {
-        position: DG.configTheme.controls.fullScreen[DG.Browser.touch ? 'touchPosition' : 'position'],
+        position: DG.Browser.touch ? 'bottomright' : 'topright',
         iconClass: 'fullscreen'
     },
 
