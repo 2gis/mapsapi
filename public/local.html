@@ -10,19 +10,41 @@
 <body>
 
 <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
-
+<input type="button" value="btn" id="btn" />
 <script type="text/javascript">
     var map;
-    L.DG.then(function () {
-        map = new L.Map('map', {
-            'center': new L.LatLng(54.980206086231, 82.898068362003),
-            'zoom': 13,
-            'geoclicker': true
+
+    // загрузка кода API карт
+    L.DG.then(function() {
+        // инициализация карты
+        map = L.map('map', {
+            'center': [54.98, 82.89],
+            'zoom': 13
         });
-
-        L.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
-
     });
+
+document.getElementById('btn').onclick = function () {
+    // код может быть вызван при клике на кнопку
+    L.DG.then(function() {
+        // загрузка кода модуля
+        return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+    }).then(function () {
+        // инициализация модуля
+        L.hash(map);
+    });    
+}
+
+
+    // L.DG.then(function () {
+    //     map = new L.Map('map', {
+    //         'center': new L.LatLng(54.980206086231, 82.898068362003),
+    //         'zoom': 13,
+    //         'geoclicker': true
+    //     });
+
+    //     L.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
+
+    // });
 
 </script>
 

@@ -85,14 +85,14 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
 }
 
 function generateTableOfContents(tokens) { // (Array) -> String
-    var prevDepth = 1,
+    var prevDepth = startH = 2, // generate ToC for H2, H3, ...
         tocHtml = '',
         headers = [],
         headerRepeats = {};
     
     // extract headers from all tokens
     tokens.forEach(function(token) {
-        if (token.type = 'heading' && token.depth > 1) headers.push(token);
+        if (token.type = 'heading' && token.depth > startH) headers.push(token);
     });
 
     // assign number for each header
@@ -114,7 +114,7 @@ function generateTableOfContents(tokens) { // (Array) -> String
         header.text = '<a href="#' + getHeaderId(header.text, header.num) + '">' + header.text + '</a>';
 
         if (header.depth > prevDepth) { // enter to the list
-            tocHtml += prevDepth === 1 ? '<ul class="page-contents">' : '<ul>';
+            tocHtml += prevDepth === startH ? '<ul class="page-contents">' : '<ul>';
             tocHtml += '<li>' + header.text;
         }
         else if (header.depth === prevDepth) { // move by list
