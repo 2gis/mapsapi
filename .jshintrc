@@ -44,5 +44,8 @@
     "trailing": true,
     "white": true,
     "smarttabs": true,
-    "globals": { "L": true }
+    "globals": {
+        "L": true,
+        "DG": true
+    }
 }
