@@ -363,7 +363,7 @@ describe('L.DG.ProjectDetector', function () {
 
             expect(map.panBy([0, -2000])).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
-            expect(map.getCenter()).to.be.eql(new L.LatLng(55.439726578880006, 82.8563117980957));
+            expect(map.getCenter()).to.be.eql(new L.LatLng(55.25058537744133, 82.85625815391539));
         });
 
         it('call on project viewport', function () {
@@ -379,7 +379,8 @@ describe('L.DG.ProjectDetector', function () {
     describe('#MaxZoom in options', function () {
 
         it('set less max project zoom and zoom to 20 in project', function () {
-            expect(map.options.maxZoom = 16).to.be.equal(16);
+            map.options.maxZoom = 16;
+            expect(map.getMaxZoom()).to.be.equal(16)
 
             map.setView(project1, 20);
 
@@ -387,7 +388,8 @@ describe('L.DG.ProjectDetector', function () {
         });
 
         it('set less max project zoom and zoom to 20 in desert', function () {
-            expect(map.options.maxZoom = 16).to.be.equal(16);
+            map.options.maxZoom = 16;
+            expect(map.getMaxZoom()).to.be.equal(16)
 
             map.setView(desert1, 20);
 
@@ -395,7 +397,8 @@ describe('L.DG.ProjectDetector', function () {
         });
 
         it('set more max project zoom and zoom to 20 in project', function () {
-            expect(map.options.maxZoom = 19).to.be.equal(19);
+            map.options.maxZoom = 19;
+            expect(map.getMaxZoom()).to.be.equal(19)
 
             map.setView(project1, 20);
 
@@ -403,11 +406,26 @@ describe('L.DG.ProjectDetector', function () {
         });
 
         it('set more max project zoom and zoom to 20 in desert', function () {
-            expect(map.options.maxZoom = 19).to.be.equal(19);
+            map.options.maxZoom = 19;
+            expect(map.getMaxZoom()).to.be.equal(19)
 
             map.setView(desert1, 20);
 
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
+        });
+
+        it('set max zoom, go to from project to desert and back to the project', function () {
+            map.options.maxZoom = 16;
+            expect(map.getMaxZoom()).to.be.equal(16)
+            map.setView(project1, maxZoom);
+
+            expect(map.setView(desert1)).to.be(map);
+            expect(map.getZoom()).to.be(maxDesertZoom);
+            expect(map.getCenter()).to.be.equal(desert1);
+
+            expect(map.setView(project1, maxZoom)).to.be(map);
+            expect(map.getZoom()).to.be(16);
+            expect(map.getCenter()).to.be.equal(project1);
         });
 
     });
