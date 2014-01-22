@@ -156,7 +156,6 @@
 
     window.L = window.L || {};
     window.DG = {};
-    // window.DG = window.DG || window.L;
     window.DG.ready = false;
     window.__dgApi_callbacks = [];
     window.__dgApi_callbacks.push(setReady);
