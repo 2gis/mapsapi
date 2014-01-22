@@ -4,8 +4,8 @@ describe('DG Locale Module', function () {
 		setLangSpy;
 
 	beforeEach(function () {
-		map = new L.Map(document.createElement('div'), {
-            center : new L.LatLng(54.980206086231, 82.898068362003),
+		map = new DG.Map(document.createElement('div'), {
+            center : new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 10,
             fullScreenControl: false
         });
@@ -81,7 +81,7 @@ describe('DG Locale Module', function () {
 			pluginSpy;
 
 		beforeEach(function () {
-			TestPlugin = L.Control.extend({
+			TestPlugin = DG.Control.extend({
 			    includes: DG.Locale,
 			    options: {
 			        position: 'topright'
@@ -90,16 +90,16 @@ describe('DG Locale Module', function () {
 					Dictionary: {}
 			    },
 			    onAdd: function (map) {
-			        return L.DomUtil.create('div', 'locale-example');
+			        return DG.DomUtil.create('div', 'locale-example');
 			    }
 			});
 
-			TestPlugin.Dictionary.ru = L.extend({
+			TestPlugin.Dictionary.ru = DG.extend({
 				'{n} people' : ['{n} пользователь', '{n} пользователя', '{n} пользователей'],
 				'regularly use 2GIS' : 'регулярно используют 2GIS'
 			}, DG.Dictionary.ru);
 
-			TestPlugin.Dictionary.it = L.extend({
+			TestPlugin.Dictionary.it = DG.extend({
 				'{n} people' : ['{n} utente', '{n} utenti'],
 				'regularly use 2GIS' : 'utilizzano regolarmente 2GIS'
 			}, DG.Dictionary.it);

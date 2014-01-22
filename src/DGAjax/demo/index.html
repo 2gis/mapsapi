@@ -36,8 +36,8 @@
 
     DG.then(function () {
 
-        var map = new L.Map('map', {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
+        var map = new DG.Map('map', {
+            center: new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 17,
             geoclicker: true
         });
@@ -136,7 +136,7 @@
             });
         };
 
-        L.DomEvent.addListener( L.DomUtil.get('sendRequest'), 'click', function(){
+        DG.DomEvent.addListener( DG.DomUtil.get('sendRequest'), 'click', function(){
             test_jsonp().then(test_get).then(test_post).then(function(){
                 console.info('Everything seems to be ok!');
             });

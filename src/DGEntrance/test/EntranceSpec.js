@@ -7,8 +7,8 @@ describe('DG.Entrance', function () {
         ff = ua.indexOf('firefox') > -1;
 
     beforeEach(function () {
-        map = new L.Map(mapContainer, {
-            center: new L.LatLng(69.349552990994837, 87.75222519148015),
+        map = new DG.Map(mapContainer, {
+            center: new DG.LatLng(69.349552990994837, 87.75222519148015),
             zoom: 17
         });
         entrance = new DG.Entrance({
@@ -116,7 +116,7 @@ describe('DG.Entrance', function () {
     describe("#getBounds", function() {
 
         it('should return bounds of all arrows of the entrance', function () {
-            var entranceBounds = new L.LatLngBounds(
+            var entranceBounds = new DG.LatLngBounds(
                 [69.349552990994837, 87.75222519148015],
                 [69.349501774294012, 87.752433542237128]
             );

@@ -65,8 +65,8 @@
     </tr>
     <tr>
         <td><b><code>offset</code></b></td>
-        <td><code>L.Point</code></td>
-        <td><code>new L.Point(12, 15)</code></td>
+        <td><code>DG.Point</code></td>
+        <td><code>new DG.Point(12, 15)</code></td>
         <td>Смещение контейнера всплывающей подсказки относительно позиции курсора (позиции маркера в случае использования с маркером).</td>
     </tr>
     <tr>
@@ -83,8 +83,8 @@
     </tr>
 </table>
     //включение через опции карты с выключенными ссылками на буклеты
-    map = new L.Map('map', {
-        center: new L.LatLng(54.980206086231, 82.898068362003),
+    map = new DG.Map('map', {
+        center: new DG.LatLng(54.980206086231, 82.898068362003),
         zoom: 18,
         geoclicker: {
             showBooklet: false
@@ -98,7 +98,7 @@
     map.geoclicker.enable();
 
     //отменить активацию Геокликера при загрузке карты
-    L.Map.mergeOptions({
+    DG.Map.mergeOptions({
         geoclicker: false
     });
 

@@ -1,5 +1,5 @@
-DG.RoundControl = L.Control.extend({
-    includes: L.Mixin.Events,
+DG.RoundControl = DG.Control.extend({
+    includes: DG.Mixin.Events,
 
     options: {
         position: 'topright',
@@ -9,14 +9,14 @@ DG.RoundControl = L.Control.extend({
     onAdd: function (map) {
         var controlClass = this._controlCLass = 'dg-control-round',
             controlIconClass = this._controlIconCLass = this._controlCLass + '_icon',
-            container = L.DomUtil.create('div', '');
+            container = DG.DomUtil.create('div', '');
 
         if (this._disable) {
             return container;
         }
-        L.DomUtil.addClass(container, controlClass);
+        DG.DomUtil.addClass(container, controlClass);
 
-        this._link = L.DomUtil.create('a', controlIconClass + ' ' + controlIconClass + '__' + this.options.iconClass, container);
+        this._link = DG.DomUtil.create('a', controlIconClass + ' ' + controlIconClass + '__' + this.options.iconClass, container);
         this._link.href = '#';
         this._renderTranslation();
 
@@ -24,15 +24,15 @@ DG.RoundControl = L.Control.extend({
 
         this.fireEvent('add');
 
-        L.DomEvent
+        DG.DomEvent
             .on(container, 'click', this._toggleControl, this)
-            .on(container, 'dblclick', L.DomEvent.stopPropagation);
+            .on(container, 'dblclick', DG.DomEvent.stopPropagation);
 
         return container;
     },
 
     onRemove: function () {
-        L.DomEvent.off(this._link, 'click', this._toggleControl);
+        DG.DomEvent.off(this._link, 'click', this._toggleControl);
     },
 
     setState: function (state) {
@@ -41,25 +41,25 @@ DG.RoundControl = L.Control.extend({
         }
 
         if (this._state) {
-            L.DomUtil.removeClass(this._container, this._controlCLass + '__' + this._state);
-            L.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this._state);
-            L.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
+            DG.DomUtil.removeClass(this._container, this._controlCLass + '__' + this._state);
+            DG.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this._state);
+            DG.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
             this._state = null;
         }
 
         if (state) {
             this._state = state;
 
-            L.DomUtil.addClass(this._container, this._controlCLass + '__' + this._state);
-            L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this._state);
-            L.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
+            DG.DomUtil.addClass(this._container, this._controlCLass + '__' + this._state);
+            DG.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this._state);
+            DG.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
         }
 
         return this;
     },
 
     _toggleControl: function (e) {
-        L.DomEvent.stop(e);
+        DG.DomEvent.stop(e);
         this.fireEvent('click');
     }
 });

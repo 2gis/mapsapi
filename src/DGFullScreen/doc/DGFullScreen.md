@@ -1,4 +1,4 @@
-## DG.FullScreen
+## DG.Control.Fullscreen
 
 При подключении данного элемента управления, в правом верхнем углу карты появится контрол, при клике на который, карта разворачивается на весь экран, повторный клик восстанавливает предыдущий размер.
 
@@ -16,12 +16,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>DG.FullScreen</b>(
+        <td><code><b>DG.Control.Fullscreen</b>(
             <nobr>&lt;<a href="#control-fullscreen-options">Control.FullScreen options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>DG.FullScreen(&hellip;)</code>
+            <code>DG.Control.Fullscreen(&hellip;)</code>
         </td>
 
         <td>Создает элемент управления полноэкранным режимом.</td>

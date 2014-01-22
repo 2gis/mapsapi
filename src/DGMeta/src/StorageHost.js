@@ -1,4 +1,4 @@
-DG.Meta.Host = L.Class.extend({
+DG.Meta.Host = DG.Class.extend({
 
     initialize: function () {
         this._buildingStorage = new DG.Meta.BuildingStorage();
@@ -53,7 +53,7 @@ DG.Meta.Host = L.Class.extend({
         var xyz = tileId.split(',');
 
         return DG.ajax(
-            L.Util.template('__HIGHLIGHT_POI_SERVER__', {
+            DG.Util.template('__HIGHLIGHT_POI_SERVER__', {
                 z: xyz[2],
                 x: xyz[0],
                 y: xyz[1]

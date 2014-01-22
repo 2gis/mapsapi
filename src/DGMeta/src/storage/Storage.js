@@ -1,4 +1,4 @@
-DG.Meta.Storage = L.Class.extend({
+DG.Meta.Storage = DG.Class.extend({
 
     _data: {},
     _tilesData: {},

@@ -1,4 +1,4 @@
-DG.TileLayer = L.TileLayer.extend({
+DG.TileLayer.dgis = DG.TileLayer.extend({
     dgTileLayerUrl: '__TILE_SERVER__',
     options: {
         subdomains: '0123',
@@ -10,25 +10,25 @@ DG.TileLayer = L.TileLayer.extend({
 
     initialize: function () {
         var url = this.dgTileLayerUrl,
-            options = L.setOptions(this, this.options);
-        L.TileLayer.prototype.initialize.call(this, url, options);
+            options = DG.setOptions(this, this.options);
+        DG.TileLayer.prototype.initialize.call(this, url, options);
     }
 });
 
-DG.tileLayer = function () {
-    return new DG.TileLayer();
+DG.tileLayerDgis = function () {
+    return new DG.TileLayer.dgis();
 };
 
-L.Map.include({
+DG.Map.include({
     getLayer: function (id) {
         return this._layers[id];
     }
 });
 
-L.Map.addInitHook(function () {
+DG.Map.addInitHook(function () {
     if (!this._copyright) {
-        L.control.attribution().addTo(this);
+        DG.control.attribution().addTo(this);
     }
-    DG.tileLayer().addTo(this);
+    DG.tileLayerDgis().addTo(this);
 });
 

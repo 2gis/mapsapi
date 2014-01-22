@@ -252,7 +252,7 @@ DG.ajax = (function () {
         var name, i, v,
             rbracket = /\[\]$/;
 
-        if (L.Util.isArray(obj)) {
+        if (DG.Util.isArray(obj)) {
         // Serialize array item.
             for (i = 0; obj && i < obj.length; i++) {
                 v = obj[i];
@@ -359,7 +359,7 @@ DG.ajax = (function () {
                     resp = r;
                     break;
                 case 'xml':
-                    resp = resp.responseXML && resp.responseXML.parseError && resp.responseXML.parseError.errorCode && resp.responseXML.parseError.reason ? null : resp.responseXML;
+                    resp = resp.responseXML && resp.responseXMDG.parseError && resp.responseXMDG.parseError.errorCode && resp.responseXMDG.parseError.reason ? null : resp.responseXML;
                     break;
                 }
             }
@@ -428,7 +428,7 @@ DG.ajax = (function () {
             };
 
         // If an array was passed in, assume that it is an array of form elements.
-        if (L.Util.isArray(o)) {
+        if (DG.Util.isArray(o)) {
             for (i = 0; o && i < o.length; i++) {
                 add(o[i].name, o[i].value);
             }

@@ -1,4 +1,4 @@
-L.Path.include({
+DG.Path.include({
     bindLabel: function (content, options) {
 
         if (!this._label) {
@@ -40,7 +40,7 @@ L.Path.include({
     }
 });
 
-L.Path.addInitHook(function () {
+DG.Path.addInitHook(function () {
     if (typeof this.options.label !== 'undefined') {
         this.bindLabel(this.options.label);
     }

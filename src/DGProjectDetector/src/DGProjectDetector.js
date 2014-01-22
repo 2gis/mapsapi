@@ -1,8 +1,8 @@
-L.Map.mergeOptions({
+DG.Map.mergeOptions({
     projectDetector: true
 });
 
-DG.ProjectDetector = L.Handler.extend({
+DG.ProjectDetector = DG.Handler.extend({
     options: {
         url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         data: {
@@ -33,7 +33,7 @@ DG.ProjectDetector = L.Handler.extend({
         if (!this.project) {
             return false;
         }
-        return L.Util.extend({}, this.project);
+        return DG.Util.extend({}, this.project);
     },
 
     getProjectsList: function () {
@@ -92,7 +92,7 @@ DG.ProjectDetector = L.Handler.extend({
                 if (this.projectsList[i].LatLngBounds.intersects(this._map.getBounds()) &&
                     (mapZoom >= this.projectsList[i].min_zoom_level)) {
                     this.project = this.projectsList[i];
-                    this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
+                    this._map.fire('projectchange', {'getProject': DG.Util.bind(this.getProject, this)});
                     return;
                 }
             }
@@ -119,10 +119,10 @@ DG.ProjectDetector = L.Handler.extend({
         southWest = pointsArr[0].split(' ');
         northEast = pointsArr[2].split(' ');
 
-        return new L.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
+        return new DG.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
             [parseFloat(northEast[1]), parseFloat(northEast[0])]
         );
     }
 });
 
-L.Map.addInitHook('addHandler', 'projectDetector', DG.ProjectDetector);
+DG.Map.addInitHook('addHandler', 'projectDetector', DG.ProjectDetector);

@@ -1,4 +1,4 @@
-DG.Geoclicker.Handler.Default = L.Class.extend({
+DG.Geoclicker.Handler.Default = DG.Class.extend({
 
     includes: DG.Locale,
 
@@ -30,7 +30,7 @@ DG.Geoclicker.Handler.Default = L.Class.extend({
             if (handlers.hasOwnProperty(handlerName)) {
                 handler = handlers[handlerName];
                 if (handlerName === name) {
-                    L.DomEvent.off(handler.el, handler.event, handler.handler);
+                    DG.DomEvent.off(handler.el, handler.event, handler.handler);
                     delete handlers[handlerName];
                 }
             }
@@ -38,7 +38,7 @@ DG.Geoclicker.Handler.Default = L.Class.extend({
     },
 
     _addEventHandler: function (name, el, event, handler) { // (String, HTMLElement, String, Function)
-        L.DomEvent.on(el, event, handler);
+        DG.DomEvent.on(el, event, handler);
         this._eventHandlers[name] = {
             el: el,
             event: event,
@@ -52,7 +52,7 @@ DG.Geoclicker.Handler.Default = L.Class.extend({
 
         for (i in handlers) {
             if (handlers.hasOwnProperty(i)) {
-                L.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
+                DG.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
             }
         }
 
@@ -60,7 +60,7 @@ DG.Geoclicker.Handler.Default = L.Class.extend({
     },
 
     _getDirectionsUrl: function (name) {
-        return L.Util.template('__PPNOT_LINK__', {
+        return DG.Util.template('__PPNOT_LINK__', {
             'code': this._map.projectDetector.getProject().code,
             'name': encodeURIComponent(name),
             'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'

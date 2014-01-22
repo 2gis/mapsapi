@@ -14,15 +14,15 @@
     DG.then(function () {
 
         var currentProjectBound,
-            map = new L.Map('map', {
-                center:new L.LatLng(54.980206086231, 82.898068362003),
+            map = new DG.Map('map', {
+                center:new DG.LatLng(54.980206086231, 82.898068362003),
                 zoom:10
             });
 
         map.on('projectchange', function (e) {
             // projectchange event
             var bounds = e.getProject().LatLngBounds;
-            currentProjectBound = L.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
+            currentProjectBound = DG.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
         });
 
         map.on('projectleave', function (e) {

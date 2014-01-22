@@ -1,8 +1,8 @@
-L.Map.mergeOptions({
+DG.Map.mergeOptions({
     buildings: false
 });
 
-DG.Buildings = L.Handler.extend({
+DG.Buildings = DG.Handler.extend({
 
     initialize: function (map) { // (Object)
         this._map = map;
@@ -32,4 +32,4 @@ DG.Buildings = L.Handler.extend({
     }
 });
 
-L.Map.addInitHook('addHandler', 'buildings', DG.Buildings);
+DG.Map.addInitHook('addHandler', 'buildings', DG.Buildings);

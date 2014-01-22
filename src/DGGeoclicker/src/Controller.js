@@ -1,4 +1,4 @@
-DG.Geoclicker.Controller = L.Class.extend({
+DG.Geoclicker.Controller = DG.Class.extend({
 
     options: {
         // if handler worked successfully, it should return rendering object that will be processed in View , otherwise it should return false
@@ -33,7 +33,7 @@ DG.Geoclicker.Controller = L.Class.extend({
         this._map = map;
         this._view = new DG.Geoclicker.View(map);
 
-        this._renderHandlerResult = L.bind(this._renderHandlerResult, this);
+        this._renderHandlerResult = DG.bind(this._renderHandlerResult, this);
         this._lastHandleClickArguments = null;
     },
 

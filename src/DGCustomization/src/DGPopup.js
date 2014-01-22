@@ -2,22 +2,22 @@
 (function () {
     var offsetX = DG.configTheme.balloonOptions.offset.x,
         offsetY = DG.configTheme.balloonOptions.offset.y,
-        originalInitialize = L.Popup.prototype.initialize,
-        originalInitLayout = L.Popup.prototype._initLayout,
-        originalOnClose = L.Popup.prototype._onCloseButtonClick,
-        originalOnAdd = L.Popup.prototype.onAdd,
-        originalOnRemove = L.Popup.prototype.onRemove,
-        originalAdjustPan = L.Popup.prototype._adjustPan,
+        originalInitialize = DG.Popup.prototype.initialize,
+        originalInitLayout = DG.Popup.prototype._initLayout,
+        originalOnClose = DG.Popup.prototype._onCloseButtonClick,
+        originalOnAdd = DG.Popup.prototype.onAdd,
+        originalOnRemove = DG.Popup.prototype.onRemove,
+        originalAdjustPan = DG.Popup.prototype._adjustPan,
         /*global baron:false */
         graf = baron.noConflict();
 
-    L.Popup.prototype.options.offset = L.point(offsetX, offsetY);
+    DG.Popup.prototype.options.offset = DG.point(offsetX, offsetY);
 
-    L.Popup.mergeOptions({
+    DG.Popup.mergeOptions({
         border: 16
     });
 
-    L.Popup.include({
+    DG.Popup.include({
         _headerContent: null,
         _footerContent: null,
         _back: {},
@@ -101,13 +101,13 @@
         },
 
         _animateOpening: function () {
-            L.DomUtil.addClass(this._innerContainer, this._popupShowClass);
-            L.DomUtil.removeClass(this._innerContainer, this._popupHideClass);
+            DG.DomUtil.addClass(this._innerContainer, this._popupShowClass);
+            DG.DomUtil.removeClass(this._innerContainer, this._popupHideClass);
         },
 
         _animateClosing: function () {
-            L.DomUtil.addClass(this._innerContainer, this._popupHideClass);
-            L.DomUtil.removeClass(this._innerContainer, this._popupShowClass);
+            DG.DomUtil.addClass(this._innerContainer, this._popupHideClass);
+            DG.DomUtil.removeClass(this._innerContainer, this._popupShowClass);
         },
 
         _closePopup: function () {
@@ -120,13 +120,13 @@
 
         _initLayout: function () {
             originalInitLayout.call(this);
-            this._innerContainer = L.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
+            this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
             if (this.options.closeButton) {
                 this._innerContainer.appendChild(this._detachEl(this._closeButton));
             }
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
             this._innerContainer.appendChild(this._detachEl(this._tipContainer));
-            L.DomEvent.disableClickPropagation(this._tipContainer);
+            DG.DomEvent.disableClickPropagation(this._tipContainer);
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
@@ -154,9 +154,9 @@
                     this._initBaron();
                 }
                 else {
-                    L.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
-                    L.DomUtil.addClass(this._scroller, 'scroller-with-header');
-                    L.DomUtil.addClass(this._scroller, 'scroller');
+                    DG.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
+                    DG.DomUtil.addClass(this._scroller, 'scroller-with-header');
+                    DG.DomUtil.addClass(this._scroller, 'scroller');
                     if (scrollTop) {
                         this._scroller.scrollTop = scrollTop;
                     }
@@ -164,10 +164,10 @@
                 }
             } else {
                 if (this._isBaronExist) {
-                    L.DomUtil.addClass(this._scroller, 'dg-baron-hide');
-                    L.DomUtil.removeClass(this._scroller, 'scroller-with-header');
-                    L.DomUtil.removeClass(this._scroller, 'scroller');
-                    L.DomEvent.off(this._scroller, 'scroll', this._onScroll);
+                    DG.DomUtil.addClass(this._scroller, 'dg-baron-hide');
+                    DG.DomUtil.removeClass(this._scroller, 'scroller-with-header');
+                    DG.DomUtil.removeClass(this._scroller, 'scroller');
+                    DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
             }
 
@@ -178,7 +178,7 @@
             if (e) {
                 if (e.propertyName === 'max-height') {
                     originalAdjustPan.call(this);
-                    L.DomEvent.off(this._wrapper, this._whichTransitionEndEvent(), this._adjustPan);
+                    DG.DomEvent.off(this._wrapper, this._whichTransitionEndEvent(), this._adjustPan);
                 }
             } else {
                 originalAdjustPan.call(this);
@@ -207,7 +207,7 @@
         _bindAdjustPanOnTransitionEnd: function () {
             var transEv = this._whichTransitionEndEvent();
             if (transEv) {
-                L.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
+                DG.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
             } else {
                 this._adjustPan();
             }
@@ -230,12 +230,12 @@
 
         _initBaronScroller: function () {
             var contentNode = this._popupStructure.body.parentNode,
-                scrollerWrapper = this._scrollerWrapper =  L.DomUtil.create('div', 'scroller-wrapper', contentNode),
-                scroller = this._scroller = L.DomUtil.create('div', 'scroller', scrollerWrapper),
-                barWrapper = this._barWrapper = L.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
+                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'scroller-wrapper', contentNode),
+                scroller = this._scroller = DG.DomUtil.create('div', 'scroller', scrollerWrapper),
+                barWrapper = this._barWrapper = DG.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
                 innerHeight = this.options.maxHeight - this.options.border * 2;
 
-            this._scrollerBar = L.DomUtil.create('div', 'scroller__bar', barWrapper);
+            this._scrollerBar = DG.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
 
             innerHeight -= this._getDelta();
@@ -244,7 +244,7 @@
 
             this._isBaronExist = true;
 
-            L.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+            DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
         },
 
         _onScroll: function (event) {
@@ -271,16 +271,16 @@
         },
 
         _initHeader: function () {
-            this._popupStructure.header = L.DomUtil.create('header', 'dg-popup-header', this._contentNode);
+            this._popupStructure.header = DG.DomUtil.create('header', 'dg-popup-header', this._contentNode);
         },
 
         _initFooter: function () {
-            this._popupStructure.footer = L.DomUtil.create('footer', 'dg-popup-footer', this._contentNode);
+            this._popupStructure.footer = DG.DomUtil.create('footer', 'dg-popup-footer', this._contentNode);
         },
 
         _initBodyContainer: function () {
-            this._popupStructure.wrapper = L.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
-            this._popupStructure.body = L.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
+            this._popupStructure.wrapper = DG.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
+            this._popupStructure.body = DG.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
         },
 
         update: function () {
@@ -304,8 +304,8 @@
 
             this._updatePopupStructure();
             this.resize();
-            L.DomEvent.on(this._wrapper, 'click', L.DomEvent.stopPropagation);
-            if (L.Browser.ielt9) {
+            DG.DomEvent.on(this._wrapper, 'click', DG.DomEvent.stopPropagation);
+            if (DG.Browser.ielt9) {
                 // alert('tadam3');
                 var elem = this._popupStructure.footer;
                 if (elem) {
@@ -314,7 +314,7 @@
             }
 
             // Delete this if fixed in new leaflet version (> 0.6.2)
-            L.DomEvent.off(this._map._container, 'MozMousePixelScroll', L.DomEvent.preventDefault);
+            DG.DomEvent.off(this._map._container, 'MozMousePixelScroll', DG.DomEvent.preventDefault);
 
             this._container.style.visibility = '';
         },
@@ -344,10 +344,10 @@
             style.margin = this.options.border + 'px';
             if (this._isContentHeightFit()) {
                 wrapperStyle.maxHeight = this.options.maxHeight + 'px';
-                L.DomUtil.addClass(container, scrolledClass);
+                DG.DomUtil.addClass(container, scrolledClass);
             } else {
                 wrapperStyle.maxHeight = container.offsetHeight + this.options.border * 2 + 'px';
-                L.DomUtil.removeClass(container, scrolledClass);
+                DG.DomUtil.removeClass(container, scrolledClass);
             }
 
             style.whiteSpace = 'nowrap';
@@ -402,12 +402,12 @@
             transEv = this._whichTransitionEndEvent();
 
             if (transEv) {
-                L.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
+                DG.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
             }
             else {
                 this._firePopupClose(e);
             }
-            L.DomEvent.stop(e);
+            DG.DomEvent.stop(e);
         },
 
         _firePopupClose: function (e) { // (Event)
@@ -416,14 +416,14 @@
             originalOnClose.call(this, e);
 
             if (this._whichTransitionEndEvent()) {
-                L.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
+                DG.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
             }
         }
     });
 }());
 
 
-L.Map.include({
+DG.Map.include({
     _markerClass: 'dg-customization__marker_type_mushroom',
     _markerShowClass: 'dg-customization__marker_appear',
     _markerHideClass: 'dg-customization__marker_disappear',
@@ -433,9 +433,9 @@ L.Map.include({
 
         this.closePopup();
 
-        if (!(popup instanceof L.Popup)) {
+        if (!(popup instanceof DG.Popup)) {
             content = popup;
-            popup = new L.Popup(options).setLatLng(latlng).setContent(content);
+            popup = new DG.Popup(options).setLatLng(latlng).setContent(content);
         }
         popup._isOpen = true;
 
@@ -443,12 +443,12 @@ L.Map.include({
 
         if (popup._source && popup._source._icon) {
             if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
-                L.DomUtil.removeClass(popup._source._icon, this._markerShowClass);
-                L.DomUtil.addClass(popup._source._icon, this._markerHideClass);
+                DG.DomUtil.removeClass(popup._source._icon, this._markerShowClass);
+                DG.DomUtil.addClass(popup._source._icon, this._markerHideClass);
             } else {
-                L.DomUtil.addClass(popup._source._icon, this._dgHideClass);
+                DG.DomUtil.addClass(popup._source._icon, this._dgHideClass);
                 if (popup._source._shadow) {
-                    L.DomUtil.addClass(popup._source._shadow, this._dgHideClass);
+                    DG.DomUtil.addClass(popup._source._shadow, this._dgHideClass);
                 }
             }
         }
@@ -464,12 +464,12 @@ L.Map.include({
         if (popup) {
             if (popup._source && popup._source._icon) {
                 if (popup._source._icon.className.indexOf(this._markerClass) !== -1) {
-                    L.DomUtil.removeClass(popup._source._icon, this._markerHideClass);
-                    L.DomUtil.addClass(popup._source._icon, this._markerShowClass);
+                    DG.DomUtil.removeClass(popup._source._icon, this._markerHideClass);
+                    DG.DomUtil.addClass(popup._source._icon, this._markerShowClass);
                 } else {
-                    L.DomUtil.removeClass(popup._source._icon, this._dgHideClass);
+                    DG.DomUtil.removeClass(popup._source._icon, this._dgHideClass);
                     if (popup._source._shadow) {
-                        L.DomUtil.removeClass(popup._source._shadow, this._dgHideClass);
+                        DG.DomUtil.removeClass(popup._source._shadow, this._dgHideClass);
                     }
                 }
             }

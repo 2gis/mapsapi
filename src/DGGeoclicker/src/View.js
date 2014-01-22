@@ -1,8 +1,8 @@
-DG.Geoclicker.View = L.Class.extend({
+DG.Geoclicker.View = DG.Class.extend({
 
     initialize: function (map, options) { // (Object, Object)
         this._map = map;
-        this._popup = L.popup({
+        this._popup = DG.popup({
             maxHeight: 300,
             minHeight: 50,
             maxWidth: 385,
@@ -12,7 +12,7 @@ DG.Geoclicker.View = L.Class.extend({
         /*global __DGGeoclicker_TMPL__:false */
         this._templates = __DGGeoclicker_TMPL__;
         if (options) {
-            L.Util.setOptions(this, options);
+            DG.Util.setOptions(this, options);
         }
     },
 

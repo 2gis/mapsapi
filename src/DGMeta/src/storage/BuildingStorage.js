@@ -7,7 +7,7 @@ DG.Meta.BuildingStorage = DG.Meta.Storage.extend({
         var verts = this._wkt.read(entity.hover);
         entity.geometry = this._wkt.toObject(verts);
 
-        if (entity.geometry instanceof L.Path) {
+        if (entity.geometry instanceof DG.Path) {
             entity.vertices = entity.geometry._latlngs;
         } else {
             entity.verticesArray = [];

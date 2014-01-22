@@ -127,7 +127,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
             return;
         }
 
-        this._controller.getMap().once('popupclose', L.bind(this._clearPopup, this));
+        this._controller.getMap().once('popupclose', DG.bind(this._clearPopup, this));
         this._initedPopupClose = true;
     },
 
@@ -148,12 +148,12 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         this._desc = this._popup.findElement('.dg-map-geoclicker-sight-description');
 
         if (this._link && this._desc) {
-            this._addEventHandler('DgShowMoreClick', this._link, 'click', L.bind(this._showMoreText, this));
+            this._addEventHandler('DgShowMoreClick', this._link, 'click', DG.bind(this._showMoreText, this));
         }
     },
 
     _checkDescFieldHeight: function (desc) {
-        var el = L.DomUtil.create('div', ''),
+        var el = DG.DomUtil.create('div', ''),
             height;
 
         el.style.visibility = 'hidden';

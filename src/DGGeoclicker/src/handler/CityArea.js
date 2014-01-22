@@ -90,7 +90,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         DG.Geoclicker.Handler.CityArea.prototype._stylesInited = true;
         for (i in this._polylineStyles) {
             if (this._polylineStyles.hasOwnProperty(i)) {
-                DG.Geoclicker.Handler.CityArea.prototype._polylineStyles[i] = L.extend(this._polylineStyles[i], this._polylineStyleDefault);
+                DG.Geoclicker.Handler.CityArea.prototype._polylineStyles[i] = DG.extend(this._polylineStyles[i], this._polylineStyleDefault);
             }
         }
     },

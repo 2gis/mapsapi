@@ -3,8 +3,8 @@ describe("DG TileLayer Module", function () {
         spy;
 
     beforeEach(function () {
-        map = new L.Map(document.createElement('div'), {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
+        map = new DG.Map(document.createElement('div'), {
+            center: new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 10
         });
         spy = sinon.spy();
@@ -16,8 +16,8 @@ describe("DG TileLayer Module", function () {
     });
 
     it("when method DG.tileLayer() return correct layer", function () {
-        var dgLayer1 = DG.tileLayer(),
-            dgLayer2 = new DG.TileLayer();
+        var dgLayer1 = DG.tileLayerDgis(),
+            dgLayer2 = new DG.TileLayer.dgis();
 
         expect(dgLayer1).to.eql(dgLayer2);
     });
@@ -28,7 +28,7 @@ describe("DG TileLayer Module", function () {
     });
 
     it("when a automatically layer is 2gis tilelayer", function () {
-        var dgLayer = DG.tileLayer();
+        var dgLayer = DG.tileLayerDgis();
 
         map.eachLayer(function(layer){
             expect(layer.options).to.eql(dgLayer.options);

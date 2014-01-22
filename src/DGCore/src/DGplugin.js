@@ -60,7 +60,7 @@ DG.plugin = function (plugins) {
         }
     }
 
-    if (L.Util.isArray(plugins)) {
+    if (DG.Util.isArray(plugins)) {
         count = plugins.length;
         plugins.forEach(function (plugin) {
             appendAsset(plugin);

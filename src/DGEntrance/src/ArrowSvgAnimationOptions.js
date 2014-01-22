@@ -1,5 +1,5 @@
 // Extends DG.Entrance.Arrow with SVG-specific animation options
-if (L.Browser.svg) {
+if (DG.Browser.svg) {
 
     DG.Entrance.Arrow.include({
 

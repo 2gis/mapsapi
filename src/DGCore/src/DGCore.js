@@ -1,7 +1,7 @@
 DG.loaderParams = window.__dgApi_params;
 window.__dgApi_params = undefined;
 
-L.Icon.Default.imagePath  = '../img/vendors/leaflet';
+DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
 
 /* jshint ignore:start */
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -15,7 +15,7 @@ ga('create', '__GA_CODE__', 'none');
 ga('send', 'pageview');
 
 // Improve IHandler
-L.Map.include({
+DG.Map.include({
     addHandler: function (name, HandlerClass) {
         if (!HandlerClass) { return; }
 
@@ -34,7 +34,7 @@ L.Map.include({
 });
 
 // adjust stamp method, need to pull request this to leaflet
-L.Util.stamp = (function () {
+DG.Util.stamp = (function () {
     var lastId = 0,
         key = '_leaflet_id';
     return function (obj) {
@@ -44,4 +44,4 @@ L.Util.stamp = (function () {
     };
 }());
 
-L.stamp = L.Util.stamp;
+DG.stamp = DG.Util.stamp;

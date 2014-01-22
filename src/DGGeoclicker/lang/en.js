@@ -1,4 +1,4 @@
-DG.Geoclicker.Handler.Default.Dictionary.en = L.extend({
+DG.Geoclicker.Handler.Default.Dictionary.en = DG.extend({
     "We haven't collected info about this place": "We haven't collected info about this place",
     "noname": "Without name",
     "place": "Place",

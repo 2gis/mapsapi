@@ -1,8 +1,8 @@
-L.Map.mergeOptions({
+DG.Map.mergeOptions({
     poi: false
 });
 
-DG.Poi = L.Handler.extend({
+DG.Poi = DG.Handler.extend({
 
     options: {
         disableLabel: false
@@ -10,7 +10,7 @@ DG.Poi = L.Handler.extend({
 
     initialize: function (map, options) { // (Object)
         this._map = map;
-        L.Util.setOptions(this, options);
+        DG.Util.setOptions(this, options);
     },
 
     addHooks: function () {
@@ -64,4 +64,4 @@ DG.Poi = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'poi', DG.Poi);
+DG.Map.addInitHook('addHandler', 'poi', DG.Poi);

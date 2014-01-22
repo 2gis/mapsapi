@@ -65,7 +65,7 @@ Wkt.Wkt.prototype.construct = {
      * Creates the framework's equivalent point geometry object.
      * @param   config      {Object}    An optional properties hash the object should use
      * @param   component   {Object}    An optional component to build from
-     * @return              {L.marker}
+     * @return              {DG.marker}
      */
     point: function (config, component) {
         var coord = component || this.components;
@@ -73,13 +73,13 @@ Wkt.Wkt.prototype.construct = {
             coord = coord[0];
         }
 
-        return L.marker(this.coordsToLatLng(coord), config);
+        return DG.marker(this.coordsToLatLng(coord), config);
     },
 
     /**
      * Creates the framework's equivalent multipoint geometry object.
      * @param   config  {Object}    An optional properties hash the object should use
-     * @return          {L.featureGroup}
+     * @return          {DG.featureGroup}
      */
     multipoint: function (config) {
         var i,
@@ -90,63 +90,63 @@ Wkt.Wkt.prototype.construct = {
             layers.push(this.construct.point.call(this, config, coords[i]));
         }
 
-        return L.featureGroup(layers, config);
+        return DG.featureGroup(layers, config);
     },
 
     /**
      * Creates the framework's equivalent linestring geometry object.
      * @param   config      {Object}    An optional properties hash the object should use
      * @param   component   {Object}    An optional component to build from
-     * @return              {L.polyline}
+     * @return              {DG.polyline}
      */
     linestring: function (config, component) {
         var coords = component || this.components,
             latlngs = this.coordsToLatLngs(coords);
 
-        return L.polyline(latlngs, config);
+        return DG.polyline(latlngs, config);
     },
 
     /**
      * Creates the framework's equivalent multilinestring geometry object.
      * @param   config  {Object}    An optional properties hash the object should use
-     * @return          {L.multiPolyline}
+     * @return          {DG.multiPolyline}
      */
     multilinestring: function (config) {
         var coords = this.components,
             latlngs = this.coordsToLatLngs(coords, 1);
 
-        return L.multiPolyline(latlngs, config);
+        return DG.multiPolyline(latlngs, config);
     },
 
     /**
      * Creates the framework's equivalent polygon geometry object.
      * @param   config      {Object}    An optional properties hash the object should use
-     * @return              {L.multiPolygon}
+     * @return              {DG.multiPolygon}
      */
     polygon: function (config) {
         // Truncate the coordinates to remove the closing coordinate
         var coords = this.trunc(this.components),
             latlngs = this.coordsToLatLngs(coords, 1);
-        return L.polygon(latlngs, config);
+        return DG.polygon(latlngs, config);
     },
 
     /**
      * Creates the framework's equivalent multipolygon geometry object.
      * @param   config  {Object}    An optional properties hash the object should use
-     * @return          {L.multiPolygon}
+     * @return          {DG.multiPolygon}
      */
     multipolygon: function (config) {
         // Truncate the coordinates to remove the closing coordinate
         var coords = this.trunc(this.components),
             latlngs = this.coordsToLatLngs(coords, 2);
 
-        return L.multiPolygon(latlngs, config);
+        return DG.multiPolygon(latlngs, config);
     },
 
     /**
      * Creates the framework's equivalent collection of geometry objects.
      * @param   config  {Object}    An optional properties hash the object should use
-     * @return          {L.featureGroup}
+     * @return          {DG.featureGroup}
      */
     geometrycollection: function (config) {
         var comps, i, layers;
@@ -157,19 +157,19 @@ Wkt.Wkt.prototype.construct = {
             layers.push(this.construct[comps[i].type].call(this, comps[i]));
         }
 
-        return L.featureGroup(layers, config);
+        return DG.featureGroup(layers, config);
 
     }
 };
 
-L.Util.extend(Wkt.Wkt.prototype, {
-    coordsToLatLngs: L.GeoJSON.coordsToLatLngs,
-    // TODO Why doesn't the coordsToLatLng function in L.GeoJSON already suffice?
+DG.Util.extend(Wkt.Wkt.prototype, {
+    coordsToLatLngs: DG.GeoJSON.coordsToLatLngs,
+    // TODO Why doesn't the coordsToLatLng function in DG.GeoJSON already suffice?
     coordsToLatLng: function (coords, reverse) {
         var lat = reverse ? coords.x : coords.y,
             lng = reverse ? coords.y : coords.x;
 
-        return L.latLng(lat, lng, true);
+        return DG.latLng(lat, lng, true);
     }
 });
 
@@ -208,8 +208,8 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
         return coords;
     };
 
-    // L.Marker ////////////////////////////////////////////////////////////////
-    if (obj.constructor === L.Marker || obj.constructor === L.marker) {
+    // DG.Marker ////////////////////////////////////////////////////////////////
+    if (obj.constructor === DG.Marker || obj.constructor === DG.marker) {
         return {
             type: 'point',
             components: [{
@@ -219,9 +219,9 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
         };
     }
 
-    // L.Rectangle /////////////////////////////////////////////////////////////
-    if (obj.constructor === L.Rectangle || obj.constructor === L.rectangle) {
-        tmp = obj.getBounds(); // L.LatLngBounds instance
+    // DG.Rectangle /////////////////////////////////////////////////////////////
+    if (obj.constructor === DG.Rectangle || obj.constructor === DG.rectangle) {
+        tmp = obj.getBounds(); // DG.LatLngBounds instance
         return {
             type: 'polygon',
             isRectangle: true,
@@ -253,8 +253,8 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
 
     }
 
-    // L.Polyline //////////////////////////////////////////////////////////////
-    if (obj.constructor === L.Polyline || obj.constructor === L.polyline) {
+    // DG.Polyline //////////////////////////////////////////////////////////////
+    if (obj.constructor === DG.Polyline || obj.constructor === DG.polyline) {
         verts = [];
         tmp = obj.getLatLngs();
 
@@ -275,9 +275,9 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
         }
     }
 
-    // L.Polygon ///////////////////////////////////////////////////////////////
+    // DG.Polygon ///////////////////////////////////////////////////////////////
 
-    if (obj.constructor === L.Polygon || obj.constructor === L.polygon) {
+    if (obj.constructor === DG.Polygon || obj.constructor === DG.polygon) {
         rings = [];
         verts = [];
         tmp = obj.getLatLngs();
@@ -311,12 +311,12 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
 
     }
 
-    // L.MultiPolyline /////////////////////////////////////////////////////////
-    // L.MultiPolygon //////////////////////////////////////////////////////////
-    // L.LayerGroup ////////////////////////////////////////////////////////////
-    // L.FeatureGroup //////////////////////////////////////////////////////////
-    if (obj.constructor === L.MultiPolyline || obj.constructor === L.MultiPolygon
-            || obj.constructor === L.LayerGroup || obj.constructor === L.FeatureGroup) {
+    // DG.MultiPolyline /////////////////////////////////////////////////////////
+    // DG.MultiPolygon //////////////////////////////////////////////////////////
+    // DG.LayerGroup ////////////////////////////////////////////////////////////
+    // DG.FeatureGroup //////////////////////////////////////////////////////////
+    if (obj.constructor === DG.MultiPolyline || obj.constructor === DG.MultiPolygon
+            || obj.constructor === DG.LayerGroup || obj.constructor === DG.FeatureGroup) {
 
         features = [];
         tmp = obj._layers;
@@ -334,11 +334,11 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
 
             type: (function () {
                 switch (obj.constructor) {
-                case L.MultiPolyline:
+                case DG.MultiPolyline:
                     return 'multilinestring';
-                case L.MultiPolygon:
+                case DG.MultiPolygon:
                     return 'multipolygon';
-                case L.FeatureGroup:
+                case DG.FeatureGroup:
                     return (function () {
                         var i, mpgon, mpline, mpoint;
 
@@ -349,13 +349,13 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
 
                         for (i in obj._layers) {
                             if (obj._layers.hasOwnProperty(i)) {
-                                if (obj._layers[i].constructor !== L.Marker) {
+                                if (obj._layers[i].constructor !== DG.Marker) {
                                     mpoint = false;
                                 }
-                                if (obj._layers[i].constructor !== L.Polyline) {
+                                if (obj._layers[i].constructor !== DG.Polyline) {
                                     mpline = false;
                                 }
-                                if (obj._layers[i].constructor !== L.Polygon) {
+                                if (obj._layers[i].constructor !== DG.Polygon) {
                                     mpgon = false;
                                 }
                             }
@@ -396,9 +396,9 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
 
     }
 
-    // L.Circle ////////////////////////////////////////////////////////////////
-    if (obj.constructor === L.Rectangle || obj.constructor === L.rectangle) {
-        console.log('Deconstruction of L.Circle objects is not yet supported');
+    // DG.Circle ////////////////////////////////////////////////////////////////
+    if (obj.constructor === DG.Rectangle || obj.constructor === DG.rectangle) {
+        console.log('Deconstruction of DG.Circle objects is not yet supported');
 
     } else {
         console.log('The passed object does not have any recognizable properties.');

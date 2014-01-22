@@ -1,14 +1,14 @@
 
 /* global fullScreenApi */
 
-DG.FullScreen = DG.RoundControl.extend({
+DG.Control.Fullscreen = DG.RoundControl.extend({
 
     statics: {
         Dictionary: {}
     },
 
     options: {
-        position: DG.configTheme.controls.fullScreen[L.Browser.touch ? 'touchPosition' : 'position'],
+        position: DG.configTheme.controls.fullScreen[DG.Browser.touch ? 'touchPosition' : 'position'],
         iconClass: 'fullscreen'
     },
 
@@ -51,7 +51,7 @@ DG.FullScreen = DG.RoundControl.extend({
     },
 
     initialize: function (options) {
-        L.Util.setOptions(this, options);
+        DG.Util.setOptions(this, options);
         if (!fullScreenApi.supportsFullScreen) {
             this._isLegacy = true;
         }
@@ -182,7 +182,7 @@ DG.FullScreen = DG.RoundControl.extend({
             document.body.style.padding = '0px';
         }
 
-        L.DomEvent.on(document, 'keyup', this._onKeyUp, this);
+        DG.DomEvent.on(document, 'keyup', this._onKeyUp, this);
 
         this._map.fire('requestfullscreen');
     },
@@ -199,7 +199,7 @@ DG.FullScreen = DG.RoundControl.extend({
             this._restorePosition(container);
         }
 
-        L.DomEvent.off(document, 'keyup', this._onKeyUp);
+        DG.DomEvent.off(document, 'keyup', this._onKeyUp);
 
         this._map.fire('cancelfullscreen');
     },
@@ -214,18 +214,18 @@ DG.FullScreen = DG.RoundControl.extend({
     }
 });
 
-DG.fullscreen = function (options) {
-    return new DG.FullScreen(options);
+DG.control.fullscreen = function (options) {
+    return new DG.Control.Fullscreen(options);
 };
 
-L.Map.mergeOptions({
-    fullScreenControl: true
+DG.Map.mergeOptions({
+    fullscreenControl: true
 });
 
-L.Map.addInitHook(function () {
-    if (this.options.fullScreenControl) {
-        this.fullScreenControl = DG.fullscreen(this.options.fullScreenControl);
-        this.addControl(this.fullScreenControl);
+DG.Map.addInitHook(function () {
+    if (this.options.fullscreenControl) {
+        this.fullscreenControl = DG.control.fullscreen(this.options.fullscreenControl);
+        this.addControl(this.fullscreenControl);
     }
 });
 

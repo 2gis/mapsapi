@@ -1,19 +1,19 @@
 // Extends DG.Entrance.Arrow with VML-specific rendering code
-if (L.Browser.vml) {
+if (DG.Browser.vml) {
 
     DG.Entrance.Arrow.include({
 
         _endArrowStroke: null,
 
-        onAdd: function (map) { // (L.Map)
-            L.Polyline.prototype.onAdd.call(this, map);
+        onAdd: function (map) { // (DG.Map)
+            DG.Polyline.prototype.onAdd.call(this, map);
 
             map.on({'zoomend': this._updateEndArrow}, this);
             map.on({'zoomend': this._updateStyle}, this);
         },
 
-        onRemove: function (map) { // (L.Map)
-            L.Polyline.prototype.onRemove.call(this, map);
+        onRemove: function (map) { // (DG.Map)
+            DG.Polyline.prototype.onRemove.call(this, map);
 
             map.off({'zoomend': this._updateEndArrow}, this);
             map.off({'zoomend': this._updateStyle}, this);
@@ -50,7 +50,7 @@ if (L.Browser.vml) {
             var optionsByZoom =  this.options.byZoom,
                 zoom = this._map.getZoom();
 
-            L.Polyline.prototype._updateStyle.call(this);
+            DG.Polyline.prototype._updateStyle.call(this);
 
             if (typeof optionsByZoom[zoom] !== 'undefined' &&
                 typeof optionsByZoom[zoom].weight !== 'undefined') {

@@ -1,4 +1,4 @@
-L.DG = L.DG || {};
+DG.DG = DG.DG || {};
 DG.configTheme = {
     balloonOptions: {
         offset: {

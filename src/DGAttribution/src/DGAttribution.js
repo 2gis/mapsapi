@@ -1,6 +1,6 @@
-L.Control.Attribution.include(DG.Locale);
-L.Control.Attribution.Dictionary = {};
-L.Control.Attribution.include({
+DG.Control.Attribution.include(DG.Locale);
+DG.Control.Attribution.Dictionary = {};
+DG.Control.Attribution.include({
     options: {
         position: 'bottomright'
     },
@@ -40,7 +40,7 @@ L.Control.Attribution.include({
     },
     /* global __DGAttribution_TMPL__ */
     _tmpl: __DGAttribution_TMPL__,
-    _onAdd: L.Control.Attribution.prototype.onAdd,
+    _onAdd: DG.Control.Attribution.prototype.onAdd,
     _getData: function (lang) {
         return {
             'lang': lang || this._map.getLang(),

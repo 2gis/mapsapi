@@ -1,9 +1,9 @@
-DG.Entrance.EventHandler = L.Handler.extend({
+DG.Entrance.EventHandler = DG.Handler.extend({
 
     _map: null,
     _entrance: null,
 
-    initialize: function (map, entrance) { // (L.Map, DG.Entrance)
+    initialize: function (map, entrance) { // (DG.Map, DG.Entrance)
         this._map = map;
         this._entrance = entrance;
 
@@ -12,12 +12,12 @@ DG.Entrance.EventHandler = L.Handler.extend({
             'zoomend': this._showOrHideEntrance
         }, this);
 
-        if (L.Browser.ie) {
+        if (DG.Browser.ie) {
             this._map.on('moveend', this._refresh, this); //JSAPI-3379
         }
     },
 
-    _showOrHideEntrance: function () { // (L.Event)
+    _showOrHideEntrance: function () { // (DG.Event)
         if (this._map.getZoom() >= DG.Entrance.SHOW_FROM_ZOOM) {
             this._entrance.show(false);
         }
@@ -36,8 +36,8 @@ DG.Entrance.EventHandler = L.Handler.extend({
         }
     },
 
-    _removeEntrance: function (e) { // (L.LayerEvent)
-        if (e.layer instanceof L.Popup ||
+    _removeEntrance: function (e) { // (DG.LayerEvent)
+        if (e.layer instanceof DG.Popup ||
             (e.layer instanceof DG.Entrance && e.layer !== this._entrance)) {
 
             this._entrance.removeFrom(this._map);
@@ -51,7 +51,7 @@ DG.Entrance.EventHandler = L.Handler.extend({
             'layeradd': this._removeEntrance
         }, this);
 
-        if (L.Browser.ie) {
+        if (DG.Browser.ie) {
             this._map.off('moveend', this._refresh, this); //JSAPI-3379
         }
     }

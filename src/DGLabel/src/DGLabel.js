@@ -1,7 +1,7 @@
-DG.Label = L.Class.extend({
+DG.Label = DG.Class.extend({
 
     options: {
-        offset: new L.Point(12, 15),
+        offset: new DG.Point(12, 15),
         className: 'dg-label',
         zIndexOffset: 0
     },
@@ -10,9 +10,9 @@ DG.Label = L.Class.extend({
     _defaultZIndex: 100,
 
     initialize: function (content, options) {
-        L.Util.setOptions(this, options);
+        DG.Util.setOptions(this, options);
 
-        this._animated = L.Browser.any3d;
+        this._animated = DG.Browser.any3d;
         this._content = content;
     },
 
@@ -42,7 +42,7 @@ DG.Label = L.Class.extend({
         this._visible = false;
 
         this._el.removeChild(this._container);
-        L.Util.falseFn(this._container.offsetWidth); // we need reflow here
+        DG.Util.falseFn(this._container.offsetWidth); // we need reflow here
         this._container = null;
 
         map.getPanes().markerPane.removeChild(this._el);
@@ -50,34 +50,34 @@ DG.Label = L.Class.extend({
     },
 
     _initDOM: function () {
-        this._el = L.DomUtil.create(
+        this._el = DG.DomUtil.create(
                         'div',
                         this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
                         this._map.getPanes().markerPane);
         this._el.style.zIndex = this._defaultZIndex + this.options.zIndexOffset;
 
-        this._container = L.DomUtil.create('div', this.options.className + '__content', this._el);
-        L.DomUtil.disableTextSelection(this._container);
-        L.DomEvent
+        this._container = DG.DomUtil.create('div', this.options.className + '__content', this._el);
+        DG.DomUtil.disableTextSelection(this._container);
+        DG.DomEvent
             .disableClickPropagation(this._el)
-            .on(this._container, 'mousewheel', L.DomEvent.stopPropagation)
-            .on(this._container, 'contextmenu', L.DomEvent.stopPropagation);
+            .on(this._container, 'mousewheel', DG.DomEvent.stopPropagation)
+            .on(this._container, 'contextmenu', DG.DomEvent.stopPropagation);
     },
 
     _onViewReset: function () {
         if (this._visible && this._latlng) {
-            L.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._latlng).add(this.options.offset), L.Browser.ie);
+            DG.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._latlng).add(this.options.offset), DG.Browser.ie);
         }
     },
 
     _onZoomAnimation: function (opt) {
         if (this._latlng) {
-            L.DomUtil.setPosition(this._el, this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).add(this.options.offset));
+            DG.DomUtil.setPosition(this._el, this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).add(this.options.offset));
         }
     },
 
     setOffset: function (point) {
-        if (point instanceof L.Point) {
+        if (point instanceof DG.Point) {
             this.options.offset = point;
             this._onViewReset();
         }
@@ -106,7 +106,7 @@ DG.Label = L.Class.extend({
     },
 
     setPosition: function (latlng) {
-        if (!(latlng instanceof L.LatLng)) {
+        if (!(latlng instanceof DG.LatLng)) {
             return this;
         }
 

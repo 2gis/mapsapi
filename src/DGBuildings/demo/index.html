@@ -9,13 +9,13 @@
     <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
     <script type="text/javascript">
         DG.then(function () {
-            var map = new L.Map('map', {
-                center: new L.LatLng(51.7302800, 36.1938900),
+            var map = new DG.Map('map', {
+                center: new DG.LatLng(51.7302800, 36.1938900),
                 zoom: 17,
                 buildings: true
             });
 
-            var marker = L.marker(map.getCenter()).addTo(map);
+            var marker = DG.marker(map.getCenter()).addTo(map);
 
             map.on('buildinghover', function (event) {
                 console.log('%s event: %o', event.type, event);

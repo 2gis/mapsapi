@@ -23,7 +23,7 @@ DG.Locale = {
             result = dictionaryMsg[exp];
         }
 
-        result = L.Util.template(result, {n: argument});
+        result = DG.Util.template(result, {n: argument});
         return result ? result : msg;
     }
 };
@@ -35,11 +35,11 @@ function getPageLang() {
     return lang;
 }
 
-L.Map.mergeOptions({
+DG.Map.mergeOptions({
     currentLang: getPageLang()
 });
 
-L.Map.include({
+DG.Map.include({
 
     setLang: function (lang) { // (String)
         if (lang && Object.prototype.toString.call(lang) === '[object String]') {
