@@ -479,4 +479,12 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.projectDetector.isProjectHere(project1).code).to.be.eql('novosibirsk');
         });
     });
+
+    describe('#projectDetector & dgTileLayer connection', function () {
+        it("when remove 2gis tilelayer ProjectDetector should be disabled", function () {
+            expect(map.projectDetector.enabled()).to.be.ok();
+            map.removeLayer(map._layers.dgTileLayer);
+            expect(map.projectDetector.enabled()).to.not.be.ok();
+        });
+    });
 });
