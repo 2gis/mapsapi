@@ -1,9 +1,14 @@
-/* jshint ignore:start */
-GD = function () {};
+DG = new (
+    (function () {
+        var DgApi = function () {};
+        var DgServiceLayer = function () {};
+        DgServiceLayer.prototype = L;
 
-GD.prototype = L;
+        var proto = new DgServiceLayer();
+        L.extend(proto, L.Mixin.Events);
+        proto.constructor = DgApi;
+        DgApi.prototype = proto;
 
-L.extend(GD.prototype, L.Mixin.Events);
-
-DG = new GD();
-/* jshint ignore:end */
+        return DgApi;
+    })()
+)();
