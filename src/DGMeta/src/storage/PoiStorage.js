@@ -1,4 +1,4 @@
-L.DG.Meta.PoiStorage = L.DG.Meta.Storage.extend({
+DG.Meta.PoiStorage = DG.Meta.Storage.extend({
 
     _data: {},
     _tilesData: {},

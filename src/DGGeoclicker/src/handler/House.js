@@ -1,7 +1,7 @@
 /* global
     FirmCard: false
 */
-L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
+DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
@@ -51,7 +51,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
             this._houseObject = this._fillHouseObject(results.house);
         }
 
-        return L.DG.when(this._defaultFirm ? this._firmCardObject : this._houseObject);
+        return DG.when(this._defaultFirm ? this._firmCardObject : this._houseObject);
     },
 
     _firmCardTmplsSetup: function () {
@@ -75,13 +75,13 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
     _firmCardSetup: function () { //() -> Object
         return {
             tmpls: this._firmCardTmplsSetup(),
-            render: L.DG.template,
+            render: DG.template,
             lang: this._map.getLang(),
             ajax: L.bind(this._api.getFirmInfo, this._api),
             timezoneOffset: this._controller.getMap().projectDetector.getProject().time_zone_as_offset,
             map: this._map,
             isMobile: L.Browser.mobile,
-            showEntrance: L.DG.Entrance,
+            showEntrance: DG.Entrance,
             gotoUrl: this._directionsUrl,
             onFirmReady: L.bind(this._onFirmReady, this),
             onToggle: L.bind(this._popup.resize, this._popup),
@@ -98,7 +98,7 @@ L.DG.Geoclicker.Handler.House = L.DG.Geoclicker.Handler.Default.extend({
                 if (headerTitle.offsetHeight > 72) { //TODO: magic number
                     L.DomUtil.addClass(headerTitle, 'dg-popup-header-title__firmcard__teaser');
                     if (!L.Browser.webkit) {
-                        L.DG.Geoclicker.clampHelper(headerTitle, 3);
+                        DG.Geoclicker.clampHelper(headerTitle, 3);
                     }
                 }
             }

@@ -407,7 +407,7 @@ Wkt.Wkt.prototype.deconstruct = function (obj) {
 };
 
 // place Wkt parser to 2GIS namespace
-L.DG.Wkt = Wkt.Wkt;
-L.DG.wkt = function() {
-    return new L.DG.Wkt();
+DG.Wkt = Wkt.Wkt;
+DG.wkt = function() {
+    return new DG.Wkt();
 };

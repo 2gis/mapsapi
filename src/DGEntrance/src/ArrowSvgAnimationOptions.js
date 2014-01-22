@@ -1,7 +1,7 @@
-// Extends L.DG.Entrance.Arrow with SVG-specific animation options
+// Extends DG.Entrance.Arrow with SVG-specific animation options
 if (L.Browser.svg) {
 
-    L.DG.Entrance.Arrow.include({
+    DG.Entrance.Arrow.include({
 
         getArrowAnimation: function (vertices) { // (Number) -> Object
             var animateArrow = {

@@ -1,4 +1,4 @@
-describe('L.DG.Geoclicker', function () {
+describe('DG.Geoclicker', function () {
     var map,
         mapContainer = document.createElement("div");
 

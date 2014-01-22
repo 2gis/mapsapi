@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
+DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     options: {
         urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
@@ -113,11 +113,11 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
         this.cancelLastRequest();
 
-        if (!L.DG.ajax.corsSupport) {
+        if (!DG.ajax.corsSupport) {
             type = data.output = 'jsonp';
         }
 
-        this._lastRequest = L.DG.ajax(url, {
+        this._lastRequest = DG.ajax(url, {
             type: type,
             data: data,
             timeout: this.options.timeoutMs

@@ -8,13 +8,13 @@
 <body>
     <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
     <script type="text/javascript">
-        L.DG.then(function () {
+        DG.then(function () {
             var map = new L.Map('map', {
                 center: new L.LatLng(54.980206086231, 82.898068362003),
                 zoom: 12
             });
 
-            var standaloneLabel = L.DG.label('Standalone tooltip');
+            var standaloneLabel = DG.label('Standalone tooltip');
             standaloneLabel.setPosition(new L.LatLng(55.0, 82.8));
             map.addLayer(standaloneLabel);
 
@@ -52,7 +52,7 @@
             path
                 .bindLabel( 'Подсказка при наведении!' )
                 .on('click', path.unbindLabel, path);
-                
+
             var polyline = L.polyline([
                         [55.0, 83.0],
                         [54.97, 83.03],

@@ -1,4 +1,4 @@
-L.DG.RoundControl = L.Control.extend({
+DG.RoundControl = L.Control.extend({
     includes: L.Mixin.Events,
 
     options: {
@@ -64,8 +64,8 @@ L.DG.RoundControl = L.Control.extend({
     }
 });
 
-L.DG.RoundControl.include(L.DG.Locale);
+DG.RoundControl.include(DG.Locale);
 
-L.DG.roundControl = function (options) {
-    return new L.DG.RoundControl(options);
+DG.roundControl = function (options) {
+    return new DG.RoundControl(options);
 };

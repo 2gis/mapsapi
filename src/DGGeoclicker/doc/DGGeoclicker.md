@@ -1,4 +1,4 @@
-## L.DG.Geoclicker
+## DG.Geoclicker
 
 Плагин поддержки геокодирования картой.
 При клике мышкой в любой точке на карте выполняется запрос геокодирования и отображается балун с информацией о текущей точке.
@@ -13,12 +13,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.Geoclicker</b>(
+        <td><code><b>DG.Geoclicker</b>(
             <nobr>&lt;<a href="#geoclicker-map">Map</a>&gt; <i>map</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.DG.Geoclicker(&hellip;)</code>
+            <code>DG.Geoclicker(&hellip;)</code>
         </td>
 
         <td>Добавляет функциональность геокликера на карту</td>

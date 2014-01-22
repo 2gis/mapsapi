@@ -1,7 +1,7 @@
 // Adds 2GIS-related popup content wrapper and offset
 (function () {
-    var offsetX = L.DG.configTheme.balloonOptions.offset.x,
-        offsetY = L.DG.configTheme.balloonOptions.offset.y,
+    var offsetX = DG.configTheme.balloonOptions.offset.x,
+        offsetY = DG.configTheme.balloonOptions.offset.y,
         originalInitialize = L.Popup.prototype.initialize,
         originalInitLayout = L.Popup.prototype._initLayout,
         originalOnClose = L.Popup.prototype._onCloseButtonClick,

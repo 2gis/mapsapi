@@ -1,6 +1,6 @@
 /*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false, sinon:false */
 
-describe('L.DG.Geoclicker.Controller', function () {
+describe('DG.Geoclicker.Controller', function () {
     var map,
         mapContainer = document.createElement('div'),
         spy,
@@ -58,9 +58,9 @@ describe('L.DG.Geoclicker.Controller', function () {
 
         beforeEach(function () {
 
-            defaultSpy = sinon.stub().returns(L.DG.when({}));
-            houseSpy = sinon.stub().returns(L.DG.when({}));
-            citySpy = sinon.stub().returns(L.DG.when({}));
+            defaultSpy = sinon.stub().returns(DG.when({}));
+            houseSpy = sinon.stub().returns(DG.when({}));
+            citySpy = sinon.stub().returns(DG.when({}));
             districtSpy = sinon.stub().returns(false);
 
             defaultHandler = L.Class.extend({
@@ -76,7 +76,7 @@ describe('L.DG.Geoclicker.Controller', function () {
                 handle: districtSpy
             });
 
-            L.DG.Geoclicker.Controller.mergeOptions({
+            DG.Geoclicker.Controller.mergeOptions({
                 handlersSequence: {
                     default: defaultHandler,
                     house: houseHandler,

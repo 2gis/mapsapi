@@ -1,4 +1,4 @@
-L.DG.TileLayer = L.TileLayer.extend({
+DG.TileLayer = L.TileLayer.extend({
     dgTileLayerUrl: '__TILE_SERVER__',
     options: {
         subdomains: '0123',
@@ -15,8 +15,8 @@ L.DG.TileLayer = L.TileLayer.extend({
     }
 });
 
-L.DG.tileLayer = function () {
-    return new L.DG.TileLayer();
+DG.tileLayer = function () {
+    return new DG.TileLayer();
 };
 
 L.Map.include({
@@ -29,6 +29,6 @@ L.Map.addInitHook(function () {
     if (!this._copyright) {
         L.control.attribution().addTo(this);
     }
-    L.DG.tileLayer().addTo(this);
+    DG.tileLayer().addTo(this);
 });
 

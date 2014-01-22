@@ -1,4 +1,4 @@
-L.DG.Meta.BuildingStorage = L.DG.Meta.Storage.extend({
+DG.Meta.BuildingStorage = DG.Meta.Storage.extend({
 
     _data: {},
     _tilesData: {},

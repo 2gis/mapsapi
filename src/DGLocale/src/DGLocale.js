@@ -1,4 +1,4 @@
-L.DG.Locale = {
+DG.Locale = {
     t: function (msg, argument) { // (String, Number) -> String
         var result,
             lang = this._map.options.currentLang,

@@ -1,4 +1,4 @@
-## L.DG.LocationControl
+## DG.LocationControl
 
 При подключении данного элемента управления, в левом верхнем углу карты появится контрол, при клике на который, на карте маркером отмечается текущее месторасположение пользователя. Если Geolocation API не поддерживается устройством, контрол не выводится.
 
@@ -13,12 +13,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.LocationControl</b>(
+        <td><code><b>DG.LocationControl</b>(
             <nobr>&lt;<a href="#control-locate-options">Control.Locate options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.DG.LocationControl(&hellip;)</code>
+            <code>DG.LocationControl(&hellip;)</code>
         </td>
 
         <td>Создает элемент управления геопозиционированием.</td>

@@ -1,8 +1,8 @@
-L.DG.Meta.Storage = L.Class.extend({
+DG.Meta.Storage = L.Class.extend({
 
     _data: {},
     _tilesData: {},
-    _wkt: new L.DG.Wkt(),
+    _wkt: new DG.Wkt(),
 
     getTileData: function (tileId) { //(String) -> Array|false
         if (!this._tilesData.hasOwnProperty(tileId)) {

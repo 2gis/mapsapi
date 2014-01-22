@@ -1,6 +1,6 @@
-L.DG.plugin = function (plugins) {
+DG.plugin = function (plugins) {
     var count,
-        pluginDef = L.DG.when.defer(),
+        pluginDef = DG.when.defer(),
         jsReg = new RegExp(/.js$/i),
         cssReg = new RegExp(/.css$/i);
 

@@ -1,4 +1,4 @@
-describe('L.DG.Label', function () {
+describe('DG.Label', function () {
     var map,
         mapContainer = document.createElement("div");
 
@@ -14,8 +14,8 @@ describe('L.DG.Label', function () {
         map = null;
     });
 
-    describe('"L.DG.Label" class', function(){
-        var label = L.DG.label();
+    describe('"DG.Label" class', function(){
+        var label = DG.label();
         it('it should have "onAdd()" public method', function(){
             expect(label.onAdd).to.be.a('function');
         });
@@ -23,24 +23,24 @@ describe('L.DG.Label', function () {
             expect(label.onRemove).to.be.a('function');
         });
         it('it should properly merge options object passed to constructor', function(){
-            var labelWithOptions = L.DG.label('', { className: "test-class" });
+            var labelWithOptions = DG.label('', { className: "test-class" });
             expect(labelWithOptions.options.className).to.eql('test-class');
         });
         describe('#setContent and #setPosition', function(){
-            it('should return "L.DG.Label" instance', function(){
-                expect(label.setContent('ra-ta-ta')).to.be.a(L.DG.Label);
-                expect(label.setPosition( new L.LatLng(54.980206086231, 82.898068362003) )).to.be.a(L.DG.Label);
+            it('should return "DG.Label" instance', function(){
+                expect(label.setContent('ra-ta-ta')).to.be.a(DG.Label);
+                expect(label.setPosition( new L.LatLng(54.980206086231, 82.898068362003) )).to.be.a(DG.Label);
 
-                expect(label.setContent( null )).to.be.a(L.DG.Label);
-                expect(label.setPosition( null )).to.be.a(L.DG.Label);
+                expect(label.setContent( null )).to.be.a(DG.Label);
+                expect(label.setPosition( null )).to.be.a(DG.Label);
             });
         });
     });
 
-    describe('"L.DG.label()" factory', function(){
-        it(' should return "L.DG.Label" instance', function(){
-            var label = L.DG.label();
-            expect(label).to.be.a(L.DG.Label);
+    describe('"DG.label()" factory', function(){
+        it(' should return "DG.Label" instance', function(){
+            var label = DG.label();
+            expect(label).to.be.a(DG.Label);
         });
     });
 
@@ -71,12 +71,12 @@ describe('L.DG.Label', function () {
             expect(marker.hideLabel()).to.be.a(L.Marker);
             expect(markerWithLabel.hideLabel()).to.be.a(L.Marker);
         });
-        it('#getLabel should return "L.DG.Label" instance after #bindLabel call', function(){
+        it('#getLabel should return "DG.Label" instance after #bindLabel call', function(){
             var markerWithLabel = L.marker([54.950206086231, 82.898068362003])
                                         .addTo(map)
                                         .bindLabel('ra-ta-ta');
 
-            expect(markerWithLabel.getLabel()).to.be.a(L.DG.Label);
+            expect(markerWithLabel.getLabel()).to.be.a(DG.Label);
         });
         it('#getLabel should return null after #unbindLabel call and before #bindLabel call', function(){
             var marker = L.marker([54.950206086231, 82.898068362003]).addTo(map),
@@ -100,12 +100,12 @@ describe('L.DG.Label', function () {
             expect(path.unbindLabel()).to.be.a(L.Path);
             expect(pathWithLabel.unbindLabel()).to.be.a(L.Path);
         });
-        it('#getLabel should return "L.DG.Label" instance after #bindLabel call', function(){
+        it('#getLabel should return "DG.Label" instance after #bindLabel call', function(){
             var pathWithLabel = L.circle([55.0, 83.0], 900)
                                         .addTo(map)
                                         .bindLabel('ra-ta-ta');
 
-            expect(pathWithLabel.getLabel()).to.be.a(L.DG.Label);
+            expect(pathWithLabel.getLabel()).to.be.a(DG.Label);
         });
         it('#getLabel should return null after #unbindLabel call and before #bindLabel call', function(){
             var path = L.circle([55.0, 83.0], 900).addTo(map),

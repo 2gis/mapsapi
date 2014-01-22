@@ -1,7 +1,7 @@
-// Extends L.DG.Entrance.Arrow with SVG-specific rendering code
+// Extends DG.Entrance.Arrow with SVG-specific rendering code
 if (L.Browser.svg) {
 
-    L.DG.Entrance.Arrow.include({
+    DG.Entrance.Arrow.include({
 
         _defs: null,
 
@@ -123,7 +123,7 @@ if (L.Browser.svg) {
 
         _updateMarker: function () {
             var zoom = this._map.getZoom();
-            if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
+            if (zoom >= DG.Entrance.SHOW_FROM_ZOOM) {
                 this._showMarker();
             } else {
                 this._hideMarker(false);
@@ -133,7 +133,7 @@ if (L.Browser.svg) {
         _showMarker: function () {
             var zoom = this._map.getZoom();
 
-            if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
+            if (zoom >= DG.Entrance.SHOW_FROM_ZOOM) {
                 this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
             }
         },

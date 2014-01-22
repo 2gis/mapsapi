@@ -16,7 +16,7 @@ L.Marker.include({
                 offset: new L.Point(5, 5)
             }, options);
 
-            this._label = L.DG.label(content, options);
+            this._label = DG.label(content, options);
 
             this.once('remove', this.unbindLabel);
 

@@ -82,7 +82,7 @@ describe('DG Locale Module', function () {
 
 		beforeEach(function () {
 			TestPlugin = L.Control.extend({
-			    includes: L.DG.Locale,
+			    includes: DG.Locale,
 			    options: {
 			        position: 'topright'
 			    },
@@ -97,12 +97,12 @@ describe('DG Locale Module', function () {
 			TestPlugin.Dictionary.ru = L.extend({
 				'{n} people' : ['{n} пользователь', '{n} пользователя', '{n} пользователей'],
 				'regularly use 2GIS' : 'регулярно используют 2GIS'
-			}, L.DG.Dictionary.ru);
+			}, DG.Dictionary.ru);
 
 			TestPlugin.Dictionary.it = L.extend({
 				'{n} people' : ['{n} utente', '{n} utenti'],
 				'regularly use 2GIS' : 'utilizzano regolarmente 2GIS'
-			}, L.DG.Dictionary.it);
+			}, DG.Dictionary.it);
 
 			plugin = new TestPlugin();
 			map.addControl(plugin);

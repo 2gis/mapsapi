@@ -1,14 +1,14 @@
 
 /* global fullScreenApi */
 
-L.DG.FullScreen = L.DG.RoundControl.extend({
+DG.FullScreen = DG.RoundControl.extend({
 
     statics: {
         Dictionary: {}
     },
 
     options: {
-        position: L.DG.configTheme.controls.fullScreen[L.Browser.touch ? 'touchPosition' : 'position'],
+        position: DG.configTheme.controls.fullScreen[L.Browser.touch ? 'touchPosition' : 'position'],
         iconClass: 'fullscreen'
     },
 
@@ -214,8 +214,8 @@ L.DG.FullScreen = L.DG.RoundControl.extend({
     }
 });
 
-L.DG.fullscreen = function (options) {
-    return new L.DG.FullScreen(options);
+DG.fullscreen = function (options) {
+    return new DG.FullScreen(options);
 };
 
 L.Map.mergeOptions({
@@ -224,7 +224,7 @@ L.Map.mergeOptions({
 
 L.Map.addInitHook(function () {
     if (this.options.fullScreenControl) {
-        this.fullScreenControl = L.DG.fullscreen(this.options.fullScreenControl);
+        this.fullScreenControl = DG.fullscreen(this.options.fullScreenControl);
         this.addControl(this.fullScreenControl);
     }
 });

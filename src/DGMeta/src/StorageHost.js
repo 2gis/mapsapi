@@ -1,8 +1,8 @@
-L.DG.Meta.Host = L.Class.extend({
+DG.Meta.Host = L.Class.extend({
 
     initialize: function () {
-        this._buildingStorage = new L.DG.Meta.BuildingStorage();
-        this._poiStorage = new L.DG.Meta.PoiStorage();
+        this._buildingStorage = new DG.Meta.BuildingStorage();
+        this._poiStorage = new DG.Meta.PoiStorage();
     },
 
     getTileData: function (tileId) { //(String) -> Promise
@@ -10,7 +10,7 @@ L.DG.Meta.Host = L.Class.extend({
             availableBuildings = this._buildingStorage.getTileData(tileId);
 
         if (availablePoi && availableBuildings) {
-            return L.DG.when({
+            return DG.when({
                 buildings: availableBuildings,
                 poi: availablePoi
             });
@@ -52,7 +52,7 @@ L.DG.Meta.Host = L.Class.extend({
     _askByTile: function (tileId) { //(String) -> Promise
         var xyz = tileId.split(',');
 
-        return L.DG.ajax(
+        return DG.ajax(
             L.Util.template('__HIGHLIGHT_POI_SERVER__', {
                 z: xyz[2],
                 x: xyz[0],

@@ -37,15 +37,15 @@
 	<tr>
 		<td><code><b>lazy</b></code></td>
 		<td><code>false</code></td>
-		<td>Если указать значение true, API загрузится отложено, при первом вызове L.DG.then.</td>
+		<td>Если указать значение true, API загрузится отложено, при первом вызове DG.then.</td>
 	</tr>
 </table>
 
-## L.DG.then
+## DG.then
 
 Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:
 
-	L.DG.then(function () {
+	DG.then(function () {
              map = new L.Map('map', {
                 'center': new L.LatLng(54.980206086231, 82.898068362003),
                 'zoom': 13,
@@ -66,7 +66,7 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.DG.then</b>(
+		<td><code><b>DG.then</b>(
 			<nobr>&lt;Function&gt; <i>resolve</i>,</nobr>
 			<nobr>&lt;Function&gt; <i>reject</i></nobr>)
 		</code></td>
@@ -75,15 +75,15 @@
 	</tr>
 </table>
 
-Т.к. в основе L.DG.then использованы Promise, вызов L.DG.then в любой момент после загрузки API, мгновенно выполнит обработчик.
+Т.к. в основе DG.then использованы Promise, вызов DG.then в любой момент после загрузки API, мгновенно выполнит обработчик.
 
-## L.DG.plugin
+## DG.plugin
 
 Интерфейс для подключения плагинов, зависящих от API или Leaflet:
 
-	L.DG.then(function () {
+	DG.then(function () {
 			//загрузка плагинов
-            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+            return DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
         })
         .then(function () {
             //инициализация карты
@@ -98,7 +98,7 @@
 
 Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:
 
-	L.DG.then(function () {
+	DG.then(function () {
             //инициализация карты
             var map = new L.Map('map', {
                 'center': new L.LatLng(54.980206086231, 82.898068362003),
@@ -107,7 +107,7 @@
             });
         }).then(function () {
         	//загрузка плагинов
-            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+            return DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
         }).then(function () {
             //инициализация плагина
             var hash = new L.Hash(map);
@@ -122,7 +122,7 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.DG.plugin</b>(
+		<td><code><b>DG.plugin</b>(
 			<nobr>&lt;String&gt; <i>String Url</i>/</nobr>
 			<nobr>&lt;Array&gt; <i>[String Url, String Url...]</i></nobr>)
 		</code></td>

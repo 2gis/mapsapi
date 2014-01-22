@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Handler.House.include({
+DG.Geoclicker.Handler.House.include({
     _fillBody: function (house) { // // (Object) -> (DOMElement)
         var attrs = house.attributes,
             data = {

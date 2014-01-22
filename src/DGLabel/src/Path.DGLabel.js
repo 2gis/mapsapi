@@ -2,7 +2,7 @@ L.Path.include({
     bindLabel: function (content, options) {
 
         if (!this._label) {
-            this._label = L.DG.label(content, options);
+            this._label = DG.label(content, options);
             this.on(this._labelEvents, this);
         } else {
             this._label.setContent(content);

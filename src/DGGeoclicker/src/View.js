@@ -1,4 +1,4 @@
-L.DG.Geoclicker.View = L.Class.extend({
+DG.Geoclicker.View = L.Class.extend({
 
     initialize: function (map, options) { // (Object, Object)
         this._map = map;
@@ -30,7 +30,7 @@ L.DG.Geoclicker.View = L.Class.extend({
 
     initLoader: function (isSmall) {
         var loader = document.createElement('div');
-        loader.innerHTML = L.DG.template(this.getTemplate('loader'),
+        loader.innerHTML = DG.template(this.getTemplate('loader'),
             {
                 small: isSmall,
                 anim: this._detectCssAnimation()
@@ -55,7 +55,7 @@ L.DG.Geoclicker.View = L.Class.extend({
         options.tmpl = options.tmpl || '';
 
         if (options.data) {
-            html = L.DG.template(options.tmpl, options.data);
+            html = DG.template(options.tmpl, options.data);
         } else {
             html = options.tmpl;
         }

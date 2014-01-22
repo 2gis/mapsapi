@@ -1,4 +1,4 @@
-L.DG.loaderParams = window.__dgApi_params;
+DG.loaderParams = window.__dgApi_params;
 window.__dgApi_params = undefined;
 
 L.Icon.Default.imagePath  = '../img/vendors/leaflet';

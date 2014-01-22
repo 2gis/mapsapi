@@ -2,7 +2,7 @@ L.Map.mergeOptions({
     poi: false
 });
 
-L.DG.Poi = L.Handler.extend({
+DG.Poi = L.Handler.extend({
 
     options: {
         disableLabel: false
@@ -17,7 +17,7 @@ L.DG.Poi = L.Handler.extend({
         this._map.on(this._mapEventsListeners, this);
         this._map.meta.enablePoiListening();
         if (!this.options.disableLabel) {
-            this._labelHelper = new L.DG.Label();
+            this._labelHelper = new DG.Label();
         }
     },
 
@@ -64,4 +64,4 @@ L.DG.Poi = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'poi', L.DG.Poi);
+L.Map.addInitHook('addHandler', 'poi', DG.Poi);

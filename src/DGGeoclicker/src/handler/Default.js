@@ -1,6 +1,6 @@
-L.DG.Geoclicker.Handler.Default = L.Class.extend({
+DG.Geoclicker.Handler.Default = L.Class.extend({
 
-    includes: L.DG.Locale,
+    includes: DG.Locale,
 
     statics: {
         Dictionary: {}
@@ -15,7 +15,7 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
     },
 
     handle: function () { // (Object, String) -> Promise
-        return L.DG.when({
+        return DG.when({
             tmpl: this._view.getTemplate('popupHeader'),
             data: {'title': this.t('We haven\'t collected info about this place')}
         });
@@ -70,10 +70,10 @@ L.DG.Geoclicker.Handler.Default = L.Class.extend({
 });
 
 
-L.DG.Geoclicker.Handler.HandlerExample = L.DG.Geoclicker.Handler.Default.extend({
+DG.Geoclicker.Handler.HandlerExample = DG.Geoclicker.Handler.Default.extend({
 
     handle: function (results, type) { // (Object, String) -> Promise
-        return L.DG.when({
+        return DG.when({
             tmpl: type + ':<br/>' + results[type].id
         });
     }

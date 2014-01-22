@@ -1,4 +1,4 @@
-## L.DG.Wkt
+## DG.Wkt
 
 Используется для получения геометрии API карт на основе ее описания в [WKT-формате](http://en.wikipedia.org/wiki/Well-known_text).
 
@@ -11,12 +11,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.wkt</b>(
+        <td><code><b>DG.wkt</b>(
             <nobr> <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.DG.wkt(&hellip;)</code>
+            <code>DG.wkt(&hellip;)</code>
         </td>
 
         <td>Создает объект, отвечающий за обработку данных в WKT-формате.</td>

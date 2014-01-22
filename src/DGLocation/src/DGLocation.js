@@ -1,4 +1,4 @@
-L.DG.Location = L.DG.RoundControl.extend({
+DG.Location = DG.RoundControl.extend({
 
     statics: {
         Dictionary: {}
@@ -6,7 +6,7 @@ L.DG.Location = L.DG.RoundControl.extend({
 
     options: {
         iconClass: 'locate',
-        position: L.DG.configTheme.controls.location[L.Browser.touch ? 'touchPosition' : 'position'],
+        position: DG.configTheme.controls.location[L.Browser.touch ? 'touchPosition' : 'position'],
         drawCircle: true,
         follow: true,  // follow with zoom and pan the user's location
         stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged
@@ -259,13 +259,13 @@ L.DG.Location = L.DG.RoundControl.extend({
     }
 });
 
-L.DG.locate = function (options) {
-    return new L.DG.Location(options);
+DG.locate = function (options) {
+    return new DG.Location(options);
 };
 
 L.Map.addInitHook(function () {
     if (this.options.locationControl) {
-        this.locationControl = L.DG.locate(this.options.locationControl);
+        this.locationControl = DG.locate(this.options.locationControl);
         this.addControl(this.locationControl);
     }
 });

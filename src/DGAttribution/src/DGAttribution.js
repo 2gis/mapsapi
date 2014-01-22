@@ -1,4 +1,4 @@
-L.Control.Attribution.include(L.DG.Locale);
+L.Control.Attribution.include(DG.Locale);
 L.Control.Attribution.Dictionary = {};
 L.Control.Attribution.include({
     options: {
@@ -54,7 +54,7 @@ L.Control.Attribution.include({
         };
     },
     _getAttributionHTML: function (lang) {
-        return L.DG.template(this._tmpl.copyright, this._getData(lang));
+        return DG.template(this._tmpl.copyright, this._getData(lang));
     },
     _renderTranslation: function (e) {
         this._update(e.lang);

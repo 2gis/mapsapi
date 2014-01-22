@@ -2,7 +2,7 @@ L.Map.mergeOptions({
     projectDetector: true
 });
 
-L.DG.ProjectDetector = L.Handler.extend({
+DG.ProjectDetector = L.Handler.extend({
     options: {
         url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         data: {
@@ -63,11 +63,11 @@ L.DG.ProjectDetector = L.Handler.extend({
             self = this,
             type = 'get';
 
-        if (!L.DG.ajax.corsSupport) {
+        if (!DG.ajax.corsSupport) {
             type = options.data.output = 'jsonp';
         }
 
-        return L.DG.ajax(options.url, {
+        return DG.ajax(options.url, {
             type: type,
             data: options.data,
 
@@ -125,4 +125,4 @@ L.DG.ProjectDetector = L.Handler.extend({
     }
 });
 
-L.Map.addInitHook('addHandler', 'projectDetector', L.DG.ProjectDetector);
+L.Map.addInitHook('addHandler', 'projectDetector', DG.ProjectDetector);

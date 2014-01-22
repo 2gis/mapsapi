@@ -2,14 +2,14 @@ L.Map.mergeOptions({
     geoclicker: false
 });
 
-L.DG.Geoclicker = L.Handler.extend({
+DG.Geoclicker = L.Handler.extend({
     clickCount: 0,
     pendingClick: 0,
     timeout: 250, // should be equal to 'delay' value in DoubleTap event
 
     initialize: function (map, options) { // (Object)
         this._map = map;
-        this._controller = new L.DG.Geoclicker.Controller(map, options);
+        this._controller = new DG.Geoclicker.Controller(map, options);
         this._fillEventsListeners();
     },
 
@@ -74,4 +74,4 @@ L.DG.Geoclicker = L.Handler.extend({
     }
 });
 
-L.Map.addInitHook('addHandler', 'geoclicker', L.DG.Geoclicker);
+L.Map.addInitHook('addHandler', 'geoclicker', DG.Geoclicker);

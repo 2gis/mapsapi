@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Handler.Default.Dictionary.en = L.extend({
+DG.Geoclicker.Handler.Default.Dictionary.en = L.extend({
     "We haven't collected info about this place": "We haven't collected info about this place",
     "noname": "Without name",
     "place": "Place",
@@ -12,4 +12,4 @@ L.DG.Geoclicker.Handler.Default.Dictionary.en = L.extend({
     "back button": "Back",
     "Show more about sight": "Read more",
     "{n} floors": ["{n} floor", "{n} floors"]
-}, L.DG.Dictionary.en);
+}, DG.Dictionary.en);

@@ -1,4 +1,4 @@
-L.DG.ajax = (function () {
+DG.ajax = (function () {
 
     var win = window,
         doc = document,
@@ -296,7 +296,7 @@ L.DG.ajax = (function () {
             o.crossDomain = isCrossDomain(o.url);
         }
 
-        var self = L.DG.when.defer();
+        var self = DG.when.defer();
 
         self.abort = function () {
             self._aborted = true;

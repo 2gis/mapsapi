@@ -1,4 +1,4 @@
-L.DG.Entrance = L.Class.extend({
+DG.Entrance = L.Class.extend({
 
     includes: L.Mixin.Events,
 
@@ -22,7 +22,7 @@ L.DG.Entrance = L.Class.extend({
     onAdd: function (map) { // (L.Map)
         this._map = map;
         this._initArrows().addTo(map);
-        this._eventHandler = new L.DG.Entrance.EventHandler(map, this);
+        this._eventHandler = new DG.Entrance.EventHandler(map, this);
 
         // hide without event by default
         this._arrows.eachLayer(function (arrow) {
@@ -31,7 +31,7 @@ L.DG.Entrance = L.Class.extend({
         this._isShown = false;
     },
 
-    addTo: function (map) { // (L.Map) -> L.DG.Entrance
+    addTo: function (map) { // (L.Map) -> DG.Entrance
         map.addLayer(this);
         return this;
     },
@@ -45,12 +45,12 @@ L.DG.Entrance = L.Class.extend({
         this._arrows = null;
     },
 
-    removeFrom: function (map) { // (L.Map) -> L.DG.Entrance
+    removeFrom: function (map) { // (L.Map) -> DG.Entrance
         map.removeLayer(this);
         return this;
     },
 
-    show: function (fitBounds) { // () -> L.DG.Entrance
+    show: function (fitBounds) { // () -> DG.Entrance
         if (!this._arrows) {
             return this;
         }
@@ -76,7 +76,7 @@ L.DG.Entrance = L.Class.extend({
         return this;
     },
 
-    hide: function () { // () -> L.DG.Entrance
+    hide: function () { // () -> DG.Entrance
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
@@ -103,7 +103,7 @@ L.DG.Entrance = L.Class.extend({
         this._arrows = L.featureGroup();
 
         for (var i = 0; i < this.options.vectors.length; i++) {
-            wkt = new L.DG.Wkt();
+            wkt = new DG.Wkt();
             components = wkt.read(this.options.vectors[i]);
             latlngs = [];
 
@@ -112,10 +112,10 @@ L.DG.Entrance = L.Class.extend({
             }
 
             // stroke
-            this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
+            this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
 
             // basis
-            this._arrows.addLayer(L.DG.Entrance.arrow(latlngs, this._getArrowOptions()));
+            this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowOptions()));
         }
 
         return this._arrows;
@@ -126,7 +126,7 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _getFitZoom: function () {
-        return this._map.projectDetector.getProject().max_zoom_level || L.DG.Entrance.SHOW_FROM_ZOOM;
+        return this._map.projectDetector.getProject().max_zoom_level || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _fitBounds: function () {
@@ -148,7 +148,7 @@ L.DG.Entrance = L.Class.extend({
     },
 
     _isAllowedZoom: function () {
-        return !(this._map.getZoom() < L.DG.Entrance.SHOW_FROM_ZOOM);  // jshint ignore:line
+        return !(this._map.getZoom() < DG.Entrance.SHOW_FROM_ZOOM);  // jshint ignore:line
     },
 
     _getArrowStrokeOptions: function () {

@@ -11,7 +11,7 @@ L.Control.include({
 });
 
 // Applies 2GIS divIcon to marker
-L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
+L.Marker.prototype.options.icon = L.divIcon(DG.configTheme.markersData);
 
 // Adds posibility to change max zoom level
 L.Map.prototype.setMaxZoom = function (maxZoom) {

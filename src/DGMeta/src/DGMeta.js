@@ -1,4 +1,4 @@
-L.DG.Meta = L.Handler.extend({
+DG.Meta = L.Handler.extend({
 
     _currentPoi: null,                          // TODO: refactor #reset in add/remove
     _currentBuilding: null,
@@ -17,7 +17,7 @@ L.DG.Meta = L.Handler.extend({
         this._map = map;
         this._mapPanes = map.getPanes();
 
-        this._tileSize = L.DG.TileLayer.prototype.options.tileSize;
+        this._tileSize = DG.TileLayer.prototype.options.tileSize;
         if (!this.options.zoomOffset) {
             map.eachLayer(function (layer) {
                 if (layer instanceof L.TileLayer && layer.options.zoomOffset) {
@@ -28,7 +28,7 @@ L.DG.Meta = L.Handler.extend({
             }, this);
         }
 
-        this._metaHost = new L.DG.Meta.Host();
+        this._metaHost = new DG.Meta.Host();
     },
 
     addHooks: function () {
@@ -218,4 +218,4 @@ L.DG.Meta = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'meta', L.DG.Meta);
+L.Map.addInitHook('addHandler', 'meta', DG.Meta);

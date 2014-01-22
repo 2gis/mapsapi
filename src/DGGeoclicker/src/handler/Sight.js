@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
+DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
 
     handle: function (results) { // (Object, String) -> Promise
         if (!results.sight) {
@@ -8,7 +8,7 @@ L.DG.Geoclicker.Handler.Sight = L.DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
 
-        return L.DG.when(this._fillSightObject(results));
+        return DG.when(this._fillSightObject(results));
     },
 
     _buildAddress: function (array) { // (Array) -> String

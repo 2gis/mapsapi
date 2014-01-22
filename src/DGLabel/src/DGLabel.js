@@ -1,4 +1,4 @@
-L.DG.Label = L.Class.extend({
+DG.Label = L.Class.extend({
 
     options: {
         offset: new L.Point(12, 15),
@@ -116,6 +116,6 @@ L.DG.Label = L.Class.extend({
     }
 });
 
-L.DG.label = function (content, options) {
-    return new L.DG.Label(content, options);
+DG.label = function (content, options) {
+    return new DG.Label(content, options);
 };

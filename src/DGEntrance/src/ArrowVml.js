@@ -1,7 +1,7 @@
-// Extends L.DG.Entrance.Arrow with VML-specific rendering code
+// Extends DG.Entrance.Arrow with VML-specific rendering code
 if (L.Browser.vml) {
 
-    L.DG.Entrance.Arrow.include({
+    DG.Entrance.Arrow.include({
 
         _endArrowStroke: null,
 
