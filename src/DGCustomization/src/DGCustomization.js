@@ -1,5 +1,6 @@
 //Inject observing localization change
 var controlAddTo = L.Control.prototype.addTo;
+var panBy = L.Map.prototype.panBy;
 
 L.Control.include({
     addTo: function (map) {
@@ -55,47 +56,14 @@ L.Map.include({
     },
 
     panBy: function (offset, options) {
+        var map = panBy.call(this, offset, options);
 
-        var ll = this.layerPointToLatLng(this._getMapPanePos().add(offset));
-        var zoom = this._resctrictZoom(ll);
-
+        var zoom = this._resctrictZoom(this.getBounds().getCenter());
         if (this.getZoom() > zoom) {
             this.setZoom(zoom);
         }
 
-        offset = L.point(offset).round();
-        options = options || {};
-
-        if (!offset.x && !offset.y) {
-            return this;
-        }
-
-        if (!this._panAnim) {
-            this._panAnim = new L.PosAnimation();
-
-            this._panAnim.on({
-                'step': this._onPanTransitionStep,
-                'end': this._onPanTransitionEnd
-            }, this);
-        }
-
-        // don't fire movestart if animating inertia
-        if (!options.noMoveStart) {
-            this.fire('movestart');
-        }
-
-        // animate pan unless animate: false specified
-        if (options.animate !== false) {
-            L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
-
-            var newPos = this._getMapPanePos().subtract(offset);
-            this._panAnim.run(this._mapPane, newPos, options.duration || 0.25, options.easeLinearity);
-        } else {
-            this._rawPanBy(offset);
-            this.fire('move').fire('moveend');
-        }
-
-        return this;
+        return map;
     },
 
     _updateTln: function (e) {
@@ -116,8 +84,9 @@ L.Map.include({
                 project = this.projectDetector.isProjectHere(coords);
 
             if (isMapMaxZoom) {
-                this._mapMaxZoomCache = mapOptions.maxZoom;
+                if (!this._mapMaxZoomCache) { this._mapMaxZoomCache = mapOptions.maxZoom; }
                 mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  '__PROJECT_LEAVE_MAX_ZOOM__';
+                if (project) { this._mapMaxZoomCache = mapOptions.maxZoom; }
 
                 return mapOptions.maxZoom;
             } else {

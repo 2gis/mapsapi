@@ -39,11 +39,14 @@ L.DG.ProjectDetector = L.Handler.extend({
         return this.projectsList.slice(0);
     },
 
-    isProjectHere: function (latLng) {
-        if (!latLng || !this.projectsList) { return; }
+    isProjectHere: function (coords) {
+        var checkMethod = (coords instanceof L.LatLngBounds) ?  'intersects' : 'contains';
+
+        if (!coords || !this.projectsList) { return; }
+
 
         return this.projectsList.filter(function (project) {
-            return project.LatLngBounds.contains(latLng);
+            return project.LatLngBounds[checkMethod](coords);
         })[0];
     },
 
