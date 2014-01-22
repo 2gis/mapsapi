@@ -25,9 +25,6 @@ L.DG.configTheme = {
         location: {
             position: 'topleft',
             touchPosition: 'bottomright'
-        },
-        ruler: {
-            position: 'topright'
         }
     }
 };

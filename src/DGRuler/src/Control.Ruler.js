@@ -1,7 +1,7 @@
 L.DG.Control.Ruler = L.DG.RoundControl.extend({
 
     options: {
-        position: L.DG.configTheme.controls.ruler.position,
+        position: L.Browser.touch ? 'bottomright' : 'topright',
         iconClass: 'ruler'
     },
 
@@ -55,13 +55,3 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
 L.DG.Control.ruler = function (options) {
     return new L.DG.Control.Ruler(options);
 };
-
-L.Map.mergeOptions({
-    rulerControl: false
-});
-
-L.Map.addInitHook(function () {
-    if (this.options.rulerControl) {
-        this.addControl(this.rulerControl = L.DG.Control.ruler(this.options.rulerControl));
-    }
-});

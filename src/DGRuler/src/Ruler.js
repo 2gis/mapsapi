@@ -10,14 +10,20 @@ L.DG.Ruler = L.Class.extend({
         Dictionary: {}
     },
 
+    _rulerPane: null,
+    _pathRoot: null,
+
     initialize: function (options) {
         L.Util.setOptions(this, options);
         this._reset();
     },
 
     onAdd: function (map) { // (L.Map)
-        this._map = map.on('_dgLangChange', this._updateDistance, this);
-        this._rulerPane = L.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
+        this._map = map.on('dgLangChange', this._updateDistance, this);
+
+        if (!this._rulerPane) {
+            this._rulerPane = L.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
+        }
 
         this._layersContainer = L.featureGroup().addTo(this._map);
         Object.keys(this._layers).forEach(function (name) {
@@ -32,17 +38,14 @@ L.DG.Ruler = L.Class.extend({
 
     onRemove: function (map) {  // (L.Map)
         map
-            .off(this._mapEvents, this)
+            .off('dgLangChange', this._updateDistance, this)
+            .off('click', this._handleMapClick, this)
             .removeLayer(this._layersContainer.clearLayers());
 
+        this._layers.mouse.off(this._lineMouseEvents, this);
         Object.keys(this._layers).forEach(function (name) {
             this._layers[name].clearLayers();
         }, this);
-
-        if (this._pathRoot) {
-            this._rulerPane.removeChild(this._pathRoot);
-        }
-        this._rulerPane.parentNode.removeChild(this._rulerPane);
 
         this._reset();
     },
@@ -56,7 +59,7 @@ L.DG.Ruler = L.Class.extend({
             mutationStart = index >= 0 ? Math.min(index, oldLength) : oldLength - index,
             removed = Array.prototype.splice.apply(this._points, arguments).map(function (point) {
                 this._layers.mouse.removeLayer(point);
-                return point._latlng;
+                return point.getLatLng();
             }, this);
 
         for (var i = mutationStart, length = this._points.length, style; i < length; i++) {
@@ -87,20 +90,19 @@ L.DG.Ruler = L.Class.extend({
     
     getLatLngs: function () {   // ()
         return this._points.map(function (point) {
-            return point._latlng;
+            return point.getLatLng();
         });
     },
 
     setLatLngs: function (latlngs) {    // (Array)
-        latlngs.unshift(0, this._points.length);
-        this.spliceLatLngs.apply(this, latlngs);
+        var args = latlngs.slice();
+        args.unshift(0, this._points.length);
+        this.spliceLatLngs.apply(this, args);
         return this;
     },
 
     _reset : function () {  // ()
         L.extend(this, {
-            _rulerPane: null,
-            _pathRoot: null,
             _layersContainer: null,
             _layers: {
                 back: null,
@@ -150,12 +152,12 @@ L.DG.Ruler = L.Class.extend({
             var target = event.layer;
             
             if (target instanceof L.Marker && target._hoverable && target._pos !== 0) {
-                target.setText(this._calcDistance(target));
+                target.setText(this._getFormatedDistance(target));
             } else if (target instanceof L.Path && !this._lineMarkerHelper) {
                 var point = target._point;
 
                 this._lineMarkerHelper = this._addRunningLabel(
-                    this._interpolate(point._latlng, this._points[point._pos + 1]._latlng, event.latlng),
+                    this._interpolate(point.getLatLng(), this._points[point._pos + 1].getLatLng(), event.latlng),
                     point);
             }
         },
@@ -178,11 +180,11 @@ L.DG.Ruler = L.Class.extend({
             }
 
             var point = event.layer._point,
-                latlng = this._interpolate(point._latlng, this._points[point._pos + 1]._latlng, event.latlng);
+                latlng = this._interpolate(point.getLatLng(), this._points[point._pos + 1].getLatLng(), event.latlng);
 
             this._lineMarkerHelper
                     .setLatLng(latlng)
-                    .setText(this._calcDistance(point, point._latlng.distanceTo(latlng)));
+                    .setText(this._getFormatedDistance(point, point.getLatLng().distanceTo(latlng)));
         },
         layeradd : function () {    // ()
             Object.keys(this._layers).forEach(function (name) {
@@ -195,7 +197,7 @@ L.DG.Ruler = L.Class.extend({
         var point = this._createPoint(latlng, {}).addTo(this._layers.mouse, this._layers);
         
         this._rulerPane.appendChild(point._icon);
-        return point.setText(this._calcDistance(previousPoint, previousPoint._latlng.distanceTo(latlng)));
+        return point.setText(this._getFormatedDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng)));
     },
 
     _removeRunningLabel : function () { // ()
@@ -206,13 +208,13 @@ L.DG.Ruler = L.Class.extend({
     },
 
     _insertPointInLine : function (event) { // (MouseEvent)
-        var latlng = this._lineMarkerHelper._latlng,
+        var latlng = this._lineMarkerHelper.getLatLng(),
             insertPos = event.target._point._pos + 1,
             point;
 
         this.spliceLatLngs(insertPos, 0, latlng);
         point = this._points[insertPos];
-        point.setText(this._calcDistance(point));
+        point.setText(this._getFormatedDistance(point));
 
         if (document.createEvent) {
             var e = document.createEvent('MouseEvents');
@@ -233,7 +235,9 @@ L.DG.Ruler = L.Class.extend({
     _interpolate: function (from, to, here) {   // (L.LatLng, L.LatLng, L.LatLng)
         var k = (to.lng - from.lng) / (to.lat - from.lat),
             b = from.lng - k * from.lat;
-
+        
+        // http://en.wikipedia.org/wiki/Line_(geometry)
+        
         if (k === Infinity) { // Infinity is not the limit!
             here.lat = to.lat;
         } else {
@@ -269,7 +273,7 @@ L.DG.Ruler = L.Class.extend({
             this._updateLegs(point);
             this._updateDistance();
             if (point !== this._points[0]) {
-                point.setText(this._calcDistance(point));
+                point.setText(this._getFormatedDistance(point));
             }
         },
         'dragend' : function () {   // ()
@@ -289,7 +293,7 @@ L.DG.Ruler = L.Class.extend({
     },
 
     _addLegs: function (point) {
-        var coordinates = [point._latlng, this._points[point._pos + 1]._latlng],
+        var coordinates = [point.getLatLng(), this._points[point._pos + 1].getLatLng()],
             pathStyles = this.options.pathStyles;
 
         point._legs = {};
@@ -316,7 +320,7 @@ L.DG.Ruler = L.Class.extend({
     },
 
     _updateLegs: function (point) {    // (L.DG.Ruler.LayeredMarker)
-        var latlng = point._latlng,
+        var latlng = point.getLatLng(),
             previousPoint = this._points[point._pos - 1];
 
         if (previousPoint) {
@@ -333,12 +337,18 @@ L.DG.Ruler = L.Class.extend({
 
     _calcDistance: function (finishPoint, tail) { // (L.DG.Ruler.LayeredMarker, Number)
         var distance = tail ? tail : 0,
-            calcTo = finishPoint ? finishPoint._pos : this._points.length - 1,
-            units = 'm';
+            calcTo = finishPoint ? finishPoint._pos : this._points.length - 1;
 
         for (var i = 0; i < calcTo; i++) {
-            distance += this._points[i]._latlng.distanceTo(this._points[i + 1]._latlng);
+            distance += this._points[i].getLatLng().distanceTo(this._points[i + 1].getLatLng());
         }
+
+        return distance;
+    },
+
+    _getFormatedDistance: function (finishPoint, tail) { // (L.DG.Ruler.LayeredMarker, Number)
+        var distance = this._calcDistance.apply(this, arguments),
+            units = 'm';
 
         if (distance > 1000) {
             distance /= 1000;
@@ -353,7 +363,7 @@ L.DG.Ruler = L.Class.extend({
 
     _updateDistance: function () {  // ()
         if (this._points.length) {
-            this._points[0].setText(this._calcDistance());
+            this._points[0].setText(this._getFormatedDistance());
         }
     }
 });
