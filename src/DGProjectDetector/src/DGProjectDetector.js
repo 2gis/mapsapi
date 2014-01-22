@@ -29,6 +29,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         if (!this.project) {
             return false;
         }
+
         return L.Util.extend({}, this.project);
     },
 
@@ -36,6 +37,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         if (!this.projectsList) {
             return false;
         }
+
         return this.projectsList.slice(0);
     },
 
@@ -43,7 +45,6 @@ L.DG.ProjectDetector = L.Handler.extend({
         var checkMethod = (coords instanceof L.LatLngBounds) ?  'intersects' : 'contains';
 
         if (!coords || !this.projectsList) { return; }
-
 
         return this.projectsList.filter(function (project) {
             return project.LatLngBounds[checkMethod](coords);
@@ -55,7 +56,6 @@ L.DG.ProjectDetector = L.Handler.extend({
             if (!this.project) {
                 this._searchProject();
             } else {
-                // if (!this._map.getBounds().contains(this.project.LatLngBounds) ||
                 if (!this._boundInProject(this.project) || !this._zoomInProject(this.project)) {
                     this.project = null;
                     this._map.fire('projectleave');
@@ -102,10 +102,10 @@ L.DG.ProjectDetector = L.Handler.extend({
     _searchProject: function () {
         try {
             this.projectsList.some(function (project) {
-                // if (self._map.getBounds().contains(project.LatLngBounds) &&
                 if (this._boundInProject(project) && this._zoomInProject(project)) {
                     this.project = project;
                     this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
+
                     return true;
                 }
             }, this);
@@ -119,6 +119,7 @@ L.DG.ProjectDetector = L.Handler.extend({
 
     _zoomInProject: function (project) {
         var mapZoom = this._map.getZoom();
+
         return (mapZoom >= project.min_zoom_level);
     }
 });
