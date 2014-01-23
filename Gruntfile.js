@@ -25,8 +25,8 @@ module.exports = function (grunt) {
     // Check JS files for errors with JSHint
     grunt.registerTask('hint', ['jshint:force']);
 
-    // Lint, combine and minify source files, copy assets, and add hook on push
-    grunt.registerTask('build', ['hint', 'assets', 'buildSrc', 'githooks']);
+    // Lint, combine and minify source files, update doc, copy assets and add hook on push
+    grunt.registerTask('build', ['hint', 'assets', 'buildSrc', 'doc', 'githooks']);
 
     // Generate documentation from source files
     grunt.registerTask('doc', function () {
@@ -50,9 +50,9 @@ module.exports = function (grunt) {
     // Default task
     grunt.registerTask('default', function () {
         grunt.log.writeln('\nTasks list:\n');
-        grunt.log.writeln('grunt assets      # Copy all assets to public/');
+        grunt.log.writeln('grunt assets      # Create public folder and copy all assets there');
         grunt.log.writeln('grunt hint        # Check JS files for errors with JSHint');
-        grunt.log.writeln('grunt build       # Lint, combine and minify source files, copy assets');
+        grunt.log.writeln('grunt build       # Lint, combine and minify source files, update doc, copy assets');
         grunt.log.writeln('grunt doc         # Generate documentation from .md files');
         grunt.log.writeln('grunt test        # Rebuild source and run unit tests');
     });
@@ -66,6 +66,21 @@ module.exports = function (grunt) {
                     {expand: true, flatten: true, src: [config.font.pattern], dest: config.font.dest, filter: 'isFile'}, //dg fonts
                     {expand: true, flatten: true, src: [config.svg.pattern], dest: config.svg.dest, filter: 'isFile'} //dg svg
                 ]
+            },
+            priv: {
+                src: 'private/*',
+                dest: 'public/',
+                expand: true,
+                flatten: true,
+                options: {
+                    processContent: function (content) {
+                        //console.log(content);
+                        return content.replace(/\\s/g, '');
+                    }/*,
+                    processContentExclude: function () {
+                        //console.log(arguments);
+                    }*/
+                }
             }
         },
         jshint: {
