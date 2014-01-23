@@ -1,0 +1,36 @@
+{#groups}
+    {#contacts}
+        {@select key=type type="string"}
+            {@eq value="phone" type="string"}
+                <div class="firm-card__phone">
+                    <span class="firm-card__phone-num">
+                        {value}
+                        {#comment}
+                            <span class="firm-card__comment" title="{.}">&ndash;&nbsp;&nbsp;{.}</span>
+                        {/comment}
+                    </span>
+                </div>
+            {/eq}
+            {@eq value="fax" type="string"}
+                <div class="firm-card__phone">
+                    <span class="firm-card__phone-num">
+                        {value}
+                        {#comment}
+                            <span class="firm-card__comment" title="{.}">&ndash;&nbsp;&nbsp;{.}</span>
+                        {/comment}
+                    </span>
+                </div>
+            {/eq}
+            {@eq value="website" type="string"}
+                <div class="firm-card__link firm-card__site">
+                    <a href="{value}" target="_blank" class="link_scheme_dark firm-card__sitelink">{alias}</a>
+                </div>
+            {/eq}
+            {@eq value="email" type="string"}
+                <div class="firm-card__link firm-card__email">
+                    <a href="mailto: {value}">{value}</a>
+                </div>
+            {/eq}
+        {/select}
+    {/contacts}
+{/groups}

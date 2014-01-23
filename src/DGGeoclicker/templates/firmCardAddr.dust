@@ -1,0 +1,8 @@
+<address class="firm-card__address">
+    {#data}
+        {address}
+        {#comment}
+            <span class="firm-card__comment">{.}</span>
+        {/comment}
+    {/data}
+</address>

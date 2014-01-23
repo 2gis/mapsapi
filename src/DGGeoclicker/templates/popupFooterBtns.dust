@@ -1,0 +1,15 @@
+{?btns}
+    <footer class="popup_footer_btns">
+        {#btns}
+            <div class="popup_footer_btn-wrapper">
+                <a id="popup-btn-{name}" class="popup_footer_btn{#icon} popup_footer_btn__icon{/icon}"
+                    {?href}
+                        href={href} target="_blank"
+                    {:else}
+                        href="javascript:void(0)"
+                    {/href}
+                    >{label}</a>
+            </div>
+        {/btns}
+    </footer>
+{/btns}

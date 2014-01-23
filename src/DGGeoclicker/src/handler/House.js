@@ -75,7 +75,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     _firmCardSetup: function () { //() -> Object
         return {
             tmpls: this._firmCardTmplsSetup(),
-            render: DG.template,
+            render: DG.dust,
             lang: this._map.getLang(),
             ajax: DG.bind(this._api.getFirmInfo, this._api),
             timezoneOffset: this._controller.getMap().projectDetector.getProject().time_zone_as_offset,
