@@ -7,6 +7,7 @@ var fs = require('fs'),
     extend = require('extend'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
+    dust = require('dustjs-linkedin'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     //Global data stores
@@ -54,6 +55,7 @@ function processJs(srcList, basePath, moduleName) { // (Array, String, String)->
 
     if (moduleName.indexOf('DG') > -1) {
         setTemplates(moduleName);
+        setDustTemplates(moduleName);
     }
 
     srcList.forEach(function (src) {
@@ -159,6 +161,47 @@ function setTemplates(moduleName) { //(string)->Object
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
                 (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
+        });
+
+        modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
+    }
+
+    function escapeJson(str) {
+        return str
+                .replace(/[\\]/g, '\\\\')
+                .replace(/[\']/g, '\\\\"')
+                .replace(/[\b]/g, '\\b')
+                .replace(/[\v]/g, '\\v')
+                .replace(/[\f]/g, '\\f')
+                .replace(/[\n]/g, '\\n')
+                .replace(/[\r]/g, '\\r')
+                .replace(/[\t]/g, '\\t');
+    }
+
+    extend(appConfig, modulesTmpls);
+}
+
+// Generate templates object for specified module
+function setDustTemplates(moduleName) { //(string)->Object
+    var tmplConf = config.dust,
+        tmplPath = config.source.dg.path + moduleName + '/' + tmplConf.dir + '/',
+        modulesTmpls = {};
+
+    if (fs.existsSync(tmplPath)) {
+        readTemplates(tmplPath, moduleName + tmplConf.varPostfix);
+    }
+
+    function readTemplates(tmplPath, varName) {
+
+        var tmplList = grunt.file.expand([tmplPath + tmplConf.pattern]),
+            tmpl = {};
+
+        tmplList.forEach(function (template) {
+            var srcPath = template,
+                tmplName = path.basename(srcPath, tmplConf.ext),
+                tmplContent = fs.readFileSync(srcPath, 'utf8');
+
+            tmpl[tmplName] = dust.compile(tmplContent, tmplName);
         });
 
         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';

@@ -1,3 +1,12 @@
+dust.debugLevel = 'debug';
+DG.dust = function (name, data) {
+    var result;
+    dust.render(name, data, function (err, html) {
+        result = html;
+    });
+    return result;
+};
+
 DG.template = (function () {
     var cache = {};
 

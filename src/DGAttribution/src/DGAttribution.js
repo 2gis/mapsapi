@@ -38,8 +38,9 @@ DG.Control.Attribution.include({
 
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
     },
-    /* global __DGAttribution_TMPL__ */
+    /* global __DGAttribution_TMPL__, __DGAttribution_DUST__, dust */
     _tmpl: __DGAttribution_TMPL__,
+    _dust: __DGAttribution_DUST__,
     _onAdd: DG.Control.Attribution.prototype.onAdd,
     _getData: function (lang) {
         return {
@@ -54,7 +55,8 @@ DG.Control.Attribution.include({
         };
     },
     _getAttributionHTML: function (lang) {
-        return DG.template(this._tmpl.copyright, this._getData(lang));
+        dust.loadSource(this._dust.copyright);
+        return DG.dust('copyright', this._getData(lang));
     },
     _renderTranslation: function (e) {
         this._update(e.lang);

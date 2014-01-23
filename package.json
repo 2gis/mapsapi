@@ -18,7 +18,8 @@
   "dependencies": {
     "express": "3.3.4",
     "uglify-js": "2.4.3",
-    "clean-css": "1.0.11"
+    "clean-css": "1.0.11",
+    "dustjs-linkedin": "~2.3.1"
   },
   "devDependencies": {
     "grunt": "0.4.2",

@@ -262,7 +262,10 @@ var deps = {
 
     DGTemplate: {
         desc: '2GIS Template',
-        src: ['DGTemplate/src/DGTemplate.js']
+        src: [
+            '../vendors/dustjs/dist/dust-core.js',
+            'DGTemplate/src/DGTemplate.js'
+        ]
     },
 
     DGEntrance: {
