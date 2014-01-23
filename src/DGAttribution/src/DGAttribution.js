@@ -38,8 +38,8 @@ DG.Control.Attribution.include({
 
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
     },
-    /* global __DGAttribution_DUST__ */
-    _tmpl: __DGAttribution_DUST__,
+    /* global __DGAttribution_TMPL__ */
+    _tmpl: __DGAttribution_TMPL__,
     _onAdd: DG.Control.Attribution.prototype.onAdd,
     _getData: function (lang) {
         return {

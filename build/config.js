@@ -46,16 +46,9 @@ var config = {
 
     tmpl: {
         dir: 'templates',
-        pattern: '*.tmpl',
-        ext: '.tmpl',
-        varPostfix: '_TMPL'
-    },
-
-    dust: {
-        dir: 'templates',
         pattern: '*.dust',
         ext: '.dust',
-        varPostfix: '_DUST'
+        varPostfix: '_TMPL'
     },
 
     img: {

@@ -9,8 +9,8 @@ DG.Geoclicker.View = DG.Class.extend({
             minWidth: 385
         });
 
-        /*global __DGGeoclicker_DUST__ */
-        this._templates = __DGGeoclicker_DUST__;
+        /*global __DGGeoclicker_TMPL__ */
+        this._templates = __DGGeoclicker_TMPL__;
         if (options) {
             DG.Util.setOptions(this, options);
         }
