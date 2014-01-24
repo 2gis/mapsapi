@@ -3,9 +3,9 @@
     <div class="dg-map-geoclicker-address">{.}</div>
 {/address}
 <div class="dg-map-geoclicker-drilldown">{drillDown}</div>
-{?description}
-<div class="dg-map-geoclicker-sight-description">{description}</div>
-    {?showMoreText}
-        <a id="dg-showmoresight" href="javascript:void(0)">{showMoreText}</a>
+{#description}
+<div class="dg-map-geoclicker-sight-description">{.}</div>
+    {#showMoreText}
+        <a id="dg-showmoresight" href="javascript:void(0)">{.}</a>
     {/showMoreText}
 {/description}

@@ -158,7 +158,7 @@ function setTemplates(moduleName) { //(string)->Object
             var srcPath = template,
                 tmplName = path.basename(srcPath, tmplConf.ext),
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
-            // console.log(tmplName);
+
             tmpl[tmplName] = dust.compile(tmplContent, tmplName);
         });
 

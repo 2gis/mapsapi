@@ -1,1 +1,1 @@
-<div class="preloader preloader_scheme_regular preloader_animation_{anim}{#small} preloader_small{/small}"></div>
+<div class="preloader preloader_scheme_regular preloader_animation_{anim}{?small} preloader_small{/small}"></div>
