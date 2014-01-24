@@ -5,7 +5,7 @@
 node_modules
 npm-debug.log
 
-public/
+public
 private/dev*
 
 docbuilder/doc

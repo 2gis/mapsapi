@@ -458,6 +458,13 @@ exports.setVersion =  function (done) {
     });
 }
 
+exports.uglify = function (content) {
+    return uglify.minify(content, {
+        warnings: false,
+        fromString: true
+    }).code;
+}
+
 // Combine and minify source files (CLI command)
 exports.buildSrc = function (isMsg) {
     var modulesList,

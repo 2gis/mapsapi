@@ -67,19 +67,16 @@ module.exports = function (grunt) {
                     {expand: true, flatten: true, src: [config.svg.pattern], dest: config.svg.dest, filter: 'isFile'} //dg svg
                 ]
             },
-            priv: {
+            private: {
                 src: 'private/*',
                 dest: 'public/',
-                expand: true,
                 flatten: true,
+                expand: true,
                 options: {
-                    processContent: function (content) {
-                        //console.log(content);
-                        return content.replace(/\\s/g, '');
-                    }/*,
-                    processContentExclude: function () {
-                        //console.log(arguments);
-                    }*/
+                    process: function (content)  {
+                        return build.uglify(content);
+                    },
+                    noProcess: ['**/*.{html,png,gif,jpg,ico,psd}']
                 }
             }
         },
