@@ -55,17 +55,6 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Геокликер",
-                                "uri": "doc/2.0/maps/manual/geoclicker",
-                                "_src":"manual/geoclicker.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
                                 "title": "Базовые классы",
                                 "uri": "doc/2.0/maps/manual/base-classes",
                                 "_src":"manual/base-classes.md",
