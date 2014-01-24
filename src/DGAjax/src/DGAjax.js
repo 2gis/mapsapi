@@ -359,7 +359,7 @@ DG.ajax = (function () {
                     resp = r;
                     break;
                 case 'xml':
-                    resp = resp.responseXML && resp.responseXMDG.parseError && resp.responseXMDG.parseError.errorCode && resp.responseXMDG.parseError.reason ? null : resp.responseXML;
+                    resp = resp.responseXML && resp.responseXML.parseError && resp.responseXML.parseError.errorCode && resp.responseXML.parseError.reason ? null : resp.responseXML;
                     break;
                 }
             }
