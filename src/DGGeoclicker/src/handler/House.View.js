@@ -1,14 +1,7 @@
 DG.Geoclicker.Handler.House.include({
     _fillBody: function (house) { // // (Object) -> (DOMElement)
         var attrs = house.attributes,
-            data = {
-                title: '',
-                purpose: '',
-                elevation: '',
-                buildingname: '',
-                headAddress: '',
-                address: ''
-            },
+            data = {},
             wrapper = DG.DomUtil.create('div', 'building-callout__body'),
             filials = house.attributes.filials;
 
@@ -24,7 +17,7 @@ DG.Geoclicker.Handler.House.include({
 
         if (attrs.building_description) {
             data.purpose = attrs.building_description +
-                (attrs.floors_count !== null ? ', ' + this.t('{n} floors', attrs.floors_count) : '');
+                (attrs.floors_count ? ', ' + this.t('{n} floors', attrs.floors_count) : '');
         }
 
         if (attrs.filials_count > 0) {

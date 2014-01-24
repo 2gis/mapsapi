@@ -140,47 +140,6 @@ function processCss(srcConf, basePath) { //(Object, String)->Object
 }
 
 // Generate templates object for specified module
-// function setTemplates(moduleName) { //(string)->Object
-//     var tmplConf = config.tmpl,
-//         tmplPath = config.source.dg.path + moduleName + '/' + tmplConf.dir + '/',
-//         modulesTmpls = {};
-
-//     if (fs.existsSync(tmplPath)) {
-//         readTemplates(tmplPath, moduleName + tmplConf.varPostfix);
-//     }
-
-//     function readTemplates(tmplPath, varName) {
-
-//         var tmplList = grunt.file.expand([tmplPath + tmplConf.pattern]),
-//             tmpl = {};
-
-//         tmplList.forEach(function (template) {
-//             var srcPath = template,
-//                 tmplName = path.basename(srcPath, tmplConf.ext),
-//                 tmplContent = fs.readFileSync(srcPath, 'utf8');
-
-//                 (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
-//         });
-
-//         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
-//     }
-
-//     function escapeJson(str) {
-//         return str
-//                 .replace(/[\\]/g, '\\\\')
-//                 .replace(/[\']/g, '\\\\"')
-//                 .replace(/[\b]/g, '\\b')
-//                 .replace(/[\v]/g, '\\v')
-//                 .replace(/[\f]/g, '\\f')
-//                 .replace(/[\n]/g, '\\n')
-//                 .replace(/[\r]/g, '\\r')
-//                 .replace(/[\t]/g, '\\t');
-//     }
-
-//     extend(appConfig, modulesTmpls);
-// }
-
-// Generate templates object for specified module
 function setTemplates(moduleName) { //(string)->Object
     var tmplConf = config.tmpl,
         tmplPath = config.source.dg.path + moduleName + '/' + tmplConf.dir + '/',
@@ -362,6 +321,8 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
     if (isMsg) {
         console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
     }
+
+    result += params.isDebug ? config.js.dustdebug : '';
 
     return getCopyrightsData() + config.js.intro + result + config.js.outro;
 }

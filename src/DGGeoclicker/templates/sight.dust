@@ -1,6 +1,6 @@
 <div class="dg-map-geoclicker-purpose dg-map-geoclicker-purpose__sight">{purpose}</div>
-{?address}
-    <div class="dg-map-geoclicker-address">{address}</div>
+{#address}
+    <div class="dg-map-geoclicker-address">{.}</div>
 {/address}
 <div class="dg-map-geoclicker-drilldown">{drillDown}</div>
 {?description}

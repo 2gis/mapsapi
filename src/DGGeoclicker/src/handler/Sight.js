@@ -11,31 +11,13 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         return DG.when(this._fillSightObject(results));
     },
 
-    _buildAddress: function (array) { // (Array) -> String
-        var address = [];
-
-        for (var i = 0; i < array.length; i++) {
-            if (array[i]) {
-                address.push(array[i]);
-            }
-        }
-
-        return address.join(', ');
-    },
-
     _fillSightObject: function (results) { // (Object) -> Object
         var attrs = results.sight.attributes,
             data = {
-                address: '',
-                drillDown: '',
-                buildingName: '',
-                purpose: '',
-                showMoreText: '',
                 description: attrs.info.description
             },
             self = this,
             abbr,
-            house,
             footer = {
                 btns: [
                     {
@@ -61,40 +43,21 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
             data.purpose = this.t('place');
         }
 
-        if (results.house) {
-            house = results.house.attributes;
-            if (house) {
-                if (house.addresses && house.addresses.length) {
-                    data.address = this._buildAddress([
-                        house.addresses[0].street,
-                        house.addresses[0].number
-                    ]);
+        data.drillDown = Object.keys(results)
+            .filter(function (type) {
+                return ['sight', 'place', 'extra'].indexOf(type) === -1;
+            })
+            .map(function (type) {
+                return results[type];
+            })
+            .reduce(function (str, item) {
+                if (item.attributes && item.attributes.abbreviation) {
+                    abbr = item.attributes.abbreviation + ' ';
                 }
-
-                data.drillDown = this._buildAddress([
-                    house.micro_district,
-                    house.district,
-                    house.city,
-                    house.postal_code
-                ]);
-            } else {
-                if (results.house.name) {
-                    data.address = results.house.name;
+                if (item.name) {
+                    return abbr + item.name;
                 }
-            }
-        } else {
-            for (var obj in results) {
-                if (['sight', 'place', 'extra'].indexOf(obj) === -1) {
-                    if (results[obj].attributes && results[obj].attributes.abbreviation) {
-                        abbr = results[obj].attributes.abbreviation + ' ';
-                    }
-                    if (results[obj].name) {
-                        data.drillDown = abbr + results[obj].name;
-                    }
-                }
-            }
-        }
-
+            }, '');
 
         if (this._checkDescFieldHeight(data.description)) {
             data.showMoreText = this.t('Show more about sight');
