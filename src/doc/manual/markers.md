@@ -4,27 +4,31 @@
 
 Используется для добавления маркеров на карту.
 
-	L.marker([50.5, 30.5]).addTo(map);
+	L.marker([54.98, 82.89]).addTo(map);
 
 ### Конструктор
 <table>
-	<tr>
-		<th>Конструктор</th>
-		<th>Использование</th>
-		<th>Описание</th>
-	</tr>
-	<tr>
-		<td><code><b>L.Marker</b>(
-			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
-			<nobr>&lt;<a href="#marker-options">Marker options</a>&gt; <i>options?</i> )</nobr>
-		</code></td>
+	<thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+		<tr>
+			<td><code><b>L.Marker</b>(
+				<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
+				<nobr>&lt;<a href="#marker-options">Marker options</a>&gt; <i>options?</i> )</nobr>
+			</code></td>
 
-		<td>
-			<code>L.marker(&hellip;)</code>
-		</td>
+			<td>
+				<code>L.marker(&hellip;)</code>
+			</td>
 
-		<td>Создает объект маркера с переданными географическими координатами и необязательными опциями.</td>
-	</tr>
+			<td>Создает объект маркера с переданными географическими координатами и необязательными опциями.</td>
+		</tr>
+	</tbody>
 </table>
 
 ### Опции
