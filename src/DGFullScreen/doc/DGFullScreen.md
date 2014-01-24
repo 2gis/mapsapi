@@ -4,7 +4,7 @@
 
 Для современных браузеров используется [Fullscreen API](http://www.w3.org/TR/fullscreen/), для остальных fallback.
 
-Добавляется FullScreen на карту по умолчанию, если не передана опция fullScreenControl со значением `false`.
+Добавляется Fullscreen на карту по умолчанию, если не передана опция fullscreenControl со значением `false`.
 Расширяет класс Control.
 
 ### Конструктор
@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <td><code><b>DG.Control.Fullscreen</b>(
-            <nobr>&lt;<a href="#control-fullscreen-options">Control.FullScreen options</a>&gt; <i>options?</i> )</nobr>
+            <nobr>&lt;<a href="#control-fullscreen-options">Control.Fullscreen options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
