@@ -11,3 +11,6 @@
 .leaflet-retina .dg-control-round_icon__fullscreen:before:hover {
     background-image: url(../img/RetinaWhiteFullScreenHover.png);
 }
+.leaflet-retina .dg-control-round_icon22__fullscreen:before:hover {
+    background-image: url(../img/callout_phone-arrow.svg);
+}

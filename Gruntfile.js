@@ -80,6 +80,31 @@ module.exports = function (grunt) {
                 }
             }
         },
+        /*dataUri: {
+            dist: {
+                // src file
+                src: ['src/DGFullScreen/skin/light/css/*.css'],
+                // output dir
+                dest: 'src/DGFullScreen/skin/light/css/proc/',
+                options: {
+                    // specified files are only encoding
+                    target: ['src/DGFullScreen/skin/light/img*.svg'],
+                    // adjust relative path?
+                    fixDirLevel: true
+                    // img detecting base dir
+                    // baseDir: './'
+                }
+            }
+        },*/
+        imageEmbed: {
+            dist: {
+                src: [ 'src/DGFullScreen/skin/light/css/*.css' ],
+                dest: 'src/DGFullScreen/skin/light/css/proc/output.css',
+                options: {
+                    deleteAfterEncoding : false
+                }
+            }
+        },
         jshint: {
             force: {
                 options: {
@@ -137,4 +162,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-githooks');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-push-release');
+    //img build
+    grunt.loadNpmTasks('grunt-image-embed');
 };

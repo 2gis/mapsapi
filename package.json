@@ -34,6 +34,9 @@
     "sinon": "1.6.0",
     "happen": "0.1.3",
     "grunt-githooks": "~0.3.0",
-    "grunt-push-release": "~0.1.1"
+    "grunt-push-release": "~0.1.1",
+    "grunt-svgmin": "~0.3.0",
+    "grunt-data-uri": "~0.1.1",
+    "grunt-image-embed": "~0.3.1"
   }
 }
