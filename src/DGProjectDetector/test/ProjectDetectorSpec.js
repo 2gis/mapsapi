@@ -487,4 +487,55 @@ describe('L.DG.ProjectDetector', function () {
             expect(map.projectDetector.enabled()).to.not.be.ok();
         });
     });
+
+    describe('#initMap', function () {
+
+        beforeEach(function() {
+            map.remove();
+            map = null;
+        });
+
+        it('in project', function () {
+            map = new L.Map(mapContainer, {
+                center: project1,
+                'zoom': 19,
+                'geoclicker': true,
+                'zoomAnimation': false
+            });
+            expect(map.getZoom()).to.be.equal(maxZoom);
+        });
+
+        it('in desert', function () {
+            map = new L.Map(mapContainer, {
+                center: desert1,
+                'zoom': 19,
+                'geoclicker': true,
+                'zoomAnimation': false
+            });
+            expect(map.getZoom()).to.be.equal(maxDesertZoom);
+        });
+
+        it('in project with max zoom', function () {
+            map = new L.Map(mapContainer, {
+                center: project1,
+                'zoom': 19,
+                'maxZoom': 15,
+                'geoclicker': true,
+                'zoomAnimation': false
+            });
+            expect(map.getZoom()).to.be.equal(15);
+        });
+
+        it('in desert with max zoom', function () {
+            map = new L.Map(mapContainer, {
+                center: desert1,
+                'zoom': 19,
+                'maxZoom': 15,
+                'geoclicker': true,
+                'zoomAnimation': false
+            });
+            expect(map.getZoom()).to.be.equal(maxDesertZoom);
+        });
+
+    });
 });
