@@ -16,8 +16,38 @@ L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 
 // Restrict zoom level according to 2gis projects, in case if dgTileLayer is only one
 L.Map.include({
-    _tln: 0,
     _mapMaxZoomCache: undefined,
+
+    initialize: function (id, options) { // (HTMLElement or String, Object)
+        options = L.setOptions(this, options);
+
+
+        this._initContainer(id);
+        this._initLayout();
+
+        // hack for https://github.com/Leaflet/Leaflet/issues/1980
+        this._onResize = L.bind(this._onResize, this);
+
+        this._initEvents();
+
+        if (options.maxBounds) {
+            this.setMaxBounds(options.maxBounds);
+        }
+
+        this._handlers = [];
+
+        this._layers = {};
+        this._zoomBoundLayers = {};
+        this._tileLayersNum = 0;
+
+        this.callInitHooks();
+
+        this._addLayers(options.layers);
+
+        if (options.center && options.zoom !== undefined) {
+            this.setView(L.latLng(options.center), options.zoom, {reset: true});
+        }
+    },
 
     setView: function (center, zoom, options) {
         this._resctrictZoom(center);
@@ -58,7 +88,7 @@ L.Map.include({
     panBy: function (offset, options) {
         var map = panBy.call(this, offset, options);
 
-        var zoom = this._resctrictZoom(this.getBounds().getCenter());
+        var zoom = this._resctrictZoom(this.getCenter());
         if (this.getZoom() > zoom) {
             this.setZoom(zoom);
         }
@@ -67,6 +97,8 @@ L.Map.include({
     },
 
     _updateTln: function (e) {
+        if (typeof this._tln === 'string') { this._tln = 0; }
+
         if (!((e.layer instanceof L.DG.TileLayer) ||
               (e.layer instanceof L.TileLayer))) { return; }
 
@@ -76,7 +108,7 @@ L.Map.include({
     _resctrictZoom: function (coords) {
         if (this._layers &&
             this.projectDetector.enabled() &&
-            this._tln === 1) {
+            (this._tln === 1 || this._tln === 'dgTiles')) {
 
             var mapOptions = this.options,
                 isMapMaxZoom = !!mapOptions.maxZoom,

@@ -35,5 +35,7 @@ L.Map.addInitHook(function () {
         L.control.attribution().addTo(this);
     }
     L.DG.tileLayer().addTo(this);
+
+    this._tln = 'dgTiles';
 });
 
