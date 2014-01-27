@@ -15,39 +15,66 @@ L.DG.Ruler = L.Class.extend({
 
     initialize: function (options) {
         L.Util.setOptions(this, options);
+
+        this._layersContainer = L.featureGroup();
+        this._layers = {
+            back : null,
+            middle : null,
+            front : null,
+            mouse : null
+        };
+        this._points = [];
+
+        Object.keys(this._layers).forEach(function (name) {
+            this._layersContainer.addLayer(this._layers[name] = L.featureGroup());
+        }, this);
+
         this._reset();
     },
 
     onAdd: function (map) { // (L.Map)
+        var dummyPath;
         this._map = map.on('dgLangChange', this._updateDistance, this);
 
         if (!this._rulerPane) {
-            this._rulerPane = L.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
+            this._rulerPane = this._map.getContainer().querySelector('.dg-ruler-pane');
+            if (this._rulerPane) {
+                this._pathRoot = this._rulerPane.querySelector('.dg-ruler-pane__pathroot');
+            } else {
+                dummyPath = L.polyline([]).addTo(this._map);
+                this._map.removeLayer(dummyPath);
+                this._rulerPane = L.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
+                this._initPathRoot();
+            }
         }
 
-        this._layersContainer = L.featureGroup().addTo(this._map);
-        Object.keys(this._layers).forEach(function (name) {
-            this._layersContainer.addLayer(this._layers[name] = L.featureGroup());
-        }, this);
+        this._layersContainer.addTo(this._map);
         this._layers.mouse.on(this._lineMouseEvents, this);
 
-        if (this.options.editable) {
-            map.on('click', this._handleMapClick, this);
+        if (this._points.length) {
+            this._addCloseHandler(this._points[0]);
+            this._layers.mouse.fire('layeradd');
+            this._updateDistance();
+            this._points.forEach(function(point){
+                if (point._legs) {
+                    this._pathRoot.appendChild(point._legs.mouse._container);
+                }
+            }, this);
         }
     },
 
     onRemove: function (map) {  // (L.Map)
         map
             .off('dgLangChange', this._updateDistance, this)
-            .off('click', this._handleMapClick, this)
-            .removeLayer(this._layersContainer.clearLayers());
+            .removeLayer(this._layersContainer);
 
         this._layers.mouse.off(this._lineMouseEvents, this);
-        Object.keys(this._layers).forEach(function (name) {
-            this._layers[name].clearLayers();
-        }, this);
-
         this._reset();
+    },
+
+    addTo: function (map) { // (L.Map)
+        map.addLayer(this);
+        return this;
     },
 
     getTotalDistance: function () { // ()
@@ -60,26 +87,29 @@ L.DG.Ruler = L.Class.extend({
             removed = Array.prototype.splice.apply(this._points, arguments).map(function (point) {
                 this._layers.mouse.removeLayer(point);
                 return point.getLatLng();
-            }, this);
-
-        for (var i = mutationStart, length = this._points.length, style; i < length; i++) {
-            if (!(this._points[i] instanceof L.DG.Ruler.LayeredMarker)) {
-                this._points[i] = this._createPoint(this._points[i])
-                                        .on(this._pointEvents, this)
-                                        .addTo(this._layers.mouse, this._layers);
+            }, this),
+            length = this._points.length;
+        if (length) {
+            for (var i = mutationStart, style; i < length; i++) {
+                if (!(this._points[i] instanceof L.DG.Ruler.LayeredMarker)) {
+                    this._points[i] = this._createPoint(this._points[i])
+                                            .on(this._pointEvents, this)
+                                            .addTo(this._layers.mouse, this._layers);
+                }
+                if (i && !this._points[i - 1]._legs) {
+                    this._addLegs(this._points[i - 1]);
+                }
+                this._points[i].setPointStyle(this.options.iconStyles[i && i < length - 1 ? 'small' : 'large']);
+                this._points[i]._pos = i;
             }
-            if (i && !this._points[i - 1]._legs) {
-                this._addLegs(this._points[i - 1]);
+            if (this._map && mutationStart === 0) {
+                this._addCloseHandler(this._points[0]);
             }
-            this._points[i].setPointStyle(this.options.iconStyles[i && i < length - 1 ? 'small' : 'large']);
-            this._points[i]._pos = i;
+            if (mutationStart > 0) {
+                this._points[mutationStart - 1].setPointStyle(this.options.iconStyles.small);
+            }
+            this._updateDistance();
         }
-        if (mutationStart === 0) {
-            this._addCloseHandler(this._points[0]);
-        } else {
-            this._points[mutationStart - 1].setPointStyle(this.options.iconStyles.small);
-        }
-        this._updateDistance();
         return removed;
     },
 
@@ -103,34 +133,15 @@ L.DG.Ruler = L.Class.extend({
 
     _reset : function () {  // ()
         L.extend(this, {
-            _layersContainer: null,
-            _layers: {
-                back: null,
-                middle: null,
-                front: null,
-                mouse: null
-            },
             _lineMarkerHelper: null,
-            _morphingNow: false,
-            _points: []
+            _morphingNow: false
         });
     },
 
     _initPathRoot : function () {   // ()
-        if (!this._map._pathRoot) {
-            return;
-        }
         this._rulerPane.appendChild(this._pathRoot = this._map._pathRoot.cloneNode(false));
         this._map.on(this._pathRootEvents, this);
         L.DomUtil.addClass(this._pathRoot, 'dg-ruler-pane__pathroot');
-    },
-
-    _handleMapClick: function (event) {   // (MouseEvents)
-        var latlng = event.latlng.wrap();
-        if (!latlng.equals(event.latlng)) {
-            this._map.fitWorld();
-        }
-        this.addLatLng(latlng);
     },
 
     _pathRootEvents: {
@@ -301,14 +312,14 @@ L.DG.Ruler = L.Class.extend({
             point._legs[layer] = L.polyline(coordinates, pathStyles[layer]).addTo(this._layers[layer]);
         }, this);
 
-        if (!this._pathRoot) {
-            this._initPathRoot();
-        }
-        this._pathRoot.appendChild(point._legs.mouse._container);
-
         point._legs.mouse._point = point.on('remove', this._removeLeg, this);
+
         if (this.options.editable) {
             point._legs.mouse.on('mousedown', this._insertPointInLine, this);
+        }
+
+        if (this._map) {
+            this._pathRoot.appendChild(point._legs.mouse._container);
         }
     },
 
@@ -362,7 +373,7 @@ L.DG.Ruler = L.Class.extend({
     },
 
     _updateDistance: function () {  // ()
-        if (this._points.length) {
+        if (this._map && this._points.length) {
             this._points[0].setText(this._getFormatedDistance());
         }
     }

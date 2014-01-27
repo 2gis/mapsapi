@@ -20,21 +20,15 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
 
     _controlEvents: {
         add: function () {
-            window.d = this._drawingHelper = L.DG.ruler();
+            this._drawingHelper = L.DG.ruler();
         },
         click: function () {
             if (this._active = !this._active) { // jshint ignore:line
                 this.setState('active');
-                this._map.addLayer(this._drawingHelper);
-                if (this._geoclickerNeedRestore = this._map.geoclicker.enabled()) { // jshint ignore:line
-                    this._map.geoclicker.disable();
-                }
+                this._startDrawing();
             } else {
                 this.setState('');
-                this._map.removeLayer(this._drawingHelper);
-                if (this._geoclickerNeedRestore) {
-                    this._map.geoclicker.enable();
-                }
+                this._finishDrawing();
             }
         },
         remove: function () {
@@ -45,6 +39,34 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
             }
             this._drawingHelper = null;
         }
+    },
+
+    _startDrawing: function () { // ()
+        this._map
+                .addLayer(this._drawingHelper)
+                .on('click', this._handleMapClick, this);
+
+        if (this._geoclickerNeedRestore = this._map.geoclicker.enabled()) { // jshint ignore:line
+            this._map.geoclicker.disable();
+        }
+    },
+
+    _finishDrawing: function () { // ()
+        this._map
+                .off('click', this._handleMapClick, this)
+                .removeLayer(this._drawingHelper);
+        this._drawingHelper.setLatLngs([]);
+        if (this._geoclickerNeedRestore) {
+            this._map.geoclicker.enable();
+        }
+    },
+
+    _handleMapClick: function (event) {   // (MouseEvents)
+        var latlng = event.latlng.wrap();
+        if (!latlng.equals(event.latlng)) {
+            this._map.fitWorld();
+        }
+        this._drawingHelper.addLatLng(latlng);
     },
 
     _renderTranslation: function () {
