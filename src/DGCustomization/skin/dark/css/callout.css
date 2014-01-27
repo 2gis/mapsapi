@@ -6,9 +6,9 @@
 }
 
 .leaflet-popup-tip-container {
-    background-image: url(../img/callout-tail-dark.png);
-    width: 58px;
-    height: 47px;
+    /*background-image: url(../img/callout-tail-dark.png);*/
+    fill: #323232;
+    fill-opacity: 0.85;
 }
 
 a.popup-link,

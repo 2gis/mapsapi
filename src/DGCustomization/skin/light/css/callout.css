@@ -2,6 +2,20 @@
 .leaflet-popup-inner {
     opacity: .95;
 }
+
+.leaflet-popup-inner:before {
+    width: 41px;
+    height: 1px;
+    z-index: 1;
+    content: '';
+    position: absolute;
+    bottom: 51px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: #fff;
+}
+
 .leaflet-popup-content-wrapper {
     color: #000;
     background-color: #fff;
@@ -10,10 +24,11 @@
 }
 
 .leaflet-popup-tip-container {
-    background-image: url(../img/callout-tail-white.png);
-    width: 58px;
-    height: 47px;
+    /*background-image: url(../img/callout-tail-white.png);*/
     margin-top: -1px;
+    fill: #fff;
+    stroke: #bebdb5;
+    stroke-opacity: 0.6;
 }
 
 a.popup-link,

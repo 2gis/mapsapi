@@ -76,6 +76,8 @@
     position: relative;
     background-repeat: no-repeat;
     margin: 0 auto;
+    width: 58px;
+    height: 47px;
 }
 
 .leaflet-popup-tip {
