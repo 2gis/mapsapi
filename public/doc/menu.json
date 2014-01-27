@@ -78,8 +78,8 @@
                         "content": {
                             "ru": {
                                 "title": "Балуны",
-                                "uri": "doc/2.0/maps/manual/balloons",
-                                "_src":"manual/balloons.md",
+                                "uri": "doc/2.0/maps/manual/popup",
+                                "_src":"manual/popup.md",
                                 "hide": false
                             }
                         },
