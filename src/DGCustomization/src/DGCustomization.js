@@ -18,9 +18,10 @@ L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
 L.Map.include({
     _mapMaxZoomCache: undefined,
 
+
+    //TODO try refactor it after up on new leaflet (> 0.7)
     initialize: function (id, options) { // (HTMLElement or String, Object)
         options = L.setOptions(this, options);
-
 
         this._initContainer(id);
         this._initLayout();
@@ -118,7 +119,7 @@ L.Map.include({
             if (isMapMaxZoom) {
                 if (!this._mapMaxZoomCache) { this._mapMaxZoomCache = mapOptions.maxZoom; }
                 mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  '__PROJECT_LEAVE_MAX_ZOOM__';
-                if (project) { this._mapMaxZoomCache = mapOptions.maxZoom; }
+                project && (this._mapMaxZoomCache = mapOptions.maxZoom);
 
                 return mapOptions.maxZoom;
             } else {
