@@ -13,7 +13,7 @@ L.DG.Ruler = L.Class.extend({
     _rulerPane: null,
     _pathRoot: null,
 
-    initialize: function (options) {
+    initialize: function (latlngs, options) {
         L.Util.setOptions(this, options);
 
         this._layersContainer = L.featureGroup();
@@ -30,6 +30,10 @@ L.DG.Ruler = L.Class.extend({
         }, this);
 
         this._reset();
+
+        if (latlngs && latlngs.length) {
+            this.setLatLngs(latlngs);
+        }
     },
 
     onAdd: function (map) { // (L.Map)

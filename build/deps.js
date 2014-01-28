@@ -293,7 +293,6 @@ var deps = {
             'DGRuler/src/Ruler.js',
             'DGRuler/src/LayeredMarker.js',
             'DGRuler/src/GeometryStyles.js',
-            'DGRuler/src/Control.Ruler.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
             'DGRuler/lang/en.js'
@@ -306,7 +305,23 @@ var deps = {
                 'DGRuler/skin/{skin}/css/DGRuler.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
+        deps: ['DGCore', 'DGLocale']
+    },
+
+    DGRulerControl: {
+        desc: 'Ruler control module',
+        src: [
+            'DGRulerControl/src/Control.Ruler.js',
+            'DGRulerControl/lang/ru.js',
+            'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRulerControl/skin/{skin}/css/DGRulerControl.css'
+            ]
+        },
+        deps: ['DGRuler', 'DGRoundControl']
     }
 
 };
