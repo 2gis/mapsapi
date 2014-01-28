@@ -49,7 +49,7 @@
         <td><code><b>editable</b></code></td>
         <td><code>Boolean</code></td>
         <td><code><span class="string">'true'</span></td>
-        <td>Возможно ли перетаскивать промежуточные точки линейки.</td>
+        <td>Возможно ли изменять промежуточные точки линейки.</td>
     </tr>
 </table>
 
