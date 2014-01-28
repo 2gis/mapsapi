@@ -306,15 +306,11 @@
             this.resize();
             DG.DomEvent.on(this._wrapper, 'click', DG.DomEvent.stopPropagation);
             if (DG.Browser.ielt9) {
-                // alert('tadam3');
                 var elem = this._popupStructure.footer;
                 if (elem) {
                     elem.className += ' ie-shit';
                 }
             }
-
-            // Delete this if fixed in new leaflet version (> 0.6.2)
-            DG.DomEvent.off(this._map._container, 'MozMousePixelScroll', DG.DomEvent.preventDefault);
 
             this._container.style.visibility = '';
         },

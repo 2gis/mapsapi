@@ -154,7 +154,7 @@
         requestJs();
     }
 
-    window.L = window.L || {};
+    window.L = window.L || {};//for temporary fallback, delete it
     window.DG = {};
     window.DG.ready = false;
     window.__dgApi_callbacks = [];
