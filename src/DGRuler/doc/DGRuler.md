@@ -2,7 +2,7 @@
 
 ### Описание
 
-Отображает линейку, которая позволяет замерять расстояние между точками на карте. Реализует интерфейс [ILayer](#).
+Отображает на карте линейку, которая позволяет замерять расстояние между географическими точками. Реализует интерфейс [ILayer](#).
 
 ### Пример использования
 
@@ -26,7 +26,7 @@
     </tr>
     <tr>
         <td><code><b>L.DG.Ruler</b>(
-            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>
+            <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i>,</nobr>
             <nobr>&lt;<a href="#ruler-options">Ruler options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
         <td>
