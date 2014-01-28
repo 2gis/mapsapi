@@ -16,7 +16,7 @@
         </code></td>
 
         <td>
-            <code>L.DG.Control.Ruler(&hellip;)</code>
+            <code>L.DG.control.ruler(&hellip;)</code>
         </td>
 
         <td>Создает элемент управления линейкой.</td>

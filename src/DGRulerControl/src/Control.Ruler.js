@@ -74,6 +74,6 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
     }
 });
 
-L.DG.Control.ruler = function (options) {
+L.DG.control.ruler = function (options) {
     return new L.DG.Control.Ruler(options);
 };
