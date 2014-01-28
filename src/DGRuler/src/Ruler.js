@@ -55,7 +55,7 @@ L.DG.Ruler = L.Class.extend({
             this._addCloseHandler(this._points[0]);
             this._layers.mouse.fire('layeradd');
             this._updateDistance();
-            this._points.forEach(function(point){
+            this._points.forEach(function (point) {
                 if (point._legs) {
                     this._pathRoot.appendChild(point._legs.mouse._container);
                 }
