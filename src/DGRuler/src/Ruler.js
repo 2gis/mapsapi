@@ -383,6 +383,6 @@ L.DG.Ruler = L.Class.extend({
     }
 });
 
-L.DG.ruler = function (options) { // (Object)
-    return new L.DG.Ruler(options);
+L.DG.ruler = function (latlngs, options) { // (Array, Object)
+    return new L.DG.Ruler(latlngs, options);
 };
