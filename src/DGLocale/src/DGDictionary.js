@@ -1,7 +1,7 @@
 // ru
-L.DG.Dictionary = {};
+DG.Dictionary = {};
 
-L.DG.Dictionary.ru = {
+DG.Dictionary.ru = {
     pluralRules: function (n) { // (Number)
         if (n % 10 === 1 && n % 100 !== 11) { // 1, 21
             return 0;
@@ -17,7 +17,7 @@ L.DG.Dictionary.ru = {
 };
 
 // en
-L.DG.Dictionary.en = {
+DG.Dictionary.en = {
     pluralRules: function (n) { // (Number)
         if (n === 1) { // 1
             return 0;
@@ -28,7 +28,7 @@ L.DG.Dictionary.en = {
 };
 
 // it
-L.DG.Dictionary.it = {
+DG.Dictionary.it = {
     pluralRules: function (n) { // (Number)
         if (n === 1) { // 1
             return 0;
@@ -39,7 +39,7 @@ L.DG.Dictionary.it = {
 };
 
 // cs
-L.DG.Dictionary.cs = {
+DG.Dictionary.cs = {
     pluralRules: function (n) { // (Number)
         return (n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;
     }

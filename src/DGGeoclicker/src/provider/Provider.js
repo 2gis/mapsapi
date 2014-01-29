@@ -1,1 +1,1 @@
-L.DG.Geoclicker.Provider = {};
+DG.Geoclicker.Provider = {};

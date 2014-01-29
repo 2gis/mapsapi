@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Handler.Default.Dictionary.ru = L.extend({
+DG.Geoclicker.Handler.Default.Dictionary.ru = DG.extend({
     "We haven't collected info about this place": "Это место мы ещё не успели изучить",
     "noname": "Без названия",
     "place": "Место",
@@ -12,4 +12,4 @@ L.DG.Geoclicker.Handler.Default.Dictionary.ru = L.extend({
     "Show more about sight": "Подробнее",
     "back button": "Назад",
     "{n} floors": ["{n} этаж", "{n} этажа", "{n} этажей"]
-}, L.DG.Dictionary.ru);
+}, DG.Dictionary.ru);

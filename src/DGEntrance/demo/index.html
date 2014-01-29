@@ -31,12 +31,12 @@
             document.getElementById('buildingEntrance')
         ];
 
-    L.DG.then(function () {
+    DG.then(function () {
         for (var i = 0; i < btns.length; i++) {
             btns[i].onclick = addEntrance;
         };
 
-        map = new L.Map('map', {
+        map = new DG.Map('map', {
             center: [54.980206086231, 82.898068362003],
             zoom: 18
         });
@@ -44,37 +44,37 @@
             <img src="2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
             <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
             (МФК «Сан Сити»), 13 этаж';
-        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
+        DG.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
         var entrances = {
-            'metroEntrance': new L.DG.Entrance({
+            'metroEntrance': new DG.Entrance({
                 "vectors": ["LINESTRING(82.89755344390868 54.982320605449296, 82.89714574813843 54.982566865457464, 82.89677560329437 54.9823329184856, 82.89664685726164 54.98240679662398, 82.89677023887634 54.98247451813142)"]
             }),
-            'busEntrance': new L.DG.Entrance({
+            'busEntrance': new DG.Entrance({
                 "vectors": ["LINESTRING(82.89929687976837 54.98181268941162, 82.89916276931763 54.98173265357113, 82.89852440357208 54.98208665704234)"]
             }),
-            'dgEntrance': new L.DG.Entrance({
+            'dgEntrance': new DG.Entrance({
                 "vectors": ["LINESTRING(82.89850294589996 54.97985176538553, 82.89841711521149 54.97989794209166)"]
             }),
 
-            'backDgEntrance': new L.DG.Entrance({
+            'backDgEntrance': new DG.Entrance({
                 "vectors": ["LINESTRING(82.8998601436615 54.98056903755945, 82.8987979888916 54.98116931987221, 82.89790213108063 54.980658310881815, 82.89726376533508 54.980996932024134, 82.89698481559753 54.98087379739374, 82.89712429046631 54.98043050959726, 82.89719939231873 54.98039664713382, 82.89721012115477 54.98036278464179, 82.89705991744995 54.98028274591077, 82.89718866348267 54.97991333431523, 82.8970867395401 54.97967629341785, 82.89766073226929 54.97944540808143, 82.89810597896576 54.97967013649277, 82.8980040550232 54.97970399956898, 82.89811134338379 54.979771725635736)"]
             }),
 
-            'sparkAutoEntrance': new L.DG.Entrance({
+            'sparkAutoEntrance': new DG.Entrance({
                 "vectors": [
                     "LINESTRING(82.8987067937851 54.97971323494846, 82.89879262447357 54.979667058029875)",
                     "LINESTRING(82.89904475212097 54.97952237000778, 82.89896428585052 54.97956854709275)"
                 ]
             }),
 
-            'gumEntrance': new L.DG.Entrance({
+            'gumEntrance': new DG.Entrance({
                 "vectors": [
                     "LINESTRING(82.8974461555481 54.9816433826377, 82.89768755435944 54.98177574981275, 82.89783239364624 54.9816957138986, 82.89774119853973 54.98164030432612)"
                 ]
             }),
 
-            'buildingEntrance': new L.DG.Entrance({
+            'buildingEntrance': new DG.Entrance({
                 "vectors": [
                     "LINESTRING(82.89892673492432 54.98161567782492, 82.89850294589996 54.98136633364934, 82.89860486984253 54.98131400195911)"
                 ]

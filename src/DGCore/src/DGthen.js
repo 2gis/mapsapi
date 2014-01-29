@@ -1,5 +1,5 @@
 var handlers = window.__dgApi_callbacks || [],
-    def = L.DG.when.defer(),
+    def = DG.when.defer(),
     chain = def.promise;
 //dont pollute global space!
 window.__dgApi_callbacks = undefined;
@@ -13,7 +13,7 @@ handlers.forEach(function (cb) {
 def.resolve();
 
 //public api for adding callbacks
-L.DG.then = function (resolve, reject) {
+DG.then = function (resolve, reject) {
     chain = chain.then(resolve, reject);
 
     return this;

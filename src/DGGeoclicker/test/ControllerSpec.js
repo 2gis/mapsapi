@@ -1,6 +1,6 @@
 /*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false, sinon:false */
 
-describe('L.DG.Geoclicker.Controller', function () {
+describe('DG.Geoclicker.Controller', function () {
     var map,
         mapContainer = document.createElement('div'),
         spy,
@@ -8,8 +8,8 @@ describe('L.DG.Geoclicker.Controller', function () {
         controller;
 
     beforeEach(function () {
-        map = new L.Map(mapContainer, {
-            center: new L.LatLng(54.98117239821992, 82.88922250270844),
+        map = new DG.Map(mapContainer, {
+            center: new DG.LatLng(54.98117239821992, 82.88922250270844),
             zoom: initZoom
         });
         controller = map.geoclicker.getController();
@@ -58,25 +58,25 @@ describe('L.DG.Geoclicker.Controller', function () {
 
         beforeEach(function () {
 
-            defaultSpy = sinon.stub().returns(L.DG.when({}));
-            houseSpy = sinon.stub().returns(L.DG.when({}));
-            citySpy = sinon.stub().returns(L.DG.when({}));
+            defaultSpy = sinon.stub().returns(DG.when({}));
+            houseSpy = sinon.stub().returns(DG.when({}));
+            citySpy = sinon.stub().returns(DG.when({}));
             districtSpy = sinon.stub().returns(false);
 
-            defaultHandler = L.Class.extend({
+            defaultHandler = DG.Class.extend({
                 handle: defaultSpy
             });
-            houseHandler = L.Class.extend({
+            houseHandler = DG.Class.extend({
                 handle: houseSpy
             });
-            cityHandler = L.Class.extend({
+            cityHandler = DG.Class.extend({
                 handle: citySpy
             });
-            districtHandler = L.Class.extend({
+            districtHandler = DG.Class.extend({
                 handle: districtSpy
             });
 
-            L.DG.Geoclicker.Controller.mergeOptions({
+            DG.Geoclicker.Controller.mergeOptions({
                 handlersSequence: {
                     default: defaultHandler,
                     house: houseHandler,
