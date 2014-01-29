@@ -1,4 +1,4 @@
-## L.DG.Ruler
+## DG.Ruler
 
 ### Описание
 
@@ -14,7 +14,7 @@
         [51.7297, 36.1926],
         [51.7299, 36.1968],
         [51.7307, 36.1968]]
-    L.DG.ruler(latLngs).addTo(map);
+    DG.ruler(latLngs).addTo(map);
 
 ### Конструктор
 
@@ -25,12 +25,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.Ruler</b>(
+        <td><code><b>DG.Ruler</b>(
             <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i>, </nobr>
             <nobr>&lt;<a href="#ruler-options">Ruler options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
         <td>
-            <code>L.DG.ruler(&hellip;)</code>
+            <code>DG.ruler(&hellip;)</code>
         </td>
         <td>Создает объект линейки по переданному массиву географических точек и необязательному объекту опций.</td>
     </tr>

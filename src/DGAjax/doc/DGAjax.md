@@ -4,7 +4,7 @@
 Данный плагин позволяет отправлять кросс-доменные HTTP (AJAX) запросы.
 
 # API
-## Функция L.DG.ajax
+## Функция DG.ajax
 
 <table>
     <tr>
@@ -45,7 +45,7 @@
 ## Примеры
 Базовое использование:
 
-    L.DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
+    DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
         type: 'get',
         data: {
             key: 'ruxlih0718',
@@ -70,7 +70,7 @@
 
 Отмена запроса:
 
-    var requestPromise = L.DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
+    var requestPromise = DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
         type: 'get',
         data: {
             key: 'ruxlih0718',

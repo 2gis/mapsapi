@@ -1,4 +1,4 @@
-L.DG.Ruler.Dictionary.en = {
+DG.Ruler.Dictionary.en = {
 	"km": "km",
 	"m": "m",
 	",": ","

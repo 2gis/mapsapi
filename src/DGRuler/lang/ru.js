@@ -1,4 +1,4 @@
-L.DG.Ruler.Dictionary.ru = {
+DG.Ruler.Dictionary.ru = {
 	"km": "км",
 	"m": "м",
 	",": ","

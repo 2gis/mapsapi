@@ -1,10 +1,7 @@
-L.DG.Control = {};
-L.DG.control = {};
-
 //Inject observing localization change
-var controlAddTo = L.Control.prototype.addTo;
+var controlAddTo = DG.Control.prototype.addTo;
 
-L.Control.include({
+DG.Control.include({
     addTo: function (map) {
         map.on('langchange', this._renderTranslation, this);
 
@@ -14,10 +11,10 @@ L.Control.include({
 });
 
 // Applies 2GIS divIcon to marker
-L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
+DG.Marker.prototype.options.icon = DG.divIcon(DG.configTheme.markersData);
 
 // Adds posibility to change max zoom level
-L.Map.prototype.setMaxZoom = function (maxZoom) {
+DG.Map.prototype.setMaxZoom = function (maxZoom) {
     this._layersMaxZoom = maxZoom;
     if (this.getZoom() > maxZoom) {
         this.setZoom(maxZoom);

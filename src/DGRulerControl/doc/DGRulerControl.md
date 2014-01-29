@@ -1,4 +1,4 @@
-## L.DG.Control.Ruler
+## DG.Control.Ruler
 
 При подключении данного элемента управления, в правом верхнем углу карты появится контрол, при клике на который, на карте появляется линейка для измерения расстояния. 
 
@@ -11,12 +11,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.Control.Ruler</b>(
+        <td><code><b>DG.Control.Ruler</b>(
             <nobr>&lt;<a href="#control-ruler-options">Control.Ruler options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.DG.control.ruler(&hellip;)</code>
+            <code>DG.control.ruler(&hellip;)</code>
         </td>
 
         <td>Создает элемент управления линейкой.</td>

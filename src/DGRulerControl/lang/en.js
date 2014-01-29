@@ -1,3 +1,3 @@
-L.DG.Control.Ruler.Dictionary.en = {
+DG.Control.Ruler.Dictionary.en = {
 	"button_title": "en Линейка йопта"
 };

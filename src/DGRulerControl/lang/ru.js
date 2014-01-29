@@ -1,3 +1,3 @@
-L.DG.Control.Ruler.Dictionary.ru = {
+DG.Control.Ruler.Dictionary.ru = {
 	"button_title": "Линейка"
 };

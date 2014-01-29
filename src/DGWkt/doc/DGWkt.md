@@ -1,4 +1,4 @@
-## L.DG.Wkt
+## DG.Wkt
 
 Используется для получения геометрии API карт на основе ее описания в [WKT-формате](http://en.wikipedia.org/wiki/Well-known_text).
 
@@ -11,12 +11,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.wkt</b>(
+        <td><code><b>DG.wkt</b>(
             <nobr> <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.DG.wkt(&hellip;)</code>
+            <code>DG.wkt(&hellip;)</code>
         </td>
 
         <td>Создает объект, отвечающий за обработку данных в WKT-формате.</td>
@@ -61,7 +61,7 @@
             <nobr>&lt;Object&gt; <i>config</i></nobr> )
             )</code></td>
         <td><code>Object</code></td>
-        <td>Формирует геометрию API карт на основе данных, считанных методом read. Этот метод поддерживает все параметры конструктора класса <a href="https://github.com/2gis/maps-api-2.0/blob/master/src/DGCore/doc/DGCustomization.md#lpath">L.Path</a>. Например, можно передать параметр <code>toObject({clickable:false})</code>, чтобы сделать геометрию некликабельной.</td>
+        <td>Формирует геометрию API карт на основе данных, считанных методом read. Этот метод поддерживает все параметры конструктора класса <a href="https://github.com/2gis/maps-api-2.0/blob/master/src/DGCore/doc/DGCustomization.md#lpath">DG.Path</a>. Например, можно передать параметр <code>toObject({clickable:false})</code>, чтобы сделать геометрию некликабельной.</td>
     </tr>
     <tr>
         <td><code><b>write</b>(

@@ -1,7 +1,7 @@
-L.DG.Control.Ruler = L.DG.RoundControl.extend({
+DG.Control.Ruler = DG.RoundControl.extend({
 
     options: {
-        position: L.Browser.touch ? 'bottomright' : 'topright',
+        position: DG.Browser.touch ? 'bottomright' : 'topright',
         iconClass: 'ruler'
     },
 
@@ -10,8 +10,8 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
     },
 
     initialize: function (options) {
-        L.setOptions(this, options);
-        L.extend(this, {
+        DG.setOptions(this, options);
+        DG.extend(this, {
             _active: false,
             _drawingHelper: null,
             _geoclickerNeedRestore: false
@@ -20,7 +20,7 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
 
     _controlEvents: {
         add: function () {
-            this._drawingHelper = L.DG.ruler([]);
+            this._drawingHelper = DG.ruler([]);
         },
         click: function () {
             if (this._active = !this._active) { // jshint ignore:line
@@ -74,6 +74,6 @@ L.DG.Control.Ruler = L.DG.RoundControl.extend({
     }
 });
 
-L.DG.control.ruler = function (options) {
-    return new L.DG.Control.Ruler(options);
+DG.control.ruler = function (options) {
+    return new DG.Control.Ruler(options);
 };

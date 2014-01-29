@@ -1,4 +1,4 @@
-L.Marker.include({
+DG.Marker.include({
 
     bindLabel: function (content, options) {
         if (this._label) {
@@ -12,11 +12,11 @@ L.Marker.include({
                 }
             }
         } else {
-            options = L.extend({
-                offset: new L.Point(5, 5)
+            options = DG.extend({
+                offset: new DG.Point(5, 5)
             }, options);
 
-            this._label = L.DG.label(content, options);
+            this._label = DG.label(content, options);
 
             this.once('remove', this.unbindLabel);
 
@@ -56,7 +56,7 @@ L.Marker.include({
         return this._label ? this._label : null;
     },
 
-    _originalUpdateZIndex: L.Marker.prototype._updateZIndex,
+    _originalUpdateZIndex: DG.Marker.prototype._updateZIndex,
     _updateZIndex: function (offset) {
         this._originalUpdateZIndex(offset);
         this._updateLabelZIndex();
@@ -121,7 +121,7 @@ L.Marker.include({
     }
 });
 
-L.Marker.addInitHook(function () {
+DG.Marker.addInitHook(function () {
     if (typeof this.options.label !== 'undefined') {
         this.bindLabel(this.options.label);
     }

@@ -1,5 +1,5 @@
 /*global describe:false, it:false, expect:false */
-describe('L.DG.when', function () {
+describe('DG.when', function () {
 
 	var fakePromise, sentinel, other;
 
@@ -25,7 +25,7 @@ describe('L.DG.when', function () {
 
 		var when;
 
-		when = L.DG.when;
+		when = DG.when;
 
 		it('should return a promise for a value', function() {
 			var result = when(1);

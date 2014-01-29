@@ -12,11 +12,11 @@ describe('DG.Ruler', function () {
         ];
 
     beforeEach(function () {
-        map = new L.Map(document.createElement('div'), {
-            center: new L.LatLng(51.7302800, 36.1938900),
+        map = new DG.Map(document.createElement('div'), {
+            center: new DG.LatLng(51.7302800, 36.1938900),
             zoom: 17
         });
-        ruler = L.DG.ruler();
+        ruler = DG.ruler();
         map.addLayer(ruler);
     });
 
@@ -35,7 +35,7 @@ describe('DG.Ruler', function () {
             expect(ruler._points).to.not.eql(sourceLatLngs);
         });
         it("chains ruler instance", function () {
-            expect(ruler.setLatLngs(originalLatLngs)).to.be.a(L.DG.Ruler);
+            expect(ruler.setLatLngs(originalLatLngs)).to.be.a(DG.Ruler);
         });
     });
 
@@ -45,7 +45,7 @@ describe('DG.Ruler', function () {
         });
         it("should return latLngs array", function () {
             ruler.setLatLngs(originalLatLngs);
-            expect(ruler.getLatLngs()).to.eql([L.latLng([1, 2]), L.latLng([3, 4]), L.latLng([5, 6])]);
+            expect(ruler.getLatLngs()).to.eql([DG.latLng([1, 2]), DG.latLng([3, 4]), DG.latLng([5, 6])]);
         });
     });
 
@@ -61,22 +61,22 @@ describe('DG.Ruler', function () {
         it("adds the given latlng to ruler", function () {
             ruler.setLatLngs(originalLatLngs);
             ruler.addLatLng([7, 8]);
-            expect(ruler.getLatLngs()).to.eql([L.latLng([1, 2]), L.latLng([3, 4]), L.latLng([5, 6]), L.latLng([7, 8])]);
+            expect(ruler.getLatLngs()).to.eql([DG.latLng([1, 2]), DG.latLng([3, 4]), DG.latLng([5, 6]), DG.latLng([7, 8])]);
         });
         it("chains ruler instance", function () {
-            expect(ruler.addLatLng(originalLatLngs[0])).to.be.a(L.DG.Ruler);
+            expect(ruler.addLatLng(originalLatLngs[0])).to.be.a(DG.Ruler);
         });
     });
 
     describe("#spliceLatLngs", function () {
         it("returns removed latLngs", function () {
             ruler.setLatLngs(originalLatLngs);
-            expect(ruler.spliceLatLngs(1, 1, [7, 8])).to.eql([L.latLng([3, 4])]);
+            expect(ruler.spliceLatLngs(1, 1, [7, 8])).to.eql([DG.latLng([3, 4])]);
         });
         it("inserts the latLngs", function () {
             ruler.setLatLngs(originalLatLngs);
             ruler.spliceLatLngs(1, 1, [7, 8]);
-            expect(ruler.getLatLngs()).to.eql([L.latLng([1, 2]), L.latLng([7, 8]), L.latLng([5, 6])]);
+            expect(ruler.getLatLngs()).to.eql([DG.latLng([1, 2]), DG.latLng([7, 8]), DG.latLng([5, 6])]);
         });
     });
 

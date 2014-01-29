@@ -1,7 +1,7 @@
 <h1>Плагин отправки HTTP (AJAX) запросов</h1>
 <p>Данный плагин позволяет отправлять кросс-доменные HTTP (AJAX) запросы.</p>
 <h1>API</h1>
-<h2>Функция L.DG.Jsonp</h2>
+<h2>Функция DG.Jsonp</h2>
 <table>
     <tr>
         <th>Параметры</th>
@@ -39,7 +39,7 @@
 
 <h2>Примеры</h2>
 <p>Базовое использование:</p>
-<pre><code>L.DG.Jsonp({
+<pre><code>DG.Jsonp({
     url: &#39;http://catalog.api.2gis.ru/project/list&#39;,
     data: {
         output: &#39;jsonp&#39;,
@@ -61,7 +61,7 @@
     }
 });</code></pre>
 <p>Отмена запроса:</p>
-<pre><code>var jsonp = L.DG.Jsonp({
+<pre><code>var jsonp = DG.Jsonp({
     url: &#39;http://catalog.api.2gis.ru/project/list&#39;,
     data: {
         output: &#39;jsonp&#39;,

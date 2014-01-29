@@ -1,4 +1,4 @@
-L.DG.Ruler.mergeOptions({
+DG.Ruler.mergeOptions({
     pathStyles: {
         back: {
             color: '#fff',

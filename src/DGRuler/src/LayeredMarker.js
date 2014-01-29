@@ -1,11 +1,11 @@
-L.DG.Ruler.LayeredMarker = L.Marker.extend({
+DG.Ruler.LayeredMarker = DG.Marker.extend({
 
     /*global __DGRuler_TMPL__:false */
 
     options: {
         draggable: false,
         keyboard: false,
-        iconHTML: L.DG.template(__DGRuler_TMPL__.RulerLayeredMarker, {
+        iconHTML: DG.template(__DGRuler_TMPL__.RulerLayeredMarker, {
             blankgif : 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA='
         })
     },
@@ -16,7 +16,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         }, this);
 
         this._viewport = layers;
-        return L.Marker.prototype.addTo.call(this.on('move', this._onMove), map);
+        return DG.Marker.prototype.addTo.call(this.on('move', this._onMove), map);
     },
 
     onRemove : function (map) {
@@ -26,7 +26,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
         this.off('move', this._onMove);
         this._viewport = null;
         this._style = null;
-        return L.Marker.prototype.onRemove.call(this, map);
+        return DG.Marker.prototype.onRemove.call(this, map);
     },
 
     setText : function (text) {
@@ -72,7 +72,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
     },
 
     _initIcon : function () {
-        L.Marker.prototype._initIcon.call(this);
+        DG.Marker.prototype._initIcon.call(this);
         this._iconCollapsed = true;
         this._icon.style.width = '';
         this._iconNodes = {
@@ -84,7 +84,7 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
     _afterInit : function () {
         this._layers = this.options.layers || null;
-        this.options.icon = L.divIcon({
+        this.options.icon = DG.divIcon({
             className: 'dg-ruler-label',
             iconSize: [26, 26],
             iconAnchor: [13, 13],
@@ -94,8 +94,8 @@ L.DG.Ruler.LayeredMarker = L.Marker.extend({
 
 });
 
-L.DG.Ruler.LayeredMarker.addInitHook('_afterInit');
+DG.Ruler.LayeredMarker.addInitHook('_afterInit');
 
-L.DG.Ruler.layeredMarker = function (latlng, options) {
-    return new L.DG.Ruler.LayeredMarker(latlng, options);
+DG.Ruler.layeredMarker = function (latlng, options) {
+    return new DG.Ruler.LayeredMarker(latlng, options);
 };

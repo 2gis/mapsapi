@@ -1,21 +1,21 @@
-L.Map.mergeOptions({
+DG.Map.mergeOptions({
     geoclicker: false
 });
 
-L.DG.Geoclicker = L.Handler.extend({
+DG.Geoclicker = DG.Handler.extend({
     clickCount: 0,
     pendingClick: 0,
     timeout: 250, // should be equal to 'delay' value in DoubleTap event
 
     initialize: function (map, options) { // (Object)
         this._map = map;
-        this._controller = new L.DG.Geoclicker.Controller(map, options);
+        this._controller = new DG.Geoclicker.Controller(map, options);
         this._fillEventsListeners();
     },
 
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
-        if (!L.Browser.touch) {
+        if (!DG.Browser.touch) {
             this._map.poi.enable();
         }
     },
@@ -74,4 +74,4 @@ L.DG.Geoclicker = L.Handler.extend({
     }
 });
 
-L.Map.addInitHook('addHandler', 'geoclicker', L.DG.Geoclicker);
+DG.Map.addInitHook('addHandler', 'geoclicker', DG.Geoclicker);
