@@ -127,13 +127,7 @@
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
             var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
                 path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            // path.setAttribute('d', 'm28.09091,43.454548l1.727272,-0.090912l0.090908,-10.272728l1.727272,-8.909088l2.363638,-8.545456l3.818184,-6.636366l3.909088,-4.090908l5.545456,-2.818182l5.36364,-1.636364l4.909088,-0.272726l-57.272728,0l6.454546,0.636362l5.363636,1.636364l3,1.818182l3.545452,3l2.818184,4l2.363636,4.000002l1.181816,3.636364l1.272728,4.090908l0.272728,3l1.272728,5.636364l0.272728,11.818184z');
-            // path.setAttribute('d', 'm57.871365,0.258579l-28.863907,46.477257l-28.863369,-46.477257l57.727276,0z');
             path.setAttribute('d', 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z');
-            // svg.setAttribute('width', '58');
-            // svg.setAttribute('height', '47');
-            // svg.setAttribute('fill-opacity', '0.85');
-            // svg.setAttribute('fill', '#323232');
             svg.setAttribute('class', 'leaflet-popup-tip-container');
             svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
             svg.appendChild(path);
