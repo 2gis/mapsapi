@@ -21,9 +21,9 @@
     var map,
         balloonHTML;
 
-    L.DG.then(function () {
-        map = new L.Map('map', {
-            "center": new L.LatLng(54.980156831455, 82.897440725094),
+    DG.then(function () {
+        map = new DG.Map('map', {
+            "center": new DG.LatLng(54.980156831455, 82.897440725094),
             "zoom": 13,
             "geoclicker": true,
             "worldCopyJump": true,
@@ -34,7 +34,7 @@
         <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
         (МФК «Сан Сити»), 13 этаж';
 
-        L.marker([54.980156831455, 82.897440725094]).addTo(map).bindPopup(balloonHTML).openPopup();
+        DG.marker([54.980156831455, 82.897440725094]).addTo(map).bindPopup(balloonHTML).openPopup();
     });
 </script>
 

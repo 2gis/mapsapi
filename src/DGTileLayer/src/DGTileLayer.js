@@ -13,8 +13,7 @@ DG.Map.addInitHook(function () {
             subdomains: '0123',
             errorTileUrl: '__ERROR_TILE_URL__',
             detectRetina: true,
-            maxNativeZoom: 18,
-            uid: 'dgTileLayer'
+            maxNativeZoom: 18
         }
     ).addTo(this);
 });
