@@ -11,5 +11,5 @@ DG.dust = function (tmpl) {
         });
 
         return result;
-    }
+    };
 };
