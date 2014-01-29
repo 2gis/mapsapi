@@ -1,8 +1,7 @@
-<h2 id="класс-dgmarker">Класс DG.Marker</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#пример-использования">Пример использования</a></li><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#события">События</a></li><li><a href="#методы">Методы</a></li><li><a href="#обработчики-взаимодействия">Обработчики взаимодействия</a></li></ul></dl></p>
-<h3 id="описание">Описание</h3><p>Маркер представляет собой маленькую картинку, которая связана с определенным местом на карте.</p>
-<h3 id="пример-использования">Пример использования</h3><p>Создание и отображение маркера на карте:</p>
+<h2 id="маркеры">Маркеры</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#класс-dgmarker">Класс DG.Marker</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#события">События</a></li><li><a href="#методы">Методы</a></li><li><a href="#обработчики-взаимодействия">Обработчики взаимодействия</a></li></ul></li><li><a href="#класс-dgicon">Класс DG.Icon</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#класс-dgdivicon">Класс DG.DivIcon</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li></ul></dl></p>
+<h3 id="класс-dgmarker">Класс DG.Marker</h3><p>Маркер представляет собой маленькую картинку, которая связана с определенным местом на карте. Создание и отображение маркера на карте:</p>
 <pre><code>DG.marker([54.98, 82.89]).addTo(map);
-</code></pre><h3 id="конструктор">Конструктор</h3><table>
+</code></pre><h4 id="конструктор">Конструктор</h4><table>
     <thead>
         <tr>
             <th>Конструктор</th>
@@ -26,7 +25,7 @@
     </tbody>
 </table>
 
-<h3 id="опции">Опции</h3><table>
+<h4 id="опции">Опции</h4><table>
     <thead>
         <tr>
             <th>Опция</th>
@@ -38,9 +37,9 @@
     <tbody>
         <tr>
             <td id = "icon"><code><b>icon</b></code></td>
-            <td><code><a href="icon">DG.Icon</a></code></td>
+            <td><code><a href="#класс-dgicon">Icon</a></code></td>
             <td>*</td>
-            <td>Иконка, используемая для отображения маркера. См. <a href="icon">DG.Icon</a>.</td>
+            <td>Иконка, используемая для отображения маркера.</td>
         </tr>
         <tr>
             <td><code><b>clickable</b></code></td>
@@ -93,7 +92,7 @@
     </tbody>
 </table>
 
-<h3 id="события">События</h3><p>Вы можете подписаться на следующие события используя <a href="#">эти методы</a>.</p>
+<h4 id="события">События</h4><p>Вы можете подписаться на следующие события используя <a href="#">эти методы</a>.</p>
 <table>
     <thead>
         <tr>
@@ -176,7 +175,7 @@
     </tbody>
 </table>
 
-<h3 id="методы">Методы</h3><table>
+<h4 id="методы">Методы</h4><table>
     <thead>
         <tr>
             <th>Метод</th>
@@ -208,7 +207,7 @@
         </tr>
         <tr>
             <td><code><b>setIcon</b>(
-                <nobr>&lt;<a href="#icon">Icon</a>&gt; <i>icon</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgicon">Icon</a>&gt; <i>icon</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -280,7 +279,7 @@
     </tbody>
 </table>
 
-<h3 id="обработчики-взаимодействия">Обработчики взаимодействия</h3><p>Свойства маркера включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение маркера, а также подключение и отключение определенных возможностей, таких как перетаскивание. Например:</p>
+<h4 id="обработчики-взаимодействия">Обработчики взаимодействия</h4><p>Свойства маркера включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение маркера, а также подключение и отключение определенных возможностей, таких как перетаскивание. Например:</p>
 <pre><code>marker.dragging.disable();
 </code></pre><table>
     <thead>
@@ -295,6 +294,163 @@
             <td>dragging</td>
             <td><a href="#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик перетаскивания маркера.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="класс-dgicon">Класс DG.Icon</h3><p>Иконка маркера.</p>
+<pre><code>var myIcon = DG.icon({
+    iconUrl: &#39;my-icon.png&#39;,
+    iconRetinaUrl: &#39;my-icon@2x.png&#39;,
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: &#39;my-icon-shadow.png&#39;,
+    shadowRetinaUrl: &#39;my-icon-shadow@2x.png&#39;,
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+
+DG.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+</code></pre><h4 id="конструктор-1">Конструктор</h4><table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.Icon</b>(
+                <nobr>&lt;<a href="#опции-1">Icon options</a>&gt; <i>options</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.icon(<span class="comment">&hellip;</span>)</code>
+            </td>
+            <td>Создает объект иконки с переданными опциями.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="опции-1">Опции</h4><table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>iconUrl</b></code></td>
+            <td><code>String</code>
+            <td>Обязательный URL к изображению иконки (абсолютный или относительный).</td>
+        </tr>
+        <tr>
+            <td><code><b>iconRetinaUrl</b></code></td>
+            <td><code>String</code>
+            <td>URL к изображению иконки для устройств с Retina экраном (абсолютный или относительный).</td>
+        </tr>
+        <tr>
+            <td><code><b>iconSize</b></code></td>
+            <td><code><a href="#point">Point</a></code>
+            <td>Размер изображения иконки в пикселях.</td>
+        </tr>
+        <tr>
+            <td><code><b>iconAnchor</b></code></td>
+            <td><code><a href="#point">Point</a></code>
+            <td>Координаты &quot;ножки&quot; иконки (относительно ее левого верхнего угла).
+                Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию &quot;ножка&quot; располагается по центру иконки.</td>
+        </tr>
+        <tr>
+            <td><code><b>shadowUrl</b></code></td>
+            <td><code>String</code>
+            <td>URL к изображению тени иконки. Если не указан, тогда тень будет отсутствовать.</td>
+        </tr>
+        <tr>
+            <td><code><b>shadowRetinaUrl</b></code></td>
+            <td><code>String</code>
+            <td>URL к изображению тени иконки для устройств с Retina экраном. Если не указан, тогда тень будет отсутствовать.</td>
+        </tr>
+        <tr>
+            <td><code><b>shadowSize</b></code></td>
+            <td><code><a href="#point">Point</a></code>
+            <td>Размер изображения тени в пикселях.</td>
+        </tr>
+        <tr>
+            <td><code><b>shadowAnchor</b></code></td>
+            <td><code><a href="#point">Point</a></code>
+            <td>Координаты &quot;ножки&quot; тени (относительно ее левого верхнего угла). Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>popupAnchor</b></code></td>
+            <td><code><a href="#point">Point</a></code>
+            <td>Координаты точки, из которой будет открываться балун (относительно <code>iconAnchor</code>).</td>
+        </tr>
+        <tr>
+            <td><code><b>className</b></code></td>
+            <td><code>String</code>
+            <td>Значение класса, которое будет присвоено изображениям иконки и тени. По умолчанию пустое.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="класс-dgdivicon">Класс DG.DivIcon</h3><p>Иконка для маркеров, которые используют простой элемент <code>div</code> вместо изображения.</p>
+<pre><code>var myIcon = DG.divIcon({className: &#39;my-div-icon&#39;}); 
+// вы можете установить стиль класса .my-div-icon в CSS
+
+DG.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+</code></pre><p>По умолчанию установлен класс <code>&#39;leaflet-div-icon&#39;</code>, который стилизован как небольшой белый квадрат с тенью.</p>
+<h4 id="конструктор-2">Конструктор</h4><table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.DivIcon</b>(
+                <nobr>&lt;<a href="#опции-2">DivIcon options</a>&gt; <i>options</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.divIcon(<span class="comment">&hellip;</span>)</code>
+            </td>
+            <td>Создает объект <code>DG.DivIcon</code> с переданными опциями.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="опции-2">Опции</h4><table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>iconSize</b></code></td>
+            <td><code><a href="#point">Point</a></code>
+            <td>Размер иконки в пикселях. Также может быть установлен с помощью CSS.</td>
+        </tr>
+        <tr>
+            <td><code><b>iconAnchor</b></code></td>
+            <td><code><a href="#point">Point</a></code>
+            <td>Координаты &quot;ножки&quot; иконки (относительно ее левого верхнего угла). Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию &quot;ножка&quot; располагается по центру иконки, если указан ее размер.</td>
+        </tr>
+        <tr>
+            <td><code><b>className</b></code></td>
+            <td><code>String</code>
+            <td>Значение класса, которое будет присвоено иконке. По умолчанию <code>&#39;leaflet-div-icon&#39;</code>.
+        </tr>
+        <tr>
+            <td><code><b>html</b></code></td>
+            <td><code>String</code>
+            <td>HTML код, который будет установлен как содержимое иконки. По умолчанию пустой.</td>
         </tr>
     </tbody>
 </table>

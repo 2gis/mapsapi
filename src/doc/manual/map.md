@@ -540,7 +540,7 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code>this</code></td>
             <td>Масштабирует карту, сохраняя при этом указанную точку в области видимости (например, используется для масштабировании при помощи колесика мышки и двойного клика).</td>
         </tr>
-        <tr>
+        <tr id="map-fitbounds">
             <td><code><b>fitBounds</b>(
                 <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
                 <nobr>&lt;<a href="#опции-соответствия-границам">fitBounds options</a>&gt; <i>options?</i> )</nobr>
