@@ -34,16 +34,16 @@
         }
     }());
 
-    L.DG.then(function () {
+    DG.then(function () {
 
-        var map = new L.Map('map', {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
+        var map = new DG.Map('map', {
+            center: new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 17,
             geoclicker: true
         });
 
         function initTest () {
-            var deferred = L.DG.when.defer(),
+            var deferred = DG.when.defer(),
                 clicked = [];
 
             function clickReject ( ) {
@@ -60,9 +60,9 @@
             var buttons = document.getElementsByTagName('button');
             for (var i = 0, len = buttons.length; i < len; i++) {
                 if ( buttons[i].getAttribute('id') == 'button_reject' ) {
-                    L.DomEvent.addListener(buttons[i], 'click',  clickReject);
+                    DG.DomEvent.addListener(buttons[i], 'click',  clickReject);
                 } else {
-                    L.DomEvent.addListener(buttons[i], 'click',  clickProgress);
+                    DG.DomEvent.addListener(buttons[i], 'click',  clickProgress);
                 }
             }
 

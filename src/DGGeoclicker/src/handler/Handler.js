@@ -1,1 +1,1 @@
-L.DG.Geoclicker.Handler = {};
+DG.Geoclicker.Handler = {};

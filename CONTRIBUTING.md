@@ -60,9 +60,9 @@
 ### Код модуля
 Так как наш модуль довольно простой, он будет состоять всего из одного исходного JS файла, назовем его DGDemoPlugin.js и напишем в нем необходимый для работы код:
 
-    L.DG.DemoPlugin = L.Handler.extend({
+    DG.DemoPlugin = DG.Handler.extend({
 
-       _lastFirms: L.layerGroup(),
+       _lastFirms: DG.layerGroup(),
    
        addHooks: function() {
            this._map.on('click', this._searchFirms, this);
@@ -75,7 +75,7 @@
        _searchFirms: function(e) { // (MouseEvent)
            var latlng = e.latlng.wrap();
    
-           L.DG.ajax({
+           DG.ajax({
                url: 'http://catalog.api.2gis.ru/2.0/search',
                data: {
                    what: 'магазин',
@@ -85,8 +85,8 @@
                    type: 'filial',
                    key: 'ruhcbx0197'
                },
-               success: L.bind(this._showFirms, this),
-               error: L.bind(this._logError, this)
+               success: DG.bind(this._showFirms, this),
+               error: DG.bind(this._logError, this)
            });
        },
    
@@ -102,7 +102,7 @@
    
            firms = data.result.data;
            firms.forEach(function(firmInfo) {
-               marker = L.marker([firmInfo.geo.lat, firmInfo.geo.lon]);
+               marker = DG.marker([firmInfo.geo.lat, firmInfo.geo.lon]);
                marker.bindPopup(firmInfo.firm.name);
                marker.addTo(this._lastFirms);
            }, this);
@@ -115,9 +115,9 @@
        }
    });
 
-   L.Map.addInitHook('addHandler', 'demoPlugin', L.DG.DemoPlugin);
+   DG.Map.addInitHook('addHandler', 'demoPlugin', DG.DemoPlugin);
 
-Наш модуль предполагает взаимодействие пользователя с картой, потому мы его отнаследовали от класса `L.Handler`. Благодаря этому можно будет контролировать его поведение в процессе исполнения приложения (например, у разработчика будет возможность включить или выключить модуль).
+Наш модуль предполагает взаимодействие пользователя с картой, потому мы его отнаследовали от класса `DG.Handler`. Благодаря этому можно будет контролировать его поведение в процессе исполнения приложения (например, у разработчика будет возможность включить или выключить модуль).
 
 Свойство `_lastFirms` представляет собой группу, в которую мы добавляем маркеры. В нашем случае это необходимо для того, чтоб можно было одной командой удалить с карты маркеры всех магазинов, которые были добавлены после предыдущего клика пользователя, и отобразить новые. 
 
@@ -129,21 +129,21 @@
 
 Метод `_logError` при возникновении ошибки печатает в консоль браузера данные о ней. 
 
-Конструкция `L.Map.addInitHook('addHandler', 'demoPlugin', L.DG.DemoPlugin)` позволяет карте зарегистрировать написанный нами обработчик пользовательских действий, после чего к нему можно будет обратиться по соответствующему имени, например:
+Конструкция `DG.Map.addInitHook('addHandler', 'demoPlugin', DG.DemoPlugin)` позволяет карте зарегистрировать написанный нами обработчик пользовательских действий, после чего к нему можно будет обратиться по соответствующему имени, например:
     
     map.demoPlugin.enable();
 
 ### Минификация и подключение
 Для минификации JS файлов существует множество популярных инструментов, вы можете воспользоваться любым из них, напрмиер [YUI Compressor](http://yui.github.io/yuicompressor/). Минифицированный JS файл необходимо положить в папку `dist` и предоставить к нему публичный доступ, после чего любой разработчик сможет подключить и использовать его вместе с API карт. Пример подключения модуля:
 
-    L.DG.then(function() {
+    DG.then(function() {
         //загрузка модуля
-        return L.DG.plugin('https://raw.github.com/2gis/maps-api-2.0-plugin-demo/master/dist/DGDemoPlugin.js');
+        return DG.plugin('https://raw.github.com/2gis/maps-api-2.0-plugin-demo/master/dist/DGDemoPlugin.js');
     })
     .then(function() {
         //инициализация карты
-        var map = new L.Map('map', {
-            'center': new L.LatLng(54.980206086231, 82.898068362003),
+        var map = new DG.Map('map', {
+            'center': new DG.LatLng(54.980206086231, 82.898068362003),
             'zoom': 15,
             'geoclicker': false
         });

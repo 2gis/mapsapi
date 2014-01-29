@@ -1,4 +1,4 @@
-## L.DG.Entrance
+## DG.Entrance
 
 Используется для отображения входа в здание.
 
@@ -11,12 +11,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.Entrance</b>(
+        <td><code><b>DG.Entrance</b>(
             <nobr>&lt;<a href="#entrance-options">Entrance options</a>&gt; <i>options</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.DG.entrance(&hellip;)</code>
+            <code>DG.entrance(&hellip;)</code>
         </td>
 
         <td>Создает объект входа на основе переданных опций.</td>

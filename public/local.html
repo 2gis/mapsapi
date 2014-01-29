@@ -13,14 +13,14 @@
 
 <script type="text/javascript">
     var map;
-    L.DG.then(function () {
-        map = new L.Map('map', {
-            'center': new L.LatLng(54.980206086231, 82.898068362003),
+    DG.then(function () {
+        map = new DG.Map('map', {
+            'center': new DG.LatLng(54.980206086231, 82.898068362003),
             'zoom': 13,
             'geoclicker': true
         });
 
-        L.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
+        DG.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
 
     });
 

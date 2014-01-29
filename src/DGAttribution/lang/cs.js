@@ -1,4 +1,4 @@
-L.Control.Attribution.Dictionary.cs = {
+DG.Control.Attribution.Dictionary.cs = {
 	"copyright logo": "http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners",
 	"copyright apilink": "http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners",
 	"copyright license": "http://law.2gis.cz/licensing-agreement/",

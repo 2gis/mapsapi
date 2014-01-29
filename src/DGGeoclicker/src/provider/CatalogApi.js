@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
+DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     options: {
         urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
@@ -30,7 +30,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
         }
 
         beforeRequest();
-        this.geoSearch(q, types, zoom).then(L.bind(function (result) {
+        this.geoSearch(q, types, zoom).then(DG.bind(function (result) {
             callback(this._filterResponse(result, types));
         }, this));
     },
@@ -38,7 +38,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
     firmsInHouse: function (houseId, parameters) { // (String, Function, Number)
         parameters = parameters || {};
 
-        var params = L.extend(this.options.data, {
+        var params = DG.extend(this.options.data, {
             type: 'filial',
             house: houseId,
             page: parameters.page || 1
@@ -105,7 +105,7 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
     _performRequest: function (params, url) { // (Object, String, Function, Function)
         var source = this.options.data,
-            data = L.extend({ // TODO clone function should be used instead of manually copying
+            data = DG.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key
             }, params),
             promise,
@@ -113,11 +113,11 @@ L.DG.Geoclicker.Provider.CatalogApi = L.Class.extend({
 
         this.cancelLastRequest();
 
-        if (!L.DG.ajax.corsSupport) {
+        if (!DG.ajax.corsSupport) {
             type = data.output = 'jsonp';
         }
 
-        this._lastRequest = L.DG.ajax(url, {
+        this._lastRequest = DG.ajax(url, {
             type: type,
             data: data,
             timeout: this.options.timeoutMs
