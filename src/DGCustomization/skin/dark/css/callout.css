@@ -5,8 +5,11 @@
     background-color: rgba(50, 50, 50, 0.85);
 }
 
-.leaflet-popup-tip-container {
-    /*background-image: url(../img/callout-tail-dark.png);*/
+.leaflet-popup-tip-container_image {
+    background-image: url(../img/callout-tail-dark.png);
+}
+
+.leaflet-popup-tip-container_svg {
     fill: #323232;
     fill-opacity: 0.85;
 }

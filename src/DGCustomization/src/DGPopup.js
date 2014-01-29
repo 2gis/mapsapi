@@ -34,6 +34,9 @@
         _popupShowClass: 'leaflet-popup_show_true',
         _popupHideClass: 'leaflet-popup_show_false',
 
+        _popupTipClass: 'leaflet-popup-tip-container',
+        _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
+
         initialize: function (options, sourse) { // (Object, Object)
             this._popupStructure = {};
             originalInitialize.call(this, options, sourse);
@@ -125,17 +128,22 @@
                 this._innerContainer.appendChild(this._detachEl(this._closeButton));
             }
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
-            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
-                path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            path.setAttribute('d', 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z');
-            svg.setAttribute('class', 'leaflet-popup-tip-container');
-            svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
-            svg.appendChild(path);
-            this._innerContainer.appendChild(svg);
-            this._detachEl(this._tipContainer);
-            // this._innerContainer.appendChild(this._detachEl(this._tipContainer));
-            DG.DomEvent.disableClickPropagation(path);
-            // L.DomEvent.disableClickPropagation(this._tipContainer);
+            var tip = this._detachEl(this._tipContainer);
+            if (DG.Browser.svg) {
+                var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', this._tipSVGPath);
+
+                tip = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+                tip.setAttribute('class', this._popupTipClass + ' ' + this._popupTipClass + '_svg');
+                tip.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+                tip.appendChild(path);
+                DG.DomEvent.disableClickPropagation(path);
+            } else {
+                DG.DomUtil.addClass(tip, this._popupTipClass + '_image');
+                DG.DomEvent.disableClickPropagation(tip);
+            }
+
+            this._innerContainer.appendChild(tip);
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup

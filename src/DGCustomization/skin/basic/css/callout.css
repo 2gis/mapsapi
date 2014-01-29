@@ -78,8 +78,17 @@
     margin: 0 auto;
     width: 58px;
     height: 47px;
+}
+
+.leaflet-popup-tip-container_svg {
+    background-position: 50% 95%;
+    -webkit-background-size: 36px 12px;
+    background-size: 36px 12px;
     background-image: url(../img/tip-shadow.png);
-    background-position: bottom center;
+}
+
+.leaflet-retina .leaflet-popup-tip-container_svg {
+    background-image: url(../img/tip-shadow-retina.png);
 }
 
 .leaflet-popup-tip {

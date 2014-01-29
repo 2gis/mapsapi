@@ -24,11 +24,18 @@
 }
 
 .leaflet-popup-tip-container {
-    /*background-image: url(../img/callout-tail-white.png);*/
     margin-top: -1px;
+}
+
+.leaflet-popup-tip-container_image {
+    background-image: url(../img/callout-tail-white.png);
+    margin-top: -1px;
+}
+
+.leaflet-popup-tip-container_svg {
     fill: #fff;
     stroke: #bebdb5;
-    stroke-opacity: 0.6;
+    /*stroke-opacity: 0.6;*/
 }
 
 a.popup-link,
