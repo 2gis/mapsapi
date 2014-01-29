@@ -125,7 +125,6 @@
                 this._innerContainer.appendChild(this._detachEl(this._closeButton));
             }
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
-<<<<<<< HEAD
             var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
                 path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('d', 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z');
@@ -135,12 +134,8 @@
             this._innerContainer.appendChild(svg);
             this._detachEl(this._tipContainer);
             // this._innerContainer.appendChild(this._detachEl(this._tipContainer));
-            L.DomEvent.disableClickPropagation(path);
+            DG.DomEvent.disableClickPropagation(path);
             // L.DomEvent.disableClickPropagation(this._tipContainer);
-=======
-            this._innerContainer.appendChild(this._detachEl(this._tipContainer));
-            DG.DomEvent.disableClickPropagation(this._tipContainer);
->>>>>>> master
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
