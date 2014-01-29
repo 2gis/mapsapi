@@ -66,14 +66,14 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         footer.btns[0].href = this._getDirectionsUrl(data.buildingName);
 
         return {
-            tmpl: this._view.getTemplate('sight'),
+            tmpl: 'sight',
             data: data,
             header: this._view.render({
-                tmpl: this._view.getTemplate('popupHeader'),
+                tmpl: 'popupHeader',
                 data: {'title': data.buildingName}
             }),
             /*footer: this._view.render({
-                tmpl: this._view.getTemplate('popupFooterBtns'),
+                tmpl: 'popupFooterBtns',
                 data: footer
             }),*/
             afterRender: function () {

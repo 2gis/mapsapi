@@ -25,7 +25,7 @@ DG.Geoclicker.Handler.House.include({
         }
 
         wrapper.innerHTML = this._view.render({
-            tmpl: this._view.getTemplate('house'),
+            tmpl: 'house',
             data: data
         });
 
@@ -49,7 +49,7 @@ DG.Geoclicker.Handler.House.include({
         }
 
         this._header = this._view.render({
-            tmpl: this._view.getTemplate('popupHeader'),
+            tmpl: 'popupHeader',
             data: header
         });
 
@@ -81,7 +81,7 @@ DG.Geoclicker.Handler.House.include({
         });*/
 
         return this._view.render({
-            tmpl: this._view.getTemplate('popupFooterBtns'),
+            tmpl: 'popupFooterBtns',
             data: {'btns': btns}
         });
     },

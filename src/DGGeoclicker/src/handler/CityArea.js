@@ -75,10 +75,10 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         }
 
         return {
-            tmpl: this._view.getTemplate('cityarea'),
+            tmpl: 'cityarea',
             data: data,
             header: this._view.render({
-                tmpl: this._view.getTemplate('popupHeader'),
+                tmpl: 'popupHeader',
                 data: {'title': data.name}
             })
         };

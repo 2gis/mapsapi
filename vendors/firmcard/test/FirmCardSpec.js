@@ -37,7 +37,6 @@ describe('Расписание работы организации', function ()
             now: mockTime(1366610753162),
 
         }); // 13:06 пн 22 апреля 2013
-        console.log(result);
         expect(result.now.open).to.be.ok();
         expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(4);
