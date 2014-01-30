@@ -89,7 +89,7 @@ DG.Ruler = DG.Class.extend({
             mutationStart = index >= 0 ? Math.min(index, oldLength) : oldLength - index,
             removed = Array.prototype.splice.apply(this._points, arguments).map(function (point) {
                 this._layers.mouse.removeLayer(point);
-                return point.getLatLng();
+                return point.off().getLatLng();
             }, this),
             length = this._points.length;
 
@@ -107,9 +107,7 @@ DG.Ruler = DG.Class.extend({
                 this._points[i].setPointStyle(this.options.iconStyles[i && i < length - 1 ? 'small' : 'large']);
                 this._points[i]._pos = i;
             }
-            if (this._points[length - 1]._legs) {
-                this._removeLegs(this._points[length - 1]._legs);
-            }
+            this._removeLegs(this._points[length - 1]);
             if (oldLength > 0 && oldLength < length) {
                 this._points[oldLength - 1].collapse();
             }
@@ -253,19 +251,22 @@ DG.Ruler = DG.Class.extend({
         this._updateLegs(point);
     },
 
-    _interpolate: function (from, to, here) { // (DG.LatLng, DG.LatLng, DG.LatLng) -> DG.LatLng
-        var k = (to.lng - from.lng) / (to.lat - from.lat),
-            b = from.lng - k * from.lat;
+    _interpolate: function (fromLatLng, toLatLng, hereLatLng) { // (DG.LatLng, DG.LatLng, DG.LatLng) -> DG.LatLng
+        var from = this._map.latLngToLayerPoint(fromLatLng),
+            to = this._map.latLngToLayerPoint(toLatLng),
+            here = this._map.latLngToLayerPoint(hereLatLng),
+            k = (to.x - from.x) / (to.y - from.y),
+            b = from.x - k * from.y;
         
         // http://en.wikipedia.org/wiki/Line_(geometry)
         
         if (k === Infinity) { // Infinity is not the limit!
-            here.lat = to.lat;
+            here.y = to.y;
         } else {
-            here.lat = (here.lat + k * here.lng - k * b) / (k * k + 1); // Don't even ask me!
-            here.lng = k * here.lat + b;
+            here.y = (here.y + k * here.x - k * b) / (k * k + 1); // Don't even ask me!
+            here.x = k * here.y + b;
         }
-        return here;
+        return this._map.layerPointToLatLng(here);
     },
 
     _addCloseHandler: function (event) { // (Event)
@@ -290,12 +291,16 @@ DG.Ruler = DG.Class.extend({
 
     _pointEvents: {
         'drag' : function (event) { // (Event)
-            var point = event.target;
-            this._updateLegs(point);
-            this._updateDistance();
+            var point = event.target,
+                wraped = point.getLatLng().wrap();
+            if (!wraped.equals(event.latlng)) {
+                point.setLatLng(wraped);
+            }
             if (point !== this._points[this._points.length - 1]) {
                 point.setText(this._getFormatedDistance(point));
             }
+            this._updateLegs(point);
+            this._updateDistance();
         },
         'dragend' : function () {   // ()
             this._morphingNow = false;
@@ -306,7 +311,7 @@ DG.Ruler = DG.Class.extend({
     },
 
     _deletePoint: function (event) {   // (MouseEvent)
-        if (event.originalEvent.target.className !== 'dg-ruler-label__delete' || this._points.length === 1) {
+        if (event.originalEvent.target.className !== 'dg-ruler-label__delete') {
             return;
         }
         DG.DomEvent.stop(event.originalEvent);
@@ -322,7 +327,7 @@ DG.Ruler = DG.Class.extend({
             point._legs[layer] = DG.polyline(coordinates, pathStyles[layer]).addTo(this._layers[layer]);
         }, this);
 
-        point._legs.mouse._point = point.on('remove', this._clearRemovingPointLegs, this);
+        point._legs.mouse._point = point.once('remove', this._clearRemovingPointLegs, this);
 
         if (this.options.editable) {
             point._legs.mouse.on('mousedown', this._insertPointInLine, this);
@@ -334,13 +339,16 @@ DG.Ruler = DG.Class.extend({
     },
 
     _clearRemovingPointLegs: function (event) {  // (Event)
-        this._removeLegs(event.target._legs);
+        this._removeLegs(event.target);
     },
 
-    _removeLegs: function (legs) {  // (Object)
-        Object.keys(legs).forEach(function (layer) {
-            this._layers[layer].removeLayer(legs[layer]);
-        }, this);
+    _removeLegs: function (point) {    // (DG.Ruler.LayeredMarker)
+        if (point._legs) {
+            Object.keys(point._legs).forEach(function (layer) {
+                this._layers[layer].removeLayer(point._legs[layer]);
+            }, this);
+            point._legs = null;
+        }
     },
 
     _updateLegs: function (point) {    // (DG.Ruler.LayeredMarker)
