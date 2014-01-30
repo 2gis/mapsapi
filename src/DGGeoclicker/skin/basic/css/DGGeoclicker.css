@@ -69,12 +69,12 @@
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
-    background-image: url(../img/callout-settlement.png);
+    background-image: url(__BASE_URL__/img/callout-settlement.png);
     width: 12px;
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(../img/icon-sight.png);
+    background-image: url(__BASE_URL__/img/icon-sight.png);
 }
 
 /*FIRM LIST*/
@@ -107,7 +107,7 @@
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(../img/icon-sight.png);
+    background-image: url(__BASE_URL__/img/icon-sight.png);
     background-position: 0 0;
 }
 
@@ -261,7 +261,7 @@
 }
 
 #dg-popup-firm-loading {
-    background: url("../img/loader.gif") no-repeat scroll 50% 50% transparent;
+    background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
     height: 40px;
     width: 200px;
     margin: 0 auto;
@@ -283,11 +283,11 @@
 
 
 .leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
-    background-image: url(../img/callout-settlement-2x.png);
+    background-image: url(__BASE_URL__/img/callout-settlement-2x.png);
 }
 
 .leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(../img/icon-sight-2x.png);
+    background-image: url(__BASE_URL__/img/icon-sight-2x.png);
 }
 
 
@@ -319,7 +319,7 @@
   vertical-align: middle;
 }
 .preloader_animation_false {
-    background: url("../img/loader.gif") no-repeat scroll 50% 50% transparent;
+    background: url("__BASE_URL__/img/loader.gif") no-repeat scroll 50% 50% transparent;
 }
 .preloader_animation_true.preloader:before {
   position: absolute;
