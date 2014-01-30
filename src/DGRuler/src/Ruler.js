@@ -56,7 +56,6 @@ DG.Ruler = DG.Class.extend({
         this._layers.mouse.on(this._lineMouseEvents, this);
 
         if (this._points.length) {
-            this._addCloseHandler(this._points[0]);
             this._layers.mouse.fire('layeradd');
             this._updateDistance();
             this._points.forEach(function (point) {
@@ -93,11 +92,13 @@ DG.Ruler = DG.Class.extend({
                 return point.getLatLng();
             }, this),
             length = this._points.length;
+
         if (length) {
-            for (var i = mutationStart, style; i < length; i++) {
+            for (var i = mutationStart; i < length; i++) {
                 if (!(this._points[i] instanceof DG.Ruler.LayeredMarker)) {
                     this._points[i] = this._createPoint(this._points[i])
                                             .on(this._pointEvents, this)
+                                            .once('add', this._addCloseHandler, this)
                                             .addTo(this._layers.mouse, this._layers);
                 }
                 if (i && !this._points[i - 1]._legs) {
@@ -106,10 +107,16 @@ DG.Ruler = DG.Class.extend({
                 this._points[i].setPointStyle(this.options.iconStyles[i && i < length - 1 ? 'small' : 'large']);
                 this._points[i]._pos = i;
             }
-            if (this._map && mutationStart === 0) {
-                this._addCloseHandler(this._points[0]);
+            if (this._points[length - 1]._legs) {
+                this._removeLegs(this._points[length - 1]._legs);
             }
-            if (mutationStart > 0) {
+            if (oldLength > 0 && oldLength < length) {
+                this._points[oldLength - 1].collapse();
+            }
+            if (this._points[mutationStart]) {
+                this._updateLegs(this._points[mutationStart]);
+            }
+            if (mutationStart > 1) {
                 this._points[mutationStart - 1].setPointStyle(this.options.iconStyles.small);
             }
             this._updateDistance();
@@ -166,7 +173,7 @@ DG.Ruler = DG.Class.extend({
             }
             var target = event.layer;
             
-            if (target instanceof DG.Marker && target._hoverable && target._pos !== 0) {
+            if (target instanceof DG.Marker && target._pos !== this._points.length - 1) {
                 target.setText(this._getFormatedDistance(target));
             } else if (target instanceof DG.Path && !this._lineMarkerHelper) {
                 var point = target._point;
@@ -179,11 +186,10 @@ DG.Ruler = DG.Class.extend({
         mouseout : function (event) { // (MouseEvent)
             var target = event.layer;
 
-            if (this._morphingNow || target._pos === 0) {
+            if (this._morphingNow || target._pos === this._points.length - 1) {
                 return;
             }
             if (target instanceof DG.Marker) {
-                target._hoverable = true;
                 target.collapse();
             } else {
                 this._removeRunningLabel();
@@ -262,10 +268,10 @@ DG.Ruler = DG.Class.extend({
         return here;
     },
 
-    _addCloseHandler: function (point) { // (DG.Ruler.LayeredMarker)
-        var closeNode = point.querySelector('.dg-ruler-label-delete');
+    _addCloseHandler: function (event) { // (Event)
+        var closeNode = event.target.querySelector('.dg-ruler-label__delete');
         closeNode.style.display = 'inline-block';
-        DG.DomEvent.addListener(closeNode, 'click', this._deleteFirstPoint, this);
+        event.target.on('click', this._deletePoint, this);
     },
 
     _createPoint: function (latlng, style) { // (DG.LatLng, Object) -> DG.Ruler.LayeredMarker
@@ -287,7 +293,7 @@ DG.Ruler = DG.Class.extend({
             var point = event.target;
             this._updateLegs(point);
             this._updateDistance();
-            if (point !== this._points[0]) {
+            if (point !== this._points[this._points.length - 1]) {
                 point.setText(this._getFormatedDistance(point));
             }
         },
@@ -299,12 +305,12 @@ DG.Ruler = DG.Class.extend({
         }
     },
 
-    _deleteFirstPoint: function (event) {   // (DOMEvent)
-        DG.DomEvent.stop(event);
-        if (this._points.length === 1) {
+    _deletePoint: function (event) {   // (MouseEvent)
+        if (event.originalEvent.target.className !== 'dg-ruler-label__delete' || this._points.length === 1) {
             return;
         }
-        this.spliceLatLngs(0, 1);
+        DG.DomEvent.stop(event.originalEvent);
+        this.spliceLatLngs(event.target._pos, 1);
     },
 
     _addLegs: function (point) {
@@ -316,7 +322,7 @@ DG.Ruler = DG.Class.extend({
             point._legs[layer] = DG.polyline(coordinates, pathStyles[layer]).addTo(this._layers[layer]);
         }, this);
 
-        point._legs.mouse._point = point.on('remove', this._removeLeg, this);
+        point._legs.mouse._point = point.on('remove', this._clearRemovingPointLegs, this);
 
         if (this.options.editable) {
             point._legs.mouse.on('mousedown', this._insertPointInLine, this);
@@ -327,8 +333,11 @@ DG.Ruler = DG.Class.extend({
         }
     },
 
-    _removeLeg: function (event) {  // (Event)
-        var legs = event.target._legs;
+    _clearRemovingPointLegs: function (event) {  // (Event)
+        this._removeLegs(event.target._legs);
+    },
+
+    _removeLegs: function (legs) {  // (Object)
         Object.keys(legs).forEach(function (layer) {
             this._layers[layer].removeLayer(legs[layer]);
         }, this);
@@ -378,7 +387,7 @@ DG.Ruler = DG.Class.extend({
 
     _updateDistance: function () {  // ()
         if (this._map && this._points.length) {
-            this._points[0].setText(this._getFormatedDistance());
+            this._points[this._points.length - 1].setText(this._getFormatedDistance());
         }
     }
 });

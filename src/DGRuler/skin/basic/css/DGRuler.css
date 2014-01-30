@@ -12,7 +12,7 @@
     z-index: 7999;
 }
 
-.dg-ruler-label-delete {
+.dg-ruler-label__delete {
     display: none;
     width: 14px;
     height: 15px;
@@ -21,7 +21,7 @@
     background: url(../img/delete.png);
 }
 
-.dg-ruler-label-point {
+.dg-ruler-label__point {
     display: inline-block;
     background: white;
     width:10px;
@@ -33,14 +33,14 @@
     border-radius: 5px;
 }
 
-.dg-ruler-label-spacer {
+.dg-ruler-label__spacer {
     display: block;
 }
 
-.dg-ruler-label-inner {
+.dg-ruler-label__inner {
     display: none;
     white-space: nowrap;
-    padding: 2px 20px 2px 4px;
+    padding: 2px 16px 2px 4px;
     font: 12px/14px Arial, sans-serif;
     color: #fff;
     background: #0da5d5;

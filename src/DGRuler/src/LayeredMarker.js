@@ -76,9 +76,9 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         this._iconCollapsed = true;
         this._icon.style.width = '';
         this._iconNodes = {
-            label : this.querySelector('.dg-ruler-label-distance'),
-            spacer : this.querySelector('.dg-ruler-label-spacer'),
-            container : this.querySelector('.dg-ruler-label-inner')
+            label : this.querySelector('.dg-ruler-label__distance'),
+            spacer : this.querySelector('.dg-ruler-label__spacer'),
+            container : this.querySelector('.dg-ruler-label__inner')
         };
     },
 
