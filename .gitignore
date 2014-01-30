@@ -6,6 +6,7 @@ node_modules
 npm-debug.log
 
 public
+dist
 private/dev*
 
 docbuilder/doc
