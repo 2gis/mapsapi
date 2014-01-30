@@ -4,15 +4,17 @@
 
 ### Описание
 
-Используется для отображения балунов на карте. Для открытия балуна можно использовать метод <a href="#">openPopup</a>, в таком случае одновременно может быть открыт лишь один балун, либо необходимо использовать <a href="#">addLayer</a> для отображения любого количества балунов.
+Балун — это всплывающее окно, в котором можно отобразить произвольный HTML-код. Балун связан с определенным местом на карте.
+
+Для открытия балуна можно использовать метод <a href="#">openPopup</a>, в таком случае одновременно может быть открыт лишь один балун, либо метод <a href="#">addLayer</a> для отображения любого количества балунов.
 
 ### Пример использования
 
-Включить отображения балуна по клику на маркер очень легко:
+Включить отображения балуна по клику на маркер довольно просто:
 
 	marker.bindPopup(popupContent).openPopup();
 
-У дополнительных слоев, таких как ломаные также есть метод `bindPopup`. Вот более сложный пример отображения балуна:
+У дополнительных слоев, таких как ломаные, также есть метод `bindPopup`. Вот более сложный пример отображения балуна:
 
 	var popup = DG.popup()
 		.setLatLng(latlng)
@@ -39,7 +41,7 @@
 				<code>DG.popup(&hellip;)</code>
 			</td>
 
-			<td>Создает объект <code>Popup</code> с переданными опциями, описывающими внешний вид и расположение балуна, и объектом, указывающим привязку балуна к определенному ILayer.</td>
+			<td>Создает объект <code>Popup</code> с переданными опциями, описывающими внешний вид и расположение балуна, и объектом, указывающим привязку балуна к определенному объекту типа ILayer.</td>
 		</tr>
 	</tbody>
 </table>
@@ -178,7 +180,7 @@
 		</tr>
 		<tr>
 			<td><code><b>setHeaderContent</b>(
-				<nobr>&lt;String&gt;/&lt;DOM-element&gt;  <i>content</i> )</nobr>
+				<nobr>&lt;String&gt;&nbsp;|&nbsp;&lt;HTMLElement&gt; <i>content</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -186,7 +188,7 @@
 		</tr>
 		<tr>
 			<td><code><b>setContent</b>(
-				<nobr>&lt;String&gt;/&lt;DOM-element&gt;  <i>content</i> )</nobr>
+				<nobr>&lt;String&gt;&nbsp;|&nbsp;&lt;HTMLElement&gt; <i>content</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -194,7 +196,7 @@
 		</tr>
 		<tr>
 			<td><code><b>setFooterContent</b>(
-				<nobr>&lt;String&gt;/&lt;DOM-element&gt; <i>content</i> )</nobr>
+				<nobr>&lt;String&gt;&nbsp;|&nbsp;&lt;HTMLElement&gt; <i>content</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -202,7 +204,7 @@
 		</tr>
 		<tr>
 			<td><code><b>getContent</b>()</code></td>
-			<td><code>&lt;String|HTMLElement&gt;</code></td>
+			<td><code>&lt;String&nbsp;|&nbsp;HTMLElement&gt;</code></td>
 			<td>Возвращает контент балуна.</td>
 		</tr>
 	</tbody>
