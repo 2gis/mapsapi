@@ -302,8 +302,9 @@ DG.Ruler = DG.Class.extend({
             this._updateLegs(point);
             this._updateDistance();
         },
-        'dragend' : function () {   // ()
+        'dragend' : function (event) {   // ()
             this._morphingNow = false;
+            event.target.collapse();
         },
         'dragstart' : function () { // ()
             this._morphingNow = true;
