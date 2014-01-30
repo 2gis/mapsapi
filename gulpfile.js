@@ -1,20 +1,22 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
-//var deps = require('gulp-deps');
-var minifyCSS = require('gulp-minify-css');
-var config = require('./build/deps.js').deps;
-var runSequence = require('run-sequence');
-var clean = require('gulp-clean');
+var gulp = require('gulp'),
+    async = require('async'),
+    concat = require('gulp-concat'),
+    rename = require('gulp-rename'),
+    uglify = require('gulp-uglify'),
+    minifyCSS = require('gulp-minify-css'),
+    config = require('./build/deps.js').deps,
+    runSequence = require('run-sequence'),
+    clean = require('gulp-clean');
 
-gulp.task('build-deps', function () {
-    Object.keys(config).forEach(function (module) {
-        //console.log(module, config[module].js);
+gulp.task('build-deps', function (callback) {
+
+    async.each(Object.keys(config), function (module, callback) {
+        console.log(module); // print the key
+
         var scripts = config[module].js,
-            styles = config[module].css ? config[module].css.all : undefined;
-
-        console.log(styles);
+            style = config[module].css,
+            styles = style ? config[module].css.all : undefined,
+            stylesIE = style ? config[module].css.ie : undefined;
 
         if (scripts)  {
             gulp.src(scripts)
@@ -33,7 +35,22 @@ gulp.task('build-deps', function () {
                 .pipe(minifyCSS())
                 .pipe(gulp.dest('./dist/' + module + '/css/'));
         }
+
+        if (stylesIE) {
+            gulp.src(stylesIE)
+                .pipe(concat(module + '.ie.css'))
+                .pipe(gulp.dest('./dist/' + module + '/css/'))
+                .pipe(rename(module + '.ie.min.css'))
+                .pipe(minifyCSS())
+                .pipe(gulp.dest('./dist/' + module + '/css/'));
+        }
+        callback(); // tell async that the iterator has completed
+
     });
+    /*Object.keys(config).forEach(function (module) {
+        //console.log(module, config[module].js);
+
+    });*/
 });
 
 /*gulp.task('build-scripts', function (module, files) {
