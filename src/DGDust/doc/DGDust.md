@@ -1,6 +1,6 @@
-## DG.template
+## DG.dust
 
-Используется для шаблонизации в Javascript с возможностью задавать условные операторы и циклы. Основан на функции [Джона Ресига](http://ejohn.org/blog/javascript-micro-templating/)
+Используется для шаблонизации в Javascript. Использует шаблонизатор [dustjs(fork Linkedin)](http://linkedin.github.io/dustjs/)
 
 
 ### Функция-конструктор
@@ -13,7 +13,7 @@
     </tr>
     <tr>
         <td>
-            <code>DG.template(<b>String</b><i> template</i>, <b>Object</b><i> data</i>)</code>
+            <code>DG.dust(<b>String</b><i> dust</i>, <b>Object</b><i> data</i>)</code>
         </td>
 
 
