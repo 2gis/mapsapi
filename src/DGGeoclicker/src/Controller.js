@@ -1,22 +1,22 @@
-L.DG.Geoclicker.Controller = L.Class.extend({
+DG.Geoclicker.Controller = DG.Class.extend({
 
     options: {
         // if handler worked successfully, it should return rendering object that will be processed in View , otherwise it should return false
         // default handler always should return rendering object
         'handlersSequence': {
 
-            'house': L.DG.Geoclicker.Handler.House,
+            'house': DG.Geoclicker.Handler.House,
 
-            'sight': L.DG.Geoclicker.Handler.Sight,
+            'sight': DG.Geoclicker.Handler.Sight,
 
-            'street': L.DG.Geoclicker.Handler.CityArea,
-            'place': L.DG.Geoclicker.Handler.CityArea,
-            'district': L.DG.Geoclicker.Handler.CityArea,
-            'division': L.DG.Geoclicker.Handler.CityArea,
-            'settlement': L.DG.Geoclicker.Handler.CityArea,
-            'city': L.DG.Geoclicker.Handler.CityArea,
+            'street': DG.Geoclicker.Handler.CityArea,
+            'place': DG.Geoclicker.Handler.CityArea,
+            'district': DG.Geoclicker.Handler.CityArea,
+            'division': DG.Geoclicker.Handler.CityArea,
+            'settlement': DG.Geoclicker.Handler.CityArea,
+            'city': DG.Geoclicker.Handler.CityArea,
 
-            'default': L.DG.Geoclicker.Handler.Default
+            'default': DG.Geoclicker.Handler.Default
 
 //            station_platform
 //            project
@@ -29,11 +29,11 @@ L.DG.Geoclicker.Controller = L.Class.extend({
     initialize: function (map, options) { // (Object, Object)
         this._options = options;
         this._handlers = {};
-        this._catalogApi = new L.DG.Geoclicker.Provider.CatalogApi(map);
+        this._catalogApi = new DG.Geoclicker.Provider.CatalogApi(map);
         this._map = map;
-        this._view = new L.DG.Geoclicker.View(map);
+        this._view = new DG.Geoclicker.View(map);
 
-        this._renderHandlerResult = L.bind(this._renderHandlerResult, this);
+        this._renderHandlerResult = DG.bind(this._renderHandlerResult, this);
         this._lastHandleClickArguments = null;
     },
 

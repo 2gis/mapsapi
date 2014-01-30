@@ -1,10 +1,10 @@
-## L.DG.FullScreen
+## DG.Control.Fullscreen
 
 При подключении данного элемента управления, в правом верхнем углу карты появится контрол, при клике на который, карта разворачивается на весь экран, повторный клик восстанавливает предыдущий размер.
 
 Для современных браузеров используется [Fullscreen API](http://www.w3.org/TR/fullscreen/), для остальных fallback.
 
-Добавляется FullScreen на карту по умолчанию, если не передана опция fullScreenControl со значением `false`.
+Добавляется Fullscreen на карту по умолчанию, если не передана опция fullscreenControl со значением `false`.
 Расширяет класс Control.
 
 ### Конструктор
@@ -16,12 +16,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.FullScreen</b>(
-            <nobr>&lt;<a href="#control-fullscreen-options">Control.FullScreen options</a>&gt; <i>options?</i> )</nobr>
+        <td><code><b>DG.Control.Fullscreen</b>(
+            <nobr>&lt;<a href="#control-fullscreen-options">Control.Fullscreen options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.DG.FullScreen(&hellip;)</code>
+            <code>DG.Control.Fullscreen(&hellip;)</code>
         </td>
 
         <td>Создает элемент управления полноэкранным режимом.</td>

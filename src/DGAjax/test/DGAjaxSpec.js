@@ -1,4 +1,4 @@
-describe('L.DG.ajax', function () {
+describe('DG.ajax', function () {
 
 	describe('#toQueryString', function () {
 		it('([{ name: x, value: y }, ... ]) simple', function () {
@@ -9,7 +9,7 @@ describe('L.DG.ajax', function () {
 				{ name: 'x', value: 20 }
 		    ];
 
-			expect(L.DG.ajax.toQueryString(arr)).to.be.eql('foo=bar&baz=&x=-20&x=20');
+			expect(DG.ajax.toQueryString(arr)).to.be.eql('foo=bar&baz=&x=-20&x=20');
 		});
 
 		it('([{ name: x, value: y }, ... ]) escaping required', function () {
@@ -19,7 +19,7 @@ describe('L.DG.ajax', function () {
 				{ name: 'leave britney alone', value: 'waa haa haa' }
 			];
 
-			expect(L.DG.ajax.toQueryString(arr)).to.be.eql('dotted.name.intact=%24%40%25&%24+%24=20&leave+britney+alone=waa+haa+haa');
+			expect(DG.ajax.toQueryString(arr)).to.be.eql('dotted.name.intact=%24%40%25&%24+%24=20&leave+britney+alone=waa+haa+haa');
 		});
 	});
 

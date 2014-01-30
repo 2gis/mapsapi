@@ -1,5 +1,5 @@
 .dg-locate-pin{
-	background: url(../img/pin.png) no-repeat;
+	background: url(__BASE_URL__/img/pin.png) no-repeat;
 	width: 20px;
 	height: 20px;
 }

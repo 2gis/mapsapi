@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Handler.House.include({
+DG.Geoclicker.Handler.House.include({
     _fillBody: function (house) { // // (Object) -> (DOMElement)
         var attrs = house.attributes,
             data = {
@@ -9,7 +9,7 @@ L.DG.Geoclicker.Handler.House.include({
                 headAddress: '',
                 address: ''
             },
-            wrapper = L.DomUtil.create('div', 'building-callout__body'),
+            wrapper = DG.DomUtil.create('div', 'building-callout__body'),
             filials = house.attributes.filials;
 
         if (attrs.city) {

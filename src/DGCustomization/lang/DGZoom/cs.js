@@ -1,4 +1,4 @@
-L.Control.Zoom.Dictionary.cs = {
+DG.Control.Zoom.Dictionary.cs = {
     "zoom-in" : "Přiblížit",
     "zoom-out" : "Oddálit"
 };

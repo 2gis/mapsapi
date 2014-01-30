@@ -1,8 +1,8 @@
-## L.DG.when
+## DG.when
 
-`L.DG.when()` отслеживает состояние аргумента Promise, который представляет любой объект с методом `.then()`, даже тот, который не полностью соответствуют спецификации Promises/A, например jQuery's Deferred. Он превращает такие Promise-like-objects в Promises/A.
+`DG.when()` отслеживает состояние аргумента Promise, который представляет любой объект с методом `.then()`, даже тот, который не полностью соответствуют спецификации Promises/A, например jQuery's Deferred. Он превращает такие Promise-like-objects в Promises/A.
 
-Другими словами, `L.DG.when()` всегда возвращает безопасный Promise, который полностью соответствует спецификации Promises/A.
+Другими словами, `DG.when()` всегда возвращает безопасный Promise, который полностью соответствует спецификации Promises/A.
 
 #### Смотри так же
 * [рабочая спецификация Promises/A](http://promises-aplus.github.io/promises-spec/)
@@ -17,10 +17,10 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DG.when</b>(<a href="#promise-or-value">&lt;promiseOrValue&gt;</a> promiseOrValue, &lt;Callback&gt; onFulfilled?, &lt;Callback&gt; onRejected?, &lt;Callback&gt; onProgress?)</code></td>
+        <td><code><b>DG.when</b>(<a href="#promise-or-value">&lt;promiseOrValue&gt;</a> promiseOrValue, &lt;Callback&gt; onFulfilled?, &lt;Callback&gt; onRejected?, &lt;Callback&gt; onProgress?)</code></td>
 
         <td>
-            <code>L.DG.when(&hellip;)</code>
+            <code>DG.when(&hellip;)</code>
         </td>
 
         <td>
@@ -38,7 +38,7 @@
 
 ### Методы
 
-**Объект L.DG.when**
+**Объект DG.when**
 
 <table>
     <tr>

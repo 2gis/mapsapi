@@ -6,26 +6,26 @@
 }
 .dg-control-round {
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
-    src='../img/light-round-control.png',
+    src='__BASE_URL__/img/light-round-control.png',
     sizingMethod='scale');
 }
 
 .leaflet-disabled.dg-control-round,
 .leaflet-disabled.dg-control-round:hover {
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
-    src='../img/light-round-control-disabled.png',
+    src='__BASE_URL__/img/light-round-control-disabled.png',
     sizingMethod='scale');
 }
 
 .dg-control-round:hover,
 .dg-control-round__active.dg-control-round:hover {
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
-    src='../img/light-round-control-hover.png',
+    src='__BASE_URL__/img/light-round-control-hover.png',
     sizingMethod='scale');
 }
 
 .dg-control-round:active, .dg-control-round__active.dg-control-round {
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
-    src='../img/light-round-control-active.png',
+    src='__BASE_URL__/img/light-round-control-active.png',
     sizingMethod='scale');
 }

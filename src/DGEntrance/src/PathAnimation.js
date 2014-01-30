@@ -1,19 +1,19 @@
-L.Path.ANIMATION_AVAILABLE =
-    L.Browser.svg &&
-    !L.Browser.mobileWebkit &&
+DG.Path.ANIMATION_AVAILABLE =
+    DG.Browser.svg &&
+    !DG.Browser.mobileWebkit &&
     navigator.userAgent.toLowerCase().indexOf('presto') === -1 &&
     Object.prototype.toString.call(
-        document.createElementNS(L.Path.SVG_NS, 'animate').beginElement) === '[object Function]';
+        document.createElementNS(DG.Path.SVG_NS, 'animate').beginElement) === '[object Function]';
 
-if (L.Path.ANIMATION_AVAILABLE) {
+if (DG.Path.ANIMATION_AVAILABLE) {
 
-    L.Map.include({
+    DG.Map.include({
         _initPathRoot: function () {
             if (!this._pathRoot) {
-                this._pathRoot = L.Path.prototype._createElement('svg');
+                this._pathRoot = DG.Path.prototype._createElement('svg');
                 this._panes.overlayPane.appendChild(this._pathRoot);
             }
-            if (this.options.zoomAnimation && L.Browser.any3d) {
+            if (this.options.zoomAnimation && DG.Browser.any3d) {
                 this._pathRoot.setAttribute('class', ' leaflet-zoom-animated');
 
                 this.on({
@@ -30,12 +30,12 @@ if (L.Path.ANIMATION_AVAILABLE) {
     });
 
     //Fix animation for safari, it needs svg element in DOM on page load
-    L.Map.addInitHook(function () {
-        this._pathRoot = L.Path.prototype._createElement('svg');
+    DG.Map.addInitHook(function () {
+        this._pathRoot = DG.Path.prototype._createElement('svg');
         this._panes.overlayPane.appendChild(this._pathRoot);
     });
 
-    L.Path.include({
+    DG.Path.include({
 
         runAnimation: function () {
             var animationEl = this._animationEl = this._addAnimation();
@@ -48,7 +48,7 @@ if (L.Path.ANIMATION_AVAILABLE) {
             return this;
         },
 
-        stopAnimation: function (name) { // (String) -> L.Path
+        stopAnimation: function (name) { // (String) -> DG.Path
             if (this.animations[name]) {
                 this.animations[name].endElement();
             }

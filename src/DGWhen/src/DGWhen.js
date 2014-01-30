@@ -1,7 +1,5 @@
 /* jshint ignore:start */
-L.DG = L.DG || {};
-
-L.DG.when = (function (global) {
+DG.when = (function (global) {
 
     /** @license MIT License (c) copyright 2011-2013 original author or authors */
 
