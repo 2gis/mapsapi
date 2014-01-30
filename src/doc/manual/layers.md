@@ -2,18 +2,18 @@
 
 {toc}
 
-### Описание
+##### Описание
 
 Используется для загрузки и отображения тайлового слоя на карте, реализует интерфейс <a href="#">ILayer</a>.
 
-### Пример использования
+#### Пример использования
 
 	DG.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
 		key: 'API-key',
 		styleId: 997
 	}).addTo(map);
 
-### Конструктор
+#### Конструктор
 <table>
 	<thead>
 		<tr>
@@ -26,7 +26,7 @@
 		<tr>
 			<td><code><b>DG.TileLayer</b>(
 				<nobr>&lt;String&gt; <i><a href="#url-шаблон">urlTemplate</a></i>,</nobr>
-				<nobr>&lt;<a href="#опции">TileLayer options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 
 			<td>
@@ -50,8 +50,8 @@
 
 	DG.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
 
-### Опции
-<table>
+#### Опции
+<table id = "tilelayer-options">
 	<thead>
 		<tr>
 			<th>Опция</th>
@@ -174,7 +174,7 @@
 
 ### События
 
-Вы можете подписаться на следующие события используя <a href="#методы">Методы</a>.
+Вы можете подписаться на следующие события используя <a href="#tilelayer-metods">Методы</a>.
 <table>
 	<thead>
 		<tr>
@@ -212,7 +212,7 @@
 	</tbody>
 </table>
 
-### Методы
+#### Методы
 <table>
 	<thead>
 		<tr>
@@ -273,6 +273,315 @@
 			</code></td>
 			<td><code>HTMLElement</code></td>
 			<td>Возвращает HTML элемент, который содержит тайлы данного слоя.</td>
+		</tr>
+	</tbody>
+</table>
+
+
+## Класс DG.TileLayer.WMS
+
+#### Описание
+
+Используется для отображения данных WMS сервисов. Расширяет <a href="#класс-dg.tilelayer">TileLayer</a>.
+
+#### Пример использования
+
+	var nexrad = DG.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+		layers: 'nexrad-n0r-900913',
+		format: 'image/png',
+		transparent: true,
+		attribution: "Weather data © 2014 IEM Nexrad"
+	});
+
+#### Конструктор
+<table>
+	<thead>
+		<tr>
+			<th>Конструктор</th>
+			<th>Использование</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>DG.TileLayer.WMS</b>(
+				<nobr>&lt;String&gt; <i>baseUrl</i></nobr>,
+				<nobr>&lt;<a href="#tilelayer-wms-options">TileLayer.WMS options</a>&gt; <i>options</i> )</nobr>
+			</code></td>
+
+			<td>
+				<code>DG.tileLayer.wms(&hellip;)</code>
+			</td>
+
+			<td>Создает объект тайлового WMS слоя по переданному URL WMS-сервиса и объекту опций.</td>
+		</tr>
+	</tbody>
+</table>
+
+
+#### Опции
+
+Включает все опции <a href="#tilelayer-options">опции TileLayer</a> и дополнительные:
+<table id = "tilelayer-wms-options">
+	<thead>
+		<tr>
+			<th>Опция</th>
+			<th>Тип</th>
+			<th>По умолчанию</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>layers</b></code></td>
+			<td><code>String</code></td>
+			<td><code>''</code></td>
+			<td>(обязательная) Список WMS слоев для отображения, разделяются запятой.</td>
+		</tr>
+		<tr>
+			<td><code><b>styles</b></code></td>
+			<td><code>String</code></td>
+			<td><code>''</code></td>
+			<td>Список WMS стилей, разделяются запятой.</td>
+		</tr>
+		<tr>
+			<td><code><b>format</b></code></td>
+			<td><code>String</code></td>
+			<td><code>'image/jpeg'</code></td>
+			<td>Формат WMS-изображений (используйте <code>'image/png'</code> для слоев с прозрачностью).</td>
+		</tr>
+		<tr>
+			<td><code><b>transparent</b></code></td>
+			<td><code>Boolean</code></td>
+			<td><code>false</code></td>
+			<td>Если установлено значение <code>true</code>, тогда WMS сервис вернет изображения с прозрачностью.</td>
+		</tr>
+		<tr>
+			<td><code><b>version</b></code></td>
+			<td><code>String</code></td>
+			<td><code>'1.1.1'</code></td>
+			<td>Используемая версия WMS сервиса.</td>
+		</tr>
+		<tr>
+			<td><code><b>crs</b></code></td>
+			<td><code><a href="#icrs">CRS</a></code></td>
+			<td><code>null</code></td>
+			<td>Система координат, используемая в WMS-запросах. По умолчанию соответствует системе координат карты.</td>
+		</tr>
+	</tbody>
+</table>
+
+#### Методы
+<table>
+	<thead>
+		<tr>
+			<th>Метод</th>
+			<th>Возвращает</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>setParams</b>(
+				<nobr>&lt;<a href="#tilelayer-wms-options">WMS parameters</a>&gt; <i>params</i></nobr>,
+				<nobr>&lt;Boolean&gt; <i>noRedraw?</i> )</nobr>
+			</code></td>
+			<td><code>this</code></td>
+			<td>Сливает объект с новыми параметрами и перезапрашивает тайлы текущей области видимости (если опция <code>noRedraw</code> не установлена в <code>true</code>).</td>
+		</tr>
+	</tbody>
+</table>
+
+## Класс DG.TileLayer.Canvas
+
+###### Описание
+
+Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет <a href="#класс-dg.tilelayer">TileLayer</a>.
+
+#### Пример использования
+
+	var canvasTiles = DG.tileLayer.canvas();
+
+	canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
+		var ctx = canvas.getContext('2d');
+		// отрисовываем тайл
+	}
+
+#### Конструктор
+<table>
+	<thead>
+		<tr>
+			<th>Конструктор</th>
+			<th>Использование</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>DG.TileLayer.Canvas</b>(
+				<nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
+			</code></td>
+			<td>
+				<code>DG.tileLayer.canvas(&hellip;)</code>
+			</td>
+			<td>Создает объект canvas-слоя с необязательными опциями.</td>
+		</tr>
+	</tbody>
+</table>
+
+#### Опции
+<table>
+	<thead>
+		<tr>
+			<th>Опция</th>
+			<th>Тип</th>
+			<th>По умолчанию</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>async</b></code></td>
+			<td><code>Boolean</code></td>
+			<td><code>false</code></td>
+			<td>Указывает на то, что тайлы будут отрисовываться асинхронно. Метод <a href="#tilelayer-canvas-tiledrawn">tileDrawn</a> должен быть вызван для каждого тайла после завершения отрисовки.</td>
+		</tr>
+	</tbody>
+</table>
+
+#### Методы
+<table>
+	<thead>
+		<tr>
+			<th>Метод</th>
+			<th>Возвращает</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id = "tilelayer-canvas-drawtile">
+			<td><code><b>drawTile</b>(
+				<nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr>,
+				<nobr>&lt;<a href="#point">Point</a>&gt; <i>tilePoint</i></nobr>,
+				<nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
+			</code></td>
+			<td><code>this</code></td>
+			<td>Чтобы отрисовать тайлы, нужно определить этот метод после создания экземпляра класса. <code>canvas</code> &mdash; элемент canvas, на котором будут отрисовываться тайлы, <code>tilePoint</code> &mdash; номер тайла, и <code>zoom</code> &mdash; текущий уровень зума.</td>
+		</tr>
+		<tr id="tilelayer-canvas-tiledrawn">
+			<td><code><b>tileDrawn</b>( <nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr> )</code></td>
+			<td>-</td>
+			<td>Если опция <code>async</code> задана, тогда эту функцию необходимо вызывать каждый раз после отрисовки тайла. <code>canvas</code> &mdash; это тот же элемент, что передается в <a href="#tilelayer-canvas-drawtile">drawTile</a>.</td>
+		</tr>
+	</tbody>
+</table>
+
+## Класс DG.ImageOverlay
+
+Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс <a href="#ILayer">ILayer</a>.
+
+#### Пример использования
+
+	var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
+		imageBounds = [[54.712216, 82.22655], [54.773941, 82.12544]];
+
+	DG.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+#### Конструктор
+<table>
+	<thead>
+		<tr>
+			<th>Конструктор</th>
+			<th>Использование</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>DG.ImageOverlay</b>(
+				<nobr>&lt;String&gt; <i>imageUrl</i></nobr>,
+				<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
+				<nobr>&lt;<a href="#imageoverlay-options">ImageOverlay options</a>&gt; <i>options?</i> )</nobr>
+			</code></td>
+
+			<td>
+				<code>DG.imageOverlay(&hellip;)</code>
+			</td>
+
+			<td>Создает объект изображения дополнительного слоя по переданному URL и географическим координатам, к которым оно привязано.</td>
+		</tr>
+	</tbody>
+</table>
+
+#### Опции
+<table id = "imageoverlay-options">
+	<thead>
+		<tr>
+			<th>Опция</th>
+			<th>Тип</th>
+			<th>По умолчанию</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>opacity</b></code></td>
+			<td><code>Number</code></td>
+			<td><code>1.0</code></td>
+			<td>Прозрачность слоя.</td>
+		</tr>
+		<tr>
+			<td><code><b>attribution</b></code></td>
+			<td><code>String</code></td>
+			<td><code>''</code></td>
+			<td>Текст атрибуции слоя.</td>
+		</tr>
+	</tbody>
+</table>
+
+#### Методы
+<table>
+	<thead>
+		<tr>
+			<th>Метод</th>
+			<th>Возвращает</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code><b>addTo</b>(
+				<nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+			</code></td>
+
+			<td><code>this</code></td>
+			<td>Добавляет слой на карту.</td>
+		</tr>
+		<tr>
+			<td><code><b>setOpacity</b>(
+				<nobr>&lt;Number&gt; <i>opacity</i> )</nobr>
+			</code></td>
+
+			<td><code>this</code></td>
+			<td>Устанавливает прозрачность слоя.</td>
+		</tr>
+		<tr>
+			<td><code><b>setUrl</b>(
+			<nobr>&lt;String&gt; <i>imageUrl</i> )</nobr>
+			</code></td>
+
+			<td><code><span>this</span></code></td>
+			<td>Меняет URL адрес изображения.</td>
+		</tr>
+		<tr>
+			<td><code><b>bringToFront</b>()</code></td>
+			<td><code>this</code></td>
+			<td>Позиционирует слой поверх остальных.</td>
+		</tr>
+		<tr>
+			<td><code><b>bringToBack</b>()</code></td>
+			<td><code>this</code></td>
+			<td>Позиционирует слой под остальными.</td>
 		</tr>
 	</tbody>
 </table>

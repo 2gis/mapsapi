@@ -88,9 +88,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Тайловый слой",
-                                "uri": "doc/2.0/maps/manual/tilelayer",
-                                "_src":"manual/tilelayer.md",
+                                "title": "Слои",
+                                "uri": "doc/2.0/maps/manual/layers",
+                                "_src":"manual/layers.md",
                                 "hide": false
                             }
                         },
