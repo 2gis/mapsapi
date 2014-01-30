@@ -1,6 +1,6 @@
-L.DG.plugin = function (plugins) {
+DG.plugin = function (plugins) {
     var count,
-        pluginDef = L.DG.when.defer(),
+        pluginDef = DG.when.defer(),
         jsReg = new RegExp(/.js$/i),
         cssReg = new RegExp(/.css$/i);
 
@@ -60,7 +60,7 @@ L.DG.plugin = function (plugins) {
         }
     }
 
-    if (L.Util.isArray(plugins)) {
+    if (DG.Util.isArray(plugins)) {
         count = plugins.length;
         plugins.forEach(function (plugin) {
             appendAsset(plugin);

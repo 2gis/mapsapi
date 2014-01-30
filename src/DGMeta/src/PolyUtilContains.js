@@ -1,13 +1,13 @@
 // ray tracing method: http://algolist.ru/maths/geom/belong/poly2d.php
 
-L.PolyUtil.contains = function (latLng, latLngs) { // (L.LatLng, Array) -> Boolean
+DG.PolyUtil.contains = function (latLng, latLngs) { // (DG.LatLng, Array) -> Boolean
     var edges,
         parity = 0,
         vertices = [],
-        point = L.Projection.SphericalMercator.project(latLng);
+        point = DG.Projection.SphericalMercator.project(latLng);
 
     for (var i = 0, len = latLngs.length; i < len; i++) {
-        vertices.push(L.Projection.SphericalMercator.project(latLngs[i]));
+        vertices.push(DG.Projection.SphericalMercator.project(latLngs[i]));
     }
 
     edges = this._getEdges(vertices);
@@ -24,7 +24,7 @@ L.PolyUtil.contains = function (latLng, latLngs) { // (L.LatLng, Array) -> Boole
 };
 
 // returns array with edge objects
-L.PolyUtil._getEdges = function (vertices) { // (Array) -> Array
+DG.PolyUtil._getEdges = function (vertices) { // (Array) -> Array
     var edges = [];
     var edge;
     var startPoint;
@@ -44,7 +44,7 @@ L.PolyUtil._getEdges = function (vertices) { // (Array) -> Array
 };
 
 // result should be: 'CROSSING', 'INESSENTIAL' or 'TOUCHING'
-L.PolyUtil._getEdgeType = function (edge, point) { // (Object, L.Point) -> String
+DG.PolyUtil._getEdgeType = function (edge, point) { // (Object, DG.Point) -> String
     var pointPosition = this._classify(edge, point);
     switch (pointPosition) {
         case 'LEFT':
@@ -62,7 +62,7 @@ L.PolyUtil._getEdgeType = function (edge, point) { // (Object, L.Point) -> Strin
 
 // determines the position of a point relative to the edge
 // result should be: 'LEFT', 'RIGHT', 'BEHIND', 'BEYOND', 'ORIGIN', 'DESTINATION', 'BETWEEN'
-L.PolyUtil._classify = function (edge, point) { // (Object, L.Point) -> String
+DG.PolyUtil._classify = function (edge, point) { // (Object, DG.Point) -> String
     var a;
     var b;
     var sa;
@@ -89,19 +89,19 @@ L.PolyUtil._classify = function (edge, point) { // (Object, L.Point) -> String
     if (this._getLengthSquared(a) < this._getLengthSquared(b)) {
         return 'BEYOND';
     }
-    if (L.PolyUtil._areEquals(edge.startPoint, point)) {
+    if (DG.PolyUtil._areEquals(edge.startPoint, point)) {
         return 'ORIGIN';
     }
-    if (L.PolyUtil._areEquals(edge.endPoint, point)) {
+    if (DG.PolyUtil._areEquals(edge.endPoint, point)) {
         return 'DESTINATION';
     }
     return 'BETWEEN';
 };
 
-L.PolyUtil._getLengthSquared = function (point) { // (L.Point) -> Number
+DG.PolyUtil._getLengthSquared = function (point) { // (DG.Point) -> Number
     return Math.pow(point.x, 2) + Math.pow(point.y, 2);
 };
 
-L.PolyUtil._areEquals = function (point1, point2) { // (L.Point, L.Point) -> Boolean
+DG.PolyUtil._areEquals = function (point1, point2) { // (DG.Point, DG.Point) -> Boolean
     return point1.x === point2.x && point1.y === point2.y;
 };

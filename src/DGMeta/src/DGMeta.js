@@ -1,4 +1,4 @@
-L.DG.Meta = L.Handler.extend({
+DG.Meta = DG.Handler.extend({
 
     _currentPoi: null,                          // TODO: refactor #reset in add/remove
     _currentBuilding: null,
@@ -13,14 +13,14 @@ L.DG.Meta = L.Handler.extend({
     },
 
     initialize: function (map, options) { // (Object)
-        L.setOptions(this, options);
+        DG.setOptions(this, options);
         this._map = map;
         this._mapPanes = map.getPanes();
 
-        this._tileSize = L.DG.TileLayer.prototype.options.tileSize;
+        this._tileSize = DG.TileLayer.prototype.options.tileSize;
         if (!this.options.zoomOffset) {
             map.eachLayer(function (layer) {
-                if (layer instanceof L.TileLayer && layer.options.zoomOffset) {
+                if (layer instanceof DG.TileLayer && layer.options.zoomOffset) {
                     this.options.zoomOffset = layer.options.zoomOffset;
                     this.options.maxNativeZoom = layer.options.maxNativeZoom;
                     this._tileSize = layer.options.tileSize;
@@ -28,7 +28,7 @@ L.DG.Meta = L.Handler.extend({
             }, this);
         }
 
-        this._metaHost = new L.DG.Meta.Host();
+        this._metaHost = new DG.Meta.Host();
     },
 
     addHooks: function () {
@@ -63,7 +63,7 @@ L.DG.Meta = L.Handler.extend({
     },
 
     _mapEventsListeners : {
-        mousemove : function (e) { // (L.Event)
+        mousemove : function (e) { // (DG.Event)
             /* global __POI_LAYER_MIN_ZOOM__ */
             if (this._map.getZoom() < __POI_LAYER_MIN_ZOOM__ ||
                 !(this._listenPoi || this._listenBuildings) ||
@@ -109,7 +109,7 @@ L.DG.Meta = L.Handler.extend({
         return this.options.maxNativeZoom ? Math.min(zoom, this.options.maxNativeZoom) : zoom;
     },
 
-    _checkPoiHover: function (latLng, zoom) { // (L.LatLng, String)
+    _checkPoiHover: function (latLng, zoom) { // (DG.LatLng, String)
         var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
 
         if (this._currentPoi && (!hoveredPoi || this._currentPoi.id !== hoveredPoi.id)) {
@@ -119,11 +119,11 @@ L.DG.Meta = L.Handler.extend({
         if (hoveredPoi && (!this._currentPoi || this._currentPoi.id !== hoveredPoi.id)) {
             this._currentPoi = hoveredPoi;
             this._map.fire('poihover', {'poi': this._currentPoi, latlng: latLng});
-            L.DomEvent.addListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick, this);
+            DG.DomEvent.addListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick, this);
         }
     },
 
-    _checkBuildingHover: function (latLng) { // (L.LatLng)
+    _checkBuildingHover: function (latLng) { // (DG.LatLng)
         var hoveredBuilding = this._isMetaHovered(latLng, this._currentTileMetaData.buildings);
 
         if (this._currentBuilding && (!hoveredBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {
@@ -141,7 +141,7 @@ L.DG.Meta = L.Handler.extend({
             this._map
                     .fire('poileave', { 'poi': this._currentPoi })
                     .off('click', this._onDomMouseClick, this);
-            L.DomEvent.removeListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick);
+            DG.DomEvent.removeListener(this._mapPanes.mapPane, 'click', this._onDomMouseClick);
             this._currentPoi = null;
         }
     },
@@ -157,10 +157,10 @@ L.DG.Meta = L.Handler.extend({
         if (this._currentPoi) {
             this._map.fire('poiclick', {
                 'poi': this._currentPoi,
-                //latlng: this._map.containerPointToLatLng(L.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
-                latlng: L.latLngBounds(this._currentPoi.vertices).getCenter()
+                //latlng: this._map.containerPointToLatLng(DG.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
+                latlng: DG.latLngBounds(this._currentPoi.vertices).getCenter()
             });
-            L.DomEvent.stopPropagation(event);
+            DG.DomEvent.stopPropagation(event);
         }
     },
 
@@ -182,7 +182,7 @@ L.DG.Meta = L.Handler.extend({
         return this._belongsToPane(target, 'tilePane') || this._belongsToPane(target, 'overlayPane');
     },
 
-    _getTileID: function (e) { // (L.Event) -> String
+    _getTileID: function (e) { // (DG.Event) -> String
         var dataZoom = this._getDataZoom(),
             tileSize = this._tileSize * ((this.options.zoomOffset && this._map._zoom === dataZoom) + 1), // remove when 19 level tiles will be ready (maxNativeZoom == maxZoom)
             p = this._map.project(e.latlng.wrap()),
@@ -196,18 +196,18 @@ L.DG.Meta = L.Handler.extend({
         return this._currentTile !== xyz;
     },
 
-    _isMetaHovered: function (point, data, zoom) { // (L.Point, Array, String) -> Object|false
+    _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         var vertKey = zoom ? zoom + 'vertices' : 'vertices';
 
         for (var i = 0, len = data.length; i < len; i++) {
             if (!data[i].verticesArray) {
-                if (data[i][vertKey] && L.PolyUtil.contains(point, data[i][vertKey])) {
+                if (data[i][vertKey] && DG.PolyUtil.contains(point, data[i][vertKey])) {
                     data[i].vertices = data[i][vertKey];
                     return data[i];
                 }
             } else {
                 for (var j = 0, jlen = data[i].verticesArray.length; j < jlen; j++) {
-                    if (L.PolyUtil.contains(point, data[i].verticesArray[j])) {
+                    if (DG.PolyUtil.contains(point, data[i].verticesArray[j])) {
                         return data[i];
                     }
                 }
@@ -218,4 +218,4 @@ L.DG.Meta = L.Handler.extend({
 
 });
 
-L.Map.addInitHook('addHandler', 'meta', L.DG.Meta);
+DG.Map.addInitHook('addHandler', 'meta', DG.Meta);

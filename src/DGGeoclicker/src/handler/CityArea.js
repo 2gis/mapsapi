@@ -1,4 +1,4 @@
-L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
+DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
 
     _polylineStyleDefault : {
         fillColor: '#ff9387',
@@ -26,7 +26,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
             weight: 3
         }
     },
-    _wktParser : L.DG.wkt(),
+    _wktParser : DG.wkt(),
 
     handle: function (results, type) { // (Object, String) -> Promise
         if (!results[type]) {
@@ -49,7 +49,7 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
                 .on('zoomend', this._updateGeometry, this)
                 .once('popupclose', this._clearPopup, this);
 
-        return L.DG.when(this._fillCityAreaObject(results, type));
+        return DG.when(this._fillCityAreaObject(results, type));
     },
 
     _fillCityAreaObject: function (results, type) {
@@ -87,10 +87,10 @@ L.DG.Geoclicker.Handler.CityArea = L.DG.Geoclicker.Handler.Default.extend({
     _initStyles : function () {
         var i;
 
-        L.DG.Geoclicker.Handler.CityArea.prototype._stylesInited = true;
+        DG.Geoclicker.Handler.CityArea.prototype._stylesInited = true;
         for (i in this._polylineStyles) {
             if (this._polylineStyles.hasOwnProperty(i)) {
-                L.DG.Geoclicker.Handler.CityArea.prototype._polylineStyles[i] = L.extend(this._polylineStyles[i], this._polylineStyleDefault);
+                DG.Geoclicker.Handler.CityArea.prototype._polylineStyles[i] = DG.extend(this._polylineStyles[i], this._polylineStyleDefault);
             }
         }
     },

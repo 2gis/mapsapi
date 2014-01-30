@@ -21,16 +21,16 @@
     var map,
         balloonHTML;
 
-    L.DG.then(function () {
-        map = new L.Map('map', {
-            "center": new L.LatLng(54.9801, 82.8974),
+    DG.then(function () {
+        map = new DG.Map('map', {
+            "center": new DG.LatLng(54.9801, 82.8974),
             "zoom": 13
         });
-        var southWest = L.latLng(54.9801, 82.8974),
-            northEast = L.latLng(54.9901, 82.9074),
-            bounds = L.latLngBounds(southWest, northEast);
-        L.marker(southWest).addTo(map);
-        L.marker(northEast).addTo(map).bindPopup('northEast').openPopup();
+        var southWest = DG.latLng(54.9801, 82.8974),
+            northEast = DG.latLng(54.9901, 82.9074),
+            bounds = DG.latLngBounds(southWest, northEast);
+        DG.marker(southWest).addTo(map);
+        DG.marker(northEast).addTo(map).bindPopup('northEast').openPopup();
     });
 </script>
 

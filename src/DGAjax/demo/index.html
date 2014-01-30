@@ -34,17 +34,17 @@
         }
     }());
 
-    L.DG.then(function () {
+    DG.then(function () {
 
-        var map = new L.Map('map', {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
+        var map = new DG.Map('map', {
+            center: new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 17,
             geoclicker: true
         });
 
         function test_jsonp(){
             console.group('Test JSONP');
-            return L.DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
+            return DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
                 type: 'jsonp',
                 data: {
                     output: 'jsonp',
@@ -76,7 +76,7 @@
 
         function test_get(){
             console.group('Test XHR GET');
-            return L.DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
+            return DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
                 type: 'get',
                 data: {
                     key: 'ruxlih0718',
@@ -107,7 +107,7 @@
 
         function test_post(){
             console.group('Test XHR POST');
-            return L.DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
+            return DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
                 type: 'post',
                 data: {
                     key: 'ruxlih0718',
@@ -136,7 +136,7 @@
             });
         };
 
-        L.DomEvent.addListener( L.DomUtil.get('sendRequest'), 'click', function(){
+        DG.DomEvent.addListener( DG.DomUtil.get('sendRequest'), 'click', function(){
             test_jsonp().then(test_get).then(test_post).then(function(){
                 console.info('Everything seems to be ok!');
             });

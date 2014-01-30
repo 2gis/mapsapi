@@ -1,4 +1,4 @@
-L.DG.Meta.PoiStorage = L.DG.Meta.Storage.extend({
+DG.Meta.PoiStorage = DG.Meta.Storage.extend({
 
     _data: {},
     _tilesData: {},
@@ -17,7 +17,7 @@ L.DG.Meta.PoiStorage = L.DG.Meta.Storage.extend({
         entity = this._wktToVert(entity, zoom);
 
         if (!this._data[id]) { this._data[id] = {}; }
-        this._data[id] = L.extend(this._data[id], entity);
+        this._data[id] = DG.extend(this._data[id], entity);
     }
 
 });
