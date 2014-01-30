@@ -29,7 +29,7 @@ var config = {
         copyrights: [basePath + '/vendors/leaflet/src/copyright.js'],
 
         intro: '(function (window, document, undefined) {\n',
-        dustdebug: 'dust.debugLevel = \'INFO\';\n',
+        dustdebug: 'dust.debugLevel = \'ERROR\';\n',
         outro: '}(this, document));\n'
     },
 
