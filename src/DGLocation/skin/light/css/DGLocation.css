@@ -1,28 +1,28 @@
 .dg-control-round_icon__locate:before {
-	background-image: url(../img/WhiteGeoActive.png);
+	background-image: url(__BASE_URL__/img/WhiteGeoActive.png);
 }
 .dg-control-round_icon__locate__active:before {
-	background-image: url(../img/GeoPressed.png);
+	background-image: url(__BASE_URL__/img/GeoPressed.png);
 
 }
 .dg-control-round_icon__locate:before:hover {
-	background-image: url(../img/WhiteGeoHover.png);
+	background-image: url(__BASE_URL__/img/WhiteGeoHover.png);
 }
 
 .dg-control-round_icon__locate__requesting:before {
-	background-image: url(../img/WhiteGeoInProgress.png);
+	background-image: url(__BASE_URL__/img/WhiteGeoInProgress.png);
 }
 
 .leaflet-retina .dg-control-round_icon__locate:before {
-	background-image: url(../img/RetinaWhiteGeoActive.png);
+	background-image: url(__BASE_URL__/img/RetinaWhiteGeoActive.png);
 }
 .leaflet-retina .dg-control-round_icon__locate__active:before {
-	background-image: url(../img/RetinaGeoPressed.png);
+	background-image: url(__BASE_URL__/img/RetinaGeoPressed.png);
 }
 
 .leaflet-retina .dg-control-round_icon__locate:before:hover {
-	background-image: url(../img/RetinaWhiteGeoHover.png);
+	background-image: url(__BASE_URL__/img/RetinaWhiteGeoHover.png);
 }
 .leaflet-retina .dg-control-round_icon__locate__requesting:before {
-	background-image: url(../img/RetinaWhiteGeoInProgress.png);
+	background-image: url(__BASE_URL__/img/RetinaWhiteGeoInProgress.png);
 }

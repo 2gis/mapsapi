@@ -49,6 +49,7 @@
         },
 
         onRemove: function (map) { // (Map)
+            this._animateClosing();
             map.off('entranceshow', this._closePopup, this);
             return originalOnRemove.call(this, map);
         },
@@ -121,6 +122,10 @@
             return (o.nodeName ? true : false);
         },
 
+        _createNSElement: function (name) {
+            return document.createElementNS(L.Path.SVG_NS, name);
+        },
+
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
@@ -130,12 +135,12 @@
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
             var tip = this._detachEl(this._tipContainer);
             if (DG.Browser.svg) {
-                var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                var path = this._createNSElement('path');
                 path.setAttribute('d', this._tipSVGPath);
 
-                tip = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+                tip = this._createNSElement('svg'),
                 tip.setAttribute('class', this._popupTipClass + ' ' + this._popupTipClass + '_svg');
-                tip.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+                // tip.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
                 tip.appendChild(path);
                 DG.DomEvent.disableClickPropagation(path);
             } else {

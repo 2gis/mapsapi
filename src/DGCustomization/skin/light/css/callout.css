@@ -28,16 +28,14 @@
 }
 
 .leaflet-popup-tip-container_image {
-    background-image: url(../img/callout-tail-white.png);
+    background-image: url(__BASE_URL__/img/callout-tail-white.png);
     margin-top: -1px;
 }
 
 .leaflet-popup-tip-container_svg {
     fill: #fff;
     stroke: #bebdb5;
-    /*stroke-opacity: 0.6;*/
 }
-
 a.popup-link,
 .firm-card__link a {
     color: #005b8f;

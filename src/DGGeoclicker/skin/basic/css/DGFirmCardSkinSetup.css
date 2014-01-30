@@ -21,7 +21,7 @@
 }
 
 #popup-link-flamp_stars {
-    background-image: url(../img/star-off.png);
+    background-image: url(__BASE_URL__/img/star-off.png);
     width: 70px;
     margin: 0 .4em 3px 0;
     display: inline-block;
@@ -29,18 +29,18 @@
 }
 
 .leaflet-retina #popup-link-flamp_stars {
-    background-image: url(../img/star-off-2x.png);
+    background-image: url(__BASE_URL__/img/star-off-2x.png);
     height: inherit;
 }
 
 #popup-link-flamp_stars div {
-    background-image: url(../img/star-on.png);
+    background-image: url(__BASE_URL__/img/star-on.png);
     height: 14px;
     width: 0;
 }
 
 .leaflet-retina #popup-link-flamp_stars div {
-    background-image: url(../img/star-on-2x.png);
+    background-image: url(__BASE_URL__/img/star-on-2x.png);
     background-size: contain;
 }
 
@@ -58,9 +58,9 @@
 }
 
 #popup-link-booklet:before {
-    background-image: url(../img/booklet.png);
+    background-image: url(__BASE_URL__/img/booklet.png);
 }
 
 .leaflet-retina #popup-link-booklet:before {
-    background-image: url(../img/booklet-2x.png);
+    background-image: url(__BASE_URL__/img/booklet-2x.png);
 }

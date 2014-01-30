@@ -84,11 +84,11 @@
     background-position: 50% 95%;
     -webkit-background-size: 36px 12px;
     background-size: 36px 12px;
-    background-image: url(../img/tip-shadow.png);
+    background-image: url(__BASE_URL__/img/tip-shadow.png);
 }
 
 .leaflet-retina .leaflet-popup-tip-container_svg {
-    background-image: url(../img/tip-shadow-retina.png);
+    background-image: url(__BASE_URL__/img/tip-shadow-retina.png);
 }
 
 .leaflet-popup-tip {

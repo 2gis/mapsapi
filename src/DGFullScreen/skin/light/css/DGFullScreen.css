@@ -1,13 +1,13 @@
 .dg-control-round_icon__fullscreen:before {
-    background-image: url(../img/WhiteFullScreenActive.png);
+    background-image: url(__BASE_URL__/img/WhiteFullScreenActive.png);
 }
 .dg-control-round_icon__fullscreen:before:hover {
-    background-image: url(../img/WhiteFullScreenHover.png);
+    background-image: url(__BASE_URL__/img/WhiteFullScreenHover.png);
 }
 
 .leaflet-retina .dg-control-round_icon__fullscreen:before {
-    background-image: url(../img/RetinaWhiteFullScreenActive.png);
+    background-image: url(__BASE_URL__/img/RetinaWhiteFullScreenActive.png);
 }
 .leaflet-retina .dg-control-round_icon__fullscreen:before:hover {
-    background-image: url(../img/RetinaWhiteFullScreenHover.png);
+    background-image: url(__BASE_URL__/img/RetinaWhiteFullScreenHover.png);
 }
