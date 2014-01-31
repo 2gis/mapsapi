@@ -3,10 +3,100 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
-    minifyCSS = require('gulp-minify-css'),
-    config = require('./build/deps.js').deps,
+    // minifyCSS = require('gulp-minify-css'),
+    // config = require('./build/deps.js').deps,
+    config = require('./build/config.js').config,
+    packages = require('./build/packs.js').packages,
     runSequence = require('run-sequence'),
     clean = require('gulp-clean');
+
+function getModules () {
+    return Object.keys(config.source)
+        .map(function (creator) {
+            // basePath = source[creator].path;
+            return config.source[creator].deps;
+        })
+        .map(Object.keys)
+        .reduce(function (array, item) {
+            return array.concat(item);
+        })
+        ;
+};
+
+// Generates a list of modules by pkg
+function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
+    var modulesListOrig = ['Core'],
+        modulesListRes = [],
+        loadedModules = {};
+
+    // Package name with no empty modules list on packs.js (example: 'base')
+    if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
+        modulesListOrig = packages[pkg].modules;
+
+    // Modules list (example: 'Core,JSONP,TileLayer')
+    } else if (pkg && pkg.indexOf(',') > -1) {
+        modulesListOrig = pkg.split(',');
+
+    // Modules single (example: 'Core')
+    } else if (pkg && pkg in modules) {
+        modulesListOrig.push(pkg);
+
+    // Others (null / full package / not correct value)
+    } else {
+        modulesListOrig = modulesListOrig.concat(Object.keys(modules));
+    }
+
+    if (isMsg) {
+        console.log('\nBuild modules:');
+    }
+
+    modulesListOrig.forEach(function (moduleName) {
+        if (moduleName in modules) {
+            processModule(moduleName);
+        } else {
+            if (isMsg) {
+                console.log(errMsg('  - ' + moduleName + ' (not found)'));
+                errors.push('Unknown modules');
+            }
+        }
+    });
+
+    function processModule(moduleName) {
+        if (!loadedModules[moduleName]) {
+            getDepsList(moduleName);
+            modulesListRes.push(moduleName);
+            loadedModules[moduleName] = true;
+            if (isMsg) {
+                console.log('  * ' + moduleName);
+            }
+        }
+    }
+
+    function getDepsList(moduleName) {
+        if (modules[moduleName] && modules[moduleName].deps) {
+            var moduleDeps = modules[moduleName].deps;
+            moduleDeps.forEach(function (module) {
+                var moduleNameDeps = module;
+                if (modules[moduleNameDeps] && modules[moduleNameDeps].deps) {
+                    getDepsList(moduleNameDeps);
+                }
+                if (!loadedModules[moduleNameDeps]) {
+                    modulesListRes.push(moduleNameDeps);
+                    loadedModules[moduleNameDeps] = true;
+                    if (isMsg) {
+                        console.log(depsMsg('  + ' + moduleNameDeps + ' (deps of ' + moduleName + ')'));
+                    }
+                }
+            });
+        }
+    }
+
+    return modulesListRes;
+};
+gulp.task('test', function () {
+    console.log(getModules());
+});
+
 
 gulp.task('build-deps', function (callback) {
 
@@ -32,7 +122,7 @@ gulp.task('build-deps', function (callback) {
                 .pipe(concat(module + '.css'))
                 .pipe(gulp.dest('./dist/' + module + '/css/'))
                 .pipe(rename(module + '.min.css'))
-                .pipe(minifyCSS())
+                // .pipe(minifyCSS())
                 .pipe(gulp.dest('./dist/' + module + '/css/'));
         }
 
@@ -41,7 +131,7 @@ gulp.task('build-deps', function (callback) {
                 .pipe(concat(module + '.ie.css'))
                 .pipe(gulp.dest('./dist/' + module + '/css/'))
                 .pipe(rename(module + '.ie.min.css'))
-                .pipe(minifyCSS())
+                // .pipe(minifyCSS())
                 .pipe(gulp.dest('./dist/' + module + '/css/'));
         }
         callback(); // tell async that the iterator has completed
