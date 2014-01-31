@@ -12,10 +12,20 @@ var gulp = require('gulp'),
     // data_uri = require('gulp-data-uri');
 
 var modules = (function getModules() {
-    return Object.keys(config.source)
+    var source = config.source;
+    return addBasePath(Object.keys(source)
+        // .map(function (creator) {
+        //     // basePath = source[creator].path;
+        //     source[creator].deps.path = source[creator].path;
+        //     return source[creator].deps;
+        // })
         .map(function (creator) {
-            // basePath = source[creator].path;
-            return config.source[creator].deps;
+            var pack = source[creator].deps;
+            return Object.keys(pack).reduce(function (obj, name) {
+                pack[name].path = source[creator].path;
+                obj[name] = pack[name];
+                return obj;
+            }, {});
         })
         .reduce(function (obj, pack) {
             Object.keys(pack).forEach(function (module) {
@@ -23,8 +33,42 @@ var modules = (function getModules() {
             });
             return obj;
         }, {})
-        ;
+        );
 })();
+
+function addBasePath (modules) {
+    return Object.keys(modules)
+        .map(function (name) {
+            var module = modules[name],
+                path = module.path;
+
+            module.name = name;
+            module.js = module.js || module.src;
+
+            function addPath (file) {
+                return path + file;
+            };
+
+            module.js = module.js.map(addPath);
+            var css = module.css;
+            if (css) {
+                // css
+                //     .map(function (css) {
+                module.css = Object.keys(css)
+                    .reduce(function (obj, browser) {
+                        obj[browser] = css[browser].map(addPath);
+                        return obj;
+                    }, {})
+                    // })
+            }
+            return module;
+        })
+        .reduce(function (obj, module) {
+            obj[module.name] = module;
+            return obj;
+        }, {})
+        ;
+}
 
 // Generates a list of modules by pkg
 function getModulesList(pkg) { //(String|Null)->Array
@@ -80,6 +124,12 @@ function getJSFiles(pkg) {
         .map(function (module) {
             return module.src || module.js;
         })
+        // .map(function (module) {
+        //     var src = module.src || module.js;
+        //     return src.map(function (file) {
+        //         return module.path + file;
+        //     });
+        // })
         .reduce(function (array, items) {
             return array.concat(items);
         })
@@ -94,6 +144,15 @@ function getCSSFiles(pkg, IE) {
         .map(function (name) {
             return modules[name];
         })
+        // .filter(function (module) {
+        //     return Boolean(module.css)
+        // })
+        // .map(function (module) {
+        //     var src = module.css;
+        //     return src.map(function (file) {
+        //         return module.path + file;
+        //     });
+        // })
         .map(function (module) {
             return module.css;
         })
@@ -101,14 +160,16 @@ function getCSSFiles(pkg, IE) {
         .map(function (item) {
             return item.all;
         })
-        // .reduce(function (array, items) {
-        //     return array.concat(items);
-        // })
+        .reduce(function (array, items) {
+            return array.concat(items);
+        })
         ;
 }
 
 gulp.task('test', function () {
-    console.log(getCSSFiles());
+    // console.log(addBasePath(modules));
+    console.log(getJSFiles());
+    // console.log(getCSSFiles());
 });
 
 
