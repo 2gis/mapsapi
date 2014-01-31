@@ -1,5 +1,5 @@
-<h2 id="группы">Группы</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#dglayergroup">DG.LayerGroup</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#методы">Методы</a></li></ul></li><li><a href="#dgfeaturegroup">DG.FeatureGroup</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#методы-1">Методы</a></li><li><a href="#события">События</a></li></ul></dl></p>
-<h3 id="dglayergroup">DG.LayerGroup</h3><p>Используется для группировки нескольких слоев, чтобы обрабатывать их как один. Если группа добавлена на карту, тогда удалив элемент из группы он удаляется и с карты. Реализует интерфейс <a href="#">ILayer</a>.</p>
+<h2 id="группы">Группы</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#класс-dglayergroup">Класс DG.LayerGroup</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#методы">Методы</a></li></ul></li><li><a href="#класс-dgfeaturegroup">Класс DG.FeatureGroup</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#методы-1">Методы</a></li><li><a href="#события">События</a></li></ul></dl></p>
+<h3 id="класс-dglayergroup">Класс DG.LayerGroup</h3><p>Используется для группировки нескольких слоев, чтобы обрабатывать их как один. Если группа добавлена на карту, тогда удалив элемент из группы он удаляется и с карты. Реализует интерфейс <a href="#">ILayer</a>.</p>
 <pre><code>DG.layerGroup([marker1, marker2])
     .addLayer(polyline)
     .addTo(map);
@@ -95,7 +95,7 @@
     </tbody>
 </table>
 
-<h3 id="dgfeaturegroup">DG.FeatureGroup</h3><p>Расширяет <a href="#dglayergroup">LayerGroup</a>, включает в себя события мышки (инициированные членами группы) и общий метод bindPopup. Реализует интерфейс <a href="#">ILayer</a>.</p>
+<h3 id="класс-dgfeaturegroup">Класс DG.FeatureGroup</h3><p>Расширяет <a href="#класс-dglayergroup">LayerGroup</a>, включает в себя события мышки (инициированные членами группы) и общий метод bindPopup. Реализует интерфейс <a href="#">ILayer</a>.</p>
 <pre><code>DG.featureGroup([marker1, marker2, polyline])
     .bindPopup(&#39;Привет! Я балун.&#39;)
     .on(&#39;click&#39;, function() { alert(&#39;Клик по группе!&#39;); })
