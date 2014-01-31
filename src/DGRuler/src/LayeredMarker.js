@@ -10,6 +10,10 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         })
     },
 
+    statics: {
+        domClass : 'dg-ruler-label'
+    },
+
     addTo : function (map, layers) {
         Object.keys(this._layers).forEach(function (name) {
             layers[name].addLayer(this._layers[name]);
@@ -61,7 +65,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
     },
 
     querySelector : function (selector) {
-        return this._icon.querySelector(selector);
+        return this._icon.querySelector('.' + DG.Ruler.LayeredMarker.domClass + '__' + selector);
     },
 
     _onMove : function (event) {
@@ -76,16 +80,16 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         this._iconCollapsed = true;
         this._icon.style.width = '';
         this._iconNodes = {
-            label : this.querySelector('.dg-ruler-label__distance'),
-            spacer : this.querySelector('.dg-ruler-label__spacer'),
-            container : this.querySelector('.dg-ruler-label__inner')
+            label : this.querySelector('distance'),
+            spacer : this.querySelector('spacer'),
+            container : this.querySelector('inner')
         };
     },
 
     _afterInit : function () {
         this._layers = this.options.layers || null;
         this.options.icon = DG.divIcon({
-            className: 'dg-ruler-label',
+            className: DG.Ruler.LayeredMarker.domClass,
             iconSize: [26, 26],
             iconAnchor: [13, 13],
             html: this.options.iconHTML

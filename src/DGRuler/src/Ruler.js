@@ -166,11 +166,12 @@ DG.Ruler = DG.Class.extend({
 
     _lineMouseEvents: {
         mouseover : function (event) { // (MouseEvent)
+            var target = event.layer;
+            
+            target._hovered = true;
             if (this._morphingNow) {
                 return;
             }
-            var target = event.layer;
-            
             if (target instanceof DG.Marker && target._pos !== this._points.length - 1) {
                 target.setText(this._getFormatedDistance(target));
             } else if (target instanceof DG.Path && !this._lineMarkerHelper) {
@@ -184,6 +185,7 @@ DG.Ruler = DG.Class.extend({
         mouseout : function (event) { // (MouseEvent)
             var target = event.layer;
 
+            target._hovered = false;
             if (this._morphingNow || target._pos === this._points.length - 1) {
                 return;
             }
@@ -206,6 +208,12 @@ DG.Ruler = DG.Class.extend({
                     .setText(this._getFormatedDistance(point, point.getLatLng().distanceTo(latlng)));
         },
         layeradd : function () { // ()
+            // this._points[0]
+            if (this._points._length > 0) {
+                Object.keys(this._points[0]._layers).forEach(function (name) {
+                    this._points[0]._layers[name].bringToFront();
+                }, this);
+            }
             Object.keys(this._layers).forEach(function (name) {
                 this._layers[name].bringToFront();
             }, this);
@@ -270,9 +278,9 @@ DG.Ruler = DG.Class.extend({
     },
 
     _addCloseHandler: function (event) { // (Event)
-        var closeNode = event.target.querySelector('.dg-ruler-label__delete');
-        closeNode.style.display = 'inline-block';
-        event.target.on('click', this._deletePoint, this);
+        event.target
+                .on('click', this._deletePoint, this)
+                .querySelector('delete').style.display = 'inline-block';
     },
 
     _createPoint: function (latlng, style) { // (DG.LatLng, Object) -> DG.Ruler.LayeredMarker
@@ -302,9 +310,12 @@ DG.Ruler = DG.Class.extend({
             this._updateLegs(point);
             this._updateDistance();
         },
-        'dragend' : function (event) {   // ()
+        'dragend' : function (event) {   // (Event)
+            var point = event.target;
             this._morphingNow = false;
-            event.target.collapse();
+            if (!point._hovered && point !== this._points[this._points.length - 1]) {
+                point.collapse();
+            }
         },
         'dragstart' : function () { // ()
             this._morphingNow = true;
@@ -385,8 +396,13 @@ DG.Ruler = DG.Class.extend({
 
         if (distance > 1000) {
             distance /= 1000;
-            distance = distance.toFixed(2).split('.').join(this.t(','));
             units = 'km';
+            if (distance > 1000) {
+                distance = distance.toFixed();
+                distance = distance.slice(0, -3) + ' ' + distance.slice(-3);
+            } else {
+                distance = distance.toFixed(2).split('.').join(this.t(','));
+            }
         } else {
             distance = Math.round(distance);
         }

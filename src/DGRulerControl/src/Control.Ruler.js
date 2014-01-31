@@ -62,7 +62,7 @@ DG.Control.Ruler = DG.RoundControl.extend({
     },
 
     _handleMapClick: function (event) {   // (MouseEvents)
-        var latlng = event.latlng.wrap();
+        var latlng = event.latlng;//.wrap();
         if (!latlng.equals(event.latlng)) {
             this._map.fitWorld();
         }
