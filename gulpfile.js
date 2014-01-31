@@ -11,7 +11,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean');
     // data_uri = require('gulp-data-uri');
 
-function getModules() {
+var modules = (function getModules() {
     return Object.keys(config.source)
         .map(function (creator) {
             // basePath = source[creator].path;
@@ -24,14 +24,13 @@ function getModules() {
             return obj;
         }, {})
         ;
-}
+})();
 
 // Generates a list of modules by pkg
 function getModulesList(pkg) { //(String|Null)->Array
-    var modulesListOrig = ['Core'],
+    var modulesListOrig = [],
         modulesListRes = [],
-        loadedModules = {},
-        modules = getModules();
+        loadedModules = {};
 
     // Package name with no empty modules list on packs.js (example: 'base')
     if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
@@ -73,8 +72,43 @@ function getModulesList(pkg) { //(String|Null)->Array
     return modulesListRes;
 }
 
+function getJSFiles(pkg) {
+    return getModulesList(pkg)
+        .map(function (name) {
+            return modules[name];
+        })
+        .map(function (module) {
+            return module.src || module.js;
+        })
+        .reduce(function (array, items) {
+            return array.concat(items);
+        })
+        .filter(function (item, key, list) {
+            return list.indexOf(item) === key;
+        })
+        ;
+}
+
+function getCSSFiles(pkg, IE) {
+    return getModulesList(pkg)
+        .map(function (name) {
+            return modules[name];
+        })
+        .map(function (module) {
+            return module.css;
+        })
+        .filter(Boolean)
+        .map(function (item) {
+            return item.all;
+        })
+        // .reduce(function (array, items) {
+        //     return array.concat(items);
+        // })
+        ;
+}
+
 gulp.task('test', function () {
-    console.log(getModulesList());
+    console.log(getCSSFiles());
 });
 
 
