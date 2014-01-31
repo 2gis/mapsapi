@@ -51,12 +51,6 @@ function getModulesList(pkg) { //(String|Null)->Array
     }
 
     modulesListOrig
-        .filter(function (moduleName) {
-            return !loadedModules[moduleName];
-        })
-        .filter(function (moduleName) {
-            return moduleName in modules;
-        })
         .forEach(processModule);
 
     function processModule(moduleNameDeps) {
