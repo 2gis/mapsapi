@@ -24,8 +24,8 @@
                 "content": {
                     "ru": {
                         "title": "Руководство",
-                        "uri": "doc/2.0/maps/manual/map",
-                        "_src":"manual/map.md",
+                        "uri": "doc/2.0/maps/manual/loading",
+                        "_src":"manual/loading.md",
                         "hide": false
                     }
                 },
