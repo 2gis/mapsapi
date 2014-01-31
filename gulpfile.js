@@ -41,7 +41,7 @@ function addBasePath (modules) {
         .map(function (name) {
             var module = modules[name],
                 path = module.path;
-
+            console.log(path);
             module.name = name;
             module.js = module.js || module.src;
 
@@ -52,14 +52,11 @@ function addBasePath (modules) {
             module.js = module.js.map(addPath);
             var css = module.css;
             if (css) {
-                // css
-                //     .map(function (css) {
                 module.css = Object.keys(css)
                     .reduce(function (obj, browser) {
                         obj[browser] = css[browser].map(addPath);
                         return obj;
                     }, {})
-                    // })
             }
             return module;
         })
