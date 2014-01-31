@@ -8,27 +8,30 @@ var gulp = require('gulp'),
     config = require('./build/config.js').config,
     packages = require('./build/packs.js').packages,
     runSequence = require('run-sequence'),
-    clean = require('gulp-clean'),
-    data_uri = require('gulp-data-uri');
+    clean = require('gulp-clean');
+    // data_uri = require('gulp-data-uri');
 
-function getModules () {
+function getModules() {
     return Object.keys(config.source)
         .map(function (creator) {
             // basePath = source[creator].path;
             return config.source[creator].deps;
         })
-        .map(Object.keys)
-        .reduce(function (array, item) {
-            return array.concat(item);
-        })
+        .reduce(function (obj, pack) {
+            Object.keys(pack).forEach(function (module) {
+                obj[module] = pack[module];
+            });
+            return obj;
+        }, {})
         ;
-};
+}
 
 // Generates a list of modules by pkg
-function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
+function getModulesList(pkg) { //(String|Null)->Array
     var modulesListOrig = ['Core'],
         modulesListRes = [],
-        loadedModules = {};
+        loadedModules = {},
+        modules = getModules();
 
     // Package name with no empty modules list on packs.js (example: 'base')
     if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
@@ -47,55 +50,37 @@ function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
         modulesListOrig = modulesListOrig.concat(Object.keys(modules));
     }
 
-    if (isMsg) {
-        console.log('\nBuild modules:');
-    }
+    modulesListOrig
+        .filter(function (moduleName) {
+            return !loadedModules[moduleName];
+        })
+        .filter(function (moduleName) {
+            return moduleName in modules;
+        })
+        .forEach(processModule);
 
-    modulesListOrig.forEach(function (moduleName) {
-        if (moduleName in modules) {
-            processModule(moduleName);
-        } else {
-            if (isMsg) {
-                console.log(errMsg('  - ' + moduleName + ' (not found)'));
-                errors.push('Unknown modules');
-            }
+    function processModule(moduleNameDeps) {
+        if (modules[moduleNameDeps] && modules[moduleNameDeps].deps) {
+            getDepsList(moduleNameDeps);
         }
-    });
-
-    function processModule(moduleName) {
-        if (!loadedModules[moduleName]) {
-            getDepsList(moduleName);
-            modulesListRes.push(moduleName);
-            loadedModules[moduleName] = true;
-            if (isMsg) {
-                console.log('  * ' + moduleName);
-            }
+        if (!loadedModules[moduleNameDeps]) {
+            modulesListRes.push(moduleNameDeps);
+            loadedModules[moduleNameDeps] = true;
         }
     }
 
     function getDepsList(moduleName) {
-        if (modules[moduleName] && modules[moduleName].deps) {
-            var moduleDeps = modules[moduleName].deps;
-            moduleDeps.forEach(function (module) {
-                var moduleNameDeps = module;
-                if (modules[moduleNameDeps] && modules[moduleNameDeps].deps) {
-                    getDepsList(moduleNameDeps);
-                }
-                if (!loadedModules[moduleNameDeps]) {
-                    modulesListRes.push(moduleNameDeps);
-                    loadedModules[moduleNameDeps] = true;
-                    if (isMsg) {
-                        console.log(depsMsg('  + ' + moduleNameDeps + ' (deps of ' + moduleName + ')'));
-                    }
-                }
-            });
+        var moduleDeps = modules[moduleName].deps;
+        if (moduleDeps) {
+            moduleDeps.forEach(processModule);
         }
     }
 
     return modulesListRes;
-};
+}
+
 gulp.task('test', function () {
-    console.log(getModules());
+    console.log(getModulesList());
 });
 
 
