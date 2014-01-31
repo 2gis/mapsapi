@@ -1,17 +1,17 @@
-## Класс DG.TileLayer
+## Слои
 
 {toc}
 
-##### Описание
+### Описание
 
-Используется для загрузки и отображения тайлового слоя на карте, реализует интерфейс <a href="#">ILayer</a>.
+API карт позволяет накладывать пользовательские растровые слои поверх слоя карты. Это дает возможность отображать на карте практически любые графические объекты.
 
-#### Пример использования
+### Класс DG.TileLayer
 
-	DG.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
-		key: 'API-key',
-		styleId: 997
-	}).addTo(map);
+Используется для загрузки и отображения тайлового слоя, реализует интерфейс <a href="#">ILayer</a>.
+
+    var url = 'http://tile{s}.traffic.2gis.ru/novosibirsk/traffic/{z}/{x}/{y}/speed/0/';
+    DG.tileLayer(url, {subdomains: '012'}).addTo(map);
 
 #### Конструктор
 <table>
@@ -22,23 +22,23 @@
 			<th>Описание</th>
 		</tr>
 	</thead>
-	<tbody>x
+	<tbody>
 		<tr>
 			<td><code><b>DG.TileLayer</b>(
-				<nobr>&lt;String&gt; <i><a href="#url-шаблон">urlTemplate</a></i>,</nobr>
-				<nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;String&gt; <i><a href="#шаблон-url">urlTemplate</a></i>,</nobr>
+				<nobr>&lt;<a href="#опции">TileLayer options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 
 			<td>
 				<code>DG.tileLayer(&hellip;)</code>
 			</td>
 
-			<td>Создает объект тайлового слоя по переданному <a href="#url-шаблон">URL шаблону</a> и необязательному объекту опций.</td>
+			<td>Создает объект тайлового слоя по переданному <a href="#шаблон-url">шаблону URL</a> и необязательному объекту опций.</td>
 		</tr>
 	</tbody>
 </table>
 
-### URL шаблон
+#### Шаблон URL
 
 Строка следующего вида:
 
@@ -77,7 +77,7 @@
 			<td><code><b>maxNativeZoom</b></code></td>
 			<td><code>Number</code></td>
 			<td><code><span>null</span></code></td>
-			<td>Максимальный уровень зума исходных тайлов. Если значение установлено, на всех уровнях зума больших <code>maxNativeZoom</code> будут отображены смасштабированные тайлы максимально доступного зума.</td>
+			<td>Максимальный уровень зума исходных тайлов. Если значение установлено, на всех уровнях зума больше <code>maxNativeZoom</code> будут отображены смасштабированные тайлы максимально доступного зума.</td>
 		</tr>
 		<tr>
 			<td><code><b>tileSize</b></code></td>
@@ -143,7 +143,7 @@
 			<td><code><b>zIndex</b></code></td>
 			<td><code>Number</code></td>
 			<td><code>null</code></td>
-			<td>Указывает z-index тайлового слоя. По умолчанию не установлен.</td>
+			<td>Задает z-index тайлового слоя. По умолчанию не установлен.</td>
 		</tr>
 		<tr>
 			<td><code><b>unloadInvisibleTiles</b></code></td>
@@ -161,7 +161,7 @@
 			<td><code><b>detectRetina</b></code></td>
 			<td><code><code>Boolean</code></code></td>
 			<td><code>false</code></td>
-			<td>Если установлено значение <code>true</code> и у пользователя устройство с Retina экраном, тогда вместо одного тайла будет загружено 4 с большим уровнем масштабирования, также изображениям устанавливается размер на 50% меньше их реального разрешения. Таким образом достигается лучшее качество отображения тайлов на экранах с высоким разрешением.</td>
+			<td>Если установлено значение <code>true</code> и у пользователя устройство с Retina экраном, тогда вместо одного тайла будет загружено 4 с большего уровня масштабирования, также изображениям устанавливается размер на 50% меньше их реального разрешения. Таким образом достигается лучшее качество отображения тайлов на экранах с высоким разрешением.</td>
 		</tr>
 		<tr>
 			<td><code><b>reuseTiles</b></code></td>
@@ -172,9 +172,9 @@
 	</tbody>
 </table>
 
-### События
+#### События
 
-Вы можете подписаться на следующие события используя <a href="#tilelayer-metods">Методы</a>.
+Вы можете подписаться на следующие события используя <a href="#tilelayer-metods">эти методы</a>.
 <table>
 	<thead>
 		<tr>
@@ -263,7 +263,7 @@
 		</tr>
 		<tr>
 			<td><code><b>setUrl</b>(
-				<nobr>&lt;String&gt; <i><a href="#url-шаблон">urlTemplate</a></i> )</nobr>
+				<nobr>&lt;String&gt; <i><a href="#шаблон-url">urlTemplate</a></i> )</nobr>
 			</code></td>
 			<td><code>this</code></td>
 			<td>Обновляет URL шаблон слоя и перерисовывает его.</td>
@@ -277,14 +277,9 @@
 	</tbody>
 </table>
 
-
-## Класс DG.TileLayer.WMS
-
-#### Описание
+### Класс DG.TileLayer.WMS
 
 Используется для отображения данных WMS сервисов. Расширяет <a href="#класс-dg.tilelayer">TileLayer</a>.
-
-#### Пример использования
 
 	var nexrad = DG.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
 		layers: 'nexrad-n0r-900913',
@@ -306,7 +301,7 @@
 		<tr>
 			<td><code><b>DG.TileLayer.WMS</b>(
 				<nobr>&lt;String&gt; <i>baseUrl</i></nobr>,
-				<nobr>&lt;<a href="#tilelayer-wms-options">TileLayer.WMS options</a>&gt; <i>options</i> )</nobr>
+				<nobr>&lt;<a href="#опции-1">TileLayer.WMS options</a>&gt; <i>options</i> )</nobr>
 			</code></td>
 
 			<td>
@@ -321,7 +316,7 @@
 
 #### Опции
 
-Включает все опции <a href="#tilelayer-options">опции TileLayer</a> и дополнительные:
+Включает все <a href="#опции">опции TileLayer</a> и дополнительно:
 <table id = "tilelayer-wms-options">
 	<thead>
 		<tr>
@@ -336,7 +331,7 @@
 			<td><code><b>layers</b></code></td>
 			<td><code>String</code></td>
 			<td><code>''</code></td>
-			<td>(обязательная) Список WMS слоев для отображения, разделяются запятой.</td>
+			<td>Обязательный список WMS слоев для отображения, разделяются запятой.</td>
 		</tr>
 		<tr>
 			<td><code><b>styles</b></code></td>
@@ -383,7 +378,7 @@
 	<tbody>
 		<tr>
 			<td><code><b>setParams</b>(
-				<nobr>&lt;<a href="#tilelayer-wms-options">WMS parameters</a>&gt; <i>params</i></nobr>,
+				<nobr>&lt;<a href="#опции-1">WMS parameters</a>&gt; <i>params</i></nobr>,
 				<nobr>&lt;Boolean&gt; <i>noRedraw?</i> )</nobr>
 			</code></td>
 			<td><code>this</code></td>
@@ -392,16 +387,11 @@
 	</tbody>
 </table>
 
-## Класс DG.TileLayer.Canvas
-
-###### Описание
+### Класс DG.TileLayer.Canvas
 
 Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет <a href="#класс-dg.tilelayer">TileLayer</a>.
 
-#### Пример использования
-
 	var canvasTiles = DG.tileLayer.canvas();
-
 	canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
 		var ctx = canvas.getContext('2d');
 		// отрисовываем тайл
@@ -419,7 +409,7 @@
 	<tbody>
 		<tr>
 			<td><code><b>DG.TileLayer.Canvas</b>(
-				<nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;<a href="#опции">TileLayer options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 			<td>
 				<code>DG.tileLayer.canvas(&hellip;)</code>
@@ -476,15 +466,12 @@
 	</tbody>
 </table>
 
-## Класс DG.ImageOverlay
+### Класс DG.ImageOverlay
 
 Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс <a href="#ILayer">ILayer</a>.
 
-#### Пример использования
-
 	var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
 		imageBounds = [[54.712216, 82.22655], [54.773941, 82.12544]];
-
 	DG.imageOverlay(imageUrl, imageBounds).addTo(map);
 
 #### Конструктор
@@ -501,7 +488,7 @@
 			<td><code><b>DG.ImageOverlay</b>(
 				<nobr>&lt;String&gt; <i>imageUrl</i></nobr>,
 				<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
-				<nobr>&lt;<a href="#imageoverlay-options">ImageOverlay options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;<a href="#опции-3">ImageOverlay options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 
 			<td>
