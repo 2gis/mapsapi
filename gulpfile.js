@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     config = require('./build/config.js').config,
     packages = require('./build/packs.js').packages,
     runSequence = require('run-sequence'),
-    clean = require('gulp-clean');
+    clean = require('gulp-clean'),
+    data_uri = require('gulp-data-uri');
 
 function getModules () {
     return Object.keys(config.source)
@@ -98,7 +99,7 @@ gulp.task('test', function () {
 });
 
 
-gulp.task('build-deps', function (callback) {
+gulp.task('build-deps', function (done) {
 
     async.each(Object.keys(config), function (module, callback) {
         console.log(module); // print the key
@@ -119,6 +120,8 @@ gulp.task('build-deps', function (callback) {
 
         if (styles) {
             gulp.src(styles)
+                //.pipe(data_uri())
+                .pipe(gulp.dest('./dist/' + module + '64.css'))
                 .pipe(concat(module + '.css'))
                 .pipe(gulp.dest('./dist/' + module + '/css/'))
                 .pipe(rename(module + '.min.css'))
@@ -128,6 +131,7 @@ gulp.task('build-deps', function (callback) {
 
         if (stylesIE) {
             gulp.src(stylesIE)
+                //.pipe(data_uri())
                 .pipe(concat(module + '.ie.css'))
                 .pipe(gulp.dest('./dist/' + module + '/css/'))
                 .pipe(rename(module + '.ie.min.css'))
@@ -136,7 +140,7 @@ gulp.task('build-deps', function (callback) {
         }
         callback(); // tell async that the iterator has completed
 
-    });
+    }, done);
     /*Object.keys(config).forEach(function (module) {
         //console.log(module, config[module].js);
 
@@ -159,6 +163,24 @@ gulp.task('build-styles', function (module, files) {
             .pipe(minifyCSS())
             .pipe(gulp.dest('./dist'));
 });*/
+
+gulp.task('build-styles', function () {
+    gulp.run('build-clean');
+
+    gulp.src('src/**/*.css')
+        //.pipe(concat('all.css'))
+        .pipe(gulp.dest('./dist'))
+        .pipe(rename('min.css'))
+        .pipe(minifyCSS())
+        .pipe(gulp.dest('./dist'));
+});
+
+
+gulp.task('templates', function () {
+    gulp.src(['/home/dlutsik/projects/mapsapi-folder/src/DGLocation/skin/light/css/DGLocation.css'])
+        .pipe(data_uri())
+        .pipe(gulp.dest('dest/64.css'));
+});
 
 gulp.task('build-clean', function () {
     return gulp.src('./dist').pipe(clean());
