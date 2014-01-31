@@ -35,6 +35,8 @@
     "gulp-uglify": "~0.2.0",
     "run-sequence": "~0.3.2",
     "gulp-clean": "~0.2.4",
-    "async": "~0.2.10"
+    "async": "~0.2.10",
+    "gulp-minify-css": "~0.2.0",
+    "gulp-data-uri": "~0.1.2"
   }
 }
