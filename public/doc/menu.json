@@ -88,9 +88,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Слои",
-                                "uri": "doc/2.0/maps/manual/layers",
-                                "_src":"manual/layers.md",
+                                "title": "Геометрии",
+                                "uri": "doc/2.0/maps/manual/geometries",
+                                "_src":"manual/geometries.md",
                                 "hide": false
                             }
                         },
@@ -99,9 +99,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Геометрии",
-                                "uri": "doc/2.0/maps/manual/geometries",
-                                "_src":"manual/geometries.md",
+                                "title": "Слои",
+                                "uri": "doc/2.0/maps/manual/layers",
+                                "_src":"manual/layers.md",
                                 "hide": false
                             }
                         },
