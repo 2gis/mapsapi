@@ -1,14 +1,11 @@
 var http = require('http'),
-    gl = require(__dirname + '/gulpfile.js'),
-    gs = require('glob-stream');
+    gl = require(__dirname + '/gulpfile.js');
 
 var server = http.createServer(function (req, res) {
-    //var stream = fs.createReadStream(__dirname + '/dist/js/main.js');
     var stream = gl();
 
     stream.on('data', function (file) {
-        console.log(file);
-        res.write(file);
+        res.write(file.contents);
     });
 
     stream.on('end', function () {

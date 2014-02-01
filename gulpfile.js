@@ -211,7 +211,7 @@ gulp.task('build-deps', function (done) {
 });
 
 function bldjs() {
-    return gulp.src('./src/**/*.js')
+    return gulp.src(getJSFiles())
                .pipe(concat('main.js'));
 }
 
@@ -234,7 +234,7 @@ gulp.task('templates', function () {
 });
 
 gulp.task('build-clean', function () {
-    return gulp.src('./dist').pipe(clean());
+    return gulp.src('./dist', {read: false}).pipe(clean());
 });
 
 module.exports = function () {
