@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     config = require('./build/config.js').config,
     packages = require('./build/packs.js').packages,
     runSequence = require('run-sequence'),
+    fs = require('fs'),
     clean = require('gulp-clean');
     // data_uri = require('gulp-data-uri');
 
@@ -140,9 +141,16 @@ function getCSSFiles(pkg, IE) {
         .reduce(function (array, items) {
             return array.concat(items);
         })
+        .reduce(function (array, item) {
+            if (item.indexOf('{skin}') > -1) {
+                array.push(item.replace('{skin}', 'basic'));
+            }
+            return array.concat(item);
+        }, [])
         .map(function (file) {
-            return file.replace('{skin}', 'basic');
+            return file.replace('{skin}', 'light');
         })
+        .filter(fs.existsSync)
         ;
 }
 
