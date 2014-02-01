@@ -143,7 +143,7 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Ajax-запросы",
+                                "title": "AJAX-запросы",
                                 "uri": "doc/2.0/maps/manual/ajax",
                                 "_src":"manual/ajax.md",
                                 "hide": false
