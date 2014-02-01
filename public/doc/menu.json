@@ -132,6 +132,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Внешние модули",
+                                "uri": "doc/2.0/maps/manual/external-modules",
+                                "_src":"manual/external-modules.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "Ajax-запросы",
                                 "uri": "doc/2.0/maps/manual/ajax",
                                 "_src":"manual/ajax.md",
