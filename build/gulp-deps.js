@@ -77,20 +77,14 @@ var init = function (config) {
 
         modulesListOrig.forEach(processModule);
 
-        function processModule(moduleNameDeps) {
-            if (modules[moduleNameDeps] && modules[moduleNameDeps].deps) {
-                getDepsList(moduleNameDeps);
+        function processModule(name) {
+            var module = modules[name];
+            if (module && module.deps) {
+                module.deps.forEach(processModule)
             }
-            if (!loadedModules[moduleNameDeps]) {
-                modulesListRes.push(moduleNameDeps);
-                loadedModules[moduleNameDeps] = true;
-            }
-        }
-
-        function getDepsList(moduleName) {
-            var moduleDeps = modules[moduleName].deps;
-            if (moduleDeps) {
-                moduleDeps.forEach(processModule);
+            if (!loadedModules[name]) {
+                modulesListRes.push(name);
+                loadedModules[name] = true;
             }
         }
 
@@ -129,13 +123,14 @@ var init = function (config) {
                 .reduce(function (array, items) {
                     return array.concat(items);
                 })
-                .reduce(function (array, item) {
+                // .reduce([].concat)
+                .reduce(function (array, item) {//if css have skin, we add basic theme
                     if (item.indexOf('{skin}') > -1) {
                         array.push(item.replace('{skin}', 'basic'));
                     }
                     return array.concat(item);
                 }, [])
-                .map(function (file) {
+                .map(function (file) {//add selected theme
                     return file.replace('{skin}', 'light');
                 })
                 .filter(fs.existsSync)

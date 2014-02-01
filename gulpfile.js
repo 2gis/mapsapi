@@ -12,8 +12,9 @@ var gulp = require('gulp'),
 
 
 gulp.task('test', function () {
-    console.log(deps.getJSFiles());
-    console.log(deps.getCSSFiles());
+    var css = deps.getCSSFiles();
+    // console.log(deps.getJSFiles());
+    // console.log(css, css.length);
 });
 
 
