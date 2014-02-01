@@ -14,12 +14,7 @@ var gulp = require('gulp'),
 var modules = (function getModules() {
     var source = config.source;
     return addBasePath(Object.keys(source)
-        // .map(function (creator) {
-        //     // basePath = source[creator].path;
-        //     source[creator].deps.path = source[creator].path;
-        //     return source[creator].deps;
-        // })
-        .map(function (creator) {
+        .map(function (creator) {//adding proper path to every module
             var pack = source[creator].deps;
             return Object.keys(pack).reduce(function (obj, name) {
                 pack[name].path = source[creator].path;
@@ -36,12 +31,11 @@ var modules = (function getModules() {
         );
 })();
 
-function addBasePath (modules) {
+function addBasePath (modules) {//adding base path on every file
     return Object.keys(modules)
         .map(function (name) {
             var module = modules[name],
                 path = module.path;
-            console.log(path);
             module.name = name;
             module.js = module.js || module.src;
 
@@ -50,8 +44,9 @@ function addBasePath (modules) {
             };
 
             module.js = module.js.map(addPath);
+
             var css = module.css;
-            if (css) {
+            if (css) {//if module has css we iterate in all his supported browsers and add path
                 module.css = Object.keys(css)
                     .reduce(function (obj, browser) {
                         obj[browser] = css[browser].map(addPath);
@@ -119,18 +114,12 @@ function getJSFiles(pkg) {
             return modules[name];
         })
         .map(function (module) {
-            return module.src || module.js;
+            return module.js;
         })
-        // .map(function (module) {
-        //     var src = module.src || module.js;
-        //     return src.map(function (file) {
-        //         return module.path + file;
-        //     });
-        // })
         .reduce(function (array, items) {
             return array.concat(items);
         })
-        .filter(function (item, key, list) {
+        .filter(function (item, key, list) {//filter dublicates
             return list.indexOf(item) === key;
         })
         ;
@@ -141,15 +130,6 @@ function getCSSFiles(pkg, IE) {
         .map(function (name) {
             return modules[name];
         })
-        // .filter(function (module) {
-        //     return Boolean(module.css)
-        // })
-        // .map(function (module) {
-        //     var src = module.css;
-        //     return src.map(function (file) {
-        //         return module.path + file;
-        //     });
-        // })
         .map(function (module) {
             return module.css;
         })
@@ -165,8 +145,9 @@ function getCSSFiles(pkg, IE) {
 
 gulp.task('test', function () {
     // console.log(addBasePath(modules));
+    // getJSFiles();
     console.log(getJSFiles());
-    // console.log(getCSSFiles());
+    console.log(getCSSFiles());
 });
 
 
