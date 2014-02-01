@@ -1,6 +1,6 @@
-<h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#dgcontrol">DG.Control</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li><li><a href="#позиции-элементов-управления">Позиции элементов управления</a></li></ul></li><li><a href="#dgcontrolzoom">DG.Control.Zoom</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#dgcontrolattribution">DG.Control.Attribution</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#dgcontrolscale">DG.Control.Scale</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li></ul></dl></p>
-<p>Элементы управления — это компоненты пользовательского интерфейса, с помощью которых пользователь может взаимодействовать с картой.</p>
-<h3 id="dgcontrol">DG.Control</h3><p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="#">IControl</a>. Элементы добавляются на карту следующим образом:</p>
+<h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dgcontrol">Класс DG.Control</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li><li><a href="#позиции-элементов-управления">Позиции элементов управления</a></li></ul></li><li><a href="#класс-dgcontrolzoom">Класс DG.Control.Zoom</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#класс-dgcontrolattribution">Класс DG.Control.Attribution</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgcontrolscale">Класс DG.Control.Scale</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Элементы управления — это компоненты пользовательского интерфейса, с помощью которых пользователь может взаимодействовать с картой.</p>
+<h3 id="класс-dgcontrol">Класс DG.Control</h3><p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="#">IControl</a>. Элементы добавляются на карту следующим образом:</p>
 <pre><code>control.addTo(map);
 // то же самое, что
 map.addControl(control);
@@ -115,7 +115,7 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h3 id="dgcontrolzoom">DG.Control.Zoom</h3><p>Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если не передана опция zoomControl со значением <code>false</code>. Расширяет <a href="#dgcontrol">Control</a>.</p>
+<h3 id="класс-dgcontrolzoom">Класс DG.Control.Zoom</h3><p>Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если не передана опция zoomControl со значением <code>false</code>. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
 <h4 id="конструктор-1">Конструктор</h4><table>
     <thead>
         <tr>
@@ -180,7 +180,7 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h3 id="dgcontrolattribution">DG.Control.Attribution</h3><p>Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет <a href="#dgcontrol">Control</a>.</p>
+<h3 id="класс-dgcontrolattribution">Класс DG.Control.Attribution</h3><p>Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
 <h4 id="конструктор-2">Конструктор</h4><table>
     <thead>
         <tr>
@@ -260,7 +260,7 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h3 id="dgcontrolscale">DG.Control.Scale</h3><p>Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет <a href="#dgcontrol">Control</a>.</p>
+<h3 id="класс-dgcontrolscale">Класс DG.Control.Scale</h3><p>Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
 <pre><code>DG.control.scale().addTo(map);
 </code></pre><h4 id="конструктор-3">Конструктор</h4><table>
     <thead>
