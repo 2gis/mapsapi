@@ -147,34 +147,22 @@ gulp.task('build-deps', function (done) {
     });*/
 });
 
-/*gulp.task('build-scripts', function (module, files) {
-    return gulp.src(files)
-            .pipe(concat(module + '.js'))
-            .pipe(gulp.dest('./dist/' + module + '/js/'))
-            .pipe(rename(module + '.min.js'))
-            .pipe(uglify())
-            .pipe(gulp.dest('./dist/' + module + '/js/'));
+function bldjs() {
+    return gulp.src('./src/**/*.js')
+               .pipe(concat('main.js'));
+}
+
+gulp.task('build-scripts', ['build-clean'], function () {
+    return bldjs();
 });
 
-gulp.task('build-styles', function (module, files) {
+/*gulp.task('build-styles', function (module, files) {
             //.pipe(concat('all.css'))
             .pipe(gulp.dest('./dist'))
             .pipe(rename('min.css'))
             .pipe(minifyCSS())
             .pipe(gulp.dest('./dist'));
 });*/
-
-gulp.task('build-styles', function () {
-    gulp.run('build-clean');
-
-    gulp.src('src/**/*.css')
-        //.pipe(concat('all.css'))
-        .pipe(gulp.dest('./dist'))
-        .pipe(rename('min.css'))
-        .pipe(minifyCSS())
-        .pipe(gulp.dest('./dist'));
-});
-
 
 gulp.task('templates', function () {
     gulp.src(['/home/dlutsik/projects/mapsapi-folder/src/DGLocation/skin/light/css/DGLocation.css'])
@@ -186,6 +174,6 @@ gulp.task('build-clean', function () {
     return gulp.src('./dist').pipe(clean());
 });
 
-gulp.task('build', function (cb) {
-    runSequence('build-clean', 'build-deps', cb);
-});
+module.exports = function () {
+    return bldjs();
+};

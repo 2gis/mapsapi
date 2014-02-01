@@ -1,11 +1,29 @@
-//Web app of 2GIS Maps API 2.0
+var http = require('http'),
+    gl = require(__dirname + '/gulpfile.js'),
+    gs = require('glob-stream');
+
+var server = http.createServer(function (req, res) {
+    //var stream = fs.createReadStream(__dirname + '/dist/js/main.js');
+    var stream = gl();
+
+    stream.on('data', function (file) {
+        console.log(file);
+        res.write(file);
+    });
+
+    stream.on('end', function () {
+        res.end();
+    });
+});
+server.listen(3000);
+
+/*//Web app of 2GIS Maps API 2.0
 var http = require('http'),
     express = require('express'),
+    fs = require('fs'),
     build = require(__dirname + '/build/build.js'),
-    config = build.getConfig();
-
-//Init builder
-build.init();
+    gl = require(__dirname + '/gulpfile.js'),
+    config = {};
 
 //Init application
 var app = express();
@@ -35,6 +53,9 @@ app.all(/^\/2.0\/(js|css)$/, function (req, resp, next) {
 });
 
 app.get('/2.0/js', function (req, res) {
+    //console.log('js!');
+    //var stream = fs.createReadStream(__dirname + '/dist/js/main.js');
+    gl().pipe(res);
     build.getJS(req.dgParams, function (data) {
         req.dgParams.callback(res, data);
     });
@@ -57,3 +78,4 @@ if (app.get('host')) {
     });
 }
 
+*/
