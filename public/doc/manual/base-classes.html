@@ -1,4 +1,4 @@
-<h2 id="базовые-классы">Базовые классы</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dglatlng">Класс DG.LatLng</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#свойства">Свойства</a></li><li><a href="#методы">Методы</a></li><li><a href="#константы">Константы</a></li></ul></li><li><a href="#класс-dglatlngbounds">Класс DG.LatLngBounds</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgpoint">Класс DG.Point</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#свойства-1">Свойства</a></li><li><a href="#методы-2">Методы</a></li></ul></li><li><a href="#dgbounds">DG.Bounds</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#свойства-2">Свойства</a></li><li><a href="#методы-3">Методы</a></li></ul></dl></p>
+<h2 id="базовые-классы">Базовые классы</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dglatlng">Класс DG.LatLng</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#свойства">Свойства</a></li><li><a href="#методы">Методы</a></li><li><a href="#константы">Константы</a></li></ul></li><li><a href="#класс-dglatlngbounds">Класс DG.LatLngBounds</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgpoint">Класс DG.Point</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#свойства-1">Свойства</a></li><li><a href="#методы-2">Методы</a></li></ul></li><li><a href="#класс-dgbounds">Класс DG.Bounds</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#свойства-2">Свойства</a></li><li><a href="#методы-3">Методы</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>В данном разделе описаны базовые классы, которые часто встречаются на страницах руководства API карт и необходимы для работы с многими объектами карты.</p>
 <h3 id="класс-dglatlng">Класс DG.LatLng</h3><p>Географическая точка с определенной широтой и долготой.</p>
 <pre><code>var latlng = DG.latLng(54.98, 82.89);
@@ -173,7 +173,7 @@ map.panTo({lat: 54.98, lng: 82.89});
     <tbody>
         <tr>
             <td><code><b>extend</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&nbsp;|&nbsp;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="#latlng">LatLng</a>&nbsp;|&nbsp;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -226,7 +226,7 @@ map.panTo({lat: 54.98, lng: 82.89});
         </tr>
         <tr>
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -242,7 +242,7 @@ map.panTo({lat: 54.98, lng: 82.89});
         </tr>
         <tr>
             <td><code><b>intersects</b>(
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -250,7 +250,7 @@ map.panTo({lat: 54.98, lng: 82.89});
         </tr>
         <tr>
             <td><code><b>equals</b>(
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -266,7 +266,7 @@ map.panTo({lat: 54.98, lng: 82.89});
             <td><code><b>pad</b>(
                 <nobr>&lt;Number&gt; <i>bufferRatio</i> )</nobr>
             </code></td>
-            <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Возвращает большие границы, созданные путем расширения текущих границ на заданный процент в каждом направлении.</td>
         </tr>
         <tr>
@@ -420,7 +420,7 @@ map.panBy(DG.point(200, 300));
     </tbody>
 </table>
 
-<h3 id="dgbounds">DG.Bounds</h3><p>Прямоугольная область на карте в пиксельных координатах.</p>
+<h3 id="класс-dgbounds">Класс DG.Bounds</h3><p>Прямоугольная область на карте в пиксельных координатах.</p>
 <pre><code>var p1 = DG.point(10, 10),
     p2 = DG.point(40, 60),
     bounds = DG.bounds(p1, p2);

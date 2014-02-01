@@ -203,7 +203,7 @@
     <tbody>
         <tr>
             <td><code><b>extend</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&nbsp;|&nbsp;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="#latlng">LatLng</a>&nbsp;|&nbsp;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -256,7 +256,7 @@
         </tr>
         <tr>
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -272,7 +272,7 @@
         </tr>
         <tr>
             <td><code><b>intersects</b>(
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -280,7 +280,7 @@
         </tr>
         <tr>
             <td><code><b>equals</b>(
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -296,7 +296,7 @@
             <td><code><b>pad</b>(
                 <nobr>&lt;Number&gt; <i>bufferRatio</i> )</nobr>
             </code></td>
-            <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Возвращает большие границы, созданные путем расширения текущих границ на заданный процент в каждом направлении.</td>
         </tr>
         <tr>
@@ -462,7 +462,7 @@
     </tbody>
 </table>
 
-### DG.Bounds
+### Класс DG.Bounds
 
 Прямоугольная область на карте в пиксельных координатах.
 
