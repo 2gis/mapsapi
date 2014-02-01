@@ -422,6 +422,56 @@
     </tbody>
 </table>
 
+### Класс DG.Control.Ruler
+
+Кнопка, при клике на которую включается линейка измерения расстояний на карте. Расширяет [Control](#класс-dgcontrol).
+
+    DG.control.ruler().addTo(map);
+
+#### Конструктор
+
+<table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.Control.Ruler</b>(
+                <nobr>&lt;<a href="#опции-5">Control.Ruler options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.control.ruler(&hellip;)</code>
+            </td>
+            <td>Создает элемент управления линейкой.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Опции
+
+<table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>position</b></code></td>
+            <td><code>String</code></td>
+            <td><code><span class="string">'topright'</span></td>
+            <td>Расположение элемента управления (один из углов карты). См. <a href="#позиции-элементов-управления">позиции элементов управления</a>.</td>
+        </tr>
+    </tbody>
+</table>
+
 ### Класс DG.Control.Scale
 
 Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет [Control](#класс-dgcontrol).
@@ -441,7 +491,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Control.Scale</b>(
-                <nobr>&lt;<a href="#опции-5">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-6">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.scale(&hellip;)</code>

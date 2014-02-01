@@ -1,4 +1,4 @@
-<h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dgcontrol">Класс DG.Control</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li><li><a href="#позиции-элементов-управления">Позиции элементов управления</a></li></ul></li><li><a href="#класс-dgcontrolzoom">Класс DG.Control.Zoom</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#класс-dgcontrolfullscreen">Класс DG.Control.Fullscreen</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li></ul></li><li><a href="#класс-dgcontrollocationcontrol">Класс DG.Control.LocationControl</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li></ul></li><li><a href="#класс-dgcontrolattribution">Класс DG.Control.Attribution</a><ul><li><a href="#конструктор-4">Конструктор</a></li><li><a href="#опции-4">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgcontrolscale">Класс DG.Control.Scale</a><ul><li><a href="#конструктор-5">Конструктор</a></li><li><a href="#опции-5">Опции</a></li></ul></dl></p>
+<h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dgcontrol">Класс DG.Control</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li><li><a href="#позиции-элементов-управления">Позиции элементов управления</a></li></ul></li><li><a href="#класс-dgcontrolzoom">Класс DG.Control.Zoom</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#класс-dgcontrolfullscreen">Класс DG.Control.Fullscreen</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li></ul></li><li><a href="#класс-dgcontrollocationcontrol">Класс DG.Control.LocationControl</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li></ul></li><li><a href="#класс-dgcontrolattribution">Класс DG.Control.Attribution</a><ul><li><a href="#конструктор-4">Конструктор</a></li><li><a href="#опции-4">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgcontrolruler">Класс DG.Control.Ruler</a><ul><li><a href="#конструктор-5">Конструктор</a></li><li><a href="#опции-5">Опции</a></li></ul></li><li><a href="#класс-dgcontrolscale">Класс DG.Control.Scale</a><ul><li><a href="#конструктор-6">Конструктор</a></li><li><a href="#опции-6">Опции</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>Элементы управления — это компоненты пользовательского интерфейса, с помощью которых пользователь может взаимодействовать с картой.</p>
 <h3 id="класс-dgcontrol">Класс DG.Control</h3><p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="#">IControl</a>. Элементы добавляются на карту следующим образом:</p>
 <pre><code>control.addTo(map);
@@ -372,8 +372,8 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h3 id="класс-dgcontrolscale">Класс DG.Control.Scale</h3><p>Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
-<pre><code>DG.control.scale().addTo(map);
+<h3 id="класс-dgcontrolruler">Класс DG.Control.Ruler</h3><p>Кнопка, при клике на которую включается линейка измерения расстояний на карте. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
+<pre><code>DG.control.ruler().addTo(map);
 </code></pre><h4 id="конструктор-5">Конструктор</h4><table>
     <thead>
         <tr>
@@ -384,8 +384,50 @@ map.addControl(control);
     </thead>
     <tbody>
         <tr>
+            <td><code><b>DG.Control.Ruler</b>(
+                <nobr>&lt;<a href="#опции-5">Control.Ruler options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.control.ruler(&hellip;)</code>
+            </td>
+            <td>Создает элемент управления линейкой.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="опции-5">Опции</h4><table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>position</b></code></td>
+            <td><code>String</code></td>
+            <td><code><span class="string">&#39;topright&#39;</span></td>
+            <td>Расположение элемента управления (один из углов карты). См. <a href="#позиции-элементов-управления">позиции элементов управления</a>.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="класс-dgcontrolscale">Класс DG.Control.Scale</h3><p>Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
+<pre><code>DG.control.scale().addTo(map);
+</code></pre><h4 id="конструктор-6">Конструктор</h4><table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
             <td><code><b>DG.Control.Scale</b>(
-                <nobr>&lt;<a href="#опции-5">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-6">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.scale(&hellip;)</code>
@@ -395,7 +437,7 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h4 id="опции-5">Опции</h4><table>
+<h4 id="опции-6">Опции</h4><table>
     <thead>
         <tr>
             <th>Опция</th>
