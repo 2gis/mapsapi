@@ -140,6 +140,9 @@ function getCSSFiles(pkg, IE) {
         .reduce(function (array, items) {
             return array.concat(items);
         })
+        .map(function (file) {
+            return file.replace('{skin}', 'basic');
+        })
         ;
 }
 
