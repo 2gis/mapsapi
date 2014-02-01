@@ -99,9 +99,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Слои",
-                                "uri": "doc/2.0/maps/manual/layers",
-                                "_src":"manual/layers.md",
+                                "title": "Элементы управления",
+                                "uri": "doc/2.0/maps/manual/controls",
+                                "_src":"manual/controls.md",
                                 "hide": false
                             }
                         },
@@ -110,9 +110,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Элементы управления",
-                                "uri": "doc/2.0/maps/manual/controls",
-                                "_src":"manual/controls.md",
+                                "title": "Слои",
+                                "uri": "doc/2.0/maps/manual/layers",
+                                "_src":"manual/layers.md",
                                 "hide": false
                             }
                         },

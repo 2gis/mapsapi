@@ -206,6 +206,133 @@
     </tbody>
 </table>
 
+### Класс DG.Control.Fullscreen
+
+Кнопка, при клике на которую карта разворачивается на весь экран, повторный клик восстанавливает предыдущий размер. Добавляется на карту по умолчанию, если не передана опция fullscreenControl со значением `false`. Расширяет [Control](#класс-dgcontrol).
+
+#### Конструктор
+
+<table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.Control.Fullscreen</b>(
+                <nobr>&lt;<a href="#опции-2">Control.Fullscreen options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.Control.Fullscreen(&hellip;)</code>
+            </td>
+            <td>Создает элемент управления полноэкранным режимом.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Опции
+
+<table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>position</b></code></td>
+            <td><code>String</code></td>
+            <td><code><span class="string">'topright'</span></td>
+            <td>Расположение элемента управления (один из углов карты). См. <a href="#позиции-элементов-управления">позиции элементов управления</a>.</td>
+        </tr>
+    </tbody>
+</table>
+
+### Класс DG.Control.LocationControl
+
+Кнопка, при клике на которую определяется и отображается текущее месторасположение пользователя. Если <a href="http://dev.w3.org/geo/api/spec-source.html" target="_blank">API геолокации</a> не поддерживается устройством, тогда элемент управления не выводится.
+
+    DG.control.location().addTo(map);
+
+#### Конструктор
+
+<table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.Control.LocationControl</b>(
+                <nobr>&lt;<a href="#опции-3">Control.Locate options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.Control.LocationControl(&hellip;)</code>
+            </td>
+            <td>Создает элемент управления геопозиционированием.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Опции
+
+<table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'topleft'</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#позиции-элементов-управления">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>drawCircle</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">true</span></td>
+        <td>Будет ли отображаться круг, показывающий точность определения месторасположения.</td>
+    </tr>
+    <tr>
+        <td><code><b>follow</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">false</span></td>
+        <td>Динамическое обновление месторасположения пользователя, работает если `watch` и `setView` выставлены в true в locateOptions.</td>
+    </tr>
+    <tr>
+        <td><code><b>stopFollowingOnDrag</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">false</span></td>
+        <td>Включает или отключает обновление месторасположения пользователя при перетаскивании карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>metric</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">true</span></td>
+        <td>Использовать метрические или английские единицы измерения.</td>
+    </tr>
+    <tr>
+        <td><code><b>locateOptions</b></code></td>
+        <td><code>Object</code></td>
+        <td><code><span class="string"></span></td>
+        <td>См. <a href="#map-locate-options">параметры определения расположения</a>.</td>
+    </tr>
+</table>
+
 ### Класс DG.Control.Attribution
 
 Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет [Control](#класс-dgcontrol).
@@ -223,7 +350,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Control.Attribution</b>(
-                <nobr>&lt;<a href="#опции-2">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-4">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.attribution(&hellip;)</code>
@@ -314,7 +441,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Control.Scale</b>(
-                <nobr>&lt;<a href="#опции-3">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-5">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.scale(&hellip;)</code>

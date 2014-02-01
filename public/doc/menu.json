@@ -99,17 +99,6 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Слои",
-                                "uri": "doc/2.0/maps/manual/layers",
-                                "_src":"manual/layers.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
                                 "title": "Элементы управления",
                                 "uri": "doc/2.0/maps/manual/controls",
                                 "_src":"manual/controls.md",
@@ -121,9 +110,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Группы",
-                                "uri": "doc/2.0/maps/manual/groups",
-                                "_src":"manual/groups.md",
+                                "title": "Слои",
+                                "uri": "doc/2.0/maps/manual/layers",
+                                "_src":"manual/layers.md",
                                 "hide": false
                             }
                         },
@@ -132,9 +121,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Слои",
-                                "uri": "doc/2.0/maps/manual/layers",
-                                "_src":"manual/layers.md",
+                                "title": "Группы",
+                                "uri": "doc/2.0/maps/manual/groups",
+                                "_src":"manual/groups.md",
                                 "hide": false
                             }
                         },

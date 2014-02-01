@@ -1,4 +1,4 @@
-<h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dgcontrol">Класс DG.Control</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li><li><a href="#позиции-элементов-управления">Позиции элементов управления</a></li></ul></li><li><a href="#класс-dgcontrolzoom">Класс DG.Control.Zoom</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#класс-dgcontrolattribution">Класс DG.Control.Attribution</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgcontrolscale">Класс DG.Control.Scale</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li></ul></dl></p>
+<h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dgcontrol">Класс DG.Control</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li><li><a href="#позиции-элементов-управления">Позиции элементов управления</a></li></ul></li><li><a href="#класс-dgcontrolzoom">Класс DG.Control.Zoom</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#класс-dgcontrolfullscreen">Класс DG.Control.Fullscreen</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li></ul></li><li><a href="#класс-dgcontrollocationcontrol">Класс DG.Control.LocationControl</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li></ul></li><li><a href="#класс-dgcontrolattribution">Класс DG.Control.Attribution</a><ul><li><a href="#конструктор-4">Конструктор</a></li><li><a href="#опции-4">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgcontrolscale">Класс DG.Control.Scale</a><ul><li><a href="#конструктор-5">Конструктор</a></li><li><a href="#опции-5">Опции</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>Элементы управления — это компоненты пользовательского интерфейса, с помощью которых пользователь может взаимодействовать с картой.</p>
 <h3 id="класс-dgcontrol">Класс DG.Control</h3><p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="#">IControl</a>. Элементы добавляются на карту следующим образом:</p>
 <pre><code>control.addTo(map);
@@ -180,7 +180,7 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h3 id="класс-dgcontrolattribution">Класс DG.Control.Attribution</h3><p>Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
+<h3 id="класс-dgcontrolfullscreen">Класс DG.Control.Fullscreen</h3><p>Кнопка, при клике на которую карта разворачивается на весь экран, повторный клик восстанавливает предыдущий размер. Добавляется на карту по умолчанию, если не передана опция fullscreenControl со значением <code>false</code>. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
 <h4 id="конструктор-2">Конструктор</h4><table>
     <thead>
         <tr>
@@ -191,8 +191,120 @@ map.addControl(control);
     </thead>
     <tbody>
         <tr>
+            <td><code><b>DG.Control.Fullscreen</b>(
+                <nobr>&lt;<a href="#опции-2">Control.Fullscreen options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.Control.Fullscreen(&hellip;)</code>
+            </td>
+            <td>Создает элемент управления полноэкранным режимом.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="опции-2">Опции</h4><table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>position</b></code></td>
+            <td><code>String</code></td>
+            <td><code><span class="string">&#39;topright&#39;</span></td>
+            <td>Расположение элемента управления (один из углов карты). См. <a href="#позиции-элементов-управления">позиции элементов управления</a>.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="класс-dgcontrollocationcontrol">Класс DG.Control.LocationControl</h3><p>Кнопка, при клике на которую определяется и отображается текущее месторасположение пользователя. Если <a href="http://dev.w3.org/geo/api/spec-source.html" target="_blank">API геолокации</a> не поддерживается устройством, тогда элемент управления не выводится.</p>
+<pre><code>DG.control.location().addTo(map);
+</code></pre><h4 id="конструктор-3">Конструктор</h4><table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.Control.LocationControl</b>(
+                <nobr>&lt;<a href="#опции-3">Control.Locate options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.Control.LocationControl(&hellip;)</code>
+            </td>
+            <td>Создает элемент управления геопозиционированием.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="опции-3">Опции</h4><table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><code><b>position</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">&#39;topleft&#39;</span></td>
+        <td>Расположение элемента управления (один из углов карты). См. <a href="#позиции-элементов-управления">позиции элементов управления</a>.</td>
+    </tr>
+    <tr>
+        <td><code><b>drawCircle</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">true</span></td>
+        <td>Будет ли отображаться круг, показывающий точность определения месторасположения.</td>
+    </tr>
+    <tr>
+        <td><code><b>follow</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">false</span></td>
+        <td>Динамическое обновление месторасположения пользователя, работает если <code>watch</code> и <code>setView</code> выставлены в true в locateOptions.</td>
+    </tr>
+    <tr>
+        <td><code><b>stopFollowingOnDrag</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">false</span></td>
+        <td>Включает или отключает обновление месторасположения пользователя при перетаскивании карты.</td>
+    </tr>
+    <tr>
+        <td><code><b>metric</b></code></td>
+        <td><code>Boolean</code></td>
+        <td><code><span class="string">true</span></td>
+        <td>Использовать метрические или английские единицы измерения.</td>
+    </tr>
+    <tr>
+        <td><code><b>locateOptions</b></code></td>
+        <td><code>Object</code></td>
+        <td><code><span class="string"></span></td>
+        <td>См. <a href="#map-locate-options">параметры определения расположения</a>.</td>
+    </tr>
+</table>
+
+<h3 id="класс-dgcontrolattribution">Класс DG.Control.Attribution</h3><p>Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
+<h4 id="конструктор-4">Конструктор</h4><table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
             <td><code><b>DG.Control.Attribution</b>(
-                <nobr>&lt;<a href="#опции-2">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-4">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.attribution(&hellip;)</code>
@@ -202,7 +314,7 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h4 id="опции-2">Опции</h4><table>
+<h4 id="опции-4">Опции</h4><table>
     <thead>
         <tr>
             <th>Опция</th>
@@ -262,7 +374,7 @@ map.addControl(control);
 
 <h3 id="класс-dgcontrolscale">Класс DG.Control.Scale</h3><p>Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет <a href="#класс-dgcontrol">Control</a>.</p>
 <pre><code>DG.control.scale().addTo(map);
-</code></pre><h4 id="конструктор-3">Конструктор</h4><table>
+</code></pre><h4 id="конструктор-5">Конструктор</h4><table>
     <thead>
         <tr>
             <th>Конструктор</th>
@@ -273,7 +385,7 @@ map.addControl(control);
     <tbody>
         <tr>
             <td><code><b>DG.Control.Scale</b>(
-                <nobr>&lt;<a href="#опции-3">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-5">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.scale(&hellip;)</code>
@@ -283,7 +395,7 @@ map.addControl(control);
     </tbody>
 </table>
 
-<h4 id="опции-3">Опции</h4><table>
+<h4 id="опции-5">Опции</h4><table>
     <thead>
         <tr>
             <th>Опция</th>
