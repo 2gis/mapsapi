@@ -20,6 +20,6 @@ var packages = {
 
 };
 
-if (typeof exports !== 'undefined') {
-    exports.packages = packages;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = packages;
 }

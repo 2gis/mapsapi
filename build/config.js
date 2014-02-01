@@ -8,13 +8,15 @@ var config = {
     mainAppConfig: basePath + '/config.main.json',
     localAppConfig: basePath + '/config.local.json',
 
+    packages: require(basePath + '/build/packs.js'),
+
     source: {
         leaflet: {
             deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
             path: basePath + '/vendors/leaflet/src/'
         },
         dg: {
-            deps: require(basePath + '/build/deps.js').deps,
+            deps: require(basePath + '/build/deps.js'),
             path: basePath + '/src/'
         }
     },
@@ -84,4 +86,6 @@ var config = {
 
 };
 
-exports.config = config;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = config;
+}
