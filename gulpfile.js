@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-    async = require('async'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
@@ -22,8 +21,18 @@ function bldjs() {
                .pipe(cache(uglify()));
 }
 
+function bldcss() {
+    return gulp.src(deps.getCSSFiles())
+               .pipe(concat('main.css'))
+               .pipe(cache(minifyCSS()));
+}
+
 gulp.task('build-scripts', ['build-clean'], function () {
     return bldjs();
+});
+
+gulp.task('build-styles', ['build-clean'], function () {
+    return bldcss();
 });
 
 gulp.task('build-clean', function () {
@@ -31,5 +40,5 @@ gulp.task('build-clean', function () {
 });
 
 module.exports = function () {
-    return bldjs();
+    return bldcss();
 };

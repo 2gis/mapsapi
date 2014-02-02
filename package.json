@@ -33,13 +33,8 @@
     "gulp-rename": "~0.2.2",
     "gulp-concat": "~2.1.7",
     "gulp-uglify": "~0.2.0",
-    "run-sequence": "~0.3.2",
     "gulp-clean": "~0.2.4",
-    "async": "~0.2.10",
     "gulp-minify-css": "~0.2.0",
-    "gulp-data-uri": "~0.1.2",
-    "lazypipe": "~0.1.3",
-    "glob-stream": "~3.1.9",
     "gulp-cache": "~0.1.1"
   }
 }
