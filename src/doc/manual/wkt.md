@@ -4,7 +4,7 @@
 
 ### Описание
 
-Используется для получения геометрии API карт на основе их описания в <a target="_blank" href="http://en.wikipedia.org/wiki/Well-known_text">WKT-формате</a>.
+Используется для получения геометрий API карт на основе их описания в <a target="_blank" href="http://en.wikipedia.org/wiki/Well-known_text">WKT-формате</a>.
 
 ### Пример использования 
 
