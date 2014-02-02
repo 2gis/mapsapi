@@ -475,16 +475,6 @@ DG.Map &mdash; основной класс API, используется для 
             <td>Вызывается при выходе пользователя из текущего <a target="_blank" href="#">проекта 2ГИС</a>.</td>
         </tr>
         <tr>
-            <td><code><b>requestfullscreen</b></code></td>
-            <td><code><a href="#event">Event</a></code>
-            <td>Вызывается при переходе в полноэкранный режим.</td>
-        </tr>
-        <tr>
-            <td><code><b>cancelfullscreen</b></code></td>
-            <td><code><a href="#event">Event</a></code>
-            <td>Вызывается при выходе из полноэкранного режима.</td>
-        </tr>
-        <tr>
             <td><code><b>entranceshow</b></code></td>
             <td><code><a href="#event">Event</a></code>
             <td>Вызывается при отображении входа в здание.</td>
