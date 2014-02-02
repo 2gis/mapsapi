@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
+    cache = require('gulp-cache'),
     // minifyCSS = require('gulp-minify-css'),
     // config = require('./build/deps.js').deps,
     config = require('./build/config.js').config,
@@ -156,9 +157,9 @@ function getCSSFiles(pkg, IE) {
 
 gulp.task('test', function () {
     // console.log(addBasePath(modules));
-    // getJSFiles();
-    console.log(getJSFiles());
-    console.log(getCSSFiles());
+    getJSFiles();
+    /*console.log(getJSFiles('online'));
+    console.log(getCSSFiles('online'));*/
 });
 
 
@@ -212,7 +213,8 @@ gulp.task('build-deps', function (done) {
 
 function bldjs() {
     return gulp.src(getJSFiles())
-               .pipe(concat('main.js'));
+               .pipe(concat('main.js'))
+               .pipe(cache(uglify()));
 }
 
 gulp.task('build-scripts', ['build-clean'], function () {

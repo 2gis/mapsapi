@@ -1,4 +1,4 @@
-var http = require('http'),
+/*var http = require('http'),
     gl = require(__dirname + '/gulpfile.js');
 
 var server = http.createServer(function (req, res) {
@@ -12,13 +12,11 @@ var server = http.createServer(function (req, res) {
         res.end();
     });
 });
-server.listen(3000);
+server.listen(3000);*/
 
-/*//Web app of 2GIS Maps API 2.0
+//Web app of 2GIS Maps API 2.0
 var http = require('http'),
     express = require('express'),
-    fs = require('fs'),
-    build = require(__dirname + '/build/build.js'),
     gl = require(__dirname + '/gulpfile.js'),
     config = {};
 
@@ -32,7 +30,7 @@ app.use(express.static(__dirname + '/public'));
 
 //Routes
 app.all(/^\/2.0\/(js|css)$/, function (req, resp, next) {
-    //@todo Add validations
+/*    //@todo Add validations
     req.dgParams = {};
     req.dgParams.pkg = req.query.pkg || null;
     req.dgParams.mod = req.query.mod || null;
@@ -46,23 +44,33 @@ app.all(/^\/2.0\/(js|css)$/, function (req, resp, next) {
         response.set('Content-Type', contentType);
         response.send(data);
     };
-    next();
+    next();*/
+    var stream = gl();
+
+    stream.on('data', function (file) {
+        resp.write(file.contents);
+
+    });
+
+    stream.on('end', function () {
+        resp.end();
+    });
 });
 
-app.get('/2.0/js', function (req, res) {
+/*app.get('/2.0/js', function (req, res) {
     //console.log('js!');
     //var stream = fs.createReadStream(__dirname + '/dist/js/main.js');
     gl().pipe(res);
     build.getJS(req.dgParams, function (data) {
         req.dgParams.callback(res, data);
     });
-});
+});*/
 
-app.get('/2.0/css', function (req, res) {
+/*app.get('/2.0/css', function (req, res) {
     build.getCSS(req.dgParams, function (data) {
         req.dgParams.callback(res, data);
     });
-});
+})*/;
 
 //@todo Make this code better :)
 if (app.get('host')) {
@@ -74,5 +82,3 @@ if (app.get('host')) {
         console.log('Maps API 2.0 server listening on ' + app.get('port'));
     });
 }
-
-*/
