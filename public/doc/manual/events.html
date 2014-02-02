@@ -1,4 +1,4 @@
-<h2 id="события">События</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#методы-управления-событиями">Методы управления событиями</a></li><li><a href="#объекты-событий">Объекты событий</a><ul><li><a href="#event">Event</a></li><li><a href="#mouseevent">MouseEvent</a></li><li><a href="#locationevent">LocationEvent</a></li><li><a href="#errorevent">ErrorEvent</a></li><li><a href="#layerevent">LayerEvent</a></li><li><a href="#tileevent">TileEvent</a></li><li><a href="#resizeevent">ResizeEvent</a></li><li><a href="#geojson-event">GeoJSON event</a></li><li><a href="#popupevent">PopupEvent</a></li><li><a href="#dragendevent">DragEndEvent</a></li><li><a href="#poievent">PoiEvent</a></li><li><a href="#projectevent">ProjectEvent</a></li></ul></dl></p>
+<h2 id="события">События</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#методы-управления-событиями">Методы управления событиями</a></li><li><a href="#объекты-событий">Объекты событий</a><ul><li><a href="#event">Event</a></li><li><a href="#mouseevent">MouseEvent</a></li><li><a href="#locationevent">LocationEvent</a></li><li><a href="#errorevent">ErrorEvent</a></li><li><a href="#layerevent">LayerEvent</a></li><li><a href="#tileevent">TileEvent</a></li><li><a href="#resizeevent">ResizeEvent</a></li><li><a href="#geojson-event">GeoJSON event</a></li><li><a href="#popupevent">PopupEvent</a></li><li><a href="#dragendevent">DragEndEvent</a></li><li><a href="#poievent">PoiEvent</a></li><li><a href="#projectevent">ProjectEvent</a></li><li><a href="#langevent">LangEvent</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>События позволяют выполнить какое-либо действие в тот момент, когда что-то происходит с объектом (например, когда пользователь кликает по карте):</p>
 <pre><code>map.on(&#39;click&#39;, function(e) {
     alert(e.latlng);
@@ -408,6 +408,23 @@ map.off(&#39;click&#39;, onClick);
             <td>Нет</td>
             <td>Object</td>
             <td>Возвращает текущий <a href="#">проект 2ГИС</a>.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="langevent">LangEvent</h4><table>
+    <thead>
+        <tr>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>lang</b></code></td>
+            <td><code>String</code></td>
+            <td>Текущий язык карты.</td>
         </tr>
     </tbody>
 </table>

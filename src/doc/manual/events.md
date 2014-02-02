@@ -450,3 +450,22 @@
         </tr>
     </tbody>
 </table>
+
+#### LangEvent
+
+<table>
+    <thead>
+        <tr>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>lang</b></code></td>
+            <td><code>String</code></td>
+            <td>Текущий язык карты.</td>
+        </tr>
+    </tbody>
+</table>

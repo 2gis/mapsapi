@@ -491,8 +491,13 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>poileave</b></code></td>
-            <td><code><a href="#event">PoiEvent</a></code>
+            <td><code><a href="#event">PoiEvent</a></code></td>
             <td>Вызывается когда курсор мышки покидает область точки интереса.</td>
+        </tr>
+        <tr>
+            <td><code><b>langchange</b></code></td>
+            <td><code><a href="#event">LangEvent</a></code></td>
+            <td>Вызывается при изменении языка карты.</td>
         </tr>
     </tbody>
 </table>
@@ -616,6 +621,11 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code>this</code></td>
             <td>Останавливает отслеживание местоположения, предварительно инициированное методом <code><b>map.locate</b>({watch: true})</code>.</td>
         </tr>
+        <tr>
+            <td><code><b>setLang</b>( <nobr>&lt;String&gt; <i>lang</i> )</nobr></code></td>
+            <td><code>String</code></td>
+            <td>Устанавливает <a href="#">язык карты</a>. В качестве параметра принимает код языка (например, 'it').</td>
+        </tr>
         <tr id="map-remove">
             <td><code><b>remove</b>()</code></td>
             <td><code>this</code></td>
@@ -684,6 +694,11 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code><b>getPixelOrigin</b>()</code></td>
             <td><code><a href="#point">Point</a></code></td>
             <td>Возвращает пиксельные координаты левой верхней точки слоя карты.</td>
+        </tr>
+        <tr>
+            <td><code><b>getLang</b>()</code></td>
+            <td><code>String</code></td>
+            <td>Возвращает текущий <a href="#">язык карты</a>.</td>
         </tr>
     </tbody>
 </table>

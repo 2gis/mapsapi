@@ -1,0 +1,414 @@
+<h2 id="утилиты">Утилиты</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#dgclass">DG.Class</a><ul><li><a href="#наследование">Наследование</a></li><li><a href="#опции">Опции</a></li><li><a href="#включения">Включения</a></li><li><a href="#статика">Статика</a></li><li><a href="#фабрики-классов">Фабрики классов</a></li><li><a href="#зацепки-конструктора">Зацепки конструктора</a></li></ul></li><li><a href="#dgbrowser">DG.Browser</a></li><li><a href="#dgutil">DG.Util</a><ul><li><a href="#методы">Методы</a></li><li><a href="#свойства">Свойства</a></li></ul></li><li><a href="#dglocale">DG.Locale</a><ul><li><a href="#пример-использования">Пример использования</a></li></ul></li><li><a href="#dglineutil">DG.LineUtil</a></li><li><a href="#dgpolyutil">DG.PolyUtil</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Служебный функционал, необходимый для работы API карт и разработки <a href="https://github.com/2gis/maps-api-2.0/blob/master/CONTRIBUTING.md#%D0%9A%D0%B0%D0%BA-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8C" target="_blank">собственных модулей</a>.</p>
+<h3 id="dgclass">DG.Class</h3><p><code>DG.Class</code> предоставляет возможность использовать ООП подход в разработке функционала API карт, используется для реализации большинства классов, приведенных в этой документации.</p>
+<p>Кроме реализации простой классической модели наследования имеются несколько свойств для удобной организации кода, такие как <code>options</code>, <code>includes</code> и <code>statics</code>.</p>
+<pre><code>var MyClass = DG.Class.extend({
+    initialize: function (greeter) {
+        this.greeter = greeter;
+        // конструктор класса
+    },
+
+    greet: function (name) {
+        alert(this.greeter + &#39;, &#39; + name)
+    }
+});
+
+// создает объект класса MyClass и передает &quot;Hello&quot; в конструктор
+var a = new MyClass(&quot;Hello&quot;);
+
+// вызывает метод greet, который показывает всплывающее окно с текстом &quot;Hello, World&quot;
+a.greet(&quot;World&quot;);
+</code></pre><h4 id="наследование">Наследование</h4><p>Для определения новых классов используется конструкция <code>DG.Class.extend</code>, также метод <code>extend</code> можно использовать в любом классе, который наследуется от <code>DG.Class</code>:</p>
+<pre><code>var MyChildClass = MyClass.extend({
+    // ... новые свойства и методы
+});
+</code></pre><p>Данный код создаст класс, который наследует все методы и свойства родительского класса (через цепочку прототипов), также возможно добавление или переопределение родительских методов и свойств. Кроме того, корректно обрабатывается оператор <code>instanceof</code>:</p>
+<pre><code>var a = new MyChildClass();
+a instanceof MyChildClass; // true
+a instanceof MyClass; // true
+</code></pre><p>Вы можете вызывать родительские методы (включая конструктор) из потомков (так, как вы бы делали это с помощью вызова <code>super</code> в других языках программирования) с помощью JavaScript функций <code>call</code> или <code>apply</code>:</p>
+<pre><code>var MyChildClass = MyClass.extend({
+    initialize: function () {
+        MyClass.prototype.initialize.call(&quot;Yo&quot;);
+    },
+
+    greet: function (name) {
+        MyClass.prototype.greet.call(this, &#39;bro &#39; + name + &#39;!&#39;);
+    }
+});
+
+var a = new MyChildClass();
+a.greet(&#39;Jason&#39;); // выведет &quot;Yo, bro Jason!&quot;
+</code></pre><h4 id="опции">Опции</h4><p><code>options</code> &mdash; это специальное свойство, которое в отличии от других объектов передаваемых через <code>extend</code> будет слито с аналогичным свойством родителя, вместо полного переопределения, это позволяет управлять конфигурацией объектов и значениями по умолчанию:</p>
+<pre><code>var MyClass = DG.Class.extend({
+    options: {
+        myOption1: &#39;foo&#39;,
+        myOption2: &#39;bar&#39;
+    }
+});
+
+var MyChildClass = DG.Class.extend({
+    options: {
+        myOption1: &#39;baz&#39;,
+        myOption3: 5
+    }
+});
+
+var a = new MyChildClass();
+a.options.myOption1; // &#39;baz&#39;
+a.options.myOption2; // &#39;bar&#39;
+a.options.myOption3; // 5
+</code></pre><p>Также имеется метод <code>DG.Util.setOptions</code>, который позволяет сливать опции переданные в конструктор с изначально заданными опциями:</p>
+<pre><code>var MyClass = DG.Class.extend({
+    options: {
+        foo: &#39;bar&#39;,
+        bla: 5
+    },
+
+    initialize: function (options) {
+        DG.Util.setOptions(this, options);
+        ...
+    }
+});
+
+var a = new MyClass({bla: 10});
+a.options; // {foo: &#39;bar&#39;, bla: 10}
+</code></pre><h4 id="включения">Включения</h4><p><code>includes</code> &mdash; это специальное свойство, которое подмешивает объекты в класс (такие объекты называются mixin-ами).</p>
+<pre><code> var MyMixin = {
+    foo: function () { ... },
+    bar: 5
+};
+
+var MyClass = DG.Class.extend({
+    includes: MyMixin
+});
+
+var a = new MyClass();
+a.foo();
+</code></pre><p>Также вы можете подмешивать объекты в процессе выполнения программы с помощью метода <code>include</code>:</p>
+<pre><code>MyClass.include(MyMixin);
+</code></pre><h4 id="статика">Статика</h4><p><code>statics</code> &mdash; это свойство, в котором описываются статические элементы класса, удобно использовать для определения констант:</p>
+<pre><code>var MyClass = DG.Class.extend({
+    statics: {
+        FOO: &#39;bar&#39;,
+        BLA: 5
+    }
+});
+
+MyClass.FOO; // &#39;bar&#39;
+</code></pre><h4 id="фабрики-классов">Фабрики классов</h4><p>Для создания новых объектов классов используются фабричные методы, которые имеют такое же название, как и у класса, но начинаются с нижнего регистра. Это аналог ключевого слова <code>new</code>, то есть, данные строки кода эквивалентны:</p>
+<pre><code>new DG.Map(&#39;map&#39;);
+DG.map(&#39;map&#39;);
+</code></pre><p>Реализовать фабричный метод в собственных классах довольно просто, например:</p>
+<pre><code>DG.map = function (id, options) {
+    return new DG.Map(id, options);
+};
+</code></pre><h4 id="зацепки-конструктора">Зацепки конструктора</h4><p>Если вы разрабатываете модуль к API, тогда велика вероятность того, что вам понадобится выполнить дополнительные действия при инициализации объектов существующих классов (например, при инициализации объекта <code>DG.Polyline</code>). Для подобного рода задач имеется метод <code>addInitHook</code>:</p>
+<pre><code>MyClass.addInitHook(function () {
+    // ... выполнить дополнительные действия при вызове конструктора
+    // например, добавить обработчики событий, установить значения свойств и т.п.
+});
+</code></pre><p>Также можно использовать сокращенную запись, если необходимо вызвать лишь один метод при инициализации:</p>
+<pre><code>MyClass.addInitHook(&#39;methodName&#39;, arg1, arg2, …);
+</code></pre><h3 id="dgbrowser">DG.Browser</h3><p>Объект со свойствами, необходимыми для определения браузера/фичи, например:</p>
+<pre><code>if (DG.Browser.ie6) {
+    alert(&#39;Вам срочно нужно обновить свой браузер!&#39;);
+}
+</code></pre><table>
+    <thead>
+        <tr>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>ie</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для всех версий Internet Explorer.</td>
+        </tr>
+        <tr>
+            <td><code><b>ie6</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для Internet Explorer 6.</td>
+        </tr>
+        <tr>
+            <td><code><b>ie7</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для Internet Explorer 7.</td>
+        </tr>
+        <tr>
+            <td><code><b>webkit</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для браузеров на основе WebKit, таких как Chrome и Safari (включая мобильные версии).</td>
+        </tr>
+        <tr>
+            <td><code><b>webkit3d</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для браузеров на основе WebKit, поддерживающих CSS 3D трансформации.</td>
+        </tr>
+        <tr>
+            <td><code><b>android</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для мобильных браузеров Android устройств.</td>
+        </tr>
+        <tr>
+            <td><code><b>android23</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для мобильных браузеров на старых версиях Android устройств (2 и 3).</td>
+        </tr>
+        <tr>
+            <td><code><b>mobile</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для браузеров, работающих на современных мобильных устройствах (включая iOS Safari и различные Android устройства).</td>
+        </tr>
+        <tr>
+            <td><code><b>mobileWebkit</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для мобильных браузеров на основе WebKit.</td>
+        </tr>
+        <tr>
+            <td><code><b>mobileOpera</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для мобильной версии Opera.</td>
+        </tr>
+        <tr>
+            <td><code><b>touch</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для всех браузеров, работающих на тач-устройствах.</td>
+        </tr>
+        <tr>
+            <td><code><b>msTouch</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для браузеров с тач-моделью от Microsoft (например, IE10).</td>
+        </tr>
+        <tr>
+            <td><code><b>retina</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code> для устройств с Retina экранами.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="dgutil">DG.Util</h3><p>Общие служебные методы и свойства.</p>
+<h4 id="методы">Методы</h4><table>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>extend</b>(
+                <nobr>&lt;Object&gt; <i>dest</i></nobr>,
+                <nobr>&lt;Object&gt; <i>src?..</i> )</nobr>
+            </code></td>
+
+            <td><code>Object</code></td>
+            <td>Сливает свойства объекта <code>src</code> (или нескольких объектов) в свойства объекта <code>dest</code> и возвращает последний. Также имеется псевдоним <code>DG.extend</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>bind</b>(
+                <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+                <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+            </code></td>
+            <td><code>Function</code></td>
+            <td>Возвращает функцию, которая выполняет функцию <code>fn</code> с определенным объектом контекста <code>obj</code> (так, чтобы ключевое слово <code>this</code> внутри функции указывало на <code>obj</code>). Также имеется псевдоним <code>DG.bind</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>stamp</b>(
+                <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+            </code></td>
+
+            <td><code>String</code></td>
+            <td> Применяет уникальный ключ к объекту и возвращает его значение. Полезно для получения быстрого доступа к объекту, находящемуся в группе.</td>
+        </tr>
+        <!-- TODO Commented out for the time being:
+        https://github.com/Leaflet/Leaflet/pull/793#discussion_r1134904
+        <tr>
+            <td><code><b>requestAnimFrame</b>()</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code><b>cancelAnimFrame</b>()</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        -->
+        <tr>
+            <td><code><b>limitExecByInterval</b>(
+                <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+                <nobr>&lt;Number&gt; <i>time</i></nobr>,
+                <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+            </code></td>
+
+            <td><code>Function</code></td>
+            <td>Возвращает обертку над функцией <code>fn</code>, которая гарантирует, что функция не будет вызвана чаще, чем раз в указанный интервал времени <code>time</code> (например, используется при запросах к тайлам во время перетаскивания карты), опционально можно передать контекст (<code>context</code>), в котором будет вызываться функция.</td>
+        </tr>
+        <tr>
+            <td><code><b>formatNum</b>(
+                <nobr>&lt;Number&gt; <i>num</i></nobr>,
+                <nobr>&lt;Number&gt; <i>digits</i> )</nobr>
+            </code></td>
+
+            <td><code>Number</code></td>
+            <td>Возвращает число <code>num</code> округленное до <code>digits</code> знаков.</td>
+        </tr>
+        <tr>
+            <td><code><b>splitWords</b>(
+                <nobr>&lt;String&gt; <i>str</i> )</nobr>
+            </code></td>
+
+            <td><code>String[]</code></td>
+            <td>Обрезает и разделяет строку на части, используя в качестве разделителя пробел, возвращает массив с этими частями.</code></td>
+        </tr>
+        <tr>
+            <td><code><b>setOptions</b>(
+                <nobr>&lt;Object&gt; <i>obj</i></nobr>,
+                <nobr>&lt;Object&gt; <i>options</i> )</nobr>
+            </code></td>
+
+            <td><code>Object</code></td>
+            <td>Сливает переданные опции со свойством <code>options</code> объекта <code>obj</code>, возвращает результирующий объект. См. <a href="#class-options">Опции класса</a>. Также имеется псевдоним <code>DG.setOptions</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>getParamString</b>(
+                <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+            </code></td>
+
+            <td><code>String</code></td>
+            <td>Преобразует объект в URL-строку, например, <nobr><code>{a: &quot;foo&quot;, b: &quot;bar&quot;}</code></nobr> будет преобразован в <code><span class="string">&#39;?a=foo&amp;b=bar&#39;</span></code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>template</b>(
+                <nobr>&lt;String&gt; <i>str</i>, &lt;Object&gt; <i>data</i> )</nobr>
+            </code></td>
+
+            <td><code>String</code></td>
+            <td>Простая функция-шаблонизатор, создает строку применяя значения из объекта <code>data</code> в формате <code>{a: &#39;foo&#39;, b: &#39;bar&#39;, &hellip;}</code> к строке шаблона в формате <code>&#39;Hello {a}, {b}&#39;</code> &mdash; в этом примере будет возвращена строка <code>&#39;Hello foo, bar&#39;</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>isArray</b>(
+                <nobr>&lt;Object&gt; <i>obj</i> )</nobr>
+            </code></td>
+
+            <td><code>Boolean</code></td>
+            <td>Возвращает <code>true</code>, если переданный объект является массивом.</td>
+        </tr>
+        <tr>
+            <td><code><b>trim</b>(
+                <nobr>&lt;String&gt; <i>str</i> )</nobr>
+            </code></td>
+
+            <td><code>String</code></td>
+            <td>Обрезает пробелы с обеих сторон строки и возвращает результат.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="свойства">Свойства</h4><table>
+    <tr>
+        <th>Свойство</th>
+        <th>Тип</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>emptyImageUrl</b></code></td>
+        <td><code>String</code></td>
+        <td>URI, содержащий пустое GIF изображение, закодированное в base64. Используется для освобождения памяти неиспользуемых картинок в мобильных WebKit браузерах (память освобождается установкой свойства <code>src</code> в данное значение).</td>
+    </tr>
+</table>
+
+<h3 id="dglocale">DG.Locale</h3><p>Функционал, с помощью которого осуществляется <a href="#">перевод пользовательского интерфейса</a>.</p>
+<p>Подмешивает в карту два метода: <a href="">setLang</a> и <a href="">getLang</a>. Также имеется объект DG.Locale, который можно подмешать в любой <a href="">внешний модуль</a>, после чего в нем появится метод t, с помощью которого можно осуществить перевод. Объекты модулей, к которым примешивается DG.Locale должны содержать внутри себя свойство <code>_map</code> и статическое свойство <code>Dictionary</code>. Базовым для всех словарей является словарь <code>DG.Dictionary</code>, в котором хранятся правила перевода слов во множественные формы (plural rules). При создании модуля, использующего свои словари, необходимо их разместить в папке lang. К примеру, если вы будете использовать итальянский и русский языки, тогда необходимо создать файлы lang/it.js и lang/ru.js. Примеры создания словарей рассмотрены ниже.</p>
+<h4 id="пример-использования">Пример использования</h4><p>Подмешивание (mixin) функционала локализации в модуль:</p>
+<pre><code>DG.LocaleExample = DG.Control.extend({
+    includes: DG.Locale,
+    statics: {
+        Dictionary: {}
+    }
+    ...
+}
+</code></pre><p>Подписка на событие langchange:</p>
+<pre><code>this._map.on(&#39;langchange&#39;, this._updateText, this);
+</code></pre><p>Перевод строки на текущий язык карты:</p>
+<pre><code>container.innerHTML = this.t(&quot;{n} people&quot;, 16700000) + &#39; &#39; + this.t(&quot;regularly use 2GIS&quot;);
+</code></pre><p>Создание собственных словарей на итальянском и русском языках:</p>
+<p>Cодержимое файла lang/it.js:</p>
+<pre><code>DG.LocaleExample.Dictionary.it = DG.extend({
+    &quot;{n} people&quot; : [&quot;{n} utente&quot;, &quot;{n} utenti&quot;],
+    &quot;regularly use 2GIS&quot; : &quot;utilizzano regolarmente 2GIS&quot;
+}, DG.Dictionary.it);
+</code></pre><p>Cодержимое файла lang/ru.js:</p>
+<pre><code> DG.LocaleExample.Dictionary.ru = DG.extend({
+    &quot;{n} people&quot; : [&quot;{n} пользователь&quot;, &quot;{n} пользователя&quot;, &quot;{n} пользователей&quot;],
+    &quot;regularly use 2GIS&quot; : &quot;регулярно используют 2GIS&quot;
+}, DG.Dictionary.ru);
+</code></pre><h3 id="dglineutil">DG.LineUtil</h3><p>Набор методов для обработки ломаных.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>simplify</b>(
+                <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+                <nobr>&lt;Number&gt; <i>tolerance</i> )</nobr>
+            </code></td>
+            <td><code><a href="#point">Point</a>[]</code></td>
+            <td>Уменьшает количество точек в ломаной и возвращает новую упрощенную ломаную. Позволяет увеличить производительность обработки/отображения ломаных на карте. Параметр <code>tolerance</code> влияет на величину упрощения (чем меньше значение, тем лучше качество геометрии и ниже производительность).</td>
+        </tr>
+        <tr>
+            <td><code><b>pointToSegmentDistance</b>(
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+            </code></td>
+            <td><code>Number</code></td>
+            <td>Возвращает расстояние между точкой <code>p</code> и сегментом между точками <code>p1</code> и <code>p2</code>.
+        </tr>
+        <tr>
+            <td><code><b>closestPointOnSegment</b>(
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+            </code></td>
+            <td><code><a href="#point">Point</a></code></td>
+            <td>Возвращает ближайшую точку на сегменте <code>p1</code> <code>p2</code> до точки <code>p</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>clipSegment</b>(
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>a</i></nobr>,
+                <nobr>&lt;<a href="#point">Point</a>&gt; <i>b</i></nobr>,
+                <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+            </code></td>
+            <td><code>-</code></td>
+            <td>Обрезает сегмент <code>a</code> <code>b</code> по прямоугольной области (модифицируются непосредственно точки сегмента).</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="dgpolyutil">DG.PolyUtil</h3><p>Набор методов для обработки точек многоугольников.</p>
+<table>
+    <tr>
+        <th>Метод</th>
+        <th>Возвращает</th>
+        <th>Описание</th>
+    </tr>
+    <tr>
+        <td><code><b>clipPolygon</b>(
+            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+        </code></td>
+        <td><code><a href="#point">Point</a>[]</code></td>
+        <td>Обрезает многоугольник по прямоугольной области.</td>
+    </tr>
+</table>
