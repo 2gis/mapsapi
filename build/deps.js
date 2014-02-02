@@ -291,6 +291,6 @@ var deps = {
     }
 };
 
-if (typeof exports !== 'undefined') {
-    exports.deps = deps;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = deps;
 }
