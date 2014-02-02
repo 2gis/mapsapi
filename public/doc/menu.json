@@ -143,6 +143,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Линейка",
+                                "uri": "doc/2.0/maps/manual/ruler",
+                                "_src":"manual/ruler.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "AJAX-запросы",
                                 "uri": "doc/2.0/maps/manual/ajax",
                                 "_src":"manual/ajax.md",

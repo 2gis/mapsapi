@@ -4,7 +4,7 @@
 
 ### Описание
 
-Позволяет анализировать данные в формате <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON</a> и отображать их на карте. Расширяет [FeatureGroup](#).
+Считывает данные в формате <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON</a> и отображает их на карте. Расширяет [FeatureGroup](#).
 
 ### Пример использования
 

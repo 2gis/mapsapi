@@ -370,16 +370,20 @@
 #### Свойства
 
 <table>
-    <tr>
-        <th>Свойство</th>
-        <th>Тип</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>emptyImageUrl</b></code></td>
-        <td><code>String</code></td>
-        <td>URI, содержащий пустое GIF изображение, закодированное в base64. Используется для освобождения памяти неиспользуемых картинок в мобильных WebKit браузерах (память освобождается установкой свойства <code>src</code> в данное значение).</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>emptyImageUrl</b></code></td>
+            <td><code>String</code></td>
+            <td>URI, содержащий пустое GIF изображение, закодированное в base64. Используется для освобождения памяти неиспользуемых картинок в мобильных WebKit браузерах (память освобождается установкой свойства <code>src</code> в данное значение).</td>
+        </tr>
+    </tbody>
 </table>
 
 ### DG.Locale
@@ -481,17 +485,21 @@ Cодержимое файла lang/ru.js:
 Набор методов для обработки точек многоугольников.
 
 <table>
-    <tr>
-        <th>Метод</th>
-        <th>Возвращает</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>clipPolygon</b>(
-            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
-            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
-        </code></td>
-        <td><code><a href="#point">Point</a>[]</code></td>
-        <td>Обрезает многоугольник по прямоугольной области.</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>clipPolygon</b>(
+                <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+                <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+            </code></td>
+            <td><code><a href="#point">Point</a>[]</code></td>
+            <td>Обрезает многоугольник по прямоугольной области.</td>
+        </tr>
+    </tbody>
 </table>

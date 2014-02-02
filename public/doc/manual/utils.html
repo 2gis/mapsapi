@@ -311,16 +311,20 @@ DG.map(&#39;map&#39;);
 </table>
 
 <h4 id="свойства">Свойства</h4><table>
-    <tr>
-        <th>Свойство</th>
-        <th>Тип</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>emptyImageUrl</b></code></td>
-        <td><code>String</code></td>
-        <td>URI, содержащий пустое GIF изображение, закодированное в base64. Используется для освобождения памяти неиспользуемых картинок в мобильных WebKit браузерах (память освобождается установкой свойства <code>src</code> в данное значение).</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>emptyImageUrl</b></code></td>
+            <td><code>String</code></td>
+            <td>URI, содержащий пустое GIF изображение, закодированное в base64. Используется для освобождения памяти неиспользуемых картинок в мобильных WebKit браузерах (память освобождается установкой свойства <code>src</code> в данное значение).</td>
+        </tr>
+    </tbody>
 </table>
 
 <h3 id="dglocale">DG.Locale</h3><p>Функционал, с помощью которого осуществляется <a href="#">перевод пользовательского интерфейса</a>.</p>
@@ -399,17 +403,21 @@ DG.map(&#39;map&#39;);
 
 <h3 id="dgpolyutil">DG.PolyUtil</h3><p>Набор методов для обработки точек многоугольников.</p>
 <table>
-    <tr>
-        <th>Метод</th>
-        <th>Возвращает</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>clipPolygon</b>(
-            <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
-            <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
-        </code></td>
-        <td><code><a href="#point">Point</a>[]</code></td>
-        <td>Обрезает многоугольник по прямоугольной области.</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>clipPolygon</b>(
+                <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+                <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+            </code></td>
+            <td><code><a href="#point">Point</a>[]</code></td>
+            <td>Обрезает многоугольник по прямоугольной области.</td>
+        </tr>
+    </tbody>
 </table>
