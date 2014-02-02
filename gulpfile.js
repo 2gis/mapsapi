@@ -11,9 +11,13 @@ var gulp = require('gulp'),
 
 
 gulp.task('test', function () {
-    var css = deps.getCSSFiles();
+    var css = deps.getCSSFiles(null, {
+        skin: 'dark',
+        addIE: true,
+        onlyIE: false
+    });
     // console.log(deps.getJSFiles());
-    // console.log(css, css.length);
+    console.log(css, css.length);
 });
 
 function bldjs() {
