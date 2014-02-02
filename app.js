@@ -29,9 +29,9 @@ app.set('host', config.HOST || null);
 app.use(express.static(__dirname + '/public'));
 
 //Routes
-app.all(/^\/2.0\/(js|css)$/, function (req, resp, next) {
-/*    //@todo Add validations
-    req.dgParams = {};
+app.get(/^\/2.0\/(js|css)$/, function (req, resp, next) {
+    //@todo Add validations
+    /*req.dgParams = {};
     req.dgParams.pkg = req.query.pkg || null;
     req.dgParams.mod = req.query.mod || null;
     req.dgParams.isDebug = req.query.mode === 'debug';
@@ -49,7 +49,6 @@ app.all(/^\/2.0\/(js|css)$/, function (req, resp, next) {
 
     stream.on('data', function (file) {
         resp.write(file.contents);
-
     });
 
     stream.on('end', function () {
@@ -70,15 +69,11 @@ app.all(/^\/2.0\/(js|css)$/, function (req, resp, next) {
     build.getCSS(req.dgParams, function (data) {
         req.dgParams.callback(res, data);
     });
-})*/;
+});*/
 
-//@todo Make this code better :)
-if (app.get('host')) {
-    http.createServer(app).listen(app.get('port'), app.get('host'), function () {
-        console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
-    });
-} else {
-    http.createServer(app).listen(app.get('port'), function () {
-        console.log('Maps API 2.0 server listening on ' + app.get('port'));
-    });
-}
+var host = app.get('host'),
+    port = app.get('port');
+
+http.createServer(app).listen(app.get('port'), host ? host : null, function () {
+    console.log('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + port);
+});
