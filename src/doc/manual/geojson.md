@@ -4,9 +4,11 @@
 
 ### Описание
 
-Представляет <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON</a> слой. Позволяет анализировать данные в формате GeoJSON и отображать их на карте. Расширяет [FeatureGroup](#).
+Позволяет анализировать данные в формате <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON</a> и отображать их на карте. Расширяет [FeatureGroup](#).
 
 ### Пример использования
+
+Считывает GeoJSON данные, которые находятся в переменной `data` и отображает их на карте:
 
     var data = {
         "type": "Feature",
