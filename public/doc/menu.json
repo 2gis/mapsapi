@@ -154,17 +154,6 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Promises",
-                                "uri": "doc/2.0/maps/manual/promises",
-                                "_src":"manual/promises.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
                                 "title": "GeoJSON-формат",
                                 "uri": "doc/2.0/maps/manual/geojson",
                                 "_src":"manual/geojson.md",
