@@ -4,10 +4,11 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     cache = require('gulp-cache'),
     minifyCSS = require('gulp-minify-css'),
+    base64 = require('./build/gulp-base64'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps.js')(config),
-    clean = require('gulp-clean'),
-    runSequence = require('gulp-run-sequence');
+    runSequence = require('gulp-run-sequence'),
+    clean = require('gulp-clean');
 
 //Delete it
 gulp.task('test', function () {
@@ -22,13 +23,12 @@ gulp.task('test', function () {
 
 //CLI API
 gulp.task('build-scripts', ['build-clean'], function () {
-    return bldjs()
+    return bldJs()
            .pipe(gulp.dest('./public/js'));
 });
 
 gulp.task('build-styles', ['build-clean'], function () {
-    return bldcss()
-          .pipe(minifyCSS())
+    return bldCss()
           .pipe(gulp.dest('./public/css'));
 });
 
@@ -73,6 +73,5 @@ function bldCss(isDebug) {
 
 module.exports = {
     getJS: bldJs,
-    getCSS: bldCss,
-    mod: deps.getJSFiles
+    getCSS: bldCss
 };
