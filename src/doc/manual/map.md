@@ -152,6 +152,12 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code>true</code></td>
             <td>Включено ли геокодирование по клику (геокликер). Если `true`, тогда при клике в любой объект карты (улицы, дома, остановки) будет отображаться информация об этом объекте.</td>
         </tr>
+        <tr>
+            <td><code><b>projectDetector</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code></td>
+            <td>Включает или отключает механизм определения <a href="#">проектов 2ГИС</a>.</td>
+        </tr>
     </tbody>
 </table>
 
@@ -1169,6 +1175,11 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code><b>geoclicker</b></code></td>
             <td><a href="#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик геокодирования по клику.</td>
+        </tr>
+        <tr>
+            <td><code><b>projectDetector</b></code></td>
+            <td><a href="#ihandler"><code>ProjectDetector</code></a></td>
+            <td>Обработчик определения <a href="#">проекта 2ГИС</a>.</td>
         </tr>
         <tr>
             <td><code><b>zoomControl</b></code></td>
