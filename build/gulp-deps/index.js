@@ -92,8 +92,10 @@ var init = function (config) {
     }
 
     return {
-        getJSFiles: function (pkg) {
-            return getModulesList(pkg)
+        getJSFiles: function (options) {
+            options = options || {};
+
+            return getModulesList(options.pkg)
                 .map(function (name) {
                     return modules[name];
                 })
@@ -108,11 +110,12 @@ var init = function (config) {
                 })
                 ;
         },
-        getCSSFiles: function (pkg, options) {
+        getCSSFiles: function (options) {
             options = options || {};
+
             var skin = options.skin || config.appConfig.DEFAULT_SKIN;
 
-            return getModulesList(pkg)
+            return getModulesList(options.pkg)
                 .map(function (name) {
                     return modules[name];
                 })
@@ -125,7 +128,7 @@ var init = function (config) {
                     if (!options.onlyIE && item.all) {
                         items.push(item.all);
                     }
-                    if (options.addIE && item.ie) {
+                    if (options.isIE && item.ie) {
                         items.push(item.ie);
                     }
                     return array.concat(items);

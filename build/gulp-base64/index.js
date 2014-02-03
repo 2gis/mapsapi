@@ -49,9 +49,18 @@ module.exports = function (opts) {
         //  });
         //  this.push(map);
         // }
-        var src = file.contents.toString();
-        var srcFile = file.relative;
-        encode.stylesheet(srcFile, src, opts, callback);
+        // console.log(file.path);
+        // var src = file.contents.toString();
+        // var srcFile = file.relative;
+        var self = this;
+        encode.stylesheet(file, opts, function (err, src) {
+            if (err) {
+                console.error(err);
+            }
+            // console.log(src);
+            self.push(src);
+            callback();
+        });
         // console.log(file.relative, file.contents);
 
         // callback();
