@@ -48,7 +48,7 @@ exports.init = function (/*grunt*/) {
    * @param opts Options object
    * @param done Function to call once encoding has finished.
    */
-  exports.stylesheet = function(srcFile, src, opts, done) {
+  exports.stylesheet = function(file, opts, done) {
     opts = opts || {};
 
     // Cache of already converted images
@@ -61,7 +61,7 @@ exports.init = function (/*grunt*/) {
     }
 
     var deleteAfterEncoding = opts.deleteAfterEncoding;
-    // var src = file.read(srcFile);
+    var src = file.contents.toString();
     var result = "";
     var match, img, line, tasks, group;
 
@@ -77,6 +77,8 @@ exports.init = function (/*grunt*/) {
       //    group[4] will be undefined
       // if there is no other url to be processed, then group[1-3] will be undefined
       //    group[4] will hold the entire string
+
+      // console.log(group[2]);
 
       if(group[4] == null) {
         result += group[1];
@@ -98,9 +100,10 @@ exports.init = function (/*grunt*/) {
           // Resolve the image path relative to the CSS file
           if(is_local_file) {
             // local file system.. fix up the path
-            loc = img.charAt(0) === "/" ?
-              (opts.baseDir || "") + loc :
-              path.join(path.dirname(srcFile),  (opts.baseDir || "") + img);
+            loc = file.path;
+            // loc = img.charAt(0) === "/" ?
+            //   (opts.baseDir || "") + loc :
+            //   path.join(path.dirname(srcFile),  (opts.baseDir || "") + img);
 
             // If that didn't work, try finding the image relative to
             // the current file instead.

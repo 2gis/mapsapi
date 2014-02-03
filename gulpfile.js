@@ -32,7 +32,7 @@ function bldjs() {
 function bldcss() {
     return gulp.src(deps.getCSSFiles())
                // .pipe(concat('main.css'))
-               // .pipe(base64())
+               .pipe(base64())
 
                // .pipe(cache(minifyCSS()))
                .pipe(gulp.dest('./dist'));
