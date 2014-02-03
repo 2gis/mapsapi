@@ -1,8 +1,7 @@
 //Web app of 2GIS Maps API 2.0
-var http = require('http'),
-    express = require('express'),
+var express = require('express'),
     gulp = require(__dirname + '/gulpfile.js'),
-    config = {};
+    config = require(__dirname + '/build/config.js').appConfig;
 
 //Init application
 var app = express();
@@ -21,6 +20,7 @@ function getParams(req, resp, next) {
     req.dgParams.skin = req.query.skin || null;
     req.dgParams.isIE = req.query.ie || false;
     var contentType = (req.path === '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
+
     req.dgParams.callback = function (stream, response) {
         response.set('Cache-Control', 'public, max-age=604800');
         response.set('X-Powered-By', '2GIS Maps API Server');
@@ -38,16 +38,17 @@ function getParams(req, resp, next) {
 app.get('/2.0/js', getParams, function (req, res) {
     var jsStream = gulp.getJS();
     req.dgParams.callback(jsStream, res);
+
 });
 
 app.get('/2.0/css', getParams, function (req, res) {
-    var cssSteam = gulp.getCSS();
-    req.dgParams.callback(cssSteam, res);
+    var cssStream = gulp.getCSS();
+    req.dgParams.callback(cssStream, res);
 });
 
 var host = app.get('host'),
     port = app.get('port');
 
-http.createServer(app).listen(app.get('port'), host ? host : null, function () {
+app.listen(3000, function () {
     console.log('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + port);
 });

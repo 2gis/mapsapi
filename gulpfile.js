@@ -15,8 +15,8 @@ gulp.task('test', function () {
         addIE: true,
         onlyIE: false
     });
-    // console.log(deps.getJSFiles());
-    console.log(css, css.length);
+    console.log(deps.getJSFiles());
+    //console.log(css, css.length);
 });
 
 function bldjs() {
@@ -32,18 +32,25 @@ function bldcss() {
 }
 
 gulp.task('build-scripts', ['build-clean'], function () {
-    return bldjs();
+    return bldjs()
+           .pipe(gulp.dest('./public/js'));
 });
 
 gulp.task('build-styles', ['build-clean'], function () {
+    return bldcss()
+          .pipe(gulp.dest('./public/css'));
+});
+
+gulp.task('build-assets', function () {
     return bldcss();
 });
 
 gulp.task('build-clean', function () {
-    return gulp.src('./dist', {read: false}).pipe(clean());
+    return gulp.src('./public', {read: false}).pipe(clean());
 });
 
 module.exports = {
     getJS: bldjs,
-    getCSS: bldcss
+    getCSS: bldcss,
+    mod: deps.getJSFiles
 }
