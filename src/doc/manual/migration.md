@@ -1,6 +1,6 @@
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">API 2.0</a></td></tr>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
