@@ -300,7 +300,10 @@ DG.Ruler = DG.Class.extend({
     _pointEvents: {
         'drag' : function (event) { // (Event)
             var point = event.target,
-                wraped = point.getLatLng().wrap();
+                prevPoint = this._points[event.target._pos - 1] || null,
+                shiftLng = prevPoint ? prevPoint.getLatLng().lng : 0,
+                wraped = point.getLatLng().wrap(-180 + shiftLng, 180 + shiftLng);
+
             if (!wraped.equals(event.latlng)) {
                 point.setLatLng(wraped);
             }
