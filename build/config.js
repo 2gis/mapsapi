@@ -1,6 +1,7 @@
 /**
  * Build config
  */
+var fs = require('fs');
 var basePath = __dirname + '/..'; // Set root application path
 
 var config = {
@@ -83,8 +84,28 @@ var config = {
     hint: [
         'src/*/src/**/*.js'
     ]
-
 };
+
+config.appConfig = getAppConfig();
+
+// Reeturn actual configuration for replace
+function getAppConfig() { // ()->Object
+    var mainConfigPath = config.mainAppConfig,
+        localConfigPath = config.localAppConfig,
+        mainConfig,
+        localConfig;
+
+    if (!fs.existsSync(mainConfigPath)) {
+        throw new Error('File \'config.main.json\' was not found in ' + mainConfigPath);
+    }
+
+    mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
+    if (fs.existsSync(localConfigPath)) {
+        localConfig = JSON.parse(fs.readFileSync(localConfigPath));
+        extend(mainConfig, localConfig);
+    }
+    return mainConfig;
+}
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = config;

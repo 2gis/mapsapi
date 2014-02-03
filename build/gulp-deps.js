@@ -108,7 +108,10 @@ var init = function (config) {
                 })
                 ;
         },
-        getCSSFiles: function (pkg, IE) {
+        getCSSFiles: function (pkg, options) {
+            options = options || {};
+            var skin = options.skin || config.appConfig.DEFAULT_SKIN;
+
             return getModulesList(pkg)
                 .map(function (name) {
                     return modules[name];
@@ -117,13 +120,19 @@ var init = function (config) {
                     return module.css;
                 })
                 .filter(Boolean)
-                .map(function (item) {
-                    return item.all;
-                })
+                .reduce(function (array, item) {
+                    var items = [];
+                    if (!options.onlyIE && item.all) {
+                        items.push(item.all);
+                    }
+                    if (options.addIE && item.ie) {
+                        items.push(item.ie);
+                    }
+                    return array.concat(items);
+                }, [])
                 .reduce(function (array, items) {
                     return array.concat(items);
                 })
-                // .reduce([].concat)
                 .reduce(function (array, item) {//if css have skin, we add basic theme
                     if (item.indexOf('{skin}') > -1) {
                         array.push(item.replace('{skin}', 'basic'));
@@ -131,7 +140,7 @@ var init = function (config) {
                     return array.concat(item);
                 }, [])
                 .map(function (file) {//add selected theme
-                    return file.replace('{skin}', 'light');
+                    return file.replace('{skin}', skin);
                 })
                 .filter(fs.existsSync)
                 ;
