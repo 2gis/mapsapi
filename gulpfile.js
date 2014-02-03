@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     cache = require('gulp-cache'),
+    es = require('event-stream'),
     minifyCSS = require('gulp-minify-css'),
     base64 = require('./build/gulp-base64'),
     config = require('./build/config.js'),
@@ -22,14 +23,28 @@ gulp.task('test', function () {
 });
 
 //CLI API
-gulp.task('build-scripts', ['build-clean'], function () {
+gulp.task('build-scripts', function () {
     return bldJs()
            .pipe(gulp.dest('./public/js'));
 });
 
-gulp.task('build-styles', ['build-clean'], function () {
-    return bldCss()
-          .pipe(gulp.dest('./public/css'));
+gulp.task('build-styles', function () {
+    return es.concat(
+        srcCss({}).pipe(gulp.dest('./public/css/'))
+                             .pipe(rename({suffix: '.min'}))
+                             .pipe(minifyCSS())
+                             .pipe(gulp.dest('./public/css/')),
+        srcCss({addIE: true}).pipe(rename({suffix: '.full'}))
+                             .pipe(gulp.dest('./public/css/'))
+                             .pipe(rename({suffix: '.full.min'}))
+                             .pipe(minifyCSS())
+                             .pipe(gulp.dest('./public/css/')),
+        srcCss({onlyIE: true}).pipe(rename({suffix: '.ie'}))
+                             .pipe(gulp.dest('./public/css/'))
+                             .pipe(rename({suffix: '.ie.min'}))
+                             .pipe(minifyCSS())
+                             .pipe(gulp.dest('./public/css/'))
+    );
 });
 
 gulp.task('build-assets', function () {
@@ -62,7 +77,7 @@ function bldJs(opt) {
 //css build api
 function srcCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
-               .pipe(concat('main.css'));
+               .pipe(concat('styles.css'));
 }
 function minCss(opt) {
     return srcCss(opt).pipe(cache(minifyCSS()));
