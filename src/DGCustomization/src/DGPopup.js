@@ -123,7 +123,7 @@
         },
 
         _createNSElement: function (name) {
-            return document.createElementNS(L.Path.SVG_NS, name);
+            return document.createElementNS(DG.Path.SVG_NS, name);
         },
 
         _initLayout: function () {
@@ -140,7 +140,6 @@
 
                 tip = this._createNSElement('svg'),
                 tip.setAttribute('class', this._popupTipClass + ' ' + this._popupTipClass + '_svg');
-                // tip.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
                 tip.appendChild(path);
                 DG.DomEvent.disableClickPropagation(path);
             } else {
