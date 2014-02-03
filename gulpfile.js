@@ -82,6 +82,7 @@ function bldJs(opt) {
 //css build api
 function srcCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
+               .pipe(base64())
                .pipe(concat('styles.css'));
 }
 function minCss(opt) {
