@@ -22,7 +22,6 @@ function getParams(req, resp, next) {
     req.dgParams.isIE = req.query.ie || false;
     var contentType = (req.path === '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
     req.dgParams.callback = function (stream, response) {
-        console.log('all cb');
         response.set('Cache-Control', 'public, max-age=604800');
         response.set('X-Powered-By', '2GIS Maps API Server');
         response.set('Content-Type', contentType);
@@ -30,7 +29,6 @@ function getParams(req, resp, next) {
             response.write(file.contents);
         });
         stream.on('end', function () {
-            console.log('end', arguments);
             response.end();
         });
     };

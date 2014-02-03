@@ -2,6 +2,7 @@
  * Build config
  */
 var fs = require('fs');
+var extend = require('extend');
 var basePath = __dirname + '/..'; // Set root application path
 
 var config = {
