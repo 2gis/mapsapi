@@ -24,8 +24,7 @@ function bldjs() {
 function bldcss() {
     return gulp.src(deps.getCSSFiles())
                .pipe(concat('main.css'))
-               .pipe(cache(minifyCSS()))
-               .pipe(gulp.dest('./dist/test.css'));
+               .pipe(cache(minifyCSS()));
 }
 
 gulp.task('build-scripts', ['build-clean'], function () {
@@ -40,6 +39,7 @@ gulp.task('build-clean', function () {
     return gulp.src('./dist', {read: false}).pipe(clean());
 });
 
-module.exports = function () {
-    return bldcss();
-};
+module.exports = {
+    getJS: bldjs,
+    getCSS: bldcss
+}
