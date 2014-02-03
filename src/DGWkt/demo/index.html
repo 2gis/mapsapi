@@ -11,15 +11,15 @@
 <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
 
 <script type="text/javascript">
-    L.DG.then(function () {
+    DG.then(function () {
 
-        var map = new L.Map('map', {
-            center: new L.LatLng(55.0412876099625, 82.9175228440822),
+        var map = new DG.Map('map', {
+            center: new DG.LatLng(55.0412876099625, 82.9175228440822),
             zoom: 17
         });
 
-        var wkt = new L.DG.Wkt();
-        
+        var wkt = new DG.Wkt();
+
         var polygonComponents = wkt.read('POLYGON((82.916999581655 55.0421363815388, 82.9175228440822 55.0401876099625, 82.9180633669606 55.0402351774059, 82.9175402952564 55.0421841282563,82.916999581655 55.0421363815388))');
         wkt.toObject(polygonComponents).addTo(map);
 

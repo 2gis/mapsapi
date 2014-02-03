@@ -1,4 +1,4 @@
-L.Control.Attribution.Dictionary.it = {
+DG.Control.Attribution.Dictionary.it = {
 	"copyright logo": "http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners",
 	"copyright apilink": "http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners",
 	"copyright license": "http://2gis.it/",

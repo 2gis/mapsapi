@@ -1,4 +1,4 @@
-L.DG.Location = L.DG.RoundControl.extend({
+DG.Control.Location = DG.RoundControl.extend({
 
     statics: {
         Dictionary: {}
@@ -6,7 +6,7 @@ L.DG.Location = L.DG.RoundControl.extend({
 
     options: {
         iconClass: 'locate',
-        position: L.DG.configTheme.controls.location[L.Browser.touch ? 'touchPosition' : 'position'],
+        position: DG.Browser.touch ? 'bottomright' : 'topleft',
         drawCircle: true,
         follow: true,  // follow with zoom and pan the user's location
         stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged
@@ -24,7 +24,7 @@ L.DG.Location = L.DG.RoundControl.extend({
     },
 
     initialize: function (options) {
-        L.Util.setOptions(this, options);
+        DG.Util.setOptions(this, options);
 
         if (!navigator.geolocation) {
             this._disable = true;
@@ -37,7 +37,7 @@ L.DG.Location = L.DG.RoundControl.extend({
             watch: true,  // if you overwrite this, visualization cannot be updated
             setView: false
         };
-        L.extend(this._locateOptions, this.options.locateOptions);
+        DG.extend(this._locateOptions, this.options.locateOptions);
 
         this._resetVariables();
 
@@ -48,7 +48,7 @@ L.DG.Location = L.DG.RoundControl.extend({
     },
 
     _initLocate: function () {
-        this._layer = new L.LayerGroup();
+        this._layer = new DG.LayerGroup();
         this._layer.addTo(this._map);
 
         // event hooks
@@ -159,7 +159,7 @@ L.DG.Location = L.DG.RoundControl.extend({
         };
         if (this.options.drawCircle) {
             if (!this._circle) {
-                this._circle = L.circle(this._event.latlng, radius, style)
+                this._circle = DG.circle(this._event.latlng, radius, style)
                     .addTo(this._layer);
             } else {
                 this._circle.setLatLng(this._event.latlng).setRadius(radius);
@@ -177,21 +177,21 @@ L.DG.Location = L.DG.RoundControl.extend({
 
         // small inner marker
         var m = {
-            icon: L.divIcon({
+            icon: DG.divIcon({
                 className: 'dg-locate-pin',
                 iconSize: [20, 20]
             })
         };
 
         if (!this._marker) {
-            this._marker = L.marker(this._event.latlng, m)
+            this._marker = DG.marker(this._event.latlng, m)
                 .bindLabel(this.t('you_are_here'))
                 .addTo(this._layer);
         } else {
             this._marker.setLatLng(this._event.latlng);
         }
 
-        L.DomEvent.on(this._marker, 'click', function () {
+        DG.DomEvent.on(this._marker, 'click', function () {
             this._map.fireEvent('dgLocateClick');
         });
 
@@ -228,8 +228,8 @@ L.DG.Location = L.DG.RoundControl.extend({
         }
 
         this._stopLocate();
-        this._error = L.DomUtil.create('div', 'dg-label dg-label_location-error', this._container);
-        this._errorText = L.DomUtil.create('div', 'dg-label__content', this._error);
+        this._error = DG.DomUtil.create('div', 'dg-label dg-label_location-error', this._container);
+        this._errorText = DG.DomUtil.create('div', 'dg-label__content', this._error);
         this._errorText.innerHTML = this.t('cant_find');
 
         var self = this;
@@ -259,13 +259,13 @@ L.DG.Location = L.DG.RoundControl.extend({
     }
 });
 
-L.DG.locate = function (options) {
-    return new L.DG.Location(options);
+DG.control.location = function (options) {
+    return new DG.Control.Location(options);
 };
 
-L.Map.addInitHook(function () {
+DG.Map.addInitHook(function () {
     if (this.options.locationControl) {
-        this.locationControl = L.DG.locate(this.options.locationControl);
+        this.locationControl = DG.control.location(this.options.locationControl);
         this.addControl(this.locationControl);
     }
 });

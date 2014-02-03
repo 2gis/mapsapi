@@ -1,7 +1,7 @@
-// Extends L.DG.Entrance.Arrow with SVG-specific rendering code
-if (L.Browser.svg) {
+// Extends DG.Entrance.Arrow with SVG-specific rendering code
+if (DG.Browser.svg) {
 
-    L.DG.Entrance.Arrow.include({
+    DG.Entrance.Arrow.include({
 
         _defs: null,
 
@@ -18,11 +18,11 @@ if (L.Browser.svg) {
             this._markersPath = [];
             this._markersPolygons = [];
 
-            L.Polyline.prototype.initialize.call(this, latlngs, options);
+            DG.Polyline.prototype.initialize.call(this, latlngs, options);
         },
 
-        onAdd: function (map) { // (L.Map)
-            L.Polyline.prototype.onAdd.call(this, map);
+        onAdd: function (map) { // (DG.Map)
+            DG.Polyline.prototype.onAdd.call(this, map);
             this._initMarkers();
 
             map.on({'zoomend': this._updateMarker}, this);
@@ -34,8 +34,8 @@ if (L.Browser.svg) {
             map.on({'moveend': this._hideMarker}, this);
         },
 
-        onRemove: function (map) { // (L.Map)
-            L.Polyline.prototype.onRemove.call(this, map);
+        onRemove: function (map) { // (DG.Map)
+            DG.Polyline.prototype.onRemove.call(this, map);
             map.off({'zoomend': this._updateMarker}, this);
             map.off({'zoomend': this._updateStyle}, this);
             map.off({'moveend': this._showMarker}, this);
@@ -55,7 +55,7 @@ if (L.Browser.svg) {
         _initMarkers: function () {
             var i, marker, markerPath, markerPolygon,
                 optionsByZoom =  this.options.byZoom,
-                id = this._markerId = 'arrow-marker-' + L.Util.stamp(this),
+                id = this._markerId = 'arrow-marker-' + DG.Util.stamp(this),
                 svg = this._container.parentNode;
 
             this._initDefs();
@@ -123,7 +123,7 @@ if (L.Browser.svg) {
 
         _updateMarker: function () {
             var zoom = this._map.getZoom();
-            if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
+            if (zoom >= DG.Entrance.SHOW_FROM_ZOOM) {
                 this._showMarker();
             } else {
                 this._hideMarker(false);
@@ -133,7 +133,7 @@ if (L.Browser.svg) {
         _showMarker: function () {
             var zoom = this._map.getZoom();
 
-            if (zoom >= L.DG.Entrance.SHOW_FROM_ZOOM) {
+            if (zoom >= DG.Entrance.SHOW_FROM_ZOOM) {
                 this._path.setAttribute('marker-end', 'url(#' + this._markerId + '-' + zoom + ')');
             }
         },
@@ -162,7 +162,7 @@ if (L.Browser.svg) {
                 zoom = this._map.getZoom(),
                 i;
 
-            L.Polyline.prototype._updateStyle.call(this);
+            DG.Polyline.prototype._updateStyle.call(this);
 
             if (typeof optionsByZoom[zoom] !== 'undefined' &&
                 typeof optionsByZoom[zoom].weight !== 'undefined') {

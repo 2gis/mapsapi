@@ -37,17 +37,17 @@
 	<tr>
 		<td><code><b>lazy</b></code></td>
 		<td><code>false</code></td>
-		<td>Если указать значение true, API загрузится отложено, при первом вызове L.DG.then.</td>
+		<td>Если указать значение true, API загрузится отложено, при первом вызове DG.then.</td>
 	</tr>
 </table>
 
-## L.DG.then
+## DG.then
 
 Интерфейс добавления обработчиков по событию загрузки API. Может вызываться в цепочке:
 
-	L.DG.then(function () {
-             map = new L.Map('map', {
-                'center': new L.LatLng(54.980206086231, 82.898068362003),
+	DG.then(function () {
+             map = new DG.Map('map', {
+                'center': new DG.LatLng(54.980206086231, 82.898068362003),
                 'zoom': 13,
                 'dgGeoclicker': true
             });
@@ -66,7 +66,7 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.DG.then</b>(
+		<td><code><b>DG.then</b>(
 			<nobr>&lt;Function&gt; <i>resolve</i>,</nobr>
 			<nobr>&lt;Function&gt; <i>reject</i></nobr>)
 		</code></td>
@@ -75,42 +75,42 @@
 	</tr>
 </table>
 
-Т.к. в основе L.DG.then использованы Promise, вызов L.DG.then в любой момент после загрузки API, мгновенно выполнит обработчик.
+Т.к. в основе DG.then использованы Promise, вызов DG.then в любой момент после загрузки API, мгновенно выполнит обработчик.
 
-## L.DG.plugin
+## DG.plugin
 
 Интерфейс для подключения плагинов, зависящих от API или Leaflet:
 
-	L.DG.then(function () {
+	DG.then(function () {
 			//загрузка плагинов
-            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+            return DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
         })
         .then(function () {
             //инициализация карты
-            var map = new L.Map('map', {
-                'center': new L.LatLng(54.980206086231, 82.898068362003),
+            var map = new DG.Map('map', {
+                'center': new DG.LatLng(54.980206086231, 82.898068362003),
                 'zoom': 13,
                 'dgGeoclicker': true
             });
             //инициализация плагина
-            var hash = new L.Hash(map);
+            var hash = new DG.Hash(map);
         })
 
 Если плагин не является необходимым на начальном этапе работы с картой, удобно использовать его отложенную загрузку и инициализацию:
 
-	L.DG.then(function () {
+	DG.then(function () {
             //инициализация карты
-            var map = new L.Map('map', {
-                'center': new L.LatLng(54.980206086231, 82.898068362003),
+            var map = new DG.Map('map', {
+                'center': new DG.LatLng(54.980206086231, 82.898068362003),
                 'zoom': 13,
                 'dgGeoclicker': true
             });
         }).then(function () {
         	//загрузка плагинов
-            return L.DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
+            return DG.plugin('https://raw.github.com/mlevans/leaflet-hash/master/leaflet-hash.js');
         }).then(function () {
             //инициализация плагина
-            var hash = new L.Hash(map);
+            var hash = new DG.Hash(map);
         })
 
 ### Интерфейс
@@ -122,7 +122,7 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.DG.plugin</b>(
+		<td><code><b>DG.plugin</b>(
 			<nobr>&lt;String&gt; <i>String Url</i>/</nobr>
 			<nobr>&lt;Array&gt; <i>[String Url, String Url...]</i></nobr>)
 		</code></td>
@@ -131,14 +131,14 @@
 	</tr>
 </table>
 
-## L.Map
+## DG.Map
 
 Основной класс API &mdash; используется для создания и управления картами на странице.
 
 ### Пример использования
 
 	// инициализация карты в элементе div с id "map" с указанием координат центра карты и уровня зума
-	var map = L.map('map', {
+	var map = DG.map('map', {
 		center: [51.505, -0.09],
 		zoom: 13
 	});
@@ -152,13 +152,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Map</b>(
+		<td><code><b>DG.Map</b>(
 			<nobr>&lt;HTMLElement|String&gt; <i>id</i>,</nobr>
 			<nobr>&lt;<a href="#map-options">Map options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.map(&hellip;)</code>
+			<code>DG.map(&hellip;)</code>
 		</td>
 
 		<td>Создает объект карты по переданному DOM элементу div (или его id) и необязательному объекту с опциями карты, описанными ниже.</td>
@@ -1238,11 +1238,11 @@
 	</tr>
 </table>
 
-## L.Marker
+## DG.Marker
 
 Используется для добавления маркеров на карту.
 
-	L.marker([50.5, 30.5]).addTo(map);
+	DG.marker([50.5, 30.5]).addTo(map);
 
 ### Конструктор
 <table>
@@ -1252,13 +1252,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Marker</b>(
+		<td><code><b>DG.Marker</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
 			<nobr>&lt;<a href="#marker-options">Marker options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.marker(&hellip;)</code>
+			<code>DG.marker(&hellip;)</code>
 		</td>
 
 		<td>Создает объект маркера с переданными географическими координатами и необязательными опциями.</td>
@@ -1275,9 +1275,9 @@
 	</tr>
 	<tr>
 		<td><code><b>icon</b></code></td>
-		<td><code><a href="#icon">L.Icon</a></code></td>
+		<td><code><a href="#icon">DG.Icon</a></code></td>
 		<td>*</td>
-		<td>Иконка, используемая для отображения маркера. См. <a href="#icon">L.Icon</a>.</td>
+		<td>Иконка, используемая для отображения маркера. См. <a href="#icon">DG.Icon</a>.</td>
 	</tr>
 	<tr>
 		<td><code><b>clickable</b></code></td>
@@ -1531,7 +1531,7 @@
 	</tr>
 </table>
 
-## L.Popup
+## DG.Popup
 
 Используется для отображения балунов на карте. Для открытия балуна можно использовать метод [Map#openPopup][72], в таком случае одновременно может быть открыт лишь один балун, либо [Map#addLayer][81] для отображения любого количества балунов.
 
@@ -1543,7 +1543,7 @@
 
 У дополнительных слоев, таких как ломаные также есть метод `bindPopup`. Вот более сложный пример отображения балуна:
 
-	var popup = L.popup()
+	var popup = DG.popup()
 		.setLatLng(latlng)
 		.setContent('<p>Привет!<br />Я балун.</p>')
 		.openOn(map);
@@ -1556,13 +1556,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Popup</b>(
+		<td><code><b>DG.Popup</b>(
 			<nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i>,</nobr>
 			<nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>source?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.popup(&hellip;)</code>
+			<code>DG.popup(&hellip;)</code>
 		</td>
 
 		<td>Создает объект <code>Popup</code> с переданными опциями, описывающими внешний вид и расположение балуна, и объектом, указывающим привязку балуна к определенному ILayer.</td>
@@ -1725,13 +1725,13 @@
 	</tr>
 </table>
 
-## L.TileLayer
+## DG.TileLayer
 
 Используется для загрузки и отображения тайлового слоя на карте, реализует интерфейс [ILayer][52].
 
 ### Пример использования
 
-	L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
+	DG.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
 		key: 'API-key',
 		styleId: 997
 	}).addTo(map);
@@ -1744,13 +1744,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.TileLayer</b>(
+		<td><code><b>DG.TileLayer</b>(
 			<nobr>&lt;String&gt; <i><a href="#url-template">urlTemplate</a></i>,</nobr>
 			<nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.tileLayer(&hellip;)</code>
+			<code>DG.tileLayer(&hellip;)</code>
 		</td>
 
 		<td>Создает объект тайлового слоя по переданному <a href="#url-template">URL шаблону</a> и необязательному объекту опций.</td>
@@ -1767,7 +1767,7 @@
 
 В шаблонах можно использовать собственные ключи, например так:
 
-	L.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
+	DG.tileLayer('http://{s}.somedomain.com/{foo}/{z}/{x}/{y}.png', {foo: 'bar'});
 
 ### Опции
 <table>
@@ -1984,13 +1984,13 @@
 	</tr>
 </table>
 
-## L.TileLayer.WMS
+## DG.TileLayer.WMS
 
 Используется для отображения данных WMS сервисов. Расширяет [TileLayer][13].
 
 ### Пример использования
 
-	var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+	var nexrad = DG.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
 		layers: 'nexrad-n0r-900913',
 		format: 'image/png',
 		transparent: true,
@@ -2005,13 +2005,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.TileLayer.WMS</b>(
+		<td><code><b>DG.TileLayer.WMS</b>(
 			<nobr>&lt;String&gt; <i>baseUrl</i></nobr>,
 			<nobr>&lt;<a href="#tilelayer-wms-options">TileLayer.WMS options</a>&gt; <i>options</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.tileLayer.wms(&hellip;)</code>
+			<code>DG.tileLayer.wms(&hellip;)</code>
 		</td>
 
 		<td>Создает объект тайлового WMS слоя по переданному URL WMS-сервиса и объекту опций.</td>
@@ -2084,13 +2084,13 @@
 	</tr>
 </table>
 
-## L.TileLayer.Canvas
+## DG.TileLayer.Canvas
 
 Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет [TileLayer][13].
 
 ### Пример использования
 
-	var canvasTiles = L.tileLayer.canvas();
+	var canvasTiles = DG.tileLayer.canvas();
 
 	canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
 		var ctx = canvas.getContext('2d');
@@ -2105,11 +2105,11 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.TileLayer.Canvas</b>(
+		<td><code><b>DG.TileLayer.Canvas</b>(
 			<nobr>&lt;<a href="#tilelayer-options">TileLayer options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 		<td>
-			<code>L.tileLayer.canvas(&hellip;)</code>
+			<code>DG.tileLayer.canvas(&hellip;)</code>
 		</td>
 		<td>Создает объект canvas-слоя с необязательными опциями.</td>
 	</tr>
@@ -2154,7 +2154,7 @@
 	</tr>
 </table>
 
-## L.ImageOverlay
+## DG.ImageOverlay
 
 Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс [ILayer][52].
 
@@ -2163,7 +2163,7 @@
 	var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
 		imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
 
-	L.imageOverlay(imageUrl, imageBounds).addTo(map);
+	DG.imageOverlay(imageUrl, imageBounds).addTo(map);
 
 ### Конструктор
 <table>
@@ -2173,14 +2173,14 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.ImageOverlay</b>(
+		<td><code><b>DG.ImageOverlay</b>(
 			<nobr>&lt;String&gt; <i>imageUrl</i></nobr>,
 			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
 			<nobr>&lt;<a href="#imageoverlay-options">ImageOverlay options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.imageOverlay(&hellip;)</code>
+			<code>DG.imageOverlay(&hellip;)</code>
 		</td>
 
 		<td>Создает объект изображения дополнительного слоя по переданному URL и географическим координатам, к которым оно привязано.</td>
@@ -2252,7 +2252,7 @@
 	</tr>
 </table>
 
-## L.Path
+## DG.Path
 
 Абстрактный класс, содержащий опции и константы векторных слоев (Polygon, Polyline, Circle). Никогда не используется напрямую.
 
@@ -2516,14 +2516,14 @@
 	</tr>
 </table>
 
-## L.Polyline
+## DG.Polyline
 
 Класс для отрисовки ломаных линий на карте. Расширяет [Path][17]. Используйте [Map#addLayer][81] для добавления на карту.
 
 ### Примеры использования
 
 	// создаем красную ломаную из массива географических точек
-	var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+	var polyline = DG.polyline(latlngs, {color: 'red'}).addTo(map);
 
 	// подстраиваем центр карты и масштаб так, чтобы ломаную было видно
 	map.fitBounds(polyline.getBounds());
@@ -2536,13 +2536,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Polyline</b>(
+		<td><code><b>DG.Polyline</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
 			<nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.polyline(&hellip;)</code>
+			<code>DG.polyline(&hellip;)</code>
 		</td>
 
 		<td>Создает объект ломаной по переданному массиву географических точек и необязательному объекту опций.</td>
@@ -2622,7 +2622,7 @@
 	</tr>
 </table>
 
-## L.MultiPolyline
+## DG.MultiPolyline
 
 Расширяет [FeatureGroup][26] и позволяет создавать мультиполилайны (один слой, содержащий несколько ломаных с общими стилями и балуном).
 
@@ -2634,13 +2634,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.MultiPolyline</b>(
+		<td><code><b>DG.MultiPolyline</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
 			<nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.multiPolyline(&hellip;)</code>
+			<code>DG.multiPolyline(&hellip;)</code>
 		</td>
 
 		<td>Создает объект мультиполилайна по переданному массиву массивов географических точек (каждый для своей ломаной) и необязательному объекту опций.</td>
@@ -2685,7 +2685,7 @@
 </table>
 
 
-## L.Polygon
+## DG.Polygon
 
 Класс для отрисовки многоугольников на карте. Расширяет [Polyline][18]. Используйте [Map#addLayer][81] для добавления на карту.
 
@@ -2699,13 +2699,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Polygon</b>(
+		<td><code><b>DG.Polygon</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
 			<nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.polygon(&hellip;)</code>
+			<code>DG.polygon(&hellip;)</code>
 		</td>
 
 		<td>Создает объект многоугольника по переданному массиву географических точек и необязательному объекту опций. Возможно также создать многоугольник с дырами, передав массив массивов latlngs, первый latlngs массив отвечает за внешние границы, остальные описывают дыру внутри.</td>
@@ -2730,7 +2730,7 @@
 	</tr>
 </table>
 
-## L.MultiPolygon
+## DG.MultiPolygon
 
 Расширяет [FeatureGroup][26], позволяя создавать мультиполигоны (один слой, содержащий несколько многоугольников с общими стилями и балуном).
 
@@ -2742,13 +2742,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.MultiPolygon</b>(
+		<td><code><b>DG.MultiPolygon</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
 			<nobr>&lt;<a href="#polyline-options">Polyline options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.multiPolygon(&hellip;)</code>
+			<code>DG.multiPolygon(&hellip;)</code>
 		</td>
 
 		<td>Создает объект мультиполигона по переданному массиву массивов географических точек (каждый для своего многоугольника) и необязательному объекту опций.</td>
@@ -2793,7 +2793,7 @@
 </table>
 
 
-## L.Rectangle
+## DG.Rectangle
 
 Класс для отрисовки прямоугольников на карте. Расширяет [Polygon][20]. Используйте [Map#addLayer][81] для добавления на карту.
 
@@ -2803,7 +2803,7 @@
 	var bounds = [[54.559322, -5.767822], [56.1210604, -3.021240]];
 
 	// создаем оранжевый прямоугольник
-	L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
+	DG.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(map);
 
 	// подстраиваем центр карты и масштаб так, чтобы прямоугольник было видно
 	map.fitBounds(bounds);
@@ -2816,13 +2816,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Rectangle</b>(
+		<td><code><b>DG.Rectangle</b>(
 			<nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
 			<nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.rectangle(&hellip;)</code>
+			<code>DG.rectangle(&hellip;)</code>
 		</td>
 
 		<td>Создает объект прямоугольника по переданным географическим границам и необязательному объекту опций.</td>
@@ -2850,11 +2850,11 @@
 	</tr>
 </table>
 
-## L.Circle
+## DG.Circle
 
 Класс для отрисовки круга на карте. Расширяет [Path][17]. Используйте [Map#addLayer][81] для добавления на карту.
 
-	L.circle([50.5, 30.5], 200).addTo(map);
+	DG.circle([50.5, 30.5], 200).addTo(map);
 
 ### Конструктор
 <table>
@@ -2864,14 +2864,14 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Circle</b>(
+		<td><code><b>DG.Circle</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
 			<nobr>&lt;Number&gt; <i>radius</i></nobr>,
 			<nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.circle(&hellip;)</code>
+			<code>DG.circle(&hellip;)</code>
 		</td>
 
 		<td>Создает объект круга по переданной географической точке, радиусу в метрах и необязательному объекту опций.</td>
@@ -2918,7 +2918,7 @@
 	</tr>
 </table>
 
-## L.CircleMarker
+## DG.CircleMarker
 
 Круг фиксированного размера с радиусом указанным в пикселях. Расширяет [Circle][23]. Используйте [Map#addLayer][81] для добавления на карту.
 
@@ -2930,13 +2930,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.CircleMarker</b>(
+		<td><code><b>DG.CircleMarker</b>(
 			<nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
 			<nobr>&lt;<a href="#path-options">Path options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.circleMarker(&hellip;)</code>
+			<code>DG.circleMarker(&hellip;)</code>
 		</td>
 
 		<td>Создает объект круга по переданной географической точке и необязательному объекту опций. Значение радиуса по умолчанию &mdash; 10 пикселей.</td>
@@ -2973,11 +2973,11 @@
 	</tr>
 </table>
 
-## L.LayerGroup
+## DG.LayerGroup
 
 Используется для группировки нескольких слоев, чтобы обрабатывать их как один. Если группа добавлена на карту, тогда удалив элемент из группы он удаляется и с карты. Реализует интерфейс [ILayer][52].
 
-	L.layerGroup([marker1, marker2])
+	DG.layerGroup([marker1, marker2])
 		.addLayer(polyline)
 		.addTo(map);
 
@@ -2989,12 +2989,12 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.LayerGroup</b>(
+		<td><code><b>DG.LayerGroup</b>(
 			<nobr>&lt;<a href="#ilayer">ILayer</a>[]&gt; <i>layers?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.layerGroup(&hellip;)</code>
+			<code>DG.layerGroup(&hellip;)</code>
 		</td>
 
 		<td>Создает объект группы, принимает начальный набор слоев для группировки (опционально).</td>
@@ -3077,11 +3077,11 @@
 	</tr>
 </table>
 
-## L.FeatureGroup
+## DG.FeatureGroup
 
 Расширяет [LayerGroup][25], включает в себя события мышки (инициированные членами группы) и общий метод bindPopup. Реализует интерфейс [ILayer][52].
 
-	L.featureGroup([marker1, marker2, polyline])
+	DG.featureGroup([marker1, marker2, polyline])
 		.bindPopup('Hello world!')
 		.on('click', function() { alert('Clicked on a group!'); })
 		.addTo(map);
@@ -3094,12 +3094,12 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.FeatureGroup</b>(
+		<td><code><b>DG.FeatureGroup</b>(
 			<nobr>&lt;<a href="#ilayer">ILayer</a>[]&gt; <i>layers?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.featureGroup(&hellip;)</code>
+			<code>DG.featureGroup(&hellip;)</code>
 		</td>
 
 		<td>Создает объект группы, принимает начальный набор слоев для группировки (опционально).</td>
@@ -3200,11 +3200,11 @@
 	</tr>
 </table>
 
-## L.GeoJSON
+## DG.GeoJSON
 
 Представляет [GeoJSON][95] слой. Позволяет анализировать данные в формате GeoJSON и отображать их на карте. Расширяет [FeatureGroup][26].
 
-	L.geoJson(data, {
+	DG.geoJson(data, {
 		style: function (feature) {
 			return {color: feature.properties.color};
 		},
@@ -3223,13 +3223,13 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.GeoJSON</b>(
+		<td><code><b>DG.GeoJSON</b>(
 			<nobr>&lt;Object&gt; <i>geojson?</i></nobr>,
 			<nobr>&lt;<a href="#geojson-options">GeoJSON options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.geoJson(&hellip;)</code>
+			<code>DG.geoJson(&hellip;)</code>
 		</td>
 
 		<td>Создает GeoJSON слой. Опционально принимает объект в <a href="http://geojson.org/geojson-spec.html">формате GeoJSON</a> для отображения на карте (или же можно добавить данные позже, используя метод <code>addData</code>) и объект опций.</td>
@@ -3354,15 +3354,15 @@
 	</tr>
 </table>
 
-## L.LatLng
+## DG.LatLng
 
 Географическая точка с определенной широтой и долготой.
 
-    var latlng = L.latLng(50.5, 30.5);
+    var latlng = DG.latLng(50.5, 30.5);
 
 Все методы, которые принимают объекты LatLng также принимают широту и долготу в виде простого массива или объекта, то есть данные записи эквивалентны:
 
-    map.panTo(L.latLng(50, 30));
+    map.panTo(DG.latLng(50, 30));
 	map.panTo([50, 30]);
 	map.panTo({lon: 30, lat: 50});
 	map.panTo({lat: 50, lng: 30});
@@ -3377,14 +3377,14 @@
     </tr>
     <tr>
         <td>
-            <code><b>L.LatLng</b>(
+            <code><b>DG.LatLng</b>(
             &lt;Number&gt; <i>latitude</i>,
             &lt;Number&gt; <i>longitude</i> )</code>,
             &lt;Number&gt; <i>altitude?</i> )</code>
         </td>
         <td>
-            <code>L.latLng(…)</code>
-            <code>L.latLng([…]</code>
+            <code>DG.latLng(…)</code>
+            <code>DG.latLng([…]</code>
         </td>
         <td>Создает объект, представляющий географическую точку с определенной широтой и долготой (и опционально высоту).</td>
     </tr>
@@ -3470,13 +3470,13 @@
     </tr>
 </table>
 
-## L.LatLngBounds
+## DG.LatLngBounds
 
 Прямоугольная географическая область на карте.
 
-    var southWest = L.latLng(40.712, -74.227),
-        northEast = L.latLng(40.774, -74.125),
-        bounds = L.latLngBounds(southWest, northEast);
+    var southWest = DG.latLng(40.712, -74.227),
+        northEast = DG.latLng(40.774, -74.125),
+        bounds = DG.latLngBounds(southWest, northEast);
 
 Все методы, которые принимают объекты LatLngBounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
 
@@ -3495,24 +3495,24 @@
     </tr>
     <tr>
         <td>
-            <code><b>L.LatLngBounds</b>(
+            <code><b>DG.LatLngBounds</b>(
             <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>southWest</i></nobr>,
             <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>northEast</i></nobr> )</code>
         </td>
 
         <td>
-            <code>L.latLngBounds(&hellip;)</code><br />
-            <code>L.latLngBounds([&hellip;])</code>
+            <code>DG.latLngBounds(&hellip;)</code><br />
+            <code>DG.latLngBounds([&hellip;])</code>
         </td>
 
         <td>Создает объект LatLngBounds с определенными юго-западным и северо-восточным углами прямоугольника.</td>
     </tr>
     <tr>
-        <td><code><b>L.LatLngBounds</b>(
+        <td><code><b>DG.LatLngBounds</b>(
             <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlng</i> )</nobr>
         </code></td>
         <td>
-            <code>L.latLngBounds(&hellip;)</code>
+            <code>DG.latLngBounds(&hellip;)</code>
         </td>
         <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="#map-fitbounds">fitBounds</a>.</td>
     </tr>
@@ -3633,16 +3633,16 @@
     </tr>
 </table>
 
-## L.Point
+## DG.Point
 
 Точка с пиксельными координатами x и y.
 
-    var point = new L.Point(200, 300);
+    var point = new DG.Point(200, 300);
 
 Все методы, которые принимают объекты Point также принимают координаты в виде простого массива, то есть данные записи эквивалентны:
 
     map.panBy([200, 300]);
-    map.panBy(L.point(200, 300));
+    map.panBy(DG.point(200, 300));
 
 ### Конструктор
 
@@ -3653,14 +3653,14 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.Point</b>(
+        <td><code><b>DG.Point</b>(
             <nobr>&lt;Number&gt; <i>x</i>, &lt;Number&gt; <i>y</i></nobr>,
             <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.point(&hellip;)</code><br />
-            <code>L.point([&hellip;])</code>
+            <code>DG.point(&hellip;)</code><br />
+            <code>DG.point([&hellip;])</code>
         </td>
 
         <td>Создает объект Point с координатами <code>x</code> и <code>y</code>. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда координаты будут округлены.</td>
@@ -3775,13 +3775,13 @@
     </tr>
 </table>
 
-## L.Bounds
+## DG.Bounds
 
 Прямоугольная область на карте в пиксельных координатах.
 
-    var p1 = L.point(10, 10),
-        p2 = L.point(40, 60),
-        bounds = L.bounds(p1, p2);
+    var p1 = DG.point(10, 10),
+        p2 = DG.point(40, 60),
+        bounds = DG.bounds(p1, p2);
 
 Все методы, которые принимают объекты Bounds также принимают их в виде простого массива, то есть границы могут быть указаны как в этом примере:
 
@@ -3796,25 +3796,25 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.Bounds</b>(
+        <td><code><b>DG.Bounds</b>(
             <nobr>&lt;<a href="#point">Point</a>&gt; <i>topLeft</i></nobr>,
             <nobr>&lt;<a href="#point">Point</a>&gt; <i>bottomRight</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.bounds(&hellip;)</code><br />
-            <code>L.bounds([&hellip;])</code>
+            <code>DG.bounds(&hellip;)</code><br />
+            <code>DG.bounds([&hellip;])</code>
         </td>
 
         <td>Создает объект Bounds на основе левого верхнего и правого нижнего углов.</td>
     </tr>
     <tr>
-        <td><code><b>L.Bounds</b>(
+        <td><code><b>DG.Bounds</b>(
             <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.bounds(&hellip;)</code>
+            <code>DG.bounds(&hellip;)</code>
         </td>
 
         <td>Создает объект Bounds на основе точек, которые будут в него входить.</td>
@@ -3900,11 +3900,11 @@
     </tr>
 </table>
 
-## L.Icon
+## DG.Icon
 
 Иконка маркера.
 
-    var myIcon = L.icon({
+    var myIcon = DG.icon({
         iconUrl: 'my-icon.png',
         iconRetinaUrl: 'my-icon@2x.png',
         iconSize: [38, 95],
@@ -3916,7 +3916,7 @@
         shadowAnchor: [22, 94]
     });
 
-    L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+    DG.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
 ### Конструктор
 
@@ -3927,12 +3927,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.Icon</b>(
+        <td><code><b>DG.Icon</b>(
             <nobr>&lt;<a href="#icon-options">Icon options</a>&gt; <i>options</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.icon(<span class="comment">&hellip;</span>)</code>
+            <code>DG.icon(<span class="comment">&hellip;</span>)</code>
         </td>
 
         <td>Создает объект иконки с переданными опциями.</td>
@@ -4000,14 +4000,14 @@
     </tr>
 </table>
 
-## L.DivIcon
+## DG.DivIcon
 
 Простая иконка для маркеров, которые используют простой элемент `div` вместо изображения.
 
-    var myIcon = L.divIcon({className: 'my-div-icon'});
+    var myIcon = DG.divIcon({className: 'my-div-icon'});
     // вы можете установить стиль класса .my-div-icon в CSS
 
-    L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+    DG.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
 По умолчанию установлен класс `'leaflet-div-icon'`, который стилизован как маленький белый квадрат с тенью.
 
@@ -4020,15 +4020,15 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.DivIcon</b>(
+        <td><code><b>DG.DivIcon</b>(
             <nobr>&lt;<a href="#divicon-options">DivIcon options</a>&gt; <i>options</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.divIcon(<span class="comment">&hellip;</span>)</code>
+            <code>DG.divIcon(<span class="comment">&hellip;</span>)</code>
         </td>
 
-        <td>Создает объект <code>L.DivIcon</code> с переданными опциями.</td>
+        <td>Создает объект <code>DG.DivIcon</code> с переданными опциями.</td>
     </tr>
 </table>
 
@@ -4062,7 +4062,7 @@
     </tr>
 </table>
 
-## L.Control
+## DG.Control
 
 Базовый класс для всех элементов управления. Реализует интерфейс [IControl][53]. Элементы на карту добавляются следующим образом:
 
@@ -4079,12 +4079,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.Control</b>(
+        <td><code><b>DG.Control</b>(
             <nobr>&lt;<a href="#control-options">Control options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.control(<span class="comment">&hellip;</span>)</code>
+            <code>DG.control(<span class="comment">&hellip;</span>)</code>
         </td>
 
         <td>Создает элемент управления с переданными опциями.</td>
@@ -4179,7 +4179,7 @@
     </tr>
 </table>
 
-## L.Control.Zoom
+## DG.Control.Zoom
 
 Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию, если не передана опция zoomControl со значением `false`. Расширяет [Control][34].
 
@@ -4192,12 +4192,12 @@
 		<th>Описание</th>
 	</tr>
 	<tr>
-		<td><code><b>L.Control.Zoom</b>(
+		<td><code><b>DG.Control.Zoom</b>(
 			<nobr>&lt;<a href="#control-zoom-options">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
 		</code></td>
 
 		<td>
-			<code>L.control.zoom(&hellip;)</code>
+			<code>DG.control.zoom(&hellip;)</code>
 		</td>
 
 		<td>Создает элемент управления масштабом.</td>
@@ -4245,7 +4245,7 @@
 	</tr>
 </table>
 
-## L.Control.Attribution
+## DG.Control.Attribution
 
 Позволяет показать атрибутику в небольшом текстовом контейнере на карте. Расширяет [Control][34].
 
@@ -4258,12 +4258,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.Control.Attribution</b>(
+        <td><code><b>DG.Control.Attribution</b>(
             <nobr>&lt;<a href="#control-attribution-options">Control.Attribution options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.control.attribution(&hellip;)</code>
+            <code>DG.control.attribution(&hellip;)</code>
         </td>
 
         <td>Создает элемент атрибутики.</td>
@@ -4324,11 +4324,11 @@
     </tr>
 </table>
 
-## L.Control.Scale
+## DG.Control.Scale
 
 Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений. Расширяет Control.
 
-    L.control.scale().addTo(map);
+    DG.control.scale().addTo(map);
 
 ### Конструктор
 
@@ -4339,12 +4339,12 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.Control.Scale</b>(
+        <td><code><b>DG.Control.Scale</b>(
             <nobr>&lt;<a href="#control-scale-options">Control.Scale options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>L.control.scale(&hellip;)</code>
+            <code>DG.control.scale(&hellip;)</code>
         </td>
 
         <td>Создает индикатор масштаба с переданными опциями.</td>
@@ -4757,13 +4757,13 @@
 	</tr>
 </table>
 
-## L.Class
+## DG.Class
 
-`L.Class` предоставляет возможность использовать ООП подход в разработке функционала API, используется для реализации большинства классов из данной документации.
+`DG.Class` предоставляет возможность использовать ООП подход в разработке функционала API, используется для реализации большинства классов из данной документации.
 
 Кроме реализации простой классической модели наследования имеются несколько свойств для удобной организации кода, такие как `options`, `includes` и `statics`.
 
-    var MyClass = L.Class.extend({
+    var MyClass = DG.Class.extend({
         initialize: function (greeter) {
             this.greeter = greeter;
             // конструктор класса
@@ -4783,7 +4783,7 @@
 
 ### Наследование
 
-Для определения новых классов используется конструкция `L.Class.extend`, также метод `extend` можно использовать в любом классе, который наследуется от `L.Class`:
+Для определения новых классов используется конструкция `DG.Class.extend`, также метод `extend` можно использовать в любом классе, который наследуется от `DG.Class`:
 
     var MyChildClass = MyClass.extend({
         // ... новые свойства и методы
@@ -4814,14 +4814,14 @@
 
 `options` &mdash; это специальное свойство, которое в отличии от других объектов передаваемых через `extend` будет слито с аналогичным свойством родителя, вместо полного переопределения, это позволяет управлять конфигурацией объектов и значениями по умолчанию:
 
-    var MyClass = L.Class.extend({
+    var MyClass = DG.Class.extend({
         options: {
             myOption1: 'foo',
             myOption2: 'bar'
         }
     });
 
-    var MyChildClass = L.Class.extend({
+    var MyChildClass = DG.Class.extend({
         options: {
             myOption1: 'baz',
             myOption3: 5
@@ -4833,16 +4833,16 @@
     a.options.myOption2; // 'bar'
     a.options.myOption3; // 5
 
-Также имеется метод `L.Util.setOptions`, который позволяет сливать опции переданные в конструктор с изначально заданными опциями:
+Также имеется метод `DG.Util.setOptions`, который позволяет сливать опции переданные в конструктор с изначально заданными опциями:
 
-    var MyClass = L.Class.extend({
+    var MyClass = DG.Class.extend({
         options: {
             foo: 'bar',
             bla: 5
         },
 
         initialize: function (options) {
-            L.Util.setOptions(this, options);
+            DG.Util.setOptions(this, options);
             ...
         }
     });
@@ -4852,14 +4852,14 @@
 
 ### Включения
 
-`includes` &mdash; это специальное свойство, которое подмешивает объекты в класс (такие объекты называются mixin-ами). Хорошим примером является `L.Mixin.Events`, который подмешивает [методы событий][39], такие как `on`, `off` и `fire` в класс.
+`includes` &mdash; это специальное свойство, которое подмешивает объекты в класс (такие объекты называются mixin-ами). Хорошим примером является `DG.Mixin.Events`, который подмешивает [методы событий][39], такие как `on`, `off` и `fire` в класс.
 
      var MyMixin = {
         foo: function () { ... },
         bar: 5
     };
 
-    var MyClass = L.Class.extend({
+    var MyClass = DG.Class.extend({
         includes: MyMixin
     });
 
@@ -4874,7 +4874,7 @@
 
 `statics` &mdash; это свойство, в котором описываются статические элементы класса, удобно использовать для определения констант:
 
-    var MyClass = L.Class.extend({
+    var MyClass = DG.Class.extend({
         statics: {
             FOO: 'bar',
             BLA: 5
@@ -4887,18 +4887,18 @@
 
 Для создания новых объектов классов используются фабричные методы, которые имеют такое же название, как и у класса, но начинаются с нижнего регистра. Это аналог ключевого слова `new`, то есть, данные строки кода эквивалентны:
 
-    new L.Map('map');
-    L.map('map');
+    new DG.Map('map');
+    DG.map('map');
 
 Реализовать фабричный метод в ваших собственных классах довольно просто, например:
 
-    L.map = function (id, options) {
-        return new L.Map(id, options);
+    DG.map = function (id, options) {
+        return new DG.Map(id, options);
     };
 
 ### Зацепки конструктора
 
-Если вы разрабатываете плагин к API, тогда велика вероятность того, что вам понадобится выполнить дополнительные действия при инициализации объектов существующих классов (например, при инициализации объекта `L.Polyline`). Для подобного рода задач имеется метод `addInitHook`:
+Если вы разрабатываете плагин к API, тогда велика вероятность того, что вам понадобится выполнить дополнительные действия при инициализации объектов существующих классов (например, при инициализации объекта `DG.Polyline`). Для подобного рода задач имеется метод `addInitHook`:
 
     MyClass.addInitHook(function () {
         // ... выполнить дополнительные действия при вызове конструктора
@@ -4909,11 +4909,11 @@
 
     MyClass.addInitHook('methodName', arg1, arg2, …);
 
-## L.Browser
+## DG.Browser
 
 Объект со свойствами, необходимыми для определения браузера/фичи.
 
-    if (L.Browser.ie6) {
+    if (DG.Browser.ie6) {
         alert('Вам срочно нужно обновить свой браузер!');
     }
 
@@ -4990,7 +4990,7 @@
     </tr>
 </table>
 
-## L.Util
+## DG.Util
 
 Служебные функции.
 
@@ -5007,7 +5007,7 @@
         </code></td>
 
         <td><code>Object</code></td>
-        <td>Сливает свойства объекта <code>src</code> (или нескольких объектов) в свойства объекта <code>dest</code> и возвращает последний. Также имеется псевдоним <code>L.extend</code>.</td>
+        <td>Сливает свойства объекта <code>src</code> (или нескольких объектов) в свойства объекта <code>dest</code> и возвращает последний. Также имеется псевдоним <code>DG.extend</code>.</td>
     </tr>
     <tr>
         <td><code><b>bind</b>(
@@ -5016,7 +5016,7 @@
         </code></td>
 
         <td><code>Function</code></td>
-        <td>Возвращает функцию, которая выполняет функцию <code>fn</code> с определенным объектом контекста <code>obj</code> (так, чтобы ключевое слово <code>this</code> внутри функции указывало на <code>obj</code>). Также имеется псевдоним <code>L.bind</code>.</td>
+        <td>Возвращает функцию, которая выполняет функцию <code>fn</code> с определенным объектом контекста <code>obj</code> (так, чтобы ключевое слово <code>this</code> внутри функции указывало на <code>obj</code>). Также имеется псевдоним <code>DG.bind</code>.</td>
     </tr>
     <tr>
         <td><code><b>stamp</b>(
@@ -5073,7 +5073,7 @@
         </code></td>
 
         <td><code>Object</code></td>
-        <td>Сливает переданные опции со свойством <code>options</code> объекта <code>obj</code>, возвращает результирующий объект. См. <a href="#class-options">Опции класса</a>. Также имеется псевдоним <code>L.setOptions</code>.</td>
+        <td>Сливает переданные опции со свойством <code>options</code> объекта <code>obj</code>, возвращает результирующий объект. См. <a href="#class-options">Опции класса</a>. Также имеется псевдоним <code>DG.setOptions</code>.</td>
     </tr>
     <tr>
         <td><code><b>getParamString</b>(
@@ -5124,7 +5124,7 @@
     </tr>
 </table>
 
-## L.LineUtil
+## DG.LineUtil
 
 Набор методов для обработки точек ломаных.
 
@@ -5179,7 +5179,7 @@
     </tr>
 </table>
 
-## L.PolyUtil
+## DG.PolyUtil
 
 Набор методов для обработки точек многоугольников.
 
@@ -5203,7 +5203,7 @@
     </tr>
 </table>
 
-## L.DomEvent
+## DG.DomEvent
 
 Служебные методы для работы с DOM событиями.
 
@@ -5241,8 +5241,8 @@
 
         <td><code><span class="keyword">this</span></code></td>
         <td>Останавливает всплытие события к родительским элементам. Используется внутри функции-обработчика:
-            <code>L.DomEvent.addListener(div, 'click', function (e) {
-                L.DomEvent.stopPropagation(e);
+            <code>DG.DomEvent.addListener(div, 'click', function (e) {
+                DG.DomEvent.stopPropagation(e);
             });</code>
         </td>
     </tr>
@@ -5289,7 +5289,7 @@
     </tr>
 </table>
 
-## L.DomUtil
+## DG.DomUtil
 
 Служебные методы для работы с DOM деревом.
 
@@ -5453,11 +5453,11 @@
     </tr>
 </table>
 
-## L.PosAnimation
+## DG.PosAnimation
 
 Используется для плавного перемещения элементов, использует CSS3 transitions для современных браузеров и таймер для IE6-9\.
 
-    var fx = new L.PosAnimation();
+    var fx = new DG.PosAnimation();
     fx.run(el, [300, 500], 0.5);
 
 ### Конструктор
@@ -5469,10 +5469,10 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.PosAnimation</b>()</code></td>
+        <td><code><b>DG.PosAnimation</b>()</code></td>
 
         <td>
-            <code>new L.PosAnimation()</code>
+            <code>new DG.PosAnimation()</code>
         </td>
 
         <td>Создает объект PosAnimation.</td>
@@ -5527,11 +5527,11 @@
     </tr>
 </table>
 
-## L.Draggable
+## DG.Draggable
 
 Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств). Работает только в том случае, если элемент был позиционирован с помошью <a href="#domutil-setposition">DomUtil#setPosition</a>
 
-    var draggable = new L.Draggable(elementToDrag);
+    var draggable = new DG.Draggable(elementToDrag);
     draggable.enable();
 
 ### Конструктор
@@ -5543,14 +5543,14 @@
         <th>Описание</th>
     </tr>
     <tr>
-        <td><code><b>L.Draggable</b>(
+        <td><code><b>DG.Draggable</b>(
             <nobr>&lt;HTMLElement&gt; <i>element</i>,</nobr>
             <nobr>&lt;HTMLElement&gt; <i>dragHandle?</i> )</nobr>
         </code></td>
 
         <td>
-            <code>new L.Draggable(&hellip;)</code><!--<br />
-            <code>L.draggable(<span class="comment">&hellip;</span>)</code>-->
+            <code>new DG.Draggable(&hellip;)</code><!--<br />
+            <code>DG.draggable(<span class="comment">&hellip;</span>)</code>-->
         </td>
 
         <td>Создает объект, с помощью которого можно двигать элемент <code>element</code> во время перетаскивания элемента <code>dragHandle</code> (по умолчанию <code>dragHandle</code> является тем же элементом, что и <code>element</code>).</td>
@@ -5678,7 +5678,7 @@
 
 Пример реализации пользовательского слоя:
 
-    var MyCustomLayer = L.Class.extend({
+    var MyCustomLayer = DG.Class.extend({
 
         initialize: function (latlng) {
             // сохраняет позицию или другие опции конструктора
@@ -5689,7 +5689,7 @@
             this._map = map;
 
             // создает DOM элемент и добавляет его на панели карты
-            this._el = L.DomUtil.create('div', 'my-custom-layer leaflet-zoom-hide');
+            this._el = DG.DomUtil.create('div', 'my-custom-layer leaflet-zoom-hide');
             map.getPanes().overlayPane.appendChild(this._el);
 
             // подписка на событие viewreset для обновления позиции слоя
@@ -5706,7 +5706,7 @@
         _reset: function () {
             // обновляет позицию слоя
             var pos = this._map.latLngToLayerPoint(this._latlng);
-            L.DomUtil.setPosition(this._el, pos);
+            DG.DomUtil.setPosition(this._el, pos);
         }
     });
 
@@ -5747,14 +5747,14 @@
 
 ### Пример реализации элемента управления
 
-    var MyControl = L.Control.extend({
+    var MyControl = DG.Control.extend({
         options: {
             position: 'topright'
         },
 
         onAdd: function (map) {
             // создает контейнер элемента управления с определенным именем класса
-            var container = L.DomUtil.create('div', 'my-custom-control');
+            var container = DG.DomUtil.create('div', 'my-custom-control');
 
             // ... инициализирует другие DOM элементы, добавляет обработчики событий и т.п.
 
@@ -5767,10 +5767,10 @@
 
 Если вы задаете собственный конструктор элемента управления, тогда необходимо корректно обработать опции:
 
-    var MyControl = L.Control.extend({
+    var MyControl = DG.Control.extend({
         initialize: function (foo, options) {
             // ...
-            L.Util.setOptions(this, options);
+            DG.Util.setOptions(this, options);
         },
         // ...
     });

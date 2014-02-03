@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8'>
-    <title>L.DG.then demo</title>
+    <title>DG.then demo</title>
     <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
 </head>
 <body>
@@ -11,9 +11,9 @@
         var map,
         balloonHTML;
 
-    L.DG.then(function () {
-        map = new L.Map('map', {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
+    DG.then(function () {
+        map = new DG.Map('map', {
+            center: new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 15,
             dgGeoclicker: true
         });
@@ -22,7 +22,7 @@
             <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
             (МФК «Сан Сити»), 13 этаж';
 
-        L.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
+        DG.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML).openPopup();
 
     }).then(function () {
         console.log('second handler');
@@ -33,7 +33,7 @@
     });
 
     setTimeout(function (argument) {
-        L.DG.then(function(){
+        DG.then(function(){
             console.log('deffered handler');
         }).then(function () {
             console.log('another one');
