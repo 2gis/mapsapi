@@ -13,7 +13,6 @@ app.use(express.static(__dirname + '/public'));
 
 //Routes
 function getParams(req, resp, next) {
-    //@todo Add validations
     req.dgParams = {};
     req.dgParams.pkg = req.query.pkg || null;
     req.dgParams.isDebug = req.query.mode === 'debug';
@@ -28,6 +27,9 @@ function getParams(req, resp, next) {
         stream.on('data', function (file) {
             response.write(file.contents);
         });
+        stream.on('drain', function () {
+            response.resume();
+        });
         stream.on('end', function () {
             response.end();
         });
@@ -36,19 +38,19 @@ function getParams(req, resp, next) {
 }
 
 app.get('/2.0/js', getParams, function (req, res) {
-    var jsStream = gulp.getJS();
+    var jsStream = gulp.getJS(req.dgParams.isDebug);
     req.dgParams.callback(jsStream, res);
-
 });
 
 app.get('/2.0/css', getParams, function (req, res) {
-    var cssStream = gulp.getCSS();
+    var cssStream = gulp.getCSS(req.dgParams.isDebug);
     req.dgParams.callback(cssStream, res);
 });
 
+//Start server
 var host = app.get('host'),
     port = app.get('port');
 
-app.listen(3000, function () {
-    console.log('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + port);
+app.listen(port, host, function () {
+    console.log('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port'));
 });

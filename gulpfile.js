@@ -6,9 +6,10 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps.js')(config),
-    clean = require('gulp-clean');
+    clean = require('gulp-clean'),
+    runSequence = require('gulp-run-sequence');
 
-
+//Delete it
 gulp.task('test', function () {
     var css = deps.getCSSFiles(null, {
         skin: 'dark',
@@ -19,18 +20,7 @@ gulp.task('test', function () {
     //console.log(css, css.length);
 });
 
-function bldjs() {
-    return gulp.src(deps.getJSFiles())
-               .pipe(concat('main.js'))
-               .pipe(cache(uglify()));
-}
-
-function bldcss() {
-    return gulp.src(deps.getCSSFiles())
-               .pipe(concat('main.css'))
-               .pipe(cache(minifyCSS()));
-}
-
+//CLI API
 gulp.task('build-scripts', ['build-clean'], function () {
     return bldjs()
            .pipe(gulp.dest('./public/js'));
@@ -38,19 +28,51 @@ gulp.task('build-scripts', ['build-clean'], function () {
 
 gulp.task('build-styles', ['build-clean'], function () {
     return bldcss()
+          .pipe(minifyCSS())
           .pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('build-assets', function () {
-    return bldcss();
+    return gulp.src('./private/*.*')
+               .pipe(gulp.dest('./public'));
+});
+
+gulp.task('build', function (cb) {
+    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets'], cb);
 });
 
 gulp.task('build-clean', function () {
     return gulp.src('./public', {read: false}).pipe(clean());
 });
 
-module.exports = {
-    getJS: bldjs,
-    getCSS: bldcss,
-    mod: deps.getJSFiles
+//Exports API for live src streaming
+
+//js build api
+function srcJs() {
+    return gulp.src(deps.getJSFiles())
+               .pipe(concat('main.js'));
 }
+function minJs() {
+    return srcJs().pipe(cache(uglify()));
+}
+function bldJs(isDebug) {
+    return isDebug ? srcJs() : minJs();
+}
+
+//css build api
+function srcCss() {
+    return gulp.src(deps.getCSSFiles())
+               .pipe(concat('main.css'));
+}
+function minCss() {
+    return srcCss().pipe(cache(minifyCSS()));
+}
+function bldCss(isDebug) {
+    return isDebug ? srcCss() : minCss();
+}
+
+module.exports = {
+    getJS: bldJs,
+    getCSS: bldCss,
+    mod: deps.getJSFiles
+};
