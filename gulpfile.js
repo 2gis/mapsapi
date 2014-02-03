@@ -5,21 +5,26 @@ var gulp = require('gulp'),
     cache = require('gulp-cache'),
     es = require('event-stream'),
     minifyCSS = require('gulp-minify-css'),
-    base64 = require('./build/gulp-base64'),
+    base64 = require('gulp-base64'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config),
     runSequence = require('gulp-run-sequence'),
     clean = require('gulp-clean');
 
 //Delete it
-gulp.task('test', function () {
-    var css = deps.getCSSFiles(null, {
-        skin: 'dark',
-        addIE: true,
-        onlyIE: false
-    });
-    console.log(deps.getJSFiles());
+gulp.task('test', ['build-clean'], function () {
+    // var css = deps.getCSSFiles(null, {
+    //     skin: 'dark',
+    //     addIE: true,
+    //     onlyIE: false
+    // });
+    // console.log(deps.getJSFiles());
     //console.log(css, css.length);
+    return gulp.src(deps.getCSSFiles())
+        .pipe(base64())
+        .pipe(concat('main.css'))
+        // .pipe(minifyCSS())
+        .pipe(gulp.dest('./public/css'));
 });
 
 //CLI API
