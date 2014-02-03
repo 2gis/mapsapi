@@ -15,7 +15,7 @@ var extend = require("extend");
 var async = require("async");
 
 // Internal Libs
-var fetch = require("./fetch").init();
+var fetch = require("./fetch");
 
 // Cache regex's
 var rImages = /([\s\S]*?)(url\(([^)]+)\))(?!\s*[;,]?\s*\/\*\s*ImageEmbed:skip\s*\*\/)|([\s\S]+)/img;
@@ -26,19 +26,10 @@ var rQuotes = /['"]/g;
 var rParams = /([?#].*)$/g;
 
 // Grunt export wrapper
-exports.init = function (/*grunt*/) {
+module.exports = (function () {
   "use strict";
 
   var exports = {};
-
-  // Grunt lib init
-  // var fetch = image_fetch.init();
-
-  // Grunt utils
-  // var utils = grunt.utils || grunt.util;
-  // var file = grunt.file;
-  // var _ = utils._;
-  // var async = utils.async;
 
   /**
    * Takes a CSS file as input, goes through it line by line, and base64
@@ -100,7 +91,7 @@ exports.init = function (/*grunt*/) {
           // Resolve the image path relative to the CSS file
           if(is_local_file) {
             // local file system.. fix up the path
-            loc = file.path;
+            loc = path.join(path.dirname(file.path), img);
             // loc = img.charAt(0) === "/" ?
             //   (opts.baseDir || "") + loc :
             //   path.join(path.dirname(srcFile),  (opts.baseDir || "") + img);
@@ -211,6 +202,7 @@ exports.init = function (/*grunt*/) {
       }
 
       // grunt.log.writeln("Encoding file: " + img);
+      // console.log("Encoding file: " + img);
 
       // Read the file in and convert it.
       var src = fs.readFileSync(img);
@@ -237,4 +229,4 @@ exports.init = function (/*grunt*/) {
   };
 
   return exports;
-};
+})();

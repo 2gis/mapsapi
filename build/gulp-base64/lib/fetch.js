@@ -13,7 +13,7 @@ var stream = require("stream");
 var buffers = require("buffers");
 
 // Grunt export wrapper
-exports.init = function () {
+module.exports = (function () {
     "use strict";
 
     var exports = {};
@@ -50,4 +50,4 @@ exports.init = function () {
     };
 
     return exports;
-};
+})();
