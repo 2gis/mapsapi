@@ -209,17 +209,6 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Обработчики взаимодействия",
-                                "uri": "doc/2.0/maps/manual/handlers",
-                                "_src":"manual/handlers.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
                                 "title": "Утилиты",
                                 "uri": "doc/2.0/maps/manual/utils",
                                 "_src":"manual/utils.md",
