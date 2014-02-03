@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     base64 = require('./build/gulp-base64'),
     config = require('./build/config.js'),
-    deps = require('./build/gulp-deps.js')(config),
+    deps = require('./build/gulp-deps/index.js')(config),
     runSequence = require('gulp-run-sequence'),
     clean = require('gulp-clean');
 
