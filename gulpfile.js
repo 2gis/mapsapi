@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     base64 = require('./build/gulp-base64'),
     config = require('./build/config.js'),
-    deps = require('./build/gulp-deps/index.js')(config),
+    deps = require('./build/gulp-deps')(config),
     runSequence = require('gulp-run-sequence'),
     clean = require('gulp-clean');
 
@@ -48,27 +48,27 @@ gulp.task('build-clean', function () {
 //Exports API for live src streaming
 
 //js build api
-function srcJs() {
-    return gulp.src(deps.getJSFiles())
+function srcJs(opt) {
+    return gulp.src(deps.getJSFiles(opt))
                .pipe(concat('main.js'));
 }
-function minJs() {
-    return srcJs().pipe(cache(uglify()));
+function minJs(opt) {
+    return srcJs(opt).pipe(cache(uglify()));
 }
-function bldJs(isDebug) {
-    return isDebug ? srcJs() : minJs();
+function bldJs(opt) {
+    return opt.isDebug ? srcJs(opt) : minJs(opt);
 }
 
 //css build api
-function srcCss() {
-    return gulp.src(deps.getCSSFiles())
+function srcCss(opt) {
+    return gulp.src(deps.getCSSFiles(opt))
                .pipe(concat('main.css'));
 }
-function minCss() {
-    return srcCss().pipe(cache(minifyCSS()));
+function minCss(opt) {
+    return srcCss(opt).pipe(cache(minifyCSS()));
 }
-function bldCss(isDebug) {
-    return isDebug ? srcCss() : minCss();
+function bldCss(opt) {
+    return opt.isDebug ? srcCss(opt) : minCss(opt);
 }
 
 module.exports = {

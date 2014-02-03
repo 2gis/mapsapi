@@ -9,26 +9,20 @@ var app = express();
 //General configuration of the application
 app.set('port', config.PORT || '3000');
 app.set('host', config.HOST || null);
-app.use(express.static(__dirname + '/public'));
+app.use('/2.0', express.static(__dirname + '/public'));
 
 //Routes
 function getParams(req, resp, next) {
-    req.dgParams = {};
-    req.dgParams.pkg = req.query.pkg || null;
-    req.dgParams.isDebug = req.query.mode === 'debug';
-    req.dgParams.skin = req.query.skin || null;
-    req.dgParams.isIE = req.query.ie || false;
+    req.query.isDebug = (req.query.mode === 'debug');
     var contentType = (req.path === '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
 
-    req.dgParams.callback = function (stream, response) {
+    req.dgCallback = function (stream, response) {
         response.set('Cache-Control', 'public, max-age=604800');
         response.set('X-Powered-By', '2GIS Maps API Server');
         response.set('Content-Type', contentType);
+
         stream.on('data', function (file) {
             response.write(file.contents);
-        });
-        stream.on('drain', function () {
-            response.resume();
         });
         stream.on('end', function () {
             response.end();
@@ -38,13 +32,13 @@ function getParams(req, resp, next) {
 }
 
 app.get('/2.0/js', getParams, function (req, res) {
-    var jsStream = gulp.getJS(req.dgParams.isDebug);
-    req.dgParams.callback(jsStream, res);
+    var jsStream = gulp.getJS(req.query);
+    req.dgCallback(jsStream, res);
 });
 
 app.get('/2.0/css', getParams, function (req, res) {
-    var cssStream = gulp.getCSS(req.dgParams.isDebug);
-    req.dgParams.callback(cssStream, res);
+    var cssStream = gulp.getCSS(req.query);
+    req.dgCallback(cssStream, res);
 });
 
 //Start server
