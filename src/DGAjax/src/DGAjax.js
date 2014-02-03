@@ -1,4 +1,4 @@
-L.DG.ajax = (function () {
+DG.ajax = (function () {
 
     var win = window,
         doc = document,
@@ -252,7 +252,7 @@ L.DG.ajax = (function () {
         var name, i, v,
             rbracket = /\[\]$/;
 
-        if (L.Util.isArray(obj)) {
+        if (DG.Util.isArray(obj)) {
         // Serialize array item.
             for (i = 0; obj && i < obj.length; i++) {
                 v = obj[i];
@@ -296,7 +296,7 @@ L.DG.ajax = (function () {
             o.crossDomain = isCrossDomain(o.url);
         }
 
-        var self = L.DG.when.defer();
+        var self = DG.when.defer();
 
         self.abort = function () {
             self._aborted = true;
@@ -428,7 +428,7 @@ L.DG.ajax = (function () {
             };
 
         // If an array was passed in, assume that it is an array of form elements.
-        if (L.Util.isArray(o)) {
+        if (DG.Util.isArray(o)) {
             for (i = 0; o && i < o.length; i++) {
                 add(o[i].name, o[i].value);
             }

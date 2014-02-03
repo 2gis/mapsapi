@@ -1,4 +1,4 @@
-L.DG.ProjectDetector = L.Handler.extend({
+DG.ProjectDetector = DG.Handler.extend({
     options: {
         url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
         data: {
@@ -13,7 +13,7 @@ L.DG.ProjectDetector = L.Handler.extend({
         this._map = map;
         this.project = null;
         this.projectsList = null;
-        this._wkt = new L.DG.Wkt();
+        this._wkt = new DG.Wkt();
         this._loadProjectList();
     },
 
@@ -30,7 +30,7 @@ L.DG.ProjectDetector = L.Handler.extend({
             return false;
         }
 
-        return L.Util.extend({}, this.project);
+        return DG.Util.extend({}, this.project);
     },
 
     getProjectsList: function () {
@@ -42,7 +42,7 @@ L.DG.ProjectDetector = L.Handler.extend({
     },
 
     isProjectHere: function (coords) {
-        var checkMethod = (coords instanceof L.LatLngBounds) ?  'intersects' : 'contains';
+        var checkMethod = (coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains';
 
         if (!coords || !this.projectsList) { return; }
 
@@ -71,18 +71,18 @@ L.DG.ProjectDetector = L.Handler.extend({
             type = 'get',
             promise;
 
-        if (!L.DG.ajax.corsSupport) {
+        if (!DG.ajax.corsSupport) {
             type = options.data.output = 'jsonp';
         }
 
-        promise = L.DG.ajax(options.url, {
+        promise = DG.ajax(options.url, {
             type: type,
             data: options.data,
 
             success: function (data) {
                 var projectsList = data.result.data,
                     verts, path;
-                if (!data.result || !L.Util.isArray(projectsList)) { return; }
+                if (!data.result || !DG.Util.isArray(projectsList)) { return; }
 
                 projectsList.forEach(function (project) {
                     verts = self._wkt.read(project.bound);
@@ -104,7 +104,7 @@ L.DG.ProjectDetector = L.Handler.extend({
             this.projectsList.some(function (project) {
                 if (this._boundInProject(project) && this._zoomInProject(project)) {
                     this.project = project;
-                    this._map.fire('projectchange', {'getProject': L.Util.bind(this.getProject, this)});
+                    this._map.fire('projectchange', {'getProject': DG.Util.bind(this.getProject, this)});
 
                     return true;
                 }
@@ -124,8 +124,8 @@ L.DG.ProjectDetector = L.Handler.extend({
     }
 });
 
-L.Map.mergeOptions({
+DG.Map.mergeOptions({
     projectDetector: true
 });
 
-L.Map.addInitHook('addHandler', 'projectDetector', L.DG.ProjectDetector);
+DG.Map.addInitHook('addHandler', 'projectDetector', DG.ProjectDetector);

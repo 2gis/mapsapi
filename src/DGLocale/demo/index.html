@@ -12,13 +12,13 @@
 
 <script type="text/javascript">
     var map;
-    L.DG.then(function () {
+    DG.then(function () {
 
        // plugin code
        // {APP_CORE}/src/{Plugin}/{Plugin}.js
-        L.DG.LocaleExample = L.Control.extend({
+        DG.LocaleExample = DG.Control.extend({
 
-            includes: L.DG.Locale,
+            includes: DG.Locale,
             options: {
                 position: 'topright'
             },
@@ -29,7 +29,7 @@
             _container: null,
 
             onAdd: function (map) {
-                this._container = L.DomUtil.create('div', 'locale-example');
+                this._container = DG.DomUtil.create('div', 'locale-example');
                 this._renderTitles();
                 return this._container;
             },
@@ -41,24 +41,24 @@
         });
 
         //{APP_CORE}/src/{Plugin}/lang/it.js
-        L.DG.LocaleExample.Dictionary.it = L.extend({
+        DG.LocaleExample.Dictionary.it = DG.extend({
             "{n} people" : ["{n} utente", "{n} utenti"],
             "regularly use 2GIS" : "utilizzano regolarmente 2GIS"
-        }, L.DG.Dictionary.it);
+        }, DG.Dictionary.it);
 
         //{APP_CORE}/src/{Plugin}/lang/ru.js
-        L.DG.LocaleExample.Dictionary.ru = L.extend({
+        DG.LocaleExample.Dictionary.ru = DG.extend({
             "{n} people" : ["{n} пользователь", "{n} пользователя", "{n} пользователей"],
             "regularly use 2GIS" : "регулярно используют 2GIS"
-        }, L.DG.Dictionary.ru);
+        }, DG.Dictionary.ru);
 
         //{APP_CORE}/src/{Plugin}/demo/index.html
-        map = new L.Map('map', {
-            center: new L.LatLng(54.980206086231, 82.898068362003),
+        map = new DG.Map('map', {
+            center: new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 13
         });
-        map.addControl(new L.DG.LocaleExample());
-        var langMenu = L.DomUtil.get('langMenu');
+        map.addControl(new DG.LocaleExample());
+        var langMenu = DG.DomUtil.get('langMenu');
         langMenu.onchange = function() {
             map.setLang(this.options[this.selectedIndex].value);
         }

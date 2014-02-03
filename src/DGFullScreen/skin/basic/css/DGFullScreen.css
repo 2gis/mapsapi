@@ -11,9 +11,9 @@
     background-repeat: no-repeat;
 }
 .dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
-    background-image: url(../img/FullScreenPressed.png);
+    background-image: url(__BASE_URL__/img/FullScreenPressed.png);
 }
 
 .leaflet-retina .dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
-    background-image: url(../img/RetinaFullScreenPressed.png);
+    background-image: url(__BASE_URL__/img/RetinaFullScreenPressed.png);
 }

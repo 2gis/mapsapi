@@ -1,4 +1,4 @@
-L.Control.Zoom.Dictionary.it = {
+DG.Control.Zoom.Dictionary.it = {
     "zoom-in" : "Zoom avanti",
     "zoom-out" : "Zoom indietro"
 };

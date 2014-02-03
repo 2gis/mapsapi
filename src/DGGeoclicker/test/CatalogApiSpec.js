@@ -1,4 +1,4 @@
-describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
+describe('DG.Geoclicker.Provider.CatalogApi', function () {
 
     var catalogApi,
         spy,
@@ -6,11 +6,11 @@ describe('L.DG.Geoclicker.Provider.CatalogApi', function () {
         mapContainer = document.createElement("div");
 
     beforeEach(function () {
-        map = new L.Map(mapContainer, {
-            center: new L.LatLng(54.98117239821992, 82.88922250270844),
+        map = new DG.Map(mapContainer, {
+            center: new DG.LatLng(54.98117239821992, 82.88922250270844),
             zoom: 17
         });
-        catalogApi = new L.DG.Geoclicker.Provider.CatalogApi(map);
+        catalogApi = new DG.Geoclicker.Provider.CatalogApi(map);
         spy =  sinon.spy(catalogApi, "getTypesByZoom");
     });
 

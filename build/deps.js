@@ -55,7 +55,10 @@ var deps = {
 
     DGWhen: {
         desc: 'Promise/Deffered object module',
-        src: [ 'DGWhen/src/DGWhen.js']
+        src: [
+            'DGWhen/src/DGCore.js',
+            'DGWhen/src/DGWhen.js'
+        ]
     },
 
     DGAjax: {

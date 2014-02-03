@@ -1,8 +1,8 @@
 //Inject observing localization change
-var controlAddTo = L.Control.prototype.addTo;
-var panBy = L.Map.prototype.panBy;
+var controlAddTo = DG.Control.prototype.addTo;
+var panBy = DG.Map.prototype.panBy;
 
-L.Control.include({
+DG.Control.include({
     addTo: function (map) {
         map.on('langchange', this._renderTranslation, this);
 
@@ -12,10 +12,10 @@ L.Control.include({
 });
 
 // Applies 2GIS divIcon to marker
-L.Marker.prototype.options.icon = L.divIcon(L.DG.configTheme.markersData);
+DG.Marker.prototype.options.icon = DG.divIcon(DG.configTheme.markersData);
 
 // Restrict zoom level according to 2gis projects, in case if dgTileLayer is only one
-L.Map.include({
+DG.Map.include({
     _tln: 0,
     _mapMaxZoomCache: undefined,
 
@@ -23,7 +23,7 @@ L.Map.include({
         this._resctrictZoom(center);
 
         zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
-        center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
+        center = this._limitCenter(DG.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
 
         if (this._panAnim) {
@@ -33,8 +33,8 @@ L.Map.include({
         if (this._loaded && !options.reset && options !== true) {
 
             if (options.animate !== undefined) {
-                options.zoom = L.extend({animate: options.animate}, options.zoom);
-                options.pan = L.extend({animate: options.animate}, options.pan);
+                options.zoom = DG.extend({animate: options.animate}, options.zoom);
+                options.pan = DG.extend({animate: options.animate}, options.pan);
             }
 
             // try animating pan or zoom
@@ -67,8 +67,7 @@ L.Map.include({
     },
 
     _updateTln: function (e) {
-        if (!((e.layer instanceof L.DG.TileLayer) ||
-              (e.layer instanceof L.TileLayer))) { return; }
+        if (!(e.layer instanceof DG.TileLayer)) { return; }
 
         e.type === 'layeradd' ? this._tln++ : this._tln--;
     },
@@ -80,7 +79,7 @@ L.Map.include({
 
             var mapOptions = this.options,
                 isMapMaxZoom = !!mapOptions.maxZoom,
-                dgTileLayer = this.getLayer('dgTileLayer'),
+                dgTileLayer = this.baseLayer,
                 project = this.projectDetector.isProjectHere(coords);
 
             if (isMapMaxZoom) {
@@ -99,6 +98,6 @@ L.Map.include({
     }
 });
 
-L.Map.addInitHook(function () {
+DG.Map.addInitHook(function () {
     this.on('layeradd layerremove', this._updateTln);
 });

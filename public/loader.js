@@ -6,7 +6,7 @@
         isJsRequested = false,
         queryString,
         rejects = [],
-        version = 'v=5738c0';
+        version = 'v=4e308d';
 
     function processURL() {
         var scripts = document.getElementsByTagName('script');
@@ -124,7 +124,7 @@
 
             if (top && top.doScroll) {
                 (function doScrollCheck() {
-                    if (!L.DG.ready) {
+                    if (!DG.ready) {
                         try {
                             // Use the trick by Diego Perini
                             // http://javascript.nwbox.com/IEContentLoaded/
@@ -140,7 +140,7 @@
     }
 
     function setReady() {
-        L.DG.ready = true;
+        DG.ready = true;
     }
 
     function runRejects() {
@@ -154,9 +154,9 @@
         requestJs();
     }
 
-    window.L = window.L || {};
-    window.L.DG = {};
-    window.L.DG.ready = false;
+    window.L = window.L || {};//for temporary fallback, delete it
+    window.DG = {};
+    window.DG.ready = false;
     window.__dgApi_callbacks = [];
     window.__dgApi_callbacks.push(setReady);
     window.__dgApi_params = parseQueryString(queryString);
@@ -167,7 +167,7 @@
     //load api in normal mode
     !isLazy && loadApi();
 
-    window.L.DG.then = function (resolve, reject) {
+    window.DG.then = function (resolve, reject) {
         if (isLazy) {
             //load api on demand
             if (!isJsRequested) { loadApi(); }
@@ -180,7 +180,7 @@
     };
 
     //temporary fallback, delete it
-    window.L.onLoad = window.L.DG.then;
+    window.L.onLoad = window.DG.then;
 
     function fallbackLoaderSearch() {
         var scripts, scriptURL;

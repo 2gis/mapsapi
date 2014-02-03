@@ -1,4 +1,4 @@
-describe('L.DG.Entrance', function () {
+describe('DG.Entrance', function () {
     var map,
         spy,
         entrance,
@@ -26,14 +26,13 @@ describe('L.DG.Entrance', function () {
         southWest = pointsArr[0].split(' ');
         northEast = pointsArr[2].split(' ');
 
-        return new L.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
+        return new DG.LatLngBounds([parseFloat(southWest[1]), parseFloat(southWest[0])],
             [parseFloat(northEast[1]), parseFloat(northEast[0])]
         );
     };
 
     beforeEach(function () {
-
-        loadProjectList = sinon.stub(L.DG.ProjectDetector.prototype, '_loadProjectList', function () {
+        loadProjectList = sinon.stub(DG.ProjectDetector.prototype, '_loadProjectList', function () {
             var projectsList = projects,
                 verts, path;
             projectsList.forEach(function (project) {
@@ -44,11 +43,11 @@ describe('L.DG.Entrance', function () {
             this._searchProject();
         });
 
-        map = new L.Map(mapContainer, {
-            center: new L.LatLng(69.349552990994837, 87.75222519148015),
+        map = new DG.Map(mapContainer, {
+            center: new DG.LatLng(69.349552990994837, 87.75222519148015),
             zoom: 17
         });
-        entrance = new L.DG.Entrance({
+        entrance = new DG.Entrance({
             'is_primary': false,
             'name': 'ЗАГС',
             'points': ['POINT(87.75222519148015 69.349552990994837)'],
@@ -65,23 +64,24 @@ describe('L.DG.Entrance', function () {
     });
 
     describe('#addTo and #removeFrom', function() {
-        it('should return \'L.DG.Entrance\' instance', function () {
-            var entrance1 = new L.DG.Entrance({
+
+        it('should return \'DG.Entrance\' instance', function () {
+            var entrance1 = new DG.Entrance({
                 'is_primary': false,
                 'name': 'ЗАГС',
                 'points': ['POINT(87.75222519148015 69.349552990994837)'],
                 'vectors': ['LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)']
             });
-            expect(entrance1.addTo(map)).to.be.a(L.DG.Entrance);
-            expect(entrance1.removeFrom(map)).to.be.a(L.DG.Entrance);
+            expect(entrance1.addTo(map)).to.be.a(DG.Entrance);
+            expect(entrance1.removeFrom(map)).to.be.a(DG.Entrance);
         });
     });
     // since ff/mocha/phantom has some strange bug with svg beginElement()
     if (!ff) {
         describe('#show', function() {
 
-            it('should return \'L.DG.Entrance\' instance', function () {
-                expect(entrance.show()).to.be.a(L.DG.Entrance);
+            it('should return \'DG.Entrance\' instance', function () {
+                expect(entrance.show()).to.be.a(DG.Entrance);
             });
 
             it('should fire \'entranceshow\' event', function () {
@@ -115,8 +115,8 @@ describe('L.DG.Entrance', function () {
     }
     describe('#hide', function () {
 
-        it('should return \'L.DG.Entrance\' instance', function () {
-            expect(entrance.hide()).to.be.a(L.DG.Entrance);
+        it('should return \'DG.Entrance\' instance', function () {
+            expect(entrance.hide()).to.be.a(DG.Entrance);
         });
         if (!ff) {
             it('should fire \'entrancehide\' event', function () {
@@ -154,7 +154,7 @@ describe('L.DG.Entrance', function () {
     describe('#getBounds', function () {
 
         it('should return bounds of all arrows of the entrance', function () {
-            var entranceBounds = new L.LatLngBounds(
+            var entranceBounds = new DG.LatLngBounds(
                 [69.349552990994837, 87.75222519148015],
                 [69.349501774294012, 87.752433542237128]
             );

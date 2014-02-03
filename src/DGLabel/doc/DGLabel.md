@@ -1,14 +1,14 @@
-L.DG.Label
+DG.Label
 ==========
 
-Плагин добавляет маркерам и геометриям, наследующим класс L.Path, всплывающую подсказку при наведении на объект. Также возможно его использование для реализации статической подсказки маркера.
+Плагин добавляет маркерам и геометриям, наследующим класс DG.Path, всплывающую подсказку при наведении на объект. Также возможно его использование для реализации статической подсказки маркера.
 
 ## Пример использования
 
 Если вам необходимо добавить подсказку для маркера при его создании, вы можете задать свойство ````label```` объекта ````options```` передаваемого в конструктор:
 
 ````js
-L.marker([54.950206086231, 82.838068362003], {
+DG.marker([54.950206086231, 82.838068362003], {
     draggable : true,
     label : 'Marker label on hover!'
 }).addTo(map)
@@ -16,7 +16,7 @@ L.marker([54.950206086231, 82.838068362003], {
 Аналогично для геометрий:
 
 ````js
-L.polyline([
+DG.polyline([
         [55.0, 83.0],
         [54.97, 83.03],
         [54.95, 83.01],
@@ -29,7 +29,7 @@ L.polyline([
 Для добавления подсказки к уже созданному объекту следует вызвать метод ````bindLabel(content, options)````:
 
 ````js
-var marker = L.marker([54.950206086231, 82.898068362003], {
+var marker = DG.marker([54.950206086231, 82.898068362003], {
     draggable : true
 }).addTo(map);
 marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
@@ -47,8 +47,8 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
     </tr>
     <tr>
         <td><b><code>offset</code></b></td>
-        <td><code>L.Point</code></td>
-        <td><code>new L.Point(12, 15)</code></td>
+        <td><code>DG.Point</code></td>
+        <td><code>new DG.Point(12, 15)</code></td>
         <td>Смещение контейнера всплывающей подсказки относительно позиции курсора (позиции маркера в случае использования с маркером).</td>
     </tr>
     <tr>
@@ -67,7 +67,7 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
 
 ## Методы
 
-**Класс L.Marker**
+**Класс DG.Marker**
 
 <table>
     <tr>
@@ -97,12 +97,12 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
     </tr>
     <tr>
         <td><code><b>getLabel</b>()</code></td>
-        <td><code>L.DG.Label</code></td>
+        <td><code>DG.Label</code></td>
         <td>Возвращает объект всплывающей подсказки.</td>
     </tr>
 </table>
 
-**Класс L.Path**
+**Класс DG.Path**
 
 <table>
     <tr>
@@ -122,20 +122,20 @@ marker.bindLabel( 'Static multiline<br/>label on marker!', { static : true } );
     </tr>
     <tr>
         <td><code><b>getLabel</b>()</code></td>
-        <td><code>L.DG.Label</code></td>
+        <td><code>DG.Label</code></td>
         <td>Возвращает объект всплывающей подсказки.</td>
     </tr>
 </table>
 
-**Класс L.DG.Label**
+**Класс DG.Label**
 
 Клаcc, реализует интерфейс ````ILayer```` для всплывающей подсказки. Может быть использован для создания автономной статической подсказки на карте.
 
 Пример:
 ````js
-var standaloneLabel = L.DG.label('Standalone tooltip');
+var standaloneLabel = DG.label('Standalone tooltip');
 
-standaloneLabel.setPosition(new L.LatLng(55.0, 82.8));
+standaloneLabel.setPosition(new DG.LatLng(55.0, 82.8));
 map.addLayer(standaloneLabel);
 ````
 
@@ -151,7 +151,7 @@ map.addLayer(standaloneLabel);
         <td>Устанавливает содержимое всплывающей подсказки.</td>
     </tr>
     <tr>
-        <td><code><b>setPosition</b>(&lt;L.Latlng&gt; latlng)</code></td>
+        <td><code><b>setPosition</b>(&lt;DG.Latlng&gt; latlng)</code></td>
         <td><code>this</code></td>
         <td>Устанавливает позицию всплывающей подсказки.</td>
     </tr>
