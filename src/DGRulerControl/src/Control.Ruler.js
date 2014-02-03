@@ -62,14 +62,10 @@ DG.Control.Ruler = DG.RoundControl.extend({
     },
 
     _handleMapClick: function (event) {   // (MouseEvents)
-        var latlng = event.latlng;//.wrap();
-        if (!latlng.equals(event.latlng)) {
-            this._map.fitWorld();
-        }
-        this._drawingHelper.addLatLng(latlng);
+        this._drawingHelper.addLatLng(event.latlng);
     },
 
-    _renderTranslation: function () {
+    _renderTranslation: function () { // ()
         this._link.title = this.t('button_title');
     }
 });

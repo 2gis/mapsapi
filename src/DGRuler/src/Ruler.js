@@ -123,6 +123,22 @@ DG.Ruler = DG.Class.extend({
     },
 
     addLatLng: function (latlng) { // (DG.LatLng) -> DG.Ruler
+        var lastPoint = this._points[this._points.length - 1] || null;
+
+        if (lastPoint) {
+            var lastLatlng = lastPoint.getLatLng(),
+                wraped = latlng.wrap(),
+                wrapedLast = lastLatlng.wrap(),
+                deltaLng = wraped.lng - wrapedLast.lng;
+
+            if (Math.abs(latlng.lng - lastLatlng.lng) > 180) {
+                latlng.lng = lastLatlng.lng + deltaLng;
+                deltaLng = latlng.lng - lastLatlng.lng;
+                if (Math.abs(deltaLng - 360) < Math.abs(deltaLng)) {
+                    latlng.lng -= 360;
+                }
+            }
+        }
         this.spliceLatLngs(this._points.length, 0, latlng);
         return this;
     },
@@ -208,12 +224,6 @@ DG.Ruler = DG.Class.extend({
                     .setText(this._getFormatedDistance(point, point.getLatLng().distanceTo(latlng)));
         },
         layeradd : function () { // ()
-            // this._points[0]
-            if (this._points._length > 0) {
-                Object.keys(this._points[0]._layers).forEach(function (name) {
-                    this._points[0]._layers[name].bringToFront();
-                }, this);
-            }
             Object.keys(this._layers).forEach(function (name) {
                 this._layers[name].bringToFront();
             }, this);
@@ -300,13 +310,25 @@ DG.Ruler = DG.Class.extend({
     _pointEvents: {
         'drag' : function (event) { // (Event)
             var point = event.target,
-                prevPoint = this._points[event.target._pos - 1] || null,
-                shiftLng = prevPoint ? prevPoint.getLatLng().lng : 0,
-                wraped = point.getLatLng().wrap(-180 + shiftLng, 180 + shiftLng);
+                latlng = point.getLatLng(),
+                lastPoint = this._points[point._pos - 1] || null;
 
-            if (!wraped.equals(event.latlng)) {
-                point.setLatLng(wraped);
+            if (lastPoint) {
+                var lastLatlng = lastPoint.getLatLng(),
+                    wrapedLast = lastLatlng.wrap(),
+                    wraped = latlng.wrap(),
+                    deltaLng = wraped.lng - wrapedLast.lng;
+
+                if (Math.abs(latlng.lng - lastLatlng.lng) > 180) {
+                    latlng.lng = lastLatlng.lng + deltaLng;
+                    deltaLng = latlng.lng - lastLatlng.lng;
+                    if (Math.abs(deltaLng - 360) < Math.abs(deltaLng)) {
+                        latlng.lng -= 360;
+                    }
+                    point.setLatLng(latlng);
+                }
             }
+
             if (point !== this._points[this._points.length - 1]) {
                 point.setText(this._getFormatedDistance(point));
             }
