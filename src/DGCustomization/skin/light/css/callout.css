@@ -3,19 +3,6 @@
     opacity: .95;
 }
 
-.leaflet-popup-inner:before {
-    width: 41px;
-    height: 1px;
-    z-index: 1;
-    content: '';
-    position: absolute;
-    bottom: 51px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    background: #fff;
-}
-
 .leaflet-popup-content-wrapper {
     color: #000;
     background-color: #fff;
@@ -35,6 +22,7 @@
 .leaflet-popup-tip-container_svg {
     fill: #fff;
     stroke: #bebdb5;
+    stroke-dasharray: 120,60;
 }
 a.popup-link,
 .firm-card__link a {
