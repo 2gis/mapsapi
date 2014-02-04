@@ -128,7 +128,7 @@ var init = function (config) {
                     if (!options.onlyIE && item.all) {
                         items.push(item.all);
                     }
-                    if (options.isIE && item.ie) {
+                    if ((options.isIE || options.onlyIE) && item.ie) {
                         items.push(item.ie);
                     }
                     return array.concat(items);
