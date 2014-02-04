@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    gutil = require('gulp-util'),
     concat = require('gulp-concat'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
@@ -7,6 +8,7 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     base64 = require('gulp-base64'),
     config = require('./build/config.js'),
+    extend = require('extend'),
     deps = require('./build/gulp-deps')(config),
     runSequence = require('gulp-run-sequence'),
     clean = require('gulp-clean');
@@ -29,7 +31,7 @@ gulp.task('test', ['build-clean'], function () {
 
 //CLI API
 gulp.task('build-scripts', function () {
-    return srcJs({}).pipe(gulp.dest('./public/js/'))
+    return srcJs(gutil.env).pipe(gulp.dest('./public/js/'))
                     .pipe(rename({suffix: '.min'}))
                     .pipe(cache(uglify()))
                     .pipe(gulp.dest('./public/js/'));
@@ -37,16 +39,16 @@ gulp.task('build-scripts', function () {
 
 gulp.task('build-styles', function () {
     return es.concat(
-        srcCss({}).pipe(gulp.dest('./public/css/'))
+        srcCss(gutil.env).pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.min'}))
                              .pipe(cache(minifyCSS()))
                              .pipe(gulp.dest('./public/css/')),
-        srcCss({addIE: true}).pipe(rename({suffix: '.full'}))
+        srcCss(extend(gutil.env, {addIE: true})).pipe(rename({suffix: '.full'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.full.min'}))
                              .pipe(cache(minifyCSS()))
                              .pipe(gulp.dest('./public/css/')),
-        srcCss({onlyIE: true}).pipe(rename({suffix: '.ie'}))
+        srcCss(extend(gutil.env, {onlyIE: true})).pipe(rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.ie.min'}))
                              .pipe(cache(minifyCSS()))
