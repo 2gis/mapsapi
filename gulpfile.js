@@ -8,6 +8,8 @@ var extend = require('extend'),
     rename = require('gulp-rename'),
     cache = require('gulp-cache'),
     clean = require('gulp-clean'),
+    include = require('gulp-ignore').include,
+    exclude = require('gulp-ignore').exclude,
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -53,18 +55,23 @@ gulp.task('build-styles', function () {
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.full.min'}))
                              .pipe(cache(minifyCSS()))
-                             .pipe(gulp.dest('./public/css/')),
+                             .pipe(gulp.dest('./public/css/'))/*,
         srcCss(extend(gutil.env, {onlyIE: true})).pipe(rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.ie.min'}))
                              .pipe(cache(minifyCSS()))
-                             .pipe(gulp.dest('./public/css/'))
+                             .pipe(gulp.dest('./public/css/'))*/
     );
 });
 
 gulp.task('build-assets', function () {
-    return gulp.src('./private/*.*')
-               .pipe(gulp.dest('./public'));
+    return es.concat(
+        gulp.src(['./private/*.*', '!private/*.js'])
+            .pipe(gulp.dest('./public/')),
+        gulp.src('./private/loader.js')
+            .pipe(uglify())
+            .pipe(gulp.dest('./public/'))
+    );
 });
 
 gulp.task('jshint', function () {
