@@ -8,8 +8,13 @@ var extend = require('extend'),
     rename = require('gulp-rename'),
     cache = require('gulp-cache'),
     clean = require('gulp-clean'),
+<<<<<<< HEAD
     frep = require('gulp-frep'),
     karma = require('gulp-karma'),
+=======
+    // include = require('gulp-ignore').include,
+    // exclude = require('gulp-ignore').exclude,
+>>>>>>> 6f1261bdfb2ac557e1d0005a3931e2900ef25d70
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -32,8 +37,9 @@ gulp.task('test', ['build-clean'], function () {
     // console.log(deps.getJSFiles());
     //console.log(css, css.length);
     return gulp.src(deps.getCSSFiles())
-        .pipe(base64({baseDir: 'public', debug: true}))
-        // .pipe(base64({debug: true}))
+        // .pipe(base64({baseDir: 'public', debug: true}))
+        // .pipe(base64({debug: true, extensions: ['svg', 'gif']}))
+        .pipe(base64({extensions: ['svg', 'gif']}))
         .pipe(concat('main.css'))
         // .pipe(minifyCSS())
         .pipe(gulp.dest('./public/css'));
@@ -136,7 +142,13 @@ function bldJs(opt) {
 function srcCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+<<<<<<< HEAD
                .pipe(base64())
+=======
+               .pipe(cache(base64({
+                    extensions: ['svg']
+               })))
+>>>>>>> 6f1261bdfb2ac557e1d0005a3931e2900ef25d70
                .pipe(concat('styles.css'));
 }
 function minCss(opt) {
