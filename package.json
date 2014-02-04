@@ -37,6 +37,7 @@
     "gulp-run-sequence": "~0.3.2",
     "event-stream": "~3.1.0",
     "gulp-base64": "0.0.1",
-    "gulp-util": "~2.2.14"
+    "gulp-util": "~2.2.14",
+    "gulp-autoprefixer": "0.0.6"
   }
 }

@@ -1,17 +1,22 @@
-var gulp = require('gulp'),
+var extend = require('extend'),
+    es = require('event-stream'),
+
+    gulp = require('gulp'),
     gutil = require('gulp-util'),
     concat = require('gulp-concat'),
+    runSequence = require('gulp-run-sequence'),
     rename = require('gulp-rename'),
-    uglify = require('gulp-uglify'),
     cache = require('gulp-cache'),
-    es = require('event-stream'),
+    clean = require('gulp-clean'),
+
+    uglify = require('gulp-uglify'),
+
     minifyCSS = require('gulp-minify-css'),
     base64 = require('gulp-base64'),
+    prefix = require('gulp-autoprefixer'),
+
     config = require('./build/config.js'),
-    extend = require('extend'),
-    deps = require('./build/gulp-deps')(config),
-    runSequence = require('gulp-run-sequence'),
-    clean = require('gulp-clean');
+    deps = require('./build/gulp-deps')(config);
 
 //Delete it
 gulp.task('test', ['build-clean'], function () {
@@ -86,6 +91,7 @@ function bldJs(opt) {
 //css build api
 function srcCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
+               .pipe(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
                .pipe(base64())
                .pipe(concat('styles.css'));
 }
