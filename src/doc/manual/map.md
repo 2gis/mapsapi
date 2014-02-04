@@ -55,7 +55,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr>
             <td><code><b>center</b></code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td><code>null</code></td>
             <td>Начальный географический центр карты.</td>
         </tr>
@@ -67,13 +67,13 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>layers</b></code></td>
-            <td><code><a href="#ilayer">ILayer</a>[]</code></td>
+            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>[]</code></td>
             <td><code>null</code></td>
             <td>Слои, изначально добавленные на карту.</td>
         </tr>
         <tr id="map-maxbounds">
             <td><code><b>maxBounds</b></code></td>
-            <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td><code>null</code></td>
             <td>Если свойство установлено, карта ограничивает область просмотра согласно заданным географическим границам, "отбрасывая" пользователя назад, если он пытается выйти за пределы установленных границ, а также не позволяет уменьшить масштаб так, чтобы можно было просмотреть неразрешенные участки карты. Для установки ограничения динамически используйте метод <a href="#map-setmaxbounds">setMaxBounds</a>.</td>
         </tr>
@@ -155,11 +155,11 @@ DG.Map &mdash; основной класс API, используется для 
             }</code></td>
             <td>Включено ли геокодирование по клику (геокликер). Если `false`, тогда при клике в любой объект карты (улицы, дома, остановки) не будет отображаться информация об этом объекте. Если в качестве параметра передан объект с опциями, тогда геокликер будет включен. Опции `showPhotos` и `showBooklet` позволяют отключить в балуне организации ссылки на буклеты и фотографии.</td>
         </tr>
-        <tr>
+        <tr id="map-projectdetector">
             <td><code><b>projectDetector</b></code></td>
             <td><code>Boolean</code></td>
             <td><code>true</code></td>
-            <td>Включает или отключает механизм определения <a href="#">проектов 2ГИС</a>.</td>
+            <td>Включает или отключает механизм определения проектов 2ГИС. Проект — это агломерация, включающая крупный город и ближайшие населённые пункты.</td>
         </tr>
     </tbody>
 </table>
@@ -196,7 +196,6 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
     </tbody>
 </table>
-
 
 #### Опции инерции карты
 
@@ -237,7 +236,6 @@ DG.Map &mdash; основной класс API, используется для 
     </tbody>
 </table>
 
-
 #### Опции элементов управления
 
 <table>
@@ -254,13 +252,13 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code><b>zoomControl</b></code></td>
             <td><code>Boolean</code></td>
             <td><code>true</code></td>
-            <td>Добавлен ли <a href="#control-zoom">элемент управления масштабом</a> на карту.</td>
+            <td>Добавлен ли <a href="/doc/2.0/maps/manual/controls#класс-dgcontrolzoom">элемент управления масштабом</a> на карту.</td>
         </tr>
         <tr>
             <td><code><b>fullscreenControl</b></code></td>
             <td><code>Boolean</code></td>
             <td><code>true</code></td>
-            <td>Добавлена ли <a href="#control-fullscreen">кнопка включения полноэкранного режима</a> на карту.</td>
+            <td>Добавлена ли <a href="/doc/2.0/maps/manual/controls#класс-dgcontrolfullscreen">кнопка включения полноэкранного режима</a> на карту.</td>
         </tr>
     </tbody>
 </table>
@@ -304,10 +302,9 @@ DG.Map &mdash; основной класс API, используется для 
     </tbody>
 </table>
 
-
 ### События
 
-Вы можете подписаться на следующие события, используя [эти методы](#):
+Вы можете подписаться на следующие события, используя [эти методы](/doc/2.0/maps/manual/events#методы-управления-событиями):
 
 <table>
     <thead>
@@ -320,192 +317,192 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr>
             <td><code><b>click</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при клике в карту.</td>
         </tr>
         <tr>
             <td><code><b>dblclick</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при двойном клике в карту.</td>
         </tr>
         <tr>
             <td><code><b>mousedown</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при нажатии кнопки мышки над областью карты.</td>
         </tr>
         <tr>
             <td><code><b>mouseup</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда пользователь отпускает кнопку мышки над областью карты.</td>
         </tr>
         <tr>
             <td><code><b>mouseover</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при наведении курсора мышки на карту.</td>
         </tr>
         <tr>
             <td><code><b>mouseout</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда курсор мышки покидает область карты.</td>
         </tr>
         <tr>
             <td><code><b>mousemove</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда курсор мышки перемещается над картой.</td>
         </tr>
         <tr>
             <td><code><b>contextmenu</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при нажатии правой кнопки мышки на карте, предотвращает появление стандартного контекстного меню браузера, если на это событие подписан обработчик.</td>
         </tr>
         <tr>
             <td><code><b>focus</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при установке фокуса на карту (с помощью клавиши tab, либо при клике в карту или ее перетаскивании).</td>
         </tr>
         <tr>
             <td><code><b>blur</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при потере фокуса картой.</td>
         </tr>
         <tr>
             <td><code><b>preclick</b></code></td>
-            <td><code><a href="#mouse-event">MouseEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается перед кликом мышки на карте (полезно, если нужно выполнить какое-либо действие до вызова обработчика клика).</td>
         </tr>
         <tr>
             <td><code><b>load</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при инициализации карты (при первой установке ее центра и масштаба).</td>
         </tr>
         <tr id="map-viewreset">
             <td><code><b>viewreset</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается когда нужно перерисовать содержимое карты (обычно при изменении масштаба или загрузке).</td>
         </tr>
         <tr>
             <td><code><b>movestart</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при начале изменения области просмотра карты (например, когда пользователь начинает перетаскивать карту).</td>
         </tr>
         <tr>
             <td><code><b>move</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается во время любого передвижения карты.</td>
         </tr>
         <tr id="map-moveend">
             <td><code><b>moveend</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при окончании передвижения краты (например, когда пользователь прекращает перетаскивать карту).</td>
         </tr>
         <tr>
             <td><code><b>dragstart</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается когда пользователь начинает перетаскивать карту.</td>
         </tr>
         <tr>
             <td><code><b>drag</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается когда пользователь перетаскивает карту.</td>
         </tr>
         <tr>
             <td><code><b>dragend</b></code></td>
-            <td><code><a href="#dragend-event">DragEndEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#dragendevent">DragEndEvent</a></code>
             <td>Вызывается когда пользователь прекращает перетаскивать карту.</td>
         </tr>
         <tr>
             <td><code><b>zoomstart</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается в начале изменения масштаба (перед анимацией изменения масштаба).</td>
         </tr>
         <tr>
             <td><code><b>zoomend</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается после изменения масштаба.</td>
         </tr>
         <tr>
             <td><code><b>zoomlevelschange</b></code></td>
-            <td><code><a href="#event">Event</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code></td>
             <td>Вызывается, если при добавлении или удалении слоя карты изменилось количество доступных уровней масштабирования.</td>
         </tr>
         <tr>
             <td><code><b>resize</b></code></td>
-            <td><code><a href="#resize-event">ResizeEvent</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/events#resizeevent">ResizeEvent</a></code></td>
             <td>Вызывается при изменении размера карты.</td>
         </tr>
         <tr>
             <td><code><b>requestfullscreen</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при активации полноэкранного режима.</td>
         </tr>
         <tr>
             <td><code><b>cancelfullscreen</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при выходе из полноэкранного режима.</td>
         </tr>
         <tr>
             <td><code><b>autopanstart</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при автоматическом сдвиге карты после появления балуна.</td>
         </tr>
         <tr>
             <td><code><b>layeradd</b></code></td>
-            <td><code><a href="#layer-event">LayerEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#layerevent">LayerEvent</a></code>
             <td>Вызывается при добавлении нового слоя на карту.</td>
         </tr>
         <tr>
             <td><code><b>locationfound</b></code></td>
-            <td><code><a href="#location-event">LocationEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#locationevent">LocationEvent</a></code>
             <td>Вызывается при успешном обнаружении местоположения пользователя (используется метод <a href="#map-locate">locate</a>).</td>
         </tr>
         <tr>
             <td><code><b>locationerror</b></code></td>
-            <td><code><a href="#error-event">ErrorEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#errorevent">ErrorEvent</a></code>
             <td>Вызывается при возникновении ошибок во время обнаружения местоположения пользователя.</td>
         </tr>
         <tr>
             <td><code><b>popupopen</b></code></td>
-            <td><code><a href="#popup-event">PopupEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#popupevent">PopupEvent</a></code>
             <td>Вызывается при открытии балуна (используя метод <code>openPopup</code>).</td>
         </tr>
         <tr>
             <td><code><b>popupclose</b></code></td>
-            <td><code><a href="#popup-event">PopupEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#popupevent">PopupEvent</a></code>
             <td>Вызывается при закрытии балуна (используя метод <code>closePopup</code>).</td>
         </tr>
         <tr>
             <td><code><b>projectchange</b></code></td>
-            <td><code><a href="#event">ProjectEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#projectevent">ProjectEvent</a></code>
             <td>Вызывается при перемещении пользователя из одного <a target="_blank" href="#">проекта 2ГИС</a> в другой.</td>
         </tr>
         <tr>
             <td><code><b>projectleave</b></code></td>
-            <td><code><a href="#event">ProjectEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#projectevent">ProjectEvent</a></code>
             <td>Вызывается при выходе пользователя из текущего <a target="_blank" href="#">проекта 2ГИС</a>.</td>
         </tr>
         <tr>
             <td><code><b>entranceshow</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при отображении входа в здание.</td>
         </tr>
         <tr>
             <td><code><b>entrancehide</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при скрытии входа в здание.</td>
         </tr>
         <tr>
             <td><code><b>poihover</b></code></td>
-            <td><code><a href="#event">PoiEvent</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#poievent">PoiEvent</a></code>
             <td>Вызывается при наведении курсора мышки на точку интереса.</td>
         </tr>
         <tr>
             <td><code><b>poileave</b></code></td>
-            <td><code><a href="#event">PoiEvent</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/events#poievent">PoiEvent</a></code></td>
             <td>Вызывается когда курсор мышки покидает область точки интереса.</td>
         </tr>
         <tr>
             <td><code><b>langchange</b></code></td>
-            <td><code><a href="#event">LangEvent</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/events#langevent">LangEvent</a></code></td>
             <td>Вызывается при изменении языка карты.</td>
         </tr>
     </tbody>
