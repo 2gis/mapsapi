@@ -10,6 +10,7 @@ var extend = require('extend'),
     clean = require('gulp-clean'),
 
     uglify = require('gulp-uglify'),
+    jshint = require('gulp-jshint'),
 
     minifyCSS = require('gulp-minify-css'),
     base64 = require('gulp-base64'),
@@ -35,7 +36,7 @@ gulp.task('test', ['build-clean'], function () {
 });
 
 //CLI API
-gulp.task('build-scripts', function () {
+gulp.task('build-scripts', ['jshint'], function () {
     return srcJs(gutil.env).pipe(gulp.dest('./public/js/'))
                     .pipe(rename({suffix: '.min'}))
                     .pipe(cache(uglify()))
@@ -66,6 +67,12 @@ gulp.task('build-assets', function () {
                .pipe(gulp.dest('./public'));
 });
 
+gulp.task('jshint', function () {
+    return gulp.src('./src/**/src/**/*.js')
+               .pipe(cache(jshint('.jshintrc')))
+               .pipe(jshint.reporter('jshint-stylish'));
+});
+
 gulp.task('build', function (cb) {
     runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets'], cb);
 });
@@ -91,8 +98,8 @@ function bldJs(opt) {
 //css build api
 function srcCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
-               .pipe(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-               .pipe(base64())
+               .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+               .pipe(cache(base64()))
                .pipe(concat('styles.css'));
 }
 function minCss(opt) {
