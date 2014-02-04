@@ -84,7 +84,13 @@ var config = {
 
     hint: [
         'src/*/src/**/*.js'
-    ]
+    ],
+
+    doc: {
+        menu: './src/menu.json',
+        input: './src/',
+        output: './public/doc'
+    }
 };
 
 config.appConfig = getAppConfig();

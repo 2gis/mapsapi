@@ -18,6 +18,7 @@ var extend = require('extend'),
     base64 = require('gulp-base64'),
     prefix = require('gulp-autoprefixer'),
 
+    gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config);
 
@@ -80,8 +81,13 @@ gulp.task('jshint', function () {
                .pipe(jshint.reporter('jshint-stylish'));
 });
 
+gulp.task('doc', function () {
+    var doc = config.doc;
+    gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
+});
+
 gulp.task('build', function (cb) {
-    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets'], cb);
+    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
 });
 
 gulp.task('build-clean', function () {
