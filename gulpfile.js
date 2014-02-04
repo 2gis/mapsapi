@@ -31,7 +31,8 @@ gulp.task('test', ['build-clean'], function () {
     // console.log(deps.getJSFiles());
     //console.log(css, css.length);
     return gulp.src(deps.getCSSFiles())
-        .pipe(base64())
+        .pipe(base64({baseDir: 'public', debug: true}))
+        // .pipe(base64({debug: true}))
         .pipe(concat('main.css'))
         // .pipe(minifyCSS())
         .pipe(gulp.dest('./public/css'));
