@@ -8,8 +8,8 @@ var extend = require('extend'),
     rename = require('gulp-rename'),
     cache = require('gulp-cache'),
     clean = require('gulp-clean'),
-    include = require('gulp-ignore').include,
-    exclude = require('gulp-ignore').exclude,
+    // include = require('gulp-ignore').include,
+    // exclude = require('gulp-ignore').exclude,
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -32,8 +32,9 @@ gulp.task('test', ['build-clean'], function () {
     // console.log(deps.getJSFiles());
     //console.log(css, css.length);
     return gulp.src(deps.getCSSFiles())
-        .pipe(base64({baseDir: 'public', debug: true}))
-        // .pipe(base64({debug: true}))
+        // .pipe(base64({baseDir: 'public', debug: true}))
+        // .pipe(base64({debug: true, extensions: ['svg', 'gif']}))
+        .pipe(base64({extensions: ['svg', 'gif']}))
         .pipe(concat('main.css'))
         // .pipe(minifyCSS())
         .pipe(gulp.dest('./public/css'));
@@ -117,7 +118,9 @@ function bldJs(opt) {
 function srcCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-               .pipe(cache(base64()))
+               .pipe(cache(base64({
+                    extensions: ['svg']
+               })))
                .pipe(concat('styles.css'));
 }
 function minCss(opt) {
