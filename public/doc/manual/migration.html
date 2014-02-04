@@ -1,39 +1,231 @@
-<table>
+<p>hint
+подписаться на событие(click)
+запрос к АПИ</p>
+<h2 id="руководство-по-переходу-на-api-20">Руководство по переходу на API 2.0</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#подключение-api">Подключение API</a></li><li><a href="#создание-карты">Создание карты</a></li><li><a href="#работа-с-маркерами">Работа с маркерами</a><ul><li><a href="#добавление-маркера">Добавление маркера</a></li><li><a href="#добавление-кастомного-маркера">Добавление кастомного маркера</a></li></ul></li><li><a href="#группирование">Группирование</a></li><li><a href="#маркер-с-балуном">Маркер с балуном</a></li><li><a href="#добавление-балуна">Добавление балуна</a></li><li><a href="#работа-с-элементами-управления">Работа с элементами управления</a></li></ul></dl></p>
+<h3 id="подключение-api">Подключение API</h3><table>
     <thead>
         <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
             <td>
-    <pre><code>
-    &lt;html&gt;
-        &lt;head&gt;
-            &lt;meta charset=utf-8 /&gt;
-            &lt;script src=&quot;<a href="http://maps.api.2gis.ru/2.0/loader.js?pkg=full">http://maps.api.2gis.ru/2.0/loader.js?pkg=full</a>&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
-            &lt;script&gt;<br>                DG.then(function () {
-                    ...
-                });
-            &lt;/script&gt;
-        &lt;/head&gt;
-        ...
-    &lt;/html&gt;
-    </code></pre>
+                <pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;script src=&quot;<a href="http://maps.api.2gis.ru/1.0">http://maps.api.2gis.ru/1.0</a>&quot; &gt;&lt;/script&gt;
+        &lt;script&gt;
+            DG.autoload(function() {
+                ...
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    ...
+&lt;/html&gt;
+                </code></pre>
             </td>
             <td>
-    <pre><code>
-    &lt;html&gt;
-        &lt;head&gt;
-            &lt;meta charset=utf-8 /&gt;
-            &lt;script src=&quot;<a href="http://maps.api.2gis.ru/2.0/loader.js?pkg=full">http://maps.api.2gis.ru/2.0/loader.js?pkg=full</a>&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
-            &lt;script&gt;<br>                DG.then(function () {
-                    ...
-                });
-            &lt;/script&gt;
-        &lt;/head&gt;
-        ...
-    &lt;/html&gt;
-    </code></pre>
+                <pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;script src=&quot;<a href="http://maps.api.2gis.ru/2.0/loader.js?pkg=full">http://maps.api.2gis.ru/2.0/loader.js?pkg=full</a>&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                ...
+            });
+        &lt;/script&gt;
+    &lt;/head&gt;
+    ...
+&lt;/html&gt;
+                </code></pre>
             </td>
         </tr>
     </tbody>
 </table>
+
+<h3 id="создание-карты">Создание карты</h3><table>
+    <thead>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+<pre><code>DG.autoload(function() {
+    var myMap = new DG.Map(&#39;myMapId&#39;);
+    myMap.setCenter(new DG.GeoPoint(82.89,55.98), 15);
+    myMap.controls.add(new DG.Controls.Zoom());
+});
+</code></pre>
+            </td>
+            <td><pre><code>var map;
+DG.then(function () {
+    map = DG.map(&#39;map&#39;, {
+        &quot;center&quot;: [54.98, 82.89],
+        &quot;zoom&quot;: 13
+    });
+    DG.marker([54.98, 82.89]).addTo(map).bindPopup(&#39;Вы кликнули по мне!&#39;);
+});
+                    </code>
+                </pre>
+            </pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="работа-с-маркерами">Работа с маркерами</h3><h4 id="добавление-маркера">Добавление маркера</h4><table>
+    <thead>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+<pre><code>// Создаем маркер в Новосибирске с картинкой по умолчанию:
+var marker = new DG.Markers.Common({geoPoint: new DG.GeoPoint(82.89,54.98) });
+// Добавим маркер на карту:
+myMap.markers.add(marker);
+</code></pre>
+            </td>
+            <td><pre><code>DG.marker([54.98, 82.89]).addTo(map);
+                    </code>
+                </pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="добавление-кастомного-маркера">Добавление кастомного маркера</h4><table>
+    <thead>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+<pre><code>// Создаем маркер
+var marker = new DG.Markers.Common({geoPoint: new DG.GeoPoint(82.89,54.98),
+    // Путь к кастомной иконке
+    icon: new DG.Icon(&#39;sample.png&#39;,
+    // Размер иконки
+    new DG.Size(30,30))
+});
+
+// Добавим маркер на карту:
+myMap.markers.add(marker);
+</code></pre>
+            </td>
+            <td>
+<pre><code>// конфигурирование иконки маркера
+var myIcon = DG.icon({
+    iconUrl: &#39;my-icon.png&#39;,
+    iconRetinaUrl: &#39;my-icon@2x.png&#39;,
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: &#39;my-icon-shadow.png&#39;,
+    shadowRetinaUrl: &#39;my-icon-shadow@2x.png&#39;,
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
+});
+
+// Создание маркера и добавление его на карту
+DG.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="группирование">Группирование</h3><table>
+    <thead>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+<pre><code>// Создаем группу
+myMap.markers.createGroup(&quot;myGroup&quot;);
+// Добавляем в группу маркера
+myMap.markers.add(marker1,&quot;myGroup&quot;);
+myMap.markers.add(marker2,&quot;myGroup&quot;);
+</code></pre>
+            </td>
+            <td>
+<pre><code>DG.layerGroup([marker1, marker2])
+    .addLayer(polyline)
+    .addTo(map);
+</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="маркер-с-балуном">Маркер с балуном</h3><table>
+    <thead>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+<pre><code>var markerWithBaloon = new DG.Markers.MarkerWithBalloon({
+    // Местоположение маркера:
+    geoPoint: new DG.GeoPoint(82.89, 54.98)
+});
+myMap.markers.add(markerWithBaloon);
+</code></pre>
+            </td>
+            <td>
+<pre><code>DG.marker([54.98, 82.89]).addTo(map).bindPopup(&#39;sample text&#39;);
+</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="добавление-балуна">Добавление балуна</h3><table>
+    <thead>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+<pre><code>// Создаем балун в Новосибирске с текстом приветствия: 
+var myBalloon = new DG.Balloons.Common({ 
+    // Местоположение, на которое указывает балун: 
+    geoPoint: new DG.GeoPoint(82.89, 54.98),
+    // Текст внутри балуна: 
+    contentHtml: &#39;Привет!<br/>Хорошего настроения :)&#39;
+ }); 
+</code></pre>
+            </td>
+            <td>
+<pre><code>var popup = DG.popup()
+    .setLatLng([54.98, 82.89])
+    .setContent(&#39;<p>Привет!<br />Я балун.</p>&#39;);
+</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="работа-с-элементами-управления">Работа с элементами управления</h3><table>
+    <thead>
+        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+<pre><code>// Добавляем элемент управления коэффициентом масштабирования:
+var zoomControl = new DG.Controls.Zoom();
+myMap.controls.add(zoomControl);
+// Добавляем элемент управления коэффициентом масштабирования:
+myMap.controls.remove(zoomControl);
+</code></pre>
+            </td>
+            <td>
+<pre><code>DG.control.location().addTo(map);
+DG.control.ruler().addTo(map);
+DG.control.location().removeFrom(map);
+DG.control.ruler().removeFrom(map);
+</code></pre>
+            </td>
+        </tr>
+    </tbody>
+</table>
+

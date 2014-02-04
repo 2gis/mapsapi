@@ -473,12 +473,12 @@ DG.Map &mdash; основной класс API, используется для 
         <tr>
             <td><code><b>projectchange</b></code></td>
             <td><code><a href="/doc/2.0/maps/manual/events#projectevent">ProjectEvent</a></code>
-            <td>Вызывается при перемещении пользователя из одного <a target="_blank" href="#">проекта 2ГИС</a> в другой.</td>
+            <td>Вызывается при перемещении пользователя из одного <a href="#map-projectdetector">проекта 2ГИС</a> в другой.</td>
         </tr>
         <tr>
             <td><code><b>projectleave</b></code></td>
             <td><code><a href="/doc/2.0/maps/manual/events#projectevent">ProjectEvent</a></code>
-            <td>Вызывается при выходе пользователя из текущего <a target="_blank" href="#">проекта 2ГИС</a>.</td>
+            <td>Вызывается при выходе пользователя из текущего <a href="#map-projectdetector">проекта 2ГИС</a>.</td>
         </tr>
         <tr>
             <td><code><b>entranceshow</b></code></td>
@@ -630,7 +630,7 @@ DG.Map &mdash; основной класс API, используется для 
         <tr>
             <td><code><b>setLang</b>( <nobr>&lt;String&gt; <i>lang</i> )</nobr></code></td>
             <td><code>String</code></td>
-            <td>Устанавливает <a href="#">язык карты</a>. В качестве параметра принимает код языка (например, 'it').</td>
+            <td>Устанавливает <a href="/doc/2.0/maps/manual/locale">язык карты</a>. В качестве параметра принимает код языка (например, 'it').</td>
         </tr>
         <tr id="map-remove">
             <td><code><b>remove</b>()</code></td>
@@ -653,7 +653,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr>
             <td><code><b>getCenter</b>()</code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географический центр области просмотра карты.</td>
         </tr>
         <tr>
@@ -673,12 +673,12 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>getBounds</b>()</code></td>
-            <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Возвращает географические прямоугольные границы текущей области просмотра карты.</td>
         </tr>
         <tr>
             <td><code><b>getBoundsZoom</b>(
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i>,</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i>,</nobr>
                 <nobr>&lt;Boolean&gt; <i>inside?</i> )</nobr>
             </code></td>
 
@@ -688,7 +688,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>getSize</b>()</code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает текущий размер контейнера карты.</td>
         </tr>
         <tr>
@@ -698,13 +698,13 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>getPixelOrigin</b>()</code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает пиксельные координаты левой верхней точки слоя карты.</td>
         </tr>
         <tr>
             <td><code><b>getLang</b>()</code></td>
             <td><code>String</code></td>
-            <td>Возвращает текущий <a href="#">язык карты</a>.</td>
+            <td>Возвращает текущий <a href="/doc/2.0/maps/manual/locale">язык карты</a>.</td>
         </tr>
     </tbody>
 </table>
@@ -722,7 +722,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id="map-addlayer">
             <td><code><b>addLayer</b>(
-                <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i>,</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i>,</nobr>
                 <nobr>&lt;Boolean&gt; <i>insertAtTheBottom?</i> )</nobr>
             </code></td>
 
@@ -731,7 +731,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>removeLayer</b>(
-                <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -739,7 +739,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>hasLayer</b>(
-                <nobr>&lt;<a href="#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -750,12 +750,12 @@ DG.Map &mdash; основной класс API, используется для 
                 <nobr>&lt;String&gt;)</nobr>
             </code></td>
 
-            <td><code><a href="#ilayer">&lt;ILayer</a>&gt; <i>layer</i></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">&lt;ILayer</a>&gt; <i>layer</i></code></td>
             <td>Возвращает cлой по заданному идентификатору. Для слоя можно указать свой идентификатор, задав ему значение options.uid.</td>
         </tr>
         <tr id="map-openpopup">
             <td><code><b>openPopup</b>(
-                <nobr>&lt;<a href="#popup">Popup</a>&gt; <i>popup</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup">Popup</a>&gt; <i>popup</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -764,22 +764,22 @@ DG.Map &mdash; основной класс API, используется для 
         <tr id="map-openpopup2">
             <td><code><b>openPopup</b>(
                 <nobr>&lt;String&gt; <i>html</i> </nobr> | <nobr>&lt;HTMLElement&gt; <i>el</i>,
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i></nobr>,
-                <nobr>&lt;<a href="#popup-options">Popup options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Создает балун с переданными опциями и открывает его в определенной точке на карте.</td>
         </tr>
         <tr id="map-closepopup">
             <td><code><b>closePopup</b>(
-                <nobr>&lt;<a href="#popup">Popup</a>&gt; <i>popup?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup">Popup</a>&gt; <i>popup?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Закрывает балун, открытый с помощью <a href="#map-openpopup">openPopup</a>.</td>
         </tr>
         <tr id="map-addcontrol">
             <td><code><b>addControl</b>(
-                <nobr>&lt;<a href="#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -787,7 +787,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>removeControl</b>(
-                <nobr>&lt;<a href="#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -805,38 +805,38 @@ DG.Map &mdash; основной класс API, используется для 
             <th>Возвращает</th>
             <th>Описание</th>
         </tr>
-    </tbody>
-    <thead>
+    </thead>
+    <tbody>
         <tr>
             <td><code><b>latLngToLayerPoint</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает точку на карте, соответствующую переданным географическим координатам (удобно при размещении дополнительных слоев на карте).</td>
         </tr>
         <tr>
             <td><code><b>layerPointToLatLng</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географические координаты, соответствующие переданной точке на карте.</td>
         </tr>
         <tr>
             <td><code><b>containerPointToLayerPoint</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Конвертирует точку контейнера карты в точку слоя карты.</td>
         </tr>
         <tr>
             <td><code><b>layerPointToContainerPoint</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Конвертирует точку слоя карты в точку контейнера карты.</td>
         </tr>
         <tr>
@@ -844,33 +844,33 @@ DG.Map &mdash; основной класс API, используется для 
                 <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает точку контейнера карты, соответствующую географическим координатам.</td>
         </tr>
         <tr>
             <td><code><b>containerPointToLatLng</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географические координаты, соответствующие переданной точке контейнера.</td>
         </tr>
         <tr>
             <td><code><b>project</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
                 <nobr>&lt;Number&gt; <i>zoom?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Проецирует географические координаты в пиксельные для переданного уровня масштаба (по умолчанию текущий уровень).</td>
         </tr>
         <tr>
             <td><code><b>unproject</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i>,</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i>,</nobr>
                 <nobr>&lt;Number&gt; <i>zoom?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Проецирует пиксельные координаты в географические для переданного уровня масштаба (по умолчанию текущий уровень).</td>
         </tr>
         <tr>
@@ -878,7 +878,7 @@ DG.Map &mdash; основной класс API, используется для 
                 <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает пиксельные координаты мышки относительно левого верхнего угла контейнера карты, на основе переданного объекта <code>event</code>.</td>
         </tr>
         <tr>
@@ -886,7 +886,7 @@ DG.Map &mdash; основной класс API, используется для 
                 <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает пиксельные координаты мышки относительно слоя, на основе переданного объекта <code>event</code>.
         </tr>
         <tr>
@@ -894,7 +894,7 @@ DG.Map &mdash; основной класс API, используется для 
                 <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географические координаты мышки, на основе переданного объекта <code>event</code>.</td>
         </tr>
     </tbody>
@@ -1097,19 +1097,19 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr>
             <td><code><b>paddingTopLeft</b></code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
             <td>Задает отступ от верхнего левого угла контейнера карты, который не должен учитываться при подстройке центра и масштаба. Удобно использовать, например, если на карте приложения имеется левая панель и вы не хотите, чтобы при масштабировании под ней скрывались объекты.</td>
         </tr>
         <tr>
             <td><code><b>paddingBottomRight</b></code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
             <td>То же самое, но для нижнего правого угла карты.</td>
         </tr>
         <tr>
             <td><code><b>padding</b></code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
             <td>Эквивалентно установке и верхнего левого и нижнего правого отступов в одинаковые значения.</td>
         </tr>
@@ -1124,7 +1124,7 @@ DG.Map &mdash; основной класс API, используется для 
 
 ### Свойства
 
-Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение определенных возможностей карты, таких как масштабирование и тач-события (см. методы [IHandler](#)). Например:
+Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение определенных возможностей карты, таких как масштабирование и тач-события (см. методы [IHandler](/doc/2.0/maps/manual/interfaces#ihandler)). Например:
 
     map.doubleClickZoom.disable();
 
@@ -1143,52 +1143,52 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr>
             <td><code><b>dragging</b></code></td>
-            <td><a href="#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик перетаскивания карты (мышкой и тачем).</td>
         </tr>
         <tr>
             <td><code><b>touchZoom</b></code></td>
-            <td><a href="#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик тач-масштабирования.</td>
         </tr>
         <tr>
             <td><code><b>doubleClickZoom</b></code></td>
-            <td><a href="#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик масштабирования по двойному клику.</td>
         </tr>
         <tr>
             <td><code><b>scrollWheelZoom</b></code></td>
-            <td><a href="#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик масштабирования по скроллу.</td>
         </tr>
         <tr>
             <td><code><b>boxZoom</b></code></td>
-            <td><a href="#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик box-масштабирования (shift + выделение мышкой).</td>
         </tr>
         <tr>
             <td><code><b>keyboard</b></code></td>
-            <td><a href="#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик навигации с помощью клавиатуры.</td>
         </tr>
         <tr>
             <td><code><b>geoclicker</b></code></td>
-            <td><a href="#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик геокодирования по клику.</td>
         </tr>
         <tr>
             <td><code><b>projectDetector</b></code></td>
-            <td><a href="#ihandler"><code>ProjectDetector</code></a></td>
-            <td>Обработчик определения <a href="#">проекта 2ГИС</a>.</td>
+            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td>Обработчик определения <a href="#map-projectdetector">проекта 2ГИС</a>.</td>
         </tr>
         <tr>
             <td><code><b>zoomControl</b></code></td>
-            <td><a href="#control-zoom"><code>Control.Zoom</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/controls#класс-dgcontrolzoom"><code>Control.Zoom</code></a></td>
             <td>Элемент управления масштабом.</td>
         </tr>
         <tr>
             <td><code><b>fullscreenControl</b></code></td>
-            <td><a href="#control-fullscreen"><code>Control.FullScreen</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/controls#класс-dgcontrolfullscreen"><code>Control.FullScreen</code></a></td>
             <td>Кнопка включения полноэкранного режима.</td>
         </tr>
     </tbody>
