@@ -33,6 +33,7 @@ var config = {
         copyrights: [basePath + '/vendors/leaflet/src/copyright.js'],
 
         intro: '(function (window, document, undefined) {\n',
+        dustdebug: 'dust.debugLevel = \'ERROR\';\n',
         outro: '}(this, document));\n'
     },
 
@@ -50,8 +51,8 @@ var config = {
 
     tmpl: {
         dir: 'templates',
-        pattern: '*.tmpl',
-        ext: '.tmpl',
+        pattern: '*.dust',
+        ext: '.dust',
         varPostfix: '_TMPL'
     },
 

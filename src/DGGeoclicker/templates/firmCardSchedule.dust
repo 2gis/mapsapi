@@ -1,0 +1,97 @@
+<div class="firm-card__schedule">
+    {?schedule}
+        {?forecast.today}
+            <div class="schedule__today schedule_open_{?forecast.open}true{:else}false{/forecast.open}{?schedule.everyday} schedule__no-table{/schedule.everyday}">
+                {forecast.today.text}&nbsp;
+                {?forecast.today.from}
+                    {forecast.today.from}&ndash;{forecast.today.to}
+                {/forecast.today.from}
+
+                {?schedule.lunch}
+                    ,&nbsp;{forecast.today.lunchStr}&nbsp;
+                    {#schedule.lunch}
+                        {from}&ndash;{to}
+                    {/schedule.lunch}
+                {/schedule.lunch}
+            </div>
+        {/forecast.today}
+
+        {#forecast.now}
+            <div class="schedule__now">
+                {!Вывод строки прогноза, например "откроется завтра" или "закроется через 15 минут" !}
+                <span class="schedule__now-text">{.}</span>
+            </div>
+        {/forecast.now}
+
+        {^schedule.everyday}
+        {!Если ежедневно одно и то же расписание - попап не нужен !}
+            {?schedule.week}
+                {!Упрощённое расписание !}
+                {?schedule.week.evently}
+                    <div class="schedule__table">
+                        {#schedule.week.evently}
+                            <div class="schedule__string">
+                                {?alltime}
+                                    {alltimeStr}
+                                {/alltime}
+                                {?everyday}
+                                    {forecast.today.text}
+                                {:else}
+                                    {dayList}
+                                {/everyday}
+                                {?holiday}
+                                    &mdash;<span class="schedule__string-time">&nbsp;{holidayStr}</span>
+                                {:else}
+                                    &mdash;<span class="schedule__string-time">&nbsp;{from}&ndash;{to}</span>
+                                    {#lunch}
+                                        <p>{lunchStr}&mdash;
+                                            <span class="schedule__string-time">
+                                                {from}&ndash;{to}
+                                            </span>
+                                        </p>
+                                    {/lunch}
+                                {/holiday}
+                            </div>
+                        {/schedule.week.evently}
+                    </div>
+                {/schedule.week.evently}
+
+                {! Неупрощаемое расписание - таблица !}
+                {?schedule.week.table}
+                    <div>
+                        <div class="schedule__table">
+                            <div class="schedule__tc schedule__tc_pre">
+                                <div class="schedule__day-name">&nbsp;</div>
+                                <div class="schedule__table-clock schedule__td"></div>
+                                {?schedule.week.hasLunch}
+                                    <div class="schedule__table-lunch schedule__td"></div>
+                                {/schedule.week.hasLunch}
+                            </div>
+                            {#schedule.week.table}
+                                <div class="schedule__tc{?active} schedule__tc_active_true{/active}">
+                                    <div class="schedule__day-name">{key}</div>
+                                    <div class="schedule__td">
+                                        {?from}
+                                            {from} {to}
+                                        {:else}
+                                            &ndash;
+                                        {/from}
+                                    </div>
+                                    {#lunch}
+                                        <div class="schedule__td">
+                                            {?from}
+                                                {from} {to}
+                                            {:else}
+                                                &ndash;
+                                            {/from}
+                                        </div>
+                                    {/lunch}
+                                </div> {! schedule__tc !}
+                            {/schedule.week.table}
+                        </div>  {! schedule__table !}
+                    </div>
+                {/schedule.week.table}
+            {/schedule.week}
+        {/schedule.everyday}
+    {/schedule}
+</div>

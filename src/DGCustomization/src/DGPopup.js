@@ -29,8 +29,6 @@
         _baron: null,
         _isBaronExist: false,
 
-        /*global __DGCustomization_TMPL__:false */
-        _templates: __DGCustomization_TMPL__,
         _popupShowClass: 'leaflet-popup_show_true',
         _popupHideClass: 'leaflet-popup_show_false',
 

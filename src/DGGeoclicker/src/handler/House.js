@@ -54,28 +54,9 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return DG.when(this._defaultFirm ? this._firmCardObject : this._houseObject);
     },
 
-    _firmCardTmplsSetup: function () {
-        var tmpls = [
-                'firmCardHeader',
-                'firmCardAddr',
-                'firmCardContacts',
-                'firmCardSchedule',
-                'frimCardPayments',
-                'firmCardRubric',
-                'popupFooterBtns'
-            ],
-            getTemplate = DG.bind(this._view.getTemplate, this._view);
-
-        return tmpls.reduce(function (obj, item) {
-            obj[item] = getTemplate(item);
-            return obj;
-        }, {});
-    },
-
     _firmCardSetup: function () { //() -> Object
         return {
-            tmpls: this._firmCardTmplsSetup(),
-            render: DG.template,
+            render: this._view._templates,
             lang: this._map.getLang(),
             ajax: DG.bind(this._api.getFirmInfo, this._api),
             timezoneOffset: this._controller.getMap().projectDetector.getProject().time_zone_as_offset,
@@ -127,7 +108,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
         shortFirmList = new FirmCard.List(firms, {
             firmCard: options,
-            firmlistItemTmpl: this._view.getTemplate('firmlistItem')
+            firmlistItemTmpl: 'firmlistItem'
         });
 
         return shortFirmList.renderList();
@@ -140,7 +121,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             tmpl: firmList,
             header: this._header,
             footer: this._view.render({
-                tmpl: this._view.getTemplate('popupFooterBtns'),
+                tmpl: 'popupFooterBtns',
                 data: {
                     btns: [
                         {
@@ -176,7 +157,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
         this._firmList = new FirmCard.List(results, {
             firmCard: options,
-            firmlistItemTmpl: this._view.getTemplate('firmlistItem'),
+            firmlistItemTmpl: 'firmlistItem',
             onListReady: DG.bind(this._renderFirmList, this),
         });
         this._firmListObject = this._fillFirmListObject(this._firmList.renderList());
