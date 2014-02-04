@@ -174,8 +174,11 @@ DG.Ruler = DG.Class.extend({
             this._pathRoot.style[DG.DomUtil.TRANSFORM] = this._map._pathRoot.style[DG.DomUtil.TRANSFORM];
         },
         moveend : function () {
-            ['width', 'height', 'viewBox', 'style'].forEach(function (attr) {
+            ['width', 'height', 'viewBox'].forEach(function (attr) {
                 this._pathRoot.setAttribute(attr, this._map._pathRoot.getAttribute(attr));
+            }, this);
+            ['top', 'left', L.DomUtil.TRANSFORM].forEach(function (prop) {
+                this._pathRoot.style[prop] = this._map._pathRoot.style[prop];
             }, this);
         }
     },
