@@ -29,20 +29,20 @@ var extend = require('extend'),
 
 //Delete it
 gulp.task('test', ['build-clean'], function () {
-    // var css = deps.getCSSFiles(null, {
-    //     skin: 'dark',
-    //     addIE: true,
-    //     onlyIE: false
-    // });
+    var css = deps.getCSSFiles({
+        skin: 'dark',
+        // isIE: true,
+        onlyIE: true
+    });
     // console.log(deps.getJSFiles());
-    //console.log(css, css.length);
-    return gulp.src(deps.getCSSFiles())
-        // .pipe(base64({baseDir: 'public', debug: true}))
-        // .pipe(base64({debug: true, extensions: ['svg', 'gif']}))
-        .pipe(base64({extensions: ['svg', 'gif']}))
-        .pipe(concat('main.css'))
-        // .pipe(minifyCSS())
-        .pipe(gulp.dest('./public/css'));
+    console.log(css, css.length);
+    // return gulp.src(deps.getCSSFiles())
+    //     // .pipe(base64({baseDir: 'public', debug: true}))
+    //     // .pipe(base64({debug: true, extensions: ['svg', 'gif']}))
+    //     .pipe(base64({extensions: ['svg', 'gif']}))
+    //     .pipe(concat('main.css'))
+    //     // .pipe(minifyCSS())
+    //     .pipe(gulp.dest('./public/css'));
 });
 
 //CLI API
@@ -63,12 +63,12 @@ gulp.task('build-styles', function () {
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.full.min'}))
                              .pipe(cache(minifyCSS()))
-                             .pipe(gulp.dest('./public/css/'))/*,
+                             .pipe(gulp.dest('./public/css/')),
         srcCss(extend(gutil.env, {onlyIE: true})).pipe(rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.ie.min'}))
                              .pipe(cache(minifyCSS()))
-                             .pipe(gulp.dest('./public/css/'))*/
+                             .pipe(gulp.dest('./public/css/'))
     );
 });
 
