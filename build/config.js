@@ -95,6 +95,7 @@ var config = {
 };
 
 config.appConfig = getAppConfig();
+config.cfgParams = cgfToFrep(config.appConfig);
 
 // Reeturn actual configuration for replace
 function getAppConfig() { // ()->Object
@@ -117,4 +118,13 @@ function getAppConfig() { // ()->Object
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = config;
+}
+
+function cgfToFrep(config) {
+    return Object.keys(config).map(function (key) {
+        return {
+            pattern: new RegExp('__' + key + '__', 'g'),
+            replacement: config[key]
+        };
+    });
 }
