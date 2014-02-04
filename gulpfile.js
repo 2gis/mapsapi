@@ -42,7 +42,8 @@ gulp.task('test', ['build-clean'], function () {
 
 //CLI API
 gulp.task('build-scripts', ['lint'], function () {
-    return srcJs(gutil.env).pipe(gulp.dest('./public/js/'))
+    return srcJs(gutil.env)
+                    .pipe(gulp.dest('./public/js/'))
                     .pipe(rename({suffix: '.min'}))
                     .pipe(cache(uglify()))
                     .pipe(gulp.dest('./public/js/'));
@@ -83,16 +84,16 @@ gulp.task('build-assets', function () {
 
 gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
-               .pipe(jshint('.jshintrc'))
+               .pipe(cache(jshint('.jshintrc')))
                .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('test', ['build'], function () {
     return gulp.src('./public/js/script.js')
                .pipe(karma({
-                    configFile: './test/karma.conf.js',
-                    action: 'run'
-               }));
+                        configFile: './test/karma.conf.js',
+                        action: 'run'
+                    }));
 });
 
 gulp.task('doc', function () {
@@ -121,33 +122,24 @@ gulp.task('default', function () {
 //Exports API for live src streaming
 
 //js build api
-function srcJs(opt) {
+function bldJs(opt) {
+    console.log(opt.isDebug);
     return gulp.src(deps.getJSFiles(opt))
                .pipe(concat('script.js'))
-               .pipe(frep(config.cfgParams));
-}
-function minJs(opt) {
-    return srcJs(opt).pipe(cache(uglify()));
-}
-function bldJs(opt) {
-    return opt.isDebug ? srcJs(opt) : minJs(opt);
+               .pipe(frep(config.cfgParams))
+               .pipe(opt.isDebug ? gutil.noop() : uglify());
 }
 
 //css build api
-function srcCss(opt) {
+function bldCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                .pipe(base64())
                .pipe(cache(base64({
                     extensions: ['svg']
                })))
-               .pipe(concat('styles.css'));
-}
-function minCss(opt) {
-    return srcCss(opt).pipe(cache(minifyCSS()));
-}
-function bldCss(opt) {
-    return opt.isDebug ? srcCss(opt) : minCss(opt);
+               .pipe(concat('styles.css'))
+               .pipe(opt.isDebug ? gutil.noop() : minifyCSS());
 }
 
 module.exports = {
