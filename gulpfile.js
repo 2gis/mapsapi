@@ -9,6 +9,7 @@ var extend = require('extend'),
     cache = require('gulp-cache'),
     clean = require('gulp-clean'),
     frep = require('gulp-frep'),
+    karma = require('gulp-karma'),
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -39,7 +40,7 @@ gulp.task('test', ['build-clean'], function () {
 });
 
 //CLI API
-gulp.task('build-scripts', ['jshint'], function () {
+gulp.task('build-scripts', ['lint'], function () {
     return srcJs(gutil.env).pipe(gulp.dest('./public/js/'))
                     .pipe(rename({suffix: '.min'}))
                     .pipe(cache(uglify()))
@@ -79,10 +80,18 @@ gulp.task('build-assets', function () {
     );
 });
 
-gulp.task('jshint', function () {
+gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
-               .pipe(cache(jshint('.jshintrc')))
+               .pipe(jshint('.jshintrc'))
                .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('test', ['build'], function () {
+    return gulp.src('./public/js/script.js')
+               .pipe(karma({
+                    configFile: './test/karma.conf.js',
+                    action: 'run'
+               }));
 });
 
 gulp.task('doc', function () {
@@ -96,6 +105,16 @@ gulp.task('build', function (cb) {
 
 gulp.task('build-clean', function () {
     return gulp.src('./public', {read: false}).pipe(clean());
+});
+
+// Get info
+gulp.task('default', function () {
+    gutil.log('\nTasks list:');
+    gutil.log('gulp assets      # Create public folder and copy all assets there');
+    gutil.log('gulp lint        # Check JS files for errors with JSHint');
+    gutil.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
+    gutil.log('gulp doc         # Generate documentation from .md files');
+    gutil.log('gulp test        # Rebuild source and run unit tests');
 });
 
 //Exports API for live src streaming
@@ -117,7 +136,7 @@ function bldJs(opt) {
 function srcCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-               .pipe(cache(base64()))
+               .pipe(base64())
                .pipe(concat('styles.css'));
 }
 function minCss(opt) {
