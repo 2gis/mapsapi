@@ -1,14 +1,26 @@
-var gulp = require('gulp'),
+var extend = require('extend'),
+    es = require('event-stream'),
+
+    gulp = require('gulp'),
+    gutil = require('gulp-util'),
     concat = require('gulp-concat'),
+    runSequence = require('gulp-run-sequence'),
     rename = require('gulp-rename'),
-    uglify = require('gulp-uglify'),
     cache = require('gulp-cache'),
+    clean = require('gulp-clean'),
+    include = require('gulp-ignore').include,
+    exclude = require('gulp-ignore').exclude,
+
+    uglify = require('gulp-uglify'),
+    jshint = require('gulp-jshint'),
+
     minifyCSS = require('gulp-minify-css'),
     base64 = require('gulp-base64'),
+    prefix = require('gulp-autoprefixer'),
+
+    gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
-    deps = require('./build/gulp-deps')(config),
-    runSequence = require('gulp-run-sequence'),
-    clean = require('gulp-clean');
+    deps = require('./build/gulp-deps')(config);
 
 //Delete it
 gulp.task('test', ['build-clean'], function () {
@@ -28,23 +40,59 @@ gulp.task('test', ['build-clean'], function () {
 });
 
 //CLI API
-gulp.task('build-scripts', ['build-clean'], function () {
-    return bldJs()
-           .pipe(gulp.dest('./public/js'));
+gulp.task('build-scripts', ['jshint'], function () {
+    return srcJs(gutil.env).pipe(gulp.dest('./public/js/'))
+                    .pipe(rename({suffix: '.min'}))
+                    .pipe(cache(uglify()))
+                    .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('build-styles', ['build-clean'], function () {
-    return bldCss()
-          .pipe(gulp.dest('./public/css'));
+gulp.task('build-styles', function () {
+    return es.concat(
+        srcCss(gutil.env).pipe(gulp.dest('./public/css/'))
+                             .pipe(rename({suffix: '.min'}))
+                             .pipe(cache(minifyCSS()))
+                             .pipe(gulp.dest('./public/css/')),
+        srcCss(extend(gutil.env, {addIE: true})).pipe(rename({suffix: '.full'}))
+                             .pipe(gulp.dest('./public/css/'))
+                             .pipe(rename({suffix: '.full.min'}))
+                             .pipe(cache(minifyCSS()))
+                             .pipe(gulp.dest('./public/css/'))/*,
+        srcCss(extend(gutil.env, {onlyIE: true})).pipe(rename({suffix: '.ie'}))
+                             .pipe(gulp.dest('./public/css/'))
+                             .pipe(rename({suffix: '.ie.min'}))
+                             .pipe(cache(minifyCSS()))
+                             .pipe(gulp.dest('./public/css/'))*/
+    );
 });
 
 gulp.task('build-assets', function () {
-    return gulp.src('./private/*.*')
-               .pipe(gulp.dest('./public'));
+    return es.concat(
+        gulp.src(['./private/*.*', '!private/*.js'])
+            .pipe(gulp.dest('./public/')),
+        gulp.src('./vendors/leaflet/dist/images/*')
+            .pipe(gulp.dest('./public/img/vendors/leaflet')),
+        gulp.src('./src/**/fonts/**')
+            .pipe(gulp.dest('./public/fonts/')),
+        gulp.src('./private/loader.js')
+            .pipe(uglify())
+            .pipe(gulp.dest('./public/'))
+    );
+});
+
+gulp.task('jshint', function () {
+    return gulp.src('./src/**/src/**/*.js')
+               .pipe(cache(jshint('.jshintrc')))
+               .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('doc', function () {
+    var doc = config.doc;
+    gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
 
 gulp.task('build', function (cb) {
-    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets'], cb);
+    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
 });
 
 gulp.task('build-clean', function () {
@@ -54,27 +102,29 @@ gulp.task('build-clean', function () {
 //Exports API for live src streaming
 
 //js build api
-function srcJs() {
-    return gulp.src(deps.getJSFiles())
-               .pipe(concat('main.js'));
+function srcJs(opt) {
+    return gulp.src(deps.getJSFiles(opt))
+               .pipe(concat('script.js'));
 }
-function minJs() {
-    return srcJs().pipe(cache(uglify()));
+function minJs(opt) {
+    return srcJs(opt).pipe(cache(uglify()));
 }
-function bldJs(isDebug) {
-    return isDebug ? srcJs() : minJs();
+function bldJs(opt) {
+    return opt.isDebug ? srcJs(opt) : minJs(opt);
 }
 
 //css build api
-function srcCss() {
-    return gulp.src(deps.getCSSFiles())
-               .pipe(concat('main.css'));
+function srcCss(opt) {
+    return gulp.src(deps.getCSSFiles(opt))
+               .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+               .pipe(cache(base64()))
+               .pipe(concat('styles.css'));
 }
-function minCss() {
-    return srcCss().pipe(cache(minifyCSS()));
+function minCss(opt) {
+    return srcCss(opt).pipe(cache(minifyCSS()));
 }
-function bldCss(isDebug) {
-    return isDebug ? srcCss() : minCss();
+function bldCss(opt) {
+    return opt.isDebug ? srcCss(opt) : minCss(opt);
 }
 
 module.exports = {
