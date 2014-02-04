@@ -8,8 +8,7 @@ var extend = require('extend'),
     rename = require('gulp-rename'),
     cache = require('gulp-cache'),
     clean = require('gulp-clean'),
-    include = require('gulp-ignore').include,
-    exclude = require('gulp-ignore').exclude,
+    frep = require('gulp-frep'),
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -103,7 +102,8 @@ gulp.task('build-clean', function () {
 //js build api
 function srcJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
-               .pipe(concat('script.js'));
+               .pipe(concat('script.js'))
+               .pipe(frep(config.cfgParams));
 }
 function minJs(opt) {
     return srcJs(opt).pipe(cache(uglify()));
