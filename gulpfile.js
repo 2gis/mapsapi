@@ -69,6 +69,10 @@ gulp.task('build-assets', function () {
     return es.concat(
         gulp.src(['./private/*.*', '!private/*.js'])
             .pipe(gulp.dest('./public/')),
+        gulp.src('./vendors/leaflet/dist/images/*')
+            .pipe(gulp.dest('./public/img/vendors/leaflet')),
+        gulp.src('./src/**/fonts/**')
+            .pipe(gulp.dest('./public/fonts/')),
         gulp.src('./private/loader.js')
             .pipe(uglify())
             .pipe(gulp.dest('./public/'))
