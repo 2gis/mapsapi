@@ -158,11 +158,8 @@ gulp.task('release', ['commitFiles'], function (done) {
 //js build api
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
-<<<<<<< HEAD
                .pipe(cache(redust()))
-=======
                .pipe(redust(config.tmpl))
->>>>>>> c4b2c2d32de030681dd28d58fd5a219ec1bb6ea2
                .pipe(concat('script.js'))
                .pipe(frep(config.cfgParams))
                .pipe(opt.isDebug ? gutil.noop() : cache(uglify()));
