@@ -13,10 +13,10 @@ var config = {
     packages: require(basePath + '/build/packs.js'),
 
     source: {
-        leaflet: {
+        /*leaflet: {
             deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
             path: basePath + '/vendors/leaflet/src/'
-        },
+        },*/
         dg: {
             deps: require(basePath + '/build/deps.js'),
             path: basePath + '/src/'

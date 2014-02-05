@@ -104,7 +104,13 @@ gulp.task('lint', function () {
 });
 
 gulp.task('test', ['build'], function () {
-    return gulp.src('./public/js/script.js')
+    return gulp.src(['./public/js/script.min.js',
+                     './src/**/test/*Spec.js',
+                     //'./vendors/leaflet/spec/after.js',
+                     './vendors/leaflet/node_modules/happen/happen.js',
+                     './vendors/leaflet/spec/suites/SpecHelper.js',
+                     './vendors/leaflet/spec/suites/**/*.js'
+                ])
                .pipe(karma({
                         configFile: './test/karma.conf.js',
                         action: 'run'
@@ -158,7 +164,6 @@ gulp.task('release', ['commitFiles'], function (done) {
 //js build api
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
-               .pipe(cache(redust()))
                .pipe(redust(config.tmpl))
                .pipe(concat('script.js'))
                .pipe(frep(config.cfgParams))

@@ -2,19 +2,12 @@ module.exports = function(config) {
     config.set({
         basePath: '../',
 
-        frameworks: ['mocha'],
-
-        // list of files / patterns to load in the browser
-        files: [
-            'src/**/test/*Spec.js', // 2GIS tests
-            'vendors/leaflet/spec/suites/SpecHelper.js',
-            'vendors/leaflet/spec/suites/**/*.js'
-        ],
+        frameworks: ['mocha', 'expect', 'sinon'],
 
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress', 'junit', 'teamcity'
         // CLI --reporters progress
-        reporters: ['progress'],
+        reporters: ['dots'],
 
         // web server port
         // CLI --port 9876
@@ -62,6 +55,8 @@ module.exports = function(config) {
 
         plugins: [
             'karma-mocha',
+            'karma-expect',
+            'karma-sinon',
             'karma-phantomjs-launcher',
             'karma-chrome-launcher',
             'karma-opera-launcher',

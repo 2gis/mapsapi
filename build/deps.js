@@ -2,10 +2,10 @@ var deps = {
 
     Leaflet: {
         desc: 'Leaflet dist',
-        src: ['../vendors/leaflet/dist/leaflet.js'],
+        src: ['../vendors/leaflet/dist/leaflet-src.js'],
         css: {
             all: ['../vendors/leaflet/dist/leaflet.css']
-        },
+        }
     },
 
     DGCore: {
