@@ -1,7 +1,8 @@
 var through = require("through2"),
     gutil = require("gulp-util");
-var path = require('path');
-var dust = require('dustjs-linkedin');
+// var path = require('path');
+
+var parse = require('./lib/parse');
 
 module.exports = function (param) {
     "use strict";
@@ -14,8 +15,19 @@ module.exports = function (param) {
     // see "Writing a plugin"
     // https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/README.md
     function redust(file, enc, callback) {
+        var self = this;
 
-        console.log(file);
+        parse.process(file, function (err, res) {
+            if (err) {
+                self.emit("error", new gutil.PluginError("gulp-redust", err));
+            }
+
+            file.contents = new Buffer(res);
+
+            self.push(file);
+            callback();
+        });
+
         // // Do nothing if no contents
         // if (file.isNull()) {
         //     this.push(file);
@@ -45,7 +57,7 @@ module.exports = function (param) {
 
         // }
 
-        return callback();
+        // return callback();
     }
 
     return through.obj(redust);

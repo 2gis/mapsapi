@@ -24,7 +24,8 @@
   "dependencies": {
     "through2": "*",
     "gulp-util": "~2.2.0",
-    "dustjs-linkedin": "~2.3.2"
+    "dustjs-linkedin": "~2.3.2",
+    "async": "~0.2.10"
   },
   "devDependencies": {
     "mocha": "*",

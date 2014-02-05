@@ -13,6 +13,7 @@ var extend = require('extend'),
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
+    redust = require('./build/gulp-redust'),
 
     minifyCSS = require('gulp-minify-css'),
     base64 = require('gulp-base64'),
@@ -23,14 +24,14 @@ var extend = require('extend'),
     deps = require('./build/gulp-deps')(config);
 
 //Delete it
-gulp.task('test', ['build-clean'], function () {
-    var css = deps.getCSSFiles({
-        skin: 'dark',
-        // isIE: true,
-        onlyIE: true
-    });
+gulp.task('mytest', ['build-clean'], function () {
+    // var css = deps.getCSSFiles({
+    //     skin: 'dark',
+    //     isIE: true,
+    //     onlyIE: true
+    // });
     // console.log(deps.getJSFiles());
-    console.log(css, css.length);
+    // console.log(css, css.length);
     // return gulp.src(deps.getCSSFiles())
     //     // .pipe(base64({baseDir: 'public', debug: true}))
     //     // .pipe(base64({debug: true, extensions: ['svg', 'gif']}))
@@ -38,6 +39,9 @@ gulp.task('test', ['build-clean'], function () {
     //     .pipe(concat('main.css'))
     //     // .pipe(minifyCSS())
     //     .pipe(gulp.dest('./public/css'));
+    gulp.src(deps.getJSFiles())
+               .pipe(redust())
+               .pipe(gulp.dest('./public/js/'));
 });
 
 //CLI API
@@ -125,6 +129,7 @@ gulp.task('default', function () {
 function bldJs(opt) {
     console.log(opt.isDebug);
     return gulp.src(deps.getJSFiles(opt))
+               .pipe(redust())
                .pipe(concat('script.js'))
                .pipe(frep(config.cfgParams))
                .pipe(opt.isDebug ? gutil.noop() : uglify());
