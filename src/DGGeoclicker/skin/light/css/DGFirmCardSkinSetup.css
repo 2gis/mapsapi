@@ -1,18 +1,59 @@
-#popup-link-photos:before {
-    background-image: url(../img/photo-light.png);
-}
-
 .schedule__table-clock {
-    background-image: url(../img/clock-off-light.png);
+    background-image: url(../svg/schedule_clock-off-callout.svg);
 }
 
 .schedule_open_false:before {
-    background-image: url(../img/clock-off-light.png);
+    background-image: url(../svg/schedule_clock-off-callout.svg);
 }
 
 .schedule__table-lunch {
-    background-image: url(../img/lunch-light.png);
+    background-image: url(../svg/schedule_lunch.svg);
 }
+
+#popup-btn-show-entrance:before{
+    background-image: url(../svg/callout_entrance.svg);
+}
+
+.dg-map-geoclicker-purpose:before {
+    background-image: url(../svg/callout_place.svg);
+}
+
+.building-callout__body:first-child:before {
+    background-image: url(../svg/callout_address.svg);
+}
+
+.firm-card__address:before {
+    background-image: url(../svg/callout_address.svg);
+}
+
+.firm-card__phone:before {
+    background-image: url(../svg/callout_phone.svg);
+}
+
+.firm-card__site:before {
+    background-image: url(../svg/callout_website.svg);
+}
+
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
+    background-image: url(../svg/callout_street.svg);
+}
+
+.schedule__today:after {
+    background-image: url(../svg/ui_expand-off.svg);
+}
+
+.schedule__today.show_schedule:after {
+    background-image: url(../svg/ui_expand-on.svg);
+}
+
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
+    background-image: url(../svg/callout_sight.svg);
+}
+
+.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
+    background-image: url(../svg/callout_settlement.svg);
+}
+
 
 #popup-btn-firmCard-back:before {
     background-image: url(../img/back-light.png);
@@ -26,8 +67,12 @@
     background-image: url(../img/path-light.png);
 }
 
-#popup-btn-show-entrance:before{
-    background-image: url(../img/enter-light.png);
+.firm-card__email:before {
+    background-image: url(../img/evenlope-light.png);
+}
+
+.building-callout__list-item:before {
+    background-image: url(../img/bullet-light.png);
 }
 
 #dg-showmoresight {
@@ -38,45 +83,6 @@
     color: #000;
 }
 
-.dg-map-geoclicker-purpose:before {
-    background-image: url(../img/purp-light.png);
-}
-
-.building-callout__body:first-child:before {
-    background-image: url(../img/marker-light.png);
-}
-
-.firm-card__address:before {
-    background-image: url(../img/marker-light.png);
-}
-
-.firm-card__phone:before {
-    background-image: url(../img/phone-light.png);
-}
-
-.firm-card__site:before {
-    background-image: url(../img/globe-light.png);
-}
-
-.firm-card__email:before {
-    background-image: url(../img/evenlope-light.png);
-}
-
-.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
-    background-image: url(../img/street-light.png);
-}
-
-.schedule__today:after {
-    background-image: url(../img/show-schedule-light.png);
-}
-
-.schedule__today.show_schedule:after {
-    background-image: url(../img/hide-schedule-light.png);
-}
-
-.building-callout__list-item:before {
-    background-image: url(../img/bullet-light.png);
-}
 
 .firm-card__comment {
     color: #666;
@@ -106,76 +112,3 @@
     color: #666;
 }
 
-/*retina icons*/
-
-.leaflet-retina #popup-link-photos:before {
-    background-image: url(../img/photo-light-2x.png);
-}
-
-.leaflet-retina .schedule__table-clock {
-    background-image: url(../img/clock-off-light-2x.png);
-}
-
-.leaflet-retina .schedule_open_false:before {
-    background-image: url(../img/clock-off-light-2x.png);
-}
-
-.leaflet-retina .schedule__table-lunch {
-    background-image: url(../img/lunch-light-2x.png);
-}
-
-.leaflet-retina #popup-btn-firmCard-back:before {
-    background-image: url(../img/back-light-2x.png);
-}
-
-.leaflet-retina #popup-btn-firmList-back:before {
-    background-image: url(../img/back-light-2x.png);
-}
-
-.leaflet-retina #popup-btn-goto:before {
-    background-image: url(../img/path-light-2x.png);
-}
-
-.leaflet-retina #popup-btn-show-entrance:before{
-    background-image: url(../img/enter-light-2x.png);
-}
-
-.leaflet-retina .dg-map-geoclicker-purpose:before {
-    background-image: url(../img/purp-light-2x.png);
-}
-
-.leaflet-retina .building-callout__body:first-child:before {
-    background-image: url(../img/marker-light-2x.png);
-}
-
-.leaflet-retina .firm-card__address:before {
-    background-image: url(../img/marker-light-2x.png);
-}
-
-.leaflet-retina .firm-card__phone:before {
-    background-image: url(../img/phone-light-2x.png);
-}
-
-.leaflet-retina .firm-card__site:before {
-    background-image: url(../img/globe-light-2x.png);
-}
-
-.leaflet-retina .firm-card__email:before {
-    background-image: url(../img/evenlope-light-2x.png);
-}
-
-.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__street:before {
-    background-image: url(../img/street-light-2x.png);
-}
-
-.leaflet-retina .schedule__today:after {
-    background-image: url(../img/show-schedule-light-2x.png);
-}
-
-.leaflet-retina .schedule__today.show_schedule:after {
-    background-image: url(../img/hide-schedule-light-2x.png);
-}
-
-.leaflet-retina .building-callout__list-item:before {
-    background-image: url(../img/bullet-light-2x.png);
-}
