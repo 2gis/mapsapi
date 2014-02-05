@@ -126,22 +126,28 @@ gulp.task('build-clean', function () {
 });
 
 gulp.task('bump', function () {
-    return gulp.src('package.json')
+    return gulp.src('./package.json')
                .pipe(bump(gutil.env))
                .pipe(gulp.dest('./'));
-
 });
 
 gulp.task('bumpLoader', ['bump'], function (done) {
     config.updateLoaderVersion(done);
 });
 
-gulp.task('release', ['bump'], function () {
+gulp.task('stageFiles', ['bumpLoader'], function (done) {
+    return es.concat(
+        gulp.src('./private/loader.js').pipe(git.add()),
+        gulp.src('./package.json').pipe(git.add())
+    );
+});
+
+gulp.task('release', ['stageFiles'], function () {
     var pkg = require('./package.json');
     var v = pkg.version;
     var message = 'Release ' + v;
 
-    return gulp.src('./package.json')
+    return gulp.src('')
                .pipe(git.commit(message))
                .pipe(git.tag(v, v));
                //.pipe(git.push('all', 'master', '--tags'));
