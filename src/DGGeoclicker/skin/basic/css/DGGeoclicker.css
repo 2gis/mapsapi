@@ -69,12 +69,7 @@
 }
 
 .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
-    background-image: url(../img/callout-settlement.png);
     width: 12px;
-}
-
-.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(../img/icon-sight.png);
 }
 
 /*FIRM LIST*/
@@ -104,11 +99,6 @@
 .building-callout__list {
     color: #ffe6aa;
     list-style: none;
-}
-
-.dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(../img/icon-sight.png);
-    background-position: 0 0;
 }
 
 .dg-map-geoclicker-sight-description {
@@ -279,15 +269,6 @@
     top: 50%;
     left: 50%;
     margin: -16px 0 0 -74px !important;
-}
-
-
-.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__settlement:before {
-    background-image: url(../img/callout-settlement-2x.png);
-}
-
-.leaflet-retina .dg-map-geoclicker-purpose.dg-map-geoclicker-purpose__sight:before {
-    background-image: url(../img/icon-sight-2x.png);
 }
 
 

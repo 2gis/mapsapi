@@ -21,27 +21,17 @@
 }
 
 #popup-link-flamp_stars {
-    background-image: url(../img/star-off.png);
+    background-image: url(../svg/callout_star-off.svg);
     width: 70px;
     margin: 0 .4em 3px 0;
     display: inline-block;
     vertical-align: middle;
 }
 
-.leaflet-retina #popup-link-flamp_stars {
-    background-image: url(../img/star-off-2x.png);
-    height: inherit;
-}
-
 #popup-link-flamp_stars div {
-    background-image: url(../img/star-on.png);
+    background-image: url(../svg/callout_star-on.svg);
     height: 14px;
     width: 0;
-}
-
-.leaflet-retina #popup-link-flamp_stars div {
-    background-image: url(../img/star-on-2x.png);
-    background-size: contain;
 }
 
 #popup-link-booklet:before,
@@ -58,9 +48,8 @@
 }
 
 #popup-link-booklet:before {
-    background-image: url(../img/booklet.png);
+    background-image: url(../svg/miniCard_booklet.svg);
 }
-
-.leaflet-retina #popup-link-booklet:before {
-    background-image: url(../img/booklet-2x.png);
+#popup-link-photos:before {
+    background-image: url(../svg/miniCard_photos-adv.svg);
 }
