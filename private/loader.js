@@ -6,7 +6,7 @@
         isJsRequested = false,
         queryString,
         rejects = [],
-        version = 'v2.0.19';
+        version = 'v2.0.20';
 
     function processURL() {
         var scripts = document.getElementsByTagName('script');

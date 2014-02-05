@@ -115,12 +115,17 @@ gulp.task('bumpLoader', ['bump'], function (done) {
     config.updateLoaderVersion(done);
 });
 
-gulp.task('release', ['bumpLoader'], function () {
+gulp.task('stageFile', ['bumpLoader'], function () {
+    gulp.src(['package.json', './private/loader.js'])
+        .pipe(git.add());
+});
+
+gulp.task('release', ['stageFile'], function () {
     var pkg = require('./package.json');
     var v = pkg.version;
     var message = 'Release ' + v;
 
-    return gulp.src('./*')
+    return gulp.src('')
                .pipe(git.commit(message))
                .pipe(git.tag(v, v));
                //.pipe(git.push('all', 'master', '--tags'));
