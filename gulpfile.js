@@ -42,7 +42,7 @@ gulp.task('test', ['build-clean'], function () {
 
 //CLI API
 gulp.task('build-scripts', ['lint'], function () {
-    return srcJs(gutil.env)
+    return bldJs(extend(gutil.env, {isDebug: true}))
                     .pipe(gulp.dest('./public/js/'))
                     .pipe(rename({suffix: '.min'}))
                     .pipe(cache(uglify()))
@@ -51,16 +51,16 @@ gulp.task('build-scripts', ['lint'], function () {
 
 gulp.task('build-styles', function () {
     return es.concat(
-        srcCss(gutil.env).pipe(gulp.dest('./public/css/'))
+        bldCss(extend(gutil.env, {isDebug: true})).pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.min'}))
                              .pipe(cache(minifyCSS()))
                              .pipe(gulp.dest('./public/css/')),
-        srcCss(extend(gutil.env, {addIE: true})).pipe(rename({suffix: '.full'}))
+        bldCss(extend(gutil.env, {isIE: true, isDebug: true})).pipe(rename({suffix: '.full'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.full.min'}))
                              .pipe(cache(minifyCSS()))
                              .pipe(gulp.dest('./public/css/')),
-        srcCss(extend(gutil.env, {onlyIE: true})).pipe(rename({suffix: '.ie'}))
+        bldCss(extend(gutil.env, {onlyIE: true, isDebug: true})).pipe(rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.ie.min'}))
                              .pipe(cache(minifyCSS()))
@@ -123,7 +123,6 @@ gulp.task('default', function () {
 
 //js build api
 function bldJs(opt) {
-    console.log(opt.isDebug);
     return gulp.src(deps.getJSFiles(opt))
                .pipe(concat('script.js'))
                .pipe(frep(config.cfgParams))
