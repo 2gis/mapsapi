@@ -10,6 +10,8 @@ var extend = require('extend'),
     clean = require('gulp-clean'),
     frep = require('gulp-frep'),
     karma = require('gulp-karma'),
+    bump = require('gulp-bump'),
+    git = require('gulp-git'),
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -43,10 +45,19 @@ gulp.task('mytest', ['build-clean'], function () {
                .pipe(redust())
                .pipe(gulp.dest('./public/js/'));
 });
+//public CLI API
+// Get info
+gulp.task('default', function () {
+    gutil.log('\nTasks list:');
+    gutil.log('gulp assets      # Create public folder and copy all assets there');
+    gutil.log('gulp lint        # Check JS files for errors with JSHint');
+    gutil.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
+    gutil.log('gulp doc         # Generate documentation from .md files');
+    gutil.log('gulp test        # Rebuild source and run unit tests');
+});
 
-//CLI API
 gulp.task('build-scripts', ['lint'], function () {
-    return srcJs(gutil.env)
+    return bldJs(extend(gutil.env, {isDebug: true}))
                     .pipe(gulp.dest('./public/js/'))
                     .pipe(rename({suffix: '.min'}))
                     .pipe(cache(uglify()))
@@ -55,16 +66,16 @@ gulp.task('build-scripts', ['lint'], function () {
 
 gulp.task('build-styles', function () {
     return es.concat(
-        srcCss(gutil.env).pipe(gulp.dest('./public/css/'))
+        bldCss(extend(gutil.env, {isDebug: true})).pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.min'}))
                              .pipe(cache(minifyCSS()))
                              .pipe(gulp.dest('./public/css/')),
-        srcCss(extend(gutil.env, {addIE: true})).pipe(rename({suffix: '.full'}))
+        bldCss(extend(gutil.env, {isIE: true, isDebug: true})).pipe(rename({suffix: '.full'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.full.min'}))
                              .pipe(cache(minifyCSS()))
                              .pipe(gulp.dest('./public/css/')),
-        srcCss(extend(gutil.env, {onlyIE: true})).pipe(rename({suffix: '.ie'}))
+        bldCss(extend(gutil.env, {onlyIE: true, isDebug: true})).pipe(rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(rename({suffix: '.ie.min'}))
                              .pipe(cache(minifyCSS()))
@@ -109,25 +120,43 @@ gulp.task('build', function (cb) {
     runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
 });
 
+//service tasks
 gulp.task('build-clean', function () {
     return gulp.src('./public', {read: false}).pipe(clean());
 });
 
-// Get info
-gulp.task('default', function () {
-    gutil.log('\nTasks list:');
-    gutil.log('gulp assets      # Create public folder and copy all assets there');
-    gutil.log('gulp lint        # Check JS files for errors with JSHint');
-    gutil.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
-    gutil.log('gulp doc         # Generate documentation from .md files');
-    gutil.log('gulp test        # Rebuild source and run unit tests');
+gulp.task('bump', function () {
+    return gulp.src('package.json')
+               .pipe(bump(gutil.env))
+               .pipe(gulp.dest('./'));
+
 });
+
+gulp.task('bumpLoader', ['bump'], function (done) {
+    config.updateLoaderVersion(done);
+});
+
+gulp.task('stageFile', ['bumpLoader'], function () {
+    gulp.src(['package.json', './private/loader.js'])
+        .pipe(git.add());
+});
+
+gulp.task('release', ['stageFile'], function () {
+    var pkg = require('./package.json');
+    var v = pkg.version;
+    var message = 'Release ' + v;
+
+    return gulp.src('')
+               .pipe(git.commit(message))
+               .pipe(git.tag(v, v));
+               //.pipe(git.push('all', 'master', '--tags'));
+});
+
 
 //Exports API for live src streaming
 
 //js build api
 function bldJs(opt) {
-    console.log(opt.isDebug);
     return gulp.src(deps.getJSFiles(opt))
                .pipe(redust())
                .pipe(concat('script.js'))

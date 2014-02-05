@@ -453,6 +453,7 @@ exports.setVersion =  function (done) {
                 console.log('Set version of stat files: ' + hash + '\n');
 
                 loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})([\w]+=)*.*(['"]{1})/g, '$1$2' + hash + '$3');
+                //(version\s*=\s*['"]{1})([v\d|.]+)*.*(['"]{1})
                 fs.writeFile(loaderPath + '/' + loaderFileName, loaderContent, function () {
                     done();
                 });
