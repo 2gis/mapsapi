@@ -135,27 +135,21 @@ gulp.task('bumpLoader', ['bump'], function (done) {
     config.updateLoaderVersion(done);
 });
 
-gulp.task('stageFiles', ['bumpLoader'], function (done) {
-    return es.concat(
-        gulp.src('./private/loader.js').pipe(git.add()),
-        gulp.src('./package.json').pipe(git.add())
-    );
-});
-
-gulp.task('commitFiles', ['stageFiles'], function () {
+gulp.task('commitFiles', ['bumpLoader'], function () {
     var pkg = require('./package.json'),
         v = pkg.version,
-        message = 'Releasegs ' + v;
+        message = 'Release ' + v;
 
     return gulp.src('').pipe(git.commit(message));
 })
 
-gulp.task('release', ['commitFiles'], function () {
+gulp.task('release', ['commitFiles'], function (done) {
     var pkg = require('./package.json'),
         v = pkg.version;
 
-    return gulp.src('').pipe(git.tag(v, v));
-    //.pipe(git.push('all', 'master', '--tags'));
+    git.tag(v, v);
+    ///git.push('all', 'master', '--tags');
+    done();
 });
 
 
