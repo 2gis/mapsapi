@@ -138,7 +138,7 @@ function updateLoaderVersion(done) {
     fs.readFile(loaderPath + '/' + loaderFileName, {encoding: 'utf8'}, function (err, loaderContent) {
         if (err) { throw err; }
 
-        console.log('Set version of stat files: ' + version + '\n');
+        console.log('Set version of stat files: ' + version);
 
         loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})()*.*(['"]{1})/g, '$1$2' + 'v' + version + '$3');
         fs.writeFile(loaderPath + '/' + loaderFileName, loaderContent, function () {

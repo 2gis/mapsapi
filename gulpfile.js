@@ -142,15 +142,20 @@ gulp.task('stageFiles', ['bumpLoader'], function (done) {
     );
 });
 
-gulp.task('release', ['stageFiles'], function () {
-    var pkg = require('./package.json');
-    var v = pkg.version;
-    var message = 'Release ' + v;
+gulp.task('commitFiles', ['stageFiles'], function () {
+    var pkg = require('./package.json'),
+        v = pkg.version,
+        message = 'Releasegs ' + v;
 
-    return gulp.src('')
-               .pipe(git.commit(message))
-               .pipe(git.tag(v, v));
-               //.pipe(git.push('all', 'master', '--tags'));
+    return gulp.src('').pipe(git.commit(message));
+})
+
+gulp.task('release', ['commitFiles'], function () {
+    var pkg = require('./package.json'),
+        v = pkg.version;
+
+    return gulp.src('').pipe(git.tag(v, v));
+    //.pipe(git.push('all', 'master', '--tags'));
 });
 
 
