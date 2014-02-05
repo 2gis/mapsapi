@@ -1,5 +1,13 @@
 var deps = {
 
+    Leaflet: {
+        desc: 'Leaflet dist',
+        src: ['../vendors/leaflet/dist/leaflet.js'],
+        css: {
+            all: ['../vendors/leaflet/dist/leaflet.css']
+        },
+    },
+
     DGCore: {
         desc: 'Main module',
         src: [
@@ -10,47 +18,9 @@ var deps = {
             'DGCore/src/DGplugin.js',
             'DGCore/src/DGthen.js'
         ],
-        css: {
-            all: ['../vendors/leaflet/dist/leaflet.css']
-        },
+
         heading: '2GIS modules',
-        deps: [ 'Core',
-                'EPSG3395',
-                'TileLayer',
-                'TileLayerWMS',
-                'TileLayerCanvas',
-                'ImageOverlay',
-                'Marker',
-                'DivIcon',
-                'Popup',
-                'LayerGroup',
-                'FeatureGroup',
-                'Path',
-                'PathVML',
-                'PathCanvas',
-                'Polyline',
-                'Polygon',
-                'MultiPoly',
-                'Rectangle',
-                'Circle',
-                'CircleMarker',
-                'VectorsCanvas',
-                'GeoJSON',
-                'MapDrag',
-                'MouseZoom',
-                'TouchZoom',
-                'BoxZoom',
-                'Keyboard',
-                'MarkerDrag',
-                'ControlAttrib',
-                'ControlZoom',
-                'ControlScale',
-                'ControlLayers',
-                'AnimationPan',
-                'AnimationTimer',
-                'AnimationZoom',
-                'Geolocation',
-                'DGWhen']
+        deps: ['DGWhen']
     },
 
     DGWhen: {
@@ -58,7 +28,8 @@ var deps = {
         src: [
             'DGWhen/src/DGCore.js',
             'DGWhen/src/DGWhen.js'
-        ]
+        ],
+        deps: ['Leaflet']
     },
 
     DGAjax: {

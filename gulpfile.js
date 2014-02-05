@@ -141,7 +141,7 @@ gulp.task('commitFiles', ['bumpLoader'], function () {
         message = 'Release ' + v;
 
     return gulp.src('').pipe(git.commit(message));
-})
+});
 
 gulp.task('release', ['commitFiles'], function (done) {
     var pkg = require('./package.json'),
@@ -158,22 +158,21 @@ gulp.task('release', ['commitFiles'], function (done) {
 //js build api
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
-               .pipe(redust())
+               .pipe(cache(redust()))
                .pipe(concat('script.js'))
                .pipe(frep(config.cfgParams))
-               .pipe(opt.isDebug ? gutil.noop() : uglify());
+               .pipe(opt.isDebug ? gutil.noop() : cache(uglify()));
 }
 
 //css build api
 function bldCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-               .pipe(base64())
                .pipe(cache(base64({
-                    extensions: ['svg']
+                    extensions: ['svg', 'png']
                })))
                .pipe(concat('styles.css'))
-               .pipe(opt.isDebug ? gutil.noop() : minifyCSS());
+               .pipe(opt.isDebug ? gutil.noop() : cache(minifyCSS()));
 }
 
 module.exports = {
