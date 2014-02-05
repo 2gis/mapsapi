@@ -1,7 +1,7 @@
 <h2 id="события">События</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#методы-управления-событиями">Методы управления событиями</a></li><li><a href="#объекты-событий">Объекты событий</a><ul><li><a href="#event">Event</a></li><li><a href="#mouseevent">MouseEvent</a></li><li><a href="#locationevent">LocationEvent</a></li><li><a href="#errorevent">ErrorEvent</a></li><li><a href="#layerevent">LayerEvent</a></li><li><a href="#tileevent">TileEvent</a></li><li><a href="#resizeevent">ResizeEvent</a></li><li><a href="#geojson-event">GeoJSON event</a></li><li><a href="#popupevent">PopupEvent</a></li><li><a href="#dragendevent">DragEndEvent</a></li><li><a href="#poievent">PoiEvent</a></li><li><a href="#projectevent">ProjectEvent</a></li><li><a href="#langevent">LangEvent</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>События позволяют выполнить какое-либо действие в тот момент, когда что-то происходит с объектом (например, когда пользователь кликает по карте):</p>
 <pre><code>map.on(&#39;click&#39;, function(e) {
-    alert(e.latlng);
+    console.log(e.latlng);
 });
 </code></pre><p>Управлять событиями можно с помощью ссылок на обработчики, например, если необходимо добавить и затем удалить обработчик, определите его как функцию:</p>
 <pre><code>function onClick(e) { ... }
@@ -112,7 +112,7 @@ map.off(&#39;click&#39;, onClick);
 
 <h3 id="объекты-событий">Объекты событий</h3><p>Каждый объект события &mdash; это объект с данными о событии, передаваемый параметром в функцию-обработчик, подписанную на это событие при возникновении последнего. Например:</p>
 <pre><code>map.on(&#39;click&#39;, function(e) {
-    alert(e.latlng); // e является объектом события (в данном случае MouseEvent)
+    console.log(e.latlng); // e является объектом события (в данном случае MouseEvent)
 });
 </code></pre><h4 id="event">Event</h4><p>Базовый объект события. Все объекты событий содержат такие же свойства, как и этот объект.</p>
 <table>
@@ -148,17 +148,17 @@ map.off(&#39;click&#39;, onClick);
     <tbody>
         <tr>
             <td><code><b>latlng</b></code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Географическая точка, в которой было инициировано событие мышки.</td>
         </tr>
         <tr>
             <td><code><b>layerPoint</b></code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Пиксельные координаты, в которых было инициировано событие мышки, относительно слоя карты.</td>
         </tr>
         <tr>
             <td><code><b>containerPoint</b></code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Пиксельные координаты, в которых было инициировано событие мышки, относительно контейнера карты.</td>
         </tr>
         <tr>
@@ -180,12 +180,12 @@ map.off(&#39;click&#39;, onClick);
     <tbody>
         <tr>
             <td><code><b>latlng</b></code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Географическое положение пользователя.</td>
         </tr>
         <tr>
             <td><code><b>bounds</b></code></td>
-            <td><code><a href="#latlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Географические границы, в которых находится пользователь (в соответствии с точностью местоположения).</td>
         </tr>
         <tr>
@@ -254,7 +254,7 @@ map.off(&#39;click&#39;, onClick);
     <tbody>
         <tr>
             <td><code><b>layer</b></code></td>
-            <td><code><a href="#ilayer">ILayer</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a></code></td>
             <td>Слой, который был добавлен или удален.</td>
         </tr>
     </tbody>
@@ -293,12 +293,12 @@ map.off(&#39;click&#39;, onClick);
     <tbody>
         <tr>
             <td><code><b>oldSize</b></code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Старый размер, до изменения.</td>
         </tr>
         <tr>
             <td><code><b>newSize</b></code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Новый размер, после изменения.</td>
         </tr>
     </tbody>
@@ -315,7 +315,7 @@ map.off(&#39;click&#39;, onClick);
     <tbody>
         <tr>
             <td><code><b>layer</b></code></td>
-            <td><code><a href="#ilayer">ILayer</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a></code></td>
             <td>Слой GeoJSON объекта добавленного на карту.</td>
         </tr>
         <tr>
@@ -347,7 +347,7 @@ map.off(&#39;click&#39;, onClick);
     <tbody>
         <tr>
             <td><code><b>popup</b></code></td>
-            <td><code><a href="#popup">Popup</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/popup#описание">Popup</a></code></td>
             <td>Балун, который был открыт или закрыт.</td>
         </tr>
     </tbody>
@@ -381,7 +381,7 @@ map.off(&#39;click&#39;, onClick);
     <tbody>
         <tr>
             <td><code><b>latlng</b></code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Географические координаты точки интереса.</td>
         </tr>
     </tbody>
@@ -401,13 +401,13 @@ map.off(&#39;click&#39;, onClick);
             <td>getProjectList</td>
             <td>Нет</td>
             <td>Object</td>
-            <td>Возвращает все доступные <a href="#">проекты 2ГИС</a>.</td>
+            <td>Возвращает все доступные <a href="/doc/2.0/maps/manual/map#map-projectdetector">проекты 2ГИС</a>.</td>
         </tr>
         <tr>
             <td>getProject</td>
             <td>Нет</td>
             <td>Object</td>
-            <td>Возвращает текущий <a href="#">проект 2ГИС</a>.</td>
+            <td>Возвращает текущий <a href="/doc/2.0/maps/manual/map#map-projectdetector">проект 2ГИС</a>.</td>
         </tr>
     </tbody>
 </table>

@@ -8,7 +8,7 @@
 
 ### Класс DG.Control
 
-Базовый класс для всех элементов управления. Реализует интерфейс [IControl](#). Элементы добавляются на карту следующим образом:
+Базовый класс для всех элементов управления. Реализует интерфейс [IControl](/doc/2.0/maps/manual/interfaces#icontrol). Элементы добавляются на карту следующим образом:
 
     control.addTo(map);
     // то же самое, что
@@ -83,14 +83,14 @@
         </tr>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет элемент управления на карту.</td>
         </tr>
         <tr>
             <td><code><b>removeFrom</b>(
-                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Удаляет элемент управления с карты.</td>
@@ -151,7 +151,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Control.Zoom</b>(
-                <nobr>&lt;<a href="#позиции-элементов-управления">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-1">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.zoom(&hellip;)</code>
@@ -329,7 +329,7 @@
         <td><code><b>locateOptions</b></code></td>
         <td><code>Object</code></td>
         <td><code><span class="string"></span></td>
-        <td>См. <a href="#map-locate-options">параметры определения расположения</a>.</td>
+        <td>См. <a href="/doc/2.0/maps/manual/map#опции-определения-местоположения">параметры определения расположения</a>.</td>
     </tr>
 </table>
 

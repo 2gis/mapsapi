@@ -330,7 +330,7 @@
             </code></td>
 
             <td><code>Object</code></td>
-            <td>Сливает переданные опции со свойством <code>options</code> объекта <code>obj</code>, возвращает результирующий объект. См. <a href="#class-options">Опции класса</a>. Также имеется псевдоним <code>DG.setOptions</code>.</td>
+            <td>Сливает переданные опции со свойством <code>options</code> объекта <code>obj</code>, возвращает результирующий объект. См. <a href="#опции">опции класса</a>. Также имеется псевдоним <code>DG.setOptions</code>.</td>
         </tr>
         <tr>
             <td><code><b>getParamString</b>(
@@ -388,9 +388,9 @@
 
 ### DG.Locale
 
-Функционал, с помощью которого осуществляется <a href="#">перевод пользовательского интерфейса</a>.
+Функционал, с помощью которого осуществляется <a href="/doc/2.0/maps/manual/locale">перевод пользовательского интерфейса</a>.
 
-Подмешивает в карту два метода: <a href="">setLang</a> и <a href="">getLang</a>. Также имеется объект DG.Locale, который можно подмешать в любой <a href="">внешний модуль</a>, после чего в нем появится метод t, с помощью которого можно осуществить перевод. Классы модулей, к которым примешивается DG.Locale должны содержать внутри себя свойство `_map` и статическое свойство `Dictionary`.
+Подмешивает в карту два метода: <a href="/doc/2.0/maps/manual/map#map-setlang">setLang</a> и <a href="/doc/2.0/maps/manual/map#map-getlang">getLang</a>. Также имеется объект DG.Locale, который можно подмешать в любой <a href="/doc/2.0/maps/manual/external-modules">внешний модуль</a>, после чего в нем появится метод t, с помощью которого можно осуществить перевод. Классы модулей, к которым примешивается DG.Locale должны содержать внутри себя свойство `_map` и статическое свойство `Dictionary`.
 
 Базовым для всех словарей является словарь `DG.Dictionary`, в котором хранятся правила перевода слов во множественные формы (plural rules). При создании модуля, использующего свои словари, необходимо их разместить в папке lang. К примеру, если вы будете использовать итальянский и русский языки, тогда необходимо создать файлы lang/it.js и lang/ru.js. Примеры создания словарей рассмотрены ниже.
 
@@ -444,35 +444,35 @@ Cодержимое файла lang/ru.js:
     <tbody>
         <tr>
             <td><code><b>simplify</b>(
-                <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>[]&gt; <i>points</i></nobr>,
                 <nobr>&lt;Number&gt; <i>tolerance</i> )</nobr>
             </code></td>
-            <td><code><a href="#point">Point</a>[]</code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>[]</code></td>
             <td>Уменьшает количество точек в ломаной и возвращает новую упрощенную ломаную. Позволяет увеличить производительность обработки/отображения ломаных на карте. Параметр <code>tolerance</code> влияет на величину упрощения (чем меньше значение, тем лучше качество геометрии и ниже производительность).</td>
         </tr>
         <tr>
             <td><code><b>pointToSegmentDistance</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p1</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p2</i> )</nobr>
             </code></td>
             <td><code>Number</code></td>
             <td>Возвращает расстояние между точкой <code>p</code> и сегментом между точками <code>p1</code> и <code>p2</code>.
         </tr>
         <tr>
             <td><code><b>closestPointOnSegment</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p1</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>p2</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p1</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p2</i> )</nobr>
             </code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает ближайшую точку на сегменте <code>p1</code> <code>p2</code> до точки <code>p</code>.</td>
         </tr>
         <tr>
             <td><code><b>clipSegment</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>a</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>b</i></nobr>,
-                <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>a</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>b</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgbounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
             </code></td>
             <td><code>-</code></td>
             <td>Обрезает сегмент <code>a</code> <code>b</code> по прямоугольной области (модифицируются непосредственно точки сегмента).</td>
@@ -495,10 +495,10 @@ Cодержимое файла lang/ru.js:
     <tbody>
         <tr>
             <td><code><b>clipPolygon</b>(
-                <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i></nobr>,
-                <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>[]&gt; <i>points</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgbounds">Bounds</a>&gt; <i>bounds</i> )</nobr>
             </code></td>
-            <td><code><a href="#point">Point</a>[]</code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>[]</code></td>
             <td>Обрезает многоугольник по прямоугольной области.</td>
         </tr>
     </tbody>

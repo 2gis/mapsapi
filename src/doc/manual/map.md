@@ -627,7 +627,7 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code>this</code></td>
             <td>Останавливает отслеживание местоположения, предварительно инициированное методом <code><b>map.locate</b>({watch: true})</code>.</td>
         </tr>
-        <tr>
+        <tr id="map-setlang">
             <td><code><b>setLang</b>( <nobr>&lt;String&gt; <i>lang</i> )</nobr></code></td>
             <td><code>String</code></td>
             <td>Устанавливает <a href="/doc/2.0/maps/manual/locale">язык карты</a>. В качестве параметра принимает код языка (например, 'it').</td>
@@ -701,7 +701,7 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает пиксельные координаты левой верхней точки слоя карты.</td>
         </tr>
-        <tr>
+        <tr id="map-getlang">
             <td><code><b>getLang</b>()</code></td>
             <td><code>String</code></td>
             <td>Возвращает текущий <a href="/doc/2.0/maps/manual/locale">язык карты</a>.</td>
@@ -713,7 +713,7 @@ DG.Map &mdash; основной класс API, используется для 
 
 <table>
     <thead>
-            <tr>
+        <tr>
             <th>Метод</th>
             <th>Возвращает</th>
             <th>Описание</th>
@@ -750,7 +750,7 @@ DG.Map &mdash; основной класс API, используется для 
                 <nobr>&lt;String&gt;)</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">&lt;ILayer</a>&gt; <i>layer</i></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a></code></td>
             <td>Возвращает cлой по заданному идентификатору. Для слоя можно указать свой идентификатор, задав ему значение options.uid.</td>
         </tr>
         <tr id="map-openpopup">
@@ -807,7 +807,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr id="map-latlngtolayerpoint">
             <td><code><b>latLngToLayerPoint</b>(
                 <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>

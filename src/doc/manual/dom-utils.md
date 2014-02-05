@@ -80,7 +80,7 @@
                 <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает позицию мышки из DOM события относительно контейнера или относительно всей страницы, если контейнер не указан.</td>
         </tr>
         <tr>
@@ -130,7 +130,7 @@
                 <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
             </code></td>
 
-            <td><a href="#point"><code>Point</code></a></td>
+            <td><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint"><code>Point</code></a></td>
             <td>Возвращает смещение элемента относительно области просмотра (viewport-а).</td>
         </tr>
         <tr>
@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td><code><b>getTranslateString</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
             <td><code>String</code></td>
             <td>Возвращает CSS строку трансформации для смещения элемента. Использует 3D трансформацию для браузеров на основе WebKit с поддержкой аппаратного ускорения и 2D для других браузеров.</td>
@@ -201,7 +201,7 @@
         <tr>
             <td><code><b>getScaleString</b>(
                 <nobr>&lt;Number&gt; <i>scale</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>origin</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>origin</i> )</nobr>
             </code></td>
             <td><code>String</code></td>
             <td>Возвращает CSS строку трансформации для масштабирования элемента.</td>
@@ -209,7 +209,7 @@
         <tr id="domutil-setposition">
             <td><code><b>setPosition</b>(
                 <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i></nobr>,
                 <nobr>&lt;Boolean&gt; <i>disable3D?</i> )</nobr>
             </code></td>
             <td>-</td>
@@ -219,7 +219,7 @@
             <td><code><b>getPosition</b>(
                 <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
             </code></td>
-            <td><a href="#point">Point</a></td>
+            <td><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></td>
             <td>Возвращает координаты элемента, который ранее был спозиционирован с помощью метода <code>setPosition</code>.</td>
         </tr>
     </tbody>
@@ -291,7 +291,7 @@
         <tr>
             <td><code><b>run</b>(
                 <nobr>&lt;HTMLElement&gt; <i>element</i>,</nobr>
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>newPos</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>newPos</i></nobr>,
                 <nobr>&lt;Number&gt; <i>duration?</i></nobr>,
                 <nobr>&lt;Number&gt; <i>easeLinearity?</i> )</nobr>
             </code></td>
@@ -303,7 +303,7 @@
 
 #### События
 
-Вы можете подписаться на следующие события используя [эти методы](#):
+Вы можете подписаться на следующие события используя [эти методы](/doc/2.0/maps/manual/events#методы-управления-событиями):
 
 <table>
     <thead>
@@ -316,17 +316,17 @@
     <tbody>
         <tr>
             <td><code><b>start</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается во время старта анимации.</td>
         </tr>
         <tr>
             <td><code><b>step</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается в процессе анимации.</td>
         </tr>
         <tr>
             <td><code><b>end</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается во время окончания анимации.</td>
         </tr>
     </tbody>
@@ -366,7 +366,7 @@
 
 #### События
 
-Вы можете подписаться на следующие события используя [эти методы](#):
+Вы можете подписаться на следующие события используя [эти методы](/doc/2.0/maps/manual/events#методы-управления-событиями):
 
 <table>
     <thead>
@@ -379,22 +379,22 @@
     <tbody>
         <tr>
             <td><code><b>dragstart</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается в момент начала перетаскивания.</td>
         </tr>
         <tr>
             <td><code><b>predrag</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается в процессе перетаскивания <i>перед</i> каждым обновлением позиции элемента.</td>
         </tr>
         <tr>
             <td><code><b>drag</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается в процессе перетаскивания.</td>
         </tr>
         <tr>
             <td><code><b>dragend</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#dragendevent">DragEndEvent</a></code>
             <td>Вызывается в момент окончания перетаскивания.</td>
         </tr>
     </tbody>

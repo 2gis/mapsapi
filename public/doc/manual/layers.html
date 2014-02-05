@@ -1,6 +1,6 @@
 <h2 id="слои">Слои</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dgtilelayer">Класс DG.TileLayer</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#шаблон-url">Шаблон URL</a></li><li><a href="#опции">Опции</a></li><li><a href="#события">События</a></li><li><a href="#методы">Методы</a></li></ul></li><li><a href="#класс-dgtilelayerwms">Класс DG.TileLayer.WMS</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgtilelayercanvas">Класс DG.TileLayer.Canvas</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li><li><a href="#методы-2">Методы</a></li></ul></li><li><a href="#класс-dgimageoverlay">Класс DG.ImageOverlay</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li><li><a href="#методы-3">Методы</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>API карт позволяет накладывать пользовательские растровые слои поверх слоя карты. Это дает возможность отображать на карте практически любые графические объекты. Используемая по умолчанию система координат &mdash; <a href="http://ru.wikipedia.org/wiki/WGS_84" target="_blank">WGS84</a>.</p>
-<h3 id="класс-dgtilelayer">Класс DG.TileLayer</h3><p>Используется для загрузки и отображения тайлового слоя, реализует интерфейс <a href="#">ILayer</a>.</p>
+<h3 id="класс-dgtilelayer">Класс DG.TileLayer</h3><p>Используется для загрузки и отображения тайлового слоя, реализует интерфейс <a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>.</p>
 <pre><code>var url = &#39;http://tile{s}.traffic.2gis.ru/novosibirsk/traffic/{z}/{x}/{y}/speed/0/&#39;;
 DG.tileLayer(url, {subdomains: &#39;012&#39;}).addTo(map);
 </code></pre><h4 id="конструктор">Конструктор</h4><table>
@@ -153,7 +153,7 @@ DG.tileLayer(url, {subdomains: &#39;012&#39;}).addTo(map);
     </tbody>
 </table>
 
-<h4 id="события">События</h4><p>Вы можете подписаться на следующие события используя <a href="#tilelayer-metods">эти методы</a>.</p>
+<h4 id="события">События</h4><p>Вы можете подписаться на следующие события используя <a href="/doc/2.0/maps/manual/events#методы-управления-событиями">эти методы</a>.</p>
 <table>
     <thead>
         <tr>
@@ -165,27 +165,27 @@ DG.tileLayer(url, {subdomains: &#39;012&#39;}).addTo(map);
     <tbody>
         <tr>
             <td><code><b>loading</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при начале загрузки тайлов.</td>
         </tr>
         <tr>
             <td><code><b>load</b></code></td>
-            <td><code><a href="#event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
             <td>Вызывается при окончании загрузки видимых тайлов.</td>
         </tr>
         <tr>
           <td><code><b>tileloadstart</b></code></td>
-          <td><code><a href="#tile-event">TileEvent</a></code></td>
+          <td><code><a href="/doc/2.0/maps/manual/events#tileevent">TileEvent</a></code></td>
           <td>Вызывается при запросе тайла и начале его загрузки.</td>
         </tr>
         <tr>
             <td><code><b>tileload</b></code></td>
-            <td><code><a href="#tile-event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#tileevent">TileEvent</a></code>
             <td>Вызывается после загрузки тайла.</td>
         </tr>
         <tr>
             <td><code><b>tileunload</b></code></td>
-            <td><code><a href="#tile-event">Event</a></code>
+            <td><code><a href="/doc/2.0/maps/manual/events#tileevent">TileEvent</a></code>
             <td>Вызывается при удалении тайла (например, при включенном режиме <code>unloadInvisibleTiles</code>).</td>
         </tr>
     </tbody>
@@ -202,7 +202,7 @@ DG.tileLayer(url, {subdomains: &#39;012&#39;}).addTo(map);
     <tbody>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -255,7 +255,7 @@ DG.tileLayer(url, {subdomains: &#39;012&#39;}).addTo(map);
     </tbody>
 </table>
 
-<h3 id="класс-dgtilelayerwms">Класс DG.TileLayer.WMS</h3><p>Используется для отображения данных WMS сервисов. Расширяет <a href="#класс-dg.tilelayer">TileLayer</a>.</p>
+<h3 id="класс-dgtilelayerwms">Класс DG.TileLayer.WMS</h3><p>Используется для отображения данных WMS сервисов. Расширяет <a href="#класс-dgtilelayer">TileLayer</a>.</p>
 <pre><code>var nexrad = DG.tileLayer.wms(&quot;http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi&quot;, {
     layers: &#39;nexrad-n0r-900913&#39;,
     format: &#39;image/png&#39;,
@@ -328,12 +328,6 @@ DG.tileLayer(url, {subdomains: &#39;012&#39;}).addTo(map);
             <td><code>&#39;1.1.1&#39;</code></td>
             <td>Используемая версия WMS сервиса.</td>
         </tr>
-        <tr>
-            <td><code><b>crs</b></code></td>
-            <td><code><a href="#icrs">CRS</a></code></td>
-            <td><code>null</code></td>
-            <td>Система координат, используемая в WMS-запросах. По умолчанию соответствует системе координат карты.</td>
-        </tr>
     </tbody>
 </table>
 
@@ -357,7 +351,7 @@ DG.tileLayer(url, {subdomains: &#39;012&#39;}).addTo(map);
     </tbody>
 </table>
 
-<h3 id="класс-dgtilelayercanvas">Класс DG.TileLayer.Canvas</h3><p>Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет <a href="#класс-dg.tilelayer">TileLayer</a>.</p>
+<h3 id="класс-dgtilelayercanvas">Класс DG.TileLayer.Canvas</h3><p>Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет <a href="#класс-dgtilelayer">TileLayer</a>.</p>
 <pre><code>var canvasTiles = DG.tileLayer.canvas();
 canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
     var ctx = canvas.getContext(&#39;2d&#39;);
@@ -415,7 +409,7 @@ canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
         <tr id = "tilelayer-canvas-drawtile">
             <td><code><b>drawTile</b>(
                 <nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>tilePoint</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>tilePoint</i></nobr>,
                 <nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
@@ -429,7 +423,7 @@ canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
     </tbody>
 </table>
 
-<h3 id="класс-dgimageoverlay">Класс DG.ImageOverlay</h3><p>Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс <a href="#ILayer">ILayer</a>.</p>
+<h3 id="класс-dgimageoverlay">Класс DG.ImageOverlay</h3><p>Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс <a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>.</p>
 <pre><code>var imageUrl = &#39;http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg&#39;,
     imageBounds = [[54.712216, 82.22655], [54.773941, 82.12544]];
 DG.imageOverlay(imageUrl, imageBounds).addTo(map);
@@ -445,7 +439,7 @@ DG.imageOverlay(imageUrl, imageBounds).addTo(map);
         <tr>
             <td><code><b>DG.ImageOverlay</b>(
                 <nobr>&lt;String&gt; <i>imageUrl</i></nobr>,
-                <nobr>&lt;<a href="#latlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
                 <nobr>&lt;<a href="#опции-3">ImageOverlay options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
 
@@ -494,7 +488,7 @@ DG.imageOverlay(imageUrl, imageBounds).addTo(map);
     <tbody>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>

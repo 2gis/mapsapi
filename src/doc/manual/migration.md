@@ -2,65 +2,38 @@
 
 {toc}
 
-Документ содержит примеры кода для выполнения основных операций с первой версией АПИ в сравнении со второй.
+### Описание
+
+Раздел содержит примеры кода основных возможностей, которые помогут вам прейти с API карт 1.0 на API карт 2.0.
 
 ### Подключение API
 
-Работа с картой возможна только после того, как в браузер будет загружен код API карт. Есть несколько способов его загрузки. В примере демонстрируем простой способ.
-
-#### Простой способ
-
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
-    </thead>
-    <tbody>
         <tr>
             <td>
-<pre><code>&lt;script type=&quot;text/javascript&quot; src="http://maps.api.2gis.ru/1.0" &gt;&lt;/script&gt;
-
-// Создаем обработчик загрузки страницы:
-DG.autoload(function() {
-    // Инициализация карты
-    ...
-});</code></pre>
+                <a href="http://api.2gis.ru/doc/maps/manual/map/#toc-load">Версия 1.0</a>
             </td>
             <td>
-<pre><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
-
-//Атрибут data-id="dgLoader" обязательный.
-DG.then(function() {
-    // Инициализация карты
-    ...
-});</code></pre>
+                <a href="/doc/2.0/maps/manual/loading">Версия 2.0</a>
             </td>
         </tr>
-    </tbody>
-</table>
-
-#### Загрузка по требованию
-
-<table>
-    <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>&lt;script type=&quot;text/javascript&quot; src="http://maps.api.2gis.ru/1.0" &gt;&lt;/script&gt;
+<pre><code>&lt;script src="http://maps.api.2gis.ru/1.0" &gt;&lt;/script&gt;
 
-//Затем в нужный момент времени (например, при нажатии на кнопку)
-$(DG.load(function(){
-    // Инициализация карты
+DG.autoload(function() {
+    // инициализация карты
     ...
-}));</code></pre>
+});</code></pre>
             </td>
             <td>
 <pre><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
 
-//Теперь карта доступна в любой момент через функцию DG.then:
 DG.then(function() {
-    // Инициализация карты
+    // инициализация карты
     ...
 });</code></pre>
             </td>
@@ -70,62 +43,58 @@ DG.then(function() {
 
 ### Инициализация карты
 
-Для отображения созданной карты необходимо выполнять следующие действия:
-
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/map/#toc-init">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/map#пример-использования">Версия 2.0</a></td>
+        </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>DG.autoload(function() {
-    var myMap = new DG.Map('myMapId');
-    myMap.setCenter(new DG.GeoPoint(82.89,55.98), 13);
-});
-
-// Дальше карту можно рендерить.
-&lt;div id=&quot;myMapId&quot; style=&quot;width:500px; height:400px&quot;&gt;&lt;/div&gt;
+<pre><code>
+var map = new DG.Map('map');
+var center = new DG.GeoPoint(82.89, 55.98);
+map.setCenter(center, 13);
 </code></pre>
             </td>
             <td>
-<pre><code>var map;
-DG.then(function () {
-    map = DG.map('map', {
-        "center": [54.98, 82.89],
-        "zoom": 13
-    });
+<pre><code>
+DG.map('map', {
+    'center': [54.98, 82.89],
+    'zoom': 13
 });
-
-&lt;div id=&quot;map&quot; style=&quot;width:500px; height:400px&quot;&gt;&lt;/div&gt;</code></pre>
-            </pre>
+</pre></code>
             </td>
         </tr>
     </tbody>
 </table>
 
-### Работа с маркерами
+### Отображение маркера
 
-Маркер представляет собой маленькую картинку, которая связана с определенным местом на карте. Создание и отображение маркера на карте:
-
-#### Добавление обычного маркера
-
+Добавление на карту маркера с картинкой по умолчанию:
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/markers/#toc-base">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/markers#класс-dgmarker">Версия 2.0</a></td>
+        </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>// Создаем маркер:
-var marker = new DG.Markers.Common({geoPoint: new DG.GeoPoint(82.89,54.98) });
-// Добавим маркер на карту:
-myMap.markers.add(marker);
+<pre><code>
+<nobr>var position = new DG.GeoPoint(82.89, 54.98);</nobr>
+var marker = new DG.Markers.Common({
+    geoPoint: position
+});
+map.markers.add(marker);
 </code></pre>
             </td>
             <td>
-<pre><code>// Создаем и сразу добавляем на карту:
-DG.marker([54.98, 82.89]).addTo(map);
+<pre><code>
+<nobr>DG.marker([54.98, 82.89]).addTo(map);</nobr>
                     </code>
                 </pre>
             </td>
@@ -133,208 +102,196 @@ DG.marker([54.98, 82.89]).addTo(map);
     </tbody>
 </table>
 
-#### Добавление кастомного маркера
-
+Добавление на карту маркера с адаптивной пользовательской картинкой:
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/utils#fun-getAdaptiveAcon">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/markers#класс-dgicon">Версия 2.0</a></td>
+        </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>// Создаем маркер
-var marker = new DG.Markers.Common({geoPoint: new DG.GeoPoint(82.89,54.98),
-    // Путь к кастомной иконке
-    icon: new DG.Icon('sample.png',
-    // Размер иконки
-    new DG.Size(30,30))
+<pre><code>
+<nobr>var position = new DG.GeoPoint(82.89, 54.98);</nobr>
+var desktopParams = [
+    'desktop-icon.png',
+    24, 24,
+    function() {
+        return new DG.Point(-12, -12)
+    }
+];
+var mobileParams = [
+    '{density}-icon.png',
+    34, 34,
+    function() {
+        return new DG.Point(-17, -17)
+    }
+];
+var myIcon = DG.Utils.getAdaptiveIcon({
+    desktop: desktopParams,
+    mobile:  mobileParams
 });
-
-// Добавим маркер на карту:
-myMap.markers.add(marker);
+var marker = new DG.Markers.Common({
+    geoPoint: position,
+    icon: myIcon
+});
+map.markers.add(marker);
 </code></pre>
             </td>
             <td>
-<pre><code>// конфигурирование иконки маркера
+<pre><code>
 var myIcon = DG.icon({
-    //картинка маркера
     iconUrl: 'my-icon.png',
-    //картинка для широкоформатных экранов
     iconRetinaUrl: 'my-icon@2x.png',
-    //раземр иконки
-    iconSize: [38, 95],
-    //Координаты "ножки" иконки
-    iconAnchor: [22, 94],
-    //координаты открытия балуна
-    popupAnchor: [-3, -76],
-    //картнинка тени маркера
-    shadowUrl: 'my-icon-shadow.png',
-    //картинка тени для широкоформатных
-    shadowRetinaUrl: 'my-icon-shadow@2x.png',
-    //размер тени
-    shadowSize: [68, 95],
-    //координаты тени
-    shadowAnchor: [22, 94]
+    iconSize: [24, 24],
+    iconAnchor: [-12, -12]
 });
-
-// Создание маркера и добавление его на карту
-DG.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
+DG.marker([50.505, 30.57], {
+    icon: myIcon
+}).addTo(map);
 </code></pre>
             </td>
         </tr>
     </tbody>
 </table>
 
-### Группирование
-
-Группирование даёт возможность производить операции сразу над несколькими объектами. Пример и использования для маркеров:
+### Отображение группы маркеров
 
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/markers/#toc-dgmarkersgroup">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/groups#класс-dglayergroup">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>// Создаем группу
-myMap.markers.createGroup("myGroup");
-// Добавляем в группу маркера
-myMap.markers.add(marker1,"myGroup");
-myMap.markers.add(marker2,"myGroup");
+<pre><code>
+map.markers.createGroup('myGroup');
+map.markers.add(marker1,&nbsp;'myGroup');
+map.markers.add(marker2,&nbsp;'myGroup');
+map.markers.add(marker3,&nbsp;'myGroup');
 </code></pre>
             </td>
             <td>
-<pre><code>//Добавляем маркера двумя способами
+<pre><code>
 DG.layerGroup([marker1, marker2])
-    .addLayer(marker3)
-    .addTo(map);
+.addLayer(marker3).addTo(map);
 </code></pre>
             </td>
         </tr>
     </tbody>
 </table>
 
-### Маркер с балуном
-
-Создадим маркер с балуном, наполним текстом:
+### Отображение маркера с привязанным балуном
 
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/markers/#toc-dgmarkersballoon">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/markers#marker-bindpopup">Версия 2.0</a></td>
+        </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>// Создаем маркер с балуном
-var markerWithBaloon = new DG.Markers.MarkerWithBalloon({
-    // Местоположение маркера:
-    geoPoint: new DG.GeoPoint(82.89, 54.98),
-    // Наполняем текстом
+<pre><code>var position = new DG.GeoPoint(82.89, 54.98);
+var marker = new DG.Markers.MarkerWithBalloon({
+    geoPoint: position,
     balloonOptions: {
-        contentHtml: 'Теперь я бабочка!'
+        contentHtml: 'Я бабочка!'
     }
 });
-// Добавляем на карту
-myMap.markers.add(markerWithBaloon);
+map.markers.add(marker);
 </code></pre>
             </td>
             <td>
-<pre><code>DG.marker([54.98, 82.89]).addTo(map).bindPopup('Теперь я бабочка!');
+<pre><code>DG.marker([54.98, 82.89])
+<nobr>.addTo(map).bindPopup('Я бабочка!');</nobr>
 </code></pre>
             </td>
         </tr>
     </tbody>
 </table>
 
-### Добавление балуна
-
-Балун — это всплывающее окно, в котором можно отобразить произвольный HTML-код. Балун связан с определенным местом на карте.
+### Отображение балуна
 
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/balloons/#balloon-intro">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/popup#описание">Версия 2.0</a></td>
+        </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>// Создаем балун: 
+<pre><code>var position = new DG.GeoPoint(82.89, 54.98);
 var myBalloon = new DG.Balloons.Common({ 
-    // Местоположение балуна: 
-    geoPoint: new DG.GeoPoint(82.89, 54.98),
-    // Текст балуна: 
-    contentHtml: '<p>Привет!<br />Хорошего настроения :)</p>'
- }); 
-</code></pre>
+    geoPoint: position,
+    contentHtml: 'Привет!'
+});
+map.balloons.add(myBalloon);</code></pre>
             </td>
             <td>
-<pre><code>var popup = DG.popup()
-    .setLatLng([54.98, 82.89])
-    .setContent('<p>Привет!<br />Хорошего настроения :)</p>');
-</code></pre>
+<pre><code>DG.popup()
+.setLatLng([54.98,&nbsp;82.89])
+.setContent('Привет!')
+.addTo(map);</code></pre>
             </td>
         </tr>
     </tbody>
 </table>
 
-### Работа с элементами управления
+### Отображение элемента управления
 
-Элементы управления — это компоненты пользовательского интерфейса, с помощью которых пользователь может взаимодействовать с картой.
-
+Отображение пользовательского элемента управления в правом верхнем углу карты:
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/controls/#toc-intro">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/controls#описание">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>// Добавляем элемент управления коэффициентом масштабирования:
-var zoomControl = new DG.Controls.Zoom();
-myMap.controls.add(zoomControl);
-// Добавляем элемент управления коэффициентом масштабирования:
-myMap.controls.remove(zoomControl);
+<pre><code>var myControl = new MyControl();
+var positionOffset = new DG.Point(0, 0);
+var position = new DG.ControlPosition(DG.ControlPosition.TOP_RIGHT, positionOffset);
+map.controls.add(myControl, null, position);
 </code></pre>
             </td>
             <td>
-<pre><code>// Добавим элемент определения геолокации
-DG.control.location().addTo(map);
-// Добавим элемент включения линейки
-DG.control.ruler().addTo(map);
-// А теперь их удалим
-DG.control.location().removeFrom(map);
-DG.control.ruler().removeFrom(map);
-</code></pre>
+<pre><code>DG.control.myControl({ position: 'topright' }).addTo(map)</code></pre>
             </td>
         </tr>
     </tbody>
 </table>
 
 
-### События
-
-Для демонстрации напишем обработчик события мыши click для первого и второго АПИ: 
+### Подписка на события
 
 <table>
     <thead>
-        <tr><td><a href="">Версия 1.0</a></td><td><a href="">Версия 2.0</a></td></tr>
+        <tr>
+            <td><a href="http://api.2gis.ru/doc/maps/manual/events/#toc-intro">Версия 1.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/events#описание">Версия 2.0</a></td>
+        </tr>
     </thead>
     <tbody>
         <tr>
             <td>
-<pre><code>// Хранилище observer-ов:
-var observers = [];
-
-// Создаем обработчик
-var firstCallback = function(evt){
-    alert('Текущуя позиция: ' + evt.getPoint());
+<pre><code>var callback&nbsp;=&nbsp;function(e)&nbsp;{
+    console.log(e.getPoint());
 };
-
-//Вешаем обработчик на click
-observers[0] = myMap.addEventListener(myMap.getContainerId(), 'DgClick', firstCallback);
+map.addEventListener(map.getContainerId(), 'DgClick', callback);
 </code></pre>
             </td>
             <td>
-<pre><code>map.on('click', function(e) {
-    alert('Текущуя позиция: ' + e.latlng);
+<pre><code>map.on('click',&nbsp;function(e)&nbsp;{
+    console.log(e.latlng);
 });
 </code></pre>
             </td>
@@ -342,9 +299,9 @@ observers[0] = myMap.addEventListener(myMap.getContainerId(), 'DgClick', firstCa
     </tbody>
 </table>
 
-###  Использование геокодера
+###  Геокодирование
 
-В картографическое API встроена возможность геокодирования, с помощью которой можно выполнять поиск городов, населённых пунктов, районов, улиц, жилмассивов, домов и других геообъектов по названию или координатам. Дальше сравним ипользование в первом и втором АПИ:
+Используя функцию [DG.ajax](/doc/2.0/maps/manual/ajax#описание) вы можете отправить в [API справочника](http://api.2gis.ru/doc/firms/quickstart/) не только запрос на преобразование координат в адрес и наоборот, но и любой другой запрос, после чего обработать ответ необходимым способом:
 
 <table>
     <thead>
@@ -353,38 +310,28 @@ observers[0] = myMap.addEventListener(myMap.getContainerId(), 'DgClick', firstCa
     <tbody>
         <tr>
             <td>
-<pre><code>DG.Geocoder.get('Пиво', {
-    limit: 100,
+<pre><code>DG.Geocoder.get('Москва', {
     success: function(response) {
-        for (var i = 0; i < response.length; i++) {
-            console.log('Ищи пиво тут: ' + response[i]._name);
-        }
+        console.log(response);
     },
-    failure: function (code, message) {
-        alert(code + ' ' + message);
+    failure: function(code, message) {
+        console.log(code, message);
     }
 });
 </code></pre>
             </td>
             <td>
-<pre><code>var promise = DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
-    type: 'get',
+<pre><code>DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
     data: {
-        key: '1',
+        key: '1', // ваш ключ
         type: 'geo',
-        what: 'Пиво',
-        page: 1
+        what: 'Москва'
     },
     success: function(data) {
-        for (var i = 0; i < data.result.data.length; i++) {
-            console.log('Ищи пиво тут: ' + data.result.data[i].name);
-        };
+        console.log(data);
     },
     error: function(error) {
-        console.log('error', error);
-    },
-    progress: function() {
-        console.log('beforeSend');
+        console.log(error);
     }
 });
 </code></pre>

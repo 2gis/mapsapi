@@ -83,7 +83,7 @@
     <tbody>
         <tr>
             <td><code><b>distanceTo</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
             </code></td>
 
             <td><code>Number</code></td>
@@ -91,7 +91,7 @@
         </tr>
         <tr>
             <td><code><b>equals</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlng">LatLng</a>&gt; <i>otherLatlng</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -167,8 +167,8 @@
         <tr>
             <td>
                 <code><b>DG.LatLngBounds</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>southWest</i></nobr>,
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>northEast</i></nobr> )</code>
+                <nobr>&lt;<a href="#класс-dglatlng">LatLng</a>&gt; <i>southWest</i></nobr>,
+                <nobr>&lt;<a href="#класс-dglatlng">LatLng</a>&gt; <i>northEast</i> )</nobr></code>
             </td>
 
             <td>
@@ -180,7 +180,7 @@
         </tr>
         <tr>
             <td><code><b>DG.LatLngBounds</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>[]&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlng">LatLng</a>[]&gt; <i>latlng</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.latLngBounds(&hellip;)</code>
@@ -203,7 +203,7 @@
     <tbody>
         <tr>
             <td><code><b>extend</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&nbsp;|&nbsp;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlng">LatLng</a>&nbsp;|&nbsp;<a href="#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -211,22 +211,22 @@
         </tr>
         <tr>
             <td><code><b>getSouthWest</b>()</code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает юго-западную точку границ.</td>
         </tr>
         <tr>
             <td><code><b>getNorthEast</b>()</code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает северо-восточную точку границ.</td>
         </tr>
         <tr>
             <td><code><b>getNorthWest</b>()</code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает северо-западную точку границ.</td>
         </tr>
         <tr>
             <td><code><b>getSouthEast</b>()</code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает юго-восточную точку границ.</td>
         </tr>
         <tr>
@@ -251,7 +251,7 @@
         </tr>
         <tr>
             <td><code><b>getCenter</b>()</code></td>
-            <td><code><a href="#latlng">LatLng</a></code></td>
+            <td><code><a href="#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает центральную точку прямоугольной области.</td>
         </tr>
         <tr>
@@ -264,7 +264,7 @@
         </tr>
         <tr>
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -384,18 +384,18 @@
     <tbody>
         <tr>
             <td><code><b>add</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает результат сложения текущей и переданной точек.</td>
         </tr>
         <tr>
             <td><code><b>subtract</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает результат вычитания переданной точки из текущей.</td>
         </tr>
         <tr>
@@ -403,7 +403,7 @@
                 <nobr>&lt;Number&gt; <i>number</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает результат умножения текущей точки на переданное число.</td>
         </tr>
         <tr>
@@ -412,12 +412,12 @@
                 <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает результат деления текущей точки на переданное число. Если опциональный параметр <code>round</code> передан со значением <code>true</code>, тогда результат будет округлен.</td>
         </tr>
         <tr>
             <td><code><b>distanceTo</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Number</code></td>
@@ -425,22 +425,22 @@
         </tr>
         <tr>
             <td><code><b>clone</b>()</code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает копию текущей точки.</td>
         </tr>
         <tr>
             <td><code><b>round</b>()</code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает копию текущей точки с округленными координатами.</td>
         </tr>
         <tr>
             <td><code><b>floor</b>()</code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает копию текущей точки с округленными в меньшую сторону координатами.</td>
         </tr>
         <tr>
             <td><code><b>equals</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -448,7 +448,7 @@
         </tr>
         <tr>
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -487,8 +487,8 @@
     <tbody>
         <tr>
             <td><code><b>DG.Bounds</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>topLeft</i></nobr>,
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>bottomRight</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>topLeft</i></nobr>,
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>bottomRight</i> )</nobr>
             </code></td>
 
             <td>
@@ -500,7 +500,7 @@
         </tr>
         <tr>
             <td><code><b>DG.Bounds</b>(
-                <nobr>&lt;<a href="#point">Point</a>[]&gt; <i>points</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>[]&gt; <i>points</i> )</nobr>
             </code></td>
 
             <td>
@@ -525,12 +525,12 @@
     <tbody>
         <tr>
             <td><code><b>min</b></code></td>
-            <td><code><a href="#point">Point</a></code>
+            <td><code><a href="#класс-dgpoint">Point</a></code>
             <td>Левый верхний угол прямоугольника.</td>
         </tr>
         <tr>
             <td><code><b>max</b></code></td>
-            <td><code><a href="#point">Point</a></code>
+            <td><code><a href="#класс-dgpoint">Point</a></code>
             <td>Правый нижний угол прямоугольника.</td>
         </tr>
     </tbody>
@@ -549,7 +549,7 @@
     <tbody>
         <tr>
             <td><code><b>extend</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
             <td>-</td>
@@ -557,12 +557,12 @@
         </tr>
         <tr>
             <td><code><b>getCenter</b>()</code></td>
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает центральную точку прямоугольной области.</td>
         </tr>
         <tr>
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -570,7 +570,7 @@
         </tr>
         <tr>
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href="#point">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -578,7 +578,7 @@
         </tr>
         <tr>
             <td><code><b>intersects</b>(
-                <nobr>&lt;<a href="#bounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#класс-dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -593,7 +593,7 @@
         <tr>
             <td><code><b>getSize</b>()</code></td>
 
-            <td><code><a href="#point">Point</a></code></td>
+            <td><code><a href="#класс-dgpoint">Point</a></code></td>
             <td>Возвращает размер прямоугольника.</td>
         </tr>
     </tbody>

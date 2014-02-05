@@ -1,6 +1,6 @@
 <h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#класс-dgcontrol">Класс DG.Control</a><ul><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li><li><a href="#позиции-элементов-управления">Позиции элементов управления</a></li></ul></li><li><a href="#класс-dgcontrolzoom">Класс DG.Control.Zoom</a><ul><li><a href="#конструктор-1">Конструктор</a></li><li><a href="#опции-1">Опции</a></li></ul></li><li><a href="#класс-dgcontrolfullscreen">Класс DG.Control.Fullscreen</a><ul><li><a href="#конструктор-2">Конструктор</a></li><li><a href="#опции-2">Опции</a></li></ul></li><li><a href="#класс-dgcontrollocationcontrol">Класс DG.Control.LocationControl</a><ul><li><a href="#конструктор-3">Конструктор</a></li><li><a href="#опции-3">Опции</a></li></ul></li><li><a href="#класс-dgcontrolattribution">Класс DG.Control.Attribution</a><ul><li><a href="#конструктор-4">Конструктор</a></li><li><a href="#опции-4">Опции</a></li><li><a href="#методы-1">Методы</a></li></ul></li><li><a href="#класс-dgcontrolruler">Класс DG.Control.Ruler</a><ul><li><a href="#конструктор-5">Конструктор</a></li><li><a href="#опции-5">Опции</a></li></ul></li><li><a href="#класс-dgcontrolscale">Класс DG.Control.Scale</a><ul><li><a href="#конструктор-6">Конструктор</a></li><li><a href="#опции-6">Опции</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>Элементы управления — это компоненты пользовательского интерфейса, с помощью которых пользователь может взаимодействовать с картой.</p>
-<h3 id="класс-dgcontrol">Класс DG.Control</h3><p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="#">IControl</a>. Элементы добавляются на карту следующим образом:</p>
+<h3 id="класс-dgcontrol">Класс DG.Control</h3><p>Базовый класс для всех элементов управления. Реализует интерфейс <a href="/doc/2.0/maps/manual/interfaces#icontrol">IControl</a>. Элементы добавляются на карту следующим образом:</p>
 <pre><code>control.addTo(map);
 // то же самое, что
 map.addControl(control);
@@ -67,14 +67,14 @@ map.addControl(control);
         </tr>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет элемент управления на карту.</td>
         </tr>
         <tr>
             <td><code><b>removeFrom</b>(
-                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Удаляет элемент управления с карты.</td>
@@ -127,7 +127,7 @@ map.addControl(control);
     <tbody>
         <tr>
             <td><code><b>DG.Control.Zoom</b>(
-                <nobr>&lt;<a href="#позиции-элементов-управления">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#опции-1">Control.Zoom options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
                 <code>DG.control.zoom(&hellip;)</code>
@@ -288,7 +288,7 @@ map.addControl(control);
         <td><code><b>locateOptions</b></code></td>
         <td><code>Object</code></td>
         <td><code><span class="string"></span></td>
-        <td>См. <a href="#map-locate-options">параметры определения расположения</a>.</td>
+        <td>См. <a href="/doc/2.0/maps/manual/map#опции-определения-местоположения">параметры определения расположения</a>.</td>
     </tr>
 </table>
 
