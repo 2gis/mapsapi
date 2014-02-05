@@ -104,12 +104,12 @@ gulp.task('lint', function () {
 });
 
 gulp.task('test', ['build'], function () {
-    return gulp.src(['./public/js/script.min.js',
-                     './src/**/test/*Spec.js',
-                     //'./vendors/leaflet/spec/after.js',
+    return gulp.src(['./public/js/script.js',
+                     './src/**/test/*Spec.js'
+                     /*'./vendors/leaflet/dist/leaflet-src.js',
                      './vendors/leaflet/node_modules/happen/happen.js',
                      './vendors/leaflet/spec/suites/SpecHelper.js',
-                     './vendors/leaflet/spec/suites/**/*.js'
+                     './vendors/leaflet/spec/suites/**//*.js'*/
                 ])
                .pipe(karma({
                         configFile: './test/karma.conf.js',
@@ -174,9 +174,9 @@ function bldJs(opt) {
 function bldCss(opt) {
     return gulp.src(deps.getCSSFiles(opt))
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-               .pipe(cache(base64({
+               .pipe(base64({
                     extensions: ['svg', 'png']
-               })))
+               }))
                .pipe(concat('styles.css'))
                .pipe(opt.isDebug ? gutil.noop() : cache(minifyCSS()));
 }
