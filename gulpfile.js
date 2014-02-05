@@ -15,7 +15,7 @@ var extend = require('extend'),
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
-    redust = require('./build/gulp-redust'),
+    redust = require('gulp-redust'),
 
     minifyCSS = require('gulp-minify-css'),
     base64 = require('gulp-base64'),
@@ -158,7 +158,7 @@ gulp.task('release', ['stageFile'], function () {
 //js build api
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
-               .pipe(redust())
+               .pipe(redust(config.tmpl))
                .pipe(concat('script.js'))
                .pipe(frep(config.cfgParams))
                .pipe(opt.isDebug ? gutil.noop() : uglify());
