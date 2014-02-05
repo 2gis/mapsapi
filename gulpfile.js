@@ -117,14 +117,13 @@ gulp.task('bumpLoader', ['bump'], function (done) {
 
 gulp.task('release', ['bumpLoader'], function () {
     var pkg = require('./package.json');
-    var v = 'v' + pkg.version;
+    var v = pkg.version;
     var message = 'Release ' + v;
 
-    return gulp.src(['./package.json', './private/loader.js'])
+    return gulp.src('./*')
                .pipe(git.commit(message))
-               .pipe(git.tag(v, v))
-               //.pipe(git.push('all', 'master', '--tags'))
-               .pipe(gulp.dest('./'));
+               .pipe(git.tag(v, v));
+               //.pipe(git.push('all', 'master', '--tags'));
 });
 
 
