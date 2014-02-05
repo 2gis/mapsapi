@@ -1,5 +1,6 @@
 //Web app of 2GIS Maps API 2.0
 var express = require('express'),
+    clc = require('cli-color'),
     gulp = require(__dirname + '/gulpfile.js'),
     config = require(__dirname + '/build/config.js').appConfig;
 
@@ -46,5 +47,5 @@ var host = app.get('host'),
     port = app.get('port');
 
 app.listen(port, host, function () {
-    console.log('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port'));
+    console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port')));
 });

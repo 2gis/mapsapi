@@ -21,7 +21,7 @@
   "devDependencies": {
     "extend": "~1.2.1",
     "optimist": "0.6.0",
-    "cli-color": "0.2.2",
+    "cli-color": "~0.2.3",
     "marked": "0.2.9",
     "mocha": "1.9.0",
     "expect": "0.0.2",
