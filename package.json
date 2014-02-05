@@ -54,6 +54,8 @@
     "karma": "~0.10.9",
     "gulp-karma": "0.0.2",
     "karma-mocha": "~0.1.1",
-    "karma-opera-launcher": "~0.1.0"
+    "karma-opera-launcher": "~0.1.0",
+    "gulp-bump": "~0.1.4",
+    "gulp-git": "~0.3.0"
   }
 }

@@ -10,6 +10,8 @@ var extend = require('extend'),
     clean = require('gulp-clean'),
     frep = require('gulp-frep'),
     karma = require('gulp-karma'),
+    bump = require('gulp-bump'),
+    git = require('gulp-git'),
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -22,25 +24,17 @@ var extend = require('extend'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config);
 
-//Delete it
-gulp.task('test', ['build-clean'], function () {
-    var css = deps.getCSSFiles({
-        skin: 'dark',
-        // isIE: true,
-        onlyIE: true
-    });
-    // console.log(deps.getJSFiles());
-    console.log(css, css.length);
-    // return gulp.src(deps.getCSSFiles())
-    //     // .pipe(base64({baseDir: 'public', debug: true}))
-    //     // .pipe(base64({debug: true, extensions: ['svg', 'gif']}))
-    //     .pipe(base64({extensions: ['svg', 'gif']}))
-    //     .pipe(concat('main.css'))
-    //     // .pipe(minifyCSS())
-    //     .pipe(gulp.dest('./public/css'));
+//public CLI API
+// Get info
+gulp.task('default', function () {
+    gutil.log('\nTasks list:');
+    gutil.log('gulp assets      # Create public folder and copy all assets there');
+    gutil.log('gulp lint        # Check JS files for errors with JSHint');
+    gutil.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
+    gutil.log('gulp doc         # Generate documentation from .md files');
+    gutil.log('gulp test        # Rebuild source and run unit tests');
 });
 
-//CLI API
 gulp.task('build-scripts', ['lint'], function () {
     return bldJs(extend(gutil.env, {isDebug: true}))
                     .pipe(gulp.dest('./public/js/'))
@@ -105,19 +99,34 @@ gulp.task('build', function (cb) {
     runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
 });
 
+//service tasks
 gulp.task('build-clean', function () {
     return gulp.src('./public', {read: false}).pipe(clean());
 });
 
-// Get info
-gulp.task('default', function () {
-    gutil.log('\nTasks list:');
-    gutil.log('gulp assets      # Create public folder and copy all assets there');
-    gutil.log('gulp lint        # Check JS files for errors with JSHint');
-    gutil.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
-    gutil.log('gulp doc         # Generate documentation from .md files');
-    gutil.log('gulp test        # Rebuild source and run unit tests');
+gulp.task('bump', function () {
+    return gulp.src('package.json')
+               .pipe(bump(gutil.env))
+               .pipe(gulp.dest('./'));
+
 });
+
+gulp.task('bumpLoader', ['bump'], function (done) {
+    config.updateLoaderVersion(done);
+});
+
+gulp.task('release', ['bumpLoader'], function () {
+    var pkg = require('./package.json');
+    var v = 'v' + pkg.version;
+    var message = 'Release ' + v;
+
+    return gulp.src(['./package.json', './private/loader.js'])
+               .pipe(git.commit(message))
+               .pipe(git.tag(v, v))
+               //.pipe(git.push('all', 'master', '--tags'))
+               .pipe(gulp.dest('./'));
+});
+
 
 //Exports API for live src streaming
 

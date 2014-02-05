@@ -79,7 +79,7 @@ var config = {
     },
 
     loader: {
-        dir: basePath + '/public/',
+        dir: basePath + '/private',
         name: 'loader.js'
     },
 
@@ -96,6 +96,7 @@ var config = {
 
 config.appConfig = getAppConfig();
 config.cfgParams = cgfToFrep(config.appConfig);
+config.updateLoaderVersion = updateLoaderVersion;
 
 // Reeturn actual configuration for replace
 function getAppConfig() { // ()->Object
@@ -126,5 +127,22 @@ function cgfToFrep(config) {
             pattern: new RegExp('__' + key + '__', 'g'),
             replacement: config[key]
         };
+    });
+}
+
+function updateLoaderVersion(done) {
+    var loaderPath = config.loader.dir,
+        loaderFileName = config.loader.name,
+        version = require('../package.json').version;
+
+    fs.readFile(loaderPath + '/' + loaderFileName, {encoding: 'utf8'}, function (err, loaderContent) {
+        if (err) { throw err; }
+
+        console.log('Set version of stat files: ' + version + '\n');
+
+        loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})()*.*(['"]{1})/g, '$1$2' + 'v' + version + '$3');
+        fs.writeFile(loaderPath + '/' + loaderFileName, loaderContent, function () {
+            done();
+        });
     });
 }
