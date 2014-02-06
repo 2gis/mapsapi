@@ -3,54 +3,8 @@ var fs = require('fs');
 var init = function (config) {
     var source = config.source;
     var packages = config.packages;
-    var modules = addBasePath(
-        Object.keys(source)
-            .map(function (creator) {//adding proper path to every module
-                var pack = source[creator].deps;
-                return Object.keys(pack).reduce(function (obj, name) {
-                    pack[name].path = source[creator].path;
-                    obj[name] = pack[name];
-                    return obj;
-                }, {});
-            })
-            .reduce(function (obj, pack) {
-                Object.keys(pack).forEach(function (module) {
-                    obj[module] = pack[module];
-                });
-                return obj;
-            }, {})
-        );
-
-    function addBasePath (modules) {//adding base path on every file
-        return Object.keys(modules)
-            .map(function (name) {
-                var module = modules[name],
-                    path = module.path;
-                module.name = name;
-                module.js = module.js || module.src;
-
-                function addPath (file) {
-                    return path + file;
-                };
-
-                module.js = module.js.map(addPath);
-
-                var css = module.css;
-                if (css) {//if module has css we iterate in all his supported browsers and add path
-                    module.css = Object.keys(css)
-                        .reduce(function (obj, browser) {
-                            obj[browser] = css[browser].map(addPath);
-                            return obj;
-                        }, {})
-                }
-                return module;
-            })
-            .reduce(function (obj, module) {
-                obj[module.name] = module;
-                return obj;
-            }, {})
-            ;
-    }
+    var modules = source.deps;
+    var path = source.path;
 
     // Generates a list of modules by pkg
     function getModulesList(pkg) { //(String|Null)->Array
@@ -75,18 +29,18 @@ var init = function (config) {
             modulesListOrig = modulesListOrig.concat(Object.keys(modules));
         }
 
-        modulesListOrig.forEach(processModule);
-
         function processModule(name) {
             var module = modules[name];
             if (module && module.deps) {
-                module.deps.forEach(processModule)
+                module.deps.forEach(processModule);
             }
             if (!loadedModules[name]) {
                 modulesListRes.push(name);
                 loadedModules[name] = true;
             }
         }
+
+        modulesListOrig.forEach(processModule);
 
         return modulesListRes;
     }
@@ -100,13 +54,16 @@ var init = function (config) {
                     return modules[name];
                 })
                 .map(function (module) {
-                    return module.js;
+                    return module.src;
                 })
                 .reduce(function (array, items) {
                     return array.concat(items);
                 })
                 .filter(function (item, key, list) {//filter dublicates
                     return list.indexOf(item) === key;
+                })
+                .map(function (file) {
+                    return path + file;
                 })
                 ;
         },
@@ -144,6 +101,9 @@ var init = function (config) {
                 }, [])
                 .map(function (file) {//add selected theme
                     return file.replace('{skin}', skin);
+                })
+                .map(function (file) {
+                    return path + file;
                 })
                 .filter(fs.existsSync)
                 ;
