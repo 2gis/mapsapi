@@ -23,7 +23,8 @@ var extend = require('extend'),
 
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
-    deps = require('./build/gulp-deps')(config);
+    deps = require('./build/gulp-deps')(config),
+    sprite = require('./build/gulp-spritesmith');
 
 //Delete it
 gulp.task('mytest', ['build-clean'], function () {
@@ -122,6 +123,13 @@ gulp.task('test', ['build'], function () {
 gulp.task('doc', function () {
     var doc = config.doc;
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
+});
+
+gulp.task('sprite', function () {
+    return gulp.src('./src/**/img/*.png').pipe(sprite({
+                                        destImg: 'dist/sprite.png',
+                                        destCSS: 'dist/sprite.css'
+                                      }));
 });
 
 gulp.task('build', function (cb) {

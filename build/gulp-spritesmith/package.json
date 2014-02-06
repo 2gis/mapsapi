@@ -1,0 +1,51 @@
+
+{
+  "name": "gulp-spritesmith",
+  "version": "0.0.0",
+  "description": "A plugin for Gulp",
+  "keywords": [
+    "gulpplugin"
+  ],
+  "homepage": "https://github.com/Otouto/gulp-spritesmith",
+  "bugs": "https://github.com/Otouto/gulp-spritesmith/issues",
+  "author": {
+    "name": "Dmitry Lutsik",
+    "email": "otoyto@gmail.com",
+    "url": "https://github.com/Otouto"
+  },
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/otouto/gulp-spritesmith.git"
+  },
+  "scripts": {
+    "test": "istanbul test _mocha --report html -- test/*.js --reporter spec",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "dependencies": {
+    "through": "*",
+    "gulp-util": "~2.2.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*",
+    "istanbul": "*",
+    "event-stream": "*",
+    "should": "~2.1.0",
+    "spritesmith": "~0.17.0",
+    "json2css": "~4.2.0",
+    "underscore": "~1.4.2",
+    "async": "~0.2.10",
+    "url2": "*"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
