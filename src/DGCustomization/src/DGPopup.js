@@ -136,10 +136,14 @@
             var tip = this._detachEl(this._tipContainer);
             if (DG.Browser.svg) {
                 var path = this._createNSElement('path');
+                var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg' +
+                    (navigator.platform.match(/(iPad|iPhone|iPod)/g) ? (' ' + this._popupTipClass + '_ios') : '');
+
                 path.setAttribute('d', this._tipSVGPath);
 
                 tip = this._createNSElement('svg'),
-                tip.setAttribute('class', this._popupTipClass + ' ' + this._popupTipClass + '_svg');
+                tip.setAttribute('class', svgClass);
+
                 tip.appendChild(path);
                 DG.DomEvent.disableClickPropagation(path);
             } else {
