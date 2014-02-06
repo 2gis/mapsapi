@@ -4,217 +4,144 @@
 
 ### Описание
 
-В разделе описаны четыре примера по использованию маркеров.
-
-Для получения полной информации следует обратиться к разделу  <a href="/doc/2.0/maps/manual/markers">Маркеры</a>.
+Ниже приведены примеры использования маркеров. Для получения подробной информации перейдите в раздел документации <a href="/doc/2.0/maps/manual/markers">Маркеры</a>.
 
 ### Маркер с балуном
 
-Рассмотрим пример создания обычного маркера с балуном и нанесения их на карту.
+Маркер, при клике на который открывается балун с информацией:
 
 <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
-<div id="map" style="width: 600px; height: 500px; border: 1px solid #ccc;"></div>
-<script type="text/javascript">
+<div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<script>
     var map;
 
     DG.then(function () {
-        map = new DG.Map('map', {
-            center: new DG.LatLng(54.981, 82.891),
-            zoom: 15,
-            dgGeoclicker: true
+        map = DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 15
         });
 
-        DG.marker([54.981, 82.891], {
-            title: 'На меня можно жать',
-        }).addTo(map).bindPopup('Я открылся!');
+        DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я балун!');
     });
 </script>
 
-Для начала необходимо подключить карту,
-
-	<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
-
-инициализировать 
-
-	DG.then(function () {
-        map = new DG.Map('map', {
-            center: new DG.LatLng(54.981, 82.891),
-            zoom: 15,
-            dgGeoclicker: true
-        });
-    });
-
-и отобразить.
-
-	<div id="map" style="width: 600px; height: 500px;"></div>
-
-Дальше создаем маркер и добавить его на карту.
-	    
-	DG.marker([54.981, 82.891], {
-        title: 'На меня можно жать',
-    }).addTo(map).bindPopup('Я открылся!');
-
- Финальный код страницы будет иметь такой вид:
-
- 	<!DOCTYPE html>
+	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8'>
-		    <title>DG.marker Demo</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+		    <meta charset='utf-8' />
+		    <title>Маркер с балуном</title>
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    data-id="dgLoader"></script>
 		</head>
 		<body>
-		    <div id="map" style="width: 600px; height: 500px;"></div>
-		    <script type="text/javascript">
-		        var map;
-
+		    <div id="map" style="width: 100%; height: 400px;"></div>
+			<script>
+			    var map;
 			    DG.then(function () {
-			        map = new DG.Map('map', {
-			            center: new DG.LatLng(54.98, 82.89),
-			            zoom: 15,
-			            dgGeoclicker: true
+			        map = DG.map('map', {
+			            center: [54.98, 82.89],
+			            zoom: 15
 			        });
-
-			        DG.marker([54.981, 82.891], {
-			            title: 'На меня можно жать',
-			        }).addTo(map).bindPopup('Я открылся!');
+			        DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я балун!');
 			    });
-		    </script>
+			</script>
 		</body>
 	</html>
 
-'title' даёт возможность сделать подсказку при наведении.
-C помощью 'addTo(map)', добавляем маркер на карту. 
-'bindPopup('Я открылся!')' создает балун с текстом, который появится при нажатии на маркер.
+### Перетаскиваемый маркер
 
-### Драгабельный маркер
+Маркер, который пользователи могут перетаскивать:
 
-Для некоторых задач необходимо иметь возможность переносить маркер. Пример такой возможности показан ниже.
-
-<div id="map1" style="width: 600px; height: 500px; border: 1px solid #ccc;"></div>
+<div id="map1" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
 <script type="text/javascript">
-        var map1;
-
-	    DG.then(function () {
-	        map1 = new DG.Map('map1', {
-	            center: new DG.LatLng(54.981, 82.891),
-	            zoom: 15,
-	            dgGeoclicker: true
-	        });
-
-	        DG.marker([54.981, 82.891], {
-	            draggable: true,
-	            title: 'Меня можно переносить',
-	        }).addTo(map1);
-	    });
+    var map;
+    DG.then(function () {
+        map = DG.map('map1', {
+            center: [54.98, 82.89],
+            zoom: 15
+        });
+        DG.marker([54.98, 82.89], {
+        	draggable: true
+        }).addTo(map);
+    });
 </script>
 
-Код, благодаря которому, подобную возможность можно осуществить
-
-    DG.marker([54.981, 82.891], {
-        draggable: true,
-        title: 'Меня можно переносить',
-    }).addTo(map);
-
-Такого эффекта мы добились с помощью 'draggable: true' в опциях маркера.
-
-Полный текст примера:
-
-
- 	<!DOCTYPE html>
+	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8'>
-		    <title>DG.marker Demo</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+		    <meta charset='utf-8' />
+		    <title>Перетаскиваемый маркер</title>
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    data-id="dgLoader"></script>
 		</head>
 		<body>
-		    <div id="map" style="width: 600px; height: 500px;"></div>
-		    <script type="text/javascript">
-		        var map;
-
+		    <div id="map" style="width: 100%; height: 400px;"></div>
+			<script>
+			    var map;
 			    DG.then(function () {
-			        map = new DG.Map('map', {
-			            center: new DG.LatLng(54.981, 82.891),
-			            zoom: 15,
-			            dgGeoclicker: true
+			        map = DG.map('map', {
+			            center: [54.98, 82.89],
+			            zoom: 15
 			        });
-
-			        DG.marker([54.981, 82.891], {
-			            draggable: true,
-			            title: 'Меня можно переносить',
+			        DG.marker([54.98, 82.89], {
+			        	draggable: true
 			        }).addTo(map);
-			 	});
-		    </script>
+			    });
+			</script>
 		</body>
 	</html>
 
-### Кастомный маркер
+### Маркер с пользовательской иконкой
 
-Есть возможность так же отображать маркера не со стандартной, а с кастомной картинкой, пример ниже.
+Вы можете задать маркеру собственную иконку:
 
-<div id="map2" style="width: 600px; height: 500px; border: 1px solid #ccc;"></div>
-<script type="text/javascript">
-    var map2;
-
-	 DG.then(function () {
-	    map2 = new DG.Map('map2', {
-	        center: new DG.LatLng(54.981, 82.891),
-	        zoom: 15,
-	        dgGeoclicker: true
-	    });
-
+<div id="map2" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<script>
+    var map;
+	DG.then(function() {
+        map = DG.map('map2', {
+            center: [54.98, 82.89],
+            zoom: 15
+        });
 	    var myIcon = DG.icon({
 	        iconUrl: 'http://maps.api.2gis.ru/2.0/example_logo.png',
 	        iconSize: [48, 48]
 	    });
-	    DG.marker([54.981, 82.891], {
+	    DG.marker([54.98, 82.89], {
 	        icon: myIcon
-	    }).addTo(map2).bindPopup('Я кастомный маркер!');
+	    }).addTo(map);
 	});
 </script>
 
-Для отображения кастомной картинки необходимо в опциях маркера указать параметр 'icon'.
-Класс <a href='/doc/2.0/maps/manual/markers#класс-dgicon'>DG.icon</a> поможет нам в создании значения переменной 'icon'. В примере по создаем экземпляр, который содержит в своих опциях путь к картинке и размер маркера.
-
-    var myIcon = DG.icon({
-        iconUrl: 'http://maps.api.2gis.ru/2.0/example_logo.png',
-        iconSize: [48, 48]
-    });
-
-Финальный текст примера:
-
- 	<!DOCTYPE html>
+	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8'>
-		    <title>DG.marker Demo</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+		    <meta charset='utf-8' />
+		    <title>Маркер с пользовательской иконкой</title>
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    data-id="dgLoader"></script>
 		</head>
 		<body>
-		    <div id="map" style="width: 600px; height: 500px;"></div>
+			<div id="map" style="width: 100%; height: 400px;"></div>
 		    <script type="text/javascript">
 			    var map;
-
-				 DG.then(function () {
-				    map = new DG.Map('map', {
-				        center: new DG.LatLng(54.981, 82.891),
-				        zoom: 15,
-				        dgGeoclicker: true
-				    });
-
+				DG.then(function() {
+			        map = DG.map('map', {
+			            center: [54.98, 82.89],
+			            zoom: 15
+			        });
 				    var myIcon = DG.icon({
 				        iconUrl: 'http://maps.api.2gis.ru/2.0/example_logo.png',
 				        iconSize: [48, 48]
 				    });
-				    DG.marker([54.981, 82.891], {
+				    DG.marker([54.98, 82.89], {
 				        icon: myIcon
-				    }).addTo(map).bindPopup('Я кастомный маркер!');
+				    }).addTo(map);
 				});
 		    </script>
 		</body>
 	</html>
-
+<!--
 ### Программное открытие маркера
 
 Есть возможность открыть балун "по требованию". К примеру, по клику в ссылку, кнопку. Пример подобного случая представлен ниже.
@@ -284,3 +211,4 @@ C помощью 'addTo(map)', добавляем маркер на карту.
 		    </script>
 		</body>
 	</html>
+-->
