@@ -52,7 +52,7 @@
 И сформировать файловую структуру:
 
     /src   - исходные JS файлы
-    /demo  - HTML файлы с примерами использования 
+    /demo  - HTML файлы с примерами использования
     /dist  - минифицированные JS и CSS файлы, а также изображения
     README.md
     LICENSE.md
@@ -63,18 +63,18 @@
     DG.DemoPlugin = DG.Handler.extend({
 
        _lastFirms: DG.layerGroup(),
-   
+
        addHooks: function() {
            this._map.on('click', this._searchFirms, this);
        },
-   
+
        removeHooks: function() {
            this._map.off('click', this._searchFirms, this);
        },
-   
+
        _searchFirms: function(e) { // (MouseEvent)
            var latlng = e.latlng.wrap();
-   
+
            DG.ajax({
                url: 'http://catalog.api.2gis.ru/2.0/search',
                data: {
@@ -89,27 +89,27 @@
                error: DG.bind(this._logError, this)
            });
        },
-   
+
        _showFirms: function(data) { // (Object)
            var firms, marker;
-   
+
            if (data.response.code > 200) {
                this._logError(data);
                return;
            }
-   
+
            this._lastFirms.clearLayers();
-   
+
            firms = data.result.data;
            firms.forEach(function(firmInfo) {
                marker = DG.marker([firmInfo.geo.lat, firmInfo.geo.lon]);
                marker.bindPopup(firmInfo.firm.name);
                marker.addTo(this._lastFirms);
            }, this);
-           
+
            this._lastFirms.addTo(this._map);
        },
-   
+
        _logError: function(data) {
            console.log('Error: ', data);
        }
@@ -119,7 +119,7 @@
 
 Наш модуль предполагает взаимодействие пользователя с картой, потому мы его отнаследовали от класса `DG.Handler`. Благодаря этому можно будет контролировать его поведение в процессе исполнения приложения (например, у разработчика будет возможность включить или выключить модуль).
 
-Свойство `_lastFirms` представляет собой группу, в которую мы добавляем маркеры. В нашем случае это необходимо для того, чтоб можно было одной командой удалить с карты маркеры всех магазинов, которые были добавлены после предыдущего клика пользователя, и отобразить новые. 
+Свойство `_lastFirms` представляет собой группу, в которую мы добавляем маркеры. В нашем случае это необходимо для того, чтоб можно было одной командой удалить с карты маркеры всех магазинов, которые были добавлены после предыдущего клика пользователя, и отобразить новые.
 
 Методы `addHooks` и `removeHooks` срабатывает в тот момент, когда разработчик конечного приложения включает или отключает наш модуль.
 
@@ -127,10 +127,10 @@
 
 Метод `_showFirms` удаляет с карты все предыдущие маркеры и показывает новые.
 
-Метод `_logError` при возникновении ошибки печатает в консоль браузера данные о ней. 
+Метод `_logError` при возникновении ошибки печатает в консоль браузера данные о ней.
 
 Конструкция `DG.Map.addInitHook('addHandler', 'demoPlugin', DG.DemoPlugin)` позволяет карте зарегистрировать написанный нами обработчик пользовательских действий, после чего к нему можно будет обратиться по соответствующему имени, например:
-    
+
     map.demoPlugin.enable();
 
 ### Минификация и подключение
@@ -162,7 +162,7 @@
     /skin      - изображения и CSS файлы разных тем API карт
     /templates - шаблоны
     /test      - тесты
-    /demo      - HTML файлы с примерами использования 
+    /demo      - HTML файлы с примерами использования
     /dist      - минифицированные JS и CSS файлы, а также изображения
     README.md
     LICENSE.md
@@ -192,7 +192,7 @@
 Для запуска тестов в PhantomJS (по умолчанию) необходимо из консоли выполнить команду:
 
     grunt test
-    
+
 Для запуска тестов в браузерах вашей операционной системы укажите названия браузеров с помощью параметров:
 
     grunt test --ff --chrome
@@ -222,7 +222,7 @@
     * [Node.js](http://nodejs.org/);
     * [GruntJS](http://gruntjs.com/);
     * [PhantomJS](http://phantomjs.org/download.html) (не является обязательным, но необходим для запуска тестов).
-    
+
     Дополнительно вы можете [ознакомиться с инструкцией](#Установка-окружения-для-разных-ОС) по установке окружения для разных операционных систем.
 * Установите зависимости:
 
@@ -243,16 +243,12 @@
 ### Mac OS X
 
 * Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/). Или с помощью homebrew:
-    
+
         brew install node
 
 * Установите Grunt из командной строки:
 
         npm install -g grunt-cli
-
-* Установите PhantomJS с помощью [PhantomJS Installer](http://phantomjs.org/download.html). Или с помощью homebrew:
-
-        brew update && brew install phantomjs
 
 ### Ubuntu
 
@@ -267,16 +263,6 @@
 
         npm install -g grunt-cli
 
-* Установите PhantomJS из командной строки:
-
-        cd /usr/local/share
-        sudo wget http://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-x86_64.tar.bz2
-        sudo tar xjf phantomjs-1.8.1-linux-x86_64.tar.bz2
-        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
-        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
-        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
-        sudo apt-get install libfontconfig1
-
 ### Windows
 
 * Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/)
@@ -284,8 +270,6 @@
 * Установите Grunt из командной строки:
 
         npm install -g grunt-cli
-
-* Установите PhantomJS, для этого скачайте [архив](http://phantomjs.org/download.html) и распакуйте его содержимое в папку C:\Program Files\PhantomJS\
 
 ## Стандарты кодирования
 
