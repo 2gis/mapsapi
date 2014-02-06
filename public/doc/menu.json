@@ -88,6 +88,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Метки",
+                                "uri": "doc/2.0/maps/manual/label",
+                                "_src":"manual/label.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "Геометрии",
                                 "uri": "doc/2.0/maps/manual/geometries",
                                 "_src":"manual/geometries.md",
