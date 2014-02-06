@@ -310,7 +310,6 @@
             this._container.style.visibility = 'hidden';
 
             this._clearNode(this._contentNode);
-            this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
             if (this._headerContent) {
@@ -375,7 +374,6 @@
             width = Math.max(width, this.options.minWidth);
 
             wrapperStyle.width = width + 'px';
-            wrapperStyle.opacity = 1;
 
             this._containerWidth = this._container.offsetWidth;
         },
