@@ -9,6 +9,13 @@ module.exports = function(config) {
         // CLI --reporters progress
         reporters: ['dots'],
 
+        // excluded, because L.DG.TileLayer added to the map by default,
+        // but leaflet tests think that map without layers and fails
+        exclude: [
+            'vendors/leaflet/spec/suites/map/MapSpec.js',
+            'vendors/leaflet/spec/suites/layer/TileLayerSpec.js'
+        ],
+
         // web server port
         // CLI --port 9876
         port: 9876,
@@ -24,7 +31,7 @@ module.exports = function(config) {
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
         // CLI --log-level debug
-        logLevel: config.LOG_INFO,
+        logLevel: config.LOG_WARN,
 
         // enable / disable watching file and executing test whenever any file changes
         // CLI --auto-watch --no-auto-watch

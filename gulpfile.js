@@ -103,13 +103,15 @@ gulp.task('lint', function () {
                .pipe(jshint.reporter('jshint-stylish'));
 });
 
+//TODO: refactor this task
 gulp.task('test', ['build'], function () {
-    return gulp.src(['./public/js/script.js',
-                     './src/**/test/*Spec.js'
-                     /*'./vendors/leaflet/dist/leaflet-src.js',
-                     './vendors/leaflet/node_modules/happen/happen.js',
-                     './vendors/leaflet/spec/suites/SpecHelper.js',
-                     './vendors/leaflet/spec/suites/**//*.js'*/
+    return gulp.src(['vendors/leaflet/spec/before.js',
+                     './public/js/script.js',
+                     'vendors/leaflet/spec/after.js',
+                     'vendors/leaflet/node_modules/happen/happen.js',
+                     './src/**/test/*Spec.js',
+                     'vendors/leaflet/spec/suites/SpecHelper.js',
+                     'vendors/leaflet/spec/suites/**/*Spec.js'
                 ])
                .pipe(karma({
                         configFile: './test/karma.conf.js',
