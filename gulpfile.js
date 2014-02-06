@@ -27,12 +27,12 @@ var extend = require('extend'),
 
 //Delete it
 gulp.task('mytest', ['build-clean'], function () {
-    // var css = deps.getCSSFiles({
-    //     skin: 'dark',
-    //     isIE: true,
-    //     onlyIE: true
-    // });
-    // console.log(deps.getJSFiles());
+    var css = deps.getCSSFiles({
+        skin: 'dark',
+        isIE: true,
+        onlyIE: false
+    });
+    console.log(deps.getJSFiles());
     // console.log(css, css.length);
     // return gulp.src(deps.getCSSFiles())
     //     // .pipe(base64({baseDir: 'public', debug: true}))
@@ -41,9 +41,9 @@ gulp.task('mytest', ['build-clean'], function () {
     //     .pipe(concat('main.css'))
     //     // .pipe(minifyCSS())
     //     .pipe(gulp.dest('./public/css'));
-    gulp.src(deps.getJSFiles())
-               .pipe(redust())
-               .pipe(gulp.dest('./public/js/'));
+    // gulp.src(deps.getJSFiles())
+    //            .pipe(redust())
+    //            .pipe(gulp.dest('./public/js/'));
 });
 //public CLI API
 // Get info
