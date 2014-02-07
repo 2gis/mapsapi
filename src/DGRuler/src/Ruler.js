@@ -4,7 +4,7 @@ DG.Ruler = DG.Class.extend({
         editable: true
     },
 
-    includes: DG.Locale,
+    includes: [DG.Locale, DG.Mixin.Events],
 
     statics: {
         Dictionary: {}
@@ -38,7 +38,7 @@ DG.Ruler = DG.Class.extend({
 
     onAdd: function (map) { // (DG.Map)
         var dummyPath;
-        this._map = map.on('dgLangChange', this._updateDistance, this);
+        this._map = map.on('langchange', this._updateDistance, this);
 
         if (!this._rulerPane) {
             this._rulerPane = this._map.getContainer().querySelector('.dg-ruler-pane');
@@ -68,7 +68,7 @@ DG.Ruler = DG.Class.extend({
 
     onRemove: function (map) { // (DG.Map)
         map
-            .off('dgLangChange', this._updateDistance, this)
+            .off('langchange', this._updateDistance, this)
             .removeLayer(this._layersContainer);
 
         this._layers.mouse.off(this._lineMouseEvents, this);
@@ -119,6 +119,7 @@ DG.Ruler = DG.Class.extend({
             }
             this._updateDistance();
         }
+        this._fireChangeEvent();
         return removed;
     },
 
@@ -177,7 +178,7 @@ DG.Ruler = DG.Class.extend({
             ['width', 'height', 'viewBox'].forEach(function (attr) {
                 this._pathRoot.setAttribute(attr, this._map._pathRoot.getAttribute(attr));
             }, this);
-            ['top', 'left', L.DomUtil.TRANSFORM].forEach(function (prop) {
+            ['top', 'left', DG.DomUtil.TRANSFORM].forEach(function (prop) {
                 this._pathRoot.style[prop] = this._map._pathRoot.style[prop];
             }, this);
         }
@@ -231,6 +232,10 @@ DG.Ruler = DG.Class.extend({
                 this._layers[name].bringToFront();
             }, this);
         }
+    },
+
+    _fireChangeEvent : function () {
+        this.fire('changed', { latlngs : this.getLatLngs() });
     },
 
     _addRunningLabel : function (latlng, previousPoint) { // (DG.LatLng, DG.Ruler.LayeredMarker)
@@ -344,6 +349,7 @@ DG.Ruler = DG.Class.extend({
             if (!point._hovered && point !== this._points[this._points.length - 1]) {
                 point.collapse();
             }
+            this._fireChangeEvent();
         },
         'dragstart' : function () { // ()
             this._morphingNow = true;
