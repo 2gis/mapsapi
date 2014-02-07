@@ -19,7 +19,7 @@ module.exports = function (opt) {
     function generateCss(result, imgPath) {
         var coordinates = result.coordinates,
             properties = result.properties,
-            cssVarMap = function noop () {},
+            //cssVarMap = function noop () {},
             cleanCoords = [],
             cssFormat = 'custom';
 
@@ -44,21 +44,15 @@ module.exports = function (opt) {
             coords.image = imgPath;
             coords.total_width = properties.width;
             coords.total_height = properties.height;
-
-            // Map the coordinates through cssVarMap
-            coords = cssVarMap(coords) || coords;
-
-            // Save the cleaned name and coordinates
             cleanCoords.push(coords);
-
-            if (opt.cssTemplate) {
-                var mt = fs.readFileSync(cssTemplate, 'utf8');
-                json2css.addMustacheTemplate(cssFormat, mt);
-            } else {
-                cssFormat = 'css';
-            }
-
         });
+
+        if (opt.cssTemplate) {
+            var mt = fs.readFileSync(cssTemplate, 'utf8');
+            json2css.addMustacheTemplate(cssFormat, mt);
+        } else {
+            cssFormat = 'css';
+        }
 
         return json2css(cleanCoords, {format: cssFormat, formatOpts: {}});
     }
@@ -71,26 +65,36 @@ module.exports = function (opt) {
         return name.join('/');
     }
 
-    function processFile (params, group) {
+    function processFile (params, group, done) {
         var self = this;
 
         spritesmith(params, function (err, result) {
-            var destImg = rename(opt.destImg, group),
-                destCss = rename(opt.destCSS, group),
+            if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Error occurred during spritesmith processing')); }
+
+            var destImg = group ? rename(opt.destImg, group) : opt.destImg,
+                destCss = group ? rename(opt.destCSS, group) : opt.destCSS,
                 destCssDir = path.dirname(destCss),
                 destImgDir = path.dirname(destImg);
 
-            if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Error occurred during spritesmith processing')); }
-
-            mkdirp(destImgDir, function (err) {
-                if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create image dest folder')); }
-                fs.writeFileSync(destImg, result.image, 'binary');
-            });
-
-            mkdirp(destCssDir, function (err) {
-                if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create css dest folder')); }
-                var cssStr = generateCss(result, destImg);
-                fs.writeFileSync(destCss, cssStr, 'utf8');
+            async.parallel([
+                function (cb) {
+                    mkdirp(destImgDir, function (err) {
+                        if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create image dest folder')); }
+                        fs.writeFileSync(destImg, result.image, 'binary');
+                        cb();
+                    });
+                },
+                function (cb) {
+                    mkdirp(destCssDir, function (err) {
+                        if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create css dest folder')); }
+                        var cssStr = generateCss(result, destImg);
+                        fs.writeFileSync(destCss, cssStr, 'utf8');
+                        cb();
+                    });
+                }
+            ],
+            function () {
+                done();
             });
         });
     }
@@ -104,9 +108,7 @@ module.exports = function (opt) {
             parsedPath = file.relative.split(path.sep);
 
         parsedPath.filter(function (pth, i) {
-            if (pth === group) {
-                groupValue = parsedPath[i + 1];
-            }
+            if (pth === group) groupValue = parsedPath[i + 1];
         });
 
         if (!buffer[groupValue]) { buffer[groupValue] = []; }
@@ -114,6 +116,7 @@ module.exports = function (opt) {
     }
 
     function endStream() {
+        var self = this;
         //TODO: handle it in proper way
         if (buffer.length === 0) { return this.emit('end'); }
 
@@ -123,13 +126,15 @@ module.exports = function (opt) {
             'padding': opt.padding || 1
         };
 
-        Object.keys(buffer).forEach(function (group) {
-            spritesmithParams.src = buffer[group];
-            processFile(spritesmithParams, group);
+        async.each(Object.keys(buffer), makeSprite, function () {
+            self.emit('data', 'yeah!');
+            self.emit('end');
         });
 
-        this.emit('data', 'yeah!');
-        this.emit('end');
+        function makeSprite(group, cb) {
+            spritesmithParams.src = buffer[group];
+            processFile(spritesmithParams, group, cb);
+        }
     }
 
     return through(bufferContents, endStream);
