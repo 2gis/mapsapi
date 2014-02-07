@@ -86,7 +86,7 @@ gulp.task('build-styles', function () {
 
 gulp.task('build-assets', function () {
     return es.concat(
-        gulp.src(['./private/*.*', '!private/*.js', '!private/css/'])
+        gulp.src(['./private/**/*.*', '!private/*.js', '!private/css/'])
             .pipe(gulp.dest('./public/')),
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
@@ -106,13 +106,13 @@ gulp.task('lint', function () {
 
 //TODO: refactor this task
 gulp.task('test', ['build'], function () {
-    return gulp.src(['vendors/leaflet/spec/before.js',
+    return gulp.src(['./vendors/leaflet/spec/before.js',
                      './public/js/script.js',
-                     'vendors/leaflet/spec/after.js',
-                     'vendors/leaflet/node_modules/happen/happen.js',
+                     './vendors/leaflet/spec/after.js',
+                     './vendors/leaflet/node_modules/happen/happen.js',
                      './src/**/test/*Spec.js',
-                     'vendors/leaflet/spec/suites/SpecHelper.js',
-                     'vendors/leaflet/spec/suites/**/*Spec.js'
+                     './vendors/leaflet/spec/suites/SpecHelper.js',
+                     './vendors/leaflet/spec/suites/**/*Spec.js'
                 ])
                .pipe(karma({
                         configFile: './test/karma.conf.js',
@@ -134,7 +134,7 @@ gulp.task('sprite', function () {
 });
 
 gulp.task('build', function (cb) {
-    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
+    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets'/*, 'doc'*/], cb);
 });
 
 //service tasks
