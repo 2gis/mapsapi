@@ -5,6 +5,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
     options: {
         draggable: false,
         keyboard: false,
+        riseOnHover: true,
         iconHTML: DG.template(__DGRuler_TMPL__.RulerLayeredMarker, {
             blankgif : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
         })
