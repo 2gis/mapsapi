@@ -152,7 +152,7 @@ module.exports = function (grunt) {
         },
         doc: {
             menu: './src/menu.json',
-            input: './src/',
+            input: './src/doc/',
             output: './public/doc'
         }
     });
