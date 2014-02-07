@@ -12,17 +12,16 @@ var PluginError = gutil.PluginError;
 module.exports = function (opt) {
     'use strict';
     opt = opt || {};
-    /*if (!fileName) throw new PluginError('gulp-spritesmith',  'Missing fileName option for gulp-spritesmith');
-    if (!opt.newLine) opt.newLine = gutil.linefeed;*/
+    var cssTemplate = opt.cssTemplate;
 
     var buffer = {};
-    var firstFile = null;
 
-    function genCss(result, imgPath, cssPath) {
+    function generateCss(result, imgPath) {
         var coordinates = result.coordinates,
             properties = result.properties,
             cssVarMap = function noop () {},
-            cleanCoords = [];
+            cleanCoords = [],
+            cssFormat = 'custom';
 
         // Clean up the file name of the file
         Object.getOwnPropertyNames(coordinates).sort().forEach(function (file) {
@@ -52,13 +51,16 @@ module.exports = function (opt) {
             // Save the cleaned name and coordinates
             cleanCoords.push(coords);
 
+            if (opt.cssTemplate) {
+                var mt = fs.readFileSync(cssTemplate, 'utf8');
+                json2css.addMustacheTemplate(cssFormat, mt);
+            } else {
+                cssFormat = 'css';
+            }
+
         });
 
-        var cssFormat = 'css',
-            cssOptions = {};
-
-        var cssStr = json2css(cleanCoords, {'format': cssFormat, 'formatOpts': cssOptions});
-        fs.writeFileSync(cssPath, cssStr, 'utf8');
+        return json2css(cleanCoords, {format: cssFormat, formatOpts: {}});
     }
 
     function rename(dest, group) {
@@ -87,7 +89,8 @@ module.exports = function (opt) {
 
             mkdirp(destCssDir, function (err) {
                 if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create css dest folder')); }
-                genCss(result, destImg, destCss);
+                var cssStr = generateCss(result, destImg);
+                fs.writeFileSync(destCss, cssStr, 'utf8');
             });
         });
     }
@@ -95,10 +98,6 @@ module.exports = function (opt) {
     function bufferContents(file) {
         if (file.isNull()) { return; }// ignore
         if (file.isStream()) { return this.emit('error', new PluginError('gulp-spritesmith', 'Streaming not supported')); }
-
-        if (!firstFile) {
-            firstFile = file;
-        }
 
         var group = opt.groupBy,
             groupValue = '',

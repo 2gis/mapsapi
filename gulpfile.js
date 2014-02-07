@@ -127,6 +127,7 @@ gulp.task('doc', function () {
 
 gulp.task('sprite', function () {
     return gulp.src('./src/**/img/*.png').pipe(sprite({
+                                        cssTemplate: 'build/sprite_tmpl.mustache',
                                         destImg: 'public/img/sprite.png',
                                         destCSS: 'private/css/sprite.css',
                                         groupBy: 'skin'
@@ -134,7 +135,7 @@ gulp.task('sprite', function () {
 });
 
 gulp.task('build', function (cb) {
-    runSequence('build-clean', ['build-scripts', 'build-styles', 'build-assets'/*, 'doc'*/], cb);
+    runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets'/*, 'doc'*/], cb);
 });
 
 //service tasks
@@ -183,10 +184,17 @@ function bldJs(opt) {
 
 //css build api
 function bldCss(opt) {
-    return gulp.src(deps.getCSSFiles(opt))
+    var basicSprite = './private/css/sprite.basic.css',
+        skinSprite = './private/css/sprite.' + (opt.skin || 'light') + '.css',
+        cssList = deps.getCSSFiles(opt);
+
+    cssList.push(basicSprite, skinSprite);
+
+    console.log(cssList);
+    return gulp.src(cssList)
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                .pipe(base64({
-                    extensions: ['svg', 'png']
+                    extensions: ['svg']
                }))
                .pipe(concat('styles.css'))
                .pipe(opt.isDebug ? gutil.noop() : cache(minifyCSS()));
