@@ -2,7 +2,8 @@ var through = require('through'),
     path = require('path'),
     fs = require('fs'),
     json2css = require('json2css'),
-    //async = require('async'),
+    async = require('async'),
+    mkdirp = require('mkdirp'),
     spritesmith = require('spritesmith'),
     gutil = require('gulp-util');
 
@@ -17,10 +18,9 @@ module.exports = function (opt) {
     var buffer = {};
     var firstFile = null;
 
-    function genCss(result, group) {
+    function genCss(result, imgPath, cssPath) {
         var coordinates = result.coordinates,
             properties = result.properties,
-            spritePath = rename(opt.destImg, group),
             cssVarMap = function noop () {},
             cleanCoords = [];
 
@@ -42,7 +42,7 @@ module.exports = function (opt) {
             // Specify the image for the sprite
             coords.name = name;
             coords.source_image = file;
-            coords.image = spritePath;
+            coords.image = imgPath;
             coords.total_width = properties.width;
             coords.total_height = properties.height;
 
@@ -58,16 +58,39 @@ module.exports = function (opt) {
             cssOptions = {};
 
         var cssStr = json2css(cleanCoords, {'format': cssFormat, 'formatOpts': cssOptions});
-        fs.writeFileSync(rename(opt.destCSS, group), cssStr, 'utf8');
+        fs.writeFileSync(cssPath, cssStr, 'utf8');
     }
 
     function rename(dest, group) {
         var name = dest.split(path.sep),
-            file = name.slice(1, 2);
+            file = name[name.length - 1];
 
-        name[name.length - 1] = file[0].replace('.', '.' + group + '.');
-        console.log(name.join('/'));
+        name[name.length - 1] = file.replace('.', '.' + group + '.');
+        //console.log(name.join('/'));
         return name.join('/');
+    }
+
+    function processFile (params, group) {
+        var self = this;
+
+        spritesmith(params, function (err, result) {
+            var destImg = rename(opt.destImg, group),
+                destCss = rename(opt.destCSS, group),
+                destCssDir = path.dirname(destCss),
+                destImgDir = path.dirname(destImg);
+
+            if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Error occurred during spritesmith processing')); }
+
+            mkdirp(destImgDir, function (err) {
+                if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create image dest folder')); }
+                fs.writeFileSync(destImg, result.image, 'binary');
+            });
+
+            mkdirp(destCssDir, function (err) {
+                if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create css dest folder')); }
+                genCss(result, destImg, destCss);
+            });
+        });
     }
 
     function bufferContents(file) {
@@ -78,38 +101,37 @@ module.exports = function (opt) {
             firstFile = file;
         }
 
-        var skin = file.relative.split(path.sep)[2]; // todo: make it option
-        if (!buffer[skin]) { buffer[skin] = []; }
-        buffer[skin].push(file.path);
+        var group = opt.groupBy,
+            groupValue = '',
+            parsedPath = file.relative.split(path.sep);
+
+        parsedPath.filter(function (pth, i) {
+            if (pth === group) {
+                groupValue = parsedPath[i + 1];
+            }
+        });
+        //var skin = file.relative.split(path.sep)[2]; // todo: make it option
+        if (!buffer[groupValue]) { buffer[groupValue] = []; }
+        buffer[groupValue].push(file.path);
     }
 
     function endStream() {
+        //TODO: handle it in proper way
         if (buffer.length === 0) { return this.emit('end'); }
 
-        var self = this,
-        spritesmithParams = {
-            //'src': buffer.light,
-            'engine': 'auto',
-            'algorithm': 'binary-tree',
-            'padding': 1,
-            'engineOpts': {},
-            'exportOpts': {format: 'png'}
+        var spritesmithParams = {
+            'engine': opt.engine || 'auto',
+            'algorithm': opt.algorithm || 'binary-tree',
+            'padding': opt.padding || 1
         };
 
         Object.keys(buffer).forEach(function (group) {
             spritesmithParams.src = buffer[group];
-
-            spritesmith(spritesmithParams, function (err, result) {
-                // If an error occurred, callback with it
-                if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'wrooooong!')); }
-
-                fs.writeFileSync(rename(opt.destImg, group), result.image, 'binary');
-                genCss(result, group);
-
-                self.emit('data', 'yeah!');
-                self.emit('end');
-            });
+            processFile(spritesmithParams, group);
         });
+
+        this.emit('data', 'yeah!');
+        this.emit('end');
     }
 
     return through(bufferContents, endStream);

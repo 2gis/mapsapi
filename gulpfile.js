@@ -86,7 +86,7 @@ gulp.task('build-styles', function () {
 
 gulp.task('build-assets', function () {
     return es.concat(
-        gulp.src(['./private/*.*', '!private/*.js'])
+        gulp.src(['./private/*.*', '!private/*.js', '!private/css/'])
             .pipe(gulp.dest('./public/')),
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
@@ -127,8 +127,9 @@ gulp.task('doc', function () {
 
 gulp.task('sprite', function () {
     return gulp.src('./src/**/img/*.png').pipe(sprite({
-                                        destImg: 'dist/sprite.png',
-                                        destCSS: 'dist/sprite.css'
+                                        destImg: 'public/img/sprite.png',
+                                        destCSS: 'private/css/sprite.css',
+                                        groupBy: 'skin'
                                       }));
 });
 
