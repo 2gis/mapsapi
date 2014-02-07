@@ -1,6 +1,6 @@
 a.dg-mapcopyright__apilink,
 a.dg-mapcopyright__license {
-    background-image:url("../img/dg-tilelayer-base-copyright.png") \9;
+    background-image:url("http://maps.api.2gis.ru/analytics/dg-tilelayer-base-copyright.png") \9;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
     *filter: alpha(opacity=70);
 }

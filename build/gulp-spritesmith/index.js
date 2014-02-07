@@ -66,7 +66,6 @@ module.exports = function (opt) {
             file = name[name.length - 1];
 
         name[name.length - 1] = file.replace('.', '.' + group + '.');
-        //console.log(name.join('/'));
         return name.join('/');
     }
 
@@ -110,7 +109,7 @@ module.exports = function (opt) {
                 groupValue = parsedPath[i + 1];
             }
         });
-        //var skin = file.relative.split(path.sep)[2]; // todo: make it option
+
         if (!buffer[groupValue]) { buffer[groupValue] = []; }
         buffer[groupValue].push(file.path);
     }
