@@ -65,7 +65,7 @@ module.exports = function (opt) {
         return name.join('/');
     }
 
-    function processFile (params, group, done) {
+    function processFile(params, done, group) {
         var self = this;
 
         spritesmith(params, function (err, result) {
@@ -99,6 +99,15 @@ module.exports = function (opt) {
         });
     }
 
+    function processByGroup(prarams, done) {
+        function makeSprite(group, cb) {
+            prarams.src = buffer[group];
+            processFile(prarams, cb, group);
+        }
+        console.log('here');
+        async.each(Object.keys(buffer), makeSprite, done);
+    }
+
     function bufferContents(file) {
         if (file.isNull()) { return; }// ignore
         if (file.isStream()) { return this.emit('error', new PluginError('gulp-spritesmith', 'Streaming not supported')); }
@@ -108,7 +117,7 @@ module.exports = function (opt) {
             parsedPath = file.relative.split(path.sep);
 
         parsedPath.filter(function (pth, i) {
-            if (pth === group) groupValue = parsedPath[i + 1];
+            if (pth === group) { groupValue = parsedPath[i + 1]; }
         });
 
         if (!buffer[groupValue]) { buffer[groupValue] = []; }
@@ -116,27 +125,22 @@ module.exports = function (opt) {
     }
 
     function endStream() {
-        var self = this;
-        //TODO: handle it in proper way
-        if (buffer.length === 0) { return this.emit('end'); }
+        if (Object.keys(buffer).length === 0 || buffer.length === 0) { return this.emit('end'); }
 
-        var spritesmithParams = {
+        var self = this,
+            spriteParams = {
             'engine': opt.engine || 'auto',
             'algorithm': opt.algorithm || 'binary-tree',
             'padding': opt.padding || 1
         };
 
-        async.each(Object.keys(buffer), makeSprite, function () {
+        function end() {
             self.emit('data', 'yeah!');
             self.emit('end');
-        });
-
-        function makeSprite(group, cb) {
-            spritesmithParams.src = buffer[group];
-            processFile(spritesmithParams, group, cb);
         }
+
+        ({}.toString.call(buffer) === '[object Array]') ? processFile(spriteParams, end) : processByGroup(spriteParams, end);
     }
 
     return through(bufferContents, endStream);
 };
-

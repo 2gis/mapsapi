@@ -26,26 +26,6 @@ var extend = require('extend'),
     deps = require('./build/gulp-deps')(config),
     sprite = require('./build/gulp-spritesmith');
 
-//Delete it
-gulp.task('mytest', ['build-clean'], function () {
-    var css = deps.getCSSFiles({
-        skin: 'dark',
-        isIE: true,
-        onlyIE: false
-    });
-    console.log(deps.getJSFiles());
-    // console.log(css, css.length);
-    // return gulp.src(deps.getCSSFiles())
-    //     // .pipe(base64({baseDir: 'public', debug: true}))
-    //     // .pipe(base64({debug: true, extensions: ['svg', 'gif']}))
-    //     .pipe(base64({extensions: ['svg', 'gif']}))
-    //     .pipe(concat('main.css'))
-    //     // .pipe(minifyCSS())
-    //     .pipe(gulp.dest('./public/css'));
-    // gulp.src(deps.getJSFiles())
-    //            .pipe(redust())
-    //            .pipe(gulp.dest('./public/js/'));
-});
 //public CLI API
 // Get info
 gulp.task('default', function () {
@@ -170,9 +150,7 @@ gulp.task('release', ['commitFiles'], function (done) {
     done();
 });
 
-
 //Exports API for live src streaming
-
 //js build api
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
@@ -188,9 +166,8 @@ function bldCss(opt) {
         skinSprite = './private/css/sprite.' + (opt.skin || 'light') + '.css',
         cssList = deps.getCSSFiles(opt);
 
-    cssList.push(basicSprite, skinSprite);
+    if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
-    console.log(cssList);
     return gulp.src(cssList)
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                .pipe(base64({
