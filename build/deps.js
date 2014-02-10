@@ -3,7 +3,7 @@ var deps = {
     Leaflet: {
         desc: 'Leaflet dist',
         src: ['../vendors/leaflet/dist/leaflet-src.js'],
-        css: {
+        styl: {
             all: ['../vendors/leaflet/dist/leaflet.css']
         }
     },

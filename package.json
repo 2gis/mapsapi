@@ -16,9 +16,7 @@
     "url": "git://github.com/2gis/maps-api-2.0.git"
   },
   "dependencies": {
-    "express": "3.4.8",
-    "gulp-flatten": "0.0.2",
-    "gulp-stylus": "0.0.12"
+    "express": "3.4.8"
   },
   "devDependencies": {
     "extend": "~1.2.1",
@@ -53,6 +51,8 @@
     "gulp-git": "~0.3.0",
     "karma-expect": "~1.0.0",
     "karma-sinon": "~1.0.2",
-    "gulp-load-plugins": "~0.3.0"
+    "gulp-load-plugins": "~0.3.0",
+    "gulp-flatten": "0.0.2",
+    "gulp-stylus": "0.0.12"
   }
 }
