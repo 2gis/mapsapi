@@ -3,7 +3,7 @@ var deps = {
     Leaflet: {
         desc: 'Leaflet dist',
         src: ['../vendors/leaflet/dist/leaflet-src.js'],
-        css: {
+        styl: {
             all: ['../vendors/leaflet/dist/leaflet.css']
         }
     },
@@ -45,8 +45,8 @@ var deps = {
             'DGLabel/src/Marker.DGLabel.js',
             'DGLabel/src/Path.DGLabel.js'
         ],
-        css: {
-            all: ['DGLabel/skin/{skin}/css/DGLabel.css']
+        styl: {
+            all: ['DGLabel/skin/{skin}/styl/DGLabel.styl']
         },
         deps: ['DGCore']
     },
@@ -76,21 +76,21 @@ var deps = {
             'DGCustomization/lang/DGZoom/cs.js',
             'DGCustomization/lang/DGZoom/en.js'
         ],
-        css: {
+        styl: {
             all: [
-                'DGCustomization/skin/basic/css/leaflet-reset.css',
-                '../vendors/baron/baron.css',
-                'DGCustomization/skin/{skin}/css/zoom.css',
-                'DGCustomization/skin/{skin}/css/baron.css',
-                'DGCustomization/skin/{skin}/css/marker.css',
-                'DGCustomization/skin/{skin}/css/callout.css',
-                'DGCustomization/skin/{skin}/css/baron.css'
+                'DGCustomization/skin/basic/styl/leaflet-reset.styl',
+                '../vendors/baron/baron.styl',
+                'DGCustomization/skin/{skin}/styl/zoom.styl',
+                'DGCustomization/skin/{skin}/styl/baron.styl',
+                'DGCustomization/skin/{skin}/styl/marker.styl',
+                'DGCustomization/skin/{skin}/styl/callout.styl',
+                'DGCustomization/skin/{skin}/styl/baron.styl'
             ],
             ie: [
-                'DGCustomization/skin/{skin}/css/baron.ie.css',
-                'DGCustomization/skin/{skin}/css/callout.ie.css',
-                'DGCustomization/skin/{skin}/css/zoom.ie.css',
-                'DGCustomization/skin/{skin}/css/marker.ie.css'
+                'DGCustomization/skin/{skin}/styl/baron.ie.styl',
+                'DGCustomization/skin/{skin}/styl/callout.ie.styl',
+                'DGCustomization/skin/{skin}/styl/zoom.ie.styl',
+                'DGCustomization/skin/{skin}/styl/marker.ie.styl'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
@@ -105,9 +105,9 @@ var deps = {
             'DGAttribution/lang/cs.js',
             'DGAttribution/lang/en.js'
         ],
-        css: {
-            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
-            ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
+        styl: {
+            all: ['DGAttribution/skin/{skin}/styl/DGAttribution.styl'],
+            ie: ['DGAttribution/skin/{skin}/styl/DGAttribution.ie.styl']
         },
         deps: ['DGCore', 'DGDust', 'DGLocale']
     },
@@ -130,8 +130,8 @@ var deps = {
             'DGLocation/lang/cs.js',
             'DGLocation/lang/en.js'
         ],
-        css: {
-            all: ['DGLocation/skin/{skin}/css/DGLocation.css']
+        styl: {
+            all: ['DGLocation/skin/{skin}/styl/DGLocation.styl']
         },
         deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
     },
@@ -145,9 +145,9 @@ var deps = {
             'DGFullScreen/lang/cs.js',
             'DGFullScreen/lang/en.js'
         ],
-        css: {
-            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
-            ie: ['DGFullScreen/skin/{skin}/css/DGFullScreen.ie.css']
+        styl: {
+            all: ['DGFullScreen/skin/{skin}/styl/DGFullScreen.styl'],
+            ie: ['DGFullScreen/skin/{skin}/styl/DGFullScreen.ie.styl']
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
@@ -191,13 +191,13 @@ var deps = {
 
     DGGeoclicker: {
         desc: '2GIS Geoclicker',
-        css: {
+        styl: {
             all: [
-                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCardSkinSetup.css'
+                'DGGeoclicker/skin/{skin}/styl/DGGeoclicker.styl',
+                'DGGeoclicker/skin/{skin}/styl/DGFirmCard.styl',
+                'DGGeoclicker/skin/{skin}/styl/DGFirmCardSkinSetup.styl'
             ],
-            ie: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.ie.css']
+            ie: ['DGGeoclicker/skin/{skin}/styl/DGGeoclicker.ie.styl']
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
@@ -258,9 +258,9 @@ var deps = {
     DGRoundControl: {
         desc: 'Control helper',
         src: ['DGRoundControl/src/DGRoundControl.js'],
-        css: {
-            all: ['DGRoundControl/skin/{skin}/css/DGRoundControl.css'],
-            ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
+        styl: {
+            all: ['DGRoundControl/skin/{skin}/styl/DGRoundControl.styl'],
+            ie: ['DGRoundControl/skin/{skin}/styl/DGRoundControl.ie.styl']
         },
         deps: ['DGCore', 'DGLocale']
     }

@@ -77,7 +77,7 @@ var init = function (config) {
                     return modules[name];
                 })
                 .map(function (module) {
-                    return module.css;
+                    return module[options.type || 'styl'];
                 })
                 .filter(Boolean)
                 .reduce(function (array, item) {

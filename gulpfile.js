@@ -2,7 +2,7 @@ var extend = require('extend'),
     es = require('event-stream'),
 
     gulp = require('gulp'),
-    gulpLoadTasks = require('gulp-load-plugins'),
+    tasks = require('gulp-load-plugins')(),
 
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
@@ -10,7 +10,6 @@ var extend = require('extend'),
     spritesmith = require('./build/gulp-spritesmith');
 
 //DELETE IT
-var tasks = gulpLoadTasks();
 tasks.spritesmith = spritesmith;
 
 //public CLI API
@@ -61,7 +60,14 @@ gulp.task('build-assets', function () {
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
         gulp.src('./src/**/fonts/**')
+            .pipe(tasks.flatten())
             .pipe(gulp.dest('./public/fonts/')),
+        gulp.src('./src/**/svg/**')
+            .pipe(tasks.flatten())
+            .pipe(gulp.dest('./public/svg/')),
+        gulp.src('./src/**/img/**')
+            .pipe(tasks.flatten())
+            .pipe(gulp.dest('./public/img/')),
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
@@ -96,13 +102,14 @@ gulp.task('doc', function () {
 });
 
 gulp.task('sprite', function () {
-    return gulp.src('./src/**/img/*.png').pipe(tasks.spritesmith({
-                                        cssTemplate: 'build/sprite_tmpl.mustache',
-                                        destImg: 'public/img/sprite.png',
-                                        destCSS: 'private/css/sprite.css',
-                                        groupBy: 'skin',
-                                        imgPath: '../public/img/sprite.png'
-                                      }));
+    return gulp.src('./src/**/img/*.png')
+        .pipe(tasks.spritesmith({
+            cssTemplate: 'build/sprite_tmpl.mustache',
+            destImg: 'public/img/sprite.png',
+            destCSS: 'private/css/sprite.css',
+            groupBy: 'skin',
+            imgPath: '../public/img/sprite.png'
+        }));
 });
 
 gulp.task('build', function (cb) {
@@ -161,13 +168,14 @@ function bldCss(opt) {
 
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
-    return gulp.src(cssList)
-               .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-               .pipe(tasks.base64({
-                    extensions: ['svg', 'png']
-               }))
-               .pipe(tasks.concat('styles.css'))
-               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()));
+    return  gulp.src(cssList)
+                .pipe(tasks.stylus())
+                // .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+                // .pipe(tasks.base64({
+                //     extensions: ['svg', 'png']
+                // }))
+                .pipe(tasks.concat('styles.css'))
+                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()));
 }
 
 module.exports = {
