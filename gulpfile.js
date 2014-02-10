@@ -2,64 +2,54 @@ var extend = require('extend'),
     es = require('event-stream'),
 
     gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    concat = require('gulp-concat'),
-    runSequence = require('gulp-run-sequence'),
-    rename = require('gulp-rename'),
-    cache = require('gulp-cache'),
-    clean = require('gulp-clean'),
-    frep = require('gulp-frep'),
-    karma = require('gulp-karma'),
-    bump = require('gulp-bump'),
-    git = require('gulp-git'),
-
-    uglify = require('gulp-uglify'),
-    jshint = require('gulp-jshint'),
-    redust = require('gulp-redust'),
-
-    minifyCSS = require('gulp-minify-css'),
-    base64 = require('gulp-base64'),
-    prefix = require('gulp-autoprefixer'),
+    gulpLoadTasks = require('gulp-load-plugins'),
 
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config),
-    sprite = require('./build/gulp-spritesmith');
+    spritesmith = require('./build/gulp-spritesmith');
+
+//DELETE IT
+var tasks = gulpLoadTasks();
+tasks.spritesmith = spritesmith;
 
 //public CLI API
 // Get info
 gulp.task('default', function () {
-    gutil.log('\nTasks list:');
-    gutil.log('gulp assets      # Create public folder and copy all assets there');
-    gutil.log('gulp lint        # Check JS files for errors with JSHint');
-    gutil.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
-    gutil.log('gulp doc         # Generate documentation from .md files');
-    gutil.log('gulp test        # Rebuild source and run unit tests');
+    tasks.util.log('\nTasks list:');
+    tasks.util.log('gulp assets      # Create public folder and copy all assets there');
+    tasks.util.log('gulp lint        # Check JS files for errors with JSHint');
+    tasks.util.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
+    tasks.util.log('gulp doc         # Generate documentation from .md files');
+    tasks.util.log('gulp test        # Rebuild source and run unit tests');
 });
 
 gulp.task('build-scripts', ['lint'], function () {
-    return bldJs(extend(gutil.env, {isDebug: true}))
+    return bldJs(extend(tasks.util.env, {isDebug: true}))
                     .pipe(gulp.dest('./public/js/'))
-                    .pipe(rename({suffix: '.min'}))
-                    .pipe(cache(uglify()))
+                    .pipe(tasks.rename({suffix: '.min'}))
+                    .pipe(tasks.cache(tasks.uglify()))
                     .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('build-styles', function () {
     return es.concat(
-        bldCss(extend(gutil.env, {isDebug: true})).pipe(gulp.dest('./public/css/'))
-                             .pipe(rename({suffix: '.min'}))
-                             .pipe(cache(minifyCSS()))
-                             .pipe(gulp.dest('./public/css/')),
-        bldCss(extend(gutil.env, {isIE: true, isDebug: true})).pipe(rename({suffix: '.full'}))
+        bldCss(extend(tasks.util.env, {isDebug: true}))
                              .pipe(gulp.dest('./public/css/'))
-                             .pipe(rename({suffix: '.full.min'}))
-                             .pipe(cache(minifyCSS()))
+                             .pipe(tasks.rename({suffix: '.min'}))
+                             .pipe(tasks.cache(tasks.minifyCss()))
                              .pipe(gulp.dest('./public/css/')),
-        bldCss(extend(gutil.env, {onlyIE: true, isDebug: true})).pipe(rename({suffix: '.ie'}))
+        bldCss(extend(tasks.util.env, {isIE: true, isDebug: true}))
+                             .pipe(tasks.rename({suffix: '.full'}))
                              .pipe(gulp.dest('./public/css/'))
-                             .pipe(rename({suffix: '.ie.min'}))
-                             .pipe(cache(minifyCSS()))
+                             .pipe(tasks.rename({suffix: '.full.min'}))
+                             .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(gulp.dest('./public/css/')),
+        bldCss(extend(tasks.util.env, {onlyIE: true, isDebug: true}))
+                             .pipe(tasks.rename({suffix: '.ie'}))
+                             .pipe(gulp.dest('./public/css/'))
+                             .pipe(tasks.rename({suffix: '.ie.min'}))
+                             .pipe(tasks.cache(tasks.minifyCss()))
                              .pipe(gulp.dest('./public/css/'))
     );
 });
@@ -73,15 +63,15 @@ gulp.task('build-assets', function () {
         gulp.src('./src/**/fonts/**')
             .pipe(gulp.dest('./public/fonts/')),
         gulp.src('./private/loader.js')
-            .pipe(uglify())
+            .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
     );
 });
 
 gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
-               .pipe(cache(jshint('.jshintrc')))
-               .pipe(jshint.reporter('jshint-stylish'));
+               .pipe(tasks.cache(tasks.jshint('.jshintrc')))
+               .pipe(tasks.jshint.reporter('jshint-stylish'));
 });
 
 //TODO: refactor this task
@@ -94,7 +84,7 @@ gulp.task('test', ['build'], function () {
                      './vendors/leaflet/spec/suites/SpecHelper.js',
                      './vendors/leaflet/spec/suites/**/*Spec.js'
                 ])
-               .pipe(karma({
+               .pipe(tasks.karma({
                         configFile: './test/karma.conf.js',
                         action: 'run'
                     }));
@@ -106,7 +96,7 @@ gulp.task('doc', function () {
 });
 
 gulp.task('sprite', function () {
-    return gulp.src('./src/**/img/*.png').pipe(sprite({
+    return gulp.src('./src/**/img/*.png').pipe(tasks.spritesmith({
                                         cssTemplate: 'build/sprite_tmpl.mustache',
                                         destImg: 'public/img/sprite.png',
                                         destCSS: 'private/css/sprite.css',
@@ -116,17 +106,17 @@ gulp.task('sprite', function () {
 });
 
 gulp.task('build', function (cb) {
-    runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets'/*, 'doc'*/], cb);
+    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets'/*, 'doc'*/], cb);
 });
 
 //service tasks
 gulp.task('build-clean', function () {
-    return gulp.src('./public', {read: false}).pipe(clean());
+    return gulp.src('./public', {read: false}).pipe(tasks.clean());
 });
 
 gulp.task('bump', function () {
     return gulp.src('./package.json')
-               .pipe(bump(gutil.env))
+               .pipe(tasks.bump(tasks.util.env))
                .pipe(gulp.dest('./'));
 });
 
@@ -139,15 +129,15 @@ gulp.task('commitFiles', ['bumpLoader'], function () {
         v = pkg.version,
         message = 'Release ' + v;
 
-    return gulp.src('').pipe(git.commit(message));
+    return gulp.src('').pipe(tasks.git.commit(message));
 });
 
 gulp.task('release', ['commitFiles'], function (done) {
     var pkg = require('./package.json'),
         v = pkg.version;
 
-    git.tag(v, v);
-    ///git.push('all', 'master', '--tags');
+    tasks.git.tag(v, v);
+    ///tasks.git.push('all', 'master', '--tags');
     done();
 });
 
@@ -155,10 +145,10 @@ gulp.task('release', ['commitFiles'], function (done) {
 //js build api
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
-               .pipe(redust(config.tmpl))
-               .pipe(concat('script.js'))
-               .pipe(frep(config.cfgParams))
-               .pipe(opt.isDebug ? gutil.noop() : cache(uglify()));
+               .pipe(tasks.redust(config.tmpl))
+               .pipe(tasks.concat('script.js'))
+               .pipe(tasks.frep(config.cfgParams))
+               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()));
 }
 
 //css build api
@@ -170,12 +160,12 @@ function bldCss(opt) {
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return gulp.src(cssList)
-               .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-               .pipe(base64({
+               .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+               .pipe(tasks.base64({
                     extensions: ['svg', 'png']
                }))
-               .pipe(concat('styles.css'))
-               .pipe(opt.isDebug ? gutil.noop() : cache(minifyCSS()));
+               .pipe(tasks.concat('styles.css'))
+               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()));
 }
 
 module.exports = {
