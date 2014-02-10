@@ -12,6 +12,7 @@ var extend = require('extend'),
     karma = require('gulp-karma'),
     bump = require('gulp-bump'),
     git = require('gulp-git'),
+    flatten = require('gulp-flatten'),
 
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
@@ -71,7 +72,14 @@ gulp.task('build-assets', function () {
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
         gulp.src('./src/**/fonts/**')
+            .pipe(flatten())
             .pipe(gulp.dest('./public/fonts/')),
+        gulp.src('./src/**/svg/**')
+            .pipe(flatten())
+            .pipe(gulp.dest('./public/svg/')),
+        gulp.src('./src/**/img/**')
+            .pipe(flatten())
+            .pipe(gulp.dest('./public/img/')),
         gulp.src('./private/loader.js')
             .pipe(uglify())
             .pipe(gulp.dest('./public/'))
@@ -106,12 +114,13 @@ gulp.task('doc', function () {
 });
 
 gulp.task('sprite', function () {
-    return gulp.src('./src/**/img/*.png').pipe(sprite({
-                                        cssTemplate: 'build/sprite_tmpl.mustache',
-                                        destImg: 'public/img/sprite.png',
-                                        destCSS: 'private/css/sprite.css',
-                                        groupBy: 'skin'
-                                      }));
+    return gulp.src('./src/**/img/*.png')
+        .pipe(sprite({
+            cssTemplate: 'build/sprite_tmpl.mustache',
+            destImg: 'public/img/sprite.png',
+            destCSS: 'private/css/sprite.css',
+            groupBy: 'skin'
+        }));
 });
 
 gulp.task('build', function (cb) {
@@ -170,9 +179,9 @@ function bldCss(opt) {
 
     return gulp.src(cssList)
                .pipe(cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-               .pipe(base64({
-                    extensions: ['svg', 'png']
-               }))
+               // .pipe(base64({
+               //      extensions: ['svg', 'png']
+               // }))
                .pipe(concat('styles.css'))
                .pipe(opt.isDebug ? gutil.noop() : cache(minifyCSS()));
 }
