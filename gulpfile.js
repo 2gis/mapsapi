@@ -10,7 +10,6 @@ var extend = require('extend'),
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
-tasks.spritesmith = require('./build/gulp-spritesmith');
 
 
 //public CLI API
