@@ -168,7 +168,7 @@ function bldCss(opt) {
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return  gulp.src(cssList)
-                .pipe(tasks.stylus())
+                .pipe(tasks.stylus({import: ['private/mixin/mixin.styl']}))
                 .pipe(tasks.concat('styles.css'))
                 // .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 // .pipe(tasks.base64({

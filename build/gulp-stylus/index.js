@@ -34,7 +34,7 @@ module.exports = function (options) {
     }
     if (opts.import && opts.import.length > 0){
       options.import.forEach(function(args){
-        s.import(args);
+        s.import(path.resolve(args));
       });
     }
     if (opts.urlFunc && opts.urlFunc.length > 0) {

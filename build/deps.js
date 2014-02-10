@@ -18,7 +18,6 @@ var deps = {
             'DGCore/src/DGplugin.js',
             'DGCore/src/DGthen.js'
         ],
-
         heading: '2GIS modules',
         deps: ['DGWhen']
     },
