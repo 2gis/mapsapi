@@ -56,6 +56,5 @@
     "gulp-footer": "~1.0.3",
     "gulp-flatten": "0.0.2",
     "gulp-stylus": "0.0.12"
-
   }
 }

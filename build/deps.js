@@ -79,7 +79,7 @@ var deps = {
         styl: {
             all: [
                 'DGCustomization/skin/basic/styl/leaflet-reset.styl',
-                '../vendors/baron/baron.styl',
+                '../vendors/baron/baron.css',
                 'DGCustomization/skin/{skin}/styl/zoom.styl',
                 'DGCustomization/skin/{skin}/styl/baron.styl',
                 'DGCustomization/skin/{skin}/styl/marker.styl',
