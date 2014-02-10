@@ -10,7 +10,6 @@ var extend = require('extend'),
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
-tasks.spritesmith = require('./build/gulp-spritesmith');
 
 
 //public CLI API
@@ -156,6 +155,8 @@ function bldJs(opt) {
                .pipe(tasks.redust(config.tmpl))
                .pipe(tasks.concat('script.js'))
                .pipe(tasks.frep(config.cfgParams))
+               .pipe(tasks.header(config.js.intro))
+               .pipe(tasks.footer(config.js.outro))
                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()));
 }
 

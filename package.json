@@ -52,6 +52,10 @@
     "karma-expect": "~1.0.0",
     "karma-sinon": "~1.0.2",
     "gulp-load-plugins": "~0.3.0",
-    "gulp-flatten": "0.0.2"
+    "gulp-header": "~1.0.2",
+    "gulp-footer": "~1.0.3",
+    "gulp-flatten": "0.0.2",
+    "gulp-stylus": "0.0.12",
+    "gulp-spritesmith": "0.0.1"
   }
 }
