@@ -6,11 +6,12 @@ var extend = require('extend'),
 
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
-    deps = require('./build/gulp-deps')(config),
-    spritesmith = require('./build/gulp-spritesmith');
+    deps = require('./build/gulp-deps')(config);
 
 //DELETE IT
-tasks.spritesmith = spritesmith;
+tasks.stylus = require('./build/gulp-stylus');
+tasks.spritesmith = require('./build/gulp-spritesmith');
+
 
 //public CLI API
 // Get info
@@ -168,11 +169,11 @@ function bldCss(opt) {
 
     return  gulp.src(cssList)
                 .pipe(tasks.stylus())
+                .pipe(tasks.concat('styles.css'))
                 // .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 // .pipe(tasks.base64({
                 //     extensions: ['svg', 'png']
                 // }))
-                .pipe(tasks.concat('styles.css'))
                 .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()));
 }
 

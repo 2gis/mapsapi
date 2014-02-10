@@ -52,7 +52,6 @@
     "karma-expect": "~1.0.0",
     "karma-sinon": "~1.0.2",
     "gulp-load-plugins": "~0.3.0",
-    "gulp-flatten": "0.0.2",
-    "gulp-stylus": "0.0.12"
+    "gulp-flatten": "0.0.2"
   }
 }
