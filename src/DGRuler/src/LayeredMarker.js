@@ -83,7 +83,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         this._iconNodes = {
             label : this.querySelector('distance'),
             spacer : this.querySelector('spacer'),
-            container : this.querySelector('inner')
+            container : this.querySelector('container')
         };
     },
 

@@ -37,15 +37,18 @@
     display: block;
 }
 
-.dg-ruler-label__inner {
+.dg-ruler-label__container {
     display: none;
-    white-space: nowrap;
     padding: 2px 16px 2px 4px;
     font: 12px/14px Arial, sans-serif;
+    white-space: nowrap;
     color: #fff;
     background: #0da5d5;
     border: 4px solid #fff;
     -webkit-border-radius: 13px;
     -moz-border-radius: 13px;
     border-radius: 13px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
 }

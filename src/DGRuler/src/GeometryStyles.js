@@ -15,8 +15,8 @@ DG.Ruler.mergeOptions({
             noClip: true
         },
         mouse: {
-            color: '#fff',
-            opacity: L.Path.VML ? 0.1 : 0,
+            color: '#ff0000',
+            opacity: L.Path.VML ? 0.1 : 1,
             weight: 20,
             pointerEvents: 'all',
             noClip: true
