@@ -110,7 +110,8 @@ gulp.task('sprite', function () {
                                         cssTemplate: 'build/sprite_tmpl.mustache',
                                         destImg: 'public/img/sprite.png',
                                         destCSS: 'private/css/sprite.css',
-                                        groupBy: 'skin'
+                                        groupBy: 'skin',
+                                        imgPath: '../public/img/sprite.png'
                                       }));
 });
 
