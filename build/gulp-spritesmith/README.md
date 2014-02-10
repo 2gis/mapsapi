@@ -18,11 +18,11 @@ Then, add it to your `gulpfile.js`:
 ```javascript
 var spritesmith = require("gulp-spritesmith");
 
-gulp.src("./src/*.ext")
-	.pipe(spritesmith({
-		msg: "Hello Gulp!"
-	}))
-	.pipe(gulp.dest("./dist"));
+gulp.src('./src/img/*.png')
+    .pipe(sprite({
+        destImg: 'dist/img/sprite.png',
+        destCSS: 'dist/css/sprite.css'
+    }));
 ```
 
 ## API
@@ -30,7 +30,7 @@ gulp.src("./src/*.ext")
 ### spritesmith(options)
 
 #### options.msg
-Type: `String`  
+Type: `String`
 Default: `Hello World`
 
 The message you wish to attach to file.

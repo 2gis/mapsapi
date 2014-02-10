@@ -148,6 +148,8 @@ function bldJs(opt) {
                .pipe(tasks.redust(config.tmpl))
                .pipe(tasks.concat('script.js'))
                .pipe(tasks.frep(config.cfgParams))
+               .pipe(tasks.header(config.js.intro))
+               .pipe(tasks.footer(config.js.outro))
                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()));
 }
 
@@ -160,7 +162,7 @@ function bldCss(opt) {
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return gulp.src(cssList)
-               .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+               .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                .pipe(tasks.base64({
                     extensions: ['svg', 'png']
                }))
