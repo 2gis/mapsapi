@@ -32,3 +32,9 @@ DG.Map.include({
         return this;
     }
 });
+
+// Detect wich kind of img we should apply
+DG.Map.addInitHook(function () {
+    L.DomUtil.addClass(this._container,
+            ((L.Browser.ielt9 || L.Browser.mobule) ? ' sprite' : ''));
+});

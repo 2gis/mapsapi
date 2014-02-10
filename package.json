@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "express": "3.4.8",
-    "gulp-flatten": "0.0.2"
+    "gulp-flatten": "0.0.2",
+    "gulp-stylus": "0.0.12"
   },
   "devDependencies": {
     "extend": "~1.2.1",
@@ -51,6 +52,7 @@
     "gulp-bump": "~0.1.4",
     "gulp-git": "~0.3.0",
     "karma-expect": "~1.0.0",
-    "karma-sinon": "~1.0.2"
+    "karma-sinon": "~1.0.2",
+    "gulp-load-plugins": "~0.3.0"
   }
 }

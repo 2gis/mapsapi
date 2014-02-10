@@ -19,7 +19,6 @@ module.exports = function (opt) {
     function generateCss(result, imgPath) {
         var coordinates = result.coordinates,
             properties = result.properties,
-            //cssVarMap = function noop () {},
             cleanCoords = [],
             cssFormat = 'custom';
 
@@ -47,7 +46,7 @@ module.exports = function (opt) {
             cleanCoords.push(coords);
         });
 
-        if (opt.cssTemplate) {
+        if (cssTemplate) {
             var mt = fs.readFileSync(cssTemplate, 'utf8');
             json2css.addMustacheTemplate(cssFormat, mt);
         } else {
@@ -74,7 +73,8 @@ module.exports = function (opt) {
             var destImg = group ? rename(opt.destImg, group) : opt.destImg,
                 destCss = group ? rename(opt.destCSS, group) : opt.destCSS,
                 destCssDir = path.dirname(destCss),
-                destImgDir = path.dirname(destImg);
+                destImgDir = path.dirname(destImg),
+                imgPath = (group ? rename(opt.imgPath, group) : opt.imgPath) || path.relative(destCss, destImg);
 
             async.parallel([
                 function (cb) {
@@ -87,7 +87,7 @@ module.exports = function (opt) {
                 function (cb) {
                     mkdirp(destCssDir, function (err) {
                         if (err) { return self.emit('error', new PluginError('gulp-spritesmith', 'Can`t create css dest folder')); }
-                        var cssStr = generateCss(result, destImg);
+                        var cssStr = generateCss(result, imgPath);
                         fs.writeFileSync(destCss, cssStr, 'utf8');
                         cb();
                     });
@@ -104,7 +104,6 @@ module.exports = function (opt) {
             prarams.src = buffer[group];
             processFile(prarams, cb, group);
         }
-        console.log('here');
         async.each(Object.keys(buffer), makeSprite, done);
     }
 

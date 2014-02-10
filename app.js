@@ -23,7 +23,13 @@ function getParams(req, resp, next) {
         response.set('Content-Type', contentType);
 
         stream.on('data', function (file) {
-            response.write(file.contents);
+            var directWrite = response.write(file.contents.toString('utf8'));
+            if (!directWrite) {
+                stream.pause();
+                response.once('drain', function () {
+                    stream.resume();
+                });
+            }
         });
         stream.on('end', function () {
             response.end();
