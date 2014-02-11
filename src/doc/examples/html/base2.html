@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+		<head>
+		    <meta charset='utf-8' />
+		    <title>Маркер с пользовательской иконкой</title>
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true"
+		    data-id="dgLoader"></script>
+		</head>
+		<body>
+<input id="create" type="button" value="create map" />
+<script>
+	function createMap(){
+		var map;
+		DG.then(function() {
+	     	map = DG.map('map7', {
+	            center: [54.98, 82.89],
+	            zoom: 13
+	    	});
+		});
+	document.getElementById("create").onclick = createMap;
+	var mapDiv = document.createElement('div');
+	mapDiv.id = 'map7';
+	mapDiv.style.width = "100%";
+	mapDiv.style.height = "400px";
+	document.body.appendChild(mapDiv);
+	}
+</script>
+</body>
+</html>
