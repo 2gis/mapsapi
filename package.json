@@ -18,6 +18,10 @@
   "dependencies": {
     "express": "3.4.8"
   },
+  "pre-push": [
+    "gulp lint",
+    "gulp test"
+  ],
   "devDependencies": {
     "extend": "~1.2.1",
     "cli-color": "~0.2.3",
@@ -56,6 +60,7 @@
     "gulp-footer": "~1.0.3",
     "gulp-flatten": "0.0.2",
     "gulp-stylus": "0.0.12",
-    "gulp-spritesmith": "0.0.1"
+    "gulp-spritesmith": "0.0.1",
+    "pre-git": "0.0.15"
   }
 }
