@@ -155,8 +155,111 @@
                     changeSizeButton.onclick = function() {
                         var mapDiv = document.getElementById('map');
                         mapDiv.style.height = "400px";
+                        //обновление карты
                         map.invalidateSize();
                     }
+                });
+            </script>
+        </body>
+    </html>
+
+### Отключение опций взаимодействия
+
+Используется для отображения статической карты.
+
+<div id="map3" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<script>
+    var map;
+    DG.then(function() {
+        map = DG.map('map3', {
+            center: [54.98, 82.89],
+            zoom: 13,
+            dragging : false,
+            touchZoom: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            boxZoom: false,
+            geoclicker: false
+        });
+    });
+</script>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset='utf-8' />
+            <title>Маркер с пользовательской иконкой</title>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            data-id="dgLoader"></script>
+        </head>
+        <body>
+            <div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+            <script>
+                var map;
+                DG.then(function() {
+                    map = DG.map('map', {
+                        center: [54.98, 82.89],
+                        zoom: 13,
+                        dragging : false,
+                        touchZoom: false,
+                        scrollWheelZoom: false,
+                        doubleClickZoom: false,
+                        boxZoom: false,
+                        geoclicker: false
+                    });
+                });
+            </script>
+        </body>
+    </html>
+
+### Определение местоположения пользователя
+
+Пример для использования в сервисах с завязкой на географическое расположения клиента.
+
+<div id="map4" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<script>
+    var map;
+    DG.then(function() {
+        map = DG.map('map4', {
+            center: [54.98, 82.89],
+            zoom: 13
+        });
+    map.locate({setView: true, watch: true})
+        .on('locationfound', function(e){
+            DG.marker([e.latitude, e.longitude]).addTo(map);
+        })
+       .on('locationerror', function(e){
+            console.log(e);
+            alert("Location access denied.");
+        });
+    });
+</script>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset='utf-8' />
+            <title>Маркер с пользовательской иконкой</title>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            data-id="dgLoader"></script>
+        </head>
+        <body>
+            <div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+            <script>
+                var map;
+                DG.then(function() {
+                    map = DG.map('map', {
+                        center: [54.98, 82.89],
+                        zoom: 13
+                    });
+                map.locate({setView: true, watch: true})
+                    .on('locationfound', function(e){
+                        DG.marker([e.latitude, e.longitude]).addTo(map);
+                    })
+                   .on('locationerror', function(e){
+                        console.log(e);
+                        alert("Location access denied.");
+                    });
                 });
             </script>
         </body>
