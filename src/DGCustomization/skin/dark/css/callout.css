@@ -1,8 +1,10 @@
 /*callout*/
+.leaflet-popup-inner {
+    opacity: .9;
+}
 .leaflet-popup-content-wrapper {
     color: #f0f0f0;
     background-color: #323232;
-    background-color: rgba(50, 50, 50, 0.85);
 }
 
 .leaflet-popup-tip-container_image {
@@ -11,13 +13,6 @@
 
 .leaflet-popup-tip-container_svg {
     fill: #323232;
-    fill-opacity: 0.85;
-}
-
-.leaflet-popup-tip-container_ios {
-    border-top: 1px solid rgba(50, 50, 50, 0.15);
-    /*border-top: 1px solid red;*/
-    margin-top: -1px;
 }
 
 a.popup-link,

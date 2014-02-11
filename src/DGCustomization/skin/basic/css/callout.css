@@ -75,7 +75,7 @@
 .leaflet-popup-tip-container {
     position: relative;
     background-repeat: no-repeat;
-    margin: 0 auto;
+    margin: -1px auto 0;
     width: 58px;
     height: 47px;
 }

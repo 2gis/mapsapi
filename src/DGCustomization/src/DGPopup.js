@@ -136,8 +136,7 @@
             var tip = this._detachEl(this._tipContainer);
             if (DG.Browser.svg) {
                 var path = this._createNSElement('path');
-                var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg' +
-                    (navigator.platform.match(/(iPad|iPhone|iPod)/g) ? (' ' + this._popupTipClass + '_ios') : '');
+                var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg';
 
                 path.setAttribute('d', this._tipSVGPath);
 
