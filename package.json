@@ -61,6 +61,7 @@
     "gulp-flatten": "0.0.2",
     "gulp-stylus": "0.0.12",
     "gulp-spritesmith": "0.0.1",
-    "pre-git": "0.0.15"
+    "pre-git": "0.0.15",
+    "happen": "~0.1.3"
   }
 }
