@@ -1,4 +1,4 @@
-.dg-ruler-pane, .dg-ruler-label, .dg-ruler-pane__pathroot {
+.dg-ruler-pane, .dg-ruler-pane__pathroot {
     position: absolute;
     left: 0;
     top: 0;
@@ -10,6 +10,13 @@
 
 .dg-ruler-pane__pathroot {
     z-index: 7999;
+}
+
+.dg-ruler-label {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .dg-ruler-label__delete {

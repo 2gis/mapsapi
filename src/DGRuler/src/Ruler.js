@@ -31,21 +31,29 @@ DG.Ruler = DG.Class.extend({
 
         this._reset();
 
+        if (DG.Browser.touch) {
+            delete this._lineMouseEvents.mouseover;
+            delete this._lineMouseEvents.mouseout;
+            delete this._lineMouseEvents.mousemove;
+        } else {
+            delete this._lineMouseEvents.click;
+        }
+
         if (latlngs && latlngs.length) {
             this.setLatLngs(latlngs);
         }
     },
 
     onAdd: function (map) { // (DG.Map)
-        var dummyPath;
         this._map = map.on('langchange', this._updateDistance, this);
+        this._maxLat = map.unproject([0, 0], 0).lat;
 
         if (!this._rulerPane) {
             this._rulerPane = this._map.getContainer().querySelector('.dg-ruler-pane');
             if (this._rulerPane) {
                 this._pathRoot = this._rulerPane.querySelector('.dg-ruler-pane__pathroot');
             } else {
-                dummyPath = DG.polyline([]).addTo(this._map);
+                var dummyPath = DG.polyline([]).addTo(this._map);
                 this._map.removeLayer(dummyPath);
                 this._rulerPane = DG.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
                 this._initPathRoot();
@@ -119,6 +127,9 @@ DG.Ruler = DG.Class.extend({
             }
             this._updateDistance();
         }
+        if (DG.Browser.touch && this._lineMarkerHelper) {
+            this._lineMarkerHelper.collapse();
+        }
         this._fireChangeEvent();
         return removed;
     },
@@ -185,6 +196,20 @@ DG.Ruler = DG.Class.extend({
     },
 
     _lineMouseEvents: {
+        click : function (event) {
+            var target = event.layer;
+            if (target instanceof DG.Marker && target._pos !== this._points.length - 1) {
+                if (this._lineMarkerHelper) {
+                    this._lineMarkerHelper.collapse();
+                }
+                target.setText(this._getFormatedDistance(target));
+                this._lineMarkerHelper = target;
+            } else if (target instanceof DG.Path && this.options.editable) {
+                var latlng = event.latlng,
+                    insertPos = target._point._pos + 1;
+                this.spliceLatLngs(insertPos, 0, latlng);
+            }
+        },
         mouseover : function (event) { // (MouseEvent)
             var target = event.layer;
             
@@ -272,8 +297,8 @@ DG.Ruler = DG.Class.extend({
                 cancelable: true
             }));
         }
-
         this._removeRunningLabel();
+
         this._updateLegs(point);
     },
 
@@ -319,25 +344,29 @@ DG.Ruler = DG.Class.extend({
         'drag' : function (event) { // (Event)
             var point = event.target,
                 latlng = point.getLatLng(),
-                lastPoint = this._points[point._pos - 1] || null;
+                lastPoint = this._points[point._pos - 1] || null,
+                wraped = latlng.wrap();
 
             if (lastPoint) {
                 var lastLatlng = lastPoint.getLatLng(),
                     wrapedLast = lastLatlng.wrap(),
-                    wraped = latlng.wrap(),
                     deltaLng = wraped.lng - wrapedLast.lng;
 
                 if (Math.abs(latlng.lng - lastLatlng.lng) > 180) {
-                    latlng.lng = lastLatlng.lng + deltaLng;
-                    deltaLng = latlng.lng - lastLatlng.lng;
+                    wraped.lng = lastLatlng.lng + deltaLng;
+                    deltaLng = wraped.lng - lastLatlng.lng;
                     if (Math.abs(deltaLng - 360) < Math.abs(deltaLng)) {
-                        latlng.lng -= 360;
+                        wraped.lng -= 360;
                     }
-                    point.setLatLng(latlng);
                 }
             }
 
-            if (point !== this._points[this._points.length - 1]) {
+            wraped.lat = Math.max(Math.min(this._maxLat, wraped.lat), -this._maxLat);
+            if (!latlng.equals(wraped)) {
+                point.setLatLng(wraped);
+            }
+
+            if (!DG.Browser.touch && point !== this._points[this._points.length - 1]) {
                 point.setText(this._getFormatedDistance(point));
             }
             this._updateLegs(point);
@@ -352,6 +381,9 @@ DG.Ruler = DG.Class.extend({
             this._fireChangeEvent();
         },
         'dragstart' : function () { // ()
+            if (DG.Browser.touch && this._lineMarkerHelper) {
+                this._lineMarkerHelper.collapse();
+            }
             this._morphingNow = true;
         }
     },
@@ -375,7 +407,7 @@ DG.Ruler = DG.Class.extend({
 
         point._legs.mouse._point = point.once('remove', this._clearRemovingPointLegs, this);
 
-        if (this.options.editable) {
+        if (this.options.editable && !DG.Browser.touch) {
             point._legs.mouse.on('mousedown', this._insertPointInLine, this);
         }
 

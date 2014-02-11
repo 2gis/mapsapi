@@ -15,10 +15,10 @@ DG.Ruler.mergeOptions({
             noClip: true
         },
         mouse: {
-            color: '#ff0000',
-            opacity: L.Path.VML ? 0.1 : 1,
-            weight: 20,
-            pointerEvents: 'all',
+            color: '#fff',
+            opacity: DG.Path.VML ? 0.1 : 0,
+            weight: DG.Browser.touch ? 30 : 20,
+            pointerEvents: 'painted',
             noClip: true
         }
     },
