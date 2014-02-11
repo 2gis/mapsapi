@@ -178,9 +178,7 @@ function bldCss(opt) {
                 }))
                 // .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 .pipe(tasks.base64({
-                    extensions: ['svg'],
-                    // baseDir: 'public/svg',
-                    debug: true
+                    extensions: ['svg']
                 }))
                 .pipe(tasks.concat('styles.css'))
                 .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()));
