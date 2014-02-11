@@ -10,6 +10,7 @@ var extend = require('extend'),
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
+tasks.flatten = require('./build/gulp-flatten');
 
 
 //public CLI API
