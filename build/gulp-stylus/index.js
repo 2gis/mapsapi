@@ -37,6 +37,11 @@ module.exports = function (options) {
         s.import(path.resolve(args));
       });
     }
+    if (opts.define){
+      Object.keys(options.define).forEach(function(key) {
+        s.define(key, options.define[key]);
+      });
+    }
     if (opts.urlFunc && opts.urlFunc.length > 0) {
       options.urlFunc.forEach(function(args){
         s.define(args, stylus.url());
@@ -46,6 +51,7 @@ module.exports = function (options) {
     if (path.extname(file.path) === '.css') {
       return cb(null, file);
     }
+
     s.render(function(err, css){
       if (err) return cb(err);
 

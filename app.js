@@ -1,4 +1,5 @@
 //Web app of 2GIS Maps API 2.0
+require('strong-agent').profile();
 var express = require('express'),
     clc = require('cli-color'),
     gulp = require(__dirname + '/gulpfile.js'),
