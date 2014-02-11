@@ -1,0 +1,47 @@
+{
+  "name": "gulp-svg2png",
+  "version": "0.0.0",
+  "description": "A plugin for Gulp",
+  "keywords": [
+    "gulpplugin"
+  ],
+  "homepage": "https://github.com/Otouto/gulp-svg2png",
+  "bugs": "https://github.com/Otouto/gulp-svg2png/issues",
+  "author": {
+    "name": "Dmitry Lutsik",
+    "email": "otoyto@gmail.com",
+    "url": "https://github.com/Otouto"
+  },
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/otouto/gulp-svg2png.git"
+  },
+  "scripts": {
+    "test": "istanbul test _mocha --report html -- test/*.js --reporter spec",
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "dependencies": {
+    "through2": "*",
+    "gulp-util": "~2.2.0",
+    "svg2png": "~1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*",
+    "istanbul": "*",
+    "event-stream": "*",
+    "should": "~2.1.0",
+    "mkdirp": "~0.3.5"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
