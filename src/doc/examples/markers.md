@@ -306,65 +306,160 @@
 
 ### Анимированное движение маркера
 
-При клике в маркер, карта будет центрироваться по его позиции.
-
+Пример маркера, который двигается по заданой траектории, в данном случае- круг.
+<input id="move" type="button" value="move marker" />
 <div id="map6" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
 <script>
     var map;
 	DG.then(function() {
      	map = DG.map('map6', {
             center: [54.98, 82.89],
-            zoom: 15
+            zoom: 13
     	});
+	var data = { type: 'LineString', coordinates: [] },    
+		start = [],
+	    center = [82.89, 54.98],
+	    steps = 300,
+	    radius = 0.009;
+	for (var i = 0; i <= steps; i++) {
+	    start[0] = (center[0] + radius * Math.cos(2 * Math.PI * i / steps));
+	    start[1] = (center[1] + radius * Math.sin(2 * Math.PI * i / steps));
+	    data.coordinates.push(start.slice());
+	}
 
-    	var data = {
-		    "type": "Feature",
-		    "geometry": {
-		        "type": "LineString",
-		        "coordinates": [[54.98, 82.89], [54.985, 82.895], [54.987, 82.897]]
-		    }
-		};
-
-		var geojsonLayer = DG.geoJson(data).addTo(map),
-		    marker = DG.marker([54.98, 82.89]).addTo(map),
-		    j = 0;
-
-		/*move();
-
-		/*function move() {
+	var geojsonLayer = DG.geoJson(data).addTo(map)
+	    marker = DG.marker([54.98, 82.89]).addTo(map),
+	    j = 0;
+		document.getElementById("move").onclick = move;
+		function move() {
 		    marker.setLatLng([data.coordinates[j][1], data.coordinates[j][0]]);
-		    if (++j < data.coordinates.length) setTimeout(move, 1000);
-		}*/
+		    if (++j < data.coordinates.length) setTimeout(move, 100);
+		}
 	});
 </script>
-
 
 	<!DOCTYPE html>
 	<html>
 		<head>
 		    <meta charset='utf-8' />
-		    <title>Центрирование карты по маркеру</title>
+		    <title>Маркер с пользовательской иконкой</title>
 		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
-		    <div id="map" style="width: 100%; height: 400px;"></div>
-				<script>
-				    var map;
-					DG.then(function() {
-				        map = DG.map('map', {
-				            center: [54.98, 82.89],
-				            zoom: 13
-				    });
-					var marker1 = DG.marker([54.97, 82.890]).addTo(map);
-					var marker2 = DG.marker([54.98, 82.893]).addTo(map);
-					var marker3 = DG.marker([54.99, 82.896]).addTo(map);
-					DG.featureGroup([marker1, marker2, marker3])
-				    .on('click', function(e) {
-				    	map.setView([e.latlng.lat, e.latlng.lng]);
-				    })
-				    .addTo(map);
-					});
-				</script>
+			<input id="move" type="button" value="move marker" />
+			<div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+			<script>
+			    var map;
+				DG.then(function() {
+			     	map = DG.map('map', {
+			            center: [54.98, 82.89],
+			            zoom: 13
+			    	});
+				var data = { type: 'LineString', coordinates: [] },    
+					start = [],
+				    center = [82.89, 54.98],
+				    steps = 300,
+				    radius = 0.009;
+				for (var i = 0; i <= steps; i++) {
+				    start[0] = (center[0] + radius * Math.cos(2 * Math.PI * i / steps));
+				    start[1] = (center[1] + radius * Math.sin(2 * Math.PI * i / steps));
+				    data.coordinates.push(start.slice());
+				}
+
+				var geojsonLayer = DG.geoJson(data).addTo(map)
+				    marker = DG.marker([54.98, 82.89]).addTo(map),
+				    j = 0;
+					move();
+					document.getElementById("move").onclick = move;
+					function move() {
+					    marker.setLatLng([data.coordinates[j][1], data.coordinates[j][0]]);
+					    if (++j < data.coordinates.length) setTimeout(move, 100);
+					}
+				});
+			</script>
 		</body>
+	</html>
+
+### Отображение/удаление нескольких маркеров, fitBounds
+
+Пример отображения и скрытия группы маркеров с автометическим определением рамок карты.
+
+<input id="hide" type="button" value="hide markers" />
+<input id="show" type="button" value="show markers" />
+<div id="map7" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<script>
+    var map;
+    DG.then(function() {
+        map = DG.map('map7', {
+            center: [54.98, 82.89],
+            zoom: 13
+        });
+
+        var markers = DG.featureGroup(),
+        coordinates = [];
+        for (i = 0; i  < 100; i++){
+            coordinates[0] = 54.98 + Math.random();
+            coordinates[1] = 82.89 + Math.random();
+            DG.marker(coordinates).addTo(markers);
+        }
+
+        document.getElementById("hide").onclick = hideMarkers;
+        document.getElementById("show").onclick = showMarkers;
+
+        function showMarkers(){
+            markers.addTo(map);
+            map.fitBounds(markers.getBounds());
+        };
+
+        function hideMarkers(){
+            markers.eachLayer(function (layer){ map.removeLayer(layer) } );
+            console.log(markers);
+        };
+    });
+</script>
+
+	<!DOCTYPE html>
+	<html>
+		<head>
+		    <meta charset='utf-8' />
+		    <title>Маркер с пользовательской иконкой</title>
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    data-id="dgLoader"></script>
+		</head>
+	    <body>
+	        <input id="hide" type="button" value="hide markers" />
+	        <input id="show" type="button" value="show markers" />
+	        <div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+	        <script>
+	            var map;
+	            DG.then(function() {
+	                map = DG.map('map', {
+	                    center: [54.98, 82.89],
+	                    zoom: 13
+	                });
+
+	                var markers = DG.featureGroup(),
+	                coordinates = [];
+	                for (i = 0; i  < 100; i++){
+	                    coordinates[0] = 54.98 + Math.random();
+	                    coordinates[1] = 82.89 + Math.random();
+	                    DG.marker(coordinates).addTo(markers);
+	                }
+
+	                document.getElementById("hide").onclick = hideMarkers;
+	                document.getElementById("show").onclick = showMarkers;
+
+	                function showMarkers(){
+	                    markers.addTo(map);
+	                    map.fitBounds(markers.getBounds());
+	                };
+
+	                function hideMarkers(){
+	                    markers.eachLayer(function (layer){ map.removeLayer(layer) } );
+	                    console.log(markers);
+	                };
+	            });
+	        </script>
+	    </body>
 	</html>
