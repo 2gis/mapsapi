@@ -262,12 +262,12 @@
             center: [54.98, 82.89],
             zoom: 13
     });
-	var marker1 = DG.marker([54.97, 82.890]).addTo(map);
+	var marker1 = DG.marker([54.96, 82.889]).addTo(map);
 	var marker2 = DG.marker([54.98, 82.893]).addTo(map);
 	var marker3 = DG.marker([54.99, 82.896]).addTo(map);
 	DG.featureGroup([marker1, marker2, marker3])
     .on('click', function(e) {
-    	map.setView([e.latlng.lat, e.latlng.lng]);
+    	this._map.setView([e.latlng.lat, e.latlng.lng]);
     })
     .addTo(map);
 	});
@@ -342,7 +342,7 @@
 	<html>
 		<head>
 		    <meta charset='utf-8' />
-		    <title>Маркер с пользовательской иконкой</title>
+		    <title>Анимированное движение маркера</title>
 		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
 		    data-id="dgLoader"></script>
 		</head>
@@ -423,7 +423,7 @@
 	<html>
 		<head>
 		    <meta charset='utf-8' />
-		    <title>Маркер с пользовательской иконкой</title>
+		    <title>Отображение/удаление нескольких маркеров, fitBounds</title>
 		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
 		    data-id="dgLoader"></script>
 		</head>

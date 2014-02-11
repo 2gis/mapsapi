@@ -232,12 +232,12 @@
             center: [54.98, 82.89],
             zoom: 13
     });
-    var marker1 = DG.marker([54.97, 82.890]).addTo(map);
+    var marker1 = DG.marker([54.96, 82.889]).addTo(map);
     var marker2 = DG.marker([54.98, 82.893]).addTo(map);
     var marker3 = DG.marker([54.99, 82.896]).addTo(map);
     DG.featureGroup([marker1, marker2, marker3])
     .on('click', function(e) {
-        map.setView([e.latlng.lat, e.latlng.lng]);
+        this._map.setView([e.latlng.lat, e.latlng.lng]);
     })
     .addTo(map);
     });
@@ -309,7 +309,7 @@
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&#39;utf-8&#39; /&gt;
-        &lt;title&gt;Маркер с пользовательской иконкой&lt;/title&gt;
+        &lt;title&gt;Анимированное движение маркера&lt;/title&gt;
         &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
         data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
     &lt;/head&gt;
@@ -386,7 +386,7 @@
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&#39;utf-8&#39; /&gt;
-        &lt;title&gt;Маркер с пользовательской иконкой&lt;/title&gt;
+        &lt;title&gt;Отображение/удаление нескольких маркеров, fitBounds&lt;/title&gt;
         &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
         data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
     &lt;/head&gt;
