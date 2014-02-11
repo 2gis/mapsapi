@@ -9,6 +9,7 @@ public
 dist
 private/dev*
 private/css
+src/**/png
 
 docbuilder/doc
 .tern-port

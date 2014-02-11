@@ -11,6 +11,7 @@ var extend = require('extend'),
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
 tasks.flatten = require('./build/gulp-flatten');
+tasks.svg2png = require('./build/gulp-svg2png');
 
 
 //public CLI API
@@ -75,6 +76,23 @@ gulp.task('build-assets', function () {
     );
 });
 
+gulp.task('svg2png', function () {
+    return gulp.src('./src/**/svg/**/*.svg')
+               .pipe(tasks.svg2png())
+               .pipe(tasks.svg2png({suffix: '@2x', scale: 2}));
+});
+
+gulp.task('sprite', ['svg2png'], function () {
+    return gulp.src('./src/**/png/*.png')
+        .pipe(tasks.spritesmith({
+            cssTemplate: 'build/sprite_tmpl.mustache',
+            destImg: 'public/img/sprite.png',
+            destCSS: 'private/css/sprite.css',
+            groupBy: 'skin',
+            imgPath: '../public/img/sprite.png'
+        }));
+});
+
 gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
                .pipe(tasks.cache(tasks.jshint('.jshintrc')))
@@ -102,16 +120,6 @@ gulp.task('doc', function () {
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
 
-gulp.task('sprite', function () {
-    return gulp.src('./src/**/img/*.png')
-        .pipe(tasks.spritesmith({
-            cssTemplate: 'build/sprite_tmpl.mustache',
-            destImg: 'public/img/sprite.png',
-            destCSS: 'private/css/sprite.css',
-            groupBy: 'skin',
-            imgPath: '../public/img/sprite.png'
-        }));
-});
 
 gulp.task('build', function (cb) {
     tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets'/*, 'doc'*/], cb);
