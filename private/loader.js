@@ -40,10 +40,18 @@
         return (versionIE && versionIE < 9) ? 'ie=true&' : '';
     }
 
+    function getParamsSprite() {
+        var mobile = typeof orientation !== undefined,
+            svg = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
+        console.log(mobile, !svg);
+        return (mobile && !svg) ? 'sprite=true&' : '';
+    }
+
     function getParams() {
         var paramsURI = getParamsURI(),
+            sprite = getParamsSprite(),
             paramsIE = getParamsIE();
-        return '?' + paramsURI + paramsIE + version;
+        return '?' + paramsURI + paramsIE + sprite + version;
     }
 
     function parseQueryString(queryString) {

@@ -171,17 +171,17 @@ function bldJs(opt) {
 
 //css build api
 function bldCss(opt) {
-    var basicSprite = './private/css/sprite.basic.css',
-        skinSprite = './private/css/sprite.' + (opt.skin || 'light') + '.css',
+    opt = opt || {};
+    var basicSprite = './private/css/sprite.basic.styl',
+        skinSprite = './private/css/sprite.' + (opt.skin || 'light') + '.styl',
         cssList = deps.getCSSFiles(opt);
-
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return  gulp.src(cssList)
                 .pipe(tasks.stylus({
-                    import: ['private/mixin/mixin.styl'],
+                    import: [/*basicSprite, skinSprite, */'private/mixin/mixin.styl'],
                     define: {
-                        'imageType': 'svg'
+                        'imageType': opt.sprite ? 'png' : 'svg'
                     }
                 }))
                 // .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
