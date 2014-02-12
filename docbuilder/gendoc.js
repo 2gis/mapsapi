@@ -1,6 +1,6 @@
 var fs = require('fs'),
     marked = require('marked'),
-    grunt = require('grunt');
+    mkdirp = require('mkdirp');
 
 function walkItem(menu, callback) { // (Object, Function)
     for (var item in menu) {
@@ -14,7 +14,7 @@ function walkItem(menu, callback) { // (Object, Function)
 }
 
 function getMdFileNames(config) { // (Object) -> Object
-    var menu = grunt.file.readJSON(config),
+    var menu = require('../src/menu.json'),
         result = [];
     walkItem(menu, function (filepath) {
         result.push(filepath);
@@ -29,10 +29,10 @@ function getMdFilesData(list, subdir) { // (Array, String) -> Array
 
     for (var i = 0; i < listLeng; i++) {
         var fullFilePath = dir + list[i];
-        if (grunt.file.exists(fullFilePath)) {
+        if (fs.existsSync(fullFilePath)) {
             var md = {};
             md.path = list[i];
-            md.content = grunt.file.read(fullFilePath);
+            md.content = fs.readFileSync(fullFilePath);
             sorce.push(md);
         }
 
@@ -42,7 +42,16 @@ function getMdFilesData(list, subdir) { // (Array, String) -> Array
 
 function copyConfigFile(filepath, destpath) { // (String, String)
     var configName = filepath.match(/[^/]+$/)[0];
-    grunt.file.copy(filepath, destpath + '/' + configName);
+
+    mkdirp(destpath, function () {
+        fs.writeFileSync(destpath + '/' + configName, fs.readFileSync(filepath));
+    });
+}
+
+function writeFile(dir, htmlFileName, html) {
+    mkdirp(dir, function () {
+        fs.writeFileSync(dir + '/' + htmlFileName, html);
+    });
 }
 
 // Usage: generateDocumentation('menu.json', './src', './doc')
@@ -55,8 +64,9 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
             htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
             pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
             renderer = new marked.Renderer(),
-            tocHtml = generateTableOfContents(marked.lexer(mdData[i].content)),
+            tocHtml = generateTableOfContents(marked.lexer(mdData[i].content.toString())),
             headerRepeats = {},
+            dir = destPath + '/' + pluginDirName + '/',
             html;
 
         renderer.listitem = function (text) {
@@ -72,13 +82,12 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
             }
             return '<h' + level + ' id="' + getHeaderId(text, headerRepeats[text]) + '">' + text + '</h' + level + '>';
         },
-
-        html = marked(mdData[i].content, {renderer: renderer});
+        html = marked(mdData[i].content.toString());
 
         html = html.replace(new RegExp('<ul>', 'g'), '<ul class="list-v-disc">');
         html = html.replace(/{toc}/g, tocHtml);
 
-        grunt.file.write(destPath + '/' + pluginDirName + '/' + htmlFileName, html);
+        writeFile(dir, htmlFileName, html);
     }
 
     copyConfigFile(config, destPath);

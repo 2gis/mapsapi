@@ -8,7 +8,6 @@ npm-debug.log
 public
 dist
 private/dev*
-private/css
 src/**/png
 
 docbuilder/doc

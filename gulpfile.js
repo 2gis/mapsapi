@@ -125,7 +125,7 @@ gulp.task('doc', function () {
 
 
 gulp.task('build', function (cb) {
-    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets'/*, 'doc'*/], cb);
+    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
 });
 
 //service tasks
