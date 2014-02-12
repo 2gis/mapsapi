@@ -69,6 +69,9 @@ gulp.task('build-assets', function () {
         gulp.src('./src/**/fonts/**/*.*')
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./public/fonts/')),
+        gulp.src('./src/**/img/*.*')
+            .pipe(tasks.flatten())
+            .pipe(gulp.dest('./public/img/')),
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
