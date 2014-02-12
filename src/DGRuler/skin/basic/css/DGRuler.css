@@ -21,11 +21,24 @@
 
 .dg-ruler-label__delete {
     display: none;
-    width: 14px;
-    height: 15px;
-    margin: -1px 0 0 4px;
+    width: 12px;
+    height: 12px;
+    margin: 1px 0 0 4px;
     vertical-align: top;
-    background: url(../img/delete.png);
+    background: url(../img/delete.svg) no-repeat;
+    -webkit-transition: all 0.2s ease;
+       -moz-transition: all 0.2s ease;
+         -o-transition: all 0.2s ease;
+        -ms-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+}
+
+.dg-ruler-label__delete:hover {
+    -webkit-transform: rotate(90deg);
+       -moz-transform: rotate(90deg);
+         -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
 }
 
 .dg-ruler-label__point {

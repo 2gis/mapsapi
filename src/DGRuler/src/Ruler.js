@@ -389,7 +389,9 @@ DG.Ruler = DG.Class.extend({
     },
 
     _deletePoint: function (event) {   // (MouseEvent)
-        if (event.originalEvent.target.className !== 'dg-ruler-label__delete') {
+        var originalEvent = event.originalEvent,
+            target = originalEvent.target  || originalEvent.srcElement;
+        if (target.className !== 'dg-ruler-label__delete') {
             return;
         }
         DG.DomEvent.stop(event.originalEvent);
