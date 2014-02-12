@@ -1,4 +1,4 @@
-imageType = png
+// imageType = png
 image(name)
     width: images[name].width
     height: images[name].height
@@ -13,11 +13,9 @@ image(name)
             background-position: images[name + '-2x'].background-position
 
 bg(name)
-    background-size: images[name].width images[name].height
     if imageType is svg
         background-image url(../svg/name.svg)
     else
-        background-image: images[name].background-image
-        background-position: images[name].background-position
+        background-image: url(../img/name.png)
         .leaflet-retina &
-            background-position: images[name + '-2x'].background-position
+            background-image: url(../img/name-2x.png)
