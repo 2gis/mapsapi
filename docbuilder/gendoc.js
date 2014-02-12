@@ -59,7 +59,7 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
             headerRepeats = {},
             html;
 
-        renderer.listitem = function (text) {            
+        renderer.listitem = function (text) {
             return '<li><div class="restore-color">' + text + '</div></li>';
         }
 
@@ -89,7 +89,7 @@ function generateTableOfContents(tokens) { // (Array) -> String
         tocHtml = '',
         headers = [],
         headerRepeats = {};
-    
+
     // extract headers from all tokens
     tokens.forEach(function(token) {
         if (token.type = 'heading' && token.depth > startH) headers.push(token);

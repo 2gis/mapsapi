@@ -77,8 +77,8 @@ gulp.task('build-assets', function () {
 
 gulp.task('svg2png', function () {
     return gulp.src('./src/**/svg/**/*.svg')
-               .pipe(tasks.cache(tasks.svg2png()))
-               .pipe(tasks.cache(tasks.svg2png({suffix: '@2x', scale: 2})));
+               .pipe(tasks.svg2png())
+               .pipe(tasks.svg2png({suffix: '@2x', scale: 2}));
 });
 
 gulp.task('sprite', ['svg2png'], function () {
