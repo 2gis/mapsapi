@@ -178,7 +178,7 @@ function bldJs(opt) {
 function bldCss(opt) {
     opt = opt || {};
     var basicSprite = './private/css/sprite.basic.styl',
-        skinSprite = './private/css/sprite.' + (opt.skin || 'light') + '.styl',
+        skinSprite = './private/css/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         cssList = deps.getCSSFiles(opt);
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
