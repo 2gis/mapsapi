@@ -7,6 +7,7 @@
     "map",
     "api"
   ],
+  "strongAgentKey": "3c21f77e5a5fc43e1ff813049821da41",
   "scripts": {
     "start": "node app.js",
     "test": "gulp test"
