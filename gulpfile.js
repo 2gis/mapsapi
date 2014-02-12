@@ -178,6 +178,7 @@ function bldCss(opt) {
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return  gulp.src(cssList)
+                .pipe(tasks.frep(config.cfgParams))
                 .pipe(tasks.stylus({
                     import: [/*basicSprite, skinSprite, */'private/mixin/mixin.styl'],
                     define: {
