@@ -11,9 +11,8 @@
 <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
-    var map;
     DG.then(function() {
-        map = DG.map('map', {
+        DG.map('map', {
             center: [54.98, 82.89],
             zoom: 13
         });
@@ -31,9 +30,8 @@
         <body>
         <div id="map" style="width: 100%; height: 400px;"></div>
         <script>
-            var map;
             DG.then(function() {
-                map = DG.map('map', {
+                DG.map('map', {
                     center: [54.98, 82.89],
                     zoom: 13
                 });
@@ -48,12 +46,11 @@
 <input id="create" type="button" value="Показать карту" />
 <div id="mapBlock"></div>
 <script>
-    var mapBlock = document.getElementById('mapBlock'),
-        createButton = document.getElementById("create");
+    var createButton = document.getElementById("create");
 
     createButton.onclick = function() {
-        var map,
-            container = document.createElement('div');
+        var container = document.createElement('div'),
+            mapBlock = document.getElementById('mapBlock');
         
         container.id = 'map1';
         container.style.width = "100%";
@@ -61,7 +58,7 @@
         mapBlock.appendChild(container);
 
         DG.then(function(){
-            map = DG.map('map1', {
+            DG.map('map1', {
                 center: [54.98, 82.89],
                 zoom: 13
             });
@@ -83,20 +80,19 @@
             <input id="create" type="button" value="Показать карту" />
             <div id="mapBlock"></div>
             <script>
-                var mapBlock = document.getElementById('mapBlock'),
-                    createButton = document.getElementById("create");
+                var createButton = document.getElementById("create");
 
                 createButton.onclick = function() {
-                    var map,
-                        container = document.createElement('div');
-                    
+                    var container = document.createElement('div'),
+                        mapBlock = document.getElementById('mapBlock');
+
                     container.id = 'map';
                     container.style.width = "100%";
                     container.style.height = "400px";
                     mapBlock.appendChild(container);
 
                     DG.then(function(){
-                        map = DG.map('map', {
+                        DG.map('map', {
                             center: [54.98, 82.89],
                             zoom: 13
                         });
@@ -112,10 +108,11 @@
 <input id="changeSize" type="button" value="Изменить размер" />
 <div id="map2" style="width: 100%; height: 200px;"></div>
 <script>
-    var map,
-        changeSizeButton = document.getElementById('changeSize');
+    var changeSizeButton = document.getElementById('changeSize');
 
-    DG.then(function () {
+    DG.then(function() {
+        var map;
+
         map = DG.map('map2', {
             center: [54.98, 82.89],
             zoom: 15,
@@ -142,10 +139,11 @@
             <input id="changeSize" type="button" value="Изменить размер" />
             <div id="map" style="width: 100%; height: 200px;"></div>
             <script>
-                var map,
-                    changeSizeButton = document.getElementById('changeSize');
+                var changeSizeButton = document.getElementById('changeSize');
 
-                DG.then(function () {
+                DG.then(function() {
+                    var map;
+
                     map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 15,
@@ -165,13 +163,12 @@
 
 ### Отключение опций взаимодействия
 
-Используется для отображения статической карты.
+Пример отображения статической карты:
 
-<div id="map3" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<div id="map3" style="width: 100%; height: 400px;"></div>
 <script>
-    var map;
     DG.then(function() {
-        map = DG.map('map3', {
+        DG.map('map3', {
             center: [54.98, 82.89],
             zoom: 13,
             dragging : false,
@@ -179,7 +176,9 @@
             scrollWheelZoom: false,
             doubleClickZoom: false,
             boxZoom: false,
-            geoclicker: false
+            geoclicker: false,
+            zoomControl: false,
+            fullscreenControl: false
         });
     });
 </script>
@@ -188,16 +187,15 @@
     <html>
         <head>
             <meta charset='utf-8' />
-            <title>Маркер с пользовательской иконкой</title>
+            <title>Отключение опций взаимодействия</title>
             <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
             data-id="dgLoader"></script>
         </head>
         <body>
-            <div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+            <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
-                var map;
                 DG.then(function() {
-                    map = DG.map('map', {
+                    DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 13,
                         dragging : false,
@@ -205,7 +203,9 @@
                         scrollWheelZoom: false,
                         doubleClickZoom: false,
                         boxZoom: false,
-                        geoclicker: false
+                        geoclicker: false,
+                        zoomControl: false,
+                        fullscreenControl: false
                     });
                 });
             </script>
@@ -214,17 +214,19 @@
 
 ### Определение местоположения пользователя
 
-Пример для использования в сервисах с завязкой на географическое расположения клиента.
+Пример определения географического расположения пользователя:
 
-<div id="map4" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<div id="map4" style="width: 100%; height: 400px;"></div>
 <script>
-    var map;
     DG.then(function() {
+        var map;
+
         map = DG.map('map4', {
             center: [54.98, 82.89],
             zoom: 13
         });
-    map.locate({setView: true, watch: true})
+        
+        map.locate({setView: true, watch: true})
         .on('locationfound', function(e){
             DG.marker([e.latitude, e.longitude]).addTo(map);
         })
@@ -239,20 +241,22 @@
     <html>
         <head>
             <meta charset='utf-8' />
-            <title>Маркер с пользовательской иконкой</title>
+            <title>Определение местоположения пользователя</title>
             <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
             data-id="dgLoader"></script>
         </head>
         <body>
-            <div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+            <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
-                var map;
                 DG.then(function() {
+                    var map;
+
                     map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 13
                     });
-                map.locate({setView: true, watch: true})
+
+                    map.locate({setView: true, watch: true})
                     .on('locationfound', function(e){
                         DG.marker([e.latitude, e.longitude]).addTo(map);
                     })
