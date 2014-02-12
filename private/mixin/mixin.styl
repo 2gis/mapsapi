@@ -1,23 +1,13 @@
-// purp-light = {
-//     background-image: url('../public/img/sprite.light.png'),
-//     background-position: -123px -116px,
-//     width: 8px,
-//     height: 12px
-// }
-
-// purp-light['.leaflet-retina &'] = {
-//     background-position: -1123px -1116px
-// }
-
 // imageType = png
-if imageType is svg
-    image(name)
+image(name)
+    width: images[name].width
+    height: images[name].height
+    background-size: contain
+    background-repeat: no-repeat
+    if imageType is svg
         background-image url(../svg/name.svg)
-else
-    image(name)
-        {name}
-
-
-// #popup-link-flamp_stars div {
-//     image(purp-light)
-// }
+    else
+        background-image: images[name].background-image
+        background-position: images[name].background-position
+        .leaflet-retina &
+            background-position: images[name + '-2x'].background-position

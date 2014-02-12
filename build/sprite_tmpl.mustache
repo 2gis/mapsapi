@@ -1,8 +1,15 @@
+unless images is defined
+    images = {}
+
+data = {
 {{#items}}
-.sprite .{{{name}}} {
-    background-image: url('{{{escaped_image}}}');
-    background-position: {{px.offset_x}} {{px.offset_y}};
-    width: {{px.width}};
-    height: {{px.height}};
-}
+    {{name}}: {
+        background-image: url('{{{escaped_image}}}')
+        background-position: {{px.offset_x}} {{px.offset_y}}
+        width: {{px.width}}
+        height: {{px.height}}
+    }
 {{/items}}
+}
+
+images = merge(images, data)
