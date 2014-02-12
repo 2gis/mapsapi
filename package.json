@@ -1,6 +1,6 @@
 {
   "name": "2GIS-Maps-API-2.0",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "description": "Interactive 2GIS maps API, based on Leaflet",
   "keywords": [
     "2gis",
@@ -28,7 +28,7 @@
     "extend": "~1.2.1",
     "optimist": "0.6.0",
     "cli-color": "0.2.2",
-    "marked": "0.2.9",
+    "marked": "0.3.0",
     "mocha": "1.9.0",
     "expect": "0.0.2",
     "sinon": "1.6.0",

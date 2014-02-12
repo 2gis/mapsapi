@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Map Base Demo</title>
+    <title>API карт 2ГИС</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="/2.0/loader.js?load=full&mode=debug" data-id="dgLoader"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+    <style type="text/css">
+
+      html,body { height: 100%; margin: 0px; padding: 0px; }
+      #map { width: 100%; height: 100%; }
+
+    </style>
 </head>
 <body>
 
-<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+<div id="map"></div>
 
 <script type="text/javascript">
-    var map;
+    var map,
+        balloonHTML;
+
     DG.then(function () {
         map = new DG.Map('map', {
-            'center': new DG.LatLng(54.980206086231, 82.898068362003),
-            'zoom': 13,
-            'geoclicker': true
+            "center": new DG.LatLng(54.9801, 82.8974),
+            "zoom": 13
         });
-
-        DG.marker([54.991206086231, 82.897068362003]).addTo(map).bindPopup("<b>Hello world!</b><br />I am a popup on marker.");
-
+        var southWest = DG.latLng(54.9801, 82.8974),
+            northEast = DG.latLng(54.9901, 82.9074),
+            bounds = DG.latLngBounds(southWest, northEast);
+        DG.marker(southWest).addTo(map);
+        DG.marker(northEast).addTo(map).bindPopup('northEast').openPopup();
     });
-
 </script>
 
 </body>
 </html>
-
