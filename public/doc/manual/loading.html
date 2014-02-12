@@ -1,0 +1,82 @@
+<h2 id="подключение-api">Подключение API</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#простой-способ">Простой способ</a></li><li><a href="#загрузка-по-требованию">Загрузка по требованию</a></li><li><a href="#опции-подключения">Опции подключения</a></li><li><a href="#функция-dgthen">Функция DG.then</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Работа с картой возможна только после того, как в браузер будет загружен код API карт. Есть несколько способов его загрузки.</p>
+<h3 id="простой-способ">Простой способ</h3><p>Сперва подключим API карт, поместив в секцию head HTML-страницы следующий код:</p>
+<pre><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+</code></pre><p>Атрибут <code>data-id=&quot;dgLoader&quot;</code> обязательный.</p>
+<p>Затем воспользуемся функцией DG.then, в которую поместим код инициализации карты:</p>
+<pre><code>DG.then(function() {
+    map = DG.map(&#39;map&#39;, {
+        &#39;center&#39;: [54.98, 82.89],
+        &#39;zoom&#39;: 13
+    });
+});
+</code></pre><p>Внутри себя эта функция добавляет обработчик события загрузки страницы. Именно такой способ рассматривался в разделе <a href="/doc/2.0/maps/quickstart">«Быстрый старт»</a>.</p>
+<h3 id="загрузка-по-требованию">Загрузка по требованию</h3><p>Вы можете загрузить API карт именно в тот момент, когда карта станет нужна. Для этого в URL подключения API необходимо добавить параметр <code>lazy=true</code>:</p>
+<pre><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&amp;lazy=true&quot; data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+</code></pre><p>Затем в нужный момент времени (например, при нажатии на кнопку) необходимо вызвать функцию DG.then:</p>
+<pre><code>DG.then(function() {
+    map = DG.map(&#39;map&#39;, {
+        &#39;center&#39;: [54.98, 82.89],
+        &#39;zoom&#39;: 13
+    });
+});
+</code></pre><h3 id="опции-подключения">Опции подключения</h3><p>Ниже описаны все опции, которые может принимать URL загрузки API карт:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="loading-pkg">
+            <td><code>pkg</code></td>
+            <td><code>full</code></td>
+            <td>Пакет загружаемых модулей. На данный момент поддерживается 2 пакета: <code>full</code> - все модули API; <code>light</code> - базовая функциональность (балуны, маркера, геометрии).</td>
+        </tr>
+        <!--<tr>
+            <td><code>mod</code></td>
+            <td><code>null</code></td>
+            <td>Перечень конкретных модулей для загрузки (через запятую). Если задать этот параметр, тогда параметр pkg будет проигнорирован.</td>
+        </tr>-->
+        <tr>
+            <td><code>skin</code></td>
+            <td><code>light</code></td>
+            <td>Тема карты (светлая или темная). Принимает значение <code>light</code> или <code>dark</code>.</td>
+        </tr>
+        <tr>
+            <td><code>mode</code></td>
+            <td><code>null</code></td>
+            <td>Если указать значение <code>debug</code>, тогда загрузится несжатый JavaScript код API (удобно при отладке приложений).</td>
+        </tr>
+        <tr>
+            <td><code>lazy</code></td>
+            <td><code>false</code></td>
+            <td>Если указать значение <code>true</code>, тогда API карт загрузится отложено, при первом вызове <code>DG.then</code>.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="функция-dgthen">Функция DG.then</h3><p>Как было описано ранее, функция <code>DG.then</code> отвечает за отслеживание момента загрузки API карт и добавление обработчиков этого действия. Параметры функции:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Вызов</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>DG.then</b>(
+                <nobr>&lt;Function&gt; <i>resolve</i>,</nobr>
+                <nobr>&lt;Function&gt; <i>reject</i></nobr>&nbsp;)
+            </code></td>
+            <td><code>Promise</code></td>
+            <td>Регистрирует обработчики загрузки API. Пареметры: resolve - сработает при успешной загрузке API карт, reject - в случае ошибки сервера.</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>Вызов функции <code>DG.then</code> в любой момент после загрузки API мгновенно выполнит обработчик.</p>
