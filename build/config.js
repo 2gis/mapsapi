@@ -23,6 +23,13 @@ var config = {
         outro: '}(this, document));\n'
     },
 
+    tmpl: {
+        dir: 'templates',
+        pattern: '*.dust',
+        ext: '.dust',
+        varPostfix: '_TMPL'
+    },
+
     doc: {
         menu: './src/menu.json',
         input: './src/',
