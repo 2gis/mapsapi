@@ -75,10 +75,14 @@ gulp.task('build-assets', function () {
     );
 });
 
-gulp.task('svg2png', function () {
+gulp.task('clean-png', function () {
+    return gulp.src('./src/**/png', {read: false}).pipe(tasks.clean());
+});
+
+gulp.task('svg2png', ['clean-png'], function () {
     return gulp.src('./src/**/svg/**/*.svg')
                .pipe(tasks.svg2png())
-               .pipe(tasks.svg2png({suffix: '@2x', scale: 2}));
+               .pipe(tasks.svg2png({suffix: '-2x', scale: 2}));
 });
 
 gulp.task('sprite', ['svg2png'], function () {
@@ -86,9 +90,9 @@ gulp.task('sprite', ['svg2png'], function () {
         .pipe(tasks.spritesmith({
             cssTemplate: 'build/sprite_tmpl.mustache',
             destImg: 'public/img/sprite.png',
-            destCSS: 'private/css/sprite.css',
+            destCSS: 'private/styl/sprite.styl',
             groupBy: 'skin',
-            imgPath: '../public/img/sprite.png'
+            imgPath: '../img/sprite.png'
         }));
 });
 
@@ -172,15 +176,15 @@ function bldJs(opt) {
 //css build api
 function bldCss(opt) {
     opt = opt || {};
-    var basicSprite = './private/css/sprite.basic.styl',
-        skinSprite = './private/css/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
+    var basicSprite = './private/styl/sprite.basic.styl',
+        skinSprite = './private/styl/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         cssList = deps.getCSSFiles(opt);
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return  gulp.src(cssList)
                 .pipe(tasks.frep(config.cfgParams))
                 .pipe(tasks.stylus({
-                    import: [/*basicSprite, skinSprite, */'private/mixin/mixin.styl'],
+                    import: [basicSprite, skinSprite, 'private/styl/mixin.styl'],
                     define: {
                         'imageType': opt.sprite ? 'png' : 'svg'
                     }
