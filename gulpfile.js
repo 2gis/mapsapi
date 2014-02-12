@@ -10,7 +10,6 @@ var extend = require('extend'),
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
-tasks.flatten = require('./build/gulp-flatten');
 tasks.svg2png = require('./build/gulp-svg2png');
 
 
@@ -61,19 +60,15 @@ gulp.task('build-styles', function () {
 
 gulp.task('build-assets', function () {
     return es.concat(
-        gulp.src(['./private/**/*.*', '!private/*.js', '!private/css/', '!private/mixin/'])
+        gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
+        gulp.src('./private/img/*.*')
+            .pipe(gulp.dest('./public/img')),
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
-        gulp.src('./src/**/fonts/**')
+        gulp.src('./src/**/fonts/**/*.*')
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./public/fonts/')),
-        gulp.src('./src/**/svg/**')
-            .pipe(tasks.flatten())
-            .pipe(gulp.dest('./public/svg/')),
-        gulp.src('./src/**/img/**')
-            .pipe(tasks.flatten())
-            .pipe(gulp.dest('./public/img/')),
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
@@ -82,8 +77,8 @@ gulp.task('build-assets', function () {
 
 gulp.task('svg2png', function () {
     return gulp.src('./src/**/svg/**/*.svg')
-               .pipe(tasks.svg2png())
-               .pipe(tasks.svg2png({suffix: '@2x', scale: 2}));
+               .pipe(tasks.cache(tasks.svg2png()))
+               .pipe(tasks.cache(tasks.svg2png({suffix: '@2x', scale: 2})));
 });
 
 gulp.task('sprite', ['svg2png'], function () {
