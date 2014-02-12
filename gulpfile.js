@@ -30,6 +30,7 @@ gulp.task('build-scripts', ['lint'], function () {
                     .pipe(gulp.dest('./public/js/'))
                     .pipe(tasks.rename({suffix: '.min'}))
                     .pipe(tasks.cache(tasks.uglify()))
+                    .pipe(tasks.header(config.copyright))
                     .pipe(gulp.dest('./public/js/'));
 });
 
@@ -39,25 +40,28 @@ gulp.task('build-styles', function () {
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.min'}))
                              .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/')),
         bldCss(extend(tasks.util.env, {isIE: true, isDebug: true}))
                              .pipe(tasks.rename({suffix: '.full'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.full.min'}))
                              .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/')),
         bldCss(extend(tasks.util.env, {onlyIE: true, isDebug: true}))
                              .pipe(tasks.rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.ie.min'}))
                              .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/'))
     );
 });
 
 gulp.task('build-assets', function () {
     return es.concat(
-        gulp.src(['./private/**/*.*', '!private/*.js', '!private/css/'])
+        gulp.src(['./private/**/*.*', '!private/*.js', '!private/css/', '!private/mixin/'])
             .pipe(gulp.dest('./public/')),
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
@@ -166,7 +170,8 @@ function bldJs(opt) {
                .pipe(tasks.frep(config.cfgParams))
                .pipe(tasks.header(config.js.intro))
                .pipe(tasks.footer(config.js.outro))
-               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()));
+               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()))
+               .pipe(tasks.header(config.copyright));
 }
 
 //css build api
@@ -185,12 +190,13 @@ function bldCss(opt) {
                         'imageType': opt.sprite ? 'png' : 'svg'
                     }
                 }))
-                // .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+                .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 .pipe(tasks.base64({
                     extensions: ['svg']
                 }))
                 .pipe(tasks.concat('styles.css'))
-                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()));
+                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()))
+                .pipe(tasks.header(config.copyright));
 }
 
 module.exports = {

@@ -24,8 +24,6 @@ var config = {
             min: basePath + '/public/js/dg-map.js'
         },
 
-        copyrights: [basePath + '/vendors/leaflet/src/copyright.js'],
-
         intro: '(function (window, document, undefined) {\n',
         dustdebug: 'dust.debugLevel = \'ERROR\';\n',
         outro: '}(this, document));\n'
@@ -85,7 +83,8 @@ var config = {
         menu: './src/menu.json',
         input: './src/',
         output: './public/doc'
-    }
+    },
+    copyright: fs.readFileSync('./src/copyright.js')
 };
 
 config.appConfig = getAppConfig();
