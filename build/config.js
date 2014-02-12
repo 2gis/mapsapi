@@ -18,29 +18,9 @@ var config = {
     },
 
     js: {
-        public: {
-            dir: basePath + '/public/js/',
-            src: basePath + '/public/js/dg-map-src.js',
-            min: basePath + '/public/js/dg-map.js'
-        },
-
-        copyrights: [basePath + '/vendors/leaflet/src/copyright.js'],
-
         intro: '(function (window, document, undefined) {\n',
         dustdebug: 'dust.debugLevel = \'ERROR\';\n',
         outro: '}(this, document));\n'
-    },
-
-    css: {
-        public: {
-            dir: basePath + '/public/css/',
-            clean: basePath + '/public/css/dg-map-src.css',
-            full: basePath + '/public/css/dg-map-src-full.css',
-            ie: basePath + '/public/css/dg-map-src-ie.css',
-            clean_min: basePath + '/public/css/dg-map.css',
-            full_min: basePath + '/public/css/dg-map-full.css',
-            ie_min: basePath + '/public/css/dg-map-ie.css'
-        }
     },
 
     tmpl: {
@@ -50,42 +30,13 @@ var config = {
         varPostfix: '_TMPL'
     },
 
-    img: {
-        pattern: 'src/**/img/*',
-        dest: 'public/img/',
-        patternLeaflet: 'vendors/leaflet/dist/images/*',
-        destLeaflet: 'public/img/vendors/leaflet'
-    },
-
-    font: {
-        pattern: 'src/**/fonts/**',
-        dest: 'public/fonts'
-    },
-
-    svg: {
-        pattern: 'src/**/svg/*',
-        dest: 'public/svg'
-    },
-
-    skin: {
-        dir: 'skin',
-        var: '{skin}'
-    },
-
-    loader: {
-        dir: basePath + '/private',
-        name: 'loader.js'
-    },
-
-    hint: [
-        'src/*/src/**/*.js'
-    ],
-
     doc: {
         menu: './src/menu.json',
         input: './src/',
         output: './public/doc'
-    }
+    },
+
+    copyright: fs.readFileSync('./src/copyright.js')
 };
 
 config.appConfig = getAppConfig();

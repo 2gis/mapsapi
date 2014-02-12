@@ -10,7 +10,6 @@ var extend = require('extend'),
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
-tasks.flatten = require('./build/gulp-flatten');
 tasks.svg2png = require('./build/gulp-svg2png');
 
 
@@ -30,6 +29,7 @@ gulp.task('build-scripts', ['lint'], function () {
                     .pipe(gulp.dest('./public/js/'))
                     .pipe(tasks.rename({suffix: '.min'}))
                     .pipe(tasks.cache(tasks.uglify()))
+                    .pipe(tasks.header(config.copyright))
                     .pipe(gulp.dest('./public/js/'));
 });
 
@@ -39,37 +39,36 @@ gulp.task('build-styles', function () {
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.min'}))
                              .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/')),
         bldCss(extend(tasks.util.env, {isIE: true, isDebug: true}))
                              .pipe(tasks.rename({suffix: '.full'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.full.min'}))
                              .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/')),
         bldCss(extend(tasks.util.env, {onlyIE: true, isDebug: true}))
                              .pipe(tasks.rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.ie.min'}))
                              .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/'))
     );
 });
 
 gulp.task('build-assets', function () {
     return es.concat(
-        gulp.src(['./private/**/*.*', '!private/*.js', '!private/css/'])
+        gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
+        gulp.src('./private/img/*.*')
+            .pipe(gulp.dest('./public/img')),
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
-        gulp.src('./src/**/fonts/**')
+        gulp.src('./src/**/fonts/**/*.*')
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./public/fonts/')),
-        gulp.src('./src/**/svg/**')
-            .pipe(tasks.flatten())
-            .pipe(gulp.dest('./public/svg/')),
-        gulp.src('./src/**/img/**')
-            .pipe(tasks.flatten())
-            .pipe(gulp.dest('./public/img/')),
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
@@ -82,8 +81,8 @@ gulp.task('clean-png', function () {
 
 gulp.task('svg2png', ['clean-png'], function () {
     return gulp.src('./src/**/svg/**/*.svg')
-               .pipe(tasks.svg2png())
-               .pipe(tasks.svg2png({suffix: '-2x', scale: 2}));
+               .pipe(tasks.cache(tasks.svg2png()))
+               .pipe(tasks.cache(tasks.svg2png({suffix: '-2x', scale: 2})));
 });
 
 gulp.task('sprite', ['svg2png'], function () {
@@ -170,30 +169,33 @@ function bldJs(opt) {
                .pipe(tasks.frep(config.cfgParams))
                .pipe(tasks.header(config.js.intro))
                .pipe(tasks.footer(config.js.outro))
-               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()));
+               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()))
+               .pipe(tasks.header(config.copyright));
 }
 
 //css build api
 function bldCss(opt) {
     opt = opt || {};
     var basicSprite = './private/css/sprite.basic.styl',
-        skinSprite = './private/css/sprite.' + (opt.skin || 'light') + '.styl',
+        skinSprite = './private/css/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         cssList = deps.getCSSFiles(opt);
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return  gulp.src(cssList)
+                .pipe(tasks.frep(config.cfgParams))
                 .pipe(tasks.stylus({
                     import: [basicSprite, skinSprite, 'private/mixin/mixin.styl'],
                     define: {
                         'imageType': opt.sprite ? 'png' : 'svg'
                     }
                 }))
-                // .pipe(tasks.cache(prefix('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+                .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 .pipe(tasks.base64({
                     extensions: ['svg']
                 }))
                 .pipe(tasks.concat('styles.css'))
-                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()));
+                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()))
+                .pipe(tasks.header(config.copyright));
 }
 
 module.exports = {

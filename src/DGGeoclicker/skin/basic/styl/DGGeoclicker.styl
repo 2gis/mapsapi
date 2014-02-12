@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'SuisseCond';
-    src: url('../fonts/suisseintl-cond.eot');
-    src: url('../fonts/suisseintl-cond.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/suisseintl-cond.woff') format('woff'),
-         url('../fonts/suisseintl-cond.ttf') format('truetype'),
-         url('../fonts/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
+    src: url(__BASE_URL__/fonts/suisseintl-cond.eot);
+    src: url(__BASE_URL__/fonts/suisseintl-cond.eot?#iefix) format('embedded-opentype'),
+         url(__BASE_URL__/fonts/suisseintl-cond.woff) format('woff'),
+         url(__BASE_URL__/fonts/suisseintl-cond.ttf) format('truetype'),
+         url(__BASE_URL__/fonts/suisseintl-cond.svg#suisse_intlcondensed) format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -346,14 +346,14 @@
 }
 /* Regular  scheme */
 .preloader_animation_true.preloader_scheme_regular:before {
-  background-image: url('../svg/preloader_regular-big-outer.svg');
+  background-image: url(__BASE_URL__/svg/preloader_regular-big-outer.svg);
 }
 .preloader_animation_true.preloader_scheme_regular:after {
-  background-image: url('../svg/preloader_regular-big-inner.svg');
+  background-image: url(__BASE_URL__/svg/preloader_regular-big-inner.svg);
 }
 .preloader_animation_true.preloader_scheme_regular.preloader_small:before {
-  background-image: url('../svg/preloader_regular-small-outer.svg');
+  background-image: url(__BASE_URL__/svg/preloader_regular-small-outer.svg);
 }
 .preloader_animation_true.preloader_scheme_regular.preloader_small:after {
-  background-image: url('../svg/preloader_regular-small-inner.svg');
+  background-image: url(__BASE_URL__/svg/preloader_regular-small-inner.svg);
 }
