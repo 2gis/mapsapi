@@ -11,7 +11,7 @@
 Маркер, при клике на который открывается балун с информацией:
 
 <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
-<div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
     	var map;
@@ -52,7 +52,7 @@
 
 Координаты маркера: <div id = "location">54.981, 82.891</div>
 
-<div id="map1" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<div id="map1" style="width: 100%; height: 400px;"></div>
 <script type="text/javascript">
 	var locationInfo = document.getElementById('location');
     DG.then(function () {
@@ -478,7 +478,7 @@
 	    <body>
 	        <input id="hide" type="button" value="hide markers" />
 	        <input id="show" type="button" value="show markers" />
-	        <div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+	        <div id="map" style="width: 100%; height: 400px;"></div>
 	        <script>
 		    DG.then(function() {
 		    	var map,
