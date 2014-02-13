@@ -82,10 +82,26 @@ gulp.task('clean-png', function () {
     return gulp.src('./src/**/png', {read: false}).pipe(tasks.clean());
 });
 
+//refactor this horrible config
 gulp.task('svg2png', ['clean-png'], function () {
-    return gulp.src('./src/**/svg/**/*.svg')
+    return es.concat(
+            gulp.src('./src/**/svg/**/*.svg')
                .pipe(tasks.svg2png())
-               .pipe(tasks.svg2png({suffix: '-2x', scale: 2}));
+               .pipe(tasks.rename(function (dir, base, ext) {
+                    dir += '/../png/';
+                    ext = '.png';
+                    return '/../png/' + base + ext;
+                }))
+               .pipe(gulp.dest('./src')),
+            gulp.src('./src/**/svg/**/*.svg')
+               .pipe(tasks.svg2png({scale: 2}))
+               .pipe(tasks.rename(function (dir, base, ext) {
+                    dir += '/../png/';
+                    ext = '-2x.png';
+                    return '/../png/' + base + ext;
+                }))
+               .pipe(gulp.dest('./src'))
+    );
 });
 
 gulp.task('sprite', ['svg2png'], function () {
