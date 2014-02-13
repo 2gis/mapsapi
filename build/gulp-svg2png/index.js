@@ -1,6 +1,6 @@
 var through = require('through2'),
-    svgToPng = require('svg2png'),
     gutil = require('gulp-util'),
+    raterize = require('./lib'),
     PluginError = gutil.PluginError;
 
 const PLUGIN_NAME = 'gulp-svg2png';
@@ -19,7 +19,7 @@ module.exports = function (opt) {
         if (file.isNull()) { return callback(); }
 
         if (file.isBuffer()) {
-            svgToPng(file.path, opt.format, opt.scale, function (err, data) {
+            raterize(file.path, opt.format, opt.scale, function (err, data) {
                 if (err) { throw new PluginError(PLUGIN_NAME, 'Error occured during file convertation'); }
 
                 file.contents = data;
