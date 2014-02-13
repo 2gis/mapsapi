@@ -13,16 +13,21 @@
 				var map;
 					popups = DG.featureGroup(),
 			        coordinates = [];
+
 		     	map = DG.map('map', {
 		            center: [54.98, 82.89],
 		            zoom: 13
 		    	});
+
 		    	for (i = 0; i < 10; i++) {
-		            coordinates[0] = 54.98 - Math.random()/50;
-		            coordinates[1] = 82.89 + Math.random()/50;
+		            coordinates[0] = 54.98 - Math.random();
+		            coordinates[1] = 82.89 + Math.random();
 		            DG.popup().setLatLng(coordinates).setContent('Я балун №' + i).addTo(popups);
 		        }
+
 		        popups.addTo(map);
+		        ///БАААААААААГГГГГГГ
+		        map.fitBounds(popups.getBounds());
 			});
 		</script>
 	</body>

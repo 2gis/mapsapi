@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset='utf-8' />
+	    <title>Несколько многоугольников разного цвета</title>
+	    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+	    data-id="dgLoader"></script>
+	</head>
+	<body>
+		<div id="map" style="width: 100%; height: 400px;"></div>
+		<script>
+			DG.then(function() {
+				var map;
+		     	map = DG.map('map', {
+		            center: [54.98, 82.89],
+		            zoom: 14
+		    	});
+				var bounds1 = [[54.98, 82.87], [54.975, 82.91], [54.974, 82.915], [54.971, 82.918], [54.970, 82.921]],
+				bounds2 = [[54.985, 82.875], [54.98, 82.96], [54.979, 82.92], [54.976, 82.923]],
+				bounds3 = [[54.99, 82.88], [54.985, 82.971], [54.984, 82.925], [54.981, 82.928], [54.980, 82.931]],
+				polygons = DG.featureGroup();
+
+				DG.polygon(bounds1, {color: "blue"}).addTo(polygons);
+				DG.polygon(bounds2, {color: "red"}).addTo(polygons);
+				DG.polygon(bounds3, {color: "green"}).addTo(polygons);
+
+				polygons.addTo(map);
+				map.fitBounds(polygons.getBounds());
+			})
+		</script>
+	</body>
+</html>
