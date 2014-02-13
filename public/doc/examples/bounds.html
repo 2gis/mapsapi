@@ -1,0 +1,126 @@
+<h2 id="работа-с-границами-карты">Работа с границами карты</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#ограничение-границ-и-масштаба">Ограничение границ и масштаба</a></li><li><a href="#карта-с-панелью">Карта с панелью</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведены примеры ограничения границ карты и уровней масштабирования. Для получения подробной информации о работе с картой воспользуйтесь разделом документации <a href="/doc/2.0/maps/manual/map">Карта</a>.</p>
+<h3 id="ограничение-границ-и-масштаба">Ограничение границ и масштаба</h3><p>Ограничение просматриваемой области границами города Новосибирск, а также уровней масштабирования диапазоном от 10 до 15:</p>
+<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 10,
+            maxBounds: [
+                [54.8220, 82.4304],
+                [55.1372, 83.3505]
+            ],
+            minZoom: 10,
+            maxZoom: 15
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Ограничение границ и масштаба&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                DG.map(&#39;map&#39;, {
+                    center: [54.98, 82.89],
+                    zoom: 10,
+                    maxBounds: [
+                        [54.8220, 82.4304],
+                        [55.1372, 83.3505]
+                    ],
+                    minZoom: 10,
+                    maxZoom: 15
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="карта-с-панелью">Карта с панелью</h3><p>После инициализации карты её центр подстраивается таким образом, чтобы центр Москвы был посередине видимой области (с учетом левой панели):</p>
+<p><style></p>
+<pre><code>#container {
+    height:400px;
+    position: relative;
+}
+#content {
+    position: absolute;
+    background:#000;
+    background:rgba(51,51,51,.9);
+    width:200px;
+    height: 400px;
+    z-index: 1000;
+}
+</code></pre><p></style></p>
+<p><div id='container'>
+    <div id='content'></div>
+    <div id="map1" style="width: 100%; height: 400px;"></div>
+</div></p>
+<script>
+    DG.then(function() {
+        var map;
+        map = DG.map('map1', {
+            center: [55.753559, 37.609218],
+            zoom: 10,
+            zoomControl: false,
+            fullscreenControl: false
+        });
+        DG.control.zoom({position: 'topright'}).addTo(map);
+        map.fitBounds(map.getBounds(), {
+            paddingTopLeft: [200, 0]
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Карта с левой панелью&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+        &lt;style&gt;
+            #container {
+                height:400px;
+                position: relative;
+            }
+            #content {
+                position: absolute;
+                background:#000;
+                background:rgba(51,51,51,.9);
+                width:200px;
+                height: 400px;
+                z-index: 1000;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&#39;container&#39;&gt;
+            &lt;div id=&#39;content&#39;&gt;&lt;/div&gt;
+            &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                var map;
+                map = DG.map(&#39;map&#39;, {
+                    center: [55.753559, 37.609218],
+                    zoom: 10,
+                    zoomControl: false,
+                    fullscreenControl: false
+                });
+                DG.control.zoom({position: &#39;topright&#39;}).addTo(map);
+                map.fitBounds(map.getBounds(), {
+                    paddingTopLeft: [200, 0]
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>

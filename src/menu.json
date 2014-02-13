@@ -298,6 +298,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Работа с границами",
+                                "uri": "doc/2.0/maps/examples/bounds",
+                                "_src":"examples/bounds.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "Работа с геометриями",
                                 "uri": "doc/2.0/maps/examples/geometries",
                                 "_src":"examples/geometries.md",

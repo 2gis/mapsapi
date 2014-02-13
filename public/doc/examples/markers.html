@@ -1,8 +1,8 @@
 <h2 id="работа-с-маркерами">Работа с маркерами</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#маркер-с-балуном">Маркер с балуном</a></li><li><a href="#перетаскиваемый-маркер">Перетаскиваемый маркер</a></li><li><a href="#маркер-с-пользовательской-иконкой">Маркер с пользовательской иконкой</a></li><li><a href="#программное-открытие-маркера">Программное открытие маркера</a></li><li><a href="#маркер-с-подсказкой">Маркер с подсказкой</a></li><li><a href="#обработка-событий-группы-маркеров">Обработка событий группы маркеров</a></li><li><a href="#анимированное-движение-маркера">Анимированное движение маркера</a></li><li><a href="#отображение-нескольких-маркеров-и-подстройка-границ">Отображение нескольких маркеров и подстройка границ</a></li></ul></dl></p>
-<h3 id="описание">Описание</h3><p>Ниже приведены примеры использования маркеров. Для получения подробной информации перейдите в раздел документации <a href="/doc/2.0/maps/manual/markers">Маркеры</a>.</p>
+<h3 id="описание">Описание</h3><p>Ниже приведены примеры использования маркеров. Для получения подробной информации о маркерах перейдите в раздел документации <a href="/doc/2.0/maps/manual/markers">Маркеры</a>.</p>
 <h3 id="маркер-с-балуном">Маркер с балуном</h3><p>Маркер, при клике на который открывается балун с информацией:</p>
 <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
-<div id="map" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div>
+<div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
         var map;
@@ -38,7 +38,7 @@
 &lt;/html&gt;
 </code></pre><h3 id="перетаскиваемый-маркер">Перетаскиваемый маркер</h3><p>Маркер, который пользователи могут перетаскивать:</p>
 <p>Координаты маркера: <div id = "location">54.981, 82.891</div></p>
-<p><div id="map1" style="width: 100%; height: 400px; border: 1px solid #ccc;"></div></p>
+<p><div id="map1" style="width: 100%; height: 400px;"></div></p>
 <script type="text/javascript">
     var locationInfo = document.getElementById('location');
     DG.then(function () {
@@ -441,7 +441,7 @@
     &lt;body&gt;
         &lt;input id=&quot;hide&quot; type=&quot;button&quot; value=&quot;hide markers&quot; /&gt;
         &lt;input id=&quot;show&quot; type=&quot;button&quot; value=&quot;show markers&quot; /&gt;
-        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px; border: 1px solid #ccc;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
         &lt;script&gt;
         DG.then(function() {
             var map,
