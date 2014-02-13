@@ -1,38 +1,33 @@
 var through = require('through2'),
-	svgToPng = require('svg2png'),
-	path = require('path'),
-	mkdirp = require('mkdirp'),
-	gutil = require('gulp-util');
+    svgToPng = require('svg2png'),
+    gutil = require('gulp-util'),
+    PluginError = gutil.PluginError;
+
+const PLUGIN_NAME = 'gulp-svg2png';
 
 module.exports = function (opt) {
-	'use strict';
+    'use strict';
 
-	opt = opt || {};
-	opt.suffix = opt.suffix || '';
-	opt.scale = opt.scale || 1;
+    opt = opt || {};
+    opt.scale = opt.scale || 1;
+    opt.format = opt.format || 'png';
 
-	function svg2png(file, enc, callback) {
-		var that = this;
+    function svg2png(file, enc, callback) {
+        var that = this;
 
-		// Do nothing if no contents
-		if (file.isNull()) return callback();
+        // Do nothing if no contents
+        if (file.isNull()) { return callback(); }
 
-		if (file.isBuffer()) {
+        if (file.isBuffer()) {
+            svgToPng(file.path, opt.format, opt.scale, function (err, data) {
+                if (err) { throw new PluginError(PLUGIN_NAME, 'Error occured during file convertation'); }
 
-			var relative = '/../png/',
-				dest = path.normalize(path.dirname(file.path) + relative),
-				fileName = path.basename(file.path).replace('.svg', opt.suffix + '.png');
-
-			mkdirp(dest, function (err) {
-                if (err) { return self.emit('error', new PluginError('gulp-svg2png', 'Can`t create dest folder')); }
-                svgToPng(file.path, dest + fileName, opt.scale, function (err) {
-					if (err) new gutil.PluginError('gulp-svg2png', 'Error occured during file convertion');
-					that.push(file);
-					return callback();
-				});
+                file.contents = data;
+                that.push(file);
+                return callback();
             });
-		}
-	}
+        }
+    }
 
-	return through.obj(svg2png);
+    return through.obj(svg2png);
 };
