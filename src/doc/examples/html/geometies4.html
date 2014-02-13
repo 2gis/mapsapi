@@ -2,7 +2,7 @@
 <html>
 	<head>
 	    <meta charset='utf-8' />
-	    <title>Открытие балуна при клике на маркер</title>
+	    <title>Отобрачения круга и круга-маркера</title>
 	    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
 	    data-id="dgLoader"></script>
 	</head>
@@ -13,14 +13,10 @@
 				var map;
 		     	map = DG.map('map', {
 		            center: [54.98, 82.89],
-		            zoom: 13
+		            zoom: 14
 		    	});
-			    var myPopUp = DG.popup()
-			    	.setLatLng([54.98, 82.89])
-					.setContent('Привет, я балун!');
-		    	DG.marker([54.98, 82.89])
-					.on('click', function () { myPopUp.openOn(map); })
-					.addTo(map);
+				DG.circle([54.98, 82.89], 200, {color: "red"}).addTo(map);
+				DG.circleMarker([54.985, 82.89]).setRadius(100).addTo(map);
 			})
 		</script>
 	</body>
