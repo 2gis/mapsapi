@@ -7,6 +7,7 @@ var fs = require('fs'),
     extend = require('extend'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
+    dust = require('dustjs-linkedin'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     //Global data stores
@@ -158,7 +159,7 @@ function setTemplates(moduleName) { //(string)->Object
                 tmplName = path.basename(srcPath, tmplConf.ext),
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
-                (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
+            tmpl[tmplName] = dust.compile(tmplContent, tmplName);
         });
 
         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
@@ -320,6 +321,8 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
     if (isMsg) {
         console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
     }
+
+    result += params.isDebug ? config.js.dustdebug : '';
 
     return getCopyrightsData() + config.js.intro + result + config.js.outro;
 }

@@ -1,0 +1,21 @@
+<div class="dg-popup-header-title dg-popup-header-title__firmcard" title="{firmName}">{firmName}</div>
+
+{?links}
+    <div class="popup_header_links">
+        {#links}
+            {@eq key="{name}" value="flamp_stars" type="string"}
+                <div id="popup-link-{name}" class="popup-link">
+                    <div{#width} style="width: {.} %;" {/width}></div>
+                </div>
+            {:else}
+                <a id="popup-link-{name}" class="popup-header-link popup-link"
+                    {?href}
+                        href={href} target="_blank"
+                    {:else}
+                        href="javascript:void(0)"
+                    {/href}
+                    >{label}</a>
+            {/eq}
+        {/links}
+    </div>
+{/links}

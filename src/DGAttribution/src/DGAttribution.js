@@ -39,7 +39,7 @@ DG.Control.Attribution.include({
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
     },
     /* global __DGAttribution_TMPL__ */
-    _tmpl: __DGAttribution_TMPL__,
+    _tmpl: DG.dust(__DGAttribution_TMPL__),
     _onAdd: DG.Control.Attribution.prototype.onAdd,
     _getData: function (lang) {
         return {
@@ -54,7 +54,7 @@ DG.Control.Attribution.include({
         };
     },
     _getAttributionHTML: function (lang) {
-        return DG.template(this._tmpl.copyright, this._getData(lang));
+        return this._tmpl('copyright', this._getData(lang));
     },
     _renderTranslation: function (e) {
         this._update(e.lang);

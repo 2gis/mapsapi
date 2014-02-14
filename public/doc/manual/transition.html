@@ -1,0 +1,67 @@
+<h2 id="руководство-по-переходу-на-api-20">Руководство по переходу на API 2.0</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#подключение-апи">Подключение АПИ</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Документ описывает разницу между первым и вторым АПИ на основных примерах его использования.</p>
+<h3 id="подключение-апи">Подключение АПИ</h3><p><code><html>
+                    <head>
+                        <title>Моя карта</title></p>
+<pre><code>                    &lt;script type=&quot;text/javascript&quot;&gt;
+                        // Создаем обработчик загрузки страницы:
+                        DG.autoload(function() {
+                            //...
+                        });
+                    &lt;/script&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    &lt;div id=&quot;myMapId&quot; style=&quot;width:500px; height:400px&quot;&gt;&lt;/div&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+            &lt;/code&gt;
+</code></pre><table>
+    <thead>
+        <tr>
+            <th>Версия 1.0</th>
+            <th>Версия 2.0</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                    <html>
+                    <head>
+                        <title>Моя карта</title>
+                        <script type="text/javascript" src="http://maps.api.2gis.ru/1.0"></script>
+                        <script type="text/javascript">
+                            // Создаем обработчик загрузки страницы:
+                            DG.autoload(function() {
+                                //...
+                            });
+                        </script>
+                    </head>
+                    <body>
+                        <div id="myMapId" style="width:500px; height:400px"></div>
+                    </body>
+                    </html>
+
+            </td>
+            <td>
+
+                    <html>
+                        <head>
+                            <meta charset=utf-8 />
+                            <title>API карт 2ГИС</title>
+                            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&skin=dark" data-id="dgLoader"></script>
+                            <script type="text/javascript">
+                                DG.then(function () {
+                                    //...
+                                });
+                            </script>
+                        </head>
+                        <body>
+                            <div id="map" style="width:500px; height:400px"></div><br>                        </body>
+                    </html>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+

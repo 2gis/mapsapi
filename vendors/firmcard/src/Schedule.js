@@ -375,7 +375,7 @@ FirmCard.Schedule.prototype = {
                             out.dayList.pop();
                         }
 
-                        out.dayList[out.dayList.length - 1] += '&ndash;' + lastDay;
+                        out.dayList[out.dayList.length - 1] += '–' + lastDay;
                     }
 
                     flow = 0;
