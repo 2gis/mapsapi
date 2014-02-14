@@ -9,7 +9,7 @@ DG.Entrance.EventHandler = DG.Handler.extend({
 
         this._map.on({
             'layeradd': this._removeEntrance,
-            'zoomend': this._showOrHideEntrance
+            'zoomend projectleave': this._showOrHideEntrance
         }, this);
 
         if (DG.Browser.ie) {
@@ -47,8 +47,8 @@ DG.Entrance.EventHandler = DG.Handler.extend({
 
     remove: function () {
         this._map.off({
-            'zoomend': this._showOrHideEntrance,
-            'layeradd': this._removeEntrance
+            'layeradd': this._removeEntrance,
+            'zoomend projectleave': this._showOrHideEntrance
         }, this);
 
         if (DG.Browser.ie) {
