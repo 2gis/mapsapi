@@ -32,6 +32,9 @@
         _popupShowClass: 'leaflet-popup_show_true',
         _popupHideClass: 'leaflet-popup_show_false',
 
+        _popupTipClass: 'leaflet-popup-tip-container',
+        _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
+
         initialize: function (options, sourse) { // (Object, Object)
             this._popupStructure = {};
             originalInitialize.call(this, options, sourse);
@@ -44,6 +47,7 @@
         },
 
         onRemove: function (map) { // (Map)
+            this._animateClosing();
             map.off('entranceshow', this._closePopup, this);
             return originalOnRemove.call(this, map);
         },
@@ -116,6 +120,10 @@
             return (o.nodeName ? true : false);
         },
 
+        _createNSElement: function (name) {
+            return document.createElementNS(DG.Path.SVG_NS, name);
+        },
+
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
@@ -123,8 +131,24 @@
                 this._innerContainer.appendChild(this._detachEl(this._closeButton));
             }
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
-            this._innerContainer.appendChild(this._detachEl(this._tipContainer));
-            DG.DomEvent.disableClickPropagation(this._tipContainer);
+            var tip = this._detachEl(this._tipContainer);
+            if (DG.Browser.svg) {
+                var path = this._createNSElement('path');
+                var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg';
+
+                path.setAttribute('d', this._tipSVGPath);
+
+                tip = this._createNSElement('svg'),
+                tip.setAttribute('class', svgClass);
+
+                tip.appendChild(path);
+                DG.DomEvent.disableClickPropagation(path);
+            } else {
+                DG.DomUtil.addClass(tip, this._popupTipClass + '_image');
+                DG.DomEvent.disableClickPropagation(tip);
+            }
+
+            this._innerContainer.appendChild(tip);
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
@@ -287,7 +311,6 @@
             this._container.style.visibility = 'hidden';
 
             this._clearNode(this._contentNode);
-            this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
             if (this._headerContent) {
@@ -352,7 +375,6 @@
             width = Math.max(width, this.options.minWidth);
 
             wrapperStyle.width = width + 'px';
-            wrapperStyle.opacity = 1;
 
             this._containerWidth = this._container.offsetWidth;
         },

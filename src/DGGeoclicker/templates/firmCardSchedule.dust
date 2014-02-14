@@ -19,7 +19,7 @@
         {#forecast.now}
             <div class="schedule__now">
                 {!Вывод строки прогноза, например "откроется завтра" или "закроется через 15 минут" !}
-                <span class="schedule__now-text">{.}</span>
+                <span class="schedule__now-text">{.}{#schedule.comment},{~s}{.}{/schedule.comment}</span>
             </div>
         {/forecast.now}
 

@@ -2,6 +2,7 @@
 .leaflet-popup-inner {
     opacity: .95;
 }
+
 .leaflet-popup-content-wrapper {
     color: #000;
     background-color: #fff;
@@ -9,13 +10,16 @@
     border: 1px solid rgba(151,151,151,.6);
 }
 
-.leaflet-popup-tip-container {
+.leaflet-popup-tip-container_image {
     background-image: url(__BASE_URL__/img/callout-tail-white.png);
-    width: 58px;
-    height: 47px;
-    margin-top: -1px;
 }
 
+.leaflet-popup-tip-container_svg {
+    fill: #fff;
+    stroke: #bebdb5;
+    stroke-dasharray: 0,10,100,60;
+    margin-top: -2px;
+}
 a.popup-link,
 .firm-card__link a {
     color: #005b8f;
