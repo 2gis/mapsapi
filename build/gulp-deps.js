@@ -46,6 +46,8 @@ var init = function (config) {
     }
 
     return {
+        getModulesList: getModulesList,
+
         getJSFiles: function (options) {
             options = options || {};
 

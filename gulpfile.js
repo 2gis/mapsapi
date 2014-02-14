@@ -68,9 +68,7 @@ gulp.task('build-assets', function () {
         gulp.src('./src/**/fonts/**/*.*')
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./public/fonts/')),
-        gulp.src('./src/**/img/*.*')
-            .pipe(tasks.flatten())
-            .pipe(gulp.dest('./public/img/')),
+
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
@@ -101,14 +99,24 @@ gulp.task('svg2png', ['clean-png'], function () {
 });
 
 gulp.task('sprite', ['svg2png'], function () {
-    return gulp.src('./src/**/png/*.png')
-        .pipe(tasks.spritesmith({
-            cssTemplate: 'build/sprite_tmpl.mustache',
-            destImg: 'public/img/sprite.png',
-            destCSS: 'private/styl/sprite.styl',
-            groupBy: 'skin',
-            imgPath: '../img/sprite.png'
-        }));
+    return es.concat(
+            gulp.src('./src/**/png/*.png')
+                .pipe(tasks.spritesmith({
+                    cssTemplate: 'build/sprite_tmpl.mustache',
+                    destImg: 'public/img/sprite.png',
+                    destCSS: 'private/styl/sprite.styl',
+                    groupBy: 'skin',
+                    imgPath: '../img/sprite.png'
+                })),
+           gulp.src('./src/**/png/*2x.png')
+                .pipe(tasks.spritesmith({
+                    cssTemplate: 'build/sprite_tmpl.mustache',
+                    destImg: 'public/img/sprite-2x.png',
+                    destCSS: 'private/styl/sprite-2x.styl',
+                    groupBy: 'skin',
+                    imgPath: '../img/sprite-2x.png'
+                }))
+    );
 });
 
 gulp.task('lint', function () {
@@ -183,6 +191,7 @@ function bldJs(opt) {
                .pipe(tasks.concat('script.js'))
                .pipe(tasks.frep(config.cfgParams))
                .pipe(tasks.header(config.js.intro))
+               .pipe(opt.isDebug ? tasks.footer(config.js.dustdebug) : tasks.util.noop())
                .pipe(tasks.footer(config.js.outro))
                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()))
                .pipe(tasks.header(config.copyright));
@@ -193,13 +202,14 @@ function bldCss(opt) {
     opt = opt || {};
     var basicSprite = './private/styl/sprite.basic.styl',
         skinSprite = './private/styl/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
+        skinSpriteX = './private/styl/sprite-2x.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         cssList = deps.getCSSFiles(opt);
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
     return  gulp.src(cssList)
                 .pipe(tasks.frep(config.cfgParams))
                 .pipe(tasks.stylus({
-                    import: [basicSprite, skinSprite, 'private/styl/mixin.styl'],
+                    import: [basicSprite, skinSprite, skinSpriteX, 'private/styl/mixin.styl'],
                     define: {
                         'imageType': opt.sprite ? 'png' : 'svg'
                     }

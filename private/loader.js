@@ -44,7 +44,7 @@
         var mobile = typeof orientation !== undefined,
             svg = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
         console.log(mobile, !svg);
-        return (mobile && !svg) ? 'sprite=true&' : '';
+        return  'sprite=true&';
     }
 
     function getParams() {
