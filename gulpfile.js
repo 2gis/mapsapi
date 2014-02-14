@@ -10,7 +10,7 @@ var extend = require('extend'),
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
-tasks.svg2png = require('./build/gulp-svg2png');
+tasks.raster = require('./build/gulp-raster');
 
 
 //public CLI API
@@ -82,25 +82,22 @@ gulp.task('clean-png', function () {
     return gulp.src('./src/**/png', {read: false}).pipe(tasks.clean());
 });
 
-//refactor this horrible config
 gulp.task('svg2png', ['clean-png'], function () {
     return es.concat(
             gulp.src('./src/**/svg/**/*.svg')
-               .pipe(tasks.svg2png())
-               .pipe(tasks.rename(function (dir, base, ext) {
-                    dir += '/../png/';
-                    ext = '.png';
-                    return '/../png/' + base + ext;
+               .pipe(tasks.raster())
+               .pipe(tasks.rename(function (path) {
+                    path.dirname += '/../png/';
+                    path.extname = '.png';
                 }))
-               .pipe(gulp.dest('./src')),
+               .pipe(gulp.dest('./dist')),
             gulp.src('./src/**/svg/**/*.svg')
-               .pipe(tasks.svg2png({scale: 2}))
-               .pipe(tasks.rename(function (dir, base, ext) {
-                    dir += '/../png/';
-                    ext = '-2x.png';
-                    return '/../png/' + base + ext;
+               .pipe(tasks.raster({scale: 2}))
+               .pipe(tasks.rename(function (path) {
+                    path.dirname += '/../png/';
+                    path.extname = '-2x.png';
                 }))
-               .pipe(gulp.dest('./src'))
+               .pipe(gulp.dest('./dist'))
     );
 });
 

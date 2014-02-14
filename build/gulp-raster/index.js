@@ -1,9 +1,9 @@
 var through = require('through2'),
     gutil = require('gulp-util'),
-    raterize = require('./lib'),
+    rasterize = require('./lib'),
     PluginError = gutil.PluginError;
 
-const PLUGIN_NAME = 'gulp-svg2png';
+const PLUGIN_NAME = 'gulp-raster';
 
 module.exports = function (opt) {
     'use strict';
@@ -12,14 +12,14 @@ module.exports = function (opt) {
     opt.scale = opt.scale || 1;
     opt.format = opt.format || 'png';
 
-    function svg2png(file, enc, callback) {
+    function raster(file, enc, callback) {
         var that = this;
 
         // Do nothing if no contents
         if (file.isNull()) { return callback(); }
 
         if (file.isBuffer()) {
-            raterize(file.path, opt.format, opt.scale, function (err, data) {
+            rasterize(file.path, opt.format, opt.scale, function (err, data) {
                 if (err) { throw new PluginError(PLUGIN_NAME, 'Error occured during file convertation'); }
 
                 file.contents = data;
@@ -29,5 +29,5 @@ module.exports = function (opt) {
         }
     }
 
-    return through.obj(svg2png);
+    return through.obj(raster);
 };

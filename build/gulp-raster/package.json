@@ -1,12 +1,12 @@
 {
-  "name": "gulp-svg2png",
-  "version": "0.0.0",
+  "name": "gulp-raster",
+  "version": "0.0.1",
   "description": "A plugin for Gulp",
   "keywords": [
-    "gulpplugin"
+    "gulpplugin", "svg", "png", "convert", "rasterize"
   ],
-  "homepage": "https://github.com/Otouto/gulp-svg2png",
-  "bugs": "https://github.com/Otouto/gulp-svg2png/issues",
+  "homepage": "https://github.com/Otouto/gulp-raster",
+  "bugs": "https://github.com/Otouto/gulp-raster/issues",
   "author": {
     "name": "Dmitry Lutsik",
     "email": "otoyto@gmail.com",
@@ -15,7 +15,7 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/otouto/gulp-svg2png.git"
+    "url": "git://github.com/otouto/gulp-raster.git"
   },
   "scripts": {
     "test": "istanbul test _mocha --report html -- test/*.js --reporter spec",
@@ -31,7 +31,6 @@
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
     "istanbul": "*",
-    "event-stream": "*",
     "should": "~2.1.0"
   },
   "engines": {
