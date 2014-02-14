@@ -65,38 +65,36 @@ DG.ProjectDetector = DG.Handler.extend({
         }
     },
 
+    _processProjectList: function (data) {
+        var projectsList = data.result.data,
+            verts, path;
+        if (!data.result || !DG.Util.isArray(projectsList)) { return; }
+
+        projectsList.forEach(function (project) {
+            verts = this._wkt.read(project.bound);
+            path = this._wkt.toObject(verts);
+
+            project.LatLngBounds = path.getBounds();
+        }, this);
+
+        this.projectsList = projectsList;
+        this._searchProject();
+    },
+
     _loadProjectList: function () {
         var options = this.options,
-            self = this,
-            type = 'get',
-            promise;
+            type = 'get';
 
         if (!DG.ajax.corsSupport) {
             type = options.data.output = 'jsonp';
         }
 
-        promise = DG.ajax(options.url, {
+        return DG.ajax(options.url, {
             type: type,
             data: options.data,
 
-            success: function (data) {
-                var projectsList = data.result.data,
-                    verts, path;
-                if (!data.result || !DG.Util.isArray(projectsList)) { return; }
-
-                projectsList.forEach(function (project) {
-                    verts = self._wkt.read(project.bound);
-                    path = self._wkt.toObject(verts);
-
-                    project.LatLngBounds = path.getBounds();
-                });
-
-                self.projectsList = projectsList;
-                self._searchProject();
-            }
+            success: this._processProjectList.bind(this)
         });
-
-        return promise;
     },
 
     _searchProject: function () {
@@ -104,7 +102,7 @@ DG.ProjectDetector = DG.Handler.extend({
             this.projectsList.some(function (project) {
                 if (this._boundInProject(project) && this._zoomInProject(project)) {
                     this.project = project;
-                    this._map.fire('projectchange', {'getProject': DG.Util.bind(this.getProject, this)});
+                    this._map.fire('projectchange', {'getProject': this.getProject.bind(this)});
 
                     return true;
                 }

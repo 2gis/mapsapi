@@ -105,6 +105,10 @@ DG.Map.include({
         e.type === 'layeradd' ? this._tln++ : this._tln--;
     },
 
+    _updateZoomOnLoad: function (e) {
+        this._resctrictZoom(e.getProject().LatLngBounds);
+    },
+
     _resctrictZoom: function (coords) {
         if (this._layers &&
             this.projectDetector.enabled() &&
