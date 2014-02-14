@@ -255,6 +255,8 @@ if (!Function.prototype.bind) {
     fBound.prototype = new fNOP();
 
     return fBound;
+  };
+}
 
 //From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf?redirectlocale=en-US&redirectslug=JavaScript%2FReference%2FGlobal_Objects%2FArray%2FindexOf
 if (!Array.prototype.indexOf) {
