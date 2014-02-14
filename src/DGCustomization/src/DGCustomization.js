@@ -137,4 +137,5 @@ DG.Map.include({
 
 DG.Map.addInitHook(function () {
     this.on('layeradd layerremove', this._updateTln);
+    this.once('projectchange', this._updateZoomOnLoad);
 });
