@@ -57,6 +57,10 @@ DG.Map.include({
         center = this._limitCenter(DG.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
 
+        if (options.animate) {
+            options.animate = this._testAnimation(center);
+        }
+
         if (this._panAnim) {
             this._panAnim.stop();
         }
@@ -95,6 +99,10 @@ DG.Map.include({
         }
 
         return map;
+    },
+
+    _testAnimation: function (coords) {//if we jump to other project - disable animation
+        return this.projectDetector.enabled() ? (this.projectDetector.getProject().code === this.projectDetector.isProjectHere(coords).code) : true;
     },
 
     _updateTln: function (e) {
