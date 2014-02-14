@@ -10,7 +10,6 @@ var extend = require('extend'),
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
-tasks.raster = require('./build/gulp-raster');
 
 
 //public CLI API
@@ -90,14 +89,14 @@ gulp.task('svg2png', ['clean-png'], function () {
                     path.dirname += '/../png/';
                     path.extname = '.png';
                 }))
-               .pipe(gulp.dest('./dist')),
+               .pipe(gulp.dest('./src')),
             gulp.src('./src/**/svg/**/*.svg')
                .pipe(tasks.raster({scale: 2}))
                .pipe(tasks.rename(function (path) {
                     path.dirname += '/../png/';
                     path.extname = '-2x.png';
                 }))
-               .pipe(gulp.dest('./dist'))
+               .pipe(gulp.dest('./src'))
     );
 });
 
