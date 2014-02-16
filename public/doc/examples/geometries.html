@@ -1,17 +1,10 @@
-<<<<<<< HEAD
-<h2 id="работа-с-геометриями">Работа с геометриями</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#отображение-ломаной">Отображение ломаной</a></li><li><a href="#отображение-прямоугольников">Отображение прямоугольников</a></li><li><a href="#отображение-многоугольников">Отображение многоугольников</a></li><li><a href="#отображение-круга-и-круглого-маркера">Отображение круга и круглого маркера</a></li><li><a href="#геометрии-с-подсказками-и-балунами">Геометрии с подсказками и балунами</a></li></ul></dl></p>
+<h2 id="работа-с-геометриями">Работа с геометриями</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#отображение-ломаной">Отображение ломаной</a></li><li><a href="#отображение-прямоугольников">Отображение прямоугольников</a></li><li><a href="#отображение-многоугольников">Отображение многоугольников</a></li><li><a href="#отображение-круга-и-круглого-маркера">Отображение круга и круглого маркера</a></li><li><a href="#геометрии-с-подсказками-и-балунами">Геометрии с подсказками и балунами</a></li><li><a href="#анимация-отрисовки-ломаной">Анимация отрисовки ломаной</a></li></ul></dl></p>
 <h3 id="описание">Описание</h3><p>Ниже приведены базовые примеры использования геометрических фигур. Для получения подробной информации о работе с геометриями воспользуйтесь разделом документации <a href="/doc/2.0/maps/manual/geometries">Геометрии</a>.</p>
 <h3 id="отображение-ломаной">Отображение ломаной</h3><script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
-=======
-<h2 id="работа-с-геометриями">Работа с геометриями</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#ломаная">Ломаная</a></li><li><a href="#прямоугольник">Прямоугольник</a></li><li><a href="#многоугольник">Многоугольник</a></li><li><a href="#отображение-круга-и-круга-маркера">Отображение круга и круга-маркера</a></li><li><a href="#геометрии-с-хинтоми-и-балунами">Геометрии с хинтоми и балунами</a></li><li><a href="#анимация-отрисовки-ломаной">Анимация отрисовки ломаной</a></li></ul></dl></p>
-<h3 id="описание">Описание</h3><p>Геометрии в АПИ карт позволяют создавать различные виды разметок и обозначений. Всевозможные виды геометрии представлены в статье. Для более подробной информации можно почитать раздел <a href="/doc/2.0/maps/manual/geometries">Геометрии</a>.</p>
-<h3 id="ломаная">Ломаная</h3><script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
 <div id="map" style="width: 100%; height: 500px;"></div>
 <script>
     DG.then(function() {
         var map;
-<<<<<<< HEAD
         map = DG.map('map', {
             center: [55.036446, 82.897983],
             zoom: 11
@@ -22,16 +15,6 @@
         // подстраиваем центр карты и масштаб так, чтобы ломаную было видно
         map.fitBounds(polyline.getBounds());
     });
-=======
-         map = DG.map('map', {
-            center: [55.01, 82.87],
-            zoom: 11
-        });
-        var coordinates = [[55.069288, 82.991367], [55.069288, 82.816615], [55.011648, 82.902103], [54.944714, 82.903152], [54.928935, 82.850967], [54.928541, 82.976280], [54.944517, 82.916541], [55.011704, 82.916885], [55.056508, 82.973514], [55.056508, 82.835498], [55.056705, 82.973857], [55.069288, 82.991367], [55.069288, 82.941928], [55.097193, 82.959094], [55.046282, 82.919956], [55.045692, 82.904163], [55.036446, 82.897983], [55.029756, 82.907596], [55.018932, 82.903819], [55.029362, 82.914119], [55.030543, 82.927165], [55.037823, 82.933345], [55.045101, 82.925105], [55.069681, 82.941928]];
-        // создаем красную ломаную из массива географических точек
-        var polyline = DG.polyline(coordinates, {color: 'blue'}).addTo(map);
-    })
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
 </script>
 
 <pre><code>&lt;!DOCTYPE html&gt;
@@ -47,7 +30,6 @@
         &lt;script&gt;
             DG.then(function() {
                 var map;
-<<<<<<< HEAD
                 map = DG.map(&#39;map&#39;, {
                     center: [55.036446, 82.897983],
                     zoom: 11
@@ -88,50 +70,13 @@
         // Подстройка границ карты
         map.fitBounds(rectangles.getBounds());
     });
-=======
-                 map = DG.map(&#39;map&#39;, {
-                    center: [55.01, 82.87],
-                    zoom: 11
-                });
-                var coordinates = [[55.069288, 82.991367], [55.069288, 82.816615], [55.011648, 82.902103], [54.944714, 82.903152], [54.928935, 82.850967], [54.928541, 82.976280], [54.944517, 82.916541], [55.011704, 82.916885], [55.056508, 82.973514], [55.056508, 82.835498], [55.056705, 82.973857], [55.069288, 82.991367], [55.069288, 82.941928], [55.097193, 82.959094], [55.046282, 82.919956], [55.045692, 82.904163], [55.036446, 82.897983], [55.029756, 82.907596], [55.018932, 82.903819], [55.029362, 82.914119], [55.030543, 82.927165], [55.037823, 82.933345], [55.045101, 82.925105], [55.069681, 82.941928]];
-                // создаем зеленую ломаную из массива географических точек
-                var polyline = DG.polyline(coordinates, {color: &#39;green&#39;}).addTo(map);
-            })
-        &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h3 id="прямоугольник">Прямоугольник</h3><p><div id="map1" style="width: 100%; height: 400px;"></div></p>
-<script>
-    DG.then(function() {
-        var map;
-         map = DG.map('map1', {
-            center: [54.98, 82.89],
-            zoom: 14
-        });
-        var bounds1 = [[54.98, 82.87], [54.975, 82.91]],
-        bounds2 = [[54.985, 82.87], [54.982, 82.91]],
-        bounds3 = [[54.99, 82.87], [54.987, 82.91]],
-        rectangles = DG.featureGroup();
-
-        DG.rectangle(bounds1, {color: "blue"}).addTo(rectangles);
-        DG.rectangle(bounds2, {color: "red"}).addTo(rectangles);
-        DG.rectangle(bounds3, {color: "green"}).addTo(rectangles);
-
-        rectangles.addTo(map);
-        map.fitBounds(rectangles.getBounds());
-    })
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
 </script>
 
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&#39;utf-8&#39; /&gt;
-<<<<<<< HEAD
         &lt;title&gt;Отображение прямоугольников&lt;/title&gt;
-=======
-        &lt;title&gt;Несколько прямоугольников разного цвета&lt;/title&gt;
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
         &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
         data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
     &lt;/head&gt;
@@ -139,7 +84,6 @@
         &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
         &lt;script&gt;
             DG.then(function() {
-<<<<<<< HEAD
                 var map,
                     coords1 = [[54.98, 82.87], [54.975, 82.91]],
                     coords2 = [[54.985, 82.87], [54.982, 82.91]],
@@ -199,59 +143,13 @@
         polygons.addTo(map);
         map.fitBounds(polygons.getBounds());
     });
-=======
-                var map;
-                 map = DG.map(&#39;map&#39;, {
-                    center: [54.98, 82.89],
-                    zoom: 14
-                });
-                var bounds1 = [[54.98, 82.87], [54.975, 82.91]],
-                bounds2 = [[54.985, 82.87], [54.982, 82.91]],
-                bounds3 = [[54.99, 82.87], [54.987, 82.91]],
-                rectangles = DG.featureGroup();
-
-                DG.rectangle(bounds1, {color: &quot;blue&quot;}).addTo(rectangles);
-                DG.rectangle(bounds2, {color: &quot;red&quot;}).addTo(rectangles);
-                DG.rectangle(bounds3, {color: &quot;green&quot;}).addTo(rectangles);
-
-                rectangles.addTo(map);
-                map.fitBounds(rectangles.getBounds());
-            })
-        &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h3 id="многоугольник">Многоугольник</h3><p><div id="map2" style="width: 100%; height: 400px;"></div></p>
-<script>
-    DG.then(function() {
-        var map;
-         map = DG.map('map2', {
-            center: [54.98, 82.89],
-            zoom: 14
-        });
-        var bounds1 = [[54.98, 82.87], [54.975, 82.91], [54.974, 82.915], [54.971, 82.918], [54.970, 82.921]],
-        bounds2 = [[54.985, 82.875], [54.98, 82.96], [54.979, 82.92], [54.976, 82.923]],
-        bounds3 = [[54.99, 82.88], [54.985, 82.971], [54.984, 82.925], [54.981, 82.928], [54.980, 82.931]],
-        polygons = DG.featureGroup();
-
-        DG.polygon(bounds1, {color: "blue"}).addTo(polygons);
-        DG.polygon(bounds2, {color: "red"}).addTo(polygons);
-        DG.polygon(bounds3, {color: "green"}).addTo(polygons);
-
-        polygons.addTo(map);
-        map.fitBounds(polygons.getBounds());
-    })
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
 </script>
 
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&#39;utf-8&#39; /&gt;
-<<<<<<< HEAD
         &lt;title&gt;Отображение многоугольников&lt;/title&gt;
-=======
-        &lt;title&gt;Несколько многоугольников разного цвета&lt;/title&gt;
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
         &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
         data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
     &lt;/head&gt;
@@ -259,7 +157,6 @@
         &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
         &lt;script&gt;
             DG.then(function() {
-<<<<<<< HEAD
                 var map,
                     coords1 = [
                         [54.98, 82.87],
@@ -305,33 +202,6 @@
     DG.then(function() {
         var map;
         map = DG.map('map3', {
-=======
-                var map;
-                 map = DG.map(&#39;map&#39;, {
-                    center: [54.98, 82.89],
-                    zoom: 14
-                });
-                var bounds1 = [[54.98, 82.87], [54.975, 82.91], [54.974, 82.915], [54.971, 82.918], [54.970, 82.921]],
-                bounds2 = [[54.985, 82.875], [54.98, 82.96], [54.979, 82.92], [54.976, 82.923]],
-                bounds3 = [[54.99, 82.88], [54.985, 82.971], [54.984, 82.925], [54.981, 82.928], [54.980, 82.931]],
-                polygons = DG.featureGroup();
-
-                DG.polygon(bounds1, {color: &quot;blue&quot;}).addTo(polygons);
-                DG.polygon(bounds2, {color: &quot;red&quot;}).addTo(polygons);
-                DG.polygon(bounds3, {color: &quot;green&quot;}).addTo(polygons);
-
-                polygons.addTo(map);
-                map.fitBounds(polygons.getBounds());
-            })
-        &lt;/script&gt;
-    &lt;/body&gt;
-&lt;/html&gt;
-</code></pre><h3 id="отображение-круга-и-круга-маркера">Отображение круга и круга-маркера</h3><p><div id="map3" style="width: 100%; height: 400px;"></div></p>
-<script>
-    DG.then(function() {
-        var map;
-         map = DG.map('map3', {
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
             center: [54.98, 82.89],
             zoom: 14
         });
@@ -344,11 +214,7 @@
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&#39;utf-8&#39; /&gt;
-<<<<<<< HEAD
         &lt;title&gt;Отображение круга и круглого маркера&lt;/title&gt;
-=======
-        &lt;title&gt;Отобрачения круга и круга-маркера&lt;/title&gt;
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
         &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
         data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
     &lt;/head&gt;
@@ -357,11 +223,7 @@
         &lt;script&gt;
             DG.then(function() {
                 var map;
-<<<<<<< HEAD
                 map = DG.map(&#39;map&#39;, {
-=======
-                 map = DG.map(&#39;map&#39;, {
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
                     center: [54.98, 82.89],
                     zoom: 14
                 });
@@ -371,25 +233,16 @@
         &lt;/script&gt;
     &lt;/body&gt;
 &lt;/html&gt;
-<<<<<<< HEAD
 </code></pre><h3 id="геометрии-с-подсказками-и-балунами">Геометрии с подсказками и балунами</h3><p><div id="map4" style="width: 100%; height: 400px;"></div></p>
 <script>
     DG.then(function() {
         var map;
         map = DG.map('map4', {
-=======
-</code></pre><h3 id="геометрии-с-хинтоми-и-балунами">Геометрии с хинтоми и балунами</h3><p><div id="map4" style="width: 100%; height: 400px;"></div></p>
-<script>
-    DG.then(function() {
-        var map;
-         map = DG.map('map4', {
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
             center: [54.98, 82.89],
             zoom: 14
         });
         DG.circle([54.98, 82.87], 200, {color: "red"})
             .bindPopup('Я круг.')
-<<<<<<< HEAD
             .bindLabel('нажми на круг')
             .addTo(map);
         DG.circleMarker([54.985, 82.89])
@@ -410,35 +263,13 @@
             .bindLabel('Нажми на многоугольник')
             .addTo(map);
     });
-=======
-            .bindLabel('нажмина круг')
-            .addTo(map);
-        DG.circleMarker([54.985, 82.89])
-            .bindPopup('Я круг-маркер.')
-            .bindLabel('Нажми на круг-маркер')
-            .setRadius(100)
-            .addTo(map);
-        DG.rectangle([[54.98, 82.87], [54.975, 82.91]], {color: "green"})
-            .bindPopup('Я прямоугольник.')
-            .bindLabel('Нажми на прямоугольник')
-            .addTo(map);
-        DG.polygon([[54.985, 82.875], [54.98, 82.96], [54.979, 82.92]], {color: "yellow"})
-            .bindPopup('Я многоугольник.')
-            .bindLabel('Нажми на многоугольник')
-            .addTo(map);
-    })
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
 </script>
 
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&#39;utf-8&#39; /&gt;
-<<<<<<< HEAD
         &lt;title&gt;Геометрии с подсказками и балунами&lt;/title&gt;
-=======
-        &lt;title&gt;Геометрии с хинтами и балунами&lt;/title&gt;
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
         &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
         data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
     &lt;/head&gt;
@@ -447,16 +278,11 @@
         &lt;script&gt;
             DG.then(function() {
                 var map;
-<<<<<<< HEAD
                 map = DG.map(&#39;map&#39;, {
-=======
-                 map = DG.map(&#39;map&#39;, {
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
                     center: [54.98, 82.89],
                     zoom: 14
                 });
                 DG.circle([54.98, 82.87], 200, {color: &quot;red&quot;})
-<<<<<<< HEAD
                     .bindPopup(&#39;Я круг&#39;)
                     .bindLabel(&#39;Нажми на круг&#39;)
                     .addTo(map);
@@ -478,24 +304,6 @@
                     .bindLabel(&#39;Нажми на многоугольник&#39;)
                     .addTo(map);
             });
-=======
-                    .bindPopup(&#39;Я круг.&#39;)
-                    .bindLabel(&#39;нажмина круг&#39;)
-                    .addTo(map);
-                DG.circleMarker([54.985, 82.89])
-                    .bindPopup(&#39;Я круг-маркер.&#39;)
-                    .bindLabel(&#39;Нажми на круг-маркер&#39;)
-                    .setRadius(100)
-                    .addTo(map);
-                DG.rectangle([[54.98, 82.87], [54.975, 82.91]], {color: &quot;green&quot;})
-                    .bindPopup(&#39;Я прямоугольник.&#39;)
-                    .bindLabel(&#39;Нажми на прямоугольник&#39;)
-                    .addTo(map);
-                DG.polygon([[54.985, 82.875], [54.98, 82.96], [54.979, 82.92]], {color: &quot;yellow&quot;})
-                    .bindPopup(&#39;Я многоугольник.&#39;)
-                    .bindLabel(&#39;Нажми на многоугольник&#39;)
-                    .addTo(map);
-            })
         &lt;/script&gt;
     &lt;/body&gt;
 &lt;/html&gt;
@@ -540,7 +348,6 @@
                     if (++counter &lt; 1000) {window.setTimeout(draw, 10)};
                 })();
             })
->>>>>>> 346f480beef18391d83b15aee35905f2faed8a96
         &lt;/script&gt;
     &lt;/body&gt;
 &lt;/html&gt;
