@@ -88,7 +88,7 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Метки",
+                                "title": "Подсказки",
                                 "uri": "doc/2.0/maps/manual/label",
                                 "_src":"manual/label.md",
                                 "hide": false
