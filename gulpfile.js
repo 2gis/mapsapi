@@ -99,24 +99,16 @@ gulp.task('svg2png', ['clean-png'], function () {
 });
 
 gulp.task('sprite', ['svg2png'], function () {
-    return es.concat(
-            gulp.src('./src/**/png/*.png')
+    return  gulp.src('./src/**/png/*.png')
                 .pipe(tasks.spritesmith({
                     cssTemplate: 'build/sprite_tmpl.mustache',
-                    destImg: 'public/img/sprite.png',
-                    destCSS: 'private/styl/sprite.styl',
-                    groupBy: 'skin',
+                    imgName: 'sprite.png',
+                    cssName: 'sprite.styl',
+                    //groupBy: 'skin',
                     imgPath: '../img/sprite.png'
-                })),
-           gulp.src('./src/**/png/*2x.png')
-                .pipe(tasks.spritesmith({
-                    cssTemplate: 'build/sprite_tmpl.mustache',
-                    destImg: 'public/img/sprite-2x.png',
-                    destCSS: 'private/styl/sprite-2x.styl',
-                    groupBy: 'skin',
-                    imgPath: '../img/sprite-2x.png'
                 }))
-    );
+                .pipe(tasks.if('*.png', gulp.dest('./dist/img/')))
+                .pipe(tasks.if('*.styl', gulp.dest('./dist/css/')));
 });
 
 gulp.task('lint', function () {
