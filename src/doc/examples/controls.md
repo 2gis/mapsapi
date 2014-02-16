@@ -48,7 +48,7 @@
 		</body>
 	</html>
 
-### Отображение всех элементов управления в разных частях карты
+### Отображение элементов управления в разных частях карты
 
 <div id="map1" style="width: 100%; height: 400px;"></div>
 <script>
@@ -68,7 +68,7 @@
 	<html>
 		<head>
 		    <meta charset='utf-8' />
-		    <title>Отображение всех элементов управления в разных частях карты</title>
+		    <title>Отображение элементов управления в разных частях карты</title>
 		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
 		    data-id="dgLoader"></script>
 		</head>
