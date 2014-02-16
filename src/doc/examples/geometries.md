@@ -327,3 +327,50 @@
             </script>
         </body>
     </html>
+
+### Анимация отрисовки ломаной
+
+<div id="map5" style="width: 100%; height: 400px;"></div>
+<script>
+	DG.then(function() {
+		var map;
+     	map = DG.map('map5', {
+            center: [54.98, 82.94],
+            zoom: 13
+    	});
+		var polyline = DG.polyline([]).addTo(map),
+		counter = 0;
+		(function draw() {
+		    polyline.addLatLng([54.98, 82.89 + counter / 10000]);
+		    if (++counter < 1000) {window.setTimeout(draw, 10)} else {counter = 0; draw();};
+		})();
+	})
+</script>
+
+	<!DOCTYPE html>
+	<html>
+		<head>
+		    <meta charset='utf-8' />
+		    <title>Анимация геометрии</title>
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    data-id="dgLoader"></script>
+		</head>
+		<body>
+			<div id="map" style="width: 100%; height: 400px;"></div>
+			<script>
+				DG.then(function() {
+					var map;
+			     	map = DG.map('map', {
+			            center: [54.98, 82.94],
+			            zoom: 13
+			    	});
+					var polyline = DG.polyline([]).addTo(map),
+					counter = 0;
+					(function draw() {
+					    polyline.addLatLng([54.98, 82.89 + counter / 10000]);
+					    if (++counter < 1000) {window.setTimeout(draw, 10)};
+					})();
+				})
+			</script>
+		</body>
+	</html>
