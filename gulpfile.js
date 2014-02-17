@@ -152,7 +152,13 @@ gulp.task('doc', function () {
 
 
 gulp.task('build', function (cb) {
-    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
+    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], 'watch', cb);
+});
+
+//watchers
+gulp.task('watch', function () {
+    gulp.watch('./private/*.*', ['build-assets']);
+    gulp.watch('./src/**/svg/**/*.*', ['sprite']);
 });
 
 //service tasks
@@ -206,6 +212,7 @@ function bldCss(opt) {
     opt = opt || {};
     var basicSprite = './private/styl/sprite.basic.styl',
         skinSprite = './private/styl/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
+        basicSpriteX = './private/styl/sprite-2x.basic.styl',
         skinSpriteX = './private/styl/sprite-2x.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         cssList = deps.getCSSFiles(opt);
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
@@ -213,7 +220,7 @@ function bldCss(opt) {
     return  gulp.src(cssList)
                 .pipe(tasks.frep(config.cfgParams))
                 .pipe(tasks.stylus({
-                    import: [basicSprite, skinSprite, skinSpriteX, 'private/styl/mixin.styl'],
+                    import: [basicSprite, basicSpriteX, skinSprite, skinSpriteX, 'private/styl/mixin.styl'],
                     define: {
                         'imageType': opt.sprite ? 'png' : 'svg'
                     }
