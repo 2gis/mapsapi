@@ -78,7 +78,7 @@
                         "content": {
                             "ru": {
                                 "title": "Балуны",
-                                "uri": "doc/2.0/maps/manual/popup",
+                                "uri": "doc/2.0/maps/manual/popups",
                                 "_src":"manual/popup.md",
                                 "hide": false
                             }
@@ -387,8 +387,8 @@
                         "content": {
                             "ru": {
                                 "title": "Внешние модули",
-                                "uri": "doc/2.0/maps/examples/plugins",
-                                "_src":"examples/plugins.md",
+                                "uri": "doc/2.0/maps/examples/external-modules",
+                                "_src":"examples/external-modules.md",
                                 "hide": false
                             }
                         },

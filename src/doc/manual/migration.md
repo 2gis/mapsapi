@@ -222,7 +222,7 @@ map.markers.add(marker);
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/balloons/#balloon-intro">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/popup#описание">Версия 2.0</a></td>
+            <td><a href="/doc/2.0/maps/manual/popups#описание">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>

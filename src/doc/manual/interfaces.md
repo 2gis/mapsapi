@@ -37,7 +37,7 @@
 
 ### ILayer
 
-Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как [тайловые слои](/doc/2.0/maps/manual/layers#класс-dgtilelayer), [маркеры](/doc/2.0/maps/manual/markers#класс-dgmarker), [балуны](/doc/2.0/maps/manual/popup#описание), [слои](/doc/2.0/maps/manual/layers#описание), [векторные слои](/doc/2.0/maps/manual/geometries) и [группы](/doc/2.0/maps/manual/groups#класс-dglayergroup).
+Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как [тайловые слои](/doc/2.0/maps/manual/layers#класс-dgtilelayer), [маркеры](/doc/2.0/maps/manual/markers#класс-dgmarker), [балуны](/doc/2.0/maps/manual/popups#описание), [слои](/doc/2.0/maps/manual/layers#описание), [векторные слои](/doc/2.0/maps/manual/geometries) и [группы](/doc/2.0/maps/manual/groups#класс-dglayergroup).
 
 #### Методы
 

@@ -767,7 +767,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id="map-openpopup">
             <td><code><b>openPopup</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup">Popup</a>&gt; <i>popup</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups">Popup</a>&gt; <i>popup</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -777,14 +777,14 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code><b>openPopup</b>(
                 <nobr>&lt;String&gt; <i>html</i> </nobr> | <nobr>&lt;HTMLElement&gt; <i>el</i>,
                 <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Создает балун с переданными опциями и открывает его в определенной точке на карте.</td>
         </tr>
         <tr id="map-closepopup">
             <td><code><b>closePopup</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup">Popup</a>&gt; <i>popup?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups">Popup</a>&gt; <i>popup?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Закрывает балун, открытый с помощью <a href="#map-openpopup">openPopup</a>.</td>
