@@ -16,7 +16,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
     handle: function () { // (Object, String) -> Promise
         return DG.when({
-            tmpl: this._view.getTemplate('popupHeader'),
+            tmpl: 'popupHeader',
             data: {'title': this.t('We haven\'t collected info about this place')}
         });
     },

@@ -138,7 +138,7 @@ var deps = {
             all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
             ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
         },
-        deps: ['DGCore', 'DGTemplate', 'DGLocale']
+        deps: ['DGCore', 'DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -257,12 +257,16 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
+        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
-    DGTemplate: {
+    DGDust: {
         desc: '2GIS Template',
-        src: ['DGTemplate/src/DGTemplate.js']
+        src: [
+            '../vendors/dustjs/dist/dust-core.js',
+            '../vendors/dustjs-helpers/dist/dust-helpers-1.1.2.js',
+            'DGDust/src/DGDust.js'
+        ]
     },
 
     DGEntrance: {
