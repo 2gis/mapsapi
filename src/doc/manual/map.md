@@ -71,6 +71,18 @@ DG.Map &mdash; основной класс API, используется для 
             <td><code>null</code></td>
             <td>Слои, изначально добавленные на карту.</td>
         </tr>
+        <tr>
+            <td><code><b>minZoom</b></code></td>
+            <td><code>number</code></td>
+            <td><code>null</code></td>
+            <td>Минимальный уровень масштабируемости карты. Переопределяет свойство minZoom используемых тайлов.</td>
+        </tr>
+        <tr>
+            <td><code><b>maxZoom</b></code></td>
+            <td><code>number</code></td>
+            <td><code>null</code></td>
+            <td>Максимальный уровень масштабируемости карты. Переопределяет свойство maxZoom используемых тайлов.</td>
+        </tr>
         <tr id="map-maxbounds">
             <td><code><b>maxBounds</b></code></td>
             <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
