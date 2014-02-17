@@ -364,9 +364,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Асинхронные вызовы",
-                                "uri": "doc/2.0/maps/examples/async",
-                                "_src":"examples/async.md",
+                                "title": "Работа с API геоданных",
+                                "uri": "doc/2.0/maps/examples/geocoding",
+                                "_src":"examples/geocoding.md",
                                 "hide": false
                             }
                         },
