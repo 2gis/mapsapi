@@ -72,6 +72,11 @@ DG.Ruler = DG.Class.extend({
                 }
             }, this);
         }
+        // todo fake mousedown on fake div
+        L.DomEvent.addListener(this._pathRoot, 'mousedown', function (e) {
+            L.DomEvent.stop(e);
+            return false;
+        });
     },
 
     onRemove: function (map) { // (DG.Map)
@@ -179,6 +184,9 @@ DG.Ruler = DG.Class.extend({
         this._rulerPane.appendChild(this._pathRoot = this._map._pathRoot.cloneNode(false));
         this._map.on(this._pathRootEvents, this);
         DG.DomUtil.addClass(this._pathRoot, 'dg-ruler-pane__pathroot');
+        L.DomEvent.addListener(this._pathRoot, 'mousedown', function (e) {
+            L.DomEvent.stopPropagation(e);
+        });
     },
 
     _pathRootEvents: {
@@ -224,7 +232,8 @@ DG.Ruler = DG.Class.extend({
 
                 this._lineMarkerHelper = this._addRunningLabel(
                     this._interpolate(point.getLatLng(), this._points[point._pos + 1].getLatLng(), event.latlng),
-                    point);
+                    point
+                );
             }
         },
         mouseout : function (event) { // (MouseEvent)
@@ -282,19 +291,25 @@ DG.Ruler = DG.Class.extend({
             insertPos = event.target._point._pos + 1,
             point;
 
+        if (L.Browser.ie) {
+            var path = event.originalEvent.target,
+                g = path.parentNode;
+            g.appendChild(path); // IE click event leaking problem solution: we reappend mousedown event target element
+        }
+
         this.spliceLatLngs(insertPos, 0, latlng);
         point = this._points[insertPos];
         point.setText(this._getFormatedDistance(point));
 
         if (document.createEvent) {
             var e = document.createEvent('MouseEvents');
-            e.initMouseEvent('mousedown', true, true, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
+            e.initMouseEvent('mousedown', false, false, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
             point._icon.dispatchEvent(e);
         } else {
             point._icon.fireEvent('onMouseDown', DG.extend(document.createEventObject(), {
                 button: 1,
-                bubbles: true,
-                cancelable: true
+                bubbles: false,
+                cancelable: false
             }));
         }
         this._removeRunningLabel();

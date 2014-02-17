@@ -47,7 +47,6 @@
     width:10px;
     height:10px;
     margin: 2px 4px 0 0;
-    float:left;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -59,7 +58,7 @@
 
 .dg-ruler-label__container {
     display: none;
-    padding: 2px 16px 2px 4px;
+    padding: 2px 4px;
     font: 12px/14px Arial, sans-serif;
     white-space: nowrap;
     color: #fff;
