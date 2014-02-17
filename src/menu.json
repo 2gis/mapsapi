@@ -408,6 +408,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Внешние модули",
+                                "uri": "doc/2.0/maps/examples/plugins",
+                                "_src":"examples/plugins.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null                        
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "Популярные кейсы",
                                 "uri": "doc/2.0/maps/examples/popular",
                                 "_src":"examples/popular.md",
