@@ -99,16 +99,28 @@ gulp.task('svg2png', ['clean-png'], function () {
 });
 
 gulp.task('sprite', ['svg2png'], function () {
-    return  gulp.src('./src/**/png/*.png')
-                .pipe(tasks.spritesmith({
-                    cssTemplate: 'build/sprite_tmpl.mustache',
-                    imgName: 'sprite.png',
-                    cssName: 'sprite.styl',
-                    //groupBy: 'skin',
-                    imgPath: '../img/sprite.png'
-                }))
-                .pipe(tasks.if('*.png', gulp.dest('./dist/img/')))
-                .pipe(tasks.if('*.styl', gulp.dest('./dist/css/')));
+    return es.concat(
+        gulp.src(['./src/**/png/*.png', '!./src/**/png/*2x.png'])
+            .pipe(tasks.spritesmith({
+                styleTemplate: 'build/sprite_tmpl.mustache',
+                imgName: 'sprite.png',
+                styleName: 'sprite.styl',
+                groupBy: 'skin',
+                imgPath: '../img/sprite.png'
+            }))
+            .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
+            .pipe(tasks.if('*.styl', gulp.dest('./private/styl/'))),
+        gulp.src('./src/**/png/*2x.png')
+            .pipe(tasks.spritesmith({
+                styleTemplate: 'build/sprite_tmpl.mustache',
+                imgName: 'sprite-2x.png',
+                styleName: 'sprite-2x.styl',
+                groupBy: 'skin',
+                imgPath: '../img/sprite-2x.png'
+            }))
+            .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
+            .pipe(tasks.if('*.styl', gulp.dest('./private/styl/')))
+    );
 });
 
 gulp.task('lint', function () {
