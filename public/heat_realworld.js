@@ -1,6 +1,6 @@
 //An extract of address points from the LINZ bulk extract: http://www.linz.govt.nz/survey-titles/landonline-data/landonline-bde
 //Should be this data set: http://data.linz.govt.nz/#/layer/779-nz-street-address-electoral/
-var addressPoints = [
+var addressPoints1 = [
 [54.8839, 82.3745188667, "571"],
 [54.8869090667, 82.3657417333, "486"],
 [54.8894207167, 82.4015351167, "807"],

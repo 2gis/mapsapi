@@ -8,7 +8,7 @@
 
 ### Использование внешнего модуля кластеризатора
 
-Кластеризатор часто используется для отображения большого количества маркеров. В примере продемонстрированно подключение и использование внешнего модуля.
+Кластеризатор часто используется для отображения большого количества маркеров. В примере продемонстрированы подключение и использование внешнего модуля.
 
 <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
 data-id="dgLoader"></script>
@@ -79,21 +79,21 @@ data-id="dgLoader"></script>
 
 ### Использование внешнего модуля тепловой карты
 
-Это внешний модуль который может быть использован как для отображения температуры на карте местности, так и для демонстрации любой интенсивноти на карте, например количество написанных твитов по тегу.
+Это внешний модуль, который может быть использован как для отображения температуры на карте местности, так и для демонстрации любой другой "интенсивности на карте, например количество написанных твитов по тегу.
 Пример подключения и использования ниже.
 
 <script src="http://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
-<div id="map" style="width: 100%; height: 400px;"></div>
+<div id="map1" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
         // загрузка кода модуля
         return DG.plugin('http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js');
     }).then(function() {
-        map = DG.map('map', {
+        map = DG.map('map1', {
             center: DG.latLng(54.89, 82.45),
             zoom: 10
         });
-        DG.heatLayer(addressPoints).addTo(map);
+        DG.heatLayer(addressPoints1).addTo(map);
     });
 </script>
 
@@ -117,7 +117,7 @@ data-id="dgLoader"></script>
                         center: DG.latLng(54.89, 82.45),
                         zoom: 10
                     });
-                    DG.heatLayer(addressPoints).addTo(map);
+                    DG.heatLayer(addressPoints1).addTo(map);
                 });
             </script>
         </body>
