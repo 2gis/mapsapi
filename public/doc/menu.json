@@ -381,6 +381,17 @@
                                 "hide": false
                             }
                         },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Внешние модули",
+                                "uri": "doc/2.0/maps/examples/plugins",
+                                "_src":"examples/plugins.md",
+                                "hide": false
+                            }
+                        },
                         "children": null                        
                     }
                 ]
