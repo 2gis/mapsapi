@@ -147,7 +147,7 @@
 
         map = DG.map('map2', {
             center: [54.98, 82.89],
-            zoom: 14
+            zoom: 13
         });
 
         DG.polygon(coords1, {color: "blue"}).addTo(polygons);
@@ -196,7 +196,7 @@
 
                     map = DG.map('map', {
                         center: [54.98, 82.89],
-                        zoom: 14
+                        zoom: 13
                     });
 
                     // Добавление многоугольников в группу
