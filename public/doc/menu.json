@@ -342,28 +342,6 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Работа с группами",
-                                "uri": "doc/2.0/maps/examples/groups",
-                                "_src":"examples/groups.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "Работа со слоями",
-                                "uri": "doc/2.0/maps/examples/layers",
-                                "_src":"examples/layers.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
                                 "title": "Работа с API геоданных",
                                 "uri": "doc/2.0/maps/examples/geocoding",
                                 "_src":"examples/geocoding.md",
@@ -400,17 +378,6 @@
                                 "title": "Обработка событий",
                                 "uri": "doc/2.0/maps/examples/events",
                                 "_src":"examples/events.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null                        
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "Популярные кейсы",
-                                "uri": "doc/2.0/maps/examples/popular",
-                                "_src":"examples/popular.md",
                                 "hide": false
                             }
                         },
