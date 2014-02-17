@@ -1,21 +1,16 @@
-<h2 id="работа-с-балунами">Работа с балунами</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#открытие-балуна-при-клике-на-маркер">Открытие балуна при клике на маркер</a></li><li><a href="#открытие-балуна-по-умолчанию-+-при-клике-по-кнопке">Открытие балуна по умолчанию + при клике по кнопке</a></li><li><a href="#добавление-нескольких-балунов-на-карту">Добавление нескольких балунов на карту</a></li></ul></dl></p>
-<h3 id="описание">Описание</h3><p>Для отображение нужной информации на карте часто используются балуны, примеры их использования приведены в этом разделе.  Для подбробной информации необходимо перейти на пукнт <a href="/doc/2.0/maps/manual/popup">Балуны</a>.</p>
+<h2 id="работа-с-балунами">Работа с балунами</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#открытие-балуна-при-клике-на-маркер">Открытие балуна при клике на маркер</a></li><li><a href="#открытие-балуна-по-умолчанию-и-по-требованию">Открытие балуна по умолчанию и по требованию</a></li><li><a href="#добавление-нескольких-балунов-на-карту">Добавление нескольких балунов на карту</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведены примеры использования балунов. Для получения подробной информации перейдите в раздел документации <a href="/doc/2.0/maps/manual/popup">Балуны</a>.</p>
 <h3 id="открытие-балуна-при-клике-на-маркер">Открытие балуна при клике на маркер</h3><script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
-    DG.then(function() {
+    DG.then(function () {
         var map;
-         map = DG.map('map', {
+        map = DG.map('map', {
             center: [54.98, 82.89],
-            zoom: 13
+            zoom: 15
         });
-        var myPopUp = DG.popup()
-            .setLatLng([54.98, 82.89])
-            .setContent('Привет, я балун!');
-        DG.marker([54.98, 82.89])
-            .on('click', function () { myPopUp.openOn(map); })
-            .addTo(map);
-    })
+        DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я балун!');
+    });
 </script>
 
 <pre><code>&lt;!DOCTYPE html&gt;
@@ -31,21 +26,16 @@
         &lt;script&gt;
             DG.then(function() {
                 var map;
-                 map = DG.map(&#39;map&#39;, {
+                map = DG.map(&#39;map&#39;, {
                     center: [54.98, 82.89],
-                    zoom: 13
+                    zoom: 15
                 });
-                var myPopUp = DG.popup()
-                    .setLatLng([54.98, 82.89])
-                    .setContent(&#39;Привет, я балун!&#39;);
-                DG.marker([54.98, 82.89])
-                    .on(&#39;click&#39;, function () { myPopUp.openOn(map); })
-                    .addTo(map);
-            })
+                DG.marker([54.98, 82.89]).addTo(map).bindPopup(&#39;Я балун!&#39;);
+            });
         &lt;/script&gt;
     &lt;/body&gt;
 &lt;/html&gt;
-</code></pre><h3 id="открытие-балуна-по-умолчанию-+-при-клике-по-кнопке">Открытие балуна по умолчанию + при клике по кнопке</h3><p><input id="showPopup" type="button" value="Открыть балун" /></p>
+</code></pre><h3 id="открытие-балуна-по-умолчанию-и-по-требованию">Открытие балуна по умолчанию и по требованию</h3><p><input id="showPopup" type="button" value="Открыть балун" /></p>
 <p><div id="map1" style="width: 100%; height: 400px;"></div></p>
 <script>
     var showButton = document.getElementById('showPopup');
@@ -70,7 +60,7 @@
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&#39;utf-8&#39; /&gt;
-        &lt;title&gt;Открытие балуна по умолчанию + при клике по кнопке&lt;/title&gt;
+        &lt;title&gt;Открытие балуна по умолчанию и по требованию&lt;/title&gt;
         &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
         data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
     &lt;/head&gt;
