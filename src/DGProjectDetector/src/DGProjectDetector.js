@@ -12,8 +12,7 @@ DG.ProjectDetector = DG.Handler.extend({
     initialize: function (map) { // (Object)
         this._map = map;
         this.project = null;
-        this.projectsList = null;
-        this._wkt = new DG.Wkt();
+        // this._wkt = new DG.Wkt();
         this._loadProjectList();
     },
 
@@ -34,91 +33,97 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     getProjectsList: function () {
-        if (!this.projectsList) {
-            return false;
-        }
-
-        return this.projectsList.slice(0);
+        return DG.projectsList.slice(0);
     },
 
     isProjectHere: function (coords) {
         var checkMethod = (coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains';
 
-        if (!coords || !this.projectsList) { return; }
+        if (!coords) { return; }
 
-        return this.projectsList.filter(function (project) {
-            return project.LatLngBounds[checkMethod](coords);
+        // if (!this.project) {
+        //     // this._searchProject(coords);
+        // }
+
+        return DG.projectsList.filter(function (project) {
+            return project.latLngBounds[checkMethod](coords);
         })[0];
     },
 
     _projectchange: function () {
-        if (this.projectsList) {
-            if (!this.project) {
+        if (!this.project) {
+            this._searchProject();
+        } else {
+            if (!this._boundInProject(this.project) || !this._zoomInProject(this.project)) {
+                this.project = null;
+                this._map.fire('projectleave');
                 this._searchProject();
-            } else {
-                if (!this._boundInProject(this.project) || !this._zoomInProject(this.project)) {
-                    this.project = null;
-                    this._map.fire('projectleave');
-                    this._searchProject();
-                }
             }
         }
     },
 
-    _processProjectList: function (data) {
-        var projectsList = data.result.data,
-            verts, path;
-        if (!data.result || !DG.Util.isArray(projectsList)) { return; }
+    // _processProjectList: function (data) {
+    //     var projectsList = data.result.data,
+    //         verts, path;
+    //     if (!data.result || !DG.Util.isArray(projectsList)) { return; }
 
-        projectsList.forEach(function (project) {
-            verts = this._wkt.read(project.bound);
-            path = this._wkt.toObject(verts);
+    //     projectsList.forEach(function (project) {
+    //         verts = this._wkt.read(project.bound);
+    //         path = this._wkt.toObject(verts);
 
-            project.LatLngBounds = path.getBounds();
-        }, this);
+    //         project.LatLngBounds = path.getBounds();
+    //     }, this);
 
-        this.projectsList = projectsList;
-        this._searchProject();
-    },
+    //     this.projectsList = projectsList;
+    //     this._searchProject();
+    // },
+
+    // _loadProjectList: function () {
+    //     var options = this.options,
+    //         type = 'get';
+
+    //     if (!DG.ajax.corsSupport) {
+    //         type = options.data.output = 'jsonp';
+    //     }
+
+    //     return DG.ajax(options.url, {
+    //         type: type,
+    //         data: options.data,
+
+    //         success: this._processProjectList.bind(this)
+    //     });
+    // },
 
     _loadProjectList: function () {
-        var options = this.options,
-            type = 'get';
-
-        if (!DG.ajax.corsSupport) {
-            type = options.data.output = 'jsonp';
-        }
-
-        return DG.ajax(options.url, {
-            type: type,
-            data: options.data,
-
-            success: this._processProjectList.bind(this)
+        DG.projectsList.map(function (project) {
+            project.latLngBounds = new DG.LatLngBounds(project.bound);
+            // console.log(project);
+            return project;
         });
+
+        // this._searchProject();
     },
 
-    _searchProject: function () {
-        try {
-            this.projectsList.some(function (project) {
-                if (this._boundInProject(project) && this._zoomInProject(project)) {
-                    this.project = project;
-                    this._map.fire('projectchange', {'getProject': this.getProject.bind(this)});
+    _searchProject: function (coords) {
+        DG.projectsList.some(function (project) {
+            if ((coords && this.isProjectHere(coords)) || this._boundInProject(project) && this._zoomInProject(project)) {
+                this.project = project;
+                this._map.fire('projectchange', {'getProject': this.getProject.bind(this)});
 
-                    return true;
-                }
-            }, this);
-        }
-        catch (err) {}
+                return true;
+            }
+        }, this);
     },
 
     _boundInProject: function (project) {
-        return project.LatLngBounds.intersects(this._map.getBounds());
+        // return true;
+        return project.latLngBounds.intersects(this._map.getBounds());
     },
 
     _zoomInProject: function (project) {
         var mapZoom = this._map.getZoom();
 
-        return (mapZoom >= project.min_zoom_level);
+        return (mapZoom >= project.minZoom);
     }
 });
 

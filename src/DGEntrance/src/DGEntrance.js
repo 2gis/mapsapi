@@ -126,7 +126,7 @@ DG.Entrance = DG.Class.extend({
     },
 
     _getFitZoom: function () {
-        return this._map.projectDetector.getProject().max_zoom_level || DG.Entrance.SHOW_FROM_ZOOM;
+        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _fitBounds: function () {

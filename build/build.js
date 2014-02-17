@@ -8,18 +8,21 @@ var fs = require('fs'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
     dust = require('dustjs-linkedin'),
+    projectLoader = require('2gis-project-loader'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     //Global data stores
     modules,
     defaultSkin,
     appConfig,
+    projectList,
     errors = [],
     skinVar = config.skin.var,
     //CLI colors theme settings
     okMsg = clc.xterm(28),
     errMsg = clc.xterm(9),
     depsMsg = clc.xterm(27);
+
 
 // Get content of source files all modules
 function getModulesData() {
@@ -192,6 +195,7 @@ function getCopyrightsData() { //()->String
     return copyrights;
 }
 
+
 // Generates a list of modules by pkg
 function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
     var modulesListOrig = ['Core'],
@@ -324,7 +328,7 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
 
     result += params.isDebug ? config.js.dustdebug : '';
 
-    return getCopyrightsData() + config.js.intro + result + config.js.outro;
+    return getCopyrightsData() + config.js.intro + result + projectList + config.js.outro;
 }
 
 // Generates CSS content
@@ -461,8 +465,20 @@ exports.setVersion =  function (done) {
     });
 }
 
+exports.buildSrc = function (isMsg, done) {
+    projectLoader(function (err, projects) {
+        if (err) {
+            console.log(err);
+        }
+        projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+        buildSrc2(isMsg);
+        done();
+    });
+};
+
+
 // Combine and minify source files (CLI command)
-exports.buildSrc = function (isMsg) {
+function buildSrc2(isMsg) {
     var modulesList,
         jsSrcContent,
         jsMinContent,
@@ -472,7 +488,7 @@ exports.buildSrc = function (isMsg) {
         cssDir = cssDest.dir,
         pkg = argv.mod || argv.pkg,
         skin;
-
+        console.log('buid');
     if (typeof isMsg === 'undefined') { isMsg = true; }
 
     modules = getModulesData();

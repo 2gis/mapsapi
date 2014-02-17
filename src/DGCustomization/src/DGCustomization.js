@@ -114,7 +114,7 @@ DG.Map.include({
     },
 
     _updateZoomOnLoad: function (e) {
-        this._resctrictZoom(e.getProject().LatLngBounds);
+        this._resctrictZoom(e.getProject().latLngBounds);
     },
 
     _resctrictZoom: function (coords) {
@@ -134,7 +134,7 @@ DG.Map.include({
 
                 return mapOptions.maxZoom;
             } else {
-                dgTileLayer.options.maxZoom = project ? project.max_zoom_level : '__PROJECT_LEAVE_MAX_ZOOM__';
+                dgTileLayer.options.maxZoom = project ? project.maxZoom : '__PROJECT_LEAVE_MAX_ZOOM__';
                 this._updateZoomLevels();
 
                 return dgTileLayer.options.maxZoom;
