@@ -129,7 +129,7 @@ gulp.task('lint', function () {
                .pipe(tasks.jshint.reporter('jshint-stylish'));
 });
 
-//TODO: refactor this task
+//TODO: refactor this config
 gulp.task('test', ['build'], function () {
     return gulp.src(['./vendors/leaflet/spec/before.js',
                      './public/js/script.js',
@@ -211,8 +211,8 @@ function bldJs(opt) {
 function bldCss(opt) {
     opt = opt || {};
     var basicSprite = './private/styl/sprite.basic.styl',
-        skinSprite = './private/styl/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         basicSpriteX = './private/styl/sprite-2x.basic.styl',
+        skinSprite = './private/styl/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         skinSpriteX = './private/styl/sprite-2x.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
         cssList = deps.getCSSFiles(opt);
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
