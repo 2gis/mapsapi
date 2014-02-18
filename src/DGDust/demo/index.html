@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2GIS maps api dust template demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="http://maps.api.2gis.dev/2.0/loader.js?pkg=full&mode=debug&skin=dark"></script>
+</head>
+<body>
+
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+
+<script type="text/javascript">
+    var map,
+        render,
+        balloonDATA,
+        balloonTMPL,
+        balloonHTML;
+
+    DG.then(function () {
+        map = new DG.Map('map', {
+            "center": new DG.LatLng(54.980206086231, 82.898068362003),
+            "zoom": 18,
+            "geoclicker": true
+        });
+
+        balloonDATA = {
+            "site": "http://www.2gis.ru/",
+            "image": "http://maps.api.2gis.ru/2.0/2gis-logo.png",
+            "title": "2GIS",
+            "text": "<p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
+                    (МФК «Сан Сити»), 13 этаж"
+        };
+
+        /*result of dust.compile('
+        <a href="{site}" target="_blank">
+        <img src="{image}" alt="{title}" title="{title}" width="146" height="70" style="border: none"></a>
+        {text|s}', 'ballon')*/
+        balloonTMPL = (function() { // compiled by http://linkedin.github.io/dustjs/test/test.html
+          dust.register("ballon", body_0);
+
+          function body_0(chk, ctx) {
+            return chk.write("<a href=\"").reference(ctx.get("site"), ctx, "h").write("\" target=\"_blank\"><img src=\"").reference(ctx.get("image"), ctx, "h").write("\" alt=\"").reference(ctx.get("title"), ctx, "h").write("\" title=\"").reference(ctx.get("title"), ctx, "h").write("\" width=\"146\" height=\"70\" style=\"border: none\"></a>").reference(ctx.get("text"), ctx, "h", ["s"]);
+          }
+          return body_0;
+        })();
+
+        render = DG.dust({'ballon':balloonTMPL});
+
+        balloonHTML = render('ballon', balloonDATA);
+
+        DG.marker([54.980206086231, 82.898068362003]).addTo(map).bindPopup(balloonHTML);
+    });
+
+</script>
+
+</body>
+</html>

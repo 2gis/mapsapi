@@ -1,0 +1,69 @@
+{
+  "name": "dustjs-linkedin",
+  "title": "Dust - Asynchronous Templating",
+  "version": "2.3.1",
+  "author": {
+    "name": "Aleksander Williams",
+    "url": "http://akdubya.github.com/dustjs"
+  },
+  "homepage": "http://linkedin.github.io/dustjs/",
+  "description": "Asynchronous templates for the browser and node.js ( LinkedIn fork )",
+  "contributors": [
+    {
+      "name": "Jairo de Morais",
+      "email": "jdemorais@linkedin.com"
+    },
+    {
+      "name": "Veena Basavaraj",
+      "email": "vbasavaraj@linkedin.com"
+    },
+    {
+      "name": "Jimmy Chan",
+      "email": "jchan@linkedin.com"
+    },
+    {
+      "name": "Richard Ragan",
+      "email": "rragan@ebay.com"
+    },
+    {
+      "name": "Steven Foote",
+      "email": "sfoote@linkedin.com"
+    }
+  ],
+  "scripts": {
+    "test": "grunt test"
+  },
+  "bin": {
+    "dustc": "./bin/dustc"
+  },
+  "main": "lib/server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linkedin/dustjs.git"
+  },
+  "keywords": [
+    "templates",
+    "views"
+  ],
+  "devDependencies": {
+    "pegjs": "0.7.0",
+    "grunt": "~0.4.2",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-template-jasmine-istanbul": "~0.2.5",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-gh-pages": "~0.9.0",
+    "grunt-contrib-compress": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-shell": "~0.6.1",
+    "grunt-contrib-jasmine": "~0.5.2",
+    "grunt-bump": "0.0.11"
+  },
+  "license": "MIT",
+  "engine": {
+    "node": ">=0.8"
+  }
+}

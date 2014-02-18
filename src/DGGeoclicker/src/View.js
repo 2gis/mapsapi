@@ -9,8 +9,8 @@ DG.Geoclicker.View = DG.Class.extend({
             minWidth: 385
         });
 
-        /*global __DGGeoclicker_TMPL__:false */
-        this._templates = __DGGeoclicker_TMPL__;
+        /*global __DGGeoclicker_TMPL__ */
+        this._templates = DG.dust(__DGGeoclicker_TMPL__);
         if (options) {
             DG.Util.setOptions(this, options);
         }
@@ -30,7 +30,7 @@ DG.Geoclicker.View = DG.Class.extend({
 
     initLoader: function (isSmall) {
         var loader = document.createElement('div');
-        loader.innerHTML = DG.template(this.getTemplate('loader'),
+        loader.innerHTML = this._templates('loader',
             {
                 small: isSmall,
                 anim: this._detectCssAnimation()
@@ -55,7 +55,7 @@ DG.Geoclicker.View = DG.Class.extend({
         options.tmpl = options.tmpl || '';
 
         if (options.data) {
-            html = DG.template(options.tmpl, options.data);
+            html = this._templates(options.tmpl, options.data);
         } else {
             html = options.tmpl;
         }
@@ -88,11 +88,6 @@ DG.Geoclicker.View = DG.Class.extend({
 
     getPopup: function () { // () -> Object
         return this._popup;
-    },
-
-    getTemplate: function (tmplFile) {
-        var tmpl = this._templates[tmplFile];
-        return tmpl ? tmpl : '';
     },
 
     _detectCssAnimation: function () {

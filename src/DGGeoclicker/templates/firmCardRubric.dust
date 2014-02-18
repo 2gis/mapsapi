@@ -1,0 +1,22 @@
+{#rubrics}
+    <section class="firm-card__rubrics">
+        {?primary}
+            <ul class="firm-card__rubrics-list firm-card__rubrics_primary">
+                {#primary}
+                    <li class="firm-card__rubrics-list-item">
+                        {name}
+                    </li>
+                {/primary}
+            </ul>
+        {/primary}
+        {?additional}
+            <ul class="firm-card__rubrics-list firm-card__rubrics_additional">
+                {#additional}
+                    <li class="firm-card__rubrics-list-item">
+                        {name}
+                    </li>
+                {/additional}
+            </ul>
+        {/additional}
+    </section>
+{/rubrics}
