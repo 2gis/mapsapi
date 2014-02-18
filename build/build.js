@@ -23,7 +23,6 @@ var fs = require('fs'),
     errMsg = clc.xterm(9),
     depsMsg = clc.xterm(27);
 
-
 // Get content of source files all modules
 function getModulesData() {
     var source = config.source,
@@ -194,7 +193,6 @@ function getCopyrightsData() { //()->String
 
     return copyrights;
 }
-
 
 // Generates a list of modules by pkg
 function getModulesList(pkg, isMsg) { //(String|Null, Boolean)->Array
