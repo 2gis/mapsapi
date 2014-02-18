@@ -106,7 +106,8 @@ gulp.task('sprite', ['svg2png'], function () {
                 imgName: 'sprite.png',
                 styleName: 'sprite.styl',
                 groupBy: 'skin',
-                imgPath: '../img/sprite.png'
+                imgPath: '../img/sprite.png',
+                engine: 'phantomjs'
             }))
             .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
             .pipe(tasks.if('*.styl', gulp.dest('./private/styl/'))),
@@ -116,7 +117,8 @@ gulp.task('sprite', ['svg2png'], function () {
                 imgName: 'sprite-2x.png',
                 styleName: 'sprite-2x.styl',
                 groupBy: 'skin',
-                imgPath: '../img/sprite-2x.png'
+                imgPath: '../img/sprite-2x.png',
+                engine: 'phantomjs'
             }))
             .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
             .pipe(tasks.if('*.styl', gulp.dest('./private/styl/')))
