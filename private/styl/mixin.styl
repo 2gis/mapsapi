@@ -11,8 +11,6 @@ image(name)
         background-size: images[name].total_width images[name].total_height
         .leaflet-retina &
             background-image: images[name + '-2x'].background-image
-            background-position: images[name + '-2x'].background-position
-            background-size: images[name + '-2x'].total_width images[name + '-2x'].total_height
 
 bg(name)
     if imageType is svg
