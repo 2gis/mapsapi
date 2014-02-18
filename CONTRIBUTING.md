@@ -59,7 +59,7 @@
 
 ### Код модуля
 Так как наш модуль довольно простой, он будет состоять всего из одного исходного JS файла, назовем его DGDemoPlugin.js и напишем в нем необходимый для работы код:
-
+```javascript
     DG.DemoPlugin = DG.Handler.extend({
 
        _lastFirms: DG.layerGroup(),
@@ -116,6 +116,7 @@
    });
 
    DG.Map.addInitHook('addHandler', 'demoPlugin', DG.DemoPlugin);
+```
 
 Наш модуль предполагает взаимодействие пользователя с картой, потому мы его отнаследовали от класса `DG.Handler`. Благодаря этому можно будет контролировать его поведение в процессе исполнения приложения (например, у разработчика будет возможность включить или выключить модуль).
 
@@ -226,7 +227,7 @@
 * Установите зависимости:
 
         cd ~/mapsapi-folder
-        npm install
+        sudo npm install
 
 * Выполните сборку API карт:
 
@@ -243,11 +244,11 @@
 
 * Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/). Или с помощью homebrew:
 
-        brew install node
+        sudo brew install node
 
 * Установите Gulp из командной строки:
 
-        npm install -g gulp
+        sudo npm install -g gulp
 
 ### Ubuntu
 
@@ -260,7 +261,7 @@
 
 * Установите Gulp из командной строки:
 
-        npm install -g gulp
+        sudo npm install -g gulp
 
 ### Windows
 
