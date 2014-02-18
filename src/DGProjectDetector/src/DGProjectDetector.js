@@ -36,9 +36,9 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     isProjectHere: function (coords) {
-        var checkMethod = (coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains';
-
         if (!coords) { return; }
+
+        var checkMethod = (coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains';
 
         return DG.projectsList.filter(function (project) {
             return project.latLngBounds[checkMethod](coords);
@@ -46,15 +46,14 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _projectchange: function () {
-        if (!this.project) {
-            this._searchProject();
-        } else {
-            if (!this._boundInProject(this.project) || !this._zoomInProject(this.project)) {
-                this.project = null;
-                this._map.fire('projectleave');
-                this._searchProject();
-            }
+        if (this.project && this._boundInProject(this.project) && this._zoomInProject(this.project)) { return; }
+
+        if (this.project) {
+            this.project = null;
+            this._map.fire('projectleave');
         }
+
+        this._searchProject();
     },
 
     _loadProjectList: function () {
@@ -65,14 +64,16 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _searchProject: function () {
-        DG.projectsList.some(function (project) {
-            if (this._boundInProject(project) && this._zoomInProject(project)) {
+        DG.projectsList
+            .filter(function (project) {
+                return (this._boundInProject(project) && this._zoomInProject(project));
+            }, this)
+            .some(function (project) {
                 this.project = project;
                 this._map.fire('projectchange', {'getProject': this.getProject.bind(this)});
 
                 return true;
-            }
-        }, this);
+            }, this);
     },
 
     _boundInProject: function (project) {
