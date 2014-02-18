@@ -68,7 +68,9 @@ gulp.task('build-assets', function () {
         gulp.src('./src/**/fonts/**/*.*')
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./public/fonts/')),
-
+        gulp.src('./src/**/img/**/*.*')
+            .pipe(tasks.flatten())
+            .pipe(gulp.dest('./public/img/')),
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
@@ -152,7 +154,7 @@ gulp.task('doc', function () {
 
 
 gulp.task('build', function (cb) {
-    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], 'watch', cb);
+    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
 });
 
 //watchers
