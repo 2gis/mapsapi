@@ -113,10 +113,6 @@ DG.Map.include({
         e.type === 'layeradd' ? this._tln++ : this._tln--;
     },
 
-    _updateZoomOnLoad: function (e) {
-        this._resctrictZoom(e.getProject().latLngBounds);
-    },
-
     _resctrictZoom: function (coords) {
         if (this._layers &&
             this.projectDetector.enabled() &&
@@ -145,5 +141,4 @@ DG.Map.include({
 
 DG.Map.addInitHook(function () {
     this.on('layeradd layerremove', this._updateTln);
-    this.once('projectchange', this._updateZoomOnLoad);
 });

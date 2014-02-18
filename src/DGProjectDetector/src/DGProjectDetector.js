@@ -12,7 +12,6 @@ DG.ProjectDetector = DG.Handler.extend({
     initialize: function (map) { // (Object)
         this._map = map;
         this.project = null;
-        // this._wkt = new DG.Wkt();
         this._loadProjectList();
     },
 
@@ -41,10 +40,6 @@ DG.ProjectDetector = DG.Handler.extend({
 
         if (!coords) { return; }
 
-        // if (!this.project) {
-        //     // this._searchProject(coords);
-        // }
-
         return DG.projectsList.filter(function (project) {
             return project.latLngBounds[checkMethod](coords);
         })[0];
@@ -62,51 +57,16 @@ DG.ProjectDetector = DG.Handler.extend({
         }
     },
 
-    // _processProjectList: function (data) {
-    //     var projectsList = data.result.data,
-    //         verts, path;
-    //     if (!data.result || !DG.Util.isArray(projectsList)) { return; }
-
-    //     projectsList.forEach(function (project) {
-    //         verts = this._wkt.read(project.bound);
-    //         path = this._wkt.toObject(verts);
-
-    //         project.LatLngBounds = path.getBounds();
-    //     }, this);
-
-    //     this.projectsList = projectsList;
-    //     this._searchProject();
-    // },
-
-    // _loadProjectList: function () {
-    //     var options = this.options,
-    //         type = 'get';
-
-    //     if (!DG.ajax.corsSupport) {
-    //         type = options.data.output = 'jsonp';
-    //     }
-
-    //     return DG.ajax(options.url, {
-    //         type: type,
-    //         data: options.data,
-
-    //         success: this._processProjectList.bind(this)
-    //     });
-    // },
-
     _loadProjectList: function () {
         DG.projectsList.map(function (project) {
             project.latLngBounds = new DG.LatLngBounds(project.bound);
-            // console.log(project);
             return project;
         });
-
-        // this._searchProject();
     },
 
-    _searchProject: function (coords) {
+    _searchProject: function () {
         DG.projectsList.some(function (project) {
-            if ((coords && this.isProjectHere(coords)) || this._boundInProject(project) && this._zoomInProject(project)) {
+            if (this._boundInProject(project) && this._zoomInProject(project)) {
                 this.project = project;
                 this._map.fire('projectchange', {'getProject': this.getProject.bind(this)});
 
@@ -116,7 +76,6 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _boundInProject: function (project) {
-        // return true;
         return project.latLngBounds.intersects(this._map.getBounds());
     },
 

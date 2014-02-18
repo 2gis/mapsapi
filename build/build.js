@@ -471,14 +471,14 @@ exports.buildSrc = function (isMsg, done) {
             console.log(err);
         }
         projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
-        buildSrc2(isMsg);
+        buildSource(isMsg);
         done();
     });
 };
 
 
 // Combine and minify source files (CLI command)
-function buildSrc2(isMsg) {
+function buildSource(isMsg) {
     var modulesList,
         jsSrcContent,
         jsMinContent,
@@ -488,7 +488,7 @@ function buildSrc2(isMsg) {
         cssDir = cssDest.dir,
         pkg = argv.mod || argv.pkg,
         skin;
-        console.log('buid');
+
     if (typeof isMsg === 'undefined') { isMsg = true; }
 
     modules = getModulesData();
@@ -564,6 +564,13 @@ exports.getConfig = function () {
 
 // Load content of all source files to memory (web app). Should be run once
 exports.init = function () {
+    projectLoader(function (err, projects) {
+        if (err) {
+            console.log(errMsg(err));
+        }
+        projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+    });
+
     modules = getModulesData();
 
     if (modules) {
