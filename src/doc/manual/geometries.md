@@ -185,8 +185,8 @@
         </tr>
         <tr id="path-bindpopup">
             <td><code><b>bindPopup</b>(
-                <nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#описание">Popup</a>&gt; <i>popup</i>,</nobr>
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/2.0/maps/manual/popups#описание">Popup</a>&gt; <i>popup</i>,</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Привязывает к геометрии балун с HTML содержимым, который будет показан при клике.</td>
@@ -205,7 +205,7 @@
         </tr>
         <tr>
             <td><code><b>getPopup</b>()</code></td>
-            <td><code><a href="/doc/2.0/maps/manual/popup#описание">Popup</a></code></td>
+            <td><code><a href="/doc/2.0/maps/manual/popups#описание">Popup</a></code></td>
             <td>Возвращает балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a>.</td>
         </tr>
         <tr id="path-closepopup">

@@ -57,6 +57,18 @@
             <td><code>null</code></td>
             <td>Слои, изначально добавленные на карту.</td>
         </tr>
+        <tr>
+            <td><code><b>minZoom</b></code></td>
+            <td><code>number</code></td>
+            <td><code>null</code></td>
+            <td>Минимальный уровень масштабируемости карты. Переопределяет свойство minZoom используемых тайлов.</td>
+        </tr>
+        <tr>
+            <td><code><b>maxZoom</b></code></td>
+            <td><code>number</code></td>
+            <td><code>null</code></td>
+            <td>Максимальный уровень масштабируемости карты. Переопределяет свойство maxZoom используемых тайлов.</td>
+        </tr>
         <tr id="map-maxbounds">
             <td><code><b>maxBounds</b></code></td>
             <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
@@ -722,7 +734,7 @@
         </tr>
         <tr id="map-openpopup">
             <td><code><b>openPopup</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup">Popup</a>&gt; <i>popup</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups">Popup</a>&gt; <i>popup</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -732,14 +744,14 @@
             <td><code><b>openPopup</b>(
                 <nobr>&lt;String&gt; <i>html</i> </nobr> | <nobr>&lt;HTMLElement&gt; <i>el</i>,
                 <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Создает балун с переданными опциями и открывает его в определенной точке на карте.</td>
         </tr>
         <tr id="map-closepopup">
             <td><code><b>closePopup</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup">Popup</a>&gt; <i>popup?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups">Popup</a>&gt; <i>popup?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Закрывает балун, открытый с помощью <a href="#map-openpopup">openPopup</a>.</td>

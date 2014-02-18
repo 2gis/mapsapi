@@ -252,8 +252,8 @@
 		</tr>
 		<tr id="marker-bindpopup">
 			<td><code><b>bindPopup</b>(
-				<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#описание">Popup</a>&gt; <i>popup</i>,</nobr>
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/2.0/maps/manual/popups#описание">Popup</a>&gt; <i>popup</i>,</nobr>
+				<nobr>&lt;<a href="/doc/2.0/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 			<td><code>this</code></td>
 			<td>Прикрепляет к маркеру балун с определенным HTML содержимым. Балун будет показан при клике на маркер.</td>
@@ -281,7 +281,7 @@
 		<tr id="marker-bindpopup">
 			<td><code><b>setPopupContent</b>(
 				<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;<a href="/doc/2.0/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 			<td><code>this</code></td>
 			<td>Устанавливает HTML содержимое прикрепленному ранее балуну.</td>

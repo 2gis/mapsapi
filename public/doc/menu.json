@@ -78,7 +78,7 @@
                         "content": {
                             "ru": {
                                 "title": "Балуны",
-                                "uri": "doc/2.0/maps/manual/popup",
+                                "uri": "doc/2.0/maps/manual/popups",
                                 "_src":"manual/popup.md",
                                 "hide": false
                             }
@@ -88,7 +88,7 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Метки",
+                                "title": "Подсказки",
                                 "uri": "doc/2.0/maps/manual/label",
                                 "_src":"manual/label.md",
                                 "hide": false
@@ -287,6 +287,39 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Работа с маркерами",
+                                "uri": "doc/2.0/maps/examples/markers",
+                                "_src":"examples/markers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с балунами",
+                                "uri": "doc/2.0/maps/examples/popups",
+                                "_src":"examples/popups.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с границами",
+                                "uri": "doc/2.0/maps/examples/bounds",
+                                "_src":"examples/bounds.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "Работа с геометриями",
                                 "uri": "doc/2.0/maps/examples/geometries",
                                 "_src":"examples/geometries.md",
@@ -309,31 +342,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Работа с группами",
-                                "uri": "doc/2.0/maps/examples/groups",
-                                "_src":"examples/groups.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "Работа со слоями",
-                                "uri": "doc/2.0/maps/examples/layers",
-                                "_src":"examples/layers.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "Асинхронные вызовы",
-                                "uri": "doc/2.0/maps/examples/async",
-                                "_src":"examples/async.md",
+                                "title": "Работа с API геоданных",
+                                "uri": "doc/2.0/maps/examples/geocoding",
+                                "_src":"examples/geocoding.md",
                                 "hide": false
                             }
                         },
@@ -370,14 +381,14 @@
                                 "hide": false
                             }
                         },
-                        "children": null                        
+                        "children": null
                     },
                     {
                         "content": {
                             "ru": {
-                                "title": "Популярные кейсы",
-                                "uri": "doc/2.0/maps/examples/popular",
-                                "_src":"examples/popular.md",
+                                "title": "Внешние модули",
+                                "uri": "doc/2.0/maps/examples/external-modules",
+                                "_src":"examples/external-modules.md",
                                 "hide": false
                             }
                         },

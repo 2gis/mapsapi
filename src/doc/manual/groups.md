@@ -154,7 +154,7 @@
         <tr>
             <td><code><b>bindPopup</b>(
                 <nobr>&lt;String&gt; <i>htmlContent</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
