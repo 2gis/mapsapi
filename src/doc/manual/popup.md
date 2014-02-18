@@ -6,7 +6,7 @@
 
 Балун — это всплывающее окно, в котором можно отобразить произвольный HTML-код. Балун связан с определенным местом на карте.
 
-Для открытия балуна можно использовать метод карты <a href="/doc/2.0/maps/manual/map#map-openpopup">openPopup</a>, в таком случае одновременно может быть открыт лишь один балун, либо метод <a href="/doc/2.0/maps/manual/map#map-addlayer">addLayer</a> для отображения любого количества балунов.
+Для открытия балуна можно использовать метод карты <a href="/doc/maps/2.0/manual/map#map-openpopup">openPopup</a>, в таком случае одновременно может быть открыт лишь один балун, либо метод <a href="/doc/maps/2.0/manual/map#map-addlayer">addLayer</a> для отображения любого количества балунов.
 
 ### Пример использования
 
@@ -34,7 +34,7 @@
 		<tr>
 			<td><code><b>DG.Popup</b>(
 				<nobr>&lt;<a href="#опции">Popup options</a>&gt; <i>options?</i>,</nobr>
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>source?</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>&gt; <i>source?</i> )</nobr>
 			</code></td>
 
 			<td>
@@ -95,28 +95,28 @@
 		</tr>
 		<tr>
 			<td><code><b>offset</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
 			<td><code><nobr>Point(0, 6)</nobr>
 			</code></td>
 			<td>Устанавливает отступ позиции балуна. Удобно для управления ножкой балуна.</td>
 		</tr>
 		<tr>
 			<td><code><b>autoPanPaddingTopLeft</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
 			<td><code><nobr>null</nobr>
 			</code></td>
 			<td>Задает расстояние от края балуна до левого верхнего угла карты при автоматическом сдвиге.</td>
 		</tr>
 		<tr>
 			<td><code><b>autoPanPaddingBottomRight</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
 			<td><code><nobr>null</nobr>
 			</code></td>
 			<td>Задает расстояние от края балуна до правого нижнего угла карты при автоматическом сдвиге.</td>
 		</tr>
 		<tr>
 			<td><code><b>autoPanPadding</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
 			<td><code><nobr>Point(5, 5)</nobr>
 			</code></td>
 			<td>Задает расстояние от края балуна до границы карты при автоматическом сдвиге, устанавливает одинаковые значения для autoPanPaddingBottomRight и autoPanPaddingTopLeft.</td>
@@ -148,7 +148,7 @@
 	<tbody>
 		<tr>
 			<td><code><b>addTo</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -156,7 +156,7 @@
 		</tr>
 		<tr>
 			<td><code><b>openOn</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -164,7 +164,7 @@
 		</tr>
 		<tr>
 			<td><code><b>setLatLng</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -172,7 +172,7 @@
 		</tr>
 		<tr>
 			<td><code><b>getLatLng</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
