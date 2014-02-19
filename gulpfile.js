@@ -1,12 +1,15 @@
 var extend = require('extend'),
     es = require('event-stream'),
+    map = require('map-stream'),
+    prettyBytes = require('pretty-bytes');
 
     gulp = require('gulp'),
     tasks = require('gulp-load-plugins')(),
 
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
-    deps = require('./build/gulp-deps')(config);
+    deps = require('./build/gulp-deps')(config),
+    stat = {}; //file minification statistic
 
 //DELETE IT
 tasks.stylus = require('./build/gulp-stylus');
@@ -25,20 +28,24 @@ gulp.task('default', function () {
 
 gulp.task('build-scripts', ['lint'], function () {
     return bldJs(extend(tasks.util.env, {isDebug: true}))
+                    .pipe(map(saveSize))
                     .pipe(gulp.dest('./public/js/'))
                     .pipe(tasks.rename({suffix: '.min'}))
                     .pipe(tasks.cache(tasks.uglify()))
                     .pipe(tasks.header(config.copyright))
+                    .pipe(map(saveSize))
                     .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('build-styles', function () {
     return es.concat(
         bldCss(extend(tasks.util.env, {isDebug: true}))
+                             .pipe(map(saveSize))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.min'}))
                              .pipe(tasks.cache(tasks.minifyCss()))
                              .pipe(tasks.header(config.copyright))
+                             .pipe(map(saveSize))
                              .pipe(gulp.dest('./public/css/')),
         bldCss(extend(tasks.util.env, {isIE: true, isDebug: true}))
                              .pipe(tasks.rename({suffix: '.full'}))
@@ -155,8 +162,21 @@ gulp.task('doc', function () {
 });
 
 
-gulp.task('build', function (cb) {
-    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], cb);
+gulp.task('build', function () {
+    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], function () {
+        tasks.util.log('Build contains the next modules:');
+
+        deps.getModulesList().forEach(function (module) {
+            console.log('- ' + module);
+        });
+
+        console.log('\nDist files statistic:');
+        Object.keys(stat).forEach(function (file) {
+            console.log('- ' + file + ': ' + stat[file]);
+
+        });
+        tasks.util.log(tasks.util.colors.green('Build successfuly complete'));
+    });
 });
 
 //watchers
@@ -196,6 +216,15 @@ gulp.task('release', ['commitFiles'], function (done) {
     ///tasks.git.push('all', 'master', '--tags');
     done();
 });
+
+function saveSize(file, cb) {
+    var name = file.path.split('/').pop();
+/*        jsReg = new RegExp(/.js$/i),
+        cssReg = new RegExp(/.css$/i);*/
+
+    stat[name] = prettyBytes(file.contents.length);
+    cb(null, file);
+}
 
 //Exports API for live src streaming
 //js build api
