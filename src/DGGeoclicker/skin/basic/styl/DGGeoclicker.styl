@@ -166,8 +166,6 @@
     font: 12px/24px Arial;
     text-decoration: none;
     position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -245,7 +243,6 @@
 }
 .clamped-line-last {
     overflow: hidden;
-    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     width: 100%;
 }
@@ -271,22 +268,12 @@
     margin: -16px 0 0 -74px !important;
 }
 
-
-@-webkit-keyframes preloader__outer {
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
 @keyframes preloader__outer {
   to {
     transform: rotate(360deg);
   }
 }
-@-webkit-keyframes preloader__inner {
-  to {
-    -webkit-transform: rotate(-360deg);
-  }
-}
+
 @keyframes preloader__inner {
   to {
     transform: rotate(-360deg);
@@ -314,7 +301,6 @@
   outline: 1px solid transparent;
   /* фикс рендера изображения для Firefox */
 
-  -webkit-animation: preloader__outer 5s linear infinite;
   animation: preloader__outer 5s linear infinite;
 }
 .preloader_animation_true.preloader:after {
@@ -329,7 +315,6 @@
   outline: 1px solid transparent;
   /* фикс рендера изображения для Firefox */
 
-  -webkit-animation: preloader__inner 4s linear infinite;
   animation: preloader__inner 4s linear infinite;
 }
 .preloader_animation_true.preloader_small:before {

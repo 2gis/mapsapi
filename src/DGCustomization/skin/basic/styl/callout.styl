@@ -4,13 +4,8 @@
     min-height: 50px;
     font: 14px/16px Arial;
     border-radius: 3px;
-    -webkit-transform-origin: 50% 115%;
     transform-origin: 50% 100%;
     overflow: hidden;
-    -webkit-transition:
-        opacity ease-out .2s,
-        max-height ease-out .2s,
-        height ease-out .2s;
     transition:
         opacity ease-out .2s,
         max-height ease-out .2s,
@@ -43,23 +38,16 @@
 }
 
 .leaflet-popup_show_true {
-    -webkit-transition:
-        -webkit-transform ease-in-out .2s,
-        opacity ease-in-out .2s,
-        height ease-out .2s;
     transition:
         transform ease-in-out .2s,
         opacity ease-in-out .2s,
         height ease-out .2s;
-    -webkit-transform: scale(1);
     transform: scale(1);
 }
 
 .leaflet-popup_show_false {
     opacity: 0 !important;
-    -webkit-transition: all ease-in-out .1s;
     transition: all ease-in-out .1s;
-    -webkit-transform: scale(.2);
     transform: scale(.2);
 }
 
@@ -82,7 +70,6 @@
 
 .leaflet-popup-tip-container_svg {
     background-position: 50% 95%;
-    -webkit-background-size: 36px 12px;
     background-size: 36px 12px;
     background-image: url(__BASE_URL__/img/tip-shadow.png);
 }
@@ -99,7 +86,6 @@ a.popup-link,
 .firm-card__link a{
     text-decoration: none;
     background-repeat: repeat-x;
-    -webkit-background-size: 10px 1px;
     background-size: 10px 1px;
     background-position: center bottom;
 }

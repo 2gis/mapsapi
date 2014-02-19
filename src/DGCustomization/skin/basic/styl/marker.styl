@@ -3,9 +3,7 @@
 }
 
 .dg-customization__marker:before { /* marker`s dublicate */
-    -webkit-transform-origin: 50% 100%;
     transform-origin: 50% 100%;
-    -webkit-transform: scale(1, 1);
     transform: scale(1, 1);
     position: absolute;
     left: 0;
@@ -15,17 +13,9 @@
     background-size: 22px 34px;
     background-image: inherit;
     background-repeat: no-repeat;
-    -webkit-transition:
-        opacity ease-in-out .2s,
-        -webkit-transform ease-in-out .2s;
     transition:
         opacity ease-in-out .2s,
         transform ease-in-out .2s;
-}
-
-@-webkit-keyframes dg-customization__show-marker {
-    from { opacity: 0; }
-      to { opacity: 1; }
 }
 
 @keyframes dg-customization__show-marker {
@@ -34,13 +24,11 @@
 }
 
 .dg-customization__marker_type_mushroom {
-    -webkit-transform-origin: 50% 100%;
     transform-origin: 50% 100%;
     width: 22px;
     height: 34px;
     margin: -34px 0 0 -13px;
     background-image: url(__BASE_URL__/img/NonRetinaMarkerDefault.png);
-    -webkit-animation: dg-customization__show-marker .2s;
     animation: dg-customization__show-marker .2s;
 }
 
@@ -73,18 +61,12 @@ div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
 
 .dg-customization__marker_disappear.dg-customization__marker:before {
     content: '';
-    -webkit-transform: scale(1.2, 1.8);
     transform: scale(1.2, 1.8);
-    -webkit-animation:  dg-customization__marker-to-callout .2s;
     animation:          dg-customization__marker-to-callout .2s;
     opacity: 0;
     visibility: hidden;
 }
 
-@-webkit-keyframes dg-customization__marker-to-callout {
-    0% {-webkit-transform: scale(1, 1); opacity: 1; visibility: visible;}
-    100% {-webkit-transform: scale(1.2, 1.8); opacity: 0; visibility: visible;}
-}
 @keyframes dg-customization__marker-to-callout {
     0% {transform: scale(1, 1); opacity: 1; visibility: visible;}
     100% {transform: scale(1.2, 1.8); opacity: 0; visibility: visible;}

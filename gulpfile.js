@@ -175,7 +175,7 @@ gulp.task('build', function () {
             console.log('- ' + file + ': ' + stat[file]);
 
         });
-        tasks.util.log(tasks.util.colors.green('Build successfuly complete'));
+        tasks.util.log(tasks.util.colors.green('Build successfully complete'));
     });
 });
 
@@ -219,9 +219,6 @@ gulp.task('release', ['commitFiles'], function (done) {
 
 function saveSize(file, cb) {
     var name = file.path.split('/').pop();
-/*        jsReg = new RegExp(/.js$/i),
-        cssReg = new RegExp(/.css$/i);*/
-
     stat[name] = prettyBytes(file.contents.length);
     cb(null, file);
 }
