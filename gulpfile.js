@@ -243,8 +243,8 @@ function bldCss(opt) {
     opt = opt || {};
     var basicSprite = './private/styl/sprite.basic.styl',
         basicSpriteX = './private/styl/sprite-2x.basic.styl',
-        skinSprite = './private/styl/sprite.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
-        skinSpriteX = './private/styl/sprite-2x.' + (opt.skin || config.appConfig.DEFAULT_SKIN) + '.styl',
+        skinSprite = './private/styl/sprite.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.styl',
+        skinSpriteX = './private/styl/sprite-2x.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.styl',
         cssList = deps.getCSSFiles(opt);
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
