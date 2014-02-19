@@ -38,7 +38,7 @@ gulp.task('build-scripts', ['lint'], function () {
                     .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('build-styles', function () {
+gulp.task('build-styles', ['sprite'], function () {
     return es.concat(
         bldCss(extend(tasks.util.env, {isDebug: true}))
                              .pipe(map(saveSize))
@@ -163,21 +163,19 @@ gulp.task('doc', function () {
 });
 
 
-gulp.task('build', function () {
-    tasks.runSequence('build-clean', 'sprite', ['build-scripts', 'build-styles', 'build-assets', 'doc'], function () {
-        tasks.util.log('Build contains the next modules:');
+gulp.task('build', ['build-clean', 'build-scripts', 'build-styles', 'build-assets', 'doc'], function () {
+    tasks.util.log('Build contains the next modules:');
 
-        deps.getModulesList().forEach(function (module) {
-            console.log('- ' + module);
-        });
-
-        console.log('\nDist files statistic:');
-        Object.keys(stat).forEach(function (file) {
-            console.log('- ' + file + ': ' + stat[file]);
-
-        });
-        tasks.util.log(tasks.util.colors.green('Build successfully complete'));
+    deps.getModulesList().forEach(function (module) {
+        console.log('- ' + module);
     });
+
+    console.log('\nDist files statistic:');
+    Object.keys(stat).forEach(function (file) {
+        console.log('- ' + file + ': ' + stat[file]);
+
+    });
+    tasks.util.log(tasks.util.colors.green('Build successfully complete'));
 });
 
 //watchers
