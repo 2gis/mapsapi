@@ -1,7 +1,7 @@
 var extend = require('extend'),
     es = require('event-stream'),
     map = require('map-stream'),
-    prettyBytes = require('pretty-bytes');
+    prettyBytes = require('pretty-bytes'),
 
     gulp = require('gulp'),
     tasks = require('gulp-load-plugins')(),
@@ -24,6 +24,7 @@ gulp.task('default', function () {
     tasks.util.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
     tasks.util.log('gulp doc         # Generate documentation from .md files');
     tasks.util.log('gulp test        # Rebuild source and run unit tests');
+    tasks.util.log('gulp watch       # Starts watching private & src/**/svg folders');
 });
 
 gulp.task('build-scripts', ['lint'], function () {
