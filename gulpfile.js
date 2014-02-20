@@ -163,7 +163,11 @@ gulp.task('doc', function () {
 });
 
 
-gulp.task('build', ['build-clean', 'build-scripts', 'build-styles', 'build-assets', 'doc'], function () {
+gulp.task('build', ['build-clean'], function () {
+    return gulp.start('build-tasks');
+});
+
+gulp.task('build-tasks', ['build-scripts', 'build-styles', 'build-assets', 'doc'], function () {
     tasks.util.log('Build contains the next modules:');
 
     deps.getModulesList().forEach(function (module) {
