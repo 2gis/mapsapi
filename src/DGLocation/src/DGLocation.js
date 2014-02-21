@@ -175,10 +175,13 @@ DG.Control.Location = DG.RoundControl.extend({
             unit = 'feet';
         }
 
+        var markerClass = 'dg-locate-pin';
+
+        markerClass += this._following ? (' ' + markerClass + '_following') : '';
         // small inner marker
         var m = {
             icon: DG.divIcon({
-                className: 'dg-locate-pin',
+                className: markerClass,
                 iconSize: [20, 20]
             })
         };
