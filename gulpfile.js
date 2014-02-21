@@ -44,7 +44,7 @@ gulp.task('build-styles', ['sprite'], function () {
                              .pipe(map(saveSize))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.min'}))
-                             .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.minifyCss())
                              .pipe(tasks.header(config.copyright))
                              .pipe(map(saveSize))
                              .pipe(gulp.dest('./public/css/')),
@@ -52,14 +52,14 @@ gulp.task('build-styles', ['sprite'], function () {
                              .pipe(tasks.rename({suffix: '.full'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.min'}))
-                             .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.minifyCss())
                              .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/')),
         bldCss(extend(tasks.util.env, {onlyIE: true, isDebug: true}))
                              .pipe(tasks.rename({suffix: '.ie'}))
                              .pipe(gulp.dest('./public/css/'))
                              .pipe(tasks.rename({suffix: '.min'}))
-                             .pipe(tasks.cache(tasks.minifyCss()))
+                             .pipe(tasks.minifyCss())
                              .pipe(tasks.header(config.copyright))
                              .pipe(gulp.dest('./public/css/'))
     );
@@ -142,7 +142,7 @@ gulp.task('lint', function () {
 });
 
 //TODO: refactor this config
-gulp.task('test', ['build'], function () {
+gulp.task('test', ['build-tasks'], function () {
     return gulp.src(['./vendors/leaflet/spec/before.js',
                      './public/js/script.js',
                      './vendors/leaflet/spec/after.js',
@@ -180,6 +180,8 @@ gulp.task('build-tasks', ['build-scripts', 'build-styles', 'build-assets', 'doc'
 
     });
     tasks.util.log(tasks.util.colors.green('Build successfully complete'));
+
+    return;
 });
 
 //watchers
