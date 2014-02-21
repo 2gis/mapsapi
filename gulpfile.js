@@ -263,7 +263,7 @@ function bldCss(opt) {
                     extensions: ['svg']
                 }))
                 .pipe(tasks.concat('styles.css'))
-                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()))
+                .pipe(opt.isDebug ? tasks.util.noop() : tasks.minifyCss())
                 .pipe(tasks.header(config.copyright));
 }
 
