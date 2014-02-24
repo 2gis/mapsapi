@@ -1,7 +1,17 @@
-/*Full screen control styles*/
+.leaflet-container:fullscreen {
+    width: 100% !important;
+    height: 100% !important;
+    }
 
-.leaflet-container:fullscreen { width: 100% !important; height: 100% !important; }
+.dg-control-round__icon_name_fullscreen {}
 
-.dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
-    image('DGFullScreen_FullScreenPressed');
-}
+    .dg-control-round__icon_name_fullscreen:before {
+        width: 16px;
+        height: 16px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        }
+
+    .dg-control-round__icon_name_fullscreen.dg-control-round__icon_state_active:before {
+        image('DGFullScreen_FullScreenPressed');
+        }
