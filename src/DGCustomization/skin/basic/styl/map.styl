@@ -1,61 +1,66 @@
-/* Map styles */
-.dg-map {
-    cursor: default;
-    overflow: hidden;
-    position: relative;
-}
-.dg-map__inner {
-    height: 100%;
-    position: relative;
-    width: 100%;
-}
 .leaflet-container {
     background: rgb(247, 243, 223);
     cursor: default;
-}
-
-/* Map inner shadow */
-.dg-map:before,
-.dg-map:after,
-.dg-map__inner:before,
-.dg-map__inner:after {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 10;
-}
-.dg-map:before {
-    height: 100%;
-    left: 0;
-    top: 0;
-    width: 0;
-}
-.dg-map:after {
-    height: 0;
-    left: 1px;
-    top: 0;
-    width: 100%;
-}
-.dg-map__inner:before {
-    bottom: 0;
-    height: 0;
-    left: 0;
-    width: 100%;
-}
-.dg-map__inner:after {
-    height: 100%;
-    right: 0;
-    top: 0;
-    width: 0;
-}
-
-/* Styles for print */
-@media print {
-    .dg-map:before,
-    .dg-map:after,
-    .dg-map__inner:before,
-    .dg-map__inner:after {
-        box-shadow: none; /* Remove shadow to prevent artifacts */
     }
-}
+
+.dg-map {
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    }
+    .dg-map:before,
+    .dg-map:after {
+        position: absolute;
+        top: 0;
+        z-index: 10;
+        display: block;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+        content: '';
+        }
+    .dg-map:before {
+        left: 0;
+        width: 0;
+        height: 100%;
+        }
+    .dg-map:after {
+        left: 1px;
+        width: 100%;
+        height: 0;
+        }
+
+    .dg-map__inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        }
+        .dg-map__inner:before,
+        .dg-map__inner:after {
+            position: absolute;
+            z-index: 10;
+            display: block;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+            content: '';
+            }
+        .dg-map__inner:before {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            }
+        .dg-map__inner:after {
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 100%;
+            }
+
+    @media print {
+        .dg-map:before,
+        .dg-map:after {
+            box-shadow: none;
+            }
+            .dg-map__inner:before,
+            .dg-map__inner:after {
+                box-shadow: none;
+                }
+        }

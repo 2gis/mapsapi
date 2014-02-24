@@ -1,93 +1,93 @@
 .dg-customization__marker {
     background-repeat: no-repeat;
-}
-
-.dg-customization__marker:before { /* marker`s dublicate */
+    }
+.dg-customization__marker_type_mushroom {
+    margin: -34px 0 0 -13px;
+    width: 22px;
+    height: 34px;
+    background-image: url(__BASE_URL__/img/DGCustomization_defaultMarker.png);
     transform-origin: 50% 100%;
-    transform: scale(1, 1);
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-size: 22px 34px;
-    background-image: inherit;
-    background-repeat: no-repeat;
-    transition:
-        opacity ease-in-out .2s,
-        transform ease-in-out .2s;
-}
+    animation: dg-customization__show-marker .2s;
+    }
+    .dg-customization__marker:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: inherit;
+        background-size: 22px 34px;
+        background-repeat: no-repeat;
+        transition:
+            opacity ease-in-out .2s,
+            transform ease-in-out .2s;
+        transform: scale(1, 1); /* marker`s dublicate */
+        transform-origin: 50% 100%;
+        }
 
 @keyframes dg-customization__show-marker {
     from { opacity: 0; }
       to { opacity: 1; }
-}
-
-.dg-customization__marker_type_mushroom {
-    transform-origin: 50% 100%;
-    width: 22px;
-    height: 34px;
-    margin: -34px 0 0 -13px;
-    background-image: url(__BASE_URL__/img/DGCustomization_defaultMarker.png);
-    animation: dg-customization__show-marker .2s;
-}
+    }
 
 .leaflet-container:not(.leaflet-touch) div.leaflet-clickable.dg-customization__marker_type_mushroom:hover {
     background-image: url(__BASE_URL__/img/DGCustomization_markerHover.png);
-}
+    }
 
 .dg-customization__marker_type_mushroom:focus {
     outline: 0;
-}
+    }
+
 div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
     background-image: url(__BASE_URL__/img/DGCustomization_markerPressed.png) !important;
-}
+    }
 
-.dg-customization__marker_appear.dg-customization__marker {
+.dg-customization__marker_appear {
     background-position: 999px;
-}
-
-.dg-customization__marker_appear.dg-customization__marker:before {
-    content: '';
-}
+    }
+    .dg-customization__marker_appear:before {
+        content: '';
+        }
 
 .dg-customization__marker_disappear {
-    pointer-events: none; /* click should work in hidden marker area */
-}
-
-.dg-customization__marker_disappear.dg-customization__marker {
     background-position: 999px;
-}
-
-.dg-customization__marker_disappear.dg-customization__marker:before {
-    content: '';
-    transform: scale(1.2, 1.8);
-    animation:          dg-customization__marker-to-callout .2s;
-    opacity: 0;
-    visibility: hidden;
-}
+    pointer-events: none;
+    }
+    .dg-customization__marker_disappear:before {
+        visibility: hidden;
+        content: '';
+        opacity: 0;
+        transform: scale(1.2, 1.8);
+        animation: dg-customization__marker-to-callout .2s;
+        }
 
 @keyframes dg-customization__marker-to-callout {
-    0% {transform: scale(1, 1); opacity: 1; visibility: visible;}
-    100% {transform: scale(1.2, 1.8); opacity: 0; visibility: visible;}
-}
+    0% {
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1, 1);
+        }
+    100% {
+        visibility: visible;
+        opacity: 0;
+        transform: scale(1.2, 1.8);
+        }
+    }
 
-/*apply retina markers*/
-div.leaflet-retina .dg-customization__marker_type_mushroom {
+.leaflet-retina .dg-customization__marker_type_mushroom {
     background-image: url(__BASE_URL__/img/DGCustomization_defaultMarker-2x.png);
     background-size: 22px 34px;
-}
-
-div.leaflet-retina:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
+    }
+.leaflet-retina:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
     background-image: url(__BASE_URL__/img/DGCustomization_markerHover-2x.png);
     background-size: 22px 34px;
-}
-
-div.leaflet-retina .leaflet-clickable.dg-customization__marker_type_mushroom:active {
+    }
+.leaflet-retina .leaflet-clickable.dg-customization__marker_type_mushroom:active {
     background-image: url(__BASE_URL__/img/DGCustomization_markerPressed-2x.png) !important;
     background-size: 22px 34px;
-}
+    }
 
+/* @TODO: Сделать модификатором */
 .dg-hidden {
     display: none;
-}
+    }
