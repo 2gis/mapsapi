@@ -8,7 +8,7 @@ DG.RoundControl = DG.Control.extend({
 
     onAdd: function (map) {
         var controlClass = this._controlCLass = 'dg-control-round',
-            controlIconClass = this._controlIconCLass = this._controlCLass + '_icon',
+            controlIconClass = this._controlIconCLass = this._controlCLass + '__icon',
             container = DG.DomUtil.create('div', '');
 
         if (this._disable) {
@@ -16,7 +16,7 @@ DG.RoundControl = DG.Control.extend({
         }
         DG.DomUtil.addClass(container, controlClass);
 
-        this._link = DG.DomUtil.create('a', controlIconClass + ' ' + controlIconClass + '__' + this.options.iconClass, container);
+        this._link = DG.DomUtil.create('a', controlIconClass + ' ' + controlIconClass + '_name_' + this.options.iconClass, container);
         this._link.href = '#';
         this._renderTranslation();
 
@@ -41,18 +41,17 @@ DG.RoundControl = DG.Control.extend({
         }
 
         if (this._state) {
-            DG.DomUtil.removeClass(this._container, this._controlCLass + '__' + this._state);
-            DG.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this._state);
-            DG.DomUtil.removeClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
+            DG.DomUtil.removeClass(this._container, this._controlCLass + '_state_' + this._state);
+            DG.DomUtil.removeClass(this._link, this._controlIconCLass + '_state_' + this._state);
+
             this._state = null;
         }
 
         if (state) {
             this._state = state;
 
-            DG.DomUtil.addClass(this._container, this._controlCLass + '__' + this._state);
-            DG.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this._state);
-            DG.DomUtil.addClass(this._link, this._controlIconCLass + '__' + this.options.iconClass + '__' + this._state);
+            DG.DomUtil.addClass(this._container, this._controlCLass + '_state_' + this._state);
+            DG.DomUtil.addClass(this._link, this._controlIconCLass + '_state_' + this._state);
         }
 
         return this;
