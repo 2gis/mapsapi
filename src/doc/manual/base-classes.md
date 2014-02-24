@@ -185,7 +185,7 @@
             <td>
                 <code>DG.latLngBounds(&hellip;)</code>
             </td>
-            <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="/doc/2.0/maps/manual/map#map-fitbounds">fitBounds</a>.</td>
+            <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="/doc/maps/2.0/manual/map#map-fitbounds">fitBounds</a>.</td>
         </tr>
     </tbody>
 </table>

@@ -41,7 +41,7 @@
     <tbody>
         <tr>
             <td><code><b>center</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td><code>null</code></td>
             <td>Начальный географический центр карты.</td>
         </tr>
@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td><code><b>layers</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>[]</code></td>
+            <td><code><a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>[]</code></td>
             <td><code>null</code></td>
             <td>Слои, изначально добавленные на карту.</td>
         </tr>
@@ -71,7 +71,7 @@
         </tr>
         <tr id="map-maxbounds">
             <td><code><b>maxBounds</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td><code>null</code></td>
             <td>Если свойство установлено, карта ограничивает область просмотра согласно заданным географическим границам, &quot;отбрасывая&quot; пользователя назад, если он пытается выйти за пределы установленных границ, а также не позволяет уменьшить масштаб так, чтобы можно было просмотреть неразрешенные участки карты. Для установки ограничения динамически используйте метод <a href="#map-setmaxbounds">setMaxBounds</a>.</td>
         </tr>
@@ -242,13 +242,13 @@
             <td><code><b>zoomControl</b></code></td>
             <td><code>Boolean</code></td>
             <td><code>true</code></td>
-            <td>Добавлен ли <a href="/doc/2.0/maps/manual/controls#класс-dgcontrolzoom">элемент управления масштабом</a> на карту.</td>
+            <td>Добавлен ли <a href="/doc/maps/2.0/manual/controls#класс-dgcontrolzoom">элемент управления масштабом</a> на карту.</td>
         </tr>
         <tr>
             <td><code><b>fullscreenControl</b></code></td>
             <td><code>Boolean</code></td>
             <td><code>true</code></td>
-            <td>Добавлена ли <a href="/doc/2.0/maps/manual/controls#класс-dgcontrolfullscreen">кнопка включения полноэкранного режима</a> на карту.</td>
+            <td>Добавлена ли <a href="/doc/maps/2.0/manual/controls#класс-dgcontrolfullscreen">кнопка включения полноэкранного режима</a> на карту.</td>
         </tr>
     </tbody>
 </table>
@@ -290,7 +290,7 @@
     </tbody>
 </table>
 
-<h3 id="события">События</h3><p>Вы можете подписаться на следующие события, используя <a href="/doc/2.0/maps/manual/events#методы-управления-событиями">эти методы</a>:</p>
+<h3 id="события">События</h3><p>Вы можете подписаться на следующие события, используя <a href="/doc/maps/2.0/manual/events#методы-управления-событиями">эти методы</a>:</p>
 <table>
     <thead>
         <tr>
@@ -302,192 +302,192 @@
     <tbody>
         <tr>
             <td><code><b>click</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при клике в карту.</td>
         </tr>
         <tr>
             <td><code><b>dblclick</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при двойном клике в карту.</td>
         </tr>
         <tr>
             <td><code><b>mousedown</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при нажатии кнопки мышки над областью карты.</td>
         </tr>
         <tr>
             <td><code><b>mouseup</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда пользователь отпускает кнопку мышки над областью карты.</td>
         </tr>
         <tr>
             <td><code><b>mouseover</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при наведении курсора мышки на карту.</td>
         </tr>
         <tr>
             <td><code><b>mouseout</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда курсор мышки покидает область карты.</td>
         </tr>
         <tr>
             <td><code><b>mousemove</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда курсор мышки перемещается над картой.</td>
         </tr>
         <tr>
             <td><code><b>contextmenu</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при нажатии правой кнопки мышки на карте, предотвращает появление стандартного контекстного меню браузера, если на это событие подписан обработчик.</td>
         </tr>
         <tr>
             <td><code><b>focus</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при установке фокуса на карту (с помощью клавиши tab, либо при клике в карту или ее перетаскивании).</td>
         </tr>
         <tr>
             <td><code><b>blur</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при потере фокуса картой.</td>
         </tr>
         <tr>
             <td><code><b>preclick</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается перед кликом мышки на карте (полезно, если нужно выполнить какое-либо действие до вызова обработчика клика).</td>
         </tr>
         <tr>
             <td><code><b>load</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при инициализации карты (при первой установке ее центра и масштаба).</td>
         </tr>
         <tr id="map-viewreset">
             <td><code><b>viewreset</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается когда нужно перерисовать содержимое карты (обычно при изменении масштаба или загрузке).</td>
         </tr>
         <tr>
             <td><code><b>movestart</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при начале изменения области просмотра карты (например, когда пользователь начинает перетаскивать карту).</td>
         </tr>
         <tr>
             <td><code><b>move</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается во время любого передвижения карты.</td>
         </tr>
         <tr id="map-moveend">
             <td><code><b>moveend</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при окончании передвижения краты (например, когда пользователь прекращает перетаскивать карту).</td>
         </tr>
         <tr>
             <td><code><b>dragstart</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается когда пользователь начинает перетаскивать карту.</td>
         </tr>
         <tr>
             <td><code><b>drag</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается когда пользователь перетаскивает карту.</td>
         </tr>
         <tr>
             <td><code><b>dragend</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#dragendevent">DragEndEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#dragendevent">DragEndEvent</a></code>
             <td>Вызывается когда пользователь прекращает перетаскивать карту.</td>
         </tr>
         <tr>
             <td><code><b>zoomstart</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается в начале изменения масштаба (перед анимацией изменения масштаба).</td>
         </tr>
         <tr>
             <td><code><b>zoomend</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается после изменения масштаба.</td>
         </tr>
         <tr>
             <td><code><b>zoomlevelschange</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code></td>
             <td>Вызывается, если при добавлении или удалении слоя карты изменилось количество доступных уровней масштабирования.</td>
         </tr>
         <tr>
             <td><code><b>resize</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#resizeevent">ResizeEvent</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/events#resizeevent">ResizeEvent</a></code></td>
             <td>Вызывается при изменении размера карты.</td>
         </tr>
         <tr>
             <td><code><b>requestfullscreen</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при активации полноэкранного режима.</td>
         </tr>
         <tr>
             <td><code><b>cancelfullscreen</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при выходе из полноэкранного режима.</td>
         </tr>
         <tr>
             <td><code><b>autopanstart</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при автоматическом сдвиге карты после появления балуна.</td>
         </tr>
         <tr>
             <td><code><b>layeradd</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#layerevent">LayerEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#layerevent">LayerEvent</a></code>
             <td>Вызывается при добавлении нового слоя на карту.</td>
         </tr>
         <tr>
             <td><code><b>locationfound</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#locationevent">LocationEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#locationevent">LocationEvent</a></code>
             <td>Вызывается при успешном обнаружении местоположения пользователя (используется метод <a href="#map-locate">locate</a>).</td>
         </tr>
         <tr>
             <td><code><b>locationerror</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#errorevent">ErrorEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#errorevent">ErrorEvent</a></code>
             <td>Вызывается при возникновении ошибок во время обнаружения местоположения пользователя.</td>
         </tr>
         <tr>
             <td><code><b>popupopen</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#popupevent">PopupEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#popupevent">PopupEvent</a></code>
             <td>Вызывается при открытии балуна (используя метод <code>openPopup</code>).</td>
         </tr>
         <tr>
             <td><code><b>popupclose</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#popupevent">PopupEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#popupevent">PopupEvent</a></code>
             <td>Вызывается при закрытии балуна (используя метод <code>closePopup</code>).</td>
         </tr>
         <tr>
             <td><code><b>projectchange</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#projectevent">ProjectEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#projectevent">ProjectEvent</a></code>
             <td>Вызывается при перемещении пользователя из одного <a href="#map-projectdetector">проекта 2ГИС</a> в другой.</td>
         </tr>
         <tr>
             <td><code><b>projectleave</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#projectevent">ProjectEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#projectevent">ProjectEvent</a></code>
             <td>Вызывается при выходе пользователя из текущего <a href="#map-projectdetector">проекта 2ГИС</a>.</td>
         </tr>
         <tr>
             <td><code><b>entranceshow</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при отображении входа в здание.</td>
         </tr>
         <tr>
             <td><code><b>entrancehide</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
             <td>Вызывается при скрытии входа в здание.</td>
         </tr>
         <tr>
             <td><code><b>poihover</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#poievent">PoiEvent</a></code>
+            <td><code><a href="/doc/maps/2.0/manual/events#poievent">PoiEvent</a></code>
             <td>Вызывается при наведении курсора мышки на точку интереса.</td>
         </tr>
         <tr>
             <td><code><b>poileave</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#poievent">PoiEvent</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/events#poievent">PoiEvent</a></code></td>
             <td>Вызывается когда курсор мышки покидает область точки интереса.</td>
         </tr>
         <tr>
             <td><code><b>langchange</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/events#langevent">LangEvent</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/events#langevent">LangEvent</a></code></td>
             <td>Вызывается при изменении языка карты.</td>
         </tr>
     </tbody>
@@ -613,7 +613,7 @@
         <tr id="map-setlang">
             <td><code><b>setLang</b>( <nobr>&lt;String&gt; <i>lang</i> )</nobr></code></td>
             <td><code>String</code></td>
-            <td>Устанавливает <a href="/doc/2.0/maps/manual/locale">язык карты</a>. В качестве параметра принимает код языка (например, &#39;it&#39;).</td>
+            <td>Устанавливает <a href="/doc/maps/2.0/manual/locale">язык карты</a>. В качестве параметра принимает код языка (например, &#39;it&#39;).</td>
         </tr>
         <tr id="map-remove">
             <td><code><b>remove</b>()</code></td>
@@ -634,7 +634,7 @@
     <tbody>
         <tr>
             <td><code><b>getCenter</b>()</code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географический центр области просмотра карты.</td>
         </tr>
         <tr>
@@ -654,12 +654,12 @@
         </tr>
         <tr>
             <td><code><b>getBounds</b>()</code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Возвращает географические прямоугольные границы текущей области просмотра карты.</td>
         </tr>
         <tr>
             <td><code><b>getBoundsZoom</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i>,</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i>,</nobr>
                 <nobr>&lt;Boolean&gt; <i>inside?</i> )</nobr>
             </code></td>
 
@@ -669,7 +669,7 @@
         </tr>
         <tr>
             <td><code><b>getSize</b>()</code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает текущий размер контейнера карты.</td>
         </tr>
         <tr>
@@ -679,13 +679,13 @@
         </tr>
         <tr>
             <td><code><b>getPixelOrigin</b>()</code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает пиксельные координаты левой верхней точки слоя карты.</td>
         </tr>
         <tr id="map-getlang">
             <td><code><b>getLang</b>()</code></td>
             <td><code>String</code></td>
-            <td>Возвращает текущий <a href="/doc/2.0/maps/manual/locale">язык карты</a>.</td>
+            <td>Возвращает текущий <a href="/doc/maps/2.0/manual/locale">язык карты</a>.</td>
         </tr>
     </tbody>
 </table>
@@ -701,7 +701,7 @@
     <tbody>
         <tr id="map-addlayer">
             <td><code><b>addLayer</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i>,</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i>,</nobr>
                 <nobr>&lt;Boolean&gt; <i>insertAtTheBottom?</i> )</nobr>
             </code></td>
 
@@ -710,7 +710,7 @@
         </tr>
         <tr>
             <td><code><b>removeLayer</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -718,7 +718,7 @@
         </tr>
         <tr>
             <td><code><b>hasLayer</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
@@ -729,12 +729,12 @@
                 <nobr>&lt;String&gt;)</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a></code></td>
             <td>Возвращает cлой по заданному идентификатору. Для слоя можно указать свой идентификатор, задав ему значение options.uid.</td>
         </tr>
         <tr id="map-openpopup">
             <td><code><b>openPopup</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups">Popup</a>&gt; <i>popup</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/popups">Popup</a>&gt; <i>popup</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -743,22 +743,22 @@
         <tr id="map-openpopup2">
             <td><code><b>openPopup</b>(
                 <nobr>&lt;String&gt; <i>html</i> </nobr> | <nobr>&lt;HTMLElement&gt; <i>el</i>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Создает балун с переданными опциями и открывает его в определенной точке на карте.</td>
         </tr>
         <tr id="map-closepopup">
             <td><code><b>closePopup</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/popups">Popup</a>&gt; <i>popup?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/popups">Popup</a>&gt; <i>popup?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Закрывает балун, открытый с помощью <a href="#map-openpopup">openPopup</a>.</td>
         </tr>
         <tr id="map-addcontrol">
             <td><code><b>addControl</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -766,7 +766,7 @@
         </tr>
         <tr>
             <td><code><b>removeControl</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#icontrol">IControl</a>&gt; <i>control</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -786,34 +786,34 @@
     <tbody>
         <tr id="map-latlngtolayerpoint">
             <td><code><b>latLngToLayerPoint</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает точку на карте, соответствующую переданным географическим координатам (удобно при размещении дополнительных слоев на карте).</td>
         </tr>
         <tr>
             <td><code><b>layerPointToLatLng</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географические координаты, соответствующие переданной точке на карте.</td>
         </tr>
         <tr>
             <td><code><b>containerPointToLayerPoint</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Конвертирует точку контейнера карты в точку слоя карты.</td>
         </tr>
         <tr>
             <td><code><b>layerPointToContainerPoint</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Конвертирует точку слоя карты в точку контейнера карты.</td>
         </tr>
         <tr>
@@ -821,33 +821,33 @@
                 <nobr>&lt;<a href="#latlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает точку контейнера карты, соответствующую географическим координатам.</td>
         </tr>
         <tr>
             <td><code><b>containerPointToLatLng</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географические координаты, соответствующие переданной точке контейнера.</td>
         </tr>
         <tr>
             <td><code><b>project</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
                 <nobr>&lt;Number&gt; <i>zoom?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Проецирует географические координаты в пиксельные для переданного уровня масштаба (по умолчанию текущий уровень).</td>
         </tr>
         <tr>
             <td><code><b>unproject</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i>,</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i>,</nobr>
                 <nobr>&lt;Number&gt; <i>zoom?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Проецирует пиксельные координаты в географические для переданного уровня масштаба (по умолчанию текущий уровень).</td>
         </tr>
         <tr>
@@ -855,7 +855,7 @@
                 <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает пиксельные координаты мышки относительно левого верхнего угла контейнера карты, на основе переданного объекта <code>event</code>.</td>
         </tr>
         <tr>
@@ -863,7 +863,7 @@
                 <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Возвращает пиксельные координаты мышки относительно слоя, на основе переданного объекта <code>event</code>.
         </tr>
         <tr>
@@ -871,7 +871,7 @@
                 <nobr>&lt;MouseEvent&gt; <i>event</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает географические координаты мышки, на основе переданного объекта <code>event</code>.</td>
         </tr>
     </tbody>
@@ -1062,19 +1062,19 @@
     <tbody>
         <tr>
             <td><code><b>paddingTopLeft</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
             <td>Задает отступ от верхнего левого угла контейнера карты, который не должен учитываться при подстройке центра и масштаба. Удобно использовать, например, если на карте приложения имеется левая панель и вы не хотите, чтобы при масштабировании под ней скрывались объекты.</td>
         </tr>
         <tr>
             <td><code><b>paddingBottomRight</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
             <td>То же самое, но для нижнего правого угла карты.</td>
         </tr>
         <tr>
             <td><code><b>padding</b></code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td><code><nobr>[<span class="number">0</span>, <span class="number">0</span>]</nobr>
             <td>Эквивалентно установке и верхнего левого и нижнего правого отступов в одинаковые значения.</td>
         </tr>
@@ -1087,7 +1087,7 @@
     </tbody>
 </table>
 
-<h3 id="свойства">Свойства</h3><p>Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение определенных возможностей карты, таких как масштабирование и тач-события (см. методы <a href="/doc/2.0/maps/manual/interfaces#ihandler">IHandler</a>). Например:</p>
+<h3 id="свойства">Свойства</h3><p>Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение, подключение и отключение определенных возможностей карты, таких как масштабирование и тач-события (см. методы <a href="/doc/maps/2.0/manual/interfaces#ihandler">IHandler</a>). Например:</p>
 <pre><code>map.doubleClickZoom.disable();
 </code></pre><p>Вы также можете получить доступ к элементам управления картой, которые включены по умолчанию, например, к элементу управления масштабом:</p>
 <pre><code>map.zoomControl.setPosition(&#39;topright&#39;);
@@ -1102,52 +1102,52 @@
     <tbody>
         <tr>
             <td><code><b>dragging</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик перетаскивания карты (мышкой и тачем).</td>
         </tr>
         <tr>
             <td><code><b>touchZoom</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик тач-масштабирования.</td>
         </tr>
         <tr>
             <td><code><b>doubleClickZoom</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик масштабирования по двойному клику.</td>
         </tr>
         <tr>
             <td><code><b>scrollWheelZoom</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик масштабирования по скроллу.</td>
         </tr>
         <tr>
             <td><code><b>boxZoom</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик box-масштабирования (shift + выделение мышкой).</td>
         </tr>
         <tr>
             <td><code><b>keyboard</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик навигации с помощью клавиатуры.</td>
         </tr>
         <tr>
             <td><code><b>geoclicker</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик геокодирования по клику.</td>
         </tr>
         <tr>
             <td><code><b>projectDetector</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
             <td>Обработчик определения <a href="#map-projectdetector">проекта 2ГИС</a>.</td>
         </tr>
         <tr>
             <td><code><b>zoomControl</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/controls#класс-dgcontrolzoom"><code>Control.Zoom</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/controls#класс-dgcontrolzoom"><code>Control.Zoom</code></a></td>
             <td>Элемент управления масштабом.</td>
         </tr>
         <tr>
             <td><code><b>fullscreenControl</b></code></td>
-            <td><a href="/doc/2.0/maps/manual/controls#класс-dgcontrolfullscreen"><code>Control.FullScreen</code></a></td>
+            <td><a href="/doc/maps/2.0/manual/controls#класс-dgcontrolfullscreen"><code>Control.FullScreen</code></a></td>
             <td>Кнопка включения полноэкранного режима.</td>
         </tr>
     </tbody>

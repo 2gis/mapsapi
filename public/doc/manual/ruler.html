@@ -1,5 +1,5 @@
 <h2 id="класс-dgruler">Класс DG.Ruler</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#пример-использования">Пример использования</a></li><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li></ul></dl></p>
-<h3 id="описание">Описание</h3><p>Отображает на карте линейку, позволяющую замерять расстояние между географическими точками. Реализует интерфейс <a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>.</p>
+<h3 id="описание">Описание</h3><p>Отображает на карте линейку, позволяющую замерять расстояние между географическими точками. Реализует интерфейс <a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>.</p>
 <h3 id="пример-использования">Пример использования</h3><p>Создание и отображение линейки на карте:</p>
 <pre><code>var latLngs = [
     [51.7314, 36.1938],
@@ -19,7 +19,7 @@ DG.ruler(latLngs).addTo(map);
     <tbody>
         <tr>
             <td><code><b>DG.Ruler</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i>, </nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i>, </nobr>
                 <nobr>&lt;<a href="#опции">Ruler options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
@@ -60,7 +60,7 @@ DG.ruler(latLngs).addTo(map);
     <tbody>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет линейку на карту.</td>
@@ -72,30 +72,30 @@ DG.ruler(latLngs).addTo(map);
         </tr>
         <tr>
             <td><code><b>addLatLng</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет точку в линейку.</td>
         </tr>
         <tr>
             <td><code><b>setLatLngs</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Заменяет все точки линейки массивом переданных географических точек.</td>
         </tr>
         <tr>
             <td><code><b>getLatLngs</b>()</code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
             <td>Возвращает массив точек линейки.</td>
         </tr>
         <tr>
             <td><code><b>spliceLatLngs</b>(
                 <nobr>&lt;Number&gt; <i>index</i></nobr>,
                 <nobr>&lt;Number&gt; <i>pointsToRemove</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i>, &hellip; )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i>, &hellip; )</nobr>
             </code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
             <td>Позволяет добавлять, удалять или заменять точки в линейке. Синтаксис аналогичен <a target="_blank" href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/splice">Array#splice</a>. Возвращает массив удаленных точек.</td>
         </tr>
     </tbody>

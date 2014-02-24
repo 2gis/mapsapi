@@ -15,7 +15,7 @@
                 <a href="http://api.2gis.ru/doc/maps/manual/map/#toc-load">Версия 1.0</a>
             </td>
             <td>
-                <a href="/doc/2.0/maps/manual/loading">Версия 2.0</a>
+                <a href="/doc/maps/2.0/manual/loading">Версия 2.0</a>
             </td>
         </tr>
     </thead>
@@ -47,7 +47,7 @@ DG.then(function() {
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/map/#toc-init">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/map#пример-использования">Версия 2.0</a></td>
+            <td><a href="/doc/maps/2.0/manual/map#пример-использования">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -78,7 +78,7 @@ DG.map('map', {
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/markers/#toc-base">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/markers#класс-dgmarker">Версия 2.0</a></td>
+            <td><a href="/doc/maps/2.0/manual/markers#класс-dgmarker">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -107,7 +107,7 @@ map.markers.add(marker);
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/utils#fun-getAdaptiveAcon">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/markers#класс-dgicon">Версия 2.0</a></td>
+            <td><a href="/doc/maps/2.0/manual/markers#класс-dgicon">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -163,7 +163,7 @@ DG.marker([50.505, 30.57], {
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/markers/#toc-dgmarkersgroup">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/groups#класс-dglayergroup">Версия 2.0</a></td></tr>
+            <td><a href="/doc/maps/2.0/manual/groups#класс-dglayergroup">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
@@ -191,7 +191,7 @@ DG.layerGroup([marker1, marker2])
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/markers/#toc-dgmarkersballoon">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/markers#marker-bindpopup">Версия 2.0</a></td>
+            <td><a href="/doc/maps/2.0/manual/markers#marker-bindpopup">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -222,7 +222,7 @@ map.markers.add(marker);
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/balloons/#balloon-intro">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/popups#описание">Версия 2.0</a></td>
+            <td><a href="/doc/maps/2.0/manual/popups#описание">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -252,7 +252,7 @@ map.balloons.add(myBalloon);</code></pre>
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/controls/#toc-intro">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/controls#описание">Версия 2.0</a></td></tr>
+            <td><a href="/doc/maps/2.0/manual/controls#описание">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
@@ -277,7 +277,7 @@ map.controls.add(myControl, null, position);
     <thead>
         <tr>
             <td><a href="http://api.2gis.ru/doc/maps/manual/events/#toc-intro">Версия 1.0</a></td>
-            <td><a href="/doc/2.0/maps/manual/events#описание">Версия 2.0</a></td>
+            <td><a href="/doc/maps/2.0/manual/events#описание">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -301,7 +301,7 @@ map.addEventListener(map.getContainerId(), 'DgClick', callback);
 
 ###  Геокодирование
 
-Используя функцию [DG.ajax](/doc/2.0/maps/manual/ajax#описание) вы можете отправить в [API справочника](http://api.2gis.ru/doc/firms/quickstart/) не только запрос на преобразование координат в адрес и наоборот, но и любой другой запрос, после чего обработать ответ необходимым способом:
+Используя функцию [DG.ajax](/doc/maps/2.0/manual/ajax#описание) вы можете отправить в [API справочника](http://api.2gis.ru/doc/firms/quickstart/) не только запрос на преобразование координат в адрес и наоборот, но и любой другой запрос, после чего обработать ответ необходимым способом:
 
 <table>
     <thead>
