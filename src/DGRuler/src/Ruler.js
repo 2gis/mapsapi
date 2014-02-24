@@ -292,7 +292,7 @@ DG.Ruler = DG.Class.extend({
             point;
 
         if (L.Browser.ie) {
-            var path = event.originalEvent.target,
+            var path = event.originalEvent.target || event.originalEvent.srcElement,
                 g = path.parentNode;
             g.appendChild(path); // IE click event leaking problem solution: we reappend mousedown event target element
         }
