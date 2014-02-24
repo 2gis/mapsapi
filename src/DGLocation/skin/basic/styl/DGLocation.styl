@@ -1,41 +1,25 @@
-.dg-locate-pin{
-	image('DGLocation_pin')
-}
+.dg-locate-pin {
+    image('DGLocation_pin');
+    }
 
 .dg-locate-pin_following{
-	image('DGLocation_arrow')
-}
+    image('DGLocation_arrow');
+    }
 
 @keyframes preloader {
-  to {
-    transform: rotate(360deg);
-  }
-}
-.dg-control-round_icon__locate__requesting:before {
-	width: 24px;
-	height: 24px;
-	top: 0;
-	right: 0;
-	image-rendering: optimizeQuality;
-	outline: 1px solid transparent;
-	animation: preloader 1s linear infinite;
-}
+    to { transform: rotate(360deg); }
+    }
 
-.leaflet-top .dg-label_location-error {
-	top: 5px;
-}
-.leaflet-right .dg-label_location-error {
-	right: 40px;
-	left: auto;
-	text-align: right;
-}
-.leaflet-bottom .dg-label_location-error {
-	top: 4px;
-}
-.leaflet-left .dg-label_location-error {
-	left: 40px;
-}
+.dg-control-round__icon_name_locate.dg-control-round__icon_state_requesting:before {
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    outline: 1px solid transparent;
+    animation: preloader 1s linear infinite;
+    image-rendering: optimizeQuality;
+    }
 
-.dg-control-round_icon__locate__active:before {
-    image('DGLocation_GeoPressed')
-}
+.dg-control-round__icon_name_locate.dg-control-round__icon_state_active:before {
+    image('DGLocation_GeoPressed');
+    }

@@ -231,7 +231,7 @@ DG.Control.Location = DG.RoundControl.extend({
         }
 
         this._stopLocate();
-        this._error = DG.DomUtil.create('div', 'dg-label dg-label_location-error', this._container);
+        this._error = DG.DomUtil.create('div', 'dg-label dg-label_name_location-error', this._container);
         this._errorText = DG.DomUtil.create('div', 'dg-label__content', this._error);
         this._errorText.innerHTML = this.t('cant_find');
 
