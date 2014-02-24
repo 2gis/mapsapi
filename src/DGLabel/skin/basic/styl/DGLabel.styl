@@ -1,19 +1,35 @@
 .dg-label {
-	width: 300px;
-	left:0px;
-	top:0px;
-	max-width: none;
-	max-height: none;
     position: absolute;
-}
+    top: 0px;
+    left: 0px;
+    max-width: none;
+    max-height: none;
+    width: 300px;
+    }
+    .dg-label__content {
+        display: inline-block;
+        overflow: hidden;
+        min-width: 30px;
+        max-width: 300px;
+        width: auto;
+        border-radius: 2px;
+        vertical-align: top;
+        font: 12px/16px Arial, sans-serif;
+        }
 
-.dg-label__content {
-	display: inline-block;
-    vertical-align: top;
-    font: 12px/16px Arial, sans-serif;
-    overflow: hidden;
-    min-width: 30px;
-    max-width: 300px;
-    width: auto;
-    border-radius: 2px;
-}
+.dg-label_name_location-error { }
+
+.leaflet-top .dg-label_name_location-error {
+    top: 5px;
+    }
+.leaflet-right .dg-label_name_location-error {
+    right: 40px;
+    left: auto;
+    text-align: right;
+    }
+.leaflet-bottom .dg-label_name_location-error {
+    top: 4px;
+    }
+.leaflet-left .dg-label_name_location-error {
+    left: 40px;
+    }
