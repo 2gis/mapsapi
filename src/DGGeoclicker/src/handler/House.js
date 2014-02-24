@@ -200,7 +200,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowMore: function () {
-        var link = this._popup.findElement('#popup-btn-all');
+        var link = this._popup.findElement('.popup-btn-all');
 
         if (link) {
             this._addEventHandler('DgShowMoreClick', link, 'click', DG.bind(this._showListPopup, this));
@@ -220,7 +220,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowLess: function () {
-        var link = this._popup.findElement('#popup-btn-firmList-back');
+        var link = this._popup.findElement('.popup-btn-firmList-back');
 
         if (link) {
             this._addEventHandler('DgShowLessClick', link, 'click', DG.bind(this._showHousePopup, this));

@@ -1,2 +1,2 @@
-<div class="dg-map-geoclicker-purpose dg-map-geoclicker-purpose__{type}">{purpose}</div>
+<div class="dg-map-geoclicker-purpose dg-map-geoclicker-purpose_type_{type}">{purpose}</div>
 <div class="dg-map-geoclicker-drilldown">{address}</div>

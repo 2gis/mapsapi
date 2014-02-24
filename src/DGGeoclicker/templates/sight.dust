@@ -1,11 +1,11 @@
-<div class="dg-map-geoclicker-purpose dg-map-geoclicker-purpose__sight">{purpose}</div>
+<div class="dg-map-geoclicker-purpose dg-map-geoclicker-purpose_type_sight">{purpose}</div>
 {#address}
     <div class="dg-map-geoclicker-address">{.}</div>
 {/address}
 <div class="dg-map-geoclicker-drilldown">{drillDown}</div>
 {#description}
-<div class="dg-map-geoclicker-sight-description">{.}</div>
+    <div class="dg-map-geoclicker-sight-description">{.}</div>
     {#showMoreText}
-        <a id="dg-showmoresight" href="javascript:void(0)">{.}</a>
+        <a class="dg-showmoresight" href="javascript:void(0)">{.}</a>
     {/showMoreText}
 {/description}
