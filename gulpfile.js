@@ -188,6 +188,7 @@ gulp.task('build-tasks', ['build-scripts', 'build-styles', 'build-assets', 'doc'
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['build-assets']);
     gulp.watch('./src/**/svg/**/*.*', ['sprite']);
+    gulp.watch('./src/**/tmpl/**/*.*', ['build-scripts']);
 });
 
 //service tasks
