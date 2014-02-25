@@ -1,7 +1,7 @@
 .dg-ruler-label__point {
-    background: url(../img/point.png);
+    background: url(__BASE_URL__/img/point.png);
 }
 
 .dg-ruler-label__delete {
-    background: url(../img/delete.png) no-repeat;
+    background: url(__BASE_URL__/img/delete.png) no-repeat;
 }
