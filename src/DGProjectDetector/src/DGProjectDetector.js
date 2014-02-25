@@ -16,17 +16,15 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     addHooks: function () {
-        this._map.on('move', this._projectchange, this);
+        this._map.on('move', this._projectWatch, this);
     },
 
     removeHooks: function () {
-        this._map.off('move', this._projectchange, this);
+        this._map.off('move', this._projectWatch, this);
     },
 
     getProject: function () {
-        if (!this.project) {
-            return false;
-        }
+        if (!this.project) { return false; }
 
         return DG.Util.extend({}, this.project);
     },
@@ -45,7 +43,7 @@ DG.ProjectDetector = DG.Handler.extend({
         })[0];
     },
 
-    _projectchange: function () {
+    _projectWatch: function () {
         if (this.project && this._boundInProject(this.project) && this._zoomInProject(this.project)) { return; }
 
         if (this.project) {
@@ -81,9 +79,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _zoomInProject: function (project) {
-        var mapZoom = this._map.getZoom();
-
-        return (mapZoom >= project.minZoom);
+        return (this._map.getZoom() >= project.minZoom);
     }
 });
 
