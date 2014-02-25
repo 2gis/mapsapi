@@ -140,7 +140,8 @@ DG.Ruler = DG.Class.extend({
     },
 
     addLatLng: function (latlng) { // (DG.LatLng) -> DG.Ruler
-        var lastPoint = this._points[this._points.length - 1] || null;
+        var lastPoint = this._points[this._points.length - 1] || null,
+            latlng = DG.latLng(latlng); // jshint ignore:line
 
         if (lastPoint) {
             var lastLatlng = lastPoint.getLatLng(),

@@ -95,7 +95,7 @@ describe('DG.Ruler', function () {
             });
 
             expect(ruler.getTotalDistance()).to.eql(1903.4423179648625);
-            expect(ruler._getFormatedDistance()).to.eql('1,90 км');
+            expect(ruler._getFormatedDistance()).to.eql('1.90 км');
         });
     });
 
