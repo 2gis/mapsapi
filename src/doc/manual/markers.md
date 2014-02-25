@@ -21,7 +21,7 @@
     <tbody>
 		<tr>
 			<td><code><b>DG.Marker</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i>,</nobr>
 				<nobr>&lt;<a href="#опции">Marker options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 
@@ -104,7 +104,7 @@
 
 #### События
 
-Вы можете подписаться на следующие события используя <a href="/doc/2.0/maps/manual/events#методы-управления-событиями">эти методы</a>.
+Вы можете подписаться на следующие события используя <a href="/doc/maps/2.0/manual/events#методы-управления-событиями">эти методы</a>.
 
 <table>
 	<thead>
@@ -117,72 +117,72 @@
 	<tbody>
 		<tr>
 			<td><code><b>click</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
 			<td>Вызывается при клике по маркеру.</td>
 		</tr>
 		<tr>
 			<td><code><b>dblclick</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
 			<td>Вызывается при двойном клике по маркеру.</td>
 		</tr>
 		<tr>
 			<td><code><b>mousedown</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
 			<td>Вызывается при нажатии кнопки мышки над маркером.</td>
 		</tr>
 		<tr>
 			<td><code><b>mouseover</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
 			<td>Вызывается при наведении курсора мышки на маркер.</td>
 		</tr>
 		<tr>
 			<td><code><b>mouseout</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
 			<td>Вызывается когда курсор мышки покидает область маркера.</td>
 		</tr>
 		<tr>
 			<td><code><b>contextmenu</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#mouseevent">MouseEvent</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
 			<td>Вызывается при нажатии правой кнопки мышки над маркером.</td>
 		</tr>
 		<tr>
 			<td><code><b>dragstart</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
 			<td>Вызывается когда пользователь начинает перетаскивать маркер.</td>
 		</tr>
 		<tr>
 			<td><code><b>drag</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
 			<td>Вызывается во время перетаскивания маркера.</td>
 		</tr>
 		<tr>
 			<td><code><b>dragend</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#dragendevent">DragEndEvent</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#dragendevent">DragEndEvent</a></code>
 			<td>Вызывается когда пользователь прекращает перетаскивание маркера.</td>
 		</tr>
 		<tr>
 			<td><code><b>move</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
 			<td>Вызывается при перемещении маркера с помощью метода <code>setLatLng.</code></td>
 		</tr>
 		<tr>
 			<td><code><b>add</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code></td>
 			<td>Вызывается при добавлении маркера на карту.</td>
 	    </tr>
 		<tr>
 			<td><code><b>remove</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#event">Event</a></code>
+			<td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
 			<td>Вызывается при удалении маркера с карты.</td>
 		</tr>
 		<tr>
 			<td><code><b>popupopen</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#popupevent">PopupEvent</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/events#popupevent">PopupEvent</a></code></td>
 			<td>Вызывается при открытии прикрепленного к маркеру балуна.</td>
 		</tr>
 		<tr>
 			<td><code><b>popupclose</b></code></td>
-			<td><code><a href="/doc/2.0/maps/manual/events#popupevent">PopupEvent</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/events#popupevent">PopupEvent</a></code></td>
 			<td>Вызывается при закрытии прикрепленного к маркеру балуна.</td>
 		</tr>
 	</tbody>
@@ -201,7 +201,7 @@
 	<tbody>
 		<tr>
 			<td><code><b>addTo</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -209,12 +209,12 @@
 		</tr>
 		<tr>
 			<td><code><b>getLatLng</b>()</code></td>
-			<td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+			<td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
 			<td>Возвращает текущие географические координаты маркера.</td>
 		</tr>
 		<tr>
 			<td><code><b>setLatLng</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -222,7 +222,7 @@
 		</tr>
 		<tr>
 			<td><code><b>setIcon</b>(
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/markers#класс-dgicon">Icon</a>&gt; <i>icon</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/markers#класс-dgicon">Icon</a>&gt; <i>icon</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -252,8 +252,8 @@
 		</tr>
 		<tr id="marker-bindpopup">
 			<td><code><b>bindPopup</b>(
-				<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/2.0/maps/manual/popup#описание">Popup</a>&gt; <i>popup</i>,</nobr>
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/maps/2.0/manual/popups#описание">Popup</a>&gt; <i>popup</i>,</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 			<td><code>this</code></td>
 			<td>Прикрепляет к маркеру балун с определенным HTML содержимым. Балун будет показан при клике на маркер.</td>
@@ -281,13 +281,13 @@
 		<tr id="marker-bindpopup">
 			<td><code><b>setPopupContent</b>(
 				<nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-				<nobr>&lt;<a href="/doc/2.0/maps/manual/popup#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/2.0/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 			<td><code>this</code></td>
 			<td>Устанавливает HTML содержимое прикрепленному ранее балуну.</td>
 		</tr>
 	    <tr id="marker-bindlabel">
-	        <td><code><b>bindLabel</b>(&lt;String&gt; content, &lt;<a href="/doc/2.0/maps/manual/label#опции">Label options</a>&gt; options?)</code></td>
+	        <td><code><b>bindLabel</b>(&lt;String&gt; content, &lt;<a href="/doc/maps/2.0/manual/label#опции">Label options</a>&gt; options?)</code></td>
             <td><code>this</code></td>
 	        <td>Добавляет всплывающую подсказку для маркера или обновляет содержимое уже созданной.</td>
 	    </tr>
@@ -299,12 +299,12 @@
 	    <tr>
 	        <td><code><b>showLabel</b>()</code></td>
 	        <td><code>this</code></td>
-	        <td>Показывает всплывающую подсказку (в случае использования опции <a href="/doc/2.0/maps/manual/label#label-static">`static`</a>).</td>
+	        <td>Показывает всплывающую подсказку (в случае использования опции <a href="/doc/maps/2.0/manual/label#label-static">`static`</a>).</td>
 	    </tr>
 	    <tr>
 	        <td><code><b>hideLabel</b>()</code></td>
 	        <td><code>this</code></td>
-	        <td>Cкрывает всплывающую подсказку (в случае использования опции <a href="/doc/2.0/maps/manual/label#label-static">`static`</a>).</td>
+	        <td>Cкрывает всплывающую подсказку (в случае использования опции <a href="/doc/maps/2.0/manual/label#label-static">`static`</a>).</td>
 	    </tr>
 		<tr id="marker-togeojson">
 			<td><code><b>toGeoJSON</b>()</code></td>
@@ -331,7 +331,7 @@
 	<tbody>
 		<tr>
 			<td>dragging</td>
-			<td><a href="/doc/2.0/maps/manual/interfaces#ihandler"><code>IHandler</code></a></td>
+			<td><a href="/doc/maps/2.0/manual/interfaces#ihandler"><code>IHandler</code></a></td>
 			<td>Обработчик перетаскивания маркера.</td>
 		</tr>
 	</tbody>
@@ -401,12 +401,12 @@
 	    </tr>
 	    <tr>
 	        <td><code><b>iconSize</b></code></td>
-	        <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code>
+	        <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code>
 	        <td>Размер изображения иконки в пикселях.</td>
 	    </tr>
 	    <tr>
 	        <td><code><b>iconAnchor</b></code></td>
-	        <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code>
+	        <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code>
 	        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла).
 	            Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки.</td>
 	    </tr>
@@ -422,17 +422,17 @@
 	    </tr>
 	    <tr>
 	        <td><code><b>shadowSize</b></code></td>
-	        <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code>
+	        <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code>
 	        <td>Размер изображения тени в пикселях.</td>
 	    </tr>
 	    <tr>
 	        <td><code><b>shadowAnchor</b></code></td>
-	        <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code>
+	        <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code>
 	        <td>Координаты "ножки" тени (относительно ее левого верхнего угла). Значение по умолчанию такое же, как у <code>iconAnchor</code>.</td>
 	    </tr>
 	    <tr>
 	        <td><code><b>popupAnchor</b></code></td>
-	        <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code>
+	        <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code>
 	        <td>Координаты точки, из которой будет открываться балун (относительно <code>iconAnchor</code>).</td>
 	    </tr>
 	    <tr>
@@ -490,12 +490,12 @@
 	<tbody>
 	    <tr>
 	        <td><code><b>iconSize</b></code></td>
-	        <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code>
+	        <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code>
 	        <td>Размер иконки в пикселях. Также может быть установлен с помощью CSS.</td>
 	    </tr>
 	    <tr>
 	        <td><code><b>iconAnchor</b></code></td>
-	        <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dgpoint">Point</a></code>
+	        <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code>
 	        <td>Координаты "ножки" иконки (относительно ее левого верхнего угла). Иконка будет установлена ​​так, чтобы эта точка соответствовала в географическому положению маркера. По умолчанию "ножка" располагается по центру иконки, если указан ее размер.</td>
 	    </tr>
 	    <tr>

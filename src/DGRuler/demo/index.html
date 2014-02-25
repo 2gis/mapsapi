@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>DGRuler demo</title>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+    <script type="text/javascript">
+        L.onLoad(function () {
+            map = new L.Map('map', {
+                'center': new L.LatLng(51.73028, 36.19389),
+                'zoom': 17
+            });
+
+            var latLngs = [
+                [51.7314, 36.1938],
+                [51.7307, 36.1894],
+                [51.7297, 36.1926],
+                [51.7299, 36.1968],
+                [51.7307, 36.1968]]
+            DG.ruler(latLngs).addTo(map);
+        });
+    </script>
+</body>
+</html>

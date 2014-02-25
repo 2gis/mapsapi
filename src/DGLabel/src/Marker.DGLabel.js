@@ -119,7 +119,6 @@ DG.Marker.include({
             .off('dragstart', this._dragStartLabel)
             .once('mouseover', this._mouseOverLabel);
     }
-
 });
 
 DG.Marker.addInitHook(function () {

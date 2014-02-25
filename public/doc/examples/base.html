@@ -1,1 +1,249 @@
-<p>base.md</p>
+<h2 id="базовое-использование">Базовое использование</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#создание-карты">Создание карты</a></li><li><a href="#создание-карты-по-требованию">Создание карты по требованию</a></li><li><a href="#изменение-размера-карты">Изменение размера карты</a></li><li><a href="#отключение-опций-взаимодействия">Отключение опций взаимодействия</a></li><li><a href="#определение-местоположения-пользователя">Определение местоположения пользователя</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведены базовые примеры использования карты. Для получения подробной информации о работе с картой воспользуйтесь разделами документации <a href="/doc/maps/2.0/manual/loading">Подключение API</a> и <a href="/doc/maps/2.0/manual/map">Карта</a>.</p>
+<h3 id="создание-карты">Создание карты</h3><script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 13
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Создание карты&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        DG.then(function() {
+            DG.map(&#39;map&#39;, {
+                center: [54.98, 82.89],
+                zoom: 13
+            });
+        });
+    &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="создание-карты-по-требованию">Создание карты по требованию</h3><p>Инициализация карты по требованию (удобно при отображении карты во всплывающем окне):</p>
+<p><input id="create" type="button" value="Показать карту" /></p>
+<p><div id="mapBlock"></div></p>
+<script>
+    var createButton = document.getElementById("create");
+
+    createButton.onclick = function() {
+        var container = document.createElement('div'),
+            mapBlock = document.getElementById('mapBlock');
+
+        container.id = 'map1';
+        container.style.width = "100%";
+        container.style.height = "400px";
+        mapBlock.appendChild(container);
+
+        DG.then(function(){
+            DG.map('map1', {
+                center: [54.98, 82.89],
+                zoom: 13
+            });
+        });
+
+        createButton.onclick = null;
+    }
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Создание карты по требованию&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&amp;lazy=true&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;input id=&quot;create&quot; type=&quot;button&quot; value=&quot;Показать карту&quot; /&gt;
+        &lt;div id=&quot;mapBlock&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            var createButton = document.getElementById(&quot;create&quot;);
+
+            createButton.onclick = function() {
+                var container = document.createElement(&#39;div&#39;),
+                    mapBlock = document.getElementById(&#39;mapBlock&#39;);
+
+                container.id = &#39;map&#39;;
+                container.style.width = &quot;100%&quot;;
+                container.style.height = &quot;400px&quot;;
+                mapBlock.appendChild(container);
+
+                DG.then(function(){
+                    DG.map(&#39;map&#39;, {
+                        center: [54.98, 82.89],
+                        zoom: 13
+                    });
+                });                    
+            }
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="изменение-размера-карты">Изменение размера карты</h3><p>При клике на кнопку изменяется размер контейнера и карта подстраивается под новый размер:</p>
+<p><input id="changeSize" type="button" value="Изменить размер" /></p>
+<p><div id="map2" style="width: 100%; height: 200px;"></div></p>
+<script>
+    var changeSizeButton = document.getElementById('changeSize');
+
+    DG.then(function() {
+        var map;
+
+        map = DG.map('map2', {
+            center: [54.98, 82.89],
+            zoom: 15,
+            animate: true
+        });
+
+        changeSizeButton.onclick = function() {
+            var mapDiv = document.getElementById('map2');
+            mapDiv.style.height = "400px";
+            map.invalidateSize();
+        }
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Изменение размера карты&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;input id=&quot;changeSize&quot; type=&quot;button&quot; value=&quot;Изменить размер&quot; /&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 200px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            var changeSizeButton = document.getElementById(&#39;changeSize&#39;);
+
+            DG.then(function() {
+                var map;
+
+                map = DG.map(&#39;map&#39;, {
+                    center: [54.98, 82.89],
+                    zoom: 15,
+                    animate: true
+                });
+
+                changeSizeButton.onclick = function() {
+                    var mapDiv = document.getElementById(&#39;map&#39;);
+                    mapDiv.style.height = &quot;400px&quot;;
+                    //обновление карты
+                    map.invalidateSize();
+                }
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="отключение-опций-взаимодействия">Отключение опций взаимодействия</h3><p>Пример отображения статической карты:</p>
+<p><div id="map3" style="width: 100%; height: 400px;"></div></p>
+<script>
+    DG.then(function() {
+        DG.map('map3', {
+            center: [54.98, 82.89],
+            zoom: 13,
+            dragging : false,
+            touchZoom: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            boxZoom: false,
+            geoclicker: false,
+            zoomControl: false,
+            fullscreenControl: false
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Отключение опций взаимодействия&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                DG.map(&#39;map&#39;, {
+                    center: [54.98, 82.89],
+                    zoom: 13,
+                    dragging : false,
+                    touchZoom: false,
+                    scrollWheelZoom: false,
+                    doubleClickZoom: false,
+                    boxZoom: false,
+                    geoclicker: false,
+                    zoomControl: false,
+                    fullscreenControl: false
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="определение-местоположения-пользователя">Определение местоположения пользователя</h3><p>Пример определения географического расположения пользователя:</p>
+<p><div id="map4" style="width: 100%; height: 400px;"></div></p>
+<script>
+    DG.then(function() {
+        var map;
+
+        map = DG.map('map4', {
+            center: [54.98, 82.89],
+            zoom: 13
+        });
+
+        map.locate({setView: true, watch: true})
+        .on('locationfound', function(e){
+            DG.marker([e.latitude, e.longitude]).addTo(map);
+        })
+       .on('locationerror', function(e){
+            console.log(e);
+            alert("Location access denied.");
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Определение местоположения пользователя&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                var map;
+
+                map = DG.map(&#39;map&#39;, {
+                    center: [54.98, 82.89],
+                    zoom: 13
+                });
+
+                map.locate({setView: true, watch: true})
+                .on(&#39;locationfound&#39;, function(e){
+                    DG.marker([e.latitude, e.longitude]).addTo(map);
+                })
+               .on(&#39;locationerror&#39;, function(e){
+                    console.log(e);
+                    alert(&quot;Location access denied.&quot;);
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>

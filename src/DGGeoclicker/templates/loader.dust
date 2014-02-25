@@ -1,0 +1,1 @@
+<div class="preloader preloader_scheme_regular preloader_animation_{?anim}true{:else}false{/anim}{?small} preloader_small{/small}"></div>

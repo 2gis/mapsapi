@@ -138,7 +138,7 @@ var deps = {
             all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
             ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
         },
-        deps: ['DGCore', 'DGTemplate', 'DGLocale']
+        deps: ['DGCore', 'DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -257,12 +257,16 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
+        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
-    DGTemplate: {
+    DGDust: {
         desc: '2GIS Template',
-        src: ['DGTemplate/src/DGTemplate.js']
+        src: [
+            '../vendors/dustjs/dist/dust-core.js',
+            '../vendors/dustjs-helpers/dist/dust-helpers-1.1.2.js',
+            'DGDust/src/DGDust.js'
+        ]
     },
 
     DGEntrance: {
@@ -288,7 +292,45 @@ var deps = {
             ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
+    },
+
+    DGRuler: {
+        desc: 'Ruler module',
+        src: [
+            'DGRuler/src/Ruler.js',
+            'DGRuler/src/LayeredMarker.js',
+            'DGRuler/src/GeometryStyles.js',
+            'DGRuler/lang/ru.js',
+            'DGRuler/lang/it.js',
+            'DGRuler/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRuler/skin/{skin}/css/DGRuler.css'
+            ],
+            ie: [
+                'DGRuler/skin/{skin}/css/DGRuler.ie.css'
+            ]
+        },
+        deps: ['DGCore', 'DGLocale']
+    },
+
+    DGRulerControl: {
+        desc: 'Ruler control module',
+        src: [
+            'DGRulerControl/src/Control.Ruler.js',
+            'DGRulerControl/lang/ru.js',
+            'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRulerControl/skin/{skin}/css/DGRulerControl.css'
+            ]
+        },
+        deps: ['DGRuler', 'DGRoundControl']
     }
+
 };
 
 if (typeof exports !== 'undefined') {

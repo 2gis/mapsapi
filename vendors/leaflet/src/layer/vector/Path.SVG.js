@@ -12,8 +12,8 @@ L.Path = L.Path.extend({
 	},
 
 	bringToFront: function () {
-		var root = this._map._pathRoot,
-		    path = this._container;
+		var path = this._container,
+		    root = path.parentNode;
 
 		if (path && root.lastChild !== path) {
 			root.appendChild(path);

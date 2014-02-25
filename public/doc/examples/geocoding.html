@@ -1,0 +1,279 @@
+<h2 id="работа-с-api-геоданных">Работа с API геоданных</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#прямое-геокодирование">Прямое геокодирование</a></li><li><a href="#обратное-геокодирование">Обратное геокодирование</a></li><li><a href="#поиск-геообъектов">Поиск геообъектов</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведены примеры работы с геокодером 2ГИС при помощи AJAX-запросов. Для получения подробной информации о работе с AJAX перейдите в раздел документации <a href="/doc/maps/2.0/manual/ajax">AJAX-запросы</a>. Для получения информации о геокодере перейдите в раздел документации <a href="http://api.2gis.ru/doc/geo/search/">API геоданных</a>.</p>
+<h3 id="прямое-геокодирование">Прямое геокодирование</h3><p>Определение координат объекта по его адресу:</p>
+<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script type="text/javascript">
+    DG.then(function () {
+        var map, wkt, lat, lng, marker;
+
+        map = DG.map('map', {
+            center: [54.9802, 82.8980],
+            zoom: 18
+        });
+
+        DG.ajax({
+            url: 'http://catalog.api.2gis.ru/geo/search',
+            data: {
+                output: 'jsonp',
+                key: 'ruxlih0718',
+                version: 1.3,
+                q: 'Москва, Красная площадь, 2'
+            },
+            type: 'jsonp',
+            success: function(data) {
+                if(typeof marker !== 'undefined') {
+                    map.removeLayer(marker);
+                }
+                var wkt = new DG.Wkt();
+                // считываем строку в WKT-формате 
+                wkt.read(data.result[0].centroid);
+                // извлекаем координаты для маркера
+                lng = wkt.components[0].x;
+                lat = wkt.components[0].y;
+                // создаем и добавляем маркер на карту
+                marker = DG.marker([lat, lng]);
+                map.addLayer(marker);
+                // центрируем карту в координаты маркера
+                map.panTo([lat, lng]);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width:100%; height:400px&quot;&gt;&lt;/div&gt;
+        &lt;script type=&quot;text/javascript&quot;&gt;
+            DG.then(function () {
+                var map, wkt, lat, lng, marker;
+
+                map = DG.map(&#39;map&#39;, {
+                    center: [54.9802, 82.8980],
+                    zoom: 18
+                });
+
+                DG.ajax({
+                    url: &#39;http://catalog.api.2gis.ru/geo/search&#39;,
+                    data: {
+                        output: &#39;jsonp&#39;,
+                        key: &#39;ruxlih0718&#39;,
+                        version: 1.3,
+                        q: &#39;Москва, Красная площадь, 2&#39;
+                    },
+                    type: &#39;jsonp&#39;,
+                    success: function(data) {
+                        if(typeof marker !== &#39;undefined&#39;) {
+                            map.removeLayer(marker);
+                        }
+                        var wkt = new DG.Wkt();
+                        // считываем строку в WKT-формате 
+                        wkt.read(data.result[0].centroid);
+                        // извлекаем координаты для маркера
+                        lng = wkt.components[0].x;
+                        lat = wkt.components[0].y;
+                        // создаем и добавляем маркер на карту
+                        marker = DG.marker([lat, lng]);
+                        map.addLayer(marker);
+                        // центрируем карту в координаты маркера
+                        map.panTo([lat, lng]);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="обратное-геокодирование">Обратное геокодирование</h3><p>Получение информации об объекте по его координатам:</p>
+<p><div id="map1" style="width: 100%; height: 400px;"></div></p>
+<script>
+    DG.then(function () {
+        var map,
+            latLng = [55.752517, 37.623349];
+
+        map = DG.map('map1', {
+            center: latLng,
+            zoom: 18
+        });
+
+        DG.ajax({
+            url: 'http://catalog.api.2gis.ru/geo/search',
+            data: {
+                output: 'jsonp',
+                key: 'ruxlih0718',
+                version: 1.3,
+                q: latLng[1] + ',' + latLng[0]
+            },
+            type: 'jsonp',
+            success: function(data) {
+                var marker = DG.marker(latLng),
+                    text = data.result[0].name + '.<br />';
+
+                text += data.result[0].attributes.buildingname;
+                marker.bindPopup(text);
+                marker.addTo(map);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width:100%; height:400px&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function () {
+                var map,
+                    latLng = [55.752517, 37.623349];
+
+                map = DG.map(&#39;map&#39;, {
+                    center: latLng,
+                    zoom: 18
+                });
+
+                DG.ajax({
+                    url: &#39;http://catalog.api.2gis.ru/geo/search&#39;,
+                    data: {
+                        output: &#39;jsonp&#39;,
+                        key: &#39;ruxlih0718&#39;,
+                        version: 1.3,
+                        q: latLng[1] + &#39;,&#39; + latLng[0]
+                    },
+                    type: &#39;jsonp&#39;,
+                    success: function(data) {
+                        var marker = DG.marker(latLng),
+                            text = data.result[0].name + &#39;.&lt;br /&gt;&#39;;
+
+                        text += data.result[0].attributes.buildingname;
+                        marker.bindPopup(text);
+                        marker.addTo(map);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="поиск-геообъектов">Поиск геообъектов</h3><p>Поиск станций метро в радиусе 250 м. вокруг заданной точки:</p>
+<p><div id="map2" style="width: 100%; height: 400px;"></div></p>
+<script>
+    DG.then(function () {
+        var map, wkt,
+            latLng = [55.751288, 37.607741];
+
+        map = DG.map('map2', {
+            center: latLng,
+            zoom: 17
+        });
+        wkt = new DG.Wkt();
+
+        DG.ajax({
+            url: 'http://catalog.api.2gis.ru/geo/search',
+            data: {
+                output: 'jsonp',
+                key: 'ruxlih0718',
+                version: 1.3,
+                q: latLng[1] + ',' + latLng[0],
+                types: 'metro',
+                radius: 250,
+                limit: 100
+            },
+            type: 'jsonp',
+            success: function(data) {
+                data.result.forEach(function(metro) {
+                    // считываем строку в WKT-формате 
+                    wkt.read(metro.centroid);
+                    // извлекаем координаты для маркера
+                    var lng = wkt.components[0].x;
+                    var lat = wkt.components[0].y;
+                    // создаем и добавляем маркер на карту
+                    marker = DG.marker([lat, lng]);
+                    marker.bindPopup(metro.name);
+                    map.addLayer(marker);
+                });
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function () {
+                var map, wkt,
+                    latLng = [55.751288, 37.607741];
+
+                map = DG.map(&#39;map&#39;, {
+                    center: latLng,
+                    zoom: 17
+                });
+                wkt = new DG.Wkt();
+
+                DG.ajax({
+                    url: &#39;http://catalog.api.2gis.ru/geo/search&#39;,
+                    data: {
+                        output: &#39;jsonp&#39;,
+                        key: &#39;ruxlih0718&#39;,
+                        version: 1.3,
+                        q: latLng[1] + &#39;,&#39; + latLng[0],
+                        types: &#39;metro&#39;,
+                        radius: 250,
+                        limit: 100
+                    },
+                    type: &#39;jsonp&#39;,
+                    success: function(data) {
+                        data.result.forEach(function(metro) {
+                            // считываем строку в WKT-формате 
+                            wkt.read(metro.centroid);
+                            // извлекаем координаты для маркера
+                            var lng = wkt.components[0].x;
+                            var lat = wkt.components[0].y;
+                            // создаем и добавляем маркер на карту
+                            marker = DG.marker([lat, lng]);
+                            marker.bindPopup(metro.name);
+                            map.addLayer(marker);
+                        });
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>

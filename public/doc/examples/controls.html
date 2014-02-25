@@ -1,1 +1,79 @@
-<p>controls.md</p>
+<h2 id="элементы-управления">Элементы управления</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#скрытие-элементов-управления-по-умолчанию">Скрытие элементов управления по умолчанию</a></li><li><a href="#отображение-элементов-управления-в-разных-частях-карты">Отображение элементов управления в разных частях карты</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведены примеры добавления, размещения и работы с элементами управления. Для получения подробной информации о работе с элементами управления воспользуйтесь разделом документации <a href="/doc/maps/2.0/manual/controls">Элементы управления</a>.</p>
+<h3 id="скрытие-элементов-управления-по-умолчанию">Скрытие элементов управления по умолчанию</h3><p>Если необходимо получить &quot;чистую&quot; карту, без лишних элементов управления, тогда вам поможет следующий пример:</p>
+<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        var map;
+         map = DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 13,
+            fullscreenControl: false,
+            zoomControl: false
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Скрытие элементов управления по умолчанию&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                var map;
+                 map = DG.map(&#39;map&#39;, {
+                    center: [54.98, 82.89],
+                    zoom: 13,
+                    fullscreenControl: false,
+                    zoomControl: false
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="отображение-элементов-управления-в-разных-частях-карты">Отображение элементов управления в разных частях карты</h3><p><div id="map1" style="width: 100%; height: 400px;"></div></p>
+<script>
+    var map;
+    DG.then(function() {
+         map = DG.map('map1', {
+            center: [54.98, 82.89],
+            zoom: 13
+        });
+        DG.control.location({position: 'bottomright'}).addTo(map);
+        DG.control.scale().addTo(map);
+        DG.control.ruler({position: 'bottomleft'}).addTo(map);
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Отображение элементов управления в разных частях карты&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            var map;
+            DG.then(function() {
+                 map = DG.map(&#39;map&#39;, {
+                    center: [54.98, 82.89],
+                    zoom: 13
+                });
+                DG.control.location({position: &#39;bottomright&#39;}).addTo(map);
+                DG.control.scale().addTo(map);
+                DG.control.ruler({position: &#39;bottomleft&#39;}).addTo(map);
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
