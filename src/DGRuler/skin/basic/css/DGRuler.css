@@ -25,7 +25,7 @@
     height: 12px;
     margin: 1px 0 0 4px;
     vertical-align: top;
-    background: url(../img/delete.svg) no-repeat;
+    background: url(__BASE_URL__/img/delete.svg) no-repeat;
     -webkit-transition: all 0.2s ease;
        -moz-transition: all 0.2s ease;
          -o-transition: all 0.2s ease;

@@ -72,11 +72,6 @@ DG.Ruler = DG.Class.extend({
                 }
             }, this);
         }
-        // todo fake mousedown on fake div
-        L.DomEvent.addListener(this._pathRoot, 'mousedown', function (e) {
-            L.DomEvent.stop(e);
-            return false;
-        });
     },
 
     onRemove: function (map) { // (DG.Map)
@@ -185,9 +180,6 @@ DG.Ruler = DG.Class.extend({
         this._rulerPane.appendChild(this._pathRoot = this._map._pathRoot.cloneNode(false));
         this._map.on(this._pathRootEvents, this);
         DG.DomUtil.addClass(this._pathRoot, 'dg-ruler-pane__pathroot');
-        L.DomEvent.addListener(this._pathRoot, 'mousedown', function (e) {
-            L.DomEvent.stopPropagation(e);
-        });
     },
 
     _pathRootEvents: {
@@ -327,7 +319,9 @@ DG.Ruler = DG.Class.extend({
         
         // http://en.wikipedia.org/wiki/Line_(geometry)
         
-        if (k === Infinity) { // Infinity is not the limit!
+        if (isNaN(k)) {
+            return hereLatLng;
+        } else if (k === Infinity) { // Infinity is not the limit!
             here.y = to.y;
         } else {
             here.y = (here.y + k * here.x - k * b) / (k * k + 1); // Don't even ask me!
