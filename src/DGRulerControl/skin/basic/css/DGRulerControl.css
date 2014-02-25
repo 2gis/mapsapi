@@ -1,0 +1,17 @@
+.dg-control-round_icon__ruler:before {
+    width: 16px;
+    height: 8px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.dg-control-round_icon__ruler:before {
+    background-image: url(../img/Ruler.png);
+}
+.dg-control-round_icon__ruler:before:hover {
+    background-image: url(../img/RulerHover.png);
+}
+
+.dg-control-round_icon__active.dg-control-round_icon__ruler:before {
+    background-image: url(../img/RulerPressed.png);
+}

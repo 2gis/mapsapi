@@ -183,14 +183,14 @@ L.Marker = L.Class.extend({
 			    .off(this._icon, 'mouseout', this._resetZIndex);
 		}
 
-		this._map._panes.markerPane.removeChild(this._icon);
+		this._icon.parentNode.removeChild(this._icon);
 
 		this._icon = null;
 	},
 
 	_removeShadow: function () {
 		if (this._shadow) {
-			this._map._panes.shadowPane.removeChild(this._shadow);
+			this._shadow.parentNode.removeChild(this._shadow);
 		}
 		this._shadow = null;
 	},
