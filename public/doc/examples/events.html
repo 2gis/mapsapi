@@ -1,1 +1,141 @@
-<p>events.md</p>
+<h2 id="обработка-событий">Обработка событий</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#подписка-на-события">Подписка на события</a></li><li><a href="#подписка-на-изменение-проекта-2гис">Подписка на изменение проекта 2ГИС</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведены примеры работы с событиями. Для получения подробной информации перейдите в раздел документации <a href="/doc/maps/2.0/manual/events">События</a>.</p>
+<h3 id="подписка-на-события">Подписка на события</h3><p>Пример подписки на различные события (клик в маркер, карту, геометрию):</p>
+<p>Вы кликнули в: <span id="clicked_element">никуда</span></p>
+<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        var map,
+            clickedElement = document.getElementById('clicked_element'),
+            coords = [
+                [54.99, 82.88],
+                [54.985, 82.94],
+                [54.984, 82.925],
+                [54.981, 82.928]
+            ];
+        map = DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 13
+        });
+
+        map.on('click', function(e) {
+            clickedElement.innerHTML = 'карту, координаты ' + e.latlng.lat + ', ' + e.latlng.lng;
+        });
+
+        DG.marker([54.98, 82.89])
+            .on('click', function() {
+                clickedElement.innerHTML = 'маркер';
+            }).addTo(map);
+
+        DG.polygon(coords)
+            .on('click', function() {
+                clickedElement.innerHTML = 'многоугольник';
+            }).addTo(map);
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Подписка на события&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                var map,
+                    clickedElement = document.getElementById(&#39;clicked_element&#39;),
+                    coords = [
+                        [54.99, 82.88],
+                        [54.985, 82.94],
+                        [54.984, 82.925],
+                        [54.981, 82.928]
+                    ];
+                 map = DG.map(&#39;map&#39;, {
+                    center: [54.98, 82.89],
+                    zoom: 13
+                })
+
+                map.on(&#39;click&#39;, function(e) {
+                    clickedElement.innerHTML = &#39;карту, координаты &#39; + e.latlng.lat + &#39;, &#39; + e.latlng.lng;
+                });
+
+                DG.marker([54.98, 82.89])
+                    .on(&#39;click&#39;, function() {
+                        clickedElement.innerHTML = &#39;маркер&#39;;
+                    }).addTo(map);
+
+                DG.polygon(coords)
+                    .on(&#39;click&#39;, function() {
+                        clickedElement.innerHTML = &#39;многоугольник&#39;;
+                    }).addTo(map);
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="подписка-на-изменение-проекта-2гис">Подписка на изменение проекта 2ГИС</h3><p>При изменении <a href="/doc/maps/2.0/manual/map#map-projectdetector">проекта</a> выделяются границы текущего:</p>
+<p><div id="map1" style="width: 100%; height: 400px;"></div></p>
+<script>
+    DG.then(function () {
+        var map, currentProjectBound;
+        map = DG.map('map1', {
+            center: DG.latLng(54.98, 82.89),
+            zoom: 9
+        });
+        // подписываемся на событие изменения текущего проекта 2GIS
+        map.on('projectchange', function (e) {
+            var bounds = e.getProject().LatLngBounds;
+            currentProjectBound = DG.rectangle(bounds, {
+                color:"#f03",
+                weight:1
+            }).addTo(map);
+        });
+        // подписываемся на событие выхода из проекта 2GIS
+        map.on('projectleave', function (e) {
+            if (currentProjectBound) {
+                map.removeLayer(currentProjectBound);
+            }
+        });
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Подписка на изменение проекта 2ГИС&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function () {
+                var map, currentProjectBound;
+                map = DG.map(&#39;map&#39;, {
+                    center: DG.latLng(54.98, 82.89),
+                    zoom: 9
+                });
+                // подписываемся на событие изменения текущего проекта 2GIS
+                map.on(&#39;projectchange&#39;, function (e) {
+                    var bounds = e.getProject().LatLngBounds;
+                    currentProjectBound = DG.rectangle(bounds, {
+                        color:&quot;#f03&quot;,
+                        weight:1
+                    }).addTo(map);
+                });
+                // подписываемся на событие выхода из проекта 2GIS
+                map.on(&#39;projectleave&#39;, function (e) {
+                    if (currentProjectBound) {
+                        map.removeLayer(currentProjectBound);
+                    }
+                });
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>

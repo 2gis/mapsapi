@@ -4,7 +4,7 @@
 
 ### Описание
 
-Считывает данные в формате <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON</a> и отображает их на карте. Расширяет [FeatureGroup](/doc/2.0/maps/manual/groups#класс-dgfeaturegroup).
+Считывает данные в формате <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON</a> и отображает их на карте. Расширяет [FeatureGroup](/doc/maps/2.0/manual/groups#класс-dgfeaturegroup).
 
 ### Пример использования
 
@@ -66,7 +66,7 @@
         <tr id="geojson-pointtolayer">
             <td><code><b>pointToLayer</b>(
                 <nobr>&lt;GeoJSON&gt; <i>featureData</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
             <td>Используется для создания GeoJSON точек (если не указана, тогда будут созданы обычные маркеры).</td>
         </tr>
@@ -79,14 +79,14 @@
         <tr id="geojson-oneachfeature">
             <td><code><b>onEachFeature</b>(
                 <nobr>&lt;GeoJSON&gt; <i>featureData</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
             </code></td>
             <td>Вызывается при создании каждого объекта.</td>
         </tr>
         <tr id="geojson-filter">
             <td><code><b>filter</b>(
                 <nobr>&lt;GeoJSON&gt; <i>featureData</i></nobr>,
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>&gt; <i>layer</i> )</nobr>
             </code></td>
             <td>Функция, которая определяет отображать объект или нет.</td>
         </tr>
@@ -94,12 +94,12 @@
             <td><code><b>coordsToLatLng</b>(
                 <nobr>&lt;Array&gt; <i>coords</i></nobr> )</nobr>
             </code></td>
-            <td>Функция, которая будет использоваться для преобразования GeoJSON координат в <a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a> (если не задана, тогда координаты будут формироваться согласно стандарту <a href="http://ru.wikipedia.org/wiki/WGS_84" target="_blank">WGS84</a>).</td>
+            <td>Функция, которая будет использоваться для преобразования GeoJSON координат в <a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a> (если не задана, тогда координаты будут формироваться согласно стандарту <a href="http://ru.wikipedia.org/wiki/WGS_84" target="_blank">WGS84</a>).</td>
         </tr>
     </tbody>
 </table>
 
-<p>Также принимает все <a href="/doc/2.0/maps/manual/geometries#опции">опции класса Path</a>, которые используются для ломаных и многоугольников.</p>
+<p>Также принимает все <a href="/doc/maps/2.0/manual/geometries#опции">опции класса Path</a>, которые используются для ломаных и многоугольников.</p>
 
 ### Методы
 <table>
@@ -127,7 +127,7 @@
         </tr>
         <tr id="geojson-resetstyle">
             <td><code><b>resetStyle</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/geometries#класс-dgpath">Path</a>&gt; <i>layer</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/geometries#класс-dgpath">Path</a>&gt; <i>layer</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Сбрасывает стиль векторного слоя на GeoJSON стиль по умолчанию, полезно для сброса стилей после событий hover.</td>
@@ -151,7 +151,7 @@
                 <nobr>&lt;<a href="#geojson-pointtolayer">Function</a>&gt; <i>pointToLayer?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/2.0/maps/manual/interfaces#ilayer">ILayer</a></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a></code></td>
             <td>Создает слой на основе переданного GeoJSON объекта.</td>
         </tr>
         <tr>
@@ -159,8 +159,8 @@
                 <nobr>&lt;Array&gt; <i>coords</i></nobr>,
                 <nobr>&lt;Boolean&gt; <i>reverse?</i> )</nobr>
             </code></td>
-            <td><code><a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
-            <td>Создает объект <a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a> по переданному массиву из двух чисел (широта, долгота), используется для GeoJSON точек. Если опция <code>reverse</code> установлена в <code>true</code>, тогда числа будут восприняты как (долгота, широта).</td>
+            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td>Создает объект <a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a> по переданному массиву из двух чисел (широта, долгота), используется для GeoJSON точек. Если опция <code>reverse</code> установлена в <code>true</code>, тогда числа будут восприняты как (долгота, широта).</td>
         </tr>
         <tr>
             <td><code><b>coordsToLatlngs</b>(
@@ -169,7 +169,7 @@
                 <nobr>&lt;Boolean&gt; <i>reverse?</i> )</nobr>
             </code></td>
             <td><code>Array</code></td>
-            <td>Создает многомерный массив объектов <a href="/doc/2.0/maps/manual/base-classes#класс-dglatlng">LatLng</a> из массива GeoJSON координат. <code>levelsDeep</code> определяет уровень вложенности (0 &mdash; массив точек, 1 &mdash; массив массивов точек и т.д, по умолчанию 0). Если опция <code>reverse</code> установлена в <code>true</code>, тогда числа будут восприняты как (долгота, широта).</td>
+            <td>Создает многомерный массив объектов <a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a> из массива GeoJSON координат. <code>levelsDeep</code> определяет уровень вложенности (0 &mdash; массив точек, 1 &mdash; массив массивов точек и т.д, по умолчанию 0). Если опция <code>reverse</code> установлена в <code>true</code>, тогда числа будут восприняты как (долгота, широта).</td>
         </tr>
     </tbody>
 </table>

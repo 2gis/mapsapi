@@ -1,1 +1,132 @@
-<p>wkt.md</p>
+<h2 id="работа-с-wkt">Работа с WKT</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#отображение-простых-геометрий">Отображение простых геометрий</a></li><li><a href="#отображение-составных-геометрий">Отображение составных геометрий</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведены примеры работы с WKT. Для получения подробной информации перейдите в раздел документации <a href="/doc/maps/2.0/manual/wkt">WKT-формат</a>.</p>
+<h3 id="отображение-простых-геометрий">Отображение простых геометрий</h3><script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        var map,
+            coord1 = 'POLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136))',
+            coord2 = 'LINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235))',
+            coord3 = 'POINT((82.914 55.042136))',
+            wktPolygon = DG.wkt(),
+            wktLine = DG.wkt(),
+            wktPoint = DG.wkt();
+
+        map = DG.map('map', {
+            center: [55.042136, 82.91699],
+            zoom: 16
+        });
+
+        wktPolygon.read(coord1);
+        wktPolygon.toObject().addTo(map);
+
+        wktLine.read(coord2);
+        wktLine.toObject().addTo(map);
+
+        wktPoint.read(coord3);
+        wktPoint.toObject().addTo(map);          
+    })
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Отображение простых геометрий&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                var map,
+                    coord1 = &#39;POLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136))&#39;,
+                    coord2 = &#39;LINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235))&#39;,
+                    coord3 = &#39;POINT((82.914 55.042136))&#39;,
+                    wktPolygon = DG.wkt(),
+                    wktLine = DG.wkt(),
+                    wktPoint = DG.wkt();
+
+                map = DG.map(&#39;map&#39;, {
+                    center: [55.042136, 82.91699],
+                    zoom: 16
+                });
+
+                wktPolygon.read(coord1);
+                wktPolygon.toObject().addTo(map);
+
+                wktLine.read(coord2);
+                wktLine.toObject().addTo(map);
+
+                wktPoint.read(coord3);
+                wktPoint.toObject().addTo(map);          
+            })
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="отображение-составных-геометрий">Отображение составных геометрий</h3><p><div id="map1" style="width: 100%; height: 400px;"></div></p>
+<script>
+    DG.then(function() {
+        var map,
+            coord1 = 'MULTIPOLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136), (82.91599 55.041136, 82.916522 55.039187, 82.917063 55.039235, 82.916540 55.041184,82.91599 55.041136))',
+            coord2 = 'MULTILINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235), (82.91899 55.044136, 82.919522 55.042187, 82.920063 55.042235))',
+            coord3 = 'MULTIPOINT((82.914 55.042136, 82.915 55.043136, 82.915 55.042136, 82.914 55.043136))',
+            wktMultiPolygon = DG.wkt(),
+            wktMultiLine = DG.wkt(),
+            wktMuliPoint = DG.wkt();
+
+        map = DG.map('map1', {
+            center: [55.041836, 82.91699],
+            zoom: 16
+        });
+
+        wktMultiPolygon.read(coord1);
+        wktMultiPolygon.toObject().addTo(map);
+
+        wktMultiLine.read(coord2);
+        wktMultiLine.toObject().addTo(map);
+
+        wktMuliPoint.read(coord3);
+        wktMuliPoint.toObject().addTo(map);          
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39; /&gt;
+        &lt;title&gt;Отображение составных геометрий&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                var map,
+                    coord1 = &#39;MULTIPOLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136), (82.91599 55.041136, 82.916522 55.039187, 82.917063 55.039235, 82.916540 55.041184,82.91599 55.041136))&#39;,
+                    coord2 = &#39;MULTILINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235), (82.91899 55.044136, 82.919522 55.042187, 82.920063 55.042235))&#39;,
+                    coord3 = &#39;MULTIPOINT((82.914 55.042136, 82.915 55.043136, 82.915 55.042136, 82.914 55.043136))&#39;,
+                    wktMultiPolygon = DG.wkt(),
+                    wktMultiLine = DG.wkt(),
+                    wktMuliPoint = DG.wkt();
+
+                map = DG.map(&#39;map&#39;, {
+                    center: [55.041836, 82.91699],
+                    zoom: 16
+                });
+
+                wktMultiPolygon.read(coord1);
+                wktMultiPolygon.toObject().addTo(map);
+
+                wktMultiLine.read(coord2);
+                wktMultiLine.toObject().addTo(map);
+
+                wktMuliPoint.read(coord3);
+                wktMuliPoint.toObject().addTo(map);          
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>

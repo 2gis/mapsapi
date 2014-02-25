@@ -4,7 +4,7 @@
 
 ### Описание
 
-Кроме возможности подключить один из [пакетов](/doc/2.0/maps/manual/loading#loading-pkg) модулей 2ГИС, вы можете загружать модули других разработчиков со сторонних серверов. API карт совместим с большинством <a target="_blank" href="http://leafletjs.com/plugins.html">модулей библиотеки Leaflet</a>. Также вы можете разработать и подключить <a href="https://github.com/2gis/maps-api-2.0/blob/master/CONTRIBUTING.md#%D0%9A%D0%B0%D0%BA-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8C" target="_blank">собственный модуль</a>.
+Кроме возможности подключить один из [пакетов](/doc/maps/2.0/manual/loading#loading-pkg) модулей 2ГИС, вы можете загружать модули других разработчиков со сторонних серверов. API карт совместим с большинством <a target="_blank" href="http://leafletjs.com/plugins.html">модулей библиотеки Leaflet</a>. Также вы можете разработать и подключить <a href="https://github.com/2gis/maps-api-2.0/blob/master/CONTRIBUTING.md#%D0%9A%D0%B0%D0%BA-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8C" target="_blank">собственный модуль</a>.
 
 ### Подключение
 
