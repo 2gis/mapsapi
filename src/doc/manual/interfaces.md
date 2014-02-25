@@ -4,7 +4,7 @@
 
 ### IHandler
 
-Интерфейс, который реализуется [обработчиками взаимодействия](/doc/2.0/maps/manual/map#свойства).
+Интерфейс, который реализуется [обработчиками взаимодействия](/doc/maps/2.0/manual/map#свойства).
 
 #### Методы
 
@@ -37,7 +37,7 @@
 
 ### ILayer
 
-Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как [тайловые слои](/doc/2.0/maps/manual/layers#класс-dgtilelayer), [маркеры](/doc/2.0/maps/manual/markers#класс-dgmarker), [балуны](/doc/2.0/maps/manual/popups#описание), [слои](/doc/2.0/maps/manual/layers#описание), [векторные слои](/doc/2.0/maps/manual/geometries) и [группы](/doc/2.0/maps/manual/groups#класс-dglayergroup).
+Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как [тайловые слои](/doc/maps/2.0/manual/layers#класс-dgtilelayer), [маркеры](/doc/maps/2.0/manual/markers#класс-dgmarker), [балуны](/doc/maps/2.0/manual/popups#описание), [слои](/doc/maps/2.0/manual/layers#описание), [векторные слои](/doc/maps/2.0/manual/geometries) и [группы](/doc/maps/2.0/manual/groups#класс-dglayergroup).
 
 #### Методы
 
@@ -52,14 +52,14 @@
     <tbody>
         <tr>
             <td><code><b>onAdd</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td>-</td>
-            <td>Должен содержать код, который создает DOM элементы слоя, добавляет их на <a href="/doc/2.0/maps/manual/map#панели-карты">панели карты</a> и подписывает обработчики на все необходимые события карты. Вызывается при <code>map.addLayer(layer)</code>.</td>
+            <td>Должен содержать код, который создает DOM элементы слоя, добавляет их на <a href="/doc/maps/2.0/manual/map#панели-карты">панели карты</a> и подписывает обработчики на все необходимые события карты. Вызывается при <code>map.addLayer(layer)</code>.</td>
         </tr>
         <tr>
             <td><code><b>onRemove</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td>-</td>
             <td>Должен содержать код очистки, который удаляет элементы слоя и отписывает ранее добавленные обработчики событий. Вызывается при <code>map.removeLayer(layer)</code>.</td>
@@ -69,9 +69,9 @@
 
 #### Реализация собственных слоев
 
-Наиболее важными при разработке слоев являются событие [viewreset](/doc/2.0/maps/manual/map#map-viewreset) и метод [latLngToLayerPoint](/doc/2.0/maps/manual/map#map-latlngtolayerpoint) карты. `viewreset` вызывается когда карта должна спозиционировать свои слои (например, при изменении масштаба), а `latLngToLayerPoint` используется для получения новых координат слоя.
+Наиболее важными при разработке слоев являются событие [viewreset](/doc/maps/2.0/manual/map#map-viewreset) и метод [latLngToLayerPoint](/doc/maps/2.0/manual/map#map-latlngtolayerpoint) карты. `viewreset` вызывается когда карта должна спозиционировать свои слои (например, при изменении масштаба), а `latLngToLayerPoint` используется для получения новых координат слоя.
 
-Еще одним событием, которое часто используется при разработке слоев является [moveend](/doc/2.0/maps/manual/map#map-moveend), оно вызывается после любых движений карты (перемещение, изменение масштаба и т.п.).
+Еще одним событием, которое часто используется при разработке слоев является [moveend](/doc/maps/2.0/manual/map#map-moveend), оно вызывается после любых движений карты (перемещение, изменение масштаба и т.п.).
 
 Еще одна важная особенность, которую необходимо знать &mdash; для всех DOM элементов, которые должны быть скрыты во время анимации изменения масштаба карты необходимо добавить класс `leaflet-zoom-hide`.
 
@@ -115,11 +115,11 @@
 
 ### IControl
 
-Графические элементы управления, которые располагаются в одном из углов карты. Реализуется элементами [zoom](/doc/2.0/maps/manual/controls#класс-dgcontrolzoom), [attribution](/doc/2.0/maps/manual/controls#класс-dgcontrolattribution), [ruler](/doc/2.0/maps/manual/controls#класс-dgcontrolruler) и т.п.
+Графические элементы управления, которые располагаются в одном из углов карты. Реализуется элементами [zoom](/doc/maps/2.0/manual/controls#класс-dgcontrolzoom), [attribution](/doc/maps/2.0/manual/controls#класс-dgcontrolattribution), [ruler](/doc/maps/2.0/manual/controls#класс-dgcontrolruler) и т.п.
 
 #### Методы
 
-Каждый элемент управления должен наследоваться от класса [Control](/doc/2.0/maps/manual/controls#класс-dgcontrol) и иметь следующие методы:
+Каждый элемент управления должен наследоваться от класса [Control](/doc/maps/2.0/manual/controls#класс-dgcontrol) и иметь следующие методы:
 
 <table>
     <thead>
@@ -132,14 +132,14 @@
     <tbody>
         <tr>
             <td><code><b>onAdd</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>HTMLElement</code></td>
             <td>Должен содержать код, который создает DOM элементы, подписывает обработчики на все необходимые события карты и возвращает элемент содержащий содержимое элемента управления. Вызывается при <code>map.addControl(control)</code> или <code>control.addTo(map)</code>.</td>
         </tr>
         <tr>
             <td><code><b>onRemove</b>(
-                <nobr>&lt;<a href="/doc/2.0/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td>-</td>
             <td>Опционально, должен содержать код очистки (например, отписывать обработчики событий). Вызывается при <code>map.removeControl(control)</code> или <code>control.removeFrom(map)</code>. DOM контейнер элемента управления удаляется автоматически.</td>
