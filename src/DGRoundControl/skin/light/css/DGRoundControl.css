@@ -1,11 +1,10 @@
 .dg-control-round {
-    border: 5px solid transparent;
+    border: 5px solid;
+    border-color: #f0f0f0;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
 }
 .dg-control-round:before {
     content: '';
-    background: #f0f0f0;
-    background: rgba(240,240,240,.8);
     position: absolute;
     margin: -6px 0 0 -6px;
     border-radius: 50%;
