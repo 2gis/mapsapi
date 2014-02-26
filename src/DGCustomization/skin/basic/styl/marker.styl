@@ -1,15 +1,7 @@
 .dg-customization__marker {
     background-repeat: no-repeat;
-    }
-.dg-customization__marker_type_mushroom {
-    margin: -34px 0 0 -13px;
-    width: 22px;
-    height: 34px;
-    background-image: url(__BASE_URL__/img/DGCustomization_defaultMarker.png);
-    transform-origin: 50% 100%;
-    animation: dg-customization__show-marker .2s;
-    }
-    .dg-customization__marker:before {
+
+    &:before {
         position: absolute;
         top: 0;
         left: 0;
@@ -24,18 +16,27 @@
         transform: scale(1, 1); /* marker`s dublicate */
         transform-origin: 50% 100%;
         }
+    }
+.dg-customization__marker_type_mushroom {
+    margin: -34px 0 0 -13px;
+    width: 22px;
+    height: 34px;
+    background-image: url(__BASE_URL__/img/DGCustomization_defaultMarker.png);
+    transform-origin: 50% 100%;
+    animation: dg-customization__show-marker .2s;
+
+    &:focus {
+        outline: 0;
+        }
+    }
 
 @keyframes dg-customization__show-marker {
     from { opacity: 0; }
       to { opacity: 1; }
     }
 
-.leaflet-container:not(.leaflet-touch) div.leaflet-clickable.dg-customization__marker_type_mushroom:hover {
+.leaflet-container:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
     background-image: url(__BASE_URL__/img/DGCustomization_markerHover.png);
-    }
-
-.dg-customization__marker_type_mushroom:focus {
-    outline: 0;
     }
 
 div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
@@ -44,22 +45,24 @@ div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
 
 .dg-customization__marker_appear {
     background-position: 999px;
-    }
-    .dg-customization__marker_appear:before {
+    
+    &:before {
         content: '';
         }
+    }
 
 .dg-customization__marker_disappear {
     background-position: 999px;
     pointer-events: none;
-    }
-    .dg-customization__marker_disappear:before {
+    
+    &:before {
         visibility: hidden;
         content: '';
         opacity: 0;
         transform: scale(1.2, 1.8);
         animation: dg-customization__marker-to-callout .2s;
         }
+    }
 
 @keyframes dg-customization__marker-to-callout {
     0% {

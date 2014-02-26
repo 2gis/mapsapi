@@ -7,9 +7,9 @@
     position: relative;
     overflow: hidden;
     cursor: default;
-    }
-    .dg-map:before,
-    .dg-map:after {
+
+    &:before,
+    &:after {
         position: absolute;
         top: 0;
         z-index: 10;
@@ -17,42 +17,43 @@
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
         content: '';
         }
-    .dg-map:before {
+    &:before {
         left: 0;
         width: 0;
         height: 100%;
         }
-    .dg-map:after {
+    &:after {
         left: 1px;
         width: 100%;
         height: 0;
         }
-
+    }
     .dg-map__inner {
         position: relative;
         width: 100%;
         height: 100%;
-        }
-        .dg-map__inner:before,
-        .dg-map__inner:after {
+
+        &:before,
+        &:after {
             position: absolute;
             z-index: 10;
             display: block;
             box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
             content: '';
             }
-        .dg-map__inner:before {
+        &:before {
             bottom: 0;
             left: 0;
             width: 100%;
             height: 0;
             }
-        .dg-map__inner:after {
+        &:after {
             top: 0;
             right: 0;
             width: 0;
             height: 100%;
             }
+        }
 
     @media print {
         .dg-map:before,

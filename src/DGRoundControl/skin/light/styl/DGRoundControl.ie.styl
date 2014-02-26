@@ -2,6 +2,13 @@
     filter: unquote("progid:DXImageTransform.Microsoft.AlphaImageLoader(
         src='__BASE_URL__/img/DGRoundControl_round-control-light.png',
         sizingMethod='scale')");
+
+    &:before {
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: none;
+        }
     }
 .leaflet-disabled.dg-control-round,
 .leaflet-disabled.dg-control-round:hover {
@@ -21,9 +28,3 @@
         src='__BASE_URL__/img/DGRoundControl_round-control-active-light.png',
         sizingMethod='scale')");
     }
-    .dg-control-round:before {
-        margin: 0;
-        padding: 0;
-        border: none;
-        background: none;
-        }

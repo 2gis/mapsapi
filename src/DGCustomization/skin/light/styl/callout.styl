@@ -19,15 +19,16 @@
     stroke-dasharray: 0,10,100,60;
     margin-top: -2px;
     }
+
 a.popup-link,
 .firm-card__link a {
     background-image: linear-gradient(to right, rgba(0,91,143,.3), rgba(0,91,143,.3) 100%);
     color: #005b8f;
-    }
-a.popup-link:hover,
-.firm-card__link a:hover {
-    background-image: linear-gradient(to right, rgba(0,0,0,.3), rgba(0,0,0,.3) 100%);
-    color: #000;
+    
+    &:hover {
+        background-image: linear-gradient(to right, rgba(0,0,0,.3), rgba(0,0,0,.3) 100%);
+        color: #000;
+        }
     }
 
 .leaflet-container a.leaflet-popup-close-button:hover {
