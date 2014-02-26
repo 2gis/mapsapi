@@ -26,7 +26,11 @@ module.exports = function (grunt) {
     grunt.registerTask('hint', ['jshint:force']);
 
     // Lint, combine and minify source files, copy assets, and add hook on push
-    grunt.registerTask('build', ['hint', 'assets', 'buildSrc', 'githooks']);
+    var buildTasks = ['hint', 'assets', 'buildSrc'];
+    if (grunt.option('p') != 'online') {
+        buildTasks.push('githooks')
+    }
+    grunt.registerTask('build', buildTasks);
 
     // Generate documentation from source files
     grunt.registerTask('doc', function () {
