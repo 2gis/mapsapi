@@ -3,12 +3,11 @@ a.dg-mapcopyright__license {
     background-image: url("http://maps.api.2gis.ru/analytics/dg-tilelayer-base-copyright.png");
     -ms-filter: unqoute("progid:DXImageTransform.Microsoft.Alpha(Opacity=70)");
     filter: unqoute("alpha(opacity=70)");
-    }
-
-a.dg-mapcopyright__apilink:hover,
-a.dg-mapcopyright__license:hover {
-    -ms-filter: unqoute("progid:DXImageTransform.Microsoft.Alpha(Opacity=100)");
-    filter: unqoute("alpha(opacity=100)");
+    
+    &:hover {
+        -ms-filter: unqoute("progid:DXImageTransform.Microsoft.Alpha(Opacity=100)");
+        filter: unqoute("alpha(opacity=100)");
+        }
     }
 
 .dg-mapcopyright_lang_ru a.dg-mapcopyright__apilink {
