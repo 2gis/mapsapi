@@ -13,7 +13,7 @@ DG.Entrance.EventHandler = DG.Handler.extend({
         }, this);
 
         if (DG.Browser.ie) {
-            this._map.on('moveend', this._refresh, this); //JSAPI-3379
+            this._map.on('mousemove', this._refresh, this); //JSAPI-3379
         }
     },
 
@@ -52,7 +52,7 @@ DG.Entrance.EventHandler = DG.Handler.extend({
         }, this);
 
         if (DG.Browser.ie) {
-            this._map.off('moveend', this._refresh, this); //JSAPI-3379
+            this._map.off('mousemove', this._refresh, this); //JSAPI-3379
         }
     }
 });
