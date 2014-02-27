@@ -1,6 +1,3 @@
-
-/* global fullScreenApi */
-
 DG.Control.Fullscreen = DG.RoundControl.extend({
 
     statics: {
@@ -12,13 +9,16 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         iconClass: 'fullscreen'
     },
 
-    _isLegacy: (DG.screenfull && !(DG.Browser.android && DG.Browser.ff) && !DG.Browser.safari51) ? false : true,
+    _isLegacy: (DG.screenfull &&
+                //fallback since srange android ff bug with fullscreen mode
+                !(DG.Browser.android && DG.Browser.ff) &&
+                //fallback for safari5.1 because of error on fullscreen exit
+                !DG.Browser.safari51) ? false : true,
 
     initialize: function (options) {
         DG.Util.setOptions(this, options);
         this._isFullscreen = false;
         this.on('click', this.toggleFullscreen);
-
     },
 
     toggleFullscreen: function () {
@@ -43,35 +43,13 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
     _enterFullScreen: function () {
         var container = this._map._container;
 
-        this._isFullscreen = true;
-        this.setState('active');
+        this._setControlState(true);
 
         if (!this._isLegacy) {
             DG.screenfull.request(container);
             DG.DomEvent.on(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
         } else {
-            this._storePosition(container);
-            // set full map mode style
-            container.style.position = 'fixed';
-            container.style.margin = '0px';
-            container.style.padding = '0px';
-            container.style.border = 'medium none';
-            container.style.left = '0px';
-            container.style.top = '0px';
-
-            document.body.style.overflow = 'hidden';
-
-            container.style.width = '100%';
-            container.style.height = '100%';
-            container.style.zIndex = '9999';
-
-            // reset document.documentElement params
-            document.documentElement.scrollTop = '0px';
-
-            // reset document.body params
-            document.body.scrollTop = '0px';
-            document.body.style.margin = '0px';
-            document.body.style.padding = '0px';
+            this._legacyRequest(container);
             DG.DomEvent.on(document, 'keyup', this._onKeyUp, this);
         }
 
@@ -81,8 +59,7 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
     _exitFullScreen: function () {
         var container = this._map._container;
 
-        this._isFullscreen = false;
-        this.setState();
+        this._setControlState(false);
 
         if (!this._isLegacy) {
             DG.screenfull.exit();
@@ -92,21 +69,16 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
             DG.DomEvent.off(document, 'keyup', this._onKeyUp);
         }
 
-
         this._map.fire('cancelfullscreen');
     },
 
-    _onKeyUp: function (e) { // (Object)
-        if (!e) {
-            e = window.event;
-        }
-        if (e.keyCode === 27) {
-            this._exitFullScreen();
-        }
+    _onFullScreenStateChange: function () {
+        this._setControlState(DG.screenfull.isFullscreen);
     },
 
-    _onFullScreenStateChange: function () {
-        if (!DG.screenfull.isFullscreen) { this._exitFullScreen(); }
+    _setControlState: function (isEnabled) {
+        this._isFullscreen = isEnabled;
+        this.setState(isEnabled ? 'active' : '');
     }
 });
 
