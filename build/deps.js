@@ -168,7 +168,9 @@ var deps = {
     DGFullScreen: {
         desc: 'Full screen module',
         src: [
+            'DGFullScreen/src/DGscreenfull.js',
             'DGFullScreen/src/DGFullScreen.js',
+            'DGFullScreen/src/LegacyFullScreen.js',
             'DGFullScreen/lang/ru.js',
             'DGFullScreen/lang/it.js',
             'DGFullScreen/lang/cs.js',

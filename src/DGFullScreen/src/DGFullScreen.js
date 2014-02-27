@@ -12,51 +12,13 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         iconClass: 'fullscreen'
     },
 
-    _isLegacy: false,
-
-    _initialMapParams: {
-        zIndex: null,
-        position: null,
-        left: null,
-        top: null,
-        border: null,
-        marginTop: null,
-        marginRight: null,
-        marginBottom: null,
-        marginLeft: null,
-        paddingTop: null,
-        paddingRight: null,
-        paddingBottom: null,
-        paddingLeft: null,
-        previousSibling: null,
-        width: null,
-        height: null
-    },
-
-    _initialDocumentParams: {
-        marginTop: null,
-        marginRight: null,
-        marginBottom: null,
-        marginLeft: null,
-        paddingTop: null,
-        paddingRight: null,
-        paddingBottom: null,
-        paddingLeft: null,
-        overflow: null,
-        scrollTop: null
-    },
-
-    _initialDocumentElementParams: {
-        scrollTop: null
-    },
+    _isLegacy: (DG.screenfull && !(DG.Browser.android && DG.Browser.ff) && !DG.Browser.safari51) ? false : true,
 
     initialize: function (options) {
         DG.Util.setOptions(this, options);
-        if (!fullScreenApi.supportsFullScreen) {
-            this._isLegacy = true;
-        }
         this._isFullscreen = false;
         this.on('click', this.toggleFullscreen);
+
     },
 
     toggleFullscreen: function () {
@@ -78,77 +40,6 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         }
     },
 
-    _storePosition: function (container) { // (HTMLDivElement)
-
-        // store initial map container params
-        this._initialMapParams.zIndex = container.style.zIndex;
-        this._initialMapParams.position = container.style.position;
-        this._initialMapParams.left = container.style.left;
-        this._initialMapParams.top = container.style.top;
-        this._initialMapParams.border = container.style.border;
-        this._initialMapParams.marginTop = container.style.marginTop;
-        this._initialMapParams.marginRight = container.style.marginRight;
-        this._initialMapParams.marginBottom = container.style.marginBottom;
-        this._initialMapParams.marginLeft = container.style.marginLeft;
-        this._initialMapParams.paddingTop = container.style.paddingTop;
-        this._initialMapParams.paddingRight = container.style.paddingRight;
-        this._initialMapParams.paddingBottom = container.style.paddingBottom;
-        this._initialMapParams.paddingLeft = container.style.paddingLeft;
-        this._initialMapParams.previousSibling = container.previousSibling;
-        this._initialMapParams.width = container.style.width;
-        this._initialMapParams.height = container.style.height;
-
-        // store initial document.body params
-        this._initialDocumentParams.marginTop = document.body.style.marginTop;
-        this._initialDocumentParams.marginRight = document.body.style.marginRight;
-        this._initialDocumentParams.marginBottom = document.body.style.marginBottom;
-        this._initialDocumentParams.marginLeft = document.body.style.marginLeft;
-        this._initialDocumentParams.paddingTop = document.body.style.paddingTop;
-        this._initialDocumentParams.paddingRight = document.body.style.paddingRight;
-        this._initialDocumentParams.paddingBottom = document.body.style.paddingBottom;
-        this._initialDocumentParams.paddingLeft = document.body.style.paddingLeft;
-        this._initialDocumentParams.overflow = document.body.style.overflow;
-        this._initialDocumentParams.scrollTop = document.body.scrollTop;
-
-        // store initial document.documentElement params
-        this._initialDocumentElementParams.scrollTop = document.documentElement.scrollTop;
-    },
-
-    _restorePosition: function (container) { // (HTMLDivElement)
-
-        // restore map container params
-        container.style.position = this._initialMapParams.position;
-        container.style.zIndex = this._initialMapParams.zIndex;
-        container.style.left = this._initialMapParams.left;
-        container.style.top = this._initialMapParams.top;
-        container.style.border = this._initialMapParams.border;
-        container.style.marginTop = this._initialMapParams.marginTop;
-        container.style.marginRight = this._initialMapParams.marginRight;
-        container.style.marginBottom = this._initialMapParams.marginBottom;
-        container.style.marginLeft = this._initialMapParams.marginLeft;
-        container.style.paddingTop = this._initialMapParams.paddingTop;
-        container.style.paddingRight = this._initialMapParams.paddingRight;
-        container.style.paddingBottom = this._initialMapParams.paddingBottom;
-        container.style.paddingLeft = this._initialMapParams.paddingLeft;
-        container.style.width = this._initialMapParams.width;
-        container.style.height = this._initialMapParams.height;
-
-        // restore document.body params
-        document.body.style.overflow = this._initialDocumentParams.overflow;
-        document.body.style.marginTop = this._initialDocumentParams.marginTop;
-        document.body.style.marginRight = this._initialDocumentParams.marginRight;
-        document.body.style.marginBottom = this._initialDocumentParams.marginBottom;
-        document.body.style.marginLeft = this._initialDocumentParams.marginLeft;
-        document.body.style.paddingTop = this._initialDocumentParams.paddingTop;
-        document.body.style.paddingRight = this._initialDocumentParams.paddingRight;
-        document.body.style.paddingBottom = this._initialDocumentParams.paddingBottom;
-        document.body.style.paddingLeft = this._initialDocumentParams.paddingLeft;
-        document.body.scrollTop = this._initialDocumentParams.scrollTop;
-
-        // restore document.documentElement params
-        document.documentElement.scrollTop = this._initialDocumentElementParams.scrollTop;
-    },
-
     _enterFullScreen: function () {
         var container = this._map._container;
 
@@ -156,7 +47,8 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         this.setState('active');
 
         if (!this._isLegacy) {
-            fullScreenApi.requestFullScreen(container);
+            DG.screenfull.request(container);
+            DG.DomEvent.on(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
         } else {
             this._storePosition(container);
             // set full map mode style
@@ -180,9 +72,8 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
             document.body.scrollTop = '0px';
             document.body.style.margin = '0px';
             document.body.style.padding = '0px';
+            DG.DomEvent.on(document, 'keyup', this._onKeyUp, this);
         }
-
-        DG.DomEvent.on(document, 'keyup', this._onKeyUp, this);
 
         this._map.fire('requestfullscreen');
     },
@@ -194,12 +85,13 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         this.setState();
 
         if (!this._isLegacy) {
-            fullScreenApi.cancelFullScreen();
+            DG.screenfull.exit();
+            DG.DomEvent.off(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
         } else {
             this._restorePosition(container);
+            DG.DomEvent.off(document, 'keyup', this._onKeyUp);
         }
 
-        DG.DomEvent.off(document, 'keyup', this._onKeyUp);
 
         this._map.fire('cancelfullscreen');
     },
@@ -211,6 +103,10 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         if (e.keyCode === 27) {
             this._exitFullScreen();
         }
+    },
+
+    _onFullScreenStateChange: function () {
+        if (!DG.screenfull.isFullscreen) { this._exitFullScreen(); }
     }
 });
 
@@ -228,65 +124,3 @@ DG.Map.addInitHook(function () {
         this.addControl(this.fullscreenControl);
     }
 });
-
-/*
-  Native FullScreen JavaScript API
-  -------------
-  source : http://johndyer.name/native-fullscreen-javascript-api-plus-jquery-plugin/
-*/
-
-(function () {
-    var fullScreenApi = {
-        supportsFullScreen: false,
-        isFullScreen: function () {
-            return false;
-        },
-        requestFullScreen: function () {},
-        cancelFullScreen: function () {},
-        fullScreenEventName: '',
-        prefix: ''
-    },
-    browserPrefixes = 'webkit moz o ms khtml'.split(' '),
-        ua = navigator.userAgent.toLowerCase();
-
-    // check for native support exclude safari
-    if (typeof document.exitFullscreen !== 'undefined') {
-        fullScreenApi.supportsFullScreen = true;
-    } else {
-
-        // check for fullscreen support by vendor prefix
-        for (var i = 0, il = browserPrefixes.length; i < il; i++) {
-            fullScreenApi.prefix = browserPrefixes[i];
-
-            if ((typeof document[fullScreenApi.prefix + 'CancelFullScreen'] !== 'undefined') && !(ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1)) {
-                fullScreenApi.supportsFullScreen = true;
-                break;
-            }
-        }
-    }
-
-    // update methods to do something useful
-    if (fullScreenApi.supportsFullScreen) {
-        fullScreenApi.fullScreenEventName = fullScreenApi.prefix + 'fullscreenchange';
-
-        fullScreenApi.isFullScreen = function () {
-            switch (this.prefix) {
-            case '':
-                return document.fullScreen;
-            case 'webkit':
-                return document.webkitIsFullScreen;
-            default:
-                return document[this.prefix + 'FullScreen'];
-            }
-        };
-        fullScreenApi.requestFullScreen = function (el) {
-            return (this.prefix === '') ? el.requestFullscreen() : el[this.prefix + 'RequestFullScreen']();
-        };
-        fullScreenApi.cancelFullScreen = function () {
-            return (this.prefix === '') ? document.exitFullscreen() : document[this.prefix + 'CancelFullScreen']();
-        };
-    }
-
-    // export api
-    window.fullScreenApi = fullScreenApi;
-})();
