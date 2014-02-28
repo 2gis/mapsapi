@@ -204,11 +204,10 @@ FirmCard.prototype = {
     _onFooterBtnClick: function (e) {
         e = e || window.event;
         var target = e.target || e.srcElement;
-
         if (target && target.nodeName === 'A') {
-            if (target.id === 'popup-btn-firmCard-back') {
+            if (target.className.indexOf('popup-btn-firmCard-back') > -1) {
                 this.options.backBtn();
-            } else if (target.id ===  'popup-btn-show-entrance') {
+            } else if (target.className.indexOf('popup-btn-show-entrance') > -1) {
                 var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
                 ent.addTo(this.options.map).show();
             }
