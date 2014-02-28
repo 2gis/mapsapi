@@ -41,10 +41,10 @@
     }
 
     function getParamsSprite() {
-        var mobile = typeof orientation !== undefined,
+        var mobile = (typeof orientation !== undefined + ''),
             svg = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
-        console.log(mobile, !svg);
-        return  'sprite=true&';
+
+        return  (mobile || !svg) ? 'sprite=true&' : 'sprite=false&';
     }
 
     function getParams() {
@@ -196,5 +196,4 @@
         scriptURL = scripts[scripts.length - 1].src;
         return scriptURL.split('?');
     }
-
 })();

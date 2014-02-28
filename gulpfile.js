@@ -245,18 +245,17 @@ function bldCss(opt) {
     opt = opt || {};
 
     var baseLessDirectory = './private/less',
-    
+
         basicSprite = baseLessDirectory + '/sprite.basic.less',
         basicSprite2x = baseLessDirectory + '/sprite-2x.basic.less',
         skinSprite = baseLessDirectory + '/sprite.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.less',
         skinSprite2x = baseLessDirectory + '/sprite-2x.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.less',
 
-        mixins = baseLessDirectory + '/' + (opt.sprite ? 'mixins-png' : 'mixins-svg') + '.less',
+        mixins = baseLessDirectory + '/' + ((opt.sprite === 'true' || tasks.util.env.sprite) ? 'mixins-png' : 'mixins-svg') + '.less',
 
         cssList = deps.getCSSFiles(opt);
 
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
-
     cssList.unshift(basicSprite, basicSprite2x, skinSprite, skinSprite2x, mixins);
 
     return  gulp.src(cssList)
