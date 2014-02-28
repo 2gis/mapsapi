@@ -16,9 +16,10 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
                 !DG.Browser.safari51) ? false : true,
 
     initialize: function (options) {
+        console.log(DG.screenfull._api());
         DG.Util.setOptions(this, options);
         this._isFullscreen = false;
-        this.on('click', this.toggleFullscreen);
+        //this.on('click', this.toggleFullscreen);
     },
 
     toggleFullscreen: function () {

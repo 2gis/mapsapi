@@ -1,79 +1,89 @@
-DG.Control.Fullscreen.include({
-    _mapParams: [
-        'zIndex', 'position', 'left', 'top', 'border', 'marginTop', 'marginRight',
-        'marginBottom', 'marginLeft', 'paddingTop', 'paddingRight', 'paddingBottom',
-        'paddingLeft', 'previousSibling', 'width', 'height'
-    ],
+if (!DG.screenfull ||
+    //fallback since srange android ff bug with fullscreen mode
+    (DG.Browser.android && DG.Browser.ff) ||
+    //fallback for safari5.1 because of error on fullscreen exit
+    DG.Browser.safari51) {
 
-    _documentParams: [
-        'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'paddingTop',
-        'paddingRight', 'paddingBottom', 'paddingLeft', 'overflow', 'scrollTop'
-    ],
-    _initialDocumentParams: {},
-    _initialMapParams: {},
-    _initialDocumentElementParams: {},
+    DG.Control.Fullscreen.include({
+        _mapParams: [
+            'zIndex', 'position', 'left', 'top', 'border', 'marginTop', 'marginRight',
+            'marginBottom', 'marginLeft', 'paddingTop', 'paddingRight', 'paddingBottom',
+            'paddingLeft', 'previousSibling', 'width', 'height'
+        ],
 
-    _storePosition: function (container) { // (HTMLDivElement)
+        _documentParams: [
+            'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'paddingTop',
+            'paddingRight', 'paddingBottom', 'paddingLeft', 'overflow', 'scrollTop'
+        ],
+        _initialDocumentParams: {},
+        _initialMapParams: {},
+        _initialDocumentElementParams: {},
 
-        // store initial map container params
-        this._mapParams.forEach(function (cssRule) {
-            this._initialMapParams[cssRule] = container.style[cssRule];
-        }, this);
+        _storePosition: function (container) { // (HTMLDivElement)
 
-        // store initial document.body params
-        this._documentParams.forEach(function (cssRule) {
-            this._initialDocumentParams[cssRule] = document.body.style[cssRule];
-        }, this);
+            // store initial map container params
+            this._mapParams.forEach(function (cssRule) {
+                this._initialMapParams[cssRule] = container.style[cssRule];
+            }, this);
 
-        // store initial document.documentElement params
-        this._initialDocumentElementParams.scrollTop = document.documentElement.scrollTop;
-    },
+            // store initial document.body params
+            this._documentParams.forEach(function (cssRule) {
+                this._initialDocumentParams[cssRule] = document.body.style[cssRule];
+            }, this);
 
-    _restorePosition: function (container) { // (HTMLDivElement)
+            // store initial document.documentElement params
+            this._initialDocumentElementParams.scrollTop = document.documentElement.scrollTop;
+        },
 
-        // restore map container params
-        this._mapParams.forEach(function (cssRule) {
-            container.style[cssRule] = this._initialMapParams[cssRule];
-        }, this);
+        _restorePosition: function (container) { // (HTMLDivElement)
 
-        // restore map container params
-        this._documentParams.forEach(function (cssRule) {
-            document.body.style[cssRule] = this._initialDocumentParams[cssRule];
-        }, this);
+            // restore map container params
+            this._mapParams.forEach(function (cssRule) {
+                container.style[cssRule] = this._initialMapParams[cssRule];
+            }, this);
 
-        // restore document.documentElement params
-        document.documentElement.scrollTop = this._initialDocumentElementParams.scrollTop;
-    },
+            // restore map container params
+            this._documentParams.forEach(function (cssRule) {
+                document.body.style[cssRule] = this._initialDocumentParams[cssRule];
+            }, this);
 
-    _legacyRequest: function (container) { // (HTMLDivElement)
-        this._storePosition(container);
-        // set full map mode style
-        container.style.position = 'fixed';
-        container.style.margin = '0px';
-        container.style.padding = '0px';
-        container.style.border = 'medium none';
-        container.style.left = '0px';
-        container.style.top = '0px';
-        container.style.width = '100%';
-        container.style.height = '100%';
-        container.style.zIndex = '9999';
-        document.body.style.overflow = 'hidden';
+            // restore document.documentElement params
+            document.documentElement.scrollTop = this._initialDocumentElementParams.scrollTop;
+        },
 
-        // reset document.documentElement params
-        document.documentElement.scrollTop = '0px';
+        _legacyRequest: function (container) { // (HTMLDivElement)
+            var containerStyle = container.style,
+                body = document.body;
 
-        // reset document.body params
-        document.body.scrollTop = '0px';
-        document.body.style.margin = '0px';
-        document.body.style.padding = '0px';
-    },
+            this._storePosition(container);
+            // set full map mode style
+            containerStyle.position = 'fixed';
+            containerStyle.margin = '0px';
+            containerStyle.padding = '0px';
+            containerStyle.border = 'medium none';
+            containerStyle.left = '0px';
+            containerStyle.top = '0px';
+            containerStyle.width = '100%';
+            containerStyle.height = '100%';
+            containerStyle.zIndex = '9999';
+            body.style.overflow = 'hidden';
 
-    _onKeyUp: function (e) { // (Object)
-        if (!e) {
-            e = window.event;
+            // reset document.body params
+            body.scrollTop = '0px';
+            body.style.margin = '0px';
+            body.style.padding = '0px';
+
+            // reset document.documentElement params
+            document.documentElement.scrollTop = '0px';
+        },
+
+        _onKeyUp: function (e) { // (Object)
+            if (!e) {
+                e = window.event;
+            }
+            if (e.keyCode === 27) {
+                this._exitFullScreen();
+            }
         }
-        if (e.keyCode === 27) {
-            this._exitFullScreen();
-        }
-    }
-});
+    });
+}
