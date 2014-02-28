@@ -1,0 +1,14 @@
+.dg-control-round__icon_name_locate:before {
+    .image('DGLocation_WhiteGeoActive');
+    
+    &:hover {
+        .image('DGLocation_WhiteGeoHover');
+        }
+    }
+
+.dg-control-round__icon_name_locate.dg-control-round__icon_state_requesting:before {
+    background-image: url(__BASE_URL__/img/DGLocation_geoInProgress-white.png);
+    }
+.leaflet-retina .dg-control-round__icon_name_locate.dg-control-round__icon_state_requesting:before {
+    background-image: url(__BASE_URL__/img/DGLocation_geoInProgress-white-2x.png);
+    }

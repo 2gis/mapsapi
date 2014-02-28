@@ -4,16 +4,13 @@ var extend = require('extend'),
     prettyBytes = require('pretty-bytes'),
 
     gulp = require('gulp'),
+    less = require('gulp-less'),
     tasks = require('gulp-load-plugins')(),
 
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config),
     stat = {}; //file minification statistic
-
-//DELETE IT
-tasks.stylus = require('./build/gulp-stylus');
-
 
 //public CLI API
 // Get info
@@ -112,26 +109,26 @@ gulp.task('sprite', ['svg2png'], function () {
     return es.concat(
         gulp.src(['./src/**/png/*.png', '!./src/**/png/*2x.png'])
             .pipe(tasks.spritesmith({
-                styleTemplate: 'build/sprite_tmpl.mustache',
+                styleTemplate: 'build/sprite-template.mustache',
                 imgName: 'sprite.png',
-                styleName: 'sprite.styl',
+                styleName: 'sprite.less',
                 groupBy: 'skin',
                 imgPath: '../img/sprite.png',
                 engine: 'pngsmith'
             }))
             .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
-            .pipe(tasks.if('*.styl', gulp.dest('./private/styl/'))),
+            .pipe(tasks.if('*.less', gulp.dest('./private/less/'))),
         gulp.src('./src/**/png/*2x.png')
             .pipe(tasks.spritesmith({
-                styleTemplate: 'build/sprite_tmpl.mustache',
+                styleTemplate: 'build/sprite-template.mustache',
                 imgName: 'sprite-2x.png',
-                styleName: 'sprite-2x.styl',
+                styleName: 'sprite-2x.less',
                 groupBy: 'skin',
                 imgPath: '../img/sprite-2x.png',
                 engine: 'pngsmith'
             }))
             .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
-            .pipe(tasks.if('*.styl', gulp.dest('./private/styl/')))
+            .pipe(tasks.if('*.less', gulp.dest('./private/less/')))
     );
 });
 
@@ -246,21 +243,26 @@ function bldJs(opt) {
 //css build api
 function bldCss(opt) {
     opt = opt || {};
-    var basicSprite = './private/styl/sprite.basic.styl',
-        basicSpriteX = './private/styl/sprite-2x.basic.styl',
-        skinSprite = './private/styl/sprite.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.styl',
-        skinSpriteX = './private/styl/sprite-2x.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.styl',
+
+    var baseLessDirectory = './private/less',
+    
+        basicSprite = baseLessDirectory + '/sprite.basic.less',
+        basicSprite2x = baseLessDirectory + '/sprite-2x.basic.less',
+        skinSprite = baseLessDirectory + '/sprite.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.less',
+        skinSprite2x = baseLessDirectory + '/sprite-2x.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.less',
+
+        mixins = baseLessDirectory + '/' + (opt.sprite ? 'mixins-png' : 'mixins-svg') + '.less',
+
         cssList = deps.getCSSFiles(opt);
+
     if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
+
+    cssList.unshift(basicSprite, basicSprite2x, skinSprite, skinSprite2x, mixins);
 
     return  gulp.src(cssList)
                 .pipe(tasks.frep(config.cfgParams))
-                .pipe(tasks.stylus({
-                    import: [basicSprite, basicSpriteX, skinSprite, skinSpriteX, 'private/styl/mixin.styl'],
-                    define: {
-                        'imageType': opt.sprite ? 'png' : 'svg'
-                    }
-                }))
+                .pipe(tasks.concat('tmp.less'))
+                .pipe(less())
                 .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 .pipe(tasks.base64({
                     extensions: ['svg']

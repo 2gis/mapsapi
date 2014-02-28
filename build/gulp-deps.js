@@ -79,7 +79,7 @@ var init = function (config) {
                     return modules[name];
                 })
                 .map(function (module) {
-                    return module[options.type || 'styl'];
+                    return module[options.type || 'less'];
                 })
                 .filter(Boolean)
                 .reduce(function (array, item) {

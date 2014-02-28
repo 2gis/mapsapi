@@ -8,7 +8,7 @@ npm-debug.log
 public
 dist
 private/dev*
-private/styl/sprite*.styl
+private/less/sprite*.less
 src/**/png
 
 docbuilder/doc

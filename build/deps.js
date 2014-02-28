@@ -3,7 +3,7 @@ var deps = {
     Leaflet: {
         desc: 'Leaflet dist',
         src: ['../vendors/leaflet/dist/leaflet-src.js'],
-        styl: {
+        less: {
             all: ['../vendors/leaflet/dist/leaflet.css']
         }
     },
@@ -44,8 +44,8 @@ var deps = {
             'DGLabel/src/Marker.DGLabel.js',
             'DGLabel/src/Path.DGLabel.js'
         ],
-        styl: {
-            all: ['DGLabel/skin/{skin}/styl/DGLabel.styl']
+        less: {
+            all: ['DGLabel/skin/{skin}/less/DGLabel.less']
         },
         deps: ['DGCore']
     },
@@ -75,21 +75,21 @@ var deps = {
             'DGCustomization/lang/DGZoom/cs.js',
             'DGCustomization/lang/DGZoom/en.js'
         ],
-        styl: {
+        less: {
             all: [
-                'DGCustomization/skin/basic/styl/leaflet-reset.styl',
+                'DGCustomization/skin/basic/less/leaflet-reset.less',
                 '../vendors/baron/baron.css',
-                'DGCustomization/skin/{skin}/styl/zoom.styl',
-                'DGCustomization/skin/{skin}/styl/baron.styl',
-                'DGCustomization/skin/{skin}/styl/marker.styl',
-                'DGCustomization/skin/{skin}/styl/callout.styl',
-                'DGCustomization/skin/{skin}/styl/baron.styl'
+                'DGCustomization/skin/{skin}/less/zoom.less',
+                'DGCustomization/skin/{skin}/less/baron.less',
+                'DGCustomization/skin/{skin}/less/marker.less',
+                'DGCustomization/skin/{skin}/less/callout.less',
+                'DGCustomization/skin/{skin}/less/baron.less'
             ],
             ie: [
-                'DGCustomization/skin/{skin}/styl/baron.ie.styl',
-                'DGCustomization/skin/{skin}/styl/callout.ie.styl',
-                'DGCustomization/skin/{skin}/styl/zoom.ie.styl',
-                'DGCustomization/skin/{skin}/styl/marker.ie.styl'
+                'DGCustomization/skin/{skin}/less/baron.ie.less',
+                'DGCustomization/skin/{skin}/less/callout.ie.less',
+                'DGCustomization/skin/{skin}/less/zoom.ie.less',
+                'DGCustomization/skin/{skin}/less/marker.ie.less'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
@@ -104,9 +104,9 @@ var deps = {
             'DGAttribution/lang/cs.js',
             'DGAttribution/lang/en.js'
         ],
-        styl: {
-            all: ['DGAttribution/skin/{skin}/styl/DGAttribution.styl'],
-            ie: ['DGAttribution/skin/{skin}/styl/DGAttribution.ie.styl']
+        less: {
+            all: ['DGAttribution/skin/{skin}/less/DGAttribution.less'],
+            ie: ['DGAttribution/skin/{skin}/less/DGAttribution.ie.less']
         },
         deps: ['DGCore', 'DGDust', 'DGLocale']
     },
@@ -129,8 +129,8 @@ var deps = {
             'DGLocation/lang/cs.js',
             'DGLocation/lang/en.js'
         ],
-        styl: {
-            all: ['DGLocation/skin/{skin}/styl/DGLocation.styl']
+        less: {
+            all: ['DGLocation/skin/{skin}/less/DGLocation.less']
         },
         deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
     },
@@ -144,9 +144,9 @@ var deps = {
             'DGFullScreen/lang/cs.js',
             'DGFullScreen/lang/en.js'
         ],
-        styl: {
-            all: ['DGFullScreen/skin/{skin}/styl/DGFullScreen.styl'],
-            ie: ['DGFullScreen/skin/{skin}/styl/DGFullScreen.ie.styl']
+        less: {
+            all: ['DGFullScreen/skin/{skin}/less/DGFullScreen.less'],
+            ie: ['DGFullScreen/skin/{skin}/less/DGFullScreen.ie.less']
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
@@ -190,13 +190,13 @@ var deps = {
 
     DGGeoclicker: {
         desc: '2GIS Geoclicker',
-        styl: {
+        less: {
             all: [
-                'DGGeoclicker/skin/{skin}/styl/DGGeoclicker.styl',
-                'DGGeoclicker/skin/{skin}/styl/DGFirmCard.styl',
-                'DGGeoclicker/skin/{skin}/styl/DGFirmCardSkinSetup.styl'
+                'DGGeoclicker/skin/{skin}/less/DGGeoclicker.less',
+                'DGGeoclicker/skin/{skin}/less/DGFirmCard.less',
+                'DGGeoclicker/skin/{skin}/less/DGFirmCardSkinSetup.less'
             ],
-            ie: ['DGGeoclicker/skin/{skin}/styl/DGGeoclicker.ie.styl']
+            ie: ['DGGeoclicker/skin/{skin}/less/DGGeoclicker.ie.less']
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
@@ -257,9 +257,9 @@ var deps = {
     DGRoundControl: {
         desc: 'Control helper',
         src: ['DGRoundControl/src/DGRoundControl.js'],
-        styl: {
-            all: ['DGRoundControl/skin/{skin}/styl/DGRoundControl.styl'],
-            ie: ['DGRoundControl/skin/{skin}/styl/DGRoundControl.ie.styl']
+        less: {
+            all: ['DGRoundControl/skin/{skin}/less/DGRoundControl.less'],
+            ie: ['DGRoundControl/skin/{skin}/less/DGRoundControl.ie.less']
         },
         deps: ['DGCore', 'DGLocale']
     }
