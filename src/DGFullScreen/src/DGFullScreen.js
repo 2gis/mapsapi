@@ -9,17 +9,10 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         iconClass: 'fullscreen'
     },
 
-    _isLegacy: (DG.screenfull &&
-                //fallback since srange android ff bug with fullscreen mode
-                !(DG.Browser.android && DG.Browser.ff) &&
-                //fallback for safari5.1 because of error on fullscreen exit
-                !DG.Browser.safari51) ? false : true,
-
     initialize: function (options) {
-        console.log(DG.screenfull._api());
         DG.Util.setOptions(this, options);
         this._isFullscreen = false;
-        //this.on('click', this.toggleFullscreen);
+        this.on('click', this.toggleFullscreen);
     },
 
     toggleFullscreen: function () {
@@ -46,13 +39,8 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
 
         this._setControlState(true);
 
-        if (!this._isLegacy) {
-            DG.screenfull.request(container);
-            DG.DomEvent.on(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
-        } else {
-            this._legacyRequest(container);
-            DG.DomEvent.on(document, 'keyup', this._onKeyUp, this);
-        }
+        DG.screenfull.request(container);
+        DG.DomEvent.on(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
 
         this._map.fire('requestfullscreen');
     },
@@ -62,19 +50,14 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
 
         this._setControlState(false);
 
-        if (!this._isLegacy) {
-            DG.screenfull.exit();
-            DG.DomEvent.off(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
-        } else {
-            this._restorePosition(container);
-            DG.DomEvent.off(document, 'keyup', this._onKeyUp);
-        }
+        DG.screenfull.exit(container);
+        DG.DomEvent.off(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
 
         this._map.fire('cancelfullscreen');
     },
 
     _onFullScreenStateChange: function () {
-        this._setControlState(DG.screenfull.isFullscreen);
+        (!DG.screenfull.isFullscreen()) && this._exitFullScreen();
     },
 
     _setControlState: function (isEnabled) {

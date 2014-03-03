@@ -22,5 +22,4 @@ DG.Map.prototype.setMaxZoom = function (maxZoom) {
 };
 
 // Add some browser detection
-DG.Browser.ff = (navigator.userAgent.toLowerCase().indexOf('firefox') > -1);
 DG.Browser.safari51 = (/5\.1[\.\d]* Safari/.test(navigator.userAgent));

@@ -1,10 +1,14 @@
-if (!DG.screenfull ||
+if (!DG.screenfull.raw ||
     //fallback since srange android ff bug with fullscreen mode
-    (DG.Browser.android && DG.Browser.ff) ||
+    (DG.Browser.android && DG.Browser.gecko) ||
     //fallback for safari5.1 because of error on fullscreen exit
     DG.Browser.safari51) {
 
-    DG.Control.Fullscreen.include({
+    DG.Screenfull.include({
+        _api: function () {
+            return {fullscreenchange: 'keyup'};
+        },
+
         _mapParams: [
             'zIndex', 'position', 'left', 'top', 'border', 'marginTop', 'marginRight',
             'marginBottom', 'marginLeft', 'paddingTop', 'paddingRight', 'paddingBottom',
@@ -19,23 +23,7 @@ if (!DG.screenfull ||
         _initialMapParams: {},
         _initialDocumentElementParams: {},
 
-        _storePosition: function (container) { // (HTMLDivElement)
-
-            // store initial map container params
-            this._mapParams.forEach(function (cssRule) {
-                this._initialMapParams[cssRule] = container.style[cssRule];
-            }, this);
-
-            // store initial document.body params
-            this._documentParams.forEach(function (cssRule) {
-                this._initialDocumentParams[cssRule] = document.body.style[cssRule];
-            }, this);
-
-            // store initial document.documentElement params
-            this._initialDocumentElementParams.scrollTop = document.documentElement.scrollTop;
-        },
-
-        _restorePosition: function (container) { // (HTMLDivElement)
+        exit: function (container) { // (HTMLDivElement)
 
             // restore map container params
             this._mapParams.forEach(function (cssRule) {
@@ -51,7 +39,7 @@ if (!DG.screenfull ||
             document.documentElement.scrollTop = this._initialDocumentElementParams.scrollTop;
         },
 
-        _legacyRequest: function (container) { // (HTMLDivElement)
+        request: function (container) { // (HTMLDivElement)
             var containerStyle = container.style,
                 body = document.body;
 
@@ -77,7 +65,23 @@ if (!DG.screenfull ||
             document.documentElement.scrollTop = '0px';
         },
 
-        _onKeyUp: function (e) { // (Object)
+        _storePosition: function (container) { // (HTMLDivElement)
+
+            // store initial map container params
+            this._mapParams.forEach(function (cssRule) {
+                this._initialMapParams[cssRule] = container.style[cssRule];
+            }, this);
+
+            // store initial document.body params
+            this._documentParams.forEach(function (cssRule) {
+                this._initialDocumentParams[cssRule] = document.body.style[cssRule];
+            }, this);
+
+            // store initial document.documentElement params
+            this._initialDocumentElementParams.scrollTop = document.documentElement.scrollTop;
+        },
+
+        _onFullScreenStateChange: function (e) { // (Object)
             if (!e) {
                 e = window.event;
             }
@@ -86,4 +90,6 @@ if (!DG.screenfull ||
             }
         }
     });
+
+    DG.screenfull = new  DG.Screenfull();
 }
