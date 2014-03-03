@@ -6,7 +6,7 @@ if (!DG.screenfull.api ||
 
     DG.Screenfull.include({
         _fullscreenClass: 'DGFullScreen_legacy-mode',
-        _fullscreenBodyClass: 'DGFullScreen_legacy-mode-body',
+        _fullscreenBodyClass: this._fullscreenClass + '-body',
         _api: function () {
             return {fullscreenchange: 'keyup'};
         },
