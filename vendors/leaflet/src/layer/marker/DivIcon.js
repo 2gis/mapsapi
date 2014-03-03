@@ -32,6 +32,7 @@ L.DivIcon = L.Icon.extend({
 		}
 
 		this._setIconStyles(div, 'icon');
+
 		return div;
 	},
 

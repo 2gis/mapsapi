@@ -193,6 +193,7 @@
                 }
             }
 
+            originalAdjustPan.call(this);
             this._bindAdjustPanOnTransitionEnd();
         },
 
