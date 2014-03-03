@@ -13,12 +13,12 @@ describe('DG.FullScreen', function () {
         it('events', function () {
             var enterFS = sinon.spy(),
                 exitFS = sinon.spy();
-
-            map.fullscreenControl._toggleFullscreen();
-            map.fullscreenControl._toggleFullscreen();
-
             map.on('requestfullscreen', enterFS);
             map.on('cancelfullscreen', exitFS);
+
+            map.fullscreenControl._toggleFullscreen();
+            map.fullscreenControl._toggleFullscreen();
+
             expect(enterFS.calledOnce).to.be.ok();
             expect(exitFS.calledOnce).to.be.ok();
         });
