@@ -45,8 +45,6 @@ if (!DG.screenfull.api ||
         },
 
         request: function (container) { // (HTMLDivElement)
-            var body = document.body;
-
             this._storePosition(container);
             // set full map mode style
             DG.DomUtil.addClass(container, this._fullscreenClass);

@@ -60,12 +60,12 @@ DG.Screenfull = DG.Class.extend({
         var api = {},
             apiMap = this._apiMap;
 
-        apiMap.forEach(function (val) {
-            if (val && val[1] in document) {
-                val.forEach(function (method, i) {
-                    api[apiMap[0][i]] = method;
-                });
-            }
+        apiMap
+        .filter(function (val) {
+            return (val && val[1] in document);
+        }).shift()
+        .forEach(function (method, i) {
+            api[apiMap[0][i]] = method;
         });
 
         return api.requestFullscreen ? api : false;

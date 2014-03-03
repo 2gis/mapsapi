@@ -12,14 +12,14 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
     initialize: function (options) {
         DG.Util.setOptions(this, options);
         this._isFullscreen = false;
-        this.on('click', this.toggleFullscreen);
+        this.on('click', this._toggleFullscreen);
     },
 
-    toggleFullscreen: function () {
+    _toggleFullscreen: function () {
         if (!this._isFullscreen) {
-            this._toggleFullScreen(true, 'request', 'on', 'requestfullscreen');
+            this._toggle(true, 'request', 'on', 'requestfullscreen');
         } else {
-            this._toggleFullScreen(false, 'exit', 'on', 'cancelfullscreen');
+            this._toggle(false, 'exit', 'on', 'cancelfullscreen');
         }
 
         this._renderTranslation();
@@ -30,7 +30,7 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         this._link.title = this.t(this._isFullscreen ? 'title_min' : 'title_max');
     },
 
-    _toggleFullScreen: function (isEnabled, method, list, event) {
+    _toggle: function (isEnabled, method, list, event) {
         var container = this._map._container;
 
         this._isFullscreen = isEnabled;
@@ -38,12 +38,11 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
 
         DG.screenfull[method](container);
         DG.DomEvent[list](document, DG.screenfull.api.fullscreenchange, this._onFullScreenStateChange, this);
-
         this._map.fire(event);
     },
 
     _onFullScreenStateChange: function () {
-        (!DG.screenfull.isFullscreen()) && this._toggleFullScreen(false, 'exit', 'on', 'cancelfullscreen');
+        (!DG.screenfull.isFullscreen()) && this._toggle(false, 'exit', 'on', 'cancelfullscreen');
     }
 });
 
