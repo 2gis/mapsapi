@@ -37,23 +37,23 @@ DG.Screenfull = DG.Class.extend({
         ]
     ],
 
-    initialize: function () { // (Object)
-        this.raw = this._api();
+    initialize: function () {
+        this.api = this._api();
     },
 
     request: function (elem) {
-        var request = this.raw.requestFullscreen;
+        var request = this.api.requestFullscreen;
 
         elem = elem || document.documentElement;
         elem[request](Element.ALLOW_KEYBOARD_INPUT);
     },
 
     exit: function () {
-        document[this.raw.exitFullscreen]();
+        document[this.api.exitFullscreen]();
     },
 
     isFullscreen: function () {
-        return !!document[this.raw.fullscreenElement];
+        return !!document[this.api.fullscreenElement];
     },
 
     _api: function () {
@@ -72,4 +72,4 @@ DG.Screenfull = DG.Class.extend({
     }
 });
 
-DG.screenfull = new  DG.Screenfull();
+DG.screenfull = new DG.Screenfull();

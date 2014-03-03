@@ -17,9 +17,9 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
 
     toggleFullscreen: function () {
         if (!this._isFullscreen) {
-            this._enterFullScreen();
+            this._toggleFullScreen(true, 'request', 'on', 'requestfullscreen');
         } else {
-            this._exitFullScreen();
+            this._toggleFullScreen(false, 'exit', 'on', 'cancelfullscreen');
         }
 
         this._renderTranslation();
@@ -27,42 +27,23 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
     },
 
     _renderTranslation: function () {
-        if (this._isFullscreen) {
-            this._link.title = this.t('title_min');
-        } else {
-            this._link.title = this.t('title_max');
-        }
+        this._link.title = this.t(this._isFullscreen ? 'title_min' : 'title_max');
     },
 
-    _enterFullScreen: function () {
+    _toggleFullScreen: function (isEnabled, method, list, event) {
         var container = this._map._container;
 
-        this._setControlState(true);
+        this._isFullscreen = isEnabled;
+        this.setState(isEnabled ? 'active' : '');
 
-        DG.screenfull.request(container);
-        DG.DomEvent.on(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
+        DG.screenfull[method](container);
+        DG.DomEvent[list](document, DG.screenfull.api.fullscreenchange, this._onFullScreenStateChange, this);
 
-        this._map.fire('requestfullscreen');
-    },
-
-    _exitFullScreen: function () {
-        var container = this._map._container;
-
-        this._setControlState(false);
-
-        DG.screenfull.exit(container);
-        DG.DomEvent.off(document, DG.screenfull.raw.fullscreenchange, this._onFullScreenStateChange, this);
-
-        this._map.fire('cancelfullscreen');
+        this._map.fire(event);
     },
 
     _onFullScreenStateChange: function () {
-        (!DG.screenfull.isFullscreen()) && this._exitFullScreen();
-    },
-
-    _setControlState: function (isEnabled) {
-        this._isFullscreen = isEnabled;
-        this.setState(isEnabled ? 'active' : '');
+        (!DG.screenfull.isFullscreen()) && this._toggleFullScreen(false, 'exit', 'on', 'cancelfullscreen');
     }
 });
 

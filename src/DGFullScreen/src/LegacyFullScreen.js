@@ -1,10 +1,12 @@
-if (!DG.screenfull.raw ||
+if (!DG.screenfull.api ||
     //fallback since srange android ff bug with fullscreen mode
     (DG.Browser.android && DG.Browser.gecko) ||
     //fallback for safari5.1 because of error on fullscreen exit
     DG.Browser.safari51) {
 
     DG.Screenfull.include({
+        _fullscreenClass: 'DGFullScreen_legacy-mode',
+        _fullscreenBodyClass: 'DGFullScreen_legacy-mode-body',
         _api: function () {
             return {fullscreenchange: 'keyup'};
         },
@@ -25,6 +27,9 @@ if (!DG.screenfull.raw ||
 
         exit: function (container) { // (HTMLDivElement)
 
+            DG.DomUtil.removeClass(container, this._fullscreenClass);
+            DG.DomUtil.removeClass(document.body, this._fullscreenBodyClass);
+
             // restore map container params
             this._mapParams.forEach(function (cssRule) {
                 container.style[cssRule] = this._initialMapParams[cssRule];
@@ -40,26 +45,12 @@ if (!DG.screenfull.raw ||
         },
 
         request: function (container) { // (HTMLDivElement)
-            var containerStyle = container.style,
-                body = document.body;
+            var body = document.body;
 
             this._storePosition(container);
             // set full map mode style
-            containerStyle.position = 'fixed';
-            containerStyle.margin = '0px';
-            containerStyle.padding = '0px';
-            containerStyle.border = 'medium none';
-            containerStyle.left = '0px';
-            containerStyle.top = '0px';
-            containerStyle.width = '100%';
-            containerStyle.height = '100%';
-            containerStyle.zIndex = '9999';
-            body.style.overflow = 'hidden';
-
-            // reset document.body params
-            body.scrollTop = '0px';
-            body.style.margin = '0px';
-            body.style.padding = '0px';
+            DG.DomUtil.addClass(container, this._fullscreenClass);
+            DG.DomUtil.addClass(document.body, this._fullscreenBodyClass);
 
             // reset document.documentElement params
             document.documentElement.scrollTop = '0px';
@@ -91,5 +82,5 @@ if (!DG.screenfull.raw ||
         }
     });
 
-    DG.screenfull = new  DG.Screenfull();
+    DG.screenfull = new DG.Screenfull();
 }
