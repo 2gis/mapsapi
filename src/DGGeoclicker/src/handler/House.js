@@ -158,7 +158,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         this._firmList = new FirmCard.List(results, {
             firmCard: options,
             firmlistItemTmpl: 'firmlistItem',
-            onListReady: DG.bind(this._renderFirmList, this),
+            onListReady: DG.bind(this._renderFirmList, this)
         });
         this._firmListObject = this._fillFirmListObject(this._firmList.renderList());
         this._clearAndRenderPopup(this._firmListObject);

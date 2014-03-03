@@ -65,7 +65,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
             'name': encodeURIComponent(name),
             'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'
         });
-    },
+    }
 
 });
 

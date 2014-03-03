@@ -292,7 +292,45 @@ var deps = {
             ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
+    },
+
+    DGRuler: {
+        desc: 'Ruler module',
+        src: [
+            'DGRuler/src/Ruler.js',
+            'DGRuler/src/LayeredMarker.js',
+            'DGRuler/src/GeometryStyles.js',
+            'DGRuler/lang/ru.js',
+            'DGRuler/lang/it.js',
+            'DGRuler/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRuler/skin/{skin}/css/DGRuler.css'
+            ],
+            ie: [
+                'DGRuler/skin/{skin}/css/DGRuler.ie.css'
+            ]
+        },
+        deps: ['DGCore', 'DGLocale']
+    },
+
+    DGRulerControl: {
+        desc: 'Ruler control module',
+        src: [
+            'DGRulerControl/src/Control.Ruler.js',
+            'DGRulerControl/lang/ru.js',
+            'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRulerControl/skin/{skin}/css/DGRulerControl.css'
+            ]
+        },
+        deps: ['DGRuler', 'DGRoundControl']
     }
+
 };
 
 if (typeof exports !== 'undefined') {
