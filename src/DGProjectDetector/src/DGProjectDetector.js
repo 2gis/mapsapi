@@ -75,7 +75,11 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _boundInProject: function (project) {
-        return project.latLngBounds.intersects(this._map.getBounds());
+        try {
+            return project.latLngBounds.intersects(this._map.getBounds());
+        } catch (e) {
+            return false;
+        }
     },
 
     _zoomInProject: function (project) {
