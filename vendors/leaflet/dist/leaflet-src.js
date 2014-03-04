@@ -3652,14 +3652,14 @@ L.Marker = L.Class.extend({
 			    .off(this._icon, 'mouseout', this._resetZIndex);
 		}
 
-		this._map._panes.markerPane.removeChild(this._icon);
+		this._icon.parentNode.removeChild(this._icon);
 
 		this._icon = null;
 	},
 
 	_removeShadow: function () {
 		if (this._shadow) {
-			this._map._panes.shadowPane.removeChild(this._shadow);
+			this._shadow.parentNode.removeChild(this._shadow);
 		}
 		this._shadow = null;
 	},
@@ -3821,6 +3821,7 @@ L.DivIcon = L.Icon.extend({
 		}
 
 		this._setIconStyles(div, 'icon');
+
 		return div;
 	},
 
@@ -4549,7 +4550,7 @@ L.Path = L.Class.extend({
 	},
 
 	onRemove: function (map) {
-		map._pathRoot.removeChild(this._container);
+		this._container.parentNode.removeChild(this._container);
 
 		// Need to fire remove event before we set _map to null as the event hooks might need the object
 		this.fire('remove');
@@ -4617,8 +4618,8 @@ L.Path = L.Path.extend({
 	},
 
 	bringToFront: function () {
-		var root = this._map._pathRoot,
-		    path = this._container;
+		var path = this._container,
+		    root = path.parentNode;
 
 		if (path && root.lastChild !== path) {
 			root.appendChild(path);
@@ -6728,7 +6729,7 @@ L.Draggable = L.Class.extend({
 			this._startPos = L.DomUtil.getPosition(this._element).subtract(offset);
 
 			L.DomUtil.addClass(document.body, 'leaflet-dragging');
-			L.DomUtil.addClass((e.target || e.srcElement), 'leaflet-drag-target');
+			L.DomUtil.addClass(this._dragStartTarget, 'leaflet-drag-target');
 		}
 
 		this._newPos = this._startPos.add(offset);
@@ -6746,7 +6747,7 @@ L.Draggable = L.Class.extend({
 
 	_onUp: function (e) {
 		L.DomUtil.removeClass(document.body, 'leaflet-dragging');
-		L.DomUtil.removeClass((e.target || e.srcElement), 'leaflet-drag-target');
+		L.DomUtil.removeClass(this._dragStartTarget, 'leaflet-drag-target');
 
 		for (var i in L.Draggable.MOVE) {
 			L.DomEvent
