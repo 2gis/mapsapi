@@ -500,6 +500,11 @@ describe('DG.ProjectDetector', function () {
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
 
+        it('without options', function () {
+            map = new DG.Map(mapContainer).setView([0, 0], 0);
+            expect(map.getCenter()).to.be.eql({lat: 0, lng: 0});
+        });
+
     });
 
     describe('#should fire', function () {
