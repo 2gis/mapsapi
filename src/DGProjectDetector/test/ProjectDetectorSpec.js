@@ -3,7 +3,7 @@ describe('DG.ProjectDetector', function () {
     var map,
         spy,
         mapContainer = document.createElement('div'),
-        initZoom = 17,
+        initZoom = 7,
         maxZoom = 18,
         maxDesertZoom = 13,
         start =        new DG.LatLng(54.98117239821992, 82.88922250270844),
@@ -217,6 +217,13 @@ describe('DG.ProjectDetector', function () {
 
             expect(map.fitBounds(new DG.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
             expect(map.getZoom()).to.be(13);
+        });
+
+        it('bound on small square from project1 zero zoom', function () {
+            map.setView(project1, 0);
+
+            expect(map.fitBounds([[54.98116931987221, 82.8987979888916], [54.97977172563573, 82.8981113433837]])).to.be(map);
+            expect(map.getZoom()).to.be(18);
         });
     });
 
