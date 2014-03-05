@@ -13,7 +13,6 @@ describe('DG.ProjectDetector', function () {
         edgeProject2 = new DG.LatLng(55.27354174049191, 82.869873046875),
         edgeProject3 = new DG.LatLng(55.28664323349526, 82.87656784057617),
         desert1 =      new DG.LatLng(54.817453325877906, 81.85930252075195),
-        // desert1 =      new DG.LatLng(54.89635451954825, 82.40295410156249),
         desert2 =      new DG.LatLng(61.1128985047811, 89.5414924621582);
 
     document.body.appendChild(mapContainer);
@@ -159,7 +158,7 @@ describe('DG.ProjectDetector', function () {
     describe('#setZoomAround', function () {
 
         it('zoom to other project', function () {
-            map.setView(project1);
+            map.setView(project1, 17);
 
             expect(map.setZoomAround(project2, maxZoom)).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
@@ -220,7 +219,7 @@ describe('DG.ProjectDetector', function () {
         });
 
         it('bound on small square from project1 zero zoom', function () {
-            map.setView(project1, 0);
+            map.setZoomAround(L.latLng(56.68037378950137, 89.4287109375), 4);
 
             expect(map.fitBounds([[54.98116931987221, 82.8987979888916], [54.97977172563573, 82.8981113433837]])).to.be(map);
             expect(map.getZoom()).to.be(18);
@@ -526,6 +525,7 @@ describe('DG.ProjectDetector', function () {
         it('\'projectleave\' event', function () {
             spy = sinon.spy();
             map.on('projectleave', spy);
+            map.setView(project1, 17);
             map.setView(desert1, maxZoom);
             expect(spy.called).to.be.ok();
         });
