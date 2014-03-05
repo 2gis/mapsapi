@@ -149,6 +149,8 @@
             }
 
             this._innerContainer.appendChild(tip);
+
+            this._wrapper.style[DG.DomUtil.TRANSITION] = '0';
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
@@ -201,36 +203,16 @@
             if (e) {
                 if (e.propertyName === 'max-height') {
                     originalAdjustPan.call(this);
-                    DG.DomEvent.off(this._wrapper, this._whichTransitionEndEvent(), this._adjustPan);
+                    DG.DomEvent.off(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan);
                 }
             } else {
                 originalAdjustPan.call(this);
             }
         },
 
-        _whichTransitionEndEvent: function () { // () -> String | Null
-            var t,
-                el = document.createElement('fakeelement'),
-                transitions = {
-                'transition': 'transitionend',
-                'OTransition': 'oTransitionEnd',
-                'MozTransition': 'transitionend',
-                'WebkitTransition': 'webkitTransitionEnd'
-            };
-
-            for (t in transitions) {
-                if (el.style[t] !== undefined) {
-                    return transitions[t];
-                }
-            }
-
-            return null;
-        },
-
         _bindAdjustPanOnTransitionEnd: function () {
-            var transEv = this._whichTransitionEndEvent();
-            if (transEv) {
-                DG.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
+            if (DG.DomUtil.TRANSITION_END) {
+                DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this);
             } else {
                 this._adjustPan();
             }
@@ -413,13 +395,10 @@
         },
 
         _onCloseButtonClick: function (e) { // (Event)
-            var transEv;
-
             this._animateClosing();
-            transEv = this._whichTransitionEndEvent();
 
-            if (transEv) {
-                DG.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
+            if (DG.DomUtil.TRANSITION_END) {
+                DG.DomEvent.on(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             }
             else {
                 this._firePopupClose(e);
@@ -428,12 +407,10 @@
         },
 
         _firePopupClose: function (e) { // (Event)
-            var transEv = this._whichTransitionEndEvent();
-
             originalOnClose.call(this, e);
 
-            if (this._whichTransitionEndEvent()) {
-                DG.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
+            if (DG.DomUtil.TRANSITION_END) {
+                DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose);
             }
         }
     });
