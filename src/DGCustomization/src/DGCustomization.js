@@ -1,6 +1,7 @@
 //Inject observing localization change
-var controlAddTo = DG.Control.prototype.addTo;
-var panBy = DG.Map.prototype.panBy;
+var controlAddTo = DG.Control.prototype.addTo,
+    panBy = DG.Map.prototype.panBy,
+    getBoundsZoom = DG.Map.prototype.getBoundsZoom;
 
 DG.Control.include({
     addTo: function (map) {
@@ -99,6 +100,11 @@ DG.Map.include({
         }
 
         return map;
+    },
+
+    getBoundsZoom: function (bounds, inside, padding) {
+        this._resctrictZoom(bounds);
+        return getBoundsZoom.call(this, bounds, inside, padding);
     },
 
     _testAnimation: function (coords) {//if we jump to other project - disable animation
