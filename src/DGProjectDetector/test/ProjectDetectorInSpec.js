@@ -3,7 +3,7 @@ describe('DG.ProjectDetector', function () {
     var map,
         spy,
         mapContainer = document.createElement('div'),
-        initZoom = 7,
+        initZoom = 17,
         maxZoom = 18,
         maxDesertZoom = 13,
         start =        new DG.LatLng(54.98117239821992, 82.88922250270844),
@@ -457,62 +457,6 @@ describe('DG.ProjectDetector', function () {
         });
     });
 
-    describe('#initMap', function () {
-
-        beforeEach(function () {
-            map.remove();
-            map = null;
-        });
-
-        it('in project', function () {
-            map = new DG.Map(mapContainer, {
-                center: project1,
-                'zoom': 19,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(maxZoom);
-        });
-
-        it('in desert', function () {
-            map = new DG.Map(mapContainer, {
-                center: desert1,
-                'zoom': 19,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(maxDesertZoom);
-        });
-
-        it('in project with max zoom', function () {
-            map = new DG.Map(mapContainer, {
-                center: project1,
-                'zoom': 19,
-                'maxZoom': 15,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(15);
-        });
-
-        it('in desert with max zoom', function () {
-            map = new DG.Map(mapContainer, {
-                center: desert1,
-                'zoom': 19,
-                'maxZoom': 15,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(maxDesertZoom);
-        });
-
-        it('without options', function () {
-            map = new DG.Map(mapContainer).setView([0, 0], 0);
-            expect(map.getCenter()).to.be.eql({lat: 0, lng: 0});
-        });
-
-    });
-
     describe('#should fire', function () {
 
         it('\'projectchange\' event', function () {
@@ -525,7 +469,6 @@ describe('DG.ProjectDetector', function () {
         it('\'projectleave\' event', function () {
             spy = sinon.spy();
             map.on('projectleave', spy);
-            map.setView(project1, 17);
             map.setView(desert1, maxZoom);
             expect(spy.called).to.be.ok();
         });
