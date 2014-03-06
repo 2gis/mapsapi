@@ -13,7 +13,6 @@ describe('DG.ProjectDetector', function () {
         edgeProject2 = new DG.LatLng(55.27354174049191, 82.869873046875),
         edgeProject3 = new DG.LatLng(55.28664323349526, 82.87656784057617),
         desert1 =      new DG.LatLng(54.817453325877906, 81.85930252075195),
-        // desert1 =      new DG.LatLng(54.89635451954825, 82.40295410156249),
         desert2 =      new DG.LatLng(61.1128985047811, 89.5414924621582);
 
     document.body.appendChild(mapContainer);
@@ -159,7 +158,7 @@ describe('DG.ProjectDetector', function () {
     describe('#setZoomAround', function () {
 
         it('zoom to other project', function () {
-            map.setView(project1);
+            map.setView(project1, 17);
 
             expect(map.setZoomAround(project2, maxZoom)).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
@@ -217,6 +216,13 @@ describe('DG.ProjectDetector', function () {
 
             expect(map.fitBounds(new DG.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
             expect(map.getZoom()).to.be(13);
+        });
+
+        it('bound on small square from project1 zero zoom', function () {
+            map.setZoomAround(L.latLng(56.68037378950137, 89.4287109375), 4);
+
+            expect(map.fitBounds([[54.98116931987221, 82.8987979888916], [54.97977172563573, 82.8981113433837]])).to.be(map);
+            expect(map.getZoom()).to.be(18);
         });
     });
 
@@ -449,62 +455,6 @@ describe('DG.ProjectDetector', function () {
             map.removeLayer(map.baseLayer);
             expect(map.projectDetector.enabled()).to.not.be.ok();
         });
-    });
-
-    describe('#initMap', function () {
-
-        beforeEach(function () {
-            map.remove();
-            map = null;
-        });
-
-        it('in project', function () {
-            map = new DG.Map(mapContainer, {
-                center: project1,
-                'zoom': 19,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(maxZoom);
-        });
-
-        it('in desert', function () {
-            map = new DG.Map(mapContainer, {
-                center: desert1,
-                'zoom': 19,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(maxDesertZoom);
-        });
-
-        it('in project with max zoom', function () {
-            map = new DG.Map(mapContainer, {
-                center: project1,
-                'zoom': 19,
-                'maxZoom': 15,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(15);
-        });
-
-        it('in desert with max zoom', function () {
-            map = new DG.Map(mapContainer, {
-                center: desert1,
-                'zoom': 19,
-                'maxZoom': 15,
-                'geoclicker': true,
-                'zoomAnimation': false
-            });
-            expect(map.getZoom()).to.be.equal(maxDesertZoom);
-        });
-
-        it('without options', function () {
-            map = new DG.Map(mapContainer).setView([0, 0], 0);
-            expect(map.getCenter()).to.be.eql({lat: 0, lng: 0});
-        });
-
     });
 
     describe('#should fire', function () {
