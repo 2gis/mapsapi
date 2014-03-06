@@ -1,0 +1,39 @@
+.image(@name) when (@graphicsType = svg) {
+    .imageData(@name);
+
+    width: @width;
+    height: @height;
+    background-repeat: no-repeat;
+    background-image: url('@{baseURL}/svg/@{name}.svg');
+    }
+
+.image(@name) when (default()) {
+    .imageData(@name);
+
+    width: @width;
+    height: @height;
+    background-repeat: no-repeat;
+
+    background-image: url('@{backgroundImage');
+    background-position: @backgroundPosition;
+    background-size: @totalWidth @totalHeight;
+
+    .leaflet-retina & {
+        .imageData('@{name}-2x');
+
+        background-image: url('@{backgroundImage');
+        }
+    }
+
+
+.bg(@name) when (@graphicsType = svg) {
+    background-image: url('@{baseURL}/svg/@{name}.svg');
+    }
+
+.bg(@name) when (default()) {
+    background-image: url('@{baseURL}/img/@{name}.png');
+
+    .leaflet-retina & {
+        background-image: url('@{baseURL}/img/@{name}-2x.png');
+        }
+    }
