@@ -1,6 +1,8 @@
 //Web app of 2GIS Maps API 2.0
 require('strong-agent').profile(undefined, undefined, {quiet: true});
 var express = require('express'),
+    cluster = require('cluster'),
+    cpuCount = require('os').cpus().length,
     clc = require('cli-color'),
     gulp = require(__dirname + '/gulpfile.js'),
     config = require(__dirname + '/build/config.js').appConfig;
@@ -24,13 +26,13 @@ function getParams(req, resp, next) {
         response.set('Content-Type', contentType);
 
         stream.on('data', function (file) {
-            var directWrite = response.write(file.contents.toString('utf8'));
-            if (!directWrite) {
+            /*var directWrite = */response.write(file.contents.toString('utf8'));
+            /*if (!directWrite) {
                 stream.pause();
                 response.once('drain', function () {
                     stream.resume();
                 });
-            }
+            }*/
         });
         stream.on('end', function () {
             response.end();
@@ -53,6 +55,22 @@ app.get('/2.0/css', getParams, function (req, res) {
 var host = app.get('host'),
     port = app.get('port');
 
-app.listen(port, host, function () {
-    console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port')));
-});
+if (cluster.isMaster) {
+    cluster
+        .on('death', function (worker) {
+            console.log('PID #' + worker.process.pid + ' died. spawning a new process...');
+            cluster.fork();
+        })
+        .on('fork', function (worker) {
+            console.log('PID #' + worker.process.pid + ' started!');
+        });
+
+    console.log('Maps API 2.0 server will run in ' + cpuCount + ' threads. Spawning the new processes...');
+    for (var i = 0; i < cpuCount; i++) {
+        cluster.fork();
+    }
+} else {
+    app.listen(port, host, function () {
+        console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port')));
+    });
+}

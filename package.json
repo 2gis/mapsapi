@@ -26,6 +26,7 @@
   ],
   "devDependencies": {
     "extend": "~1.2.1",
+    "cluster": "~0.7.7",
     "cli-color": "~0.2.3",
     "marked": "~0.3.0",
     "event-stream": "~3.1.0",
@@ -71,8 +72,6 @@
     "pretty-bytes": "~0.1.0",
 
     "lodash": "~2.4.1",
-    "underscore.string": "~2.3.3",
-    "less": "~1.6.3",
-    "nib": "~1.0.2"
+    "underscore.string": "~2.3.3"
   }
 }

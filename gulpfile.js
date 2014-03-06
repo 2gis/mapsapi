@@ -231,8 +231,8 @@ function saveSize(file, cb) {
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
                .pipe(tasks.redust(config.tmpl))
-               .pipe(tasks.concat('script.js'))
                .pipe(tasks.frep(config.cfgParams))
+               .pipe(tasks.concat('script.js'))
                .pipe(tasks.header(config.js.intro))
                .pipe(opt.isDebug ? tasks.footer(config.js.dustdebug) : tasks.util.noop())
                .pipe(tasks.footer(config.js.outro))
