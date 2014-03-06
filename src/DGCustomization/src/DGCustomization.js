@@ -148,3 +148,6 @@ DG.Map.include({
 DG.Map.addInitHook(function () {
     this.on('layeradd layerremove', this._updateTln);
 });
+
+// Add some browser detection
+DG.Browser.safari51 = (/5\.1[\.\d]* Safari/.test(navigator.userAgent));
