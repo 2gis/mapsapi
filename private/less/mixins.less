@@ -6,7 +6,6 @@
     background-repeat: no-repeat;
     background-image: url('@{baseURL}/svg/@{name}.svg');
     }
-
 .image(@name) when (default()) {
     .imageData(@name);
 
@@ -24,16 +23,21 @@
         background-image: url('@{backgroundImage');
         }
     }
-
-
-.bg(@name) when (@graphicsType = svg) {
-    background-image: url('@{baseURL}/svg/@{name}.svg');
-    }
-
-.bg(@name) when (default()) {
+ 
+/* 
+    Миксин для тех картинок, векторной версии которых не существует
+ */
+.png(@name) {
     background-image: url('@{baseURL}/img/@{name}.png');
 
     .leaflet-retina & {
         background-image: url('@{baseURL}/img/@{name}-2x.png');
         }
+    }
+
+.bg(@name) when (@graphicsType = svg) {
+    background-image: url('@{baseURL}/img/@{name}.svg');
+    }
+.bg(@name) when (default()) {
+    .png(@name);
     }
