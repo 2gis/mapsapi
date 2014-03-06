@@ -288,6 +288,12 @@ var deps = {
             ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
+    },
+
+    DGTrafficLayer: {
+        desc: 'TrafficLayer',
+        src: ['DGTraffic/src/DGTraffic.js'],
+        deps: ['DGCore']
     }
 };
 
