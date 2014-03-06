@@ -150,7 +150,9 @@
 
             this._innerContainer.appendChild(tip);
 
-            this._wrapper.style[DG.DomUtil.TRANSITION] = '0';
+            if (DG.Browser.webkit && !DG.Browser.chrome) {
+                this._wrapper.style[DG.DomUtil.TRANSITION] = '0';
+            }
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
