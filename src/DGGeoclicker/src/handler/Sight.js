@@ -107,7 +107,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowMore: function () {
-        this._link = this._popup.findElement('.dg-showmoresight');
+        this._link = this._popup.findElement('.dg-map-geoclicker__show-more-sight-link');
         this._desc = this._popup.findElement('.dg-map-geoclicker__sight-description');
 
         if (this._link && this._desc) {
