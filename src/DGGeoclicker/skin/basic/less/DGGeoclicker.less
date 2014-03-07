@@ -275,26 +275,26 @@
     background-image: url('@{baseURL}/img/icon-sight-2x.png');
     }
 
-@keyframes preloader__outer {
+@keyframes dg-preloader__outer {
     to { transform: rotate(360deg); }
     }
-@keyframes preloader__inner {
+@keyframes dg-preloader__inner {
     to { transform: rotate(-360deg); }
     }
 
-.preloader {
+.dg-preloader {
     position: relative;
     margin: 0 auto;
     width: 200px;
     height: 44px;
     vertical-align: middle;
     }
-.preloader_animation_false {
+.dg-preloader_animation_false {
     background: url('@{baseURL}/img/loader.gif') no-repeat scroll 50% 50% transparent;
     }
-.preloader_animation_true {
+.dg-preloader_animation_true {
     }
-    .preloader_animation_true:before {
+    .dg-preloader_animation_true:before {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -303,10 +303,10 @@
         height: 44px;
         outline: 1px solid transparent;
         content: '';
-        animation: preloader__outer 5s linear infinite;
+        animation: dg-preloader__outer 5s linear infinite;
         image-rendering: optimizeQuality;
         }
-    .preloader_animation_true:after {
+    .dg-preloader_animation_true:after {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -315,30 +315,30 @@
         height: 32px;
         outline: 1px solid transparent;
         content: '';
-        animation: preloader__inner 4s linear infinite;
+        animation: dg-preloader__inner 4s linear infinite;
         image-rendering: optimizeQuality;
         }
-    .preloader_animation_true.preloader_small:before {
+    .dg-preloader_animation_true.dg-preloader_size_small:before {
         margin: -12px 0 0 -12px;
         width: 24px;
         height: 24px;
         background-repeat: no-repeat;
         }
-    .preloader_animation_true.preloader_small:after {
+    .dg-preloader_animation_true.dg-preloader_size_small:after {
         margin: -6px 0 0 -6px;
         width: 12px;
         height: 12px;
         background-repeat: no-repeat;
         }
-    .preloader_animation_true.preloader_scheme_regular:before {
+    .dg-preloader_animation_true.dg-preloader_scheme_regular:before {
         background-image: url('@{baseURL}/img/DGGeoclicker_preloader_regular-big-outer.svg');
         }
-    .preloader_animation_true.preloader_scheme_regular:after {
+    .dg-preloader_animation_true.dg-preloader_scheme_regular:after {
         background-image: url('@{baseURL}/img/DGGeoclicker_preloader_regular-big-inner.svg');
         }
-    .preloader_animation_true.preloader_scheme_regular.preloader_small:before {
+    .dg-preloader_animation_true.dg-preloader_scheme_regular.dg-preloader_size_small:before {
         background-image: url('@{baseURL}/img/DGGeoclicker_preloader_regular-small-outer.svg');
         }
-    .preloader_animation_true.preloader_scheme_regular.preloader_small:after {
+    .dg-preloader_animation_true.dg-preloader_scheme_regular.dg-preloader_size_small:after {
         background-image: url('@{baseURL}/img/DGGeoclicker_preloader_regular-small-inner.svg');
         }
