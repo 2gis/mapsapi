@@ -165,7 +165,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _pasteLoader: function () {
-        var loaderWrapper  = DG.DomUtil.create('div', 'loader-wrapper'),
+        var loaderWrapper  = DG.DomUtil.create('div', 'dg-map-geoclicker__preloader-wrapper'),
             loader = this._view.initLoader();
 
         loaderWrapper.appendChild(loader);
