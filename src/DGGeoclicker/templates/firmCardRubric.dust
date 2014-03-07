@@ -1,7 +1,7 @@
 {#rubrics}
     <section class="dg-firm-card__rubrics">
         {?primary}
-            <ul class="dg-firm-card__rubrics-list dg-firm-card__rubrics_primary">
+            <ul class="dg-firm-card__rubrics-list dg-firm-card__rubrics-list_type_primary">
                 {#primary}
                     <li class="dg-firm-card__rubrics-list-item">
                         {name}
@@ -10,7 +10,7 @@
             </ul>
         {/primary}
         {?additional}
-            <ul class="dg-firm-card__rubrics-list dg-firm-card__rubrics_additional">
+            <ul class="dg-firm-card__rubrics-list dg-firm-card__rubrics-list_type_additional">
                 {#additional}
                     <li class="dg-firm-card__rubrics-list-item">
                         {name}
