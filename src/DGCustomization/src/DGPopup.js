@@ -444,7 +444,7 @@ DG.Map.include({
     _markerClass: 'dg-customization__marker_type_mushroom',
     _markerShowClass: 'dg-customization__marker_appear',
     _markerHideClass: 'dg-customization__marker_disappear',
-    _dgHideClass: 'dg-hidden',
+    _dgHideClass: 'dg-popup_hidden_true',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         var content;
 
