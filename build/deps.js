@@ -314,7 +314,7 @@ var deps = {
                 'DGRuler/skin/{skin}/css/DGRuler.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale']
+        deps: ['DGCore', 'DGLocale', 'DGDust']
     },
 
     DGRulerControl: {
