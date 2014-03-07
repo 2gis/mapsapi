@@ -18,6 +18,7 @@ DG.Control.Zoom.include({
         this._zoomInButton = this._createButton(DG.Util.template(buttonTemplate, { type : 'in' }), this.t('zoom-in'), 'dg-control-round ' + zoomName + '__in', container, this._zoomIn, this);
         this._zoomOutButton = this._createButton(DG.Util.template(buttonTemplate, { type : 'out' }), this.t('zoom-out'), 'dg-control-round ' + zoomName + '__out', container, this._zoomOut, this);
 
+        this._eventListeners = {};
         this._eventListeners.zoomend = this._eventListeners.zoomlevelschange = this._updateDisabled;
         this._updateDisabled();
         map.on(this._eventListeners, this);
@@ -27,22 +28,6 @@ DG.Control.Zoom.include({
 
     onRemove: function (map) {
         map.off(this._eventListeners, this);
-    },
-
-    _eventListeners : {
-        projectleave : function () {
-            var projectleaveMaxZoom = '__PROJECT_LEAVE_MAX_ZOOM__';
-            this._map.setMaxZoom(projectleaveMaxZoom);
-            if (this._map.getZoom() > projectleaveMaxZoom) {
-                this._map.setZoom(projectleaveMaxZoom);
-            }
-        },
-        projectchange : function (project) {
-            var projectInfo = project.getProject();
-            if (projectInfo) {
-                this._map.setMaxZoom(projectInfo.max_zoom_level);
-            }
-        }
     },
 
     _renderTranslation: function () {

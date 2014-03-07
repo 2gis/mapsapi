@@ -11,29 +11,29 @@ basePath = '../';
 
 // list of files / patterns to load in the browser
 files = [].concat([
-    "node_modules/mocha/mocha.js",
+    'node_modules/mocha/mocha.js',
     MOCHA_ADAPTER,
-    "vendors/leaflet/spec/before.js",
-    "vendors/leaflet/spec/sinon.js",
-    "vendors/leaflet/spec/expect.js"
+    'vendors/leaflet/spec/before.js',
+    'vendors/leaflet/spec/sinon.js',
+    'vendors/leaflet/spec/expect.js'
 ],
 [
     'public/js/dg-map.js', // full 2GIS API dist
     'src/**/test/*Spec.js' // 2GIS tests
 ],
 [
-    "vendors/leaflet/spec/after.js",
-    "node_modules/happen/happen.js",
-    "vendors/leaflet/spec/suites/SpecHelper.js",
-    "vendors/leaflet/spec/suites/**/*.js"
+    'vendors/leaflet/spec/after.js',
+    'node_modules/happen/happen.js',
+    'vendors/leaflet/spec/suites/SpecHelper.js',
+    'vendors/leaflet/spec/suites/**/*.js'
 ]);
 
 // list of files to exclude
 exclude = [
     // excluded, because L.DG.TileLayer added to the map by default,
     // but leaflet tests think that map without layers and fails
-    "vendors/leaflet/spec/suites/map/MapSpec.js",
-    "vendors/leaflet/spec/suites/layer/TileLayerSpec.js"
+    'vendors/leaflet/spec/suites/map/MapSpec.js',
+    'vendors/leaflet/spec/suites/layer/TileLayerSpec.js'
 ];
 
 // use dots reporter, as travis terminal does not support escaping sequences

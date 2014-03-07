@@ -9,11 +9,11 @@ DG.Entrance.EventHandler = DG.Handler.extend({
 
         this._map.on({
             'layeradd': this._removeEntrance,
-            'zoomend': this._showOrHideEntrance
+            'zoomend projectleave': this._showOrHideEntrance
         }, this);
 
         if (DG.Browser.ie) {
-            this._map.on('moveend', this._refresh, this); //JSAPI-3379
+            this._map.on('mousemove zoomend', this._refresh, this); //JSAPI-3379
         }
     },
 
@@ -47,12 +47,12 @@ DG.Entrance.EventHandler = DG.Handler.extend({
 
     remove: function () {
         this._map.off({
-            'zoomend': this._showOrHideEntrance,
-            'layeradd': this._removeEntrance
+            'layeradd': this._removeEntrance,
+            'zoomend projectleave': this._showOrHideEntrance
         }, this);
 
         if (DG.Browser.ie) {
-            this._map.off('moveend', this._refresh, this); //JSAPI-3379
+            this._map.off('mousemove zoomend', this._refresh, this); //JSAPI-3379
         }
     }
 });
