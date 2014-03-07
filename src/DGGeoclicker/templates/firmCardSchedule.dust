@@ -1,7 +1,7 @@
 <div class="dg-firm-card__schedule">
     {?schedule}
         {?forecast.today}
-            <div class="schedule__today schedule_open_{?forecast.open}true{:else}false{/forecast.open}{?schedule.everyday} schedule__no-table{/schedule.everyday}">
+            <div class="dg-schedule__today dg-schedule_open_{?forecast.open}true{:else}false{/forecast.open}{?schedule.everyday} dg-schedule__no-table{/schedule.everyday}">
                 {forecast.today.text}&nbsp;
                 {?forecast.today.from}
                     {forecast.today.from}&ndash;{forecast.today.to}
@@ -17,9 +17,9 @@
         {/forecast.today}
 
         {#forecast.now}
-            <div class="schedule__now">
+            <div class="dg-schedule__now">
                 {!Вывод строки прогноза, например "откроется завтра" или "закроется через 15 минут" !}
-                <span class="schedule__now-text">{.}{#schedule.comment},{~s}{.}{/schedule.comment}</span>
+                <span class="dg-schedule__now-text">{.}{#schedule.comment},{~s}{.}{/schedule.comment}</span>
             </div>
         {/forecast.now}
 
@@ -28,9 +28,9 @@
             {?schedule.week}
                 {!Упрощённое расписание !}
                 {?schedule.week.evently}
-                    <div class="schedule__table">
+                    <div class="dg-schedule__table">
                         {#schedule.week.evently}
-                            <div class="schedule__string">
+                            <div class="dg-schedule__string">
                                 {?alltime}
                                     {alltimeStr}
                                 {/alltime}
@@ -40,12 +40,12 @@
                                     {dayList}
                                 {/everyday}
                                 {?holiday}
-                                    &mdash;<span class="schedule__string-time">&nbsp;{holidayStr}</span>
+                                    &mdash;<span class="dg-schedule__string-time">&nbsp;{holidayStr}</span>
                                 {:else}
-                                    &mdash;<span class="schedule__string-time">&nbsp;{from}&ndash;{to}</span>
+                                    &mdash;<span class="dg-schedule__string-time">&nbsp;{from}&ndash;{to}</span>
                                     {#lunch}
                                         <p>{lunchStr}&mdash;
-                                            <span class="schedule__string-time">
+                                            <span class="dg-schedule__string-time">
                                                 {from}&ndash;{to}
                                             </span>
                                         </p>
@@ -59,18 +59,18 @@
                 {! Неупрощаемое расписание - таблица !}
                 {?schedule.week.table}
                     <div>
-                        <div class="schedule__table">
-                            <div class="schedule__tc schedule__tc_pre">
-                                <div class="schedule__day-name">&nbsp;</div>
-                                <div class="schedule__table-clock schedule__td"></div>
+                        <div class="dg-schedule__table">
+                            <div class="dg-schedule__tc dg-schedule__tc_pre">
+                                <div class="dg-schedule__day-name">&nbsp;</div>
+                                <div class="dg-schedule__table-clock dg-schedule__td"></div>
                                 {?schedule.week.hasLunch}
-                                    <div class="schedule__table-lunch schedule__td"></div>
+                                    <div class="dg-schedule__table-lunch dg-schedule__td"></div>
                                 {/schedule.week.hasLunch}
                             </div>
                             {#schedule.week.table}
-                                <div class="schedule__tc{?active} schedule__tc_active_true{/active}">
-                                    <div class="schedule__day-name">{key}</div>
-                                    <div class="schedule__td">
+                                <div class="dg-schedule__tc{?active} dg-schedule__tc_active_true{/active}">
+                                    <div class="dg-schedule__day-name">{key}</div>
+                                    <div class="dg-schedule__td">
                                         {?from}
                                             {from} {to}
                                         {:else}
@@ -78,7 +78,7 @@
                                         {/from}
                                     </div>
                                     {#lunch}
-                                        <div class="schedule__td">
+                                        <div class="dg-schedule__td">
                                             {?from}
                                                 {from} {to}
                                             {:else}
@@ -86,9 +86,9 @@
                                             {/from}
                                         </div>
                                     {/lunch}
-                                </div> {! schedule__tc !}
+                                </div> {! dg-schedule__tc !}
                             {/schedule.week.table}
-                        </div>  {! schedule__table !}
+                        </div>  {! dg-schedule__table !}
                     </div>
                 {/schedule.week.table}
             {/schedule.week}
