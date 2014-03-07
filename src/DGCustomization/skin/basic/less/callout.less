@@ -79,7 +79,7 @@
     background-image: url('@{baseURL}/img/DGCustomization_tipShadow-2x.png');
     }
 
-a.popup-link,
+a.dg-popup__link,
 .firm-card__link a {
     background-position: center bottom;
     background-size: 10px 1px;
@@ -116,35 +116,35 @@ a.popup-link,
         content: '';
         }
 
-.dg-popup-container {
+.dg-popup__container {
     overflow: hidden;
     margin: 0;
     }
-.leaflet-popup-scrolled .dg-popup-container {
+.leaflet-popup-scrolled .dg-popup__container {
     padding: 0 10px 0 0;
     }
 
-.dg-popup-header,
-.dg-popup-footer {
+.dg-popup__header,
+.dg-popup__footer {
     position: absolute;
     }
 
-.dg-popup-header {
+.dg-popup__header {
     top: 0;
     }
-    .dg-popup-header > * {
+    .dg-popup__header > * {
         margin: 0 18px 8px 0 !important;
         }
 
-.dg-popup-footer {
+.dg-popup__footer {
     bottom: 0;
     }
-    .dg-popup-footer > * {
+    .dg-popup__footer > * {
         margin: 10px 0 0 0 !important;
         }
 
-    .leaflet-popup-scrolled .dg-popup-header:after,
-    .leaflet-popup-scrolled .dg-popup-footer:before {
+    .leaflet-popup-scrolled .dg-popup__header:after,
+    .leaflet-popup-scrolled .dg-popup__footer:before {
         display: block;
         width: 100%;
         height: 1px;

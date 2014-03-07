@@ -1,8 +1,8 @@
 {?btns}
-    <footer class="popup_footer_btns">
+    <footer class="dg-popup__footer-buttons">
         {#btns}
-            <div class="popup_footer_btn-wrapper">
-                <a class="popup-btn-{name} popup_footer_btn{?icon} popup_footer_btn__icon{/icon}"
+            <div class="dg-popup__footer-button-wrapper">
+                <a class="dg-popup__footer-button_name_{name} dg-popup__footer-button{?icon} dg-popup__footer-icon-button{/icon}"
                     {?href}
                         href={href} target="_blank"
                     {:else}

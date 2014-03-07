@@ -1,13 +1,13 @@
-.popup-header-link {
+.dg-popup__header-link {
     display: inline-block;
     margin-left: 2.5em;
     vertical-align: middle;
     }
-.popup-header-link:first-child {
+.dg-popup__header-link:first-child {
     margin-left: 1.2em;
     }
 
-.popup-link {
+.dg-popup__link {
     position: relative;
     height: 14px;
     background-size: contain;
@@ -15,25 +15,25 @@
     line-height: 14px;
     }
 
-.popup-link_type_flamp_reviews {
+.dg-popup__link_type_flamp_reviews {
     margin-left: 0.1em;
     }
 
-.popup-link_type_flamp_stars {
+.dg-popup__link_type_flamp_stars {
     display: inline-block;
     margin: 0 .4em 3px 0;
     width: 70px;
     vertical-align: middle;
     }
-    /* ... > div? */
-    .popup-link_type_flamp_stars div {
+    /* @TODO: ... > div?,  */
+    .dg-popup__link_type_flamp_stars div {
         width: 0;
         height: 14px;
         .bg('DGGeoclicker_star-on');
         }
 
-.popup-link_type_booklet:before,
-.popup-link_type_photos:before {
+.dg-popup__link_type_booklet:before,
+.dg-popup__link_type_photos:before {
     position: absolute;
     top: 2px;
     left: -16px;
@@ -44,6 +44,6 @@
     background-repeat: no-repeat;
     content: '';
     }
-.popup-link_type_booklet:before {
+.dg-popup__link_type_booklet:before {
     .image('DGGeoclicker_booklet');
     }

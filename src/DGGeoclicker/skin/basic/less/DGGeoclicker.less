@@ -137,20 +137,20 @@
     font-size: 15px;
     }
 
-.dg-popup-header,
-.dg-popup-footer {
+.dg-popup__header,
+.dg-popup__footer {
     position: relative;
     overflow: hidden;
     }
 
-.popup_footer_btns {
+.dg-popup__footer-buttons {
     display: table;
     width: 100%;
     }
-    .popup_footer_btn-wrapper {
+    .dg-popup__footer-button-wrapper {
         display: table-cell;
         }
-        .popup_footer_btn {
+        .dg-popup__footer-button {
             position: relative;
             display: inline-block;
             box-sizing: border-box;
@@ -162,17 +162,20 @@
             font: 12px/24px Arial;
             cursor: pointer;
             transition: all .1s;
+
+            .dg-popup__footer-button-wrapper:first-child & {
+                margin: 0;
+                width: 100%;
+                }
+
+            &:hover {
+                transition: all .2s; /* @TODO: all? */
+                }
             }
-        .popup_footer_btn-wrapper:first-child .popup_footer_btn {
-            margin: 0;
-            width: 100%;
+
+        .dg-popup__footer-icon-button {
             }
-        .popup_footer_btn:hover {
-            transition: all .2s; /* @TODO: all? */
-            }
-        .popup_footer_btn__icon {
-            }
-            .popup_footer_btn__icon:before {
+            .dg-popup__footer-icon-button:before {
                 display: inline-block;
                 margin: -2px 0 0 0;
                 margin-right: 0.4em;
@@ -184,21 +187,21 @@
                 vertical-align: middle;
                 }
 
-    .popup-btn-goto:before {
+    .dg-popup__footer-button_name_goto:before {
         width: 20px;
         height: 7px;
         background-size: contain;
         background-repeat: no-repeat;
         }
 
-    .popup-btn-firmCard-back:before {
+    .dg-popup__footer-button_name_firmCard-back:before {
         width: 10px;
         height: 6px;
         background-size: contain;
         background-repeat: no-repeat;
         }
 
-    .popup-btn-firmList-back:before {
+    .dg-popup__footer-button_name_firmList-back:before {
         width: 10px;
         height: 6px;
         background-size: contain;
@@ -215,18 +218,18 @@
     line-height: 24px;
     }
 
-.dg-popup-header-title {
+.dg-popup__header-title {
     display: block;
     white-space: normal;
     font: 22px/24px 'SuisseCond', 'Arial narrow', Arial;
     }
 
-.dg-popup-header-title__firmcard {
+.dg-popup__header-title_for_firmcard {
     position: relative;
     overflow: hidden;
     max-height: 3.4em;
     }
-    .dg-popup-header-title__firmcard__teaser {
+    .dg-popup__header-teaser {
         display: -webkit-box;
         height: 3.3em;
         -webkit-line-clamp: 3;
@@ -243,7 +246,7 @@
     text-overflow: ellipsis;
     }
 
-.dg-popup-firm-loading {
+.dg-popup_state_firm-loading { /* @TODO: Кажется, неактуальный рулсет */
     margin: 0 auto;
     width: 200px;
     height: 40px;

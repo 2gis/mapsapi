@@ -1,1 +1,1 @@
-<a id="{firm.id}" class="popup-link" href="#">{firm.name}</a>
+<a id="{firm.id}" class="dg-popup__link" href="#">{firm.name}</a>
