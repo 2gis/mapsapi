@@ -23,7 +23,7 @@
             {/eq}
             {@eq value="website" type="string"}
                 <div class="dg-firm-card__link dg-firm-card__site">
-                    <a href="{value}" target="_blank" class="link_scheme_dark dg-firm-card__sitelink">{alias}</a>
+                    <a href="{value}" target="_blank" class="dg-link_scheme_dark dg-firm-card__sitelink">{alias}</a>
                 </div>
             {/eq}
             {@eq value="email" type="string"}
