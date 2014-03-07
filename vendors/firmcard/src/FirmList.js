@@ -133,7 +133,7 @@
                 var target = e.target || e.srcElement;
 
                 if (target && target.nodeName === 'A') {
-                    if (target.className.indexOf('popup-link') !== -1) {
+                    if (target.className.indexOf('dg-popup__link') !== -1) {
                         if (target.id) {
 
                             var s = self._firmCard.render(target.id);
