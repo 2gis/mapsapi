@@ -1,4 +1,4 @@
-<div class="firm-card__schedule">
+<div class="dg-firm-card__schedule">
     {?schedule}
         {?forecast.today}
             <div class="schedule__today schedule_open_{?forecast.open}true{:else}false{/forecast.open}{?schedule.everyday} schedule__no-table{/schedule.everyday}">
