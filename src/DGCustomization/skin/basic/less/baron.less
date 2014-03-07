@@ -1,16 +1,18 @@
-.scroller-wrapper {
-    position: relative;
-    overflow: hidden;
+.dg-scroller {}
+
+.dg-scroller_hidden_true {
+    overflow: auto;
     }
 
-.scroller::-webkit-scrollbar {
+.dg-scroller::-webkit-scrollbar {
     width: 0;
     }
 
-.dg-baron-hide {
-    overflow: auto;
+.dg-scroller__wrapper {
+    position: relative;
+    overflow: hidden;
     }
-    .scroller__bar-wrapper {
+    .dg-scroller__bar-wrapper {
         position: absolute;
         top: 18px;
         right: 3px;
@@ -18,15 +20,15 @@
         width: 7px;
         border-radius: 5px;
         }
-    .dg-baron-hide .scroller__bar-wrapper {
+    .dg-scroller_hidden_true .dg-scroller__bar-wrapper {
         visibility: hidden;
         }
-    .dg-popup__header + .dg-popup__container-wrapper .scroller__bar-wrapper {
+    .dg-popup__header + .dg-popup__container-wrapper .dg-scroller__bar-wrapper {
         top: 4px;
         }
-        .scroller__bar {
+        .dg-scroller__bar {
             position: absolute;
-            min-height:20px;
+            min-height: 20px;
             width: 7px;
             border-radius: 3px;
             pointer-events: auto;
