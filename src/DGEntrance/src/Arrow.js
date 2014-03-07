@@ -1,8 +1,8 @@
 DG.Entrance.Arrow = DG.Polyline.extend({
 
-    initialize: function (latlngs, options) { // (Array, Object)
-        DG.Polyline.prototype.initialize.call(this, latlngs, options);
-    },
+    // initialize: function (latlngs, options) { // (Array, Object)
+    //     DG.Polyline.prototype.initialize.call(this, latlngs, options);
+    // },
 
     projectLatlngs: function () {
         DG.Polyline.prototype.projectLatlngs.call(this);

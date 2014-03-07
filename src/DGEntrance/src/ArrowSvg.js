@@ -10,6 +10,7 @@ if (DG.Browser.svg) {
         _markersPolygons: [],
 
         initialize: function (latlngs, options) { // (Array, Object)
+            this._setLatLngs(latlngs);
             /*jshint shadow: true */
             var options = options || {};
             /*jshint shadow: false */
@@ -18,7 +19,7 @@ if (DG.Browser.svg) {
             this._markersPath = [];
             this._markersPolygons = [];
 
-            DG.Polyline.prototype.initialize.call(this, latlngs, options);
+            L.setOptions(this, options);
         },
 
         onAdd: function (map) { // (DG.Map)
@@ -56,13 +57,13 @@ if (DG.Browser.svg) {
             var i, marker, markerPath, markerPolygon,
                 optionsByZoom =  this.options.byZoom,
                 id = this._markerId = 'arrow-marker-' + DG.Util.stamp(this),
-                svg = this._container.parentNode;
+                svg = this._renderer._container.parentNode;
 
             this._initDefs();
 
             for (i in optionsByZoom) {
                 if (optionsByZoom.hasOwnProperty(i)) {
-                    marker = this._createElement('marker');
+                    marker = DG.DomUtil.create('marker');
                     for (var key in optionsByZoom[i].marker) {
                         if (key !== 'polygon' && key !== 'path') {
                             marker.setAttribute(key, optionsByZoom[i].marker[key]);
@@ -74,7 +75,7 @@ if (DG.Browser.svg) {
                     marker.setAttribute('stroke-width', '0');
 
                     if (typeof optionsByZoom[i].marker.path !== 'undefined') {
-                        markerPath = this._createElement('path');
+                        markerPath = DG.DomUtil.create('path');
                         markerPath.setAttribute('d', optionsByZoom[i].marker.path.d);
                         if (typeof optionsByZoom[i].marker.path.color !== 'undefined') {
                             markerPath.setAttribute('fill', optionsByZoom[i].marker.path.color);
@@ -87,7 +88,7 @@ if (DG.Browser.svg) {
                     }
 
                     if (typeof optionsByZoom[i].marker.polygon !== 'undefined') {
-                        markerPolygon = this._createElement('polygon');
+                        markerPolygon = DG.DomUtil.create('polygon');
                         markerPolygon.setAttribute('points', optionsByZoom[i].marker.polygon.points);
                         if (typeof optionsByZoom[i].marker.polygon.color !== 'undefined') {
                             markerPolygon.setAttribute('fill', optionsByZoom[i].marker.polygon.color);
@@ -109,7 +110,7 @@ if (DG.Browser.svg) {
 
         _initDefs: function () {
             if (!this._defs) {
-                this._defs = this._createElement('defs');
+                this._defs = DG.DomUtil.create('defs');
             }
             return this._defs;
         },

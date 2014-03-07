@@ -1,19 +1,5 @@
 // Karma configuration
 module.exports = function (config) {
-
-
-    var files = [
-        'node_modules/mocha/mocha.js',
-        'vendors/leaflet/spec/sinon.js',
-        'vendors/leaflet/spec/expect.js',
-        'public/js/dg-map.js', // full 2GIS API dist
-        'src/**/test/*Spec.js', // 2GIS tests
-        'vendors/leaflet/spec/after.js',
-        'node_modules/happen/happen.js',
-        'vendors/leaflet/spec/suites/SpecHelper.js',
-        'vendors/leaflet/spec/suites/**/*.js'
-    ];
-
     config.set({
         // base path, that will be used to resolve files and exclude
         basePath: '../',
@@ -22,14 +8,31 @@ module.exports = function (config) {
             'karma-mocha',
             'karma-coverage',
             'karma-phantomjs-launcher',
-            'karma-chrome-launcher'],
+            'karma-chrome-launcher'
+        ],
 
         // frameworks to use
         frameworks: ['mocha'],
 
         // list of files / patterns to load in the browser
-        files: files,
-        exclude: [],
+        files: [
+            'node_modules/mocha/mocha.js',
+            'vendors/leaflet/spec/sinon.js',
+            'vendors/leaflet/spec/expect.js',
+            'public/js/dg-map-src.js', // full 2GIS API dist
+            'src/**/test/*Spec.js', // 2GIS tests
+            'vendors/leaflet/spec/after.js',
+            'node_modules/happen/happen.js',
+            'vendors/leaflet/spec/suites/SpecHelper.js',
+            'vendors/leaflet/spec/suites/**/*.js'
+        ],
+        // list of files to exclude
+        exclude: [
+            // excluded, because L.DG.TileLayer added to the map by default,
+            // but leaflet tests think that map without layers and fails
+            'vendors/leaflet/spec/suites/map/MapSpec.js',
+            'vendors/leaflet/spec/suites/layer/TileLayerSpec.js'
+        ],
 
         // test results reporter to use
         // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'

@@ -1,4 +1,4 @@
-DG.Entrance = DG.Class.extend({
+DG.Entrance = DG.Layer.extend({
 
     includes: DG.Mixin.Events,
 
