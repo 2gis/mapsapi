@@ -1,6 +1,6 @@
 DG.Entrance = DG.Layer.extend({
 
-    includes: DG.Mixin.Events,
+    includes: DG.SVG,
 
     options: {
         vectors: []
@@ -154,6 +154,7 @@ DG.Entrance = DG.Layer.extend({
     _getArrowStrokeOptions: function () {
         return {
             clickable: false,
+            stroke: true,
             color: '#fff',
             weight: 6,
             opacity: 1,
@@ -228,6 +229,7 @@ DG.Entrance = DG.Layer.extend({
     _getArrowOptions: function () {
         return {
             clickable: false,
+            stroke: true,
             color: '#0085a0',
             weight: 3,
             opacity: 1,

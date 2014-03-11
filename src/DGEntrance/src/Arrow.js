@@ -5,7 +5,7 @@ DG.Entrance.Arrow = DG.Polyline.extend({
     // },
 
     projectLatlngs: function () {
-        DG.Polyline.prototype.projectLatlngs.call(this);
+        this._project();
         this._offsetLastPathPoint();
     },
 
@@ -13,7 +13,8 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         var lastSegmentInPercents,
             offsetVector,
             offsetTo = {},
-            origPoints = this._originalPoints,
+            origPoints = this._parts[0],
+            // origPoints = this._originalPoints,
             pointsLen = origPoints.length,
             byZoom = this.options.byZoom,
             zoom = this._map.getZoom(),

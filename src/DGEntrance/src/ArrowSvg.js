@@ -20,14 +20,17 @@ if (DG.Browser.svg) {
             this._markersPolygons = [];
 
             L.setOptions(this, options);
+            console.log(this);
         },
 
         onAdd: function (map) { // (DG.Map)
             DG.Polyline.prototype.onAdd.call(this, map);
+            this._renderer._updateStyle = this._updateStyle;
+            // console.log(this._renderer);
             this._initMarkers();
 
             map.on({'zoomend': this._updateMarker}, this);
-            map.on({'zoomend': this._updateStyle}, this);
+            map.on({'zoomend': this._updateStyleByZoom}, this);
             map.on({'moveend': this._showMarker}, this);
 
             // see comments about "walking arrow" in JSAPI-3085
@@ -38,7 +41,7 @@ if (DG.Browser.svg) {
         onRemove: function (map) { // (DG.Map)
             DG.Polyline.prototype.onRemove.call(this, map);
             map.off({'zoomend': this._updateMarker}, this);
-            map.off({'zoomend': this._updateStyle}, this);
+            map.off({'zoomend': this._updateStyleByZoom}, this);
             map.off({'moveend': this._showMarker}, this);
 
             map.off({'movestart': this._hideMarker}, this);
@@ -49,60 +52,61 @@ if (DG.Browser.svg) {
 
         _initElements: function () {
             this._map._initPathRoot();
-            this._initPath();
-            this._initStyle();
+            this._renderer._initPath();
+            this._renderer._initStyle();
         },
 
         _initMarkers: function () {
-            var i, marker, markerPath, markerPolygon,
+            var marker, markerPath, markerPolygon,
                 optionsByZoom =  this.options.byZoom,
                 id = this._markerId = 'arrow-marker-' + DG.Util.stamp(this),
                 svg = this._renderer._container.parentNode;
 
             this._initDefs();
 
-            for (i in optionsByZoom) {
-                if (optionsByZoom.hasOwnProperty(i)) {
-                    marker = DG.DomUtil.create('marker');
-                    for (var key in optionsByZoom[i].marker) {
-                        if (key !== 'polygon' && key !== 'path') {
-                            marker.setAttribute(key, optionsByZoom[i].marker[key]);
-                        }
-                    }
-                    marker.id = id + '-' + i;
-                    marker.setAttribute('orient', 'auto');
-                    marker.setAttribute('markerUnits', 'userSpaceOnUse');
-                    marker.setAttribute('stroke-width', '0');
+            Object.keys(optionsByZoom).map(function (zoom) {
+                marker = DG.SVG.create('marker');
+                Object.keys(optionsByZoom[zoom].marker)
+                    .filter(function (key) {
+                        return key !== 'polygon' && key !== 'path';
+                    })
+                    .forEach(function (key) {
+                        marker.setAttribute(key, optionsByZoom[zoom].marker[key]);
+                    });
 
-                    if (typeof optionsByZoom[i].marker.path !== 'undefined') {
-                        markerPath = DG.DomUtil.create('path');
-                        markerPath.setAttribute('d', optionsByZoom[i].marker.path.d);
-                        if (typeof optionsByZoom[i].marker.path.color !== 'undefined') {
-                            markerPath.setAttribute('fill', optionsByZoom[i].marker.path.color);
-                        }
-                        else {
-                            markerPath.setAttribute('fill', this.options.color);
-                        }
-                        marker.appendChild(markerPath);
-                        this._markersPath.push(markerPath);
-                    }
+                marker.id = id + '-' + zoom;
+                marker.setAttribute('orient', 'auto');
+                marker.setAttribute('markerUnits', 'userSpaceOnUse');
+                marker.setAttribute('stroke-width', '0');
 
-                    if (typeof optionsByZoom[i].marker.polygon !== 'undefined') {
-                        markerPolygon = DG.DomUtil.create('polygon');
-                        markerPolygon.setAttribute('points', optionsByZoom[i].marker.polygon.points);
-                        if (typeof optionsByZoom[i].marker.polygon.color !== 'undefined') {
-                            markerPolygon.setAttribute('fill', optionsByZoom[i].marker.polygon.color);
-                        }
-                        else {
-                            markerPolygon.setAttribute('fill', this.options.color);
-                        }
-                        marker.appendChild(markerPolygon);
-                        this._markersPolygons.push(markerPolygon);
+                if (typeof optionsByZoom[zoom].marker.path !== 'undefined') {
+                    markerPath = DG.SVG.create('path');
+                    markerPath.setAttribute('d', optionsByZoom[zoom].marker.path.d);
+                    if (typeof optionsByZoom[zoom].marker.path.color !== 'undefined') {
+                        markerPath.setAttribute('fill', optionsByZoom[zoom].marker.path.color);
                     }
-
-                    this._defs.appendChild(marker);
+                    else {
+                        markerPath.setAttribute('fill', this.options.color);
+                    }
+                    marker.appendChild(markerPath);
+                    this._markersPath.push(markerPath);
                 }
-            }
+
+                if (typeof optionsByZoom[zoom].marker.polygon !== 'undefined') {
+                    markerPolygon = DG.SVG.create('polygon');
+                    markerPolygon.setAttribute('points', optionsByZoom[zoom].marker.polygon.points);
+                    if (typeof optionsByZoom[zoom].marker.polygon.color !== 'undefined') {
+                        markerPolygon.setAttribute('fill', optionsByZoom[zoom].marker.polygon.color);
+                    }
+                    else {
+                        markerPolygon.setAttribute('fill', this.options.color);
+                    }
+                    marker.appendChild(markerPolygon);
+                    this._markersPolygons.push(markerPolygon);
+                }
+
+                this._defs.appendChild(marker);
+            }, this);
 
             svg.insertBefore(this._defs, svg.firstChild);
             this._updateMarker();
@@ -110,7 +114,7 @@ if (DG.Browser.svg) {
 
         _initDefs: function () {
             if (!this._defs) {
-                this._defs = DG.DomUtil.create('defs');
+                this._defs = DG.SVG.create('defs');
             }
             return this._defs;
         },
@@ -140,7 +144,8 @@ if (DG.Browser.svg) {
         },
 
         _hideMarker: function (onlyOutsideViewport) { // (Boolean)
-            var origPoints = this._originalPoints,
+            // var origPoints = this._originalPoints,
+            var origPoints = this._latlngs,
                 endPoint;
 
             if (typeof onlyOutsideViewport === 'undefined') {
@@ -149,7 +154,7 @@ if (DG.Browser.svg) {
 
             if (onlyOutsideViewport) {
                 endPoint = origPoints[origPoints.length - 1];
-                if (!this._map._pathViewport.contains(endPoint)) {
+                if (!this._map.getBounds().contains(endPoint)) {
                     this._path.setAttribute('marker-end', 'url(#)');
                 }
             }
@@ -158,29 +163,76 @@ if (DG.Browser.svg) {
             }
         },
 
-        _updateStyle: function () {
-            var optionsByZoom =  this.options.byZoom,
-                zoom = this._map.getZoom(),
-                i;
+        _updateStyleByZoom: function () {
+            var optionsByZoom = this.options.byZoom,
+                zoom = this._map.getZoom();
 
-            DG.Polyline.prototype._updateStyle.call(this);
+            this.setStyle(optionsByZoom[zoom]);
+        },
 
-            if (typeof optionsByZoom[zoom] !== 'undefined' &&
-                typeof optionsByZoom[zoom].weight !== 'undefined') {
-                this._path.setAttribute('stroke-width', optionsByZoom[zoom].weight);
+        _updateStyle: function (layer) {
+            var path = layer._path,
+                options = layer.options;
+
+            if (!path) { return; }
+
+            if (options.stroke) {
+                path.setAttribute('stroke', options.color);
+                path.setAttribute('stroke-opacity', options.opacity);
+                path.setAttribute('stroke-width', options.weight);
+                path.setAttribute('stroke-linecap', options.lineCap);
+                path.setAttribute('stroke-linejoin', options.lineJoin);
+
+                if (options.dashArray) {
+                    path.setAttribute('stroke-dasharray', options.dashArray);
+                } else {
+                    path.removeAttribute('stroke-dasharray');
+                }
+
+            } else {
+                path.setAttribute('stroke', 'none');
             }
 
-            if (typeof this.options.visibility !== 'undefined') {
-                this._path.setAttribute('visibility', this.options.visibility);
+            if (options.fill) {
+                path.setAttribute('fill', options.fillColor || options.color);
+                path.setAttribute('fill-opacity', options.fillOpacity);
+                path.setAttribute('fill-rule', 'evenodd');
+            } else {
+                path.setAttribute('fill', 'none');
             }
 
-            for (i = 0; i < this._markersPath.length; i++) {
-                this._markersPath[i].setAttribute('fill-opacity', this.options.opacity);
-            }
+            path.setAttribute('pointer-events', options.pointerEvents || (options.clickable ? 'auto' : 'none'));
 
-            for (i = 0; i < this._markersPolygons.length; i++) {
-                this._markersPolygons[i].setAttribute('fill-opacity', this.options.opacity);
-            }
+            // var optionsByZoom =  options.byZoom,
+            //     zoom = layer._map.getZoom(),
+            //     i;
+
+            console.log(DG.Polyline.prototype._updateStyle);
+            // DG.Polyline.prototype._renderer._updateStyle.call(layer);
+
+            // if (typeof optionsByZoom[zoom] !== 'undefined' &&
+            //     typeof optionsByZoom[zoom].weight !== 'undefined') {
+            //     layer._path.setAttribute('stroke-width', optionsByZoom[zoom].weight);
+            // }
+
+            // if (typeof layer.options.visibility !== 'undefined') {
+            path.setAttribute('visibility', options.visibility);
+            // }
+
+            layer._markersPath.forEach(function (path) {
+                path.setAttribute('fill-opacity', options.opacity);
+            });
+
+            layer._markersPolygons.forEach(function (path) {
+                path.setAttribute('fill-opacity', options.opacity);
+            });
+            // for (i = 0; i < layer._markersPath.length; i++) {
+            //     layer._markersPath[i].setAttribute('fill-opacity', options.opacity);
+            // }
+
+            // for (i = 0; i < layer._markersPolygons.length; i++) {
+            //     layer._markersPolygons[i].setAttribute('fill-opacity', options.opacity);
+            // }
         }
     });
 

@@ -67,6 +67,10 @@ L.Map.include({
 		var renderer = layer.options.renderer || this.options.renderer ||
 				(L.SVG && L.SVG.instance) || (L.Canvas && L.Canvas.instance);
 
+		if (!renderer) {
+			renderer = this._renderer = (L.SVG && L.svg()) || (L.Canvas && L.canvas());
+		}
+
 		if (!this.hasLayer(renderer)) {
 			this.addLayer(renderer);
 		}
