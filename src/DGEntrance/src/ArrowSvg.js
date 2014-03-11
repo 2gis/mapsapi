@@ -20,12 +20,12 @@ if (DG.Browser.svg) {
             this._markersPolygons = [];
 
             L.setOptions(this, options);
-            console.log(this);
+            // console.log(this);
         },
 
         onAdd: function (map) { // (DG.Map)
             DG.Polyline.prototype.onAdd.call(this, map);
-            this._renderer._updateStyle = this._updateStyle;
+            // this._renderer._updateStyle = this._updateStyle;
             // console.log(this._renderer);
             this._initMarkers();
 
@@ -207,7 +207,7 @@ if (DG.Browser.svg) {
             //     zoom = layer._map.getZoom(),
             //     i;
 
-            console.log(DG.Polyline.prototype._updateStyle);
+            // console.log(DG.Polyline.prototype._updateStyle);
             // DG.Polyline.prototype._renderer._updateStyle.call(layer);
 
             // if (typeof optionsByZoom[zoom] !== 'undefined' &&
