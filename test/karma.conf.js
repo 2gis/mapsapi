@@ -31,7 +31,7 @@ module.exports = function (config) {
             // excluded, because L.DG.TileLayer added to the map by default,
             // but leaflet tests think that map without layers and fails
             'vendors/leaflet/spec/suites/map/MapSpec.js',
-            'vendors/leaflet/spec/suites/layer/TileLayerSpec.js'
+            'vendors/leaflet/spec/suites/layer/tile/TileLayerSpec.js'
         ],
 
         // test results reporter to use
