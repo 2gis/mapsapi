@@ -232,21 +232,21 @@ describe('DG.ProjectDetector', function () {
             map.setView(project1, maxZoom);
 
             expect(map.fitWorld()).to.be(map);
-            expect(map.getZoom()).to.be(1);
+            expect(map.getZoom()).to.be(0);
         });
 
         it('fire from min zoom', function () {
             map.setView(project1, 0);
 
             expect(map.fitWorld()).to.be(map);
-            expect(map.getZoom()).to.be(1);
+            expect(map.getZoom()).to.be(0);
         });
 
         it('fire after min zoom 15', function () {
             map.setZoom(15);
 
             expect(map.fitWorld()).to.be(map);
-            expect(map.getZoom()).to.be(1);
+            expect(map.getZoom()).to.be(0);
         });
     });
 
@@ -317,14 +317,14 @@ describe('DG.ProjectDetector', function () {
 
     });
 
-    describe('#panBy', function () {
+     describe('#panBy', function () {
 
         it('call with viewport size', function () {
             map.setView(project1, 16);
 
             expect(map.panBy([1901, 601])).to.be(map);
             expect(map.getZoom()).to.be(16);
-            expect(map.getCenter()).to.be.eql(new DG.LatLng(54.971628386497684, 82.86006689071654));
+            expect(map.getCenter()).to.be.eql(new DG.LatLng(54.971628386497684, 82.86006689071657));
         });
 
         it('call on project edge from desert', function () {
@@ -332,7 +332,7 @@ describe('DG.ProjectDetector', function () {
 
             expect(map.panBy([0, -2000])).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
-            expect(map.getCenter()).to.be.eql(new DG.LatLng(55.25058537744133, 82.85625815391539));
+            expect(map.getCenter()).to.be.eql(new DG.LatLng(55.25058537744133, 82.85625815391542));
         });
 
         it('call on project viewport', function () {
@@ -340,7 +340,7 @@ describe('DG.ProjectDetector', function () {
 
             expect(map.panBy([100, -200])).to.be(map);
             expect(map.getZoom()).to.be(maxZoom);
-            expect(map.getCenter()).to.be.eql(new DG.LatLng(54.97964243031826, 82.81980156898499));
+            expect(map.getCenter()).to.be.eql(new DG.LatLng(54.97964243031826, 82.819801568985));
         });
 
     });
