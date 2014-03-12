@@ -35,21 +35,21 @@
         _popupTipClass: 'leaflet-popup-tip-container',
         _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
 
-        initialize: function (options, sourse) { // (Object, Object)
+        initialize: function (options, source) { // (Object, Object)
             this._popupStructure = {};
-            originalInitialize.call(this, options, sourse);
+            originalInitialize.call(this, options, source);
         },
 
         onAdd: function (map) { // (Map)
             map.on('entranceshow', this._closePopup, this);
-            this.once('open', this._animateOpening, this);
-            return originalOnAdd.call(this, map);
+            originalOnAdd.call(this, map);
+            this._animateOpening();
         },
 
         onRemove: function (map) { // (Map)
             this._animateClosing();
             map.off('entranceshow', this._closePopup, this);
-            return originalOnRemove.call(this, map);
+            originalOnRemove.call(this, map);
         },
 
         setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
@@ -120,10 +120,6 @@
             return (o.nodeName ? true : false);
         },
 
-        _createNSElement: function (name) {
-            return document.createElementNS(DG.Path.SVG_NS, name);
-        },
-
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
@@ -133,12 +129,12 @@
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
             var tip = this._detachEl(this._tipContainer);
             if (DG.Browser.svg) {
-                var path = this._createNSElement('path');
+                var path = DG.SVG.create('path');
                 var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg';
 
                 path.setAttribute('d', this._tipSVGPath);
 
-                tip = this._createNSElement('svg'),
+                tip = DG.SVG.create('svg'),
                 tip.setAttribute('class', svgClass);
 
                 tip.appendChild(path);
@@ -147,7 +143,6 @@
                 DG.DomUtil.addClass(tip, this._popupTipClass + '_image');
                 DG.DomEvent.disableClickPropagation(tip);
             }
-
             this._innerContainer.appendChild(tip);
         },
 
@@ -446,16 +441,21 @@ DG.Map.include({
     _markerHideClass: 'dg-customization__marker_disappear',
     _dgHideClass: 'dg-hidden',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
-        var content;
+        if (!(popup instanceof L.Popup)) {
+            var content = popup;
+
+            popup = new L.Popup(options).setContent(content);
+        }
+
+        if (latlng) {
+            popup.setLatLng(latlng);
+        }
+
+        if (this.hasLayer(popup)) {
+            return this;
+        }
 
         this.closePopup();
-
-        if (!(popup instanceof DG.Popup)) {
-            content = popup;
-            popup = new DG.Popup(options).setLatLng(latlng).setContent(content);
-        }
-        popup._isOpen = true;
-
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
@@ -491,7 +491,6 @@ DG.Map.include({
                 }
             }
             this.removeLayer(popup);
-            popup._isOpen = false;
         }
 
         return this;
