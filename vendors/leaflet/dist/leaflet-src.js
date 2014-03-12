@@ -4005,7 +4005,6 @@ L.Popup = L.Class.extend({
 			        L.DomUtil.create('a', prefix + '-close-button', container);
 			closeButton.href = '#close';
 			closeButton.innerHTML = '&#215;';
-			L.DomEvent.disableClickPropagation(closeButton);
 
 			L.DomEvent.on(closeButton, 'click', this._onCloseButtonClick, this);
 		}
@@ -8704,7 +8703,6 @@ L.PosAnimation = L.Class.extend({
 L.Map.include({
 
 	setView: function (center, zoom, options) {
-
 		zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
 		center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
 		options = options || {};
