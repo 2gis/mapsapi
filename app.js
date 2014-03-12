@@ -18,21 +18,21 @@ app.use('/2.0', express.static(__dirname + '/public'));
 //Routes
 function getParams(req, resp, next) {
     req.query.isDebug = (req.query.mode === 'debug');
-    var contentType = (req.path === '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
-
+    var contentType = (req.path === '/2.0/js/') ? 'application/x-javascript; charset=utf-8' : 'text/css';
+    console.log(req.path, contentType);
     req.dgCallback = function (stream, response) {
         response.set('Cache-Control', 'public, max-age=604800');
         response.set('X-Powered-By', '2GIS Maps API Server');
         response.set('Content-Type', contentType);
 
         stream.on('data', function (file) {
-            /*var directWrite = */response.write(file.contents.toString('utf8'));
-            /*if (!directWrite) {
+            var directWrite = response.write(file.contents.toString('utf8'));
+            if (!directWrite) {
                 stream.pause();
                 response.once('drain', function () {
                     stream.resume();
                 });
-            }*/
+            }
         });
         stream.on('end', function () {
             response.end();

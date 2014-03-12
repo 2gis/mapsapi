@@ -67,13 +67,13 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            'DGCustomization/src/DGCustomization.js',
-            'DGCustomization/src/DGPopup.js',
-            'DGCustomization/src/DGZoom.js',
+            //'DGCustomization/src/DGCustomization.js',
+            'DGCustomization/src/DGPopup.js'
+           /* 'DGCustomization/src/DGZoom.js',
             'DGCustomization/lang/DGZoom/ru.js',
             'DGCustomization/lang/DGZoom/it.js',
             'DGCustomization/lang/DGZoom/cs.js',
-            'DGCustomization/lang/DGZoom/en.js'
+            'DGCustomization/lang/DGZoom/en.js'*/
         ],
         less: {
             all: [
@@ -91,8 +91,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/less/zoom.ie.less',
                 'DGCustomization/skin/{skin}/less/marker.ie.less'
             ]
-        },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
+        }
     },
 
     DGAttribution: {
@@ -276,12 +275,12 @@ var deps = {
             'DGRuler/lang/it.js',
             'DGRuler/lang/en.js'
         ],
-        css: {
+        less: {
             all: [
-                'DGRuler/skin/{skin}/css/DGRuler.css'
+                'DGRuler/skin/{skin}/less/DGRuler.less'
             ],
             ie: [
-                'DGRuler/skin/{skin}/css/DGRuler.ie.css'
+                'DGRuler/skin/{skin}/less/DGRuler.ie.less'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGDust']
@@ -295,9 +294,9 @@ var deps = {
             'DGRulerControl/lang/it.js',
             'DGRulerControl/lang/en.js'
         ],
-        css: {
+        less: {
             all: [
-                'DGRulerControl/skin/{skin}/css/DGRulerControl.css'
+                'DGRulerControl/skin/{skin}/less/DGRulerControl.less'
             ]
         },
         deps: ['DGRuler', 'DGRoundControl']
