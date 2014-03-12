@@ -67,13 +67,13 @@ var deps = {
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
             '../vendors/baron/js/qwery.js',
-            //'DGCustomization/src/DGCustomization.js',
-            'DGCustomization/src/DGPopup.js'
-           /* 'DGCustomization/src/DGZoom.js',
+            'DGCustomization/src/DGCustomization.js',
+            'DGCustomization/src/DGPopup.js',
+            'DGCustomization/src/DGZoom.js',
             'DGCustomization/lang/DGZoom/ru.js',
             'DGCustomization/lang/DGZoom/it.js',
             'DGCustomization/lang/DGZoom/cs.js',
-            'DGCustomization/lang/DGZoom/en.js'*/
+            'DGCustomization/lang/DGZoom/en.js'
         ],
         less: {
             all: [
@@ -91,7 +91,8 @@ var deps = {
                 'DGCustomization/skin/{skin}/less/zoom.ie.less',
                 'DGCustomization/skin/{skin}/less/marker.ie.less'
             ]
-        }
+        },
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
     },
 
     DGAttribution: {

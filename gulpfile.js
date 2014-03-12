@@ -6,11 +6,19 @@ var extend = require('extend'),
     gulp = require('gulp'),
     tasks = require('gulp-load-plugins')(),
 
+    webapiProjects = require('2gis-project-loader'),
+
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config),
     stat = {}; //file minification statistic
 
+var projectList;
+
+webapiProjects(function (err, projects) {
+    if (err) { throw err; }
+    projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+});
 //public CLI API
 // Get info
 gulp.task('default', function () {
@@ -234,6 +242,7 @@ function bldJs(opt) {
                .pipe(tasks.concat('script.js'))
                .pipe(tasks.header(config.js.intro))
                .pipe(opt.isDebug ? tasks.footer(config.js.dustdebug) : tasks.util.noop())
+               .pipe(tasks.footer(projectList))
                .pipe(tasks.footer(config.js.outro))
                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()))
                .pipe(tasks.header(config.copyright));
@@ -256,7 +265,7 @@ function bldCss(opt) {
         ],
 
         lessList = deps.getCSSFiles(opt),
-        
+
         lessPrerequirements =
             '@graphicsType: ' + graphicsType + ';' +
             '@baseURL: \'..\';' +
