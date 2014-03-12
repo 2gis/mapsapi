@@ -1,6 +1,6 @@
 {
   "name": "2GIS-Maps-API-2.0",
-  "version": "2.0.21",
+  "version": "2.0.22",
   "description": "Interactive 2GIS maps API, based on Leaflet",
   "keywords": [
     "2gis",
@@ -18,7 +18,11 @@
   },
   "dependencies": {
     "express": "3.4.8",
-    "strong-agent": "~0.2.22"
+    "strong-agent": "~0.2.22",
+    "uglify-js": "2.4.3",
+    "clean-css": "1.0.11",
+    "dustjs-linkedin": "~2.3.1",
+    "2gis-project-loader": "0.1.0"
   },
   "pre-push": [
     "gulp lint",
@@ -51,7 +55,7 @@
     "gulp-header": "~1.0.2",
     "gulp-footer": "~1.0.3",
     "gulp-flatten": "0.0.2",
-    "gulp-less": "~1.2.1",
+    "gulp-less": "~1.2.2",
     "gulp-raster": "0.0.2",
     "gulp-spritesmith": "0.0.2",
     "gulp-if": "0.0.5",
@@ -72,6 +76,8 @@
     "pretty-bytes": "~0.1.0",
 
     "lodash": "~2.4.1",
-    "underscore.string": "~2.3.3"
+    "underscore.string": "~2.3.3",
+    "less": "~1.7.0",
+    "nib": "~1.0.2"
   }
 }

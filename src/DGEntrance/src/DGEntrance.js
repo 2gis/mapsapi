@@ -26,7 +26,7 @@ DG.Entrance = DG.Class.extend({
 
         // hide without event by default
         this._arrows.eachLayer(function (arrow) {
-            arrow.setStyle({ visibility: 'hidden' });
+            arrow.setStyle({visibility: 'hidden'});
         });
         this._isShown = false;
     },
@@ -62,7 +62,7 @@ DG.Entrance = DG.Class.extend({
         }
         if (this._isAllowedZoom()) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.setStyle({ visibility: 'visible' });
+                arrow.setStyle({visibility: 'visible'});
                 if (DG.Path.ANIMATION_AVAILABLE) {
                     arrow.runAnimation('animateArrowPathGeom');
                 }
@@ -80,7 +80,7 @@ DG.Entrance = DG.Class.extend({
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.setStyle({ visibility: 'hidden' });
+                arrow.setStyle({visibility: 'hidden'});
             });
             this._isShown = false;
             this._map.fire('entrancehide');
@@ -126,7 +126,7 @@ DG.Entrance = DG.Class.extend({
     },
 
     _getFitZoom: function () {
-        return this._map.projectDetector.getProject().max_zoom_level || DG.Entrance.SHOW_FROM_ZOOM;
+        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _fitBounds: function () {

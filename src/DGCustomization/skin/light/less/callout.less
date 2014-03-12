@@ -10,7 +10,7 @@
     }
 
 .leaflet-popup-tip-container_image {
-    background-image: url(__BASE_URL__/img/DGCustomization_tail-white.png);
+    background-image: url('@{baseURL}/img/DGCustomization_tail-white.png');
     }
 
 .leaflet-popup-tip-container_svg {
@@ -20,8 +20,8 @@
     margin-top: -2px;
     }
 
-a.popup-link,
-.firm-card__link a {
+a.dg-popup__link,
+.dg-firm-card__link a {
     background-image: linear-gradient(to right, rgba(0,91,143,.3), rgba(0,91,143,.3) 100%);
     color: #005b8f;
     
@@ -45,7 +45,7 @@ a.popup-link,
         height: 40px;
         }
 
-.leaflet-popup-scrolled .dg-popup-header:after,
-.leaflet-popup-scrolled .dg-popup-footer:before {
+.leaflet-popup-scrolled .dg-popup__header:after,
+.leaflet-popup-scrolled .dg-popup__footer:before {
     background-color: #eee;
     }

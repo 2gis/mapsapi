@@ -16,7 +16,7 @@ describe('DGFirmList', function () {
         it("default container", function() {
             var firmList = new FirmCard.List(results, {});
 
-            expect(firmList.getContainer().className).to.be('building-callout__list');
+            expect(firmList.getContainer().className).to.be('dg-building-callout__list');
         });
 
         it("default lang = ru", function() {
@@ -31,8 +31,8 @@ describe('DGFirmList', function () {
             var customContainer = document.createElement('div'),
                 firmList = new FirmCard.List(results, {container: customContainer});
 
-            expect(customContainer.className).to.be('building-callout__list');
-            expect(customContainer.querySelectorAll('.building-callout__list-item').length).to.be(4);
+            expect(customContainer.className).to.be('dg-building-callout__list');
+            expect(customContainer.querySelectorAll('.dg-building-callout__list-item').length).to.be(4);
         });
 
         it("add firm", function() {
@@ -41,7 +41,7 @@ describe('DGFirmList', function () {
             firmList.addFirms(defaultFirm);
             firmList.renderList();
 
-            expect(customContainer.querySelectorAll('.building-callout__list-item').length).to.be(5);
+            expect(customContainer.querySelectorAll('.dg-building-callout__list-item').length).to.be(5);
         });
 
         it("add firms array", function() {
@@ -50,7 +50,7 @@ describe('DGFirmList', function () {
             firmList.addFirms(addFirms);
             firmList.renderList();
 
-            expect(customContainer.querySelectorAll('.building-callout__list-item').length).to.be(8);
+            expect(customContainer.querySelectorAll('.dg-building-callout__list-item').length).to.be(8);
         });
 
         it("remove firm", function() {
@@ -59,7 +59,7 @@ describe('DGFirmList', function () {
             firmList.removeFirms('141265769760312');
 
             expect(customContainer.querySelector('#firm-141265769760312')).not.to.be.ok();
-            expect(customContainer.querySelectorAll('.building-callout__list-item').length).to.be(3);
+            expect(customContainer.querySelectorAll('.dg-building-callout__list-item').length).to.be(3);
         });
 
         it("remove firms array", function() {
@@ -68,7 +68,7 @@ describe('DGFirmList', function () {
             firmList.renderList();
             firmList.removeFirms(['141265769760312', '141265769349900', '141265770849956']);
 
-            expect(customContainer.querySelectorAll('.building-callout__list-item').length).to.be(1);
+            expect(customContainer.querySelectorAll('.dg-building-callout__list-item').length).to.be(1);
         });
 
         it("remove firms if List was cleared", function() {
@@ -77,7 +77,7 @@ describe('DGFirmList', function () {
             firmList.renderList();
             firmList.clearList();
 
-            expect(customContainer.querySelectorAll('.building-callout__list-item').length).to.be(0);
+            expect(customContainer.querySelectorAll('.dg-building-callout__list-item').length).to.be(0);
         });
 
         it("ignore firm if it already in list", function() {
@@ -87,7 +87,7 @@ describe('DGFirmList', function () {
             firmList.addFirms(alreadyInList);
             firmList.renderList();
 
-            expect(customContainer.querySelectorAll('.building-callout__list-item').length).to.be(4);
+            expect(customContainer.querySelectorAll('.dg-building-callout__list-item').length).to.be(4);
         });
     })
 

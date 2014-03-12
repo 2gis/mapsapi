@@ -21,7 +21,7 @@
     margin: -34px 0 0 -13px;
     width: 22px;
     height: 34px;
-    background-image: url(__BASE_URL__/img/DGCustomization_defaultMarker.png);
+    background-image: url('@{baseURL}/img/DGCustomization_defaultMarker.png');
     transform-origin: 50% 100%;
     animation: dg-customization__show-marker .2s;
 
@@ -36,11 +36,11 @@
     }
 
 .leaflet-container:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    background-image: url(__BASE_URL__/img/DGCustomization_markerHover.png);
+    background-image: url('@{baseURL}/img/DGCustomization_markerHover.png');
     }
 
 div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/DGCustomization_markerPressed.png) !important;
+    background-image: url('@{baseURL}/img/DGCustomization_markerPressed.png') !important;
     }
 
 .dg-customization__marker_appear {
@@ -78,19 +78,18 @@ div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
     }
 
 .leaflet-retina .dg-customization__marker_type_mushroom {
-    background-image: url(__BASE_URL__/img/DGCustomization_defaultMarker-2x.png);
+    background-image: url('@{baseURL}/img/DGCustomization_defaultMarker-2x.png');
     background-size: 22px 34px;
     }
 .leaflet-retina:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    background-image: url(__BASE_URL__/img/DGCustomization_markerHover-2x.png);
+    background-image: url('@{baseURL}/img/DGCustomization_markerHover-2x.png');
     background-size: 22px 34px;
     }
 .leaflet-retina .leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    background-image: url(__BASE_URL__/img/DGCustomization_markerPressed-2x.png) !important;
+    background-image: url('@{baseURL}/img/DGCustomization_markerPressed-2x.png') !important;
     background-size: 22px 34px;
     }
 
-/* @TODO: Сделать модификатором */
-.dg-hidden {
+.dg-popup_hidden_true {
     display: none;
     }

@@ -4,7 +4,6 @@ var extend = require('extend'),
     prettyBytes = require('pretty-bytes'),
 
     gulp = require('gulp'),
-    less = require('gulp-less'),
     tasks = require('gulp-load-plugins')(),
 
     gendoc = require('./docbuilder/gendoc.js'),
@@ -244,24 +243,36 @@ function bldJs(opt) {
 function bldCss(opt) {
     opt = opt || {};
 
-    var baseLessDirectory = './private/less',
+    var skin = (opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN,
+        graphicsType = (opt.sprite === 'true' || tasks.util.env.sprite) ? 'png' : 'svg',
 
-        basicSprite = baseLessDirectory + '/sprite.basic.less',
-        basicSprite2x = baseLessDirectory + '/sprite-2x.basic.less',
-        skinSprite = baseLessDirectory + '/sprite.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.less',
-        skinSprite2x = baseLessDirectory + '/sprite-2x.' + ((opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN) + '.less',
+        baseLessDirectory = './private/less',
+        imports = [
+            'sprite.basic.less',
+            'sprite-2x.basic.less',
+            'sprite.' + skin + '.less',
+            'sprite-2x.' + skin + '.less',
+            'mixins.less'
+        ],
 
-        mixins = baseLessDirectory + '/' + ((opt.sprite === 'true' || tasks.util.env.sprite) ? 'mixins-png' : 'mixins-svg') + '.less',
+        lessList = deps.getCSSFiles(opt),
+        
+        lessPrerequirements =
+            '@graphicsType: ' + graphicsType + ';' +
+            '@baseURL: \'..\';' +
 
-        cssList = deps.getCSSFiles(opt);
+            imports.reduce(function(previousImports, toImport) {
+                return previousImports + '@import (reference) \'' + baseLessDirectory + '/' + toImport + '\';';
+            }, '');
 
-    if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
-    cssList.unshift(basicSprite, basicSprite2x, skinSprite, skinSprite2x, mixins);
+    //if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
 
-    return  gulp.src(cssList)
-                .pipe(tasks.frep(config.cfgParams))
-                .pipe(tasks.concat('tmp.less'))
-                .pipe(less())
+    return gulp.src(lessList)
+                .pipe(tasks.header(lessPrerequirements))
+                .pipe(tasks.less({
+                    paths: []
+                }))
+                //.pipe(tasks.frep(config.cfgParams))
                 .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 .pipe(tasks.base64({
                     extensions: ['svg']

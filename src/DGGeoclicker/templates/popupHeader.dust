@@ -1,3 +1,3 @@
 {#title}
-    <div class="dg-popup-header-title">{.}</div>
+    <div class="dg-popup__header-title">{.}</div>
 {/title}

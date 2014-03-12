@@ -143,7 +143,7 @@ DG.Control.Location = DG.RoundControl.extend({
             } else {
                 /* global __PROJECT_LEAVE_MAX_ZOOM__:false*/
                 this._map.setView(this._event.latlng, __PROJECT_LEAVE_MAX_ZOOM__);
-                var zoom = this._map.projectDetector.getProject().max_zoom_level || __PROJECT_LEAVE_MAX_ZOOM__;
+                var zoom = this._map.projectDetector.getProject().maxZoom || __PROJECT_LEAVE_MAX_ZOOM__;
                 this._map.setZoom(zoom);
             }
             this._locateOnNextLocationFound = false;
@@ -175,9 +175,9 @@ DG.Control.Location = DG.RoundControl.extend({
             unit = 'feet';
         }
 
-        var markerClass = 'dg-locate-pin';
+        var markerClass = 'dg-location__pin';
 
-        markerClass += this._following ? (' ' + markerClass + '_following') : '';
+        markerClass += this._following ? (' ' + markerClass + 'state_following') : '';
         // small inner marker
         var m = {
             icon: DG.divIcon({

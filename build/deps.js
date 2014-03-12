@@ -92,7 +92,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/less/marker.ie.less'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
     },
 
     DGAttribution: {
@@ -138,6 +138,8 @@ var deps = {
     DGFullScreen: {
         desc: 'Full screen module',
         src: [
+            'DGFullScreen/src/DGScreenfull.js',
+            'DGFullScreen/src/LegacyFullScreen.js',
             'DGFullScreen/src/DGFullScreen.js',
             'DGFullScreen/lang/ru.js',
             'DGFullScreen/lang/it.js',
@@ -160,7 +162,7 @@ var deps = {
     DGProjectDetector: {
         desc: '2GIS project detector module',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGCore', 'DGAjax']
+        deps: ['DGCore']
     },
 
     DGMeta: {
@@ -282,7 +284,7 @@ var deps = {
                 'DGRuler/skin/{skin}/css/DGRuler.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale']
+        deps: ['DGCore', 'DGLocale', 'DGDust']
     },
 
     DGRulerControl: {

@@ -80,7 +80,7 @@ FirmCard.prototype = {
         if (btns.length) {
             this._footerContainer = document.createElement('div');
 
-            this._footerContainer.className = 'footer-btns';
+            this._footerContainer.className = 'dg-popup__footer-buttons';
             this._footerContainer.innerHTML = this.options.render('popupFooterBtns', {'btns': btns});
             this._firmContentObject.footer = this._footerContainer;
         }
@@ -205,9 +205,9 @@ FirmCard.prototype = {
         e = e || window.event;
         var target = e.target || e.srcElement;
         if (target && target.nodeName === 'A') {
-            if (target.className.indexOf('popup-btn-firmCard-back') > -1) {
+            if (target.className.indexOf('dg-popup__button_name_firmCard-back') > -1) {
                 this.options.backBtn();
-            } else if (target.className.indexOf('popup-btn-show-entrance') > -1) {
+            } else if (target.className.indexOf('dg-popup__button_name_show-entrance') > -1) {
                 var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
                 ent.addTo(this.options.map).show();
             }
@@ -215,14 +215,14 @@ FirmCard.prototype = {
     },
 
     _onToggleSchedule: function (e) {
-        var schedule = this._container.querySelector('.schedule__table'),
-            forecast = this._container.querySelector('.schedule__now'),
-            showClass = ' show_schedule',
+        var schedule = this._container.querySelector('.dg-schedule__table'),
+            forecast = this._container.querySelector('.dg-schedule__now'),
+            showClass = ' dg-schedule__today_shown_true',
             target = e.target || e.srcElement;
 
         if (!schedule) { return; }
 
-        if (target && target.nodeName === 'DIV' && target.className.indexOf('schedule__today') !== -1) {
+        if (target && target.nodeName === 'DIV' && target.className.indexOf('dg-schedule__today') !== -1) {
             if (schedule.style.display === 'block') {
                 schedule.style.display = 'none';
                 forecast.style.display = 'block';
