@@ -1,6 +1,6 @@
 DG.Entrance = DG.Layer.extend({
 
-    includes: DG.SVG,
+    // includes: DG.SVG,
 
     options: {
         vectors: []
@@ -55,9 +55,6 @@ DG.Entrance = DG.Layer.extend({
             return this;
         }
         if (fitBounds !== false) {
-            fitBounds = true;
-        }
-        if (fitBounds) {
             this._fitBounds();
         }
         if (this._isAllowedZoom()) {

@@ -25,44 +25,56 @@ if (DG.Browser.svg) {
 
         onAdd: function (map) { // (DG.Map)
             DG.Polyline.prototype.onAdd.call(this, map);
-            // this._renderer._updateStyle = this._updateStyle;
+            this._renderer._updateStyle = this._updateStyle;
             // console.log(this._renderer);
             this._initMarkers();
 
-            map.on({'zoomend': this._updateMarker}, this);
-            map.on({'zoomend': this._updateStyleByZoom}, this);
-            map.on({'moveend': this._showMarker}, this);
+            // map.on({'zoomend': this._updateMarker}, this);
+            // map.on({'zoomend': this._updateStyleByZoom}, this);
+            // map.on({'moveend': this._showMarker}, this);
 
             // see comments about "walking arrow" in JSAPI-3085
-            map.on({'movestart': this._hideMarker}, this);
-            map.on({'moveend': this._hideMarker}, this);
+            // map.on({'movestart': this._hideMarker}, this);
+            // map.on({'moveend': this._hideMarker}, this);
         },
 
         onRemove: function (map) { // (DG.Map)
             DG.Polyline.prototype.onRemove.call(this, map);
-            map.off({'zoomend': this._updateMarker}, this);
-            map.off({'zoomend': this._updateStyleByZoom}, this);
-            map.off({'moveend': this._showMarker}, this);
 
-            map.off({'movestart': this._hideMarker}, this);
-            map.off({'moveend': this._hideMarker}, this);
+            // map.off({'zoomend': this._updateMarker}, this);
+            // map.off({'zoomend': this._updateStyleByZoom}, this);
+            // map.off({'moveend': this._showMarker}, this);
+
+            // map.off({'movestart': this._hideMarker}, this);
+            // map.off({'moveend': this._hideMarker}, this);
 
             this._removeMarkers();
         },
 
-        _initElements: function () {
-            this._map._initPathRoot();
-            this._renderer._initPath();
-            this._renderer._initStyle();
+        getEvents: function () {
+            return {
+                viewreset: this._project,
+                moveend: this._update,
+                drag: this._update,
+                zoomend: this._updateStyleByZoom
+            };
         },
+
+        getContainer: function () {
+            return this._renderer._container;
+        },
+
+        // _initElements: function () {
+        //     this._map._initPathRoot();
+        //     this._renderer._initPath();
+        //     this._renderer._initStyle();
+        // },
 
         _initMarkers: function () {
             var marker, markerPath, markerPolygon,
                 optionsByZoom =  this.options.byZoom,
                 id = this._markerId = 'arrow-marker-' + DG.Util.stamp(this),
-                svg = this._renderer._container.parentNode;
-
-            this._initDefs();
+                svg = this.getContainer();
 
             Object.keys(optionsByZoom).map(function (zoom) {
                 marker = DG.SVG.create('marker');
@@ -105,25 +117,30 @@ if (DG.Browser.svg) {
                     this._markersPolygons.push(markerPolygon);
                 }
 
-                this._defs.appendChild(marker);
+                this._getDefs().appendChild(marker);
             }, this);
 
-            svg.insertBefore(this._defs, svg.firstChild);
+            // svg.insertBefore(this._getDefs(), svg.firstChild);
+            svg.appendChild(this._getDefs());
             this._updateMarker();
         },
 
-        _initDefs: function () {
-            if (!this._defs) {
-                this._defs = DG.SVG.create('defs');
-            }
+        _getDefs: function () {
+            this._defs = this._defs || DG.SVG.create('defs');
             return this._defs;
         },
 
         _removeMarkers: function () {
-            var defs = this._defs;
+            var defs = this._getDefs();
             if (defs) {
                 defs.parentNode.removeChild(defs);
             }
+        },
+
+        _update: function () {
+            DG.Polyline.prototype._update.call(this);
+
+            this._updateMarker();
         },
 
         _updateMarker: function () {
