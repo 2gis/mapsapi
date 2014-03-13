@@ -176,9 +176,9 @@
                     this._initBaron();
                 }
                 else {
-                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_hidden_true');
-                    DG.DomUtil.addClass(this._scroller, 'dg-scroller_has-header_true');
-                    DG.DomUtil.addClass(this._scroller, 'dg-scroller');
+                    DG.DomUtil.removeClass(this._scroller, 'scroller_hidden_true');
+                    DG.DomUtil.addClass(this._scroller, 'scroller_has-header_true');
+                    DG.DomUtil.addClass(this._scroller, 'scroller');
                     if (scrollTop) {
                         this._scroller.scrollTop = scrollTop;
                     }
@@ -186,9 +186,9 @@
                 }
             } else {
                 if (this._isBaronExist) {
-                    DG.DomUtil.addClass(this._scroller, 'dg-scroller_hidden_true');
-                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_has-header_true');
-                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller');
+                    DG.DomUtil.addClass(this._scroller, 'scroller_hidden_true');
+                    DG.DomUtil.removeClass(this._scroller, 'scroller_has-header_true');
+                    DG.DomUtil.removeClass(this._scroller, 'scroller');
                     DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
             }
@@ -253,12 +253,12 @@
 
         _initBaronScroller: function () {
             var contentNode = this._popupStructure.body.parentNode,
-                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'dg-scroller__wrapper', contentNode),
-                scroller = this._scroller = DG.DomUtil.create('div', 'dg-scroller', scrollerWrapper),
-                barWrapper = this._barWrapper = DG.DomUtil.create('div', 'dg-scroller__bar-wrapper', scroller),
+                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'scroller__wrapper', contentNode),
+                scroller = this._scroller = DG.DomUtil.create('div', 'scroller', scrollerWrapper),
+                barWrapper = this._barWrapper = DG.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
                 innerHeight = this.options.maxHeight - this.options.border * 2;
 
-            this._scrollerBar = DG.DomUtil.create('div', 'dg-scroller__bar', barWrapper);
+            this._scrollerBar = DG.DomUtil.create('div', 'scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
 
             innerHeight -= this._getDelta();
@@ -276,9 +276,9 @@
 
         _initBaron: function () {
             this._baron = graf({
-                scroller: '.dg-scroller',
-                bar: '.dg-scroller__bar',
-                track: '.dg-scroller__bar-wrapper',
+                scroller: '.scroller',
+                bar: '.scroller__bar',
+                track: '.scroller__bar-wrapper',
                 $: function (selector, context) {
                     /*global bonzo:false, qwery:false */
                     return bonzo(qwery(selector, context));
