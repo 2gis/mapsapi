@@ -9,7 +9,8 @@ DG.Entrance.EventHandler = DG.Handler.extend({
 
         this._map.on({
             'layeradd': this._removeEntrance,
-            'zoomend projectleave': this._showOrHideEntrance
+            'zoomend': this._showOrHideEntrance
+            // 'zoomend projectleave': this._showOrHideEntrance
         }, this);
 
         if (DG.Browser.ie) {
@@ -30,7 +31,7 @@ DG.Entrance.EventHandler = DG.Handler.extend({
         var arrows = this._entrance._arrows;
         if (arrows) {
             Object.keys(arrows._layers).forEach(function (arrow) {
-                var item = arrows._layers[arrow]._container;
+                var item = arrows._layers[arrow].getContainer();
                 item.parentNode.insertBefore(item, item);
             }, this);
         }
@@ -41,7 +42,6 @@ DG.Entrance.EventHandler = DG.Handler.extend({
             (e.layer instanceof DG.Entrance && e.layer !== this._entrance)) {
 
             this._entrance.removeFrom(this._map);
-
         }
     },
 

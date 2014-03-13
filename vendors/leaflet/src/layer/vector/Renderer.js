@@ -35,7 +35,9 @@ L.Renderer = L.Layer.extend({
 
 	getEvents: function () {
 		var events = {
-			moveend: this._update
+			zoomend: this._update,
+			moveend: this._update,
+			drag: this._update
 		};
 		if (this._zoomAnimated) {
 			events.zoomanim = this._animateZoom;
@@ -66,6 +68,10 @@ L.Map.include({
 	getRenderer: function (layer) {
 		var renderer = layer.options.renderer || this.options.renderer ||
 				(L.SVG && L.SVG.instance) || (L.Canvas && L.Canvas.instance);
+
+		if (!renderer) {
+			renderer = this._renderer = (L.SVG && L.svg()) || (L.Canvas && L.canvas());
+		}
 
 		if (!this.hasLayer(renderer)) {
 			this.addLayer(renderer);
