@@ -49,13 +49,13 @@ DG.Ruler = DG.Class.extend({
         this._maxLat = map.unproject([0, 0], 0).lat;
 
         if (!this._rulerPane) {
-            this._rulerPane = this._map.getContainer().querySelector('.dg-ruler-pane');
+            this._rulerPane = this._map.getContainer().querySelector('.dg-ruler__pane');
             if (this._rulerPane) {
-                this._pathRoot = this._rulerPane.querySelector('.dg-ruler-pane__pathroot');
+                this._pathRoot = this._rulerPane.querySelector('.dg-ruler__pathroot');
             } else {
                 var dummyPath = DG.polyline([]).addTo(this._map);
                 this._map.removeLayer(dummyPath);
-                this._rulerPane = DG.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
+                this._rulerPane = DG.DomUtil.create('div', 'dg-ruler__pane', map._panes.overlayPane);
                 this._initPathRoot();
             }
         }
@@ -179,7 +179,7 @@ DG.Ruler = DG.Class.extend({
     _initPathRoot : function () { // ()
         this._rulerPane.appendChild(this._pathRoot = this._map._pathRoot.cloneNode(false));
         this._map.on(this._pathRootEvents, this);
-        DG.DomUtil.addClass(this._pathRoot, 'dg-ruler-pane__pathroot');
+        DG.DomUtil.addClass(this._pathRoot, 'dg-ruler__pathroot');
     },
 
     _pathRootEvents: {
@@ -401,7 +401,7 @@ DG.Ruler = DG.Class.extend({
     _deletePoint: function (event) {   // (MouseEvent)
         var originalEvent = event.originalEvent,
             target = originalEvent.target  || originalEvent.srcElement;
-        if (target.className !== 'dg-ruler-label__delete') {
+        if (target.className !== 'dg-ruler__label-remove-link') {
             return;
         }
         DG.DomEvent.stop(event.originalEvent);

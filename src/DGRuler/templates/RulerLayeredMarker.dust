@@ -1,6 +1,6 @@
-<img class="dg-ruler-label__spacer" src="{blankgif}" width="26" height="26" />
-<div class="dg-ruler-label__container">
-	<div class="dg-ruler-label__point"></div>
-	<span class="dg-ruler-label__distance">0 км</span>
-	<span class="dg-ruler-label__delete"></span>
+<img class="dg-ruler__label-spacer" src="{blankgif}" width="26" height="26" />
+<div class="dg-ruler__label-container">
+	<div class="dg-ruler__point"></div>
+	<span class="dg-ruler__distance">0 км</span>
+	<span class="dg-ruler__label-remove-link"></span>
 </div>

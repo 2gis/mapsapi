@@ -1,59 +1,57 @@
-.dg-ruler-pane, .dg-ruler-pane__pathroot {
+.dg-ruler__pane,
+.dg-ruler__pathroot {
     position: absolute;
-    left: 0;
     top: 0;
-}
+    left: 0;
+    }
 
-.dg-ruler-pane {
+.dg-ruler__pane {
     z-index: 6;
-}
+    }
 
-.dg-ruler-pane__pathroot {
+.dg-ruler__pathroot {
     z-index: 7999;
-}
+    }
 
-.dg-ruler-label {
+.dg-ruler__label {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     position: absolute;
-    left: 0;
     top: 0;
-}
+    left: 0;
+    }
+    .dg-ruler__label-spacer {
+        display: block;
+        }
 
-.dg-ruler-label__delete {
-    display: none;
-    width: 12px;
-    height: 12px;
-    margin: 1px 0 0 4px;
-    vertical-align: top;
-    .image('DGRuler_delete-icon');
-    transition: all 0.2s ease;
-}
+    .dg-ruler__label-container {
+        display: none;
+        padding: 2px 4px;
+        border: 4px solid #fff;
+        border-radius: 13px;
+        background: #0da5d5;
+        background-clip: padding-box;
+        color: #fff;
+        white-space: nowrap;
+        font: 12px/14px Arial, sans-serif;
+        }
+        .dg-ruler__point {
+            display: inline-block;
+            margin: 2px 4px 0 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background: white;
+            }
 
-.dg-ruler-label__delete:hover {
-    transform: rotate(90deg);
-}
-
-.dg-ruler-label__point {
-    display: inline-block;
-    background: white;
-    width:10px;
-    height:10px;
-    margin: 2px 4px 0 0;
-    border-radius: 5px;
-}
-
-.dg-ruler-label__spacer {
-    display: block;
-}
-
-.dg-ruler-label__container {
-    display: none;
-    padding: 2px 4px;
-    font: 12px/14px Arial, sans-serif;
-    white-space: nowrap;
-    color: #fff;
-    background: #0da5d5;
-    border: 4px solid #fff;
-    border-radius: 13px;
-    background-clip: padding-box;
-}
+        .dg-ruler__label-remove-link {
+            .image('DGRuler_delete-icon');
+            display: none;
+            margin: 1px 0 0 4px;
+            width: 12px;
+            height: 12px;
+            vertical-align: top;
+            transition: all 0.2s ease;
+            }
+        .dg-ruler__label-remove-link:hover {
+            transform: rotate(90deg);
+            }
