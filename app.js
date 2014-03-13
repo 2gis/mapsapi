@@ -19,7 +19,7 @@ app.use('/2.0', express.static(__dirname + '/public'));
 function getParams(req, resp, next) {
     req.query.isDebug = (req.query.mode === 'debug');
     var contentType = (req.path === '/2.0/js/') ? 'application/x-javascript; charset=utf-8' : 'text/css';
-    console.log(req.path, contentType);
+
     req.dgCallback = function (stream, response) {
         response.set('Cache-Control', 'public, max-age=604800');
         response.set('X-Powered-By', '2GIS Maps API Server');
