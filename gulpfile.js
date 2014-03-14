@@ -42,7 +42,7 @@ gulp.task('build-scripts', ['lint'], function () {
                     .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('build-styles', ['sprite'], function () {
+gulp.task('build-styles', function () {
     return es.concat(
         bldCss(extend(tasks.util.env, {isDebug: true}))
                              .pipe(map(saveSize))
@@ -112,7 +112,7 @@ gulp.task('svg2png', ['clean-png'], function () {
     );
 });
 
-gulp.task('sprite', ['svg2png'], function () {
+gulp.task('build-sprites', ['svg2png'], function () {
     return es.concat(
         gulp.src(['./src/**/png/*.png', '!./src/**/png/*2x.png'])
             .pipe(tasks.spritesmith({
@@ -171,7 +171,7 @@ gulp.task('build', ['build-clean'], function () {
     return gulp.start('build-tasks');
 });
 
-gulp.task('build-tasks', ['build-scripts', 'build-styles', 'build-assets', 'doc'], function () {
+gulp.task('build-tasks', ['build-scripts', 'build-sprites', 'build-styles', 'build-assets', 'doc'], function () {
     tasks.util.log('Build contains the next modules:');
 
     deps.getModulesList().forEach(function (module) {
@@ -191,8 +191,9 @@ gulp.task('build-tasks', ['build-scripts', 'build-styles', 'build-assets', 'doc'
 //watchers
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['build-assets']);
-    gulp.watch('./src/**/svg/**/*.*', ['sprite']);
+    gulp.watch('./src/**/svg/**/*.*', ['build-sprites']);
     gulp.watch('./src/**/tmpl/**/*.*', ['build-scripts']);
+    gulp.watch('./src/**/less/**/*.*', ['build-styles']);
 });
 
 //service tasks
