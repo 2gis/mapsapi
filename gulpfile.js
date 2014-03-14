@@ -278,9 +278,7 @@ function bldCss(opt) {
 
     return gulp.src(lessList)
                 .pipe(tasks.header(lessPrerequirements))
-                .pipe(tasks.less({
-                    paths: []
-                }))
+                .pipe(tasks.less())
                 //.pipe(tasks.frep(config.cfgParams))
                 .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 .pipe(tasks.base64({
