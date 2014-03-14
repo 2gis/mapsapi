@@ -138,7 +138,7 @@ FirmCard.prototype = {
         var btns = [];
 
         if (this.options.backBtn) {
-            btns.push({ name: 'firmCard-back',
+            btns.push({ name: 'firm-card-back',
                         label: this.dict.t(this.options.lang, 'btnBack'),
                         icon: true
             });
@@ -205,7 +205,7 @@ FirmCard.prototype = {
         e = e || window.event;
         var target = e.target || e.srcElement;
         if (target && target.nodeName === 'A') {
-            if (target.className.indexOf('dg-popup__button_name_firmCard-back') > -1) {
+            if (target.className.indexOf('dg-popup__button_name_firm-card-back') > -1) {
                 this.options.backBtn();
             } else if (target.className.indexOf('dg-popup__button_name_show-entrance') > -1) {
                 var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
