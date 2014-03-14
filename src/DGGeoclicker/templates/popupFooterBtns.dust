@@ -2,7 +2,7 @@
     <footer class="dg-popup__footer-buttons">
         {#btns}
             <div class="dg-popup__footer-button-wrapper">
-                <a class="dg-popup__footer-button_name_{name} dg-popup__footer-button{?icon} dg-popup__footer-icon-button{/icon}"
+                <a class="dg-popup__button_name_{name} dg-popup__footer-button{?icon} dg-popup__footer-icon-button{/icon}"
                     {?href}
                         href={href} target="_blank"
                     {:else}
