@@ -1,0 +1,45 @@
+.dg-popup__container {
+    overflow: hidden;
+    margin: 0;
+    }
+.leaflet-popup-scrolled .dg-popup__container {
+    padding: 0 10px 0 0;
+    }
+
+a.dg-popup__link {
+    background-position: center bottom;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+    text-decoration: none;
+    }
+
+.dg-popup__header,
+.dg-popup__footer {
+    position: absolute;
+    }
+
+.dg-popup__header {
+    top: 0;
+    }
+    .dg-popup__header > * {
+        margin: 0 18px 8px 0 !important;
+        }
+
+.dg-popup__footer {
+    bottom: 0;
+    }
+    .dg-popup__footer > * {
+        margin: 10px 0 0 0 !important;
+        }
+
+    .leaflet-popup-scrolled .dg-popup__header:after,
+    .leaflet-popup-scrolled .dg-popup__footer:before {
+        display: block;
+        width: 100%;
+        height: 1px;
+        content: '';
+        }
+
+.dg-popup_hidden_true {
+    display: none;
+    }
