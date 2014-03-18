@@ -1,0 +1,112 @@
+@font-face {
+    font-weight: normal;
+    font-style: normal;
+    font-family: 'SuisseCond';
+    src: url('@{baseURL}/fonts/suisseintl-cond.eot');
+    src: url('@{baseURL}/fonts/suisseintl-cond.eot?#iefix') format('embedded-opentype'),
+         url('@{baseURL}/fonts/suisseintl-cond.woff') format('woff'),
+         url('@{baseURL}/fonts/suisseintl-cond.ttf') format('truetype'),
+         url('@{baseURL}/fonts/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
+    }
+
+
+.dg-map-geoclicker__address {
+    padding: 0 0 0 24px;
+    color: #aaa;
+    font: 12px/16px Arial, sans-serif;
+    }
+    .dg-map-geoclicker__address-header {
+        position: relative;
+        margin: 6px 0 2px 24px;
+        font: 16px/16px Arial, sans-serif;
+        }
+
+.dg-map-geoclicker__drilldown {
+    padding: 0 0 0 24px;
+    font: 12px/16px Arial, sans-serif;
+    }
+
+.dg-map-geoclicker__elevation {
+    display: block;
+    margin-bottom: 1px;
+    color: #a0a0a0;
+    font-size: 15px;
+    }
+
+.dg-map-geoclicker__purpose {
+    position: relative;
+    padding: 3px 0 2px 24px;
+    font-size: 16px;
+    
+    &:before {
+        position: absolute;
+        top: 8px;
+        left: 0;
+        width: 8px;
+        height: 12px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        content: '';
+        }
+    }
+    .dg-map-geoclicker__purpose_type_street:before {
+        width: 12px;
+        }
+    .dg-map-geoclicker__purpose_type_settlement:before {
+        width: 12px;
+        background-image: url('@{baseURL}/img/callout-settlement.png');
+        }
+    .dg-map-geoclicker__purpose_type_sight:before {
+        background-image: url('@{baseURL}/img/icon-sight.png');
+        background-position: 0 0;
+        }
+
+.dg-map-geoclicker__sight-description {
+    overflow: hidden;
+    padding: 0.5em 0 0 24px;
+    max-height: 2.9em;
+    }
+
+.dg-map-geoclicker__show-more-sight-link {
+    margin-left: 24px;
+    border-bottom: 1px dashed;
+    text-decoration: none;
+
+    &:after {
+        position: absolute;
+        margin-left: 5px;
+        content: '>';
+        font-weight: bold;
+        }
+    }
+
+.dg-map-geoclicker__buildingname {
+    margin: 0 0 5px !important;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    }
+
+.dg-map-geoclicker__clamped-line {
+    display: block;
+    white-space: nowrap;
+    }
+.dg-map-geoclicker__clamped-line_last {
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    }
+
+.dg-map-geoclicker__preloader-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    }
+
+.leaflet-retina .dg-map-geoclicker__purpose_type_settlement:before {
+    background-image: url('@{baseURL}/img/callout-settlement-2x.png');
+    }
+
+.leaflet-retina .dg-map-geoclicker__purpose_type_sight:before {
+    background-image: url('@{baseURL}/img/icon-sight-2x.png');
+    }
