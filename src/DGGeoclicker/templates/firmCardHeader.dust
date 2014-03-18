@@ -4,9 +4,7 @@
     <div class="dg-popup__header-links">
         {#links}
             {@eq key="{name}" value="flamp_stars" type="string"}
-                <div class="dg-popup__link dg-popup__link_type_{name}">
-                    <div{#width} style="width: {.}%;"{/width}></div>
-                </div>
+                <div class="dg-popup__rating dg-popup__rating_value_{width}"></div>
             {:else}
                 <a class="dg-popup__header-link dg-popup__link dg-popup__link_type_{name}"
                     {?href}
