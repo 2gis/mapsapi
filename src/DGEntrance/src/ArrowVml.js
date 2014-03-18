@@ -9,27 +9,30 @@ if (DG.Browser.vml) {
             DG.Polyline.prototype.onAdd.call(this, map);
 
             map.on({'zoomend': this._updateEndArrow}, this);
-            map.on({'zoomend': this._updateStyle}, this);
+            // map.on({'zoomend': this._updateStyle}, this);
+
+            this._initEndArrow();
         },
 
         onRemove: function (map) { // (DG.Map)
             DG.Polyline.prototype.onRemove.call(this, map);
 
             map.off({'zoomend': this._updateEndArrow}, this);
-            map.off({'zoomend': this._updateStyle}, this);
+            // map.off({'zoomend': this._updateStyle}, this);
         },
 
-        _initElements: function () {
-            this._map._initPathRoot();
-            this._initPath();
-            this._initEndArrow();
-            this._initStyle();
-        },
+        // _initElements: function () {
+        //     this._map._initPathRoot();
+        //     // this._initPath();
+        //     this._initEndArrow();
+        //     // this._initStyle();
+        // },
 
         _initEndArrow: function () {
-            this._endArrowStroke = this._createElement('stroke');
+            this._endArrowStroke = L.SVG.create('stroke');
             this._updateEndArrow();
             this._container.appendChild(this._endArrowStroke);
+            // console.log(this._endArrowStroke);
         },
 
         _updateEndArrow: function () {
@@ -43,6 +46,7 @@ if (DG.Browser.vml) {
             }
             else {
                 this._endArrowStroke.endarrow = 'classic';
+                // console.log(this._endArrowStroke.endarrow);
             }
         },
 
@@ -58,7 +62,7 @@ if (DG.Browser.vml) {
             }
 
             if (typeof this.options.visibility !== 'undefined') {
-                this._container.style.visibility = this.options.visibility;
+                this.getContainer().style.visibility = this.options.visibility;
             }
         }
 

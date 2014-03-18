@@ -28,7 +28,7 @@ if (DG.Browser.svg) {
                 curPoint = '',
                 M = 'M ' + points[0].x + ' ' + points[0].y,
                 l = 'l -1 0';
-            console.log(points);
+            // console.log(points);
 
             d = M + ' ' + l + '; ';
             for (var i = 1; i < points.length; i++) {

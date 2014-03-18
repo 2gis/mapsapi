@@ -25,7 +25,7 @@ if (DG.Browser.svg) {
 
         onAdd: function (map) { // (DG.Map)
             DG.Polyline.prototype.onAdd.call(this, map);
-            this._renderer._updateStyle = this._updateStyle;
+            // this._renderer._updateStyle = this._updateStyle;
             // console.log(this._renderer);
             this._initMarkers();
 
@@ -60,9 +60,7 @@ if (DG.Browser.svg) {
             };
         },
 
-        getContainer: function () {
-            return this._renderer._container;
-        },
+
 
         // _initElements: function () {
         //     this._map._initPathRoot();

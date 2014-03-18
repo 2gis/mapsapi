@@ -9,6 +9,10 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         this._offsetLastPathPoint();
     },
 
+    getContainer: function () {
+        return this._renderer._container;
+    },
+
     _offsetLastPathPoint: function () {
         var lastSegmentInPercents,
             offsetVector,

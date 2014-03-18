@@ -60,7 +60,7 @@ if (DG.Path.ANIMATION_AVAILABLE) {
             var animOptions = this.options.animation,
                 points = this._rings[0],
                 animationEl = null;
-            console.log(this);
+            // console.log(this);
 
             if (animOptions && points.length > 0) {
                 animationEl = DG.SVG.create('animate');
@@ -69,7 +69,7 @@ if (DG.Path.ANIMATION_AVAILABLE) {
                 if (animOptions.getValues) {
                     animOptions.values = animOptions.getValues(points);
                 }
-                console.log(animOptions);
+                // console.log(animOptions);
 
                 for (var key in animOptions) {
                     if (animOptions.hasOwnProperty(key) && {}.toString.call(animOptions[key]) !== '[object Function]') {
