@@ -50,7 +50,8 @@ var deps = {
                 'AnimationTimer',
                 'AnimationZoom',
                 'Geolocation',
-                'DGWhen']
+                'DGWhen',
+                'DGAttribution']
     },
 
     DGWhen: {
@@ -138,7 +139,7 @@ var deps = {
             all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
             ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
         },
-        deps: ['DGCore', 'DGDust', 'DGLocale']
+        deps: ['DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -146,8 +147,7 @@ var deps = {
         src: [
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
-        ],
-        deps: ['DGCore']
+        ]
     },
 
     DGLocation: {
