@@ -105,8 +105,8 @@ var deps = {
             'DGAttribution/lang/en.js'
         ],
         less: {
-            all: ['DGAttribution/skin/{skin}/less/DGAttribution.less'],
-            ie: ['DGAttribution/skin/{skin}/less/DGAttribution.ie.less']
+            all: ['DGAttribution/skin/{skin}/less/dg-mapcopyright.less'],
+            ie: ['DGAttribution/skin/{skin}/less/dg-mapcopyright.ie.less']
         },
         deps: ['DGCore', 'DGDust', 'DGLocale']
     },
