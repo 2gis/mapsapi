@@ -1,7 +1,5 @@
-<div class="dg-mapcopyright dg-mapcopyright_lang_{lang}">
-	<a href="{copyright_logo}" class="dg-mapcopyright__logolink" target="_blank" alt="{PTC} {TWOGIS}">
-		<span class="dg-mapcopyright__logo"></span>
-	</a>
-	<a class="dg-link dg-mapcopyright__apilink" href="{copyright_apilink}" target="_blank" alt="{API_2GIS}"></a>
-	<a class="dg-link dg-mapcopyright__license" href="{copyright_license}" target="_blank" alt="{license_agreement}"></a>
+<div class="dg-attribution__copyright">
+    <a href="{copyright_apilink}" target="_blank" class="dg-attribution__link dg-attribution__apilink">{API_2GIS}</a>
+    <br>
+    <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>
 </div>
