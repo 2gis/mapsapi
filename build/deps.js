@@ -135,8 +135,7 @@ var deps = {
         ],
         less: {
             all: [
-                'DGLocation/skin/{skin}/less/dg-location.less',
-                'DGLocation/skin/{skin}/less/dg-control-round.less'
+                'DGLocation/skin/{skin}/less/dg-location.less'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
