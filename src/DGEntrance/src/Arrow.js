@@ -7,7 +7,9 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         /*jshint shadow: true */
         var options = options || {};
         /*jshint shadow: false */
-        options.animation = this.getArrowAnimation(this._convertLatLngs(latlngs));
+        if (DG.Path.ANIMATION_AVAILABLE) {
+            options.animation = this.getArrowAnimation(this._convertLatLngs(latlngs));
+        }
 
         this._markers = [];
         // this._markersPath = [];
@@ -50,6 +52,7 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         return {
             viewreset: this._project,
             move: this._update,
+            moveend: this._updateMarker,
             zoomend: this._updateStyleByZoom
         };
     },
@@ -60,7 +63,7 @@ DG.Entrance.Arrow = DG.Polyline.extend({
     //     return this;
     // },
 
-    _update: function () {
+    _updateMarker: function () {
         DG.Polyline.prototype._update.call(this);
 
         this._renderer._updateMarker(this);
@@ -71,17 +74,15 @@ DG.Entrance.Arrow = DG.Polyline.extend({
             offsetVector,
             offsetTo = {},
             origPoints = this._rings[0],
-            // origPoints = this._originalPoints,
             pointsLen = origPoints.length,
-            byZoom = this.options.byZoom,
-            zoom = this._map.getZoom(),
+            style = this.options.byZoom[this._map.getZoom()],
 
             lastPoint = origPoints[pointsLen - 1],
             lastByOnePoint = origPoints[pointsLen - 2],
             lastSegmentLen = lastPoint.distanceTo(lastByOnePoint);
 
-        if (typeof byZoom[zoom] !== 'undefined') {
-            lastSegmentInPercents = Math.abs((byZoom[zoom].lastPointOffset * 100) / lastSegmentLen);
+        if (style) {
+            lastSegmentInPercents = Math.abs((style.lastPointOffset * 100) / lastSegmentLen);
 
             offsetVector = {
                 x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
@@ -92,11 +93,10 @@ DG.Entrance.Arrow = DG.Polyline.extend({
             offsetTo.y = Math.round(offsetVector.y * lastSegmentInPercents / 100);
 
             // move last point forward/back by offsetVector direction
-            if (byZoom[zoom].lastPointOffset > 0) {
+            if (style.lastPointOffset > 0) {
                 origPoints[pointsLen - 1].x += offsetTo.x;
                 origPoints[pointsLen - 1].y += offsetTo.y;
-            }
-            else {
+            } else {
                 origPoints[pointsLen - 1].x -= offsetTo.x;
                 origPoints[pointsLen - 1].y -= offsetTo.y;
             }

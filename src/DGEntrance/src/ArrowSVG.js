@@ -2,8 +2,6 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
 
     _defs: null,
 
-    // _markers: [],
-
     getEvents: function () {
         var events = {
             move: this._update
@@ -15,20 +13,20 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
     },
 
     _initMarkers: function (layer) {
-        var marker, markerPath, markerPolygon,
+        var marker, markerStyle,
             optionsByZoom =  layer.options.byZoom,
             id = layer._markerId = 'arrow-marker-' + DG.Util.stamp(layer);
 
-        // console.log(this);
-
         Object.keys(optionsByZoom).map(function (zoom) {
             marker = DG.SVG.create('marker');
-            Object.keys(optionsByZoom[zoom].marker)
+            markerStyle = optionsByZoom[zoom].marker;
+
+            Object.keys(markerStyle)
                 .filter(function (key) {
                     return key !== 'polygon' && key !== 'path';
                 })
                 .forEach(function (key) {
-                    marker.setAttribute(key, optionsByZoom[zoom].marker[key]);
+                    marker.setAttribute(key, markerStyle[key]);
                 });
 
             marker.id = id + '-' + zoom;
@@ -36,39 +34,26 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
             marker.setAttribute('markerUnits', 'userSpaceOnUse');
             marker.setAttribute('stroke-width', '0');
 
-            if (typeof optionsByZoom[zoom].marker.path !== 'undefined') {
-                markerPath = DG.SVG.create('path');
-                markerPath.setAttribute('d', optionsByZoom[zoom].marker.path.d);
-                if (typeof optionsByZoom[zoom].marker.path.color !== 'undefined') {
-                    markerPath.setAttribute('fill', optionsByZoom[zoom].marker.path.color);
-                }
-                else {
-                    markerPath.setAttribute('fill', layer.options.color);
-                }
-                marker.appendChild(markerPath);
-                // layer._markers.push(markerPath);
-            }
+            markerStyle.path && marker.appendChild(this._getMarkerChild('path', markerStyle.path, layer));
 
-            if (typeof optionsByZoom[zoom].marker.polygon !== 'undefined') {
-                markerPolygon = DG.SVG.create('polygon');
-                markerPolygon.setAttribute('points', optionsByZoom[zoom].marker.polygon.points);
-                if (typeof optionsByZoom[zoom].marker.polygon.color !== 'undefined') {
-                    markerPolygon.setAttribute('fill', optionsByZoom[zoom].marker.polygon.color);
-                }
-                else {
-                    markerPolygon.setAttribute('fill', layer.options.color);
-                }
-                marker.appendChild(markerPolygon);
-                // layer._markers.push(markerPolygon);
-            }
-
+            markerStyle.polygon && marker.appendChild(this._getMarkerChild('polygon', markerStyle.polygon, layer));
+            
             layer._markers.push(marker);
             this._getDefs().appendChild(marker);
         }, this);
 
-        // svg.insertBefore(this._getDefs(), svg.firstChild);
-
         this._updateMarker(layer);
+    },
+
+    _getMarkerChild: function (type, options, layer) {
+        var markerPath = DG.SVG.create('path'),
+            vector = (type === 'path') ? 'd' : 'points';
+
+        markerPath.setAttribute(vector, options[vector]);
+
+        markerPath.setAttribute('fill', options.color ? options.color : layer.options.color);
+
+        return markerPath;
     },
 
     _getDefs: function () {
@@ -98,6 +83,7 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
             defs.removeChild(marker);
             // layer._markers.splice(key, 1);
         });
+        console.log(layer._markers);
         layer._markers.length = 0;
     },
 
@@ -112,9 +98,6 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
             options = layer.options;
 
         if (!path) { return; }
-        // var optionsByZoom =  this.options.byZoom,
-        //     zoom = this._map.getZoom();
-        // console.log(optionsByZoom[zoom].weight, this.options.weight);
 
         if (options.stroke) {
             path.setAttribute('stroke', options.color);
