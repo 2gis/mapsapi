@@ -37,3 +37,15 @@
             .image('DGFullScreen_BlackFullScreenHover');
             }
         }
+
+    .dg-control-round__icon_name_locate {
+        &:before {
+            .image('DGLocation_BlackGeoActive');
+            }
+        &:hover:before {
+            .image('DGLocation_BlackGeoHover');
+            }
+        &.dg-control-round__icon_state_requesting:before {
+            .bg('DGLocation_geoInProgress-black');
+            }
+        }
