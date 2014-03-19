@@ -314,11 +314,6 @@ var deps = {
             'DGRulerControl/lang/it.js',
             'DGRulerControl/lang/en.js'
         ],
-        less: {
-            all: [
-                'DGRulerControl/skin/{skin}/less/dg-control-round.less'
-            ]
-        },
         deps: ['DGRuler', 'DGRoundControl']
     }
 
