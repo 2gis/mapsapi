@@ -37,6 +37,8 @@
     "happen": "0.1.3",
     "grunt-githooks": "~0.3.0",
     "grunt-push-release": "~0.1.1",
-    "karma-mocha": "~0.1.3"
+    "karma-mocha": "~0.1.3",
+    "karma-phantomjs-launcher": "^0.1.2",
+    "karma-chrome-launcher": "^0.1.2"
   }
 }
