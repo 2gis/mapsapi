@@ -1,5 +1,10 @@
 <div class="dg-attribution__copyright">
-    <a href="{copyright_apilink}" target="_blank" class="dg-attribution__link dg-attribution__apilink">{API_2GIS}</a>
-    <br>
-    <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>
+    <ul class="dg-attribution__links">
+        <li>
+            <a href="{copyright_apilink}" target="_blank" class="dg-attribution__link dg-attribution__apilink">{API_2GIS}</a>
+        </li>
+        <li>
+            <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>
+        </li>
+    </ul>
 </div>

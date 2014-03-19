@@ -7,6 +7,22 @@
     font: 9px/12px Helvetica,Arial,sans-serif;
 }
 
+.dg-attribution__links {
+    list-style: none;
+    margin: 0;
+}
+
+.dg-attribution__links:after {
+    content: ' ';
+    display:block;
+    width: 56px;
+    height: 25px;
+    position: absolute;
+    top: 0;
+    background: url(__BASE_URL__/img/DGAttribution_logo.svg) no-repeat;
+    right: -60px;
+}
+
 .leaflet-container .dg-attribution__link {
     cursor: pointer;
     color: #333;
@@ -20,15 +36,4 @@
 .leaflet-container .dg-attribution__link:hover {
     color: #333;
     background-image: linear-gradient(to right,#080808,#080808 100%);
-}
-
-.dg-attribution__apilink:after {
-    content: ' ';
-    display:block;
-    width: 56px;
-    height: 25px;
-    position: absolute;
-    top: 0;
-    background: url(__BASE_URL__/img/DGAttribution_logo.svg) no-repeat;
-    right: -60px;
 }
