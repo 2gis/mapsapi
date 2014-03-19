@@ -276,7 +276,7 @@ var deps = {
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/PathAnimation.js',
             'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/ArrowSvg.js',
+            'DGEntrance/src/ArrowSVG.js',
             'DGEntrance/src/ArrowVml.js',
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
