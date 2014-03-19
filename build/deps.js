@@ -156,11 +156,11 @@ var deps = {
         less: {
             all: [
                 'DGFullScreen/skin/{skin}/less/leaflet.less',
-                'DGFullScreen/skin/{skin}/less/dg-control-round.less'
+                'DGFullScreen/skin/{skin}/less/dg-fullscreen.less'
             ],
             ie: [
                 'DGFullScreen/skin/{skin}/less/leaflet.ie.less',
-                'DGFullScreen/skin/{skin}/less/dg-control-round.ie.less'
+                'DGFullScreen/skin/{skin}/less/dg-fullscreen.ie.less'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
