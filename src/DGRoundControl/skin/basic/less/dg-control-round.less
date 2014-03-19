@@ -81,3 +81,20 @@
             .image('DGLocation_GeoPressed');
             }
         }
+
+    .dg-control-round__icon_name_ruler {
+        &:before {
+            .image('DGRulerControl_Static');
+            width: 16px;
+            height: 8px;
+            background-size: contain;
+            }
+
+        &:hover:before {
+            .image('DGRulerControl_Hover');
+            }
+
+        &.dg-control-round__icon_state_active:before {
+            .image('DGRulerControl_Active');
+            }
+        }
