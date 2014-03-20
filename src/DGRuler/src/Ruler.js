@@ -3,18 +3,19 @@
  * - При добавлении промежуточной точки крестик закрытия не вращается (FIXED)
  * - После добавления и драга промежуточной точки она не удаляется. (FIXED)
  * - При добавлении промежуточной точки и её драге драгается и карта (FIXED)
+ * - Вместе с линейкой не работают геометрии (геометрии надо добавлять после линейки) (FIXED)
  * - Проверить в ИЕ
  * - Прогнать тесты
  * - При попытке перевести текст ф-ей t() падает ошибка
  */
 
-DG.Ruler = DG.Class.extend({
+DG.Ruler = DG.Layer.extend({
 
     options: {
         editable: true
     },
 
-    includes: [DG.Locale, DG.Mixin.Events],
+    includes: [DG.Locale],
 
     statics: {
         Dictionary: {}
@@ -51,7 +52,7 @@ DG.Ruler = DG.Class.extend({
         }
     },
 
-    beforeAdd: function (map) { // (Map)
+    onAdd: function (map) { // (Map)
         this._map = map.on('langchange', this._updateDistance, this);
         this._maxLat = map.unproject([0, 0], 0).lat;
 
@@ -82,11 +83,6 @@ DG.Ruler = DG.Class.extend({
 
         this._layers.mouse.off(this._lineMouseEvents, this);
         this._reset();
-    },
-
-    addTo: function (map) { // (Map) -> Ruler
-        map.addLayer(this);
-        return this;
     },
 
     getTotalDistance: function () { // () -> Number
