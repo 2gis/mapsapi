@@ -59,7 +59,7 @@ DG.Ruler = DG.Layer.extend({
         // pane for the running label
         if (!this._map.getPane('rulerLabelPane')) {
             this._map.createPane('rulerLabelPane');
-        };
+        }
 
         // pane with transperent vector for events handling (over running label)
         if (!this._map.getPane('rulerEventPane')) {

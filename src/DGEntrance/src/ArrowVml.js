@@ -39,8 +39,7 @@ if (DG.Browser.vml) {
             var byZoom = this.options.byZoom,
                 zoom = this._map.getZoom();
 
-            this._endArrowStroke.endarrow = 
-                (byZoom[zoom] && byZoom[zoom].vmlEndArrow) ? byZoom[zoom].vmlEndArrow : 'classic';
+            this._endArrowStroke.endarrow = (byZoom[zoom] && byZoom[zoom].vmlEndArrow) ? byZoom[zoom].vmlEndArrow : 'classic';
 
             // if (typeof byZoom[zoom] !== 'undefined' &&
             //     typeof byZoom[zoom].vmlEndArrow !== 'undefined') {
