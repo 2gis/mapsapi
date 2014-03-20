@@ -2,6 +2,6 @@
 	<a href="{copyright_logo}" class="dg-mapcopyright__logolink" target="_blank" alt="{PTC} {TWOGIS}">
 		<span class="dg-mapcopyright__logo"></span>
 	</a>
-	<a class="dg-link dg-mapcopyright__apilink" href="{copyright_apilink}" target="_blank" alt="{API_2GIS}"></a>
-	<a class="dg-link dg-mapcopyright__license" href="{copyright_license}" target="_blank" alt="{license_agreement}"></a>
+	<a class="dg-mapcopyright__apilink" href="{copyright_apilink}" target="_blank" alt="{API_2GIS}"></a>
+	<a class="dg-mapcopyright__license" href="{copyright_license}" target="_blank" alt="{license_agreement}"></a>
 </div>
