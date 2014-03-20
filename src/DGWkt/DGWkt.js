@@ -115,7 +115,7 @@ Wkt.Wkt.prototype.construct = {
         var coords = this.components,
             latlngs = this.coordsToLatLngs(coords, 1);
 
-        return DG.multiPolyline(latlngs, config);
+        return DG.polyline(latlngs, config);
     },
 
     /**
@@ -140,7 +140,7 @@ Wkt.Wkt.prototype.construct = {
         var coords = this.trunc(this.components),
             latlngs = this.coordsToLatLngs(coords, 2);
 
-        return DG.multiPolygon(latlngs, config);
+        return DG.polygon(latlngs, config);
     },
 
     /**
