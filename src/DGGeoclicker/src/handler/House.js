@@ -125,7 +125,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
                 data: {
                     btns: [
                         {
-                            name: 'firm-list-back',
+                            name: 'back',
                             label: this.t('back button'),
                             icon: true
                         }
@@ -220,7 +220,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _initShowLess: function () {
-        var link = this._popup.findElement('.dg-popup__button_name_firm-list-back');
+        var link = this._popup.findElement('.dg-popup__button_name_back');
 
         if (link) {
             this._addEventHandler('DgShowLessClick', link, 'click', DG.bind(this._showHousePopup, this));
