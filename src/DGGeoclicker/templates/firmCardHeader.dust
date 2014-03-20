@@ -1,4 +1,4 @@
-<div class="dg-popup__header-title dg-popup-header__title_for_firmcard" title="{firmName}">{firmName}</div>
+<div class="dg-popup__header-title dg-popup__header-title_for_firmcard" title="{firmName}">{firmName}</div>
 
 {?links}
     <div class="dg-popup__header-links">
