@@ -12,7 +12,6 @@ DG.Entrance.Arrow.SVG.include(!L.Browser.vml ? {} : {
 
         layer._markers.endarrow =
             (style && style.vmlEndArrow) ? style.vmlEndArrow : 'classic';
-        console.log(layer._markers);
     },
 
     _removeMarkers: function (layer) {

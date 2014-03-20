@@ -1,13 +1,14 @@
 DG.Entrance.Arrow.SVG = DG.SVG.extend({
 
-    _defs: null,
-
     getEvents: function () {
         var events = {
             move: this._update
         };
         if (this._zoomAnimated) {
             events.zoomanim = this._animateZoom;
+        }
+        if (DG.Browser.ie) {
+            events.moveend = events.mousemove = events.zoomend = this._refresh; //JSAPI-3379
         }
         return events;
     },
@@ -65,33 +66,27 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
     },
 
     _updateMarker: function (layer) {
-        var zoom = layer._map.getZoom();
-        if (zoom >= DG.Entrance.SHOW_FROM_ZOOM) {
-            layer._path.setAttribute('marker-end', 'url(#' + layer._markerId + '-' + zoom + ')');
-        } else {
-            layer._path.setAttribute('marker-end', 'url(#)');
-        }
+        var zoom = layer._map.getZoom(),
+            url = (zoom >= DG.Entrance.SHOW_FROM_ZOOM) ? layer._markerId + '-' + zoom : '';
+
+        layer._path.setAttribute('marker-end', 'url(#' + url + ')');
     },
 
     _removeMarkers: function (layer) {
-        var defs = this._getDefs();
-        // console.log('renderer', this, 'layer', layer);
-        // console.log(defs);
-        if (!defs && !layer._markers) { return; }
+        var defs = this._getDefs(),
+            markers = layer._markers;
 
-        layer._markers.forEach(function (marker) {
+        if (!defs && !markers) { return; }
+
+        markers.forEach(function (marker) {
             defs.removeChild(marker);
-            // layer._markers.splice(key, 1);
         });
-        // console.log(layer._markers);
-        layer._markers.length = 0;
+        markers.length = 0;
     },
 
-    // _update: function () {
-    //     DG.SVG.prototype._update.call(this);
-
-    //     this._updateMarker();
-    // },
+    _refresh: function () {
+        this._container.parentNode.insertBefore(this._container, this._container);
+    },
 
     _updateStyle: function (layer) {
         var path = layer._path,
@@ -104,6 +99,8 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
         layer._markers.forEach(function (path) {
             path.setAttribute('fill-opacity', options.opacity);
         });
+
+        this._updateMarker(layer);
     }
 });
 
@@ -116,9 +113,8 @@ L.Map.include({
             renderer = this._arrowRenderer = new DG.Entrance.Arrow.SVG();
         }
 
-        if (!this.hasLayer(renderer)) {
-            this.addLayer(renderer);
-        }
+        !this.hasLayer(renderer) && this.addLayer(renderer);
+
         return renderer;
     }
 });

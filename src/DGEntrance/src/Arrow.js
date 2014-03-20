@@ -1,6 +1,4 @@
 DG.Entrance.Arrow = DG.Polyline.extend({
-
-    // _markers: [],
     
     initialize: function (latlngs, options) { // (Array, Object)
         this._setLatLngs(latlngs);
@@ -14,15 +12,6 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         this._markers = [];
 
         L.setOptions(this, options);
-    },
-
-    projectLatlngs: function () {
-        this._project();
-        this._offsetLastPathPoint();
-    },
-
-    getContainer: function () {
-        return this._renderer._container;
     },
 
     onAdd: function (map) { // (DG.Map)
@@ -48,15 +37,20 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         return {
             viewreset: this._project,
             move: this._update,
-            moveend: this._updateMarker,
             zoomend: this._updateStyleByZoom
         };
     },
 
-    _updateMarker: function () {
-        DG.Polyline.prototype._update.call(this);
+    _projectLatlngs: function (latlngs, result) {
+        DG.Polyline.prototype._projectLatlngs.call(this, latlngs, result);
+        this._offsetLastPathPoint();
+    },
 
-        this._renderer._updateMarker(this);
+    _updateStyleByZoom: function () {
+        var optionsByZoom = this.options.byZoom,
+            zoom = this._map.getZoom();
+
+        this.setStyle(optionsByZoom[zoom]);
     },
 
     _offsetLastPathPoint: function () {
@@ -91,14 +85,8 @@ DG.Entrance.Arrow = DG.Polyline.extend({
                 origPoints[pointsLen - 1].y -= offsetTo.y;
             }
         }
-    },
-
-    _updateStyleByZoom: function () {
-        var optionsByZoom = this.options.byZoom,
-            zoom = this._map.getZoom();
-
-        this.setStyle(optionsByZoom[zoom]);
     }
+
 });
 
 DG.Entrance.arrow = function (latlngs, options) {
