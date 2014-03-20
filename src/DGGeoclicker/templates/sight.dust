@@ -6,6 +6,6 @@
 {#description}
     <div class="dg-map-geoclicker__sight-description">{.}</div>
     {#showMoreText}
-        <a class="dg-map-geoclicker__show-more-sight-link" href="javascript:void(0)">{.}</a>
+        <a class="dg-map-geoclicker__show-more-sights-link" href="javascript:void(0)">{.}</a>
     {/showMoreText}
 {/description}
