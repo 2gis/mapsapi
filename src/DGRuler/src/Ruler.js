@@ -1,3 +1,13 @@
+// TODO:
+/**
+ * - При добавлении промежуточной точки крестик закрытия не вращается (FIXED)
+ * - После добавления и драга промежуточной точки она не удаляется. (FIXED)
+ * - При добавлении промежуточной точки и её драге драгается и карта (FIXED)
+ * - Проверить в ИЕ
+ * - Прогнать тесты
+ * - При попытке перевести текст ф-ей t() падает ошибка
+ */
+
 DG.Ruler = DG.Class.extend({
 
     options: {
@@ -10,21 +20,18 @@ DG.Ruler = DG.Class.extend({
         Dictionary: {}
     },
 
-    _rulerPane: null,
-    _pathRoot: null,
+    _layers: {
+        back : null,
+        middle : null,
+        front : null,
+        mouse : null
+    },
+    _points: [],
 
-    initialize: function (latlngs, options) {
+    initialize: function (latlngs, options) { // (Array, Object)
         DG.Util.setOptions(this, options);
 
         this._layersContainer = DG.featureGroup();
-        this._layers = {
-            back : null,
-            middle : null,
-            front : null,
-            mouse : null
-        };
-        this._points = [];
-
         Object.keys(this._layers).forEach(function (name) {
             this._layersContainer.addLayer(this._layers[name] = DG.featureGroup());
         }, this);
@@ -44,37 +51,31 @@ DG.Ruler = DG.Class.extend({
         }
     },
 
-    onAdd: function (map) { // (DG.Map)
+    beforeAdd: function (map) { // (Map)
         this._map = map.on('langchange', this._updateDistance, this);
         this._maxLat = map.unproject([0, 0], 0).lat;
 
-        if (!this._rulerPane) {
-            this._rulerPane = this._map.getContainer().querySelector('.dg-ruler-pane');
-            if (this._rulerPane) {
-                this._pathRoot = this._rulerPane.querySelector('.dg-ruler-pane__pathroot');
-            } else {
-                var dummyPath = DG.polyline([]).addTo(this._map);
-                this._map.removeLayer(dummyPath);
-                this._rulerPane = DG.DomUtil.create('div', 'dg-ruler-pane', map._panes.overlayPane);
-                this._initPathRoot();
-            }
+        // pane for the running label
+        if (!this._map.getPane('rulerLabelPane')) {
+            this._map.createPane('rulerLabelPane');
+        };
+
+        // pane with transperent vector for events handling (over running label)
+        if (!this._map.getPane('rulerEventPane')) {
+            this._map.createPane('rulerEventPane');
         }
 
         this._layersContainer.addTo(this._map);
-        this._layers.mouse.on(this._lineMouseEvents, this);
-
+        
         if (this._points.length) {
             this._layers.mouse.fire('layeradd');
             this._updateDistance();
-            this._points.forEach(function (point) {
-                if (point._legs) {
-                    this._pathRoot.appendChild(point._legs.mouse._container);
-                }
-            }, this);
         }
+
+        this._layers.mouse.on(this._lineMouseEvents, this);
     },
 
-    onRemove: function (map) { // (DG.Map)
+    onRemove: function (map) { // (Map)
         map
             .off('langchange', this._updateDistance, this)
             .removeLayer(this._layersContainer);
@@ -83,7 +84,7 @@ DG.Ruler = DG.Class.extend({
         this._reset();
     },
 
-    addTo: function (map) { // (DG.Map)
+    addTo: function (map) { // (Map) -> Ruler
         map.addLayer(this);
         return this;
     },
@@ -92,7 +93,7 @@ DG.Ruler = DG.Class.extend({
         return this._calcDistance();
     },
 
-    spliceLatLngs: function (index, pointsToRemove) {   // (Number, Number, args ...) -> Array
+    spliceLatLngs: function (index, pointsToRemove) { // (Number, Number, args ...) -> Array
         var oldLength = this._points.length,
             mutationStart = index >= 0 ? Math.min(index, oldLength) : oldLength - index,
             removed = Array.prototype.splice.apply(this._points, arguments).map(function (point) {
@@ -134,7 +135,7 @@ DG.Ruler = DG.Class.extend({
         return removed;
     },
 
-    addLatLng: function (latlng) { // (DG.LatLng) -> DG.Ruler
+    addLatLng: function (latlng) { // (LatLng) -> Ruler
         var lastPoint = this._points[this._points.length - 1] || null,
             latlng = DG.latLng(latlng); // jshint ignore:line
 
@@ -162,7 +163,7 @@ DG.Ruler = DG.Class.extend({
         });
     },
 
-    setLatLngs: function (latlngs) { // (Array) -> DG.Ruler
+    setLatLngs: function (latlngs) { // (Array) -> Ruler
         var args = latlngs.slice();
         args.unshift(0, this._points.length);
         this.spliceLatLngs.apply(this, args);
@@ -174,26 +175,6 @@ DG.Ruler = DG.Class.extend({
             _lineMarkerHelper: null,
             _morphingNow: false
         });
-    },
-
-    _initPathRoot : function () { // ()
-        this._rulerPane.appendChild(this._pathRoot = this._map._pathRoot.cloneNode(false));
-        this._map.on(this._pathRootEvents, this);
-        DG.DomUtil.addClass(this._pathRoot, 'dg-ruler-pane__pathroot');
-    },
-
-    _pathRootEvents: {
-        zoomanim: function () {
-            this._pathRoot.style[DG.DomUtil.TRANSFORM] = this._map._pathRoot.style[DG.DomUtil.TRANSFORM];
-        },
-        moveend : function () {
-            ['width', 'height', 'viewBox'].forEach(function (attr) {
-                this._pathRoot.setAttribute(attr, this._map._pathRoot.getAttribute(attr));
-            }, this);
-            ['top', 'left', DG.DomUtil.TRANSFORM].forEach(function (prop) {
-                this._pathRoot.style[prop] = this._map._pathRoot.style[prop];
-            }, this);
-        }
     },
 
     _lineMouseEvents: {
@@ -230,14 +211,20 @@ DG.Ruler = DG.Class.extend({
             }
         },
         mouseout : function (event) { // (MouseEvent)
-            var target = event.layer;
+            var target = event.layer,
+                originalEv = event.originalEvent;
+                console.log(originalEv);
 
             target._hovered = false;
             if (this._morphingNow || target._pos === this._points.length - 1) {
                 return;
             }
             if (target instanceof DG.Marker) {
-                target.collapse();
+                // collapse only when we move out from label container
+                // if (originalEv.relatedTarget !== target.querySelector('container') &&
+                //     originalEv.relatedTarget.parentNode !== target.querySelector('container')) {
+                //     target.collapse();
+                // }
             } else {
                 this._removeRunningLabel();
             }
@@ -265,10 +252,9 @@ DG.Ruler = DG.Class.extend({
         this.fire('changed', { latlngs : this.getLatLngs() });
     },
 
-    _addRunningLabel : function (latlng, previousPoint) { // (DG.LatLng, DG.Ruler.LayeredMarker)
+    _addRunningLabel : function (latlng, previousPoint) { // (LatLng, Ruler.LayeredMarker)
         var point = this._createPoint(latlng, {}).addTo(this._layers.mouse, this._layers);
-        
-        this._rulerPane.appendChild(point._icon);
+        this._map.getPane('rulerLabelPane').appendChild(point._icon);
         return point.setText(this._getFormatedDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng)));
     },
 
@@ -280,6 +266,7 @@ DG.Ruler = DG.Class.extend({
     },
 
     _insertPointInLine : function (event) { // (MouseEvent)
+        this._map.dragging.disable();
         var latlng = this._lineMarkerHelper.getLatLng(),
             insertPos = event.target._point._pos + 1,
             point;
@@ -310,7 +297,7 @@ DG.Ruler = DG.Class.extend({
         this._updateLegs(point);
     },
 
-    _interpolate: function (fromLatLng, toLatLng, hereLatLng) { // (DG.LatLng, DG.LatLng, DG.LatLng) -> DG.LatLng
+    _interpolate: function (fromLatLng, toLatLng, hereLatLng) { // (LatLng, LatLng, LatLng) -> LatLng
         var from = this._map.latLngToLayerPoint(fromLatLng),
             to = this._map.latLngToLayerPoint(toLatLng),
             here = this._map.latLngToLayerPoint(hereLatLng),
@@ -336,7 +323,7 @@ DG.Ruler = DG.Class.extend({
                 .querySelector('delete').style.display = 'inline-block';
     },
 
-    _createPoint: function (latlng, style) { // (DG.LatLng, Object) -> DG.Ruler.LayeredMarker
+    _createPoint: function (latlng, style) { // (LatLng, Object) -> Ruler.LayeredMarker
         var pointStyle = style ? style : this.options.iconStyles.large,
             layers = {};
 
@@ -382,13 +369,14 @@ DG.Ruler = DG.Class.extend({
             this._updateLegs(point);
             this._updateDistance();
         },
-        'dragend' : function (event) {   // (Event)
+        'dragend' : function (event) { // (Event)
             var point = event.target;
             this._morphingNow = false;
             if (!point._hovered && point !== this._points[this._points.length - 1]) {
                 point.collapse();
             }
             this._fireChangeEvent();
+            this._map.dragging.enable();
         },
         'dragstart' : function () { // ()
             if (DG.Browser.touch && this._lineMarkerHelper) {
@@ -398,9 +386,10 @@ DG.Ruler = DG.Class.extend({
         }
     },
 
-    _deletePoint: function (event) {   // (MouseEvent)
+    _deletePoint: function (event) { // (MouseEvent)
         var originalEvent = event.originalEvent,
             target = originalEvent.target  || originalEvent.srcElement;
+
         if (target.className !== 'dg-ruler-label__delete') {
             return;
         }
@@ -424,15 +413,15 @@ DG.Ruler = DG.Class.extend({
         }
 
         if (this._map) {
-            this._pathRoot.appendChild(point._legs.mouse._container);
+            this._layers.mouse.addLayer(point._legs.mouse);
         }
     },
 
-    _clearRemovingPointLegs: function (event) {  // (Event)
+    _clearRemovingPointLegs: function (event) { // (Event)
         this._removeLegs(event.target);
     },
 
-    _removeLegs: function (point) {    // (DG.Ruler.LayeredMarker)
+    _removeLegs: function (point) { // (Ruler.LayeredMarker)
         if (point._legs) {
             Object.keys(point._legs).forEach(function (layer) {
                 this._layers[layer].removeLayer(point._legs[layer]);
@@ -441,7 +430,7 @@ DG.Ruler = DG.Class.extend({
         }
     },
 
-    _updateLegs: function (point) {    // (DG.Ruler.LayeredMarker)
+    _updateLegs: function (point) { // (Ruler.LayeredMarker)
         var latlng = point.getLatLng(),
             previousPoint = this._points[point._pos - 1];
 
@@ -457,7 +446,7 @@ DG.Ruler = DG.Class.extend({
         }
     },
 
-    _calcDistance: function (finishPoint, tail) { // (DG.Ruler.LayeredMarker, Number) -> Number
+    _calcDistance: function (finishPoint, tail) { // (Ruler.LayeredMarker, Number) -> Number
         var distance = tail ? tail : 0,
             calcTo = finishPoint ? finishPoint._pos : this._points.length - 1;
 
@@ -468,7 +457,7 @@ DG.Ruler = DG.Class.extend({
         return distance;
     },
 
-    _getFormatedDistance: function (finishPoint, tail) { // (DG.Ruler.LayeredMarker, Number) -> String
+    _getFormatedDistance: function (finishPoint, tail) { // (Ruler.LayeredMarker, Number) -> String
         var distance = this._calcDistance.apply(this, arguments),
             units = 'm';
 
@@ -479,16 +468,18 @@ DG.Ruler = DG.Class.extend({
                 distance = distance.toFixed();
                 distance = distance.slice(0, -3) + ' ' + distance.slice(-3);
             } else {
-                distance = distance.toFixed(2).split('.').join(this.t(','));
+                // distance = distance.toFixed(2).split('.').join(this.t(',')); // TODO
+                distance = distance.toFixed(2).split('.').join(',');
             }
         } else {
             distance = Math.round(distance);
         }
 
-        return [distance || 0, ' ', this.t(units)].join('');
+        // return [distance || 0, ' ', this.t(units)].join(''); // TODO
+        return [distance || 0, ' ', units].join('');
     },
 
-    _updateDistance: function () {  // ()
+    _updateDistance: function () { // ()
         if (this._map && this._points.length) {
             this._points[this._points.length - 1].setText(this._getFormatedDistance());
         }

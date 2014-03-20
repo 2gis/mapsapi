@@ -19,7 +19,8 @@ DG.Ruler.mergeOptions({
             opacity: DG.Path.VML ? 0.1 : 0,
             weight: DG.Browser.touch ? 30 : 20,
             pointerEvents: 'painted',
-            noClip: true
+            noClip: true,
+            renderer: DG.svg({pane: 'rulerEventPane'})
         }
     },
     iconStyles: {
