@@ -50,7 +50,7 @@ var deps = {
                 'AnimationTimer',
                 'AnimationZoom',
                 'Geolocation',
-                'DGWhen',
+                'DGAjax',
                 'DGAttribution']
     },
 
@@ -65,7 +65,7 @@ var deps = {
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGCore']
+        deps: ['DGWhen']
     },
 
     DGLabel: {
