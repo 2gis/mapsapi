@@ -79,17 +79,17 @@ var deps = {
             all: [
                 'DGCustomization/skin/{skin}/less/leaflet.less',
                 '../vendors/baron/baron.css',
-                'DGCustomization/skin/{skin}/less/dg-zoom.less',
                 'DGCustomization/skin/{skin}/less/scroller.less',
+                'DGCustomization/skin/{skin}/less/dg-zoom.less',
                 'DGCustomization/skin/{skin}/less/dg-customization.less',
                 'DGCustomization/skin/{skin}/less/dg-popup.less',
                 'DGCustomization/skin/{skin}/less/dg-firm-card.less'
             ],
             ie: [
                 'DGCustomization/skin/{skin}/less/leaflet.ie.less',
-                'DGCustomization/skin/{skin}/less/dg-popup.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-zoom.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-customization.ie.less',
+                'DGCustomization/skin/{skin}/less/dg-popup.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-schedule.ie.less'
             ]
         },
@@ -107,8 +107,7 @@ var deps = {
         ],
         less: {
             all: [
-                'DGAttribution/skin/{skin}/less/dg-mapcopyright.less',
-                'DGAttribution/skin/{skin}/less/leaflet.less'
+                'DGAttribution/skin/{skin}/less/dg-mapcopyright.less'
             ],
             ie: ['DGAttribution/skin/{skin}/less/dg-mapcopyright.ie.less']
         },
@@ -153,14 +152,8 @@ var deps = {
             'DGFullScreen/lang/en.js'
         ],
         less: {
-            all: [
-                'DGFullScreen/skin/{skin}/less/leaflet.less',
-                'DGFullScreen/skin/{skin}/less/dg-fullscreen.less'
-            ],
-            ie: [
-                'DGFullScreen/skin/{skin}/less/leaflet.ie.less',
-                'DGFullScreen/skin/{skin}/less/dg-fullscreen.ie.less'
-            ]
+            all: ['DGFullScreen/skin/{skin}/less/dg-fullscreen.less'],
+            ie: ['DGFullScreen/skin/{skin}/less/dg-fullscreen.ie.less']
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
@@ -213,8 +206,7 @@ var deps = {
                 'DGGeoclicker/skin/{skin}/less/dg-firm-card.less',
                 'DGGeoclicker/skin/{skin}/less/dg-schedule.less',
                 'DGGeoclicker/skin/{skin}/less/dg-link.less'
-            ],
-            ie: ['DGGeoclicker/skin/{skin}/less/dg-popup.ie.less']
+            ]
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
@@ -276,10 +268,7 @@ var deps = {
         desc: 'Control helper',
         src: ['DGRoundControl/src/DGRoundControl.js'],
         less: {
-            all: [
-                'DGRoundControl/skin/{skin}/less/leaflet.less',
-                'DGRoundControl/skin/{skin}/less/dg-control-round.less'
-            ],
+            all: ['DGRoundControl/skin/{skin}/less/dg-control-round.less'],
             ie: ['DGRoundControl/skin/{skin}/less/dg-control-round.ie.less']
         },
         deps: ['DGCore', 'DGLocale']
@@ -296,12 +285,8 @@ var deps = {
             'DGRuler/lang/en.js'
         ],
         less: {
-            all: [
-                'DGRuler/skin/{skin}/less/dg-ruler.less'
-            ],
-            ie: [
-                'DGRuler/skin/{skin}/less/dg-ruler.ie.less'
-            ]
+            all: ['DGRuler/skin/{skin}/less/dg-ruler.less'],
+            ie: ['DGRuler/skin/{skin}/less/dg-ruler.ie.less']
         },
         deps: ['DGCore', 'DGLocale', 'DGDust']
     },
