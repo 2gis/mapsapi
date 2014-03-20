@@ -40,11 +40,11 @@
                                     {dayList}
                                 {/everyday}
                                 {?holiday}
-                                    &mdash;<span class="dg-schedule__string-time">&nbsp;{holidayStr}</span>
+                                    &nbsp;&mdash;<span class="dg-schedule__string-time">&nbsp;{holidayStr}</span>
                                 {:else}
-                                    &mdash;<span class="dg-schedule__string-time">&nbsp;{from}&ndash;{to}</span>
+                                    &nbsp;&mdash;<span class="dg-schedule__string-time">&nbsp;{from}&ndash;{to}</span>
                                     {#lunch}
-                                        <p>{lunchStr}&mdash;
+                                        <p>{lunchStr}&nbsp;&mdash;
                                             <span class="dg-schedule__string-time">
                                                 {from}&ndash;{to}
                                             </span>
