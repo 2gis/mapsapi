@@ -12,11 +12,8 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         }
 
         this._markers = [];
-        // this._markersPath = [];
-        // this._markersPolygons = [];
 
         L.setOptions(this, options);
-        // console.log(this);
     },
 
     projectLatlngs: function () {
@@ -29,7 +26,6 @@ DG.Entrance.Arrow = DG.Polyline.extend({
     },
 
     onAdd: function (map) { // (DG.Map)
-        // DG.Polyline.prototype.onAdd.call(this, map);
         var renderer = this._renderer = map.getArrowRenderer();
         renderer._initPath(this);
 
@@ -56,12 +52,6 @@ DG.Entrance.Arrow = DG.Polyline.extend({
             zoomend: this._updateStyleByZoom
         };
     },
-
-    // setStyle: function (style) {
-    //     L.setOptions(this, style);
-    //     this._updateStyle(this);
-    //     return this;
-    // },
 
     _updateMarker: function () {
         DG.Polyline.prototype._update.call(this);

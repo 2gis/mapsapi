@@ -83,7 +83,7 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
             defs.removeChild(marker);
             // layer._markers.splice(key, 1);
         });
-        console.log(layer._markers);
+        // console.log(layer._markers);
         layer._markers.length = 0;
     },
 
@@ -97,34 +97,7 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
         var path = layer._path,
             options = layer.options;
 
-        if (!path) { return; }
-
-        if (options.stroke) {
-            path.setAttribute('stroke', options.color);
-            path.setAttribute('stroke-opacity', options.opacity);
-            path.setAttribute('stroke-width', options.weight);
-            path.setAttribute('stroke-linecap', options.lineCap);
-            path.setAttribute('stroke-linejoin', options.lineJoin);
-
-            if (options.dashArray) {
-                path.setAttribute('stroke-dasharray', options.dashArray);
-            } else {
-                path.removeAttribute('stroke-dasharray');
-            }
-
-        } else {
-            path.setAttribute('stroke', 'none');
-        }
-
-        if (options.fill) {
-            path.setAttribute('fill', options.fillColor || options.color);
-            path.setAttribute('fill-opacity', options.fillOpacity);
-            path.setAttribute('fill-rule', 'evenodd');
-        } else {
-            path.setAttribute('fill', 'none');
-        }
-
-        path.setAttribute('pointer-events', options.pointerEvents || (options.clickable ? 'auto' : 'none'));
+        DG.SVG.prototype._updateStyle.call(this, layer);
 
         path.setAttribute('visibility', options.visibility);
 
