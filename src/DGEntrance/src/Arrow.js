@@ -1,6 +1,4 @@
 DG.Entrance.Arrow = DG.Polyline.extend({
-
-    // _markers: [],
     
     initialize: function (latlngs, options) { // (Array, Object)
         this._setLatLngs(latlngs);
@@ -12,24 +10,11 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         }
 
         this._markers = [];
-        // this._markersPath = [];
-        // this._markersPolygons = [];
 
         L.setOptions(this, options);
-        // console.log(this);
-    },
-
-    projectLatlngs: function () {
-        this._project();
-        this._offsetLastPathPoint();
-    },
-
-    getContainer: function () {
-        return this._renderer._container;
     },
 
     onAdd: function (map) { // (DG.Map)
-        // DG.Polyline.prototype.onAdd.call(this, map);
         var renderer = this._renderer = map.getArrowRenderer();
         renderer._initPath(this);
 
@@ -52,21 +37,20 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         return {
             viewreset: this._project,
             move: this._update,
-            moveend: this._updateMarker,
             zoomend: this._updateStyleByZoom
         };
     },
 
-    // setStyle: function (style) {
-    //     L.setOptions(this, style);
-    //     this._updateStyle(this);
-    //     return this;
-    // },
+    _projectLatlngs: function (latlngs, result) {
+        DG.Polyline.prototype._projectLatlngs.call(this, latlngs, result);
+        this._offsetLastPathPoint();
+    },
 
-    _updateMarker: function () {
-        DG.Polyline.prototype._update.call(this);
+    _updateStyleByZoom: function () {
+        var optionsByZoom = this.options.byZoom,
+            zoom = this._map.getZoom();
 
-        this._renderer._updateMarker(this);
+        this.setStyle(optionsByZoom[zoom]);
     },
 
     _offsetLastPathPoint: function () {
@@ -101,14 +85,8 @@ DG.Entrance.Arrow = DG.Polyline.extend({
                 origPoints[pointsLen - 1].y -= offsetTo.y;
             }
         }
-    },
-
-    _updateStyleByZoom: function () {
-        var optionsByZoom = this.options.byZoom,
-            zoom = this._map.getZoom();
-
-        this.setStyle(optionsByZoom[zoom]);
     }
+
 });
 
 DG.Entrance.arrow = function (latlngs, options) {
