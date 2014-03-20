@@ -9,47 +9,226 @@
          url('@{baseURL}/fonts/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
     }
 
-.dg-popup__container {
-    overflow: hidden;
-    margin: 0;
-    }
-.leaflet-popup-scrolled .dg-popup__container {
-    padding: 0 10px 0 0;
-    }
+.dg-popup {}
 
-a.dg-popup__link {
-    background-position: center bottom;
-    background-size: 10px 1px;
-    background-repeat: repeat-x;
-    text-decoration: none;
-    }
-
-.dg-popup__header,
-.dg-popup__footer {
-    position: absolute;
-    }
-
-.dg-popup__header {
-    top: 0;
-    }
-    .dg-popup__header > * {
-        margin: 0 18px 8px 0 !important;
+    .dg-popup__container {
+        overflow: hidden;
+        margin: 0;
+        }
+    .leaflet-popup-scrolled .dg-popup__container {
+        padding: 0 10px 0 0;
         }
 
-.dg-popup__footer {
-    bottom: 0;
-    }
-    .dg-popup__footer > * {
-        margin: 10px 0 0 0 !important;
+    .dg-popup__header,
+    .dg-popup__footer {
+        position: relative;
+        overflow: hidden;
         }
 
-    .leaflet-popup-scrolled .dg-popup__header:after,
-    .leaflet-popup-scrolled .dg-popup__footer:before {
+    .dg-popup__header {
+        top: 0;
+        }
+        .dg-popup__header > * {
+            margin: 0 18px 8px 0 !important;
+            }
+
+    .dg-popup__footer {
+        bottom: 0;
+        }
+        .dg-popup__footer > * {
+            margin: 10px 0 0 0 !important;
+            }
+
+        .leaflet-popup-scrolled .dg-popup__header:after,
+        .leaflet-popup-scrolled .dg-popup__footer:before {
+            display: block;
+            width: 100%;
+            height: 1px;
+            content: '';
+            }
+            .dg-popup__footer-buttons {
+                display: table;
+                width: 100%;
+                }
+                .dg-popup__footer-button-wrapper {
+                    display: table-cell;
+                    }
+                    .dg-popup__footer-button {
+                        position: relative;
+                        display: inline-block;
+                        box-sizing: border-box;
+                        margin-left: 5%;
+                        width: 95%;
+                        border-radius: 2px;
+                        text-align: center;
+                        text-decoration: none;
+                        font: 12px/24px Arial, sans-serif;
+                        cursor: pointer;
+                        transition: all .1s;
+
+                        .dg-popup__footer-button-wrapper:first-child & {
+                            margin: 0;
+                            width: 100%;
+                            }
+
+                        &:hover {
+                            transition: all .2s; /* @TODO: all? */
+                            }
+                        }
+
+                    .dg-popup__footer-icon-button {
+                        }
+                        .dg-popup__footer-icon-button:before {
+                            display: inline-block;
+                            margin: -2px 0 0 0;
+                            margin-right: 0.4em;
+                            width: 12px;
+                            height: 12px;
+                            background-size: contain;
+                            background-repeat: no-repeat;
+                            content: '';
+                            vertical-align: middle;
+                            }
+
+                .dg-popup__button_name_goto:before {
+                    width: 20px;
+                    height: 7px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    }
+
+                .dg-popup__button_name_firm-card-back:before {
+                    width: 10px;
+                    height: 6px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    }
+
+                .dg-popup__button_name_firm-list-back:before {
+                    width: 10px;
+                    height: 6px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    }
+
+            .dg-popup__show-less-house-link {
+                position: relative;
+                top: 6px;
+                margin: 0 15px 10px;
+                color: #0070C0;
+                text-decoration: none;
+                font-size: 12px;
+                line-height: 24px;
+                }
+
+    .dg-popup__header-title {
         display: block;
-        width: 100%;
-        height: 1px;
-        content: '';
+        white-space: normal;
+        font: 22px/24px 'SuisseCond', 'Arial narrow', Arial, sans-serif;
         }
+    .dg-popup__header-title_for_firmcard {
+        position: relative;
+        overflow: hidden;
+        max-height: 3.4em;
+        }
+        .dg-popup__header-teaser {
+            display: -webkit-box;
+            height: 3.3em;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            }
+
+    .dg-popup__header-links {}
+
+        .dg-popup__rating {
+            display: inline-block;
+            margin: 0 .4em 3px 0;
+            width: 70px;
+            vertical-align: middle;
+
+            &:before,
+            &:after {
+                content: '';
+                height: 14px;
+                }
+
+            &:before {
+                float: left;
+                .bg('DGGeoclicker_star-on');
+                }
+
+            &:after {
+                display: block;
+                overflow: hidden;
+                }
+            }
+            .dg-popup__rating_value_0:before { width: 0; }
+
+            .dg-popup__rating_value_10:before { width: 10%; }
+
+            .dg-popup__rating_value_20:before { width: 20%; }
+
+            .dg-popup__rating_value_30:before { width: 30%; }
+
+            .dg-popup__rating_value_40:before { width: 40%; }
+
+            .dg-popup__rating_value_50:before { width: 50%; }
+
+            .dg-popup__rating_value_60:before { width: 60%; }
+
+            .dg-popup__rating_value_70:before { width: 70%; }
+
+            .dg-popup__rating_value_80:before { width: 80%; }
+
+            .dg-popup__rating_value_90:before { width: 90%; }
+
+            .dg-popup__rating_value_100:before { width: 100%; }
+
+            .dg-popup__header-link {
+                display: inline-block;
+                margin-left: 2.5em;
+                vertical-align: middle;
+                }
+            .dg-popup__header-link:first-child {
+                margin-left: 1.2em;
+                }
+
+        .dg-popup__link {
+            position: relative;
+            height: 14px;
+            background-size: contain;
+            background-repeat: repeat-x;
+            line-height: 14px;
+            }
+        a.dg-popup__link {
+            background-position: center bottom;
+            background-size: 10px 1px;
+            background-repeat: repeat-x;
+            text-decoration: none;
+            }
+
+        .dg-popup__link_type_flamp_reviews {
+            margin-left: 0.1em;
+            }
+
+        .dg-popup__link_type_photos {}
+        .dg-popup__link_type_booklet {}
+
+            .dg-popup__link_type_photos:before,
+            .dg-popup__link_type_booklet:before {
+                position: absolute;
+                top: 2px;
+                left: -16px;
+                display: inherit;
+                width: 12px;
+                height: 10px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                content: '';
+                }
+            .dg-popup__link_type_booklet:before {
+                .image('DGGeoclicker_booklet');
+                }
 
 .dg-popup_hidden_true {
     display: none;
