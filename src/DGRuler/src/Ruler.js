@@ -213,7 +213,6 @@ DG.Ruler = DG.Class.extend({
         mouseout : function (event) { // (MouseEvent)
             var target = event.layer,
                 originalEv = event.originalEvent;
-                console.log(originalEv);
 
             target._hovered = false;
             if (this._morphingNow || target._pos === this._points.length - 1) {
@@ -221,10 +220,10 @@ DG.Ruler = DG.Class.extend({
             }
             if (target instanceof DG.Marker) {
                 // collapse only when we move out from label container
-                // if (originalEv.relatedTarget !== target.querySelector('container') &&
-                //     originalEv.relatedTarget.parentNode !== target.querySelector('container')) {
-                //     target.collapse();
-                // }
+                if (originalEv.relatedTarget !== target.querySelector('container') &&
+                    originalEv.relatedTarget.parentNode !== target.querySelector('container')) {
+                    target.collapse();
+                }
             } else {
                 this._removeRunningLabel();
             }
