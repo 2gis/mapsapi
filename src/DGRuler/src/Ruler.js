@@ -5,8 +5,8 @@
  * - При добавлении промежуточной точки и её драге драгается и карта (FIXED)
  * - Вместе с линейкой не работают геометрии (геометрии надо добавлять после линейки) (FIXED)
  * - Проверить в ИЕ
- * - Прогнать тесты
- * - При попытке перевести текст ф-ей t() падает ошибка
+ * - Прогнать тесты (FIXED)
+ * - При попытке перевести текст ф-ей t() падает ошибка (FIXED)
  */
 
 DG.Ruler = DG.Layer.extend({
@@ -21,16 +21,16 @@ DG.Ruler = DG.Layer.extend({
         Dictionary: {}
     },
 
-    _layers: {
-        back : null,
-        middle : null,
-        front : null,
-        mouse : null
-    },
-    _points: [],
-
     initialize: function (latlngs, options) { // (Array, Object)
         DG.Util.setOptions(this, options);
+
+        this._layers = {
+            back : null,
+            middle : null,
+            front : null,
+            mouse : null
+        };
+        this._points = [];
 
         this._layersContainer = DG.featureGroup();
         Object.keys(this._layers).forEach(function (name) {
@@ -215,9 +215,10 @@ DG.Ruler = DG.Layer.extend({
                 return;
             }
             if (target instanceof DG.Marker) {
-                // collapse only when we move out from label container
-                if (originalEv.relatedTarget !== target.querySelector('container') &&
-                    originalEv.relatedTarget.parentNode !== target.querySelector('container')) {
+                // collapse only when we move out from label container (if browser support relatedTarget)
+                if (!originalEv.relatedTarget ||
+                    (originalEv.relatedTarget !== target.querySelector('container') &&
+                    originalEv.relatedTarget.parentNode !== target.querySelector('container'))) {
                     target.collapse();
                 }
             } else {
@@ -463,15 +464,13 @@ DG.Ruler = DG.Layer.extend({
                 distance = distance.toFixed();
                 distance = distance.slice(0, -3) + ' ' + distance.slice(-3);
             } else {
-                // distance = distance.toFixed(2).split('.').join(this.t(',')); // TODO
-                distance = distance.toFixed(2).split('.').join(',');
+                distance = distance.toFixed(2).split('.').join(this.t(','));
             }
         } else {
             distance = Math.round(distance);
         }
 
-        // return [distance || 0, ' ', this.t(units)].join(''); // TODO
-        return [distance || 0, ' ', units].join('');
+        return [distance || 0, ' ', this.t(units)].join('');
     },
 
     _updateDistance: function () { // ()
