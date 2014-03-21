@@ -101,7 +101,7 @@ DG.Meta = DG.Handler.extend({
                 if (this._currentTileMetaData) {
                     if (this._listenPoi) { this._checkPoiHover(e.latlng, zoom); }
                     if (this._listenBuildings) { this._checkBuildingHover(e.latlng); }
-                    if (this._listenTraffic) { this._checkTrafficHover(e.latlng); }
+                    if (this._listenTraffic) { this._checkTrafficHover(e.latlng, zoom); }
                 }
             }
         },
@@ -152,10 +152,9 @@ DG.Meta = DG.Handler.extend({
         }
     },
 
-    _checkTrafficHover: function (latLng) { // (DG.LatLng)
-        var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic);
+    _checkTrafficHover: function (latLng, zoom) { // (DG.LatLng)
+        var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic, zoom);
 
-        // console.log(hoveredTraffic);
         if (this._currentTraffic && (!hoveredTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
             this._leaveCurrentTraffic();
         }
@@ -236,12 +235,9 @@ DG.Meta = DG.Handler.extend({
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         var vertKey = zoom ? zoom + 'vertices' : 'vertices';
 
-        // console.log(data);
-
         for (var i = 0, len = data.length; i < len; i++) {
             if (!data[i].verticesArray) {
                 if (data[i][vertKey] && DG.PolyUtil.contains(point, data[i][vertKey])) {
-                    // console.log(point, data[i][vertKey]);
                     data[i].vertices = data[i][vertKey];
                     return data[i];
                 }

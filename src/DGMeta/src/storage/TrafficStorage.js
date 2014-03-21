@@ -16,61 +16,24 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
                 item.speed = speeds[item.graph_id];
             }
             item.id = item.graph_id;
-            item.geometry = item.geometry[0].object;
+            item.hover = item.geometry[0].object;
             return item;
         })
         .forEach(function (item) {
-            var id = item.id;
+            var id = item.id,
+                zoom = tileId.split(',')[2];
 
             this._tilesData[tileId].push(id);
-            this._addEntity(id, item);
+            this._addEntity(id, item, zoom);
         }, this);
     },
 
-    _addEntity: function (id, entity) { //(String, Object)
-        var verts = this._wkt.read(entity.geometry);
+    _addEntity: function (id, entity, zoom) { //(String, Object)
+        var verts = this._wkt.read(entity.hover);
         entity.geometry = this._wkt.toObject(verts);
-
-        if (entity.geometry instanceof DG.Path) {
-            entity.vertices = entity.geometry._latlngs;
-        } else {
-            entity.verticesArray = [];
-            entity.geometry.eachLayer(function (layer) {
-                entity.verticesArray.push(layer._latlngs);
-            });
-        }
+        entity = this._wktToVert(entity, zoom);
         
-        this._data[id] = entity;
+        this._data[id] = DG.extend(this._data[id] || {}, entity);
     }
-
-    // _addEntity: function (id, results) { //(String, Object)
-    //     // console.log(results);
-    //     var geometry = results
-    //         .map(function (obj) {
-    //             return this._wkt.read(obj.geometry[0].object[0]);
-    //         }, this)
-    //         .map(function (verts) {
-    //             return this._wkt.toObject(verts);
-    //         }, this)
-    //         .map(function (layer) {
-    //             return layer._latlngs;
-    //         }, this);
-
-    //     // console.log(geometry);
-    //     // var verts = this._wkt.read(entity.hover);
-    //     // entity.geometry = this._wkt.toObject(verts);
-
-    //     // if (entity.geometry instanceof DG.Path) {
-    //     //     entity.vertices = entity.geometry._latlngs;
-    //     // } else {
-    //     //     entity.verticesArray = [];
-    //     //     entity.geometry.eachLayer(function (layer) {
-    //     //         entity.verticesArray.push(layer._latlngs);
-    //     //     });
-    //     // }
-
-    //     // delete entity.hover;
-    //     // this._data[id] = entity;
-    // }
 
 });
