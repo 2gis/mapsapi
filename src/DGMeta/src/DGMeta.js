@@ -153,17 +153,16 @@ DG.Meta = DG.Handler.extend({
     },
 
     _checkTrafficHover: function (latLng) { // (DG.LatLng)
-        // console.log(latLng, this._currentTileMetaData);
-        // var hoveredBuilding = this._isMetaHovered(latLng, this._currentTileMetaData.buildings);
+        var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic);
 
-        // if (this._currentBuilding && (!hoveredBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {
-        //     this._leaveCurrentBuilding();
-        // }
+        if (this._currentTraffic && (!hoveredTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
+            this._leaveCurrentTraffic();
+        }
 
-        // if (hoveredBuilding && (!this._currentBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {
-        //     this._currentBuilding = hoveredBuilding;
-        //     this._map.fire('buildinghover', {'building': this._currentBuilding, latlng: latLng});
-        // }
+        if (hoveredTraffic && (!this._currentTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
+            this._currentTraffic = hoveredTraffic;
+            this._map.fire('traffichover', {'traffic': this._currentTraffic, latlng: latLng});
+        }
     },
 
     _leaveCurrentPoi: function () {

@@ -11,11 +11,11 @@ DG.Meta.Host = DG.Class.extend({
         var availablePoi = this._poiStorage.getTileData(tileId),
             availableBuildings = this._buildingStorage.getTileData(tileId),
             availableTraffic = this._trafficStorage.getTileData(tileId);
-
-        if (availablePoi && availableBuildings && availableTraffic) {
+        // console.log(availableTraffic);
+        if (/*availablePoi && availableBuildings &&*/ availableTraffic) {
             return DG.when({
-                buildings: availableBuildings,
-                poi: availablePoi,
+                /*buildings: availableBuildings,
+                poi: availablePoi,*/
                 traffic: availableTraffic
             });
         } else {
@@ -31,7 +31,7 @@ DG.Meta.Host = DG.Class.extend({
                 // console.log(result);
 
                 self._trafficStorage.addDataToTile(tileId, result);
-                return result;
+                return false;
             }
             // function (tileData) {
             //     var code = +tileData.response.code,
