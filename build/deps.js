@@ -200,6 +200,7 @@ var deps = {
             'DGMeta/src/DGMeta.js',
             'DGMeta/src/storage/Storage.js',
             'DGMeta/src/storage/PoiStorage.js',
+            'DGMeta/src/storage/TrafficStorage.js',
             'DGMeta/src/storage/BuildingStorage.js',
             'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'

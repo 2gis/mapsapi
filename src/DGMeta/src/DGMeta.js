@@ -153,7 +153,7 @@ DG.Meta = DG.Handler.extend({
     },
 
     _checkTrafficHover: function (latLng) { // (DG.LatLng)
-        console.log(latLng, this._currentTileMetaData);
+        // console.log(latLng, this._currentTileMetaData);
         // var hoveredBuilding = this._isMetaHovered(latLng, this._currentTileMetaData.buildings);
 
         // if (this._currentBuilding && (!hoveredBuilding || this._currentBuilding.id !== hoveredBuilding.id)) {
