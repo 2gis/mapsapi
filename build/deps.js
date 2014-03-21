@@ -136,8 +136,7 @@ var deps = {
             'DGAttribution/lang/en.js'
         ],
         css: {
-            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
-            ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
+            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css']
         },
         deps: ['DGDust', 'DGLocale']
     },
