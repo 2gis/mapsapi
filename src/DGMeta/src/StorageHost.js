@@ -1,4 +1,5 @@
 DG.Meta.Host = DG.Class.extend({
+    _subdomains: '0123456789',
 
     initialize: function (map, meta) {
         this._map = map;
@@ -9,12 +10,10 @@ DG.Meta.Host = DG.Class.extend({
     },
 
     getTileData: function (tileId) { //(String) -> Promise
-        //var meta = this._meta;
-        //this._getUrls(meta._listenPoi, meta._listenBuildings, meta._listenTraffic);
         var availablePoi = this._poiStorage.getTileData(tileId),
             availableBuildings = this._buildingStorage.getTileData(tileId),
             availableTraffic = this._trafficStorage.getTileData(tileId);
-        // console.log(availableTraffic);
+
         if (availablePoi && availableBuildings && availableTraffic) {
             return DG.when({
                 buildings: availableBuildings,
@@ -26,10 +25,6 @@ DG.Meta.Host = DG.Class.extend({
         }
     },
 
-    _getUrls: function () {
-        console.log(arguments);
-    },
-
     _askAndStoreTileData: function (tileId) { //(String) -> Promise
         var self = this;
 
@@ -37,28 +32,13 @@ DG.Meta.Host = DG.Class.extend({
             this._askByTile(tileId, '__TRAFFIC_META_SERVER__'),
             this._askByTile(tileId, '__HIGHLIGHT_POI_SERVER__')
         ], function (data) {
-            var code = +data[1].response.code,
-                result;
+            var result = data[1].result;
 
-            switch (code) {
-            case 200:
-                result = data[1].result;
-                break;
-            case 204:
-                result = {
-                    buildings: [],
-                    poi: []
-                };
-                break;
-            default:
-                return false;
-            }
-
-            self._poiStorage.addDataToTile(tileId, result.poi);
-            self._buildingStorage.addDataToTile(tileId, result.buildings);
-            self._trafficStorage.addDataToTile(tileId, data[0]);
-
-            return false;
+            return {
+                buildings: self._poiStorage.addDataToTile(tileId, result.poi),
+                poi: self._buildingStorage.addDataToTile(tileId, result.buildings),
+                traffic: self._trafficStorage.addDataToTile(tileId, data[0])
+            };
         });
     },
 
@@ -67,7 +47,7 @@ DG.Meta.Host = DG.Class.extend({
 
         return DG.ajax(
             DG.Util.template(url, {
-                s: '0',
+                s: this._getSubdomain(xyz),
                 projectCode: this._map.projectDetector.getProject().code,
                 z: xyz[2],
                 x: xyz[0],
@@ -77,5 +57,10 @@ DG.Meta.Host = DG.Class.extend({
                 dataType: 'json'
             }
         );
+    },
+
+    _getSubdomain: function (xyz) {
+        var index = Math.abs(xyz[1] + xyz[2]) % this._subdomains.length;
+        return this._subdomains[index];
     }
 });
