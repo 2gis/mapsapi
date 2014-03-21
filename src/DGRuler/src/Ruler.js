@@ -4,11 +4,15 @@
  * - После добавления и драга промежуточной точки она не удаляется. (FIXED)
  * - При добавлении промежуточной точки и её драге драгается и карта (FIXED)
  * - Вместе с линейкой не работают геометрии (геометрии надо добавлять после линейки) (FIXED)
- * - В ИЕ 10 падает ошибка на _fireMouseEvent в SVG.js
  * - В ИЕ8 не работают события при mousemove (FIXED)
- * - В ИЕ8 квадратные лэйблы
  * - Прогнать тесты (FIXED)
  * - При попытке перевести текст ф-ей t() падает ошибка (FIXED)
+ * - В ИЕ 10 падает ошибка на _fireMouseEvent в SVG.js, см. https://github.com/Leaflet/Leaflet/issues/2571
+ * - Промежуточные точки выглядят как конечные, если ставить их не драгая
+ * - Если добавлять точки контролом, тогда промежуточные выглядят как конечные
+ * - При добавлении предпоследней точки кликом (без драга) и последующим драгом ее, последняя точка меняет свои координаты
+ * - В Опере хинт в левом верхнем углу карты, а не под курсором
+ * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код
  */
 
 DG.Ruler = DG.Layer.extend({
@@ -265,7 +269,7 @@ DG.Ruler = DG.Layer.extend({
 
     _insertPointInLine : function (event) { // (MouseEvent)
         this._map.dragging.disable();
-        var latlng = this._lineMarkerHelper.getLatLng(),
+        var latlng = event.latlng, //this._lineMarkerHelper.getLatLng(),
             insertPos = event.target._point._pos + 1,
             point;
 
