@@ -38,7 +38,7 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
             markerStyle.path && marker.appendChild(this._getMarkerChild('path', markerStyle.path, layer));
 
             markerStyle.polygon && marker.appendChild(this._getMarkerChild('polygon', markerStyle.polygon, layer));
-            
+
             layer._markers.push(marker);
             this._getDefs().appendChild(marker);
         }, this);
@@ -96,8 +96,8 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
 
         path.setAttribute('visibility', options.visibility);
 
-        layer._markers.forEach(function (path) {
-            path.setAttribute('fill-opacity', options.opacity);
+        layer._markers.forEach(function (marker) {
+            marker.setAttribute('fill-opacity', options.opacity);
         });
 
         this._updateMarker(layer);
