@@ -15,11 +15,12 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
             if (speeds[item.graph_id]) {
                 item.speed = speeds[item.graph_id];
             }
+            item.id = item.graph_id;
             item.geometry = item.geometry[0].object;
             return item;
         })
         .forEach(function (item) {
-            var id = item.graph_id;
+            var id = item.id;
 
             this._tilesData[tileId].push(id);
             this._addEntity(id, item);
