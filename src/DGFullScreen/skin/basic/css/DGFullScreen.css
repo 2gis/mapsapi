@@ -11,9 +11,28 @@
     background-repeat: no-repeat;
 }
 .dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
-    background-image: url(../img/FullScreenPressed.png);
+    background-image: url(__BASE_URL__/img/FullScreenPressed.png);
 }
 
 .leaflet-retina .dg-control-round_icon__active.dg-control-round_icon__fullscreen:before {
-    background-image: url(../img/RetinaFullScreenPressed.png);
+    background-image: url(__BASE_URL__/img/RetinaFullScreenPressed.png);
+}
+
+.DGFullScreen_legacy-mode {
+    position: fixed !important;
+    margin: 0;
+    padding: 0;
+    border: medium none;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    zIndex: 9999 !important;
+}
+
+.DGFullScreen_legacy-mode-body {
+    overflow: hidden;
+    scrollTop: 0;
+    margin: 0;
+    padding: 0;
 }

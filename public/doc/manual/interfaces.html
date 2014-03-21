@@ -1,0 +1,148 @@
+<h2 id="интерфейсы">Интерфейсы</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#ihandler">IHandler</a><ul><li><a href="#методы">Методы</a></li></ul></li><li><a href="#ilayer">ILayer</a><ul><li><a href="#методы-1">Методы</a></li><li><a href="#реализация-собственных-слоев">Реализация собственных слоев</a></li><li><a href="#пример-реализации-слоя">Пример реализации слоя</a></li></ul></li><li><a href="#icontrol">IControl</a><ul><li><a href="#методы-2">Методы</a></li><li><a href="#пример-реализации-элемента-управления">Пример реализации элемента управления</a></li></ul></dl></p>
+<h3 id="ihandler">IHandler</h3><p>Интерфейс, который реализуется <a href="/doc/maps/2.0/manual/map#свойства">обработчиками взаимодействия</a>.</p>
+<h4 id="методы">Методы</h4><table>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>enable</b>()</code></td>
+            <td>-</td>
+            <td>Включает обработчик</td>
+        </tr>
+        <tr>
+            <td><code><b>disable</b>()</code></td>
+            <td>-</td>
+            <td>Отключает обработчик.</td>
+        </tr>
+        <tr>
+            <td><code><b>enabled</b>()</code></td>
+            <td><code>Boolean</code></td>
+            <td>Возвращает <code>true</code> если обработчик включен.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="ilayer">ILayer</h3><p>Описывает объект, который привязан к определенному местоположению (или набору местоположений) на карте. Реализуется такими объектами, как <a href="/doc/maps/2.0/manual/layers#класс-dgtilelayer">тайловые слои</a>, <a href="/doc/maps/2.0/manual/markers#класс-dgmarker">маркеры</a>, <a href="/doc/maps/2.0/manual/popups#описание">балуны</a>, <a href="/doc/maps/2.0/manual/layers#описание">слои</a>, <a href="/doc/maps/2.0/manual/geometries">векторные слои</a> и <a href="/doc/maps/2.0/manual/groups#класс-dglayergroup">группы</a>.</p>
+<h4 id="методы-1">Методы</h4><table>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>onAdd</b>(
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+            </code></td>
+            <td>-</td>
+            <td>Должен содержать код, который создает DOM элементы слоя, добавляет их на <a href="/doc/maps/2.0/manual/map#панели-карты">панели карты</a> и подписывает обработчики на все необходимые события карты. Вызывается при <code>map.addLayer(layer)</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>onRemove</b>(
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+            </code></td>
+            <td>-</td>
+            <td>Должен содержать код очистки, который удаляет элементы слоя и отписывает ранее добавленные обработчики событий. Вызывается при <code>map.removeLayer(layer)</code>.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="реализация-собственных-слоев">Реализация собственных слоев</h4><p>Наиболее важными при разработке слоев являются событие <a href="/doc/maps/2.0/manual/map#map-viewreset">viewreset</a> и метод <a href="/doc/maps/2.0/manual/map#map-latlngtolayerpoint">latLngToLayerPoint</a> карты. <code>viewreset</code> вызывается когда карта должна спозиционировать свои слои (например, при изменении масштаба), а <code>latLngToLayerPoint</code> используется для получения новых координат слоя.</p>
+<p>Еще одним событием, которое часто используется при разработке слоев является <a href="/doc/maps/2.0/manual/map#map-moveend">moveend</a>, оно вызывается после любых движений карты (перемещение, изменение масштаба и т.п.).</p>
+<p>Еще одна важная особенность, которую необходимо знать &mdash; для всех DOM элементов, которые должны быть скрыты во время анимации изменения масштаба карты необходимо добавить класс <code>leaflet-zoom-hide</code>.</p>
+<h4 id="пример-реализации-слоя">Пример реализации слоя</h4><p>Пример реализации слоя:</p>
+<pre><code>var MyCustomLayer = DG.Class.extend({
+
+    initialize: function (latlng) {
+        // сохраняет позицию или другие опции конструктора
+        this._latlng = latlng;
+    },
+
+    onAdd: function (map) {
+        this._map = map;
+
+        // создает DOM элемент и добавляет его на панели карты
+        this._el = DG.DomUtil.create(&#39;div&#39;, &#39;my-custom-layer leaflet-zoom-hide&#39;);
+        map.getPanes().overlayPane.appendChild(this._el);
+
+        // подписка на событие viewreset для обновления позиции слоя
+        map.on(&#39;viewreset&#39;, this._reset, this);
+        this._reset();
+    },
+
+    onRemove: function (map) {
+        // удаляет DOM элементы слоя и отписывает обработчики событий
+        map.getPanes().overlayPane.removeChild(this._el);
+        map.off(&#39;viewreset&#39;, this._reset, this);
+    },
+
+    _reset: function () {
+        // обновляет позицию слоя
+        var pos = this._map.latLngToLayerPoint(this._latlng);
+        DG.DomUtil.setPosition(this._el, pos);
+    }
+});
+
+map.addLayer(new MyCustomLayer(latlng));
+</code></pre><h3 id="icontrol">IControl</h3><p>Графические элементы управления, которые располагаются в одном из углов карты. Реализуется элементами <a href="/doc/maps/2.0/manual/controls#класс-dgcontrolzoom">zoom</a>, <a href="/doc/maps/2.0/manual/controls#класс-dgcontrolattribution">attribution</a>, <a href="/doc/maps/2.0/manual/controls#класс-dgcontrolruler">ruler</a> и т.п.</p>
+<h4 id="методы-2">Методы</h4><p>Каждый элемент управления должен наследоваться от класса <a href="/doc/maps/2.0/manual/controls#класс-dgcontrol">Control</a> и иметь следующие методы:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>onAdd</b>(
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+            </code></td>
+            <td><code>HTMLElement</code></td>
+            <td>Должен содержать код, который создает DOM элементы, подписывает обработчики на все необходимые события карты и возвращает элемент содержащий содержимое элемента управления. Вызывается при <code>map.addControl(control)</code> или <code>control.addTo(map)</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>onRemove</b>(
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+            </code></td>
+            <td>-</td>
+            <td>Опционально, должен содержать код очистки (например, отписывать обработчики событий). Вызывается при <code>map.removeControl(control)</code> или <code>control.removeFrom(map)</code>. DOM контейнер элемента управления удаляется автоматически.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 id="пример-реализации-элемента-управления">Пример реализации элемента управления</h4><pre><code>var MyControl = DG.Control.extend({
+    options: {
+        position: &#39;topright&#39;
+    },
+
+    onAdd: function (map) {
+        // создает контейнер элемента управления с определенным именем класса
+        var container = DG.DomUtil.create(&#39;div&#39;, &#39;my-custom-control&#39;);
+
+        // ... инициализирует другие DOM элементы, добавляет обработчики событий и т.п.
+
+        return container;
+    }
+});
+
+map.addControl(new MyControl());
+</code></pre><p>Если вы задаете собственный конструктор элемента управления, тогда необходимо корректно обработать опции:</p>
+<pre><code>var MyControl = DG.Control.extend({
+    initialize: function (foo, options) {
+        // ...
+        DG.Util.setOptions(this, options);
+    },
+    // ...
+});
+</code></pre><p>Это позволит передавать такие опции, как, например, <code>position</code> при создании объекта элемента управления:</p>
+<pre><code>map.addControl(new MyControl(&#39;bar&#39;, {position: &#39;bottomleft&#39;}));
+</code></pre>

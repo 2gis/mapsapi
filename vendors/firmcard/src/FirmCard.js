@@ -74,14 +74,14 @@ FirmCard.prototype = {
         btns = this._fillFooterButtons();
 
         //fill object for view render
-        this._firmContentObject.header = this.options.render(this.options.tmpls.firmCardHeader, {'firmName': data.name, 'links': links});
+        this._firmContentObject.header = this.options.render('firmCardHeader', {'firmName': data.name, 'links': links});
         container.innerHTML = firmCardBody;
         this._firmContentObject.tmpl = container;
         if (btns.length) {
             this._footerContainer = document.createElement('div');
 
             this._footerContainer.className = 'footer-btns';
-            this._footerContainer.innerHTML = this.options.render(this.options.tmpls.popupFooterBtns, {'btns': btns});
+            this._footerContainer.innerHTML = this.options.render('popupFooterBtns', {'btns': btns});
             this._firmContentObject.footer = this._footerContainer;
         }
 
@@ -129,7 +129,7 @@ FirmCard.prototype = {
     _buildFirmCardBody: function (parts) {
         var self = this;
         return parts.reduce(function (body, item) {
-            var html = self.options.render(self.options.tmpls[item.tmpl], item.data);
+            var html = self.options.render(item.tmpl, item.data);
             return body + html;
         }, '');
     },

@@ -3,6 +3,8 @@ DG.Map.addInitHook(function () {
         DG.control.attribution().addTo(this);
     }
 
+    this._tln = 'dgTiles';
+
     this.baseLayer = new (DG.TileLayer.extend({
         onRemove: function (map) {
             map.projectDetector.disable();

@@ -29,25 +29,27 @@
         _baron: null,
         _isBaronExist: false,
 
-        /*global __DGCustomization_TMPL__:false */
-        _templates: __DGCustomization_TMPL__,
         _popupShowClass: 'leaflet-popup_show_true',
         _popupHideClass: 'leaflet-popup_show_false',
 
-        initialize: function (options, sourse) { // (Object, Object)
+        _popupTipClass: 'leaflet-popup-tip-container',
+        _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
+
+        initialize: function (options, source) { // (Object, Object)
             this._popupStructure = {};
-            originalInitialize.call(this, options, sourse);
+            originalInitialize.call(this, options, source);
         },
 
         onAdd: function (map) { // (Map)
             map.on('entranceshow', this._closePopup, this);
-            this.once('open', this._animateOpening, this);
-            return originalOnAdd.call(this, map);
+            originalOnAdd.call(this, map);
+            this._animateOpening();
         },
 
         onRemove: function (map) { // (Map)
+            this._animateClosing();
             map.off('entranceshow', this._closePopup, this);
-            return originalOnRemove.call(this, map);
+            originalOnRemove.call(this, map);
         },
 
         setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
@@ -125,8 +127,24 @@
                 this._innerContainer.appendChild(this._detachEl(this._closeButton));
             }
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
-            this._innerContainer.appendChild(this._detachEl(this._tipContainer));
-            DG.DomEvent.disableClickPropagation(this._tipContainer);
+            var tip = this._detachEl(this._tipContainer);
+            if (DG.Browser.svg) {
+                var path = DG.SVG.create('path');
+                var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg';
+
+                path.setAttribute('d', this._tipSVGPath);
+
+                tip = DG.SVG.create('svg'),
+                tip.setAttribute('class', svgClass);
+
+                tip.appendChild(path);
+                DG.DomEvent.disableClickPropagation(path);
+            } else {
+                DG.DomUtil.addClass(tip, this._popupTipClass + '_image');
+                DG.DomEvent.disableClickPropagation(tip);
+            }
+            this._innerContainer.appendChild(tip);
+            this._wrapper.style[DG.DomUtil.TRANSITION] = '0';
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
@@ -171,43 +189,26 @@
                 }
             }
 
+            originalAdjustPan.call(this);
             this._bindAdjustPanOnTransitionEnd();
         },
 
         _adjustPan: function (e) {
+            if (!this._map) { return; }
+
             if (e) {
                 if (e.propertyName === 'max-height') {
                     originalAdjustPan.call(this);
-                    DG.DomEvent.off(this._wrapper, this._whichTransitionEndEvent(), this._adjustPan);
+                    DG.DomEvent.off(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan);
                 }
             } else {
                 originalAdjustPan.call(this);
             }
         },
 
-        _whichTransitionEndEvent: function () { // () -> String | Null
-            var t,
-                el = document.createElement('fakeelement'),
-                transitions = {
-                'transition': 'transitionend',
-                'OTransition': 'oTransitionEnd',
-                'MozTransition': 'transitionend',
-                'WebkitTransition': 'webkitTransitionEnd'
-            };
-
-            for (t in transitions) {
-                if (el.style[t] !== undefined) {
-                    return transitions[t];
-                }
-            }
-
-            return null;
-        },
-
         _bindAdjustPanOnTransitionEnd: function () {
-            var transEv = this._whichTransitionEndEvent();
-            if (transEv) {
-                DG.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
+            if (DG.DomUtil.TRANSITION_END) {
+                DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this);
             } else {
                 this._adjustPan();
             }
@@ -289,7 +290,6 @@
             this._container.style.visibility = 'hidden';
 
             this._clearNode(this._contentNode);
-            this._wrapper.style.opacity = 0;
 
             //init popup content dom structure
             if (this._headerContent) {
@@ -354,7 +354,6 @@
             width = Math.max(width, this.options.minWidth);
 
             wrapperStyle.width = width + 'px';
-            wrapperStyle.opacity = 1;
 
             this._containerWidth = this._container.offsetWidth;
         },
@@ -392,13 +391,10 @@
         },
 
         _onCloseButtonClick: function (e) { // (Event)
-            var transEv;
-
             this._animateClosing();
-            transEv = this._whichTransitionEndEvent();
 
-            if (transEv) {
-                DG.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
+            if (DG.DomUtil.TRANSITION_END) {
+                DG.DomEvent.on(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             }
             else {
                 this._firePopupClose(e);
@@ -407,13 +403,10 @@
         },
 
         _firePopupClose: function (e) { // (Event)
-            var transEv = this._whichTransitionEndEvent();
-
-            originalOnClose.call(this, e);
-
-            if (this._whichTransitionEndEvent()) {
-                DG.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
+            if (DG.DomUtil.TRANSITION_END) {
+                DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             }
+            originalOnClose.call(this, e);
         }
     });
 }());
@@ -425,16 +418,21 @@ DG.Map.include({
     _markerHideClass: 'dg-customization__marker_disappear',
     _dgHideClass: 'dg-hidden',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
-        var content;
+        if (!(popup instanceof L.Popup)) {
+            var content = popup;
+
+            popup = new L.Popup(options).setContent(content);
+        }
+
+        if (latlng) {
+            popup.setLatLng(latlng);
+        }
+
+        if (this.hasLayer(popup)) {
+            return this;
+        }
 
         this.closePopup();
-
-        if (!(popup instanceof DG.Popup)) {
-            content = popup;
-            popup = new DG.Popup(options).setLatLng(latlng).setContent(content);
-        }
-        popup._isOpen = true;
-
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
@@ -470,7 +468,6 @@ DG.Map.include({
                 }
             }
             this.removeLayer(popup);
-            popup._isOpen = false;
         }
 
         return this;

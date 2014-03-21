@@ -3,8 +3,8 @@
         "content": {
             "ru": {
                 "title": "API карт",
-                "uri": "doc/quickstart.html",
-                "_src":"Core/doc/Core.md",
+                "uri": "maps/2.0/quickstart",
+                "_src":"quickstart/quickstart.md",
                 "hide": false
             }
         },
@@ -12,18 +12,9 @@
             {
                 "content": {
                     "ru": {
-                        "title": "Общие сведения ",
-                        "uri": "doc/glossary.html",
-                        "hide": false
-                    }
-                },
-                "children": null
-            },
-            {
-                "content": {
-                    "ru": {
                         "title": "Быстрый старт",
-                        "uri": "doc/quickstart.html",
+                        "uri": "maps/2.0/quickstart",
+                        "_src":"quickstart/quickstart.md",
                         "hide": false
                     }
                 },
@@ -33,16 +24,40 @@
                 "content": {
                     "ru": {
                         "title": "Руководство",
-                        "uri": "doc....",
-                        "hide": true
+                        "uri": "maps/2.0/manual/loading",
+                        "_src":"manual/loading.md",
+                        "hide": false
                     }
                 },
                 "children": [
                     {
                         "content": {
                             "ru": {
+                                "title": "Подключение API",
+                                "uri": "maps/2.0/manual/loading",
+                                "_src":"manual/loading.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Карта",
+                                "uri": "maps/2.0/manual/map",
+                                "_src":"manual/map.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "Базовые классы",
-                                "uri": "doc...",
+                                "uri": "maps/2.0/manual/base-classes",
+                                "_src":"manual/base-classes.md",
                                 "hide": false
                             }
                         },
@@ -51,20 +66,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Документация DGCore",
-                                "uri": "doc/DGCore/DGCore.html",
-                                "_src": "DGCore/doc/DGCore.md",
-                                "hide": true
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "DGJsonp",
-                                "uri": "doc/DGJsonp/DGJsonp.html",
-                                "_src": "DGJsonp/doc/DGJsonp.md",
+                                "title": "Маркеры",
+                                "uri": "maps/2.0/manual/markers",
+                                "_src":"manual/markers.md",
                                 "hide": false
                             }
                         },
@@ -73,9 +77,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGGeoclicker",
-                                "uri": "doc/DGGeoclicker/DGGeoclicker.html",
-                                "_src": "DGGeoclicker/doc/DGGeoclicker.md",
+                                "title": "Балуны",
+                                "uri": "maps/2.0/manual/popups",
+                                "_src":"manual/popup.md",
                                 "hide": false
                             }
                         },
@@ -84,9 +88,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGWkt",
-                                "uri": "doc/DGWkt/DGWkt.html",
-                                "_src": "DGWkt/doc/DGWkt.md",
+                                "title": "Подсказки",
+                                "uri": "maps/2.0/manual/label",
+                                "_src":"manual/label.md",
                                 "hide": false
                             }
                         },
@@ -95,9 +99,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGProjectDetector",
-                                "uri": "doc/DGProjectDetector/DGProjectDetector.html",
-                                "_src": "DGProjectDetector/doc/DGProjectDetector.md",
+                                "title": "Геометрии",
+                                "uri": "maps/2.0/manual/geometries",
+                                "_src":"manual/geometries.md",
                                 "hide": false
                             }
                         },
@@ -106,9 +110,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGTileLayer",
-                                "uri": "doc/DGTileLayer/DGTileLayer.html",
-                                "_src": "DGTileLayer/doc/DGTileLayer.md",
+                                "title": "Элементы управления",
+                                "uri": "maps/2.0/manual/controls",
+                                "_src":"manual/controls.md",
                                 "hide": false
                             }
                         },
@@ -117,9 +121,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGLocale",
-                                "uri": "doc/DGLocale/DGLocale.html",
-                                "_src": "DGLocale/doc/DGLocale.md",
+                                "title": "Слои",
+                                "uri": "maps/2.0/manual/layers",
+                                "_src":"manual/layers.md",
                                 "hide": false
                             }
                         },
@@ -128,9 +132,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGWhen",
-                                "uri": "doc/DGWhen/DGWhen.html",
-                                "_src": "DGWhen/doc/DGWhen.md",
+                                "title": "Группы",
+                                "uri": "maps/2.0/manual/groups",
+                                "_src":"manual/groups.md",
                                 "hide": false
                             }
                         },
@@ -139,9 +143,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGEntrance",
-                                "uri": "doc/DGEntrance/DGEntrance.html",
-                                "_src": "DGEntrance/doc/DGEntrance.md",
+                                "title": "Внешние модули",
+                                "uri": "maps/2.0/manual/external-modules",
+                                "_src":"manual/external-modules.md",
                                 "hide": false
                             }
                         },
@@ -150,10 +154,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGWhen",
-                                "uri": "doc/DGWhen/DGWhen.html",
-                                "_src": "DGWhen/doc/DGWhen.md",
-
+                                "title": "Линейка",
+                                "uri": "maps/2.0/manual/ruler",
+                                "_src":"manual/ruler.md",
                                 "hide": false
                             }
                         },
@@ -162,9 +165,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGFullScreen",
-                                "uri": "doc/DGFullScreen/DGFullScreen.html",
-                                "_src": "DGFullScreen/doc/DGFullScreen.md",
+                                "title": "AJAX-запросы",
+                                "uri": "maps/2.0/manual/ajax",
+                                "_src":"manual/ajax.md",
                                 "hide": false
                             }
                         },
@@ -173,9 +176,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGTemplate",
-                                "uri": "doc/DGTemplate/DGTemplate.html",
-                                "_src": "DGTemplate/doc/DGTemplate.md",
+                                "title": "GeoJSON-формат",
+                                "uri": "maps/2.0/manual/geojson",
+                                "_src":"manual/geojson.md",
                                 "hide": false
                             }
                         },
@@ -184,27 +187,215 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "DGLocationControl",
-                                "uri": "doc/DGLocationControl/DGLocationControl.html",
-                                "_src": "DGLocationControl/doc/DGLocationControl.md",
-
+                                "title": "WKT-формат",
+                                "uri": "maps/2.0/manual/wkt",
+                                "_src":"manual/wkt.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "События",
+                                "uri": "maps/2.0/manual/events",
+                                "_src":"manual/events.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Локализация",
+                                "uri": "maps/2.0/manual/locale",
+                                "_src":"manual/locale.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Утилиты",
+                                "uri": "maps/2.0/manual/utils",
+                                "_src":"manual/utils.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с DOM",
+                                "uri": "maps/2.0/manual/dom-utils",
+                                "_src":"manual/dom-utils.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Интерфейсы",
+                                "uri": "maps/2.0/manual/interfaces",
+                                "_src":"manual/interfaces.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Переход на версию 2.0",
+                                "uri": "maps/2.0/manual/migration",
+                                "_src":"manual/migration.md",
                                 "hide": false
                             }
                         },
                         "children": null
                     }
                 ]
+            },
+            {
+                "content": {
+                    "ru": {
+                        "title": "Примеры",
+                        "uri": "maps/2.0/examples",
+                        "_src":"examples/examples.md",
+                        "hide": false
+                    }
+                },
+                "children": [
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Базовое использование",
+                                "uri": "maps/2.0/examples/base",
+                                "_src":"examples/base.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с маркерами",
+                                "uri": "maps/2.0/examples/markers",
+                                "_src":"examples/markers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с балунами",
+                                "uri": "maps/2.0/examples/popups",
+                                "_src":"examples/popups.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с границами",
+                                "uri": "maps/2.0/examples/bounds",
+                                "_src":"examples/bounds.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с геометриями",
+                                "uri": "maps/2.0/examples/geometries",
+                                "_src":"examples/geometries.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Элементы управления",
+                                "uri": "maps/2.0/examples/controls",
+                                "_src":"examples/controls.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с API геоданных",
+                                "uri": "maps/2.0/examples/geocoding",
+                                "_src":"examples/geocoding.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null                        
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с GeoJSON",
+                                "uri": "maps/2.0/examples/geojson",
+                                "_src":"examples/geojson.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null                        
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с WKT",
+                                "uri": "maps/2.0/examples/wkt",
+                                "_src":"examples/wkt.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null                        
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Обработка событий",
+                                "uri": "maps/2.0/examples/events",
+                                "_src":"examples/events.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Внешние модули",
+                                "uri": "maps/2.0/examples/external-modules",
+                                "_src":"examples/external-modules.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null                        
+                    }
+                ]
             }
         ]
-    },
-    "static":{
-        "content": {
-            "ru":{
-                "title": "Static",
-                "uri": "doc/quickstart.html",
-
-                "hide": false
-            }
-        }
     }
 }

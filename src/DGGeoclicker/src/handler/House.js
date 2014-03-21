@@ -54,31 +54,12 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return DG.when(this._defaultFirm ? this._firmCardObject : this._houseObject);
     },
 
-    _firmCardTmplsSetup: function () {
-        var tmpls = [
-                'firmCardHeader',
-                'firmCardAddr',
-                'firmCardContacts',
-                'firmCardSchedule',
-                'frimCardPayments',
-                'firmCardRubric',
-                'popupFooterBtns'
-            ],
-            getTemplate = DG.bind(this._view.getTemplate, this._view);
-
-        return tmpls.reduce(function (obj, item) {
-            obj[item] = getTemplate(item);
-            return obj;
-        }, {});
-    },
-
     _firmCardSetup: function () { //() -> Object
         return {
-            tmpls: this._firmCardTmplsSetup(),
-            render: DG.template,
+            render: this._view._templates,
             lang: this._map.getLang(),
             ajax: DG.bind(this._api.getFirmInfo, this._api),
-            timezoneOffset: this._controller.getMap().projectDetector.getProject().time_zone_as_offset,
+            timezoneOffset: this._controller.getMap().projectDetector.getProject().timeOffset,
             map: this._map,
             isMobile: DG.Browser.mobile,
             showEntrance: DG.Entrance,
@@ -127,7 +108,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
         shortFirmList = new FirmCard.List(firms, {
             firmCard: options,
-            firmlistItemTmpl: this._view.getTemplate('firmlistItem')
+            firmlistItemTmpl: 'firmlistItem'
         });
 
         return shortFirmList.renderList();
@@ -140,7 +121,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             tmpl: firmList,
             header: this._header,
             footer: this._view.render({
-                tmpl: this._view.getTemplate('popupFooterBtns'),
+                tmpl: 'popupFooterBtns',
                 data: {
                     btns: [
                         {
@@ -176,9 +157,10 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
         this._firmList = new FirmCard.List(results, {
             firmCard: options,
-            firmlistItemTmpl: this._view.getTemplate('firmlistItem'),
-            onListReady: DG.bind(this._renderFirmList, this),
+            firmlistItemTmpl: 'firmlistItem',
+            onListReady: DG.bind(this._renderFirmList, this)
         });
+
         this._firmListObject = this._fillFirmListObject(this._firmList.renderList());
         this._clearAndRenderPopup(this._firmListObject);
     },
@@ -262,7 +244,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             this._isFirmlistOpen = true;
 
             if (!this._onScroll) {
-                this._onScroll = DG.Util.limitExecByInterval(this._handlePopupScroll, this._scrollThrottleInterval, this);
+                this._onScroll = DG.Util.throttle(this._handlePopupScroll, this._scrollThrottleInterval, this);
             }
 
             this._popup.on('scroll', this._onScroll);

@@ -72,10 +72,23 @@
 /* В коллауте ошибка вместо контента */
 .leaflet-popup_error_true {}
 
-.leaflet-popup-tip-container {
+.leaflet-map-pane .leaflet-popup-tip-container {
     position: relative;
     background-repeat: no-repeat;
-    margin: 0 auto;
+    margin: -1px auto 0;
+    width: 58px;
+    height: 47px;
+}
+
+.leaflet-popup-tip-container_svg {
+    background-position: 50% 95%;
+    -webkit-background-size: 36px 12px;
+    background-size: 36px 12px;
+    background-image: url(__BASE_URL__/img/tip-shadow.png);
+}
+
+.leaflet-retina .leaflet-popup-tip-container_svg {
+    background-image: url(__BASE_URL__/img/tip-shadow-retina.png);
 }
 
 .leaflet-popup-tip {

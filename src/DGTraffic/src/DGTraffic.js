@@ -16,19 +16,20 @@ DG.TrafficLayer = DG.TileLayer.extend({
 
     onAdd: function (map) {
         var project = map.projectDetector.getProject();
-        if (project) {
-            this._setProjectOptions(project);
-        } else {
-            this._setNullOptions();
-        }
-        DG.TileLayer.prototype.onAdd.apply(this, arguments);
+
+        project ? this._setProjectOptions(project) : this._setNullOptions();
+
+        this._handler = new DG.TrafficHandler(map);
+        this._handler.enable();
+
+        DG.TileLayer.prototype.onAdd.call(this);
         map.on(this._projectEvents, this);
-        map.meta.enablePoiListening();
+        // map.meta.enablePoiListening();
     },
 
     onRemove: function (map) {
         map.off(this._projectEvents, this);
-        DG.TileLayer.prototype.onRemove.call(this, arguments);
+        DG.TileLayer.prototype.onRemove.call(this, map);
     },
 
     setPeriod: function (period) {

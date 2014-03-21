@@ -16,9 +16,9 @@ var deps = {
         heading: '2GIS modules',
         deps: [ 'Core',
                 'EPSG3395',
+                'GridLayer',
                 'TileLayer',
                 'TileLayerWMS',
-                'TileLayerCanvas',
                 'ImageOverlay',
                 'Marker',
                 'DivIcon',
@@ -26,15 +26,14 @@ var deps = {
                 'LayerGroup',
                 'FeatureGroup',
                 'Path',
-                'PathVML',
-                'PathCanvas',
                 'Polyline',
                 'Polygon',
-                'MultiPoly',
                 'Rectangle',
-                'Circle',
                 'CircleMarker',
-                'VectorsCanvas',
+                'Circle',
+                'SVG',
+                'VML',
+                'Canvas',
                 'GeoJSON',
                 'MapDrag',
                 'MouseZoom',
@@ -42,8 +41,8 @@ var deps = {
                 'BoxZoom',
                 'Keyboard',
                 'MarkerDrag',
-                'ControlAttrib',
                 'ControlZoom',
+                'ControlAttrib',
                 'ControlScale',
                 'ControlLayers',
                 'AnimationPan',
@@ -122,7 +121,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/marker.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
     },
 
     DGAttribution: {
@@ -138,7 +137,7 @@ var deps = {
             all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
             ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
         },
-        deps: ['DGCore', 'DGTemplate', 'DGLocale']
+        deps: ['DGCore', 'DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -168,6 +167,8 @@ var deps = {
     DGFullScreen: {
         desc: 'Full screen module',
         src: [
+            'DGFullScreen/src/DGScreenfull.js',
+            'DGFullScreen/src/LegacyFullScreen.js',
             'DGFullScreen/src/DGFullScreen.js',
             'DGFullScreen/lang/ru.js',
             'DGFullScreen/lang/it.js',
@@ -190,7 +191,7 @@ var deps = {
     DGProjectDetector: {
         desc: '2GIS project detector module',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGCore', 'DGAjax']
+        deps: ['DGCore']
     },
 
     DGMeta: {
@@ -257,12 +258,16 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGTemplate', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
+        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
-    DGTemplate: {
+    DGDust: {
         desc: '2GIS Template',
-        src: ['DGTemplate/src/DGTemplate.js']
+        src: [
+            '../vendors/dustjs/dist/dust-core.js',
+            '../vendors/dustjs-helpers/dist/dust-helpers-1.1.2.js',
+            'DGDust/src/DGDust.js'
+        ]
     },
 
     DGEntrance: {
@@ -271,8 +276,8 @@ var deps = {
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/PathAnimation.js',
             'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/ArrowSvg.js',
-            'DGEntrance/src/ArrowVml.js',
+            'DGEntrance/src/ArrowSVG.js',
+            'DGEntrance/src/ArrowSVG.VML.js',
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
@@ -292,9 +297,50 @@ var deps = {
 
     DGTrafficLayer: {
         desc: 'TrafficLayer',
-        src: ['DGTraffic/src/DGTraffic.js'],
-        deps: ['DGCore']
+        src: [
+            'DGTraffic/src/DGTraffic.js',
+            'DGTraffic/src/DGTraffic.Handler.js'
+        ],
+        deps: ['DGCore', 'DGMeta']
+    },
+
+    DGRuler: {
+        desc: 'Ruler module',
+        src: [
+            'DGRuler/src/Ruler.js',
+            'DGRuler/src/LayeredMarker.js',
+            'DGRuler/src/GeometryStyles.js',
+            'DGRuler/lang/ru.js',
+            'DGRuler/lang/it.js',
+            'DGRuler/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRuler/skin/{skin}/css/DGRuler.css'
+            ],
+            ie: [
+                'DGRuler/skin/{skin}/css/DGRuler.ie.css'
+            ]
+        },
+        deps: ['DGCore', 'DGLocale']
+    },
+
+    DGRulerControl: {
+        desc: 'Ruler control module',
+        src: [
+            'DGRulerControl/src/Control.Ruler.js',
+            'DGRulerControl/lang/ru.js',
+            'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/en.js'
+        ],
+        css: {
+            all: [
+                'DGRulerControl/skin/{skin}/css/DGRulerControl.css'
+            ]
+        },
+        deps: ['DGRuler', 'DGRoundControl']
     }
+
 };
 
 if (typeof exports !== 'undefined') {

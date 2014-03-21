@@ -10,7 +10,8 @@ module.exports = function (grunt) {
     'use strict';
 
     grunt.registerTask('buildSrc', function () {
-        build.buildSrc();
+        var done = this.async();
+        build.buildSrc(true, done);
     });
 
     grunt.registerTask('setVersion', function () {
@@ -26,7 +27,13 @@ module.exports = function (grunt) {
     grunt.registerTask('hint', ['jshint:force']);
 
     // Lint, combine and minify source files, copy assets, and add hook on push
-    grunt.registerTask('build', ['hint', 'assets', 'buildSrc', 'githooks']);
+    grunt.registerTask('build', function () {
+        var buildTasks = ['hint', 'assets', 'buildSrc'];
+        if (grunt.option('pkg') !== 'online') {
+            buildTasks.push('githooks');
+        }
+        grunt.task.run(buildTasks);
+    });
 
     // Generate documentation from source files
     grunt.registerTask('doc', function () {
@@ -36,7 +43,8 @@ module.exports = function (grunt) {
 
     // Rebuild and run unit tests
     grunt.registerTask('test', function () {
-        build.buildSrc(false);
+        var done = this.async();
+        build.buildSrc(false, done);
         grunt.task.run('karma:continuous');
     });
 
@@ -115,7 +123,7 @@ module.exports = function (grunt) {
         },
         doc: {
             menu: './src/menu.json',
-            input: './src/',
+            input: './src/doc/',
             output: './public/doc'
         }
     });

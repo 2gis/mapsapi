@@ -1,0 +1,77 @@
+<h2 id="класс-dgwkt">Класс DG.Wkt</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#пример-использования">Пример использования</a></li><li><a href="#конструктор">Конструктор</a></li><li><a href="#опции">Опции</a></li><li><a href="#методы">Методы</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Используется для получения геометрий API карт на основе их описания в <a target="_blank" href="http://en.wikipedia.org/wiki/Well-known_text">WKT-формате</a>.</p>
+<h3 id="пример-использования">Пример использования</h3><p>Считывает описание многоугольника в WKT-формате и отображает его на карте:</p>
+<pre><code>var wkt = DG.wkt();
+var polygonComponents = wkt.read(&#39;POLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136))&#39;);
+wkt.toObject(polygonComponents).addTo(map);
+</code></pre><h3 id="конструктор">Конструктор</h3><table>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.wkt</b>(
+                <nobr> &lt;<a href="#опции">Wkt options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td>
+                <code>DG.wkt(&hellip;)</code>
+            </td>
+            <td>Создает объект, отвечающий за обработку данных в WKT-формате.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="опции">Опции</h3><table>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>initializer</b></code></td>
+            <td><code>&lt;String&gt;</code></td>
+            <td>null</td>
+            <td>Данные в WKT-формате (опционально).</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 id="методы">Методы</h3><table>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>read</b>(
+                <nobr>&lt;String&gt; <i>wkt</i>)</nobr>
+            </code></td>
+            <td><code>Array</code></td>
+            <td>Считывает строку в WKT-формате и проверяет ее корректность. Возвращает массив компонентов геометрии (ее внутреннее представление).</td>
+        </tr>
+        <tr>
+            <td><code><b>toObject</b>(
+                <nobr>&lt;Object&gt; <i>config</i> )</nobr></code></td>
+            <td><code>Object</code></td>
+            <td>Формирует геометрию API карт на основе данных, считанных методом read. Этот метод поддерживает все параметры конструктора класса <a href="/doc/maps/2.0/manual/geometries#класс-dgpath">Path</a>. Например, можно передать параметр <code>toObject({clickable:false})</code>, чтобы сделать геометрию некликабельной.</td>
+        </tr>
+        <tr>
+            <td><code><b>write</b>(
+                <nobr>&lt;Array&gt; <i>components</i> )</nobr>
+            </code></td>
+            <td><code>String</code></td>
+            <td>Возвращает WKT-описание на основе компонентов геометрии (ее внутреннего представления).</td>
+        </tr>
+    </tbody>
+</table>

@@ -46,6 +46,7 @@
     "smarttabs": true,
     "globals": {
         "L": true,
-        "DG": true
+        "DG": true,
+        "dust": true
     }
 }

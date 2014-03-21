@@ -7,12 +7,15 @@ var fs = require('fs'),
     extend = require('extend'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
+    dust = require('dustjs-linkedin'),
+    projectLoader = require('2gis-project-loader'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     //Global data stores
     modules,
     defaultSkin,
     appConfig,
+    projectList,
     errors = [],
     skinVar = config.skin.var,
     //CLI colors theme settings
@@ -158,7 +161,7 @@ function setTemplates(moduleName) { //(string)->Object
                 tmplName = path.basename(srcPath, tmplConf.ext),
                 tmplContent = fs.readFileSync(srcPath, 'utf8');
 
-                (tmplContent.length > 0) ? tmpl[tmplName] = tmplContent : tmpl[tmplName] = '';
+            tmpl[tmplName] = dust.compile(tmplContent, tmplName);
         });
 
         modulesTmpls[varName] = 'JSON.parse(\'' + escapeJson(JSON.stringify(tmpl)) + '\')';
@@ -321,7 +324,9 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
         console.log('\nConcatenating JS in ' + countModules + ' modules...\n');
     }
 
-    return getCopyrightsData() + config.js.intro + result + config.js.outro;
+    result += params.isDebug ? config.js.dustdebug : '';
+
+    return getCopyrightsData() + config.js.intro + result + projectList + config.js.outro;
 }
 
 // Generates CSS content
@@ -458,8 +463,20 @@ exports.setVersion =  function (done) {
     });
 }
 
+exports.buildSrc = function (isMsg, done) {
+    projectLoader(function (err, projects) {
+        if (err) {
+            console.log(err);
+        }
+        projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+        buildSource(isMsg);
+        done();
+    });
+};
+
+
 // Combine and minify source files (CLI command)
-exports.buildSrc = function (isMsg) {
+function buildSource(isMsg) {
     var modulesList,
         jsSrcContent,
         jsMinContent,
@@ -545,6 +562,13 @@ exports.getConfig = function () {
 
 // Load content of all source files to memory (web app). Should be run once
 exports.init = function () {
+    projectLoader(function (err, projects) {
+        if (err) {
+            console.log(errMsg(err));
+        }
+        projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+    });
+
     modules = getModulesData();
 
     if (modules) {

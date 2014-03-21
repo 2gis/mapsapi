@@ -1,6 +1,7 @@
 DG.Meta.Host = DG.Class.extend({
 
-    initialize: function () {
+    initialize: function (map) {
+        this._map = map;
         this._buildingStorage = new DG.Meta.BuildingStorage();
         this._poiStorage = new DG.Meta.PoiStorage();
     },
@@ -23,29 +24,34 @@ DG.Meta.Host = DG.Class.extend({
         var self = this;
 
         return this._askByTile(tileId).then(
-            function (tileData) {
-                var code = +tileData.response.code,
-                    result;
-
-                switch (code) {
-                    case 200:
-                        result = tileData.result;
-                        break;
-                    case 204:
-                        result = {
-                            buildings: [],
-                            poi: []
-                        };
-                        break;
-                    default:
-                        return false;
-                }
-
-                self._poiStorage.addDataToTile(tileId, result.poi);
-                self._buildingStorage.addDataToTile(tileId, result.buildings);
+            function (result) {
+                console.log(result);
 
                 return result;
             }
+            // function (tileData) {
+            //     var code = +tileData.response.code,
+            //         result;
+
+            //     switch (code) {
+            //         case 200:
+            //             result = tileData.result;
+            //             break;
+            //         case 204:
+            //             result = {
+            //                 buildings: [],
+            //                 poi: []
+            //             };
+            //             break;
+            //         default:
+            //             return false;
+            //     }
+
+            //     self._poiStorage.addDataToTile(tileId, result.poi);
+            //     self._buildingStorage.addDataToTile(tileId, result.buildings);
+
+            //     return result;
+            // }
         );
     },
 
@@ -53,7 +59,9 @@ DG.Meta.Host = DG.Class.extend({
         var xyz = tileId.split(',');
 
         return DG.ajax(
-            DG.Util.template('__HIGHLIGHT_POI_SERVER__', {
+            DG.Util.template('__TRAFFIC_META_SERVER__', {
+                s: '0',
+                projectCode: this._map.projectDetector.getProject().code,
                 z: xyz[2],
                 x: xyz[0],
                 y: xyz[1]
@@ -63,5 +71,19 @@ DG.Meta.Host = DG.Class.extend({
             }
         );
     }
+    // _askByTile: function (tileId) { //(String) -> Promise
+    //     var xyz = tileId.split(',');
+
+    //     return DG.ajax(
+    //         DG.Util.template('__HIGHLIGHT_POI_SERVER__', {
+    //             z: xyz[2],
+    //             x: xyz[0],
+    //             y: xyz[1]
+    //         }), {
+    //             type: 'get',
+    //             dataType: 'json'
+    //         }
+    //     );
+    // }
 
 });
