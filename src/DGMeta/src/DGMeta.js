@@ -155,6 +155,7 @@ DG.Meta = DG.Handler.extend({
     _checkTrafficHover: function (latLng) { // (DG.LatLng)
         var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic);
 
+        // console.log(hoveredTraffic);
         if (this._currentTraffic && (!hoveredTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
             this._leaveCurrentTraffic();
         }
@@ -184,7 +185,7 @@ DG.Meta = DG.Handler.extend({
 
     _leaveCurrentTraffic: function () {
         if (this._currentTraffic) {
-            this._map.fire('trafficleave', { 'building': this._currentTraffic });
+            this._map.fire('trafficleave', { 'traffic': this._currentTraffic });
             this._currentTraffic = null;
         }
     },
@@ -235,9 +236,12 @@ DG.Meta = DG.Handler.extend({
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         var vertKey = zoom ? zoom + 'vertices' : 'vertices';
 
+        // console.log(data);
+
         for (var i = 0, len = data.length; i < len; i++) {
             if (!data[i].verticesArray) {
                 if (data[i][vertKey] && DG.PolyUtil.contains(point, data[i][vertKey])) {
+                    // console.log(point, data[i][vertKey]);
                     data[i].vertices = data[i][vertKey];
                     return data[i];
                 }

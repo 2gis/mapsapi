@@ -38,6 +38,7 @@ DG.TrafficHandler = DG.Handler.extend({
                 this._labelHelper
                     .setPosition(e.latlng)
                     .setContent(e.traffic.speed);
+                e.traffic.geometry.addTo(this._map);
                 this._map
                     .on('mousemove', this._onMouseMove, this)
                     .addLayer(this._labelHelper);
