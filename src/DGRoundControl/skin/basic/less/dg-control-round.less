@@ -59,7 +59,7 @@
             }
 
         &.dg-control-round__icon_state_active:before {
-            .image('DGFullScreen_FullScreenPressed');
+            .noRepeatableBg('DGFullScreen_FullScreenPressed');
             }
         }
 
@@ -78,23 +78,23 @@
             image-rendering: optimizeQuality;
             }
         &.dg-control-round__icon_state_active:before {
-            .image('DGLocation_GeoPressed');
+            .noRepeatableBg('DGLocation_GeoPressed');
             }
         }
 
     .dg-control-round__icon_name_ruler {
         &:before {
-            .image('DGRulerControl_Static');
+            .noRepeatableBg('DGRulerControl_Static');
             width: 16px;
             height: 8px;
             background-size: contain;
             }
 
         &:hover:before {
-            .image('DGRulerControl_Hover');
+            .noRepeatableBg('DGRulerControl_Hover');
             }
 
         &.dg-control-round__icon_state_active:before {
-            .image('DGRulerControl_Active');
+            .noRepeatableBg('DGRulerControl_Active');
             }
         }

@@ -1,4 +1,10 @@
-.image(@name) when (@graphicsType = svg) {
+/* 
+    See gulpfile.js for predefined stuff like:
+       — Variables: @graphicsType, @baseURL;
+       — Mixins: .imageData.
+ */
+
+.noRepeatableBg(@name) when (@graphicsType = svg) {
     .imageData(@name);
 
     width: @width;
@@ -6,7 +12,7 @@
     background-repeat: no-repeat;
     background-image: url('@{baseURL}/svg/@{name}.svg');
     }
-.image(@name) when (default()) {
+.noRepeatableBg(@name) when (default()) {
     .imageData(@name);
 
     width: @width;
@@ -35,9 +41,9 @@
         }
     }
 
-.bg(@name) when (@graphicsType = svg) {
+.repeatableBg(@name) when (@graphicsType = svg) {
     background-image: url('@{baseURL}/img/@{name}.svg');
     }
-.bg(@name) when (default()) {
+.repeatableBg(@name) when (default()) {
     .png(@name);
     }

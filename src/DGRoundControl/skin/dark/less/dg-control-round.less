@@ -31,21 +31,21 @@
 
     .dg-control-round__icon_name_fullscreen {
         &:before {
-            .image('DGFullScreen_BlackFullScreenActive');
+            .noRepeatableBg('DGFullScreen_BlackFullScreenActive');
             }
         &:hover:before {
-            .image('DGFullScreen_BlackFullScreenHover');
+            .noRepeatableBg('DGFullScreen_BlackFullScreenHover');
             }
         }
 
     .dg-control-round__icon_name_locate {
         &:before {
-            .image('DGLocation_BlackGeoActive');
+            .noRepeatableBg('DGLocation_BlackGeoActive');
             }
         &:hover:before {
-            .image('DGLocation_BlackGeoHover');
+            .noRepeatableBg('DGLocation_BlackGeoHover');
             }
         &.dg-control-round__icon_state_requesting:before {
-            .bg('DGLocation_geoInProgress-black');
+            .repeatableBg('DGLocation_geoInProgress-black');
             }
         }
