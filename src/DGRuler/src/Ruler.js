@@ -8,8 +8,8 @@
  * - Прогнать тесты (FIXED)
  * - При попытке перевести текст ф-ей t() падает ошибка (FIXED)
  * - В ИЕ 10 падает ошибка на _fireMouseEvent в SVG.js, см. https://github.com/Leaflet/Leaflet/issues/2571
- * - Промежуточные точки выглядят как конечные, если ставить их не драгая
- * - Если добавлять точки контролом, тогда промежуточные выглядят как конечные
+ * - Промежуточные точки выглядят как конечные, если ставить их не драгая (FIXED)
+ * - Если добавлять точки контролом, тогда промежуточные выглядят как конечные (FIXED)
  * - При добавлении предпоследней точки кликом (без драга) и последующим драгом ее, последняя точка меняет свои координаты
  * - В Опере хинт в левом верхнем углу карты, а не под курсором
  * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код
@@ -107,7 +107,7 @@ DG.Ruler = DG.Layer.extend({
         if (length) {
             for (var i = mutationStart; i < length; i++) {
                 if (!(this._points[i] instanceof DG.Ruler.LayeredMarker)) {
-                    this._points[i] = this._createPoint(this._points[i])
+                    this._points[i] = this._createPoint(this._points[i], this.options.iconStyles.large)
                                             .on(this._pointEvents, this)
                                             .once('add', this._addCloseHandler, this)
                                             .addTo(this._layers.mouse, this._layers);
@@ -255,7 +255,7 @@ DG.Ruler = DG.Layer.extend({
     },
 
     _addRunningLabel : function (latlng, previousPoint) { // (LatLng, Ruler.LayeredMarker)
-        var point = this._createPoint(latlng, {}).addTo(this._layers.mouse, this._layers);
+        var point = this._createPoint(latlng).addTo(this._layers.mouse, this._layers);
         this._map.getPane('rulerLabelPane').appendChild(point._icon);
         return point.setText(this._getFormatedDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng)));
     },
@@ -269,7 +269,7 @@ DG.Ruler = DG.Layer.extend({
 
     _insertPointInLine : function (event) { // (MouseEvent)
         this._map.dragging.disable();
-        var latlng = event.latlng, //this._lineMarkerHelper.getLatLng(),
+        var latlng = this._lineMarkerHelper.getLatLng(),
             insertPos = event.target._point._pos + 1,
             point;
 
@@ -328,7 +328,6 @@ DG.Ruler = DG.Layer.extend({
     _createPoint: function (latlng, style) { // (LatLng, Object) -> Ruler.LayeredMarker
         var pointStyle = style ? style : this.options.iconStyles.large,
             layers = {};
-
         Object.keys(pointStyle).forEach(function (layer) {
             layers[layer] = DG.circleMarker(latlng, pointStyle[layer]);
         });
