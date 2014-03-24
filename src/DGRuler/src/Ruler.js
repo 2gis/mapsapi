@@ -13,7 +13,7 @@
  * - При добавлении предпоследней точки кликом (без драга) и последующим драгом ее, последняя точка меняет свои координаты (FIXED, see https://github.com/Leaflet/Leaflet/pull/2576)
  * - При добавлении промежуточной точки (без драга за нее) карта перестает драгаться
  * - В Опере хинт в левом верхнем углу карты, а не под курсором (FIXED & pulled)
- * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код
+ * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код (CHECKED)
  */
 
 DG.Ruler = DG.Layer.extend({
@@ -276,8 +276,8 @@ DG.Ruler = DG.Layer.extend({
 
         if (L.Browser.ie) {
             var path = event.originalEvent.target || event.originalEvent.srcElement,
-                g = path.parentNode;
-            g.appendChild(path); // IE click event leaking problem solution: we reappend mousedown event target element
+                parent = path.parentNode;
+            parent.appendChild(path); // IE click event leaking problem solution: we reappend mousedown event target element
         }
 
         this.spliceLatLngs(insertPos, 0, latlng);
