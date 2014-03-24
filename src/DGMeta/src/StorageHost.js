@@ -47,6 +47,8 @@ DG.Meta.Host = DG.Class.extend({
                 buildings: self._buildingStorage.addDataToTile(tileId, result.buildings),
                 traffic: self._trafficStorage.addDataToTile(tileId, data[1])
             };
+        }, function () {
+            return false;
         });
     },
 
