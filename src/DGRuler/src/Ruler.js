@@ -11,9 +11,10 @@
  * - Промежуточные точки выглядят как конечные, если ставить их не драгая (FIXED)
  * - Если добавлять точки контролом, тогда промежуточные выглядят как конечные (FIXED)
  * - При добавлении предпоследней точки кликом (без драга) и последующим драгом ее, последняя точка меняет свои координаты (FIXED, see https://github.com/Leaflet/Leaflet/pull/2576)
- * - При добавлении промежуточной точки (без драга за нее) карта перестает драгаться
+ * - При добавлении промежуточной точки (без драга за нее) карта перестает драгаться (FIXED)
  * - В Опере хинт в левом верхнем углу карты, а не под курсором (FIXED & pulled)
  * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код (CHECKED)
+ * - Проверить работоспособность линейки на тачах
  */
 
 DG.Ruler = DG.Layer.extend({
@@ -269,7 +270,6 @@ DG.Ruler = DG.Layer.extend({
     },
 
     _insertPointInLine : function (event) { // (MouseEvent)
-        this._map.dragging.disable();
         var latlng = this._lineMarkerHelper.getLatLng(),
             insertPos = event.target._point._pos + 1,
             point;
@@ -279,6 +279,8 @@ DG.Ruler = DG.Layer.extend({
                 parent = path.parentNode;
             parent.appendChild(path); // IE click event leaking problem solution: we reappend mousedown event target element
         }
+
+        L.DomEvent.stopPropagation(event.originalEvent);
 
         this.spliceLatLngs(insertPos, 0, latlng);
         point = this._points[insertPos];
@@ -378,7 +380,6 @@ DG.Ruler = DG.Layer.extend({
                 point.collapse();
             }
             this._fireChangeEvent();
-            this._map.dragging.enable();
         },
         'dragstart' : function () { // ()
             if (DG.Browser.touch && this._lineMarkerHelper) {
