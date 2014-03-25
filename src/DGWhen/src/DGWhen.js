@@ -478,8 +478,7 @@ DG.when = (function (global) {
         if (typeof onError === 'function') {
             return onError(this.reason);
         } else {
-            console.stack();
-            console.log(this.reason);
+            console.error(this.reason);
         }
     };
 
