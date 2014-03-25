@@ -10,17 +10,15 @@
 .dg-attribution__links {
     list-style: none;
     margin: 0;
+    padding: 0 5px 0 0;
+    display: inline-block;
 }
 
-.dg-attribution__links:after {
-    content: ' ';
-    display:block;
-    width: 56px;
-    height: 25px;
+.dg-attribution__logo_url {
     position: absolute;
-    top: 0;
-    background: url(__BASE_URL__/img/DGAttribution_logo.svg) no-repeat;
-    right: -60px;
+    width: 55px;
+    height: 26px;
+    background-image: url(__BASE_URL__/img/DGAttribution_logo.svg);
 }
 
 .leaflet-container .dg-attribution__link {

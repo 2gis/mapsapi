@@ -7,4 +7,5 @@
             <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>
         </li>
     </ul>
+    <a href="{copyright_logo}" target="_blank" class="dg-attribution__logo_url"></a>
 </div>
