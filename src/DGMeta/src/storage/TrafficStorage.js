@@ -22,7 +22,6 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
             })
             .filter(Boolean)
             .forEach(function (item) {
-                console.log(item);
                 var id = item.id,
                     zoom = tileId.split(',')[2];
 
