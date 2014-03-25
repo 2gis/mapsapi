@@ -34,7 +34,10 @@ DG.Path.include({
         'mousemove': function (event) {
             this._label.setPosition(event.latlng);
         },
-        'mouseout remove': function () {
+        'mouseout': function () {
+            this._map.removeLayer(this._label);
+        },
+        'remove': function () {
             this._map.removeLayer(this._label);
         }
     }

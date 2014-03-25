@@ -16,6 +16,7 @@
  * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код (CHECKED)
  * - В ИЕ8 при вставке точки кликом на линии вставленная точка (и её соседняя) перекрывается линиями
  * - Проверить работоспособность линейки на тачах
+ * - При горизонтальной линейке в консоли ошибки при наведении на нее (координаты [51.7214, 36.1936],[51.7214, 36.1629]) (FIXED)
  */
 
 DG.Ruler = DG.Layer.extend({
@@ -311,15 +312,15 @@ DG.Ruler = DG.Layer.extend({
             b = from.x - k * from.y;
         
         // http://en.wikipedia.org/wiki/Line_(geometry)
-        
         if (isNaN(k)) {
             return hereLatLng;
-        } else if (k === Infinity) { // Infinity is not the limit!
+        } else if (!isFinite(k)) { // Infinity is not the limit!
             here.y = to.y;
         } else {
             here.y = (here.y + k * here.x - k * b) / (k * k + 1); // Don't even ask me!
             here.x = k * here.y + b;
         }
+
         return this._map.layerPointToLatLng(here);
     },
 
