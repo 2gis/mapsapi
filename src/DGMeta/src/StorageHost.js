@@ -45,7 +45,7 @@ DG.Meta.Host = DG.Class.extend({
             return {
                 poi: self._poiStorage.addDataToTile(tileId, result.poi),
                 buildings: self._buildingStorage.addDataToTile(tileId, result.buildings),
-                traffic: self._trafficStorage.addDataToTile(tileId, data[1] || {})
+                traffic: (data[1].status === 204) ? {} : self._trafficStorage.addDataToTile(tileId, data[1])
             };
         }, function () {
             return false;

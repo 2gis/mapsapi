@@ -478,7 +478,7 @@ DG.when = (function (global) {
         if (typeof onError === 'function') {
             return onError(this.reason);
         } else {
-            console.error(this.reason);
+            throw this.reason;
         }
     };
 

@@ -25,7 +25,6 @@ DG.TrafficLayer = DG.TileLayer.extend({
 
         DG.TileLayer.prototype.onAdd.call(this);
         map.on(this._projectEvents, this);
-        // map.meta.enablePoiListening();
     },
 
     onRemove: function (map) {
