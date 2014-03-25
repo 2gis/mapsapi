@@ -29,6 +29,7 @@ DG.TrafficLayer = DG.TileLayer.extend({
 
     onRemove: function (map) {
         map.off(this._projectEvents, this);
+        this._handler.disable();
         DG.TileLayer.prototype.onRemove.call(this, map);
     },
 
