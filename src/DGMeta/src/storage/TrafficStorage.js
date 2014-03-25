@@ -11,21 +11,24 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
             return obj;
         }, {});
 
-        tileData[0].map(function (item) {
-            if (speeds[item.graph_id]) {
-                item.speed = speeds[item.graph_id];
-            }
-            item.id = item.graph_id;
-            item.hover = item.geometry[0].object;
-            return item;
-        })
-        .forEach(function (item) {
-            var id = item.id,
-                zoom = tileId.split(',')[2];
+        tileData[0]
+            .map(function (item) {
+                if (!speeds[item.graph_id]) { return; }
 
-            this._tilesData[tileId].push(id);
-            this._addEntity(id, item, zoom);
-        }, this);
+                item.speed = speeds[item.graph_id];
+                item.id = item.graph_id;
+                item.hover = item.geometry[0].object;
+                return item;
+            })
+            .filter(Boolean)
+            .forEach(function (item) {
+                console.log(item);
+                var id = item.id,
+                    zoom = tileId.split(',')[2];
+
+                this._tilesData[tileId].push(id);
+                this._addEntity(id, item, zoom);
+            }, this);
 
         return this.getTileData(tileId);
     },
