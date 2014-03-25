@@ -32,7 +32,7 @@ DG.Meta.Host = DG.Class.extend({
             this._askByTile(tileId, '__HIGHLIGHT_POI_SERVER__'),
             this._askByTile(tileId, '__TRAFFIC_META_SERVER__')
         ], function (data) {
-            var code = +data[0].response.code,
+            var code = +data[0].status,
                 result = data[0].result;
 
             if (code === 204) {
