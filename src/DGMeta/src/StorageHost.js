@@ -42,10 +42,12 @@ DG.Meta.Host = DG.Class.extend({
                 };
             }
 
+            result.traffic = (data[1].status === 204) ? [] : data[1];
+
             return {
                 poi: self._poiStorage.addDataToTile(tileId, result.poi),
                 buildings: self._buildingStorage.addDataToTile(tileId, result.buildings),
-                traffic: (data[1].status === 204) ? {} : self._trafficStorage.addDataToTile(tileId, data[1])
+                traffic: self._trafficStorage.addDataToTile(tileId, result.traffic)
             };
         }, function () {
             return false;

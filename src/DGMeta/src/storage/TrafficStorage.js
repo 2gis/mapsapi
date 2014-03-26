@@ -6,6 +6,8 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
     addDataToTile: function (tileId, tileData) { //(String, Array)
         this._tilesData[tileId] = this._tilesData[tileId] || [];
 
+        if (!tileData.length) { return {}; }
+
         var speeds = tileData[1].reduce(function (obj, item) {
             obj[item.graph_id] = item.speed_text;
             return obj;
