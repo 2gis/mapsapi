@@ -116,6 +116,14 @@ L.SVG.include(!L.Browser.vml ? {} : {
 
 	_setPath: function (layer, path) {
 		layer._path.v = path;
+	},
+
+	_bringToFront: function (layer) {
+		L.DomUtil.toFront(layer._path.parentNode);
+	},
+
+	_bringToBack: function (layer) {
+		L.DomUtil.toBack(layer._path.parentNode);
 	}
 });
 
@@ -132,6 +140,4 @@ if (L.Browser.vml) {
 			};
 		}
 	})();
-
-	L.SVG.instance = L.svg();
 }

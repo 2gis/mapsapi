@@ -76,8 +76,8 @@ DG.Meta = DG.Handler.extend({
 
     _mapEventsListeners : {
         mousemove : function (e) { // (DG.Event)
-            /* global __POI_LAYER_MIN_ZOOM__ */
-            if (this._map.getZoom() < __POI_LAYER_MIN_ZOOM__ ||
+            /* global __TRAFFIC_LAYER_MIN_ZOOM__ */
+            if (this._map.getZoom() < __TRAFFIC_LAYER_MIN_ZOOM__ ||
                 !(this._listenPoi || this._listenBuildings || this._listenTraffic) ||
                  (this._map._panTransition && this._map._panTransition._inProgress)) { return; }
 

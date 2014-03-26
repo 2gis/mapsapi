@@ -9,6 +9,7 @@
 
     "TRAFFIC_TILE_SERVER" : "http://traffic{s}.2gis.ru/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/",
     "TRAFFIC_META_SERVER" : "http://meta{s}.2gis.ru/{projectCode}/meta/{z}/{x}/{y}/graph_speed/0/",
+    "TRAFFIC_LAYER_MIN_ZOOM": 10,
 
     "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
     "PHOTOS_LINK": "http://beta.2gis.ru/photos/{id}",

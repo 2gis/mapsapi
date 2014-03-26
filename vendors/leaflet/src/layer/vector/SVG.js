@@ -11,7 +11,7 @@ L.SVG = L.Renderer.extend({
 		this._initEvents();
 
 		// makes it possible to click through svg root; we'll reset it back in individual paths
-		this._container.setAttribute('pointer-events', 'none');
+		!L.Browser.ie && this._container.setAttribute('pointer-events', 'none');
 	},
 
 	_update: function () {
@@ -93,6 +93,11 @@ L.SVG = L.Renderer.extend({
 				path.removeAttribute('stroke-dasharray');
 			}
 
+			if (options.dashOffset) {
+				path.setAttribute('stroke-dashoffset', options.dashOffset);
+			} else {
+				path.removeAttribute('stroke-dashoffset');
+			}
 		} else {
 			path.setAttribute('stroke', 'none');
 		}
@@ -147,7 +152,7 @@ L.SVG = L.Renderer.extend({
 	},
 
 	_fireMouseEvent: function (e) {
-		this._paths[L.stamp(e.target || e.srcElement)]._fireMouseEvent(e);
+		this._paths[L.stamp(e.target || e.srcElement)] && this._paths[L.stamp(e.target || e.srcElement)]._fireMouseEvent(e);
 	}
 });
 
@@ -184,6 +189,3 @@ L.Browser.svg = !!(document.createElementNS && L.SVG.create('svg').createSVGRect
 L.svg = function (options) {
 	return L.Browser.svg || L.Browser.vml ? new L.SVG(options) : null;
 };
-
-// default instance to use when adding vectors to the map
-L.SVG.instance = L.svg();

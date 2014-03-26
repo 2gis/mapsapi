@@ -1,8 +1,8 @@
 DG.Map.mergeOptions({
-    poi: false
+    traffic: false
 });
 
-DG.TrafficHandler = DG.Handler.extend({
+DG.Traffic = DG.Handler.extend({
 
     options: {
         disableLabel: false
@@ -34,11 +34,11 @@ DG.TrafficHandler = DG.Handler.extend({
     _mapEventsListeners : {
         traffichover: function (e) { // (Object)
             this._setCursor('pointer');
-            if (this._labelHelper) {
-                e.traffic.speed && this._labelHelper
+            if (this._labelHelper && e.traffic.speed) {
+                this._labelHelper
                     .setPosition(e.latlng)
                     .setContent(e.traffic.speed + ' км/ч');
-                // this._testL = e.traffic.geometry.addTo(this._map);
+                //this._testL = e.traffic.geometry.addTo(this._map);
                 this._map
                     .on('mousemove', this._onMouseMove, this)
                     .addLayer(this._labelHelper);
@@ -47,7 +47,7 @@ DG.TrafficHandler = DG.Handler.extend({
 
         trafficleave: function () {
             this._setCursor('auto');
-            // this._testL && this._map.removeLayer(this._testL);
+            //this._testL && this._map.removeLayer(this._testL);
             if (this._labelHelper) {
                 this._map
                     .off('mousemove', this._onMouseMove, this)
@@ -66,4 +66,4 @@ DG.TrafficHandler = DG.Handler.extend({
 
 });
 
-// DG.Map.addInitHook('addHandler', 'poi', DG.Poi);
+DG.Map.addInitHook('addHandler', 'traffic', DG.Traffic);

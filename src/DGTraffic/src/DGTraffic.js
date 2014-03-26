@@ -1,10 +1,12 @@
 DG.TrafficLayer = DG.TileLayer.extend({
 
     options: {
+        errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
         subdomains: '012345679',
-        period: 0
+        period: 0,
+        detectRetina: true
     },
-    
+
     statics: {
         tileUrl: '__TRAFFIC_TILE_SERVER__',
         metaUrl: '__TRAFFIC_META_SERVER__'
@@ -22,16 +24,16 @@ DG.TrafficLayer = DG.TileLayer.extend({
 
         project ? this._setProjectOptions(project) : this._setNullOptions();
 
-        this._handler = new DG.TrafficHandler(map);
+        this._handler = new DG.Traffic(map);
         this._handler.enable();
 
         DG.TileLayer.prototype.onAdd.call(this);
         map.on(this._projectEvents, this);
-        // map.meta.enablePoiListening();
     },
 
     onRemove: function (map) {
         map.off(this._projectEvents, this);
+        this._handler.disable();
         DG.TileLayer.prototype.onRemove.call(this, map);
     },
 

@@ -4,9 +4,19 @@
  * - После добавления и драга промежуточной точки она не удаляется. (FIXED)
  * - При добавлении промежуточной точки и её драге драгается и карта (FIXED)
  * - Вместе с линейкой не работают геометрии (геометрии надо добавлять после линейки) (FIXED)
- * - Проверить в ИЕ
+ * - В ИЕ8 не работают события при mousemove (FIXED)
  * - Прогнать тесты (FIXED)
  * - При попытке перевести текст ф-ей t() падает ошибка (FIXED)
+ * - В ИЕ 10 падает ошибка на _fireMouseEvent в SVG.js, см. https://github.com/Leaflet/Leaflet/issues/2571
+ * - Промежуточные точки выглядят как конечные, если ставить их не драгая (FIXED)
+ * - Если добавлять точки контролом, тогда промежуточные выглядят как конечные (FIXED)
+ * - При добавлении предпоследней точки кликом (без драга) и последующим драгом ее, последняя точка меняет свои координаты (FIXED, see https://github.com/Leaflet/Leaflet/pull/2576)
+ * - При добавлении промежуточной точки (без драга за нее) карта перестает драгаться (FIXED)
+ * - В Опере хинт в левом верхнем углу карты, а не под курсором (FIXED & pulled)
+ * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код (CHECKED)
+ * - В ИЕ8 при вставке точки кликом на линии вставленная точка (и её соседняя) перекрывается линиями
+ * - Проверить работоспособность линейки на тачах
+ * - При горизонтальной линейке в консоли ошибки при наведении на нее (координаты [51.7214, 36.1936],[51.7214, 36.1629]) (FIXED)
  */
 
 DG.Ruler = DG.Layer.extend({
@@ -101,7 +111,7 @@ DG.Ruler = DG.Layer.extend({
         if (length) {
             for (var i = mutationStart; i < length; i++) {
                 if (!(this._points[i] instanceof DG.Ruler.LayeredMarker)) {
-                    this._points[i] = this._createPoint(this._points[i])
+                    this._points[i] = this._createPoint(this._points[i], this.options.iconStyles.large)
                                             .on(this._pointEvents, this)
                                             .once('add', this._addCloseHandler, this)
                                             .addTo(this._layers.mouse, this._layers);
@@ -249,7 +259,7 @@ DG.Ruler = DG.Layer.extend({
     },
 
     _addRunningLabel : function (latlng, previousPoint) { // (LatLng, Ruler.LayeredMarker)
-        var point = this._createPoint(latlng, {}).addTo(this._layers.mouse, this._layers);
+        var point = this._createPoint(latlng).addTo(this._layers.mouse, this._layers);
         this._map.getPane('rulerLabelPane').appendChild(point._icon);
         return point.setText(this._getFormatedDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng)));
     },
@@ -262,16 +272,17 @@ DG.Ruler = DG.Layer.extend({
     },
 
     _insertPointInLine : function (event) { // (MouseEvent)
-        this._map.dragging.disable();
         var latlng = this._lineMarkerHelper.getLatLng(),
             insertPos = event.target._point._pos + 1,
             point;
 
         if (L.Browser.ie) {
             var path = event.originalEvent.target || event.originalEvent.srcElement,
-                g = path.parentNode;
-            g.appendChild(path); // IE click event leaking problem solution: we reappend mousedown event target element
+                parent = path.parentNode;
+            parent.appendChild(path); // IE click event leaking problem solution: we reappend mousedown event target element
         }
+
+        L.DomEvent.stopPropagation(event.originalEvent);
 
         this.spliceLatLngs(insertPos, 0, latlng);
         point = this._points[insertPos];
@@ -301,15 +312,15 @@ DG.Ruler = DG.Layer.extend({
             b = from.x - k * from.y;
         
         // http://en.wikipedia.org/wiki/Line_(geometry)
-        
         if (isNaN(k)) {
             return hereLatLng;
-        } else if (k === Infinity) { // Infinity is not the limit!
+        } else if (!isFinite(k)) { // Infinity is not the limit!
             here.y = to.y;
         } else {
             here.y = (here.y + k * here.x - k * b) / (k * k + 1); // Don't even ask me!
             here.x = k * here.y + b;
         }
+
         return this._map.layerPointToLatLng(here);
     },
 
@@ -322,7 +333,6 @@ DG.Ruler = DG.Layer.extend({
     _createPoint: function (latlng, style) { // (LatLng, Object) -> Ruler.LayeredMarker
         var pointStyle = style ? style : this.options.iconStyles.large,
             layers = {};
-
         Object.keys(pointStyle).forEach(function (layer) {
             layers[layer] = DG.circleMarker(latlng, pointStyle[layer]);
         });
@@ -372,7 +382,6 @@ DG.Ruler = DG.Layer.extend({
                 point.collapse();
             }
             this._fireChangeEvent();
-            this._map.dragging.enable();
         },
         'dragstart' : function () { // ()
             if (DG.Browser.touch && this._lineMarkerHelper) {

@@ -29,16 +29,27 @@ DG.Meta.Host = DG.Class.extend({
         var self = this;
 
         return DG.when.all([
-            this._askByTile(tileId, '__TRAFFIC_META_SERVER__'),
-            this._askByTile(tileId, '__HIGHLIGHT_POI_SERVER__')
+            this._askByTile(tileId, '__HIGHLIGHT_POI_SERVER__'),
+            this._askByTile(tileId, '__TRAFFIC_META_SERVER__')
         ], function (data) {
-            var result = data[1].result;
+            var result = data[0].result;
+
+            if (data[0].responseText === '') {
+                result = {
+                    buildings: [],
+                    poi: []
+                };
+            }
+
+            result.traffic = (data[1].responseText === '') ? [] : data[1];
 
             return {
-                buildings: self._poiStorage.addDataToTile(tileId, result.poi),
-                poi: self._buildingStorage.addDataToTile(tileId, result.buildings),
-                traffic: self._trafficStorage.addDataToTile(tileId, data[0])
+                poi: self._poiStorage.addDataToTile(tileId, result.poi),
+                buildings: self._buildingStorage.addDataToTile(tileId, result.buildings),
+                traffic: self._trafficStorage.addDataToTile(tileId, result.traffic)
             };
+        }, function () {
+            return false;
         });
     },
 
