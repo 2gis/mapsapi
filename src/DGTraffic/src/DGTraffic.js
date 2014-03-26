@@ -3,7 +3,8 @@ DG.TrafficLayer = DG.TileLayer.extend({
     options: {
         errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
         subdomains: '012345679',
-        period: 0
+        period: 0,
+        detectRetina: true
     },
 
     statics: {
