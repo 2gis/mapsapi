@@ -67,7 +67,9 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
 
     _updateMarker: function (layer) {
         var zoom = layer._map.getZoom(),
-            url = (zoom >= DG.Entrance.SHOW_FROM_ZOOM) ? layer._markerId + '-' + zoom : '';
+            bound = layer._map.getBounds(),
+            lastPoint = layer._latlngs[layer._latlngs.length - 1],
+            url = (zoom >= DG.Entrance.SHOW_FROM_ZOOM && bound.contains(lastPoint)) ? layer._markerId + '-' + zoom : '';
 
         layer._path.setAttribute('marker-end', 'url(#' + url + ')');
     },
