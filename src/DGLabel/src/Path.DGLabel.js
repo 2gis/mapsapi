@@ -16,9 +16,9 @@ DG.Path.include({
 
     unbindLabel: function () {
         if (this._label) {
-            this._labelEvents['mouseout remove'].call(this);
-            this._label = null;
             this.off(this._labelEvents, this);
+            this._map.removeLayer(this._label);
+            this._label = null;
         }
         return this;
     },
