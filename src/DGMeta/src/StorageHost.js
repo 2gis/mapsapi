@@ -32,17 +32,16 @@ DG.Meta.Host = DG.Class.extend({
             this._askByTile(tileId, '__HIGHLIGHT_POI_SERVER__'),
             this._askByTile(tileId, '__TRAFFIC_META_SERVER__')
         ], function (data) {
-            var code = +data[0].status,
-                result = data[0].result;
+            var result = data[0].result;
 
-            if (code === 204) {
+            if (data[0].responseText === '') {
                 result = {
                     buildings: [],
                     poi: []
                 };
             }
 
-            result.traffic = (data[1].status === 204) ? [] : data[1];
+            result.traffic = (data[1].responseText === '') ? [] : data[1];
 
             return {
                 poi: self._poiStorage.addDataToTile(tileId, result.poi),
