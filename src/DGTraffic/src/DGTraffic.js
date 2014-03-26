@@ -11,7 +11,10 @@ DG.TrafficLayer = DG.TileLayer.extend({
     },
 
     initialize: function () {
-        DG.TileLayer.prototype.initialize.call(this, DG.TrafficLayer.tileUrl);
+        DG.TileLayer.prototype.initialize.call(this, DG.TrafficLayer.tileUrl, {
+            detectRetina: true,
+            maxNativeZoom: 18
+        });
     },
 
     onAdd: function (map) {
