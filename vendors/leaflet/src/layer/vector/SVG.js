@@ -11,7 +11,7 @@ L.SVG = L.Renderer.extend({
 		this._initEvents();
 
 		// makes it possible to click through svg root; we'll reset it back in individual paths
-		this._container.setAttribute('pointer-events', 'none');
+		!L.Browser.ie && this._container.setAttribute('pointer-events', 'none');
 	},
 
 	_update: function () {
