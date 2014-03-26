@@ -66,7 +66,6 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
     },
 
     querySelector : function (selector) {
-        // console.log(this._icon);
         return this._icon.querySelector('.' + DG.Ruler.LayeredMarker.domClass + '__' + selector);
     },
 
@@ -86,7 +85,6 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
             spacer : this.querySelector('spacer'),
             container : this.querySelector('container')
         };
-        // console.log(this._icon);
     },
 
     _afterInit : function () {

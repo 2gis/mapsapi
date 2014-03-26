@@ -46,6 +46,12 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         this._offsetLastPathPoint();
     },
 
+    _update: function () {
+        DG.Polyline.prototype._update.call(this);
+
+        this._renderer._updateMarker(this);
+    },
+
     _updateStyleByZoom: function () {
         var optionsByZoom = this.options.byZoom,
             zoom = this._map.getZoom();
