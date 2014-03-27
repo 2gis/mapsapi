@@ -205,7 +205,7 @@ var deps = {
             'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
-        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt']
+        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
     },
 
     DGPoi: {
@@ -296,13 +296,13 @@ var deps = {
         deps: ['DGCore', 'DGLocale']
     },
 
-    DGTrafficLayer: {
-        desc: 'TrafficLayer',
+    DGTraffic: {
+        desc: 'Traffic',
         src: [
             'DGTraffic/src/DGTraffic.js',
             'DGTraffic/src/DGTraffic.Handler.js'
         ],
-        deps: ['DGCore', 'DGMeta']
+        deps: ['DGMeta']
     },
 
     DGRuler: {

@@ -1,22 +1,19 @@
-DG.TrafficLayer = DG.TileLayer.extend({
+DG.Traffic = DG.TileLayer.extend({
 
     options: {
         errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
         subdomains: '012345679',
         period: 0,
-        detectRetina: true
+        detectRetina: true,
+        maxNativeZoom: 18
     },
 
     statics: {
-        tileUrl: '__TRAFFIC_TILE_SERVER__',
-        metaUrl: '__TRAFFIC_META_SERVER__'
+        tileUrl: '__TRAFFIC_TILE_SERVER__'
     },
 
-    initialize: function () {
-        DG.TileLayer.prototype.initialize.call(this, DG.TrafficLayer.tileUrl, {
-            detectRetina: true,
-            maxNativeZoom: 18
-        });
+    initialize: function (options) {
+        DG.TileLayer.prototype.initialize.call(this, DG.Traffic.tileUrl, options);
     },
 
     onAdd: function (map) {
@@ -24,7 +21,7 @@ DG.TrafficLayer = DG.TileLayer.extend({
 
         project ? this._setProjectOptions(project) : this._setNullOptions();
 
-        this._handler = new DG.Traffic(map);
+        this._handler = new DG.Traffic.Handler(map, this.options);
         this._handler.enable();
 
         DG.TileLayer.prototype.onAdd.call(this);

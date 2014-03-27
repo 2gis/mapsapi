@@ -2,7 +2,7 @@ DG.Map.mergeOptions({
     traffic: false
 });
 
-DG.Traffic = DG.Handler.extend({
+DG.Traffic.Handler = DG.Handler.extend({
 
     options: {
         disableLabel: false
@@ -17,7 +17,7 @@ DG.Traffic = DG.Handler.extend({
         this._map.on(this._mapEventsListeners, this);
         this._map.meta.enableTrafficListening();
         if (!this.options.disableLabel) {
-            this._labelHelper = new DG.Label();
+            this._labelHelper = DG.label();
         }
     },
 
@@ -34,11 +34,11 @@ DG.Traffic = DG.Handler.extend({
     _mapEventsListeners : {
         traffichover: function (e) { // (Object)
             this._setCursor('pointer');
+            // this._testL = e.traffic.geometry.addTo(this._map);
             if (this._labelHelper && e.traffic.speed) {
                 this._labelHelper
                     .setPosition(e.latlng)
                     .setContent(e.traffic.speed + ' км/ч');
-                //this._testL = e.traffic.geometry.addTo(this._map);
                 this._map
                     .on('mousemove', this._onMouseMove, this)
                     .addLayer(this._labelHelper);
@@ -47,7 +47,7 @@ DG.Traffic = DG.Handler.extend({
 
         trafficleave: function () {
             this._setCursor('auto');
-            //this._testL && this._map.removeLayer(this._testL);
+            // this._testL && this._map.removeLayer(this._testL);
             if (this._labelHelper) {
                 this._map
                     .off('mousemove', this._onMouseMove, this)
@@ -66,4 +66,4 @@ DG.Traffic = DG.Handler.extend({
 
 });
 
-DG.Map.addInitHook('addHandler', 'traffic', DG.Traffic);
+DG.Map.addInitHook('addHandler', 'traffic', DG.Traffic.Handler);
