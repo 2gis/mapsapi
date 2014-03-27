@@ -145,6 +145,8 @@ DG.Ruler = DG.Layer.extend({
         var lastPoint = this._points[this._points.length - 1] || null,
             latlng = DG.latLng(latlng); // jshint ignore:line
 
+        latlng.lat = Math.max(Math.min(this._maxLat, latlng.lat), -this._maxLat);
+
         if (lastPoint) {
             var lastLatlng = lastPoint.getLatLng(),
                 wraped = latlng.wrap(),
