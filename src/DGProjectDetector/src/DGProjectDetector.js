@@ -33,14 +33,23 @@ DG.ProjectDetector = DG.Handler.extend({
         return DG.projectsList.slice(0);
     },
 
-    isProjectHere: function (coords) {
+    isProjectHere: function (coords, project) {
         if (!coords) { return; }
+
+        if (!(coords instanceof DG.LatLng) && !(coords instanceof DG.LatLngBounds)) {
+            coords = DG.latLng(coords);
+        }
+
+        coords = (coords instanceof DG.LatLngBounds) ?
+            DG.latLngBounds(coords.getSouthWest().wrap(), coords.getNorthEast().wrap()) : coords.wrap();
 
         var checkMethod = (coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains';
 
-        return DG.projectsList.filter(function (project) {
-            return project.latLngBounds[checkMethod](coords);
-        })[0];
+        return project ?
+            this._testProject(checkMethod, coords, project) :
+            DG.projectsList.filter(
+                this._testProject.bind(this, checkMethod, coords)
+            )[0];
     },
 
     _projectWatch: function () {
@@ -76,10 +85,14 @@ DG.ProjectDetector = DG.Handler.extend({
 
     _boundInProject: function (project) {
         try {
-            return project.latLngBounds.intersects(this._map.getBounds());
+            return this.isProjectHere(this._map.getBounds(), project);
         } catch (e) {
             return false;
         }
+    },
+
+    _testProject: function (method, coords, project) {
+        return project.latLngBounds[method](coords);
     },
 
     _zoomInProject: function (project) {
