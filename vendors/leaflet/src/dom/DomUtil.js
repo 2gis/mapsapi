@@ -177,9 +177,7 @@ L.DomUtil = {
 			['webkitTransition', 'transition', 'OTransition', 'MozTransition', 'msTransition']);
 
 	L.DomUtil.TRANSITION_END =
-			transition ?
-			((transition === 'webkitTransition' || transition === 'OTransition') ? transition + 'End' : 'transitionend') :
-			false;
+			transition === 'webkitTransition' || transition === 'OTransition' ? transition + 'End' : 'transitionend';
 
 
 	if ('onselectstart' in document) {
