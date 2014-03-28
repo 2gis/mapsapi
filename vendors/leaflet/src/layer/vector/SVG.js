@@ -11,7 +11,7 @@ L.SVG = L.Renderer.extend({
 		this._initEvents();
 
 		// makes it possible to click through svg root; we'll reset it back in individual paths
-		!L.Browser.ie && this._container.setAttribute('pointer-events', 'none');
+		this._container.setAttribute('pointer-events', 'none');
 	},
 
 	_update: function () {
@@ -110,7 +110,7 @@ L.SVG = L.Renderer.extend({
 			path.setAttribute('fill', 'none');
 		}
 
-		path.setAttribute('pointer-events', options.pointerEvents || (options.clickable ? 'auto' : 'none'));
+		path.setAttribute('pointer-events', options.pointerEvents || (options.clickable ? 'visiblePainted' : 'none'));
 	},
 
 	_updatePoly: function (layer, closed) {
