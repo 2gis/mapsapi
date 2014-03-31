@@ -92,7 +92,7 @@ var deps = {
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
-            'DGCustomization/skin/basic/skin.config.js',
+            'DGCustomization/skin/{skin}/skin.config.js',
             '../vendors/baron/baron.js',
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
