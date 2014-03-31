@@ -27,6 +27,8 @@ DG.Meta.Storage = DG.Class.extend({
             this._tilesData[tileId].push(id);
             this._addEntity(id, tileData[i], zoom);
         }
+
+        return this.getTileData(tileId);
     },
 
     _addEntity: function (id, entity) { //(String, Object)
@@ -37,7 +39,7 @@ DG.Meta.Storage = DG.Class.extend({
         var vert = this._wkt.read(entity.hover),
             key = zoom ? zoom + 'vertices' : 'vertices';
 
-        entity[key] = this._wkt.toObject(vert)._latlngs;
+        entity[key] = this._wkt.toObject(vert)._latlngs[0];
         delete entity.hover;
 
         return entity;

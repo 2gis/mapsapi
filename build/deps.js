@@ -16,9 +16,9 @@ var deps = {
         heading: '2GIS modules',
         deps: [ 'Core',
                 'EPSG3395',
+                'GridLayer',
                 'TileLayer',
                 'TileLayerWMS',
-                'TileLayerCanvas',
                 'ImageOverlay',
                 'Marker',
                 'DivIcon',
@@ -26,15 +26,14 @@ var deps = {
                 'LayerGroup',
                 'FeatureGroup',
                 'Path',
-                'PathVML',
-                'PathCanvas',
                 'Polyline',
                 'Polygon',
-                'MultiPoly',
                 'Rectangle',
-                'Circle',
                 'CircleMarker',
-                'VectorsCanvas',
+                'Circle',
+                'SVG',
+                'VML',
+                'Canvas',
                 'GeoJSON',
                 'MapDrag',
                 'MouseZoom',
@@ -42,8 +41,8 @@ var deps = {
                 'BoxZoom',
                 'Keyboard',
                 'MarkerDrag',
-                'ControlAttrib',
                 'ControlZoom',
+                'ControlAttrib',
                 'ControlScale',
                 'ControlLayers',
                 'AnimationPan',
@@ -202,11 +201,12 @@ var deps = {
             'DGMeta/src/DGMeta.js',
             'DGMeta/src/storage/Storage.js',
             'DGMeta/src/storage/PoiStorage.js',
+            'DGMeta/src/storage/TrafficStorage.js',
             'DGMeta/src/storage/BuildingStorage.js',
             'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
-        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt']
+        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
     },
 
     DGPoi: {
@@ -278,8 +278,8 @@ var deps = {
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/PathAnimation.js',
             'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/ArrowSvg.js',
-            'DGEntrance/src/ArrowVml.js',
+            'DGEntrance/src/ArrowSVG.js',
+            'DGEntrance/src/ArrowSVG.VML.js',
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
@@ -295,6 +295,15 @@ var deps = {
             ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
+    },
+
+    DGTraffic: {
+        desc: 'Traffic',
+        src: [
+            'DGTraffic/src/DGTraffic.js',
+            'DGTraffic/src/DGTraffic.Handler.js'
+        ],
+        deps: ['DGMeta']
     },
 
     DGRuler: {

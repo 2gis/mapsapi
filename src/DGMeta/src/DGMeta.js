@@ -7,6 +7,7 @@ DG.Meta = DG.Handler.extend({
 
     _listenPoi: false,
     _listenBuildings: false,
+    _listenTraffic: false,
 
     options: {
         zoomOffset: 0
@@ -28,7 +29,7 @@ DG.Meta = DG.Handler.extend({
             }, this);
         }
 
-        this._metaHost = new DG.Meta.Host();
+        this._metaHost = new DG.Meta.Host(map);
     },
 
     addHooks: function () {
@@ -52,6 +53,12 @@ DG.Meta = DG.Handler.extend({
         return this;
     },
 
+    enableTrafficListening: function () {
+        this.enable();
+        this._listenTraffic = true;
+        return this;
+    },
+
     disablePoiListening: function () {
         this._listenPoi = false;
         return this;
@@ -62,16 +69,22 @@ DG.Meta = DG.Handler.extend({
         return this;
     },
 
+    disableTrafficListening: function () {
+        this._listenTraffic = false;
+        return this;
+    },
+
     _mapEventsListeners : {
         mousemove : function (e) { // (DG.Event)
-            /* global __POI_LAYER_MIN_ZOOM__ */
-            if (this._map.getZoom() < __POI_LAYER_MIN_ZOOM__ ||
-                !(this._listenPoi || this._listenBuildings) ||
+            /* global __TRAFFIC_LAYER_MIN_ZOOM__ */
+            if (this._map.getZoom() < __TRAFFIC_LAYER_MIN_ZOOM__ ||
+                !(this._listenPoi || this._listenBuildings || this._listenTraffic) ||
                  (this._map._panTransition && this._map._panTransition._inProgress)) { return; }
 
             if (!this._isEventTargetAllowed(e.originalEvent.target || e.originalEvent.srcElement)) {
                 this._leaveCurrentPoi();
                 this._leaveCurrentBuilding();
+                this._leaveCurrentTraffic();
                 return;
             }
 
@@ -88,6 +101,7 @@ DG.Meta = DG.Handler.extend({
                 if (this._currentTileMetaData) {
                     if (this._listenPoi) { this._checkPoiHover(e.latlng, zoom); }
                     if (this._listenBuildings) { this._checkBuildingHover(e.latlng); }
+                    if (this._listenTraffic) { this._checkTrafficHover(e.latlng, zoom); }
                 }
             }
         },
@@ -95,12 +109,14 @@ DG.Meta = DG.Handler.extend({
         mouseout: function () {
             this._leaveCurrentPoi();
             this._leaveCurrentBuilding();
+            this._leaveCurrentTraffic();
         },
 
         viewreset: function () {
             this._calcTilesAtZoom();
             this._leaveCurrentPoi();
             this._leaveCurrentBuilding();
+            this._leaveCurrentTraffic();
         }
     },
 
@@ -136,6 +152,19 @@ DG.Meta = DG.Handler.extend({
         }
     },
 
+    _checkTrafficHover: function (latLng, zoom) { // (DG.LatLng)
+        var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic, zoom);
+
+        if (this._currentTraffic && (!hoveredTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
+            this._leaveCurrentTraffic();
+        }
+
+        if (hoveredTraffic && (!this._currentTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
+            this._currentTraffic = hoveredTraffic;
+            this._map.fire('traffichover', {'traffic': this._currentTraffic, latlng: latLng});
+        }
+    },
+
     _leaveCurrentPoi: function () {
         if (this._currentPoi) {
             this._map
@@ -150,6 +179,13 @@ DG.Meta = DG.Handler.extend({
         if (this._currentBuilding) {
             this._map.fire('buildingleave', { 'building': this._currentBuilding });
             this._currentBuilding = null;
+        }
+    },
+
+    _leaveCurrentTraffic: function () {
+        if (this._currentTraffic) {
+            this._map.fire('trafficleave', { 'traffic': this._currentTraffic });
+            this._currentTraffic = null;
         }
     },
 
