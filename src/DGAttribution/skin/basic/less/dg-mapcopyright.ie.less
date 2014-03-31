@@ -1,12 +1,10 @@
 a.dg-mapcopyright__apilink,
 a.dg-mapcopyright__license {
     background-image: url("@{analyticsBaseURL}/dg-tilelayer-base-copyright.png");
-    -ms-filter: e("progid:DXImageTransform.Microsoft.Alpha(Opacity=70)");
-    filter: e("alpha(opacity=70)");
+    .opacity(0.7);
     
     &:hover {
-        -ms-filter: e("progid:DXImageTransform.Microsoft.Alpha(Opacity=100)");
-        filter: e("alpha(opacity=100)");
+        .opacity(1);
         }
     }
 

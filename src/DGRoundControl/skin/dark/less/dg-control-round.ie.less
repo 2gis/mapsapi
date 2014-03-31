@@ -1,18 +1,18 @@
 .dg-control-round {
-    filter: e("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='@{baseURL}/img/DGRoundControl_round-control-dark.png',sizingMethod='scale')");
-    }
-
-.leaflet-disabled.dg-control-round,
-.leaflet-disabled.dg-control-round:hover {
-    filter: e("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='@{baseURL}/img/DGRoundControl_round-control-disabled-dark.png',sizingMethod='scale')");
+    .alphaImage('@{baseURL}/img/DGRoundControl_round-control-dark.png');
     }
 
 .dg-control-round:hover,
 .dg-control-round_state_active:hover {
-    filter: e("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='@{baseURL}/img/DGRoundControl_round-control-hover-dark.png',sizingMethod='scale')");
+    .alphaImage('@{baseURL}/img/DGRoundControl_round-control-hover-dark.png');
     }
 
 .dg-control-round:active,
 .dg-control-round_state_active {
-    filter: e("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='@{baseURL}/img/DGRoundControl_round-control-active-dark.png',sizingMethod='scale')");
+    .alphaImage('@{baseURL}/img/DGRoundControl_round-control-active-dark.png');
+    }
+
+.leaflet-disabled.dg-control-round,
+.leaflet-disabled.dg-control-round:hover {
+    .alphaImage('@{baseURL}/img/DGRoundControl_round-control-disabled-dark.png');
     }
