@@ -84,7 +84,8 @@ var deps = {
         desc: 'WKT parser module',
         src: [
             'DGWkt/Wkt.js',
-            'DGWkt/DGWkt.js'
+            'DGWkt/DGWkt.js',
+            'DGWkt/Wellknown.js'
         ],
         deps: ['DGCore']
     },

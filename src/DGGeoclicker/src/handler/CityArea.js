@@ -26,24 +26,17 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             weight: 3
         }
     },
-    _wktParser : DG.wkt(),
 
     handle: function (results, type) { // (Object, String) -> Promise
-        if (!results[type]) {
-            return false;
-        }
+        if (!results[type]) { return false; }
 
-        if (!this._stylesInited) {
-            this._initStyles();
-        }
+        !this._stylesInited && this._initStyles();
 
         this._popup = this._view.getPopup();
-        this._geometry = this._readWKT(results[type].geometry.selection);
         this._geometryStyle = this._getPolyStyleNum(this._map.getZoom());
-
-        this._geometry
-                .setStyle(this._polylineStyles[this._geometryStyle])
-                .addTo(this._map);
+        this._geometry = DG.geoJsonLayer(results[type].geometry.selection, {
+            style: this._polylineStyles[this._geometryStyle]
+        }).addTo(this._map);
 
         this._map
                 .on('zoomend', this._updateGeometry, this)
@@ -93,11 +86,6 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
                 DG.Geoclicker.Handler.CityArea.prototype._polylineStyles[i] = DG.extend(this._polylineStyles[i], this._polylineStyleDefault);
             }
         }
-    },
-
-    _readWKT : function (selection) {
-        this._wktParser.read(selection);
-        return this._wktParser.toObject();
     },
 
     _getPolyStyleNum: function (zoom) {
