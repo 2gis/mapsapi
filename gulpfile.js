@@ -154,7 +154,7 @@ gulp.task('copy-raster@2x', function() {
     );
 });
 
-gulp.task('generate-sprites', function () {
+gulp.task('generate-sprites', ['prepare-raster'], function () {
     var imagesForSprite = getLessImagesStats().noRepeatable,
         pngList = imagesForSprite.map(function (name) {
             console.log('./build/tmp/img/' + name + '.png');
@@ -192,7 +192,9 @@ gulp.task('generate-sprites', function () {
     .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
 });
 
-gulp.task('build-images', ['clean-up-images', 'copy-svg', 'copy-svg-raster', 'copy-raster', 'copy-raster@2x', 'generate-sprites']);
+gulp.task('prepare-raster', ['copy-svg', 'copy-svg-raster', 'copy-raster', 'copy-raster@2x']);
+
+gulp.task('build-images', ['clean-up-images', 'prepare-raster', 'generate-sprites']);
 
 
 
