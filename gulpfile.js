@@ -97,6 +97,7 @@ gulp.task('clean-up-less', function () {
     return gulp.src(['./build/tmp/less/*'], { read: false }).pipe(tasks.clean());
 });
 
+
 gulp.task('clean-up-images', function () {
     //return gulp.src('./build/tmp/img/*', { read: false }).pipe(tasks.clean());
     return gulp.src('./build/tmp/*', { read: false }).pipe(tasks.clean());
@@ -104,6 +105,24 @@ gulp.task('clean-up-images', function () {
 
 gulp.task('copy-svg', function() {
     return gulp.src('./src/**/img/**/*.svg').pipe(gulp.dest('./build/tmp/img'));
+});
+
+gulp.task('copy-svg-raster', function() {
+    return es.concat(
+        gulp.src('./src/**/i/**/*.svg')
+        .pipe(tasks.raster())
+        .pipe(tasks.rename({
+            extname: '.png'
+        }))
+        .pipe(gulp.dest('./build/tmp/img')),
+
+        gulp.src('./src/**/i/**/*.svg')
+        .pipe(tasks.raster({ scale: 2 }))
+        .pipe(tasks.rename({
+            extname: '@2x.png'
+        }))
+        .pipe(gulp.dest('./build/tmp/img'))
+    );
 });
 
 gulp.task('copy-raster', function() {
@@ -135,10 +154,6 @@ gulp.task('copy-raster@2x', function() {
     );
 });
 
-gulp.task('build-images', ['clean-up-images', 'copy-svg', 'copy-svg-raster', 'copy-raster', 'copy-raster@2x']);
-
-
-//gulp.task('generate-sprites', ['clean-up-images', 'clean-up-less', 'prepare-raster-images'], function () {
 gulp.task('generate-sprites', function () {
     var imagesForSprite = getLessImagesStats().noRepeatable,
         pngList = imagesForSprite.map(function (name) {
@@ -177,10 +192,8 @@ gulp.task('generate-sprites', function () {
     .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
 });
 
+gulp.task('build-images', ['clean-up-images', 'copy-svg', 'copy-svg-raster', 'copy-raster', 'copy-raster@2x', 'generate-sprites']);
 
-gulp.task('build-graphics', function() {
-    return gulp.start('');
-});
 
 
 gulp.task('lint', function () {
