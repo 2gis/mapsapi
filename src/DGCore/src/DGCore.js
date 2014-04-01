@@ -14,12 +14,10 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', '__GA_CODE__', 'none');
 ga('send', 'pageview');
 
-/* jshint ignore:start */
-function trackStat(t){var n=new Image;n.src="http://maps.api.2gis.ru/analytics/track-user.png?sr="
-+window.screen.width+"x"+window.screen.height+"&"+"ip="+t}
-DG.ajax("http://jsonip.appspot.com/?callback=?",{type:"jsonp"})
-.then(function(t){trackStat(t.ip)});
-/* jshint ignore:end */
+//track statistics
+var newImg = new Image();
+        newImg.src = 'http://maps.api.2gis.ru/analytics/track-user.png?' +
+                    'sr=' + window.screen.width + 'x' + window.screen.height;
 
 // Improve IHandler
 DG.Map.include({
