@@ -1,49 +1,63 @@
 /* 
-    See gulpfile.js for predefined stuff like:
-       — Variables: @graphicsType, @baseURL;
+ Resulted CSS:
+    style.css — используем SVG (base64) и неSVG, если невекторизуемая графика
+    style.full.css — используем спрайты и обычные картинки (нормальный размер и @2x)
+    style.ie8.css — используем спрайты и обычные картинки (только нормальный размер)
+
+Resulted CSS:
+    style.css — dataUriImage (SVG) и directImage (*)
+    style.full.css — spriteImage, directImage * @2x
+    style.ie8.css — spriteImage, directImage
+ */
+
+.spriteImage(@name) {
+
+}
+
+.directImage(@name) {
+
+}
+
+.dataUriImage(@name) {
+
+}
+
+
+/* 
+    See gulpfile.js for predefined stuff
+       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE;
        — Mixins: .imageData.
  */
-
-.noRepeatableBg(@name) when (@graphicsType = svg) {
-    .imageData(@name);
-
-    width: @width;
-    height: @height;
-    background-repeat: no-repeat;
-    background-image: url('@{baseURL}/svg/@{name}.svg');
-    }
-.noRepeatableBg(@name) when (default()) {
-    .imageData(@name);
-
-    width: @width;
-    height: @height;
-    background-repeat: no-repeat;
-
-    background-image: url('@{backgroundImage');
-    background-position: @backgroundPosition;
-    background-size: @totalWidth @totalHeight;
-
-    .leaflet-retina & {
-        .imageData('@{name}-2x');
-
-        background-image: url('@{backgroundImage');
-        }
-    }
- 
-/* 
-    Миксин для тех картинок, векторной версии которых не существует
- */
-.png(@name) {
-    background-image: url('@{baseURL}/img/@{name}.png');
-
-    .leaflet-retina & {
-        background-image: url('@{baseURL}/img/@{name}-2x.png');
-        }
-    }
-
-.repeatableBg(@name) when (@graphicsType = svg) {
+.noRepeatableBg(@name) when (@isModernBrowser) {
     background-image: url('@{baseURL}/img/@{name}.svg');
     }
-.repeatableBg(@name) when (default()) {
-    .png(@name);
+.noRepeatableBg(@name) when (@isIE) {
+    .imageData(@name);
+
+    width: @width;
+    height: @height;
+    background-repeat: no-repeat;
+
+    background-image: url('@{backgroundImage}');
+    background-position: @backgroundPosition;
+    background-size: @totalWidth @totalHeight;
+    }
+.noRepeatableBg(@name) when (@isModernBrowser) and (@isIE) {
+    .leaflet-retina & {
+        .imageData('@{name}@2x');
+
+        background-image: url('@{backgroundImage}');
+        }
+    }
+
+.repeatableBg(@name) when (@isModernBrowser) {
+    background-image: url('@{baseURL}/img/@{name}.svg');
+    }
+.repeatableBg(@name) when (@isIE) {
+    background-image: url('@{baseURL}/img/@{name}.png');
+    }
+.repeatableBg(@name) when (@isModernBrowser) and (@isIE) {
+    .leaflet-retina & {
+        background-image: url('@{baseURL}/img/@{name}@2x.png');
+        }
     }

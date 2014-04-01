@@ -93,55 +93,113 @@ gulp.task('build-assets', function () {
     );
 });
 
-gulp.task('clean-png', function () {
-    return gulp.src('./src/**/png', {read: false}).pipe(tasks.clean());
+gulp.task('clean-up-less', function () {
+    return gulp.src(['./build/tmp/less/*'], { read: false }).pipe(tasks.clean());
 });
 
-gulp.task('svg2png', ['clean-png'], function () {
-    return es.concat(
-            gulp.src('./src/**/svg/**/*.svg')
-               .pipe(tasks.raster())
-               .pipe(tasks.rename(function (path) {
-                    path.dirname += '/../png/';
-                    path.extname = '.png';
-                }))
-               .pipe(gulp.dest('./src')),
-            gulp.src('./src/**/svg/**/*.svg')
-               .pipe(tasks.raster({scale: 2}))
-               .pipe(tasks.rename(function (path) {
-                    path.dirname += '/../png/';
-                    path.extname = '-2x.png';
-                }))
-               .pipe(gulp.dest('./src'))
+gulp.task('clean-up-images', function () {
+    //return gulp.src('./build/tmp/img/*', { read: false }).pipe(tasks.clean());
+    return gulp.src('./build/tmp/*', { read: false }).pipe(tasks.clean());
+});
+
+gulp.task('copy-raster', function() {
+    return (
+        gulp.src([
+            './src/**/i/**/*.png',
+            './src/**/i/**/*.gif',
+            './src/**/i/**/*.jpg',
+            './src/**/i/**/*.jpeg',
+
+            '!./src/**/i/**/*@2x.png',
+            '!./src/**/i/**/*@2x.gif',
+            '!./src/**/i/**/*@2x.jpg',
+            '!./src/**/i/**/*@2x.jpeg'
+        ])
+        .pipe(gulp.dest('./build/tmp/img'))
+        .pipe(tasks.rename({
+           suffix: '@2x'
+        }))
+        .pipe(gulp.dest('./build/tmp/img'))
     );
 });
 
-gulp.task('build-sprites', ['svg2png'], function () {
+gulp.task('copy-raster@2x', function() {
+    return (
+        gulp.src([
+            './src/**/i/**/*@2x.png',
+            './src/**/i/**/*@2x.gif',
+            './src/**/i/**/*@2x.jpg',
+            './src/**/i/**/*@2x.jpeg'
+        ])
+        .pipe(gulp.dest('./build/tmp/img'))
+    );
+});
+
+gulp.task('copy-svg-raster', function() {
     return es.concat(
-        gulp.src(['./src/**/png/*.png', '!./src/**/png/*2x.png'])
+        gulp.src('./src/**/i/**/*.svg')
+           .pipe(tasks.raster())
+           .pipe(tasks.rename({
+               extname: '.png'
+           }))
+           .pipe(gulp.dest('./build/tmp/img')),
+
+        gulp.src('./src/**/i/**/*.svg')
+           .pipe(tasks.raster({ scale: 2 }))
+           .pipe(tasks.rename({
+               extname: '@2x.png'
+           }))
+           .pipe(gulp.dest('./build/tmp/img'))
+    );
+});
+
+gulp.task('prepare-raster-images', ['clean-up-images', 'copy-raster', 'copy-raster@2x', 'copy-svg-raster']);
+
+
+//gulp.task('generate-sprites', ['clean-up-images', 'clean-up-less', 'prepare-raster-images'], function () {
+gulp.task('generate-sprites', function () {
+    var imagesForSprite = getImagesStats().noRepeatable,
+        pngList = imagesForSprite.map(function (name) {
+            console.log('./build/tmp/img/' + name + '.png');
+            return './build/tmp/img/' + name + '.png';
+        }),
+        png2xList = imagesForSprite.map(function (name) {
+            console.log('./build/tmp/img/' + name + '@2x.png');
+            return './build/tmp/img/' + name + '@2x.png';
+        });
+    
+    return es.concat(
+        //gulp.src(pngList)
+        gulp.src(['./build/tmp/**/i/*.png', '!./build/tmp/**/i/*@2x.png'])
             .pipe(tasks.spritesmith({
-                styleTemplate: 'build/sprite-template.mustache',
+                styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite.png',
                 styleName: 'sprite.less',
                 groupBy: 'skin',
                 imgPath: '../img/sprite.png',
                 engine: 'pngsmith'
-            }))
-            .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
-            .pipe(tasks.if('*.less', gulp.dest('./private/less/'))),
-        gulp.src('./src/**/png/*2x.png')
+            })),
+
+        //gulp.src(png2xList)
+        gulp.src('./build/tmp/**/i/*@2x.png')
             .pipe(tasks.spritesmith({
-                styleTemplate: 'build/sprite-template.mustache',
-                imgName: 'sprite-2x.png',
-                styleName: 'sprite-2x.less',
+                styleTemplate: './build/sprite-template.mustache',
+                imgName: 'sprite@2x.png',
+                styleName: 'sprite@2x.less',
                 groupBy: 'skin',
-                imgPath: '../img/sprite-2x.png',
+                imgPath: '../img/sprite@2x.png',
                 engine: 'pngsmith'
             }))
-            .pipe(tasks.if('*.png', gulp.dest('./public/img/')))
-            .pipe(tasks.if('*.less', gulp.dest('./private/less/')))
-    );
+    )
+    .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+    .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
 });
+
+
+gulp.task('build-graphics', function() {
+    return gulp.start('');
+});
+
 
 gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
@@ -175,7 +233,7 @@ gulp.task('build', ['build-clean'], function () {
     return gulp.start('build-tasks');
 });
 
-gulp.task('build-tasks', ['build-scripts', 'build-sprites', 'build-styles', 'build-assets', 'doc'], function () {
+gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'build-assets', 'doc'], function () {
     tasks.util.log('Build contains the next modules:');
 
     deps.getModulesList().forEach(function (module) {
@@ -195,14 +253,15 @@ gulp.task('build-tasks', ['build-scripts', 'build-sprites', 'build-styles', 'bui
 //watchers
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['build-assets']);
-    gulp.watch('./src/**/svg/**/*.*', ['build-sprites']);
+    gulp.watch('./src/**/img/**/*.*', ['build-sprites']);
     gulp.watch('./src/**/tmpl/**/*.*', ['build-scripts']);
     gulp.watch('./src/**/less/**/*.*', ['build-styles']);
+    gulp.watch('./private/less/*.*', ['build-styles']);
 });
 
 //service tasks
 gulp.task('build-clean', function () {
-    return gulp.src('./public', {read: false}).pipe(tasks.clean());
+    return gulp.src('./public', { read: false }).pipe(tasks.clean());
 });
 
 gulp.task('bump', function () {
