@@ -102,6 +102,10 @@ gulp.task('clean-up-images', function () {
     return gulp.src('./build/tmp/*', { read: false }).pipe(tasks.clean());
 });
 
+gulp.task('copy-svg', function() {
+    return gulp.src('./src/**/i/**/*.svg').pipe(gulp.dest('./build/tmp/img'));
+});
+
 gulp.task('copy-raster', function() {
     return (
         gulp.src([
@@ -115,10 +119,6 @@ gulp.task('copy-raster', function() {
             '!./src/**/i/**/*@2x.jpg',
             '!./src/**/i/**/*@2x.jpeg'
         ])
-        .pipe(gulp.dest('./build/tmp/img'))
-        .pipe(tasks.rename({
-           suffix: '@2x'
-        }))
         .pipe(gulp.dest('./build/tmp/img'))
     );
 });
@@ -135,30 +135,12 @@ gulp.task('copy-raster@2x', function() {
     );
 });
 
-gulp.task('copy-svg-raster', function() {
-    return es.concat(
-        gulp.src('./src/**/i/**/*.svg')
-           .pipe(tasks.raster())
-           .pipe(tasks.rename({
-               extname: '.png'
-           }))
-           .pipe(gulp.dest('./build/tmp/img')),
-
-        gulp.src('./src/**/i/**/*.svg')
-           .pipe(tasks.raster({ scale: 2 }))
-           .pipe(tasks.rename({
-               extname: '@2x.png'
-           }))
-           .pipe(gulp.dest('./build/tmp/img'))
-    );
-});
-
-gulp.task('prepare-raster-images', ['clean-up-images', 'copy-raster', 'copy-raster@2x', 'copy-svg-raster']);
+gulp.task('build-images', ['clean-up-images', 'copy-svg', 'copy-svg-raster', 'copy-raster', 'copy-raster@2x']);
 
 
 //gulp.task('generate-sprites', ['clean-up-images', 'clean-up-less', 'prepare-raster-images'], function () {
 gulp.task('generate-sprites', function () {
-    var imagesForSprite = getImagesStats().noRepeatable,
+    var imagesForSprite = getLessImagesStats().noRepeatable,
         pngList = imagesForSprite.map(function (name) {
             console.log('./build/tmp/img/' + name + '.png');
             return './build/tmp/img/' + name + '.png';
@@ -371,7 +353,7 @@ function buildCss(options) {
  *
  * @returns {Object} Images usage statistics
  */
-function getImagesStats(lessList, options) {
+function getLessImagesStats(lessList, options) {
     lessList = lessList || [];
     options = options || {};
 
