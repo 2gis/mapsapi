@@ -103,11 +103,11 @@ gulp.task('clean-up-images', function () {
     return gulp.src('./build/tmp/*', { read: false }).pipe(tasks.clean());
 });
 
-gulp.task('copy-svg', function() {
+gulp.task('copy-svg', function () {
     return gulp.src('./src/**/img/**/*.svg').pipe(gulp.dest('./build/tmp/img'));
 });
 
-gulp.task('copy-svg-raster', function() {
+gulp.task('copy-svg-raster', function () {
     return es.concat(
         gulp.src('./src/**/img/**/*.svg')
         .pipe(tasks.raster())
@@ -125,7 +125,7 @@ gulp.task('copy-svg-raster', function() {
     );
 });
 
-gulp.task('copy-raster', function() {
+gulp.task('copy-raster', function () {
     return (
         gulp.src([
             './src/**/img/**/*.png',
@@ -142,7 +142,7 @@ gulp.task('copy-raster', function() {
     );
 });
 
-gulp.task('copy-raster@2x', function() {
+gulp.task('copy-raster@2x', function () {
     return (
         gulp.src([
             './src/**/img/**/*@2x.png',
@@ -154,8 +154,8 @@ gulp.task('copy-raster@2x', function() {
     );
 });
 
-gulp.task('generate-sprites', function () {
-    var imagesForSprite = getLessImagesStats().noRepeatable,
+gulp.task('generate-sprites', ['copy-raster', 'copy-raster@2x', 'copy-svg-raster'], function () {
+/*    var imagesForSprite = getLessImagesStats().noRepeatable,
         pngList = imagesForSprite.map(function (name) {
             console.log('./build/tmp/img/' + name + '.png');
             return './build/tmp/img/' + name + '.png';
@@ -163,8 +163,8 @@ gulp.task('generate-sprites', function () {
         png2xList = imagesForSprite.map(function (name) {
             console.log('./build/tmp/img/' + name + '@2x.png');
             return './build/tmp/img/' + name + '@2x.png';
-        });
-    
+        });*/
+
     return es.concat(
         //gulp.src(pngList)
         gulp.src(['./build/tmp/**/img/*.png', '!./build/tmp/**/img/*@2x.png'])
@@ -172,7 +172,7 @@ gulp.task('generate-sprites', function () {
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite.png',
                 styleName: 'sprite.less',
-                groupBy: 'skin',
+                //groupBy: 'skin',
                 imgPath: '../img/sprite.png',
                 engine: 'pngsmith'
             })),
@@ -183,7 +183,7 @@ gulp.task('generate-sprites', function () {
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite@2x.png',
                 styleName: 'sprite@2x.less',
-                groupBy: 'skin',
+                //groupBy: 'skin',
                 imgPath: '../img/sprite@2x.png',
                 engine: 'pngsmith'
             }))
@@ -193,8 +193,6 @@ gulp.task('generate-sprites', function () {
 });
 
 gulp.task('build-images', ['clean-up-images', 'copy-svg', 'copy-svg-raster', 'copy-raster', 'copy-raster@2x', 'generate-sprites']);
-
-
 
 gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
@@ -228,7 +226,7 @@ gulp.task('build', ['build-clean'], function () {
     return gulp.start('build-tasks');
 });
 
-gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'build-assets', 'doc'], function () {
+gulp.task('build-tasks', ['build-scripts', 'build-images', 'build-styles', 'build-assets', 'doc'], function () {
     tasks.util.log('Build contains the next modules:');
 
     deps.getModulesList().forEach(function (module) {
@@ -393,7 +391,7 @@ function getLessImagesStats(lessList, options) {
             }),
 
             lessOutput = less.render(lessStatsCollector),
-            
+
             rawStatsObject = (new Function('return ' + lessOutput.replace('stats ', '')))();
 
         stats.repeatable = rawStatsObject.repeatable.split(',');
