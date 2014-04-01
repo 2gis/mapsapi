@@ -8,8 +8,7 @@ npm-debug.log
 public
 dist
 private/dev*
-private/less/sprite*.less
-src/**/png
+build/tmp
 
 docbuilder/doc
 .tern-port

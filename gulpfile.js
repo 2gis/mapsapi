@@ -103,21 +103,21 @@ gulp.task('clean-up-images', function () {
 });
 
 gulp.task('copy-svg', function() {
-    return gulp.src('./src/**/i/**/*.svg').pipe(gulp.dest('./build/tmp/img'));
+    return gulp.src('./src/**/img/**/*.svg').pipe(gulp.dest('./build/tmp/img'));
 });
 
 gulp.task('copy-raster', function() {
     return (
         gulp.src([
-            './src/**/i/**/*.png',
-            './src/**/i/**/*.gif',
-            './src/**/i/**/*.jpg',
-            './src/**/i/**/*.jpeg',
+            './src/**/img/**/*.png',
+            './src/**/img/**/*.gif',
+            './src/**/img/**/*.jpg',
+            './src/**/img/**/*.jpeg',
 
-            '!./src/**/i/**/*@2x.png',
-            '!./src/**/i/**/*@2x.gif',
-            '!./src/**/i/**/*@2x.jpg',
-            '!./src/**/i/**/*@2x.jpeg'
+            '!./src/**/img/**/*@2x.png',
+            '!./src/**/img/**/*@2x.gif',
+            '!./src/**/img/**/*@2x.jpg',
+            '!./src/**/img/**/*@2x.jpeg'
         ])
         .pipe(gulp.dest('./build/tmp/img'))
     );
@@ -126,10 +126,10 @@ gulp.task('copy-raster', function() {
 gulp.task('copy-raster@2x', function() {
     return (
         gulp.src([
-            './src/**/i/**/*@2x.png',
-            './src/**/i/**/*@2x.gif',
-            './src/**/i/**/*@2x.jpg',
-            './src/**/i/**/*@2x.jpeg'
+            './src/**/img/**/*@2x.png',
+            './src/**/img/**/*@2x.gif',
+            './src/**/img/**/*@2x.jpg',
+            './src/**/img/**/*@2x.jpeg'
         ])
         .pipe(gulp.dest('./build/tmp/img'))
     );
@@ -152,7 +152,7 @@ gulp.task('generate-sprites', function () {
     
     return es.concat(
         //gulp.src(pngList)
-        gulp.src(['./build/tmp/**/i/*.png', '!./build/tmp/**/i/*@2x.png'])
+        gulp.src(['./build/tmp/**/img/*.png', '!./build/tmp/**/img/*@2x.png'])
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite.png',
@@ -163,7 +163,7 @@ gulp.task('generate-sprites', function () {
             })),
 
         //gulp.src(png2xList)
-        gulp.src('./build/tmp/**/i/*@2x.png')
+        gulp.src('./build/tmp/**/img/*@2x.png')
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite@2x.png',
