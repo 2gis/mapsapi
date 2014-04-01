@@ -6,6 +6,8 @@ var extend = require('extend'),
     gulp = require('gulp'),
     tasks = require('gulp-load-plugins')(),
 
+    less = require('less'),
+
     webapiProjects = require('2gis-project-loader'),
 
     gendoc = require('./docbuilder/gendoc.js'),
@@ -32,40 +34,42 @@ gulp.task('default', function () {
 });
 
 gulp.task('build-scripts', ['lint'], function () {
-    return bldJs(extend(tasks.util.env, {isDebug: true}))
-                    .pipe(map(saveSize))
-                    .pipe(gulp.dest('./public/js/'))
-                    .pipe(tasks.rename({suffix: '.min'}))
-                    .pipe(tasks.cache(tasks.uglify()))
-                    .pipe(tasks.header(config.copyright))
-                    .pipe(map(saveSize))
-                    .pipe(gulp.dest('./public/js/'));
+    return bldJs(extend(tasks.util.env, { isDebug: true }))
+        .pipe(map(saveSize))
+        .pipe(gulp.dest('./public/js/'))
+        .pipe(tasks.rename({ suffix: '.min' }))
+        .pipe(tasks.cache(tasks.uglify()))
+        .pipe(tasks.header(config.copyright))
+        .pipe(map(saveSize))
+        .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('build-styles', function () {
     return es.concat(
-        bldCss(extend(tasks.util.env, {isDebug: true}))
-                             .pipe(map(saveSize))
-                             .pipe(gulp.dest('./public/css/'))
-                             .pipe(tasks.rename({suffix: '.min'}))
-                             .pipe(tasks.minifyCss())
-                             .pipe(tasks.header(config.copyright))
-                             .pipe(map(saveSize))
-                             .pipe(gulp.dest('./public/css/')),
-        bldCss(extend(tasks.util.env, {isIE: true, isDebug: true}))
-                             .pipe(tasks.rename({suffix: '.full'}))
-                             .pipe(gulp.dest('./public/css/'))
-                             .pipe(tasks.rename({suffix: '.min'}))
-                             .pipe(tasks.minifyCss())
-                             .pipe(tasks.header(config.copyright))
-                             .pipe(gulp.dest('./public/css/')),
-        bldCss(extend(tasks.util.env, {onlyIE: true, isDebug: true}))
-                             .pipe(tasks.rename({suffix: '.ie'}))
-                             .pipe(gulp.dest('./public/css/'))
-                             .pipe(tasks.rename({suffix: '.min'}))
-                             .pipe(tasks.minifyCss())
-                             .pipe(tasks.header(config.copyright))
-                             .pipe(gulp.dest('./public/css/'))
+        buildCss(extend(tasks.util.env, { includeModernBrowsers: true, isDebug: true }))
+             .pipe(map(saveSize))
+             .pipe(gulp.dest('./public/css/'))
+             .pipe(tasks.rename({ suffix: '.min' }))
+             .pipe(tasks.minifyCss())
+             .pipe(tasks.header(config.copyright))
+             .pipe(map(saveSize))
+             .pipe(gulp.dest('./public/css/')),
+
+         buildCss(extend(tasks.util.env, { includeModernBrowsers: true, includeIE: true, isDebug: true }))
+             .pipe(tasks.rename({ suffix: '.full' }))
+             .pipe(gulp.dest('./public/css/'))
+             .pipe(tasks.rename({ suffix: '.min' }))
+             .pipe(tasks.minifyCss())
+             .pipe(tasks.header(config.copyright))
+             .pipe(gulp.dest('./public/css/')),
+
+         buildCss(extend(tasks.util.env, { includeIE: true, isDebug: true }))
+             .pipe(tasks.rename({ suffix: '.ie' }))
+             .pipe(gulp.dest('./public/css/'))
+             .pipe(tasks.rename({ suffix: '.min' }))
+             .pipe(tasks.minifyCss())
+             .pipe(tasks.header(config.copyright))
+             .pipe(gulp.dest('./public/css/'))
     );
 });
 
@@ -249,48 +253,107 @@ function bldJs(opt) {
                .pipe(tasks.header(config.copyright));
 }
 
-//css build api
-function bldCss(opt) {
-    opt = opt || {};
+/**
+ * Builds CSS from Less
+ *
+ * @param {Object} options
+ * @param {String} options.skin Skin name
+ *
+ * @param {Boolean} options.includeModernBrowsers If true, usual styles will be built in
+ * @param {Boolean} options.includeIE If true, IE8 specific styles will built in
+ *
+ * @param {Boolean} options.isDebug Deprecated option, do not use it
+ *
+ * @returns {Object} Stream
+ */
+function buildCss(options) {
+    options = options || {};
 
-    var skin = (opt.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN,
-        graphicsType = (opt.sprite === 'true' || tasks.util.env.sprite) ? 'png' : 'svg',
+    var skin = (options.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN,
 
-        baseLessDirectory = './private/less',
-        imports = [
-            'sprite.basic.less',
-            'sprite-2x.basic.less',
-            'sprite.' + skin + '.less',
-            'sprite-2x.' + skin + '.less',
-            'mixins.less'
-        ],
+        lessList = deps.getCSSFiles(options),
+        lessPrerequirements = deps.lessHeader({
+            variables: {
+                baseURL: '"__BASE_URL__"',
+                analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
 
-        lessList = deps.getCSSFiles(opt),
+                isModernBrowser: options.includeModernBrowsers,
+                isIE: options.includeIE
+            },
+            imports: [
+                './build/tmp/less/sprite.basic.less:reference',
+                './build/tmp/less/sprite@2x.basic.less:reference',
+                './build/tmp/less/sprite.' + skin + '.less:reference',
+                './build/tmp/less/sprite@2x.' + skin + '.less:reference',
 
-        lessPrerequirements =
-            '@graphicsType: ' + graphicsType + ';' +
-            '@baseURL: \'__BASE_URL__\';' +
-
-            imports.reduce(function(previousImports, toImport) {
-                return previousImports + '@import (reference) \'' + baseLessDirectory + '/' + toImport + '\';';
-            }, '');
-
-    //if (!opt.onlyIE) cssList.push(basicSprite, skinSprite);
+                './private/less/mixins.less:reference',
+                './private/less/mixins.ie.less:reference'
+            ]
+        });
 
     return gulp.src(lessList)
-                .pipe(tasks.header(lessPrerequirements))
-                .pipe(tasks.frep(config.cfgParams))
-                .pipe(tasks.less())
-                .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-                .pipe(tasks.base64({
-                    extensions: ['svg']
-                }))
-                .pipe(tasks.concat('styles.css'))
-                .pipe(opt.isDebug ? tasks.util.noop() : tasks.minifyCss())
-                .pipe(tasks.header(config.copyright));
+            .pipe(tasks.header(lessPrerequirements))
+            .pipe(tasks.frep(config.cfgParams))
+            .pipe(tasks.less())
+            .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+            .pipe(tasks.base64({ extensions: ['svg'] }))
+            .pipe(tasks.concat('styles.css'))
+            .pipe(options.isDebug ?
+                tasks.util.noop() :
+                tasks.minifyCss())
+            .pipe(tasks.header(config.copyright));
+}
+
+/**
+ * Analyzes Less, returns images usage statistics
+ *
+ * @param {Array} lessList List of paths to less files
+ * @param {Object} options
+ *
+ * @returns {Object} Images usage statistics
+ */
+function getImagesStats(lessList, options) {
+    lessList = lessList || [];
+    options = options || {};
+
+    var stats = {
+        repeatable: [],
+        noRepeatable: []
+    };
+
+    if (lessList.length) {
+        lessList.unshift('./private/less/mixins.statscounters.less');
+        lessList.push('./private/less/mixins.statsoutput.less');
+
+        var lessStatsCollector = deps.lessHeader({
+                variables: {
+                    baseURL: '"__BASE_URL__"',
+                    analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
+
+                    isModernBrowser: options.includeModernBrowsers,
+                    isIE: options.includeIE
+                },
+                imports: lessList.map(function (path, index) {
+                    return path + (index == lessList.length - 1) ? ':reference' : ':less';
+                })
+            }),
+
+            lessOutput = less.render(lessStatsCollector),
+            
+            rawStatsObject = (new Function('return ' + lessOutput.replace('stats ', '')))();
+
+        stats.repeatable = rawStatsObject.repeatable.split(',');
+        // Repeatable images can be used as no-repeatable images,
+        // so we should exclude repeatable images from no-repeatable images list
+        stats.noRepeatable = rawStatsObject.noRepeatable.split(',').filter(function (name) {
+            return stats.repeatable.indexOf(name) != -1;
+        });
+    }
+
+    return stats;
 }
 
 module.exports = {
     getJS: bldJs,
-    getCSS: bldCss
+    getCSS: buildCss
 };

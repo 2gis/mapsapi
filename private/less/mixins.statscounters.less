@@ -1,0 +1,31 @@
+@addToRepeatables: ~`addToRepeatables = 
+    (function() {
+        var names = '';
+        return function (name) {
+            if (typeof name == 'string' && name.length) {
+                names = names + (names.length ? ',' : '') + name;
+            }
+
+            return names;
+        }
+    })()`;
+
+.repeatableBg(@name: '') {
+    @repeatableBgNames: ~`addToRepeatables(@{name})`;
+}
+
+@addToNoRepeatables: ~`addToNoRepeatables = 
+    (function() {
+        var names = '';
+        return function (name) {
+            if (typeof name == 'string' && name.length) {
+                names = names + (names.length ? ',' : '') + name;
+            }
+
+            return names;
+        }
+    })()`;
+
+.noRepeatableBg(@name: '') {
+    @noRepeatableBgNames: ~`addToNoRepeatables(@{name})`;
+}
