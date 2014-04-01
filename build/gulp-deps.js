@@ -130,37 +130,6 @@ var init = function (config) {
             ;
     }
 
-    function getImagesList(options) {
-        var lessList = getCSSFiles(options),
-            lessPrerequirements = lessHeader({
-                variables: {
-                    canUseSVG: !(options.sprite === 'true' || tasks.util.env.sprite),
-
-                    baseURL: '"__BASE_URL__"',
-                    analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
-
-                    isModernBrowser: options.includeModernBrowsers,
-                    isIE: options.includeIE
-                },
-                imports: [
-                    './build/tmp/less/sprite.basic.less:reference',
-                    './build/tmp/less/sprite.' + skin + '.less:reference',
-                    'mixins.less: reference',
-                    'mixins.ie.less: reference',
-                    'sprite.basic@2x.less:reference',
-                    'sprite.' + skin + '@2x.less:reference'
-                ]
-            });
-    }
-
-    function getRepeatableImages() {
-
-    }
-
-    function getNoRepeatableImages() {
-
-    }
-
     return {
         getModulesList: getModulesList,
 
@@ -190,8 +159,6 @@ var init = function (config) {
         lessHeader: lessHeader
     };
 };
-
-
 
 
 if (typeof module !== 'undefined' && module.exports) {
