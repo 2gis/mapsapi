@@ -9,4 +9,6 @@
     }
 {{/items}}
 
-@spriteImages: {{#items}}{{name}} {{/items}};
+@isSprited: ~`isSprited = function(imageName) {
+    return '{{#items}}{{name}} {{/items}}'.indexOf(imageName) > -1;
+}`;
