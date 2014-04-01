@@ -109,14 +109,14 @@ gulp.task('copy-svg', function() {
 
 gulp.task('copy-svg-raster', function() {
     return es.concat(
-        gulp.src('./src/**/i/**/*.svg')
+        gulp.src('./src/**/img/**/*.svg')
         .pipe(tasks.raster())
         .pipe(tasks.rename({
             extname: '.png'
         }))
         .pipe(gulp.dest('./build/tmp/img')),
 
-        gulp.src('./src/**/i/**/*.svg')
+        gulp.src('./src/**/img/**/*.svg')
         .pipe(tasks.raster({ scale: 2 }))
         .pipe(tasks.rename({
             extname: '@2x.png'
