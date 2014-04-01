@@ -1,10 +1,17 @@
+.leaflet-container .leaflet-control-attribution {
+    background-color: transparent !important;
+}
+
 .dg-attribution__copyright {
-    position: absolute;
-    right: 65px;
-    bottom: 5px;
+    margin-right: 55px;
+    margin-bottom: 5px;
     text-align: right;
     white-space: nowrap;
     font: 9px/12px Helvetica,Arial,sans-serif;
+}
+
+.leaflet-touch .dg-attribution__copyright {
+    margin-top: 90px;
 }
 
 .dg-attribution__links {
