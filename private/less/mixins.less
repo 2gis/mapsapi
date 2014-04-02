@@ -1,37 +1,10 @@
 /* 
- Resulted CSS:
-    style.css — используем SVG (base64) и неSVG, если невекторизуемая графика
-    style.full.css — используем спрайты и обычные картинки (нормальный размер и @2x)
-    style.ie8.css — используем спрайты и обычные картинки (только нормальный размер)
-
-Resulted CSS:
-    style.css — dataUriImage (SVG) и directImage (*)
-    style.full.css — spriteImage, directImage * @2x
-    style.ie8.css — spriteImage, directImage
- */
-
-.spriteImage(@name) {
-
-}
-
-.directImage(@name) {
-
-}
-
-.dataUriImage(@name) {
-
-}
-
-
-/* 
     See gulpfile.js for predefined stuff
        — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE;
        — Mixins: .imageData.
  */
-.noRepeatableBg(@name) when (@isModernBrowser) {
-    background-image: url('@{baseURL}/img/@{name}.svg');
-    }
-.noRepeatableBg(@name) when (@isIE) {
+
+.spriteImage(@name) {
     .imageData(@name);
 
     width: @width;
@@ -42,16 +15,26 @@ Resulted CSS:
     background-position: @backgroundPosition;
     background-size: @totalWidth @totalHeight;
     }
+
+.dataUriSvgImage(@name) {
+    background-image: data-uri('@{baseURL}/img/@{name}.svg');
+    }
+
+
+.noRepeatableBg(@name) when (@isModernBrowser) {
+    .dataUriSvgImage(@name);
+    }
+.noRepeatableBg(@name) when (@isIE) {
+    .spriteImage(@name);
+    }
 .noRepeatableBg(@name) when (@isModernBrowser) and (@isIE) {
     .leaflet-retina & {
-        .imageData('@{name}@2x');
-
-        background-image: url('@{backgroundImage}');
+        .spriteImage('@{name}@2x');
         }
     }
 
 .repeatableBg(@name) when (@isModernBrowser) {
-    background-image: url('@{baseURL}/img/@{name}.svg');
+    .dataUriSvgImage(@name);
     }
 .repeatableBg(@name) when (@isIE) {
     background-image: url('@{baseURL}/img/@{name}.png');
