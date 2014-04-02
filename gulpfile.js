@@ -112,6 +112,8 @@ gulp.task('copy-svg', function() {
     );
 });
 
+gulp.task('prepare-svg', ['copy-svg']);
+
 gulp.task('copy-svg-raster', ['copy-svg'], function() {
     return es.concat(
         gulp.src('./build/tmp/img/**/*.svg')
@@ -191,7 +193,7 @@ gulp.task('generate-sprites', function () {
 
 gulp.task('prepare-raster', ['copy-svg', 'copy-svg-raster', 'copy-raster']);
 
-gulp.task('build-images', ['clean-up-images', 'prepare-raster', 'generate-sprites']);
+gulp.task('build-images', ['clean-up-images', 'prepare-svg', 'prepare-raster', 'generate-sprites']);
 
 
 
