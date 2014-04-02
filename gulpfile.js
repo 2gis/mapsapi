@@ -99,29 +99,34 @@ gulp.task('clean-up-less', function () {
 
 
 gulp.task('clean-up-images', function () {
-    //return gulp.src('./build/tmp/img/*', { read: false }).pipe(tasks.clean());
-    return gulp.src('./build/tmp/*', { read: false }).pipe(tasks.clean());
+    return gulp.src('./build/tmp/img/*', { read: false }).pipe(tasks.clean());
 });
 
 gulp.task('copy-svg', function() {
-    return gulp.src('./src/**/img/**/*.svg').pipe(gulp.dest('./build/tmp/img'));
+    return (
+        gulp.src('./src/**/img/**/*.svg')
+            .pipe(tasks.rename(function (path) {
+                path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+            }))
+            .pipe(gulp.dest('./build/tmp/img'))
+    );
 });
 
-gulp.task('copy-svg-raster', function() {
+gulp.task('copy-svg-raster', ['copy-svg'], function() {
     return es.concat(
-        gulp.src('./src/**/img/**/*.svg')
-        .pipe(tasks.raster())
-        .pipe(tasks.rename({
-            extname: '.png'
-        }))
-        .pipe(gulp.dest('./build/tmp/img')),
+        gulp.src('./build/tmp/img/**/*.svg')
+            .pipe(tasks.raster())
+            .pipe(tasks.rename({
+                extname: '.png'
+            }))
+            .pipe(gulp.dest('./build/tmp/img/')),
 
-        gulp.src('./src/**/img/**/*.svg')
-        .pipe(tasks.raster({ scale: 2 }))
-        .pipe(tasks.rename({
-            extname: '@2x.png'
-        }))
-        .pipe(gulp.dest('./build/tmp/img'))
+        gulp.src('./build/tmp/img/**/*.svg')
+            .pipe(tasks.raster({ scale: 2 }))
+            .pipe(tasks.rename({
+                extname: '@2x.png'
+            }))
+            .pipe(gulp.dest('./build/tmp/img/'))
     );
 });
 
@@ -138,23 +143,15 @@ gulp.task('copy-raster', function() {
             '!./src/**/img/**/*@2x.jpg',
             '!./src/**/img/**/*@2x.jpeg'
         ])
+        .pipe(tasks.rename(function (path) {
+            path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+        }))
         .pipe(gulp.dest('./build/tmp/img'))
     );
 });
 
-gulp.task('copy-raster@2x', function() {
-    return (
-        gulp.src([
-            './src/**/img/**/*@2x.png',
-            './src/**/img/**/*@2x.gif',
-            './src/**/img/**/*@2x.jpg',
-            './src/**/img/**/*@2x.jpeg'
-        ])
-        .pipe(gulp.dest('./build/tmp/img'))
-    );
-});
-
-gulp.task('generate-sprites', ['prepare-raster'], function () {
+//gulp.task('generate-sprites', ['prepare-raster'], function () {
+gulp.task('generate-sprites', function () {
     var imagesForSprite = getLessImagesStats().noRepeatable,
         pngList = imagesForSprite.map(function (name) {
             console.log('./build/tmp/img/' + name + '.png');
@@ -167,23 +164,23 @@ gulp.task('generate-sprites', ['prepare-raster'], function () {
     
     return es.concat(
         //gulp.src(pngList)
-        gulp.src(['./build/tmp/**/img/*.png', '!./build/tmp/**/img/*@2x.png'])
+        gulp.src(['./build/tmp/img/**/*.png', '!./build/tmp/img/**/*@2x.png'])
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite.png',
                 styleName: 'sprite.less',
-                groupBy: 'skin',
+                groupBy: 'img',
                 imgPath: '../img/sprite.png',
                 engine: 'pngsmith'
             })),
 
         //gulp.src(png2xList)
-        gulp.src('./build/tmp/**/img/*@2x.png')
+        gulp.src('./build/tmp/img/**/*@2x.png')
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite@2x.png',
                 styleName: 'sprite@2x.less',
-                groupBy: 'skin',
+                groupBy: 'img',
                 imgPath: '../img/sprite@2x.png',
                 engine: 'pngsmith'
             }))
@@ -192,7 +189,7 @@ gulp.task('generate-sprites', ['prepare-raster'], function () {
     .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
 });
 
-gulp.task('prepare-raster', ['copy-svg', 'copy-svg-raster', 'copy-raster', 'copy-raster@2x']);
+gulp.task('prepare-raster', ['copy-svg', 'copy-svg-raster', 'copy-raster']);
 
 gulp.task('build-images', ['clean-up-images', 'prepare-raster', 'generate-sprites']);
 
