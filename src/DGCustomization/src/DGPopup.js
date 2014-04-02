@@ -207,7 +207,7 @@
         },
 
         _bindAdjustPanOnTransitionEnd: function () {
-            if (DG.DomUtil.TRANSITION_END) {
+            if (DG.DomUtil.TRANSITION) {
                 DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this);
             } else {
                 this._adjustPan();
@@ -393,7 +393,7 @@
         _onCloseButtonClick: function (e) { // (Event)
             this._animateClosing();
 
-            if (DG.DomUtil.TRANSITION_END) {
+            if (DG.DomUtil.TRANSITION) {
                 DG.DomEvent.on(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             }
             else {
@@ -403,7 +403,7 @@
         },
 
         _firePopupClose: function (e) { // (Event)
-            if (DG.DomUtil.TRANSITION_END) {
+            if (DG.DomUtil.TRANSITION) {
                 DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             }
             originalOnClose.call(this, e);

@@ -2,7 +2,7 @@ DG = DG || {};
 DG.configTheme = {
     balloonOptions: {
         offset: {
-            x: -2,
+            x: 0,
             y: 5
         }
     },
