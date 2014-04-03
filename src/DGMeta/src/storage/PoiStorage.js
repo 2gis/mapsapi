@@ -14,10 +14,11 @@ DG.Meta.PoiStorage = DG.Meta.Storage.extend({
         entity.links.length = 0;
         delete entity.links;
 
-        entity = this._wktToVert(entity, zoom);
+        entity = this._wktToBound(entity, zoom);
 
-        if (!this._data[id]) { this._data[id] = {}; }
-        this._data[id] = DG.extend(this._data[id], entity);
+        // if (!this._data[id]) { this._data[id] = {}; }
+        // this._data[id] = DG.extend(this._data[id], entity);
+        this._data[id] = DG.extend(this._data[id] || {}, entity);
     }
 
 });

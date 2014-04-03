@@ -5,6 +5,9 @@
  * @return {?Object} A GeoJSON geometry object
  */
 DG.parseWKT = function (_) {
+    if (Array.isArray(_)) {
+        _ = _[0];
+    }
     var parts = _.split(';');
     _ = parts.pop();
 

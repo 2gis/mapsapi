@@ -2,7 +2,7 @@ DG.Meta.Storage = DG.Class.extend({
 
     _data: {},
     _tilesData: {},
-    _wkt: new DG.Wkt(),
+    // _wkt: new DG.Wkt(),
 
     getTileData: function (tileId) { //(String) -> Array|false
         if (!this._tilesData.hasOwnProperty(tileId)) {
@@ -35,16 +35,21 @@ DG.Meta.Storage = DG.Class.extend({
         this._data[id] = entity;
     },
 
-    _wktToVert: function (entity, zoom) { //(Object)
-        var vert = this._wkt.read(entity.hover),
-            key = zoom ? zoom + 'vertices' : 'vertices';
+    _wktToBound: function (entity, zoom) { //(Object)
+        // var vert = this._wkt.read(entity.hover),
+        //     key = zoom ? zoom + 'vertices' : 'vertices';
 
-        entity[key] = this._wkt.toObject(vert)._latlngs[0];
+        // entity[key] = this._wkt.toObject(vert)._latlngs[0];
         // entity[key] = DG.readWKT(entity.hover);
-        console.log('old', this._wkt.toObject(vert)._latlngs[0]);
-        console.log('new', DG.GeoJSON.coordsToLatLngs(DG.parseWKT(entity.hover).coordinates[0]));
-        // console.log(DG.parseWKT(entity.hover));
-        delete entity.hover;
+        // console.log('old', this._wkt.toObject(vert)._latlngs[0]);
+        // console.log('new', DG.GeoJSON.coordsToLatLngs(DG.parseWKT(entity.hover).coordinates[0]));
+        var key = (zoom ? zoom : '') + 'bound',
+            geometry = entity.hover ? 'hover' : 'geometry';
+
+        entity[key] = DG.geoJsonLayer(entity[geometry]).getBounds();
+        // console.log(DG.geoJsonLayer(entity.hover).getBounds());
+        delete entity[geometry];
+        console.log(entity);
 
         return entity;
     }

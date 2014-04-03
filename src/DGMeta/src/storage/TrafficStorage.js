@@ -35,9 +35,11 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
     },
 
     _addEntity: function (id, entity, zoom) { //(String, Object)
-        var verts = this._wkt.read(entity.hover);
-        entity.geometry = this._wkt.toObject(verts);
-        entity = this._wktToVert(entity, zoom);
+        // var verts = this._wkt.read(entity.hover);
+        // entity.geometry = this._wkt.toObject(verts);
+        // entity = this._wktToVert(entity, zoom);
+
+        entity = this._wktToBound(entity, zoom);
 
         this._data[id] = DG.extend(this._data[id] || {}, entity);
     }
