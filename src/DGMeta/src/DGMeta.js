@@ -29,7 +29,7 @@ DG.Meta = DG.Handler.extend({
             }, this);
         }
 
-        this._metaHost = new DG.Meta.Host(map);
+        this._metaHost = new DG.Meta.Host(map, this);
     },
 
     addHooks: function () {
@@ -153,7 +153,7 @@ DG.Meta = DG.Handler.extend({
         }
     },
 
-    _checkTrafficHover: function (latLng, zoom) { // (DG.LatLng)
+    _checkTrafficHover: function (latLng, zoom) { // (DG.LatLng, String)
         var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic, zoom);
         console.log(hoveredTraffic);
 
