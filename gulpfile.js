@@ -102,7 +102,7 @@ gulp.task('clean-up-images', function () {
     return gulp.src('./build/tmp/img/*', { read: false }).pipe(tasks.clean());
 });
 
-gulp.task('copy-svg', function() {
+gulp.task('copy-svg', function () {
     return (
         gulp.src('./src/**/img/**/*.svg')
             .pipe(tasks.rename(function (path) {
@@ -114,7 +114,7 @@ gulp.task('copy-svg', function() {
 
 gulp.task('prepare-svg', ['copy-svg']);
 
-gulp.task('copy-svg-raster', ['copy-svg'], function() {
+gulp.task('copy-svg-raster', ['copy-svg'], function () {
     return es.concat(
         gulp.src('./build/tmp/img/**/*.svg')
             .pipe(tasks.raster())
@@ -132,7 +132,7 @@ gulp.task('copy-svg-raster', ['copy-svg'], function() {
     );
 });
 
-gulp.task('copy-raster', function() {
+gulp.task('copy-raster', function () {
     return (
         gulp.src([
             './src/**/img/**/*.png',
@@ -155,18 +155,12 @@ gulp.task('copy-raster', function() {
 //gulp.task('generate-sprites', ['prepare-raster'], function () {
 gulp.task('generate-sprites', function () {
     var imagesForSprite = getLessImagesStats().noRepeatable,
-        pngList = imagesForSprite.map(function (name) {
-            console.log('./build/tmp/img/' + name + '.png');
-            return './build/tmp/img/' + name + '.png';
-        }),
-        png2xList = imagesForSprite.map(function (name) {
-            console.log('./build/tmp/img/' + name + '@2x.png');
-            return './build/tmp/img/' + name + '@2x.png';
-        });
+
+        pngList = ['./build/tmp/**/*.png', '!./build/tmp/**/*@2x.png'],
+        png2xList = './build/tmp/**/*@2x.png';
 
     return es.concat(
-        //gulp.src(pngList)
-        gulp.src(['./build/tmp/**/*.png', '!./build/tmp/**/*@2x.png'])
+        gulp.src(pngList)
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite.png',
@@ -176,8 +170,7 @@ gulp.task('generate-sprites', function () {
                 engine: 'pngsmith'
             })),
 
-        //gulp.src(png2xList)
-        gulp.src('./build/tmp/**/*@2x.png')
+        gulp.src(png2xList)
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite@2x.png',
@@ -359,15 +352,32 @@ function buildCss(options) {
             .pipe(tasks.header(config.copyright));
 }
 
+gulp.task('collect-graphic-stats', function(callback) {
+    var options = extend(tasks.util.env, {
+            includeModernBrowsers: true,
+            includeIE: true,
+            
+            isDebug: true
+        }),
+        lessList = deps.getCSSFiles(options);
+
+    getLessImagesStats(lessList, options, function(stats) {
+        //console.log(stats);
+
+        callback();
+    });
+});
+
 /**
  * Analyzes Less, returns images usage statistics
  *
  * @param {Array} lessList List of paths to less files
  * @param {Object} options
+ * @param {Function} callback
  *
  * @returns {Object} Images usage statistics
  */
-function getLessImagesStats(lessList, options) {
+function getLessImagesStats(lessList, options, callback) {
     lessList = lessList || [];
     options = options || {};
 
@@ -377,6 +387,11 @@ function getLessImagesStats(lessList, options) {
     };
 
     if (lessList.length) {
+        // There is no mixins in *.css files, so exclude the files
+        lessList = lessList.filter(function (path) {
+            return !/\.css$/.test(path);
+        });
+
         lessList.unshift('./private/less/mixins.statscounters.less');
         lessList.push('./private/less/mixins.statsoutput.less');
 
@@ -389,8 +404,10 @@ function getLessImagesStats(lessList, options) {
                     isIE: options.includeIE
                 },
                 imports: lessList.map(function (path, index) {
-                    return path + (index == lessList.length - 1) ? ':reference' : ':less';
+                    // Ignore less files output, except mixins.statsoutput.less
+                    return path + ((index == lessList.length - 1) ? ':less' : ':reference');
                 })
+<<<<<<< HEAD
             }),
 
             lessOutput = less.render(lessStatsCollector),
@@ -402,6 +419,26 @@ function getLessImagesStats(lessList, options) {
         // so we should exclude repeatable images from no-repeatable images list
         stats.noRepeatable = rawStatsObject.noRepeatable.split(',').filter(function (name) {
             return stats.repeatable.indexOf(name) != -1;
+=======
+            });
+
+        less.render(lessStatsCollector, function(error, css) {
+            if (css) {
+                // Remove and replace CSS-specific stuff with JS stuff
+                var JsCss = css.replace('stats ', '').replace(/\;/g, ','),
+                    // Evaluate result
+                    rawStatsObject = (new Function('return ' + JsCss))();
+
+                stats.repeatable = rawStatsObject.repeatable.split(',');
+                // Repeatable images can be used as no-repeatable images,
+                // so we should exclude repeatable images from no-repeatable images list
+                stats.noRepeatable = rawStatsObject.noRepeatable.split(',').filter(function (name) {
+                    return stats.repeatable.indexOf(name) == -1;
+                });
+
+                callback(stats);
+            }
+>>>>>>> JSAPI-3386: Images usage statistics collector task is added
         });
     }
 
