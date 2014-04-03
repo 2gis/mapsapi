@@ -40,6 +40,10 @@ DG.Meta.Storage = DG.Class.extend({
             key = zoom ? zoom + 'vertices' : 'vertices';
 
         entity[key] = this._wkt.toObject(vert)._latlngs[0];
+        // entity[key] = DG.readWKT(entity.hover);
+        console.log('old', this._wkt.toObject(vert)._latlngs[0]);
+        console.log('new', DG.GeoJSON.coordsToLatLngs(DG.parseWKT(entity.hover).coordinates[0]));
+        // console.log(DG.parseWKT(entity.hover));
         delete entity.hover;
 
         return entity;

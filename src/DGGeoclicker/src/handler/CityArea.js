@@ -33,9 +33,10 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         !this._stylesInited && this._initStyles();
 
         this._popup = this._view.getPopup();
-        this._geometryStyle = this._getPolyStyleNum(this._map.getZoom());
+
+        this._geometryZoomStyle = this._getPolyStyleNum();
         this._geometry = DG.geoJsonLayer(results[type].geometry.selection, {
-            style: this._polylineStyles[this._geometryStyle]
+            style: this._polylineStyles[this._geometryZoomStyle]
         }).addTo(this._map);
 
         this._map
@@ -51,16 +52,17 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             address: '',
             purpose: this.t(type),
             type: type
-        };
+        }, areaInfo;
 
-        for (var obj in results) {
-            if (obj !== type && obj !== 'extra') {
-                if (results[obj].attributes && results[obj].attributes.abbreviation) {
-                    data.address = results[obj].attributes.abbreviation + ' ';
-                }
-                data.address += results[obj].name;
-                break;
-            }
+        areaInfo = results[Object.keys(results).filter(function (obj) {
+            return (obj !== type && obj !== 'extra');
+        })[0]];
+
+        if (areaInfo) {
+            data.address =
+                (areaInfo.attributes && areaInfo.attributes.abbreviation ?
+                    areaInfo.attributes.abbreviation + ' ' : '') +
+                areaInfo.name;
         }
 
         if (results[type].short_name) {
@@ -78,34 +80,26 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
     },
 
     _initStyles : function () {
-        var i;
+        this._stylesInited = true;
 
-        DG.Geoclicker.Handler.CityArea.prototype._stylesInited = true;
-        for (i in this._polylineStyles) {
-            if (this._polylineStyles.hasOwnProperty(i)) {
-                DG.Geoclicker.Handler.CityArea.prototype._polylineStyles[i] = DG.extend(this._polylineStyles[i], this._polylineStyleDefault);
-            }
-        }
+        Object.keys(this._polylineStyles).forEach(function (zoom) {
+            DG.extend(this._polylineStyles[zoom], this._polylineStyleDefault);
+        }, this);
     },
 
-    _getPolyStyleNum: function (zoom) {
-        var i;
+    _getPolyStyleNum: function () {
+        var mapZoom = this._map.getZoom();
 
-        for (i in this._polylineStyles) {
-            if (this._polylineStyles.hasOwnProperty(i)) {
-                if (zoom <= i) {
-                    return i;
-                }
-            }
-        }
-        return false;
+        return Object.keys(this._polylineStyles).filter(function (zoom) {
+            return mapZoom <= zoom;
+        })[0] || false;
     },
 
     _updateGeometry: function () {
-        var newStyle = this._getPolyStyleNum(this._map.getZoom());
+        var newStyle = this._getPolyStyleNum();
 
-        if (newStyle && newStyle !== this._geometryStyle) {
-            this._geometryStyle = newStyle;
+        if (newStyle && newStyle !== this._geometryZoomStyle) {
+            this._geometryZoomStyle = newStyle;
             this._geometry.setStyle(this._polylineStyles[newStyle]);
         }
     },

@@ -89,15 +89,11 @@ DG.Entrance = DG.Layer.extend({
     },
 
     _initArrows: function () { // () -> DG.FeatureGroup
-        var wkt = new DG.Wkt();
-
         this._arrows = DG.featureGroup();
 
         this.options.vectors
             .map(function (vector) {
-                return wkt.read(vector).map(function (point) {
-                    return [point.y, point.x];
-                });
+                return DG.readWKT(vector);
             })
             .forEach(function (latlngs) {
                 // stroke

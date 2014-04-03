@@ -196,3 +196,7 @@ DG.parseWKT = function (_) {
 DG.geoJsonLayer = function (data, opts) {
     return DG.geoJson(DG.parseWKT(data), opts);
 };
+
+DG.readWKT = function (data) {
+    return DG.GeoJSON.coordsToLatLngs(DG.parseWKT(data).coordinates);
+};
