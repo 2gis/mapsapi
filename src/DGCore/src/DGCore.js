@@ -15,9 +15,9 @@ ga('send', 'pageview');
 
 //track statistics
 var newImg = new Image();
-        newImg.src = 'http://maps.api.2gis.ru/analytics/track-user.png?' +
-                    'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
-                    'av=' + DG.version;
+newImg.src = 'http://127.0.0.1:8888/track-user.png?' +
+            'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
+            'version=' + DG.version;
 
 // Improve IHandler
 DG.Map.include({
