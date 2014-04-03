@@ -196,7 +196,7 @@ DG.Meta = DG.Handler.extend({
             this._map.fire('poiclick', {
                 'poi': this._currentPoi,
                 //latlng: this._map.containerPointToLatLng(DG.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
-                latlng: DG.latLngBounds(this._currentPoi.vertices).getCenter()
+                latlng: this._currentPoi.bound.getCenter()
             });
             DG.DomEvent.stopPropagation(event);
         }
@@ -236,7 +236,8 @@ DG.Meta = DG.Handler.extend({
 
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         if (!data) { return false; }
-        var vertKey = (zoom ? zoom : '') + 'bound',
+        // var vertKey = (zoom ? zoom : '') + 'bound',
+        var vertKey = 'bound',
             result = data.filter(function (obj) {
                 return obj[vertKey] && obj[vertKey].contains(point);
             })[0];
@@ -245,12 +246,7 @@ DG.Meta = DG.Handler.extend({
         //         return obj[vertKey] && DG.PolyUtil.contains(point, obj[vertKey]);
         //     })[0];
 
-        if (result) {
-            result.vertices = result[vertKey];
-            return result;
-        } else {
-            return false;
-        }
+        return result || false;
     }
     // _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
     //     var vertKey = zoom ? zoom + 'vertices' : 'vertices';
