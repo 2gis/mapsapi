@@ -166,7 +166,7 @@ gulp.task('generate-sprites', function () {
 
     return es.concat(
         //gulp.src(pngList)
-        gulp.src(['./build/tmp/img/**/*.png', '!./build/tmp/img/**/*@2x.png'])
+        gulp.src(['./build/tmp/**/*.png', '!./build/tmp/**/*@2x.png'])
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite.png',
@@ -177,7 +177,7 @@ gulp.task('generate-sprites', function () {
             })),
 
         //gulp.src(png2xList)
-        gulp.src('./build/tmp/img/**/*@2x.png')
+        gulp.src('./build/tmp/**/*@2x.png')
             .pipe(tasks.spritesmith({
                 styleTemplate: './build/sprite-template.mustache',
                 imgName: 'sprite@2x.png',
@@ -191,7 +191,7 @@ gulp.task('generate-sprites', function () {
     .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
 });
 
-gulp.task('prepare-raster', ['copy-svg', 'copy-svg-raster', 'copy-raster']);
+gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
 gulp.task('build-images', ['clean-up-images', 'prepare-svg', 'prepare-raster', 'generate-sprites']);
 
