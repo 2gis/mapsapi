@@ -17,7 +17,7 @@ ga('send', 'pageview');
 var newImg = new Image();
 newImg.src = 'http://127.0.0.1:8888/track-user.png?' +
             'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
-            'version=' + DG.version;
+            'v=' + DG.version;
 
 // Improve IHandler
 DG.Map.include({
