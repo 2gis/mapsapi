@@ -34,7 +34,7 @@ DG.Traffic.Handler = DG.Handler.extend({
     _mapEventsListeners : {
         traffichover: function (e) { // (Object)
             this._setCursor('pointer');
-            this._testL = e.traffic.geometry.addTo(this._map);
+            this._testL = DG.rectangle(e.traffic.bound).addTo(this._map);
             if (this._labelHelper && e.traffic.speed) {
                 this._labelHelper
                     .setPosition(e.latlng)

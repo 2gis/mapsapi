@@ -99,7 +99,7 @@ DG.Meta = DG.Handler.extend({
                 });
             } else {
                 if (this._currentTileMetaData) {
-                    if (this._listenPoi) { this._checkPoiHover(e.latlng, zoom); }
+                    if (this._listenPoi) { this._checkPoiHover(e.latlng); }
                     if (this._listenBuildings) { this._checkBuildingHover(e.latlng); }
                     if (this._listenTraffic) { this._checkTrafficHover(e.latlng, zoom); }
                 }
@@ -125,8 +125,8 @@ DG.Meta = DG.Handler.extend({
         return this.options.maxNativeZoom ? Math.min(zoom, this.options.maxNativeZoom) : zoom;
     },
 
-    _checkPoiHover: function (latLng, zoom) { // (DG.LatLng, String)
-        var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
+    _checkPoiHover: function (latLng) { // (DG.LatLng, String)
+        var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi);
         // console.log(hoveredPoi);
 
         if (this._currentPoi && (!hoveredPoi || this._currentPoi.id !== hoveredPoi.id)) {
@@ -155,7 +155,7 @@ DG.Meta = DG.Handler.extend({
 
     _checkTrafficHover: function (latLng, zoom) { // (DG.LatLng, String)
         var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic, zoom);
-        console.log(hoveredTraffic);
+        // console.log(hoveredTraffic);
 
         if (this._currentTraffic && (!hoveredTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
             this._leaveCurrentTraffic();
@@ -236,11 +236,17 @@ DG.Meta = DG.Handler.extend({
 
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         if (!data) { return false; }
-        // var vertKey = (zoom ? zoom : '') + 'bound',
-        var vertKey = 'bound',
-            result = data.filter(function (obj) {
-                return obj[vertKey] && obj[vertKey].contains(point);
-            })[0];
+        
+        var vertKey = (zoom ? zoom : '') + 'vertices',
+            result;
+        // var vertKey = 'bound',
+        result = data.filter(function (obj) {
+            if (obj.bound) {
+                return obj.bound.contains(point);
+            } else {
+                return obj[vertKey] && DG.PolyUtil.contains(point, obj[vertKey]);
+            }
+        })[0];
         // var vertKey = (zoom ? zoom : '') + 'vertices',
         //     result = data.filter(function (obj) {
         //         return obj[vertKey] && DG.PolyUtil.contains(point, obj[vertKey]);

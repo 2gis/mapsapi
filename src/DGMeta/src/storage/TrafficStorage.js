@@ -6,7 +6,7 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
     addDataToTile: function (tileId, tileData) { //(String, Array)
         this._tilesData[tileId] = this._tilesData[tileId] || [];
 
-        if (!tileData.length) { return {}; }
+        if (!tileData.length) { return []; }
 
         var speeds = tileData[1].reduce(function (obj, item) {
             obj[item.graph_id] = item.speed_text;
@@ -20,6 +20,7 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
                 item.speed = speeds[item.graph_id];
                 item.id = item.graph_id;
                 item.hover = item.geometry[0].object;
+                delete item.geometry;
                 return item;
             })
             .filter(Boolean)
@@ -39,7 +40,11 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
         // entity.geometry = this._wkt.toObject(verts);
         // entity = this._wktToVert(entity, zoom);
 
-        entity = this._wktToBound(entity, zoom);
+        entity.geometry = DG.geoJsonLayer(entity.hover);
+        // console.log('new', DG.GeoJSON.coordsToLatLngs(DG.parseWKT(entity.hover).coordinates[0]));
+        // entity.bound = entity.geometry.getBounds();
+        delete entity.hover;
+        // entity = this._wktToBound(entity, zoom);
 
         this._data[id] = DG.extend(this._data[id] || {}, entity);
     }

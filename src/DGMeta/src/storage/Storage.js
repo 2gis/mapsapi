@@ -5,12 +5,12 @@ DG.Meta.Storage = DG.Class.extend({
     // _wkt: new DG.Wkt(),
 
     getTileData: function (tileId) { //(String) -> Array|false
-        if (!this._tilesData.hasOwnProperty(tileId)) {
-            return false;
-        }
+        if (!this._tilesData.hasOwnProperty(tileId)) { return false; }
+
         for (var result = [], i = 0, len = this._tilesData[tileId].length; i < len; i++) {
             result.push(this._data[this._tilesData[tileId][i]]);
         }
+        // console.log(result, this._data[this._tilesData[tileId]]);
 
         return result;
     },
