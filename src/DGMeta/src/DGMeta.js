@@ -99,7 +99,7 @@ DG.Meta = DG.Handler.extend({
                 });
             } else {
                 if (this._currentTileMetaData) {
-                    if (this._listenPoi) { this._checkPoiHover(e.latlng); }
+                    if (this._listenPoi) { this._checkPoiHover(e.latlng, zoom); }
                     if (this._listenBuildings) { this._checkBuildingHover(e.latlng); }
                     if (this._listenTraffic) { this._checkTrafficHover(e.latlng, zoom); }
                 }
@@ -125,8 +125,8 @@ DG.Meta = DG.Handler.extend({
         return this.options.maxNativeZoom ? Math.min(zoom, this.options.maxNativeZoom) : zoom;
     },
 
-    _checkPoiHover: function (latLng) { // (DG.LatLng, String)
-        var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi);
+    _checkPoiHover: function (latLng, zoom) { // (DG.LatLng, String)
+        var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
         // console.log(hoveredPoi);
 
         if (this._currentPoi && (!hoveredPoi || this._currentPoi.id !== hoveredPoi.id)) {
@@ -234,23 +234,63 @@ DG.Meta = DG.Handler.extend({
         return this._currentTile !== xyz;
     },
 
+    _getGeoType: function (obj, zoom) {
+        zoom = zoom || '';
+        var bound = zoom + 'bound',
+            vert = zoom + 'vertices';
+        if (obj.hasOwnProperty(bound)) {
+            return bound;
+        }
+        if (obj.hasOwnProperty(vert)) {
+            return vert;
+        }
+        return false;
+    },
+
+    _contains: function (point, geo) {
+        return geo instanceof DG.LatLngBounds ? geo.contains(point) : DG.PolyUtil.contains(point, geo);
+    },
+
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         if (!data) { return false; }
         
-        var vertKey = (zoom ? zoom : '') + 'vertices',
+        var vertKey = (zoom ? zoom : ''),
+        // var vertKey = (zoom ? zoom : '') + 'vertices',
             result;
         // var vertKey = 'bound',
+        // console.log(data);
         result = data.filter(function (obj) {
-            if (obj.bound) {
-                return obj.bound.contains(point);
-            } else {
-                return obj[vertKey] && DG.PolyUtil.contains(point, obj[vertKey]);
-            }
-        })[0];
+            // console.log(obj[vertKey + 'bound'], vertKey + 'bound');
+            var type = this._getGeoType(obj, zoom);
+            return type && this._contains(point, obj[type]);
+            // if (obj[vertKey + 'bound']) {
+            //     // console.log(obj);
+            //     // console.log(obj);
+            //     // console.log(point);
+            //     return obj[vertKey + 'bound'].contains(point);
+            // } else {
+            //     return obj[vertKey  + 'vertices'] && DG.PolyUtil.contains(point, obj[vertKey  + 'vertices']);
+            // }
+        }, this)[0];
+        // console.log(result);
+        // result = data.filter(function (obj) {
+        //     // console.log(obj[vertKey + 'bound'], vertKey + 'bound');
+        //     if (obj[vertKey + 'bound']) {
+        //         // console.log(obj);
+        //         // console.log(obj);
+        //         // console.log(point);
+        //         return obj[vertKey + 'bound'].contains(point);
+        //     } else {
+        //         return obj[vertKey  + 'vertices'] && DG.PolyUtil.contains(point, obj[vertKey  + 'vertices']);
+        //     }
+        // })[0];
         // var vertKey = (zoom ? zoom : '') + 'vertices',
         //     result = data.filter(function (obj) {
         //         return obj[vertKey] && DG.PolyUtil.contains(point, obj[vertKey]);
         //     })[0];
+        // if (result) {
+        //     result.vertices
+        // }
 
         return result || false;
     }

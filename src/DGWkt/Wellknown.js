@@ -201,5 +201,14 @@ DG.geoJsonLayer = function (data, opts) {
 };
 
 DG.readWKT = function (data) {
-    return DG.GeoJSON.coordsToLatLngs(DG.parseWKT(data).coordinates);
+    var coords = DG.parseWKT(data).coordinates;
+    return Array.isArray(coords) ?
+        coords
+            .map(function (coord) {
+                return DG.GeoJSON.coordsToLatLngs(coord);
+            })
+            .reduce(function (arr, coord) {
+                return arr.concat(coord);
+            }) :
+        DG.GeoJSON.coordsToLatLngs(coords);
 };

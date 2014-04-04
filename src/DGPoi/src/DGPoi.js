@@ -34,6 +34,7 @@ DG.Poi = DG.Handler.extend({
     _mapEventsListeners : {
         poihover: function (e) { // (Object)
             this._setCursor('pointer');
+            this._testL = e.poi.geometry.addTo(this._map);
             if (this._labelHelper) {
                 this._labelHelper
                     .setPosition(e.latlng)
@@ -46,6 +47,7 @@ DG.Poi = DG.Handler.extend({
 
         poileave: function () {
             this._setCursor('auto');
+            this._testL && this._map.removeLayer(this._testL);
             if (this._labelHelper) {
                 this._map
                     .off('mousemove', this._onMouseMove, this)

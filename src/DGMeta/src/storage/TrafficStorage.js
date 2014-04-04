@@ -31,6 +31,7 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
                 this._tilesData[tileId].push(id);
                 this._addEntity(id, item, zoom);
             }, this);
+        // console.log(tileId, tileData);
 
         return this.getTileData(tileId);
     },
@@ -43,8 +44,9 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
         entity.geometry = DG.geoJsonLayer(entity.hover);
         // console.log('new', DG.GeoJSON.coordsToLatLngs(DG.parseWKT(entity.hover).coordinates[0]));
         // entity.bound = entity.geometry.getBounds();
-        delete entity.hover;
-        // entity = this._wktToBound(entity, zoom);
+        // delete entity.hover;
+        entity = this._wktToVert(entity, zoom);
+        // console.log(entity);
 
         this._data[id] = DG.extend(this._data[id] || {}, entity);
     }
