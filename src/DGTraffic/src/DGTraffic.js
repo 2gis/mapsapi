@@ -58,7 +58,7 @@ DG.Traffic = DG.TileLayer.extend({
     _projectEvents: {
         projectchange : function (event) {
             var project = event.getProject();
-            this._setProjectOptions(project);
+            project.traffic ? this._setProjectOptions(project) : this._setNullOptions();
             this.redraw();
         },
         projectleave : function () {
