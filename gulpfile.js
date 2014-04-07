@@ -48,7 +48,7 @@ gulp.task('build-scripts', ['lint'], function () {
         .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('build-styles', function () {
+gulp.task('build-styles', ['collect-images-stats'], function () {
     return es.concat(
         buildCss(extend(tasks.util.env, { includeModernBrowsers: true, isDebug: true }))
              .pipe(map(saveSize))
@@ -406,6 +406,7 @@ function buildCss(options) {
                 './build/tmp/less/sprite.' + skin + '.less:reference',
                 './build/tmp/less/sprite@2x.' + skin + '.less:reference',
 
+                './build/tmp/less/images-files-statistics.basic.less:reference',
                 './build/tmp/less/images-files-statistics.' + skin + '.less:reference',
 
                 './private/less/mixins.less:reference',
