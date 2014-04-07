@@ -37,16 +37,8 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
     },
 
     _addEntity: function (id, entity, zoom) { //(String, Object)
-        // var verts = this._wkt.read(entity.hover);
-        // entity.geometry = this._wkt.toObject(verts);
-        // entity = this._wktToVert(entity, zoom);
-
         entity.geometry = DG.geoJsonLayer(entity.hover);
-        // console.log('new', DG.GeoJSON.coordsToLatLngs(DG.parseWKT(entity.hover).coordinates[0]));
-        // entity.bound = entity.geometry.getBounds();
-        // delete entity.hover;
-        entity = this._wktToVert(entity, zoom);
-        // console.log(entity);
+        entity = this._formatWKT(entity, zoom, 'vertices');
 
         this._data[id] = DG.extend(this._data[id] || {}, entity);
     }

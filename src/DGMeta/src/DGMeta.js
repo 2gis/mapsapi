@@ -127,7 +127,6 @@ DG.Meta = DG.Handler.extend({
 
     _checkPoiHover: function (latLng, zoom) { // (DG.LatLng, String)
         var hoveredPoi = this._isMetaHovered(latLng, this._currentTileMetaData.poi, zoom);
-        // console.log(hoveredPoi);
 
         if (this._currentPoi && (!hoveredPoi || this._currentPoi.id !== hoveredPoi.id)) {
             this._leaveCurrentPoi();
@@ -155,7 +154,6 @@ DG.Meta = DG.Handler.extend({
 
     _checkTrafficHover: function (latLng, zoom) { // (DG.LatLng, String)
         var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic, zoom);
-        // console.log(hoveredTraffic);
 
         if (this._currentTraffic && (!hoveredTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
             this._leaveCurrentTraffic();
@@ -253,72 +251,19 @@ DG.Meta = DG.Handler.extend({
 
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         if (!data) { return false; }
-        
+
         zoom = zoom || '';
-        // var vertKey = (zoom ? zoom : '') + 'vertices',
-        var result;
-        // var vertKey = 'bound',
-        // console.log(data);
-        result = data.filter(function (obj) {
-            // console.log(obj[vertKey + 'bound'], vertKey + 'bound');
+        
+        return data.filter(function (obj) {
             var type = this._getGeoType(obj, zoom);
 
             if (!type) { return false; }
 
             obj[type] = obj[zoom + type];
-            // console.log(obj);
 
             return this._contains(point, obj[zoom + type]);
-            // if (obj[vertKey + 'bound']) {
-            //     // console.log(obj);
-            //     // console.log(obj);
-            //     // console.log(point);
-            //     return obj[vertKey + 'bound'].contains(point);
-            // } else {
-            //     return obj[vertKey  + 'vertices'] && DG.PolyUtil.contains(point, obj[vertKey  + 'vertices']);
-            // }
-        }, this)[0];
-        // console.log(result);
-        // result = data.filter(function (obj) {
-        //     // console.log(obj[vertKey + 'bound'], vertKey + 'bound');
-        //     if (obj[vertKey + 'bound']) {
-        //         // console.log(obj);
-        //         // console.log(obj);
-        //         // console.log(point);
-        //         return obj[vertKey + 'bound'].contains(point);
-        //     } else {
-        //         return obj[vertKey  + 'vertices'] && DG.PolyUtil.contains(point, obj[vertKey  + 'vertices']);
-        //     }
-        // })[0];
-        // var vertKey = (zoom ? zoom : '') + 'vertices',
-        //     result = data.filter(function (obj) {
-        //         return obj[vertKey] && DG.PolyUtil.contains(point, obj[vertKey]);
-        //     })[0];
-        // if (result) {
-        //     result.vertices
-        // }
-
-        return result || false;
+        }, this).shift() || false;
     }
-    // _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
-    //     var vertKey = zoom ? zoom + 'vertices' : 'vertices';
-
-    //     for (var i = 0, len = data.length; i < len; i++) {
-    //         if (!data[i].verticesArray) {
-    //             if (data[i][vertKey] && DG.PolyUtil.contains(point, data[i][vertKey])) {
-    //                 data[i].vertices = data[i][vertKey];
-    //                 return data[i];
-    //             }
-    //         } else {
-    //             for (var j = 0, jlen = data[i].verticesArray.length; j < jlen; j++) {
-    //                 if (DG.PolyUtil.contains(point, data[i].verticesArray[j])) {
-    //                     return data[i];
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
 
 });
 
