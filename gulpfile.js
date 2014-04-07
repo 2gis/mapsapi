@@ -7,6 +7,8 @@ var extend = require('extend'),
     tasks = require('gulp-load-plugins')(),
 
     less = require('less'),
+    path = require('path'),
+    glob = require('glob'),
 
     webapiProjects = require('2gis-project-loader'),
 
@@ -449,3 +451,22 @@ module.exports = {
     getJS: bldJs,
     getCSS: buildCss
 };
+/**
+ * Scans project for skins directories to get skins names
+ *
+ * @returns {Array} List of skins’ names
+ */
+function getSkinsList() {
+    var skinsDirectories = glob.sync('./src/**/skin/*'),
+        skins = [];
+
+    skinsDirectories.forEach(function (directory) {
+        var skinName = path.basename(directory);
+
+        if (skins.indexOf(skinName) == -1) {
+            skins.push(skinName);
+        }
+    });
+
+    return skins;
+}
