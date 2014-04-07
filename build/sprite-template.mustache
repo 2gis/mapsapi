@@ -7,8 +7,10 @@
     @totalWidth: {{px.total_width}};
     @totalHeight: {{px.total_height}};
     }
+
+.isSprited(@name) when (@name = '{{name}}') {
+    @isSprited: true;
+    }
+
 {{/items}}
 
-@isSprited: ~`isSprited = function(imageName) {
-    return '{{#items}}{{name}} {{/items}}'.indexOf(imageName) > -1;
-}`;
