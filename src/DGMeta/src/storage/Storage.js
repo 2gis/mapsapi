@@ -56,7 +56,7 @@ DG.Meta.Storage = DG.Class.extend({
         // console.log(DG.geoJsonLayer(entity.hover).getBounds());
         // console.log(DG.readWKT(entity.hover));
         // console.log(DG.GeoJSON.coordsToLatLngs(DG.parseWKT(entity.hover).coordinates[0]));
-        // delete entity.hover;
+        delete entity.hover;
         // console.log(entity);
 
         return entity;
@@ -66,7 +66,7 @@ DG.Meta.Storage = DG.Class.extend({
         var key = (zoom ? zoom : '') + 'bound';
 
         entity[key] = DG.geoJsonLayer(entity.hover).getBounds();
-        // delete entity.hover;
+        delete entity.hover;
 
         return entity;
     }

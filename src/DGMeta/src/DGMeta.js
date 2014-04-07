@@ -239,10 +239,10 @@ DG.Meta = DG.Handler.extend({
         var bound = zoom + 'bound',
             vert = zoom + 'vertices';
         if (obj.hasOwnProperty(bound)) {
-            return bound;
+            return 'bound';
         }
         if (obj.hasOwnProperty(vert)) {
-            return vert;
+            return 'vertices';
         }
         return false;
     },
@@ -254,15 +254,21 @@ DG.Meta = DG.Handler.extend({
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
         if (!data) { return false; }
         
-        var vertKey = (zoom ? zoom : ''),
+        zoom = zoom || '';
         // var vertKey = (zoom ? zoom : '') + 'vertices',
-            result;
+        var result;
         // var vertKey = 'bound',
         // console.log(data);
         result = data.filter(function (obj) {
             // console.log(obj[vertKey + 'bound'], vertKey + 'bound');
             var type = this._getGeoType(obj, zoom);
-            return type && this._contains(point, obj[type]);
+
+            if (!type) { return false; }
+
+            obj[type] = obj[zoom + type];
+            // console.log(obj);
+
+            return this._contains(point, obj[zoom + type]);
             // if (obj[vertKey + 'bound']) {
             //     // console.log(obj);
             //     // console.log(obj);

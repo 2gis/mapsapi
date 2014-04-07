@@ -205,7 +205,8 @@ DG.readWKT = function (data) {
     return Array.isArray(coords) ?
         coords
             .map(function (coord) {
-                return DG.GeoJSON.coordsToLatLngs(coord);
+                return Array.isArray(coord[0]) ? DG.GeoJSON.coordsToLatLngs(coord) : [DG.GeoJSON.coordsToLatLng(coord)];
+                // return DG.GeoJSON[Array.isArray(coord[0]) ? 'coordsToLatLngs' : 'coordsToLatLng'](coord);
             })
             .reduce(function (arr, coord) {
                 return arr.concat(coord);
