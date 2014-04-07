@@ -99,10 +99,11 @@ gulp.task('clean-up-less', function () {
     return gulp.src(['./build/tmp/less/*'], { read: false }).pipe(tasks.clean());
 });
 
-
 gulp.task('clean-up-images', function () {
     return gulp.src('./build/tmp/img/*', { read: false }).pipe(tasks.clean());
 });
+
+gulp.task('clean-up', ['clean-up-less', 'clean-up-images']);
 
 gulp.task('copy-svg', function () {
     return (
@@ -113,8 +114,6 @@ gulp.task('copy-svg', function () {
             .pipe(gulp.dest('./build/tmp/img'))
     );
 });
-
-gulp.task('prepare-svg', ['copy-svg']);
 
 gulp.task('copy-svg-raster', ['copy-svg'], function () {
     return es.concat(
@@ -140,12 +139,7 @@ gulp.task('copy-raster', function () {
             './src/**/img/**/*.png',
             './src/**/img/**/*.gif',
             './src/**/img/**/*.jpg',
-            './src/**/img/**/*.jpeg',
-
-            '!./src/**/img/**/*@2x.png',
-            '!./src/**/img/**/*@2x.gif',
-            '!./src/**/img/**/*@2x.jpg',
-            '!./src/**/img/**/*@2x.jpeg'
+            './src/**/img/**/*.jpeg'
         ])
         .pipe(tasks.rename(function (path) {
             path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
@@ -154,38 +148,51 @@ gulp.task('copy-raster', function () {
     );
 });
 
-//gulp.task('generate-sprites', ['prepare-raster'], function () {
-gulp.task('generate-sprites', function () {
-    var imagesForSprite = getLessImagesStats().noRepeatable,
+//gulp.task('generate-sprites', ['prepare-raster'], function (callback) {
+gulp.task('generate-sprites', function (taskCallback) {
+    var options = extend(tasks.util.env, {
+            includeModernBrowsers: true,
+            includeIE: true,
+            
+            isDebug: true
+        }),
+        lessList = deps.getCSSFiles(options);
 
-        pngList = ['./build/tmp/**/*.png', '!./build/tmp/**/*@2x.png'],
-        png2xList = './build/tmp/**/*@2x.png';
+    getLessImagesStats(lessList, options, function (stats) {
+        var filesToExclude = stats.repeatable.join(','),
 
-    return es.concat(
-        gulp.src(pngList)
-            .pipe(tasks.spritesmith({
-                styleTemplate: './build/sprite-template.mustache',
-                imgName: 'sprite.png',
-                styleName: 'sprite.less',
-                groupBy: 'img',
-                imgPath: '../img/sprite.png',
-                engine: 'pngsmith'
-            })),
+            pngList = ['./build/tmp/**/*.png', '!./build/tmp/**/{' + filesToExclude + '}.png', '!./build/tmp/**/*@2x.png'],
+            png2xList = ['./build/tmp/**/*@2x.png', '!./build/tmp/**/{' + filesToExclude + '}@2x.png'];
 
-        gulp.src(png2xList)
-            .pipe(tasks.spritesmith({
-                styleTemplate: './build/sprite-template.mustache',
-                imgName: 'sprite@2x.png',
-                styleName: 'sprite@2x.less',
-                groupBy: 'img',
-                imgPath: '../img/sprite@2x.png',
-                engine: 'pngsmith'
-            }))
-    )
-    .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-    .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
+        es.concat(
+            gulp.src(pngList)
+                .pipe(tasks.spritesmith({
+                    styleTemplate: './build/sprite-template.mustache',
+                    imgName: 'sprite.png',
+                    styleName: 'sprite.less',
+                    groupBy: 'img',
+                    imgPath: '../img/sprite.png',
+                    engine: 'pngsmith'
+                })),
+
+            gulp.src(png2xList)
+                .pipe(tasks.spritesmith({
+                    styleTemplate: './build/sprite-template.mustache',
+                    imgName: 'sprite@2x.png',
+                    styleName: 'sprite@2x.less',
+                    groupBy: 'img',
+                    imgPath: '../img/sprite@2x.png',
+                    engine: 'pngsmith'
+                }))
+        )
+        .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+        .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
+
+        taskCallback();
+    });
 });
 
+gulp.task('prepare-svg', ['copy-svg']);
 gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
 gulp.task('build-images', ['clean-up-images', 'prepare-svg', 'prepare-raster', 'generate-sprites']);
@@ -234,7 +241,6 @@ gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'bu
     console.log('\nDist files statistic:');
     Object.keys(stat).forEach(function (file) {
         console.log('- ' + file + ': ' + stat[file]);
-
     });
     tasks.util.log(tasks.util.colors.green('Build successfully complete'));
 
@@ -409,27 +415,14 @@ function getLessImagesStats(lessList, options, callback) {
                     // Ignore less files output, except mixins.statsoutput.less
                     return path + ((index == lessList.length - 1) ? ':less' : ':reference');
                 })
-<<<<<<< HEAD
-            }),
-
-            lessOutput = less.render(lessStatsCollector),
-
-            rawStatsObject = (new Function('return ' + lessOutput.replace('stats ', '')))();
-
-        stats.repeatable = rawStatsObject.repeatable.split(',');
-        // Repeatable images can be used as no-repeatable images,
-        // so we should exclude repeatable images from no-repeatable images list
-        stats.noRepeatable = rawStatsObject.noRepeatable.split(',').filter(function (name) {
-            return stats.repeatable.indexOf(name) != -1;
-=======
             });
 
-        less.render(lessStatsCollector, function(error, css) {
+        less.render(lessStatsCollector, function (error, css) {
             if (css) {
                 // Remove and replace CSS-specific stuff with JS stuff
-                var JsCss = css.replace('stats ', '').replace(/\;/g, ','),
+                var jsCss = css.replace('stats ', '').replace(/\;/g, ','),
                     // Evaluate result
-                    rawStatsObject = (new Function('return ' + JsCss))();
+                    rawStatsObject = (new Function('return ' + jsCss))();
 
                 stats.repeatable = rawStatsObject.repeatable.split(',');
                 // Repeatable images can be used as no-repeatable images,
