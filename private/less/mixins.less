@@ -1,7 +1,7 @@
 /* 
     See gulpfile.js for predefined stuff
-       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE;
-       — Mixins: .imageData.
+       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE, @skinName;
+       — Mixins: .imageData, .imageFileData, .isSprited.
  */
 
 .spriteImage(@name) {
@@ -16,31 +16,50 @@
     background-size: @totalWidth @totalHeight;
     }
 
-.dataUriSvgImage(@name) {
-    background-image: data-uri('@{baseURL}/img/@{name}.svg');
+.dataUriImage(@name) {
+    .imageFileData(@name);
+
+    background-image: data-uri('@{baseURL}/img/@{filename}.@{extension}');
     }
 
+.directImage(@name) {
+    .imageFileData(@name);
+
+    background-image: url('@{baseURL}/img/@{filename}.@{extension}');
+    }
+
+.spriteOrDirectImage(@name) {
+    .isSprited(@name);
+
+    & when (@isSprited) {
+        .spriteImage(@name);
+        }
+
+    & when not (@isSprited) {
+        .directImage(@name);
+        }
+    }
 
 .noRepeatableBg(@name) when (@isModernBrowser) {
-    .dataUriSvgImage(@name);
+    .dataUriImage(@name);
     }
 .noRepeatableBg(@name) when (@isIE) {
-    .spriteImage(@name);
+    .spriteOrDirectImage(@name);
     }
 .noRepeatableBg(@name) when (@isModernBrowser) and (@isIE) {
     .leaflet-retina & {
-        .spriteImage('@{name}@2x');
+        .spriteOrDirectImage('@{name}@2x');
         }
     }
 
 .repeatableBg(@name) when (@isModernBrowser) {
-    .dataUriSvgImage(@name);
+    .dataUriImage(@name);
     }
 .repeatableBg(@name) when (@isIE) {
-    background-image: url('@{baseURL}/img/@{name}.png');
+    .directImage(@name);
     }
 .repeatableBg(@name) when (@isModernBrowser) and (@isIE) {
     .leaflet-retina & {
-        background-image: url('@{baseURL}/img/@{name}@2x.png');
+        .directImage('@{name}@2x');
         }
     }

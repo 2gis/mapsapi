@@ -57,6 +57,7 @@
     "gulp-raster": "0.0.2",
     "gulp-spritesmith": "0.0.2",
     "gulp-if": "0.0.5",
+    "gulp-tap": "^0.1.1",
     "karma": "~0.10.9",
     "karma-script-launcher": "~0.1.0",
     "karma-chrome-launcher": "~0.1.2",
@@ -74,7 +75,6 @@
     "pretty-bytes": "~0.1.0",
     "lodash": "~2.4.1",
     "underscore.string": "~2.3.3",
-    "less": "~1.7.0"
+    "glob": "^3.2.9"
   }
 }
-    "glob": "^3.2.9",

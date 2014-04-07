@@ -17,6 +17,8 @@ var extend = require('extend'),
     deps = require('./build/gulp-deps')(config),
     stat = {}; //file minification statistic
 
+tasks.tap = require('gulp-tap'); // @TODO: Use gulp-load-plugins
+
 var projectList;
 
 webapiProjects(function (err, projects) {
@@ -342,6 +344,8 @@ function buildCss(options) {
                 './build/tmp/less/sprite.' + skin + '.less:reference',
                 './build/tmp/less/sprite@2x.' + skin + '.less:reference',
 
+                './build/tmp/less/images-files-statistics.' + skin + '.less:reference',
+
                 './private/less/mixins.less:reference',
                 './private/less/mixins.ie.less:reference'
             ]
@@ -352,7 +356,7 @@ function buildCss(options) {
             .pipe(tasks.frep(config.cfgParams))
             .pipe(tasks.less())
             .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-            .pipe(tasks.base64({ extensions: ['svg'] }))
+            //.pipe(tasks.base64({ extensions: ['svg'] }))
             .pipe(tasks.concat('styles.css'))
             .pipe(options.isDebug ?
                 tasks.util.noop() :
@@ -360,21 +364,6 @@ function buildCss(options) {
             .pipe(tasks.header(config.copyright));
 }
 
-gulp.task('collect-graphic-stats', function(callback) {
-    var options = extend(tasks.util.env, {
-            includeModernBrowsers: true,
-            includeIE: true,
-            
-            isDebug: true
-        }),
-        lessList = deps.getCSSFiles(options);
-
-    getLessImagesStats(lessList, options, function(stats) {
-        //console.log(stats);
-
-        callback();
-    });
-});
 
 /**
  * Analyzes Less, returns images usage statistics
@@ -400,8 +389,8 @@ function getLessImagesStats(lessList, options, callback) {
             return !/\.css$/.test(path);
         });
 
-        lessList.unshift('./private/less/mixins.statscounters.less');
-        lessList.push('./private/less/mixins.statsoutput.less');
+        lessList.unshift('./private/less/mixins.images-usage-statistics.less');
+        lessList.push('./private/less/images-usage-statistics.less');
 
         var lessStatsCollector = deps.lessHeader({
                 variables: {
@@ -433,17 +422,73 @@ function getLessImagesStats(lessList, options, callback) {
 
                 callback(stats);
             }
->>>>>>> JSAPI-3386: Images usage statistics collector task is added
         });
     }
 
     return stats;
 }
 
-module.exports = {
-    getJS: bldJs,
-    getCSS: buildCss
-};
+gulp.task('collect-images-usage-stats', function () {
+    var skins = getSkinsList(),
+    
+        statisticsStreams = skins.map(function (skinName) {
+            var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less', { sync: true });
+
+            skinLessFiles.unshift('./private/less/mixins.images-usage-statistics.less');
+            skinLessFiles.unshift('./private/less/mixins.ie.less');
+
+            skinLessFiles = skinLessFiles.map(function (lessFilePath) {
+                return lessFilePath + ':reference';
+            });
+
+            return (
+                gulp.src('./private/less/images-usage-statistics.less')
+                    .pipe(tasks.header(deps.lessHeader({
+                        variables: {
+                            skinName: skinName,
+                            baseURL: '\'__BASE_URL__\'',
+                            analyticsBaseURL: '\'http://maps.api.2gis.ru/analytics/\'',
+
+                            isModernBrowser: true,
+                            isIE: true
+                        },
+                        imports: skinLessFiles
+                    })))
+                    .pipe(tasks.less())
+                    .pipe(tasks.rename('images-usage-statistics.' + skinName + '.less'))
+                    .pipe(gulp.dest('./build/tmp/less/'))
+                );
+        });
+
+    return es.concat.apply(null, statisticsStreams);
+});
+
+gulp.task('collect-images-stats', function () {
+    var skins = getSkinsList(),
+
+        statisticsStreams = skins.map(function (skinName) {
+            return (
+                gulp.src('./src/**/' + skinName + '/img/*', { read: false })
+                    .pipe(tasks.tap(function (file, through) {
+                        var filePath = file.path,
+
+                            basename = path.basename(filePath),
+                            extname = path.extname(filePath),
+
+                            name = path.basename(filePath, extname),
+
+                            line = '.imageFileData(\'' + name + '\') { @filename: \'' + name + '\'; @extension: \'' + extname.replace('.', '') + '\'; }';
+
+                        file.contents = new Buffer(line);
+                    }))
+                    .pipe(tasks.concat('images-files-statistics.' + skinName + '.less'))
+                    .pipe(gulp.dest('./build/tmp/less'))
+            );
+        });
+
+    return es.concat.apply(null, statisticsStreams);
+});
+
 /**
  * Scans project for skins directories to get skins names
  *
@@ -463,3 +508,8 @@ function getSkinsList() {
 
     return skins;
 }
+
+module.exports = {
+    getJS: bldJs,
+    getCSS: buildCss
+};
