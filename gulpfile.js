@@ -9,6 +9,7 @@ var extend = require('extend'),
     less = require('less'),
     path = require('path'),
     glob = require('glob'),
+    fs = require('fs'),
 
     webapiProjects = require('2gis-project-loader'),
 
@@ -364,70 +365,6 @@ function buildCss(options) {
             .pipe(tasks.header(config.copyright));
 }
 
-
-/**
- * Analyzes Less, returns images usage statistics
- *
- * @param {Array} lessList List of paths to less files
- * @param {Object} options
- * @param {Function} callback
- *
- * @returns {Object} Images usage statistics
- */
-function getLessImagesStats(lessList, options, callback) {
-    lessList = lessList || [];
-    options = options || {};
-
-    var stats = {
-        repeatable: [],
-        noRepeatable: []
-    };
-
-    if (lessList.length) {
-        // There is no mixins in *.css files, so exclude the files
-        lessList = lessList.filter(function (path) {
-            return !/\.css$/.test(path);
-        });
-
-        lessList.unshift('./private/less/mixins.images-usage-statistics.less');
-        lessList.push('./private/less/images-usage-statistics.less');
-
-        var lessStatsCollector = deps.lessHeader({
-                variables: {
-                    baseURL: '"__BASE_URL__"',
-                    analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
-
-                    isModernBrowser: options.includeModernBrowsers,
-                    isIE: options.includeIE
-                },
-                imports: lessList.map(function (path, index) {
-                    // Ignore less files output, except mixins.statsoutput.less
-                    return path + ((index == lessList.length - 1) ? ':less' : ':reference');
-                })
-            });
-
-        less.render(lessStatsCollector, function (error, css) {
-            if (css) {
-                // Remove and replace CSS-specific stuff with JS stuff
-                var jsCss = css.replace('stats ', '').replace(/\;/g, ','),
-                    // Evaluate result
-                    rawStatsObject = (new Function('return ' + jsCss))();
-
-                stats.repeatable = rawStatsObject.repeatable.split(',');
-                // Repeatable images can be used as no-repeatable images,
-                // so we should exclude repeatable images from no-repeatable images list
-                stats.noRepeatable = rawStatsObject.noRepeatable.split(',').filter(function (name) {
-                    return stats.repeatable.indexOf(name) == -1;
-                });
-
-                callback(stats);
-            }
-        });
-    }
-
-    return stats;
-}
-
 gulp.task('collect-images-usage-stats', function () {
     var skins = getSkinsList(),
     
@@ -508,6 +445,43 @@ function getSkinsList() {
 
     return skins;
 }
+
+/**
+ * Analyzes Less, gets images usage statistics per skin
+ *
+ * @param {String[]} [skins] List of skins names those need be analyzed,
+ *                           if not passed, all the skins will be analyzed
+ *
+ * @returns {Object} Images usage statistics per skin
+ */
+function getImagesUsageStats(skins) {
+    skins = skins || getSkinsList();
+
+    var perSkinStats = {};
+
+    skins.forEach(function (skinName) {
+        var stats = {},
+
+            statsFilePath = './build/tmp/less/images-usage-statistics.' + skinName + '.less',
+            statsFileContent = fs.readFileSync(statsFilePath).toString(),
+            preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
+
+            rawStats = (new Function('return ' + preparedStatsFileContent))();
+
+        stats.repeatable = rawStats.repeatable.split(',');
+        // Repeatable images can be used as no-repeatable images,
+        // so we should exclude repeatable images from no-repeatable images list
+        stats.noRepeatable = rawStats.noRepeatable.split(',').filter(function (name) {
+            return stats.repeatable.indexOf(name) == -1;
+        });
+
+        perSkinStats[skinName] = stats;
+    });
+
+    return perSkinStats;
+}
+
+
 
 module.exports = {
     getJS: bldJs,
