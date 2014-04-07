@@ -151,48 +151,52 @@ gulp.task('copy-raster', function () {
     );
 });
 
-//gulp.task('generate-sprites', ['prepare-raster'], function (callback) {
-gulp.task('generate-sprites', function (taskCallback) {
-    var options = extend(tasks.util.env, {
-            includeModernBrowsers: true,
-            includeIE: true,
-            
-            isDebug: true
-        }),
-        lessList = deps.getCSSFiles(options);
+gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
-    getLessImagesStats(lessList, options, function (stats) {
-        var filesToExclude = stats.repeatable.join(','),
+gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function (taskCallback) {
+    var skins = getSkinsList(),
+        stats = getImagesUsageStats(skins),
+        
+        statisticsStreams = skins.map(function (skinName) {
+            // Adds comma to make glob’s {} working properly,
+            // even there is only one should be excluded
+            var filesToExclude = stats[skinName].repeatable.join(',') + ',',
+                pngList = [
+                    './build/tmp/**/' + skinName +'/**/*.png',
+                    '!./build/tmp/**/' + skinName + '/**/*@2x.png',
+                    '!./build/tmp/**/' + skinName + '/**/{' + filesToExclude + '}.png'
+                ],
+                png2xList = [
+                    './build/tmp/**/' + skinName +'/**/*@2x.png',
+                    '!./build/tmp/**/' + skinName +'/**/{' + filesToExclude + '}@2x.png'
+                ];
 
-            pngList = ['./build/tmp/**/*.png', '!./build/tmp/**/{' + filesToExclude + '}.png', '!./build/tmp/**/*@2x.png'],
-            png2xList = ['./build/tmp/**/*@2x.png', '!./build/tmp/**/{' + filesToExclude + '}@2x.png'];
+            return es.concat(
+                gulp.src(pngList)
+                    .pipe(tasks.spritesmith({
+                        styleTemplate: './build/sprite-template.mustache',
+                        imgName: 'sprite.png',
+                        styleName: 'sprite.less',
+                        groupBy: 'img',
+                        imgPath: '../img/sprite.png',
+                        engine: 'pngsmith'
+                    })),
 
-        es.concat(
-            gulp.src(pngList)
-                .pipe(tasks.spritesmith({
-                    styleTemplate: './build/sprite-template.mustache',
-                    imgName: 'sprite.png',
-                    styleName: 'sprite.less',
-                    groupBy: 'img',
-                    imgPath: '../img/sprite.png',
-                    engine: 'pngsmith'
-                })),
+                gulp.src(png2xList)
+                    .pipe(tasks.spritesmith({
+                        styleTemplate: './build/sprite-template.mustache',
+                        imgName: 'sprite@2x.png',
+                        styleName: 'sprite@2x.less',
+                        groupBy: 'img',
+                        imgPath: '../img/sprite@2x.png',
+                        engine: 'pngsmith'
+                    }))
+                )
+                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+                .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
+        });
 
-            gulp.src(png2xList)
-                .pipe(tasks.spritesmith({
-                    styleTemplate: './build/sprite-template.mustache',
-                    imgName: 'sprite@2x.png',
-                    styleName: 'sprite@2x.less',
-                    groupBy: 'img',
-                    imgPath: '../img/sprite@2x.png',
-                    engine: 'pngsmith'
-                }))
-        )
-        .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-        .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
-
-        taskCallback();
-    });
+    return es.concat.apply(null, statisticsStreams);
 });
 
 gulp.task('prepare-svg', ['copy-svg']);
