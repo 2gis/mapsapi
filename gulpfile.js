@@ -142,30 +142,30 @@ gulp.task('collect-images-usage-stats', function () {
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('collect-images-stats', function () {
+gulp.task('collect-images-stats', function (taskCaback) {
     var skins = getSkinsList(),
+        imagesStatsPerSkin = getImagesFilesStats(skins);
 
-        statisticsStreams = skins.map(function (skinName) {
-            return (
-                gulp.src('./src/**/' + skinName + '/img/*', { read: false })
-                    .pipe(tasks.tap(function (file, through) {
-                        var filePath = file.path,
+    skins.forEach(function (skinName) {
+        var skinImagesFilesStats = imagesStatsPerSkin[skinName];
 
-                            basename = path.basename(filePath),
-                            extname = path.extname(filePath),
+        var statisticsObject,
+            statisticsString = '';
 
-                            name = path.basename(filePath, extname),
+        for (var imageName in skinImagesFilesStats) {
+            statisticsObject = skinImagesFilesStats[imageName];
+            statisticsString = statisticsString +
+                '.imageFileData(\'' + imageName + '\') {' +
+                    '@filename: \'' + imageName + '\';' +
+                    '@extension: \'' + (typeof statisticsObject.extension == 'undefined' ? 'svg' : statisticsObject.extension) + '\'; ' +
+                    '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + ';' +
+                '}';
+        }
 
-                            line = '.imageFileData(\'' + name + '\') { @filename: \'' + name + '\'; @extension: \'' + extname.replace('.', '') + '\'; }';
+        fs.writeFileSync('./build/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
+    });
 
-                        file.contents = new Buffer(line);
-                    }))
-                    .pipe(tasks.concat('images-files-statistics.' + skinName + '.less'))
-                    .pipe(gulp.dest('./build/tmp/less'))
-            );
-        });
-
-    return es.concat.apply(null, statisticsStreams);
+    taskCaback();
 });
 
 gulp.task('copy-svg', function () {
@@ -477,6 +477,47 @@ function getImagesUsageStats(skins) {
         });
 
         perSkinStats[skinName] = stats;
+    });
+
+    return perSkinStats;
+}
+
+/**
+ * Gets images per skin formats statistics
+ *
+ * @param {String[]} [skins] List of skins names those need be analyzed,
+ *                           if not passed, all the skins will be analyzed
+ *
+ * @returns {Object} Statistics per skin
+ */
+function getImagesFilesStats(skins) {
+    skins = skins || getSkinsList();
+
+    var perSkinStats = {};
+
+    skins.forEach(function (skinName) {
+        var imagesPaths = glob.sync('./src/**/' + skinName + '/img/*'),
+            skinStats = {};
+
+        imagesPaths.forEach(function (imagePath) {
+            var basename = path.basename(imagePath),
+                extname = path.extname(imagePath),
+
+                name = path.basename(imagePath, extname);
+
+            if (!(name in skinStats)) {
+                skinStats[name] = {};
+            }
+
+            if (extname == '.svg') {
+                skinStats[name].hasVectorVersion = true;
+            }
+            else {
+                skinStats[name].extension = extname.replace('.', '');
+            }
+        });
+
+        perSkinStats[skinName] = skinStats;
     });
 
     return perSkinStats;
