@@ -159,7 +159,7 @@ gulp.task('collect-images-stats', function (taskCaback) {
                     '@filename: \'' + imageName + '\';' +
                     '@extension: \'' + (typeof statisticsObject.extension == 'undefined' ? 'svg' : statisticsObject.extension) + '\'; ' +
                     '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + ';' +
-                '}';
+                    '}\n';
         }
 
         fs.writeFileSync('./build/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
@@ -496,7 +496,7 @@ function getImagesFilesStats(skins) {
     var perSkinStats = {};
 
     skins.forEach(function (skinName) {
-        var imagesPaths = glob.sync('./src/**/' + skinName + '/img/*'),
+        var imagesPaths = glob.sync('./build/tmp/img/' + skinName + '/*'),
             skinStats = {};
 
         imagesPaths.forEach(function (imagePath) {
