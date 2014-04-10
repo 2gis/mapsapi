@@ -303,6 +303,7 @@ var deps = {
             'DGRuler/src/GeometryStyles.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
+            'DGRuler/lang/cs.js',
             'DGRuler/lang/en.js'
         ],
         css: {
@@ -322,6 +323,7 @@ var deps = {
             'DGRulerControl/src/Control.Ruler.js',
             'DGRulerControl/lang/ru.js',
             'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/cs.js',
             'DGRulerControl/lang/en.js'
         ],
         css: {
