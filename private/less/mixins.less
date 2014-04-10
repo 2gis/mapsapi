@@ -30,7 +30,7 @@
     .imageFileData(@name);
 
     & when not (@filename = '') {
-        background-image: data-uri('@{baseURL}/img/@{filename}.@{extension}');
+        background-image: data-uri('@{baseURL}/../../../../build/tmp/img_all/@{filename}.@{extension}');
         }
     }
 
@@ -42,14 +42,14 @@
         }
     }
 
-.spriteOrDirectImage(@name) {
+.spriteOrDirectImage(@name; @useSprite: true) {
     .isSprited(@name);
 
-    & when (@isSprited) {
+    & when (@isSprited) and (@useSprite) {
         .spriteImage(@name);
         }
 
-    & when not (@isSprited) {
+    & when not (@isSprited), not (@useSprite) {
         .directImage(@name);
         }
     }
@@ -57,12 +57,12 @@
 .noRepeatableBg(@name) when (@isModernBrowser) and not (@isIE) {
     .dataUriImage(@name);
     }
-.noRepeatableBg(@name) when (@isIE) {
-    .spriteOrDirectImage(@name);
+.noRepeatableBg(@name; @useSprite: true) when (@isIE) {
+    .spriteOrDirectImage(@name, @useSprite);
     }
-.noRepeatableBg(@name) when (@isModernBrowser) and (@isIE) {
+.noRepeatableBg(@name; @useSprite: true) when (@isModernBrowser) and (@isIE) {
     .leaflet-retina & {
-        .spriteOrDirectImage('@{name}@2x');
+        .spriteOrDirectImage('@{name}@2x', @useSprite);
         }
     }
 .noRepeatableBg(@name) {
