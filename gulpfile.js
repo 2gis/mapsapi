@@ -17,8 +17,6 @@ var extend = require('extend'),
     deps = require('./build/gulp-deps')(config),
     stat = {}; // Files minification statistics
 
-tasks.tap = require('gulp-tap'); // @TODO: Use gulp-load-plugins
-
 var projectList;
 
 webapiProjects(function (err, projects) {
@@ -171,6 +169,7 @@ gulp.task('collect-images-stats', function (taskCaback) {
 gulp.task('copy-svg', function () {
     return (
         gulp.src('./src/**/img/**/*.svg')
+            .pipe(tasks.svgmin())
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -180,36 +179,29 @@ gulp.task('copy-svg', function () {
     );
 });
 
-gulp.task('copy-svg-raster', ['copy-svg'], function () {
+gulp.task('copy-svg-raster', function () {
     tasks.util.log(tasks.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
-
-    var svgPath = './build/tmp/img/**/*.svg',
-        svgList = glob.sync(svgPath),
-        svgCount = svgList.length * 2, // Usual images plus @2x images
-        rasterizedSvgCount = 0;
 
     return (
         es.concat(
-            gulp.src(svgPath)
+            gulp.src('./src/**/img/**/*.svg')
                 .pipe(tasks.raster())
                 .pipe(tasks.rename(function (path) {
                     path.extname = '.png';
-
-                    rasterizedSvgCount = rasterizedSvgCount + 1;
-                    tasks.util.log('Created:', path.basename + path.extname, '(' + rasterizedSvgCount + '/' + svgCount + ')');
+                    path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
+                .pipe(tasks.imagemin())
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.rename({ dirname: './' }))
                 .pipe(gulp.dest('./build/tmp/img_all')),
 
-            gulp.src(svgPath)
+            gulp.src('./src/**/img/**/*.svg')
                 .pipe(tasks.raster({ scale: 2 }))
                 .pipe(tasks.rename(function (path) {
                     path.extname = '@2x.png';
-
-                    rasterizedSvgCount = rasterizedSvgCount + 1;
-                    tasks.util.log('Created:', path.basename + path.extname, '(' + rasterizedSvgCount + '/' + svgCount + ')');
+                    path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
+                .pipe(tasks.imagemin())
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.rename({ dirname: './' }))
                 .pipe(gulp.dest('./build/tmp/img_all'))
@@ -220,6 +212,7 @@ gulp.task('copy-svg-raster', ['copy-svg'], function () {
 gulp.task('copy-raster', function () {
     return (
         gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
+            .pipe(tasks.imagemin())
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -271,6 +264,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                     }))
                 )
                 .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')), true)
+                .pipe(tasks.imagemin())
                 .pipe(gulp.dest('./build/tmp/img/'))
                 .pipe(tasks.rename({ dirname: './' }))
                 .pipe(gulp.dest('./build/tmp/img_all/'));
