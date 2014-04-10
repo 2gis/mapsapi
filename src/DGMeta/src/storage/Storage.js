@@ -40,24 +40,6 @@ DG.Meta.Storage = DG.Class.extend({
         delete entity.hover;
 
         return entity;
-    }/*,
-
-    _wktToVert: function (entity, zoom) { //(Object)
-        var key = (zoom ? zoom : '') + 'vertices';
-
-        entity[key] = DG.readWKT(entity.hover);
-        delete entity.hover;
-
-        return entity;
-    },
-
-    _wktToBound: function (entity, zoom) { //(Object)
-        var key = (zoom ? zoom : '') + 'bound';
-
-        entity[key] = DG.geoJsonLayer(entity.hover).getBounds();
-        delete entity.hover;
-
-        return entity;
-    }*/
+    }
 
 });

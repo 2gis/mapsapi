@@ -236,10 +236,10 @@ DG.Meta = DG.Handler.extend({
         zoom = zoom || '';
         var bound = zoom + 'bound',
             vert = zoom + 'vertices';
-        if (obj.hasOwnProperty(bound)) {
+        if (bound in obj) {
             return 'bound';
         }
-        if (obj.hasOwnProperty(vert)) {
+        if (vert in obj) {
             return 'vertices';
         }
         return false;
