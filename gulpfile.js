@@ -102,7 +102,7 @@ gulp.task('clean-up-less', function () {
 });
 
 gulp.task('clean-up-images', function () {
-    return gulp.src('./build/tmp/img/*', { read: false }).pipe(tasks.clean());
+    return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe(tasks.clean());
 });
 
 gulp.task('clean-up', ['clean-up-less', 'clean-up-images']);
@@ -175,39 +175,57 @@ gulp.task('copy-svg', function () {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
             .pipe(gulp.dest('./build/tmp/img'))
+            .pipe(tasks.rename({ dirname: './' }))
+            .pipe(gulp.dest('./build/tmp/img_all'))
     );
 });
 
 gulp.task('copy-svg-raster', ['copy-svg'], function () {
-    return es.concat(
-        gulp.src('./build/tmp/img/**/*.svg')
-            .pipe(tasks.raster())
-            .pipe(tasks.rename({
-                extname: '.png'
-            }))
-            .pipe(gulp.dest('./build/tmp/img/')),
+    tasks.util.log(tasks.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
 
-        gulp.src('./build/tmp/img/**/*.svg')
-            .pipe(tasks.raster({ scale: 2 }))
-            .pipe(tasks.rename({
-                extname: '@2x.png'
-            }))
-            .pipe(gulp.dest('./build/tmp/img/'))
+    var svgPath = './build/tmp/img/**/*.svg',
+        svgList = glob.sync(svgPath),
+        svgCount = svgList.length * 2, // Usual images plus @2x images
+        rasterizedSvgCount = 0;
+
+    return (
+        es.concat(
+            gulp.src(svgPath)
+                .pipe(tasks.raster())
+                .pipe(tasks.rename(function (path) {
+                    path.extname = '.png';
+
+                    rasterizedSvgCount = rasterizedSvgCount + 1;
+                    tasks.util.log('Created:', path.basename + path.extname, '(' + rasterizedSvgCount + '/' + svgCount + ')');
+                }))
+                .pipe(gulp.dest('./build/tmp/img'))
+                .pipe(tasks.rename({ dirname: './' }))
+                .pipe(gulp.dest('./build/tmp/img_all')),
+
+            gulp.src(svgPath)
+                .pipe(tasks.raster({ scale: 2 }))
+                .pipe(tasks.rename(function (path) {
+                    path.extname = '@2x.png';
+
+                    rasterizedSvgCount = rasterizedSvgCount + 1;
+                    tasks.util.log('Created:', path.basename + path.extname, '(' + rasterizedSvgCount + '/' + svgCount + ')');
+                }))
+                .pipe(gulp.dest('./build/tmp/img'))
+                .pipe(tasks.rename({ dirname: './' }))
+                .pipe(gulp.dest('./build/tmp/img_all'))
+        )
     );
 });
 
 gulp.task('copy-raster', function () {
     return (
-        gulp.src([
-            './src/**/img/**/*.png',
-            './src/**/img/**/*.gif',
-            './src/**/img/**/*.jpg',
-            './src/**/img/**/*.jpeg'
-        ])
-        .pipe(tasks.rename(function (path) {
-            path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
-        }))
-        .pipe(gulp.dest('./build/tmp/img'))
+        gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
+            .pipe(tasks.rename(function (path) {
+                path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+            }))
+            .pipe(gulp.dest('./build/tmp/img'))//,
+            .pipe(tasks.rename({ dirname: './' }))
+            .pipe(gulp.dest('./build/tmp/img_all'))
     );
 });
 
@@ -252,8 +270,10 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                         engine: 'pngsmith'
                     }))
                 )
-                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-                .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
+                .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')), true)
+                .pipe(gulp.dest('./build/tmp/img/'))
+                .pipe(tasks.rename({ dirname: './' }))
+                .pipe(gulp.dest('./build/tmp/img_all/'));
         });
 
     return es.concat.apply(null, statisticsStreams);
@@ -398,7 +418,9 @@ function buildCss(options) {
                 analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
 
                 isModernBrowser: options.includeModernBrowsers,
-                isIE: options.includeIE
+                isIE: options.includeIE,
+
+                skinName: skin
             },
             imports: [
                 './build/tmp/less/sprite.basic.less:reference',
