@@ -54,7 +54,7 @@
         }
     }
 
-.noRepeatableBg(@name) when (@isModernBrowser) and not (@isIE) {
+.noRepeatableBg(@name; @useSprite: true) when (@isModernBrowser) and not (@isIE) {
     .dataUriImage(@name);
     }
 .noRepeatableBg(@name; @useSprite: true) when (@isIE) {
