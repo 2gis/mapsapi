@@ -174,7 +174,7 @@ gulp.task('copy-svg', function () {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
             .pipe(gulp.dest('./build/tmp/img'))
-            .pipe(tasks.rename({ dirname: './' }))
+            .pipe(tasks.flatten())
             .pipe(gulp.dest('./build/tmp/img_all'))
     );
 });
@@ -192,7 +192,7 @@ gulp.task('copy-svg-raster', function () {
                 }))
                 .pipe(tasks.imagemin())
                 .pipe(gulp.dest('./build/tmp/img'))
-                .pipe(tasks.rename({ dirname: './' }))
+                .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all')),
 
             gulp.src('./src/**/img/**/*.svg')
@@ -203,7 +203,7 @@ gulp.task('copy-svg-raster', function () {
                 }))
                 .pipe(tasks.imagemin())
                 .pipe(gulp.dest('./build/tmp/img'))
-                .pipe(tasks.rename({ dirname: './' }))
+                .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
         )
     );
@@ -217,7 +217,7 @@ gulp.task('copy-raster', function () {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
             .pipe(gulp.dest('./build/tmp/img'))//,
-            .pipe(tasks.rename({ dirname: './' }))
+            .pipe(tasks.flatten())
             .pipe(gulp.dest('./build/tmp/img_all'))
     );
 });
@@ -266,7 +266,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                 .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')), true)
                 .pipe(tasks.imagemin())
                 .pipe(gulp.dest('./build/tmp/img/'))
-                .pipe(tasks.rename({ dirname: './' }))
+                .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all/'));
         });
 
@@ -331,7 +331,7 @@ gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'bu
 //watchers
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['build-assets']);
-    gulp.watch('./src/**/img/**/*.*', ['build-sprites']);
+    gulp.watch('./src/**/img/**/*.*', ['build-graphics']);
     gulp.watch('./src/**/tmpl/**/*.*', ['build-scripts']);
     gulp.watch('./src/**/less/**/*.*', ['build-styles']);
     gulp.watch('./private/less/*.*', ['build-styles']);
@@ -439,7 +439,6 @@ function buildCss(options) {
             .pipe(tasks.frep(config.cfgParams))
             .pipe(tasks.less())
             .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-            //.pipe(tasks.base64({ extensions: ['svg'] }))
             .pipe(tasks.concat('styles.css'))
             .pipe(options.isDebug ?
                 tasks.util.noop() :
