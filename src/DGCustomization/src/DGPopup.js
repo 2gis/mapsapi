@@ -284,11 +284,9 @@
                     return bonzo(qwery(selector, context));
                 },
                 event: function (elem, event, func, mode) {
-                    if (mode === 'trigger') {
-                        mode = 'fire';
-                    }
-                    /*global bean:false */
-                    bean[mode || 'on'](elem, event, func);
+                    event.split(' ').forEach(function (type) {
+                        DG.DomEvent[mode || 'on'](elem, type, func);
+                    });
                 }
             });
         },
