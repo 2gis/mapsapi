@@ -224,7 +224,8 @@ gulp.task('copy-raster', function () {
 
 gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
-gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function (taskCallback) {
+//gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function (taskCallback) {
+gulp.task('generate-sprites', function (taskCallback) {
     var skins = getSkinsList(),
         stats = getImagesUsageStats(skins),
         
@@ -263,11 +264,11 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                         engine: 'pngsmith'
                     }))
                 )
-                .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')), true)
-                .pipe(tasks.imagemin())
-                .pipe(gulp.dest('./build/tmp/img/'))
-                .pipe(tasks.flatten())
-                .pipe(gulp.dest('./build/tmp/img_all/'));
+                // @TODO: Refactor this shit
+                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+                .pipe(tasks.if('*.png', tasks.imagemin()))
+                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+                .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
         });
 
     return es.concat.apply(null, statisticsStreams);
