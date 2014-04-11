@@ -280,8 +280,22 @@
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
                 $: function (selector, context) {
-                    /*global bonzo:false, qwery:false */
-                    return bonzo(qwery(selector, context));
+                    var node = {}.toString.call(selector) === '[object String]' ? (context ? context : document).querySelector(selector) : selector;
+                    /*global bonzo:false*/
+                    console.log('$', selector, context, node, bonzo(node));
+                    return bonzo(node);
+                    return {
+                        0 : node,
+                        setAttribute : function (name, value) {
+                            node.setAttribute(name, value);
+                        },
+                        getAttribute : function (name) {
+                            return node.getAttribute(name);
+                        },
+                        removeAttribute : function (name) {
+                            node.removeAttribute(name);
+                        }
+                    };
                 },
                 event: function (elem, event, func, mode) {
                     event.split(' ').forEach(function (type) {
