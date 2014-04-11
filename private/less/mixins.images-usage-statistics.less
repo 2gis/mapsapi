@@ -1,5 +1,5 @@
-@addToRepeatables: ~`addToRepeatables = 
-    (function() {
+@addToRepeatables: ~`addToRepeatables =
+    (function () {
         var names = '';
         return function (name) {
             if (typeof name == 'string' && name.length) {
@@ -12,10 +12,10 @@
 
 .repeatableBg(@name: '') {
     @repeatableBgNames: ~`addToRepeatables(@{name})`;
-}
+    }
 
-@addToNoRepeatables: ~`addToNoRepeatables = 
-    (function() {
+@addToNoRepeatablesSprited: ~`addToNoRepeatablesSprited =
+    (function () {
         var names = '';
         return function (name) {
             if (typeof name == 'string' && name.length) {
@@ -26,6 +26,26 @@
         }
     })()`;
 
-.noRepeatableBg(@name: ''; @useSprite: false) {
-    @noRepeatableBgNames: ~`addToNoRepeatables(@{name})`;
-}
+@addToNoRepeatablesNotSprited: ~`addToNoRepeatablesNotSprited =
+    (function () {
+        var names = '';
+        return function (name) {
+            if (typeof name == 'string' && name.length) {
+                names = names + (names.length ? ',' : '') + name;
+            }
+
+            return names;
+        }
+    })()`;
+
+.noRepeatableBg(@name: ''; @useSprite: true) {
+    @noRepeatableBgNamesSprited: ~`addToNoRepeatablesSprited()`;
+    @noRepeatableBgNamesNotSprited: ~`addToNoRepeatablesNotSprited()`;
+
+    & when (@useSprite) {
+        @noRepeatableBgNamesSprited: ~`addToNoRepeatablesSprited(@{name})`;
+        }
+    & when not (@useSprite) {
+        @noRepeatableBgNamesNotSprited: ~`addToNoRepeatablesNotSprited(@{name})`;
+        }
+    }

@@ -231,7 +231,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
         statisticsStreams = skins.map(function (skinName) {
             // Adds comma to make glob’s {} working properly,
             // even there is only one should be excluded
-            var filesToExclude = stats[skinName].repeatable.join(',') + ',',
+            var filesToExclude = stats[skinName].repeatable.join(',') + ',' + stats[skinName].noRepeatableNotSprited.join(','),
                 pngList = [
                     './build/tmp/**/' + skinName +'/**/*.png',
                     '!./build/tmp/**/' + skinName + '/**/*@2x.png',
@@ -489,9 +489,11 @@ function getImagesUsageStats(skins) {
             rawStats = (new Function('return ' + preparedStatsFileContent))();
 
         stats.repeatable = rawStats.repeatable.split(',');
+        stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',');
+        stats.noRepeatableNotSprited = rawStats.noRepeatableNotSprited.split(',');
         // Repeatable images can be used as no-repeatable images,
         // so we should exclude repeatable images from no-repeatable images list
-        stats.noRepeatable = rawStats.noRepeatable.split(',').filter(function (name) {
+        stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',').filter(function (name) {
             return stats.repeatable.indexOf(name) == -1;
         });
 
