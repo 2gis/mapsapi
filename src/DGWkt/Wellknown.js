@@ -5,7 +5,7 @@
  * @return {?Object} A GeoJSON geometry object
  */
 DG.parseWKT = function (_) {
-    if (Array.isArray(_)) {
+    if (DG.Util.isArray(_)) {
         _ = _[0];
     }
     var parts = _.split(';');
@@ -202,11 +202,11 @@ DG.geoJsonLayer = function (data, opts) {
 
 DG.readWKT = function (data) {
     var coords = DG.parseWKT(data).coordinates;
-    return Array.isArray(coords) ?
+    return DG.Util.isArray(coords) ?
         coords
             .map(function (coord) {
-                return Array.isArray(coord[0]) ? DG.GeoJSON.coordsToLatLngs(coord) : [DG.GeoJSON.coordsToLatLng(coord)];
-                // return DG.GeoJSON[Array.isArray(coord[0]) ? 'coordsToLatLngs' : 'coordsToLatLng'](coord);
+                return DG.Util.isArray(coord[0]) ? DG.GeoJSON.coordsToLatLngs(coord) : [DG.GeoJSON.coordsToLatLng(coord)];
+                // return DG.GeoJSON[DG.Util.isArray(coord[0]) ? 'coordsToLatLngs' : 'coordsToLatLng'](coord);
             })
             .reduce(function (arr, coord) {
                 return arr.concat(coord);

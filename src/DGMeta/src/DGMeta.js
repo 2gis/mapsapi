@@ -225,7 +225,7 @@ DG.Meta = DG.Handler.extend({
             x = Math.floor(p.x / tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
             y = Math.floor(p.y / tileSize);
 
-        return x + ',' +  y + ',' + dataZoom;
+        return [x, y, dataZoom].join(',');
     },
 
     _isTileChanged: function (xyz) { // (String) -> Boolean
@@ -236,6 +236,7 @@ DG.Meta = DG.Handler.extend({
         zoom = zoom || '';
         var bound = zoom + 'bound',
             vert = zoom + 'vertices';
+
         if (bound in obj) {
             return 'bound';
         }
@@ -250,7 +251,7 @@ DG.Meta = DG.Handler.extend({
     },
 
     _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
-        if (!data) { return false; }
+        if (!data || !data.length) { return false; }
 
         zoom = zoom || '';
         

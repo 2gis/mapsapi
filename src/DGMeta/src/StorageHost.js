@@ -13,7 +13,6 @@ DG.Meta.Host = DG.Class.extend({
         var availablePoi = this._poiStorage.getTileData(tileId),
             availableBuildings = this._buildingStorage.getTileData(tileId),
             availableTraffic = this._trafficStorage.getTileData(tileId);
-        // console.log(availableTraffic);
 
         if (availablePoi && availableBuildings && availableTraffic) {
             return DG.when({

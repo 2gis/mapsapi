@@ -31,7 +31,6 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
                 this._tilesData[tileId].push(id);
                 this._addEntity(id, item, zoom);
             }, this);
-        // console.log(tileId, tileData);
 
         return this.getTileData(tileId);
     },
