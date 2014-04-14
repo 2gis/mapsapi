@@ -30,7 +30,13 @@
     .imageFileData(@name);
 
     & when not (@filename = '') {
-        background-image: data-uri('@{baseURL}/../../../../build/tmp/img_all/@{filename}.@{extension}');
+        & when (@hasVectorVersion) {
+            background-image: data-uri('@{baseURL}/../../../../build/tmp/img_all/@{filename}.svg');
+            }
+
+        & when not (@hasVectorVersion) {
+            background-image: data-uri('@{baseURL}/../../../../build/tmp/img_all/@{filename}.@{extension}');
+            }
         }
     }
 
