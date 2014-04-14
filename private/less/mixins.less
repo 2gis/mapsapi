@@ -60,29 +60,35 @@
         }
     }
 
-.noRepeatableBg(@name; @useSprite: true) when (@isModernBrowser) and not (@isIE) {
-    .dataUriImage(@name);
-    }
-.noRepeatableBg(@name; @useSprite: true) when (@isIE) {
-    .spriteOrDirectImage(@name, @useSprite);
-    }
-.noRepeatableBg(@name; @useSprite: true) when (@isModernBrowser) and (@isIE) {
-    .leaflet-retina & {
-        .spriteOrDirectImage('@{name}@2x', @useSprite);
-        }
-    }
-.noRepeatableBg(@name) {
+.noRepeatableBg(@name; @useSprite: true) {
     background-repeat: no-repeat;
+
+    & when (@isModernBrowser) and not (@isIE) {
+        .dataUriImage(@name);
+        }
+
+    & when not (@isModernBrowser) and (@isIE) {
+        .spriteOrDirectImage(@name, @useSprite);
+        }
+
+    & when (@isModernBrowser) and (@isIE) {
+        .leaflet-retina & {
+            .spriteOrDirectImage('@{name}@2x', @useSprite);
+            }
+        }
     }
 
-.repeatableBg(@name) when (@isModernBrowser) and not (@isIE) {
-    .dataUriImage(@name);
-    }
-.repeatableBg(@name) when (@isIE) {
-    .directImage(@name);
-    }
-.repeatableBg(@name) when (@isModernBrowser) and (@isIE) {
-    .leaflet-retina & {
-        .directImage('@{name}@2x');
+.repeatableBg(@name) {
+    & when (@isModernBrowser) and not (@isIE) {
+        .dataUriImage(@name);
+        }
+    & when not (@isModernBrowser) and (@isIE) {
+        .directImage(@name);
+        }
+    & when (@isModernBrowser) and (@isIE) {
+        .leaflet-retina & {
+            .directImage('@{name}@2x');
+            }
         }
     }
+
