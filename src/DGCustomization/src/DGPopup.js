@@ -11,6 +11,32 @@
         /*global baron:false */
         graf = baron.noConflict();
 
+    var BaronDomHelper = function (element) {
+        this[0] = element;
+        this.length = 1;
+    };
+    BaronDomHelper.prototype = {
+        setAttribute : function (name, value) {
+            this[0].setAttribute(name, value);
+            return this;
+        },
+        getAttribute : function (name) {
+            return this[0].getAttribute(name);
+        },
+        removeAttribute : function (name) {
+            this[0].removeAttribute(name);
+            return this;
+        },
+        css : function (style, value) {
+            if (value) {
+                this[0].style[style] = value;
+                return this;
+            } else {
+                return DG.DomUtil.getStyle(this[0], style);
+            }
+        }
+    };
+
     DG.Popup.prototype.options.offset = DG.point(offsetX, offsetY);
 
     DG.Popup.mergeOptions({
@@ -281,21 +307,7 @@
                 track: '.scroller__bar-wrapper',
                 $: function (selector, context) {
                     var node = {}.toString.call(selector) === '[object String]' ? (context ? context : document).querySelector(selector) : selector;
-                    /*global bonzo:false*/
-                    console.log('$', selector, context, node, bonzo(node));
-                    return bonzo(node);
-                    return {
-                        0 : node,
-                        setAttribute : function (name, value) {
-                            node.setAttribute(name, value);
-                        },
-                        getAttribute : function (name) {
-                            return node.getAttribute(name);
-                        },
-                        removeAttribute : function (name) {
-                            node.removeAttribute(name);
-                        }
-                    };
+                    return new BaronDomHelper(node);
                 },
                 event: function (elem, event, func, mode) {
                     event.split(' ').forEach(function (type) {
