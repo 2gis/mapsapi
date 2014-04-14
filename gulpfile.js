@@ -79,15 +79,20 @@ gulp.task('build-assets', function () {
     return es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
+
         gulp.src('./build/tmp/img_all/*.*')
+            .pipe(gulp.dest('./public/img')),
+        gulp.src('./build/tmp/img/sprite.*')
             .pipe(gulp.dest('./public/img')),
         gulp.src('./private/img/*.*')
             .pipe(gulp.dest('./public/img')),
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
+
         gulp.src('./src/**/fonts/**/*.*')
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./public/fonts/')),
+
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
@@ -140,7 +145,7 @@ gulp.task('collect-images-usage-stats', function () {
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('collect-images-stats', function (taskCaback) {
+gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (taskCaback) {
     var skins = getSkinsList(),
         imagesStatsPerSkin = getImagesFilesStats(skins);
 
@@ -224,8 +229,7 @@ gulp.task('copy-raster', function () {
 
 gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
-//gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function (taskCallback) {
-gulp.task('generate-sprites', function (taskCallback) {
+gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function () {
     var skins = getSkinsList(),
         stats = getImagesUsageStats(skins),
         
