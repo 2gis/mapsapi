@@ -48,7 +48,7 @@ gulp.task('build-scripts', ['lint'], function () {
 
 gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function () {
     return es.concat(
-        buildCss(extend(tasks.util.env, { includeModernBrowsers: true, isDebug: true }))
+        buildCss(extend({}, tasks.util.env, { includeModernBrowsers: true, isDebug: true }))
              .pipe(map(saveSize))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -57,7 +57,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(map(saveSize))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend(tasks.util.env, { includeModernBrowsers: true, includeIE: true, isDebug: true }))
+         buildCss(extend({}, tasks.util.env, { includeModernBrowsers: true, includeIE: true, isDebug: true }))
              .pipe(tasks.rename({ suffix: '.full' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -65,7 +65,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(tasks.header(config.copyright))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend(tasks.util.env, { includeIE: true, isDebug: true }))
+         buildCss(extend({}, tasks.util.env, { includeIE: true, isDebug: true }))
              .pipe(tasks.rename({ suffix: '.ie' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -153,14 +153,16 @@ gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (t
         var skinImagesFilesStats = imagesStatsPerSkin[skinName];
 
         var statisticsObject,
-            statisticsString = '';
+            statisticsString = '',
+            extension;
 
         for (var imageName in skinImagesFilesStats) {
             statisticsObject = skinImagesFilesStats[imageName];
+            extension = (typeof statisticsObject.extension == 'undefined') ? 'svg' : statisticsObject.extension;
             statisticsString = statisticsString +
                 '.imageFileData(\'' + imageName + '\') {' +
                     '@filename: \'' + imageName + '\';' +
-                    '@extension: \'' + (typeof statisticsObject.extension == 'undefined' ? 'svg' : statisticsObject.extension) + '\'; ' +
+                    '@extension: \'' + extension + '\'; ' +
                     '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + ';' +
                     '}\n';
         }
@@ -282,7 +284,7 @@ gulp.task('prepare-svg', ['copy-svg']);
 
 gulp.task('build-graphics-tasks', ['prepare-svg', 'prepare-raster', 'generate-sprites']);
 
-gulp.task('build-graphics', ['clean-up-images'], function() {
+gulp.task('build-graphics', ['clean-up-images'], function () {
     return gulp.start('build-graphics-tasks');
 });
 
