@@ -4,8 +4,6 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
     _tilesData: {},
 
     addDataToTile: function (tileId, tileData) { //(String, Array)
-        this._tilesData[tileId] = this._tilesData[tileId] || [];
-
         if (!tileData.length) { return []; }
 
         var speeds = tileData[1].reduce(function (obj, item) {
@@ -13,24 +11,26 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
             return obj;
         }, {});
 
-        tileData[0]
-            .map(function (item) {
-                if (!speeds[item.graph_id]) { return; }
+        this._tilesData[tileId] = [].concat(this._tilesData[tileId] || [],
+            tileData[0]
+                .filter(function (item) {
+                    return speeds[item.graph_id];
+                })
+                .map(function (item) {
+                    return {
+                        'hover': item.geometry[0].object,
+                        'speed': speeds[item.graph_id],
+                        'id': item.graph_id
+                    };
+                })
+                .map(function (item) {
+                    var id = item.id,
+                        zoom = tileId.split(',')[2];
 
-                item.speed = speeds[item.graph_id];
-                item.id = item.graph_id;
-                item.hover = item.geometry[0].object;
-                delete item.geometry;
-                return item;
-            })
-            .filter(Boolean)
-            .forEach(function (item) {
-                var id = item.id,
-                    zoom = tileId.split(',')[2];
-
-                this._tilesData[tileId].push(id);
-                this._addEntity(id, item, zoom);
-            }, this);
+                    this._addEntity(id, item, zoom);
+                    return id;
+                }, this)
+        );
 
         return this.getTileData(tileId);
     },
