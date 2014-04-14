@@ -103,12 +103,15 @@ var init = function (config) {
             .filter(Boolean)
             .reduce(function (array, item) {
                 var items = [];
-                if (!options.onlyIE && item.all) {
+
+                if (options.includeModernBrowsers && item.all) {
                     items.push(item.all);
                 }
-                if ((options.isIE || options.onlyIE) && item.ie) {
+
+                if (options.includeIE && item.ie) {
                     items.push(item.ie);
                 }
+
                 return array.concat(items);
             }, [])
             .reduce(function (array, items) {
