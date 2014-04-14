@@ -220,8 +220,7 @@
     Примечание: если вы устанавливаете API карт не с текущего репозитория, а с его форка, тогда не забудьте указать первым параметром команды `clone` адрес форка вместо адреса репозитория 2ГИС.
 * Установите окружение:
     * [Node.js](http://nodejs.org/);
-    * [GruntJS](http://gruntjs.com/);
-    * [PhantomJS](http://phantomjs.org/download.html) (не является обязательным, но необходим для запуска тестов).
+    * [GruntJS](http://gruntjs.com/).
     
     Дополнительно вы можете [ознакомиться с инструкцией](#Установка-окружения-для-разных-ОС) по установке окружения для разных операционных систем.
 * Установите зависимости:
@@ -250,9 +249,6 @@
 
         npm install -g grunt-cli
 
-* Установите PhantomJS с помощью [PhantomJS Installer](http://phantomjs.org/download.html). Или с помощью homebrew:
-
-        brew update && brew install phantomjs
 
 ### Ubuntu
 
@@ -267,15 +263,6 @@
 
         npm install -g grunt-cli
 
-* Установите PhantomJS из командной строки:
-
-        cd /usr/local/share
-        sudo wget http://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-x86_64.tar.bz2
-        sudo tar xjf phantomjs-1.8.1-linux-x86_64.tar.bz2
-        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
-        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
-        sudo ln -s /usr/local/share/phantomjs-1.8.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
-        sudo apt-get install libfontconfig1
 
 ### Windows
 
@@ -285,7 +272,6 @@
 
         npm install -g grunt-cli
 
-* Установите PhantomJS, для этого скачайте [архив](http://phantomjs.org/download.html) и распакуйте его содержимое в папку C:\Program Files\PhantomJS\
 
 ## Стандарты кодирования
 

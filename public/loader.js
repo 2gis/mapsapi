@@ -6,7 +6,7 @@
         isJsRequested = false,
         queryString,
         rejects = [],
-        version = 'v=f0533b';
+        version = window.__dgApi_version = 'v=f0533b';
 
     function processURL() {
         var scripts = document.getElementsByTagName('script');
@@ -44,27 +44,6 @@
         var paramsURI = getParamsURI(),
             paramsIE = getParamsIE();
         return '?' + paramsURI + paramsIE + version;
-    }
-
-    function parseQueryString(queryString) {
-        if (!queryString) {
-            return {};
-        }
-        if (queryString[0] === '?') {
-            queryString = queryString.slice(1);
-        }
-        var paramString = queryString.split('&'),
-            length = paramString.length,
-            buffer = {},
-            param,
-            i;
-
-        for (i = 0; i < length; i++) {
-            param = paramString[i].split('=');
-            buffer[param[0]] = param[1];
-        }
-
-        return buffer;
     }
 
     function loadCSS(link) {
@@ -159,7 +138,6 @@
     window.DG.ready = false;
     window.__dgApi_callbacks = [];
     window.__dgApi_callbacks.push(setReady);
-    window.__dgApi_params = parseQueryString(queryString);
 
     baseURL = getBaseURL();
     queryString = getParams();
