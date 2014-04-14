@@ -16,18 +16,18 @@
         this.length = 1;
     };
     BaronDomHelper.prototype = {
-        setAttribute : function (name, value) {
+        setAttribute: function (name, value) {
             this[0].setAttribute(name, value);
             return this;
         },
-        getAttribute : function (name) {
+        getAttribute: function (name) {
             return this[0].getAttribute(name);
         },
-        removeAttribute : function (name) {
+        removeAttribute: function (name) {
             this[0].removeAttribute(name);
             return this;
         },
-        css : function (style, value) {
+        css: function (style, value) {
             if (value) {
                 this[0].style[style] = value;
                 return this;
@@ -306,7 +306,9 @@
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
                 $: function (selector, context) {
-                    var node = {}.toString.call(selector) === '[object String]' ? (context ? context : document).querySelector(selector) : selector;
+                    var node = {}.toString.call(selector) === '[object String]' ?
+                        (context || document).querySelector(selector) : selector;
+
                     return new BaronDomHelper(node);
                 },
                 event: function (elem, event, func, mode) {
