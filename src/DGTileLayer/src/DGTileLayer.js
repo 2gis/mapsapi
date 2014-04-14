@@ -1,8 +1,4 @@
 DG.Map.addInitHook(function () {
-    if (!this._copyright) {
-        DG.control.attribution().addTo(this);
-    }
-
     this._tln = 'dgTiles';
 
     this.baseLayer = new (DG.TileLayer.extend({

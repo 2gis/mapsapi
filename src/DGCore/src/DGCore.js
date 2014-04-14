@@ -1,6 +1,5 @@
-DG.loaderParams = window.__dgApi_params;
-window.__dgApi_params = undefined;
-
+DG.version = window.__dgApi_version;
+window.__dgApi_version = undefined;
 DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
 
 /* jshint ignore:start */
@@ -13,6 +12,12 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 /*global ga:false*/
 ga('create', '__GA_CODE__', 'none');
 ga('send', 'pageview');
+
+//track statistics
+var newImg = new Image();
+newImg.src = 'http://maps.api.2gis.ru/analytics/track-user.png?' +
+            'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
+            'v=' + DG.version;
 
 // Improve IHandler
 DG.Map.include({
