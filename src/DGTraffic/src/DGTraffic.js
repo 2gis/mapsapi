@@ -19,7 +19,7 @@ DG.Traffic = DG.TileLayer.extend({
     onAdd: function (map) {
         var project = map.projectDetector.getProject();
 
-        project ? this._setProjectOptions(project) : this._setNullOptions();
+        project && project.traffic ? this._setProjectOptions(project) : this._setNullOptions();
 
         this._handler = new DG.Traffic.Handler(map, this.options);
         this._handler.enable();
@@ -58,7 +58,7 @@ DG.Traffic = DG.TileLayer.extend({
     _projectEvents: {
         projectchange : function (event) {
             var project = event.getProject();
-            this._setProjectOptions(project);
+            project.traffic ? this._setProjectOptions(project) : this._setNullOptions();
             this.redraw();
         },
         projectleave : function () {
