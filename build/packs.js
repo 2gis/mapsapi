@@ -3,7 +3,7 @@ var packages = {
     light: {
         name: 'Light package',
         desc: 'Provides basic functionality: map, markers, popups, geometries',
-        modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen', 'DGAttribution']
+        modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen']
     },
 
     full: {
@@ -15,7 +15,7 @@ var packages = {
     online: {
         name: '2GIS Online package',
         desc: 'Provides functionality for 2GIS Online',
-        modules: ['DGTileLayer', 'DGWkt', 'DGPoi', 'DGEntrance', 'DGAttribution', 'DGRuler', 'DGTraffic']
+        modules: ['DGTileLayer', 'DGWkt', 'DGPoi', 'DGEntrance', 'DGRuler', 'DGTraffic']
     }
 
 };

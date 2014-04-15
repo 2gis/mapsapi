@@ -49,7 +49,8 @@ var deps = {
                 'AnimationTimer',
                 'AnimationZoom',
                 'Geolocation',
-                'DGWhen']
+                'DGAjax',
+                'DGAttribution']
     },
 
     DGWhen: {
@@ -63,7 +64,7 @@ var deps = {
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGCore']
+        deps: ['DGWhen']
     },
 
     DGLabel: {
@@ -134,10 +135,9 @@ var deps = {
             'DGAttribution/lang/en.js'
         ],
         css: {
-            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
-            ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
+            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css']
         },
-        deps: ['DGCore', 'DGDust', 'DGLocale']
+        deps: ['DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -145,8 +145,7 @@ var deps = {
         src: [
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
-        ],
-        deps: ['DGCore']
+        ]
     },
 
     DGLocation: {
@@ -313,6 +312,7 @@ var deps = {
             'DGRuler/src/GeometryStyles.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
+            'DGRuler/lang/cs.js',
             'DGRuler/lang/en.js'
         ],
         css: {
@@ -323,7 +323,7 @@ var deps = {
                 'DGRuler/skin/{skin}/css/DGRuler.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale']
+        deps: ['DGCore', 'DGLocale', 'DGDust']
     },
 
     DGRulerControl: {
@@ -332,6 +332,7 @@ var deps = {
             'DGRulerControl/src/Control.Ruler.js',
             'DGRulerControl/lang/ru.js',
             'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/cs.js',
             'DGRulerControl/lang/en.js'
         ],
         css: {
