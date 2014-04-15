@@ -1,3 +1,4 @@
+/* jshint ignore:start */
  /*
  * Parse WKT and return GeoJSON.
  *
@@ -206,10 +207,10 @@ DG.readWKT = function (data) {
         coords
             .map(function (coord) {
                 return DG.Util.isArray(coord[0]) ? DG.GeoJSON.coordsToLatLngs(coord) : [DG.GeoJSON.coordsToLatLng(coord)];
-                // return DG.GeoJSON[DG.Util.isArray(coord[0]) ? 'coordsToLatLngs' : 'coordsToLatLng'](coord);
             })
             .reduce(function (arr, coord) {
                 return arr.concat(coord);
             }) :
         DG.GeoJSON.coordsToLatLngs(coords);
 };
+/* jshint ignore:end */
