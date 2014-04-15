@@ -196,11 +196,12 @@ var deps = {
             'DGMeta/src/DGMeta.js',
             'DGMeta/src/storage/Storage.js',
             'DGMeta/src/storage/PoiStorage.js',
+            'DGMeta/src/storage/TrafficStorage.js',
             'DGMeta/src/storage/BuildingStorage.js',
             'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
-        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt']
+        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
     },
 
     DGPoi: {
@@ -289,6 +290,15 @@ var deps = {
             ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
         },
         deps: ['DGCore', 'DGLocale']
+    },
+
+    DGTraffic: {
+        desc: 'Traffic',
+        src: [
+            'DGTraffic/src/DGTraffic.js',
+            'DGTraffic/src/DGTraffic.Handler.js'
+        ],
+        deps: ['DGMeta']
     },
 
     DGRuler: {

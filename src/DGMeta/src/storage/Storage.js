@@ -27,6 +27,8 @@ DG.Meta.Storage = DG.Class.extend({
             this._tilesData[tileId].push(id);
             this._addEntity(id, tileData[i], zoom);
         }
+
+        return this.getTileData(tileId);
     },
 
     _addEntity: function (id, entity) { //(String, Object)

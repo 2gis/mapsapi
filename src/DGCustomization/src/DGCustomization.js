@@ -114,7 +114,8 @@ DG.Map.include({
     _updateTln: function (e) {
         if (typeof this._tln === 'string') { this._tln = 0; }
 
-        if (!(e.layer instanceof DG.TileLayer)) { return; }
+        if (!(e.layer instanceof DG.TileLayer) ||
+            (e.layer instanceof DG.Traffic)) { return; }
 
         e.type === 'layeradd' ? this._tln++ : this._tln--;
     },
@@ -128,7 +129,6 @@ DG.Map.include({
                 isMapMaxZoom = !!mapOptions.maxZoom,
                 dgTileLayer = this.baseLayer,
                 project = this.projectDetector.isProjectHere(coords);
-
             if (isMapMaxZoom) {
                 if (!this._mapMaxZoomCache) { this._mapMaxZoomCache = mapOptions.maxZoom; }
                 mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  '__PROJECT_LEAVE_MAX_ZOOM__';
