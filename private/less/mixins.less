@@ -1,6 +1,6 @@
 /* 
     See gulpfile.js for predefined stuff
-       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE, @skinName;
+       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE, @shouldUseSprites, @skinName;
        — Mixins: .imageData, .imageFileData, .isSprited.
  */
 
@@ -51,11 +51,17 @@
 .spriteOrDirectImage(@name; @useSprite: true) {
     .isSprited(@name);
 
-    & when (@isSprited) and (@useSprite) {
-        .spriteImage(@name);
+    & when (@shouldUseSprites) {
+        & when (@isSprited) and (@useSprite) {
+            .spriteImage(@name);
+            }
+
+        & when not (@isSprited), not (@useSprite) {
+            .directImage(@name);
+            }
         }
 
-    & when not (@isSprited), not (@useSprite) {
+    & when not (@shouldUseSprites) {
         .directImage(@name);
         }
     }

@@ -422,6 +422,8 @@ function buildCss(options) {
                 isModernBrowser: options.includeModernBrowsers,
                 isIE: options.includeIE,
 
+                shouldUseSprites: options.useSprites || tasks.util.env.sprite,
+
                 skinName: skin
             },
             imports: [
