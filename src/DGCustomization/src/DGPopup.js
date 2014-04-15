@@ -279,13 +279,14 @@
         },
 
         _initBaron: function () {
+            var context = this._scrollerWrapper;
             this._baron = graf({
                 scroller: '.scroller',
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
-                $: function (selector, context) {
+                $: function (selector) {
                     var node = {}.toString.call(selector) === '[object String]' ?
-                        (context || document).querySelector(selector) : selector;
+                        context.querySelector(selector) : selector;
 
                     return new BaronDomHelper(node);
                 },
