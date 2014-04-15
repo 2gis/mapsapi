@@ -99,16 +99,13 @@ gulp.task('build-assets', function () {
     );
 });
 
-gulp.task('clean-up-less', function () {
+gulp.task('clean-up-tmp-less', function () {
     return gulp.src(['./build/tmp/less/*'], { read: false }).pipe(tasks.clean());
 });
 
-gulp.task('clean-up-images', function () {
+gulp.task('clean-up-tmp-images', function () {
     return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe(tasks.clean());
 });
-
-gulp.task('clean-up', ['clean-up-less', 'clean-up-images']);
-
 
 gulp.task('collect-images-usage-stats', function () {
     var skins = getSkinsList(),
@@ -284,7 +281,7 @@ gulp.task('prepare-svg', ['copy-svg']);
 
 gulp.task('build-graphics-tasks', ['prepare-svg', 'prepare-raster', 'generate-sprites']);
 
-gulp.task('build-graphics', ['clean-up-images'], function () {
+gulp.task('build-graphics', ['clean-up-tmp-images'], function () {
     return gulp.start('build-graphics-tasks');
 });
 
@@ -315,7 +312,7 @@ gulp.task('doc', function () {
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
 
-gulp.task('build', ['build-clean'], function () {
+gulp.task('build', ['build-clean', 'clean-up-tmp-images', 'clean-up-tmp-less'], function () {
     return gulp.start('build-tasks');
 });
 
