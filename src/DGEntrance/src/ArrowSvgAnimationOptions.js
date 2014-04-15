@@ -49,7 +49,7 @@ if (DG.Browser.svg) {
         },
 
         _getShakeAnimationValues: function (points) { // (Array) -> String
-            var d = '', px0, py0,
+            var px0, py0,
                 // config coefficient values for arrow animation
                 relDiff = [1, 0.4, 1, 0.84, 1, 0.94, 1],
                 dx = points[1].x - points[0].x,
@@ -59,12 +59,12 @@ if (DG.Browser.svg) {
             px0 = points[0].x - dx;
             py0 = points[0].y - dy;
 
-            d = 'M ' + px0 + ' ' + py0 + l + '; ';
-            for (var i = 0; i < relDiff.length; i++) {
-                d += ' M ' + (px0 + dx * relDiff[i]) + ' ' + (py0 + dy * relDiff[i]) + l + ';';
-            }
-
-            return d;
+            return relDiff.reduce(
+                function (d, step) {
+                    return d + ' M ' + (px0 + dx * step) + ' ' + (py0 + dy * step) + l + ';';
+                },
+                'M ' + px0 + ' ' + py0 + l + '; '
+            );
         },
 
         _getPolylineLength: function (latlngs) {

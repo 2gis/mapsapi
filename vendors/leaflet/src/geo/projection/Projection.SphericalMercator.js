@@ -3,25 +3,29 @@
  */
 
 L.Projection.SphericalMercator = {
-	MAX_LATITUDE: 85.0511287798,
 
-	project: function (latlng) { // (LatLng) -> Point
-		var d = L.LatLng.DEG_TO_RAD,
-		    max = this.MAX_LATITUDE,
-		    lat = Math.max(Math.min(max, latlng.lat), -max),
-		    x = latlng.lng * d,
-		    y = lat * d;
+	R: 6378137,
 
-		y = Math.log(Math.tan((Math.PI / 4) + (y / 2)));
+	project: function (latlng) {
+		var d = Math.PI / 180,
+		    max = 1 - 1E-15,
+		    sin = Math.max(Math.min(Math.sin(latlng.lat * d), max), -max);
 
-		return new L.Point(x, y);
+		return new L.Point(
+				this.R * latlng.lng * d,
+				this.R * Math.log((1 + sin) / (1 - sin)) / 2);
 	},
 
-	unproject: function (point) { // (Point, Boolean) -> LatLng
-		var d = L.LatLng.RAD_TO_DEG,
-		    lng = point.x * d,
-		    lat = (2 * Math.atan(Math.exp(point.y)) - (Math.PI / 2)) * d;
+	unproject: function (point) {
+		var d = 180 / Math.PI;
 
-		return new L.LatLng(lat, lng);
-	}
+		return new L.LatLng(
+			(2 * Math.atan(Math.exp(point.y / this.R)) - (Math.PI / 2)) * d,
+			point.x * d / this.R);
+	},
+
+	bounds: (function () {
+		var d = 6378137 * Math.PI;
+		return L.bounds([-d, -d], [d, d]);
+	})()
 };

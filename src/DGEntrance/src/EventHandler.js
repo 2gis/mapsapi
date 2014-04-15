@@ -1,20 +1,24 @@
 DG.Entrance.EventHandler = DG.Handler.extend({
 
-    _map: null,
-    _entrance: null,
-
     initialize: function (map, entrance) { // (DG.Map, DG.Entrance)
         this._map = map;
         this._entrance = entrance;
+    },
 
-        this._map.on({
+    addHooks: function () {
+        this._map.on(this._events(), this);
+    },
+
+    removeHooks: function () {
+        this._map.off(this._events(), this);
+    },
+
+    _events: function () {
+        return {
             'layeradd': this._removeEntrance,
-            'zoomend projectleave': this._showOrHideEntrance
-        }, this);
-
-        if (DG.Browser.ie) {
-            this._map.on('mousemove zoomend', this._refresh, this); //JSAPI-3379
-        }
+            'zoomend': this._showOrHideEntrance,
+            'projectleave': this._showOrHideEntrance
+        };
     },
 
     _showOrHideEntrance: function () { // (DG.Event)
@@ -26,33 +30,11 @@ DG.Entrance.EventHandler = DG.Handler.extend({
         }
     },
 
-    _refresh: function () {
-        var arrows = this._entrance._arrows;
-        if (arrows) {
-            Object.keys(arrows._layers).forEach(function (arrow) {
-                var item = arrows._layers[arrow]._container;
-                item.parentNode.insertBefore(item, item);
-            }, this);
-        }
-    },
-
     _removeEntrance: function (e) { // (DG.LayerEvent)
         if (e.layer instanceof DG.Popup ||
             (e.layer instanceof DG.Entrance && e.layer !== this._entrance)) {
 
             this._entrance.removeFrom(this._map);
-
-        }
-    },
-
-    remove: function () {
-        this._map.off({
-            'layeradd': this._removeEntrance,
-            'zoomend projectleave': this._showOrHideEntrance
-        }, this);
-
-        if (DG.Browser.ie) {
-            this._map.off('mousemove zoomend', this._refresh, this); //JSAPI-3379
         }
     }
 });

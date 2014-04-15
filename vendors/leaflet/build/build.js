@@ -1,6 +1,7 @@
 var fs = require('fs'),
     jshint = require('jshint'),
     UglifyJS = require('uglify-js'),
+    zlib = require('zlib'),
 
     deps = require('./deps.js').deps;
 
@@ -45,15 +46,20 @@ function getFiles(compsBase32) {
 
 exports.getFiles = getFiles;
 
-function getSizeDelta(newContent, oldContent) {
+function getSizeDelta(newContent, oldContent, fixCRLF) {
 	if (!oldContent) {
-		return 'new';
+		return ' (new)';
 	}
-	var newLen = newContent.replace(/\r\n?/g, '\n').length,
-		oldLen = oldContent.replace(/\r\n?/g, '\n').length,
-		delta = newLen - oldLen;
+	if (newContent === oldContent) {
+		return ' (unchanged)';
+	}
+	if (fixCRLF) {
+		newContent = newContent.replace(/\r\n?/g, '\n');
+		oldContent = oldContent.replace(/\r\n?/g, '\n');
+	}
+	var delta = newContent.length - oldContent.length;
 
-	return (delta >= 0 ? '+' : '') + delta;
+	return delta === 0 ? '' : ' (' + (delta > 0 ? '+' : '') + delta + ' bytes)';
 }
 
 function loadSilently(path) {
@@ -72,13 +78,17 @@ function combineFiles(files) {
 	return content;
 }
 
-exports.build = function (compsBase32, buildName) {
+function bytesToKB(bytes) {
+    return (bytes / 1024).toFixed(2) + ' KB';
+};
+
+exports.build = function (callback, version, compsBase32, buildName) {
 
 	var files = getFiles(compsBase32);
 
-	console.log('Concatenating ' + files.length + ' files...');
+	console.log('Concatenating and compressing ' + files.length + ' files...');
 
-	var copy = fs.readFileSync('src/copyright.js', 'utf8'),
+	var copy = fs.readFileSync('src/copyright.js', 'utf8').replace('{VERSION}', version),
 	    intro = '(function (window, document, undefined) {',
 	    outro = '}(window, document));',
 	    newSrc = copy + intro + combineFiles(files) + outro,
@@ -87,18 +97,14 @@ exports.build = function (compsBase32, buildName) {
 	    srcPath = pathPart + '-src.js',
 
 	    oldSrc = loadSilently(srcPath),
-	    srcDelta = getSizeDelta(newSrc, oldSrc);
+	    srcDelta = getSizeDelta(newSrc, oldSrc, true);
 
-	console.log('\tUncompressed size: ' + newSrc.length + ' bytes (' + srcDelta + ')');
+	console.log('\tUncompressed: ' + bytesToKB(newSrc.length) + srcDelta);
 
-	if (newSrc === oldSrc) {
-		console.log('\tNo changes\n');
-	} else {
+	if (newSrc !== oldSrc) {
 		fs.writeFileSync(srcPath, newSrc);
-		console.log('\tSaved to ' + srcPath + '\n');
+		console.log('\tSaved to ' + srcPath);
 	}
-
-	console.log('Compressing...');
 
 	var path = pathPart + '.js',
 	    oldCompressed = loadSilently(path),
@@ -108,17 +114,36 @@ exports.build = function (compsBase32, buildName) {
 	    }).code,
 	    delta = getSizeDelta(newCompressed, oldCompressed);
 
-	console.log('\tCompressed size: ' + newCompressed.length + ' bytes (' + delta + ')');
+	console.log('\tCompressed: ' + bytesToKB(newCompressed.length) + delta);
 
-	if (newCompressed === oldCompressed) {
-		console.log('\tNo changes\n');
-	} else {
-		fs.writeFileSync(path, newCompressed);
-		console.log('\tSaved to ' + path + '\n');
+	var newGzipped,
+	    gzippedDelta = '';
+
+	function done() {
+		if (newCompressed !== oldCompressed) {
+			fs.writeFileSync(path, newCompressed);
+			console.log('\tSaved to ' + path);
+		}
+		console.log('\tGzipped: ' + bytesToKB(newGzipped.length) + gzippedDelta);
+		callback();
 	}
+
+	zlib.gzip(newCompressed, function (err, gzipped) {
+		if (err) { return; }
+		newGzipped = gzipped;
+		if (oldCompressed && (oldCompressed !== newCompressed)) {
+			zlib.gzip(oldCompressed, function (err, oldGzipped) {
+				if (err) { return; }
+				gzippedDelta = getSizeDelta(gzipped, oldGzipped);
+				done();
+			});
+		} else {
+			done();
+		}
+	});
 };
 
-exports.test = function(callback) {
+exports.test = function(complete, fail) {
 	var karma = require('karma'),
 	    testConfig = {configFile : __dirname + '/../spec/karma.conf.js'};
 
@@ -143,7 +168,7 @@ exports.test = function(callback) {
 
 	if (isArgv('--cov')) {
 		testConfig.preprocessors = {
-			'../src/**/*.js': 'coverage'
+			'src/**/*.js': 'coverage'
 		};
 		testConfig.coverageReporter = {
 			type : 'html',
@@ -157,7 +182,9 @@ exports.test = function(callback) {
 	karma.server.start(testConfig, function(exitCode) {
 		if (!exitCode) {
 			console.log('\tTests ran successfully.\n');
+			complete();
+		} else {
+			process.exit(exitCode);
 		}
-		callback();
 	});
 };

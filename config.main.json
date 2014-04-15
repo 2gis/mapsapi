@@ -5,7 +5,6 @@
     "DEFAULT_SKIN": "light",
 
     "TILE_SERVER": "http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1",
-    "ERROR_TILE_URL":"http://maps.api.2gis.ru/2.0/img/nomap.png",
 
     "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
     "PHOTOS_LINK": "http://beta.2gis.ru/photos/{id}",

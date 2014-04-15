@@ -44,14 +44,14 @@
     animation: dg-customization__show-marker .2s;
 }
 
-.leaflet-container:not(.leaflet-touch) div.leaflet-clickable.dg-customization__marker_type_mushroom:hover {
+.leaflet-container:not(.leaflet-touch) .leaflet-clickable.dg-customization__marker_type_mushroom:hover {
     background-image: url(__BASE_URL__/img/NonRetinaMarkerHover.png);
 }
 
 .dg-customization__marker_type_mushroom:focus {
     outline: 0;
 }
-div.leaflet-clickable.dg-customization__marker_type_mushroom:active {
+.leaflet-clickable.dg-customization__marker_type_mushroom:active {
     background-image: url(__BASE_URL__/img/NonRetinaMarkerPressed.png) !important;
 }
 

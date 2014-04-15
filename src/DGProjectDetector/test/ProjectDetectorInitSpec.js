@@ -1,11 +1,9 @@
-/*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false */
+/*global describe:false, it:false, expect:false, afterEach:false */
 describe('DG.ProjectDetector', function () {
     var map,
         mapContainer = document.createElement('div'),
-        initZoom = 1,
         maxZoom = 18,
         maxDesertZoom = 13,
-        start =        new DG.LatLng(54.98117239821992, 82.88922250270844),
         project1 =     new DG.LatLng(54.97902673261798, 82.819265127182),
         desert1 =      new DG.LatLng(54.817453325877906, 81.85930252075195);
 
@@ -13,23 +11,9 @@ describe('DG.ProjectDetector', function () {
     mapContainer.style.width = 1900 + 'px';
     mapContainer.style.height = 600 + 'px';
 
-    beforeEach(function () {
-        map = new DG.Map(mapContainer, {
-            center: start,
-            'zoom': initZoom,
-            'geoclicker': true,
-            'zoomAnimation': false
-        });
-    });
-
-    afterEach(function () {
-        map.remove();
-        map = null;
-    });
-
     describe('#initMap', function () {
 
-        beforeEach(function () {
+        afterEach(function () {
             map.remove();
             map = null;
         });
