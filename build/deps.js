@@ -83,8 +83,8 @@ var deps = {
     DGWkt: {
         desc: 'WKT parser module',
         src: [
-            'DGWkt/Wkt.js',
-            'DGWkt/DGWkt.js',
+            // 'DGWkt/Wkt.js',
+            // 'DGWkt/DGWkt.js',
             'DGWkt/Wellknown.js'
         ],
         deps: ['DGCore']
@@ -201,7 +201,7 @@ var deps = {
             'DGMeta/src/storage/Storage.js',
             'DGMeta/src/storage/PoiStorage.js',
             'DGMeta/src/storage/TrafficStorage.js',
-            'DGMeta/src/storage/BuildingStorage.js',
+            // 'DGMeta/src/storage/BuildingStorage.js',
             'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
@@ -214,11 +214,11 @@ var deps = {
         deps: ['DGMeta', 'DGLabel']
     },
 
-    DGBuildings: {
-        desc: '2GIS buildings module',
-        src: ['DGBuildings/src/DGBuildings.js'],
-        deps: ['DGMeta']
-    },
+    // DGBuildings: {
+    //     desc: '2GIS buildings module',
+    //     src: ['DGBuildings/src/DGBuildings.js'],
+    //     deps: ['DGMeta']
+    // },
 
     DGGeoclicker: {
         desc: '2GIS Geoclicker',

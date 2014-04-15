@@ -1,4 +1,4 @@
-## Класс DG.Wkt
+## DG.Wkt
 
 {toc}
 
@@ -10,53 +10,8 @@
 
 Считывает описание многоугольника в WKT-формате и отображает его на карте:
 
-    var wkt = DG.wkt();
-    var polygonComponents = wkt.read('POLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136))');
-    wkt.toObject(polygonComponents).addTo(map);
-
-### Конструктор
-
-<table>
-    <thead>
-        <tr>
-            <th>Конструктор</th>
-            <th>Использование</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code><b>DG.wkt</b>(
-                <nobr> &lt;<a href="#опции">Wkt options</a>&gt; <i>options?</i> )</nobr>
-            </code></td>
-            <td>
-                <code>DG.wkt(&hellip;)</code>
-            </td>
-            <td>Создает объект, отвечающий за обработку данных в WKT-формате.</td>
-        </tr>
-    </tbody>
-</table>
-
-### Опции
-
-<table>
-    <thead>
-        <tr>
-            <th>Опция</th>
-            <th>Тип</th>
-            <th>По умолчанию</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code><b>initializer</b></code></td>
-            <td><code>&lt;String&gt;</code></td>
-            <td>null</td>
-            <td>Данные в WKT-формате (опционально).</td>
-        </tr>
-    </tbody>
-</table>
+    var polygonComponents = 'POLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136))';
+    DG.geoJsonLayer(polygonComponents).addTo(map);
 
 ### Методы
 
@@ -70,24 +25,26 @@
     </thead>
     <tbody>
         <tr>
-            <td><code><b>read</b>(
+            <td><code><b>DG.parseWKT</b>(
                 <nobr>&lt;String&gt; <i>wkt</i>)</nobr>
             </code></td>
-            <td><code>Array</code></td>
-            <td>Считывает строку в WKT-формате и проверяет ее корректность. Возвращает массив компонентов геометрии (ее внутреннее представление).</td>
+            <td><code>geoJSON</code></td>
+            <td>Считывает строку в WKT-формате и проверяет ее корректность. Возвращает <a href="http://geojson.org/geojson-spec.html" target="_blank">GeoJSON</a>.</td>
         </tr>
         <tr>
-            <td><code><b>toObject</b>(
-                <nobr>&lt;Object&gt; <i>config</i> )</nobr></code></td>
-            <td><code>Object</code></td>
-            <td>Формирует геометрию API карт на основе данных, считанных методом read. Этот метод поддерживает все параметры конструктора класса <a href="/doc/maps/2.0/manual/geometries#класс-dgpath">Path</a>. Например, можно передать параметр <code>toObject({clickable:false})</code>, чтобы сделать геометрию некликабельной.</td>
-        </tr>
-        <tr>
-            <td><code><b>write</b>(
-                <nobr>&lt;Array&gt; <i>components</i> )</nobr>
+            <td><code><b>DG.readWKT</b>(
+                <nobr>&lt;String | Array&gt; <i>wkt</i>)</nobr>
             </code></td>
-            <td><code>String</code></td>
-            <td>Возвращает WKT-описание на основе компонентов геометрии (ее внутреннего представления).</td>
+            <td><code>Array</code></td>
+            <td>Считывает строку в WKT-формате и возвращает массив точек геометрии в формате <a href="/doc/maps/2.0/manual/base-classes/#класс-dglatlng">LatLng</a> (ее внутреннее представление). Может принимать массив WKT строк.</td>
+        </tr>
+        <tr>
+            <td><code><b>DG.geoJsonLayer</b>(
+                <nobr>&lt;String&gt; <i>wkt</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/2.0/manual/geojson/#опции">GeoJSON options</a>&gt; <i>options?</i>)</nobr></code></td>
+            <td><code>Object</code></td>
+            <td>
+            Создает GeoJSON слой. Принимает строку в WKT-формате для отображения данных на карте и объект опций. Формирует геометрию API карт на основе данных, считанных методом DG.parseWKT. Этот метод поддерживает все опции конструктора класса <a href="/doc/maps/2.0/manual/geojson/#класс-dggeojson">DG.GeoJSON</a>. Например, можно передать параметр <code>DG.geoJsonLayer(polygonComponents, {clickable:false})</code>, чтобы сделать геометрию некликабельной.</td>
         </tr>
     </tbody>
 </table>

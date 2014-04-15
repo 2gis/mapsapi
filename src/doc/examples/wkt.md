@@ -15,24 +15,18 @@
         var map,
             coord1 = 'POLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136))',
             coord2 = 'LINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235))',
-            coord3 = 'POINT((82.914 55.042136))',
-            wktPolygon = DG.wkt(),
-            wktLine = DG.wkt(),
-            wktPoint = DG.wkt();
+            coord3 = 'POINT((82.914 55.042136))';
         
         map = DG.map('map', {
             center: [55.042136, 82.91699],
             zoom: 16
         });
 
-        wktPolygon.read(coord1);
-        wktPolygon.toObject().addTo(map);
+        DG.geoJsonLayer(coord1).addTo(map);
 
-        wktLine.read(coord2);
-        wktLine.toObject().addTo(map);
+        DG.geoJsonLayer(coord2).addTo(map);
 
-        wktPoint.read(coord3);
-        wktPoint.toObject().addTo(map);          
+        DG.geoJsonLayer(coord3).addTo(map);          
     })
 </script>
 
@@ -51,24 +45,18 @@
                     var map,
                         coord1 = 'POLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136))',
                         coord2 = 'LINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235))',
-                        coord3 = 'POINT((82.914 55.042136))',
-                        wktPolygon = DG.wkt(),
-                        wktLine = DG.wkt(),
-                        wktPoint = DG.wkt();
+                        coord3 = 'POINT((82.914 55.042136))';
                     
                     map = DG.map('map', {
                         center: [55.042136, 82.91699],
                         zoom: 16
                     });
 
-                    wktPolygon.read(coord1);
-                    wktPolygon.toObject().addTo(map);
+                    DG.geoJsonLayer(coord1).addTo(map);
 
-                    wktLine.read(coord2);
-                    wktLine.toObject().addTo(map);
+                    DG.geoJsonLayer(coord2).addTo(map);
 
-                    wktPoint.read(coord3);
-                    wktPoint.toObject().addTo(map);          
+                    DG.geoJsonLayer(coord3).addTo(map);          
                 })
             </script>
         </body>
@@ -82,24 +70,18 @@
         var map,
             coord1 = 'MULTIPOLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136), (82.91599 55.041136, 82.916522 55.039187, 82.917063 55.039235, 82.916540 55.041184,82.91599 55.041136))',
             coord2 = 'MULTILINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235), (82.91899 55.044136, 82.919522 55.042187, 82.920063 55.042235))',
-            coord3 = 'MULTIPOINT((82.914 55.042136, 82.915 55.043136, 82.915 55.042136, 82.914 55.043136))',
-            wktMultiPolygon = DG.wkt(),
-            wktMultiLine = DG.wkt(),
-            wktMuliPoint = DG.wkt();
+            coord3 = 'MULTIPOINT((82.914 55.042136, 82.915 55.043136, 82.915 55.042136, 82.914 55.043136))';
 
         map = DG.map('map1', {
             center: [55.041836, 82.91699],
             zoom: 16
         });
 
-        wktMultiPolygon.read(coord1);
-        wktMultiPolygon.toObject().addTo(map);
+        DG.geoJsonLayer(coord1).addTo(map);
 
-        wktMultiLine.read(coord2);
-        wktMultiLine.toObject().addTo(map);
+        DG.geoJsonLayer(coord2).addTo(map);
 
-        wktMuliPoint.read(coord3);
-        wktMuliPoint.toObject().addTo(map);          
+        DG.geoJsonLayer(coord3).addTo(map);          
     });
 </script>
 
@@ -118,24 +100,18 @@
                     var map,
                         coord1 = 'MULTIPOLYGON((82.91699 55.042136, 82.917522 55.040187, 82.918063 55.040235, 82.917540 55.042184,82.91699 55.042136), (82.91599 55.041136, 82.916522 55.039187, 82.917063 55.039235, 82.916540 55.041184,82.91599 55.041136))',
                         coord2 = 'MULTILINESTRING((82.91799 55.043136, 82.918522 55.041187, 82.919063 55.041235), (82.91899 55.044136, 82.919522 55.042187, 82.920063 55.042235))',
-                        coord3 = 'MULTIPOINT((82.914 55.042136, 82.915 55.043136, 82.915 55.042136, 82.914 55.043136))',
-                        wktMultiPolygon = DG.wkt(),
-                        wktMultiLine = DG.wkt(),
-                        wktMuliPoint = DG.wkt();
+                        coord3 = 'MULTIPOINT((82.914 55.042136, 82.915 55.043136, 82.915 55.042136, 82.914 55.043136))';
 
                     map = DG.map('map', {
                         center: [55.041836, 82.91699],
                         zoom: 16
                     });
 
-                    wktMultiPolygon.read(coord1);
-                    wktMultiPolygon.toObject().addTo(map);
+                    DG.geoJsonLayer(coord1).addTo(map);
 
-                    wktMultiLine.read(coord2);
-                    wktMultiLine.toObject().addTo(map);
+                    DG.geoJsonLayer(coord2).addTo(map);
 
-                    wktMuliPoint.read(coord3);
-                    wktMuliPoint.toObject().addTo(map);          
+                    DG.geoJsonLayer(coord3).addTo(map);          
                 });
             </script>
         </body>
