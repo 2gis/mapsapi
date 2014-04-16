@@ -82,7 +82,7 @@ gulp.task('build-assets', function () {
 
         gulp.src('./build/tmp/img_all/*.*')
             .pipe(gulp.dest('./public/img')),
-        gulp.src('./build/tmp/img/sprite.*')
+        gulp.src('./build/tmp/img/sprite*')
             .pipe(gulp.dest('./public/img')),
         gulp.src('./private/img/*.*')
             .pipe(gulp.dest('./public/img')),
