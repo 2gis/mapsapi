@@ -47,6 +47,16 @@
         return  (mobile || !svg) ? 'sprite=true&' : 'sprite=false&';
     }
 
+    function getParamsMobile() {
+        return  (typeof orientation !== 'undefined') ? 'mobile=true&' : 'mobile=false&';
+    }
+
+    function getParamsSvg() {
+        var isSvgSupported = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
+
+        return  isSvgSupported ? 'svg=true&' : 'svg=false&';
+    }
+
     function getParams() {
         var paramsURI = getParamsURI(),
             sprite = getParamsSprite(),
