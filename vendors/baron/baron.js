@@ -120,7 +120,7 @@ var
                 element: item.bar,
 
                 handler: function(e) {
-                    e.preventDefault(); // Text selection disabling in Opera... and all other browsers?
+                    e.preventDefault ? e.preventDefault() : e.returnValue = false; // Text selection disabling in Opera... and all other browsers?
                     item.selection(); // Disable text selection in ie8
                     item.drag.now = 1; // Save private byte
                 },
