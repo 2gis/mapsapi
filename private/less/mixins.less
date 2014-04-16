@@ -19,6 +19,7 @@
 
     width: @width;
     height: @height;
+
     background-repeat: no-repeat;
 
     background-image: url('@{backgroundImage}');
@@ -78,6 +79,8 @@
         }
 
     & when (@isModernBrowser) and (@isIE) {
+        .spriteOrDirectImage(@name, @useSprite);
+
         .leaflet-retina & {
             .spriteOrDirectImage('@{name}@2x', @useSprite);
             }
