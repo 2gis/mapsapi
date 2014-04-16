@@ -1,6 +1,4 @@
-DG.Entrance = DG.Class.extend({
-
-    includes: DG.Mixin.Events,
+DG.Entrance = DG.Layer.extend({
 
     options: {
         vectors: []
@@ -10,11 +8,6 @@ DG.Entrance = DG.Class.extend({
         SHOW_FROM_ZOOM: DG.Browser.svg ? 16 : 17
     },
 
-    _map: null,
-    _arrows: null,
-    _eventHandler: null,
-    _isShown: true,
-
     initialize: function (options) { // (Object)
         DG.setOptions(this, options);
     },
@@ -23,10 +16,11 @@ DG.Entrance = DG.Class.extend({
         this._map = map;
         this._initArrows().addTo(map);
         this._eventHandler = new DG.Entrance.EventHandler(map, this);
+        this._eventHandler.enable();
 
         // hide without event by default
         this._arrows.eachLayer(function (arrow) {
-            arrow.setStyle({ visibility: 'hidden' });
+            arrow.setStyle({visibility: 'hidden'});
         });
         this._isShown = false;
     },
@@ -40,7 +34,7 @@ DG.Entrance = DG.Class.extend({
         this._isShown = false;
         this._removeArrows();
         this._map = null;
-        this._eventHandler.remove();
+        this._eventHandler.disable();
         this._eventHandler = null;
         this._arrows = null;
     },
@@ -55,14 +49,11 @@ DG.Entrance = DG.Class.extend({
             return this;
         }
         if (fitBounds !== false) {
-            fitBounds = true;
-        }
-        if (fitBounds) {
             this._fitBounds();
         }
         if (this._isAllowedZoom()) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.setStyle({ visibility: 'visible' });
+                arrow.setStyle({visibility: 'visible'});
                 if (DG.Path.ANIMATION_AVAILABLE) {
                     arrow.runAnimation('animateArrowPathGeom');
                 }
@@ -80,7 +71,7 @@ DG.Entrance = DG.Class.extend({
 
         if (this.isShown() && this._arrows) {
             this._arrows.eachLayer(function (arrow) {
-                arrow.setStyle({ visibility: 'hidden' });
+                arrow.setStyle({visibility: 'hidden'});
             });
             this._isShown = false;
             this._map.fire('entrancehide');
@@ -98,25 +89,22 @@ DG.Entrance = DG.Class.extend({
     },
 
     _initArrows: function () { // () -> DG.FeatureGroup
-        var wkt, components, latlngs;
+        var wkt = new DG.Wkt();
 
         this._arrows = DG.featureGroup();
 
-        for (var i = 0; i < this.options.vectors.length; i++) {
-            wkt = new DG.Wkt();
-            components = wkt.read(this.options.vectors[i]);
-            latlngs = [];
-
-            for (var j = 0; j < components.length; j++) {
-                latlngs.push([components[j].y, components[j].x]);
-            }
-
-            // stroke
-            this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
-
-            // basis
-            this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowOptions()));
-        }
+        this.options.vectors
+            .map(function (vector) {
+                return wkt.read(vector).map(function (point) {
+                    return [point.y, point.x];
+                });
+            })
+            .forEach(function (latlngs) {
+                // stroke
+                this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
+                // basis
+                this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowOptions()));
+            }, this);
 
         return this._arrows;
     },
@@ -126,7 +114,7 @@ DG.Entrance = DG.Class.extend({
     },
 
     _getFitZoom: function () {
-        return this._map.projectDetector.getProject().max_zoom_level || DG.Entrance.SHOW_FROM_ZOOM;
+        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _fitBounds: function () {
@@ -156,7 +144,6 @@ DG.Entrance = DG.Class.extend({
             clickable: false,
             color: '#fff',
             weight: 6,
-            opacity: 1,
             byZoom: {
                 16: {
                     marker: {
@@ -230,7 +217,6 @@ DG.Entrance = DG.Class.extend({
             clickable: false,
             color: '#0085a0',
             weight: 3,
-            opacity: 1,
             byZoom: {
                 16: {
                     marker: {

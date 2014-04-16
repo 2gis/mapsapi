@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>DGTraffic demo</title>
+    <script src="http://maps.api.2gis.dev/2.0/loader.js?pkg=full&mode=debug&skin=dark"></script>
+</head>
+<body>
+    <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+    <script type="text/javascript">
+        var map;
+
+        DG.then(function () {
+            map = new DG.Map('map', {
+                "center": new DG.LatLng(54.95070983406191, 83.0569839477539),
+                "zoom": 11,
+                "geoclicker": false
+            });
+
+            var traffic = new DG.Traffic();
+            map.addLayer(traffic);
+
+        });
+    </script>
+</body>
+</html>

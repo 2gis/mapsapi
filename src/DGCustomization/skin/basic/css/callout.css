@@ -72,7 +72,7 @@
 /* В коллауте ошибка вместо контента */
 .leaflet-popup_error_true {}
 
-.leaflet-popup-tip-container {
+.leaflet-map-pane .leaflet-popup-tip-container {
     position: relative;
     background-repeat: no-repeat;
     margin: -1px auto 0;

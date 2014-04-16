@@ -16,9 +16,9 @@ var deps = {
         heading: '2GIS modules',
         deps: [ 'Core',
                 'EPSG3395',
+                'GridLayer',
                 'TileLayer',
                 'TileLayerWMS',
-                'TileLayerCanvas',
                 'ImageOverlay',
                 'Marker',
                 'DivIcon',
@@ -26,15 +26,14 @@ var deps = {
                 'LayerGroup',
                 'FeatureGroup',
                 'Path',
-                'PathVML',
-                'PathCanvas',
                 'Polyline',
                 'Polygon',
-                'MultiPoly',
                 'Rectangle',
-                'Circle',
                 'CircleMarker',
-                'VectorsCanvas',
+                'Circle',
+                'SVG',
+                'VML',
+                'Canvas',
                 'GeoJSON',
                 'MapDrag',
                 'MouseZoom',
@@ -42,15 +41,16 @@ var deps = {
                 'BoxZoom',
                 'Keyboard',
                 'MarkerDrag',
-                'ControlAttrib',
                 'ControlZoom',
+                'ControlAttrib',
                 'ControlScale',
                 'ControlLayers',
                 'AnimationPan',
                 'AnimationTimer',
                 'AnimationZoom',
                 'Geolocation',
-                'DGWhen']
+                'DGAjax',
+                'DGAttribution']
     },
 
     DGWhen: {
@@ -64,7 +64,7 @@ var deps = {
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGCore']
+        deps: ['DGWhen']
     },
 
     DGLabel: {
@@ -92,7 +92,7 @@ var deps = {
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
-            'DGCustomization/skin/basic/skin.config.js',
+            'DGCustomization/skin/{skin}/skin.config.js',
             '../vendors/baron/baron.js',
             '../vendors/baron/js/bonzo.js',
             '../vendors/baron/js/bean.js',
@@ -122,7 +122,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/css/marker.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
     },
 
     DGAttribution: {
@@ -135,10 +135,9 @@ var deps = {
             'DGAttribution/lang/en.js'
         ],
         css: {
-            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css'],
-            ie: ['DGAttribution/skin/{skin}/css/DGAttribution.ie.css']
+            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css']
         },
-        deps: ['DGCore', 'DGDust', 'DGLocale']
+        deps: ['DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -146,8 +145,7 @@ var deps = {
         src: [
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
-        ],
-        deps: ['DGCore']
+        ]
     },
 
     DGLocation: {
@@ -168,6 +166,8 @@ var deps = {
     DGFullScreen: {
         desc: 'Full screen module',
         src: [
+            'DGFullScreen/src/DGScreenfull.js',
+            'DGFullScreen/src/LegacyFullScreen.js',
             'DGFullScreen/src/DGFullScreen.js',
             'DGFullScreen/lang/ru.js',
             'DGFullScreen/lang/it.js',
@@ -190,7 +190,7 @@ var deps = {
     DGProjectDetector: {
         desc: '2GIS project detector module',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGCore', 'DGAjax']
+        deps: ['DGCore']
     },
 
     DGMeta: {
@@ -199,11 +199,12 @@ var deps = {
             'DGMeta/src/DGMeta.js',
             'DGMeta/src/storage/Storage.js',
             'DGMeta/src/storage/PoiStorage.js',
+            'DGMeta/src/storage/TrafficStorage.js',
             'DGMeta/src/storage/BuildingStorage.js',
             'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
-        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt']
+        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
     },
 
     DGPoi: {
@@ -275,8 +276,8 @@ var deps = {
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/PathAnimation.js',
             'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/ArrowSvg.js',
-            'DGEntrance/src/ArrowVml.js',
+            'DGEntrance/src/ArrowSVG.js',
+            'DGEntrance/src/ArrowSVG.VML.js',
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
@@ -294,6 +295,15 @@ var deps = {
         deps: ['DGCore', 'DGLocale']
     },
 
+    DGTraffic: {
+        desc: 'Traffic',
+        src: [
+            'DGTraffic/src/DGTraffic.js',
+            'DGTraffic/src/DGTraffic.Handler.js'
+        ],
+        deps: ['DGMeta']
+    },
+
     DGRuler: {
         desc: 'Ruler module',
         src: [
@@ -302,6 +312,7 @@ var deps = {
             'DGRuler/src/GeometryStyles.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
+            'DGRuler/lang/cs.js',
             'DGRuler/lang/en.js'
         ],
         css: {
@@ -312,7 +323,7 @@ var deps = {
                 'DGRuler/skin/{skin}/css/DGRuler.ie.css'
             ]
         },
-        deps: ['DGCore', 'DGLocale']
+        deps: ['DGCore', 'DGLocale', 'DGDust']
     },
 
     DGRulerControl: {
@@ -321,6 +332,7 @@ var deps = {
             'DGRulerControl/src/Control.Ruler.js',
             'DGRulerControl/lang/ru.js',
             'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/cs.js',
             'DGRulerControl/lang/en.js'
         ],
         css: {

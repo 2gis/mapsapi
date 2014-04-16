@@ -2,5 +2,5 @@
 <div class="dg-ruler-label__container">
 	<div class="dg-ruler-label__point"></div>
 	<span class="dg-ruler-label__distance">0 км</span>
-	<a class="dg-ruler-label__delete" href="#"></a>
+	<span class="dg-ruler-label__delete"></span>
 </div>

@@ -60,3 +60,10 @@ DG.Control.Attribution.include({
         this._update(e.lang);
     }
 });
+
+DG.Map.addInitHook(function () {
+    if (!this._copyright) {
+        DG.control.attribution().addTo(this);
+    }
+});
+

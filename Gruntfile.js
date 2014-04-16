@@ -10,7 +10,8 @@ module.exports = function (grunt) {
     'use strict';
 
     grunt.registerTask('buildSrc', function () {
-        build.buildSrc();
+        var done = this.async();
+        build.buildSrc(true, done);
     });
 
     grunt.registerTask('setVersion', function () {
@@ -42,7 +43,8 @@ module.exports = function (grunt) {
 
     // Rebuild and run unit tests
     grunt.registerTask('test', function () {
-        build.buildSrc(false);
+        var done = this.async();
+        build.buildSrc(false, done);
         grunt.task.run('karma:continuous');
     });
 

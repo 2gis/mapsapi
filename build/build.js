@@ -8,12 +8,14 @@ var fs = require('fs'),
     argv = require('optimist').argv,
     clc = require('cli-color'),
     dust = require('dustjs-linkedin'),
+    projectLoader = require('2gis-project-loader'),
     config = require(__dirname + '/config.js').config,
     packages = require(__dirname + '/packs.js').packages,
     //Global data stores
     modules,
     defaultSkin,
     appConfig,
+    projectList,
     errors = [],
     skinVar = config.skin.var,
     //CLI colors theme settings
@@ -324,7 +326,7 @@ function makeJSPackage(modulesList, params) { //(Array, Object)->String
 
     result += params.isDebug ? config.js.dustdebug : '';
 
-    return getCopyrightsData() + config.js.intro + result + config.js.outro;
+    return getCopyrightsData() + config.js.intro + result + projectList + config.js.outro;
 }
 
 // Generates CSS content
@@ -461,8 +463,20 @@ exports.setVersion =  function (done) {
     });
 }
 
+exports.buildSrc = function (isMsg, done) {
+    projectLoader(function (err, projects) {
+        if (err) {
+            console.log(err);
+        }
+        projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+        buildSource(isMsg);
+        done();
+    });
+};
+
+
 // Combine and minify source files (CLI command)
-exports.buildSrc = function (isMsg) {
+function buildSource(isMsg) {
     var modulesList,
         jsSrcContent,
         jsMinContent,
@@ -548,6 +562,13 @@ exports.getConfig = function () {
 
 // Load content of all source files to memory (web app). Should be run once
 exports.init = function () {
+    projectLoader(function (err, projects) {
+        if (err) {
+            console.log(errMsg(err));
+        }
+        projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+    });
+
     modules = getModulesData();
 
     if (modules) {

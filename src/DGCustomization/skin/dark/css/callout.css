@@ -11,7 +11,7 @@
     background-image: url(__BASE_URL__/img/callout-tail-dark.png);
 }
 
-.leaflet-popup-tip-container_svg {
+.leaflet-map-pane .leaflet-popup-tip-container_svg {
     fill: #323232;
 }
 

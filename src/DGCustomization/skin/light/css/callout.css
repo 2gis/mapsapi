@@ -14,7 +14,7 @@
     background-image: url(__BASE_URL__/img/callout-tail-white.png);
 }
 
-.leaflet-popup-tip-container_svg {
+.leaflet-map-pane .leaflet-popup-tip-container_svg {
     fill: #fff;
     stroke: #bebdb5;
     stroke-dasharray: 0,10,100,60;
