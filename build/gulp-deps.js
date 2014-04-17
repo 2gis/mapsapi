@@ -162,7 +162,7 @@ var init = function (config) {
      * @returns {Array} List of skins’ names
      */
     function getSkinsList() {
-        var skinsDirectories = glob.sync('./src/**/skin/*'),
+        var skinsDirectories = glob.sync('../src/**/skin/*'),
         skins = [];
 
         skinsDirectories.forEach(function (directory) {
@@ -190,7 +190,7 @@ var init = function (config) {
         var perSkinStats = {};
 
         skins.forEach(function (skinName) {
-            var imagesPaths = glob.sync('./build/tmp/img/' + skinName + '/*'),
+            var imagesPaths = glob.sync('../build/tmp/img/' + skinName + '/*'),
             skinStats = {};
 
             imagesPaths.forEach(function (imagePath) {
@@ -233,7 +233,7 @@ var init = function (config) {
         skins.forEach(function (skinName) {
             var stats = {},
 
-            statsFilePath = './build/tmp/less/images-usage-statistics.' + skinName + '.less',
+            statsFilePath = '../build/tmp/less/images-usage-statistics.' + skinName + '.less',
             statsFileContent = fs.readFileSync(statsFilePath).toString(),
             preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
 
