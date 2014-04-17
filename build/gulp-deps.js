@@ -88,7 +88,7 @@ var init = function (config) {
                     items.push(item.all);
                 }
 
-                if (options.includeIE && item.ie) {
+                if (options.includeIE8 && item.ie) {
                     items.push(item.ie);
                 }
 

@@ -57,7 +57,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(map(saveSize))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend({}, tasks.util.env, { includeModernBrowsers: true, includeIE: true, isDebug: true }))
+         buildCss(extend({}, tasks.util.env, { includeModernBrowsers: true, includeIE8: true, isDebug: true }))
              .pipe(tasks.rename({ suffix: '.full' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -65,7 +65,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(tasks.header(config.copyright))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend({}, tasks.util.env, { includeIE: true, isDebug: true }))
+         buildCss(extend({}, tasks.util.env, { includeIE8: true, isDebug: true }))
              .pipe(tasks.rename({ suffix: '.ie' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -114,7 +114,7 @@ gulp.task('collect-images-usage-stats', function () {
             var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less', { sync: true });
 
             skinLessFiles.unshift('./private/less/mixins.images-usage-statistics.less');
-            skinLessFiles.unshift('./private/less/mixins.ie.less');
+            skinLessFiles.unshift('./private/less/mixins.ie8.less');
 
             skinLessFiles = skinLessFiles.map(function (lessFilePath) {
                 return lessFilePath + ':reference';
@@ -129,7 +129,7 @@ gulp.task('collect-images-usage-stats', function () {
                             analyticsBaseURL: '\'http://maps.api.2gis.ru/analytics/\'',
 
                             isModernBrowser: true,
-                            isIE: true
+                            isIE8: true
                         },
                         imports: skinLessFiles
                     })))
@@ -402,7 +402,7 @@ function bldJs(opt) {
  * @param {String} options.skin Skin name
  *
  * @param {Boolean} options.includeModernBrowsers If true, usual styles will be built in
- * @param {Boolean} options.includeIE If true, IE8 specific styles will built in
+ * @param {Boolean} options.includeIE8 If true, IE8 specific styles will built in
  *
  * @param {Boolean} options.isDebug Deprecated option, do not use it
  *
@@ -420,7 +420,7 @@ function buildCss(options) {
                 analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
 
                 isModernBrowser: options.includeModernBrowsers,
-                isIE: options.includeIE,
+                isIE8: options.includeIE8,
 
                 shouldUseSprites: options.useSprites || tasks.util.env.sprite,
 
@@ -436,7 +436,7 @@ function buildCss(options) {
                 './build/tmp/less/images-files-statistics.' + skin + '.less:reference',
 
                 './private/less/mixins.less:reference',
-                './private/less/mixins.ie.less:reference'
+                './private/less/mixins.ie8.less:reference'
             ]
         });
 

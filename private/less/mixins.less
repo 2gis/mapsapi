@@ -1,6 +1,6 @@
 /* 
     See gulpfile.js for predefined stuff
-       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE, @shouldUseSprites, @skinName;
+       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE8, @shouldUseSprites, @skinName;
        — Mixins: .imageData, .imageFileData, .isSprited.
  */
 
@@ -70,15 +70,15 @@
 .noRepeatableBg(@name; @useSprite: true) {
     background-repeat: no-repeat;
 
-    & when (@isModernBrowser) and not (@isIE) {
+    & when (@isModernBrowser) and not (@isIE8) {
         .dataUriImage(@name);
         }
 
-    & when not (@isModernBrowser) and (@isIE) {
+    & when not (@isModernBrowser) and (@isIE8) {
         .spriteOrDirectImage(@name, @useSprite);
         }
 
-    & when (@isModernBrowser) and (@isIE) {
+    & when (@isModernBrowser) and (@isIE8) {
         .spriteOrDirectImage(@name, @useSprite);
 
         .leaflet-retina & {
@@ -88,13 +88,13 @@
     }
 
 .repeatableBg(@name) {
-    & when (@isModernBrowser) and not (@isIE) {
+    & when (@isModernBrowser) and not (@isIE8) {
         .dataUriImage(@name);
         }
-    & when not (@isModernBrowser) and (@isIE) {
+    & when not (@isModernBrowser) and (@isIE8) {
         .directImage(@name);
         }
-    & when (@isModernBrowser) and (@isIE) {
+    & when (@isModernBrowser) and (@isIE8) {
         .leaflet-retina & {
             .directImage('@{name}@2x');
             }
