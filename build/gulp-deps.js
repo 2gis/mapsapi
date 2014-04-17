@@ -131,10 +131,10 @@ var init = function (config) {
         var header = '';
 
         if (options.variables) {
-            for (var varableName in options.variables) {
+            Object.keys(options.variables).forEach(function (varableName) {
                 header = header + '\n' +
                     '@' + varableName + ': ' + options.variables[varableName] + ';';
-            }
+            });
         }
 
         var importsBase = '';
