@@ -1,4 +1,5 @@
-var fs = require('fs');
+var fs = require('fs'),
+    glob = require('glob');
 
 var init = function (config) {
     var source = config.source;
