@@ -108,7 +108,7 @@ gulp.task('clean-up-tmp-images', function () {
 });
 
 gulp.task('collect-images-usage-stats', function () {
-    var skins = getSkinsList(),
+    var skins = deps.getSkinsList(),
     
         statisticsStreams = skins.map(function (skinName) {
             var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less', { sync: true });
@@ -143,8 +143,8 @@ gulp.task('collect-images-usage-stats', function () {
 });
 
 gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (taskCaback) {
-    var skins = getSkinsList(),
-        imagesStatsPerSkin = getImagesFilesStats(skins);
+    var skins = deps.getSkinsList(),
+        imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 
     skins.forEach(function (skinName) {
         var skinImagesFilesStats = imagesStatsPerSkin[skinName];
@@ -229,8 +229,8 @@ gulp.task('copy-raster', function () {
 gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
 gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function () {
-    var skins = getSkinsList(),
-        stats = getImagesUsageStats(skins),
+    var skins = deps.getSkinsList(),
+        stats = deps.getImagesUsageStats(skins),
         
         statisticsStreams = skins.map(function (skinName) {
             // Adds comma to make glob’s {} working properly,
@@ -450,104 +450,6 @@ function buildCss(options) {
                 tasks.util.noop() :
                 tasks.minifyCss())
             .pipe(tasks.header(config.copyright));
-}
-
-/**
- * Scans the project for skins directories to get skins names
- *
- * @returns {Array} List of skins’ names
- */
-function getSkinsList() {
-    var skinsDirectories = glob.sync('./src/**/skin/*'),
-        skins = [];
-
-    skinsDirectories.forEach(function (directory) {
-        var skinName = path.basename(directory);
-
-        if (skins.indexOf(skinName) == -1) {
-            skins.push(skinName);
-        }
-    });
-
-    return skins;
-}
-
-/**
- * Analyzes Less, gets images usage statistics per skin
- *
- * @param {String[]} [skins] List of skins names those need be analyzed,
- *                           if not passed, all the skins will be analyzed
- *
- * @returns {Object} Images usage statistics per skin
- */
-function getImagesUsageStats(skins) {
-    skins = skins || getSkinsList();
-
-    var perSkinStats = {};
-
-    skins.forEach(function (skinName) {
-        var stats = {},
-
-            statsFilePath = './build/tmp/less/images-usage-statistics.' + skinName + '.less',
-            statsFileContent = fs.readFileSync(statsFilePath).toString(),
-            preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
-
-            rawStats = (new Function('return ' + preparedStatsFileContent))();
-
-        stats.repeatable = rawStats.repeatable.split(',');
-        stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',');
-        stats.noRepeatableNotSprited = rawStats.noRepeatableNotSprited.split(',');
-        // Repeatable images can be used as no-repeatable images,
-        // so we should exclude repeatable images from no-repeatable images list
-        stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',').filter(function (name) {
-            return stats.repeatable.indexOf(name) == -1;
-        });
-
-        perSkinStats[skinName] = stats;
-    });
-
-    return perSkinStats;
-}
-
-/**
- * Gets images per skin formats statistics
- *
- * @param {String[]} [skins] List of skins names those need be analyzed,
- *                           if not passed, all the skins will be analyzed
- *
- * @returns {Object} Statistics per skin
- */
-function getImagesFilesStats(skins) {
-    skins = skins || getSkinsList();
-
-    var perSkinStats = {};
-
-    skins.forEach(function (skinName) {
-        var imagesPaths = glob.sync('./build/tmp/img/' + skinName + '/*'),
-            skinStats = {};
-
-        imagesPaths.forEach(function (imagePath) {
-            var basename = path.basename(imagePath),
-                extname = path.extname(imagePath),
-
-                name = path.basename(imagePath, extname);
-
-            if (!(name in skinStats)) {
-                skinStats[name] = {};
-            }
-
-            if (extname == '.svg') {
-                skinStats[name].hasVectorVersion = true;
-            }
-            else {
-                skinStats[name].extension = extname.replace('.', '');
-            }
-        });
-
-        perSkinStats[skinName] = skinStats;
-    });
-
-    return perSkinStats;
 }
 
 

@@ -45,47 +45,26 @@ var init = function (config) {
         return modulesListRes;
     }
 
-    /**
-     * Build string with Less variables and imports
-     *
-     * @param {Object} options
-     * @param {Object} options.variables Less variables, key is variable name and value is variable value
-     * @param {Array} options.imports Imports array of strings, it is array because imports order matters
-     * @param {String} options.imports[i] Path to file be imported. Supports specifying import type (inline, reference, less, css, etc.)
-     *                                    using format: './path/to/file:importType', for example: './mixins/basic.less:reference',
-     *                                    by default less type is used
-     *
-     * @returns {String} Variables and imports definitions, splitted by '\n'
-     */
-    function lessHeader(options) {
+    function getJSFiles(options) {
         options = options || {};
 
-        var header = '';
-
-        if (options.variables) {
-            for (var varableName in options.variables) {
-                header = header + '\n' +
-                    '@' + varableName + ': ' + options.variables[varableName] + ';';
-            }
-        }
-
-        var importsBase = '';
-
-        if (typeof options.importsBase == 'string' && options.importsBase.length) {
-            importsBase = options.importsBase.replace(/\/*$/, '/');
-        }
-
-        if (options.imports) {
-            for (var i = 0, type = '', path = ''; i < options.imports.length; i += 1) {
-                type = options.imports[i].replace(/^.*:/, '');
-                path = options.imports[i].replace(/:.*$/, '');
-
-                header = header + '\n' +
-                    '@import (' + type + ') \'' + importsBase + path + '\';';
-            }
-        }
-
-        return header;
+        return getModulesList(options.pkg)
+        .map(function (name) {
+            return modules[name];
+        })
+        .map(function (module) {
+            return module.src;
+        })
+        .reduce(function (array, items) {
+            return array.concat(items);
+        })
+        .filter(function (item, key, list) {//filter dublicates
+            return list.indexOf(item) === key;
+        })
+        .map(function (file) {
+            return path + file;
+        })
+        ;
     }
 
     function getCSSFiles(options) {
@@ -133,33 +112,159 @@ var init = function (config) {
             ;
     }
 
+    /**
+     * Build string with Less variables and imports
+     *
+     * @param {Object} options
+     * @param {Object} options.variables Less variables, key is variable name and value is variable value
+     * @param {Array} options.imports Imports array of strings, it is array because imports order matters
+     * @param {String} options.imports[i] Path to file be imported. Supports specifying import type (inline, reference, less, css, etc.)
+     *                                    using format: './path/to/file:importType', for example: './mixins/basic.less:reference',
+     *                                    by default less type is used
+     *
+     * @returns {String} Variables and imports definitions, splitted by '\n'
+     */
+    function lessHeader(options) {
+        options = options || {};
+
+        var header = '';
+
+        if (options.variables) {
+            for (var varableName in options.variables) {
+                header = header + '\n' +
+                    '@' + varableName + ': ' + options.variables[varableName] + ';';
+            }
+        }
+
+        var importsBase = '';
+
+        if (typeof options.importsBase == 'string' && options.importsBase.length) {
+            importsBase = options.importsBase.replace(/\/*$/, '/');
+        }
+
+        if (options.imports) {
+            for (var i = 0, type = '', path = ''; i < options.imports.length; i += 1) {
+                type = options.imports[i].replace(/^.*:/, '');
+                path = options.imports[i].replace(/:.*$/, '');
+
+                header = header + '\n' +
+                    '@import (' + type + ') \'' + importsBase + path + '\';';
+            }
+        }
+
+        return header;
+    }
+
+    /**
+     * Scans the project for skins directories to get skins names
+     *
+     * @returns {Array} List of skins’ names
+     */
+    function getSkinsList() {
+        var skinsDirectories = glob.sync('./src/**/skin/*'),
+        skins = [];
+
+        skinsDirectories.forEach(function (directory) {
+            var skinName = path.basename(directory);
+
+            if (skins.indexOf(skinName) == -1) {
+                skins.push(skinName);
+            }
+        });
+
+        return skins;
+    }
+
+    /**
+     * Gets images per skin formats statistics
+     *
+     * @param {String[]} [skins] List of skins names those need be analyzed,
+     *                           if not passed, all the skins will be analyzed
+     *
+     * @returns {Object} Statistics per skin
+     */
+    function getImagesFilesStats(skins) {
+        skins = skins || getSkinsList();
+
+        var perSkinStats = {};
+
+        skins.forEach(function (skinName) {
+            var imagesPaths = glob.sync('./build/tmp/img/' + skinName + '/*'),
+            skinStats = {};
+
+            imagesPaths.forEach(function (imagePath) {
+                var basename = path.basename(imagePath),
+                extname = path.extname(imagePath),
+
+                name = path.basename(imagePath, extname);
+
+                if (!(name in skinStats)) {
+                    skinStats[name] = {};
+                }
+
+                if (extname == '.svg') {
+                    skinStats[name].hasVectorVersion = true;
+                }
+                else {
+                    skinStats[name].extension = extname.replace('.', '');
+                }
+            });
+
+            perSkinStats[skinName] = skinStats;
+        });
+
+        return perSkinStats;
+    }
+
+    /**
+     * Analyzes Less, gets images usage statistics per skin
+     *
+     * @param {String[]} [skins] List of skins names those need be analyzed,
+     *                           if not passed, all the skins will be analyzed
+     *
+     * @returns {Object} Images usage statistics per skin
+     */
+    function getImagesUsageStats(skins) {
+        skins = skins || getSkinsList();
+
+        var perSkinStats = {};
+
+        skins.forEach(function (skinName) {
+            var stats = {},
+
+            statsFilePath = './build/tmp/less/images-usage-statistics.' + skinName + '.less',
+            statsFileContent = fs.readFileSync(statsFilePath).toString(),
+            preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
+
+            rawStats = (new Function('return ' + preparedStatsFileContent))();
+
+            stats.repeatable = rawStats.repeatable.split(',');
+            stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',');
+            stats.noRepeatableNotSprited = rawStats.noRepeatableNotSprited.split(',');
+            // Repeatable images can be used as no-repeatable images,
+            // so we should exclude repeatable images from no-repeatable images list
+            stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',').filter(function (name) {
+                return stats.repeatable.indexOf(name) == -1;
+            });
+
+            perSkinStats[skinName] = stats;
+        });
+
+        return perSkinStats;
+    }
+
     return {
         getModulesList: getModulesList,
 
-        getJSFiles: function (options) {
-            options = options || {};
-
-            return getModulesList(options.pkg)
-                .map(function (name) {
-                    return modules[name];
-                })
-                .map(function (module) {
-                    return module.src;
-                })
-                .reduce(function (array, items) {
-                    return array.concat(items);
-                })
-                .filter(function (item, key, list) {//filter dublicates
-                    return list.indexOf(item) === key;
-                })
-                .map(function (file) {
-                    return path + file;
-                })
-                ;
-        },
+        getJSFiles: getJSFiles,
         getCSSFiles: getCSSFiles,
 
-        lessHeader: lessHeader
+        lessHeader: lessHeader,
+
+        getSkinsList: getSkinsList,
+
+        getImagesFilesStats: getImagesFilesStats,
+        getImagesUsageStats: getImagesUsageStats
     };
 };
 
