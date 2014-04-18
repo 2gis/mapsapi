@@ -330,7 +330,7 @@
             if (DG.Browser.ielt9) {
                 var elem = this._popupStructure.footer;
                 if (elem) {
-                    elem.className += ' ie-shit';
+                    elem.className += ' ie8';
                 }
             }
 
