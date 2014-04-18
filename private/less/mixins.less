@@ -22,7 +22,14 @@
 
     background-repeat: no-repeat;
 
-    background-image: url('@{backgroundImage}');
+    & when (@isIE8) {
+        background-image: url('@{backgroundImage}');
+        }
+
+    & when not (@isIE8) {
+        background-image: url('@{baseURL}/@{backgroundImage}');
+        }
+
     background-position: @backgroundPosition;
     background-size: @totalWidth @totalHeight;
     }

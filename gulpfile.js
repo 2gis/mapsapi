@@ -253,7 +253,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                         imgName: 'sprite.png',
                         styleName: 'sprite.less',
                         groupBy: 'img',
-                        imgPath: '../img/sprite.png',
+                        imgPath: './img/sprite.png',
                         engine: 'pngsmith'
                     })),
 
@@ -263,7 +263,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                         imgName: 'sprite@2x.png',
                         styleName: 'sprite@2x.less',
                         groupBy: 'img',
-                        imgPath: '../img/sprite@2x.png',
+                        imgPath: './img/sprite@2x.png',
                         engine: 'pngsmith'
                     }))
                 )
