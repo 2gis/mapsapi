@@ -1,4 +1,4 @@
 DG.Control.Zoom.Dictionary.cs = {
-    "zoom-in" : "Přiblížit",
-    "zoom-out" : "Oddálit"
+    zoom_in : 'Přiblížit',
+    zoom_out : 'Oddálit'
 };

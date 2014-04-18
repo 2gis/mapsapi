@@ -475,7 +475,7 @@ DG.Ruler = DG.Layer.extend({
                 distance = distance.toFixed();
                 distance = distance.slice(0, -3) + ' ' + distance.slice(-3);
             } else {
-                distance = distance.toFixed(2).split('.').join(this.t(','));
+                distance = distance.toFixed(2).split('.').join(this.t('delimiter'));
             }
         } else {
             distance = Math.round(distance);

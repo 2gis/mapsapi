@@ -1,4 +1,4 @@
 DG.Control.Zoom.Dictionary.en = {
-    "zoom-in" : "Zoom in",
-    "zoom-out" : "Zoom out"
+    zoom_in : 'Zoom in',
+    zoom_out : 'Zoom out'
 };

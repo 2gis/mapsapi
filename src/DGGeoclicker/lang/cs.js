@@ -1,15 +1,15 @@
 DG.Geoclicker.Handler.Default.Dictionary.cs = DG.extend({
-    "We haven't collected info about this place": "O tomto místě zatím nemáme informace",
-    "noname": "Bez názvu",
-    "place": "cs - Place",
-    "division": "cs - Division",
-    "settlement": "cs - Settlement",
-    "street": "Ulice",
-    "district": "Obvod",
-    "city": "Město",
-    "goto": "cs - Directions to here",
-    "Show organization in the building": ["Всего {n} v budově", "Всего {n} v budově", "cs отзыва"],
-    "back button": "Назад Skrýt",
-    "Show more about sight": "cs - Read more",
-    "{n} floors": ["{n} podlaží", "{n} podlaží", "cs отзыва"]
+    we_have_not : 'O tomto místě zatím nemáme informace',
+    noname : 'Bez názvu',
+    place : 'Místo',
+    division : 'Správní obvod',
+    settlement : 'Obec',
+    street : 'Ulice',
+    district : 'Městská část',
+    city : 'Město',
+    go_to : 'cs - Directions to here',
+    show_organization_in_building : [ 'Celkem {n} organizace' , 'Celkem {n} organizace', 'Celkem {n} organizací' ],
+    back_button : 'Zpět',
+    show_more_about_sight : 'Více',
+    n_floors : [ '{n} patro' , '{n} patra' , 'pater' ]
 }, DG.Dictionary.cs);

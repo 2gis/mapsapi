@@ -44,12 +44,12 @@ DG.Control.Attribution.include({
     _getData: function (lang) {
         return {
             'lang': lang || this._map.getLang(),
-            'copyright_apilink': this.t('copyright apilink'),
-            'copyright_license': this.t('copyright license'),
-            'license_agreement': this.t('License agreement'),
-            'copyright_logo': this.t('copyright logo'),
-            'API_2GIS': this.t('API 2GIS'),
-            'TWOGIS': this.t('2GIS'),
+            'copyright_apilink': this.t('copyright_apilink'),
+            'copyright_license': this.t('copyright_license'),
+            'license_agreement': this.t('license_agreement'),
+            'copyright_logo': this.t('copyright_logo'),
+            'API_2GIS': this.t('API_2GIS'),
+            'TWOGIS': this.t('TWO_GIS'),
             'PTC': this.t('PTC')
         };
     },

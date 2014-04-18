@@ -56,7 +56,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         var data = {
             name: this.t('noname'),
             address: '',
-            purpose: this.t(type),
+            purpose: this.t('type'),
             type: type
         };
 

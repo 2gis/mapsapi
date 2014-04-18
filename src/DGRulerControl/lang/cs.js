@@ -1,3 +1,3 @@
 DG.Control.Ruler.Dictionary.cs = {
-	"button_title": "cs Линейка йопта"
+	button_title: 'Pravítko'
 };
