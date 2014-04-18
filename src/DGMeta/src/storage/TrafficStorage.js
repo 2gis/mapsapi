@@ -36,7 +36,7 @@ DG.Meta.TrafficStorage = DG.Meta.Storage.extend({
     },
 
     _addEntity: function (id, entity, zoom) { //(String, Object)
-        entity.geometry = DG.geoJsonLayer(entity.hover);
+        // entity.geometry = DG.geoJsonLayer(entity.hover);
         entity = this._formatWKT(entity, zoom, 'vertices');
 
         this._data[id] = DG.extend(this._data[id] || {}, entity);
