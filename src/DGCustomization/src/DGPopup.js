@@ -11,6 +11,32 @@
         /*global baron:false */
         graf = baron.noConflict();
 
+    var BaronDomHelper = function (element) {
+        this[0] = element;
+        this.length = 1;
+    };
+    BaronDomHelper.prototype = {
+        setAttribute: function (name, value) {
+            this[0].setAttribute(name, value);
+            return this;
+        },
+        getAttribute: function (name) {
+            return this[0].getAttribute(name);
+        },
+        removeAttribute: function (name) {
+            this[0].removeAttribute(name);
+            return this;
+        },
+        css: function (style, value) {
+            if (value) {
+                this[0].style[style] = value;
+                return this;
+            } else {
+                return DG.DomUtil.getStyle(this[0], style);
+            }
+        }
+    };
+
     DG.Popup.prototype.options.offset = DG.point(offsetX, offsetY);
 
     DG.Popup.mergeOptions({
@@ -253,20 +279,21 @@
         },
 
         _initBaron: function () {
+            var context = this._scrollerWrapper;
             this._baron = graf({
                 scroller: '.scroller',
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
-                $: function (selector, context) {
-                    /*global bonzo:false, qwery:false */
-                    return bonzo(qwery(selector, context));
+                $: function (selector) {
+                    var node = {}.toString.call(selector) === '[object String]' ?
+                        context.querySelector(selector) : selector;
+
+                    return new BaronDomHelper(node);
                 },
                 event: function (elem, event, func, mode) {
-                    if (mode === 'trigger') {
-                        mode = 'fire';
-                    }
-                    /*global bean:false */
-                    bean[mode || 'on'](elem, event, func);
+                    event.split(' ').forEach(function (type) {
+                        DG.DomEvent[mode || 'on'](elem, type, func);
+                    });
                 }
             });
         },

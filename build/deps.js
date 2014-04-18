@@ -93,9 +93,6 @@ var deps = {
         src: [
             'DGCustomization/skin/{skin}/skin.config.js',
             '../vendors/baron/baron.js',
-            '../vendors/baron/js/bonzo.js',
-            '../vendors/baron/js/bean.js',
-            '../vendors/baron/js/qwery.js',
             'DGCustomization/src/DGCustomization.js',
             'DGCustomization/src/DGPopup.js',
             'DGCustomization/src/DGZoom.js',
