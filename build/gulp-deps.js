@@ -1,11 +1,12 @@
 var fs = require('fs'),
-    glob = require('glob');
+    glob = require('glob'),
+    path = require('path');
 
 var init = function (config) {
     var source = config.source;
     var packages = config.packages;
     var modules = source.deps;
-    var path = source.path;
+    var sourcePath = source.path;
 
     // Generates a list of modules by pkg
     function getModulesList(pkg) { //(String|Null)->Array
@@ -63,7 +64,7 @@ var init = function (config) {
             return list.indexOf(item) === key;
         })
         .map(function (file) {
-            return path + file;
+            return sourcePath + file;
         })
         ;
     }
@@ -107,7 +108,7 @@ var init = function (config) {
                 return file.replace('{skin}', skin);
             })
             .map(function (file) {
-                return path + file;
+                return sourcePath + file;
             })
             .filter(fs.existsSync)
             ;
@@ -144,12 +145,12 @@ var init = function (config) {
         }
 
         if (options.imports) {
-            for (var i = 0, type = '', path = ''; i < options.imports.length; i += 1) {
+            for (var i = 0, type = '', imoportPath = ''; i < options.imports.length; i += 1) {
                 type = options.imports[i].replace(/^.*:/, '');
-                path = options.imports[i].replace(/:.*$/, '');
+                imoportPath = options.imports[i].replace(/:.*$/, '');
 
                 header = header + '\n' +
-                    '@import (' + type + ') \'' + importsBase + path + '\';';
+                    '@import (' + type + ') \'' + importsBase + imoportPath + '\';';
             }
         }
 
@@ -162,8 +163,8 @@ var init = function (config) {
      * @returns {Array} List of skins’ names
      */
     function getSkinsList() {
-        var skinsDirectories = glob.sync('../src/**/skin/*'),
-        skins = [];
+        var skinsDirectories = glob.sync(__dirname + '/../src/**/skin/*'),
+            skins = [];
 
         skinsDirectories.forEach(function (directory) {
             var skinName = path.basename(directory);
@@ -190,14 +191,14 @@ var init = function (config) {
         var perSkinStats = {};
 
         skins.forEach(function (skinName) {
-            var imagesPaths = glob.sync('../build/tmp/img/' + skinName + '/*'),
-            skinStats = {};
+            var imagesPaths = glob.sync(__dirname + '/../build/tmp/img/' + skinName + '/*'),
+                skinStats = {};
 
             imagesPaths.forEach(function (imagePath) {
                 var basename = path.basename(imagePath),
-                extname = path.extname(imagePath),
+                    extname = path.extname(imagePath),
 
-                name = path.basename(imagePath, extname);
+                    name = path.basename(imagePath, extname);
 
                 if (!(name in skinStats)) {
                     skinStats[name] = {};
@@ -233,11 +234,11 @@ var init = function (config) {
         skins.forEach(function (skinName) {
             var stats = {},
 
-            statsFilePath = '../build/tmp/less/images-usage-statistics.' + skinName + '.less',
-            statsFileContent = fs.readFileSync(statsFilePath).toString(),
-            preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
+                statsFilePath = __dirname + '/../build/tmp/less/images-usage-statistics.' + skinName + '.less',
+                statsFileContent = fs.readFileSync(statsFilePath).toString(),
+                preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
 
-            rawStats = (new Function('return ' + preparedStatsFileContent))();
+                rawStats = (new Function('return ' + preparedStatsFileContent))();
 
             stats.repeatable = rawStats.repeatable.split(',');
             stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',');
