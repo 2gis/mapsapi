@@ -21,14 +21,7 @@
     height: @height;
 
     background-repeat: no-repeat;
-
-    & when (@isIE8) {
-        background-image: url('@{backgroundImage}');
-        }
-
-    & when not (@isIE8) {
-        background-image: url('@{baseURL}/@{backgroundImage}');
-        }
+    background-image: url('@{baseURL}/img/@{backgroundImage}');
 
     background-position: @backgroundPosition;
     background-size: @totalWidth @totalHeight;
