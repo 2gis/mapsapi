@@ -71,7 +71,7 @@
     background-repeat: no-repeat;
 
     & when (@isModernBrowser) and not (@isIE8) {
-        .dataUriImage(@name);
+        .directImage(@name);
         }
 
     & when not (@isModernBrowser) and (@isIE8) {
