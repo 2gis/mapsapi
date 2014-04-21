@@ -39,11 +39,11 @@
 
     & when not (@filename = '') {
         & when (@hasVectorVersion) {
-            background-image: data-uri('@{baseURL}/../../../../build/tmp/img_all/@{filename}.svg');
+            background-image: data-uri('@{imagesBasePath}/@{filename}.svg');
             }
 
         & when not (@hasVectorVersion) {
-            background-image: data-uri('@{baseURL}/../../../../build/tmp/img_all/@{filename}.@{extension}');
+            background-image: data-uri('@{imagesBasePath}/@{filename}.@{extension}');
             }
         }
     }

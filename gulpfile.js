@@ -109,9 +109,11 @@ gulp.task('clean-up-tmp-images', function () {
 
 gulp.task('collect-images-usage-stats', function () {
     var skins = deps.getSkinsList(),
+
+        imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
     
         statisticsStreams = skins.map(function (skinName) {
-            var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less', { sync: true });
+            var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');
 
             skinLessFiles.unshift('./private/less/mixins.images-usage-statistics.less');
             skinLessFiles.unshift('./private/less/mixins.ie8.less');
@@ -129,7 +131,9 @@ gulp.task('collect-images-usage-stats', function () {
                             analyticsBaseURL: '\'http://maps.api.2gis.ru/analytics/\'',
 
                             isModernBrowser: true,
-                            isIE8: true
+                            isIE8: true,
+
+                            imagesBasePath: '\'' + imagesBasePath + '\''
                         },
                         imports: skinLessFiles
                     })))
@@ -413,6 +417,8 @@ function buildCss(options) {
 
     var skin = (options.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN,
 
+        imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
+
         lessList = deps.getCSSFiles(options),
         lessPrerequirements = deps.lessHeader({
             variables: {
@@ -424,7 +430,9 @@ function buildCss(options) {
 
                 shouldUseSprites: options.useSprites || tasks.util.env.sprite,
 
-                skinName: skin
+                skinName: skin,
+
+                imagesBasePath: '\'' + imagesBasePath + '\''
             },
             imports: [
                 './build/tmp/less/sprite.basic.less:reference',

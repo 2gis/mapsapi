@@ -234,7 +234,7 @@ var init = function (config) {
         skins.forEach(function (skinName) {
             var stats = {},
 
-                statsFilePath = __dirname + '/../build/tmp/less/images-usage-statistics.' + skinName + '.less',
+                statsFilePath = __dirname + '/tmp/less/images-usage-statistics.' + skinName + '.less',
                 statsFileContent = fs.readFileSync(statsFilePath).toString(),
                 preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
 
