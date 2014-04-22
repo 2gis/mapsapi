@@ -93,7 +93,7 @@ DG.Entrance = DG.Layer.extend({
 
         this.options.vectors
             .map(function (vector) {
-                return DG.readWKT(vector);
+                return DG.Wkt.toLatLngs(vector);
             })
             .forEach(function (latlngs) {
                 // stroke

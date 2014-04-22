@@ -33,7 +33,7 @@ DG.Meta.Storage = DG.Class.extend({
     _formatWKT: function (entity, zoom, type) { //(Object)
         var key = (zoom ? zoom : '') + type;
 
-        entity[key] = (type === 'bound') ? DG.geoJsonLayer(entity.hover).getBounds() : DG.readWKT(entity.hover);
+        entity[key] = (type === 'bound') ? DG.Wkt.geoJsonLayer(entity.hover).getBounds() : DG.Wkt.toLatLngs(entity.hover);
         delete entity.hover;
 
         return entity;

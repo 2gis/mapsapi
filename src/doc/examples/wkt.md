@@ -22,11 +22,11 @@
             zoom: 16
         });
 
-        DG.geoJsonLayer(coord1).addTo(map);
+        DG.Wkt.geoJsonLayer(coord1).addTo(map);
 
-        DG.geoJsonLayer(coord2).addTo(map);
+        DG.Wkt.geoJsonLayer(coord2).addTo(map);
 
-        DG.geoJsonLayer(coord3).addTo(map);          
+        DG.Wkt.geoJsonLayer(coord3).addTo(map);          
     })
 </script>
 
@@ -52,11 +52,11 @@
                         zoom: 16
                     });
 
-                    DG.geoJsonLayer(coord1).addTo(map);
+                    DG.Wkt.geoJsonLayer(coord1).addTo(map);
 
-                    DG.geoJsonLayer(coord2).addTo(map);
+                    DG.Wkt.geoJsonLayer(coord2).addTo(map);
 
-                    DG.geoJsonLayer(coord3).addTo(map);          
+                    DG.Wkt.geoJsonLayer(coord3).addTo(map);          
                 })
             </script>
         </body>
@@ -77,11 +77,11 @@
             zoom: 16
         });
 
-        DG.geoJsonLayer(coord1).addTo(map);
+        DG.Wkt.geoJsonLayer(coord1).addTo(map);
 
-        DG.geoJsonLayer(coord2).addTo(map);
+        DG.Wkt.geoJsonLayer(coord2).addTo(map);
 
-        DG.geoJsonLayer(coord3).addTo(map);          
+        DG.Wkt.geoJsonLayer(coord3).addTo(map);          
     });
 </script>
 
@@ -107,11 +107,11 @@
                         zoom: 16
                     });
 
-                    DG.geoJsonLayer(coord1).addTo(map);
+                    DG.Wkt.geoJsonLayer(coord1).addTo(map);
 
-                    DG.geoJsonLayer(coord2).addTo(map);
+                    DG.Wkt.geoJsonLayer(coord2).addTo(map);
 
-                    DG.geoJsonLayer(coord3).addTo(map);          
+                    DG.Wkt.geoJsonLayer(coord3).addTo(map);          
                 });
             </script>
         </body>

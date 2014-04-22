@@ -1,11 +1,7 @@
 /* jshint ignore:start */
- /*
- * Parse WKT and return GeoJSON.
- *
- * @param {string} _ A WKT geometry
- * @return {?Object} A GeoJSON geometry object
- */
-DG.parseWKT = function (_) {
+DG.Wkt = {};
+
+DG.Wkt.toGeoJSON = function (_) {
     if (DG.Util.isArray(_)) {
         _ = _[0];
     }
@@ -197,12 +193,12 @@ DG.parseWKT = function (_) {
     return crs(root());
 };
 
-DG.geoJsonLayer = function (data, opts) {
-    return DG.geoJson(DG.parseWKT(data), opts);
+DG.Wkt.geoJsonLayer = function (data, opts) {
+    return DG.geoJson(DG.Wkt.toGeoJSON(data), opts);
 };
 
-DG.readWKT = function (data) {
-    var coords = DG.parseWKT(data).coordinates;
+DG.Wkt.toLatLngs = function (data) {
+    var coords = DG.Wkt.toGeoJSON(data).coordinates;
     return DG.Util.isArray(coords) ?
         coords
             .map(function (coord) {
@@ -212,5 +208,17 @@ DG.readWKT = function (data) {
                 return arr.concat(coord);
             }) :
         DG.GeoJSON.coordsToLatLngs(coords);
+};
+
+DG.Wkt.toPoints = function (data) {
+    return DG.Wkt.toGeoJSON(data).coordinates;
+};
+
+DG.Wkt.pointsToLatLngOnMap = function (wkt, map) {
+    return (function parsePoints(points) {
+        return (Array.isArray(points) && Array.isArray(points[0])) ?
+            points.map(parsePoints) :
+            map.containerPointToLatLng(points);
+    })(DG.Wkt.toPoints(wkt));
 };
 /* jshint ignore:end */

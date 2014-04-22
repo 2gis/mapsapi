@@ -35,7 +35,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
 
         this._geometryZoomStyle = this._getPolyStyleNum();
-        this._geometry = DG.geoJsonLayer(results[type].geometry.selection, {
+        this._geometry = DG.Wkt.geoJsonLayer(results[type].geometry.selection, {
             style: this._polylineStyles[this._geometryZoomStyle]
         }).addTo(this._map);
 
