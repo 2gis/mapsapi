@@ -47,16 +47,12 @@
         var PolygonWKTPoints2 = 'POLYGON ((850 100, 950 450, 650 400, 600 200, 850 100), (700 300, 850 350, 800 200, 700 300))';
         DG.polygon(DG.Wkt.pointsToLatLngOnMap(PolygonWKTPoints2, map)).setStyle({color: 'red'}).addTo(map);
 
-
-        var MultiPointWKTPoints = 'MULTIPOINT ((100 400), (400 300), (200 200), (300 100))';
-        DG.Wkt.pointsToLatLngOnMap(MultiPointWKTPoints, map).forEach(function (latLng) {
-            return DG.marker(latLng[0]).addTo(map);
-        });
-
-        var MultiPointWKTPoints2 = 'MULTIPOINT (1000 400, 1400 300, 1200 200, 1300 100)';
-        DG.Wkt.pointsToLatLngOnMap(MultiPointWKTPoints2, map).forEach(function (latLng) {
-            return DG.marker(latLng).addTo(map);
-        });
+        var MultiPointWKTPoints = 'MULTIPOINT (1000 400, 1400 300, 1200 200, 1300 100)';
+        DG.Wkt.geoJsonLayer(MultiPointWKTPoints, {
+            coordsToLatLng: function (coords) {
+                return map.containerPointToLatLng(coords);
+            }
+        }).addTo(map);
 
         var MultiLineStringWKTPoints = 'MULTILINESTRING ((600 100, 700 200, 600 400), (900 400, 800 300, 900 200, 800 100))';
         DG.polyline(DG.Wkt.pointsToLatLngOnMap(MultiLineStringWKTPoints, map)).addTo(map);
@@ -67,7 +63,13 @@
         var MultiPolygonWKTPoints2 = 'MULTIPOLYGON (((1800 400, 1600 450, 1850 300, 1800 400)), ((1600 350, 1500 300, 1500 100, 1700 50, 1850 200, 1600 350), (1700 200, 1600 150, 1600 250, 1700 200)))';
         DG.polygon(DG.Wkt.pointsToLatLngOnMap(MultiPolygonWKTPoints2, map)).setStyle({color: 'green'}).addTo(map);
 
-        console.log(DG.Wkt.pointsToLatLngOnMap('GEOMETRYCOLLECTION(POINT(4 6),LINESTRING(4 6,7 10))'));
+        var GeometryCollectionWKTPoints = 'GEOMETRYCOLLECTION(MULTIPOINT(100 60, 70 300), LINESTRING(100 60, 70 100, 70 300))';
+        DG.Wkt.geoJsonLayer(GeometryCollectionWKTPoints, {
+            style: {color: 'grey'},
+            coordsToLatLng: function (coords) {
+                return map.containerPointToLatLng(coords);
+            }
+        }).addTo(map);
     });
 </script>
 
