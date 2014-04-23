@@ -1,15 +1,15 @@
 DG.Geoclicker.Handler.Default.Dictionary.it = DG.extend({
     we_have_not : 'Non disponiamo ancora di informazioni su questo posto',
-    noname : 'Nome non presente',
+    noname : 'Nome non indicato',
     place : 'Luogo',
-    division : 'it - Division',
+    division : 'Zona',
     settlement : 'Comune',
     street : 'Via',
     district : 'Municipalità',
     city : 'Сittà',
-    go_to : 'it - Directions to here',
-    show_organization_in_the_building : ['Всего {n} Mostra le aziende', 'Всего {n} Mostra le aziende'],
-    show_more_about_sight : 'it - Read more',
+    go_to : 'Come arrivare',
+    show_organization_in_the_building : ['{n} azienda in tutto', '{n} aziende in tutto'],
+    show_more_about_sight : 'Maggiori informazioni',
     back_button: 'Indietro',
     n_floors : ['{n} piano', '{n} piani']
 }, DG.Dictionary.it);

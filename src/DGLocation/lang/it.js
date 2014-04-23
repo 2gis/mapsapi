@@ -1,5 +1,5 @@
 DG.Control.Location.Dictionary.it = {
-	 cant_find : 'it-We can\'t find you',
-	 you_are_here : 'it-You are here',
-	 button_title : 'it-Show your location'
+	 cant_find : 'Non siamo riusciti a localizzarti',
+	 you_are_here : 'Voi siete qui',
+	 button_title : 'Trova la tua posizione sulla mappa'
 };
