@@ -34,7 +34,6 @@ DG.Traffic.Handler = DG.Handler.extend({
     _mapEventsListeners : {
         traffichover: function (e) { // (Object)
             this._setCursor('pointer');
-            // this._testL = e.traffic.geometry.addTo(this._map);
             if (this._labelHelper && e.traffic.speed) {
                 this._labelHelper
                     .setPosition(e.latlng)
@@ -47,7 +46,6 @@ DG.Traffic.Handler = DG.Handler.extend({
 
         trafficleave: function () {
             this._setCursor('auto');
-            // this._testL && this._map.removeLayer(this._testL);
             if (this._labelHelper) {
                 this._map
                     .off('mousemove', this._onMouseMove, this)

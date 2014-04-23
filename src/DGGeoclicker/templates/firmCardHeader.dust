@@ -5,7 +5,7 @@
         {#links}
             {@eq key="{name}" value="flamp_stars" type="string"}
                 <div id="popup-link-{name}" class="popup-link">
-                    <div{#width} style="width: {.} %;" {/width}></div>
+                    <div{#width} style="width: {.}%;" {/width}></div>
                 </div>
             {:else}
                 <a id="popup-link-{name}" class="popup-header-link popup-link"

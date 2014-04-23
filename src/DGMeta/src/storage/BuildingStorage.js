@@ -2,6 +2,7 @@ DG.Meta.BuildingStorage = DG.Meta.Storage.extend({
 
     _data: {},
     _tilesData: {},
+    _wkt: new DG.Wkt(),
 
     _addEntity: function (id, entity) { //(String, Object)
         var verts = this._wkt.read(entity.hover);

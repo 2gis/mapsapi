@@ -4,27 +4,73 @@
     <title>DGWkt demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?mode=debug&pkg=full" data-id="dgLoader"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+    <style type="text/css">
+
+      html,body { height: 100%; margin: 0px; padding: 0px; }
+      #map { width: 100%; height: 100%; }
+
+    </style>
 </head>
 <body>
 
-<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+<div id="map"</div>
 
 <script type="text/javascript">
     DG.then(function () {
 
         var map = new DG.Map('map', {
-            center: new DG.LatLng(55.0412876099625, 82.9175228440822),
-            zoom: 17
-        });
+                center: new DG.LatLng(55.0412876099625, 82.9175228440822),
+                zoom: 17
+            }),
+            converter = function (coords) {
+                return map.containerPointToLatLng(coords);
+            };
 
-        var wkt = new DG.Wkt();
+        DG.Wkt.geoJsonLayer('POLYGON((82.916999581655 55.0421363815388, 82.9175228440822 55.0401876099625, 82.9180633669606 55.0402351774059, 82.9175402952564 55.0421841282563,82.916999581655 55.0421363815388))').addTo(map);
 
-        var polygonComponents = wkt.read('POLYGON((82.916999581655 55.0421363815388, 82.9175228440822 55.0401876099625, 82.9180633669606 55.0402351774059, 82.9175402952564 55.0421841282563,82.916999581655 55.0421363815388))');
-        wkt.toObject(polygonComponents).addTo(map);
+        DG.Wkt.geoJsonLayer('POINT(82.918299581655 55.0414363815388)').addTo(map);
 
-        var pointComponents = wkt.read('POINT(82.918299581655 55.0414363815388)');
-        wkt.toObject(pointComponents).addTo(map);
+        DG.Wkt.geoJsonLayer('POINT (300 100)', {
+            coordsToLatLng: converter
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('LINESTRING (300 100, 100 300, 400 400)', {
+            coordsToLatLng: converter
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('POLYGON ((300 100, 400 400, 200 400, 100 200, 300 100))', {
+            coordsToLatLng: converter
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('POLYGON ((850 100, 950 450, 650 400, 600 200, 850 100), (700 300, 850 350, 800 200, 700 300))', {
+            style: {color: 'red'},
+            coordsToLatLng: converter
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('MULTIPOINT (1000 400, 1400 300, 1200 200, 1300 100)', {
+            coordsToLatLng: converter
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('MULTILINESTRING ((600 100, 700 200, 600 400), (900 400, 800 300, 900 200, 800 100))', {
+            coordsToLatLng: converter
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('MULTIPOLYGON (((1300 200, 1450 400, 1100 400, 1300 200)), ((1150 50, 1400 100, 1100 200, 1150 100, 1150 50)))', {
+            style: {color: 'orange'},
+            coordsToLatLng: converter
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('MULTIPOLYGON (((1800 400, 1600 450, 1850 300, 1800 400)), ((1600 350, 1500 300, 1500 100, 1700 50, 1850 200, 1600 350), (1700 200, 1600 150, 1600 250, 1700 200)))', {
+            coordsToLatLng: converter,
+            style: {color: 'green'}
+        }).addTo(map);
+
+        DG.Wkt.geoJsonLayer('GEOMETRYCOLLECTION(MULTIPOINT(100 60, 70 300), LINESTRING(100 60, 70 100, 70 300))', {
+            coordsToLatLng: converter,
+            style: {color: 'grey'}
+        }).addTo(map);
+
     });
 </script>
 

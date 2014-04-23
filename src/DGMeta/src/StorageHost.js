@@ -4,19 +4,19 @@ DG.Meta.Host = DG.Class.extend({
     initialize: function (map, meta) {
         this._map = map;
         this._meta = meta;
-        this._buildingStorage = new DG.Meta.BuildingStorage();
+        // this._buildingStorage = new DG.Meta.BuildingStorage();
         this._trafficStorage = new DG.Meta.TrafficStorage();
         this._poiStorage = new DG.Meta.PoiStorage();
     },
 
     getTileData: function (tileId) { //(String) -> Promise
         var availablePoi = this._poiStorage.getTileData(tileId),
-            availableBuildings = this._buildingStorage.getTileData(tileId),
+            // availableBuildings = this._buildingStorage.getTileData(tileId),
             availableTraffic = this._trafficStorage.getTileData(tileId);
 
-        if (availablePoi && availableBuildings && availableTraffic) {
+        if (availablePoi /*&& availableBuildings*/ && availableTraffic) {
             return DG.when({
-                buildings: availableBuildings,
+                /*buildings: availableBuildings,*/
                 poi: availablePoi,
                 traffic: availableTraffic
             });
@@ -46,7 +46,7 @@ DG.Meta.Host = DG.Class.extend({
 
             return {
                 poi: self._poiStorage.addDataToTile(tileId, result.poi),
-                buildings: self._buildingStorage.addDataToTile(tileId, result.buildings),
+                // buildings: self._buildingStorage.addDataToTile(tileId, result.buildings),
                 traffic: self._trafficStorage.addDataToTile(tileId, result.traffic)
             };
         }, function () {

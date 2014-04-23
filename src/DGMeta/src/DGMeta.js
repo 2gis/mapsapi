@@ -194,7 +194,7 @@ DG.Meta = DG.Handler.extend({
             this._map.fire('poiclick', {
                 'poi': this._currentPoi,
                 //latlng: this._map.containerPointToLatLng(DG.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
-                latlng: DG.latLngBounds(this._currentPoi.vertices).getCenter()
+                latlng: this._currentPoi.bound.getCenter()
             });
             DG.DomEvent.stopPropagation(event);
         }
@@ -225,31 +225,45 @@ DG.Meta = DG.Handler.extend({
             x = Math.floor(p.x / tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
             y = Math.floor(p.y / tileSize);
 
-        return x + ',' +  y + ',' + dataZoom;
+        return [x, y, dataZoom].join(',');
     },
 
     _isTileChanged: function (xyz) { // (String) -> Boolean
         return this._currentTile !== xyz;
     },
 
-    _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
-        var vertKey = zoom ? zoom + 'vertices' : 'vertices';
+    _getGeoType: function (obj, zoom) {
+        zoom = zoom || '';
+        var bound = zoom + 'bound',
+            vert = zoom + 'vertices';
 
-        for (var i = 0, len = data.length; i < len; i++) {
-            if (!data[i].verticesArray) {
-                if (data[i][vertKey] && DG.PolyUtil.contains(point, data[i][vertKey])) {
-                    data[i].vertices = data[i][vertKey];
-                    return data[i];
-                }
-            } else {
-                for (var j = 0, jlen = data[i].verticesArray.length; j < jlen; j++) {
-                    if (DG.PolyUtil.contains(point, data[i].verticesArray[j])) {
-                        return data[i];
-                    }
-                }
-            }
+        if (bound in obj) {
+            return 'bound';
+        }
+        if (vert in obj) {
+            return 'vertices';
         }
         return false;
+    },
+
+    _contains: function (point, geo) {
+        return geo instanceof DG.LatLngBounds ? geo.contains(point) : DG.PolyUtil.contains(point, geo);
+    },
+
+    _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
+        if (!data || !data.length) { return false; }
+
+        zoom = zoom || '';
+        
+        return data.filter(function (obj) {
+            var type = this._getGeoType(obj, zoom);
+
+            if (!type) { return false; }
+
+            obj[type] = obj[zoom + type];
+
+            return this._contains(point, obj[zoom + type]);
+        }, this).shift() || false;
     }
 
 });
