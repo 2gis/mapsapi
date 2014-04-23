@@ -8,7 +8,7 @@ DG.Geoclicker.Handler.Default.Dictionary.it = DG.extend({
     district : 'Municipalità',
     city : 'Сittà',
     go_to : 'Come arrivare',
-    show_organization_in_the_building : ['{n} azienda in tutto', '{n} aziende in tutto'],
+    show_organization_in_building : ['{n} azienda in tutto', '{n} aziende in tutto'],
     show_more_about_sight : 'Maggiori informazioni',
     back_button: 'Indietro',
     n_floors : ['{n} piano', '{n} piani']

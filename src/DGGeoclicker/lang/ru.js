@@ -8,7 +8,7 @@ DG.Geoclicker.Handler.Default.Dictionary.ru = DG.extend({
     district: 'Район',
     city: 'Город',
     go_to: 'Проехать сюда',
-    show_organization_in_the_building: ['Всего {n} организация', 'Всего {n} организации', 'Всего {n} организаций'],
+    show_organization_in_building: ['Всего {n} организация', 'Всего {n} организации', 'Всего {n} организаций'],
     show_more_about_sight: 'Подробнее',
     back_button: 'Назад',
     n_floors: ['{n} этаж', '{n} этажа', '{n} этажей']
