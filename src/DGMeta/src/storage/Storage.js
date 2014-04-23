@@ -2,31 +2,26 @@ DG.Meta.Storage = DG.Class.extend({
 
     _data: {},
     _tilesData: {},
-    _wkt: new DG.Wkt(),
 
     getTileData: function (tileId) { //(String) -> Array|false
-        if (!this._tilesData.hasOwnProperty(tileId)) {
-            return false;
-        }
-        for (var result = [], i = 0, len = this._tilesData[tileId].length; i < len; i++) {
-            result.push(this._data[this._tilesData[tileId][i]]);
-        }
+        if (!this._tilesData.hasOwnProperty(tileId)) { return false; }
 
-        return result;
+        return this._tilesData[tileId]
+            .map(function (id) {
+                return this._data[id];
+            }, this);
     },
 
     addDataToTile: function (tileId, tileData) { //(String, Array)
-        if (!this._tilesData[tileId]) {
-            this._tilesData[tileId] = [];
-        }
+        this._tilesData[tileId] = [].concat(this._tilesData[tileId] || [],
+            tileData.map(function (data) {
+                var id = data.id,
+                    zoom = tileId.split(',')[2];
 
-        for (var i = 0, len = tileData.length; i < len; i++) {
-            var id = tileData[i].id,
-                zoom = tileId.split(',')[2];
-
-            this._tilesData[tileId].push(id);
-            this._addEntity(id, tileData[i], zoom);
-        }
+                this._addEntity(id, data, zoom);
+                return id;
+            }, this)
+        );
 
         return this.getTileData(tileId);
     },
@@ -35,11 +30,10 @@ DG.Meta.Storage = DG.Class.extend({
         this._data[id] = entity;
     },
 
-    _wktToVert: function (entity, zoom) { //(Object)
-        var vert = this._wkt.read(entity.hover),
-            key = zoom ? zoom + 'vertices' : 'vertices';
+    _formatWKT: function (entity, zoom, type) { //(Object)
+        var key = (zoom ? zoom : '') + type;
 
-        entity[key] = this._wkt.toObject(vert)._latlngs[0];
+        entity[key] = (type === 'bound') ? DG.Wkt.geoJsonLayer(entity.hover).getBounds() : DG.Wkt.toLatLngs(entity.hover);
         delete entity.hover;
 
         return entity;

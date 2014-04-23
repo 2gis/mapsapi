@@ -38,7 +38,6 @@
     transform-origin: 50% 100%;
     width: 22px;
     height: 34px;
-    margin: -34px 0 0 -13px;
     background-image: url(__BASE_URL__/img/NonRetinaMarkerDefault.png);
     -webkit-animation: dg-customization__show-marker .2s;
     animation: dg-customization__show-marker .2s;
