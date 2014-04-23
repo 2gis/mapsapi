@@ -399,19 +399,7 @@ function bldJs(opt) {
                .pipe(tasks.header(config.copyright));
 }
 
-/**
- * Builds CSS from Less
- *
- * @param {Object} options
- * @param {String} options.skin Skin name
- *
- * @param {Boolean} options.includeModernBrowsers If true, usual styles will be built in
- * @param {Boolean} options.includeIE8 If true, IE8 specific styles will built in
- *
- * @param {Boolean} options.isDebug Deprecated option, do not use it
- *
- * @returns {Object} Stream
- */
+// Builds CSS from Less
 function buildCss(options) {
     options = options || {};
 

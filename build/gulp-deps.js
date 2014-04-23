@@ -114,18 +114,7 @@ var init = function (config) {
             ;
     }
 
-    /**
-     * Build string with Less variables and imports
-     *
-     * @param {Object} options
-     * @param {Object} options.variables Less variables, key is variable name and value is variable value
-     * @param {Array} options.imports Imports array of strings, it is array because imports order matters
-     * @param {String} options.imports[i] Path to file be imported. Supports specifying import type (inline, reference, less, css, etc.)
-     *                                    using format: './path/to/file:importType', for example: './mixins/basic.less:reference',
-     *                                    by default less type is used
-     *
-     * @returns {String} Variables and imports definitions, splitted by '\n'
-     */
+    // Build string with Less variables and imports
     function lessHeader(options) {
         options = options || {};
 
@@ -157,11 +146,7 @@ var init = function (config) {
         return header;
     }
 
-    /**
-     * Scans the project for skins directories to get skins names
-     *
-     * @returns {Array} List of skins’ names
-     */
+    // Scans the project for skins directories to get skins names
     function getSkinsList() {
         var skinsDirectories = glob.sync(__dirname + '/../src/**/skin/*'),
             skins = [];
@@ -177,14 +162,7 @@ var init = function (config) {
         return skins;
     }
 
-    /**
-     * Gets images per skin formats statistics
-     *
-     * @param {String[]} [skins] List of skins names those need be analyzed,
-     *                           if not passed, all the skins will be analyzed
-     *
-     * @returns {Object} Statistics per skin
-     */
+    // Gets images per skin formats statistics
     function getImagesFilesStats(skins) {
         skins = skins || getSkinsList();
 
@@ -218,14 +196,7 @@ var init = function (config) {
         return perSkinStats;
     }
 
-    /**
-     * Analyzes Less, gets images usage statistics per skin
-     *
-     * @param {String[]} [skins] List of skins names those need be analyzed,
-     *                           if not passed, all the skins will be analyzed
-     *
-     * @returns {Object} Images usage statistics per skin
-     */
+    // Analyzes Less, gets images usage statistics per skin
     function getImagesUsageStats(skins) {
         skins = skins || getSkinsList();
 
