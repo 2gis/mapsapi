@@ -46,7 +46,6 @@
     DG.Popup.include({
         _headerContent: null,
         _footerContent: null,
-        _back: {},
 
         //baron elements references
         _scroller: null,
@@ -107,9 +106,7 @@
         },
 
         clear: function () { // () -> Popup
-            Object.keys(this._popupStructure).forEach(function (elem) {
-                this._clearElement(elem);
-            }, this);
+            Object.keys(this._popupStructure).forEach(this._clearElement, this);
 
             // think about move this set to another public method
             this._isBaronExist = false;
@@ -149,11 +146,13 @@
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
-            if (this.options.closeButton) {
-                this._innerContainer.appendChild(this._detachEl(this._closeButton));
-            }
+
+            this.options.closeButton && this._innerContainer.appendChild(this._detachEl(this._closeButton));
+
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
+            
             var tip = this._detachEl(this._tipContainer);
+
             if (DG.Browser.svg) {
                 var path = DG.SVG.create('path');
                 var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg';
@@ -169,8 +168,8 @@
                 DG.DomUtil.addClass(tip, this._popupTipClass + '_image');
                 DG.DomEvent.disableClickPropagation(tip);
             }
+
             this._innerContainer.appendChild(tip);
-            this._wrapper.style[DG.DomUtil.TRANSITION] = '0';
         },
 
         _clearElement: function (elem) { // (DOMElement) -> Popup
@@ -181,9 +180,7 @@
         },
 
         _updateScrollPosition: function () {
-            if (this._baron) {
-                this._baron.update();
-            }
+            this._baron && this._baron.update();
         },
 
         resize: function () {
@@ -196,8 +193,7 @@
                 if (!this._isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
-                }
-                else {
+                } else {
                     DG.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
                     DG.DomUtil.addClass(this._scroller, 'scroller-with-header');
                     DG.DomUtil.addClass(this._scroller, 'scroller');
@@ -224,7 +220,7 @@
 
             if (e) {
                 if (e.propertyName === 'max-height') {
-                    originalAdjustPan.call(this);
+                    setTimeout(originalAdjustPan.bind(this), 1); //JSAPI-3409 fix safari glich
                     DG.DomEvent.off(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan);
                 }
             } else {
@@ -233,22 +229,18 @@
         },
 
         _bindAdjustPanOnTransitionEnd: function () {
-            if (DG.DomUtil.TRANSITION) {
-                DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this);
-            } else {
+            DG.DomUtil.TRANSITION ?
+                DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this) :
                 this._adjustPan();
-            }
         },
 
         _isContentHeightFit: function () { // () -> Boolean
             var popupHeight,
                 maxHeight = this.options.maxHeight;
 
-            if (this._popupStructure.body) {
-                popupHeight = this._popupStructure.body.offsetHeight + this._getDelta();
-            } else {
-                popupHeight = this._contentNode.offsetHeight;
-            }
+            popupHeight = this._popupStructure.body ?
+                this._popupStructure.body.offsetHeight + this._getDelta() :
+                this._contentNode.offsetHeight;
 
             popupHeight += this.options.border * 2;
 
@@ -319,15 +311,9 @@
             this._clearNode(this._contentNode);
 
             //init popup content dom structure
-            if (this._headerContent) {
-                this._initHeader();
-            }
-            if (this._bodyContent) {
-                this._initBodyContainer();
-            }
-            if (this._footerContent) {
-                this._initFooter();
-            }
+            this._headerContent && this._initHeader();
+            this._bodyContent && this._initBodyContainer();
+            this._footerContent && this._initFooter();
 
             this._updatePopupStructure();
             this.resize();
@@ -411,28 +397,21 @@
         },
 
         _detachEl: function (elem) { // (DOMElement) -> DOMElement
-            if (elem.parentNode) {
-                elem.parentNode.removeChild(elem);
-            }
+            elem.parentNode && elem.parentNode.removeChild(elem);
             return elem;
         },
 
         _onCloseButtonClick: function (e) { // (Event)
             this._animateClosing();
 
-            if (DG.DomUtil.TRANSITION) {
-                DG.DomEvent.on(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
-            }
-            else {
+            DG.DomUtil.TRANSITION ?
+                DG.DomEvent.on(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this) :
                 this._firePopupClose(e);
-            }
             DG.DomEvent.stop(e);
         },
 
         _firePopupClose: function (e) { // (Event)
-            if (DG.DomUtil.TRANSITION) {
-                DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
-            }
+            DG.DomUtil.TRANSITION && DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             originalOnClose.call(this, e);
         }
     });
