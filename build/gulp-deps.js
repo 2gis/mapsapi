@@ -129,7 +129,7 @@ var init = function (config) {
 
         var importsBase = '';
 
-        if (typeof options.importsBase == 'string' && options.importsBase.length) {
+        if (typeof options.importsBase === 'string' && options.importsBase.length) {
             importsBase = options.importsBase.replace(/\/*$/, '/');
         }
 
@@ -154,7 +154,7 @@ var init = function (config) {
         skinsDirectories.forEach(function (directory) {
             var skinName = path.basename(directory);
 
-            if (skins.indexOf(skinName) == -1) {
+            if (skins.indexOf(skinName) === -1) {
                 skins.push(skinName);
             }
         });
@@ -182,7 +182,7 @@ var init = function (config) {
                     skinStats[name] = {};
                 }
 
-                if (extname == '.svg') {
+                if (extname === '.svg') {
                     skinStats[name].hasVectorVersion = true;
                 }
                 else {
@@ -217,7 +217,7 @@ var init = function (config) {
             // Repeatable images can be used as no-repeatable images,
             // so we should exclude repeatable images from no-repeatable images list
             stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',').filter(function (name) {
-                return stats.repeatable.indexOf(name) == -1;
+                return stats.repeatable.indexOf(name) === -1;
             });
 
             perSkinStats[skinName] = stats;
