@@ -13,7 +13,7 @@ module.exports = function(config) {
         // but leaflet tests think that map without layers and fails
         exclude: [
             'vendors/leaflet/spec/suites/map/MapSpec.js',
-            'vendors/leaflet/spec/suites/layer/TileLayerSpec.js'
+            'vendors/leaflet/spec/suites/layer/tile/TileLayerSpec.js'
         ],
 
         // web server port
