@@ -11,6 +11,32 @@
         /*global baron:false */
         graf = baron.noConflict();
 
+    var BaronDomHelper = function (element) {
+        this[0] = element;
+        this.length = 1;
+    };
+    BaronDomHelper.prototype = {
+        setAttribute: function (name, value) {
+            this[0].setAttribute(name, value);
+            return this;
+        },
+        getAttribute: function (name) {
+            return this[0].getAttribute(name);
+        },
+        removeAttribute: function (name) {
+            this[0].removeAttribute(name);
+            return this;
+        },
+        css: function (style, value) {
+            if (value) {
+                this[0].style[style] = value;
+                return this;
+            } else {
+                return DG.DomUtil.getStyle(this[0], style);
+            }
+        }
+    };
+
     DG.Popup.prototype.options.offset = DG.point(offsetX, offsetY);
 
     DG.Popup.mergeOptions({
@@ -20,7 +46,6 @@
     DG.Popup.include({
         _headerContent: null,
         _footerContent: null,
-        _back: {},
 
         //baron elements references
         _scroller: null,
@@ -35,21 +60,21 @@
         _popupTipClass: 'leaflet-popup-tip-container',
         _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
 
-        initialize: function (options, sourse) { // (Object, Object)
+        initialize: function (options, source) { // (Object, Object)
             this._popupStructure = {};
-            originalInitialize.call(this, options, sourse);
+            originalInitialize.call(this, options, source);
         },
 
         onAdd: function (map) { // (Map)
             map.on('entranceshow', this._closePopup, this);
-            this.once('open', this._animateOpening, this);
-            return originalOnAdd.call(this, map);
+            originalOnAdd.call(this, map);
+            this._animateOpening();
         },
 
         onRemove: function (map) { // (Map)
             this._animateClosing();
             map.off('entranceshow', this._closePopup, this);
-            return originalOnRemove.call(this, map);
+            originalOnRemove.call(this, map);
         },
 
         setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
@@ -81,9 +106,7 @@
         },
 
         clear: function () { // () -> Popup
-            Object.keys(this._popupStructure).forEach(function (elem) {
-                this._clearElement(elem);
-            }, this);
+            Object.keys(this._popupStructure).forEach(this._clearElement, this);
 
             // think about move this set to another public method
             this._isBaronExist = false;
@@ -120,25 +143,23 @@
             return (o.nodeName ? true : false);
         },
 
-        _createNSElement: function (name) {
-            return document.createElementNS(DG.Path.SVG_NS, name);
-        },
-
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
-            if (this.options.closeButton) {
-                this._innerContainer.appendChild(this._detachEl(this._closeButton));
-            }
+
+            this.options.closeButton && this._innerContainer.appendChild(this._detachEl(this._closeButton));
+
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
+            
             var tip = this._detachEl(this._tipContainer);
+
             if (DG.Browser.svg) {
-                var path = this._createNSElement('path');
+                var path = DG.SVG.create('path');
                 var svgClass = this._popupTipClass + ' ' + this._popupTipClass + '_svg';
 
                 path.setAttribute('d', this._tipSVGPath);
 
-                tip = this._createNSElement('svg'),
+                tip = DG.SVG.create('svg'),
                 tip.setAttribute('class', svgClass);
 
                 tip.appendChild(path);
@@ -159,9 +180,7 @@
         },
 
         _updateScrollPosition: function () {
-            if (this._baron) {
-                this._baron.update();
-            }
+            this._baron && this._baron.update();
         },
 
         resize: function () {
@@ -174,8 +193,7 @@
                 if (!this._isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
-                }
-                else {
+                } else {
                     DG.DomUtil.removeClass(this._scroller, 'scroller_hidden_true');
                     DG.DomUtil.addClass(this._scroller, 'scroller_has-header_true');
                     DG.DomUtil.addClass(this._scroller, 'scroller');
@@ -198,53 +216,31 @@
         },
 
         _adjustPan: function (e) {
+            if (!this._map) { return; }
+
             if (e) {
                 if (e.propertyName === 'max-height') {
-                    originalAdjustPan.call(this);
-                    DG.DomEvent.off(this._wrapper, this._whichTransitionEndEvent(), this._adjustPan);
+                    setTimeout(originalAdjustPan.bind(this), 1); //JSAPI-3409 fix safari glich
+                    DG.DomEvent.off(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan);
                 }
             } else {
                 originalAdjustPan.call(this);
             }
         },
 
-        _whichTransitionEndEvent: function () { // () -> String | Null
-            var t,
-                el = document.createElement('fakeelement'),
-                transitions = {
-                'transition': 'transitionend',
-                'OTransition': 'oTransitionEnd',
-                'MozTransition': 'transitionend',
-                'WebkitTransition': 'webkitTransitionEnd'
-            };
-
-            for (t in transitions) {
-                if (el.style[t] !== undefined) {
-                    return transitions[t];
-                }
-            }
-
-            return null;
-        },
-
         _bindAdjustPanOnTransitionEnd: function () {
-            var transEv = this._whichTransitionEndEvent();
-            if (transEv) {
-                DG.DomEvent.on(this._wrapper, transEv, this._adjustPan, this);
-            } else {
+            DG.DomUtil.TRANSITION ?
+                DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this) :
                 this._adjustPan();
-            }
         },
 
         _isContentHeightFit: function () { // () -> Boolean
             var popupHeight,
                 maxHeight = this.options.maxHeight;
 
-            if (this._popupStructure.body) {
-                popupHeight = this._popupStructure.body.offsetHeight + this._getDelta();
-            } else {
-                popupHeight = this._contentNode.offsetHeight;
-            }
+            popupHeight = this._popupStructure.body ?
+                this._popupStructure.body.offsetHeight + this._getDelta() :
+                this._contentNode.offsetHeight;
 
             popupHeight += this.options.border * 2;
 
@@ -275,20 +271,21 @@
         },
 
         _initBaron: function () {
+            var context = this._scrollerWrapper;
             this._baron = graf({
                 scroller: '.scroller',
                 bar: '.scroller__bar',
                 track: '.scroller__bar-wrapper',
-                $: function (selector, context) {
-                    /*global bonzo:false, qwery:false */
-                    return bonzo(qwery(selector, context));
+                $: function (selector) {
+                    var node = {}.toString.call(selector) === '[object String]' ?
+                        context.querySelector(selector) : selector;
+
+                    return new BaronDomHelper(node);
                 },
                 event: function (elem, event, func, mode) {
-                    if (mode === 'trigger') {
-                        mode = 'fire';
-                    }
-                    /*global bean:false */
-                    bean[mode || 'on'](elem, event, func);
+                    event.split(' ').forEach(function (type) {
+                        DG.DomEvent[mode || 'on'](elem, type, func);
+                    });
                 }
             });
         },
@@ -314,15 +311,9 @@
             this._clearNode(this._contentNode);
 
             //init popup content dom structure
-            if (this._headerContent) {
-                this._initHeader();
-            }
-            if (this._bodyContent) {
-                this._initBodyContainer();
-            }
-            if (this._footerContent) {
-                this._initFooter();
-            }
+            this._headerContent && this._initHeader();
+            this._bodyContent && this._initBodyContainer();
+            this._footerContent && this._initFooter();
 
             this._updatePopupStructure();
             this.resize();
@@ -406,35 +397,22 @@
         },
 
         _detachEl: function (elem) { // (DOMElement) -> DOMElement
-            if (elem.parentNode) {
-                elem.parentNode.removeChild(elem);
-            }
+            elem.parentNode && elem.parentNode.removeChild(elem);
             return elem;
         },
 
         _onCloseButtonClick: function (e) { // (Event)
-            var transEv;
-
             this._animateClosing();
-            transEv = this._whichTransitionEndEvent();
 
-            if (transEv) {
-                DG.DomEvent.on(this._innerContainer, transEv, this._firePopupClose, this);
-            }
-            else {
+            DG.DomUtil.TRANSITION ?
+                DG.DomEvent.on(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this) :
                 this._firePopupClose(e);
-            }
             DG.DomEvent.stop(e);
         },
 
         _firePopupClose: function (e) { // (Event)
-            var transEv = this._whichTransitionEndEvent();
-
+            DG.DomUtil.TRANSITION && DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             originalOnClose.call(this, e);
-
-            if (this._whichTransitionEndEvent()) {
-                DG.DomEvent.off(this._innerContainer, transEv, this._firePopupClose);
-            }
         }
     });
 }());
@@ -446,16 +424,21 @@ DG.Map.include({
     _markerHideClass: 'dg-customization__marker_disappear',
     _dgHideClass: 'dg-popup_hidden_true',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
-        var content;
+        if (!(popup instanceof L.Popup)) {
+            var content = popup;
+
+            popup = new L.Popup(options).setContent(content);
+        }
+
+        if (latlng) {
+            popup.setLatLng(latlng);
+        }
+
+        if (this.hasLayer(popup)) {
+            return this;
+        }
 
         this.closePopup();
-
-        if (!(popup instanceof DG.Popup)) {
-            content = popup;
-            popup = new DG.Popup(options).setLatLng(latlng).setContent(content);
-        }
-        popup._isOpen = true;
-
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
@@ -491,7 +474,6 @@ DG.Map.include({
                 }
             }
             this.removeLayer(popup);
-            popup._isOpen = false;
         }
 
         return this;

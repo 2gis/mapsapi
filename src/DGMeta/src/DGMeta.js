@@ -7,6 +7,7 @@ DG.Meta = DG.Handler.extend({
 
     _listenPoi: false,
     _listenBuildings: false,
+    _listenTraffic: false,
 
     options: {
         zoomOffset: 0
@@ -28,7 +29,7 @@ DG.Meta = DG.Handler.extend({
             }, this);
         }
 
-        this._metaHost = new DG.Meta.Host();
+        this._metaHost = new DG.Meta.Host(map, this);
     },
 
     addHooks: function () {
@@ -52,6 +53,12 @@ DG.Meta = DG.Handler.extend({
         return this;
     },
 
+    enableTrafficListening: function () {
+        this.enable();
+        this._listenTraffic = true;
+        return this;
+    },
+
     disablePoiListening: function () {
         this._listenPoi = false;
         return this;
@@ -62,16 +69,22 @@ DG.Meta = DG.Handler.extend({
         return this;
     },
 
+    disableTrafficListening: function () {
+        this._listenTraffic = false;
+        return this;
+    },
+
     _mapEventsListeners : {
         mousemove : function (e) { // (DG.Event)
-            /* global __POI_LAYER_MIN_ZOOM__ */
-            if (this._map.getZoom() < __POI_LAYER_MIN_ZOOM__ ||
-                !(this._listenPoi || this._listenBuildings) ||
+            /* global __TRAFFIC_LAYER_MIN_ZOOM__ */
+            if (this._map.getZoom() < __TRAFFIC_LAYER_MIN_ZOOM__ ||
+                !(this._listenPoi || this._listenBuildings || this._listenTraffic) ||
                  (this._map._panTransition && this._map._panTransition._inProgress)) { return; }
 
             if (!this._isEventTargetAllowed(e.originalEvent.target || e.originalEvent.srcElement)) {
                 this._leaveCurrentPoi();
                 this._leaveCurrentBuilding();
+                this._leaveCurrentTraffic();
                 return;
             }
 
@@ -88,6 +101,7 @@ DG.Meta = DG.Handler.extend({
                 if (this._currentTileMetaData) {
                     if (this._listenPoi) { this._checkPoiHover(e.latlng, zoom); }
                     if (this._listenBuildings) { this._checkBuildingHover(e.latlng); }
+                    if (this._listenTraffic) { this._checkTrafficHover(e.latlng, zoom); }
                 }
             }
         },
@@ -95,12 +109,14 @@ DG.Meta = DG.Handler.extend({
         mouseout: function () {
             this._leaveCurrentPoi();
             this._leaveCurrentBuilding();
+            this._leaveCurrentTraffic();
         },
 
         viewreset: function () {
             this._calcTilesAtZoom();
             this._leaveCurrentPoi();
             this._leaveCurrentBuilding();
+            this._leaveCurrentTraffic();
         }
     },
 
@@ -136,6 +152,19 @@ DG.Meta = DG.Handler.extend({
         }
     },
 
+    _checkTrafficHover: function (latLng, zoom) { // (DG.LatLng, String)
+        var hoveredTraffic = this._isMetaHovered(latLng, this._currentTileMetaData.traffic, zoom);
+
+        if (this._currentTraffic && (!hoveredTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
+            this._leaveCurrentTraffic();
+        }
+
+        if (hoveredTraffic && (!this._currentTraffic || this._currentTraffic.id !== hoveredTraffic.id)) {
+            this._currentTraffic = hoveredTraffic;
+            this._map.fire('traffichover', {'traffic': this._currentTraffic, latlng: latLng});
+        }
+    },
+
     _leaveCurrentPoi: function () {
         if (this._currentPoi) {
             this._map
@@ -153,12 +182,19 @@ DG.Meta = DG.Handler.extend({
         }
     },
 
+    _leaveCurrentTraffic: function () {
+        if (this._currentTraffic) {
+            this._map.fire('trafficleave', { 'traffic': this._currentTraffic });
+            this._currentTraffic = null;
+        }
+    },
+
     _onDomMouseClick: function (event) { // (Object)
         if (this._currentPoi) {
             this._map.fire('poiclick', {
                 'poi': this._currentPoi,
                 //latlng: this._map.containerPointToLatLng(DG.DomEvent.getMousePosition(event)) //TODO: make this thing work correctly
-                latlng: DG.latLngBounds(this._currentPoi.vertices).getCenter()
+                latlng: this._currentPoi.bound.getCenter()
             });
             DG.DomEvent.stopPropagation(event);
         }
@@ -189,31 +225,45 @@ DG.Meta = DG.Handler.extend({
             x = Math.floor(p.x / tileSize) % this._tilesAtZoom, // prevent leaflet bug with tile number detection on worldwrap
             y = Math.floor(p.y / tileSize);
 
-        return x + ',' +  y + ',' + dataZoom;
+        return [x, y, dataZoom].join(',');
     },
 
     _isTileChanged: function (xyz) { // (String) -> Boolean
         return this._currentTile !== xyz;
     },
 
-    _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
-        var vertKey = zoom ? zoom + 'vertices' : 'vertices';
+    _getGeoType: function (obj, zoom) {
+        zoom = zoom || '';
+        var bound = zoom + 'bound',
+            vert = zoom + 'vertices';
 
-        for (var i = 0, len = data.length; i < len; i++) {
-            if (!data[i].verticesArray) {
-                if (data[i][vertKey] && DG.PolyUtil.contains(point, data[i][vertKey])) {
-                    data[i].vertices = data[i][vertKey];
-                    return data[i];
-                }
-            } else {
-                for (var j = 0, jlen = data[i].verticesArray.length; j < jlen; j++) {
-                    if (DG.PolyUtil.contains(point, data[i].verticesArray[j])) {
-                        return data[i];
-                    }
-                }
-            }
+        if (bound in obj) {
+            return 'bound';
+        }
+        if (vert in obj) {
+            return 'vertices';
         }
         return false;
+    },
+
+    _contains: function (point, geo) {
+        return geo instanceof DG.LatLngBounds ? geo.contains(point) : DG.PolyUtil.contains(point, geo);
+    },
+
+    _isMetaHovered: function (point, data, zoom) { // (DG.Point, Array, String) -> Object|false
+        if (!data || !data.length) { return false; }
+
+        zoom = zoom || '';
+        
+        return data.filter(function (obj) {
+            var type = this._getGeoType(obj, zoom);
+
+            if (!type) { return false; }
+
+            obj[type] = obj[zoom + type];
+
+            return this._contains(point, obj[zoom + type]);
+        }, this).shift() || false;
     }
 
 });

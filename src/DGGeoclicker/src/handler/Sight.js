@@ -22,7 +22,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
                 btns: [
                     {
                         name: 'goto',
-                        label: this.t('goto'),
+                        label: this.t('go_to'),
                         icon: true
                     }
                 ]
@@ -60,7 +60,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
             }, '');
 
         if (this._checkDescFieldHeight(data.description)) {
-            data.showMoreText = this.t('Show more about sight');
+            data.showMoreText = this.t('show_more_about_sight');
         }
 
         footer.btns[0].href = this._getDirectionsUrl(data.buildingName);

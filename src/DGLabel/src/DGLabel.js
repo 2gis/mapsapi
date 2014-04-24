@@ -1,4 +1,4 @@
-DG.Label = DG.Class.extend({
+DG.Label = DG.Layer.extend({
 
     options: {
         offset: new DG.Point(12, 15),

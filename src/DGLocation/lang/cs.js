@@ -1,5 +1,5 @@
 DG.Control.Location.Dictionary.cs = {
-	"cant_find": "cs - We can't find you",
-	"you_are_here": "cs - You are here",
-	"button_title": "cs - Show your location"
+	 cant_find : 'Nepodařilo se nám určit Vaši polohu',
+	 you_are_here : 'Jste tady',
+	 button_title : 'Určit Vaši polohu na mapě'
 };

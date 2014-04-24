@@ -160,6 +160,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             firmlistItemTmpl: 'firmlistItem',
             onListReady: DG.bind(this._renderFirmList, this)
         });
+
         this._firmListObject = this._fillFirmListObject(this._firmList.renderList());
         this._clearAndRenderPopup(this._firmListObject);
     },
@@ -243,7 +244,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             this._isFirmlistOpen = true;
 
             if (!this._onScroll) {
-                this._onScroll = DG.Util.limitExecByInterval(this._handlePopupScroll, this._scrollThrottleInterval, this);
+                this._onScroll = DG.Util.throttle(this._handlePopupScroll, this._scrollThrottleInterval, this);
             }
 
             this._popup.on('scroll', this._onScroll);

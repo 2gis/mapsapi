@@ -17,7 +17,7 @@ DG.Geoclicker.Handler.House.include({
 
         if (attrs.building_description) {
             data.purpose = attrs.building_description +
-                (attrs.floors_count ? ', ' + this.t('{n} floors', attrs.floors_count) : '');
+                (attrs.floors_count ? ', ' + this.t('n_floors', attrs.floors_count) : '');
         }
 
         if (attrs.filials_count > 0) {
@@ -75,7 +75,7 @@ DG.Geoclicker.Handler.House.include({
         //UNCOMMENT WHEN ONLINE 4 WILL BE READY
         /*btns.push({
             name: 'goto',
-            label: this.t('goto'),
+            label: this.t('go_to'),
             icon: true,
             href: this._directionsUrl
         });*/
@@ -89,7 +89,7 @@ DG.Geoclicker.Handler.House.include({
     _getShowAllData: function (filialsCount) {
         return {
             name: 'all',
-            label: this.t('Show organization in the building', filialsCount)
+            label: this.t('show_organization_in_building', filialsCount)
         };
     },
 

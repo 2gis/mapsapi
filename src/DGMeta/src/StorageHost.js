@@ -1,18 +1,24 @@
 DG.Meta.Host = DG.Class.extend({
+    _subdomains: '0123456789',
 
-    initialize: function () {
-        this._buildingStorage = new DG.Meta.BuildingStorage();
+    initialize: function (map, meta) {
+        this._map = map;
+        this._meta = meta;
+        // this._buildingStorage = new DG.Meta.BuildingStorage();
+        this._trafficStorage = new DG.Meta.TrafficStorage();
         this._poiStorage = new DG.Meta.PoiStorage();
     },
 
     getTileData: function (tileId) { //(String) -> Promise
         var availablePoi = this._poiStorage.getTileData(tileId),
-            availableBuildings = this._buildingStorage.getTileData(tileId);
+            // availableBuildings = this._buildingStorage.getTileData(tileId),
+            availableTraffic = this._trafficStorage.getTileData(tileId);
 
-        if (availablePoi && availableBuildings) {
+        if (availablePoi /*&& availableBuildings*/ && availableTraffic) {
             return DG.when({
-                buildings: availableBuildings,
-                poi: availablePoi
+                /*buildings: availableBuildings,*/
+                poi: availablePoi,
+                traffic: availableTraffic
             });
         } else {
             return this._askAndStoreTileData(tileId);
@@ -20,40 +26,41 @@ DG.Meta.Host = DG.Class.extend({
     },
 
     _askAndStoreTileData: function (tileId) { //(String) -> Promise
-        var self = this;
+        var self = this,
+            requests = [this._askByTile(tileId, '__HIGHLIGHT_POI_SERVER__')];
 
-        return this._askByTile(tileId).then(
-            function (tileData) {
-                var code = +tileData.response.code,
-                    result;
+        this._map.projectDetector.getProject().traffic && this._meta._listenTraffic &&
+            requests.push(this._askByTile(tileId, '__TRAFFIC_META_SERVER__'));
 
-                switch (code) {
-                    case 200:
-                        result = tileData.result;
-                        break;
-                    case 204:
-                        result = {
-                            buildings: [],
-                            poi: []
-                        };
-                        break;
-                    default:
-                        return false;
-                }
+        return DG.when.all(requests, function (data) {
+            var result = data[0].result;
 
-                self._poiStorage.addDataToTile(tileId, result.poi);
-                self._buildingStorage.addDataToTile(tileId, result.buildings);
-
-                return result;
+            if (data[0].responseText === '') {
+                result = {
+                    buildings: [],
+                    poi: []
+                };
             }
-        );
+
+            result.traffic = (!data[1] || data[1].responseText === '') ? [] : data[1];
+
+            return {
+                poi: self._poiStorage.addDataToTile(tileId, result.poi),
+                // buildings: self._buildingStorage.addDataToTile(tileId, result.buildings),
+                traffic: self._trafficStorage.addDataToTile(tileId, result.traffic)
+            };
+        }, function () {
+            return false;
+        });
     },
 
-    _askByTile: function (tileId) { //(String) -> Promise
+    _askByTile: function (tileId, url) { //(String) -> Promise
         var xyz = tileId.split(',');
 
         return DG.ajax(
-            DG.Util.template('__HIGHLIGHT_POI_SERVER__', {
+            DG.Util.template(url, {
+                s: this._getSubdomain(xyz),
+                projectCode: this._map.projectDetector.getProject().code,
                 z: xyz[2],
                 x: xyz[0],
                 y: xyz[1]
@@ -62,6 +69,10 @@ DG.Meta.Host = DG.Class.extend({
                 dataType: 'json'
             }
         );
-    }
+    },
 
+    _getSubdomain: function (xyz) {
+        var index = Math.abs(xyz[1] + xyz[2]) % this._subdomains.length;
+        return this._subdomains[index];
+    }
 });

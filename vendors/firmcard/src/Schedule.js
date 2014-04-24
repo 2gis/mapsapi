@@ -509,11 +509,11 @@ FirmCard.Schedule.prototype = {
         // Формируем строку - через сколько произойдёт следующая инверсия открытости
         if (schedule.will && schedule.will.h < maxHours) {
             if (schedule.will.h) {
-                interval += this.dict.t('ru', 'nHours', schedule.will.h) + ' ';
+                interval += this.dict.t(this.localLang, 'nHours', schedule.will.h) + ' ';
             }
 
             if (schedule.will.m) {
-                interval += this.dict.t('ru', 'nMins', schedule.will.m);
+                interval += this.dict.t(this.localLang, 'nMins', schedule.will.m);
             }
         }
 

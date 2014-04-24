@@ -34,7 +34,7 @@ var deps = {
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGCore']
+        deps: ['DGWhen']
     },
 
     DGLabel: {
@@ -53,7 +53,6 @@ var deps = {
     DGWkt: {
         desc: 'WKT parser module',
         src: [
-            'DGWkt/Wkt.js',
             'DGWkt/DGWkt.js'
         ],
         deps: ['DGCore']
@@ -64,9 +63,6 @@ var deps = {
         src: [
             'DGCustomization/skin/basic/skin.config.js',
             '../vendors/baron/baron.js',
-            '../vendors/baron/js/bonzo.js',
-            '../vendors/baron/js/bean.js',
-            '../vendors/baron/js/qwery.js',
             'DGCustomization/src/DGCustomization.js',
             'DGCustomization/src/DGPopup.js',
             'DGCustomization/src/DGZoom.js',
@@ -108,10 +104,9 @@ var deps = {
         less: {
             all: [
                 'DGAttribution/skin/{skin}/less/dg-mapcopyright.less'
-            ],
-            ie: ['DGAttribution/skin/{skin}/less/dg-mapcopyright.ie.less']
+            ]
         },
-        deps: ['DGCore', 'DGDust', 'DGLocale']
+        deps: ['DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -119,8 +114,7 @@ var deps = {
         src: [
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
-        ],
-        deps: ['DGCore']
+        ]
     },
 
     DGLocation: {
@@ -176,11 +170,12 @@ var deps = {
             'DGMeta/src/DGMeta.js',
             'DGMeta/src/storage/Storage.js',
             'DGMeta/src/storage/PoiStorage.js',
-            'DGMeta/src/storage/BuildingStorage.js',
+            'DGMeta/src/storage/TrafficStorage.js',
+            // 'DGMeta/src/storage/BuildingStorage.js',
             'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
-        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt']
+        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
     },
 
     DGPoi: {
@@ -189,11 +184,11 @@ var deps = {
         deps: ['DGMeta', 'DGLabel']
     },
 
-    DGBuildings: {
-        desc: '2GIS buildings module',
-        src: ['DGBuildings/src/DGBuildings.js'],
-        deps: ['DGMeta']
-    },
+    // DGBuildings: {
+    //     desc: '2GIS buildings module',
+    //     src: ['DGBuildings/src/DGBuildings.js'],
+    //     deps: ['DGMeta']
+    // },
 
     DGGeoclicker: {
         desc: '2GIS Geoclicker',
@@ -255,8 +250,8 @@ var deps = {
             'DGEntrance/src/DGEntrance.js',
             'DGEntrance/src/PathAnimation.js',
             'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/ArrowSvg.js',
-            'DGEntrance/src/ArrowVml.js',
+            'DGEntrance/src/ArrowSVG.js',
+            'DGEntrance/src/ArrowSVG.VML.js',
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js'
         ],
@@ -274,6 +269,15 @@ var deps = {
         deps: ['DGCore', 'DGLocale']
     },
 
+    DGTraffic: {
+        desc: 'Traffic',
+        src: [
+            'DGTraffic/src/DGTraffic.js',
+            'DGTraffic/src/DGTraffic.Handler.js'
+        ],
+        deps: ['DGMeta']
+    },
+
     DGRuler: {
         desc: 'Ruler module',
         src: [
@@ -282,6 +286,7 @@ var deps = {
             'DGRuler/src/GeometryStyles.js',
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
+            'DGRuler/lang/cs.js',
             'DGRuler/lang/en.js'
         ],
         less: {
@@ -297,6 +302,7 @@ var deps = {
             'DGRulerControl/src/Control.Ruler.js',
             'DGRulerControl/lang/ru.js',
             'DGRulerControl/lang/it.js',
+            'DGRulerControl/lang/cs.js',
             'DGRulerControl/lang/en.js'
         ],
         deps: ['DGRuler', 'DGRoundControl']
