@@ -137,7 +137,7 @@ gulp.task('collect-images-usage-stats', function () {
                         },
                         imports: skinLessFiles
                     })))
-                    .pipe(tasks.less())
+                    .pipe(tasks.cache(tasks.less()))
                     .pipe(tasks.rename('images-usage-statistics.' + skinName + '.less'))
                     .pipe(gulp.dest('./build/tmp/less/'))
                 );
@@ -146,7 +146,7 @@ gulp.task('collect-images-usage-stats', function () {
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (taskCaback) {
+gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (taskCallback) {
     var skins = deps.getSkinsList(),
         imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 
@@ -171,13 +171,13 @@ gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (t
         fs.writeFileSync('./build/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
     });
 
-    taskCaback();
+    taskCallback();
 });
 
 gulp.task('copy-svg', function () {
     return (
         gulp.src('./src/**/img/**/*.svg')
-            .pipe(tasks.svgmin())
+            .pipe(tasks.cache(tasks.svgmin()))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -193,23 +193,23 @@ gulp.task('copy-svg-raster', function () {
     return (
         es.concat(
             gulp.src('./src/**/img/**/*.svg')
-                .pipe(tasks.raster())
+                .pipe(tasks.cache(tasks.raster()))
                 .pipe(tasks.rename(function (path) {
                     path.extname = '.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
-                .pipe(tasks.imagemin())
+                .pipe(tasks.cache(tasks.imagemin()))
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all')),
 
             gulp.src('./src/**/img/**/*.svg')
-                .pipe(tasks.raster({ scale: 2 }))
+                .pipe(tasks.cache(tasks.raster({ scale: 2 })))
                 .pipe(tasks.rename(function (path) {
                     path.extname = '@2x.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
-                .pipe(tasks.imagemin())
+                .pipe(tasks.cache(tasks.imagemin()))
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
@@ -220,7 +220,7 @@ gulp.task('copy-svg-raster', function () {
 gulp.task('copy-raster', function () {
     return (
         gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
-            .pipe(tasks.imagemin())
+            .pipe(tasks.cache(tasks.imagemin()))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -252,24 +252,24 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
 
             return es.concat(
                 gulp.src(pngList)
-                    .pipe(tasks.spritesmith({
+                    .pipe(tasks.cache(tasks.spritesmith({
                         styleTemplate: './build/sprite-template.mustache',
                         imgName: 'sprite.png',
                         styleName: 'sprite.less',
                         groupBy: 'img',
                         imgPath: 'sprite.png',
                         engine: 'pngsmith'
-                    })),
+                    }))),
 
                 gulp.src(png2xList)
-                    .pipe(tasks.spritesmith({
+                    .pipe(tasks.cache(tasks.spritesmith({
                         styleTemplate: './build/sprite-template.mustache',
                         imgName: 'sprite@2x.png',
                         styleName: 'sprite@2x.less',
                         groupBy: 'img',
                         imgPath: 'sprite@2x.png',
                         engine: 'pngsmith'
-                    }))
+                    })))
                 )
                 // @TODO: Refactor this shit
                 .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
