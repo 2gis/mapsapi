@@ -77,7 +77,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     );
 });
 
-gulp.task('build-assets', ['build-graphics'], function () {
+gulp.task('build-assets', function () {
     return es.concat(
             gulp.src(['./private/*.*', '!./private/loader.js'])
                 .pipe(gulp.dest('./public/')),
@@ -266,7 +266,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                         })))
                     )
                     // @TODO: Refactor this shit
-                    .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+                    //.pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
                     .pipe(tasks.if('*.png', tasks.imagemin()))
                     .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
                     .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
@@ -275,7 +275,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('build-graphics-tasks', ['prepare-svg', 'prepare-raster', 'generate-sprites']);
+gulp.task('build-graphics-tasks', ['prepare-svg', 'generate-sprites']);
 
 gulp.task('build-graphics', ['clean-up-tmp-images'], function () {
     return gulp.start('build-graphics-tasks');
