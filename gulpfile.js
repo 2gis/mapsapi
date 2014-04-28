@@ -25,7 +25,9 @@ webapiProjects(function (err, projects) {
 });
 //public CLI API
 // Get info
-gulp.task('default', function () {
+gulp.task('default', ['build']);
+
+gulp.task('help', function () {
     tasks.util.log('\nTasks list:');
     tasks.util.log('gulp assets      # Create public folder and copy all assets there');
     tasks.util.log('gulp lint        # Check JS files for errors with JSHint');
@@ -111,7 +113,7 @@ gulp.task('collect-images-usage-stats', function () {
     var skins = deps.getSkinsList(),
 
         imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
-    
+
         statisticsStreams = skins.map(function (skinName) {
             var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');
 
@@ -235,7 +237,7 @@ gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function () {
     var skins = deps.getSkinsList(),
         stats = deps.getImagesUsageStats(skins),
-        
+
         statisticsStreams = skins.map(function (skinName) {
             // Adds comma to make glob’s {} working properly,
             // even there is only one should be excluded
