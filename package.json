@@ -78,10 +78,6 @@
     "lodash": "~2.4.1",
     "underscore.string": "~2.3.3",
     "glob": "^3.2.9",
-    "less": "^1.7.0",
-
-    "graceful-fs": "~2.0.0",
-    "filesize": "~2.0.0",
-    "temp-write": "~0.2.0"
+    "less": "^1.7.0"
   }
 }
