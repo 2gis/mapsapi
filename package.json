@@ -22,10 +22,6 @@
     "dustjs-linkedin": "~2.3.1",
     "2gis-project-loader": "0.1.1"
   },
-  "pre-push": [
-    "gulp lint",
-    "gulp test"
-  ],
   "devDependencies": {
     "extend": "~1.2.1",
     "cluster": "~0.7.7",
@@ -70,7 +66,6 @@
     "karma-sinon": "~1.0.2",
     "karma-mocha": "~0.1.1",
     "karma-opera-launcher": "~0.1.0",
-    "pre-git": "0.0.15",
     "happen": "~0.1.3",
     "mkdirp": "~0.3.5",
     "map-stream": "~0.1.0",
