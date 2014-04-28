@@ -179,7 +179,7 @@ gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (t
 gulp.task('copy-svg', function () {
     return (
         gulp.src('./src/**/img/**/*.svg')
-            .pipe(tasks.svgmin())
+            .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))

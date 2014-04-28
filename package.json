@@ -53,8 +53,6 @@
     "gulp-raster": "0.0.2",
     "gulp-spritesmith": "0.0.2",
     "gulp-if": "0.0.5",
-    "gulp-svgmin": "^0.4.5",
-
     "karma": "~0.10.9",
     "karma-script-launcher": "~0.1.0",
     "karma-chrome-launcher": "~0.1.2",
