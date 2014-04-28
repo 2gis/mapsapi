@@ -17,6 +17,8 @@ var extend = require('extend'),
     deps = require('./build/gulp-deps')(config),
     stat = {}; // Files minification statistics
 
+tasks.imagemin = require('./build/gulp-imagemin');
+
 var projectList;
 
 webapiProjects(function (err, projects) {
@@ -179,7 +181,7 @@ gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (t
 gulp.task('copy-svg', function () {
     return (
         gulp.src('./src/**/img/**/*.svg')
-            .pipe(tasks.svgmin())
+            .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -200,7 +202,7 @@ gulp.task('copy-svg-raster', function () {
                     path.extname = '.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
-                .pipe(tasks.imagemin())
+                .pipe(tasks.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all')),
@@ -211,7 +213,7 @@ gulp.task('copy-svg-raster', function () {
                     path.extname = '@2x.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
-                .pipe(tasks.imagemin())
+                .pipe(tasks.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
@@ -222,7 +224,7 @@ gulp.task('copy-svg-raster', function () {
 gulp.task('copy-raster', function () {
     return (
         gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
-            .pipe(tasks.imagemin())
+            .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -275,7 +277,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                 )
                 // @TODO: Refactor this shit
                 .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-                .pipe(tasks.if('*.png', tasks.imagemin()))
+                .pipe(tasks.if('*.png', tasks.imagemin({silent: true})))
                 .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
                 .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
         });
