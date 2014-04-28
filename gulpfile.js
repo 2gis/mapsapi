@@ -79,7 +79,9 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     );
 });
 
-gulp.task('build-assets', ['build-graphics'], function () {
+gulp.task('assets', ['copy-private-assets', 'build-graphics']);
+
+gulp.task('copy-private-assets', function () {
     return es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
@@ -150,7 +152,7 @@ gulp.task('collect-images-usage-stats', function () {
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (taskCaback) {
+gulp.task('collect-images-stats', ['copy-svg', 'prepare-raster'], function (taskCaback) {
     var skins = deps.getSkinsList(),
         imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 
@@ -181,7 +183,7 @@ gulp.task('collect-images-stats', ['prepare-svg', 'prepare-raster'], function (t
 gulp.task('copy-svg', function () {
     return (
         gulp.src('./src/**/img/**/*.svg')
-            .pipe(tasks.imagemin({silent: true}))
+            .pipe(tasks.imagemin({silent: true, svgoPlugins: [{removeViewBox: true}]}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -228,7 +230,7 @@ gulp.task('copy-raster', function () {
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
-            .pipe(gulp.dest('./build/tmp/img'))//,
+            .pipe(gulp.dest('./build/tmp/img'))
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./build/tmp/img_all'))
     );
@@ -236,7 +238,7 @@ gulp.task('copy-raster', function () {
 
 gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
-gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function () {
+gulp.task('generate-sprites', ['collect-images-usage-stats'], function () {
     var skins = deps.getSkinsList(),
         stats = deps.getImagesUsageStats(skins),
 
@@ -285,9 +287,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('prepare-svg', ['copy-svg']);
-
-gulp.task('build-graphics-tasks', ['prepare-svg', 'prepare-raster', 'generate-sprites']);
+gulp.task('build-graphics-tasks', ['copy-svg', 'prepare-raster', 'generate-sprites']);
 
 gulp.task('build-graphics', ['clean-up-tmp-images'], function () {
     return gulp.start('build-graphics-tasks');
@@ -324,7 +324,7 @@ gulp.task('build', ['build-clean'], function () {
     return gulp.start('build-tasks');
 });
 
-gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'build-assets', 'doc'], function () {
+gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'assets', 'doc'], function () {
     tasks.util.log('Build contains the next modules:');
 
     deps.getModulesList().forEach(function (module) {
@@ -342,11 +342,8 @@ gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'bu
 
 //watchers
 gulp.task('watch', function () {
-    gulp.watch('./private/*.*', ['build-assets']);
+    gulp.watch('./private/*.*', ['copy-private-assets']);
     gulp.watch('./src/**/img/**/*.*', ['build-graphics']);
-    gulp.watch('./src/**/tmpl/**/*.*', ['build-scripts']);
-    gulp.watch('./src/**/less/**/*.*', ['build-styles']);
-    gulp.watch('./private/less/*.*', ['build-styles']);
 });
 
 //service tasks
