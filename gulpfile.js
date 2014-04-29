@@ -25,8 +25,8 @@ webapiProjects(function (err, projects) {
     if (err) { throw err; }
     projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
 });
+
 //public CLI API
-// Get info
 gulp.task('default', ['build']);
 
 gulp.task('help', function () {
@@ -79,12 +79,13 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     );
 });
 
-gulp.task('assets', ['copy-private-assets', 'build-graphics']);
+gulp.task('assets', ['copy-private-assets', 'copy-sprites']);
 
 gulp.task('copy-private-assets', function () {
     return es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
+
 
         gulp.src('./build/tmp/img/sprite*')
             .pipe(gulp.dest('./public/img')),
@@ -102,6 +103,17 @@ gulp.task('copy-private-assets', function () {
             .pipe(gulp.dest('./public/'))
     );
 });
+
+gulp.task('copy-sprites', ['build-graphics'], function () {
+    return gulp.src('./build/tmp/img/sprite*.png')
+            .pipe(gulp.dest('./public/img'));
+})
+
+gulp.task('build-graphics', ['clean-up-tmp-images'], function () {
+    return gulp.start('build-graphics-tasks');
+});
+
+gulp.task('build-graphics-tasks', ['copy-svg', 'prepare-raster', 'generate-sprites']);
 
 gulp.task('collect-images-usage-stats', function () {
     var skins = deps.getSkinsList(),
@@ -142,7 +154,7 @@ gulp.task('collect-images-usage-stats', function () {
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('collect-images-stats', ['copy-svg', 'prepare-raster'], function (taskCaback) {
+gulp.task('collect-images-stats',/* ['copy-svg', 'prepare-raster'],*/ function (taskCaback) {
     var skins = deps.getSkinsList(),
         imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 
@@ -173,13 +185,13 @@ gulp.task('collect-images-stats', ['copy-svg', 'prepare-raster'], function (task
 gulp.task('copy-svg', function () {
     return (
         gulp.src('./src/**/img/**/*.svg')
-            .pipe(tasks.imagemin({silent: true, svgoPlugins: [{removeViewBox: true}]}))
+            .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
-            .pipe(gulp.dest('./build/tmp/img'))
+            /*.pipe(gulp.dest('./build/tmp/img'))
             .pipe(tasks.flatten())
-            .pipe(gulp.dest('./build/tmp/img_all'))
+            .pipe(gulp.dest('./build/tmp/img_all'))*/
             .pipe(gulp.dest('./public/img'))
     );
 });
@@ -279,11 +291,6 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('build-graphics-tasks', ['copy-svg', 'prepare-raster', 'generate-sprites']);
-
-gulp.task('build-graphics', ['clean-up-tmp-images'], function () {
-    return gulp.start('build-graphics-tasks');
-});
 
 gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
@@ -292,7 +299,7 @@ gulp.task('lint', function () {
 });
 
 //TODO: refactor this config
-gulp.task('test', ['build-tasks'], function () {
+gulp.task('test', ['build'], function () {
     return gulp.src(['./vendors/leaflet/spec/before.js',
                      './public/js/script.js',
                      './vendors/leaflet/spec/after.js',
