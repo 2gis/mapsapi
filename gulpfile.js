@@ -196,12 +196,8 @@ gulp.task('copy-svg-raster', function () {
                 .pipe(tasks.rename(function (path) {
                     path.extname = '.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
-                }))
-<<<<<<< HEAD
-                //.pipe(tasks.cache(tasks.imagemin()))
-=======
+                 }))
                 .pipe(tasks.cache(tasks.imagemin({silent: true})))
->>>>>>> 7b388cf9ff9e6666425b2f09f30bc166ebff9b02
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all')),
@@ -212,11 +208,7 @@ gulp.task('copy-svg-raster', function () {
                     path.extname = '@2x.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
-<<<<<<< HEAD
-                //.pipe(tasks.cache(tasks.imagemin()))
-=======
                 .pipe(tasks.cache(tasks.imagemin({silent: true})))
->>>>>>> 7b388cf9ff9e6666425b2f09f30bc166ebff9b02
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
@@ -224,14 +216,9 @@ gulp.task('copy-svg-raster', function () {
 });
 
 gulp.task('copy-raster', function () {
-<<<<<<< HEAD
-    return gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
-            //.pipe(tasks.cache(tasks.imagemin()))
-=======
-    return (
+    return 
         gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
             .pipe(tasks.cache(tasks.imagemin({silent: true})))
->>>>>>> 7b388cf9ff9e6666425b2f09f30bc166ebff9b02
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -261,7 +248,6 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                 ];
 
             return es.concat(
-<<<<<<< HEAD
                     gulp.src(pngList)
                         .pipe(tasks.cache(tasks.spritesmith({
                             styleTemplate: './build/sprite-template.mustache',
@@ -283,37 +269,10 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
                         })))
                     )
                     // @TODO: Refactor this shit
-                    //.pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-                    .pipe(tasks.if('*.png', tasks.imagemin()))
+                    .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+                    .pipe(tasks.if('*.png', tasks.imagemin({silent: true})))
                     .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
                     .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
-=======
-                gulp.src(pngList)
-                    .pipe(tasks.cache(tasks.spritesmith({
-                        styleTemplate: './build/sprite-template.mustache',
-                        imgName: 'sprite.png',
-                        styleName: 'sprite.less',
-                        groupBy: 'img',
-                        imgPath: 'sprite.png',
-                        engine: 'pngsmith'
-                    }))),
-
-                gulp.src(png2xList)
-                    .pipe(tasks.cache(tasks.spritesmith({
-                        styleTemplate: './build/sprite-template.mustache',
-                        imgName: 'sprite@2x.png',
-                        styleName: 'sprite@2x.less',
-                        groupBy: 'img',
-                        imgPath: 'sprite@2x.png',
-                        engine: 'pngsmith'
-                    })))
-                )
-                // @TODO: Refactor this shit
-                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-                .pipe(tasks.if('*.png', tasks.imagemin({silent: true})))
-                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-                .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
->>>>>>> 7b388cf9ff9e6666425b2f09f30bc166ebff9b02
         });
 
     return es.concat.apply(null, statisticsStreams);
