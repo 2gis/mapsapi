@@ -1,7 +1,7 @@
 {
   "name": "gulp-imagemin",
-  "version": "0.1.5",
-  "description": "Minify PNG, JPEG and GIF images",
+  "version": "0.5.0",
+  "description": "Minify PNG, JPEG, GIF and SVG images",
   "license": "MIT",
   "repository": "sindresorhus/gulp-imagemin",
   "author": {
@@ -13,7 +13,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --timeout 0"
   },
   "files": [
     "index.js"
@@ -31,15 +31,16 @@
     "png",
     "jpg",
     "jpeg",
-    "gif"
+    "gif",
+    "svg"
   ],
   "dependencies": {
-    "gulp-util": "~2.2.0",
-    "image-min": "~0.1.0",
-    "graceful-fs": "~2.0.0",
-    "filesize": "~2.0.0",
-    "temp-write": "~0.2.0",
-    "map-stream": "~0.1.0"
+    "chalk": "^0.4.0",
+    "gulp-util": "^2.2.0",
+    "image-min": "^0.4.2",
+    "object-assign": "^0.3.0",
+    "pretty-bytes": "^0.1.0",
+    "through2": "^0.4.1"
   },
   "devDependencies": {
     "mocha": "*"
