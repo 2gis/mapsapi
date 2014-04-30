@@ -1,6 +1,6 @@
 var extend = require('extend'),
     es = require('event-stream'),
-    map = require('map-stream'), // @TODO: Probably, it can be replaced with es.map?
+    map = require('map-stream'),
     prettyBytes = require('pretty-bytes'),
 
     gulp = require('gulp'),
@@ -50,6 +50,12 @@ gulp.task('build-scripts', ['lint'], function () {
         .pipe(gulp.dest('./public/js/'));
 });
 
+gulp.task('lint', function () {
+    return gulp.src('./src/**/src/**/*.js')
+               .pipe(tasks.cache(tasks.jshint('.jshintrc')))
+               .pipe(tasks.jshint.reporter('jshint-stylish'));
+});
+
 gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function () {
     return es.concat(
         buildCss(extend({}, tasks.util.env, { includeModernBrowsers: true, isDebug: true }))
@@ -86,9 +92,6 @@ gulp.task('copy-private-assets', function () {
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
 
-
-        gulp.src('./build/tmp/img/sprite*')
-            .pipe(gulp.dest('./public/img')),
         gulp.src('./private/img/*.*')
             .pipe(gulp.dest('./public/img')),
         gulp.src('./vendors/leaflet/dist/images/*')
@@ -107,100 +110,28 @@ gulp.task('copy-private-assets', function () {
 gulp.task('copy-sprites', ['build-graphics'], function () {
     return gulp.src('./build/tmp/img/sprite*.png')
             .pipe(gulp.dest('./public/img'));
-})
-
-gulp.task('build-graphics', ['clean-up-tmp-images'], function () {
-    return gulp.start('build-graphics-tasks');
 });
 
-gulp.task('build-graphics-tasks', ['copy-svg', 'prepare-raster', 'generate-sprites']);
+gulp.task('build-graphics', ['copy-svg', 'generate-sprites']);
 
-gulp.task('collect-images-usage-stats', function () {
-    var skins = deps.getSkinsList(),
-
-        imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
-
-        statisticsStreams = skins.map(function (skinName) {
-            var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');
-
-            skinLessFiles.unshift('./private/less/mixins.images-usage-statistics.less');
-            skinLessFiles.unshift('./private/less/mixins.ie8.less');
-
-            skinLessFiles = skinLessFiles.map(function (lessFilePath) {
-                return lessFilePath + ':reference';
-            });
-
-            return (
-                gulp.src('./private/less/images-usage-statistics.less')
-                    .pipe(tasks.header(deps.lessHeader({
-                        variables: {
-                            skinName: skinName,
-                            baseURL: '\'__BASE_URL__\'',
-                            analyticsBaseURL: '\'http://maps.api.2gis.ru/analytics/\'',
-
-                            isModernBrowser: true,
-                            isIE8: true,
-
-                            imagesBasePath: '\'' + imagesBasePath + '\''
-                        },
-                        imports: skinLessFiles
-                    })))
-                    .pipe(tasks.less())
-                    .pipe(tasks.rename('images-usage-statistics.' + skinName + '.less'))
-                    .pipe(gulp.dest('./build/tmp/less/'))
-                );
-        });
-
-    return es.concat.apply(null, statisticsStreams);
-});
-
-gulp.task('collect-images-stats',/* ['copy-svg', 'prepare-raster'],*/ function (taskCaback) {
-    var skins = deps.getSkinsList(),
-        imagesStatsPerSkin = deps.getImagesFilesStats(skins);
-
-    skins.forEach(function (skinName) {
-        var skinImagesFilesStats = imagesStatsPerSkin[skinName];
-
-        var statisticsObject,
-            statisticsString = '',
-            extension;
-
-        for (var imageName in skinImagesFilesStats) {
-            statisticsObject = skinImagesFilesStats[imageName];
-            extension = (typeof statisticsObject.extension === 'undefined') ? 'svg' : statisticsObject.extension;
-            statisticsString = statisticsString +
-                '.imageFileData(\'' + imageName + '\') {' +
-                    '@filename: \'' + imageName + '\';' +
-                    '@extension: \'' + extension + '\'; ' +
-                    '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + ';' +
-                    '}\n';
-        }
-
-        fs.writeFileSync('./build/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
-    });
-
-    taskCaback();
-});
-
-gulp.task('copy-svg', function () {
-    return (
-        gulp.src('./src/**/img/**/*.svg')
+gulp.task('copy-svg', ['clean-up-tmp-images'], function () {
+    return gulp.src('./src/**/img/**/*.svg')
             .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
-            /*.pipe(gulp.dest('./build/tmp/img'))
+            //.pipe(gulp.dest('./build/tmp/img'))
             .pipe(tasks.flatten())
-            .pipe(gulp.dest('./build/tmp/img_all'))*/
-            .pipe(gulp.dest('./public/img'))
-    );
+            //.pipe(gulp.dest('./build/tmp/img_all'))
+            .pipe(gulp.dest('./public/img'));
 });
+
+gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
 gulp.task('copy-svg-raster', function () {
     tasks.util.log(tasks.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
 
-    return (
-        es.concat(
+    return es.concat(
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(tasks.raster())
                 .pipe(tasks.rename(function (path) {
@@ -222,13 +153,11 @@ gulp.task('copy-svg-raster', function () {
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
-        )
-    );
+        );
 });
 
 gulp.task('copy-raster', function () {
-    return (
-        gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
+    return gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
             .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
@@ -236,13 +165,10 @@ gulp.task('copy-raster', function () {
             .pipe(gulp.dest('./build/tmp/img'))
             .pipe(tasks.flatten())
             .pipe(gulp.dest('./build/tmp/img_all'))
-            .pipe(gulp.dest('./public/img'))
-    );
+            .pipe(gulp.dest('./public/img'));
 });
 
-gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
-
-gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], function () {
+gulp.task('generate-sprites', ['clean-up-tmp-images', 'collect-images-usage-stats', 'prepare-raster'], function () {
     var skins = deps.getSkinsList(),
         stats = deps.getImagesUsageStats(skins),
 
@@ -251,13 +177,13 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
             // even there is only one should be excluded
             var filesToExclude = stats[skinName].repeatable.join(',') + ',' + stats[skinName].noRepeatableNotSprited.join(','),
                 pngList = [
-                    './build/tmp/**/' + skinName +'/**/*.png',
+                    './build/tmp/**/' + skinName + '/**/*.png',
                     '!./build/tmp/**/' + skinName + '/**/*@2x.png',
                     '!./build/tmp/**/' + skinName + '/**/{' + filesToExclude + '}.png'
                 ],
                 png2xList = [
-                    './build/tmp/**/' + skinName +'/**/*@2x.png',
-                    '!./build/tmp/**/' + skinName +'/**/{' + filesToExclude + '}@2x.png'
+                    './build/tmp/**/' + skinName + '/**/*@2x.png',
+                    '!./build/tmp/**/' + skinName + '/**/{' + filesToExclude + '}@2x.png'
                 ];
 
             return es.concat(
@@ -291,13 +217,6 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'prepare-raster'], 
     return es.concat.apply(null, statisticsStreams);
 });
 
-
-gulp.task('lint', function () {
-    return gulp.src('./src/**/src/**/*.js')
-               .pipe(tasks.cache(tasks.jshint('.jshintrc')))
-               .pipe(tasks.jshint.reporter('jshint-stylish'));
-});
-
 //TODO: refactor this config
 gulp.task('test', ['build'], function () {
     return gulp.src(['./vendors/leaflet/spec/before.js',
@@ -319,7 +238,7 @@ gulp.task('doc', function () {
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
 
-gulp.task('build', ['build-clean', 'clean-up-tmp-images', 'clean-up-tmp-less'], function () {
+gulp.task('build', ['build-clean', 'clean-up-tmp-less'], function () {
     return gulp.start('build-tasks');
 });
 
@@ -385,6 +304,70 @@ gulp.task('release', ['commitFiles'], function (done) {
     done();
 });
 
+gulp.task('collect-images-usage-stats', function () {
+    var skins = deps.getSkinsList(),
+
+        imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
+
+        statisticsStreams = skins.map(function (skinName) {
+            var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');
+
+            skinLessFiles.unshift('./private/less/mixins.images-usage-statistics.less');
+            skinLessFiles.unshift('./private/less/mixins.ie8.less');
+
+            skinLessFiles = skinLessFiles.map(function (lessFilePath) {
+                return lessFilePath + ':reference';
+            });
+
+            return gulp.src('./private/less/images-usage-statistics.less')
+                    .pipe(tasks.header(deps.lessHeader({
+                        variables: {
+                            skinName: skinName,
+                            baseURL: '\'__BASE_URL__\'',
+                            analyticsBaseURL: '\'http://maps.api.2gis.ru/analytics/\'',
+
+                            isModernBrowser: true,
+                            isIE8: true,
+
+                            imagesBasePath: '\'' + imagesBasePath + '\''
+                        },
+                        imports: skinLessFiles
+                    })))
+                    .pipe(tasks.less())
+                    .pipe(tasks.rename('images-usage-statistics.' + skinName + '.less'))
+                    .pipe(gulp.dest('./build/tmp/less/'));
+        });
+
+    return es.concat.apply(null, statisticsStreams);
+});
+
+gulp.task('collect-images-stats', ['copy-svg', 'prepare-raster'], function (cb) {
+    var skins = deps.getSkinsList(),
+        imagesStatsPerSkin = deps.getImagesFilesStats(skins);
+
+    skins.forEach(function (skinName) {
+        var skinImagesFilesStats = imagesStatsPerSkin[skinName];
+
+        var statisticsObject,
+            statisticsString = '',
+            extension;
+
+        for (var imageName in skinImagesFilesStats) {
+            statisticsObject = skinImagesFilesStats[imageName];
+            extension = (typeof statisticsObject.extension === 'undefined') ? 'svg' : statisticsObject.extension;
+            statisticsString = statisticsString +
+                '.imageFileData(\'' + imageName + '\') {' +
+                    '@filename: \'' + imageName + '\';' +
+                    '@extension: \'' + extension + '\'; ' +
+                    '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + ';' +
+                    '}\n';
+        }
+
+        fs.writeFileSync('./build/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
+    });
+
+    cb();
+});
 
 function saveSize(file, cb) {
     var name = file.path.split('/').pop();
