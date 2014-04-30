@@ -20,7 +20,7 @@
     "express": "~4.1.0",
     "strong-agent": "~0.4.2",
     "dustjs-linkedin": "~2.3.1",
-    "2gis-project-loader": "0.1.1"
+    "2gis-project-loader": "0.1.2"
   },
   "devDependencies": {
     "extend": "~1.2.1",

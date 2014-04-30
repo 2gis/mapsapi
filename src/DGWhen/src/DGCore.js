@@ -1,13 +1,10 @@
 DG = new (
     (function () {
-        var DgApi = function () {};
-        var DgServiceLayer = function () {};
-        DgServiceLayer.prototype = L;
+        var DgApi = function () {},
+            DgApiCore = function () {};
 
-        var proto = new DgServiceLayer();
-        L.extend(proto, L.Mixin.Events);
-        proto.constructor = DgApi;
-        DgApi.prototype = proto;
+        DgApiCore.prototype = L;
+        DgApi.prototype = new DgApiCore();
 
         return DgApi;
     })()
