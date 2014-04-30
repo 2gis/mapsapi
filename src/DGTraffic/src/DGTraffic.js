@@ -4,6 +4,7 @@ DG.Traffic = DG.TileLayer.extend({
         errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
         subdomains: '012345679',
         period: 0,
+        timestampString: '',
         detectRetina: true,
         maxNativeZoom: 18
     },
@@ -19,7 +20,7 @@ DG.Traffic = DG.TileLayer.extend({
     onAdd: function (map) {
         var project = map.projectDetector.getProject();
 
-        project && project.traffic ? this._setProjectOptions(project) : this._setNullOptions();
+        project && project.traffic ? this._setProjectOptions(project) : this._resetProjectOptions();
 
         this._handler = new DG.Traffic.Handler(map, this.options);
         this._handler.enable();
@@ -36,11 +37,19 @@ DG.Traffic = DG.TileLayer.extend({
 
     setPeriod: function (period) {
         DG.setOptions(this, { period : period });
+        this.update();
+    },
+
+    update: function () {
+        DG.setOptions(this, {
+            timestampString : this.options.period ? '' : ('?' + Date.now())
+        });
         this.redraw();
     },
 
-    _setNullOptions: function () {
+    _resetProjectOptions: function () {
         DG.setOptions(this, {
+            timestampString : this.options.period ? '' : ('?' + Date.now()),
             minZoom: 0,
             maxZoom: 0
         });
@@ -48,21 +57,22 @@ DG.Traffic = DG.TileLayer.extend({
 
     _setProjectOptions: function (project) {
         DG.setOptions(this, {
+            timestampString : this.options.period ? '' : ('?' + Date.now()),
             projectCode: project.code,
+            bounds: project.LatLngBounds,
             minZoom: project.min_zoom_level,
-            maxZoom: project.max_zoom_level,
-            bounds: project.LatLngBounds
+            maxZoom: project.max_zoom_level
         });
     },
 
     _projectEvents: {
         projectchange : function (event) {
             var project = event.getProject();
-            project.traffic ? this._setProjectOptions(project) : this._setNullOptions();
+            project.traffic ? this._setProjectOptions(project) : this._resetProjectOptions();
             this.redraw();
         },
         projectleave : function () {
-            this._setNullOptions();
+            this._resetProjectOptions();
             this.redraw();
         }
     }

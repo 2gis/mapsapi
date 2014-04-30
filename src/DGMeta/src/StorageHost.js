@@ -61,6 +61,8 @@ DG.Meta.Host = DG.Class.extend({
             DG.Util.template(url, {
                 s: this._getSubdomain(xyz),
                 projectCode: this._map.projectDetector.getProject().code,
+                period: 0,
+                timestampString: '',
                 z: xyz[2],
                 x: xyz[0],
                 y: xyz[1]

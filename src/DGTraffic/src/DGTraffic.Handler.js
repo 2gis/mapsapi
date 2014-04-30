@@ -1,7 +1,3 @@
-DG.Map.mergeOptions({
-    traffic: false
-});
-
 DG.Traffic.Handler = DG.Handler.extend({
 
     options: {
@@ -62,6 +58,10 @@ DG.Traffic.Handler = DG.Handler.extend({
         this._map.getContainer().style.cursor = cursor;
     }
 
+});
+
+DG.Map.mergeOptions({
+    traffic: false
 });
 
 DG.Map.addInitHook('addHandler', 'traffic', DG.Traffic.Handler);
