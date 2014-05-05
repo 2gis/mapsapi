@@ -39,7 +39,7 @@ gulp.task('help', function () {
     tasks.util.log('gulp watch       # Starts watching private & src/**/svg folders');
 });
 
-gulp.task('build-scripts', ['lint'], function () {
+gulp.task('build-scripts', ['lint', 'build-clean'], function () {
     return bldJs(extend(tasks.util.env, { isDebug: true }))
         .pipe(map(saveSize))
         .pipe(gulp.dest('./public/js/'))
@@ -85,9 +85,9 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     );
 });
 
-gulp.task('assets', ['copy-private-assets', 'copy-sprites']);
+// gulp.task('assets', ['copy-private-assets', 'copy-sprites']);
 
-gulp.task('copy-private-assets', function () {
+gulp.task('copy-private-assets', ['build-clean'], function () {
     return es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
@@ -107,14 +107,15 @@ gulp.task('copy-private-assets', function () {
     );
 });
 
-gulp.task('copy-sprites', ['build-graphics'], function () {
+// gulp.task('build-graphics', ['copy-svg', 'generate-sprites']);
+
+gulp.task('copy-sprites', ['copy-svg', 'generate-sprites'], function () {
     return gulp.src('./build/tmp/img/sprite*.png')
             .pipe(gulp.dest('./public/img'));
 });
 
-gulp.task('build-graphics', ['copy-svg', 'generate-sprites']);
 
-gulp.task('copy-svg', ['clean-up-tmp-images'], function () {
+gulp.task('copy-svg', ['clean-up-tmp-images', 'build-clean'], function () {
     return gulp.src('./src/**/img/**/*.svg')
             .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
@@ -126,9 +127,9 @@ gulp.task('copy-svg', ['clean-up-tmp-images'], function () {
             .pipe(gulp.dest('./public/img'));
 });
 
-gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
+// gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
-gulp.task('copy-svg-raster', function () {
+gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
     tasks.util.log(tasks.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
 
     return es.concat(
@@ -156,7 +157,7 @@ gulp.task('copy-svg-raster', function () {
         );
 });
 
-gulp.task('copy-raster', function () {
+gulp.task('copy-raster', ['clean-up-tmp-images', 'build-clean'], function () {
     return gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
             .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
@@ -168,7 +169,7 @@ gulp.task('copy-raster', function () {
             .pipe(gulp.dest('./public/img'));
 });
 
-gulp.task('generate-sprites', ['clean-up-tmp-images', 'collect-images-usage-stats', 'prepare-raster'], function () {
+gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 'copy-raster'], function () {
     var skins = deps.getSkinsList(),
         stats = deps.getImagesUsageStats(skins),
 
@@ -238,11 +239,11 @@ gulp.task('doc', function () {
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
 
-gulp.task('build', ['build-clean', 'clean-up-tmp-less'], function () {
-    return gulp.start('build-tasks');
-});
+// gulp.task('build', ['build-clean', 'clean-up-tmp-less'], function () {
+//     return gulp.start('build-tasks');
+// });
 
-gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'assets', 'doc'], function () {
+gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc'], function (done) {
     tasks.util.log('Build contains the next modules:');
 
     deps.getModulesList().forEach(function (module) {
@@ -261,7 +262,7 @@ gulp.task('build-tasks', ['build-scripts', 'build-graphics', 'build-styles', 'as
 //watchers
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['copy-private-assets']);
-    gulp.watch('./src/**/img/**/*.*', ['build-graphics']);
+    gulp.watch('./src/**/img/**/*.*', ['copy-svg', 'generate-sprites']);
 });
 
 //service tasks
@@ -304,7 +305,7 @@ gulp.task('release', ['commitFiles'], function (done) {
     done();
 });
 
-gulp.task('collect-images-usage-stats', function () {
+gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function () {
     var skins = deps.getSkinsList(),
 
         imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
@@ -341,7 +342,7 @@ gulp.task('collect-images-usage-stats', function () {
     return es.concat.apply(null, statisticsStreams);
 });
 
-gulp.task('collect-images-stats', ['copy-svg', 'prepare-raster'], function (cb) {
+gulp.task('collect-images-stats', ['copy-svg', 'copy-svg-raster', 'copy-raster'], function (cb) {
     var skins = deps.getSkinsList(),
         imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 
