@@ -58,7 +58,7 @@ gulp.task('lint', function () {
 
 gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function () {
     return es.concat(
-        buildCss(extend({}, tasks.util.env, { includeModernBrowsers: true, isDebug: true }))
+        buildCss(extend({}, tasks.util.env, { isDebug: true }))
              .pipe(map(saveSize))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -67,7 +67,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(map(saveSize))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend({}, tasks.util.env, { includeModernBrowsers: true, includeIE8: true, isDebug: true }))
+         buildCss(extend({}, tasks.util.env, { ie8: true, isDebug: true }))
              .pipe(tasks.rename({ suffix: '.full' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -75,7 +75,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(tasks.header(config.copyright))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend({}, tasks.util.env, { includeIE8: true, isDebug: true }))
+         buildCss(extend({}, tasks.util.env, { excludeBaseCss: true, ie8: true, isDebug: true }))
              .pipe(tasks.rename({ suffix: '.ie' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -211,7 +211,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
                 // @TODO: Refactor this shit
                 .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
                 .pipe(tasks.if('*.png', tasks.imagemin({silent: true})))
-                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
+                .pipe(tasks.if('*.png', gulp.dest('./public/tmp/img/')))
                 .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
         });
 
@@ -327,8 +327,8 @@ gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function () {
                             baseURL: '\'__BASE_URL__\'',
                             analyticsBaseURL: '\'http://maps.api.2gis.ru/analytics/\'',
 
-                            isModernBrowser: true,
-                            isIE8: true,
+                            mobile: false,
+                            ie8: true,
 
                             imagesBasePath: '\'' + imagesBasePath + '\''
                         },
@@ -405,10 +405,10 @@ function buildCss(options) {
                 baseURL: '"__BASE_URL__"',
                 analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
 
-                isModernBrowser: options.includeModernBrowsers,
-                isIE8: options.includeIE8,
+                mobile: options.mobile,
+                ie8: options.ie8,
 
-                shouldUseSprites: options.useSprites || tasks.util.env.sprite,
+                shouldUseSprites: options.sprite || tasks.util.env.sprite,
 
                 skinName: skin,
 
@@ -427,6 +427,7 @@ function buildCss(options) {
                 './private/less/mixins.ie8.less:reference'
             ]
         });
+    console.log(options.sprite || tasks.util.env.sprite);
 
     return gulp.src(lessList)
             .pipe(tasks.header(lessPrerequirements))

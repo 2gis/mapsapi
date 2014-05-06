@@ -85,11 +85,11 @@ var init = function (config) {
             .reduce(function (array, item) {
                 var items = [];
 
-                if (options.includeModernBrowsers && item.all) {
+                if (!options.excludeBaseCss && item.all) {
                     items.push(item.all);
                 }
 
-                if (options.includeIE8 && item.ie) {
+                if (options.ie8 && item.ie) {
                     items.push(item.ie);
                 }
 

@@ -18,6 +18,8 @@ app.use('/2.0', express.static(__dirname + '/public'));
 //Routes
 function getParams(req, resp, next) {
     req.query.isDebug = (req.query.mode === 'debug');
+    req.query.sprite = !!req.query.sprite;
+    req.query.mobile = !!req.query.mobile;
     var contentType = (req.path === '/2.0/js/') ? 'application/x-javascript; charset=utf-8' : 'text/css';
 
     req.dgCallback = function (stream, response) {
@@ -47,12 +49,13 @@ app.get('/2.0/js', getParams, function (req, res) {
 });
 
 app.get('/2.0/css', getParams, function (req, res) {
-    var cssOptions = {
+    console.log(req.query);
+    var /*cssOptions = {
             includeModernBrowsers: true,
             includeIE8: !!req.query.ie,
             useSprites: !!req.query.sprite
-        },
-        cssStream = gulp.getCSS(cssOptions);
+        },*/
+        cssStream = gulp.getCSS(req.query);
     req.dgCallback(cssStream, res);
 });
 

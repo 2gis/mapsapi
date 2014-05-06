@@ -1,6 +1,6 @@
 /* 
     See gulpfile.js for predefined stuff
-       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @isIE8, @shouldUseSprites, @skinName;
+       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @ie8, @shouldUseSprites, @skinName;
        — Mixins: .imageData, .imageFileData, .isSprited.
  */
 
@@ -70,15 +70,23 @@
 .noRepeatableBg(@name; @useSprite: true) {
     background-repeat: no-repeat;
 
-    & when (@isModernBrowser) and not (@isIE8) {
+    & when (@shouldUseSprites) {
+        .spriteOrDirectImage(@name, @useSprite);
+
+        .leaflet-retina & {
+            .spriteOrDirectImage('@{name}@2x', @useSprite);
+            }
+        }
+
+    & when not (@mobile) and not (@ie8) and not (@shouldUseSprites) {
         .dataUriImage(@name);
         }
 
-    & when not (@isModernBrowser) and (@isIE8) {
+    & when not (@mobile) and (@ie8) {
         .spriteOrDirectImage(@name, @useSprite);
         }
 
-    & when (@isModernBrowser) and (@isIE8) {
+    & when (@mobile) and not (@ie8) {
         .spriteOrDirectImage(@name, @useSprite);
 
         .leaflet-retina & {
@@ -88,13 +96,13 @@
     }
 
 .repeatableBg(@name) {
-    & when (@isModernBrowser) and not (@isIE8) {
+    & when not (@mobile) and not (@ie8) {
         .dataUriImage(@name);
         }
-    & when not (@isModernBrowser) and (@isIE8) {
+    & when not (@mobile) and (@ie8) {
         .directImage(@name);
         }
-    & when (@isModernBrowser) and (@isIE8) {
+    & when (@mobile) and not (@ie8) {
         .leaflet-retina & {
             .directImage('@{name}@2x');
             }

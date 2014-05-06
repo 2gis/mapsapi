@@ -37,7 +37,7 @@
         if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
             versionIE = parseInt(RegExp.$1, 10);
         }
-        return (versionIE && versionIE < 9) ? 'ie=true&' : '';
+        return (versionIE && versionIE < 9) ? 'ie8=true&' : '';
     }
 
     function getParamsSprite() {
@@ -59,9 +59,9 @@
 
     function getParams() {
         var paramsURI = getParamsURI(),
-            sprite = getParamsSprite(),
+            sprite = paramsURI.indexOf('sprite') === -1 ? getParamsSprite() : '',
             paramsIE = getParamsIE();
-        return '?' + paramsURI + paramsIE + sprite + version;
+        return '?' + paramsURI + paramsIE + sprite + '&version=' + version;
     }
 
     function loadCSS(link) {
