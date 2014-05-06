@@ -126,7 +126,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
                     btns: [
                         {
                             name: 'back',
-                            label: this.t('back button'),
+                            label: this.t('back_button'),
                             icon: true
                         }
                     ]
