@@ -49,13 +49,7 @@ app.get('/2.0/js', getParams, function (req, res) {
 });
 
 app.get('/2.0/css', getParams, function (req, res) {
-    console.log(req.query);
-    var /*cssOptions = {
-            includeModernBrowsers: true,
-            includeIE8: !!req.query.ie,
-            useSprites: !!req.query.sprite
-        },*/
-        cssStream = gulp.getCSS(req.query);
+    var cssStream = gulp.getCSS(req.query);
     req.dgCallback(cssStream, res);
 });
 

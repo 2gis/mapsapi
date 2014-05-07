@@ -121,9 +121,9 @@ gulp.task('copy-svg', ['clean-up-tmp-images', 'build-clean'], function () {
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
-            //.pipe(gulp.dest('./build/tmp/img'))
+            .pipe(gulp.dest('./build/tmp/img'))
             .pipe(tasks.flatten())
-            //.pipe(gulp.dest('./build/tmp/img_all'))
+            .pipe(gulp.dest('./build/tmp/img_all'))
             .pipe(gulp.dest('./public/img'));
 });
 
@@ -427,7 +427,6 @@ function buildCss(options) {
                 './private/less/mixins.ie8.less:reference'
             ]
         });
-    // console.log(options.sprite || tasks.util.env.sprite);
 
     return gulp.src(lessList)
             .pipe(tasks.header(lessPrerequirements))
