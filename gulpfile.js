@@ -427,7 +427,7 @@ function buildCss(options) {
                 './private/less/mixins.ie8.less:reference'
             ]
         });
-    console.log(options.sprite || tasks.util.env.sprite);
+    // console.log(options.sprite || tasks.util.env.sprite);
 
     return gulp.src(lessList)
             .pipe(tasks.header(lessPrerequirements))

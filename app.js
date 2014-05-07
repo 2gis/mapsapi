@@ -18,8 +18,8 @@ app.use('/2.0', express.static(__dirname + '/public'));
 //Routes
 function getParams(req, resp, next) {
     req.query.isDebug = (req.query.mode === 'debug');
-    req.query.sprite = !!req.query.sprite;
-    req.query.mobile = !!req.query.mobile;
+    req.query.sprite = (req.query.sprite === 'true');
+    req.query.mobile = (req.query.mobile === 'true');
     var contentType = (req.path === '/2.0/js/') ? 'application/x-javascript; charset=utf-8' : 'text/css';
 
     req.dgCallback = function (stream, response) {

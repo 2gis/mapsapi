@@ -14,17 +14,23 @@
     @isSprited: false;
     }
 
-.spriteImage(@name) {
+.spriteImage(@name; @retina: false) {
     .imageData(@name);
 
     width: @width;
     height: @height;
 
-    background-repeat: no-repeat;
     background-image: url('@{baseURL}/img/@{backgroundImage}');
 
     background-position: @backgroundPosition;
     background-size: @totalWidth @totalHeight;
+
+    & when (@retina) {
+        .leaflet-retina & {
+            .imageData('@{name}@2x');
+            background-image: url('@{baseURL}/img/@{backgroundImage}');
+            }
+        }
     }
 
 .dataUriImage(@name) {
@@ -41,29 +47,36 @@
         }
     }
 
-.directImage(@name) {
+.directImage(@name; @retina: false) {
     .imageFileData(@name);
 
      & when not (@filename = '') {
         background-image: url('@{baseURL}/img/@{filename}.@{extension}');
         }
+        
+        .imageFileData(@name);
+        & when (@retina) and not (@filename = '')  {
+            .leaflet-retina & {
+                background-image: url('@{baseURL}/img/@{filename}.@{extension}');
+                }
+            }
     }
 
-.spriteOrDirectImage(@name; @useSprite: true) {
+.spriteOrDirectImage(@name; @useSprite: true; @retina: false) {
     .isSprited(@name);
 
     & when (@shouldUseSprites) {
         & when (@isSprited) and (@useSprite) {
-            .spriteImage(@name);
+            .spriteImage(@name, @retina);
             }
 
         & when not (@isSprited), not (@useSprite) {
-            .directImage(@name);
+            .directImage(@name, @retina);
             }
         }
 
     & when not (@shouldUseSprites) {
-        .directImage(@name);
+        .directImage(@name, @retina);
         }
     }
 
@@ -71,11 +84,7 @@
     background-repeat: no-repeat;
 
     & when (@shouldUseSprites) {
-        .spriteOrDirectImage(@name, @useSprite);
-
-        .leaflet-retina & {
-            .spriteOrDirectImage('@{name}@2x', @useSprite);
-            }
+        .spriteOrDirectImage(@name, @useSprite, true);
         }
 
     & when not (@mobile) and not (@ie8) and not (@shouldUseSprites) {
@@ -87,7 +96,7 @@
         }
 
     & when (@mobile) and not (@ie8) {
-        .spriteOrDirectImage(@name, @useSprite);
+        .spriteOrDirectImage(@name, @useSprite, true);
 
         .leaflet-retina & {
             .spriteOrDirectImage('@{name}@2x', @useSprite);
@@ -103,9 +112,6 @@
         .directImage(@name);
         }
     & when (@mobile) and not (@ie8) {
-        .leaflet-retina & {
-            .directImage('@{name}@2x');
-            }
+        .directImage(@name, true);
         }
     }
-

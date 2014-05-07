@@ -12,6 +12,6 @@
     filter: e("progid:DXImageTransform.Microsoft.gradient(GradientType=@{type},startColorstr='@{argbFrom}',endColorstr='@{argbTo}')");
     }
 
-.alphaImage(@filename; @sizingMethod: scale) {
-    filter: e("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='@{baseURL}/img/@{filename}',sizingMethod='@{sizingMethod}')");
+.alphaImage(@name; @sizingMethod: scale) {
+    filter: e("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='@{baseURL}/img/@{name}.png',sizingMethod='@{sizingMethod}')");
     }
