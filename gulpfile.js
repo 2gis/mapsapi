@@ -250,6 +250,8 @@ gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styl
         console.log('- ' + module);
     });
 
+    tasks.util.env.sprite && tasks.util.log('Builded with sprites');
+
     console.log('\nDist files statistic:');
     Object.keys(stat).forEach(function (file) {
         console.log('- ' + file + ': ' + stat[file]);
