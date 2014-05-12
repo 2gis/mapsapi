@@ -1,13 +1,12 @@
 // ray tracing method: http://algolist.ru/maths/geom/belong/poly2d.php
 
-DG.PolyUtil.contains = function (latLng, latLngs) { // (DG.LatLng, Array) -> Boolean
+DG.PolyUtil.contains = function (point, geometry) { // (DG.LatLng, Array) -> Boolean
     var edges,
         parity = 0,
-        vertices = [],
-        point = DG.Projection.SphericalMercator.project(latLng);
+        vertices = [];
 
-    for (var i = 0, len = latLngs.length; i < len; i++) {
-        vertices.push(DG.Projection.SphericalMercator.project(latLngs[i]));
+    for (var i = 0, len = geometry.length; i < len; i++) {
+        vertices.push(DG.point(geometry[i]));
     }
 
     edges = this._getEdges(vertices);

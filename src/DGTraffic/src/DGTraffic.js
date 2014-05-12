@@ -56,7 +56,14 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     _processData: function (tileData, coord) {
-        console.log(tileData, coord);
+        // console.log(tileData, coord);
+        tileData = [
+            {
+                id : ['id', coord.x, coord.y, coord.z].join(':'),
+                geometry : 'POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))',
+                hint : ['hint', coord.x, coord.y, coord.z].join(':')
+            }
+        ];
         return tileData;
     },
 

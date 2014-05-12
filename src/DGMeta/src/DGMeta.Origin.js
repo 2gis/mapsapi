@@ -9,7 +9,10 @@ DG.Meta.Origin = DG.Class.extend({
 
     initialize: function (url, options) {
         this._url = url;
-        this._storage = {};
+        this._requests = {};
+        
+        this._tileStorage = {};
+        this._dataStorage = {};
 
         options = L.setOptions(this, options);
 
@@ -22,16 +25,33 @@ DG.Meta.Origin = DG.Class.extend({
         var key = [coord.x, coord.y, coord.z].join(':'),
             self = this;
 
-        if (DG.Util.isArray(this._storage[key])) {
-            return this._storage[key];
-        }
-
-        if (typeof this._storage[key] === 'undefined') {
-            this._storage[key] = this._requestData(coord).then(function (data) {
-                self._storage[key] = self.options.dataFilter ? self.options.dataFilter(data, coord) : data;
+        if (typeof this._tileStorage[key] === 'undefined' && 
+            typeof this._requests[key] === 'undefined') {
+            this._tileStorage[key] = false;
+            this._requests[key] = this._requestData(coord).then(function (data) {
+                self.set(coord, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
             });
         }
-        return false;
+        
+        if (DG.Util.isArray(this._tileStorage[key])) {
+            // return this._tileStorage[key];
+        }
+
+        return this._tileStorage[key];
+    },
+
+    set: function (coord, data) {
+        var key = [coord.x, coord.y, coord.z].join(':');
+
+        data.forEach(function (entity) {
+            entity.geometry = DG.Wkt.toPoints(entity.geometry);
+            if (!this._tileStorage[key]) {
+                this._tileStorage[key] = {};
+            }
+            this._tileStorage[key][entity.id] = entity.geometry;
+            delete entity.geometry;
+            this._dataStorage[entity.id] = entity;
+        }, this);
     },
 
     flush: function () {

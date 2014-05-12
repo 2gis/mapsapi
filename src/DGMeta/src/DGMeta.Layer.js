@@ -17,6 +17,7 @@ DG.Meta.Layer = L.Layer.extend({
 
     initialize: function (source, options) {
         DG.setOptions(this, options);
+        this._currentTile = false;
         this._origin = DG.Meta.origin(source, {
             subdomains : this.options.subdomains,
             dataFilter : this.options.dataFilter
@@ -53,10 +54,9 @@ DG.Meta.Layer = L.Layer.extend({
     
     _onMouseMove : function (event) {
         var tileSize = this._getTileSize(),
-            tileCoord = this._map.getPixelOrigin()
-                .add(event.layerPoint)
-                .divideBy(tileSize)
-                .floor();
+        	tileOriginPoint = this._map.getPixelOrigin().add(event.layerPoint),
+            tileCoord = tileOriginPoint.divideBy(tileSize).floor(),
+			mouseTileOffset = DG.point(tileOriginPoint.x % tileSize, tileOriginPoint.y % tileSize);
 
         // this._wrapCoords(tileCoords); TODO ???
         if (!this._isValidTile(tileCoord)) {
@@ -64,18 +64,25 @@ DG.Meta.Layer = L.Layer.extend({
         }
 
         tileCoord.z = this._map.getZoom();
-        this._checkTileHover(tileCoord);
+
+        var tileData = this._origin.get(tileCoord);
+
+        this._currentTile;
+        this._checkTileHover(tileCoord, mouseTileOffset);
     },
 
     _onMouseOut : function () {
 
     },
 
-    _checkTileHover: function (coords, latLng) {
+    _checkTileHover: function (coords, mouseTileOffset) {
         var tileData = this._origin.get(coords);
 
         if (tileData) {
-            // console.log(tileData, latLng);
+        	console.log('_checkTileHover', mouseTileOffset, tileData[Object.keys(tileData)[0]][0]);
+            if (DG.PolyUtil.contains(mouseTileOffset, tileData[Object.keys(tileData)[0]][0])) {
+            	console.log('hit');
+            }
         }
     },
 
