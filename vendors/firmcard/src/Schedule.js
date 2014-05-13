@@ -33,7 +33,6 @@ FirmCard.Schedule.prototype = {
             today, // Объект модели - текущий день недели
             from, // Самое раннее время открытия за день
             to, // Самое позднее время закрытия за день
-            //Moment принимает инвертированный оффсет. Хз почему.
             zoneOffset = params.zoneOffset || 0,
             schedule = {}, // Объект-расписание, формируемый под шаблон
             now = params.now || FirmCard.DataHelper.getProjectTime(zoneOffset).getTime(), // Current timestamp in milliseconds
@@ -42,7 +41,7 @@ FirmCard.Schedule.prototype = {
             weekFullKeysLocal = [],
             weekKeysShort =  [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ],
             weekKeysFull = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
-            localLang = params.localLang || this.localLang || 'en',
+            localLang = params.localLang || this.localLang,
             localWorkingDays = params.localWorkingDays || [0, 1, 1, 1, 1, 1, 0],
             firstdayOffset = params.firstdayOffset || 1,
             minHoursToDisplayClosure = params.minHoursToDisplayClosure || 4,
@@ -77,16 +76,14 @@ FirmCard.Schedule.prototype = {
             return (n + 70) % 7;
         }
 
+
+        /* jshint ignore:start */
         // Возвращает последний элемент массива 
         // Взято из Underscore.js http://underscorejs.org/#last
         function getArrayLast(arr, n) {
-            /* jshint -W116 */
             if ( arr == null ) return void 0;
             if (   n == null ) return arr[ arr.length - 1 ];
-            /* jshint +W116 */
-            /* jshint -W117 */
             return slice.call( arr, Math.max(arr.length - n , 0) );
-            /* jshint +W117 */
         }
 
 
@@ -94,31 +91,19 @@ FirmCard.Schedule.prototype = {
         // Взято из Underscore.js http://underscorejs.org/#isEqual
         // Упрощено для тех трёх сравнений, которые выполняются в Shedule.js
         function isEqual(obj1, obj2) {
-            /* jshint -W116 */
             if ( obj1 === obj2 ) return true;
             if ( ! ( obj1 instanceof Object ) || ! ( obj2 instanceof Object ) ) return false;
             if ( obj1.constructor !== obj2.constructor ) return false;
-            /* jshint +W116 */
-            /* jshint -W089 */
             for ( var prop in obj1 ) {
-                /* jshint -W116 */
                 if ( ! obj1.hasOwnProperty( prop ) ) continue;
                 if ( ! obj2.hasOwnProperty( prop ) ) return false;
                 if ( obj1[ prop ] === obj2[ prop ] ) continue;
-                /* jshint +W116 */
-                /* jshint -W110 */
                 if ( typeof( obj1[ prop ] ) !== "object" ) return false;
-                /* jshint +W110 */
-                /* jshint -W116 */
                 if ( ! isEqual( obj1[ prop ],  obj2[ prop ] ) ) return false;
-                /* jshint +W116 */
             }
-            /* jshint +W089 */
             for ( prop in obj2 ) {
-            /* jshint -W116 */
             if ( obj2.hasOwnProperty( prop ) && ! obj1.hasOwnProperty( prop ) ) return false;
             }
-            /* jshint +W116 */
             
             return true;
         }
@@ -135,9 +120,7 @@ FirmCard.Schedule.prototype = {
 
         var length = Math.max(Math.ceil((stop - start) / step), 0);
         var idx = 0;
-        /* jshint -W004 */
         var range = new Array(length);
-        /* jshint +W004 */
         while(idx < length) {
             range[idx++] = start;
             start += step;
@@ -146,6 +129,42 @@ FirmCard.Schedule.prototype = {
         return range;
         }
 
+
+        //Заполняет свойства объекта значениями по умолчанию
+        //Взято из Underscore.js http://underscorejs.org/#defaults
+        function fillDefaults(obj) {
+         var args = Array.prototype.slice.call(arguments, 1);
+         args.forEach(function(source) {
+            if (source) {
+                for (var prop in source) {
+                    if (obj[prop] === void 0) obj[prop] = source[prop];
+                }
+            }
+        });
+        return obj;
+        }
+
+        //Сортирует значения согласно с итератором
+        //Взято с Underscore.js http://underscorejs.org/#sortBy
+        function sortBy(obj, iterator){
+            return pluck(obj.map( function(value, index, list) {
+                return {
+                        value: value,
+                        index: index,
+                        criteria: iterator.call(context, value, index, list)
+                        };   
+                }).sort(function(left, right) {
+                        var a = left.criteria;
+                        var b = right.criteria;
+                        if (a !== b) {
+                        if (a > b || a === void 0) return 1;
+                        if (a < b || b === void 0) return -1;
+                        }
+                return left.index - right.index;
+                }), 'value');
+        }
+
+        /* jshint ignore:end */
 
         function pluck(arr, key){
             var i, rv = [];
@@ -285,45 +304,6 @@ FirmCard.Schedule.prototype = {
             return;
         }
 
-        //Заполняет свойства объекта значениями по умолчанию
-        //Взято из Underscore.js http://underscorejs.org/#defaults
-        function fillDefaults(obj) {
-         var args = Array.prototype.slice.call(arguments, 1);
-         args.forEach(function(source) {
-            if (source) {
-                for (var prop in source) {
-                    /* jshint -W116 */
-                    if (obj[prop] === void 0) obj[prop] = source[prop];
-                    /* jshint +W116 */
-                }
-            }
-        });
-        return obj;
-        }
-
-        //Сортирует значения согласно с итератором
-        //Взято с Underscore.js http://underscorejs.org/#sortBy
-        function sortBy(obj, iterator){
-            return pluck(obj.map( function(value, index, list) {
-                /* jshint -W117 */
-                return {
-                        value: value,
-                        index: index,
-                        criteria: iterator.call(context, value, index, list)
-                        };
-                /* jshint +W117 */        
-                }).sort(function(left, right) {
-                        var a = left.criteria;
-                        var b = right.criteria;
-                        if (a !== b) {
-                        /* jshint -W116 */
-                        if (a > b || a === void 0) return 1;
-                        if (a < b || b === void 0) return -1;
-                        /* jshint +W116 */
-                        }
-                return left.index - right.index;
-                }), 'value');
-        }
 
         //Возвращает интервал в целых днях, с поправкой на смену дня в полночь, между
         //@param timestampEnd и @param dateStart
@@ -394,8 +374,15 @@ FirmCard.Schedule.prototype = {
                     var willWhen = new Date(timestamps[i].ts);
                     schedule.will.when = whenOpenInverse(h, d, willWhen.getDay());
 
-                    var willTill = new Date(timestamps[i].ts); 
-                    schedule.will.till = (willTill.getHours()<10?'0':'')+willTill.getHours()+':'+(willTill.getMinutes()<10?'0':'')+willTill.getMinutes();
+                    
+                    var willTill = new Date(timestamps[i].ts),
+                        strHours = willTill.getHours(),
+                        strMinutes = willTill.getMinutes();
+
+                    if (strHours < 10) { strHours = '0' + strHours; }
+                    if (strMinutes < 10) { strMinutes = '0' + strMinutes; }
+                        
+                    schedule.will.till = strHours+':'+strMinutes;
                 }
             }
 
