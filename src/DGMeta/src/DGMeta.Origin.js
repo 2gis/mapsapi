@@ -22,7 +22,7 @@ DG.Meta.Origin = DG.Class.extend({
     },
 
     get: function (coord) {
-        var key = [coord.x, coord.y, coord.z].join(':'),
+        var key = this.serializeCoord(coord),
             self = this;
 
         if (typeof this._tileStorage[key] === 'undefined' && 
@@ -32,16 +32,18 @@ DG.Meta.Origin = DG.Class.extend({
                 self.set(coord, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
             });
         }
-        
-        if (DG.Util.isArray(this._tileStorage[key])) {
-            // return this._tileStorage[key];
+
+        if (this._tileStorage[key].constructor === Object) {
+            return Object.keys(this._tileStorage[key]).map(function (id) {
+                return DG.extend({ geometry : this._tileStorage[key][id]}, this._dataStorage[id]);
+            }, this);
         }
 
         return this._tileStorage[key];
     },
 
     set: function (coord, data) {
-        var key = [coord.x, coord.y, coord.z].join(':');
+        var key = this.serializeCoord(coord);
 
         data.forEach(function (entity) {
             entity.geometry = DG.Wkt.toPoints(entity.geometry);
@@ -60,6 +62,10 @@ DG.Meta.Origin = DG.Class.extend({
 
     setURL: function (url) {
         this._url = url;
+    },
+
+    serializeCoord : function (coord) {
+        return [coord.x, coord.y, coord.z].join(':');
     },
 
     _requestData: function (key) {
