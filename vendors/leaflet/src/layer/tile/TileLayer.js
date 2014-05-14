@@ -38,7 +38,7 @@ L.TileLayer = L.GridLayer.extend({
 
 		if (typeof options.subdomains === 'string') {
 			options.subdomains = options.subdomains.split('');
-		}console.log('TileLayer initialize', url, options);
+		}
 	},
 
 	setUrl: function (url, noRedraw) {

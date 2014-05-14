@@ -81,33 +81,37 @@ DG.Meta.Layer = L.Layer.extend({
             hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
             if (this._hoveredEntity !== hoveredObject) {
                 if (this._hoveredEntity) {
-                    this._fireBlurEvent();
+                    this._fireMouseEvent('mouseout', event);
                 }
                 this._hoveredEntity = hoveredObject;
                 if (hoveredObject) {
-                    this._fireHoverEvent();
+                    this._fireMouseEvent('mouseover', event);
                 }
+            }
+            if (this._hoveredEntity) {
+                this._fireMouseEvent('mousemove', event);
             }
         }
     },
 
-    _fireHoverEvent : function () {
-        this.fire('hover');
-        console.log('hovered', this._hoveredEntity);
-    },
-
-    _fireBlurEvent : function () {
-        this.fire('blur');
-        console.log('blur', this._hoveredEntity);
+    _fireMouseEvent : function (type, eventObject) {
+        this.fire(type, {
+            meta : this._hoveredEntity,
+            latlng : eventObject.latlng
+        });
+        // console.log(type, this._hoveredEntity);
     },
 
     _onMouseOut : function () {
-
+        if (this._hoveredEntity) {
+            this._fireMouseEvent('mouseout', event);
+            this._hoveredEntity = null;
+        }
     },
 
     _getHoveredObject: function (coords, mouseTileOffset) {
         for (var i = 0, len = this._currentTileData.length; i < len; i++) {
-            if (DG.PolyUtil.contains(mouseTileOffset, this._currentTileData[i].geometry[0]))
+            if (DG.PolyUtil.contains(mouseTileOffset, this._currentTileData[i].geometry.coordinates[0]))
                 return this._currentTileData[i];
         }
         return null;
