@@ -107,6 +107,7 @@ DG.Meta.Layer = L.Layer.extend({
             this._fireMouseEvent('mouseout', event);
             this._hoveredEntity = null;
         }
+        this._currentTile = false;
     },
 
     _getHoveredObject: function (coords, mouseTileOffset) {

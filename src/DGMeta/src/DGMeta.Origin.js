@@ -57,6 +57,7 @@ DG.Meta.Origin = DG.Class.extend({
             delete entity.geometry;
             this._dataStorage[entity.id] = entity;
         }, this);
+        return this;
     },
 
     flush: function () {
@@ -65,10 +66,15 @@ DG.Meta.Origin = DG.Class.extend({
         Object.keys(this._requests).forEach(function (id) {
             this[id].abort();
         }, this._requests);
+        return this;
     },
 
-    setURL: function (url) {
+    setURL: function (url, flush) {
         this._url = url;
+        if (flush) {
+            this.flush();
+        }
+        return this;
     },
 
     serializeCoord : function (coord) {
