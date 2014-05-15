@@ -6,9 +6,10 @@ var deps = {
             '../vendors/polyfills/json2.js',
             '../vendors/polyfills/html5shiv.js',
             '../vendors/polyfills/es5.js',
+            '../vendors/polyfills/promise.js',
+            'DGCore/src/DGthen.js',
             'DGCore/src/DGCore.js',
-            'DGCore/src/DGplugin.js',
-            'DGCore/src/DGthen.js'
+            'DGCore/src/DGplugin.js'
         ],
         css: {
             all: ['../vendors/leaflet/dist/leaflet.css']
@@ -48,23 +49,14 @@ var deps = {
                 'AnimationPan',
                 'AnimationTimer',
                 'AnimationZoom',
-                'Geolocation',
-                'DGAjax',
-                'DGAttribution']
-    },
-
-    DGWhen: {
-        desc: 'Promise/Deffered object module',
-        src: [
-            'DGWhen/src/DGCore.js',
-            'DGWhen/src/DGWhen.js'
-        ]
+                'Geolocation'
+                /*'DGAjax',*/
+               /* 'DGAttribution'*/]
     },
 
     DGAjax: {
         desc: '2GIS Ajax module',
-        src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGWhen']
+        src: ['DGAjax/src/DGAjax.js']
     },
 
     DGLabel: {
@@ -254,7 +246,7 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
+        deps: ['DGAjax', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
     DGDust: {
