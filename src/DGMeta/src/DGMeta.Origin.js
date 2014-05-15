@@ -1,11 +1,11 @@
 DG.Meta.Origin = DG.Class.extend({
     
-    options : {
-        subdomains : 'abc',
-        dataFilter : null
+    options: {
+        subdomains: 'abc',
+        dataFilter: null
     },
 
-    _url : false,
+    _url: false,
 
     initialize: function (url, options) {
         this._url = url;
@@ -22,11 +22,10 @@ DG.Meta.Origin = DG.Class.extend({
     },
 
     get: function (coord) {
-        var key = this.serializeCoord(coord),
+        var key = this.getTileKey(coord),
             self = this;
 
-        if (typeof this._tileStorage[key] === 'undefined' && 
-            typeof this._requests[key] === 'undefined') {
+        if (typeof this._tileStorage[key] === 'undefined' && typeof this._requests[key] === 'undefined') {
             this._tileStorage[key] = false;
             this._requests[key] = this._requestData(coord).then(function (data) {
                 self.set(coord, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
@@ -36,7 +35,7 @@ DG.Meta.Origin = DG.Class.extend({
 
         if (this._tileStorage[key].constructor === Object) {
             return Object.keys(this._tileStorage[key]).map(function (id) {
-                return DG.extend({ geometry : this._tileStorage[key][id]}, this._dataStorage[id]);
+                return DG.extend({ geometry: this._tileStorage[key][id]}, this._dataStorage[id]);
             }, this);
         }
 
@@ -44,7 +43,7 @@ DG.Meta.Origin = DG.Class.extend({
     },
 
     set: function (coord, data) {
-        var key = this.serializeCoord(coord);
+        var key = this.getTileKey(coord);
 
         data.forEach(function (entity) {
             if (entity.geometry.constructor !== Object) {
@@ -77,7 +76,7 @@ DG.Meta.Origin = DG.Class.extend({
         return this;
     },
 
-    serializeCoord : function (coord) {
+    getTileKey: function (coord) {
         return [coord.x, coord.y, coord.z].join(':');
     },
 
@@ -101,10 +100,10 @@ DG.Meta.Origin = DG.Class.extend({
 
     _prepareURL: function (coords) {
         return DG.Util.template(this._url, {
-            x : coords.x,
-            y : coords.y,
-            z : coords.z,
-            s : this._getSubdomain(coords)
+            x: coords.x,
+            y: coords.y,
+            z: coords.z,
+            s: this._getSubdomain(coords)
         });
     },
 
@@ -113,8 +112,5 @@ DG.Meta.Origin = DG.Class.extend({
 });
 
 DG.Meta.origin = function (source, options) {
-    if (source instanceof DG.Meta.Origin) {
-        return source;
-    }
     return new DG.Meta.Origin(source, options);
 };

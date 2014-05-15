@@ -1,6 +1,6 @@
 DG.Meta.Layer = L.Layer.extend({
 
-    options : {
+    options: {
         subdomains: 'abc',
 
         tileSize: 256,
@@ -21,32 +21,25 @@ DG.Meta.Layer = L.Layer.extend({
         this._currentTileData = false;
         this._hoveredObject = null;
         this._origin = DG.Meta.origin(source, {
-            subdomains : this.options.subdomains,
-            dataFilter : this.options.dataFilter
-        }); // TODO naming "Origin"
+            subdomains: this.options.subdomains,
+            dataFilter: this.options.dataFilter
+        });
     },
 
-    getOrigin : function () {
+    getOrigin: function () {
         return this._origin;
     },
 
-    onAdd : function () {
+    onAdd: function () {
         this._reset();
-        // console.log(this);
     },
 
-    onRemove : function () {
-        console.log('onRemove');
-    },
-
-    getEvents : function () {
-        var events = {
+    getEvents: function () {
+        return {
             mousemove: this._onMouseMove,
             mouseout: this._onMouseOut,
             viewreset: this._reset
         };
-
-        return events;
     },
 
     _getTileNumBounds: DG.GridLayer.prototype._getTileNumBounds,
@@ -54,7 +47,7 @@ DG.Meta.Layer = L.Layer.extend({
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
     _resetWrap: DG.GridLayer.prototype._resetWrap,
     
-    _onMouseMove : function (event) {
+    _onMouseMove: function (event) {
         var tileSize = this._getTileSize(),
             tileOriginPoint = this._map.getPixelOrigin().add(event.layerPoint),
             tileCoord = tileOriginPoint.divideBy(tileSize).floor(),
@@ -68,7 +61,7 @@ DG.Meta.Layer = L.Layer.extend({
         }
 
         tileCoord.z = this._map.getZoom();
-        tileKey = this._origin.serializeCoord(tileCoord);
+        tileKey = this._origin.getTileKey(tileCoord);
 
         if (tileKey !== this._currentTile) {
             this._currentTile = tileKey;
@@ -94,15 +87,14 @@ DG.Meta.Layer = L.Layer.extend({
         }
     },
 
-    _fireMouseEvent : function (type, eventObject) {
+    _fireMouseEvent: function (type, eventObject) {
         this.fire(type, {
-            meta : this._hoveredEntity,
-            latlng : eventObject.latlng
+            meta: this._hoveredEntity,
+            latlng: eventObject.latlng
         });
-        // console.log(type, this._hoveredEntity);
     },
 
-    _onMouseOut : function () {
+    _onMouseOut: function (event) {
         if (this._hoveredEntity) {
             this._fireMouseEvent('mouseout', event);
             this._hoveredEntity = null;
@@ -112,8 +104,9 @@ DG.Meta.Layer = L.Layer.extend({
 
     _getHoveredObject: function (coords, mouseTileOffset) {
         for (var i = 0, len = this._currentTileData.length; i < len; i++) {
-            if (DG.PolyUtil.contains(mouseTileOffset, this._currentTileData[i].geometry.coordinates[0]))
+            if (DG.PolyUtil.contains(mouseTileOffset, this._currentTileData[i].geometry.coordinates[0])) {
                 return this._currentTileData[i];
+            }
         }
         return null;
     },

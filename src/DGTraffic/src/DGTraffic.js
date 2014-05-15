@@ -19,13 +19,13 @@ DG.Traffic = DG.TileLayer.extend({
 
     initialize: function (options) {
         options = L.setOptions(this, options);
-        options.timestampString = options.period ? '' : ('?' + Date.now());
+        options.timestampString = options.period ? '': ('?' + Date.now());
 
         this._metaLayer = DG.Meta.layer(null, {
-            subdomains : options.subdomains,
-            detectRetina : options.detectRetina,
-            maxNativeZoom : options.maxNativeZoom,
-            dataFilter : DG.bind(this._processData, this)
+            subdomains: options.subdomains,
+            detectRetina: options.detectRetina,
+            maxNativeZoom: options.maxNativeZoom,
+            dataFilter: DG.bind(this._processData, this)
         });
 
         this._onTimer = DG.bind(this._onTimer, this);
@@ -36,7 +36,7 @@ DG.Traffic = DG.TileLayer.extend({
     // #setTime(day [0-6], time[0-23]) ????
 
     onAdd: function (map) {
-        this._updateLayerProject(); 
+        this._updateLayerProject();
 
         map
             .addLayer(this._metaLayer)
@@ -77,9 +77,9 @@ DG.Traffic = DG.TileLayer.extend({
         return DG.TileLayer.prototype.redraw.call(this);
     },
 
-    _onTimer : function () {
+    _onTimer: function () {
         if (!this.options.period) {
-            this.fire('update', { timestamp : Date.now() });
+            this.fire('update', { timestamp: Date.now() });
             this.redraw();
         }
     },
@@ -106,9 +106,9 @@ DG.Traffic = DG.TileLayer.extend({
                         .subtract(tileOriginPoint);
             }); // TODO check with MultiPoigon and etc.
             return {
-                id : item.graph_id,
-                speed : hints[item.graph_id],
-                geometry : geoJson
+                id: item.graph_id,
+                speed: hints[item.graph_id],
+                geometry: geoJson
             };
         });
     },
@@ -131,8 +131,8 @@ DG.Traffic = DG.TileLayer.extend({
                 minZoom: project.min_zoom_level,
                 maxZoom: project.max_zoom_level
             } : {
-                maxZoom: 0 
-        });
+                maxZoom: 0
+            });
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL());
     },
 
@@ -141,7 +141,7 @@ DG.Traffic = DG.TileLayer.extend({
         this.redraw();
     },
 
-    _layerEventsListeners : {
+    _layerEventsListeners: {
         mouseover: function (e) { // (Object)
             this._setCursor('pointer');
             if (this._labelHelper && e.meta.speed) {
