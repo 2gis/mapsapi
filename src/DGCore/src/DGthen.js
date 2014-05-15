@@ -1,20 +1,24 @@
+//DG inheritance
+DG = new (
+    (function () {
+        var DgApi = function () {},
+            DgApiCore = function () {};
+
+        DgApiCore.prototype = L;
+        DgApi.prototype = new DgApiCore();
+
+        return DgApi;
+    })()
+)();
+
 var handlers = window.__dgApi_callbacks || [],
-    def = DG.when.defer(),
-    chain = def.promise;
+    chain = Promise.resolve();
 //dont pollute global space!
 window.__dgApi_callbacks = undefined;
 
-//execute callbacks after api loading if any
-handlers.forEach(function (cb) {
-    chain = chain.then(cb);
-});
-
-//promise will be resolved asynchronously
-def.resolve();
-
-//public api for adding callbacks
-DG.then = function (resolve, reject) {
-    chain = chain.then(resolve, reject);
-
-    return this;
+DG.then = function () {
+    return chain.then(resolve, reject);
 };
+handlers.forEach(function (cb) {
+    chain.then(cb);
+});

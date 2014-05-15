@@ -15,7 +15,7 @@ DG.Meta.Host = DG.Class.extend({
             availableTraffic = this._trafficStorage.getTileData(tileId);
 
         if (availablePoi /*&& availableBuildings*/ && availableTraffic) {
-            return DG.when({
+            return Promise.resolve({
                 /*buildings: availableBuildings,*/
                 poi: availablePoi,
                 traffic: availableTraffic
@@ -32,7 +32,7 @@ DG.Meta.Host = DG.Class.extend({
         this._map.projectDetector.getProject().traffic && this._meta._listenTraffic &&
             requests.push(this._askByTile(tileId, '__TRAFFIC_META_SERVER__'));
 
-        return DG.when.all(requests, function (data) {
+        return Promise.all(requests, function (data) {
             var result = data[0].result;
 
             if (data[0].responseText === '') {

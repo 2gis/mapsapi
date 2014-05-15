@@ -8,7 +8,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
 
-        return DG.when(this._fillSightObject(results));
+        return Promise.resolve(this._fillSightObject(results));
     },
 
     _fillSightObject: function (results) { // (Object) -> Object

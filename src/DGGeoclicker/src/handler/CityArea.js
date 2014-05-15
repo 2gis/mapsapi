@@ -43,7 +43,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
                 .on('zoomend', this._updateGeometry, this)
                 .once('popupclose', this._clearPopup, this);
 
-        return DG.when(this._fillCityAreaObject(results, type));
+        return Promise.resolve(this._fillCityAreaObject(results, type));
     },
 
     _fillCityAreaObject: function (results, type) {

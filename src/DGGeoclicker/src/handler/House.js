@@ -51,7 +51,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             this._houseObject = this._fillHouseObject(results.house);
         }
 
-        return DG.when(this._defaultFirm ? this._firmCardObject : this._houseObject);
+        return Promise.resolve(this._defaultFirm ? this._firmCardObject : this._houseObject);
     },
 
     _firmCardSetup: function () { //() -> Object
