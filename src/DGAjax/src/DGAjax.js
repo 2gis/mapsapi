@@ -303,6 +303,11 @@ DG.ajax = (function () {
                 //self.reject('aborted');
             };
 
+            self.abort = function () {
+                self._aborted = true;
+                reject('aborted');
+            };
+
             self.url = o.url;
             self.timeout = null;
             self.options = o;
@@ -376,10 +381,6 @@ DG.ajax = (function () {
                 self._erred = true;
                 complete(resp);
             }
-
-            /*function progress() {
-                self.notify.call(self, arguments);
-            }*/
 
             self.request = getRequest.call(self, success, error);
         });
