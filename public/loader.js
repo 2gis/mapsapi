@@ -58,13 +58,13 @@
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('src', link);
-        js.onerror = function () {
-            runRejects();
+        js.onerror = function (err) {
+            runRejects(err);
         };
         //IE
-        js.onreadystatechange = function () {
+        js.onreadystatechange = function (err) {
             if (js.readyState !== 'complete' && js.readyState !== 'loaded') {
-                runRejects();
+                runRejects(err);
             }
         };
 
@@ -151,7 +151,7 @@
             if (!isJsRequested) { loadApi(); }
         }
 
-        window.__dgApi_callbacks.push(resolve);
+        window.__dgApi_callbacks.push([resolve, reject]);
         reject && rejects.push(reject);
 
         return this;
