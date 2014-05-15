@@ -73,7 +73,7 @@ DG.Traffic = DG.TileLayer.extend({
 
     redraw: function () {
         this.options.timestampString = this.options.period ? '' : ('?' + Date.now());
-        // this._layerEventsListeners.mouseout.call(this);
+        this._layerEventsListeners.mouseout.call(this);
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL(), true);
         DG.TileLayer.prototype.redraw.call(this);
         return this;
