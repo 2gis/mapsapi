@@ -16,9 +16,6 @@
                 return scripts[i].src.split('?');
             }
         }
-
-        //delete it!
-        return fallbackLoaderSearch();
     }
 
     function getBaseURL() {
@@ -133,7 +130,6 @@
         requestJs();
     }
 
-    window.L = window.L || {};//for temporary fallback, delete it
     window.DG = {};
     window.DG.ready = false;
     window.__dgApi_callbacks = [];
@@ -156,15 +152,4 @@
 
         return this;
     };
-
-    //temporary fallback, delete it
-    window.L.onLoad = window.DG.then;
-
-    function fallbackLoaderSearch() {
-        var scripts, scriptURL;
-        scripts = document.getElementsByTagName('script');
-        scriptURL = scripts[scripts.length - 1].src;
-        return scriptURL.split('?');
-    }
-
 })();
