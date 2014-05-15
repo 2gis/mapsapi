@@ -8,13 +8,13 @@ DG.Traffic = DG.TileLayer.extend({
 
         period: 0,
         
-        // updateInterval: 300000,
         disableLabel: false
     },
 
     statics: {
         tileUrl: '__TRAFFIC_TILE_SERVER__',
-        metaUrl: '__TRAFFIC_META_SERVER__'
+        metaUrl: '__TRAFFIC_META_SERVER__',
+        updateInterval: '__TRAFFIC_LAYER_UPDATE_INTERVAL__'
     },
 
     initialize: function (options) {
@@ -47,9 +47,9 @@ DG.Traffic = DG.TileLayer.extend({
             this._labelHelper = DG.label();
         }
 
-        // if (this.options.updateInterval) {
-        //     this._updateTimer = setInterval(this._onTimer, this.options.updateInterval);
-        // }
+        if (DG.Traffic.updateInterval) {
+            this._updateTimer = setInterval(this._onTimer, DG.Traffic.updateInterval);
+        }
 
         DG.TileLayer.prototype.onAdd.call(this, map);
     },
@@ -79,6 +79,7 @@ DG.Traffic = DG.TileLayer.extend({
 
     _onTimer : function () {
         if (!this.options.period) {
+            this.fire('update', { timestamp : Date.now() });
             this.redraw();
         }
     },
@@ -123,14 +124,7 @@ DG.Traffic = DG.TileLayer.extend({
 
     _updateLayerProject: function () {
         var project = this._map.projectDetector.getProject();
-        console.log(DG.setOptions(this, project && project.traffic ? {
-                projectCode: project.code,
-                bounds: project.LatLngBounds,
-                minZoom: project.min_zoom_level,
-                maxZoom: project.max_zoom_level
-            } : {
-                maxZoom: 0 
-        }));
+
         DG.setOptions(this, project && project.traffic ? {
                 projectCode: project.code,
                 bounds: project.LatLngBounds,
