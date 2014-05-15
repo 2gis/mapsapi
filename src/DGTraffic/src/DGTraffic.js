@@ -7,9 +7,8 @@ DG.Traffic = DG.TileLayer.extend({
         maxNativeZoom: 18,
 
         period: 0,
-        timestampString: '',
-        updateInterval: 300000,
-
+        
+        // updateInterval: 300000,
         disableLabel: false
     },
 
@@ -48,11 +47,11 @@ DG.Traffic = DG.TileLayer.extend({
             this._labelHelper = DG.label();
         }
 
-        if (this.options.updateInterval) {
-            this._updateTimer = setInterval(this._onTimer, this.options.updateInterval);
-        }
+        // if (this.options.updateInterval) {
+        //     this._updateTimer = setInterval(this._onTimer, this.options.updateInterval);
+        // }
 
-        DG.TileLayer.prototype.onAdd.call(this);
+        DG.TileLayer.prototype.onAdd.call(this, map);
     },
 
     onRemove: function (map) {
@@ -60,7 +59,7 @@ DG.Traffic = DG.TileLayer.extend({
         
         map
             .removeLayer(this._metaLayer)
-            .off(this._projectEvents, this);
+            .off('projectchange projectleave', this._onMapProjectChange, this);
 
         if (!this.options.disableLabel) {
             this._metaLayer.off(this._layerEventsListeners, this);
@@ -75,8 +74,7 @@ DG.Traffic = DG.TileLayer.extend({
         this.options.timestampString = this.options.period ? '' : ('?' + Date.now());
         this._layerEventsListeners.mouseout.call(this);
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL(), true);
-        DG.TileLayer.prototype.redraw.call(this);
-        return this;
+        return DG.TileLayer.prototype.redraw.call(this);
     },
 
     _onTimer : function () {
@@ -125,7 +123,14 @@ DG.Traffic = DG.TileLayer.extend({
 
     _updateLayerProject: function () {
         var project = this._map.projectDetector.getProject();
-
+        console.log(DG.setOptions(this, project && project.traffic ? {
+                projectCode: project.code,
+                bounds: project.LatLngBounds,
+                minZoom: project.min_zoom_level,
+                maxZoom: project.max_zoom_level
+            } : {
+                maxZoom: 0 
+        }));
         DG.setOptions(this, project && project.traffic ? {
                 projectCode: project.code,
                 bounds: project.LatLngBounds,
