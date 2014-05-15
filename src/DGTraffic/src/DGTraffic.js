@@ -22,7 +22,6 @@ DG.Traffic = DG.TileLayer.extend({
         options.timestampString = options.period ? '': ('?' + Date.now());
 
         this._metaLayer = DG.Meta.layer(null, {
-            subdomains: options.subdomains,
             detectRetina: options.detectRetina,
             maxNativeZoom: options.maxNativeZoom,
             dataFilter: DG.bind(this._processData, this)

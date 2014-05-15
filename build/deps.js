@@ -192,13 +192,8 @@ var deps = {
     DGMeta: {
         desc: '2GIS POI & buildings data support module',
         src: [
-            'DGMeta/src/DGMeta.js',
             'DGMeta/src/DGMeta.Layer.js',
             'DGMeta/src/DGMeta.Origin.js',
-            'DGMeta/src/storage/Storage.js',
-            'DGMeta/src/storage/PoiStorage.js',
-            'DGMeta/src/storage/TrafficStorage.js',
-            'DGMeta/src/StorageHost.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
         deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
@@ -295,8 +290,7 @@ var deps = {
     DGTraffic: {
         desc: 'Traffic',
         src: [
-            'DGTraffic/src/DGTraffic.js',
-            'DGTraffic/src/DGTraffic.Handler.js'
+            'DGTraffic/src/DGTraffic.js'
         ],
         deps: ['DGMeta']
     },

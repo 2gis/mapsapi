@@ -1,7 +1,9 @@
+DG.Meta = {};
+
 DG.Meta.Layer = L.Layer.extend({
 
     options: {
-        subdomains: 'abc',
+        subdomains: '012345679',
 
         tileSize: 256,
 
