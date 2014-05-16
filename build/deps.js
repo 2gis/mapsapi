@@ -49,13 +49,13 @@ var deps = {
                 'AnimationPan',
                 'AnimationTimer',
                 'AnimationZoom',
-                'Geolocation'
-               /* 'DGAttribution'*/]
+                'Geolocation']
     },
 
     DGAjax: {
         desc: '2GIS Ajax module',
-        src: ['DGAjax/src/DGAjax.js']
+        src: ['DGAjax/src/DGAjax.js'],
+        deps: ['DGCore']
     },
 
     DGLabel: {
@@ -132,7 +132,8 @@ var deps = {
         src: [
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
-        ]
+        ],
+        deps: ['DGCore']
     },
 
     DGLocation: {
@@ -254,7 +255,8 @@ var deps = {
             '../vendors/dustjs/dist/dust-core.js',
             '../vendors/dustjs-helpers/dist/dust-helpers-1.1.2.js',
             'DGDust/src/DGDust.js'
-        ]
+        ],
+        deps: ['DGCore']
     },
 
     DGEntrance: {
