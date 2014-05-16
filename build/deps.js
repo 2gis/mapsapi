@@ -50,7 +50,6 @@ var deps = {
                 'AnimationTimer',
                 'AnimationZoom',
                 'Geolocation'
-                /*'DGAjax',*/
                /* 'DGAttribution'*/]
     },
 

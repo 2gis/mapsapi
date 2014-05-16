@@ -5,7 +5,7 @@ var handlers = window.__dgApi_callbacks || [],
 window.__dgApi_callbacks = undefined;
 
 handlers.forEach(function (handlers) {
-    chain.then(handlers[0], handlers[1]);
+    chain = chain.then(handlers[0], handlers[1]);
 });
 
 DG.then = function (resolve, reject) {

@@ -3,7 +3,7 @@ DG.plugin = function (plugins) {
         jsReg = new RegExp(/.js$/i),
         cssReg = new RegExp(/.css$/i),
 
-    promise = new Promise(function (resolve, reject) {
+    promise = new Promise(function (resolve) {
         function checkLoading() {
             count--;
 
