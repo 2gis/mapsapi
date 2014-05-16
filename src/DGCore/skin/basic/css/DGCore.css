@@ -1,0 +1,13 @@
+@-webkit-keyframes dg-core__checker {
+  from {
+      zoom:1;
+  }
+  to {
+       zoom:1;
+  }
+}
+
+.dg-core__invalidatesize {
+position:absolute; display:block; width:0; height:0;
+-webkit-animation: dg-core__checker 1s linear infinite;
+}
