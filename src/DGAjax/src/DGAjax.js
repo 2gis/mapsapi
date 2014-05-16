@@ -125,7 +125,7 @@ DG.ajax = (function () {
         return url + (/\?/.test(url) ? '&' : '?') + s;
     }
 
-    function handleJsonp(o, fn, err, progress, url) {
+    function handleJsonp(o, fn, err, url) {
         var reqId = uniqid++,
             cbkey = o.jsonpCallback || 'callback', // the 'callback' key
             cbval = o.jsonpCallbackName || callbackPrefix,
@@ -182,8 +182,6 @@ DG.ajax = (function () {
             loaded = 1;
         };
 
-        progress();
-
         // Add the script to the DOM head
         head.appendChild(script);
 
@@ -199,7 +197,7 @@ DG.ajax = (function () {
         };
     }
 
-    function getRequest(fn, err, progress) {
+    function getRequest(fn, err) {
         var o = this.options,
             method = (o.type || 'GET').toUpperCase(),
             url = typeof o === 'string' ? o : o.url,
@@ -216,7 +214,7 @@ DG.ajax = (function () {
         }
 
         if (o.type === 'jsonp') {
-            return handleJsonp(o, fn, err, progress, url);
+            return handleJsonp(o, fn, err, url);
         }
 
         http = xhr(o);
@@ -228,15 +226,9 @@ DG.ajax = (function () {
         if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
             http.onload = fn;
             http.onerror = err;
-            // NOTE: see
-            // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
-            http.onprogress = function () {};
             sendWait = true;
         } else {
             http.onreadystatechange = handleReadyState(this, fn, err);
-        }
-        if (progress) {
-            progress(http);
         }
         if (sendWait) {
             setTimeout(function () {
@@ -400,7 +392,7 @@ DG.ajax = (function () {
         var requestPromise = doRequest(options),
             resultPromise = requestPromise.promise;
 
-        if (options.success || options.error || options.progress || options.complete) {
+        if (options.success || options.error || options.complete) {
             resultPromise.then(options.success, options.error);
         }
 
