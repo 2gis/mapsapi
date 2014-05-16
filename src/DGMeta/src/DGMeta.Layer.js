@@ -36,6 +36,10 @@ DG.Meta.Layer = L.Layer.extend({
         this._reset();
     },
 
+    onRemove: function () {
+
+    },
+
     getEvents: function () {
         return {
             mousemove: this._onMouseMove,
