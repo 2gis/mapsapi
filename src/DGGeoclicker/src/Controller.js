@@ -75,7 +75,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
         }
         if (result.error && result.error === 'no type') {
             return;
-        }
+        }console.log(result);
         while (type = this.findHandler(result)) { // jshint ignore:line
             if (this._runHandler(type, result)) {
                 return;

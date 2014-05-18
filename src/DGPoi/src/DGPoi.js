@@ -1,5 +1,7 @@
+/*global __POI_LAYER_MIN_ZOOM__:false */
+
 DG.Map.mergeOptions({
-    poi: false
+    poi: !DG.Browser.touch
 });
 
 DG.Poi = DG.Handler.extend({
@@ -9,14 +11,15 @@ DG.Poi = DG.Handler.extend({
     },
 
     statics: {
-        metaURL: '__HIGHLIGHT_POI_SERVER__'
+        metaURL: '__HIGHLIGHT_POI_SERVER__',
+        minZoom: __POI_LAYER_MIN_ZOOM__
     },
 
     initialize: function (map, options) { // (Object)
         this._map = map;
         DG.Util.setOptions(this, options);
         this._metaLayer = DG.Meta.layer(DG.Poi.metaURL, {
-            minZoom: __POI_LAYER_MIN_ZOOM__,
+            minZoom: DG.Poi.minZoom,
             dataFilter: DG.bind(this._processData, this)
         });
     },
@@ -36,6 +39,10 @@ DG.Poi = DG.Handler.extend({
             this._map.removeLayer(this._labelHelper);
             this._labelHelper = null;
         }
+    },
+
+    getMetaLayer : function () {
+        return this._metaLayer;
     },
 
     _processData : function (data, coord) {

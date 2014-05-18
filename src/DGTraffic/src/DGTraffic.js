@@ -1,24 +1,24 @@
 DG.Traffic = DG.TileLayer.extend({
 
     options: {
-        errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-        subdomains: '012345679',
-        detectRetina: true,
-        maxNativeZoom: 18,
-
         period: 0,
-        
         disableLabel: false
     },
 
     statics: {
         tileUrl: '__TRAFFIC_TILE_SERVER__',
         metaUrl: '__TRAFFIC_META_SERVER__',
-        updateInterval: '__TRAFFIC_LAYER_UPDATE_INTERVAL__'
+        updateInterval: '__TRAFFIC_LAYER_UPDATE_INTERVAL__',
+        layersOptions: {
+            errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            subdomains: '012345679',
+            detectRetina: true,
+            maxNativeZoom: 18
+        }
     },
 
     initialize: function (options) {
-        options = L.setOptions(this, options);
+        options = L.setOptions(this, DG.extend(options || {}, DG.Traffic.layersOptions));
         options.timestampString = options.period ? '': ('?' + Date.now());
 
         this._metaLayer = DG.Meta.layer(null, {

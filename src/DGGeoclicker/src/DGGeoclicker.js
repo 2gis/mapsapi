@@ -15,14 +15,10 @@ DG.Geoclicker = DG.Handler.extend({
 
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
-        if (!DG.Browser.touch) {
-            this._map.poi.enable();
-        }
     },
 
     removeHooks: function () {
         this._map.off(this._mapEventsListeners, this);
-        this._map.poi.disable();
     },
 
     getController: function () {

@@ -3,8 +3,6 @@ DG.Meta = {};
 DG.Meta.Layer = L.Layer.extend({
 
     options: {
-        subdomains: '012345679',
-
         tileSize: 256,
 
         minZoom: 0,
@@ -19,11 +17,12 @@ DG.Meta.Layer = L.Layer.extend({
 
     initialize: function (source, options) {
         DG.setOptions(this, options);
+        
         this._currentTile = false;
         this._currentTileData = false;
         this._hoveredObject = null;
+
         this._origin = DG.Meta.origin(source, {
-            subdomains: this.options.subdomains,
             dataFilter: this.options.dataFilter
         });
     },
@@ -32,17 +31,17 @@ DG.Meta.Layer = L.Layer.extend({
         return this._origin;
     },
 
-    onAdd: function () {
+    onAdd: function (map) {
         this._reset();
+        DG.DomEvent.on(map.getPane('tilePane'), 'mousemove', this._onMouseMove, this);
     },
 
-    onRemove: function () {
-
+    onRemove: function (map) {
+        DG.DomEvent.off(map.getPane('tilePane'), 'mousemove', this._onMouseMove, this);
     },
 
     getEvents: function () {
         return {
-            mousemove: this._onMouseMove,
             mouseout: this._onMouseOut,
             viewreset: this._reset
         };
@@ -53,19 +52,20 @@ DG.Meta.Layer = L.Layer.extend({
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
     _resetWrap: DG.GridLayer.prototype._resetWrap,
     
-    _onMouseMove: function (event) {
+    _onMouseMove: function (event) { // (MouseEvent)
         var tileSize = this._getTileSize(),
-            tileOriginPoint = this._map.getPixelOrigin().add(event.layerPoint),
+            layerPoint = this._map.mouseEventToLayerPoint(event),
+            tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
             tileCoord = tileOriginPoint.divideBy(tileSize).floor(),
-            mouseTileOffset = DG.point(tileOriginPoint.x % tileSize, tileOriginPoint.y % tileSize),
+            mouseTileOffset,
             tileKey,
             hoveredObject;
 
-        // this._wrapCoords(tileCoords); TODO ???
         if (!this._isValidTile(tileCoord)) {
             return;
         }
 
+        this._wrapCoords(tileCoord);
         tileCoord.z = this._map.getZoom();
         tileKey = this._origin.getTileKey(tileCoord);
 
@@ -75,8 +75,9 @@ DG.Meta.Layer = L.Layer.extend({
         }
 
         if (this._currentTileData === false) {
-            this._currentTileData = this._origin.get(tileCoord);
+            this._currentTileData = this._origin.getTileData(tileCoord);
         } else {
+            mouseTileOffset = DG.point(tileOriginPoint.x % tileSize, tileOriginPoint.y % tileSize);
             hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
             if (this._hoveredEntity !== hoveredObject) {
                 if (this._hoveredEntity) {
@@ -93,16 +94,16 @@ DG.Meta.Layer = L.Layer.extend({
         }
     },
 
-    _fireMouseEvent: function (type, eventObject) {
+    _fireMouseEvent: function (type, mouseEvent) {
         this.fire(type, {
             meta: this._hoveredEntity,
-            latlng: eventObject.latlng
+            latlng: this._map.mouseEventToLatLng(mouseEvent)
         });
     },
 
     _onMouseOut: function (event) {
         if (this._hoveredEntity) {
-            this._fireMouseEvent('mouseout', event);
+            this._fireMouseEvent('mouseout', event.originalEvent);
             this._hoveredEntity = null;
         }
         this._currentTile = false;

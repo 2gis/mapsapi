@@ -1,7 +1,7 @@
 DG.Meta.Origin = DG.Class.extend({
     
     options: {
-        subdomains: 'abc',
+        subdomains: '012345679',
         dataFilter: null
     },
 
@@ -21,14 +21,14 @@ DG.Meta.Origin = DG.Class.extend({
         }
     },
 
-    get: function (coord) {
+    getTileData: function (coord) {
         var key = this.getTileKey(coord),
             self = this;
 
         if (typeof this._tileStorage[key] === 'undefined' && typeof this._requests[key] === 'undefined') {
             this._tileStorage[key] = false;
             this._requests[key] = this._requestData(coord).then(function (data) {
-                self.set(coord, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
+                self.setTileData(coord, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
                 delete self._requests[key];
             });
         }
@@ -42,7 +42,7 @@ DG.Meta.Origin = DG.Class.extend({
         return this._tileStorage[key];
     },
 
-    set: function (coord, data) {
+    setTileData: function (coord, data) {
         var key = this.getTileKey(coord);
 
         data.forEach(function (entity) {
