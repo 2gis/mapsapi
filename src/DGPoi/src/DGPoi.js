@@ -19,8 +19,8 @@ DG.Poi = DG.Handler.extend({
         DG.Util.setOptions(this, options);
         this._metaLayer = DG.Meta.layer(DG.Poi.metaURL, {
             minZoom: __POI_LAYER_MIN_ZOOM__,
-            detectRetina: true,
             maxNativeZoom: 18,
+            detectRetina: true,
             dataFilter: DG.bind(this._processData, this)
         });
     },
@@ -79,7 +79,7 @@ DG.Poi = DG.Handler.extend({
                 .setContent(e.meta.hint);
             this._map.addLayer(this._labelHelper);
         },
-        click : function (e) { console.log(e); },
+
         mouseout: function () {
             this._setCursor('auto');
             this._map.removeLayer(this._labelHelper);

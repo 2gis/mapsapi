@@ -26,11 +26,11 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         }
 
         // initialization setup
+        this.firmCard = null;
         this._page = 1;
         this._houseObject = null;
         this._firmList = null;
         this._firmListObject = null;
-        this.firmCard = null;
         this._firmCardObject = null;
         this._onScroll = false;
         this._isFirmlistOpen = false;
@@ -43,15 +43,9 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         this._directionsUrl = this._getDirectionsUrl(results.house.name);
         this._firmListLoader = this._view.initLoader(true);
 
-        this._defaultFirm = results.extra && results.extra.poiId ? results.extra.poiId : null;
+        this._houseObject = this._fillHouseObject(results.house);
 
-        if (this._defaultFirm) {
-            this._firmCardObject = this._fillFirmCardObject();
-        } else {
-            this._houseObject = this._fillHouseObject(results.house);
-        }
-
-        return DG.when(this._defaultFirm ? this._firmCardObject : this._houseObject);
+        return DG.when(this._houseObject);
     },
 
     _firmCardSetup: function () { //() -> Object
@@ -88,11 +82,11 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     // init single firm card in case of poi
-    _fillFirmCardObject: function () {
+    _fillFirmCardObject: function (firmId) {
         var options = this._firmCardSetup(),
             firmCard;
-        this.firmCard = new FirmCard(this._defaultFirm, options);
 
+        this.firmCard = new FirmCard(firmId, options);
         return firmCard.getContainer();
     },
 

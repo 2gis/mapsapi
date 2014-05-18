@@ -63,7 +63,7 @@ DG.Meta.Origin = DG.Class.extend({
         this._tileStorage = {};
         this._dataStorage = {};
         Object.keys(this._requests).forEach(function (id) {
-            this[id].abort();
+            this[id].abort && this[id].abort();
         }, this._requests);
         return this;
     },

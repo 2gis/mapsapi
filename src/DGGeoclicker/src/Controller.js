@@ -4,7 +4,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
         // if handler worked successfully, it should return rendering object that will be processed in View , otherwise it should return false
         // default handler always should return rendering object
         'handlersSequence': {
-
+            'poi': DG.Geoclicker.Handler.Poi,
             'house': DG.Geoclicker.Handler.House,
 
             'sight': DG.Geoclicker.Handler.Sight,
@@ -75,9 +75,9 @@ DG.Geoclicker.Controller = DG.Class.extend({
         }
         if (result.error && result.error === 'no type') {
             return;
-        }console.log(result);
+        }
         while (type = this.findHandler(result)) { // jshint ignore:line
-            if (this._runHandler(type, result)) {
+            if (this._runHandler(type, result)) {console.log(type);
                 return;
             }
             delete result[type];

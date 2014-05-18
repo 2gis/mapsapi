@@ -69,17 +69,18 @@ DG.Traffic = DG.TileLayer.extend({
         DG.TileLayer.prototype.onRemove.call(this, map);
     },
 
-    redraw: function () {
-        this.options.timestampString = this.options.period ? '' : ('?' + Date.now());
+    update: function () {
+        var now = Date.now();
+        this.options.timestampString = this.options.period ? '' : ('?' + now);
+        this.fire('update', { timestamp: now });
         this._layerEventsListeners.mouseout.call(this);
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL(), true);
-        return DG.TileLayer.prototype.redraw.call(this);
+        this.redraw();
     },
 
     _onTimer: function () {
-        if (!this.options.period) {
-            this.fire('update', { timestamp: Date.now() });
-            this.redraw();
+        if (this.options.period === 0) {
+            this.update();
         }
     },
 

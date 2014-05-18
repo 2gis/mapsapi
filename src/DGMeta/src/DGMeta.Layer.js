@@ -7,6 +7,7 @@ DG.Meta.Layer = L.Layer.extend({
 
         minZoom: 0,
         maxZoom: 18,
+
         zoomOffset: 0
 
         // maxNativeZoom: <Number>,
@@ -14,7 +15,7 @@ DG.Meta.Layer = L.Layer.extend({
         // zoomReverse: <Number>
         // attribution: <String>,
         // zIndex: <Number>,
-        // bounds: <LatLngBounds>,
+        // bounds: <LatLngBounds>
     },
 
     initialize: function (source, options) {
