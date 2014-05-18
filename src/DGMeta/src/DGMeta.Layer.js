@@ -8,7 +8,9 @@ DG.Meta.Layer = L.Layer.extend({
         minZoom: 0,
         maxZoom: 18,
         zoomOffset: 0
-        
+
+        // maxNativeZoom: <Number>,
+        // detectRetina: <Number>,
         // zoomReverse: <Number>
         // attribution: <String>,
         // zIndex: <Number>,
@@ -16,8 +18,9 @@ DG.Meta.Layer = L.Layer.extend({
     },
 
     initialize: function (source, options) {
-        DG.setOptions(this, options);
-        
+        DG.TileLayer.prototype.initialize.call(this, null, options);
+        delete this._url;
+
         this._currentTile = false;
         this._currentTileData = false;
         this._hoveredObject = null;
@@ -25,6 +28,7 @@ DG.Meta.Layer = L.Layer.extend({
         this._origin = DG.Meta.origin(source, {
             dataFilter: this.options.dataFilter
         });
+
     },
 
     getOrigin: function () {
@@ -52,6 +56,7 @@ DG.Meta.Layer = L.Layer.extend({
         return events;
     },
 
+    _getZoomForUrl: DG.TileLayer.prototype._getZoomForUrl,
     _getTileNumBounds: DG.GridLayer.prototype._getTileNumBounds,
     _isValidTile: DG.GridLayer.prototype._isValidTile,
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
@@ -72,7 +77,7 @@ DG.Meta.Layer = L.Layer.extend({
             }
 
             this._wrapCoords(tileCoord);
-            tileCoord.z = this._map.getZoom();
+            tileCoord.z = this._getZoomForUrl();
             tileKey = this._origin.getTileKey(tileCoord);
 
             if (tileKey !== this._currentTile) {

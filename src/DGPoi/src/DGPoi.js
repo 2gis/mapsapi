@@ -11,15 +11,16 @@ DG.Poi = DG.Handler.extend({
     },
 
     statics: {
-        metaURL: '__HIGHLIGHT_POI_SERVER__',
-        minZoom: __POI_LAYER_MIN_ZOOM__
+        metaURL: '__HIGHLIGHT_POI_SERVER__'
     },
 
     initialize: function (map, options) { // (Object)
         this._map = map;
         DG.Util.setOptions(this, options);
         this._metaLayer = DG.Meta.layer(DG.Poi.metaURL, {
-            minZoom: DG.Poi.minZoom,
+            minZoom: __POI_LAYER_MIN_ZOOM__,
+            detectRetina: true,
+            maxNativeZoom: 18,
             dataFilter: DG.bind(this._processData, this)
         });
     },
