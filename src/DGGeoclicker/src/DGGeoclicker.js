@@ -10,7 +10,6 @@ DG.Geoclicker = DG.Handler.extend({
     initialize: function (map, options) { // (Object)
         this._map = map;
         this._controller = new DG.Geoclicker.Controller(map, options);
-        this._fillEventsListeners();
     },
 
     addHooks: function () {
@@ -45,10 +44,6 @@ DG.Geoclicker = DG.Handler.extend({
                 this._singleClick(e);
             }
         }
-    },
-
-    _fillEventsListeners: function () {
-        this._mapEventsListeners.click = this._onClick;
     },
 
     _singleClick: function (e) { // (Object)
