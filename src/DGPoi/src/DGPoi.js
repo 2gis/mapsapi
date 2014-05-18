@@ -78,7 +78,7 @@ DG.Poi = DG.Handler.extend({
                 .setContent(e.meta.hint);
             this._map.addLayer(this._labelHelper);
         },
-
+        click : function (e) { console.log(e); },
         mouseout: function () {
             this._setCursor('auto');
             this._map.removeLayer(this._labelHelper);
