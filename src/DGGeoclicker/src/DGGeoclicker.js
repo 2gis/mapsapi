@@ -37,22 +37,18 @@ DG.Geoclicker = DG.Handler.extend({
 
         popupclose: function (e) { // (Object)
             this._controller.handlePopupClose(e.popup);
+        },
+
+        click: function (e) { // (Object)
+            if (this.clickCount === 0) {
+                this.clickCount = 1;
+                this._singleClick(e);
+            }
         }
     },
 
     _fillEventsListeners: function () {
-        this._mapEventsListeners.click = this._mapEventsListeners.poiclick = this._onClick;
-    },
-
-    _onClick: function (e) { // (Object)
-        if (this.clickCount === 0) {
-            this.clickCount = 1;
-            this._singleClick(e);
-        }
-    },
-
-    _setCursor: function (cursor) { // (String)
-        this._map.getContainer().style.cursor = cursor;
+        this._mapEventsListeners.click = this._onClick;
     },
 
     _singleClick: function (e) { // (Object)
@@ -64,7 +60,7 @@ DG.Geoclicker = DG.Handler.extend({
             var zoom = e.target._zoom,
                 latlng = e.latlng;
 
-            self._controller.handleClick(latlng, zoom, { poiId : e.poi ? e.poi.linked.id : null });
+            self._controller.handleClick(latlng, zoom);
             self.clickCount = 0;
         }, this.timeout);
     }
