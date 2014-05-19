@@ -8,12 +8,10 @@ var deps = {
             '../vendors/polyfills/es5.js',
             'DGCore/src/DGCore.js',
             'DGCore/src/DGplugin.js',
-            'DGCore/src/DGthen.js',
-            'DGCore/src/DGISize.js'
+            'DGCore/src/DGthen.js'
         ],
         css: {
-            all: ['../vendors/leaflet/dist/leaflet.css',
-                  'DGCore/skin/{skin}/css/DGCore.css']
+            all: ['../vendors/leaflet/dist/leaflet.css']
         },
         heading: '2GIS modules',
         deps: [ 'Core',
