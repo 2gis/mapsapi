@@ -1,16 +1,15 @@
-.dg-ruler__pane,
-.dg-ruler__pathroot {
+.dg-ruler__pane {
     position: absolute;
     top: 0;
     left: 0;
-    }
-
-.dg-ruler__pane {
     z-index: 6;
     }
 
 .dg-ruler__pathroot {
-    z-index: 7999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 7999; /* Punch user to face? */
     }
 
 .dg-ruler__label {
@@ -51,7 +50,8 @@
             height: 12px;
             vertical-align: top;
             transition: all 0.2s ease;
-            }
-        .dg-ruler__label-remove-link:hover {
-            transform: rotate(90deg);
+
+            &:hover {
+                transform: rotate(90deg);
+                }
             }

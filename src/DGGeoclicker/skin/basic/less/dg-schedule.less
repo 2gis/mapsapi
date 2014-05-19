@@ -1,102 +1,110 @@
-.dg-schedule__no-table {
-    border-bottom: none !important;
-    cursor: default !important;
-    
-    &:after {
-        background-image: none !important;
-        }
-    }
+.dg-schedule {}
 
-.dg-schedule__today {
-    position: relative;
-    display: inline-block;
-    margin-left: 24px;
-    border-bottom: 1px dotted #aaa5a0;
-    font-size: 14px;
-    line-height: 13px;
-    cursor: pointer;
-
-    &:before,
-    &:after {
-        background-size: contain;
-        content: '';
-        position: absolute;
-        }
-    &:before {
-        top: -1px;
-        left: -24px;
-        width: 11px;
-        height: 11px;
-        }
-    &:after {
-        right: -12px;
-        bottom: 3px;
-        width: 10px;
-        height: 6px;
-        }
-    }
-
-.dg-schedule__now {
-    margin: 1px 7px 0px 36px;
-    font-size: 12px;
-    }
-
-.dg-schedule__string {
-    padding: 3px 16px 3px 24px;
-    text-align: left;
-    font-size: 14px;
-    }
-    .dg-schedule__string-time {
-        white-space: nowrap;
-        }
-
-.dg-schedule__table {
-    display: none;
-    text-align: center;
-    font-size: 0;
-    }
-    .dg-schedule__tc {
+    .dg-schedule__today {
+        position: relative;
         display: inline-block;
-        padding: 2px 0 15px;
-        width: 47px;
-        vertical-align: top;
+        margin-left: 24px;
+        border-bottom: 1px dotted #aaa5a0;
+        font-size: 14px;
+        line-height: 13px;
+        cursor: pointer;
+
+        &:before,
+        &:after {
+            background-size: contain;
+            content: '';
+            position: absolute;
+            }
+        &:before {
+            top: -1px;
+            left: -24px;
+            width: 11px;
+            height: 11px;
+            }
+        &:after {
+            right: -12px;
+            bottom: 3px;
+            width: 10px;
+            height: 6px;
+            }
+
+        .dg-schedule_open_true &:before {
+            .noRepeatableBg('DGSchedule__clockOn');
+            }
+        }
+
+        .dg-schedule_works-everyday_true .dg-schedule__today {
+            border-bottom: none;
+            cursor: default;
+            
+            &:after {
+                background-image: none;
+                }
+            }
+
+    .dg-schedule__now {
+        margin: 1px 7px 0px 36px;
+        font-size: 12px;
+        }
+
+    .dg-schedule__string {
+        padding: 3px 16px 3px 24px;
+        text-align: left;
         font-size: 14px;
         }
-    .dg-schedule__tc_pre {
-        width: 19px;
+        .dg-schedule__string-time {
+            white-space: nowrap;
+            }
+
+    .dg-schedule__table {
+        display: none;
+        text-align: center;
+        font-size: 0;
         }
-        .dg-schedule__day-name {
-            margin: 0;
-            color: #8c8782;
-            text-transform: capitalize;
+        .dg-schedule__tc {
+            display: inline-block;
+            padding: 2px 0 15px;
+            width: 47px;
+            vertical-align: top;
+            font-size: 14px;
             }
-        .dg-schedule__td {
-            margin: 10px 0 0;
+        .dg-schedule__tc_pre {
+            width: 19px;
             }
+            .dg-schedule__day-name {
+                margin: 0;
+                color: #8c8782;
+                text-transform: capitalize;
+                }
+            .dg-schedule__td {
+                margin: 10px 0 0;
+                }
 
-.dg-schedule_state_expanded .dg-schedule__popup {
-    display: block;
-    visibility: visible;
-    max-height: 1000px;
-    opacity: 1;
-    }
+    .dg-schedule_state_expanded .dg-schedule__popup {
+        display: block;
+        visibility: visible;
+        max-height: 1000px;
+        opacity: 1;
+        }
 
-.dg-schedule_open_true:before {
-    .noRepeatableBg('DGSchedule__clockOn');
-    }
+    .dg-schedule__table-clock {
+        margin: 14px 0 0 0;
+        width: 11px;
+        height: 11px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        }
 
-.dg-schedule__table-clock {
-    margin: 14px 0 0 0;
-    width: 11px;
-    height: 11px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    }
+    .dg-schedule__table-lunch {
+        margin: 16px 0 0 0;
+        width: 11px;
+        height: 11px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        }
 
-.dg-schedule__table-lunch {
-    margin: 16px 0 0 0;
-    width: 11px;
-    height: 11px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    }
+.dg-schedule_open_true {}
+
+.dg-schedule_state_expanded {}
+
+.dg-schedule_works-everyday_true {}

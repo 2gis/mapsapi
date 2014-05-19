@@ -18,18 +18,19 @@
     .noRepeatableBg('DGSchedule__clockOff_light');
     }
 
-.dg-schedule_open_false:before {
-    .noRepeatableBg('DGSchedule__clockOff_light');
-    }
-
 .dg-schedule__table-lunch {
     .noRepeatableBg('DGSchedule__lunchIcon_light');
     }
 
-.dg-schedule__today:after {
-    .noRepeatableBg('DGSchedule__expandIcon_light');
-    }
+.dg-schedule__today {
+    &:after {
+        .noRepeatableBg('DGSchedule__expandIcon_light');
+        }
 
-.dg-schedule__today.dg-schedule__today_shown_true:after {
-    .noRepeatableBg('DGSchedule__collapseIcon_light');
+    .dg-schedule_open_false &:before {
+        .noRepeatableBg('DGSchedule__clockOff_light');
+        }
     }
+    .dg-schedule__today_shown_true:after {
+        .noRepeatableBg('DGSchedule__collapseIcon_light');
+        }

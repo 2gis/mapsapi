@@ -1,18 +1,23 @@
 .dg-control-round {
     .alphaImage('DGRoundControl__button_dark.png');
+
+    &:hover {
+        .alphaImage('DGRoundControl__buttonHover_dark.png');
+        }
+
+    &:active {
+        .alphaImage('DGRoundControl__buttonActive_dark.png');
+        }
     }
 
-.dg-control-round:hover,
-.dg-control-round_state_active:hover {
-    .alphaImage('DGRoundControl__buttonHover_dark.png');
-    }
-
-.dg-control-round:active,
 .dg-control-round_state_active {
     .alphaImage('DGRoundControl__buttonActive_dark.png');
+
+    &:hover {
+        .alphaImage('DGRoundControl__buttonHover_dark.png');
+        }
     }
 
-.leaflet-disabled.dg-control-round,
-.leaflet-disabled.dg-control-round:hover {
+.leaflet-disabled.dg-control-round {
     .alphaImage('DGRoundControl__buttonDisabled_dark.png');
     }
