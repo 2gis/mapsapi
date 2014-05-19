@@ -16,6 +16,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     addHooks: function () {
+        this._projectWatch();
         this._map.on('move', this._projectWatch, this);
     },
 
