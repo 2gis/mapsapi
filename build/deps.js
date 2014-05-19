@@ -293,7 +293,7 @@ var deps = {
         src: [
             'DGTraffic/src/DGTraffic.js'
         ],
-        deps: ['DGMeta']
+        deps: ['DGMeta', 'DGLabel']
     },
 
     DGRuler: {
