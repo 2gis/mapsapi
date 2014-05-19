@@ -6,7 +6,7 @@
         isJsRequested = false,
         queryString,
         rejects = [],
-        version = window.__dgApi_version = 'v=585828';
+        version = window.__dgApi_version = 'v=d19265';
 
     function processURL() {
         var scripts = document.getElementsByTagName('script');
