@@ -556,7 +556,7 @@ FirmCard.Schedule.prototype = {
 
         for (var i = 0 ; i < 7 ; i++) {
             weekKeys[i] = weekKeysShort[i];
-            weekKeysLocal[i] = this.dict.t(localLang, weekKeysShort[i]);
+            weekKeysLocal[i] = this.dict.t(localLang, weekKeysShort[i].toLowerCase());
             weekFullKeysLocal[i] = this.dict.t(localLang, weekKeysFull[i]);
         }
 
