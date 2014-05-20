@@ -502,7 +502,7 @@ FirmCard.Schedule.prototype = {
                 }
             } else { // Выходной
                 out.holiday = true;
-                out.holidayStr = t(localLang, 'restDay');
+                //out.holidayStr = t(localLang, 'restDay', out.dayList.length);
             }
 
             // Формируем список дней на локальном языке
@@ -522,7 +522,7 @@ FirmCard.Schedule.prototype = {
                             out.dayList.pop();
                         }
 
-                        out.dayList[out.dayList.length - 1] += '–' + lastDay;
+                        out.dayList[out.dayList.length - 1] += ' — ' + lastDay;
                     }
 
                     flow = 0;
@@ -533,6 +533,8 @@ FirmCard.Schedule.prototype = {
             out.budni = isEqual(localWorkingDays, groupWorkingDays);
             // Список рабочих дней - все дни недели, значит нужно выводить фразу "Ежедневно"
             out.everyday = ( Math.min.apply(Math, groupWorkingDays) === 1 );
+
+            if ( out.holiday ) { out.holidayStr = t(localLang, 'restDay', out.dayList.length).slice(2); }
 
             // Делаем из массива строку и поднимаем первый символ
             out.dayList = out.dayList.join(', ');
@@ -556,7 +558,7 @@ FirmCard.Schedule.prototype = {
 
         for (var i = 0 ; i < 7 ; i++) {
             weekKeys[i] = weekKeysShort[i];
-            weekKeysLocal[i] = this.dict.t(localLang, weekKeysShort[i]);
+            weekKeysLocal[i] = this.dict.t(localLang, weekKeysShort[i].toLowerCase());
             weekFullKeysLocal[i] = this.dict.t(localLang, weekKeysFull[i]);
         }
 
