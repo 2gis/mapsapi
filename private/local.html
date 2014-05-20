@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+    <script src="http://127.0.0.1:3000/2.0/loader.js?pkg=full&mode=debug" data-id="dgLoader"></script>
     <style type="text/css">
 
       html,body { height: 100%; margin: 0px; padding: 0px; }
@@ -24,7 +24,10 @@
     DG.then(function () {
         map = new DG.Map('map', {
             "center": new DG.LatLng(54.9801, 82.8974),
-            "zoom": 13
+            "zoom": 13,
+            "geoclicker": true,
+            "worldCopyJump": true,
+            "locationControl": true
         });
         var southWest = DG.latLng(54.9801, 82.8974),
             northEast = DG.latLng(54.9901, 82.9074),

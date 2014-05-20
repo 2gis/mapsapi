@@ -11,22 +11,28 @@
                 0 0 0 1px rgba(0, 0, 0, 0.3),
                 0 1px 0 1px rgba(0, 0, 0, 0.4);
             }
+
+        &:active {
+            box-shadow:
+                0 1px 1px 1px rgba(0, 0, 0, 0.2) inset,
+                0 0 0 1px rgba(0, 0, 0, 0.3),
+                0 -1px 1px 0 #000000;
+            }
         }
     .leaflet-disabled .dg-control-round__icon {
         background: #b0b1af;
         }
 
-    .dg-control-round__icon:active,
     .dg-control-round__icon_state_active {
         box-shadow:
             0 1px 1px 1px rgba(0, 0, 0, 0.2) inset,
             0 0 0 1px rgba(0, 0, 0, 0.3),
             0 -1px 1px 0 #000000;
-        }
 
-    .dg-control-round__icon_state_active:hover,
-    .dg-control-round__icon_state_active:active {
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
+        &:hover,
+        &:active {
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
+            }
         }
 
     .dg-control-round__icon_name_fullscreen {

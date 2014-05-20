@@ -24,35 +24,31 @@
             right: 0;
             bottom: 0;
             left: 0;
-            display: block;
-            margin: auto;
             width: 18px;
             height: 18px;
+            margin: auto;
             background-size: contain;
             background-repeat: no-repeat;
             content: '';
             }
+
+        &:hover,
+        &:focus {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+            }
+        &:active {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
+            }
         }
-    .leaflet-disabled .dg-control-round__icon:active,
-    .leaflet-disabled .dg-control-round__icon:hover,
-    .leaflet-disabled .dg-control-round__icon {
-        box-shadow: none;
-        cursor: default;
-        }
-    .dg-control-round__icon:hover,
-    .dg-control-round__icon:focus {
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
-        }
-    .dg-control-round__icon:active,
+
     .dg-control-round__icon_state_active {
         background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
-        }
-    .dg-control-round__icon_state_active:hover,
-    .dg-control-round__icon_state_active:focus {
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 100%);
-        }
-    .dg-control-round__icon_state_active:active {
-        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 100%);
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 100%);
+            }
         }
 
     .dg-control-round__icon_name_fullscreen {
@@ -63,10 +59,6 @@
         &.dg-control-round__icon_state_active:before {
             .noRepeatableBg('DGRoundControl__fullscreenIconActive');
             }
-        }
-
-    @keyframes preloader {
-        to { transform: rotate(360deg); }
         }
 
     .dg-control-round__icon_name_locate {
@@ -84,6 +76,10 @@
             }
         }
 
+    @keyframes preloader {
+        to { transform: rotate(360deg); }
+        }
+
     .dg-control-round__icon_name_ruler {
         &:before {
             .noRepeatableBg('DGRoundControl__rulerIcon');
@@ -99,4 +95,9 @@
         &.dg-control-round__icon_state_active:before {
             .noRepeatableBg('DGRoundControl__rulerIconActive');
             }
+        }
+
+    .leaflet-disabled .dg-control-round__icon {
+        box-shadow: none;
+        cursor: default;
         }

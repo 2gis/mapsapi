@@ -10,7 +10,7 @@ var extend = require('extend'),
     glob = require('glob'),
     fs = require('fs'),
 
-    webapiProjects = require('2gis-project-loader'),
+    webapiProjects = require('./build/2gis-project-loader'),
 
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),

@@ -1,7 +1,7 @@
-<div class="dg-firm-card__schedule">
+<div class="dg-firm-card__schedule dg-schedule dg-schedule_open_{?forecast.open}true{:else}false{/forecast.open} dg-schedule_works-everyday_{?schedule.everyday}true{:else}false{/schedule.everyday}">
     {?schedule}
         {?forecast.today}
-            <div class="dg-schedule__today dg-schedule_open_{?forecast.open}true{:else}false{/forecast.open}{?schedule.everyday} dg-schedule__no-table{/schedule.everyday}">
+            <div class="dg-schedule__today ">
                 {forecast.today.text}&nbsp;
                 {?forecast.today.from}
                     {forecast.today.from}&ndash;{forecast.today.to}

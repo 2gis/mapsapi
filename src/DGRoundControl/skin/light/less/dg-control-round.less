@@ -13,22 +13,21 @@
         content: '';
         }
     }
-
     .dg-control-round__icon {
         box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4);
+
+        &:active {
+            box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4);
+            }
         }
-    .dg-control-round__icon:active,
+
     .dg-control-round__icon_state_active {
         box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4);
-        }
-    .dg-control-round__icon_state_active:hover {
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
-        }
-    .dg-control-round__icon_state_active:active {
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
-        }
-    .leaflet-disabled .dg-control-round__icon {
-        background: #fff;
+
+        &:hover,
+        &:active {
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
+            }
         }
 
     .dg-control-round__icon_name_fullscreen {
@@ -48,7 +47,10 @@
             .noRepeatableBg('DGRoundControl__locateIconHover_light');
             }
         &.dg-control-round__icon_state_requesting:before {
-            /*.png('DGLocation_geoInProgress-white');*/
             .noRepeatableBg('DGRoundControl__locateIconRequesting_light');
             }
+        }
+
+    .leaflet-disabled .dg-control-round__icon {
+        background: #fff;
         }

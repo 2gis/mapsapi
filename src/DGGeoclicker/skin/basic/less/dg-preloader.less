@@ -6,13 +6,12 @@
     vertical-align: middle;
     }
 .dg-preloader_animation_false {
-    /*background: url('@{baseURL}/img/loader.gif') no-repeat scroll 50% 50% transparent;*/
     .noRepeatableBg('DGPreloader__preloader');
+    background-attachment: scroll;
     background-position: 50% 50%;
     }
 .dg-preloader_animation_true {
-    }
-    .dg-preloader_animation_true:before {
+    &:before {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -24,7 +23,19 @@
         animation: dg-preloader__outer 5s linear infinite;
         image-rendering: optimizeQuality;
         }
-    .dg-preloader_animation_true:after {
+    &.dg-preloader_size_small:before {
+        margin: -12px 0 0 -12px;
+        width: 24px;
+        height: 24px;
+        }
+    &.dg-preloader_scheme_regular:before {
+        .noRepeatableBg('DGPreloader__preloaderBig', false);
+        }
+    &.dg-preloader_scheme_regular.dg-preloader_size_small:before {
+        .noRepeatableBg('DGPreloader__preloaderSmall', false);
+        }
+
+    &:after {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -36,30 +47,18 @@
         animation: dg-preloader__inner 4s linear infinite;
         image-rendering: optimizeQuality;
         }
-    .dg-preloader_animation_true.dg-preloader_size_small:before {
-        margin: -12px 0 0 -12px;
-        width: 24px;
-        height: 24px;
-        /*background-repeat: no-repeat;*/
-        }
-    .dg-preloader_animation_true.dg-preloader_size_small:after {
+    &.dg-preloader_size_small:after {
         margin: -6px 0 0 -6px;
         width: 12px;
         height: 12px;
-        /*background-repeat: no-repeat;*/
         }
-    .dg-preloader_animation_true.dg-preloader_scheme_regular:before {
-        .noRepeatableBg('DGPreloader__preloaderBig', false);
-        }
-    .dg-preloader_animation_true.dg-preloader_scheme_regular:after {
+    &.dg-preloader_scheme_regular:after {
         .noRepeatableBg('DGPreloader__preloaderBigInner', false);
         }
-    .dg-preloader_animation_true.dg-preloader_scheme_regular.dg-preloader_size_small:before {
-        .noRepeatableBg('DGPreloader__preloaderSmall', false);
-        }
-    .dg-preloader_animation_true.dg-preloader_scheme_regular.dg-preloader_size_small:after {
+    &.dg-preloader_scheme_regular.dg-preloader_size_small:after {
         .noRepeatableBg('DGPreloader__preloaderSmallInner', false);
         }
+    }
 
 @keyframes dg-preloader__outer {
     to { transform: rotate(360deg); }

@@ -10,7 +10,6 @@
     }
 
 .leaflet-popup-tip-container_image {
-    /*background-image: url('@{baseURL}/img/DGCustomization__popupShadow_light.png');*/
     .noRepeatableBg('DGCustomization__popupShadow_light', false);
     }
 
@@ -21,16 +20,19 @@
     stroke-dasharray: 0,10,100,60;
     }
 
-.leaflet-container a.leaflet-popup-close-button:hover {
-    background-color: #f5faff;
-    color: #6fa4d9;
-    }
-.leaflet-container a.leaflet-popup-close-button:active {
-    background-color: #eee;
-    }
-    .leaflet-container a.leaflet-popup-close-button:after {
+.leaflet-container a.leaflet-popup-close-button {
+    &:hover {
+        background-color: #f5faff;
+        color: #6fa4d9;
+        }
+    &:active {
+        background-color: #eee;
+        }
+
+    &:after {
         top: -3px;
         right: -5px;
         width: 40px;
         height: 40px;
         }
+    }

@@ -1,6 +1,13 @@
 .dg-control-round {
     .alphaImage('DGRoundControl__button_light');
 
+    &:hover {
+        .alphaImage('DGRoundControl__buttonHover_light.png');
+        }
+    &:active {
+        .alphaImage('DGRoundControl__buttonActive_light.png');
+        }
+
     &:before {
         margin: 0;
         padding: 0;
@@ -8,15 +15,13 @@
         background: none;
         }
     }
-.dg-control-round:hover,
-.dg-control-round_state_active:hover {
-    .alphaImage('DGRoundControl__buttonHover_light');
-    }
-.dg-control-round:active,
 .dg-control-round_state_active {
-    .alphaImage('DGRoundControl__buttonActive_light');
+    .alphaImage('DGRoundControl__buttonActive_light.png');
+
+    &:hover {
+        .alphaImage('DGRoundControl__buttonHover_light.png');
+        }
     }
-.leaflet-disabled.dg-control-round,
-.leaflet-disabled.dg-control-round:hover {
-    .alphaImage('DGRoundControl__buttonDisabled_light');
+.leaflet-disabled.dg-control-round {
+    .alphaImage('DGRoundControl__buttonDisabled_light.png');
     }

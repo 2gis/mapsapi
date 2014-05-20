@@ -80,7 +80,6 @@ FirmCard.prototype = {
         if (btns.length) {
             this._footerContainer = document.createElement('div');
 
-            this._footerContainer.className = 'dg-popup__footer-buttons';
             this._footerContainer.innerHTML = this.options.render('popupFooterBtns', {'btns': btns});
             this._firmContentObject.footer = this._footerContainer;
         }

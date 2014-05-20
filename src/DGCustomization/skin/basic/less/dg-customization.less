@@ -18,59 +18,26 @@
         }
     }
 .dg-customization__marker_type_mushroom {
-    /*width: 22px;*/
-    /*height: 34px;*/
-    /*background-image: url('interpolation0__/img/DGCustomization_defaultMarker.png');*/
     .noRepeatableBg('DGCustomization__marker', false);
     transform-origin: 50% 100%;
     animation: dg-customization__show-marker .2s;
 
-    /*.leaflet-retina & {*/
-        /*background-image: url('interpolation0__/img/DGCustomization_defaultMarker-2x.png');*/
-        /*background-size: 22px 34px;*/
-        /*}*/
-
     &:focus {
         outline: 0;
+        }
+
+    &:hover {
+        .noRepeatableBg('DGCustomization__markerHover', false);
+        }
+
+    &:active {
+        .noRepeatableBg('DGCustomization__markerActive', false);
         }
     }
 
 @keyframes dg-customization__show-marker {
     from { opacity: 0; }
       to { opacity: 1; }
-    }
-
-.leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    .noRepeatableBg('DGCustomization__markerHover', false);
-    /*background-image: url('interpolation0__/img/DGCustomization__markerHover.png');*/
-
-    /*.leaflet-retin & {*/
-        /*background-image: url('interpolation0__/img/DGCustomization_markerHover-2x.png');*/
-        /*background-size: 22px 34px;*/
-        /*}*/
-    }
-
-.leaflet-clickable.dg-customization__marker_type_mushroom:active {
-    .noRepeatableBg('DGCustomization__markerActive', false);
-    /*background-image: url('interpolation0__/img/DGCustomization_markerPressed.png') !important;*/
-
-    /*.leaflet-retina & {*/
-        /*background-image: url('interpolation0__/img/DGCustomization_markerPressed-2x.png') !important;*/
-        /*background-size: 22px 34px;*/
-        /*}*/
-    }
-
-@keyframes dg-customization__marker-to-callout {
-    0% {
-        visibility: visible;
-        opacity: 1;
-        transform: scale(1, 1);
-        }
-    100% {
-        visibility: visible;
-        opacity: 0;
-        transform: scale(1.2, 1.8);
-        }
     }
 
 .dg-customization__marker_appear {
@@ -91,5 +58,18 @@
         opacity: 0;
         transform: scale(1.2, 1.8);
         animation: dg-customization__marker-to-callout .2s;
+        }
+    }
+
+@keyframes dg-customization__marker-to-callout {
+    0% {
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1, 1);
+        }
+    100% {
+        visibility: visible;
+        opacity: 0;
+        transform: scale(1.2, 1.8);
         }
     }
