@@ -228,7 +228,7 @@ FirmCard.prototype.dict = {
         nextThu: 'on Thursday',
         nextFri: 'on Friday',
         nextSat: 'on Saturday',
-        willOpen: 'opens',
+        willOpen: 'opens ',
         willClose: 'closes',
         isOpen: 'Open',
         openTill: 'Open till ',
