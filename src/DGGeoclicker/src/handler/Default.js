@@ -15,7 +15,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
     },
 
     handle: function () { // (Object, String) -> Promise
-        return DG.when({
+        return Promise.resolve({
             tmpl: 'popupHeader',
             data: {'title': this.t('we_have_not')}
         });
@@ -73,7 +73,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 DG.Geoclicker.Handler.HandlerExample = DG.Geoclicker.Handler.Default.extend({
 
     handle: function (results, type) { // (Object, String) -> Promise
-        return DG.when({
+        return Promise.resolve({
             tmpl: type + ':<br/>' + results[type].id
         });
     }

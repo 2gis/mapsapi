@@ -1,20 +1,13 @@
 var handlers = window.__dgApi_callbacks || [],
-    def = DG.when.defer(),
-    chain = def.promise;
+    chain = Promise.resolve();
+
 //dont pollute global space!
 window.__dgApi_callbacks = undefined;
 
-//execute callbacks after api loading if any
-handlers.forEach(function (cb) {
-    chain = chain.then(cb);
+handlers.forEach(function (handlers) {
+    chain = chain.then(handlers[0], handlers[1]);
 });
 
-//promise will be resolved asynchronously
-def.resolve();
-
-//public api for adding callbacks
 DG.then = function (resolve, reject) {
-    chain = chain.then(resolve, reject);
-
-    return this;
+    return chain.then(resolve, reject);
 };

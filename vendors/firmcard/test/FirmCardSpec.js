@@ -2,7 +2,7 @@ describe('Расписание работы организации', function ()
 
     function mockTime(timestamp) {
         //rid of magic 6 (local time)
-        return timestamp + (6 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
+        return timestamp + (7 + new Date().getTimezoneOffset() / 60) * 60 * 60 * 1000;
     }
     var d = new FirmCard(null, {
         localLang: 'ru'
@@ -44,7 +44,7 @@ describe('Расписание работы организации', function ()
         expect(result.will.till).to.be('18:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('18:00');
-        expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;пятница');
+        expect(result.week.evently[0].dayList).to.be('Понедельник–пятница');
         expect(result.week.evently[0].budni).to.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[1].dayList).to.be('Суббота, воскресенье');
@@ -61,13 +61,13 @@ describe('Расписание работы организации', function ()
 
 
         expect(result.now.open).to.be.ok();
-        expect(result.will.d).to.be(1);
+        expect(result.will.d).to.be(0);
         expect(result.will.h).to.be(10);
         expect(result.will.m).to.be(50);
         expect(result.will.till).to.be('00:00');
         expect(result.today.from).to.be('10:00');
         expect(result.today.to).to.be('00:00');
-        expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;пятница');
+        expect(result.week.evently[0].dayList).to.be('Понедельник–пятница');
         expect(result.week.evently[0].budni).to.be.ok();
         expect(result.week.evently[0].holiday).to.not.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
@@ -156,12 +156,12 @@ describe('Расписание работы организации', function ()
         expect(result.now.open).to.be.ok();
         expect(result.always).to.be(undefined);
         expect(result.today.alltime).to.be.ok();
-        expect(result.will.d).to.be(3);
+        expect(result.will.d).to.be(2);
         expect(result.will.h).to.be(58);
         expect(result.will.m).to.be(50);
         expect(result.will.till).to.be('00:00');
         expect(result.week.hasLunch).to.not.be.ok();
-        expect(result.week.evently[0].dayList).to.be('Понедельник&ndash;среда, пятница, суббота');
+        expect(result.week.evently[0].dayList).to.be('Понедельник–среда, пятница, суббота');
         expect(result.week.evently[0].alltime).to.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
         expect(result.week.evently[0].everyday).to.not.be.ok();
@@ -187,7 +187,7 @@ describe('Расписание работы организации', function ()
         expect(result.will.when).to.be('в среду');
         expect(result.will.till).to.be('00:00');
         expect(result.week.hasLunch).to.not.be.ok();
-        expect(result.week.evently[0].dayList).to.be('Среда&ndash;пятница');
+        expect(result.week.evently[0].dayList).to.be('Среда–пятница');
         expect(result.week.evently[0].alltime).to.be(undefined);
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
@@ -217,7 +217,7 @@ describe('Расписание работы организации', function ()
         expect(result.week.evently[0].alltime).to.be(undefined);
         expect(result.week.evently[0].everyday).to.not.be.ok();
         expect(result.week.evently[0].budni).to.not.be.ok();
-        expect(result.week.evently[1].dayList).to.be('Понедельник&ndash;суббота');
+        expect(result.week.evently[1].dayList).to.be('Понедельник–суббота');
         expect(result.week.evently[1].alltime).to.not.be.ok();
         expect(result.week.evently[1].everyday).to.not.be.ok();
         expect(result.week.evently[1].budni).to.not.be.ok();

@@ -1,3 +1,16 @@
+//DG inheritance
+DG = new (
+    (function () {
+        var DgApi = function () {},
+            DgApiCore = function () {};
+
+        DgApiCore.prototype = L;
+        DgApi.prototype = new DgApiCore();
+
+        return DgApi;
+    })()
+)();
+
 DG.version = window.__dgApi_version;
 window.__dgApi_version = undefined;
 DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
