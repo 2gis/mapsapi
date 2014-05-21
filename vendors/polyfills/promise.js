@@ -40,7 +40,7 @@ if (typeof Promise !== 'function') {
         if (child.charAt(0) !== '.') { return child; }
         var parts = child.split("/");
         var parentBase = name.split("/").slice(0, -1);
-        console.log('NOT!');
+
         for (var i=0, l=parts.length; i<l; i++) {
           var part = parts[i];
 
