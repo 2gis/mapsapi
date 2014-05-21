@@ -124,7 +124,7 @@ var deps = {
         css: {
             all: ['DGAttribution/skin/{skin}/css/DGAttribution.css']
         },
-        deps: ['DGDust', 'DGLocale']
+        deps: ['DGCore', 'DGDust', 'DGLocale']
     },
 
     DGLocale: {
