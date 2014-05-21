@@ -151,7 +151,7 @@ FirmCard.Schedule.prototype = {
                 return {
                         value: value,
                         index: index,
-                        criteria: iterator.call(context, value, index, list)
+                        criteria: iterator.call(this, value, index, list)
                         };   
                 }).sort(function(left, right) {
                         var a = left.criteria;
@@ -502,7 +502,6 @@ FirmCard.Schedule.prototype = {
                 }
             } else { // Выходной
                 out.holiday = true;
-                //out.holidayStr = t(localLang, 'restDay', out.dayList.length);
             }
 
             // Формируем список дней на локальном языке

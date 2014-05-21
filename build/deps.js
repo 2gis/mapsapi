@@ -99,7 +99,8 @@ var deps = {
             'DGCustomization/lang/DGZoom/ru.js',
             'DGCustomization/lang/DGZoom/it.js',
             'DGCustomization/lang/DGZoom/cs.js',
-            'DGCustomization/lang/DGZoom/en.js'
+            'DGCustomization/lang/DGZoom/en.js',
+            'DGCustomization/lang/DGZoom/sp.js'
         ],
         css: {
             all: [
@@ -128,7 +129,8 @@ var deps = {
             'DGAttribution/lang/ru.js',
             'DGAttribution/lang/it.js',
             'DGAttribution/lang/cs.js',
-            'DGAttribution/lang/en.js'
+            'DGAttribution/lang/en.js',
+            'DGAttribution/lang/sp.js'
         ],
         css: {
             all: ['DGAttribution/skin/{skin}/css/DGAttribution.css']
@@ -151,7 +153,8 @@ var deps = {
             'DGLocation/lang/ru.js',
             'DGLocation/lang/it.js',
             'DGLocation/lang/cs.js',
-            'DGLocation/lang/en.js'
+            'DGLocation/lang/en.js',
+            'DGLocation/lang/sp.js'
         ],
         css: {
             all: ['DGLocation/skin/{skin}/css/DGLocation.css']
@@ -168,7 +171,8 @@ var deps = {
             'DGFullScreen/lang/ru.js',
             'DGFullScreen/lang/it.js',
             'DGFullScreen/lang/cs.js',
-            'DGFullScreen/lang/en.js'
+            'DGFullScreen/lang/en.js',
+            'DGFullScreen/lang/sp.js'
         ],
         css: {
             all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
@@ -242,15 +246,11 @@ var deps = {
             'DGGeoclicker/lang/ru.js',
             'DGGeoclicker/lang/en.js',
             'DGGeoclicker/lang/cs.js',
+            'DGGeoclicker/lang/sp.js',
 
             '../vendors/firmcard/src/FirmCard.js',
             '../vendors/firmcard/src/FirmCard.DataHelper.js',
             '../vendors/firmcard/src/FirmList.js',
-            '../vendors/firmcard/src/vendors/underscore1.5.1.js',
-            '../vendors/firmcard/src/vendors/momentjs/moment.min.js',
-            '../vendors/firmcard/src/vendors/momentjs/lang/moment.ru.js',
-            '../vendors/firmcard/src/vendors/momentjs/lang/moment.cs.js',
-            '../vendors/firmcard/src/vendors/momentjs/lang/moment.it.js',
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
