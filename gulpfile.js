@@ -142,7 +142,8 @@ gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
                 .pipe(tasks.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
-                .pipe(gulp.dest('./build/tmp/img_all')),
+                .pipe(gulp.dest('./build/tmp/img_all'))
+                .pipe(gulp.dest('./public/img')),
 
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(tasks.raster({ scale: 2 }))
@@ -154,6 +155,7 @@ gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
                 .pipe(gulp.dest('./build/tmp/img'))
                 .pipe(tasks.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
+                .pipe(gulp.dest('./public/img'))
         );
 });
 
