@@ -128,7 +128,8 @@ var deps = {
         ],
         less: {
             all: [
-                'DGLocation/skin/{skin}/less/dg-location.less'
+                'DGLocation/skin/{skin}/less/dg-location.less',
+                'DGLocation/skin/{skin}/less/dg-control-round.less'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
@@ -146,7 +147,10 @@ var deps = {
             'DGFullScreen/lang/en.js'
         ],
         less: {
-            all: ['DGFullScreen/skin/{skin}/less/dg-fullscreen.less'],
+            all: [
+                'DGFullScreen/skin/{skin}/less/dg-fullscreen.less',
+                'DGFullScreen/skin/{skin}/less/dg-control-round.less'
+            ],
             ie: ['DGFullScreen/skin/{skin}/less/dg-fullscreen.ie.less']
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
@@ -305,6 +309,9 @@ var deps = {
             'DGRulerControl/lang/cs.js',
             'DGRulerControl/lang/en.js'
         ],
+        less: {
+            all: ['DGRulerControl/skin/{skin}/less/dg-control-round.less']
+        },
         deps: ['DGRuler', 'DGRoundControl']
     }
 
