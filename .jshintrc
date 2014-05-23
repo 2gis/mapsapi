@@ -47,6 +47,7 @@
     "globals": {
         "L": true,
         "DG": true,
-        "dust": true
+        "dust": true,
+        "Promise": true
     }
 }

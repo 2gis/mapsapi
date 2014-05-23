@@ -14,27 +14,19 @@ var deps = {
             '../vendors/polyfills/json2.js',
             '../vendors/polyfills/html5shiv.js',
             '../vendors/polyfills/es5.js',
+            '../vendors/polyfills/promise.js',
             'DGCore/src/DGCore.js',
-            'DGCore/src/DGplugin.js',
-            'DGCore/src/DGthen.js'
+            'DGCore/src/DGthen.js',
+            'DGCore/src/DGplugin.js'
         ],
         heading: '2GIS modules',
-        deps: ['DGWhen']
-    },
-
-    DGWhen: {
-        desc: 'Promise/Deffered object module',
-        src: [
-            'DGWhen/src/DGCore.js',
-            'DGWhen/src/DGWhen.js'
-        ],
         deps: ['Leaflet']
     },
 
     DGAjax: {
         desc: '2GIS Ajax module',
         src: ['DGAjax/src/DGAjax.js'],
-        deps: ['DGWhen']
+        deps: ['DGCore']
     },
 
     DGLabel: {
@@ -106,7 +98,7 @@ var deps = {
                 'DGAttribution/skin/{skin}/less/dg-mapcopyright.less'
             ]
         },
-        deps: ['DGDust', 'DGLocale']
+        deps: ['DGCore', 'DGDust', 'DGLocale']
     },
 
     DGLocale: {
@@ -114,7 +106,8 @@ var deps = {
         src: [
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
-        ]
+        ],
+        deps: ['DGCore']
     },
 
     DGLocation: {
@@ -167,12 +160,8 @@ var deps = {
     DGMeta: {
         desc: '2GIS POI & buildings data support module',
         src: [
-            'DGMeta/src/DGMeta.js',
-            'DGMeta/src/storage/Storage.js',
-            'DGMeta/src/storage/PoiStorage.js',
-            'DGMeta/src/storage/TrafficStorage.js',
-            // 'DGMeta/src/storage/BuildingStorage.js',
-            'DGMeta/src/StorageHost.js',
+            'DGMeta/src/DGMeta.Layer.js',
+            'DGMeta/src/DGMeta.Origin.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
         deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
@@ -213,6 +202,7 @@ var deps = {
             'DGGeoclicker/src/handler/CityArea.js',
             'DGGeoclicker/src/handler/House.js',
             'DGGeoclicker/src/handler/House.View.js',
+            'DGGeoclicker/src/handler/POI.js',
             'DGGeoclicker/src/handler/Sight.js',
             'DGGeoclicker/src/View.js',
             'DGGeoclicker/src/Controller.js',
@@ -232,7 +222,7 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGWhen', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
+        deps: ['DGAjax', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
     },
 
     DGDust: {
@@ -241,7 +231,8 @@ var deps = {
             '../vendors/dustjs/dist/dust-core.js',
             '../vendors/dustjs-helpers/dist/dust-helpers-1.1.2.js',
             'DGDust/src/DGDust.js'
-        ]
+        ],
+        deps: ['DGCore']
     },
 
     DGEntrance: {
@@ -272,10 +263,9 @@ var deps = {
     DGTraffic: {
         desc: 'Traffic',
         src: [
-            'DGTraffic/src/DGTraffic.js',
-            'DGTraffic/src/DGTraffic.Handler.js'
+            'DGTraffic/src/DGTraffic.js'
         ],
-        deps: ['DGMeta']
+        deps: ['DGMeta', 'DGLabel']
     },
 
     DGRuler: {

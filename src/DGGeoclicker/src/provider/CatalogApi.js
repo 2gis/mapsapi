@@ -108,7 +108,6 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             data = DG.extend({ // TODO clone function should be used instead of manually copying
                 key: source.key
             }, params),
-            promise,
             type = 'get';
 
         this.cancelLastRequest();
@@ -123,12 +122,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             timeout: this.options.timeoutMs
         });
 
-        promise = this._lastRequest.then(
-            null,
-            function () { return false; }
-        );
-
-        return promise;
+        return this._lastRequest.then(undefined, function () { return false; });
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object

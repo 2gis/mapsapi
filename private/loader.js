@@ -16,9 +16,6 @@
                 return scripts[i].src.split('?');
             }
         }
-
-        //delete it!
-        return fallbackLoaderSearch();
     }
 
     function getBaseURL() {
@@ -76,13 +73,13 @@
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('src', link);
-        js.onerror = function () {
-            runRejects();
+        js.onerror = function (err) {
+            runRejects(err);
         };
         //IE
-        js.onreadystatechange = function () {
+        js.onreadystatechange = function (err) {
             if (js.readyState !== 'complete' && js.readyState !== 'loaded') {
-                runRejects();
+                runRejects(err);
             }
         };
 
@@ -151,7 +148,6 @@
         requestJs();
     }
 
-    window.L = window.L || {};//for temporary fallback, delete it
     window.DG = {};
     window.DG.ready = false;
     window.__dgApi_callbacks = [];
@@ -169,19 +165,9 @@
             if (!isJsRequested) { loadApi(); }
         }
 
-        window.__dgApi_callbacks.push(resolve);
+        window.__dgApi_callbacks.push([resolve, reject]);
         reject && rejects.push(reject);
 
         return this;
     };
-
-    //temporary fallback, delete it
-    window.L.onLoad = window.DG.then;
-
-    function fallbackLoaderSearch() {
-        var scripts, scriptURL;
-        scripts = document.getElementsByTagName('script');
-        scriptURL = scripts[scripts.length - 1].src;
-        return scriptURL.split('?');
-    }
 })();

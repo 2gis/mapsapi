@@ -35,7 +35,8 @@ DG.Control.Location = DG.RoundControl.extend({
 
         this._locateOptions = {
             watch: true,  // if you overwrite this, visualization cannot be updated
-            setView: false
+            setView: false,
+            maximumAge: Infinity
         };
         DG.extend(this._locateOptions, this.options.locateOptions);
 
