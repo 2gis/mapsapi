@@ -51,25 +51,6 @@
             }
         }
 
-    .dg-control-round__icon_name_locate {
-        &.dg-control-round__icon_state_requesting:before {
-            top: 0;
-            right: 0;
-            width: 24px;
-            height: 24px;
-            outline: 1px solid transparent;
-            animation: preloader 1s linear infinite;
-            image-rendering: optimizeQuality;
-            }
-        &.dg-control-round__icon_state_active:before {
-            .noRepeatableBg('DGRoundControl__locateIconActive');
-            }
-        }
-
-    @keyframes preloader {
-        to { transform: rotate(360deg); }
-        }
-
     .leaflet-disabled .dg-control-round__icon {
         box-shadow: none;
         cursor: default;
