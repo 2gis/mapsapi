@@ -85,7 +85,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     );
 });
 
-// gulp.task('assets', ['copy-private-assets', 'copy-sprites']);
+gulp.task('assets', ['copy-private-assets', 'copy-sprites']);
 
 gulp.task('copy-private-assets', ['build-clean'], function () {
     return es.concat(
@@ -107,8 +107,6 @@ gulp.task('copy-private-assets', ['build-clean'], function () {
     );
 });
 
-// gulp.task('build-graphics', ['copy-svg', 'generate-sprites']);
-
 gulp.task('copy-sprites', ['copy-svg', 'generate-sprites'], function () {
     return gulp.src('./build/tmp/img/sprite*.png')
             .pipe(gulp.dest('./public/img'));
@@ -126,8 +124,6 @@ gulp.task('copy-svg', ['clean-up-tmp-images', 'build-clean'], function () {
             .pipe(gulp.dest('./build/tmp/img_all'))
             .pipe(gulp.dest('./public/img'));
 });
-
-// gulp.task('prepare-raster', ['copy-svg-raster', 'copy-raster']);
 
 gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
     tasks.util.log(tasks.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
@@ -238,10 +234,6 @@ gulp.task('doc', function () {
     var doc = config.doc;
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
-
-// gulp.task('build', ['build-clean', 'clean-up-tmp-less'], function () {
-//     return gulp.start('build-tasks');
-// });
 
 gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc'], function () {
     tasks.util.log('Build contains the next modules:');
