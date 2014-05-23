@@ -428,9 +428,7 @@ function buildCss(options) {
             .pipe(tasks.less())
             .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
             .pipe(tasks.concat('styles.css'))
-            .pipe(options.isDebug ?
-                tasks.util.noop() :
-                tasks.minifyCss())
+            .pipe(options.isDebug ? tasks.util.noop() : tasks.cache(tasks.minifyCss()))
             .pipe(tasks.header(config.copyright));
 }
 
