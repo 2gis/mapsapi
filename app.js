@@ -1,5 +1,4 @@
 //Web app of 2GIS Maps API 2.0
-// require('strong-agent').profile(undefined, undefined, {quiet: true});
 var express = require('express'),
     cluster = require('cluster'),
     cpuCount = require('os').cpus().length,
