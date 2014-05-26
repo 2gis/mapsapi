@@ -21,9 +21,6 @@
         },
         error: function(error) {
             console.log('error', error);
-        },
-        progress: function() {
-            console.log('beforeSend');
         }
     });
 
@@ -42,11 +39,11 @@
     </thead>
     <tbody>
         <tr>
-            <td><code><b>DG.ajax</b>( <nobr>&lt;String&gt; <i>url</i>,</nobr> 
+            <td><code><b>DG.ajax</b>( <nobr>&lt;String&gt; <i>url</i>,</nobr>
                 <nobr>&lt;<a href="#опции">Ajax options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>Promise</code></td>
-            <td>Отправляет запрос на сервер и возвращает объект Promise с методом abort, с помощью которого можно прервать отправку запроса. в качестве входящих параметров принимает URL, на который будет отправлен запрос и необязательный объект опций.</td>
+            <td>Отправляет запрос на сервер и возвращает объект Promise с методом abort, с помощью которого можно прервать отправку запроса. В качестве входящих параметров принимает URL, на который будет отправлен запрос и необязательный объект опций.</td>
         </tr>
     </tbody>
 </table>
@@ -74,12 +71,6 @@
             <td><code>String</code></td>
             <td><code>get</code></td>
             <td>Тип запроса ('get', 'post' или 'jsonp').</td>
-        </tr>
-        <tr>
-            <td><code><b>progress</b></code></td>
-            <td><code>Function</code></td>
-            <td><code>null</code></td>
-            <td>Функция, которая срабатывает перед отправкой запроса (jsonp, xhr) или во время выполнения запроса (xhr2).</td>
         </tr>
         <tr>
             <td><code><b>success</b></code></td>
