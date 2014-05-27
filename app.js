@@ -19,7 +19,7 @@ function getParams(req, resp, next) {
     req.query.isDebug = (req.query.mode === 'debug');
     req.query.sprite = (req.query.sprite === 'true');
     req.query.mobile = (req.query.mobile === 'true');
-    var contentType = (req.path === '/2.0/js/') ? 'application/x-javascript; charset=utf-8' : 'text/css';
+    var contentType = (req.path === '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
 
     req.dgCallback = function (stream, response) {
         response.set('Cache-Control', 'public, max-age=604800');

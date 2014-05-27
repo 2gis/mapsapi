@@ -58,7 +58,7 @@
         var paramsURI = getParamsURI(),
             sprite = paramsURI.indexOf('sprite') === -1 ? getParamsSprite() : '',
             paramsIE = getParamsIE();
-        return '?' + paramsURI + paramsIE + sprite + '&version=' + version;
+        return '?' + paramsURI + paramsIE + sprite + 'version=' + version;
     }
 
     function loadCSS(link) {
@@ -95,7 +95,7 @@
     }
 
     function ready() {
-        loadJS(baseURL + 'js' + queryString);
+        loadJS(baseURL + 'js/' + queryString);
     }
 
     function requestJs() {
@@ -144,7 +144,7 @@
     }
 
     function loadApi() {
-        loadCSS(baseURL + 'css' + queryString);
+        loadCSS(baseURL + 'css/' + queryString);
         requestJs();
     }
 
