@@ -20,7 +20,7 @@ DG.Poi = DG.Handler.extend({
         this._metaLayer = DG.Meta.layer(DG.Poi.metaURL, {
             minZoom: __POI_LAYER_MIN_ZOOM__,
             maxNativeZoom: 18,
-            detectRetina: true,
+            detectRetina: '__DETECT_RETINA__',
             dataFilter: DG.bind(this._processData, this)
         });
     },
