@@ -537,7 +537,7 @@ FirmCard.Schedule.prototype = {
 
             // Делаем из массива строку и поднимаем первый символ
             out.dayList = out.dayList.join(', ');
-            out.dayList = out.dayList.charAt(0).toUpperCase() + out.dayList.slice(1);
+            out.dayList = out.dayList.charAt(0)/*.toUpperCase()*/ + out.dayList.slice(1);
 
             return out;
         }
