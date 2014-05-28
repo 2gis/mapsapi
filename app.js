@@ -68,10 +68,10 @@ if (cluster.isMaster) {
 
     console.log('Maps API 2.0 server will run in ' + cpuCount + ' threads. Spawning the new processes...');
     for (var i = 0; i < cpuCount; i++) {
-        cluster.fork();
+        cluster.fork({number: i});
     }
 } else {
     app.listen(port, host, function () {
-        console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port')));
+        (process.env.number == 0) && console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port')));
     });
 }
