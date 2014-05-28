@@ -135,7 +135,10 @@
                 methodName = this._container.addEventListener ? 'addEventListener' : 'attachEvent',
                 mouseoverEvent = this._container.addEventListener ? 'mouseover' : 'onmouseover';
 
+            if (this._container.attachEvent) { eventName = 'on'+eventName; }
+
             this._eventHandlersInited = true;
+            
             var onClickHandler =  function (e) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;

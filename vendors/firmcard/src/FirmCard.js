@@ -247,7 +247,9 @@ FirmCard.prototype = {
             footer = this._footerContainer,
             container = this._container,
             methodName = container.addEventListener ? 'addEventListener' : 'attachEvent',
-            mouseoverEvent = container.addEventListener ? 'mouseover' : 'onmouseover'; 
+            mouseoverEvent = container.addEventListener ? 'mouseover' : 'onmouseover';
+
+            if (!this._container.addEventListener) { eventName = 'on'+eventName; }
 
             if (footer) {
                 footer[methodName](eventName, this._bind(this._onFooterBtnClick, this), false);
