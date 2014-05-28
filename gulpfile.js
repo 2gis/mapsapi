@@ -18,6 +18,7 @@ var extend = require('extend'),
     stat = {}; // Files minification statistics
 
 tasks.imagemin = require('./build/gulp-imagemin');
+tasks.spritesmith = require('gulp.spritesmith');
 
 var projectList;
 
@@ -183,34 +184,36 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
                 png2xList = [
                     './build/tmp/**/' + skinName + '/**/*@2x.png',
                     '!./build/tmp/**/' + skinName + '/**/{' + filesToExclude + '}@2x.png'
-                ];
-
-            return es.concat(
-                gulp.src(pngList)
+                ],
+                spriteData = gulp.src(pngList)
                     .pipe(tasks.spritesmith({
-                        styleTemplate: './build/sprite-template.mustache',
-                        imgName: 'sprite.png',
-                        styleName: 'sprite.less',
-                        groupBy: 'img',
-                        imgPath: 'sprite.png',
+                        cssTemplate: './build/sprite-template.mustache',
+                        algorithm: 'binary-tree',
+                        imgName: 'sprite.' + skinName + '.png',
+                        imgPath: 'sprite.' + skinName + '.png',
+                        cssName: 'sprite.' + skinName + '.less',
                         engine: 'pngsmith'
                     })),
-
-                gulp.src(png2xList)
+                spriteData2x = gulp.src(png2xList)
                     .pipe(tasks.spritesmith({
-                        styleTemplate: './build/sprite-template.mustache',
-                        imgName: 'sprite@2x.png',
-                        styleName: 'sprite@2x.less',
-                        groupBy: 'img',
-                        imgPath: 'sprite@2x.png',
+                        cssTemplate: './build/sprite-template.mustache',
+                        algorithm: 'binary-tree',
+                        imgName: 'sprite@2x.' + skinName + '.png',
+                        imgPath: 'sprite@2x.' + skinName + '.png',
+                        cssName: 'sprite@2x.' + skinName + '.less',
                         engine: 'pngsmith'
-                    }))
-                )
-                // @TODO: Refactor this shit
-                .pipe(tasks.if('*.png', gulp.dest('./build/tmp/img/')))
-                .pipe(tasks.if('*.png', tasks.imagemin({silent: true})))
-                .pipe(tasks.if('*.png', gulp.dest('./public/tmp/img/')))
-                .pipe(tasks.if('*.less', gulp.dest('./build/tmp/less/')));
+                    }));
+
+            return es.concat(
+                spriteData.img
+                    .pipe(tasks.imagemin({silent: true}))
+                    .pipe(gulp.dest('./public/img/')),
+                spriteData2x.img
+                    .pipe(tasks.imagemin({silent: true}))
+                    .pipe(gulp.dest('./public/img/')),
+                spriteData.css.pipe(gulp.dest('./build/tmp/less/')),
+                spriteData2x.css.pipe(gulp.dest('./build/tmp/less/'))
+                );
         });
 
     return es.concat.apply(null, statisticsStreams);
