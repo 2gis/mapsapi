@@ -17,6 +17,11 @@ var config = {
         path: basePath + '/src/'
     },
 
+    leaflet: {
+        deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
+        path: basePath + '/vendors/leaflet/src/'
+    },
+
     js: {
         intro: '(function (window, document, undefined) {\n',
         dustdebug: 'dust.debugLevel = \'ERROR\';\n',

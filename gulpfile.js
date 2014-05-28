@@ -40,7 +40,7 @@ gulp.task('help', function () {
     tasks.util.log('gulp watch       # Starts watching private & src/**/svg folders');
 });
 
-gulp.task('build-scripts', ['lint', 'build-clean'], function () {
+gulp.task('build-scripts', ['lint', 'build-clean', 'build-leaflet'], function () {
     return bldJs(extend(tasks.util.env, { isDebug: true }))
         .pipe(map(saveSize))
         .pipe(gulp.dest('./public/js/'))
@@ -240,7 +240,13 @@ gulp.task('doc', function () {
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
 
-gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc'], function () {
+gulp.task('build-leaflet', function() {
+    return gulp.src(deps.getJSFiles({source: 'leaflet'}))
+           .pipe(tasks.concat('leaflet-src.js'))
+           .pipe(gulp.dest('./vendors/leaflet/dist/'));
+});
+
+gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc', 'build-leaflet'], function () {
     tasks.util.log('Build contains the next modules:');
 
     deps.getModulesList().forEach(function (module) {

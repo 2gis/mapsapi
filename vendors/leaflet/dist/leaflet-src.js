@@ -1,8 +1,4 @@
-/*
- Leaflet 0.8-dev (57f028a), a JS library for interactive maps. http://leafletjs.com
- (c) 2010-2014 Vladimir Agafonkin, (c) 2010-2011 CloudMade
-*/
-(function (window, document, undefined) {
+
 var L = {
 	version: '0.8-dev'
 };
@@ -30,7 +26,6 @@ if (typeof module === 'object' && typeof module.exports === 'object') {
 } else {
 	expose();
 }
-
 
 /*
  * L.Util contains various utility functions used throughout Leaflet code.
@@ -229,7 +224,6 @@ L.bind = L.Util.bind;
 L.stamp = L.Util.stamp;
 L.setOptions = L.Util.setOptions;
 
-
 /*
  * L.Class powers the OOP facilities of the library.
  * Thanks to John Resig and Dean Edwards for inspiration!
@@ -331,7 +325,6 @@ L.Class.addInitHook = function (fn) { // (Function) || (String, args...)
 	this.prototype._initHooks = this.prototype._initHooks || [];
 	this.prototype._initHooks.push(init);
 };
-
 
 /*
  * L.Evented is a base class that Leaflet classes inherit from to handle custom events.
@@ -562,7 +555,6 @@ proto.hasEventListeners = proto.listens;
 
 L.Mixin = {Events: proto};
 
-
 /*
  * L.Browser handles different browser and feature detections for internal Leaflet use.
  */
@@ -628,7 +620,6 @@ L.Mixin = {Events: proto};
 	};
 
 }());
-
 
 /*
  * L.Point represents a point with x and y coordinates.
@@ -760,7 +751,6 @@ L.point = function (x, y, round) {
 	return new L.Point(x, y, round);
 };
 
-
 /*
  * L.Bounds represents a rectangular area on the screen in pixel coordinates.
  */
@@ -857,7 +847,6 @@ L.bounds = function (a, b) { // (Bounds) or (Point, Point) or (Point[])
 	return new L.Bounds(a, b);
 };
 
-
 /*
  * L.Transformation is an utility class to perform simple point transformations through a 2d-matrix.
  */
@@ -889,7 +878,6 @@ L.Transformation.prototype = {
 		        (point.y / scale - this._d) / this._c);
 	}
 };
-
 
 /*
  * L.DomUtil contains various utility functions for working with DOM.
@@ -1108,7 +1096,6 @@ L.DomUtil = {
 	};
 })();
 
-
 /*
  * L.LatLng represents a geographical point with latitude and longitude coordinates.
  */
@@ -1179,7 +1166,6 @@ L.latLng = function (a, b) {
 	}
 	return new L.LatLng(a, b);
 };
-
 
 
 /*
@@ -1344,7 +1330,6 @@ L.latLngBounds = function (a, b) { // (LatLngBounds) or (LatLng, LatLng)
 	return new L.LatLngBounds(a, b);
 };
 
-
 /*
  * Simple equirectangular (Plate Carree) projection, used by CRS like EPSG:4326 and Simple.
  */
@@ -1362,7 +1347,6 @@ L.Projection.LonLat = {
 
 	bounds: L.bounds([-180, -90], [180, 90])
 };
-
 
 /*
  * Spherical Mercator is the most popular map projection, used by EPSG:3857 CRS used by default.
@@ -1395,7 +1379,6 @@ L.Projection.SphericalMercator = {
 		return L.bounds([-d, -d], [d, d]);
 	})()
 };
-
 
 /*
  * L.CRS is the base object for all defined CRS (Coordinate Reference Systems) in Leaflet.
@@ -1461,7 +1444,6 @@ L.CRS = {
 	}
 };
 
-
 /*
  * A simple CRS that can be used for flat non-Earth maps like panoramas or game maps.
  */
@@ -1484,7 +1466,6 @@ L.CRS.Simple = L.extend({}, L.CRS, {
 	infinite: true
 });
 
-
 /*
  * L.CRS.Earth is the base class for all CRS representing Earth.
  */
@@ -1505,7 +1486,6 @@ L.CRS.Earth = L.extend({}, L.CRS, {
 	}
 });
 
-
 /*
  * L.CRS.EPSG3857 (Spherical Mercator) is the most common CRS for web mapping and is used by Leaflet by default.
  */
@@ -1524,7 +1504,6 @@ L.CRS.EPSG900913 = L.extend({}, L.CRS.EPSG3857, {
 	code: 'EPSG:900913'
 });
 
-
 /*
  * L.CRS.EPSG4326 is a CRS popular among advanced GIS specialists.
  */
@@ -1534,7 +1513,6 @@ L.CRS.EPSG4326 = L.extend({}, L.CRS.Earth, {
 	projection: L.Projection.LonLat,
 	transformation: new L.Transformation(1 / 180, 1, -1 / 180, 0.5)
 });
-
 
 /*
  * L.Map is the central class of the API - it is used to create a map.
@@ -2236,7 +2214,6 @@ L.map = function (id, options) {
 };
 
 
-
 L.Layer = L.Evented.extend({
 
 	options: {
@@ -2390,7 +2367,6 @@ L.Map.include({
 	}
 });
 
-
 /*
  * Mercator projection that takes into account that the Earth is not a perfect sphere.
  * Less popular than spherical mercator; used by projections like EPSG:3395.
@@ -2435,7 +2411,6 @@ L.Projection.Mercator = {
 	}
 };
 
-
 /*
  * L.CRS.EPSG3857 (World Mercator) CRS implementation.
  */
@@ -2449,7 +2424,6 @@ L.CRS.EPSG3395 = L.extend({}, L.CRS.Earth, {
 		return new L.Transformation(scale, 0.5, -scale, 0.5);
 	}())
 });
-
 
 /*
  * L.GridLayer is used as base class for grid-like layers like TileLayer.
@@ -2989,7 +2963,6 @@ L.gridLayer = function (options) {
 	return new L.GridLayer(options);
 };
 
-
 /*
  * L.TileLayer is used for standard xyz-numbered tile layers.
  */
@@ -3145,7 +3118,6 @@ L.tileLayer = function (url, options) {
 	return new L.TileLayer(url, options);
 };
 
-
 /*
  * L.TileLayer.WMS is used for WMS tile layers.
  */
@@ -3225,7 +3197,6 @@ L.TileLayer.WMS = L.TileLayer.extend({
 L.tileLayer.wms = function (url, options) {
 	return new L.TileLayer.WMS(url, options);
 };
-
 
 /*
  * L.ImageOverlay is used to overlay images over the map (to specific geographical bounds).
@@ -3351,7 +3322,6 @@ L.imageOverlay = function (url, bounds, options) {
 	return new L.ImageOverlay(url, bounds, options);
 };
 
-
 /*
  * L.Icon is an image-based icon class that you can use with L.Marker for custom markers.
  */
@@ -3434,7 +3404,6 @@ L.icon = function (options) {
 	return new L.Icon(options);
 };
 
-
 /*
  * L.Icon.Default is the blue marker icon used by default in Leaflet.
  */
@@ -3480,7 +3449,6 @@ L.Icon.Default.imagePath = (function () {
 		}
 	}
 }());
-
 
 /*
  * L.Marker is used to display clickable/draggable icons on the map.
@@ -3753,7 +3721,6 @@ L.marker = function (latlng, options) {
 	return new L.Marker(latlng, options);
 };
 
-
 /*
  * L.DivIcon is a lightweight HTML-based icon class (as opposed to the image-based L.Icon)
  * to use with L.Marker.
@@ -3794,7 +3761,6 @@ L.DivIcon = L.Icon.extend({
 L.divIcon = function (options) {
 	return new L.DivIcon(options);
 };
-
 
 /*
  * L.Popup is used for displaying popups on the map.
@@ -4121,7 +4087,6 @@ L.Map.include({
 	}
 });
 
-
 /*
  * Adds popup-related methods to all layers.
  */
@@ -4210,7 +4175,6 @@ L.Layer.include({
 	}
 });
 
-
 /*
  * Popup extension to L.Marker, adding popup-related methods.
  */
@@ -4227,7 +4191,6 @@ L.Marker.include({
 
 	_openPopup: L.Layer.prototype.togglePopup
 });
-
 
 /*
  * L.LayerGroup is a class to combine several layers into one so that
@@ -4343,7 +4306,6 @@ L.layerGroup = function (layers) {
 	return new L.LayerGroup(layers);
 };
 
-
 /*
  * L.FeatureGroup extends L.LayerGroup by introducing mouse events and additional methods
  * shared between a group of interactive layers (like vectors or markers).
@@ -4428,7 +4390,6 @@ L.featureGroup = function (layers) {
 	return new L.FeatureGroup(layers);
 };
 
-
 /*
  * L.Renderer is a base class for renderer implementations (SVG, Canvas);
  * handles renderer container, bounds and zoom animation.
@@ -4507,7 +4468,6 @@ L.Map.include({
 		return renderer;
 	}
 });
-
 
 /*
  * L.Path is the base class for all Leaflet vector layers like polygons and circles.
@@ -4589,7 +4549,6 @@ L.Path = L.Layer.extend({
 		return (this.options.stroke ? this.options.weight / 2 : 0) + (L.Browser.touch ? 10 : 0);
 	}
 });
-
 
 /*
  * L.LineUtil contains different utility functions for line segments
@@ -4804,7 +4763,6 @@ L.LineUtil = {
 		return sqDist ? dx * dx + dy * dy : new L.Point(x, y);
 	}
 };
-
 
 /*
  * L.Polyline implements polyline vector layer (a set of points connected with lines)
@@ -5030,7 +4988,6 @@ L.polyline = function (latlngs, options) {
 	return new L.Polyline(latlngs, options);
 };
 
-
 /*
  * L.PolyUtil contains utility functions for polygons (clipping, etc.).
  */
@@ -5086,7 +5043,6 @@ L.PolyUtil.clipPolygon = function (points, bounds) {
 
 	return points;
 };
-
 
 /*
  * L.Polygon implements polygon vector layer (closed polyline with a fill inside).
@@ -5164,7 +5120,6 @@ L.polygon = function (latlngs, options) {
 	return new L.Polygon(latlngs, options);
 };
 
-
 /*
  * L.Rectangle extends Polygon and creates a rectangle when passed a LatLngBounds object.
  */
@@ -5192,7 +5147,6 @@ L.Rectangle = L.Polygon.extend({
 L.rectangle = function (latLngBounds, options) {
 	return new L.Rectangle(latLngBounds, options);
 };
-
 
 /*
  * L.CircleMarker is a circle overlay with a permanent pixel radius.
@@ -5269,7 +5223,6 @@ L.circleMarker = function (latlng, options) {
 	return new L.CircleMarker(latlng, options);
 };
 
-
 /*
  * L.Circle is a circle overlay (with a certain radius in meters).
  * It's an approximation and starts to diverge from a real circle closer to poles (due to projection distortion)
@@ -5337,7 +5290,6 @@ L.Circle = L.CircleMarker.extend({
 L.circle = function (latlng, radius, options) {
 	return new L.Circle(latlng, radius, options);
 };
-
 
 /*
  * L.SVG renders vector layers with SVG. All SVG-specific code goes here.
@@ -5531,7 +5483,6 @@ L.svg = function (options) {
 	return L.Browser.svg || L.Browser.vml ? new L.SVG(options) : null;
 };
 
-
 /*
  * Vector rendering for IE7-8 through VML.
  * Thanks to Dmitry Baranovsky and his Raphael library for inspiration!
@@ -5675,7 +5626,6 @@ if (L.Browser.vml) {
 		}
 	})();
 }
-
 
 /*
  * L.Canvas handles Canvas vector layers rendering and mouse events handling. All Canvas-specific code goes here.
@@ -5969,7 +5919,6 @@ L.CircleMarker.prototype._containsPoint = function (p) {
 	return p.distanceTo(this._point) <= this._radius + this._clickTolerance();
 };
 
-
 /*
  * L.GeoJSON turns any GeoJSON data into a Leaflet layer.
  */
@@ -6242,7 +6191,6 @@ L.geoJson = function (geojson, options) {
 	return new L.GeoJSON(geojson, options);
 };
 
-
 /*
  * L.DomEvent contains functions for working with DOM events.
  * Inspired by John Resig, Dean Edwards and YUI addEvent implementations.
@@ -6493,7 +6441,6 @@ L.DomEvent = {
 L.DomEvent.addListener = L.DomEvent.on;
 L.DomEvent.removeListener = L.DomEvent.off;
 
-
 /*
  * L.Draggable allows you to add dragging capabilities to any element. Supports mobile devices too.
  */
@@ -6628,7 +6575,6 @@ L.Draggable = L.Evented.extend({
 	}
 });
 
-
 /*
 	L.Handler is a base class for handler classes that are used internally to inject
 	interaction features like dragging to classes like Map and Marker.
@@ -6657,7 +6603,6 @@ L.Handler = L.Class.extend({
 		return !!this._enabled;
 	}
 });
-
 
 /*
  * L.Handler.MapDrag is used to make the map draggable (with panning inertia), enabled by default.
@@ -6814,7 +6759,6 @@ L.Map.Drag = L.Handler.extend({
 
 L.Map.addInitHook('addHandler', 'dragging', L.Map.Drag);
 
-
 /*
  * L.Handler.DoubleClickZoom is used to handle double-click zoom on the map, enabled by default.
  */
@@ -6845,7 +6789,6 @@ L.Map.DoubleClickZoom = L.Handler.extend({
 });
 
 L.Map.addInitHook('addHandler', 'doubleClickZoom', L.Map.DoubleClickZoom);
-
 
 /*
  * L.Handler.ScrollWheelZoom is used by L.Map to enable mouse scroll wheel zoom on the map.
@@ -6914,6 +6857,305 @@ L.Map.ScrollWheelZoom = L.Handler.extend({
 
 L.Map.addInitHook('addHandler', 'scrollWheelZoom', L.Map.ScrollWheelZoom);
 
+/*
+ * L.PosAnimation is used by Leaflet internally for pan animations.
+ */
+
+L.PosAnimation = L.Evented.extend({
+
+	run: function (el, newPos, duration, easeLinearity) { // (HTMLElement, Point[, Number, Number])
+		this.stop();
+
+		this._el = el;
+		this._inProgress = true;
+		this._newPos = newPos;
+
+		this.fire('start');
+
+		el.style[L.DomUtil.TRANSITION] = 'all ' + (duration || 0.25) +
+		        's cubic-bezier(0,0,' + (easeLinearity || 0.5) + ',1)';
+
+		L.DomEvent.on(el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
+		L.DomUtil.setPosition(el, newPos);
+
+		// toggle reflow, Chrome flickers for some reason if you don't do this
+		L.Util.falseFn(el.offsetWidth);
+
+		// there's no native way to track value updates of transitioned properties, so we imitate this
+		this._stepTimer = setInterval(L.bind(this._onStep, this), 50);
+	},
+
+	stop: function () {
+		if (!this._inProgress) { return; }
+
+		// if we just removed the transition property, the element would jump to its final position,
+		// so we need to make it stay at the current position
+
+		this._newPos = this._getPos();
+		L.DomUtil.setPosition(this._el, this._newPos);
+
+		this._onTransitionEnd();
+		L.Util.falseFn(this._el.offsetWidth); // force reflow in case we are about to start a new animation
+	},
+
+	_onStep: function () {
+		var stepPos = this._getPos();
+		if (!stepPos) {
+			this._onTransitionEnd();
+			return;
+		}
+		// jshint camelcase: false
+		// make L.DomUtil.getPosition return intermediate position value during animation
+		this._el._leaflet_pos = stepPos;
+
+		this.fire('step');
+	},
+
+	// you can't easily get intermediate values of properties animated with CSS3 Transitions,
+	// we need to parse computed style (in case of transform it returns matrix string)
+
+	_transformRe: /([-+]?(?:\d*\.)?\d+)\D*, ([-+]?(?:\d*\.)?\d+)\D*\)/,
+
+	_getPos: function () {
+		var left, top, matches,
+		    el = this._el,
+		    style = window.getComputedStyle(el);
+
+		if (L.Browser.any3d) {
+			matches = style[L.DomUtil.TRANSFORM].match(this._transformRe);
+			if (!matches) { return; }
+			left = parseFloat(matches[1]);
+			top  = parseFloat(matches[2]);
+		} else {
+			left = parseFloat(style.left);
+			top  = parseFloat(style.top);
+		}
+
+		return new L.Point(left, top, true);
+	},
+
+	_onTransitionEnd: function () {
+		L.DomEvent.off(this._el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
+
+		if (!this._inProgress) { return; }
+		this._inProgress = false;
+
+		this._el.style[L.DomUtil.TRANSITION] = '';
+
+		// jshint camelcase: false
+		// make sure L.DomUtil.getPosition returns the final position value after animation
+		this._el._leaflet_pos = this._newPos;
+
+		clearInterval(this._stepTimer);
+
+		this.fire('step').fire('end');
+	}
+
+});
+
+/*
+ * Extends L.Map to handle panning animations.
+ */
+
+L.Map.include({
+
+	setView: function (center, zoom, options) {
+
+		zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
+		center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
+		options = options || {};
+
+		if (this._panAnim) {
+			this._panAnim.stop();
+		}
+
+		if (this._loaded && !options.reset && options !== true) {
+
+			if (options.animate !== undefined) {
+				options.zoom = L.extend({animate: options.animate}, options.zoom);
+				options.pan = L.extend({animate: options.animate}, options.pan);
+			}
+
+			// try animating pan or zoom
+			var animated = (this._zoom !== zoom) ?
+				this._tryAnimatedZoom && this._tryAnimatedZoom(center, zoom, options.zoom) :
+				this._tryAnimatedPan(center, options.pan);
+
+			if (animated) {
+				// prevent resize handler call, the view will refresh after animation anyway
+				clearTimeout(this._sizeTimer);
+				return this;
+			}
+		}
+
+		// animation didn't start, just reset the map view
+		this._resetView(center, zoom);
+
+		return this;
+	},
+
+	panBy: function (offset, options) {
+		offset = L.point(offset).round();
+		options = options || {};
+
+		if (!offset.x && !offset.y) {
+			return this;
+		}
+
+		if (!this._panAnim) {
+			this._panAnim = new L.PosAnimation();
+
+			this._panAnim.on({
+				'step': this._onPanTransitionStep,
+				'end': this._onPanTransitionEnd
+			}, this);
+		}
+
+		// don't fire movestart if animating inertia
+		if (!options.noMoveStart) {
+			this.fire('movestart');
+		}
+
+		// animate pan unless animate: false specified
+		if (options.animate !== false) {
+			L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
+
+			var newPos = this._getMapPanePos().subtract(offset);
+			this._panAnim.run(this._mapPane, newPos, options.duration || 0.25, options.easeLinearity);
+		} else {
+			this._rawPanBy(offset);
+			this.fire('move').fire('moveend');
+		}
+
+		return this;
+	},
+
+	_onPanTransitionStep: function () {
+		this.fire('move');
+	},
+
+	_onPanTransitionEnd: function () {
+		L.DomUtil.removeClass(this._mapPane, 'leaflet-pan-anim');
+		this.fire('moveend');
+	},
+
+	_tryAnimatedPan: function (center, options) {
+		// difference between the new and current centers in pixels
+		var offset = this._getCenterOffset(center)._floor();
+
+		// don't animate too far unless animate: true specified in options
+		if ((options && options.animate) !== true && !this.getSize().contains(offset)) { return false; }
+
+		this.panBy(offset, options);
+
+		return true;
+	}
+});
+
+/*
+ * Extends L.Map to handle zoom animations.
+ */
+
+L.Map.mergeOptions({
+	zoomAnimation: true,
+	zoomAnimationThreshold: 4
+});
+
+var zoomAnimated = L.DomUtil.TRANSITION && L.Browser.any3d && !L.Browser.mobileOpera;
+
+if (zoomAnimated) {
+
+	L.Map.addInitHook(function () {
+		// don't animate on browsers without hardware-accelerated transitions or old Android/Opera
+		this._zoomAnimated = this.options.zoomAnimation;
+
+		// zoom transitions run with the same duration for all layers, so if one of transitionend events
+		// happens after starting zoom animation (propagating to the map pane), we know that it ended globally
+		if (this._zoomAnimated) {
+			L.DomEvent.on(this._mapPane, L.DomUtil.TRANSITION_END, this._catchTransitionEnd, this);
+		}
+	});
+}
+
+L.Map.include(!zoomAnimated ? {} : {
+
+	_catchTransitionEnd: function (e) {
+		if (this._animatingZoom && e.propertyName.indexOf('transform') >= 0) {
+			this._onZoomTransitionEnd();
+		}
+	},
+
+	_nothingToAnimate: function () {
+		return !this._container.getElementsByClassName('leaflet-zoom-animated').length;
+	},
+
+	_tryAnimatedZoom: function (center, zoom, options) {
+
+		if (this._animatingZoom) { return true; }
+
+		options = options || {};
+
+		// don't animate if disabled, not supported or zoom difference is too large
+		if (!this._zoomAnimated || options.animate === false || this._nothingToAnimate() ||
+		        Math.abs(zoom - this._zoom) > this.options.zoomAnimationThreshold) { return false; }
+
+		// offset is the pixel coords of the zoom origin relative to the current center
+		var scale = this.getZoomScale(zoom),
+		    offset = this._getCenterOffset(center)._divideBy(1 - 1 / scale);
+
+		// don't animate if the zoom origin isn't within one screen from the current center, unless forced
+		if (options.animate !== true && !this.getSize().contains(offset)) { return false; }
+
+		L.Util.requestAnimFrame(function () {
+			this
+			    .fire('movestart')
+			    .fire('zoomstart')
+			    ._animateZoom(center, zoom, true);
+		}, this);
+
+		return true;
+	},
+
+	_animateZoom: function (center, zoom, startAnim) {
+		if (startAnim) {
+			this._animatingZoom = true;
+
+			// remember what center/zoom to set after animation
+			this._animateToCenter = center;
+			this._animateToZoom = zoom;
+
+			// disable any dragging during animation
+			if (L.Draggable) {
+				L.Draggable._disabled = true;
+			}
+
+			L.DomUtil.addClass(this._mapPane, 'leaflet-zoom-anim');
+		}
+
+		var scale = this.getZoomScale(zoom),
+			origin = this._getCenterLayerPoint().add(this._getCenterOffset(center)._divideBy(1 - 1 / scale));
+
+		this.fire('zoomanim', {
+			center: center,
+			zoom: zoom,
+			origin: origin,
+			scale: scale
+		});
+	},
+
+	_onZoomTransitionEnd: function () {
+
+		this._animatingZoom = false;
+
+		L.DomUtil.removeClass(this._mapPane, 'leaflet-zoom-anim');
+
+		this._resetView(this._animateToCenter, this._animateToZoom, true, true);
+
+		if (L.Draggable) {
+			L.Draggable._disabled = false;
+		}
+	}
+});
 
 /*
  * Extends the event handling code with double tap support for mobile browsers.
@@ -7012,7 +7254,6 @@ L.extend(L.DomEvent, {
 		return this;
 	}
 });
-
 
 /*
  * Extends L.DomEvent to provide touch support for Internet Explorer and Windows-based devices.
@@ -7121,7 +7362,6 @@ L.extend(L.DomEvent, {
 		obj.addEventListener(this.POINTER_CANCEL, onUp, false);
 	}
 });
-
 
 /*
  * L.Handler.TouchZoom is used by L.Map to add pinch zoom on supported mobile browsers.
@@ -7239,7 +7479,6 @@ L.Map.TouchZoom = L.Handler.extend({
 
 L.Map.addInitHook('addHandler', 'touchZoom', L.Map.TouchZoom);
 
-
 /*
  * L.Map.Tap is used to enable mobile hacks like quick taps and long hold.
  */
@@ -7354,7 +7593,6 @@ if (L.Browser.touch && !L.Browser.pointer) {
 	L.Map.addInitHook('addHandler', 'tap', L.Map.Tap);
 }
 
-
 /*
  * L.Handler.ShiftDragZoom is used to add shift-drag zoom interaction to the map
   * (zoom to a selected bounding box), enabled by default.
@@ -7460,7 +7698,6 @@ L.Map.BoxZoom = L.Handler.extend({
 });
 
 L.Map.addInitHook('addHandler', 'boxZoom', L.Map.BoxZoom);
-
 
 /*
  * L.Map.Keyboard is handling keyboard interaction with the map, enabled by default.
@@ -7617,7 +7854,6 @@ L.Map.Keyboard = L.Handler.extend({
 
 L.Map.addInitHook('addHandler', 'keyboard', L.Map.Keyboard);
 
-
 /*
  * L.Handler.MarkerDrag is used internally by L.Marker to make the markers draggable.
  */
@@ -7688,7 +7924,6 @@ L.Handler.MarkerDrag = L.Handler.extend({
 		    .fire('dragend', e);
 	}
 });
-
 
 /*
  * L.Control is a base class for implementing map controls. Handles positioning.
@@ -7806,96 +8041,6 @@ L.Map.include({
 	}
 });
 
-
-/*
- * L.Control.Zoom is used for the default zoom buttons on the map.
- */
-
-L.Control.Zoom = L.Control.extend({
-	options: {
-		position: 'topleft',
-		zoomInText: '+',
-		zoomInTitle: 'Zoom in',
-		zoomOutText: '-',
-		zoomOutTitle: 'Zoom out'
-	},
-
-	onAdd: function (map) {
-		var zoomName = 'leaflet-control-zoom',
-		    container = L.DomUtil.create('div', zoomName + ' leaflet-bar'),
-		    options = this.options;
-
-		this._zoomInButton  = this._createButton(options.zoomInText, options.zoomInTitle,
-		        zoomName + '-in',  container, this._zoomIn);
-		this._zoomOutButton = this._createButton(options.zoomOutText, options.zoomOutTitle,
-		        zoomName + '-out', container, this._zoomOut);
-
-		this._updateDisabled();
-		map.on('zoomend zoomlevelschange', this._updateDisabled, this);
-
-		return container;
-	},
-
-	onRemove: function (map) {
-		map.off('zoomend zoomlevelschange', this._updateDisabled, this);
-	},
-
-	_zoomIn: function (e) {
-		this._map.zoomIn(e.shiftKey ? 3 : 1);
-	},
-
-	_zoomOut: function (e) {
-		this._map.zoomOut(e.shiftKey ? 3 : 1);
-	},
-
-	_createButton: function (html, title, className, container, fn) {
-		var link = L.DomUtil.create('a', className, container);
-		link.innerHTML = html;
-		link.href = '#';
-		link.title = title;
-
-		L.DomEvent
-		    .on(link, 'mousedown dblclick', L.DomEvent.stopPropagation)
-		    .on(link, 'click', L.DomEvent.stop)
-		    .on(link, 'click', fn, this)
-		    .on(link, 'click', this._refocusOnMap, this);
-
-		return link;
-	},
-
-	_updateDisabled: function () {
-		var map = this._map,
-			className = 'leaflet-disabled';
-
-		L.DomUtil.removeClass(this._zoomInButton, className);
-		L.DomUtil.removeClass(this._zoomOutButton, className);
-
-		if (map._zoom === map.getMinZoom()) {
-			L.DomUtil.addClass(this._zoomOutButton, className);
-		}
-		if (map._zoom === map.getMaxZoom()) {
-			L.DomUtil.addClass(this._zoomInButton, className);
-		}
-	}
-});
-
-L.Map.mergeOptions({
-	zoomControl: true
-});
-
-L.Map.addInitHook(function () {
-	if (this.options.zoomControl) {
-		this.zoomControl = new L.Control.Zoom();
-		this.addControl(this.zoomControl);
-	}
-});
-
-L.control.zoom = function (options) {
-	return new L.Control.Zoom(options);
-};
-
-
-
 /*
  * L.Control.Attribution is used for displaying attribution on the map (added by default).
  */
@@ -7994,6 +8139,93 @@ L.Map.addInitHook(function () {
 
 L.control.attribution = function (options) {
 	return new L.Control.Attribution(options);
+};
+
+/*
+ * L.Control.Zoom is used for the default zoom buttons on the map.
+ */
+
+L.Control.Zoom = L.Control.extend({
+	options: {
+		position: 'topleft',
+		zoomInText: '+',
+		zoomInTitle: 'Zoom in',
+		zoomOutText: '-',
+		zoomOutTitle: 'Zoom out'
+	},
+
+	onAdd: function (map) {
+		var zoomName = 'leaflet-control-zoom',
+		    container = L.DomUtil.create('div', zoomName + ' leaflet-bar'),
+		    options = this.options;
+
+		this._zoomInButton  = this._createButton(options.zoomInText, options.zoomInTitle,
+		        zoomName + '-in',  container, this._zoomIn);
+		this._zoomOutButton = this._createButton(options.zoomOutText, options.zoomOutTitle,
+		        zoomName + '-out', container, this._zoomOut);
+
+		this._updateDisabled();
+		map.on('zoomend zoomlevelschange', this._updateDisabled, this);
+
+		return container;
+	},
+
+	onRemove: function (map) {
+		map.off('zoomend zoomlevelschange', this._updateDisabled, this);
+	},
+
+	_zoomIn: function (e) {
+		this._map.zoomIn(e.shiftKey ? 3 : 1);
+	},
+
+	_zoomOut: function (e) {
+		this._map.zoomOut(e.shiftKey ? 3 : 1);
+	},
+
+	_createButton: function (html, title, className, container, fn) {
+		var link = L.DomUtil.create('a', className, container);
+		link.innerHTML = html;
+		link.href = '#';
+		link.title = title;
+
+		L.DomEvent
+		    .on(link, 'mousedown dblclick', L.DomEvent.stopPropagation)
+		    .on(link, 'click', L.DomEvent.stop)
+		    .on(link, 'click', fn, this)
+		    .on(link, 'click', this._refocusOnMap, this);
+
+		return link;
+	},
+
+	_updateDisabled: function () {
+		var map = this._map,
+			className = 'leaflet-disabled';
+
+		L.DomUtil.removeClass(this._zoomInButton, className);
+		L.DomUtil.removeClass(this._zoomOutButton, className);
+
+		if (map._zoom === map.getMinZoom()) {
+			L.DomUtil.addClass(this._zoomOutButton, className);
+		}
+		if (map._zoom === map.getMaxZoom()) {
+			L.DomUtil.addClass(this._zoomInButton, className);
+		}
+	}
+});
+
+L.Map.mergeOptions({
+	zoomControl: true
+});
+
+L.Map.addInitHook(function () {
+	if (this.options.zoomControl) {
+		this.zoomControl = new L.Control.Zoom();
+		this.addControl(this.zoomControl);
+	}
+});
+
+L.control.zoom = function (options) {
+	return new L.Control.Zoom(options);
 };
 
 
@@ -8099,7 +8331,6 @@ L.Control.Scale = L.Control.extend({
 L.control.scale = function (options) {
 	return new L.Control.Scale(options);
 };
-
 
 /*
  * L.Control.Layers is a control to allow users to switch between different layers on the map.
@@ -8339,204 +8570,6 @@ L.control.layers = function (baseLayers, overlays, options) {
 	return new L.Control.Layers(baseLayers, overlays, options);
 };
 
-
-/*
- * L.PosAnimation is used by Leaflet internally for pan animations.
- */
-
-L.PosAnimation = L.Evented.extend({
-
-	run: function (el, newPos, duration, easeLinearity) { // (HTMLElement, Point[, Number, Number])
-		this.stop();
-
-		this._el = el;
-		this._inProgress = true;
-		this._newPos = newPos;
-
-		this.fire('start');
-
-		el.style[L.DomUtil.TRANSITION] = 'all ' + (duration || 0.25) +
-		        's cubic-bezier(0,0,' + (easeLinearity || 0.5) + ',1)';
-
-		L.DomEvent.on(el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
-		L.DomUtil.setPosition(el, newPos);
-
-		// toggle reflow, Chrome flickers for some reason if you don't do this
-		L.Util.falseFn(el.offsetWidth);
-
-		// there's no native way to track value updates of transitioned properties, so we imitate this
-		this._stepTimer = setInterval(L.bind(this._onStep, this), 50);
-	},
-
-	stop: function () {
-		if (!this._inProgress) { return; }
-
-		// if we just removed the transition property, the element would jump to its final position,
-		// so we need to make it stay at the current position
-
-		this._newPos = this._getPos();
-		L.DomUtil.setPosition(this._el, this._newPos);
-
-		this._onTransitionEnd();
-		L.Util.falseFn(this._el.offsetWidth); // force reflow in case we are about to start a new animation
-	},
-
-	_onStep: function () {
-		var stepPos = this._getPos();
-		if (!stepPos) {
-			this._onTransitionEnd();
-			return;
-		}
-		// jshint camelcase: false
-		// make L.DomUtil.getPosition return intermediate position value during animation
-		this._el._leaflet_pos = stepPos;
-
-		this.fire('step');
-	},
-
-	// you can't easily get intermediate values of properties animated with CSS3 Transitions,
-	// we need to parse computed style (in case of transform it returns matrix string)
-
-	_transformRe: /([-+]?(?:\d*\.)?\d+)\D*, ([-+]?(?:\d*\.)?\d+)\D*\)/,
-
-	_getPos: function () {
-		var left, top, matches,
-		    el = this._el,
-		    style = window.getComputedStyle(el);
-
-		if (L.Browser.any3d) {
-			matches = style[L.DomUtil.TRANSFORM].match(this._transformRe);
-			if (!matches) { return; }
-			left = parseFloat(matches[1]);
-			top  = parseFloat(matches[2]);
-		} else {
-			left = parseFloat(style.left);
-			top  = parseFloat(style.top);
-		}
-
-		return new L.Point(left, top, true);
-	},
-
-	_onTransitionEnd: function () {
-		L.DomEvent.off(this._el, L.DomUtil.TRANSITION_END, this._onTransitionEnd, this);
-
-		if (!this._inProgress) { return; }
-		this._inProgress = false;
-
-		this._el.style[L.DomUtil.TRANSITION] = '';
-
-		// jshint camelcase: false
-		// make sure L.DomUtil.getPosition returns the final position value after animation
-		this._el._leaflet_pos = this._newPos;
-
-		clearInterval(this._stepTimer);
-
-		this.fire('step').fire('end');
-	}
-
-});
-
-
-/*
- * Extends L.Map to handle panning animations.
- */
-
-L.Map.include({
-
-	setView: function (center, zoom, options) {
-
-		zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
-		center = this._limitCenter(L.latLng(center), zoom, this.options.maxBounds);
-		options = options || {};
-
-		if (this._panAnim) {
-			this._panAnim.stop();
-		}
-
-		if (this._loaded && !options.reset && options !== true) {
-
-			if (options.animate !== undefined) {
-				options.zoom = L.extend({animate: options.animate}, options.zoom);
-				options.pan = L.extend({animate: options.animate}, options.pan);
-			}
-
-			// try animating pan or zoom
-			var animated = (this._zoom !== zoom) ?
-				this._tryAnimatedZoom && this._tryAnimatedZoom(center, zoom, options.zoom) :
-				this._tryAnimatedPan(center, options.pan);
-
-			if (animated) {
-				// prevent resize handler call, the view will refresh after animation anyway
-				clearTimeout(this._sizeTimer);
-				return this;
-			}
-		}
-
-		// animation didn't start, just reset the map view
-		this._resetView(center, zoom);
-
-		return this;
-	},
-
-	panBy: function (offset, options) {
-		offset = L.point(offset).round();
-		options = options || {};
-
-		if (!offset.x && !offset.y) {
-			return this;
-		}
-
-		if (!this._panAnim) {
-			this._panAnim = new L.PosAnimation();
-
-			this._panAnim.on({
-				'step': this._onPanTransitionStep,
-				'end': this._onPanTransitionEnd
-			}, this);
-		}
-
-		// don't fire movestart if animating inertia
-		if (!options.noMoveStart) {
-			this.fire('movestart');
-		}
-
-		// animate pan unless animate: false specified
-		if (options.animate !== false) {
-			L.DomUtil.addClass(this._mapPane, 'leaflet-pan-anim');
-
-			var newPos = this._getMapPanePos().subtract(offset);
-			this._panAnim.run(this._mapPane, newPos, options.duration || 0.25, options.easeLinearity);
-		} else {
-			this._rawPanBy(offset);
-			this.fire('move').fire('moveend');
-		}
-
-		return this;
-	},
-
-	_onPanTransitionStep: function () {
-		this.fire('move');
-	},
-
-	_onPanTransitionEnd: function () {
-		L.DomUtil.removeClass(this._mapPane, 'leaflet-pan-anim');
-		this.fire('moveend');
-	},
-
-	_tryAnimatedPan: function (center, options) {
-		// difference between the new and current centers in pixels
-		var offset = this._getCenterOffset(center)._floor();
-
-		// don't animate too far unless animate: true specified in options
-		if ((options && options.animate) !== true && !this.getSize().contains(offset)) { return false; }
-
-		this.panBy(offset, options);
-
-		return true;
-	}
-});
-
-
 /*
  * L.PosAnimation fallback implementation that powers Leaflet pan animations
  * in browsers that don't support CSS3 Transitions.
@@ -8604,113 +8637,6 @@ L.PosAnimation = L.DomUtil.TRANSITION ? L.PosAnimation : L.PosAnimation.extend({
 		return 1 - Math.pow(1 - t, this._easeOutPower);
 	}
 });
-
-
-/*
- * Extends L.Map to handle zoom animations.
- */
-
-L.Map.mergeOptions({
-	zoomAnimation: true,
-	zoomAnimationThreshold: 4
-});
-
-var zoomAnimated = L.DomUtil.TRANSITION && L.Browser.any3d && !L.Browser.mobileOpera;
-
-if (zoomAnimated) {
-
-	L.Map.addInitHook(function () {
-		// don't animate on browsers without hardware-accelerated transitions or old Android/Opera
-		this._zoomAnimated = this.options.zoomAnimation;
-
-		// zoom transitions run with the same duration for all layers, so if one of transitionend events
-		// happens after starting zoom animation (propagating to the map pane), we know that it ended globally
-		if (this._zoomAnimated) {
-			L.DomEvent.on(this._mapPane, L.DomUtil.TRANSITION_END, this._catchTransitionEnd, this);
-		}
-	});
-}
-
-L.Map.include(!zoomAnimated ? {} : {
-
-	_catchTransitionEnd: function (e) {
-		if (this._animatingZoom && e.propertyName.indexOf('transform') >= 0) {
-			this._onZoomTransitionEnd();
-		}
-	},
-
-	_nothingToAnimate: function () {
-		return !this._container.getElementsByClassName('leaflet-zoom-animated').length;
-	},
-
-	_tryAnimatedZoom: function (center, zoom, options) {
-
-		if (this._animatingZoom) { return true; }
-
-		options = options || {};
-
-		// don't animate if disabled, not supported or zoom difference is too large
-		if (!this._zoomAnimated || options.animate === false || this._nothingToAnimate() ||
-		        Math.abs(zoom - this._zoom) > this.options.zoomAnimationThreshold) { return false; }
-
-		// offset is the pixel coords of the zoom origin relative to the current center
-		var scale = this.getZoomScale(zoom),
-		    offset = this._getCenterOffset(center)._divideBy(1 - 1 / scale);
-
-		// don't animate if the zoom origin isn't within one screen from the current center, unless forced
-		if (options.animate !== true && !this.getSize().contains(offset)) { return false; }
-
-		L.Util.requestAnimFrame(function () {
-			this
-			    .fire('movestart')
-			    .fire('zoomstart')
-			    ._animateZoom(center, zoom, true);
-		}, this);
-
-		return true;
-	},
-
-	_animateZoom: function (center, zoom, startAnim) {
-		if (startAnim) {
-			this._animatingZoom = true;
-
-			// remember what center/zoom to set after animation
-			this._animateToCenter = center;
-			this._animateToZoom = zoom;
-
-			// disable any dragging during animation
-			if (L.Draggable) {
-				L.Draggable._disabled = true;
-			}
-
-			L.DomUtil.addClass(this._mapPane, 'leaflet-zoom-anim');
-		}
-
-		var scale = this.getZoomScale(zoom),
-			origin = this._getCenterLayerPoint().add(this._getCenterOffset(center)._divideBy(1 - 1 / scale));
-
-		this.fire('zoomanim', {
-			center: center,
-			zoom: zoom,
-			origin: origin,
-			scale: scale
-		});
-	},
-
-	_onZoomTransitionEnd: function () {
-
-		this._animatingZoom = false;
-
-		L.DomUtil.removeClass(this._mapPane, 'leaflet-zoom-anim');
-
-		this._resetView(this._animateToCenter, this._animateToZoom, true, true);
-
-		if (L.Draggable) {
-			L.Draggable._disabled = false;
-		}
-	}
-});
-
 
 /*
  * Provides L.Map with convenient shortcuts for using browser geolocation features.
@@ -8810,6 +8736,3 @@ L.Map.include({
 		this.fire('locationfound', data);
 	}
 });
-
-
-}(window, document));

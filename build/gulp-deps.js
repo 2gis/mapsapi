@@ -3,13 +3,11 @@ var fs = require('fs'),
     path = require('path');
 
 var init = function (config) {
-    var source = config.source;
     var packages = config.packages;
-    var modules = source.deps;
-    var sourcePath = source.path;
 
     // Generates a list of modules by pkg
-    function getModulesList(pkg) { //(String|Null)->Array
+    function getModulesList(pkg, modules) { //(String|Null)->Array
+        modules = modules || config.source.deps;
         var modulesListOrig = [],
             modulesListRes = [],
             loadedModules = {};
@@ -49,32 +47,37 @@ var init = function (config) {
 
     function getJSFiles(options) {
         options = options || {};
+        var source = config[options.source || 'source'],
+            modules = source.deps,
+            sourcePath = source.path;
 
-        return getModulesList(options.pkg)
-        .map(function (name) {
-            return modules[name];
-        })
-        .map(function (module) {
-            return module.src;
-        })
-        .reduce(function (array, items) {
-            return array.concat(items);
-        })
-        .filter(function (item, key, list) {//filter dublicates
-            return list.indexOf(item) === key;
-        })
-        .map(function (file) {
-            return sourcePath + file;
-        })
-        ;
+        return getModulesList(options.pkg, modules)
+            .map(function (name) {
+                return modules[name];
+            })
+            .map(function (module) {
+                return module.src;
+            })
+            .reduce(function (array, items) {
+                return array.concat(items);
+            })
+            .filter(function (item, key, list) {//filter dublicates
+                return list.indexOf(item) === key;
+            })
+            .map(function (file) {
+                return sourcePath + file;
+            })
+            ;
     }
 
     function getCSSFiles(options) {
         options = options || {};
+        var source = config[options.source || 'source'],
+            modules = source.deps,
+            sourcePath = source.path,
+            skin = options.skin || config.appConfig.DEFAULT_SKIN;
 
-        var skin = options.skin || config.appConfig.DEFAULT_SKIN;
-
-        return getModulesList(options.pkg)
+        return getModulesList(options.pkg, modules)
             .map(function (name) {
                 return modules[name];
             })
