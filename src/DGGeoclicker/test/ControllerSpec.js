@@ -58,9 +58,9 @@ describe('DG.Geoclicker.Controller', function () {
 
         beforeEach(function () {
 
-            defaultSpy = sinon.stub().returns(DG.when({}));
-            houseSpy = sinon.stub().returns(DG.when({}));
-            citySpy = sinon.stub().returns(DG.when({}));
+            defaultSpy = sinon.stub().returns(Promise.resolve({}));
+            houseSpy = sinon.stub().returns(Promise.resolve({}));
+            citySpy = sinon.stub().returns(Promise.resolve({}));
             districtSpy = sinon.stub().returns(false);
 
             defaultHandler = DG.Class.extend({

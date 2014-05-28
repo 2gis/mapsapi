@@ -125,7 +125,7 @@ DG.ajax = (function () {
         return url + (/\?/.test(url) ? '&' : '?') + s;
     }
 
-    function handleJsonp(o, fn, err, progress, url) {
+    function handleJsonp(o, fn, err, url) {
         var reqId = uniqid++,
             cbkey = o.jsonpCallback || 'callback', // the 'callback' key
             cbval = o.jsonpCallbackName || callbackPrefix,
@@ -182,8 +182,6 @@ DG.ajax = (function () {
             loaded = 1;
         };
 
-        progress();
-
         // Add the script to the DOM head
         head.appendChild(script);
 
@@ -199,7 +197,7 @@ DG.ajax = (function () {
         };
     }
 
-    function getRequest(fn, err, progress) {
+    function getRequest(fn, err) {
         var o = this.options,
             method = (o.type || 'GET').toUpperCase(),
             url = typeof o === 'string' ? o : o.url,
@@ -216,7 +214,7 @@ DG.ajax = (function () {
         }
 
         if (o.type === 'jsonp') {
-            return handleJsonp(o, fn, err, progress, url);
+            return handleJsonp(o, fn, err, url);
         }
 
         http = xhr(o);
@@ -228,15 +226,9 @@ DG.ajax = (function () {
         if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
             http.onload = fn;
             http.onerror = err;
-            // NOTE: see
-            // http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/30ef3add-767c-4436-b8a9-f1ca19b4812e
-            http.onprogress = function () {};
             sendWait = true;
         } else {
             http.onreadystatechange = handleReadyState(this, fn, err);
-        }
-        if (progress) {
-            progress(http);
         }
         if (sendWait) {
             setTimeout(function () {
@@ -296,92 +288,94 @@ DG.ajax = (function () {
             o.crossDomain = isCrossDomain(o.url);
         }
 
-        var self = DG.when.defer();
+        var self = {};
+        self.promise = new Promise(function (resolve, reject) {
+            self.abort = function () {
+                self._aborted = true;
+                //self.reject('aborted');
+            };
 
-        self.abort = function () {
-            self._aborted = true;
-            self.reject('aborted');
-        };
+            self.abort = function () {
+                self._aborted = true;
+                reject('aborted');
+            };
 
-        self.url = o.url;
-        self.timeout = null;
-        self.options = o;
-
-        self._aborted = false;
-        self._erred = false;
-        self._responseArgs = {};
-
-        var type = o.type === 'jsonp' ? o.type : (o.dataType || setType(self.url));
-
-        if (o.timeout) {
-            self.timeout = setTimeout(function () {
-                self.abort();
-            }, o.timeout);
-        }
-
-        function complete(resp) {
-            if (o.timeout) {
-                clearTimeout(self.timeout);
-            }
+            self.url = o.url;
             self.timeout = null;
-            if (self._erred) {
-                self.reject(resp);
-            } else {
-                self.resolve(resp);
-            }
-        }
+            self.options = o;
 
-        function success(resp) {
-            resp = (type !== 'jsonp') ? self.request : resp;
-            // use global data filter on response text
-            var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type),
-                r = filteredResponse;
+            self._aborted = false;
+            self._erred = false;
+            self._responseArgs = {};
 
-            try {
-                resp.responseText = r;
-            } catch (e) {
-                // can't assign this in IE<=8, just ignore
+            var type = o.type === 'jsonp' ? o.type : (o.dataType || setType(self.url));
+
+            if (o.timeout) {
+                self.timeout = setTimeout(function () {
+                    self.abort();
+                }, o.timeout);
             }
-            /*jshint evil:true */
-            if (r) {
-                switch (type) {
-                case 'json':
-                    try {
-                        resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
-                    } catch (err) {
-                        return error(resp, 'Could not parse JSON in response', err);
-                    }
-                    break;
-                case 'js':
-                    resp = eval('(' + r + ')');
-                    break;
-                case 'html':
-                    resp = r;
-                    break;
-                case 'xml':
-                    resp = resp.responseXML && resp.responseXML.parseError && resp.responseXML.parseError.errorCode && resp.responseXML.parseError.reason ? null : resp.responseXML;
-                    break;
+
+            function complete(resp) {
+                if (o.timeout) {
+                    clearTimeout(self.timeout);
+                }
+                self.timeout = null;
+                if (self._erred) {
+                    reject(resp);
+                } else {
+                    resolve(resp);
                 }
             }
-            /*jshint evil:false */
-            self._responseArgs.resp = resp;
-            complete(resp);
-        }
 
-        function error(resp, msg, t) {
-            resp = self.request;
-            self._responseArgs.resp = resp;
-            self._responseArgs.msg = msg;
-            self._responseArgs.t = t;
-            self._erred = true;
-            complete(resp);
-        }
+            function success(resp) {
+                resp = (type !== 'jsonp') ? self.request : resp;
+                // use global data filter on response text
+                var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type),
+                    r = filteredResponse;
 
-        function progress() {
-            self.notify.call(self, arguments);
-        }
+                try {
+                    resp.responseText = r;
+                } catch (e) {
+                    // can't assign this in IE<=8, just ignore
+                }
+                /*jshint evil:true */
+                if (r) {
+                    switch (type) {
+                    case 'json':
+                        try {
+                            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
+                        } catch (err) {
+                            return error(resp, 'Could not parse JSON in response', err);
+                        }
+                        break;
+                    case 'js':
+                        resp = eval('(' + r + ')');
+                        break;
+                    case 'html':
+                        resp = r;
+                        break;
+                    case 'xml':
+                        resp = resp.responseXML && resp.responseXML.parseError && resp.responseXML.parseError.errorCode && resp.responseXML.parseError.reason ? null : resp.responseXML;
+                        break;
+                    }
+                }
+                /*jshint evil:false */
+                self._responseArgs.resp = resp;
+                complete(resp);
+            }
 
-        self.request = getRequest.call(self, success, error, progress);
+            function error(resp, msg, t) {
+                resp = self.request;
+                self._responseArgs.resp = resp;
+                self._responseArgs.msg = msg;
+                self._responseArgs.t = t;
+                self._erred = true;
+                complete(resp);
+            }
+
+            self.request = getRequest.call(self, success, error);
+        });
 
         return self;
     }
@@ -398,8 +392,8 @@ DG.ajax = (function () {
         var requestPromise = doRequest(options),
             resultPromise = requestPromise.promise;
 
-        if (options.success || options.error || options.progress || options.complete) {
-            resultPromise.then(options.success, options.error, options.progress).ensure(options.complete);
+        if (options.success || options.error || options.complete) {
+            resultPromise.then(options.success, options.error);
         }
 
         resultPromise.abort = requestPromise.abort;
