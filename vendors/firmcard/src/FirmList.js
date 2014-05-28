@@ -73,9 +73,11 @@
         },
 
         _removeFirm: function (id) {
-            var firmCard = this._firms[id] ? this._firms[id] : false;
-            firmCard ? this._container.removeChild(firmCard) : false;
-            this._firms[id] ? delete this._firms[id] : false;
+            var firmCard = this._firms[id] || false;
+            if (firmCard) {
+             this._container.removeChild(firmCard);
+             delete this._firms[id];   
+            }
         },
 
         _addFirm: function (firmData) {
@@ -88,9 +90,15 @@
             };
 
             if (!(firm.id in this._firms)) {
+                
                 domFirm = this._createListItem();
 
-                tmpl ? content = this.options.firmCard.render(tmpl, {'firm': firm}) : content = firm.name;
+                if (tmpl) {
+                    content = this.options.firmCard.render(tmpl, {'firm': firm});
+                } else {
+                    content = firm.name;    
+                }
+                
                 domFirm.insertAdjacentHTML('beforeend', content);
 
                 this._firms[firm.id] = domFirm;
@@ -125,14 +133,17 @@
 
         _initEventHandlers : function () {
             var self = this,
-                eventName = this._hasTouch() ? 'touchend' : 'click';
+                eventName = this._hasTouch() ? 'touchend' : 'click',
+                methodName = this._container.addEventListener ? 'addEventListener' : 'attachEvent',
+                mouseoverEvent = this._container.addEventListener ? 'mouseover' : 'onmouseover';
 
             this._eventHandlersInited = true;
             var onClickHandler =  function (e) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
+                DG.DomEvent.stop(e);
 
-                if (target && target.nodeName === 'A') {
+                if (target.nodeName === 'A') {
                     if (target.className.indexOf('popup-link') !== -1) {
                         if (target.id) {
 
@@ -149,11 +160,12 @@
                 }
             };
 
-            if (this._container.addEventListener) {
-                this._container.addEventListener(eventName, onClickHandler, false);
-            } else {
-                this._container.attachEvent('on' + eventName, onClickHandler);
+            this._container[methodName](eventName, onClickHandler, false);
+
+            if (this._hasTouch()) {
+                this._container[methodName](mouseoverEvent, onClickHandler, false);
             }
+            
         },
 
         _hasTouch: function () {

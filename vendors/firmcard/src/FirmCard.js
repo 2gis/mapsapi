@@ -204,8 +204,9 @@ FirmCard.prototype = {
     _onFooterBtnClick: function (e) {
         e = e || window.event;
         var target = e.target || e.srcElement;
+        DG.DomEvent.stop(e);
 
-        if (target && target.nodeName === 'A') {
+        if (target.nodeName === 'A') {
             if (target.id === 'popup-btn-firmCard-back') {
                 this.options.backBtn();
             } else if (target.id ===  'popup-btn-show-entrance') {
@@ -244,19 +245,19 @@ FirmCard.prototype = {
 
         var eventName = this._hasTouch() ? 'touchend' : 'click',
             footer = this._footerContainer,
-            container = this._container;
+            container = this._container,
+            methodName = container.addEventListener ? 'addEventListener' : 'attachEvent',
+            mouseoverEvent = container.addEventListener ? 'mouseover' : 'onmouseover'; 
 
-        if (container.addEventListener) { //TODO: make this code better
             if (footer) {
-                footer.addEventListener(eventName, this._bind(this._onFooterBtnClick, this), false);
+                footer[methodName](eventName, this._bind(this._onFooterBtnClick, this), false);
+                if (this._hasTouch()) {
+                    footer[methodName](mouseoverEvent, this._bind(this._onFooterBtnClick, this), false);
+                }
             }
-            container.addEventListener(eventName, this._bind(this._onToggleSchedule, this), false);
-        } else {
-            if (footer) {
-                footer.attachEvent('on' + eventName, this._bind(this._onFooterBtnClick, this));
-            }
-            container.attachEvent('on' + eventName, this._bind(this._onToggleSchedule, this));
-        }
+            
+            container[methodName](eventName, this._bind(this._onToggleSchedule, this), false);
+        
     },
 
     _bind: function (fn, obj) { // (Function, Object) -> Function
