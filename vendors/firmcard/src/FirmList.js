@@ -73,11 +73,9 @@
         },
 
         _removeFirm: function (id) {
-            var firmCard = this._firms[id] || false;
-            if (firmCard) {
-             this._container.removeChild(firmCard);
-             delete this._firms[id];   
-            }
+            if (!this._firms[id]) { return false; }
+            this._container.removeChild(firmCard);
+            delete this._firms[id];
         },
 
         _addFirm: function (firmData) {

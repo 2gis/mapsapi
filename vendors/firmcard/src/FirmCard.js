@@ -144,7 +144,7 @@ FirmCard.prototype = {
             });
         }
         //UNCOMMENT WHEN ONLINE 4 WILL BE READY
-       /* btns.push({ name: 'goto',
+        /*btns.push({ name: 'goto',
                     label: this.dict.t(this.options.lang, 'btnFindWay'),
                     icon: true,
                     href: this.options.gotoUrl
