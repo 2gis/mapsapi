@@ -1,6 +1,6 @@
 /* 
     See gulpfile.js for predefined stuff
-       — Variables: @baseURL, @analyticsBaseURL, @isModernBrowser, @ie8, @shouldUseSprites, @skinName;
+       — Variables: @baseURL, @isModernBrowser, @ie8, @shouldUseSprites, @skinName;
        — Mixins: .imageData, .imageFileData, .isSprited.
  */
 
@@ -95,7 +95,7 @@
         .spriteOrDirectImage(@name, @useSprite);
         }
 
-    & when (@mobile) and not (@ie8) {
+    & when (@mobile) {
         .spriteOrDirectImage(@name, @useSprite, true);
 
         .leaflet-retina & {

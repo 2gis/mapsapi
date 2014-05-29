@@ -41,7 +41,7 @@ gulp.task('help', function () {
 });
 
 gulp.task('build-scripts', ['lint', 'build-clean', 'build-leaflet'], function () {
-    return bldJs(extend(tasks.util.env, { isDebug: true }))
+    return bldJs(extend({ isDebug: true }, tasks.util.env))
         .pipe(map(saveSize))
         .pipe(gulp.dest('./public/js/'))
         .pipe(tasks.rename({ suffix: '.min' }))
@@ -58,8 +58,15 @@ gulp.task('lint', function () {
 });
 
 gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function () {
+    var cliOptions = extend({}, tasks.util.env);
+
+    cliOptions.mobile = cliOptions.base64 === 'false';
+
+    if (typeof cliOptions.sprite !== 'undefined') {
+        cliOptions.sprite = cliOptions.sprite === 'true';
+    }
     return es.concat(
-        buildCss(extend({}, tasks.util.env, { isDebug: true }))
+        buildCss(extend({ isDebug: true }, cliOptions))
              .pipe(map(saveSize))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -68,7 +75,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(map(saveSize))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend({}, tasks.util.env, { ie8: true, isDebug: true }))
+         buildCss(extend({ ie8: true, isDebug: true, sprite: true }, cliOptions))
              .pipe(tasks.rename({ suffix: '.full' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -76,7 +83,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
              .pipe(tasks.header(config.copyright))
              .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend({}, tasks.util.env, { excludeBaseCss: true, ie8: true, isDebug: true }))
+         buildCss(extend({ excludeBaseCss: true, ie8: true, isDebug: true }, cliOptions))
              .pipe(tasks.rename({ suffix: '.ie' }))
              .pipe(gulp.dest('./public/css/'))
              .pipe(tasks.rename({ suffix: '.min' }))
@@ -253,7 +260,11 @@ gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styl
         console.log('- ' + module);
     });
 
-    tasks.util.env.sprite && tasks.util.log('Builded with sprites');
+    if (tasks.util.env.sprite === 'true') {
+        tasks.util.log('Builded with sprites');
+    } else if (tasks.util.env.base64 !== 'false' && typeof tasks.util.env.base64 !== 'undefined') {
+        tasks.util.log('Builded with base64 encode');
+    }
 
     console.log('\nDist files statistic:');
     Object.keys(stat).forEach(function (file) {
@@ -330,7 +341,6 @@ gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function () {
                         variables: {
                             skinName: skinName,
                             baseURL: '\'__BASE_URL__\'',
-                            analyticsBaseURL: '\'http://maps.api.2gis.ru/analytics/\'',
 
                             mobile: false,
                             ie8: true,
@@ -400,7 +410,7 @@ function bldJs(opt) {
 function buildCss(options) {
     options = options || {};
 
-    var skin = (options.skin || tasks.util.env.skin) || config.appConfig.DEFAULT_SKIN,
+    var skin = options.skin || config.appConfig.DEFAULT_SKIN,
 
         imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
 
@@ -408,12 +418,11 @@ function buildCss(options) {
         lessPrerequirements = deps.lessHeader({
             variables: {
                 baseURL: '"__BASE_URL__"',
-                analyticsBaseURL: '"http://maps.api.2gis.ru/analytics/"',
 
                 mobile: options.mobile,
                 ie8: options.ie8,
 
-                shouldUseSprites: options.sprite || tasks.util.env.sprite,
+                shouldUseSprites: options.sprite,
 
                 skinName: skin,
 
