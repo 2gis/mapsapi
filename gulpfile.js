@@ -32,12 +32,11 @@ gulp.task('default', ['build']);
 
 gulp.task('help', function () {
     tasks.util.log('\nTasks list:');
-    tasks.util.log('gulp assets      # Create public folder and copy all assets there');
     tasks.util.log('gulp lint        # Check JS files for errors with JSHint');
     tasks.util.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
     tasks.util.log('gulp doc         # Generate documentation from .md files');
     tasks.util.log('gulp test        # Rebuild source and run unit tests');
-    tasks.util.log('gulp watch       # Starts watching private & src/**/svg folders');
+    tasks.util.log('gulp watch       # Starts watching private & leaflet/src folders');
 });
 
 gulp.task('build-scripts', ['lint', 'build-clean', 'build-leaflet'], function () {
@@ -93,9 +92,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     );
 });
 
-gulp.task('assets', ['copy-private-assets', 'copy-sprites']);
-
-gulp.task('copy-private-assets', ['build-clean'], function () {
+var copyPrivateAssets = function() {
     return es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
@@ -112,7 +109,15 @@ gulp.task('copy-private-assets', ['build-clean'], function () {
         gulp.src('./private/loader.js')
             .pipe(tasks.uglify())
             .pipe(gulp.dest('./public/'))
-    );
+        );
+};
+
+gulp.task('copy-private-assets', ['build-clean'], function () {
+    return copyPrivateAssets();
+});
+
+gulp.task('copy-private-assets-without-clean', function () {
+    return copyPrivateAssets();
 });
 
 gulp.task('copy-sprites', ['copy-svg', 'generate-sprites'], function () {
@@ -277,8 +282,7 @@ gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styl
 
 //watchers
 gulp.task('watch', function () {
-    gulp.watch('./private/*.*', ['copy-private-assets']);
-    gulp.watch('./src/**/img/**/*.*', ['copy-svg', 'generate-sprites']);
+    gulp.watch('./private/*.*', ['copy-private-assets-without-clean']);
     gulp.watch('./vendors/leaflet/src/**/*.*', ['build-leaflet']);
 });
 
