@@ -12,7 +12,7 @@ DG.Traffic = DG.TileLayer.extend({
         layersOptions: {
             errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             subdomains: '012345679',
-            detectRetina: '__DETECT_RETINA__',
+            detectRetina: __DETECT_RETINA__,
             maxNativeZoom: 18
         }
     },
