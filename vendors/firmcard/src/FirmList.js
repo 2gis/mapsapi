@@ -74,7 +74,7 @@
 
         _removeFirm: function (id) {
             if (!this._firms[id]) { return false; }
-            this._container.removeChild(firmCard);
+            this._container.removeChild(this._firms[id]);
             delete this._firms[id];
         },
 
@@ -91,11 +91,7 @@
                 
                 domFirm = this._createListItem();
 
-                if (tmpl) {
-                    content = this.options.firmCard.render(tmpl, {'firm': firm});
-                } else {
-                    content = firm.name;    
-                }
+                content = tmpl ? this.options.firmCard.render(tmpl, {'firm': firm}) : firm.name;
                 
                 domFirm.insertAdjacentHTML('beforeend', content);
 
@@ -144,20 +140,13 @@
                 var target = e.target || e.srcElement;
                 DG.DomEvent.stop(e);
 
-                if (target.nodeName === 'A') {
-                    if (target.className.indexOf('popup-link') !== -1) {
-                        if (target.id) {
+                if (target.nodeName === 'A' && target.className.indexOf('popup-link') !== -1 && target.id) {
 
                             var s = self._firmCard.render(target.id);
-                            if (!self._isEmptyObj(s)) {
-                                self.options.firmCard.onFirmReady(s);
-                            } else {
-                                self.options.firmCard.pasteLoader();
-                            }
+                            self.options.firmCard[ self._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
 
                             self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
-                        }
-                    }
+                        
                 }
             };
 
