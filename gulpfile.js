@@ -247,7 +247,7 @@ gulp.task('doc', function () {
     gendoc.generateDocumentation(doc.menu, doc.input, doc.output);
 });
 
-gulp.task('build-leaflet', function() {
+gulp.task('build-leaflet', function () {
     return gulp.src(deps.getJSFiles({source: 'leaflet'}))
            .pipe(tasks.concat('leaflet-src.js'))
            .pipe(gulp.dest('./vendors/leaflet/dist/'));
@@ -279,6 +279,7 @@ gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styl
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['copy-private-assets']);
     gulp.watch('./src/**/img/**/*.*', ['copy-svg', 'generate-sprites']);
+    gulp.watch('./vendors/leaflet/src/**/*.*', ['build-leaflet']);
 });
 
 //service tasks
