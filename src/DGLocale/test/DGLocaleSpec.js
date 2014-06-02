@@ -71,7 +71,7 @@ describe('DG Locale Module', function () {
 
 			expect(setLangSpy.calledOnce).to.be.ok();
 			expect(callback.calledOnce).to.be.ok();
-			expect(callback.firstCall.returnValue).to.eql(5);
+			expect(callback.returnValues).to.eql([5]);
 		});
 	});
 
@@ -133,7 +133,7 @@ describe('DG Locale Module', function () {
 			expect(TestPlugin.Dictionary).to.not.have.property('uk');
 			expect(setLangSpy.calledTwice).to.be.ok();
 			expect(tSpy.calledOnce).to.be.ok();
-			expect(tSpy.firstCall.returnValue).to.eql('регулярно используют 2GIS');
+			expect(tSpy.returnValues).to.eql(['регулярно используют 2GIS']);
 		});
 
 		it('should return source message for call with not existing message for lang: ru', function () {
