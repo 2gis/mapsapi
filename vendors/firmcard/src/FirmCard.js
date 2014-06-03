@@ -143,12 +143,12 @@ FirmCard.prototype = {
                         icon: true
             });
         }
-        //UNCOMMENT WHEN ONLINE 4 WILL BE READY
-       /* btns.push({ name: 'goto',
+        
+       btns.push({ name: 'goto',
                     label: this.dict.t(this.options.lang, 'btnFindWay'),
                     icon: true,
                     href: this.options.gotoUrl
-        });*/
+        });
 
         if (this._firmData.geo.entrances && this.options.showEntrance) {
             btns.push({ name: 'show-entrance',

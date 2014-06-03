@@ -11,7 +11,7 @@
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
     "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
 
-    "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
+    "PPNOT_LINK": "http://2gis.ru/{projectCode}/routeTab/to/{point}╎{name}",
     "PHOTOS_LINK": "http://beta.2gis.ru/photos/{id}",
 
     "HIGHLIGHT_POI_SERVER": "http://tile{s}.maps.2gis.ru/?x={x}&y={y}&z={z}&v=1&type=poi",

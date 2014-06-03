@@ -61,9 +61,9 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
     _getDirectionsUrl: function (name) {
         return DG.Util.template('__PPNOT_LINK__', {
-            'code': this._map.projectDetector.getProject().code,
+            'projectCode': this._map.projectDetector.getProject().code,
             'name': encodeURIComponent(name),
-            'point': 'POINT(' + this._popup._latlng.lng + ' ' + this._popup._latlng.lat + ')'
+            'point': this._popup._latlng.lng + ',' + this._popup._latlng.lat
         });
     }
 
