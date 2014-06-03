@@ -130,7 +130,7 @@ DG.Meta.Layer = L.Layer.extend({
     },
 
     _getHoveredObject: function (coords, mouseTileOffset) {
-        for (var i = 0, len = this._currentTileData.length; i < len; i++) {
+        for (var i = this._currentTileData.length - 1 ; i >= 0; i--) {
             if (DG.PolyUtil.contains(mouseTileOffset, this._currentTileData[i].geometry.coordinates[0])) {
                 return this._currentTileData[i];
             }

@@ -18,9 +18,8 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     initialize: function (options) {
-        options = L.setOptions(this, DG.extend(options || {}, DG.Traffic.layersOptions));
-        options.timestampString = options.period ? '': ('?' + Date.now());
-
+        options = DG.setOptions(this, DG.extend(options || {}, DG.Traffic.layersOptions));
+        options.timestampString = options.period ? '' : ('?' +  (new Date()).getTime());
         this._metaLayer = DG.Meta.layer(null, {
             detectRetina: options.detectRetina,
             maxNativeZoom: options.maxNativeZoom,
@@ -28,7 +27,6 @@ DG.Traffic = DG.TileLayer.extend({
         });
 
         this._onTimer = DG.bind(this._onTimer, this);
-
         DG.TileLayer.prototype.initialize.call(this, DG.Traffic.tileUrl, options);
     },
 
@@ -70,7 +68,7 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     update: function () {
-        var now = Date.now();
+        var now = (new Date()).getTime();
         this.options.timestampString = this.options.period ? '' : ('?' + now);
         this.fire('update', { timestamp: now });
         this._layerEventsListeners.mouseout.call(this);
