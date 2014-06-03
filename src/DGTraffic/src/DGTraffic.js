@@ -91,7 +91,7 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     _getTimestampString: function () {
-        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, this.options), { type: 'get', dataType: 'jsonp' });
+        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, this.options), { type: 'get' });
     },
 
     _onTimer: function () {
