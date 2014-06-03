@@ -182,7 +182,7 @@ var deps = {
     },
 
     DGMeta: {
-        desc: '2GIS POI & buildings data support module',
+        desc: '2GIS additional metalayers support',
         src: [
             'DGMeta/src/DGMeta.Layer.js',
             'DGMeta/src/DGMeta.Origin.js',
@@ -196,12 +196,6 @@ var deps = {
         src: ['DGPoi/src/DGPoi.js'],
         deps: ['DGMeta', 'DGLabel']
     },
-
-    // DGBuildings: {
-    //     desc: '2GIS buildings module',
-    //     src: ['DGBuildings/src/DGBuildings.js'],
-    //     deps: ['DGMeta']
-    // },
 
     DGGeoclicker: {
         desc: '2GIS Geoclicker',

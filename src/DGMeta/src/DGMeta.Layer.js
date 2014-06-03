@@ -18,7 +18,7 @@ DG.Meta.Layer = L.Layer.extend({
         // bounds: <LatLngBounds>
     },
 
-    initialize: function (source, options) {
+    initialize: function (source, options) { // (String, Object)
         DG.TileLayer.prototype.initialize.call(this, null, options);
         delete this._url;
 
@@ -31,7 +31,7 @@ DG.Meta.Layer = L.Layer.extend({
         });
     },
 
-    getOrigin: function () {
+    getOrigin: function () { // () -> Object
         return this._origin;
     },
 
@@ -53,6 +53,7 @@ DG.Meta.Layer = L.Layer.extend({
             .forEach(function (event) {
                 events[event] = this._pipeMapEvent;
             }, this);
+
         return events;
     },
 
@@ -134,6 +135,7 @@ DG.Meta.Layer = L.Layer.extend({
                 return this._currentTileData[i];
             }
         }
+
         return null;
     },
 
