@@ -406,7 +406,7 @@
     </tbody>
 </table>
 
-#### PoiEvent
+#### MetaEvent
 
 <table>
     <thead>
@@ -420,7 +420,12 @@
         <tr>
             <td><code><b>latlng</b></code></td>
             <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
-            <td>Географические координаты точки интереса.</td>
+            <td>Географические координаты точки объекта допслоя.</td>
+        </tr>
+        <tr>
+            <td><code><b>meta</b></code></td>
+            <td><code>Object</code></td>
+            <td>Метаданные объекта допслоя.</td>
         </tr>
     </tbody>
 </table>

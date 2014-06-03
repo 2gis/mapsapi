@@ -29,7 +29,6 @@ DG.Meta.Layer = L.Layer.extend({
         this._origin = DG.Meta.origin(source, {
             dataFilter: this.options.dataFilter
         });
-
     },
 
     getOrigin: function () {
@@ -62,7 +61,7 @@ DG.Meta.Layer = L.Layer.extend({
     _isValidTile: DG.GridLayer.prototype._isValidTile,
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
     _resetWrap: DG.GridLayer.prototype._resetWrap,
-    
+
     _domEvents : {
         mousemove: function (event) { // (MouseEvent)
             var tileSize = this._getTileSize(),
