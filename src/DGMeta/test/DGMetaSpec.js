@@ -1,5 +1,5 @@
 describe('DGMeta', function () {
-    var map, meta, ajaxSpy, ajaxStub, demoData;
+    var map, meta, ajaxSpy, ajaxStub, demoData, origin;
 
 
     beforeEach(function () {
@@ -20,6 +20,7 @@ describe('DGMeta', function () {
         }];
 
         meta = DG.Meta.layer(null);
+        origin = meta.getOrigin();
 
         ajaxSpy = sinon.spy();
         ajaxStub = sinon.stub(DG, 'ajax', function () {
@@ -30,22 +31,19 @@ describe('DGMeta', function () {
     });
 
     afterEach(function () {
-        map = meta = demoData = ajaxSpy = null;
+        map = meta = origin = demoData = ajaxSpy = null;
         ajaxStub.restore();
     });
 
     describe('#DG.Meta.Layer', function () {
         it('should create and return origin instance', function () {
-            var origin = meta.getOrigin();
-
             expect(origin).to.be.an('object');
         });
     });
 
     describe('#DG.Meta.Origin', function () {
         it('getTileData should NOT call ajax and return false', function () {
-            var origin = meta.getOrigin(),
-                data;
+            var data;
 
             data = origin.getTileData('124:12:42');
 
@@ -55,8 +53,7 @@ describe('DGMeta', function () {
         });
 
         it('flush should clear cache', function () {
-            var origin = meta.getOrigin(),
-                chain, data;
+            var chain, data;
 
             origin.setTileData({x: 124, y: 12, z: 42}, demoData);
             chain = origin.flush();
@@ -68,8 +65,7 @@ describe('DGMeta', function () {
         });
 
         it('setURL should set url and change getTileData behaviour', function () {
-            var origin = meta.getOrigin(),
-                flushSpy = sinon.spy(),
+            var flushSpy = sinon.spy(),
                 flushStub = sinon.stub(DG.Meta.Origin.prototype, 'flush', function () {
                     flushSpy();
                 }),
@@ -88,8 +84,7 @@ describe('DGMeta', function () {
         });
 
         it('setURL flush option call flush method', function () {
-            var origin = meta.getOrigin(),
-                flushSpy = sinon.spy();
+            var flushSpy = sinon.spy();
                 flushStub = sinon.stub(DG.Meta.Origin.prototype, 'flush', function () {
                     flushSpy();
                 });
@@ -102,8 +97,7 @@ describe('DGMeta', function () {
         });
 
         it('getTileData should cache tileData', function () {
-            var origin = meta.getOrigin(),
-                data;
+            var data;
 
             origin.setURL('http://demo/data');
             data = origin.getTileData('124:12:42');
@@ -114,12 +108,11 @@ describe('DGMeta', function () {
         });
 
         it('setTileData should write and cache tileData', function () {
-            var origin = meta.getOrigin(),
-                chain, data;
+            var chain, data;
 
             chain = origin.setTileData({x: 124, y: 12, z: 42}, demoData);
+            console.log('ADDD');
             data = origin.getTileData('124:12:42');
-
             expect(data).to.be.a('object');
             expect(ajaxSpy.callCount).to.be.eql(0);
             // check for returning this
@@ -127,7 +120,7 @@ describe('DGMeta', function () {
         });
 
         it('getTileKey should string tileKey representation', function () {
-            var origin = meta.getOrigin(), tileKey;
+            var tileKey;
 
             tileKey = origin.getTileKey({x: 124, y: 12, z: 42});
 
