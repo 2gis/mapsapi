@@ -45,7 +45,7 @@ describe('DGMeta', function () {
         it('getTileData should NOT call ajax and return false', function () {
             var data;
 
-            data = origin.getTileData('124:12:42');
+            data = origin.getTileData({x: 124, y: 12, z: 42});
 
             expect(data).to.not.be.ok();
             //ajax should not be called since empty url provided
@@ -57,7 +57,7 @@ describe('DGMeta', function () {
 
             origin.setTileData({x: 124, y: 12, z: 42}, demoData);
             chain = origin.flush();
-            data = origin.getTileData('124:12:42');
+            data = origin.getTileData({x: 124, y: 12, z: 42});
 
             expect(data).to.not.be.ok();
             // check for returning this
@@ -72,7 +72,7 @@ describe('DGMeta', function () {
                 data, chain;
 
             chain = origin.setURL('http://demo/data');
-            data = origin.getTileData('124:12:42');
+            data = origin.getTileData({x: 124, y: 12, z: 42});
 
             expect(data).to.not.be.ok();
             expect(ajaxSpy.callCount).to.be.eql(1);
@@ -100,8 +100,8 @@ describe('DGMeta', function () {
             var data;
 
             origin.setURL('http://demo/data');
-            data = origin.getTileData('124:12:42');
-            data = origin.getTileData('124:12:42');
+            data = origin.getTileData({x: 124, y: 12, z: 42});
+            data = origin.getTileData({x: 124, y: 12, z: 42});
 
             expect(data).to.not.be.ok();
             expect(ajaxSpy.callCount).to.be.eql(1);
@@ -111,8 +111,7 @@ describe('DGMeta', function () {
             var chain, data;
 
             chain = origin.setTileData({x: 124, y: 12, z: 42}, demoData);
-            console.log('ADDD');
-            data = origin.getTileData('124:12:42');
+            data = origin.getTileData({x: 124, y: 12, z: 42});
             expect(data).to.be.a('object');
             expect(ajaxSpy.callCount).to.be.eql(0);
             // check for returning this
