@@ -87,12 +87,12 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     _getTimestampString: function () {
-        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this._getSubdomain() , projectCode: this._map.getProject().code}, this.options)),
+        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this._getSubdomain(), projectCode: this._map.getProject().code}, this.options)),
             { type: 'get' });
     },
 
     _getSubdomain: function () {
-        return DG.Traffic.layersOptions.subdomains[Math.floor( Math.random() * DG.Traffic.layersOptions.subdomains.length )];
+        return DG.Traffic.layersOptions.subdomains[Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)];
     },
 
     _onTimer: function () {
