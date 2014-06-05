@@ -71,14 +71,17 @@ DG.Meta.Layer = L.Layer.extend({
                 tileCoord = tileOriginPoint.divideBy(tileSize).floor(),
                 mouseTileOffset,
                 tileKey,
-                hoveredObject;
+                hoveredObject,
+                zoom = this._getZoomForUrl();
 
-            if (!this._isValidTile(tileCoord)) {
+            if (zoom > this.options.maxZoom ||
+                zoom < this.options.minZoom ||
+                !this._isValidTile(tileCoord)) {
                 return;
             }
 
             this._wrapCoords(tileCoord);
-            tileCoord.z = this._getZoomForUrl();
+            tileCoord.z = zoom;
             tileKey = this._origin.getTileKey(tileCoord);
 
             if (tileKey !== this._currentTile) {
