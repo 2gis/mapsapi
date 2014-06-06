@@ -40,9 +40,9 @@
                                     {dayList}
                                 {/everyday}
                                 {?holiday}
-                                    &mdash;<span class="schedule__string-time">&nbsp;{holidayStr}</span>
+                                    &nbsp;&mdash;<span class="schedule__string-time">&nbsp;{holidayStr}</span>
                                 {:else}
-                                    &mdash;<span class="schedule__string-time">&nbsp;{from}&ndash;{to}</span>
+                                    <span class="schedule__string-time">&nbsp;{from}&ndash;{to}</span>
                                     {#lunch}
                                         <p>{lunchStr}&mdash;
                                             <span class="schedule__string-time">

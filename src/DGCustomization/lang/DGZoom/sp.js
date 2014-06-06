@@ -1,4 +1,4 @@
 DG.Control.Zoom.Dictionary.sp = {
-    zoom_in : 'Zoom in',
-    zoom_out : 'Zoom out'
+    zoom_in : 'Acercar',
+    zoom_out : 'Alejar'
 };
