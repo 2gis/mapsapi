@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td><code><b>setTileData</b>(
-                <nobr>&lt;Object&gt; <i>coord</i>,</nobr>
+                <nobr>&lt;String&gt;/&lt;Object&gt; <i>coord</i>,</nobr>
                 <nobr>&lt;Object&gt; <i>data</i>)</nobr>
             </code>
             <td><code>this</code></td>

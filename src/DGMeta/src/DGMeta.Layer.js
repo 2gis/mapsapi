@@ -9,7 +9,6 @@ DG.Meta.Layer = L.Layer.extend({
         maxZoom: 18,
 
         zoomOffset: 0
-
         // maxNativeZoom: <Number>,
         // detectRetina: <Number>,
         // zoomReverse: <Number>
@@ -58,6 +57,7 @@ DG.Meta.Layer = L.Layer.extend({
     },
 
     _getZoomForUrl: DG.TileLayer.prototype._getZoomForUrl,
+    _getTileSize: DG.TileLayer.prototype._getTileSize,
     _getTileNumBounds: DG.GridLayer.prototype._getTileNumBounds,
     _isValidTile: DG.GridLayer.prototype._isValidTile,
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
@@ -76,9 +76,9 @@ DG.Meta.Layer = L.Layer.extend({
             if (!this._isValidTile(tileCoord)) {
                 return;
             }
-
             this._wrapCoords(tileCoord);
             tileCoord.z = this._getZoomForUrl();
+            tileCoord.key = tileSize;
             tileKey = this._origin.getTileKey(tileCoord);
 
             if (tileKey !== this._currentTile) {
@@ -142,10 +142,6 @@ DG.Meta.Layer = L.Layer.extend({
     _reset: function () {
         this._tileNumBounds = this._getTileNumBounds();
         this._resetWrap(this._tileNumBounds);
-    },
-
-    _getTileSize: function () {
-        return this.options.tileSize;
     }
 
 });

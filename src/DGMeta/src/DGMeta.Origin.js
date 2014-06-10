@@ -28,7 +28,7 @@ DG.Meta.Origin = DG.Class.extend({
         if (typeof this._tileStorage[tileKey] === 'undefined' && typeof this._requests[tileKey] === 'undefined') {
             this._tileStorage[tileKey] = false;
             this._requests[tileKey] = this._requestData(coord).then(function (data) {
-                self.setTileData(coord, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
+                self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
                 delete self._requests[tileKey];
             });
         }
@@ -42,8 +42,10 @@ DG.Meta.Origin = DG.Class.extend({
         return this._tileStorage[tileKey];
     },
 
-    setTileData: function (coord, data) { // (Object, Object) -> Object
-        var key = this.getTileKey(coord);
+    setTileData: function (key, data) { // (Object/String, Object) -> Object
+        if (typeof key !== 'string') {
+            key = this.getTileKey(key);
+        }
 
         data.forEach(function (entity) {
             if (entity.geometry.constructor !== Object) {
@@ -80,7 +82,7 @@ DG.Meta.Origin = DG.Class.extend({
     },
 
     getTileKey: function (coord) { // (Object)-> String
-        return [coord.x, coord.y, coord.z].join(':');
+        return [coord.x, coord.y, coord.z, coord.key].join(':');
     },
 
     _requestData: function (key) { // (String)
