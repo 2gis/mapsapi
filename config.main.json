@@ -8,7 +8,7 @@
 
     "TRAFFIC_TILE_SERVER" : "http://traffic{s}.2gis.ru/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
     "TRAFFIC_META_SERVER" : "http://meta{s}.2gis.ru/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
-    "TRAFFIC_TIMESTAMP_SERVER" : "http://traffic.2gis.ru/{projectCode}/meta/speed/time/",
+    "TRAFFIC_TIMESTAMP_SERVER" : "http://traffic{s}.2gis.ru/{projectCode}/meta/speed/time/",
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
     "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
 
