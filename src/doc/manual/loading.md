@@ -78,6 +78,11 @@
             <td><code>false</code></td>
             <td>Если указать значение `true`, тогда API карт загрузится отложено, при первом вызове `DG.then`.</td>
         </tr>
+        <tr>
+            <td><code>sprite</code></td>
+            <td><code>false</code></td>
+            <td>По умолчанию мы собираем style.css с svg иконками закодированными в base64, а style.full.css с иконками объединенными в спрайт.</td>
+        </tr>
     </tbody>
 </table>
 

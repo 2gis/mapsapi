@@ -102,6 +102,42 @@
         </body>
     </html>
 
+### Использования опций подключения
+
+Ниже предствлен примеры вызова карты с таким набором опций: 'pkg=full', 'skin=dark', 'mode=debug', 'lazy=false', 'sprite=false'. Все возможные опции можно посмотреть в разделе [Опции подключения](/doc/maps/2.0/manual/loading/#sel=21:1,21:2). На выходе имеем такую карту:
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 13,
+            geoclicker: true
+        });
+    });
+</script>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset='utf-8' />
+            <title>Использования опций подключения</title>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&skin=dark&mode=debug&lazy=false&sprite=false"
+             data-id="dgLoader"></script>       
+        </head>
+        <body>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <script>
+            DG.then(function() {
+                DG.map('map', {
+                    center: [54.98, 82.89],
+                    zoom: 13,
+                    geoclicker: true
+                });
+            });
+        </script>
+        </body>
+    </html>
+
 ### Изменение размера карты
 
 При клике на кнопку изменяется размер контейнера и карта подстраивается под новый размер:
