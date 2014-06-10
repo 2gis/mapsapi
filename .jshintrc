@@ -48,6 +48,7 @@
         "L": true,
         "DG": true,
         "dust": true,
-        "Promise": true
+        "Promise": true,
+        "__DETECT_RETINA__": true
     }
 }
