@@ -15,8 +15,8 @@ DG.Traffic = DG.TileLayer.extend({
         layersOptions: {
             errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             subdomains: '012345679',
-            detectRetina: true,
             maxNativeZoom: 18,
+            detectRetina: __DETECT_RETINA__,
             minZoom: __TRAFFIC_LAYER_MIN_ZOOM__
         }
     },
@@ -58,7 +58,7 @@ DG.Traffic = DG.TileLayer.extend({
 
     onRemove: function (map) {
         clearInterval(this._updateTimer);
-        
+
         map
             .removeLayer(this._metaLayer)
             .off('projectchange projectleave', this._onMapProjectChange, this);
@@ -73,7 +73,7 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     update: function () {
-        
+
         this._getTimestampString().then(
             function (response) {
                 this.options.timestampString = '?' + response;
