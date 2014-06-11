@@ -1,54 +1,41 @@
-// Karma configuration
-module.exports = function (config) {
+module.exports = function(config) {
     config.set({
-        // base path, that will be used to resolve files and exclude
         basePath: '../',
 
-        plugins: [
-            'karma-mocha',
-            'karma-phantomjs-launcher',
-            'karma-chrome-launcher'
-        ],
+        frameworks: ['mocha', 'expect', 'sinon'],
 
-        // frameworks to use
-        frameworks: ['mocha'],
+        // use dots reporter, as travis terminal does not support escaping sequences
+        // possible values: 'dots', 'progress', 'junit', 'teamcity'
+        // CLI --reporters progress
+        reporters: ['dots'],
 
-        // list of files / patterns to load in the browser
-        files: [
-            'node_modules/mocha/mocha.js',
-            'vendors/leaflet/spec/sinon.js',
-            'vendors/leaflet/spec/expect.js',
-            'public/js/dg-map.js', // full 2GIS API dist
-            'src/**/test/*Spec.js', // 2GIS tests
-            'vendors/leaflet/spec/after.js',
-            'node_modules/happen/happen.js',
-            'vendors/leaflet/spec/suites/SpecHelper.js',
-            'vendors/leaflet/spec/suites/**/*.js'
-        ],
-        // list of files to exclude
+        // excluded, because L.DG.TileLayer added to the map by default,
+        // but leaflet tests think that map without layers and fails
         exclude: [
-            // excluded, because L.DG.TileLayer added to the map by default,
-            // but leaflet tests think that map without layers and fails
             'vendors/leaflet/spec/suites/map/MapSpec.js',
             'vendors/leaflet/spec/suites/layer/tile/TileLayerSpec.js'
         ],
 
-        // test results reporter to use
-        // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-        reporters: ['dots'],
-
         // web server port
+        // CLI --port 9876
         port: 9876,
+
+        // cli runner port
+        // CLI --runner-port 9100
+        runnerPort: 9100,
+
+        // enable / disable colors in the output (reporters and logs)
+        // CLI --colors --no-colors
+        colors: true,
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_WARN,
+        // CLI --log-level debug
+        logLevel: config.LOG_DISABLE,
 
-        // enable / disable colors in the output (reporters and logs)
-        colors: true,
-
-        // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
+        // enable / disable watching file and executing test whenever any file changes
+        // CLI --auto-watch --no-auto-watch
+        autoWatch: true,
 
         // Start these browsers, currently available:
         // - Chrome
@@ -58,13 +45,29 @@ module.exports = function (config) {
         // - Safari (only Mac)
         // - PhantomJS
         // - IE (only Windows)
+        // CLI --browsers Chrome,Firefox,Safari
         browsers: ['PhantomJS'],
 
         // If browser does not capture in given timeout [ms], kill it
-        captureTimeout: 5000,
+        // CLI --capture-timeout 5000
+        captureTimeout: 20000,
 
-        // Continuous Integration mode
-        // if true, it capture browsers, run tests and exit
-        singleRun: true
+        // Auto run test on start (when browsers are captured) and exit
+        // CLI --single-run --no-single-run
+        singleRun: false,
+
+        // report which specs are slower than 500ms
+        // CLI --report-slower-than 500
+        reportSlowerThan: 500,
+
+        plugins: [
+            'karma-mocha',
+            'karma-expect',
+            'karma-sinon',
+            'karma-phantomjs-launcher',
+            'karma-chrome-launcher',
+            'karma-opera-launcher',
+            'karma-firefox-launcher'
+        ]
     });
 };

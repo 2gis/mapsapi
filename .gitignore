@@ -5,14 +5,14 @@
 node_modules
 npm-debug.log
 
-public/js/*
-public/css/*
+public
+dist
+private/dev*
+build/tmp
 
 docbuilder/doc
 .tern-port
 
 config.local.json
-
-public/dev*
 
 nohup.out

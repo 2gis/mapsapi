@@ -1,0 +1,57 @@
+.dg-ruler__pane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 6;
+    }
+
+.dg-ruler__pathroot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 7999; /* Punch user to face? */
+    }
+
+.dg-ruler__label {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    }
+    .dg-ruler__label-spacer {
+        display: block;
+        }
+
+    .dg-ruler__label-container {
+        display: none;
+        padding: 2px 4px;
+        border: 4px solid #fff;
+        border-radius: 13px;
+        background: #0da5d5;
+        background-clip: padding-box;
+        color: #fff;
+        white-space: nowrap;
+        font: 12px/14px Arial, sans-serif;
+        }
+        .dg-ruler__point {
+            display: inline-block;
+            margin: 2px 4px 0 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            background: white;
+            }
+
+        .dg-ruler__label-remove-link {
+            .noRepeatableBg('DGRuler__removeIcon');
+            display: none;
+            margin: 1px 0 0 4px;
+            width: 12px;
+            height: 12px;
+            vertical-align: top;
+            transition: all 0.2s ease;
+
+            &:hover {
+                transform: rotate(90deg);
+                }
+            }

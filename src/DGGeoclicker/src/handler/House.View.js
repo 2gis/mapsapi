@@ -2,7 +2,7 @@ DG.Geoclicker.Handler.House.include({
     _fillBody: function (house) { // // (Object) -> (DOMElement)
         var attrs = house.attributes,
             data = {},
-            wrapper = DG.DomUtil.create('div', 'building-callout__body'),
+            wrapper = DG.DomUtil.create('div', 'dg-building-callout__body'),
             filials = house.attributes.filials;
 
         if (attrs.city) {

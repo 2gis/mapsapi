@@ -1,0 +1,16 @@
+.dg-control-round__icon_name_ruler {
+    &:before {
+        .noRepeatableBg('DGRoundControl__rulerIcon');
+        width: 16px;
+        height: 8px;
+        background-size: contain;
+        }
+
+    &:hover:before {
+        .noRepeatableBg('DGRoundControl__rulerIconHover');
+        }
+
+    &.dg-control-round__icon_state_active:before {
+        .noRepeatableBg('DGRoundControl__rulerIconActive');
+        }
+    }

@@ -59,7 +59,7 @@ DG.Geoclicker.clampHelper = function (el, lineClamp) {
             line.appendChild(ctn(lineText));
             // add the line element to the container
             el.appendChild(line);
-            line.className = 'clamped-line';
+            line.className = 'dg-map-geoclicker__clamped-line';
             // yes, we created a new line
             wasNewLine = true;
             lineCount++;
@@ -77,7 +77,7 @@ DG.Geoclicker.clampHelper = function (el, lineClamp) {
     // create the last line element
     line = ce('span');
     // give styles required for text-overflow to kick in
-    line.className = 'clamped-line clamped-line-last';
+    line.className = 'dg-map-geoclicker__clamped-line dg-map-geoclicker__clamped-line_last';
     // add all remaining text to the line element
     line.appendChild(ctn(text.substr(lineStart)));
     // add the line element to the container
