@@ -1,7 +1,7 @@
 var packages = {
 
-    light: {
-        name: 'Light package',
+    basic: {
+        name: 'Basic package',
         desc: 'Provides basic functionality: map, markers, popups, geometries',
         modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen', 'DGAttribution']
     },
@@ -10,12 +10,6 @@ var packages = {
         name: 'Full package',
         desc: 'Complete package. Includes all the features of 2GIS Maps API',
         modules: []
-    },
-
-    online: {
-        name: '2GIS Online package',
-        desc: 'Provides functionality for 2GIS Online',
-        modules: ['DGTileLayer', 'DGWkt', 'DGPoi', 'DGEntrance', 'DGRuler', 'DGTraffic']
     }
 
 };
