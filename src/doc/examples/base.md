@@ -102,9 +102,9 @@
         </body>
     </html>
 
-### Использования опций подключения
+### Использование опций подключения
 
-Ниже предствлен примеры вызова карты с таким набором опций: 'pkg=full', 'skin=dark', 'mode=debug', 'lazy=false', 'sprite=false'. Все возможные опции можно посмотреть в разделе [Опции подключения](/doc/maps/2.0/manual/loading/#sel=21:1,21:2). На выходе имеем такую карту:
+Ниже представлен пример вызова карты с таким набором опций: 'pkg=full', 'skin=dark', 'mode=debug', 'sprite=true'. Как результат мы получим неминифицированные исходники и иконки собранные в спрайт. Все возможные опции можно посмотреть в разделе [Опции подключения](/doc/maps/2.0/manual/loading/#sel=21:1,21:2). На выходе имеем такую карту:
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -120,8 +120,8 @@
     <html>
         <head>
             <meta charset='utf-8' />
-            <title>Использования опций подключения</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&skin=dark&mode=debug&lazy=false&sprite=false"
+            <title>Использование опций подключения</title>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&skin=dark&mode=debug&sprite=true"
              data-id="dgLoader"></script>       
         </head>
         <body>
