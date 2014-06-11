@@ -261,7 +261,7 @@ gulp.task('build-leaflet', function () {
 gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc', 'build-leaflet'], function () {
     tasks.util.log('Build contains the next modules:');
 
-    deps.getModulesList().forEach(function (module) {
+    deps.getModulesList(tasks.util.env.pkg).forEach(function (module) {
         console.log('- ' + module);
     });
 
