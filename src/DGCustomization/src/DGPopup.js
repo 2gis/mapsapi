@@ -194,8 +194,8 @@
                     this._initBaronScroller();
                     this._initBaron();
                 } else {
-                    DG.DomUtil.removeClass(this._scroller, 'dg-baron-hide');
-                    DG.DomUtil.addClass(this._scroller, 'scroller-with-header');
+                    DG.DomUtil.removeClass(this._scroller, 'scroller_hidden_true');
+                    DG.DomUtil.addClass(this._scroller, 'scroller_has-header_true');
                     DG.DomUtil.addClass(this._scroller, 'scroller');
                     if (scrollTop) {
                         this._scroller.scrollTop = scrollTop;
@@ -204,8 +204,8 @@
                 }
             } else {
                 if (this._isBaronExist) {
-                    DG.DomUtil.addClass(this._scroller, 'dg-baron-hide');
-                    DG.DomUtil.removeClass(this._scroller, 'scroller-with-header');
+                    DG.DomUtil.addClass(this._scroller, 'scroller_hidden_true');
+                    DG.DomUtil.removeClass(this._scroller, 'scroller_has-header_true');
                     DG.DomUtil.removeClass(this._scroller, 'scroller');
                     DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
@@ -249,7 +249,7 @@
 
         _initBaronScroller: function () {
             var contentNode = this._popupStructure.body.parentNode,
-                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'scroller-wrapper', contentNode),
+                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'scroller__wrapper', contentNode),
                 scroller = this._scroller = DG.DomUtil.create('div', 'scroller', scrollerWrapper),
                 barWrapper = this._barWrapper = DG.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
                 innerHeight = this.options.maxHeight - this.options.border * 2;
@@ -291,16 +291,16 @@
         },
 
         _initHeader: function () {
-            this._popupStructure.header = DG.DomUtil.create('header', 'dg-popup-header', this._contentNode);
+            this._popupStructure.header = DG.DomUtil.create('header', 'dg-popup__header', this._contentNode);
         },
 
         _initFooter: function () {
-            this._popupStructure.footer = DG.DomUtil.create('footer', 'dg-popup-footer', this._contentNode);
+            this._popupStructure.footer = DG.DomUtil.create('footer', 'dg-popup__footer', this._contentNode);
         },
 
         _initBodyContainer: function () {
-            this._popupStructure.wrapper = DG.DomUtil.create('div', 'dg-popup-container-wrapper', this._contentNode);
-            this._popupStructure.body = DG.DomUtil.create('div', 'dg-popup-container', this._popupStructure.wrapper);
+            this._popupStructure.wrapper = DG.DomUtil.create('div', 'dg-popup__container-wrapper', this._contentNode);
+            this._popupStructure.body = DG.DomUtil.create('div', 'dg-popup__container', this._popupStructure.wrapper);
         },
 
         update: function () {
@@ -321,7 +321,7 @@
             if (DG.Browser.ielt9) {
                 var elem = this._popupStructure.footer;
                 if (elem) {
-                    elem.className += ' ie-shit';
+                    elem.className += ' ie8';
                 }
             }
 
@@ -422,7 +422,7 @@ DG.Map.include({
     _markerClass: 'dg-customization__marker_type_mushroom',
     _markerShowClass: 'dg-customization__marker_appear',
     _markerHideClass: 'dg-customization__marker_disappear',
-    _dgHideClass: 'dg-hidden',
+    _dgHideClass: 'dg-popup_hidden_true',
     openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         if (!(popup instanceof L.Popup)) {
             var content = popup;

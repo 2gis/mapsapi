@@ -1,14 +1,14 @@
-<div class="dg-popup-header-title dg-popup-header-title__firmcard" title="{firmName}">{firmName}</div>
+<div class="dg-popup__header-title dg-popup__header-title_for_firmcard" title="{firmName}">{firmName}</div>
 
 {?links}
-    <div class="popup_header_links">
+    <div class="dg-popup__header-links">
         {#links}
             {@eq key="{name}" value="flamp_stars" type="string"}
-                <div id="popup-link-{name}" class="popup-link">
-                    <div{#width} style="width: {.}%;" {/width}></div>
+                <div class="dg-popup__rating">
+                    <div class="dg-popup__rating-stars" style="width: {width}%"></div>
                 </div>
             {:else}
-                <a id="popup-link-{name}" class="popup-header-link popup-link"
+                <a class="dg-popup__header-link dg-popup__link dg-popup__link_type_{name}"
                     {?href}
                         href={href} target="_blank"
                     {:else}

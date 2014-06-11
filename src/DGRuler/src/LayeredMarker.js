@@ -12,7 +12,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
     },
 
     statics: {
-        domClass : 'dg-ruler-label'
+        domClass : 'dg-ruler__label'
     },
 
     addTo : function (map, layers) {
@@ -66,7 +66,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
     },
 
     querySelector : function (selector) {
-        return this._icon.querySelector('.' + DG.Ruler.LayeredMarker.domClass + '__' + selector);
+        return this._icon.querySelector('.' + DG.Ruler.LayeredMarker.domClass + '-' + selector);
     },
 
     _onMove : function (event) {

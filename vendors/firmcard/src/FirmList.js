@@ -7,7 +7,7 @@
         this._setOptions(options);
 
         this._container = options && options.container || document.createElement('ul');
-        this._container.setAttribute('class', 'building-callout__list');
+        this._container.setAttribute('class', 'dg-building-callout__list');
 
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
@@ -100,7 +100,7 @@
 
         _createListItem: function () {
             var item = document.createElement('li');
-            item.setAttribute('class', 'building-callout__list-item');
+            item.setAttribute('class', 'dg-building-callout__list-item');
 
             return item;
         },
@@ -133,7 +133,7 @@
                 var target = e.target || e.srcElement;
 
                 if (target && target.nodeName === 'A') {
-                    if (target.className.indexOf('popup-link') !== -1) {
+                    if (target.className.indexOf('dg-popup__link') !== -1) {
                         if (target.id) {
 
                             var s = self._firmCard.render(target.id);
