@@ -1,8 +1,8 @@
 {#headAddress}
-    <div class="dg-map-geoclicker-address-header">{.}</div>
+    <div class="dg-map-geoclicker__address-header">{.}</div>
 {/headAddress}
 {#address}
-    <div class="dg-map-geoclicker-drilldown">{.}</div>
+    <div class="dg-map-geoclicker__drilldown">{.}</div>
 {/address}
-<div class="dg-map-geoclicker-purpose">{purpose}</div>
-<div class="dg-map-geoclicker-elevation">{elevation}</div>
+<div class="dg-map-geoclicker__purpose">{purpose}</div>
+<div class="dg-map-geoclicker__elevation">{elevation}</div>

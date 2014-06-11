@@ -1,10 +1,10 @@
 {?payments}
-    <section class="firm-card__aa">
-        <ul class="firm-card__aa-list">
+    <section class="dg-firm-card__aa">
+        <ul class="dg-firm-card__aa-list">
             {#payments}
                 {@eq key="{name}" value="payment_type" type="string"}
                     {#label}
-                        <li class="firm-card__aa-list-item">{.}</li>
+                        <li class="dg-firm-card__aa-list-item">{.}</li>
                     {/label}
                 {/eq}
             {/payments}

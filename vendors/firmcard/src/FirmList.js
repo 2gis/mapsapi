@@ -7,7 +7,7 @@
         this._setOptions(options);
 
         this._container = options && options.container || document.createElement('ul');
-        this._container.setAttribute('class', 'building-callout__list');
+        this._container.setAttribute('class', 'dg-building-callout__list');
 
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
@@ -102,7 +102,7 @@
 
         _createListItem: function () {
             var item = document.createElement('li');
-            item.setAttribute('class', 'building-callout__list-item');
+            item.setAttribute('class', 'dg-building-callout__list-item');
 
             return item;
         },
@@ -140,7 +140,7 @@
                 var target = e.target || e.srcElement;
                 DG.DomEvent.stop(e);
 
-                if (target.nodeName === 'A' && target.className.indexOf('popup-link') !== -1 && target.id) {
+                if (target.nodeName === 'A' && target.className.indexOf('dg-popup__link') !== -1 && target.id) {
 
                     var s = self._firmCard.render(target.id);
                     self.options.firmCard[ self._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);

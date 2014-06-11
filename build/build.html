@@ -98,11 +98,11 @@
 
     <ul id="deplist"></ul>
 
-    <h2>Building local Maps API 2.0 using Node and Grunt</h2>
+    <h2>Building local Maps API 2.0 using Node and Gulp</h2>
     <ol>
         <li><a href="http://nodejs.org/#download">Download and install Node</a></li>
         <li>Run this in the command line:<br/>
-			<pre><code>npm install -g grunt-cli
+			<pre><code>npm install -g gulp
 npm install</code></pre>
         </li>
         <li>Run this command inside the app directory: <br/><input type="text" id="command"/>
@@ -152,7 +152,7 @@ npm install</code></pre>
             }
         }
 
-        commandInput.value = 'grunt build --m ' + compsStr;
+        commandInput.value = 'gulp build --pkg ' + compsStr;
         commandInput2.value = 'http://maps.api.2gis.ru/2.0/loader.js?pkg=' + compsStr;
     }
 

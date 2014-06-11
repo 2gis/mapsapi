@@ -1,11 +1,10 @@
 //Web app of 2GIS Maps API 2.0
-var http = require('http'),
-    express = require('express'),
-    build = require(__dirname + '/build/build.js'),
-    config = build.getConfig();
-
-//Init builder
-build.init();
+var express = require('express'),
+    cluster = require('cluster'),
+    cpuCount = require('os').cpus().length,
+    clc = require('cli-color'),
+    gulp = require(__dirname + '/gulpfile.js'),
+    config = require(__dirname + '/build/config.js').appConfig;
 
 //Init application
 var app = express();
@@ -13,47 +12,66 @@ var app = express();
 //General configuration of the application
 app.set('port', config.PORT || '3000');
 app.set('host', config.HOST || null);
-app.use(express.static(__dirname + '/public'));
+app.use('/2.0', express.static(__dirname + '/public'));
 
 //Routes
-app.all(/^\/2.0\/(js|css)$/, function (req, resp, next) {
-    //@todo Add validations
-    req.dgParams = {};
-    req.dgParams.pkg = req.query.pkg || null;
-    req.dgParams.mod = req.query.mod || null;
-    req.dgParams.isDebug = req.query.mode === 'debug';
-    req.dgParams.skin = req.query.skin || null;
-    req.dgParams.isIE = req.query.ie || false;
+function getParams(req, resp, next) {
+    req.query.isDebug = (req.query.mode === 'debug');
+    req.query.sprite = (req.query.sprite === 'true');
+    req.query.mobile = (req.query.mobile === 'true');
     var contentType = (req.path === '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
-    req.dgParams.callback = function (response, data) {
+
+    req.dgCallback = function (stream, response) {
         response.set('Cache-Control', 'public, max-age=604800');
         response.set('X-Powered-By', '2GIS Maps API Server');
         response.set('Content-Type', contentType);
-        response.send(data);
+
+        stream.on('data', function (file) {
+            var directWrite = response.write(file.contents.toString('utf8'));
+            if (!directWrite) {
+                stream.pause();
+                response.once('drain', function () {
+                    stream.resume();
+                });
+            }
+        });
+        stream.on('end', function () {
+            response.end();
+        });
     };
     next();
-});
-
-app.get('/2.0/js', function (req, res) {
-    build.getJS(req.dgParams, function (data) {
-        req.dgParams.callback(res, data);
-    });
-});
-
-app.get('/2.0/css', function (req, res) {
-    build.getCSS(req.dgParams, function (data) {
-        req.dgParams.callback(res, data);
-    });
-});
-
-//@todo Make this code better :)
-if (app.get('host')) {
-    http.createServer(app).listen(app.get('port'), app.get('host'), function () {
-        console.log('Maps API 2.0 server listening on ' + app.get('host') + ':' + app.get('port'));
-    });
-} else {
-    http.createServer(app).listen(app.get('port'), function () {
-        console.log('Maps API 2.0 server listening on ' + app.get('port'));
-    });
 }
 
+app.get('/2.0/js', getParams, function (req, res) {
+    var jsStream = gulp.getJS(req.query);
+    req.dgCallback(jsStream, res);
+});
+
+app.get('/2.0/css', getParams, function (req, res) {
+    var cssStream = gulp.getCSS(req.query);
+    req.dgCallback(cssStream, res);
+});
+
+//Start server
+var host = app.get('host'),
+    port = app.get('port');
+
+if (cluster.isMaster) {
+    cluster
+        .on('death', function (worker) {
+            console.log('PID #' + worker.process.pid + ' died. spawning a new process...');
+            cluster.fork();
+        })
+        .on('fork', function (worker) {
+            console.log('PID #' + worker.process.pid + ' started!');
+        });
+
+    console.log('Maps API 2.0 server will run in ' + cpuCount + ' threads. Spawning the new processes...');
+    for (var i = 0; i < cpuCount; i++) {
+        cluster.fork({number: i});
+    }
+} else {
+    app.listen(port, host, function () {
+        (process.env.number == 0) && console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port')));
+    });
+}

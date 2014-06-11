@@ -1,0 +1,36 @@
+.dg-schedule__now {
+    color: #aaa;
+    }
+
+.dg-schedule__td {
+    color: #e6e6e6;
+    }
+
+.dg-schedule__tc_active_true {
+    background: rgba(255, 255, 255, 0.1);
+    }
+
+.dg-schedule__string-time {
+    color: #e6e6e6;
+    }
+
+.dg-schedule__table-clock {
+    .noRepeatableBg('DGSchedule__clockOff_dark');
+    }
+
+.dg-schedule__table-lunch {
+    .noRepeatableBg('DGSchedule__lunchIcon_dark');
+    }
+
+.dg-schedule__today {
+    &:after {
+        .noRepeatableBg('DGSchedule__expandIcon_dark');
+        }
+
+    .dg-schedule_open_false &:before {
+        .noRepeatableBg('DGSchedule__clockOff_dark');
+        }
+    }
+    .dg-schedule__today_shown_true:after {
+        .noRepeatableBg('DGSchedule__collapseIcon_dark');
+        }

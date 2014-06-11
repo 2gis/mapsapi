@@ -1,15 +1,16 @@
 {
     "HOST": null,
     "PORT": "3000",
-    "BASE_URL": "http://maps.api.2gis.ru/2.0",
+    "BASE_URL": "/2.0",
     "DEFAULT_SKIN": "light",
 
-    "TILE_SERVER": "http://tile{s}.maps.2gis.ru/tiles?x={x}&y={y}&z={z}&v=1",
+    "TILE_SERVER": "http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
 
     "TRAFFIC_TILE_SERVER" : "http://traffic{s}.2gis.ru/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
     "TRAFFIC_META_SERVER" : "http://meta{s}.2gis.ru/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
     "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
+    "DETECT_RETINA": true,
 
     "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
     "PHOTOS_LINK": "http://beta.2gis.ru/photos/{id}",
