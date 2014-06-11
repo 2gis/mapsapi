@@ -1,5 +1,13 @@
 var deps = {
 
+    Leaflet: {
+        desc: 'Leaflet dist',
+        src: ['../vendors/leaflet/dist/leaflet-src.js'],
+        less: {
+            all: ['../vendors/leaflet/dist/leaflet.css']
+        }
+    },
+
     DGCore: {
         desc: 'Main module',
         src: [
@@ -11,45 +19,8 @@ var deps = {
             'DGCore/src/DGthen.js',
             'DGCore/src/DGplugin.js'
         ],
-        css: {
-            all: ['../vendors/leaflet/dist/leaflet.css']
-        },
         heading: '2GIS modules',
-        deps: [ 'Core',
-                'EPSG3395',
-                'GridLayer',
-                'TileLayer',
-                'TileLayerWMS',
-                'ImageOverlay',
-                'Marker',
-                'DivIcon',
-                'Popup',
-                'LayerGroup',
-                'FeatureGroup',
-                'Path',
-                'Polyline',
-                'Polygon',
-                'Rectangle',
-                'CircleMarker',
-                'Circle',
-                'SVG',
-                'VML',
-                'Canvas',
-                'GeoJSON',
-                'MapDrag',
-                'MouseZoom',
-                'TouchZoom',
-                'BoxZoom',
-                'Keyboard',
-                'MarkerDrag',
-                'ControlZoom',
-                'ControlAttrib',
-                'ControlScale',
-                'ControlLayers',
-                'AnimationPan',
-                'AnimationTimer',
-                'AnimationZoom',
-                'Geolocation']
+        deps: ['Leaflet']
     },
 
     DGAjax: {
@@ -65,8 +36,8 @@ var deps = {
             'DGLabel/src/Marker.DGLabel.js',
             'DGLabel/src/Path.DGLabel.js'
         ],
-        css: {
-            all: ['DGLabel/skin/{skin}/css/DGLabel.css']
+        less: {
+            all: ['DGLabel/skin/{skin}/less/dg-label.less']
         },
         deps: ['DGCore']
     },
@@ -82,7 +53,7 @@ var deps = {
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
-            'DGCustomization/skin/{skin}/skin.config.js',
+            'DGCustomization/skin/basic/skin.config.js',
             '../vendors/baron/baron.js',
             'DGCustomization/src/DGCustomization.js',
             'DGCustomization/src/DGPopup.js',
@@ -92,21 +63,22 @@ var deps = {
             'DGCustomization/lang/DGZoom/cs.js',
             'DGCustomization/lang/DGZoom/en.js'
         ],
-        css: {
+        less: {
             all: [
-                'DGCustomization/skin/basic/css/leaflet-reset.css',
+                'DGCustomization/skin/{skin}/less/leaflet.less',
                 '../vendors/baron/baron.css',
-                'DGCustomization/skin/{skin}/css/zoom.css',
-                'DGCustomization/skin/{skin}/css/baron.css',
-                'DGCustomization/skin/{skin}/css/marker.css',
-                'DGCustomization/skin/{skin}/css/callout.css',
-                'DGCustomization/skin/{skin}/css/baron.css'
+                'DGCustomization/skin/{skin}/less/scroller.less',
+                'DGCustomization/skin/{skin}/less/dg-zoom.less',
+                'DGCustomization/skin/{skin}/less/dg-customization.less',
+                'DGCustomization/skin/{skin}/less/dg-popup.less',
+                'DGCustomization/skin/{skin}/less/dg-firm-card.less'
             ],
             ie: [
-                'DGCustomization/skin/{skin}/css/baron.ie.css',
-                'DGCustomization/skin/{skin}/css/callout.ie.css',
-                'DGCustomization/skin/{skin}/css/zoom.ie.css',
-                'DGCustomization/skin/{skin}/css/marker.ie.css'
+                'DGCustomization/skin/{skin}/less/leaflet.ie.less',
+                'DGCustomization/skin/{skin}/less/dg-zoom.ie.less',
+                'DGCustomization/skin/{skin}/less/dg-customization.ie.less',
+                'DGCustomization/skin/{skin}/less/dg-popup.ie.less',
+                'DGCustomization/skin/{skin}/less/dg-schedule.ie.less'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
@@ -121,8 +93,10 @@ var deps = {
             'DGAttribution/lang/cs.js',
             'DGAttribution/lang/en.js'
         ],
-        css: {
-            all: ['DGAttribution/skin/{skin}/css/DGAttribution.css']
+        less: {
+            all: [
+                'DGAttribution/skin/{skin}/less/dg-mapcopyright.less'
+            ]
         },
         deps: ['DGCore', 'DGDust', 'DGLocale']
     },
@@ -145,8 +119,11 @@ var deps = {
             'DGLocation/lang/cs.js',
             'DGLocation/lang/en.js'
         ],
-        css: {
-            all: ['DGLocation/skin/{skin}/css/DGLocation.css']
+        less: {
+            all: [
+                'DGLocation/skin/{skin}/less/dg-location.less',
+                'DGLocation/skin/{skin}/less/dg-control-round.less'
+            ]
         },
         deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
     },
@@ -162,9 +139,12 @@ var deps = {
             'DGFullScreen/lang/cs.js',
             'DGFullScreen/lang/en.js'
         ],
-        css: {
-            all: ['DGFullScreen/skin/{skin}/css/DGFullScreen.css'],
-            ie: ['DGFullScreen/skin/{skin}/css/DGFullScreen.ie.css']
+        less: {
+            all: [
+                'DGFullScreen/skin/{skin}/less/dg-fullscreen.less',
+                'DGFullScreen/skin/{skin}/less/dg-control-round.less'
+            ],
+            ie: ['DGFullScreen/skin/{skin}/less/dg-fullscreen.ie.less']
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
@@ -205,13 +185,16 @@ var deps = {
 
     DGGeoclicker: {
         desc: '2GIS Geoclicker',
-        css: {
+        less: {
             all: [
-                'DGGeoclicker/skin/{skin}/css/DGGeoclicker.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCard.css',
-                'DGGeoclicker/skin/{skin}/css/DGFirmCardSkinSetup.css'
-            ],
-            ie: ['DGGeoclicker/skin/{skin}/css/DGGeoclicker.ie.css']
+                'DGGeoclicker/skin/{skin}/less/dg-building-callout.less',
+                'DGGeoclicker/skin/{skin}/less/dg-map-geoclicker.less',
+                'DGGeoclicker/skin/{skin}/less/dg-preloader.less',
+                'DGGeoclicker/skin/{skin}/less/dg-popup.less',
+                'DGGeoclicker/skin/{skin}/less/dg-firm-card.less',
+                'DGGeoclicker/skin/{skin}/less/dg-schedule.less',
+                'DGGeoclicker/skin/{skin}/less/dg-link.less'
+            ]
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
@@ -274,9 +257,9 @@ var deps = {
     DGRoundControl: {
         desc: 'Control helper',
         src: ['DGRoundControl/src/DGRoundControl.js'],
-        css: {
-            all: ['DGRoundControl/skin/{skin}/css/DGRoundControl.css'],
-            ie: ['DGRoundControl/skin/{skin}/css/DGRoundControl.ie.css']
+        less: {
+            all: ['DGRoundControl/skin/{skin}/less/dg-control-round.less'],
+            ie: ['DGRoundControl/skin/{skin}/less/dg-control-round.ie.less']
         },
         deps: ['DGCore', 'DGLocale']
     },
@@ -300,13 +283,9 @@ var deps = {
             'DGRuler/lang/cs.js',
             'DGRuler/lang/en.js'
         ],
-        css: {
-            all: [
-                'DGRuler/skin/{skin}/css/DGRuler.css'
-            ],
-            ie: [
-                'DGRuler/skin/{skin}/css/DGRuler.ie.css'
-            ]
+        less: {
+            all: ['DGRuler/skin/{skin}/less/dg-ruler.less'],
+            ie: ['DGRuler/skin/{skin}/less/dg-ruler.ie.less']
         },
         deps: ['DGCore', 'DGLocale', 'DGDust']
     },
@@ -320,16 +299,14 @@ var deps = {
             'DGRulerControl/lang/cs.js',
             'DGRulerControl/lang/en.js'
         ],
-        css: {
-            all: [
-                'DGRulerControl/skin/{skin}/css/DGRulerControl.css'
-            ]
+        less: {
+            all: ['DGRulerControl/skin/{skin}/less/dg-control-round.less']
         },
         deps: ['DGRuler', 'DGRoundControl']
     }
 
 };
 
-if (typeof exports !== 'undefined') {
-    exports.deps = deps;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = deps;
 }

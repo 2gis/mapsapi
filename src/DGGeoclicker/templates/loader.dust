@@ -1,1 +1,1 @@
-<div class="preloader preloader_scheme_regular preloader_animation_{?anim}true{:else}false{/anim}{?small} preloader_small{/small}"></div>
+<div class="dg-preloader dg-preloader_scheme_regular dg-preloader_animation_{?anim}true{:else}false{/anim}{?small} dg-preloader_size_small{/small}"></div>

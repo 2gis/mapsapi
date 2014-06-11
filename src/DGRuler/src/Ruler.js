@@ -1,24 +1,3 @@
-// TODO:
-/**
- * - При добавлении промежуточной точки крестик закрытия не вращается (FIXED)
- * - После добавления и драга промежуточной точки она не удаляется. (FIXED)
- * - При добавлении промежуточной точки и её драге драгается и карта (FIXED)
- * - Вместе с линейкой не работают геометрии (геометрии надо добавлять после линейки) (FIXED)
- * - В ИЕ8 не работают события при mousemove (FIXED)
- * - Прогнать тесты (FIXED)
- * - При попытке перевести текст ф-ей t() падает ошибка (FIXED)
- * - В ИЕ 10 падает ошибка на _fireMouseEvent в SVG.js, см. https://github.com/Leaflet/Leaflet/issues/2571
- * - Промежуточные точки выглядят как конечные, если ставить их не драгая (FIXED)
- * - Если добавлять точки контролом, тогда промежуточные выглядят как конечные (FIXED)
- * - При добавлении предпоследней точки кликом (без драга) и последующим драгом ее, последняя точка меняет свои координаты (FIXED, see https://github.com/Leaflet/Leaflet/pull/2576)
- * - При добавлении промежуточной точки (без драга за нее) карта перестает драгаться (FIXED)
- * - В Опере хинт в левом верхнем углу карты, а не под курсором (FIXED & pulled)
- * - Повторить IE click event leaking problem без кода, который его фиксит. Если не повторится - удалить код (CHECKED)
- * - В ИЕ8 при вставке точки кликом на линии вставленная точка (и её соседняя) перекрывается линиями
- * - Проверить работоспособность линейки на тачах
- * - При горизонтальной линейке в консоли ошибки при наведении на нее (координаты [51.7214, 36.1936],[51.7214, 36.1629]) (FIXED)
- */
-
 DG.Ruler = DG.Layer.extend({
 
     options: {
@@ -329,7 +308,7 @@ DG.Ruler = DG.Layer.extend({
     _addCloseHandler: function (event) { // (Event)
         event.target
                 .on('click', this._deletePoint, this)
-                .querySelector('delete').style.display = 'inline-block';
+                .querySelector('remove-link').style.display = 'inline-block';
     },
 
     _createPoint: function (latlng, style) { // (LatLng, Object) -> Ruler.LayeredMarker
@@ -397,7 +376,7 @@ DG.Ruler = DG.Layer.extend({
         var originalEvent = event.originalEvent,
             target = originalEvent.target  || originalEvent.srcElement;
 
-        if (target.className !== 'dg-ruler-label__delete') {
+        if (target.className !== 'dg-ruler__label-remove-link') {
             return;
         }
         DG.DomEvent.stop(event.originalEvent);
