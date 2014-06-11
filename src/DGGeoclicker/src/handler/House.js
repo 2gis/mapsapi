@@ -81,15 +81,6 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         this._clearAndRenderPopup(firmContentObject);
     },
 
-    // init single firm card in case of poi
-    _fillFirmCardObject: function (firmId) {
-        var options = this._firmCardSetup(),
-            firmCard;
-
-        this.firmCard = new FirmCard(firmId, options);
-        return firmCard.getContainer();
-    },
-
     _initShortFirmList: function (firms) { //(Object) -> DOMElement
         var options = this._firmCardSetup(),
             shortFirmList;
@@ -256,6 +247,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _handlePopupScroll: function (event) {
         var scroller = event.originalEvent.target || event.target._scroller;
+        
+        DG.DomEvent.stop(event);
 
         if (this._totalPages <= 1) { return; }
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {

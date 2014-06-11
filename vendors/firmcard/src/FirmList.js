@@ -142,10 +142,10 @@
 
                 if (target.nodeName === 'A' && target.className.indexOf('popup-link') !== -1 && target.id) {
 
-                            var s = self._firmCard.render(target.id);
-                            self.options.firmCard[ self._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
+                    var s = self._firmCard.render(target.id);
+                    self.options.firmCard[ self._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
 
-                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
+                    self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
                         
                 }
             };
