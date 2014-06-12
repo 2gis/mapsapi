@@ -2,7 +2,7 @@
     {#contacts}
         {@select key=type type="string"}
             {@eq value="phone" type="string"}
-                <div class="dg-firm-card__phone">
+                <div class="dg-firm-card__phone dg-firm-card__icon">
                     <span class="dg-firm-card__phone-num">
                         {value}
                         {#comment}
@@ -12,7 +12,7 @@
                 </div>
             {/eq}
             {@eq value="fax" type="string"}
-                <div class="dg-firm-card__phone">
+                <div class="dg-firm-card__phone dg-firm-card__icon">
                     <span class="dg-firm-card__phone-num">
                         {value}
                         {#comment}
@@ -22,12 +22,12 @@
                 </div>
             {/eq}
             {@eq value="website" type="string"}
-                <div class="dg-firm-card__link dg-firm-card__site">
+                <div class="dg-firm-card__link dg-firm-card__site dg-firm-card__icon">
                     <a href="{value}" target="_blank" class="dg-link_scheme_dark dg-firm-card__sitelink">{alias}</a>
                 </div>
             {/eq}
             {@eq value="email" type="string"}
-                <div class="dg-firm-card__link dg-firm-card__email">
+                <div class="dg-firm-card__link dg-firm-card__email dg-firm-card__icon">
                     <a href="mailto: {value}">{value}</a>
                 </div>
             {/eq}
