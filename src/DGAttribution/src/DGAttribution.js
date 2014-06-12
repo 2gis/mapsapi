@@ -48,9 +48,7 @@ DG.Control.Attribution.include({
             'copyright_license': this.t('copyright_license'),
             'license_agreement': this.t('license_agreement'),
             'copyright_logo': this.t('copyright_logo'),
-            'API_2GIS': this.t('API_2GIS'),
-            'TWOGIS': this.t('TWO_GIS'),
-            'PTC': this.t('PTC')
+            'API_2GIS': this.t('API_2GIS')
         };
     },
     _getAttributionHTML: function (lang) {
