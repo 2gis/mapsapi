@@ -4,7 +4,7 @@
 
 ### DG.Meta.layer
 
-Реализует интерфейс L.Layer.
+Реализует интерфейс DG.Layer.
 
 ### Конструктор DG.Meta.layer
 
@@ -42,6 +42,12 @@
         <td><code>String</code></td>
         <td><code><span class="string">''</span></td>
         <td>Url по которому доступны тайлы допслоя.</td>
+    </tr>
+    <tr>
+        <td><code><b>subdomains</b></code></td>
+        <td><code>String</code> или <code>String[]</code></td>
+        <td><code>'0123'</code></td>
+        <td>Поддомены тайлового сервиса. Могут передаваться одной строкой (где каждая буква &mdash; имя поддомена) или массивом строк.</td>
     </tr>
     <tr>
         <td><code><b>tileSize</b></code></td>
@@ -120,7 +126,7 @@
 
 ### DG.Meta.origin
 
-Реализует интерфейс DG.Class.
+Работает с метаданными слоя, реализует интерфейс DG.Class.
 
 ### Конструктор DG.Meta.origin
 
@@ -137,7 +143,7 @@
         </code></td>
 
         <td>
-            <code>DG.Meta.layer(&hellip;)</code>
+            <code>DG.Meta.origin(&hellip;)</code>
         </td>
 
         <td>Создает инстанс для работы с данными метаслоя.</td>
@@ -162,7 +168,7 @@
     <tr>
         <td><code><b>subdomains</b></code></td>
         <td><code>String</code> или <code>String[]</code></td>
-        <td><code>'012345679'</code></td>
+        <td><code>'0123'</code></td>
         <td>Поддомены тайлового сервиса. Могут передаваться одной строкой (где каждая буква &mdash; имя поддомена) или массивом строк.</td>
     </tr>
     <tr>

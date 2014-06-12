@@ -55,7 +55,7 @@ describe('DGMeta', function () {
         it('flush should clear cache', function () {
             var chain, data;
 
-            origin.setTileData({x: 124, y: 12, z: 42}, demoData);
+            origin.setTileData({x: 124, y: 12, z: 42, key: 256}, demoData);
             chain = origin.flush();
             data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
 

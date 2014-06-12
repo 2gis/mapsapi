@@ -7,7 +7,6 @@ DG.Meta.Layer = L.Layer.extend({
 
         minZoom: 0,
         maxZoom: 18,
-
         zoomOffset: 0
         // maxNativeZoom: <Number>,
         // detectRetina: <Number>,

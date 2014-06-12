@@ -14,7 +14,7 @@ DG.Meta.Origin = DG.Class.extend({
         this._tileStorage = {};
         this._dataStorage = {};
 
-        options = L.setOptions(this, options);
+        options = DG.setOptions(this, options);
 
         if (typeof options.subdomains === 'string') {
             options.subdomains = options.subdomains.split('');
