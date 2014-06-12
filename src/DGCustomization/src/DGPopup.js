@@ -53,12 +53,19 @@
         _barWrapper: null,
         _baron: null,
         _isBaronExist: false,
+        _isScrolling: false,
 
         _popupShowClass: 'leaflet-popup_show_true',
         _popupHideClass: 'leaflet-popup_show_false',
 
         _popupTipClass: 'leaflet-popup-tip-container',
         _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
+
+        _startX: 0, 
+        _startY: 0, 
+        _startTime: 0,
+        touchMoving: true, 
+
 
         initialize: function (options, source) { // (Object, Object)
             this._popupStructure = {};
@@ -264,10 +271,44 @@
             this._isBaronExist = true;
 
             DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+            DG.DomEvent.on(contentNode, 'click', this._onClick, this);
+
+
+            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
+            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
+            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
+
         },
 
         _onScroll: function (event) {
             this.fire('scroll', {originalEvent: event});
+        },
+
+        _onClick: function (event) {
+            if(!this.touchMoving) {
+            this.fire('click', {originalEvent: event});  }
+        },
+
+        _onTouchStart: function (event) {
+            //this.touchMoving = true;
+        },
+
+        _onTouchEnd: function (event) {
+            this.touchMoving = false; 
+
+ /*           var touchEndObject = event.changedTouches[0],
+            distX = this._startX - touchEndObject.pageX,
+            distY = this._startY - touchEndObject.pageY,
+            elapsedTime = (new Date()).getTime() - this._startTime;
+
+            
+            if (Math.abs(distY) >= 150 && Math.abs(distX) <= 50){ // vertical movement 
+                //this.fire('scroll', {originalEvent : event});
+            }*/
+        },
+
+        _onTouchMove: function (event) {
+            this.touchMoving = true;
         },
 
         _initBaron: function () {
@@ -326,6 +367,8 @@
             }
 
             this._container.style.visibility = '';
+
+            DG.DomEvent.on(this._popupStructure.body.parentNode, 'click touchend', this._onClick, this);
         },
 
         _getDelta: function () { // () -> Number

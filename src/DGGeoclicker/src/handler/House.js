@@ -55,6 +55,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             ajax: DG.bind(this._api.getFirmInfo, this._api),
             timezoneOffset: this._controller.getMap().projectDetector.getProject().timeOffset,
             map: this._map,
+            _popup: this._popup,
             isMobile: DG.Browser.mobile,
             showEntrance: DG.Entrance,
             gotoUrl: this._directionsUrl,
@@ -88,12 +89,14 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         DG.extend(options, {
             backBtn: DG.bind(this._showHousePopup, this),
             onFirmClick: DG.bind(this._onFirmListClick, this),
-            pasteLoader: DG.bind(this._pasteLoader, this)
+            pasteLoader: DG.bind(this._pasteLoader, this),
+            popup: this._popup
         });
 
         shortFirmList = new FirmCard.List(firms, {
             firmCard: options,
-            firmlistItemTmpl: 'firmlistItem'
+            firmlistItemTmpl: 'firmlistItem',
+            onListReady: DG.bind(this._renderFirmList, this)
         });
 
         return shortFirmList.renderList();
@@ -137,7 +140,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
                 this._showListPopup();
             }, this),
             onFirmClick: DG.bind(this._onFirmListClick, this),
-            pasteLoader: DG.bind(this._pasteLoader, this)
+            pasteLoader: DG.bind(this._pasteLoader, this),
+            popup: this._popup
         });
 
         this._firmList = new FirmCard.List(results, {

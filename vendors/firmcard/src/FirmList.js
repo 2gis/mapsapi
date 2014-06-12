@@ -12,6 +12,7 @@
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
         this.renderList(firms);
+        this._popup = null;
     };
 
     FirmCard.List.prototype = {
@@ -126,36 +127,30 @@
         },
 
         _initEventHandlers : function () {
-            var self = this,
-                eventName = this._hasTouch() ? 'touchend' : 'click',
-                methodName = this._container.addEventListener ? 'addEventListener' : 'attachEvent',
+                this._popup = this.options.firmCard._popup,
                 mouseoverEvent = this._container.addEventListener ? 'mouseover' : 'onmouseover';
 
-            if (this._container.attachEvent) { eventName = 'on'+eventName; }
+            if (this._hasTouch()) {
+                this._popup.on(mouseoverEvent, this._onClick, this);
+            }
 
-            this._eventHandlersInited = true;
+            this._popup.on('click', this._onClick, this);
             
-            var onClickHandler =  function (e) {
-                e = e || window.event;
-                var target = e.target || e.srcElement;
-                DG.DomEvent.stop(e);
+        },
 
-                if (target.nodeName === 'A' && target.className.indexOf('dg-popup__link') !== -1 && target.id) {
+        _onClick: function (e) {
+           if (this._popup && this._popup.touchMoving) { DG.DomEvent.stop(e); return false;}
+           e = e || window.event;
+           var target = e.originalEvent.target || e.originalEvent.srcElement;
+           DG.DomEvent.stop(e);
+             if (target.nodeName === 'A' && target.className.indexOf('dg-popup__link') !== -1 && target.id) {
 
-                    var s = self._firmCard.render(target.id);
-                    self.options.firmCard[ self._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
+                var s = this._firmCard.render(target.id);
+                this.options.firmCard[ this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
 
-                    self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
+                this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick(e);
                         
                 }
-            };
-
-            this._container[methodName](eventName, onClickHandler, false);
-
-            if (this._hasTouch()) {
-                this._container[methodName](mouseoverEvent, onClickHandler, false);
-            }
-            
         },
 
         _hasTouch: function () {
