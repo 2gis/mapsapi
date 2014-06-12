@@ -1,7 +1,7 @@
 DG.Meta.Origin = DG.Class.extend({
 
     options: {
-        subdomains: '012345679',
+        subdomains: '0123',
         dataFilter: null
     },
 

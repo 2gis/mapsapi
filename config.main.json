@@ -16,7 +16,7 @@
     "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
     "PHOTOS_LINK": "http://2gis.ru/photos/{id}",
 
-    "POI_META_SERVER": "http://tile{s}.maps.2gis.ru/?x={x}&y={y}&z={z}&v=1&type=poi",
+    "POI_META_SERVER": "https://tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
     "POI_LAYER_MIN_ZOOM": 15,
 
     "WEB_API_SERVER": "https://catalog.api.2gis.ru",
