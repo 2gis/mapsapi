@@ -11,7 +11,7 @@ DG.Poi = DG.Handler.extend({
     },
 
     statics: {
-        metaURL: '__HIGHLIGHT_POI_SERVER__'
+        metaURL: '__POI_META_SERVER__'
     },
 
     initialize: function (map, options) { // (Object)
