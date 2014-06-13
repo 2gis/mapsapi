@@ -1,7 +1,7 @@
 {
     "HOST": null,
     "PORT": "3000",
-    "BASE_URL": "/2.0",
+    "BASE_URL": "",
     "DEFAULT_SKIN": "light",
 
     "TILE_SERVER": "https://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",

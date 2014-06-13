@@ -1,8 +1,8 @@
-var handlers = window.__dgApi_callbacks || [],
+var handlers = window.__dgApi__.callbacks || [],
     chain = Promise.resolve();
 
 //dont pollute global space!
-window.__dgApi_callbacks = undefined;
+delete window.__dgApi__;
 
 handlers.forEach(function (handlers) {
     chain = chain.then(handlers[0], handlers[1]);

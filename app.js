@@ -12,14 +12,14 @@ var app = express();
 //General configuration of the application
 app.set('port', config.PORT || '3000');
 app.set('host', config.HOST || null);
-app.use('/2.0', express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 //Routes
 function getParams(req, resp, next) {
     req.query.isDebug = (req.query.mode === 'debug');
     req.query.sprite = (req.query.sprite === 'true');
     req.query.mobile = (req.query.mobile === 'true');
-    var contentType = (req.path === '/2.0/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
+    var contentType = (req.path === '/js') ? 'application/x-javascript; charset=utf-8' : 'text/css';
 
     req.dgCallback = function (stream, response) {
         response.set('Cache-Control', 'public, max-age=604800');
@@ -42,12 +42,12 @@ function getParams(req, resp, next) {
     next();
 }
 
-app.get('/2.0/js', getParams, function (req, res) {
+app.get('/js', getParams, function (req, res) {
     var jsStream = gulp.getJS(req.query);
     req.dgCallback(jsStream, res);
 });
 
-app.get('/2.0/css', getParams, function (req, res) {
+app.get('/css', getParams, function (req, res) {
     var cssStream = gulp.getCSS(req.query);
     req.dgCallback(cssStream, res);
 });
