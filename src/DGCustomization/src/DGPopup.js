@@ -66,7 +66,8 @@
         _startTime: 0,
 
     statics: {
-        START: L.Browser.touch ? ['touchstart', 'mousedown'] : ['mousedown'],
+        // START: L.Browser.touch ? ['touchstart', 'mousedown'] : ['mousedown'],
+        START: ['touchstart', 'mousedown', 'mousemove'],
         END: {
             mousedown: 'mouseup',
             touchstart: 'touchend',
@@ -285,13 +286,14 @@
 
             this._isBaronExist = true;
 
-            DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+            // DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
             DG.DomEvent.on(contentNode, 'click', this._onClick, this);
 
 
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
+            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
+            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
+            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
+            // console.log(DG.);
 
             DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Draggable.START.join(' '), this._onStart, this);
 
@@ -304,95 +306,95 @@
 
         _onClick: function (event) {
             console.log('CLICK');
-            if(!this.touchMoving) {
-            this.fire('click', {originalEvent: event});  }
+
+            if (!this._moving) {
+                this.fire('click', {originalEvent: event});
+            }
         },
 
-        _onStart: function (event) {
+        _onStart: function (e) {
 
             this._moved = false;
 
             this._dist = DG.point(0,0);
 
-            if (event.shiftKey || ((event.which !== 1) && (event.button !== 1) && !event.touches)) { return; }
+            // if (event.shiftKey || ((event.which !== 1) && (event.button !== 1) && !event.touches)) { return; }
 
-            DG.DomEvent.stopPropagation(event);
+            DG.DomEvent.stopPropagation(e);
 
-            if (DG.Draggable._disabled) { return; }
+            // if (DG.Draggable._disabled) { return; }
 
             if (this._moving) { return; }
 
-            this.fire('down');
+            // this.fire('down');
 
-            var first = event.touches ? event.touches[0] : event;
+            var first = e.touches ? e.touches[0] : e;
 
             this._startPoint = new DG.Point(first.clientX, first.clientY);
             this._startPos = this._newPos = DG.point(first.clientX, first.clientY);
+            console.log(e);
 
             DG.DomEvent
-            .on(this , DG.Draggable.MOVE[event.type], this._onMove, this)
-            .on(this , DG.Draggable.END[event.type], this._onEnd, this);
+                .on(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
+                .on(this._popupStructure.body.parentNode, 'touchend', this._onEnd, this);
         },
 
-        _onEnd: function (event) {
-
-            for (var i in DG.Draggable.MOVE) {
+        _onEnd: function (e) {
+            console.log('end', e);
+            // for (var i in DG.Draggable.MOVE) {
                 DG.DomEvent
-                    .off(document, DG.Draggable.MOVE[i], this._onMove, this)
-                    .off(document, DG.Draggable.END[i], this._onStart, this);
-            }
+                    .off(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
+                    .off(this._popupStructure.body.parentNode, 'touchend', this._onStart, this);
+            // }
 
             if (this._moved && this._moving) {
             // ensure drag is not fired after dragend
 
-            this.fire('dragend', {
-                distance: this._newPos.distanceTo(this._startPos)
-            });
-        }
+                this.fire('dragend', {
+                    distance: this._newPos.distanceTo(this._startPos)
+                });
+            }
 
-        this._moving = false;
+            this._moving = false;
 
-        console.log(this._dist);
+            console.log(this._dist);
 
         },
 
-        _onMove: function (event) {
+        _onMove: function (e) {
 
-        if (event.touches && event.touches.length > 1) {
+            console.log(e);
+
+            if (e.touches && e.touches.length > 1) {
+                this._moved = true;
+                return;
+            }
+
+            var first = (e.touches && e.touches.length === 1 ? e.touches[0] : e),
+                newPoint = DG.point(first.clientX, first.clientY),
+                offset = newPoint.subtract(this._startPoint); 
+
+            if (!offset.x && !offset.y) { return; }
+
+            console.log(Math.abs(offset.x) + Math.abs(offset.y));
+            if (DG.Browser.touch && Math.abs(offset.x) + Math.abs(offset.y) < 7) { return; }
+
+            // DG.DomEvent.preventDefault(e);
+
+            this._dist.add(offset);
+
+            if (this._moved) { return this._onScroll(e); }
+
+            // this.fire('dragstart');
+
             this._moved = true;
-            return;
-        }
 
-        var first = (event.touches && event.touches.length === 1 ? event.touches[0] : event),
-            newPoint = DG.point(first.clientX, first.clientY),
-            offset = newPoint.subtract(this._startPoint); 
+            var eventCoords = e.touches ? e.touches[ 0 ] : e ;
 
-        if (!offset.x && !offset.y) { return; }
-
-        if (DG.Browser.touch && Math.abs(offset.x) + Math.abs(offset.y) < 3) { return; }
-
-        DG.DomEvent.preventDefault(event);
-
-        this._dist.add(offset);
-
-        if (!this._moved) {
-            
-            this.fire('dragstart');
-
-            this._moved = true;
-
-            var eventCoords = event.touches ? event.touches[ 0 ] : event ;
-
-            this._startPos = DG.point( eventCoords.clientX , eventCoords.clientY  ).subtract(offset); 
+            this._startPos = DG.point(eventCoords.clientX , eventCoords.clientY).subtract(offset); 
 
             this._newPos = this._startPos.add(offset); //TODO!!!
             this._moving = true;
-        }
-
-        else {
-
-            this._onScroll(event);
-        }
 
         },
 
@@ -453,7 +455,7 @@
 
             this._container.style.visibility = '';
 
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'click touchend', this._onClick, this);
+            DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Browser.touch ? 'touchend' : 'click', this._onClick, this);
         },
 
         _getDelta: function () { // () -> Number

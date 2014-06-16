@@ -250,6 +250,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _handlePopupScroll: function (event) {
+        console.log(event);
         var scroller = event.originalEvent.target || event.target._scroller;
         
         DG.DomEvent.stop(event);

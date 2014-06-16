@@ -130,16 +130,16 @@
                 this._popup = this.options.firmCard._popup,
                 mouseoverEvent = this._container.addEventListener ? 'mouseover' : 'onmouseover';
 
-            if (this._hasTouch()) {
-                this._popup.on(mouseoverEvent, this._onClick, this);
-            }
+            // if (this._hasTouch()) {
+            //     this._popup.on(mouseoverEvent, this._onClick, this);
+            // }
 
             this._popup.on('click', this._onClick, this);
             
         },
 
         _onClick: function (e) {
-           if (this._popup && this._popup.touchMoving) { DG.DomEvent.stop(e); return false;}
+           if (this._popup && this._popup._moving) { DG.DomEvent.stop(e); return false;}
            e = e || window.event;
            var target = e.originalEvent.target || e.originalEvent.srcElement;
            DG.DomEvent.stop(e);
