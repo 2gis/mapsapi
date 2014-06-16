@@ -65,8 +65,10 @@
         _startY: 0, 
         _startTime: 0,
 
+        _clickTimer: null,
+
     statics: {
-        START: L.Browser.touch ? ['touchstart', 'mousedown'] : ['mousedown'],
+        START: DG.Browser.touch ? ['touchstart', 'mousedown'] : ['mousedown'],
         END: {
             mousedown: 'mouseup',
             touchstart: 'touchend',
@@ -289,23 +291,34 @@
             DG.DomEvent.on(contentNode, 'click', this._onClick, this);
 
 
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
+            //DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
+            //DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
+            //DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
 
             DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Draggable.START.join(' '), this._onStart, this);
 
         },
 
         _onScroll: function (event) {
-            console.log('SCROLL');
+            console.log('SCROLL timer cleaned');
+            window.clearTimeout(this._clickTimer);
             this.fire('scroll', {originalEvent: event});
         },
 
         _onClick: function (event) {
-            console.log('CLICK');
-            if(!this.touchMoving) {
-            this.fire('click', {originalEvent: event});  }
+            var self = this;
+
+            if(this._moving && this._clickTimer) {             
+                window.clearTimeout(this._clickTimer);
+            } else {
+                 console.log('CLICK setting');
+                this._clickTimer  = window.setTimeout( function() {
+                    if (!self._moving) {
+                        self.fire('click', {originalEvent: event});}  
+                } , 300);
+            }
+
+            return false;
         },
 
         _onStart: function (event) {
@@ -316,13 +329,13 @@
 
             if (event.shiftKey || ((event.which !== 1) && (event.button !== 1) && !event.touches)) { return; }
 
+            window.clearTimeout(this._clickTimer);
+
             DG.DomEvent.stopPropagation(event);
 
             if (DG.Draggable._disabled) { return; }
-
+   
             if (this._moving) { return; }
-
-            this.fire('down');
 
             var first = event.touches ? event.touches[0] : event;
 
@@ -338,8 +351,8 @@
 
             for (var i in DG.Draggable.MOVE) {
                 DG.DomEvent
-                    .off(document, DG.Draggable.MOVE[i], this._onMove, this)
-                    .off(document, DG.Draggable.END[i], this._onStart, this);
+                    .off(this._popupStructure.body.parentNode, DG.Draggable.MOVE[i], this._onMove, this)
+                    .off(this._popupStructure.body.parentNode, DG.Draggable.END[i], this._onEnd, this);
             }
 
             if (this._moved && this._moving) {
@@ -351,8 +364,6 @@
         }
 
         this._moving = false;
-
-        console.log(this._dist);
 
         },
 
@@ -375,9 +386,10 @@
 
         this._dist.add(offset);
 
+        this._moving = true;
+
         if (!this._moved) {
             
-            this.fire('dragstart');
 
             this._moved = true;
 
@@ -453,7 +465,6 @@
 
             this._container.style.visibility = '';
 
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'click touchend', this._onClick, this);
         },
 
         _getDelta: function () { // () -> Number
