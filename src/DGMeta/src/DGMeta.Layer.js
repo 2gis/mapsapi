@@ -71,10 +71,10 @@ DG.Meta.Layer = L.Layer.extend({
                 mouseTileOffset,
                 tileKey,
                 hoveredObject,
-                zoom = this._map.getZoom() - this.options.zoomOffset;
+                zoom = this._map.getZoom();
 
-            if (zoom > this.options.maxZoom ||
-                zoom < this.options.minZoom ||
+            if (zoom > (this.options.maxZoom + this.options.zoomOffset) ||
+                zoom < (this.options.minZoom - this.options.zoomOffset) ||
                 !this._isValidTile(tileCoord)) {
                 return;
             }
