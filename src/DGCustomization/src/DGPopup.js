@@ -286,8 +286,11 @@
 
             this._isBaronExist = true;
 
-            DG.DomEvent.on(contentNode, 'click', this._onClick, this);
-            !DG.Browser.touch && DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+            if (!DG.Browser.touch) {
+                DG.DomEvent
+                    .on(contentNode, 'click', this._onClick, this)
+                    .on(scroller, 'scroll', this._onScroll, this);
+            }
 
 
             // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
@@ -306,9 +309,10 @@
 
         _onClick: function (e) {
             console.log('CLICK');
-            e.stopPropagation();
+            // e.stopPropagation();
             // this._moving ? DG.DomEvent.stop(e) : this.fire('click', {originalEvent: e});
             if (!this._moving) { this.fire('click', {originalEvent: e}); }
+            DG.DomEvent.stop(e);
         },
 
         _onStart: function (e) {
@@ -319,7 +323,7 @@
 
             // if (event.shiftKey || ((event.which !== 1) && (event.button !== 1) && !event.touches)) { return; }
 
-            DG.DomEvent.stopPropagation(e);
+            // DG.DomEvent.stopPropagation(e);
 
             // if (DG.Draggable._disabled) { return; }
 
@@ -328,6 +332,7 @@
             // this.fire('down');
 
             var first = e.touches ? e.touches[0] : e;
+            // console.log('fisrt', first, first.clientX);
 
             this._startPoint = new DG.Point(first.clientX, first.clientY);
             // this._startPos = this._newPos = DG.point(first.clientX, first.clientY);
@@ -339,11 +344,10 @@
         },
 
         _onEnd: function (e) {
-            console.log('end', e);
             // for (var i in DG.Draggable.MOVE) {
             DG.DomEvent
                 .off(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
-                .off(this._popupStructure.body.parentNode, 'touchend', this._onStart, this);
+                .off(this._popupStructure.body.parentNode, 'touchend', this._onEnd, this);
             // }
 
             // if (this._moved && this._moving) {
@@ -353,10 +357,12 @@
             //         distance: this._newPos.distanceTo(this._startPos)
             //     });
             // }
+            this._onClick(e);
+            console.log('end', e);
 
             this._moving = false;
 
-            console.log(this._dist);
+            // console.log(this._dist);
 
         },
 
@@ -373,18 +379,21 @@
                 newPoint = DG.point(first.clientX, first.clientY),
                 offset = Math.abs(newPoint.subtract(this._startPoint).y);
 
-            console.log(this._startPoint, offset, first);
+            // offset = first.clientY - this._startPoint
+            // console.log(this._startPoint, offset, first);
+            console.log(offset);
 
             // if (!offset.y) { return; }
 
-            console.log(Math.abs(offset));
-            if (/*DG.Browser.touch &&*/!offset || offset < 7) { return; }
+            // console.log(offset);
+            if (/*DG.Browser.touch &&*/!offset || offset < 10) { return; }
 
             // DG.DomEvent.preventDefault(e);
 
             // this._dist.add(offset);
 
-            if (this._moved) { return this._onScroll(e); }
+            // if (this._moved) { return this._onScroll(e); }
+            this._onScroll(e);
 
             // this.fire('dragstart');
 
