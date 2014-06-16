@@ -12,7 +12,6 @@
         this._eventHandlersInited = false;
         this._firmCard = this._createFirm();
         this.renderList(firms);
-        this._popup = null;
     };
 
     FirmCard.List.prototype = {
@@ -127,36 +126,20 @@
         },
 
         _initEventHandlers : function () {
-                this._popup = this.options.firmCard._popup,
-                mouseoverEvent = this._container.addEventListener ? 'mouseover' : 'onmouseover';
-
-            if (this._hasTouch()) {
-                this._popup.on(mouseoverEvent, this._onClick, this);
-            }
-
-            this._popup.on('click', this._onClick, this);
-            
+            this.options.firmCard._popup.on('click', this._onClick, this);
         },
 
         _onClick: function (e) {
-           if (this._popup && this._popup.touchMoving) { DG.DomEvent.stop(e); return false;}
-           e = e || window.event;
-           var target = e.originalEvent.target || e.originalEvent.srcElement;
-           DG.DomEvent.stop(e);
-             if (target.nodeName === 'A' && target.className.indexOf('dg-popup__link') !== -1 && target.id) {
+            var target = e.originalEvent.target || e.originalEvent.srcElement;
 
+            // e.stopPropagation();
+
+            if (target.className.indexOf('dg-popup__link') !== -1 && target.id) {
                 var s = this._firmCard.render(target.id);
-                this.options.firmCard[ this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
+                this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
 
-                this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick(e);
-                        
-                }
-        },
-
-        _hasTouch: function () {
-            return (('ontouchstart' in window) ||       // html5 browsers
-                    (navigator.maxTouchPoints > 0) ||   // future IE
-                    (navigator.msMaxTouchPoints > 0));  // current IE10
+                this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick(e);       
+            }
         },
 
         _clearContainer: function () {

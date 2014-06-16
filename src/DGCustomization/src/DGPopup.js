@@ -68,7 +68,12 @@
         _clickTimer: null,
 
     statics: {
+<<<<<<< HEAD
         START: DG.Browser.touch ? ['touchstart', 'mousedown'] : ['mousedown'],
+=======
+        // START: L.Browser.touch ? ['touchstart', 'mousedown'] : ['mousedown'],
+        START: ['touchstart', 'mousedown', 'mousemove'],
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
         END: {
             mousedown: 'mouseup',
             touchstart: 'touchend',
@@ -287,13 +292,20 @@
 
             this._isBaronExist = true;
 
-            DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
             DG.DomEvent.on(contentNode, 'click', this._onClick, this);
+            !DG.Browser.touch && DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
 
 
+<<<<<<< HEAD
             //DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
             //DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
             //DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
+=======
+            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
+            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
+            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
+            // console.log(DG.);
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
 
             DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Draggable.START.join(' '), this._onStart, this);
 
@@ -305,6 +317,7 @@
             this.fire('scroll', {originalEvent: event});
         },
 
+<<<<<<< HEAD
         _onClick: function (event) {
             var self = this;
 
@@ -319,16 +332,24 @@
             }
 
             return false;
+=======
+        _onClick: function (e) {
+            console.log('CLICK');
+            e.stopPropagation();
+            // this._moving ? DG.DomEvent.stop(e) : this.fire('click', {originalEvent: e});
+            if (!this._moving) { this.fire('click', {originalEvent: e}); }
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
         },
 
-        _onStart: function (event) {
+        _onStart: function (e) {
 
             this._moved = false;
 
-            this._dist = DG.point(0,0);
+            // this._dist = DG.point(0,0);
 
-            if (event.shiftKey || ((event.which !== 1) && (event.button !== 1) && !event.touches)) { return; }
+            // if (event.shiftKey || ((event.which !== 1) && (event.button !== 1) && !event.touches)) { return; }
 
+<<<<<<< HEAD
             window.clearTimeout(this._clickTimer);
 
             DG.DomEvent.stopPropagation(event);
@@ -338,15 +359,28 @@
             if (this._moving) { return; }
 
             var first = event.touches ? event.touches[0] : event;
+=======
+            DG.DomEvent.stopPropagation(e);
+
+            // if (DG.Draggable._disabled) { return; }
+
+            if (this._moving) { return; }
+
+            // this.fire('down');
+
+            var first = e.touches ? e.touches[0] : e;
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
 
             this._startPoint = new DG.Point(first.clientX, first.clientY);
-            this._startPos = this._newPos = DG.point(first.clientX, first.clientY);
+            // this._startPos = this._newPos = DG.point(first.clientX, first.clientY);
+            console.log(e);
 
             DG.DomEvent
-            .on(this , DG.Draggable.MOVE[event.type], this._onMove, this)
-            .on(this , DG.Draggable.END[event.type], this._onEnd, this);
+                .on(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
+                .on(this._popupStructure.body.parentNode, 'touchend', this._onEnd, this);
         },
 
+<<<<<<< HEAD
         _onEnd: function (event) {
 
             for (var i in DG.Draggable.MOVE) {
@@ -354,57 +388,76 @@
                     .off(this._popupStructure.body.parentNode, DG.Draggable.MOVE[i], this._onMove, this)
                     .off(this._popupStructure.body.parentNode, DG.Draggable.END[i], this._onEnd, this);
             }
+=======
+        _onEnd: function (e) {
+            console.log('end', e);
+            // for (var i in DG.Draggable.MOVE) {
+            DG.DomEvent
+                .off(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
+                .off(this._popupStructure.body.parentNode, 'touchend', this._onStart, this);
+            // }
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
 
-            if (this._moved && this._moving) {
-            // ensure drag is not fired after dragend
+            // if (this._moved && this._moving) {
+            // // ensure drag is not fired after dragend
 
-            this.fire('dragend', {
-                distance: this._newPos.distanceTo(this._startPos)
-            });
-        }
+            //     this.fire('dragend', {
+            //         distance: this._newPos.distanceTo(this._startPos)
+            //     });
+            // }
 
-        this._moving = false;
+            this._moving = false;
 
+<<<<<<< HEAD
+=======
+            console.log(this._dist);
+
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
         },
 
-        _onMove: function (event) {
+        _onMove: function (e) {
 
-        if (event.touches && event.touches.length > 1) {
-            this._moved = true;
-            return;
-        }
+            console.log(e);
 
-        var first = (event.touches && event.touches.length === 1 ? event.touches[0] : event),
-            newPoint = DG.point(first.clientX, first.clientY),
-            offset = newPoint.subtract(this._startPoint); 
+            if (e.touches && e.touches.length > 1) {
+                this._moved = true;
+                return;
+            }
 
-        if (!offset.x && !offset.y) { return; }
+            var first = (e.touches && e.touches.length === 1 ? e.touches[0] : e),
+                newPoint = DG.point(first.clientX, first.clientY),
+                offset = Math.abs(newPoint.subtract(this._startPoint).y);
 
-        if (DG.Browser.touch && Math.abs(offset.x) + Math.abs(offset.y) < 3) { return; }
+            console.log(this._startPoint, offset, first);
 
-        DG.DomEvent.preventDefault(event);
+            // if (!offset.y) { return; }
 
-        this._dist.add(offset);
+            console.log(Math.abs(offset));
+            if (/*DG.Browser.touch &&*/!offset || offset < 7) { return; }
 
+<<<<<<< HEAD
         this._moving = true;
 
         if (!this._moved) {
             
+=======
+            // DG.DomEvent.preventDefault(e);
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
 
-            this._moved = true;
+            // this._dist.add(offset);
 
-            var eventCoords = event.touches ? event.touches[ 0 ] : event ;
+            if (this._moved) { return this._onScroll(e); }
 
-            this._startPos = DG.point( eventCoords.clientX , eventCoords.clientY  ).subtract(offset); 
+            // this.fire('dragstart');
 
-            this._newPos = this._startPos.add(offset); //TODO!!!
-            this._moving = true;
-        }
+            this._moving = this._moved = true;
 
-        else {
+            // var eventCoords = e.touches ? e.touches[ 0 ] : e ;
 
-            this._onScroll(event);
-        }
+            // this._startPos = DG.point(eventCoords.clientX , eventCoords.clientY).subtract(offset); 
+
+            // this._newPos = this._startPos.add(offset); //TODO!!!
+            // this._moving = true;
 
         },
 
@@ -465,6 +518,10 @@
 
             this._container.style.visibility = '';
 
+<<<<<<< HEAD
+=======
+            DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Browser.touch ? 'touchend' : 'click', this._onClick, this);
+>>>>>>> b45fcb65c1af40be9308837c2ba5359a0f6e83e1
         },
 
         _getDelta: function () { // () -> Number
