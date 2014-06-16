@@ -61,28 +61,6 @@
         _popupTipClass: 'leaflet-popup-tip-container',
         _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
 
-        _startX: 0, 
-        _startY: 0, 
-        _startTime: 0,
-
-    statics: {
-        // START: L.Browser.touch ? ['touchstart', 'mousedown'] : ['mousedown'],
-        START: ['touchstart', 'mousedown', 'mousemove'],
-        END: {
-            mousedown: 'mouseup',
-            touchstart: 'touchend',
-            pointerdown: 'touchend',
-            MSPointerDown: 'touchend'
-        },
-        MOVE: {
-            mousedown: 'mousemove',
-            touchstart: 'touchmove',
-            pointerdown: 'touchmove',
-            MSPointerDown: 'touchmove'
-        }
-    },
-
-
         initialize: function (options, source) { // (Object, Object)
             this._popupStructure = {};
             originalInitialize.call(this, options, source);
@@ -292,25 +270,15 @@
                     .on(scroller, 'scroll', this._onScroll, this);
             }
 
-
-            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart ontouchstart', this._onTouchStart, this);
-            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchend ontouchend', this._onTouchEnd, this);
-            // DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchmove ontouchmove', this._onTouchMove, this);
-            // console.log(DG.);
-
-            DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Draggable.START.join(' '), this._onStart, this);
+            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart mousedown mousemove', this._onStart, this);
 
         },
 
-        _onScroll: function (event) {
-            console.log('SCROLL');
-            this.fire('scroll', {originalEvent: event});
+        _onScroll: function (e) {
+            this.fire('scroll', {originalEvent: e});
         },
 
         _onClick: function (e) {
-            console.log('CLICK');
-            // e.stopPropagation();
-            // this._moving ? DG.DomEvent.stop(e) : this.fire('click', {originalEvent: e});
             if (!this._moving) { this.fire('click', {originalEvent: e}); }
             DG.DomEvent.stop(e);
         },
@@ -319,24 +287,11 @@
 
             this._moved = false;
 
-            // this._dist = DG.point(0,0);
-
-            // if (event.shiftKey || ((event.which !== 1) && (event.button !== 1) && !event.touches)) { return; }
-
-            // DG.DomEvent.stopPropagation(e);
-
-            // if (DG.Draggable._disabled) { return; }
-
             if (this._moving) { return; }
 
-            // this.fire('down');
-
             var first = e.touches ? e.touches[0] : e;
-            // console.log('fisrt', first, first.clientX);
 
             this._startPoint = new DG.Point(first.clientX, first.clientY);
-            // this._startPos = this._newPos = DG.point(first.clientX, first.clientY);
-            console.log(e);
 
             DG.DomEvent
                 .on(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
@@ -344,25 +299,14 @@
         },
 
         _onEnd: function (e) {
-            // for (var i in DG.Draggable.MOVE) {
+
             DG.DomEvent
                 .off(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
                 .off(this._popupStructure.body.parentNode, 'touchend', this._onEnd, this);
-            // }
 
-            // if (this._moved && this._moving) {
-            // // ensure drag is not fired after dragend
-
-            //     this.fire('dragend', {
-            //         distance: this._newPos.distanceTo(this._startPos)
-            //     });
-            // }
             this._onClick(e);
-            console.log('end', e);
 
             this._moving = false;
-
-            // console.log(this._dist);
 
         },
 
@@ -379,32 +323,11 @@
                 newPoint = DG.point(first.clientX, first.clientY),
                 offset = Math.abs(newPoint.subtract(this._startPoint).y);
 
-            // offset = first.clientY - this._startPoint
-            // console.log(this._startPoint, offset, first);
-            console.log(offset);
+            if (!offset || offset < 10) { return; }
 
-            // if (!offset.y) { return; }
-
-            // console.log(offset);
-            if (/*DG.Browser.touch &&*/!offset || offset < 10) { return; }
-
-            // DG.DomEvent.preventDefault(e);
-
-            // this._dist.add(offset);
-
-            // if (this._moved) { return this._onScroll(e); }
             this._onScroll(e);
 
-            // this.fire('dragstart');
-
             this._moving = this._moved = true;
-
-            // var eventCoords = e.touches ? e.touches[ 0 ] : e ;
-
-            // this._startPos = DG.point(eventCoords.clientX , eventCoords.clientY).subtract(offset); 
-
-            // this._newPos = this._startPos.add(offset); //TODO!!!
-            // this._moving = true;
 
         },
 

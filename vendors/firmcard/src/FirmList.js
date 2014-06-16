@@ -132,7 +132,8 @@
         _onClick: function (e) {
             var target = e.originalEvent.target || e.originalEvent.srcElement;
 
-            // e.stopPropagation();
+            if (target.className.indexOf('dg-building-callout__list-item') !== -1 ) { target = target.children[0] };
+
 
             if (target.className.indexOf('dg-popup__link') !== -1 && target.id) {
                 var s = this._firmCard.render(target.id);
