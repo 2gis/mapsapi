@@ -130,25 +130,17 @@
         },
 
         _onClick: function (e) {
-            // if (this._popup && this._popup._moving) { DG.DomEvent.stop(e); return false;}
-            // e = e || window.event;
-            console.log(e);
             var target = e.originalEvent.target || e.originalEvent.srcElement;
 
-            // DG.DomEvent.stop(e);
-            if (/*target.nodeName === 'A' && */target.className.indexOf('dg-popup__link') !== -1 && target.id) {
+            // e.stopPropagation();
+
+            if (target.className.indexOf('dg-popup__link') !== -1 && target.id) {
                 var s = this._firmCard.render(target.id);
-                this.options.firmCard[ this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
+                this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
 
                 this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick(e);       
             }
         },
-
-        // _hasTouch: function () {
-        //     return (('ontouchstart' in window) ||       // html5 browsers
-        //             (navigator.maxTouchPoints > 0) ||   // future IE
-        //             (navigator.msMaxTouchPoints > 0));  // current IE10
-        // },
 
         _clearContainer: function () {
             var container = this._container;

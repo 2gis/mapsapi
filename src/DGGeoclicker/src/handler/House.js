@@ -249,11 +249,10 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         this._popup._updateScrollPosition();
     },
 
-    _handlePopupScroll: function (event) {
-        console.log(event);
-        var scroller = event.originalEvent.target || event.target._scroller;
+    _handlePopupScroll: function (e) {
+        var scroller = e.originalEvent.target || e.target._scroller;
         
-        DG.DomEvent.stop(event);
+        DG.DomEvent.stop(e);
 
         if (this._totalPages <= 1) { return; }
         if (scroller && scroller.scrollHeight <= scroller.scrollTop + scroller.offsetHeight + this._scrollHeightReserve) {

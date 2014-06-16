@@ -306,7 +306,7 @@
 
         _onClick: function (e) {
             console.log('CLICK');
-
+            e.stopPropagation();
             // this._moving ? DG.DomEvent.stop(e) : this.fire('click', {originalEvent: e});
             if (!this._moving) { this.fire('click', {originalEvent: e}); }
         },
@@ -331,7 +331,7 @@
 
             this._startPoint = new DG.Point(first.clientX, first.clientY);
             // this._startPos = this._newPos = DG.point(first.clientX, first.clientY);
-            // console.log(e);
+            console.log(e);
 
             DG.DomEvent
                 .on(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
@@ -356,13 +356,13 @@
 
             this._moving = false;
 
-            // console.log(this._dist);
+            console.log(this._dist);
 
         },
 
         _onMove: function (e) {
 
-            // console.log(e);
+            console.log(e);
 
             if (e.touches && e.touches.length > 1) {
                 this._moved = true;
