@@ -1,6 +1,0 @@
-.dg-customization__marker_appear.dg-customization__marker {
-    background-position: 0;
-}
-div.leaflet-clickable.dg-customization__marker_type_mushroom:hover {
-    background-image: url(__BASE_URL__/img/NonRetinaMarkerHover.png);
-}

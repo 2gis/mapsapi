@@ -10,7 +10,7 @@ DG.Control.Zoom.include({
     // TODO: think about pull request to leaflet with zoom control button's titles as options
     onAdd: function (map) {
         var zoomName = 'dg-zoom',
-            buttonTemplate = '<div class="dg-control-round_icon dg-zoom__control dg-zoom__{type}-button"></div>',
+            buttonTemplate = '<div class="dg-control-round__icon ' + zoomName + '__control ' + zoomName + '__button ' + zoomName + '__button_type_{type}"></div>',
             container = DG.DomUtil.create('div', zoomName);
 
         this._map = map;

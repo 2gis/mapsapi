@@ -1,0 +1,117 @@
+/* 
+    See gulpfile.js for predefined stuff
+       — Variables: @baseURL, @isModernBrowser, @ie8, @shouldUseSprites, @skinName;
+       — Mixins: .imageData, .imageFileData, .isSprited.
+ */
+
+.imageFileData(@name) when (default()) {
+    @filename: '';
+    @extension: '';
+    @hasVectorVersion: false;
+    }
+
+.isSprited(@name) when (default()) {
+    @isSprited: false;
+    }
+
+.spriteImage(@name; @retina: false) {
+    .imageData(@name);
+
+    width: @width;
+    height: @height;
+
+    background-image: url('@{baseURL}/img/@{backgroundImage}');
+
+    background-position: @backgroundPosition;
+    background-size: @totalWidth @totalHeight;
+
+    & when (@retina) {
+        .leaflet-retina & {
+            .imageData('@{name}@2x');
+            background-image: url('@{baseURL}/img/@{backgroundImage}');
+            }
+        }
+    }
+
+.dataUriImage(@name) {
+    .imageFileData(@name);
+
+    & when not (@filename = '') {
+        & when (@hasVectorVersion) {
+            background-image: data-uri('@{imagesBasePath}/@{filename}.svg');
+            }
+
+        & when not (@hasVectorVersion) {
+            background-image: data-uri('@{imagesBasePath}/@{filename}.@{extension}');
+            }
+        }
+    }
+
+.directImage(@name; @retina: false) {
+    .imageFileData(@name);
+
+     & when not (@filename = '') {
+        background-image: url('@{baseURL}/img/@{filename}.@{extension}');
+        }
+        
+        .imageFileData(@name);
+        & when (@retina) and not (@filename = '')  {
+            .leaflet-retina & {
+                background-image: url('@{baseURL}/img/@{filename}.@{extension}');
+                }
+            }
+    }
+
+.spriteOrDirectImage(@name; @useSprite: true; @retina: false) {
+    .isSprited(@name);
+
+    & when (@shouldUseSprites) {
+        & when (@isSprited) and (@useSprite) {
+            .spriteImage(@name, @retina);
+            }
+
+        & when not (@isSprited), not (@useSprite) {
+            .directImage(@name, @retina);
+            }
+        }
+
+    & when not (@shouldUseSprites) {
+        .directImage(@name, @retina);
+        }
+    }
+
+.noRepeatableBg(@name; @useSprite: true) {
+    background-repeat: no-repeat;
+
+    & when (@shouldUseSprites) {
+        .spriteOrDirectImage(@name, @useSprite, true);
+        }
+
+    & when not (@mobile) and not (@ie8) and not (@shouldUseSprites) {
+        .dataUriImage(@name);
+        }
+
+    & when not (@mobile) and (@ie8) {
+        .spriteOrDirectImage(@name, @useSprite);
+        }
+
+    & when (@mobile) {
+        .spriteOrDirectImage(@name, @useSprite, true);
+
+        .leaflet-retina & {
+            .spriteOrDirectImage('@{name}@2x', @useSprite);
+            }
+        }
+    }
+
+.repeatableBg(@name) {
+    & when not (@mobile) and not (@ie8) {
+        .dataUriImage(@name);
+        }
+    & when not (@mobile) and (@ie8) {
+        .directImage(@name);
+        }
+    & when (@mobile) and not (@ie8) {
+        .directImage(@name, true);
+        }
+    }

@@ -78,7 +78,7 @@ FirmCard.Schedule.prototype = {
 
 
         /* jshint ignore:start */
-        // Возвращает последний элемент массива 
+        // Возвращает последний элемент массива
         // Взято из Underscore.js http://underscorejs.org/#last
         function getArrayLast(arr, n) {
             if ( arr == null ) return void 0;
@@ -104,7 +104,7 @@ FirmCard.Schedule.prototype = {
             for ( prop in obj2 ) {
             if ( obj2.hasOwnProperty( prop ) && ! obj1.hasOwnProperty( prop ) ) return false;
             }
-            
+
             return true;
         }
 
@@ -152,7 +152,7 @@ FirmCard.Schedule.prototype = {
                         value: value,
                         index: index,
                         criteria: iterator.call(this, value, index, list)
-                        };   
+                        };
                 }).sort(function(left, right) {
                         var a = left.criteria;
                         var b = right.criteria;
@@ -224,7 +224,7 @@ FirmCard.Schedule.prototype = {
                 j = dayNum(num + i);
                 timePoints = getSortedTimePoints(model[weekKeys[j]]);
                 // Цикл по точкам времени с конвертацией в timestamp
-                timePoints.forEach( 
+                timePoints.forEach(
                     /* jshint -W083 */
                     function (point) {
                     // now - обязательно! иначе будет браться текущий timestamp что чревато несовпадениями при медленном быстродействии
@@ -308,18 +308,18 @@ FirmCard.Schedule.prototype = {
         //Возвращает интервал в целых днях, с поправкой на смену дня в полночь, между
         //@param timestampEnd и @param dateStart
         function dayInterval(timestampEnd, dateStart) {
-            
+
             var oneDay = 1000 * 60 * 60 * 24,
                 dateEnd = new Date(timestampEnd.ts);
 
             var diff;
 
-            diff = Math.round((dateEnd - dateStart) / oneDay); 
+            diff = Math.round((dateEnd - dateStart) / oneDay);
 
             if( timestampEnd.type==='open' && dateEnd.getHours() < 1 )
                 { diff ++; }
 
-            return diff;            
+            return diff;
         }
 
 
@@ -340,14 +340,14 @@ FirmCard.Schedule.prototype = {
                 schedule.now.open = true;
             }
 
-            
+
             for (var i = 0 ; i < timestamps.length ; i++) {
                 // Попали между точками i-1 и i // Мы находимся заведомо в будущем относительно 1
                 if (now >= (timestamps[i - 1] && timestamps[i - 1].ts || 0) && now < timestamps[i].ts) {
                     var h = Math.floor((timestamps[i].ts - now) / (1000 * 60 * 60)), // Количество часов до следующего timestamp
                         m = Math.floor((timestamps[i].ts - now) / (1000 * 60) - h * 60), // Количество минут (без часов) до следующего timestamp
                         dayNow = new Date(now),
-                        
+
                         // открыто если следующая итерация не открытие
                         nowIsOpen = timestamps[i].type !== 'open';
 
@@ -359,7 +359,7 @@ FirmCard.Schedule.prototype = {
 
                     // округляем минуты до кратных 5
                     m = Math.floor(m / 10) * 10 ? Math.floor(m / 10) * 10 : 5;
-                    
+
                     schedule.now.open = nowIsOpen;
                     schedule.now.lunch = !!(timestamps[i - 1] && timestamps[i - 1].type === 'lunch' || getArrayLast(timestamps).type === 'lunch');
 
@@ -374,14 +374,14 @@ FirmCard.Schedule.prototype = {
                     var willWhen = new Date(timestamps[i].ts);
                     schedule.will.when = whenOpenInverse(h, d, willWhen.getDay());
 
-                    
+
                     var willTill = new Date(timestamps[i].ts),
                         strHours = willTill.getHours(),
                         strMinutes = willTill.getMinutes();
 
                     if (strHours < 10) { strHours = '0' + strHours; }
                     if (strMinutes < 10) { strMinutes = '0' + strMinutes; }
-                        
+
                     schedule.will.till = strHours+':'+strMinutes;
                 }
             }
@@ -502,7 +502,6 @@ FirmCard.Schedule.prototype = {
                 }
             } else { // Выходной
                 out.holiday = true;
-                out.holidayStr = t(localLang, 'restDay');
             }
 
             // Формируем список дней на локальном языке
@@ -522,7 +521,7 @@ FirmCard.Schedule.prototype = {
                             out.dayList.pop();
                         }
 
-                        out.dayList[out.dayList.length - 1] += '–' + lastDay;
+                        out.dayList[out.dayList.length - 1] += ' — ' + lastDay;
                     }
 
                     flow = 0;
@@ -534,9 +533,12 @@ FirmCard.Schedule.prototype = {
             // Список рабочих дней - все дни недели, значит нужно выводить фразу "Ежедневно"
             out.everyday = ( Math.min.apply(Math, groupWorkingDays) === 1 );
 
+            if ( out.holiday ) { out.holidayStr = t(localLang, 'restDay', out.dayList.length).slice(2); }
+
             // Делаем из массива строку и поднимаем первый символ
             out.dayList = out.dayList.join(', ');
             out.dayList = out.dayList.charAt(0).toUpperCase() + out.dayList.slice(1);
+
 
             return out;
         }

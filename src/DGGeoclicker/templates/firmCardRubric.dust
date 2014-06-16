@@ -1,18 +1,18 @@
 {#rubrics}
-    <section class="firm-card__rubrics">
+    <section class="dg-firm-card__rubrics">
         {?primary}
-            <ul class="firm-card__rubrics-list firm-card__rubrics_primary">
+            <ul class="dg-firm-card__rubrics-list dg-firm-card__rubrics-list_type_primary">
                 {#primary}
-                    <li class="firm-card__rubrics-list-item">
+                    <li class="dg-firm-card__rubrics-list-item">
                         {name}
                     </li>
                 {/primary}
             </ul>
         {/primary}
         {?additional}
-            <ul class="firm-card__rubrics-list firm-card__rubrics_additional">
+            <ul class="dg-firm-card__rubrics-list dg-firm-card__rubrics-list_type_additional">
                 {#additional}
-                    <li class="firm-card__rubrics-list-item">
+                    <li class="dg-firm-card__rubrics-list-item">
                         {name}
                     </li>
                 {/additional}

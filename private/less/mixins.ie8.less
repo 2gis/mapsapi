@@ -1,0 +1,17 @@
+.opacity(@value) when (isnumber(@value)) and (@value < 1) {
+    @percentValue: @value * 100;
+
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=@{percentValue})";
+    filter: e("alpha(opacity=@{percentValue})");
+    }
+
+.gradient(@from; @to; @type: 0) when (iscolor(@from)) and (iscolor(@to)) {
+    @argbFrom: argb(@from);
+    @argbTo: argb(@to);
+
+    filter: e("progid:DXImageTransform.Microsoft.gradient(GradientType=@{type},startColorstr='@{argbFrom}',endColorstr='@{argbTo}')");
+    }
+
+.alphaImage(@name; @sizingMethod: scale) {
+    filter: e("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='@{baseURL}/img/@{name}.png',sizingMethod='@{sizingMethod}')");
+    }
