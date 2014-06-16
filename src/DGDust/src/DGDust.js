@@ -13,3 +13,5 @@ DG.dust = function (tmpl) {
         return result;
     };
 };
+
+if (DG.debug) { dust.debugLevel = 'ERROR'; }

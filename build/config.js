@@ -24,7 +24,6 @@ var config = {
 
     js: {
         intro: '(function (window, document, undefined) {\n',
-        dustdebug: 'dust.debugLevel = \'ERROR\';\n',
         outro: '}(this, document));\n'
     },
 

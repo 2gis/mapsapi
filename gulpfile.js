@@ -404,7 +404,6 @@ function bldJs(opt) {
                .pipe(tasks.frep(config.cfgParams))
                .pipe(tasks.concat('script.js'))
                .pipe(tasks.header(config.js.intro))
-               .pipe(opt.isDebug ? tasks.footer(config.js.dustdebug) : tasks.util.noop())
                .pipe(tasks.footer(projectList))
                .pipe(tasks.footer(config.js.outro))
                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()))
@@ -446,6 +445,8 @@ function buildCss(options) {
                 './private/less/mixins.ie8.less:reference'
             ]
         });
+
+    if (!lessList.length) { return tasks.util.noop(); }
 
     return gulp.src(lessList)
             .pipe(tasks.header(lessPrerequirements))
