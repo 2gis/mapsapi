@@ -5,7 +5,7 @@ var handlers = window.__dgApi__.callbacks || [],
 try { 
     delete window.__dgApi__; 
 } catch(e) { 
-    window['__dgApi__'] = undefined; //ie8 cant delete from window object
+    window.__dgApi__ = undefined; //ie8 cant delete from window object
 }
 
 handlers.forEach(function (handlers) {
