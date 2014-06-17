@@ -6,8 +6,8 @@
 
     "TILE_SERVER": "https://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
 
-    "TRAFFIC_TILE_SERVER" : "http://traffic{s}.2gis.ru/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
-    "TRAFFIC_META_SERVER" : "http://meta{s}.2gis.ru/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
+    "TRAFFIC_TILE_SERVER" : "https://traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
+    "TRAFFIC_META_SERVER" : "https://meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
     "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
 
