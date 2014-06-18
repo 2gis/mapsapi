@@ -209,17 +209,14 @@ FirmCard.prototype = {
 
     _events: {
         'dg-popup__button_name_firm-card-back': function() {
-            console.log('FirmCard CLICK back button clicked');
             this.options.backBtn();
             this._toggleEventHandlers(true);
         },
         'dg-popup__button_name_show-entrance': function() {
-            console.log('FirmCard CLICK show entrance clicked');
             var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
             ent.addTo(this.options.map).show();
         },
         'dg-schedule__today': function(target) {
-            console.log('FirmCard CLICK schedule toggle');
             this._onToggleSchedule(target);
         }
     },
@@ -229,8 +226,6 @@ FirmCard.prototype = {
     },
 
     _onClick: function (e) {
-        console.log('FirmCard CLICK');
-
         var target = e.originalEvent.target;
 
         for (eventClass in this._events) {

@@ -64,6 +64,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             firmCard;
 
         firmCard = this.firmCard = new FirmCard(firmId, options);
+        this._initPopupClose();
         return firmCard.getContainer();
     },
 
@@ -214,6 +215,11 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             this._firmList.clearList();
             this._firmList = null;
             this._popup.off('scroll', this._onScroll);
+        }
+        this._firmId = null;
+        if (this.firmCard) {
+            this.firmCard._toggleEventHandlers(true);
+            this.firmCard = null;
         }
         this._firmListLoader = null;
         this._page = 1;

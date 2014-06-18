@@ -17,7 +17,6 @@
     FirmCard.List.prototype = {
 
         renderList: function (firms) {
-            console.log('RENDER FirmList');
             if (firms) {
                 this._toggleEventHandlers();
                 this.addFirms(firms);
@@ -67,6 +66,7 @@
 
         clearList : function () {
             this._firms = {};
+            this._toggleEventHandlers(true);
             this._clearContainer();
         },
 
@@ -125,7 +125,6 @@
 
         _events: {
             'dg-popup__link': function(target) {
-                console.log('FirmList : clicked on link');
                 var s = this._firmCard.render(target.id);
 
                 this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
@@ -135,14 +134,11 @@
                 this._toggleEventHandlers(true);
             },
             'dg-building-callout__list-item': function(target) {
-                console.log('FirmList : clicked on li link');
                 target = target.children[0];
 
                 this._events['dg-popup__link'].call(this, target);
             },
             'dg-popup__button_name_back': function() {
-                console.log('FirmList : back');
-
                 this.options.firmCard.onShowLess();
 
                 this._toggleEventHandlers(true);
@@ -154,8 +150,6 @@
         },
 
         _onClick: function (e) {
-            console.log('FirmList CLICK');
-
             var target = e.originalEvent.target;
 
             for (eventClass in this._events) {

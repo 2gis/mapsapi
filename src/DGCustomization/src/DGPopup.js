@@ -272,7 +272,6 @@
 
         _onClick: function (e) {
             if (!this._moving) { 
-                console.log('POPUP click fired');
                 e.target = e.target || e.srcElement;
                 this.fire('click', {originalEvent: e});
             }
