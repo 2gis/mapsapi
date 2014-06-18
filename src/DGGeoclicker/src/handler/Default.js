@@ -29,7 +29,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
     _runEventHandlers: function(e) {
         var target = e.originalEvent.target;
 
-        for (eventClass in this._eventHandlers) {
+        for (var eventClass in this._eventHandlers) {
             if (this._eventHandlers.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
                 this._eventHandlers[eventClass].call(this, target);
                 return;

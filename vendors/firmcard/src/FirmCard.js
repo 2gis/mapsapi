@@ -228,7 +228,7 @@ FirmCard.prototype = {
     _onClick: function (e) {
         var target = e.originalEvent.target;
 
-        for (eventClass in this._events) {
+        for (var eventClass in this._events) {
             if (this._events.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
                 this._events[eventClass].call(this, target);
                 return;
