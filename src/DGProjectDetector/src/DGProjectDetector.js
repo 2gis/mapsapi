@@ -1,14 +1,4 @@
 DG.ProjectDetector = DG.Handler.extend({
-    options: {
-        url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
-        data: {
-            key: '__WEB_API_KEY__',
-            fields: '__PROJECT_ADDITIONAL_FIELDS__',
-            type: 'project',
-            lang: 'all'
-        }
-    },
-
     initialize: function (map) { // (Object)
         this._map = map;
         this.project = null;
