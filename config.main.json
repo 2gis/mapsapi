@@ -4,24 +4,21 @@
     "BASE_URL": "",
     "DEFAULT_SKIN": "light",
 
-    "TILE_SERVER": "https://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
+    "TILE_SERVER": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
 
-    "TRAFFIC_TILE_SERVER" : "https://traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
-    "TRAFFIC_META_SERVER" : "https://meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
-    "TRAFFIC_TIMESTAMP_SERVER" : "http://traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
+    "TRAFFIC_TILE_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
+    "TRAFFIC_META_SERVER": "//meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
+    "TRAFFIC_TIMESTAMP_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
 
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
     "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
 
-    "DETECT_RETINA": true,
-
-    "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
-    "PHOTOS_LINK": "http://2gis.ru/photos/{id}",
-
-    "POI_META_SERVER": "https://tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
+    "POI_META_SERVER": "//tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
     "POI_LAYER_MIN_ZOOM": 15,
 
-    "WEB_API_SERVER": "https://catalog.api.2gis.ru",
+    "DETECT_RETINA": true,
+
+    "WEB_API_SERVER": "//catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
     "PROJECT_ADDITIONAL_FIELDS": "data.bound,data.max_zoom_level,data.min_zoom_level,data.time_zone,data.time_zone_as_offset,data.code",
@@ -31,6 +28,8 @@
     "DEFAULT_LANG": "ru",
     "PROJECT_LEAVE_MAX_ZOOM" : 13,
     "FLAMP_URL" : "http://flamp.ru/r/",
+    "PPNOT_LINK": "http://2gis.ru/#!/{code}/transTo/{name}/transToCr/{point}/routeSearchShow/true",
+    "PHOTOS_LINK": "http://2gis.ru/photos/{id}",
     "FLAMP_GOOGLE_ANALYTICS" : "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
     "GA_CODE": "UA-38243181-2"
 }
