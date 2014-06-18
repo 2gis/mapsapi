@@ -62,7 +62,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             onFirmReady: DG.bind(this._onFirmReady, this),
             onToggle: DG.bind(this._popup.resize, this._popup),
             showBooklet: this.options.showBooklet,
-            showPhotos: this.options.showPhotos
+            showPhotos: this.options.showPhotos,
+            firmList: this._firmList
         };
     },
 
@@ -89,6 +90,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         DG.extend(options, {
             backBtn: DG.bind(this._showHousePopup, this),
             onFirmClick: DG.bind(this._onFirmListClick, this),
+            onShowMore: DG.bind(this._showListPopup, this),
             pasteLoader: DG.bind(this._pasteLoader, this),
             popup: this._popup
         });
@@ -141,6 +143,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             }, this),
             onFirmClick: DG.bind(this._onFirmListClick, this),
             pasteLoader: DG.bind(this._pasteLoader, this),
+            onShowMore: DG.bind(this._showListPopup, this),
+            onShowLess: DG.bind(this._initShowLess, this),
             popup: this._popup
         });
 
@@ -273,5 +277,13 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             }
             this._popup.off('scroll', this._onScroll);
         }
+    },
+
+    _handleFooterButtonClick: function (e) {
+
+
+
+
+
     }
 });

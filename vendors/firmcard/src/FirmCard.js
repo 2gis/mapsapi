@@ -203,7 +203,6 @@ FirmCard.prototype = {
     _onFooterBtnClick: function (e) {
         e = e || window.event;
         var target = e.target || e.srcElement;
-        DG.DomEvent.stop(e);
 
         if (target.nodeName === 'A') {
             if (target.className.indexOf('dg-popup__button_name_firm-card-back') > -1) {
@@ -215,15 +214,48 @@ FirmCard.prototype = {
         }
     },
 
+    _onClick: function (e) {
+
+            console.log('FirmCard CLICK');
+
+            DG.DomEvent.stop(e);
+            DG.DomEvent.stop(e.originalEvent);
+
+            var target = e.originalEvent.target || e.originalEvent.srcElement;
+
+            if (target.className.indexOf('dg-popup__button_name_firm-card-back') !== -1 ) {
+                console.log('FirmCard CLICK back button clicked');
+                this.options.backBtn();
+            } else if (target.className.indexOf('dg-popup__button_name_show-entrance') !== -1) {
+                console.log('FirmCard CLICK show entrance clicked');
+                var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
+                ent.addTo(this.options.map).show();
+            } else if (target.className.indexOf('dg-schedule__today') !== -1 ) {
+                console.log('FirmCard CLICK schedule toggle');
+                this._onToggleSchedule(e.originalEvent);
+            } else if (target.className.indexOf('dg-popup__button_name_all') !== -1) {
+                console.log('FirmCard CLICK show more clicked');
+                this.options.onShowMore();
+            }
+
+            //DG.DomEvent.stop(e.originalEvent);
+    },
+
     _onToggleSchedule: function (e) {
+
+         if (e.fired) {return;}
+
         var schedule = this._container.querySelector('.dg-schedule__table'),
             forecast = this._container.querySelector('.dg-schedule__now'),
             showClass = ' dg-schedule__today_shown_true',
             target = e.target || e.srcElement;
 
+
         if (!schedule) { return; }
 
-        if (target && target.nodeName === 'DIV' && target.className.indexOf('dg-schedule__today') !== -1) {
+        e.fired = true;
+
+        if (target && target.nodeName === 'DIV') {
             if (schedule.style.display === 'block') {
                 schedule.style.display = 'none';
                 forecast.style.display = 'block';
@@ -241,24 +273,7 @@ FirmCard.prototype = {
     },
 
     _initEventHandlers: function () {
-
-        var eventName = this._hasTouch() ? 'touchend' : 'click',
-            footer = this._footerContainer,
-            container = this._container,
-            methodName = container.addEventListener ? 'addEventListener' : 'attachEvent',
-            mouseoverEvent = container.addEventListener ? 'mouseover' : 'onmouseover';
-
-            if (!this._container.addEventListener) { eventName = 'on'+eventName; }
-
-            if (footer) {
-                footer[methodName](eventName, this._bind(this._onFooterBtnClick, this), false);
-                if (this._hasTouch()) {
-                    footer[methodName](mouseoverEvent, this._bind(this._onFooterBtnClick, this), false);
-                }
-            }
-            
-            container[methodName](eventName, this._bind(this._onToggleSchedule, this), false);
-        
+        this.options._popup.on('click', this._onClick, this);      
     },
 
     _bind: function (fn, obj) { // (Function, Object) -> Function

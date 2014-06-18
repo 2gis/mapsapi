@@ -53,7 +53,6 @@
         _barWrapper: null,
         _baron: null,
         _isBaronExist: false,
-        _isScrolling: false,
 
         _popupShowClass: 'leaflet-popup_show_true',
         _popupHideClass: 'leaflet-popup_show_false',
@@ -264,14 +263,7 @@
 
             this._isBaronExist = true;
 
-            if (!DG.Browser.touch) {
-                DG.DomEvent
-                    .on(contentNode, 'click', this._onClick, this)
-                    .on(scroller, 'scroll', this._onScroll, this);
-            }
-
-            DG.DomEvent.on(this._popupStructure.body.parentNode, 'touchstart mousedown mousemove', this._onStart, this);
-
+            this._switchEvents();
         },
 
         _onScroll: function (e) {
@@ -279,7 +271,10 @@
         },
 
         _onClick: function (e) {
-            if (!this._moving) { this.fire('click', {originalEvent: e}); }
+            if (!this._moving) { 
+                console.log('POPUP click fired');
+                this.fire('click', {originalEvent: e});
+            }
             DG.DomEvent.stop(e);
         },
 
@@ -293,16 +288,13 @@
 
             this._startPoint = new DG.Point(first.clientX, first.clientY);
 
-            DG.DomEvent
-                .on(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
-                .on(this._popupStructure.body.parentNode, 'touchend', this._onEnd, this);
+            this._toggleTouchEvents();
+
         },
 
         _onEnd: function (e) {
 
-            DG.DomEvent
-                .off(this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
-                .off(this._popupStructure.body.parentNode, 'touchend', this._onEnd, this);
+            this._toggleTouchEvents(true);
 
             this._onClick(e);
 
@@ -311,8 +303,6 @@
         },
 
         _onMove: function (e) {
-
-            console.log(e);
 
             if (e.touches && e.touches.length > 1) {
                 this._moved = true;
@@ -389,6 +379,7 @@
             this._container.style.visibility = '';
 
             DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Browser.touch ? 'touchend' : 'click', this._onClick, this);
+            if (this._popupStructure.footer) DG.DomEvent.on(this._popupStructure.footer.parentNode, DG.Browser.touch ? 'touchend' : 'click', this._onClick, this);
         },
 
         _getDelta: function () { // () -> Number
@@ -476,7 +467,33 @@
         _firePopupClose: function (e) { // (Event)
             DG.DomUtil.TRANSITION && DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             originalOnClose.call(this, e);
+        },
+
+        _switchEvents: function (on) { // (Boolean)
+            
+            var switcher = on ? 'off' : 'on';
+
+            if (!DG.Browser.touch) {
+                DG.DomEvent
+                    [switcher](this._popupStructure.body.parentNode, 'click', this._onClick, this)
+                    [switcher](this._scroller, 'scroll', this._onScroll, this);
+            } else {
+
+            DG.DomEvent[switcher](this._popupStructure.body.parentNode, 'touchstart mousedown mousemove', this._onStart, this);
+
+            }
+        },
+
+        _toggleTouchEvents: function (on) {
+
+            var switcher = on ? 'off' : 'on';
+
+            DG.DomEvent
+                [switcher](this._popupStructure.body.parentNode, 'touchmove', this._onMove, this)
+                [switcher](this._popupStructure.body.parentNode, 'touchend', this._onEnd, this);
+
         }
+
     });
 }());
 
