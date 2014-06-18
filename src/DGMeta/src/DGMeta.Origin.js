@@ -7,43 +7,45 @@ DG.Meta.Origin = DG.Class.extend({
 
     _url: false,
 
-    initialize: function (url, options) {
+    initialize: function (url, options) { // (String, Object)
         this._url = url;
         this._requests = {};
 
         this._tileStorage = {};
         this._dataStorage = {};
 
-        options = L.setOptions(this, options);
+        options = DG.setOptions(this, options);
 
         if (typeof options.subdomains === 'string') {
             options.subdomains = options.subdomains.split('');
         }
     },
 
-    getTileData: function (coord) {
-        var key = this.getTileKey(coord),
+    getTileData: function (coord) { // (Object) -> Object
+        var tileKey = this.getTileKey(coord),
             self = this;
 
-        if (typeof this._tileStorage[key] === 'undefined' && typeof this._requests[key] === 'undefined') {
-            this._tileStorage[key] = false;
-            this._requests[key] = this._requestData(coord).then(function (data) {
-                self.setTileData(coord, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
-                delete self._requests[key];
+        if (typeof this._tileStorage[tileKey] === 'undefined' && typeof this._requests[tileKey] === 'undefined') {
+            this._tileStorage[tileKey] = false;
+            this._requests[tileKey] = this._requestData(coord).then(function (data) {
+                self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
+                delete self._requests[tileKey];
             });
         }
 
-        if (this._tileStorage[key].constructor === Object) {
-            return Object.keys(this._tileStorage[key]).map(function (id) {
-                return DG.extend({ geometry: this._tileStorage[key][id]}, this._dataStorage[id]);
+        if (this._tileStorage[tileKey].constructor === Object) {
+            return Object.keys(this._tileStorage[tileKey]).map(function (id) {
+                return DG.extend({ geometry: this._tileStorage[tileKey][id]}, this._dataStorage[id]);
             }, this);
         }
 
-        return this._tileStorage[key];
+        return this._tileStorage[tileKey];
     },
 
-    setTileData: function (coord, data) {
-        var key = this.getTileKey(coord);
+    setTileData: function (key, data) { // (Object/String, Object) -> Object
+        if (typeof key !== 'string') {
+            key = this.getTileKey(key);
+        }
 
         data.forEach(function (entity) {
             if (entity.geometry.constructor !== Object) {
@@ -56,31 +58,34 @@ DG.Meta.Origin = DG.Class.extend({
             delete entity.geometry;
             this._dataStorage[entity.id] = entity;
         }, this);
+
         return this;
     },
 
-    flush: function () {
+    flush: function () { // () -> Object
         this._tileStorage = {};
         this._dataStorage = {};
-        Object.keys(this._requests).forEach(function (id) {
-            this[id].abort && this[id].abort();
+        Object.keys(this._requests).forEach(function (tileKey) {
+            this[tileKey].abort && this[tileKey].abort();
         }, this._requests);
+
         return this;
     },
 
-    setURL: function (url, flush) {
+    setURL: function (url, flush) { // (String, Boolean) -> Object
         this._url = url;
         if (flush) {
             this.flush();
         }
+
         return this;
     },
 
-    getTileKey: function (coord) {
-        return [coord.x, coord.y, coord.z].join(':');
+    getTileKey: function (coord) { // (Object)-> String
+        return [coord.x, coord.y, coord.z, coord.key].join(':');
     },
 
-    _requestData: function (key) {
+    _requestData: function (key) { // (String)
         if (this._url) {
             return this._performRequest(key);
         } else {
@@ -88,17 +93,14 @@ DG.Meta.Origin = DG.Class.extend({
         }
     },
 
-    _performRequest: function (coords) { // (String) -> Promise
-        var url = this._prepareURL(coords),
-            request = DG.ajax(url, {
-                type: 'get',
-                dataType: 'json'
-            });
-
-        return request;
+    _performRequest: function (coords) { // (Object) -> Promise
+        return DG.ajax(this._prepareURL(coords), {
+            type: 'get',
+            dataType: 'json'
+        });
     },
 
-    _prepareURL: function (coords) {
+    _prepareURL: function (coords) { // (Object) -> String
         return DG.Util.template(this._url, {
             x: coords.x,
             y: coords.y,

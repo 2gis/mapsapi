@@ -16,8 +16,9 @@
     "url": "git://github.com/2gis/maps-api-2.0.git"
   },
   "dependencies": {
+    "dustjs-linkedin": "~2.3.1",
     "express": "~4.1.0",
-    "dustjs-linkedin": "~2.3.1"
+    "gulp": "^3.8.0"
   },
   "devDependencies": {
     "chalk": "^0.4.0",

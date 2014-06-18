@@ -100,7 +100,7 @@ var init = function (config) {
             }, [])
             .reduce(function (array, items) {
                 return array.concat(items);
-            })
+            }, [])
             .reduce(function (array, item) {//if css have skin, we add basic theme
                 if (item.indexOf('{skin}') > -1) {
                     array.push(item.replace('{skin}', 'basic'));

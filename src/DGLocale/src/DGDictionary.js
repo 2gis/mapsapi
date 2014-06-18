@@ -44,3 +44,10 @@ DG.Dictionary.cs = {
         return (n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;
     }
 };
+
+// sp
+DG.Dictionary.sp = {
+    pluralRules: function (n) { // (Number)
+        return (n >= 2) ? 1 : 0;
+    }
+};
