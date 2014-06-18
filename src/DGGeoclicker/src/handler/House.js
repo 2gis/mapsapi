@@ -68,7 +68,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _firmListSetup: function() {
-        var cardOptions = this._firmCardSetup();
+        var options = this._firmCardSetup();
 
         DG.extend(options, {
             backBtn: DG.bind(this._showHousePopup, this),
