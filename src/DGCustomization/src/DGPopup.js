@@ -280,7 +280,6 @@
         },
 
         _onStart: function (e) {
-
             this._moved = false;
 
             if (this._moving) { return; }
@@ -290,17 +289,14 @@
             this._startPoint = new DG.Point(first.clientX, first.clientY);
 
             this._toggleTouchEvents();
-
         },
 
         _onEnd: function (e) {
-
             this._toggleTouchEvents(true);
 
             this._onClick(e);
 
             this._moving = false;
-
         },
 
         _onMove: function (e) {
@@ -382,9 +378,6 @@
             }
 
             this._container.style.visibility = '';
-
-            // DG.DomEvent.on(this._popupStructure.body.parentNode, DG.Browser.touch ? 'touchend' : 'click', this._onClick, this);
-            // if (this._popupStructure.footer) DG.DomEvent.on(this._popupStructure.footer.parentNode, DG.Browser.touch ? 'touchend' : 'click', this._onClick, this);
         },
 
         _getDelta: function () { // () -> Number
@@ -487,13 +480,11 @@
         },
 
         _toggleTouchEvents: function (on) {
-
             var switcher = on ? 'off' : 'on';
 
             DG.DomEvent
                 [switcher](this._contentNode, 'touchmove', this._onMove, this)
                 [switcher](this._contentNode, 'touchend', this._onEnd, this);
-
         }
 
     });
