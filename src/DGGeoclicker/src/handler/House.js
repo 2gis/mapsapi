@@ -87,7 +87,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     _initShortFirmList: function (firms) { //(Object) -> DOMElement
         var options = this._firmListSetup();
 
-        this._shortFirmList = new FirmCard.List(firms, options});
+        this._shortFirmList = new FirmCard.List(firms, options);
 
         return this._shortFirmList.renderList();
     },
