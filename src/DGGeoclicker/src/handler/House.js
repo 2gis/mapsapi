@@ -9,7 +9,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     options: {
         'showBooklet': true,
-        'showPhotos': true
+        'showPhotos': true,
+        'showRouteSearch': true
     },
 
     initialize: function (controller, view, map, options) { // (Object, Object, Object, Object)
@@ -61,7 +62,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             onFirmReady: DG.bind(this._onFirmReady, this),
             onToggle: DG.bind(this._popup.resize, this._popup),
             showBooklet: this.options.showBooklet,
-            showPhotos: this.options.showPhotos
+            showPhotos: this.options.showPhotos,
+            showRouteSearch: this.options.showRouteSearch
         };
     },
 
