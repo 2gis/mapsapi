@@ -1,3 +1,5 @@
+/* global __TRAFFIC_LAYER_UPDATE_INTERVAL__, __TRAFFIC_LAYER_MIN_ZOOM__ */
+
 DG.Traffic = DG.TileLayer.extend({
 
     options: {
@@ -8,27 +10,28 @@ DG.Traffic = DG.TileLayer.extend({
     statics: {
         tileUrl: '__TRAFFIC_TILE_SERVER__',
         metaUrl: '__TRAFFIC_META_SERVER__',
-        updateInterval: '__TRAFFIC_LAYER_UPDATE_INTERVAL__',
+        timeUrl: '__TRAFFIC_TIMESTAMP_SERVER__',
+        updateInterval: __TRAFFIC_LAYER_UPDATE_INTERVAL__,
         layersOptions: {
             errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             subdomains: '012345679',
+            maxNativeZoom: 18,
             detectRetina: __DETECT_RETINA__,
-            maxNativeZoom: 18
+            minZoom: __TRAFFIC_LAYER_MIN_ZOOM__
         }
     },
 
     initialize: function (options) {
-        options = L.setOptions(this, DG.extend(options || {}, DG.Traffic.layersOptions));
-        options.timestampString = options.period ? '': ('?' + Date.now());
-
+        options = DG.setOptions(this, DG.extend(options || {}, DG.Traffic.layersOptions));
+        options.timestampString = options.period ? '' : ('?' +  (new Date()).getTime());
         this._metaLayer = DG.Meta.layer(null, {
             detectRetina: options.detectRetina,
             maxNativeZoom: options.maxNativeZoom,
-            dataFilter: DG.bind(this._processData, this)
+            dataFilter: DG.bind(this._processData, this),
+            minZoom: options.minZoom
         });
 
         this._onTimer = DG.bind(this._onTimer, this);
-
         DG.TileLayer.prototype.initialize.call(this, DG.Traffic.tileUrl, options);
     },
 
@@ -70,12 +73,30 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     update: function () {
-        var now = Date.now();
-        this.options.timestampString = this.options.period ? '' : ('?' + now);
-        this.fire('update', { timestamp: now });
-        this._layerEventsListeners.mouseout.call(this);
-        this._metaLayer.getOrigin().setURL(this._prepareMetaURL(), true);
-        this.redraw();
+
+        this._getTimestampString().then(
+            function (response) {
+                this.options.timestampString = '?' + response;
+            },
+            function () {
+                this.options.timestampString = '?' + (new Date()).getTime();
+            }).then(
+            function () {
+                this.fire('update', { timestamp: this.options.timestampString });
+                this._layerEventsListeners.mouseout.call(this);
+                this._metaLayer.getOrigin().setURL(this._prepareMetaURL(), true);
+                this.redraw();
+            }
+        );
+    },
+
+    _getTimestampString: function () {
+        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this._getSubdomain(), projectCode: this._map.projectDetector.getProject().code}, this.options || {})),
+            { type: 'get' });
+    },
+
+    _getSubdomain: function () {
+        return DG.Traffic.layersOptions.subdomains[Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)];
     },
 
     _onTimer: function () {
@@ -124,14 +145,14 @@ DG.Traffic = DG.TileLayer.extend({
 
     _updateLayerProject: function () {
         var project = this._map.projectDetector.getProject();
-
         DG.setOptions(this, project && project.traffic ? {
                 projectCode: project.code,
-                bounds: project.LatLngBounds,
-                minZoom: project.min_zoom_level,
-                maxZoom: project.max_zoom_level
+                bounds: project.latLngBounds,
+                minZoom: Math.max(project.minZoom, DG.Traffic.layersOptions.minZoom),
+                maxZoom: project.maxZoom
             } : {
-                maxZoom: 0
+                maxZoom: 0,
+                minZoom: 0
             });
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL());
     },

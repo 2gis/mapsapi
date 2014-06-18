@@ -64,32 +64,36 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     if (typeof cliOptions.sprite !== 'undefined') {
         cliOptions.sprite = cliOptions.sprite === 'true';
     }
-    return es.concat(
-        buildCss(extend({ isDebug: true }, cliOptions))
-             .pipe(map(saveSize))
-             .pipe(gulp.dest('./public/css/'))
-             .pipe(tasks.rename({ suffix: '.min' }))
-             .pipe(tasks.minifyCss())
-             .pipe(tasks.header(config.copyright))
-             .pipe(map(saveSize))
-             .pipe(gulp.dest('./public/css/')),
 
-         buildCss(extend({ ie8: true, isDebug: true, sprite: true }, cliOptions))
-             .pipe(tasks.rename({ suffix: '.full' }))
-             .pipe(gulp.dest('./public/css/'))
-             .pipe(tasks.rename({ suffix: '.min' }))
-             .pipe(tasks.minifyCss())
-             .pipe(tasks.header(config.copyright))
-             .pipe(gulp.dest('./public/css/')),
+    var css = [
+       {
+            size: true
+       },
+       {
+            ie8: true,
+            sprite: true,
+            name: 'full'
+       },
+       {
+            ie8: true,
+            excludeBaseCss: true,
+            name: 'ie'
+       } 
+    ].map(function(list) {
+        var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
+        if (!bandle) { return false; }
+        return bandle
+            .pipe(list.size ? map(saveSize) : tasks.util.noop())
+            .pipe(list.name ? tasks.rename({ suffix: '.' + list.name }) : tasks.util.noop())
+            .pipe(gulp.dest('./public/css/'))
+            .pipe(tasks.rename({ suffix: '.min' }))
+            .pipe(tasks.minifyCss())
+            .pipe(tasks.header(config.copyright))
+            .pipe(list.size ? map(saveSize) : tasks.util.noop())
+            .pipe(gulp.dest('./public/css/'));
+    }).filter(Boolean);
 
-         buildCss(extend({ excludeBaseCss: true, ie8: true, isDebug: true }, cliOptions))
-             .pipe(tasks.rename({ suffix: '.ie' }))
-             .pipe(gulp.dest('./public/css/'))
-             .pipe(tasks.rename({ suffix: '.min' }))
-             .pipe(tasks.minifyCss())
-             .pipe(tasks.header(config.copyright))
-             .pipe(gulp.dest('./public/css/'))
-    );
+    return es.concat.apply(null, css);
 });
 
 var copyPrivateAssets = function() {
@@ -404,7 +408,6 @@ function bldJs(opt) {
                .pipe(tasks.frep(config.cfgParams))
                .pipe(tasks.concat('script.js'))
                .pipe(tasks.header(config.js.intro))
-               .pipe(opt.isDebug ? tasks.footer(config.js.dustdebug) : tasks.util.noop())
                .pipe(tasks.footer(projectList))
                .pipe(tasks.footer(config.js.outro))
                .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()))
@@ -446,6 +449,8 @@ function buildCss(options) {
                 './private/less/mixins.ie8.less:reference'
             ]
         });
+
+    if (!lessList.length) { return false; }
 
     return gulp.src(lessList)
             .pipe(tasks.header(lessPrerequirements))

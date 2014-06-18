@@ -10,9 +10,9 @@ DG = new (
         return DgApi;
     })()
 )();
-
-DG.version = window.__dgApi_version;
-window.__dgApi_version = undefined;
+window.__dgApi__ = window.__dgApi__ || {};
+DG.version = window.__dgApi__.version;
+DG.debug = window.__dgApi__.debug;
 DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
 
 /* jshint ignore:start */
