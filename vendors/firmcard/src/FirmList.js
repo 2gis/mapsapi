@@ -19,10 +19,7 @@
         renderList: function (firms) {
             console.log('RENDER FirmList');
             if (firms) {
-                //if (!this._eventHandlersInited) {
-                    this._toggleEventHandlers();
-                //}
-
+                this._toggleEventHandlers();
                 this.addFirms(firms);
             }
             if (this.options.onListReady) {
@@ -33,26 +30,26 @@
         },
 
         addFirms: function (firms) {
-            if (firms) {
-                if (this._isArray(firms)) {
-                    for (var i = 0, l = firms.length; i < l; i++) {
-                        this._addFirm(firms[i]);
-                    }
-                } else {
-                    this._addFirm(firms);
+            if (!firms) { return; }
+
+            if (this._isArray(firms)) {
+                for (var i = 0, l = firms.length; i < l; i++) {
+                    this._addFirm(firms[i]);
                 }
+            } else {
+                this._addFirm(firms);
             }
         },
 
         removeFirms: function (ids) {
-            if (ids) {
-                if (this._isArray(ids)) {
-                    for (var i = 0, l = ids.length; i < l; i++) {
-                        this._removeFirm(ids[i]);
-                    }
-                } else {
-                    this._removeFirm(ids);
+            if (!ids) { return; }
+
+            if (this._isArray(ids)) {
+                for (var i = 0, l = ids.length; i < l; i++) {
+                    this._removeFirm(ids[i]);
                 }
+            } else {
+                this._removeFirm(ids);
             }
         },
 
@@ -126,10 +123,6 @@
             return true;
         },
 
-        _toggleEventHandlers : function (flag) {
-            this.options.firmCard.popup[flag ? 'off' : 'on']('click', this._onClick, this);
-        },
-
         _events: {
             'dg-popup__link': function(target) {
                 console.log('FirmList : clicked on link');
@@ -141,22 +134,29 @@
 
                 this._toggleEventHandlers(true);
             },
+            'dg-building-callout__list-item': function(target) {
+                console.log('FirmList : clicked on li link');
+                target = target.children[0];
+
+                this._events['dg-popup__link'].call(this, target);
+            },
             'dg-popup__button_name_back': function() {
                 console.log('FirmList : back');
+
                 this.options.firmCard.onShowLess();
+
                 this._toggleEventHandlers(true);
             }
         },
 
-        _onClick: function (e) {
+        _toggleEventHandlers : function (flag) {
+            this.options.firmCard.popup[flag ? 'off' : 'on']('click', this._onClick, this);
+        },
 
+        _onClick: function (e) {
             console.log('FirmList CLICK');
 
             var target = e.originalEvent.target;
-
-            // DG.DomEvent.stop(e.originalEvent);
-
-            if (target.className.indexOf('dg-building-callout__list-item') !== -1 ) { target = target.children[0] };
 
             for (eventClass in this._events) {
                 if (this._events.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
@@ -164,30 +164,6 @@
                     return;
                 }
             }
-
-            return false;
-
-
-            // if (target.className.indexOf('dg-popup__link') !== -1 && target.id) {
-            //     console.log('FirmList : clicked on link');
-            //     var s = this._firmCard.render(target.id);
-            //     this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
-            //     // this._unsetEventHandlers();
-            //     this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick(e);
-
-            // } else if (target.className.indexOf('dg-popup__button_name_back') !== -1) {
-            //     //this.options.firmCard.backBtn();
-            // }
-
-            /*else 
-                if (target.className.indexOf('dg-popup__button_name_all') !== -1) {
-                    this.options.firmCard.onShowMore();
-                } else if (target.className.indexOf('dg-schedule__today') !== -1 ) {
-                    this.options.firmCard.onToggle();
-            }*/
-
-             // DG.DomEvent.stop(e.originalEvent);
-
         },
 
         _clearContainer: function () {
@@ -202,6 +178,7 @@
             options || (options = {});
             this.options = options;
             this.options.firmCard || (this.options.firmCard = {});
+
             if (!options.firmCard.lang) {
                 this.options.firmCard.lang = 'ru';
             }

@@ -8,10 +8,11 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
     _eventHandlers: {},
 
-    initialize: function (controller, view, map) { // (Object, Object, Object)
+    initialize: function (controller, view, map, options) { // (Object, Object, Object)
         this._controller = controller;
         this._view = view;
         this._map = map;
+        this._view._popup.on('click', this._runEventHandlers, this);
     },
 
     handle: function () { // (Object, String) -> Promise
@@ -21,41 +22,22 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
         });
     },
 
-    _removeEventHandler: function (name) { // (String)
-        var handlers = this._eventHandlers,
-            handler,
-            handlerName;
-
-        for (handlerName in handlers) {
-            if (handlers.hasOwnProperty(handlerName)) {
-                handler = handlers[handlerName];
-                if (handlerName === name) {
-                    DG.DomEvent.off(handler.el, handler.event, handler.handler);
-                    delete handlers[handlerName];
-                }
-            }
-        }
+    _addEventHandler: function (el, handler) { // (String, Function)
+        this._eventHandlers[el] = handler;
     },
 
-    _addEventHandler: function (name, el, event, handler) { // (String, HTMLElement, String, Function)
-        DG.DomEvent.on(el, event, handler);
-        this._eventHandlers[name] = {
-            el: el,
-            event: event,
-            handler: handler
-        };
+    _runEventHandlers: function(e) {
+        var target = e.originalEvent.target;
+
+        for (eventClass in this._eventHandlers) {
+            if (this._eventHandlers.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
+                this._eventHandlers[eventClass].call(this, target);
+                return;
+            }
+        }
     },
 
     _clearEventHandlers: function () {
-        var handlers = this._eventHandlers,
-            i;
-
-        for (i in handlers) {
-            if (handlers.hasOwnProperty(i)) {
-                DG.DomEvent.off(handlers[i].el, handlers[i].event, handlers[i].handler);
-            }
-        }
-
         this._eventHandlers = {};
     },
 
