@@ -20,7 +20,7 @@
             console.log('RENDER FirmList');
             if (firms) {
                 //if (!this._eventHandlersInited) {
-                    this._initEventHandlers();
+                    this._toggleEventHandlers();
                 //}
 
                 this.addFirms(firms);
@@ -126,35 +126,58 @@
             return true;
         },
 
-        _initEventHandlers : function () {
-            this.options.firmCard._popup.on('click', this._onClick, this);
+        _toggleEventHandlers : function (flag) {
+            this.options.firmCard.popup[flag ? 'off' : 'on']('click', this._onClick, this);
         },
 
-        _unsetEventHandlers : function () {
-            this.options.firmCard._popup.off('click', this._onClick, this);
+        _events: {
+            'dg-popup__link': function(target) {
+                console.log('FirmList : clicked on link');
+                var s = this._firmCard.render(target.id);
+
+                this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
+
+                this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick();
+
+                this._toggleEventHandlers(true);
+            },
+            'dg-popup__button_name_back': function() {
+                console.log('FirmList : back');
+                this.options.firmCard.onShowLess();
+                this._toggleEventHandlers(true);
+            }
         },
 
         _onClick: function (e) {
 
             console.log('FirmList CLICK');
 
-            var target = e.originalEvent.target || e.originalEvent.srcElement;
+            var target = e.originalEvent.target;
 
-            DG.DomEvent.stop(e.originalEvent);
+            // DG.DomEvent.stop(e.originalEvent);
 
             if (target.className.indexOf('dg-building-callout__list-item') !== -1 ) { target = target.children[0] };
 
-
-            if (target.className.indexOf('dg-popup__link') !== -1 && target.id) {
-                console.log('FirmList : clicked on link');
-                var s = this._firmCard.render(target.id);
-                this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
-                this._unsetEventHandlers();
-                this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick(e);
-
-            } else if (target.className.indexOf('dg-popup__button_name_back') !== -1) {
-                //this.options.firmCard.backBtn();
+            for (eventClass in this._events) {
+                if (this._events.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
+                    this._events[eventClass].call(this, target);
+                    return;
+                }
             }
+
+            return false;
+
+
+            // if (target.className.indexOf('dg-popup__link') !== -1 && target.id) {
+            //     console.log('FirmList : clicked on link');
+            //     var s = this._firmCard.render(target.id);
+            //     this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
+            //     // this._unsetEventHandlers();
+            //     this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick(e);
+
+            // } else if (target.className.indexOf('dg-popup__button_name_back') !== -1) {
+            //     //this.options.firmCard.backBtn();
+            // }
 
             /*else 
                 if (target.className.indexOf('dg-popup__button_name_all') !== -1) {
@@ -163,7 +186,7 @@
                     this.options.firmCard.onToggle();
             }*/
 
-             DG.DomEvent.stop(e.originalEvent);
+             // DG.DomEvent.stop(e.originalEvent);
 
         },
 
