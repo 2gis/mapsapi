@@ -42,20 +42,12 @@ function getParams(req, resp, next) {
     next();
 }
 
-<<<<<<< HEAD
 app.get('/js', getParams, function (req, res) {
-=======
-app.get('/2.0/js/', getParams, function (req, res) {
->>>>>>> origin
     var jsStream = gulp.getJS(req.query);
     req.dgCallback(jsStream, res);
 });
 
-<<<<<<< HEAD
 app.get('/css', getParams, function (req, res) {
-=======
-app.get('/2.0/css/', getParams, function (req, res) {
->>>>>>> origin
     var cssStream = gulp.getCSS(req.query);
     req.dgCallback(cssStream, res);
 });
