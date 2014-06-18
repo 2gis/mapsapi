@@ -221,11 +221,7 @@ FirmCard.prototype = {
         'dg-schedule__today': function(target) {
             console.log('FirmCard CLICK schedule toggle');
             this._onToggleSchedule(target);
-        }/*,
-        'dg-popup__button_name_all': function() {
-            console.log('FirmCard CLICK show more clicked');
-            this.options.onShowMore();
-        }*/
+        }
     },
 
     _toggleEventHandlers: function (flag) {
