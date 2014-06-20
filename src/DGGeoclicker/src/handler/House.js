@@ -5,7 +5,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
-    _scrollHeightReserve: 60,
+    _scrollHeightReserve: 60,  
 
     options: {
         'showBooklet': true,
@@ -49,6 +49,12 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return Promise.resolve(this._houseObject);
     },
 
+    _isRouteSearchAllowed : function() { //() -> Boolean
+        var allowedCountries = 'ru kz ua'.split(' '),
+            countryCode = this._map.projectDetector.getProject().country_code;
+        return countryCode && allowedCountries.indexOf(countryCode) !== -1;
+    },
+
     _firmCardSetup: function () { //() -> Object
         return {
             render: this._view._templates,
@@ -63,7 +69,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             onToggle: DG.bind(this._popup.resize, this._popup),
             showBooklet: this.options.showBooklet,
             showPhotos: this.options.showPhotos,
-            showRouteSearch: this.options.showRouteSearch
+            showRouteSearch: this.options.showRouteSearch && this._isRouteSearchAllowed()
         };
     },
 

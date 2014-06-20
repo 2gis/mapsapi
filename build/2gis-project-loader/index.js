@@ -8,7 +8,8 @@ var fields = [
     'time_zone_as_offset',
     'code',
     'has_traffic',
-    'has_transport'
+    'has_transport',
+    'country_code'
 ].map(function (param) {
     return 'data.' + param;
 }).join('%2C');
@@ -49,7 +50,8 @@ function parse(item) {
         timeOffset: item.time_zone_as_offset,
         traffic: item.has_traffic,
         bound: wktToBnd(item.bound),
-        transport: item.has_transport
+        transport: item.has_transport,
+        country_code: item.country_code
     };
 }
 
