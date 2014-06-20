@@ -8,14 +8,14 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
     _eventHandlers: {},
 
-    initialize: function (controller, view, map, options) { // (Object, Object, Object)
+    initialize: function (controller, view, map, options) { // (Object, Object, Object, Object)
         this._controller = controller;
         this._view = view;
         this._map = map;
         this._view._popup.on('click', this._runEventHandlers, this);
     },
 
-    handle: function () { // (Object, String) -> Promise
+    handle: function () { // () -> Promise
         return Promise.resolve({
             tmpl: 'popupHeader',
             data: {'title': this.t('we_have_not')}

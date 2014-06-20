@@ -207,25 +207,7 @@
 			<td><code>&lt;String&nbsp;|&nbsp;HTMLElement&gt;</code></td>
 			<td>Возвращает контент балуна.</td>
 		</tr>
-	</tbody>
-</table>
-
-### События
-
-DGPopup генерирует события scroll и click, на которые можно подписаться передав ссылку на обработчик, например:
-
-<code>popup.on('click' , this.onClick, context)</code>
-
-<table>
-    <thead>
-        <tr>
-            <th>Метод</th>
-            <th>Возвращает</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
+		<tr>
             <td><code><b>on</b>(
                 <nobr>&lt;String&gt; <i>type</i></nobr>,
                 <nobr>&lt;Function&gt; <i>fn</i></nobr>,
@@ -245,5 +227,33 @@ DGPopup генерирует события scroll и click, на которые
             <td><code>this</code></td>
             <td>Отписывает ранее подписанный обработчик. Если обработчик не указан, тогда от определенного типа событий будут отписаны все обработчики.</td>
         </tr>
+	</tbody>
+</table>
+
+### События
+
+DGPopup генерирует события scroll и click, на которые можно подписаться передав ссылку на обработчик, например:
+
+<code>popup.on('click' , this.onClick, context)</code>
+
+<table>
+    <thead>
+        <tr>
+            <th>События</th>
+            <th>Данные</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>click</b></code></td>
+            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code></td>
+            <td>Вызывается при клике на балуне.</td>
+        </tr>
+        <tr>
+            <td><code><b>scroll</b></code></td>
+            <td><code> </code></td>
+            <td>Вызывается при скролле на балуне.</td>
+        </tr>
     </tbody>
-</table>    
+</table>

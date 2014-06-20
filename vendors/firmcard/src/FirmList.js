@@ -28,28 +28,25 @@
             return this._container;
         },
 
-        addFirms: function (firms) {
+        _processFirms: function (firms, add) {
             if (!firms) { return; }
-
+            var method = add ? '_addFirm' : '_removeFirm';
             if (this._isArray(firms)) {
                 for (var i = 0, l = firms.length; i < l; i++) {
-                    this._addFirm(firms[i]);
+                    this[method](firms[i]);
                 }
             } else {
-                this._addFirm(firms);
+                this[method](firms);
             }
+
         },
 
-        removeFirms: function (ids) {
-            if (!ids) { return; }
+        addFirms: function(firms) { 
+            this._processFirms(firms, true);
+        },
 
-            if (this._isArray(ids)) {
-                for (var i = 0, l = ids.length; i < l; i++) {
-                    this._removeFirm(ids[i]);
-                }
-            } else {
-                this._removeFirm(ids);
-            }
+        removeFirms: function(firms) {
+            this._processFirms(firms, false);
         },
 
         setLang: function (newLang) {

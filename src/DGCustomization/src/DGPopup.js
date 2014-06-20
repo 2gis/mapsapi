@@ -1,4 +1,4 @@
-//GIS-related popup content wrapper and offset
+//2GIS-related popup content wrapper and offset
 (function () {
     var offsetX = DG.configTheme.balloonOptions.offset.x,
         offsetY = DG.configTheme.balloonOptions.offset.y,
