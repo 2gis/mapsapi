@@ -6,6 +6,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
     _scrollHeightReserve: 60,  
+    _allowedCountries: ['ru','kz','ua'],
 
     options: {
         'showBooklet': true,
@@ -50,9 +51,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _isRouteSearchAllowed : function() { //() -> Boolean
-        var allowedCountries = 'ru kz ua'.split(' '),
-            countryCode = this._map.projectDetector.getProject().country_code;
-        return countryCode && allowedCountries.indexOf(countryCode) !== -1;
+        var countryCode = this._map.projectDetector.getProject().country_code;
+        return countryCode && this._allowedCountries.indexOf(countryCode) !== -1;
     },
 
     _firmCardSetup: function () { //() -> Object
