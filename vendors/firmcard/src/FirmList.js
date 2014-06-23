@@ -28,9 +28,9 @@
             return this._container;
         },
 
-        _processFirms: function (firms, add) {
+        _processFirms: function (firms, action) {
             if (!firms) { return; }
-            var method = add ? '_addFirm' : '_removeFirm';
+            var method = ['_', action,'Firm'].join('');
             if (this._isArray(firms)) {
                 for (var i = 0, l = firms.length; i < l; i++) {
                     this[method](firms[i]);
@@ -42,11 +42,11 @@
         },
 
         addFirms: function(firms) { 
-            this._processFirms(firms, true);
+            this._processFirms(firms, 'add');
         },
 
         removeFirms: function(firms) {
-            this._processFirms(firms, false);
+            this._processFirms(firms, 'remove');
         },
 
         setLang: function (newLang) {
