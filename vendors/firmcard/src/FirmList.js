@@ -30,7 +30,7 @@
 
         _processFirms: function (firms, action) {
             if (!firms) { return; }
-            var method = ['_', action,'Firm'].join('');
+            var method = '_' + action + 'Firm';
             if (this._isArray(firms)) {
                 for (var i = 0, l = firms.length; i < l; i++) {
                     this[method](firms[i]);
