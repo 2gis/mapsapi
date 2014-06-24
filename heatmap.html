@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru" class="page">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+        <title></title>
+
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="./css/style.ie.css" type="text/css" media="screen" charset="utf-8" />
+        <![endif]-->
+
+        <!--[if gte IE 9]><!-->
+            <link rel="stylesheet" href="./css/style.css" type="text/css" />
+        <!-- <![endif]-->
+
+        <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug" data-id="dgLoader"></script>
+        
+        <script type="text/javascript" src="./js/app.js"></script>
+    </head>
+    <body class="page__body">
+
+<div class="map" id="map"></div>
+<div class="header">
+    <div class="header__panel panel panel_type_black features">
+        <a class="features__arrow-link features__arrow-link_to_left" href="#" title="">Назад</a>
+        <a class="features__arrow-link features__arrow-link_to_right" href="#" title="">Вперёд</a>
+
+        <ul class="features__table-of-contents">
+            <li class="features__table-of-contents-item features__table-of-contents-item_is-active_true">Легковесность</li>
+            <li class="features__table-of-contents-item">Модульность</li>
+            <li class="features__table-of-contents-item"></li>
+            <li class="features__table-of-contents-item"></li>
+            <li class="features__table-of-contents-item"></li>
+            <li class="features__table-of-contents-item"></li>
+        </ul>
+
+        <ul class="features__list">
+            <li class="features__list-item features__list-item_name_lightness">
+                <div class="features__list-item-section">
+                    <h1 class="features__header">Легковесность</h1>
+                    <p>
+                        JS и CSS код новой версии API занимает всего 105 Кб. в базовой поставке, вместо прежних 255 Кб., что позволило увеличить скорость открытия страниц с картой.
+                    </p>
+                </div>
+            </li>
+            <li class="features__list-item features__list-item_name_modularity">
+                <div class="features__list-item-section">
+                    <h1 class="features__header">Модульность</h1>
+                    <p>
+                        Новый API совместим с большинством модулей библиотеки Leaflet. Помимо готовых модулей, таких как кластеризация, тепловая карта или анимированные маркеры, вы можете добавить свои.
+                    </p>
+                </div>
+                <div class="features__list-item-section features__list-item-section_is-bottom_true">
+                    <a class="features__round-link features__round-link_name_two-markers" data-state="two-markers" href="#" title=""></a>
+                    <a class="features__round-link features__round-link_name_sun" data-state="sun" href="#" title=""></a>
+                    <a class="features__round-link features__round-link_name_marker" data-state="marker" href="#" title=""></a>
+                </div>
+            </li>
+            <li class="features__list-item features__list-item_name_themes">
+                <div class="features__list-item-section">
+                    <h1 class="features__header">Новый дизайн и&nbsp;выбор темы</h1>
+                    <p>
+                        Используйте тему, которая будет лучше смотреться на вашем сайте — тёмную или&nbsp;светлую.
+                    </p>
+                </div>
+                <div class="features__list-item-section themes-switcher features__list-item-section_is-bottom_true">
+                    <a class="themes-switcher__switcher-link features__round-link themes-switcher__switcher-link_theme_light" data-state="light-theme" href="#" title="Включить светлую тему">Включить светлую тему</a>
+                    <a class="themes-switcher__switcher-link features__round-link themes-switcher__switcher-link_theme_dark" data-state="dark-theme" href="#" title="Включить тёмную тему">Включить тёмную тему</a>
+                </div>
+            </li>
+            <li class="features__list-item features__list-item_name_entrances">
+                <div class="features__list-item-section">
+                    <h1 class="features__header">Входы в здания</h1>
+                    <div class="pseudocard">
+                        <h2 class="pseudocard__header">Центр реабилитации речи Татьяны Соловьёвой</h2>
+                        <p class="pseudocard__address">Невский проспект, 170</p>
+                        <p class="pseudocard__route-instructions">
+                            Поверните на Исполкомскую, но далеко не уезжайте&nbsp;— вам в угловое здание. Пройдите во двор, вход будет по правую руку.
+                        </p>
+                        <p class="pseudocard__try-it">
+                            Вместо тысячи слов: <a class="pseudocard__find-entrance-link" href="#">Найти вход</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="features__list-item-section entrances-examples features__list-item-section_is-bottom_true">
+                    <a class="entrances-examples__play-pause-button" href="#" title=""></a>
+                    <ul class="entrances-examples__list">
+                        <li class="entrances-examples__item">
+                            <a class="entrances-examples__example-link entrances-examples__example-link_is-shown_true" href="#" data-id="0" title="">1</a>
+                        </li>
+                        <li class="entrances-examples__item">
+                            <a class="entrances-examples__example-link" data-id="1" href="#" title="">2</a>
+                        </li>
+                        <li class="entrances-examples__item">
+                            <a class="entrances-examples__example-link"  data-id="2" href="#" title="">3</a>
+                        </li>
+                        <li class="entrances-examples__item">
+                            <a class="entrances-examples__example-link" data-id="3" href="#" title="">4</a>
+                        </li>
+                        <li class="entrances-examples__item">
+                            <a class="entrances-examples__example-link"  data-id="4" href="#" title="">5</a>
+                        </li>
+                        <li class="entrances-examples__item">
+                            <a class="entrances-examples__example-link"  data-id="5" href="#" title="">6</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="features__list-item features__list-item_name_openness">
+                <div class="features__list-item-section">
+                    <h1 class="features__header">Открытость</h1>
+                    <p class="features__discription">
+                        Хорошая базовая функциональность
+                        API 2ГИС обеспечивается использованием open-source библиотеки Leaflet.
+                    </p>
+                    <p class="features__discription">
+                        Свободная лицензия обоих проектов позволяет вам изменять и улучшать их код под любые задачи.
+                    </p>
+                </div>
+                <div class="features__list-item-section openness-examples features__list-item-section_is-bottom_true">
+                    <a class="openness-examples__play-pause-button" href="#" title=""></a>
+                    <ul class="openness-examples__list">
+                        <li class="openness-examples__item">
+                            <a class="openness-examples__example-link openness-examples__example-link_is-shown_true" data-id="0" href="#" title="">1</a>
+                        </li>
+                        <li class="openness-examples__item">
+                            <a class="openness-examples__example-link" data-id="1" href="#" title="">2</a>
+                        </li>
+                        <li class="openness-examples__item">
+                            <a class="openness-examples__example-link" data-id="2" href="#" title="">3</a>
+                        </li>
+                        <li class="openness-examples__item">
+                            <a class="openness-examples__example-link" data-id="3" href="#" title="">4</a>
+                        </li>
+                        <li class="openness-examples__item">
+                            <a class="openness-examples__example-link" data-id="4" href="#" title="">5</a>
+                        </li>
+                        <li class="openness-examples__item">
+                            <a class="openness-examples__example-link" data-id="5" href="#" title="">6</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="features__list-item features__list-item_name_all-devices">
+                <div class="features__list-item-section">
+                    <h1 class="features__header">На всех экранах</h1>
+                    <p>
+                        Наша карта адаптируется под размер экрана. Ей одинаково удобно пользоваться на компьютерах, планшетах и телефонах.
+                    </p>
+                </div>
+                <div class="features__list-item-section features__list-item-section_is-bottom_true">
+                    <a class="features__round-link features__round-link_name_smartphone" data-state="smartphone" href="#" title=""></a>
+                    <a class="features__round-link features__round-link_name_notebook" data-state="notepad" href="#" title=""></a>
+                    <a class="features__round-link features__round-link_name_tablet" data-state="tablet" href="#" title=""></a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="device tablet">
+        <div class="tablet__display">
+            <div id="mobile-map" class="device__map"></div>
+
+            <div class="loupe">
+                <div class="loupe__glass loupe__glass_type_usual"></div>
+                <div class="loupe__glass loupe__glass_type_retina"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="panel panel_type_white billing-dynamics footer__panel footer__panel_name_billing-dynamics" data-footer-state="sun">
+        <div class="billing-dynamics__graph-wrapper">
+            <ul class="billing-dynamics__graph">
+                <li class="billing-dynamics__graph-point">
+                    <span class="billing-dynamics__graph-point-value">
+                        200
+                    </span>
+                </li>
+                <li class="billing-dynamics__graph-point">
+                    <span class="billing-dynamics__graph-point-value">
+                        700
+                    </span>
+                </li>
+                <li class="billing-dynamics__graph-point">
+                    <span class="billing-dynamics__graph-point-value">
+                        1300
+                    </span>
+                </li>
+                <li class="billing-dynamics__graph-point">
+                    <span class="billing-dynamics__graph-point-value">
+                        1800
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <p class="billing-dynamics__description">
+            Динамика среднего чека (в рублях)
+        </p>
+    </div>
+
+    <div class="panel panel_type_white lightness-panel footer__panel footer__panel_name_lightness" data-footer-state="page1">
+        <div class="lightness-panel__counter">00 : 02 : 25</div>
+        <div class="lightness-panel__version lightness-panel__version_of_new-api">
+            <span class="lightness-panel__version-title">Новый API</span>
+            <span class="lightness-panel__progress-bar">
+                <span class="lightness-panel__progress-bar-fill"></span>
+            </span>
+            <p class="lightness-panel__version-speed-level">
+                JS код: 358,8 KB  /  CSS код: 89,0 KB
+            </p>
+        </div>
+        <div class="lightness-panel__version lightness-panel__version_of_old-api">
+            <span class="lightness-panel__version-title">Старый API</span>
+            <span class="lightness-panel__progress-bar">
+                <span class="lightness-panel__progress-bar-fill"></span>
+            </span>
+            <p class="lightness-panel__version-speed-level">
+                JS код: 687,6 KB  /  CSS код: 60,4 KB
+            </p>
+        </div>
+    </div>
+
+    <div class="panel panel_type_white bankomats-panel footer__panel footer__panel_name_atm" data-footer-state="two-markers">
+        <span class="bankomats-panel__title">Банкоматы<br />Москвы</span>
+    </div>
+
+    <div class="footer__panel footer__panel_name_links" data-footer-state="page7">
+        <a class="footer__link" href="#" title="">Документация</a>
+        <a class="footer__link" href="#" title="">Примеры</a>
+        <a class="footer__link" href="#" title="">Идеи и вопросы</a>
+    </div>
+</div>
+    </body>
+</html>
+

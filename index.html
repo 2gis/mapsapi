@@ -1,62 +1,33 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>maps-api-2.0 by 2gis</title>
+<!DOCTYPE html>
+<html lang="ru" class="page">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>maps-api-2.0</h1>
-        <p>Карты 2ГИС — это точные данные обо всех объектах города, включая новостройки, с детализацией до заборов и внутриквартальных проездов.</p>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-        <p class="view"><a href="https://github.com/2gis/maps-api-2.0">View the Project on GitHub <small>2gis/maps-api-2.0</small></a></p>
+        <title></title>
 
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="./css/style.ie.css" type="text/css" media="screen" charset="utf-8" />
+        <![endif]-->
 
-        <ul>
-          <li><a href="https://github.com/2gis/maps-api-2.0/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/2gis/maps-api-2.0/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/2gis/maps-api-2.0">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a name="api-%D0%BA%D0%B0%D1%80%D1%82-2%D0%93%D0%98%D0%A1" class="anchor" href="#api-%D0%BA%D0%B0%D1%80%D1%82-2%D0%93%D0%98%D0%A1"><span class="octicon octicon-link"></span></a>API карт 2ГИС</h1>
+        <!--[if gte IE 9]><!-->
+            <link rel="stylesheet" href="./css/style.css" type="text/css" />
+        <!-- <![endif]-->
 
-<p>При помощи API карт вы сможете:</p>
+        <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug" data-id="dgLoader"></script>
+        
+        <script type="text/javascript" src="./js/app.js"></script>
+    </head>
+    <body class="page__body">
 
-<ul>
-<li>создавать интерактивные карты на веб-странице;</li>
-<li>показывать на карте различные объекты (маркеры, балуны, геометрические фигуры);</li>
-<li>производить поиск на карте: определять координаты геообъектов по их названиям и названия по координатам.</li>
-</ul><p>Чтобы начать использовать API карт, перейдите в раздел <a href="http://api.2gis.ru/doc/maps/quickstart/">Быстрый старт</a>.</p>
-
-<p>Если вы решили внести свой вклад в развитие продукта, ознакомьтесь с <a href="https://github.com/2gis/maps-api-2.0/blob/master/CONTRIBUTING.md">инструкцией для контрибьюторов</a>.</p>
-
-<p>Также мы открыты для общения и готовы ответить на ваши вопросы, чтобы связаться с нами перейдите в раздел с <a href="https://api2gis.uservoice.com">идеями и вопросами</a>.</p>
-
-<p>Дополнительная информация:</p>
-
-<ul>
-<li>текущая версия API карт — 2.0;</li>
-<li>работает с использованием библиотеки <a href="http://leafletjs.com">Leaflet</a> версии 0.7;</li>
-<li>правовая информация доступна <a href="http://help.2gis.ru/api-rules/#kart">на сайте 2ГИС</a>.</li>
-</ul>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/2gis">2gis</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+<div class="map" id="map"></div>
+    <div class="intro">
+        <h1 class="intro__header">
+            API <span class="intro__api-version">2.0</span>
+            <span class="intro__subheader">Карты по-новому</span>
+        </h1>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+    </body>
 </html>
+
