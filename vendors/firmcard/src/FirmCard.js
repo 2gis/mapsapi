@@ -150,7 +150,7 @@ FirmCard.prototype = {
             });
         }
         //UNCOMMENT WHEN ONLINE 4 WILL BE READY
-        /*btns.push({ name: 'goto',
+       /* btns.push({ name: 'goto',
                     label: this.dict.t(this.options.lang, 'btnFindWay'),
                     icon: true,
                     href: this.options.gotoUrl
@@ -252,6 +252,7 @@ FirmCard.prototype = {
             schedule.style.display = 'block';
             target.className += showClass;
         }
+    },
 
         this.options.onToggle && this.options.onToggle();
     },
@@ -269,5 +270,11 @@ FirmCard.prototype = {
                 this.options[option] = options[option];
             }
         }
+    },
+
+    _hasTouch: function () {
+        return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
     }
 };
