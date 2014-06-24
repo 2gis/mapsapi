@@ -254,10 +254,6 @@ FirmCard.prototype = {
         }
     },
 
-        this.options.onToggle && this.options.onToggle();
-    },
-
-
     _setOptions: function (options) {
         var option,
             options = options || {};
