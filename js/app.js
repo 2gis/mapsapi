@@ -7,7 +7,7 @@ var app = {plugins: {}},
     Backbone = require('backbone'),
     _ = require('underscore'),
     $ = require('jquery');
-app.root = '/maps-api-2.0';
+app.root = '/mapsapi';
 app.state = new State();
 app.vent = _.extend({}, Backbone.Events);
 $(document).ready(function() {
