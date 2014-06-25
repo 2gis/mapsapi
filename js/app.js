@@ -13,7 +13,7 @@ app.vent = _.extend({}, Backbone.Events);
 $(document).ready(function() {
   app.router = new Router();
   Backbone.history.start({
-    pushState: true,
+    pushState: false,
     root: app.root
   });
 });
