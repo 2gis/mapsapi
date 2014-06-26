@@ -11,8 +11,12 @@ DG.Control.Attribution.include({
         }
         return this._onAdd.call(this, map);
     },
-    _update: function (lang) {
+    _update: function (lang, osm) {
         if (!this._map) { return; }
+
+        if (typeof osm !== 'undefined') {
+            this._osm = osm;
+        }
 
         var attribs = [];
 
@@ -41,8 +45,10 @@ DG.Control.Attribution.include({
     /* global __DGAttribution_TMPL__ */
     _tmpl: DG.dust(__DGAttribution_TMPL__),
     _onAdd: DG.Control.Attribution.prototype.onAdd,
-    _getData: function (lang) {
+    _getData: function (lang, osm) {
         return {
+            'osm': this._osm,
+            'work_on': this.t('work_on'),
             'lang': lang || this._map.getLang(),
             'copyright_apilink': this.t('copyright_apilink'),
             'copyright_license': this.t('copyright_license'),
@@ -64,4 +70,3 @@ DG.Map.addInitHook(function () {
         DG.control.attribution().addTo(this);
     }
 });
-

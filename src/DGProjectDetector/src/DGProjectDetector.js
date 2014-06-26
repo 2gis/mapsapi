@@ -1,17 +1,13 @@
 DG.ProjectDetector = DG.Handler.extend({
-    options: {
-        url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
-        data: {
-            key: '__WEB_API_KEY__',
-            fields: '__PROJECT_ADDITIONAL_FIELDS__',
-            type: 'project',
-            lang: 'all'
-        }
+    statics: {
+        updateInterval: 150
     },
 
     initialize: function (map) { // (Object)
         this._map = map;
+        this._osmViewport = false;
         this.project = null;
+        this._projectWatch = DG.Util.throttle(this._projectWatch, DG.ProjectDetector.updateInterval, this);
         this._loadProjectList();
     },
 
@@ -54,6 +50,11 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _projectWatch: function () {
+        if (this._osmViewport === (this.project && this.project.latLngBounds.contains(this._map.getBounds()))) {
+            this._osmViewport = !this._osmViewport;
+            this._map.attributionControl._update(null, this._osmViewport);
+        }
+
         if (this.project && this._boundInProject(this.project) && this._zoomInProject(this.project)) { return; }
 
         if (this.project) {
