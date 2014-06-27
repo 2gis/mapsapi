@@ -4,7 +4,7 @@
 
 ### Описание
 
-Класс `Label` реализует небольшую подсказку, которая может появляться над определенным объектом на карте (над маркером, геометрией). Также подсказки могут отображаться постоянно, не только при наведении курсора мышки на объект, такие подсказки называются статическими. <!--Сам клаcc `Label` реализует интерфейс [ILayer](/doc/maps/2.0/manual/interfaces#ilayer) и может быть использован для создания автономной статической подсказки на карте. TODO: JSAPI-3564-->
+Класс `Label` реализует небольшую подсказку, которая может появляться над определенным объектом на карте (над маркером, геометрией). Также подсказки могут отображаться постоянно, не только при наведении курсора мышки на объект, такие подсказки называются статическими. <!--Сам клаcc `Label` реализует интерфейс [ILayer](/doc/maps/manual/interfaces#ilayer) и может быть использован для создания автономной статической подсказки на карте. TODO: JSAPI-3564-->
 
 ### Пример использования
 
@@ -58,7 +58,7 @@ TODO: JSAPI-3564
     <tbody>
         <tr>
             <td><b><code>offset</code></b></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td><nobr><code>Point(12, 15)</code></nobr></td>
             <td>Смещение контейнера всплывающей подсказки относительно позиции курсора (позиции маркера в случае использования с маркером).</td>
         </tr>
@@ -96,13 +96,13 @@ TODO: JSAPI-3564
             <td>Устанавливает содержимое всплывающей подсказки.</td>
         </tr>
         <tr>
-            <td><code><b>setLatLng</b>(&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; latlng)</code></td>
+            <td><code><b>setLatLng</b>(&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; latlng)</code></td>
             <td><code>this</code></td>
             <td>Устанавливает географические координаты подсказки.</td>
         </tr>
         <tr>
             <td><code><b>getLatLng</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Возвращает географические координаты подсказки.</td>
