@@ -44,12 +44,14 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _projectWatch: function () {
-        if (this._osmViewport === (this.project && this.project.latLngBounds.contains(this._map.getBounds()))) {
+        var boundInProject = this.project && this._boundInProject(this.project);
+
+        if (this._osmViewport === boundInProject) {
             this._osmViewport = !this._osmViewport;
             this._map.attributionControl._update(null, this._osmViewport);
         }
 
-        if (this.project && this._boundInProject(this.project) && this._zoomInProject(this.project)) { return; }
+        if (boundInProject && this._zoomInProject(this.project)) { return; }
 
         if (this.project) {
             this.project = null;
