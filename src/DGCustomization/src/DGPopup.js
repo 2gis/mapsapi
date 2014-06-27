@@ -271,11 +271,13 @@
         },
 
         _onClick: function (e) {
+            e.target = e.target || e.srcElement;
             if (!this._moving) { 
-                e.target = e.target || e.srcElement;
                 this.fire('click', {originalEvent: e});
             }
-            DG.DomEvent.stop(e);
+            if (e.target.className !== 'scroller__bar') {
+                DG.DomEvent.stop(e);
+            }
         },
 
         _onStart: function (e) {
@@ -310,8 +312,6 @@
                 offset = Math.abs(newPoint.subtract(this._startPoint).y);
 
             if (!offset || offset < 10) { return; }
-
-            this._onScroll(e);
 
             this._moving = this._moved = true;
 
@@ -472,10 +472,10 @@
 
             if (!DG.Browser.touch) {
                 DG.DomEvent[switcher](this._contentNode, 'click', this._onClick, this);
-                this._isBaronExist && DG.DomEvent[switcher](this._scroller, 'scroll', this._onScroll, this);
             } else {
                 DG.DomEvent[switcher](this._contentNode, 'touchstart mousedown mousemove', this._onStart, this);
             }
+            this._isBaronExist && DG.DomEvent[switcher](this._scroller, 'scroll', this._onScroll, this);
         },
 
         _toggleTouchEvents: function (on) {
