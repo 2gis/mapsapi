@@ -103,7 +103,7 @@
 
 #### События
 
-Вы можете подписаться на следующие события используя [эти методы](/doc/maps/2.0/manual/events#методы-управления-событиями).
+Вы можете подписаться на следующие события используя [эти методы](/doc/maps/manual/events#методы-управления-событиями).
 <table>
     <thead>
         <tr>
@@ -115,52 +115,52 @@
     <tbody>
         <tr>
             <td><code><b>click</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при клике на объект.</td>
         </tr>
         <tr>
             <td><code><b>dblclick</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при двойном клике на объект.</td>
         </tr>
         <tr>
             <td><code><b>mousedown</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда пользователь нажимает кнопку мышки на объекте.</td>
         </tr>
         <tr>
             <td><code><b>mouseover</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при наведении курсора мышки на объект.</td>
         </tr>
         <tr>
             <td><code><b>mouseout</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается когда курсор мышки покидает область объекта.</td>
         </tr>
         <tr>
             <td><code><b>contextmenu</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#mouseevent">MouseEvent</a></code>
+            <td><code><a href="/doc/maps/manual/events#mouseevent">MouseEvent</a></code>
             <td>Вызывается при нажатии правой кнопкой мышки на объекте, предотвращает появление стандартного контекстного меню браузера.</td>
         </tr>
         <tr>
             <td><code><b>add</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/manual/events#event">Event</a></code>
             <td>Вызывается при добавлении геометрии на карту.</td>
         </tr>
         <tr>
             <td><code><b>remove</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/manual/events#event">Event</a></code>
             <td>Вызывается при удалении геометрии с карты.</td>
         </tr>
         <tr>
             <td><code><b>popupopen</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#popupevent">PopupEvent</a></code></td>
+            <td><code><a href="/doc/maps/manual/events#popupevent">PopupEvent</a></code></td>
             <td>Вызывается при открытии прикрепленного к геометрии балуна.</td>
         </tr>
         <tr>
             <td><code><b>popupclose</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/events#popupevent">PopupEvent</a></code></td>
+            <td><code><a href="/doc/maps/manual/events#popupevent">PopupEvent</a></code></td>
             <td>Вызывается при закрытии прикрепленного к геометрии балуна.</td>
         </tr>
     </tbody>
@@ -178,15 +178,15 @@
     <tbody>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет слой на карту.</td>
         </tr>
         <tr id="path-bindpopup">
             <td><code><b>bindPopup</b>(
-                <nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/maps/2.0/manual/popups#описание">Popup</a>&gt; <i>popup</i>,</nobr>
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;String&gt; <i>html</i> |</nobr> <nobr>&lt;HTMLElement&gt; <i>el</i> |</nobr> <nobr>&lt;<a href="/doc/maps/manual/popups#описание">Popup</a>&gt; <i>popup</i>,</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/popups#опции">Popup options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Привязывает к геометрии балун с HTML содержимым, который будет показан при клике.</td>
@@ -198,14 +198,14 @@
         </tr>
         <tr id="path-openpopup">
             <td><code><b>openPopup</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Открывает балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a> в указанной точке.</td>
         </tr>
         <tr>
             <td><code><b>getPopup</b>()</code></td>
-            <td><code><a href="/doc/maps/2.0/manual/popups#описание">Popup</a></code></td>
+            <td><code><a href="/doc/maps/manual/popups#описание">Popup</a></code></td>
             <td>Возвращает балун, предварительно привязанный методом <a href="#path-bindpopup">bindPopup</a>.</td>
         </tr>
         <tr id="path-closepopup">
@@ -215,7 +215,7 @@
             <td>Закрывает балун, привязанный к геометрии, если тот был открыт.</td>
         </tr>
         <tr id="path-bindlabel">
-            <td><code><b>bindLabel</b>(&lt;String&gt; content, &lt;<a href="/doc/maps/2.0/manual/label#опции">Label options</a>&gt; options?)</code></td>
+            <td><code><b>bindLabel</b>(&lt;String&gt; content, &lt;<a href="/doc/maps/manual/label#опции">Label options</a>&gt; options?)</code></td>
             <td><code>this</code></td>
             <td>Добавляет всплывающую подсказку для геометрии или обновляет содержимое уже созданной.</td>
         </tr>
@@ -234,7 +234,7 @@
         </tr>
         <tr id="path-getbounds">
             <td><code><b>getBounds</b>()</code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Возвращает прямоугольные границы геометрии.</td>
         </tr>
         <tr>
@@ -315,7 +315,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Polyline</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
                 <nobr>&lt;<a href="#опции-1">Polyline options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
 
@@ -370,35 +370,35 @@
     <tbody>
         <tr>
             <td><code><b>addLatLng</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет переданную точку в ломаную.</td>
         </tr>
         <tr>
             <td><code><b>setLatLngs</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Заменяет все точки ломаной массивом переданных географических точек.</td>
         </tr>
         <tr>
             <td><code><b>getLatLngs</b>()</code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
             <td>Возвращает массив точек геометрии.</td>
         </tr>
         <tr>
             <td><code><b>spliceLatLngs</b>(
                 <nobr>&lt;Number&gt; <i>index</i></nobr>,
                 <nobr>&lt;Number&gt; <i>pointsToRemove</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i>, &hellip; )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i>, &hellip; )</nobr>
             </code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
             <td>Позволяет добавлять, удалять или заменять точки в ломаной. Синтаксис аналогичен <a target="_blank" href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/splice">Array#splice</a>. Возвращает массив удаленных точек.</td>
         </tr>
         <tr id="path-getbounds">
             <td><code><b>getBounds</b>()</code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Возвращает границы ломаной.</td>
         </tr>
         <tr id="polyline-togeojson">
@@ -411,7 +411,7 @@
 
 ### Класс DG.MultiPolyline
 
-Расширяет [FeatureGroup](/doc/maps/2.0/manual/groups#класс-dgfeaturegroup) и позволяет создавать мультиполилайны (один слой, содержащий несколько ломаных с общими стилями и балуном).
+Расширяет [FeatureGroup](/doc/maps/manual/groups#класс-dgfeaturegroup) и позволяет создавать мультиполилайны (один слой, содержащий несколько ломаных с общими стилями и балуном).
 
 #### Конструктор
 <table>
@@ -425,7 +425,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.MultiPolyline</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
                 <nobr>&lt;<a href="#опции-1">Polyline options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
 
@@ -453,7 +453,7 @@
     <tbody>
         <tr>
             <td><code><b>setLatLngs</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -462,7 +462,7 @@
         <tr>
             <td><code><b>getLatLngs</b>()</td>
 
-            <td><code><nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
+            <td><code><nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
             </code></td>
             <td>Возвращает многомерный массив географических координат каждой ломаной.</td>
         </tr>
@@ -497,7 +497,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Polygon</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i></nobr>,
                 <nobr>&lt;<a href="#опции-1">Polyline options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
@@ -532,7 +532,7 @@
 
 ### Класс DG.MultiPolygon
 
-Расширяет [FeatureGroup](/doc/maps/2.0/manual/groups#класс-dgfeaturegroup), позволяя создавать мультиполигоны (один слой, содержащий несколько многоугольников с общими стилями и балуном).
+Расширяет [FeatureGroup](/doc/maps/manual/groups#класс-dgfeaturegroup), позволяя создавать мультиполигоны (один слой, содержащий несколько многоугольников с общими стилями и балуном).
 
 #### Конструктор
 <table>
@@ -546,7 +546,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.MultiPolygon</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
                 <nobr>&lt;<a href="#опции-1">Polyline options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
@@ -572,7 +572,7 @@
     <tbody>
         <tr>
             <td><code><b>setLatLngs</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -580,7 +580,7 @@
         </tr>
         <tr>
             <td><code><b>getLatLngs</b>()</td>
-            <td><code><nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
+            <td><code><nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
             </code></td>
             <td>Возвращает многомерный массив географических координат каждого многоугольника.</td>
         </tr>
@@ -623,7 +623,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Rectangle</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
                 <nobr>&lt;<a href="#опции">Path options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
@@ -649,7 +649,7 @@
     <tbody>
         <tr>
             <td><code><b>setBounds</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i> )</nobr>
                 </code>
             </td>
 
@@ -678,7 +678,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Circle</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
                 <nobr>&lt;Number&gt; <i>radius</i></nobr>,
                 <nobr>&lt;<a href="#опции">Path options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
@@ -705,7 +705,7 @@
     <tbody>
         <tr>
             <td><code><b>getLatLng</b>()</code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Возвращает текущее географическое положение круга.</td>
         </tr>
         <tr>
@@ -715,7 +715,7 @@
         </tr>
         <tr>
             <td><code><b>setLatLng</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
@@ -754,7 +754,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.CircleMarker</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i></nobr>,
                 <nobr>&lt;<a href="#опции">Path options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
@@ -776,7 +776,7 @@
     </thead>
     <tr>
         <td><code><b>setLatLng</b>(
-            <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+            <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
         </code></td>
 
         <td><code>this</code></td>
