@@ -7,7 +7,9 @@ var fields = [
     'min_zoom_level',
     'time_zone_as_offset',
     'code',
-    'has_traffic'
+    'has_traffic',
+    'has_transport',
+    'country_code'
 ].map(function (param) {
     return 'data.' + param;
 }).join('%2C');
@@ -47,7 +49,9 @@ function parse(item) {
         maxZoom: item.max_zoom_level,
         timeOffset: item.time_zone_as_offset,
         traffic: item.has_traffic,
-        bound: wktToBnd(item.bound)
+        bound: wktToBnd(item.bound),
+        transport: item.has_transport,
+        country_code: item.country_code
     };
 }
 

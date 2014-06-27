@@ -6,7 +6,7 @@
         isJsRequested = false,
         queryString,
         rejects = [],
-        version = window.__dgApi_version = 'v2.0.24';
+        version = 'v2.0.25';
 
     function processURL() {
         var scripts = document.getElementsByTagName('script');
@@ -59,6 +59,10 @@
             sprite = paramsURI.indexOf('sprite') === -1 ? getParamsSprite() : '',
             paramsIE = getParamsIE();
         return '?' + paramsURI + paramsIE + sprite + 'version=' + version;
+    }
+
+    function getDebugParam() {
+        return getParamsURI().indexOf('mode=debug') > -1;
     }
 
     function loadCSS(link) {
@@ -150,8 +154,11 @@
 
     window.DG = {};
     window.DG.ready = false;
-    window.__dgApi_callbacks = [];
-    window.__dgApi_callbacks.push(setReady);
+    window.__dgApi__ = {
+        callbacks: [setReady],
+        debug: getDebugParam(),
+        version: version
+    };
 
     baseURL = getBaseURL();
     queryString = getParams();
@@ -165,7 +172,7 @@
             if (!isJsRequested) { loadApi(); }
         }
 
-        window.__dgApi_callbacks.push([resolve, reject]);
+        window.__dgApi__.callbacks.push([resolve, reject]);
         reject && rejects.push(reject);
 
         return this;

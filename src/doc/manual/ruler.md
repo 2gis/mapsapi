@@ -4,7 +4,7 @@
 
 ### Описание
 
-Отображает на карте линейку, позволяющую замерять расстояние между географическими точками. Реализует интерфейс [ILayer](/doc/maps/2.0/manual/interfaces#ilayer).
+Отображает на карте линейку, позволяющую замерять расстояние между географическими точками. Реализует интерфейс [ILayer](/doc/maps/manual/interfaces#ilayer).
 
 ### Пример использования
 
@@ -31,7 +31,7 @@
     <tbody>
         <tr>
             <td><code><b>DG.Ruler</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i>, </nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i>, </nobr>
                 <nobr>&lt;<a href="#опции">Ruler options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>
@@ -75,7 +75,7 @@
     <tbody>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет линейку на карту.</td>
@@ -87,30 +87,30 @@
         </tr>
         <tr>
             <td><code><b>addLatLng</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет точку в линейку.</td>
         </tr>
         <tr>
             <td><code><b>setLatLngs</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]&gt; <i>latlngs</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Заменяет все точки линейки массивом переданных географических точек.</td>
         </tr>
         <tr>
             <td><code><b>getLatLngs</b>()</code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
             <td>Возвращает массив точек линейки.</td>
         </tr>
         <tr>
             <td><code><b>spliceLatLngs</b>(
                 <nobr>&lt;Number&gt; <i>index</i></nobr>,
                 <nobr>&lt;Number&gt; <i>pointsToRemove</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i>, &hellip; )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>&gt; <i>latlng?</i>, &hellip; )</nobr>
             </code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[]</code></td>
             <td>Позволяет добавлять, удалять или заменять точки в линейке. Синтаксис аналогичен <a target="_blank" href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/splice">Array#splice</a>. Возвращает массив удаленных точек.</td>
         </tr>
     </tbody>

@@ -4,7 +4,7 @@
 
 ### Описание
 
-Ниже приведены базовые примеры использования карты. Для получения подробной информации о работе с картой воспользуйтесь разделами документации [Подключение API](/doc/maps/2.0/manual/loading) и [Карта](/doc/maps/2.0/manual/map).
+Ниже приведены базовые примеры использования карты. Для получения подробной информации о работе с картой воспользуйтесь разделами документации [Подключение API](/doc/maps/manual/loading) и [Карта](/doc/maps/manual/map).
 
 ### Создание карты
 
@@ -99,6 +99,42 @@
                     });                    
                 }
             </script>
+        </body>
+    </html>
+
+### Использование опций подключения
+
+Ниже представлен пример вызова карты с таким набором опций: 'pkg=full', 'skin=dark', 'mode=debug', 'sprite=true'. Как результат мы получим неминифицированные исходники и иконки собранные в спрайт. Все возможные опции можно посмотреть в разделе [Опции подключения](/doc/maps/manual/loading/#sel=21:1,21:2). На выходе имеем такую карту:
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 13,
+            geoclicker: true
+        });
+    });
+</script>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset='utf-8' />
+            <title>Использование опций подключения</title>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&skin=dark&mode=debug&sprite=true"
+             data-id="dgLoader"></script>       
+        </head>
+        <body>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <script>
+            DG.then(function() {
+                DG.map('map', {
+                    center: [54.98, 82.89],
+                    zoom: 13,
+                    geoclicker: true
+                });
+            });
+        </script>
         </body>
     </html>
 
