@@ -1,18 +1,12 @@
 DG.ProjectDetector = DG.Handler.extend({
-    statics: {
-        updateInterval: 150
-    },
-
     initialize: function (map) { // (Object)
         this._map = map;
         this._osmViewport = false;
         this.project = null;
-        this._projectWatch = DG.Util.throttle(this._projectWatch, DG.ProjectDetector.updateInterval, this);
         this._loadProjectList();
     },
 
     addHooks: function () {
-        this._projectWatch();
         this._map.on('move', this._projectWatch, this);
     },
 
