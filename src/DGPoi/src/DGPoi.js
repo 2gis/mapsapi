@@ -14,6 +14,7 @@ DG.Poi = DG.Handler.extend({
         metaURL: '__HIGHLIGHT_POI_SERVER__'
     },
 
+
     initialize: function (map, options) { // (Object)
         this._map = map;
         DG.Util.setOptions(this, options);
@@ -47,8 +48,11 @@ DG.Poi = DG.Handler.extend({
     },
 
     _processData : function (data, coord) {
-        var map = this._map,
-            tileOriginPoint = coord.multiplyBy(this._metaLayer._getTileSize());
+         var map = this._map;
+
+         if(!coord) {return false;}
+
+         tileOriginPoint = coord.multiplyBy(this._metaLayer._getTileSize());
 
         if (data.responseText === '') {
             return [];
@@ -66,7 +70,8 @@ DG.Poi = DG.Handler.extend({
                 id: item.id,
                 hint: item.links[0].name,
                 linked: item.links[0],
-                geometry: geoJson
+                geometry: geoJson,
+                center: DG.polygon(DG.Wkt.toLatLngs(item.hover)).getBounds().getCenter()
             };
         });
     },
@@ -74,6 +79,7 @@ DG.Poi = DG.Handler.extend({
     _layerEventsListeners : {
         mouseover: function (e) { // (Object)
             this._setCursor('pointer');
+            DG.DomEvent.on(this._map._mapPane, 'click', this._onMouseClick, this);
             this._labelHelper
                 .setPosition(e.latlng)
                 .setContent(e.meta.hint);
@@ -83,11 +89,16 @@ DG.Poi = DG.Handler.extend({
         mouseout: function () {
             this._setCursor('auto');
             this._map.removeLayer(this._labelHelper);
+            DG.DomEvent.off(this._map._mapPane, 'click', this._onMouseClick);
         },
 
         mousemove: function (e) { // (Object)
             this._labelHelper.setPosition(e.latlng);
         }
+    },
+
+    _onMouseClick: function (e) { // (Object)
+        this._processData();
     },
 
     _setCursor: function (cursor) { // (String)
