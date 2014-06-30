@@ -297,7 +297,7 @@
         </tr>
         -->
         <tr>
-            <td><code><b>limitExecByInterval</b>(
+            <td><code><b>throttle</b>(
                 <nobr>&lt;Function&gt; <i>fn</i></nobr>,
                 <nobr>&lt;Number&gt; <i>time</i></nobr>,
                 <nobr>&lt;Object&gt; <i>context?</i> )</nobr>

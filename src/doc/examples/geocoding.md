@@ -10,7 +10,7 @@
 
 Определение координат объекта по его адресу:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script type="text/javascript">
     DG.then(function () {
@@ -35,7 +35,7 @@
                     map.removeLayer(marker);
                 }
                 var wkt = new DG.Wkt();
-                // считываем строку в WKT-формате 
+                // считываем строку в WKT-формате
                 wkt.read(data.result[0].centroid);
                 // извлекаем координаты для маркера
                 lng = wkt.components[0].x;
@@ -57,7 +57,7 @@
     <html>
         <head>
             <meta charset="utf-8">
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?"
             data-id="dgLoader"></script>
         </head>
 
@@ -86,7 +86,7 @@
                                 map.removeLayer(marker);
                             }
                             var wkt = new DG.Wkt();
-                            // считываем строку в WKT-формате 
+                            // считываем строку в WKT-формате
                             wkt.read(data.result[0].centroid);
                             // извлекаем координаты для маркера
                             lng = wkt.components[0].x;
@@ -149,7 +149,7 @@
     <html>
         <head>
             <meta charset="utf-8">
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
 
@@ -221,7 +221,7 @@
             type: 'jsonp',
             success: function(data) {
                 data.result.forEach(function(metro) {
-                    // считываем строку в WKT-формате 
+                    // считываем строку в WKT-формате
                     wkt.read(metro.centroid);
                     // извлекаем координаты для маркера
                     var lng = wkt.components[0].x;
@@ -243,7 +243,7 @@
     <html>
         <head>
             <meta charset="utf-8">
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
 
@@ -274,7 +274,7 @@
                         type: 'jsonp',
                         success: function(data) {
                             data.result.forEach(function(metro) {
-                                // считываем строку в WKT-формате 
+                                // считываем строку в WKT-формате
                                 wkt.read(metro.centroid);
                                 // извлекаем координаты для маркера
                                 var lng = wkt.components[0].x;

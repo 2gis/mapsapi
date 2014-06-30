@@ -8,7 +8,7 @@
 
 ### Открытие балуна при клике на маркер
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
@@ -24,9 +24,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Открытие балуна при клике на маркер</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -70,9 +70,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Открытие балуна по умолчанию и по требованию</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -130,9 +130,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Добавление нескольких балунов на карту</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>

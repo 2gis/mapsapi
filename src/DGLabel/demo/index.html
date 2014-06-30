@@ -3,10 +3,14 @@
 <head>
     <meta charset='utf-8'>
     <title>DGLabel demo</title>
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?skin=dark" data-id="dgLoader"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+    <style type="text/css">
+        html,body { height: 100%; margin: 0px; padding: 0px; }
+        #map { width: 100%; height: 100%; }
+    </style>
 </head>
 <body>
-    <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc;"></div>
+    <div id="map"></div>
     <script type="text/javascript">
         DG.then(function () {
             var map = new DG.Map('map', {
@@ -14,58 +18,23 @@
                 zoom: 12
             });
 
-            var standaloneLabel = DG.label('Standalone tooltip');
-            standaloneLabel.setPosition(new DG.LatLng(55.0, 82.8));
-            map.addLayer(standaloneLabel);
-
             var markerStatic = DG.marker([54.950206086231, 82.898068362003], {
                                 riseOnHover : true,
                                 draggable : true
                             });
             markerStatic.addTo(map);
-            markerStatic.bindLabel( 'Многострочная<br/>подсказка при наведении!', { static : true } );
+            markerStatic.bindLabel( 'Многострочная<br/>подсказка!');
 
-            var marker = DG.marker([54.950206086231, 82.838068362003], {
+            var marker = DG.marker([54.950206086231, 82.938068362003], {
                                 riseOnHover : true,
-                                draggable : true,
-                                label : 'Подсказка при наведении!'
+                                label : 'Подсказка'
                             });
             marker.addTo(map);
 
-            changeoptions = function(){
-                markerStatic.bindLabel( 'Опции изменились<br/>Ура!', {
-                    static : false,
-                    offset: new DG.Point(15, 15)
-                });
-                marker.bindLabel( 'Теперь это статичная<br/>подсказка!', {
-                    static : true
-                });
-            }
-
-            var markerNoDrag = DG.marker([54.950206086231, 82.938068362003], {
-                                riseOnHover : true,
-                                label : 'Подсказка при наведении!'
-                            });
-            markerNoDrag.addTo(map);
-
-            var path = DG.circle([55.0, 83.0], 900).addTo(map);
-            path
-                .bindLabel( 'Подсказка при наведении!' )
-                .on('click', path.unbindLabel, path);
-
-            var polyline = DG.polyline([
-                        [55.0, 83.0],
-                        [54.97, 83.03],
-                        [54.95, 83.01],
-                        [54.98, 82.97]
-            ], {
-                color: 'red',
-                label: 'Подсказка при наведении!'
-            });
-            polyline.addTo(map);
-
+            var standaloneLabel = DG.label('Статический тултип');
+            standaloneLabel.setPosition(new DG.LatLng(54.980206086231, 82.898068362003));
+            map.addLayer(standaloneLabel);
         });
     </script>
-    <button onclick="changeoptions()">Изменить контент и опции</button>
 </body>
 </html>
