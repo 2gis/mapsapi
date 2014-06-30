@@ -11,14 +11,14 @@
 Пример подключения кластеризатора. Кластеризатор часто используется для отображения большого количества маркеров. Код модуля и его документация доступна в <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">GitHub-репозитории</a> автора.
 
 <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
-<link rel="stylesheet" href="http://2gis.github.io/mapsapi/js/Cluster/MarkerCluster.css" />
-<link rel="stylesheet" href="http://2gis.github.io/mapsapi/js/Cluster/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
+<link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
 <script src="http://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
         // загрузка кода модуля
-        return DG.plugin('http://2gis.github.io/mapsapi/js/Cluster/leaflet.markercluster-src.js');
+        return DG.plugin('http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
     }).then(function() {
         map = DG.map('map', {
             center: DG.latLng(54.92, 82.82),
@@ -42,9 +42,8 @@
             <meta charset='utf-8' />
             <title>Кластеризатор</title>
             <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
-            <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/example/screen.css" />
-            <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
-            <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
+            <link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
+            <link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
             <script src="http://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
         </head>
         <body>
@@ -52,7 +51,7 @@
             <script>
                 DG.then(function() {
                     // загрузка кода модуля
-                    return DG.plugin('http://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js');
+                    return DG.plugin('http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.92, 82.82),
@@ -83,7 +82,7 @@
 <script>
     DG.then(function() {
         // загрузка кода модуля
-        return DG.plugin('http://2gis.github.io/mapsapi/js/HeatLayer/heatLayer.js');
+        return DG.plugin('http://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
     }).then(function() {
         map = DG.map('map1', {
             center: DG.latLng(54.89, 82.45),
@@ -106,7 +105,7 @@
             <script>
                 DG.then(function() {
                     // загрузка кода модуля
-                    return DG.plugin('http://2gis.github.io/mapsapi/js/HeatLayer/heatLayer.js');
+                    return DG.plugin('http://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.89, 82.45),
