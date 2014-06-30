@@ -10,8 +10,7 @@
 
 Пример подключения кластеризатора. Кластеризатор часто используется для отображения большого количества маркеров. Код модуля и его документация доступна в <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">GitHub-репозитории</a> автора.
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
-data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/example/screen.css" />
 <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
@@ -43,8 +42,7 @@ data-id="dgLoader"></script>
         <head>
             <meta charset='utf-8' />
             <title>Кластеризатор</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
             <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/example/screen.css" />
             <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
             <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
@@ -101,8 +99,7 @@ data-id="dgLoader"></script>
         <head>
             <meta charset='utf-8' />
             <title>Тепловая карта</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
             <script src="http://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
         </head>
         <body>

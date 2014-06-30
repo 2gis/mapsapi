@@ -10,7 +10,7 @@
 
 Если необходимо получить "чистую" карту, без лишних элементов управления, тогда вам поможет следующий пример:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
 	DG.then(function() {
@@ -27,9 +27,9 @@
     <!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Скрытие элементов управления по умолчанию</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -67,9 +67,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Отображение элементов управления в разных частях карты</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
