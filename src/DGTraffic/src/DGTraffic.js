@@ -30,7 +30,7 @@ DG.Traffic = DG.TileLayer.extend({
             dataFilter: DG.bind(this._processData, this),
             minZoom: options.minZoom
         });
-
+        this._isDg = true;
         this._onTimer = DG.bind(this._onTimer, this);
         DG.TileLayer.prototype.initialize.call(this, DG.Traffic.tileUrl, options);
     },
