@@ -60,7 +60,7 @@
         </tr>
         <tr>
             <td><code>skin</code></td>
-            <td><code>light</code></td>
+            <td><code>dark</code></td>
             <td>Тема карты (светлая или темная). Принимает значение `light` или `dark`.</td>
         </tr>
         <tr>
