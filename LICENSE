@@ -7,7 +7,7 @@ DO NOT PROCEED WITH THE DOWNLOADING, COPYING, INSTALLATION OR ANY OTHER USE OF T
 PORTION THEREOF AS YOU HAVE NO RIGHTS TO DO SO. THIS LICENSE AGREEMENT DESCRIBES YOUR RIGHTS AND
 RESTRICTIONS WITH RESPECT TO THE SOFTWARE AND ITS COMPONENTS.
 
-### 1.DEFINITIONS
+1.DEFINITIONS
 
 "Application" means any software, application, or elements that You develop and operate using the
 Software or Modifications in accordance with this Agreement.
@@ -53,7 +53,7 @@ bounded by certain geographical coordinates.
 from the Databases and/or any other data or information DoubleGIS LLC chooses to include in its
 Software. The use of any Content by You is limited to concurrent use with the Software.
 
-### 2. LICENSE GRANT
+2. LICENSE GRANT
 
 2.1. Subject to your compliance with all of the terms and conditions of this Agreement, We grant a
 perpetual for the duration of the applicable copyright, worldwide, non-exclusive, royalty-free and
@@ -86,7 +86,7 @@ remove or alter the Hit Counter Script Code contained in Software.
 Agreement. You will not owe Us any fees for Your use or distribution of Applications in accordance
 with this Agreement.
 
-### 3.OWNERSHIP
+3.OWNERSHIP
 
 3.1. This is a license agreement and not an agreement for sale. We reserve ownership of all
 intellectual property rights inherent in or relating to the Software, which include, but are not
@@ -103,13 +103,13 @@ Content, Hit Counter script code.
 trademark, warning or disclaimer statement affixed to, incorporated in or otherwise applied in
 connection with the Software.
 
-### 4.FEEDBACK
+4.FEEDBACK
 
 4.1. DoubleGIS shall have a royalty-free, worldwide, perpetual license to use or incorporate into
 the Software or Content any suggestions, ideas, enhancement requests, feedback, recommendations or
 other information and derivatives thereof provided by You.
 
-### 5.PROHIBITED USES
+5.PROHIBITED USES
 
 5.1. You may not redistribute the Software or Modifications other than by including the Software or
 a portion thereof within Your Application. You may not change or remove the copyright notice from
@@ -128,7 +128,7 @@ You may not combine such development work with the Software and must license suc
 any portions derived there from) under the terms of the GNU General Public License version 3, a copy
 of which is located at http://www.gnu.org/copyleft/gpl.html.
 
-### 6. RESTRICTIONS
+6. RESTRICTIONS
 
 6.1. Except as expressly authorized under this Agreement, Licensee shall not (i) use the Software,
 the Databases, the Source Code, or the Content in any way not expressly permitted or granted under
@@ -151,14 +151,14 @@ assignable. Subject to the terms and conditions below, You may sublicense Your r
 Content and the Logos, as provided in this Agreement, to End Users solely to enable End Users to
 display Content and the Logos on their computer screens and/or websites through Your Application.
 
-### 7.TERMINATION
+7.TERMINATION
 
 7.1. This Agreement and Your right to use the Software and Modifications will terminate immediately
 if You fail to comply with any of the terms and conditions of this Agreement. Upon termination, You
 agree to immediately cease using and destroy the Software or Modifications, including all
 accompanying documents.
 
-### 8.DISCLAIMER OF WARRANTIES
+8.DISCLAIMER OF WARRANTIES
 
 8.1. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, WE DISCLAIM ALL WARRANTIES AND CONDITIONS,
 EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY,
@@ -166,7 +166,7 @@ FITNESS FOR A PARTICULAR PURPOSE, AND TITLE AND NON-INFRINGEMENT, WITH REGARD TO
 NOT GUARANTEE THAT THE OPERATION OF THE SOFTWARE OR THE CODE IT PRODUCES WILL BE UNINTERRUPTED OR
 ERROR-FREE, AND YOU ACKNOWLEDGE THAT IT IS NOT TECHNICALLY PRACTICABLE FOR US TO DO SO.
 
-### 9.LIMITATION OF LIABILITIES
+9.LIMITATION OF LIABILITIES
 
 9.1. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL WE BE LIABLE UNDER ANY
 LEGAL THEORY FOR ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING,
@@ -175,7 +175,7 @@ INFORMATION OR ANY OTHER PECUNIARY LOSSES) ARISING OUT OF THE USE OF OR INABILIT
 SOFTWARE OR THE CODE IT PRODUCES OR ANY OTHER SUBJECT MATTER RELATING TO THIS AGREEMENT, EVEN IF WE
 HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
-### 10.FREE SOFTWARE
+10.FREE SOFTWARE
 
 10.1. Notwithstanding the foregoing, We acknowledges that certain components of the Software may be
 covered by so-called "open source" software licenses ("Open Source Components"). We will prepare an
@@ -190,7 +190,7 @@ granted in this Agreement are included in the Software. To the extent which the 
 to an Open Source Component prohibit any of the restrictions in this Agreement with respect to such
 Open Source Component, such restrictions will not apply regarding to these Components.
 
-### 11. INTELLECTUAL PROPERTY
+11. INTELLECTUAL PROPERTY
 
 11.1. The Software contain Our trademarks, logos, patents, trade secrets and/or copyrighted
 materials. You shall not disclose or make available such trade secrets and/or know-how in any form
@@ -209,7 +209,7 @@ and/or advertising that You use the Software and in your resulting Application.
 challenge the Logos or, nor shall you attempt to register any Logos or brand identifiers (including
 domain names) that are confusingly similar in any way to any of the Logos.
 
-### 12.PARTIES INDEMNITY OBLIGATIONS
+12.PARTIES INDEMNITY OBLIGATIONS
 
 12.1 Subject to this Agreement, You shall defend, indemnify and hold Us, our affiliates, and
 licensors, and each of Our respective employees, officers, directors, harmless from and against any
@@ -218,7 +218,7 @@ or related to Your use of the Software (including all Content provided therein) 
 this Agreement and/or any of the representations and warranties made herein. You agrees that We
 shall have no indemnity obligations for any use You make of the Software or the Content.
 
-### 13.MISCELANEOUS
+13.MISCELANEOUS
 
 13.1. The license granted herein applies only to the version of the Software available in connection
 with the terms of this Agreement, and to any updates and/or upgrades to which you may be entitled.
