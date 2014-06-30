@@ -126,14 +126,6 @@
             <td>Возвращает значение стиля элемента, включая рассчитанные значения или значения указанные с помощью CSS.</td>
         </tr>
         <tr>
-            <td><code><b>getViewportOffset</b>(
-                <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
-            </code></td>
-
-            <td><a href="/doc/maps/manual/base-classes#класс-dgpoint"><code>Point</code></a></td>
-            <td>Возвращает смещение элемента относительно области просмотра (viewport-а).</td>
-        </tr>
-        <tr>
             <td><code><b>create</b>(
                 <nobr>&lt;String&gt; <i>tagName</i></nobr>,
                 <nobr>&lt;String&gt; <i>className</i></nobr>,
@@ -190,21 +182,6 @@
             </code></td>
             <td><code>String</code> или <code><span class="literal">false</span></code></td>
             <td>Обходит массив названий стилей и возвращает первое имя, которое является корректным для текущего браузера. Если такого нет, тогда будет возвращено <code>false</code>. Удобно для стилей с префиксами производителей браузеров, например <code>transform</code>.</td>
-        </tr>
-        <tr>
-            <td><code><b>getTranslateString</b>(
-                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>point</i> )</nobr>
-            </code></td>
-            <td><code>String</code></td>
-            <td>Возвращает CSS строку трансформации для смещения элемента. Использует 3D трансформацию для браузеров на основе WebKit с поддержкой аппаратного ускорения и 2D для других браузеров.</td>
-        </tr>
-        <tr>
-            <td><code><b>getScaleString</b>(
-                <nobr>&lt;Number&gt; <i>scale</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>origin</i> )</nobr>
-            </code></td>
-            <td><code>String</code></td>
-            <td>Возвращает CSS строку трансформации для масштабирования элемента.</td>
         </tr>
         <tr id="domutil-setposition">
             <td><code><b>setPosition</b>(

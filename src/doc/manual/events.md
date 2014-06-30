@@ -302,11 +302,6 @@
             <td><code>HTMLElement</code></td>
             <td>Элемент тайла (изображение).</td>
         </tr>
-        <tr>
-            <td><code><b>url</b></code></td>
-            <td><code>String</code></td>
-            <td>URL тайла.</td>
-        </tr>
     </tbody>
 </table>
 
