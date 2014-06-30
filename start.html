@@ -4,8 +4,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title></title>
+        <title>2GIS Maps API 2.0</title>
+
+        <link rel="stylesheet" href="./css/leaflet.css" type="text/css" />
 
         <!--[if lte IE 8]>
             <link rel="stylesheet" href="./css/style.ie.css" type="text/css" media="screen" charset="utf-8" />
@@ -16,7 +19,7 @@
         <!-- <![endif]-->
 
         <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug" data-id="dgLoader"></script>
-        
+
         <script type="text/javascript" src="./js/app.js"></script>
     </head>
     <body class="page__body">
@@ -24,11 +27,11 @@
 <div class="map" id="map"></div>
     <div class="start">
         <div class="start__content">
-            <a class="start__button" href="#" title="">Быстрый старт</a>
+            <a class="start__button" href="http://api.2gis.ru/doc/maps/quickstart/" target="_blank" title="Быстрый старт">Быстрый старт</a>
             <div class="follow-us">
-                <a class="follow-us__link follow-us__link_name_twitter" href="#" title="Следи за нами в Твиттере">Следи за нами в Твиттере</a>
-                <a class="follow-us__link follow-us__link_name_facebook" href="#" title="Следи за нами в Фейсбуке">Следи за нами в Фейсбуке</a>
-                <a class="follow-us__link follow-us__link_name_vk" href="#" title="Следи за нами во Вконтакте">Следи за нами во Вконтакте</a>
+                <a class="follow-us__link follow-us__link_name_twitter" target="_blank" href="https://twitter.com/api2gis" title="Следи за нами в Твиттере">Следи за нами в Твиттере</a>
+                <a class="follow-us__link follow-us__link_name_facebook" target="_blank" href="https://www.facebook.com/api.2gis.ru" title="Следи за нами в Фейсбуке">Следи за нами в Фейсбуке</a>
+                <a class="follow-us__link follow-us__link_name_vk" target="_blank" href="https://vk.com/api2gis" title="Следи за нами во Вконтакте">Следи за нами во Вконтакте</a>
             </div>
         </div>
     </div>
@@ -59,12 +62,12 @@
             </ul>
         </div>
         <p class="billing-dynamics__description">
-            Динамика среднего чека (в рублях)
+            Средний чек кафе (в рублях)
         </p>
     </div>
 
     <div class="panel panel_type_white lightness-panel footer__panel footer__panel_name_lightness" data-footer-state="page1">
-        <div class="lightness-panel__counter">00 : 02 : 25</div>
+        <div class="lightness-panel__counter lightness-panel__counter_of_new-api">00 : 00 : 00</div>
         <div class="lightness-panel__version lightness-panel__version_of_new-api">
             <span class="lightness-panel__version-title">Новый API</span>
             <span class="lightness-panel__progress-bar">
@@ -74,6 +77,7 @@
                 JS код: 358,8 KB  /  CSS код: 89,0 KB
             </p>
         </div>
+        <div class="lightness-panel__counter lightness-panel__counter_of_old-api">00 : 00 : 00</div>
         <div class="lightness-panel__version lightness-panel__version_of_old-api">
             <span class="lightness-panel__version-title">Старый API</span>
             <span class="lightness-panel__progress-bar">
@@ -90,9 +94,10 @@
     </div>
 
     <div class="footer__panel footer__panel_name_links" data-footer-state="page7">
-        <a class="footer__link" href="#" title="">Документация</a>
-        <a class="footer__link" href="#" title="">Примеры</a>
-        <a class="footer__link" href="#" title="">Идеи и вопросы</a>
+        <a class="footer__link" href="https://github.com/2gis/mapsapi" target="_blank" title="Github">Github</a>
+        <a class="footer__link" href="http://api.2gis.ru/doc/maps/info/" target="_blank" title="Документация">Документация</a>
+        <a class="footer__link" href="http://api.2gis.ru/doc/maps/examples/" target="_blank" title="Примеры">Примеры</a>
+        <!--<a class="footer__link" href="#" title="">Идеи и вопросы</a>-->
     </div>
 </div>
     </body>
