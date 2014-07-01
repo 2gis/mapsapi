@@ -19,4 +19,4 @@ notifications:
     recipients:
       - jsapi@2gis.ru
     on_success: [never] # default: change
-    on_failure: [always|never|change] # default: always
+    on_failure: [always] # default: always
