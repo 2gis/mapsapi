@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - "0.10.29"
+
+before_install:
+  - sudo npm install -g gulp
+
+# whitelist
+branches:
+  only:
+    - travis
+
+install:
+  - sudo npm install
+
+before_script:
+  - gulp build
+
+script:
+  - grulp test
+
+notifications:
+  email:
+    recipients:
+      - jsapi@2gis.ru
+    on_success: [never] # default: change
+    on_failure: [always|never|change] # default: always
