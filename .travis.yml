@@ -13,7 +13,3 @@ before_script:
 
 script:
   - gulp test
-
-notifications:
-  email:
-    - onikiienko@gmail.com
