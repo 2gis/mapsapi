@@ -4,10 +4,10 @@ node_js:
 
 before_install:
   - apt-get install npm
-  - sudo npm install -g gulp
+  - npm install -g gulp
 
 install:
-  - sudo npm install
+  - npm install
 
 before_script:
   - gulp build
