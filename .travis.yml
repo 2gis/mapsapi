@@ -16,7 +16,4 @@ script:
 
 notifications:
   email:
-    recipients:
-      - jsapi@2gis.ru
-    on_success: [always] # default: change
-    on_failure: [always] # default: always
+    - onikiienko@gmail.com
