@@ -3,6 +3,7 @@ node_js:
   - "0.10"
 
 before_install:
+  - apt-get install npm
   - sudo npm install -g gulp
 
 install:
