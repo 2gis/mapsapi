@@ -9,6 +9,7 @@ var extend = require('extend'),
     path = require('path'),
     glob = require('glob'),
     fs = require('fs'),
+    runSequence = require('run-sequence'),
 
     webapiProjects = require('./build/2gis-project-loader'),
 
@@ -39,7 +40,7 @@ gulp.task('help', function () {
     tasks.util.log('gulp watch       # Starts watching private & leaflet/src folders');
 });
 
-gulp.task('build-scripts', ['lint', 'build-clean', 'build-leaflet'], function () {
+gulp.task('build-scripts', ['lint', /*'build-clean',*/ 'build-leaflet'], function () {
     return bldJs(extend({ isDebug: true }, tasks.util.env))
         .pipe(map(saveSize))
         .pipe(gulp.dest('./public/js/'))
@@ -78,7 +79,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
             ie8: true,
             excludeBaseCss: true,
             name: 'ie'
-       } 
+       }
     ].map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
         if (!bandle) { return false; }
@@ -96,7 +97,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     return es.concat.apply(null, css);
 });
 
-var copyPrivateAssets = function() {
+var copyPrivateAssets = function () {
     return es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
@@ -116,7 +117,7 @@ var copyPrivateAssets = function() {
         );
 };
 
-gulp.task('copy-private-assets', ['build-clean'], function () {
+gulp.task('copy-private-assets', /*['build-clean'],*/ function () {
     return copyPrivateAssets();
 });
 
@@ -130,7 +131,7 @@ gulp.task('copy-sprites', ['copy-svg', 'generate-sprites'], function () {
 });
 
 
-gulp.task('copy-svg', ['clean-up-tmp-images', 'build-clean'], function () {
+gulp.task('copy-svg', /*['clean-up-tmp-images', 'build-clean'],*/ function () {
     return gulp.src('./src/**/img/**/*.svg')
             .pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
@@ -142,12 +143,12 @@ gulp.task('copy-svg', ['clean-up-tmp-images', 'build-clean'], function () {
             .pipe(gulp.dest('./public/img'));
 });
 
-gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
+gulp.task('copy-svg-raster', /*['clean-up-tmp-images'],*/ function () {
     tasks.util.log(tasks.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
 
     return es.concat(
             gulp.src('./src/**/img/**/*.svg')
-                .pipe(tasks.raster())
+                //.pipe(tasks.raster())
                 .pipe(tasks.rename(function (path) {
                     path.extname = '.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
@@ -159,7 +160,7 @@ gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
                 .pipe(gulp.dest('./public/img')),
 
             gulp.src('./src/**/img/**/*.svg')
-                .pipe(tasks.raster({ scale: 2 }))
+                //.pipe(tasks.raster({ scale: 2 }))
                 .pipe(tasks.rename(function (path) {
                     path.extname = '@2x.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
@@ -172,9 +173,9 @@ gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
         );
 });
 
-gulp.task('copy-raster', ['clean-up-tmp-images', 'build-clean'], function () {
+gulp.task('copy-raster', /*['clean-up-tmp-images', 'build-clean'],*/ function () {
     return gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
-            .pipe(tasks.imagemin({silent: true}))
+            //.pipe(tasks.imagemin({silent: true}))
             .pipe(tasks.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
@@ -262,26 +263,32 @@ gulp.task('build-leaflet', function () {
            .pipe(gulp.dest('./vendors/leaflet/dist/'));
 });
 
-gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc', 'build-leaflet'], function () {
-    tasks.util.log('Build contains the next modules:');
+//gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc', 'build-leaflet'], function () {
+gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
+    //'build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc', 'build-leaflet'
 
-    deps.getModulesList(tasks.util.env.pkg).forEach(function (module) {
-        console.log('- ' + module);
-    });
+    runSequence('build-scripts', 'build-styles', 'doc',
+              function () {
+                    tasks.util.log('Build contains the next modules:');
 
-    if (tasks.util.env.sprite === 'true') {
-        tasks.util.log('Builded with sprites');
-    } else if (tasks.util.env.base64 !== 'false' && typeof tasks.util.env.base64 !== 'undefined') {
-        tasks.util.log('Builded with base64 encode');
-    }
+                    deps.getModulesList(tasks.util.env.pkg).forEach(function (module) {
+                        console.log('- ' + module);
+                    });
 
-    console.log('\nDist files statistic:');
-    Object.keys(stat).forEach(function (file) {
-        console.log('- ' + file + ': ' + stat[file]);
-    });
-    tasks.util.log(tasks.util.colors.green('Build successfully complete'));
+                    if (tasks.util.env.sprite === 'true') {
+                        tasks.util.log('Builded with sprites');
+                    } else if (tasks.util.env.base64 !== 'false' && typeof tasks.util.env.base64 !== 'undefined') {
+                        tasks.util.log('Builded with base64 encode');
+                    }
 
-    return;
+                    console.log('\nDist files statistic:');
+                    Object.keys(stat).forEach(function (file) {
+                        console.log('- ' + file + ': ' + stat[file]);
+                    });
+                    tasks.util.log(tasks.util.colors.green('Build successfully complete'));
+
+                    cb();
+              });
 });
 
 //watchers
