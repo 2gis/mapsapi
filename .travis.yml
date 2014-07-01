@@ -8,8 +8,5 @@ before_install:
 install:
   - npm install
 
-before_script:
-  - gulp build
-
 script:
   - gulp test
