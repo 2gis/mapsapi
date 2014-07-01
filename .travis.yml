@@ -5,11 +5,6 @@ node_js:
 before_install:
   - sudo npm install -g gulp
 
-# whitelist
-branches:
-  only:
-    - travis
-
 install:
   - sudo npm install
 
