@@ -10,3 +10,11 @@ install:
 
 script:
   - gulp test
+
+notifications:
+  email:
+    recipients:
+      - onikiienko@gmail.com
+      - jsapi@2gis.ru
+    on_success: [always] # default: change
+    on_failure: [always] # default: always
