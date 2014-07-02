@@ -99,7 +99,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
     stream.on('end', cb);
 });
 
-var copyPrivateAssets = function (cb) {
+gulp.task('copy-private-assets', function (cb) {
     var stream = es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
@@ -119,14 +119,6 @@ var copyPrivateAssets = function (cb) {
         );
 
     stream.on('end', cb);
-};
-
-gulp.task('copy-private-assets', function (cb) {
-    return copyPrivateAssets(cb);
-});
-
-gulp.task('copy-private-assets-without-clean', function (cb) {
-    return copyPrivateAssets(cb);
 });
 
 gulp.task('copy-sprites', ['copy-svg', 'generate-sprites'], function () {
@@ -273,7 +265,7 @@ gulp.task('build-leaflet', function () {
 
 gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
 
-    runSequence(['build-scripts', 'build-styles', 'doc'],
+    runSequence(['build-scripts', 'build-styles', 'doc', 'copy-private-assets'],
               function () {
                     $.util.log('Build contains the next modules:');
 
@@ -299,7 +291,7 @@ gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
 
 //watchers
 gulp.task('watch', function () {
-    gulp.watch('./private/*.*', ['copy-private-assets-without-clean']);
+    gulp.watch('./private/*.*', ['copy-private-assets']);
     gulp.watch('./vendors/leaflet/src/**/*.*', ['build-leaflet']);
 });
 
