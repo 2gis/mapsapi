@@ -12,4 +12,4 @@ script:
   - gulp test
 
 notifications:
-  slack: api2gis:jEla8zroiGhVGT5Hy0I9BKj6
+  slack: api2gis:MAMEvjiPaeHZESLerOKePKQq
