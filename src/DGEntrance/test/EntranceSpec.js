@@ -122,7 +122,7 @@ describe('DG.Entrance', function () {
                 [69.349552990994837, 87.75222519148015],
                 [69.349501774294012, 87.752433542237128]
             );
-            expect(entrance.getBounds()).to.eql(1);
+            expect(entrance.getBounds()).to.eql(entranceBounds);
         });
     });
 
