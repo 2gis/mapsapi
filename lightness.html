@@ -4,9 +4,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta id="viewport" name='viewport' content="width=device-width initial-scale=0.65 maximum-scale=0.65" />
+        <meta name="description" content="Карты 2GIS — это точные данные обо всех объектах города. API карт 2GIS поможет создать интерактивную карту на вашем сайте.">
+        <title>2GIS Maps API 2.0</title>
 
-        <title></title>
-
+        <link rel="stylesheet" href="./css/leaflet.css" type="text/css" />
+        <link rel="icon" type="image/png" href="./img/favicon.ico">
         <!--[if lte IE 8]>
             <link rel="stylesheet" href="./css/style.ie.css" type="text/css" media="screen" charset="utf-8" />
         <![endif]-->
@@ -14,9 +17,18 @@
         <!--[if gte IE 9]><!-->
             <link rel="stylesheet" href="./css/style.css" type="text/css" />
         <!-- <![endif]-->
+        <script>
+            (function(doc) {
+                var viewport = document.getElementById('viewport');
+                if ( navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
+                    viewport.setAttribute("content", "width=device-width initial-scale=0.5 maximum-scale=0.5");
+                } else if ( navigator.userAgent.match(/iPad/i) ) {
+                    viewport.setAttribute("content", "width=device-width initial-scale=1.0 maximum-scale=1.0");
+                }
+            }(document));
+        </script>
+        <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 
-        <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&mode=debug" data-id="dgLoader"></script>
-        
         <script type="text/javascript" src="./js/app.js"></script>
     </head>
     <body class="page__body">
@@ -33,15 +45,17 @@
             <li class="features__table-of-contents-item"></li>
             <li class="features__table-of-contents-item"></li>
             <li class="features__table-of-contents-item"></li>
-            <li class="features__table-of-contents-item"></li>
         </ul>
 
         <ul class="features__list">
             <li class="features__list-item features__list-item_name_lightness">
                 <div class="features__list-item-section">
-                    <h1 class="features__header">Легковесность</h1>
+                    <h1 class="features__header">Легче, проще, быстрее!</h1>
                     <p>
-                        JS и CSS код новой версии API занимает всего 105 Кб. в базовой поставке, вместо прежних 255 Кб., что позволило увеличить скорость открытия страниц с картой.
+                        Весь JS и CSS код новой версии API в два раза меньше, чем в старой. Это кардинально увеличило скорость загрузки страниц с картой.
+                    </p>
+                    <p class="features__discription">
+                        Теперь разработчики могут самостоятельно выбирать модули для загрузки. Используйте именно то, что нужно вашему проекту!
                     </p>
                 </div>
             </li>
@@ -49,12 +63,12 @@
                 <div class="features__list-item-section">
                     <h1 class="features__header">Модульность</h1>
                     <p>
-                        Новый API совместим с большинством модулей библиотеки Leaflet. Помимо готовых модулей, таких как кластеризация, тепловая карта или анимированные маркеры, вы можете добавить свои.
+                        Новый API совместим с большинством <a href="http://leafletjs.com/plugins.html" target="_blank">модулей</a> библиотеки Leaflet. Кластеризация, тепловые карты, анимированные маркеры и многие другие. Не нашли нужного? Создайте свой — теперь <a href="https://github.com/2gis/mapsapi/wiki/%D0%A1%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D1%8F#%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD%D0%BE%D0%B2" target="_blank">это</a> просто, как никогда ранее!
                     </p>
                 </div>
                 <div class="features__list-item-section features__list-item-section_is-bottom_true">
-                    <a class="features__round-link features__round-link_name_two-markers" data-state="two-markers" href="#" title=""></a>
                     <a class="features__round-link features__round-link_name_sun" data-state="sun" href="#" title=""></a>
+                    <a class="features__round-link features__round-link_name_two-markers" data-state="two-markers" href="#" title=""></a>
                     <a class="features__round-link features__round-link_name_marker" data-state="marker" href="#" title=""></a>
                 </div>
             </li>
@@ -74,10 +88,10 @@
                 <div class="features__list-item-section">
                     <h1 class="features__header">Входы в здания</h1>
                     <div class="pseudocard">
-                        <h2 class="pseudocard__header">Центр реабилитации речи Татьяны Соловьёвой</h2>
-                        <p class="pseudocard__address">Невский проспект, 170</p>
+                        <h2 class="pseudocard__header">Балтик, ООО, группа компаний</h2>
+                        <p class="pseudocard__address">Пискарёвский проспект, 63</p>
                         <p class="pseudocard__route-instructions">
-                            Поверните на Исполкомскую, но далеко не уезжайте&nbsp;— вам в угловое здание. Пройдите во двор, вход будет по правую руку.
+                            С Пискаревского проспекта сверните направо, затем по дороге сразу налево. Зайдите внутрь и идите влево по коридорам, пока не найдете нужный офис.
                         </p>
                         <p class="pseudocard__try-it">
                             Вместо тысячи слов: <a class="pseudocard__find-entrance-link" href="#">Найти вход</a>
@@ -85,7 +99,7 @@
                     </div>
                 </div>
                 <div class="features__list-item-section entrances-examples features__list-item-section_is-bottom_true">
-                    <a class="entrances-examples__play-pause-button" href="#" title=""></a>
+                    <a class="entrances-examples__play-pause-button entrances-examples__play-pause-button_is-played_true" href="#" title=""></a>
                     <ul class="entrances-examples__list">
                         <li class="entrances-examples__item">
                             <a class="entrances-examples__example-link entrances-examples__example-link_is-shown_true" href="#" data-id="0" title="">1</a>
@@ -112,65 +126,37 @@
                 <div class="features__list-item-section">
                     <h1 class="features__header">Открытость</h1>
                     <p class="features__discription">
-                        Хорошая базовая функциональность
-                        API 2ГИС обеспечивается использованием open-source библиотеки Leaflet.
+                        Отличная базовая функциональность
+                        API 2GIS обеспечивается использованием open-source библиотеки Leaflet.
                     </p>
                     <p class="features__discription">
-                        Свободная лицензия обоих проектов позволяет вам изменять и улучшать их код под любые задачи.
+                        Свободная лицензия обоих проектов позволяет вам изменять и улучшать их код для любой задачи. Давайте создавать лучший API вместе!
                     </p>
                 </div>
                 <div class="features__list-item-section openness-examples features__list-item-section_is-bottom_true">
-                    <a class="openness-examples__play-pause-button" href="#" title=""></a>
+                    <a class="openness-examples__play-pause-button openness-examples__play-pause-button_is-played_true" href="#" title=""></a>
                     <ul class="openness-examples__list">
                         <li class="openness-examples__item">
-                            <a class="openness-examples__example-link openness-examples__example-link_is-shown_true" data-id="0" href="#" title="">1</a>
+                            <a class="openness-examples__example-link" data-id="0" href="#" title="">2010</a>
                         </li>
                         <li class="openness-examples__item">
-                            <a class="openness-examples__example-link" data-id="1" href="#" title="">2</a>
+                            <a class="openness-examples__example-link" data-id="1" href="#" title="">2011</a>
                         </li>
                         <li class="openness-examples__item">
-                            <a class="openness-examples__example-link" data-id="2" href="#" title="">3</a>
+                            <a class="openness-examples__example-link" data-id="2" href="#" title="">2012</a>
                         </li>
                         <li class="openness-examples__item">
-                            <a class="openness-examples__example-link" data-id="3" href="#" title="">4</a>
+                            <a class="openness-examples__example-link" data-id="3" href="#" title="">2013</a>
                         </li>
                         <li class="openness-examples__item">
-                            <a class="openness-examples__example-link" data-id="4" href="#" title="">5</a>
-                        </li>
-                        <li class="openness-examples__item">
-                            <a class="openness-examples__example-link" data-id="5" href="#" title="">6</a>
+                            <a class="openness-examples__example-link" data-id="4" href="#" title="">2014</a>
                         </li>
                     </ul>
                 </div>
             </li>
-            <li class="features__list-item features__list-item_name_all-devices">
-                <div class="features__list-item-section">
-                    <h1 class="features__header">На всех экранах</h1>
-                    <p>
-                        Наша карта адаптируется под размер экрана. Ей одинаково удобно пользоваться на компьютерах, планшетах и телефонах.
-                    </p>
-                </div>
-                <div class="features__list-item-section features__list-item-section_is-bottom_true">
-                    <a class="features__round-link features__round-link_name_smartphone" data-state="smartphone" href="#" title=""></a>
-                    <a class="features__round-link features__round-link_name_notebook" data-state="notepad" href="#" title=""></a>
-                    <a class="features__round-link features__round-link_name_tablet" data-state="tablet" href="#" title=""></a>
-                </div>
-            </li>
         </ul>
     </div>
-
-    <div class="device tablet">
-        <div class="tablet__display">
-            <div id="mobile-map" class="device__map"></div>
-
-            <div class="loupe">
-                <div class="loupe__glass loupe__glass_type_usual"></div>
-                <div class="loupe__glass loupe__glass_type_retina"></div>
-            </div>
-        </div>
-    </div>
 </div>
-
 <div class="footer">
     <div class="panel panel_type_white billing-dynamics footer__panel footer__panel_name_billing-dynamics" data-footer-state="sun">
         <div class="billing-dynamics__graph-wrapper">
@@ -198,12 +184,12 @@
             </ul>
         </div>
         <p class="billing-dynamics__description">
-            Динамика среднего чека (в рублях)
+            Средний чек кафе (в рублях)
         </p>
     </div>
 
     <div class="panel panel_type_white lightness-panel footer__panel footer__panel_name_lightness" data-footer-state="page1">
-        <div class="lightness-panel__counter">00 : 02 : 25</div>
+        <div class="lightness-panel__counter lightness-panel__counter_of_new-api">00 : 00 : 00</div>
         <div class="lightness-panel__version lightness-panel__version_of_new-api">
             <span class="lightness-panel__version-title">Новый API</span>
             <span class="lightness-panel__progress-bar">
@@ -213,6 +199,7 @@
                 JS код: 358,8 KB  /  CSS код: 89,0 KB
             </p>
         </div>
+        <div class="lightness-panel__counter lightness-panel__counter_of_old-api">00 : 00 : 00</div>
         <div class="lightness-panel__version lightness-panel__version_of_old-api">
             <span class="lightness-panel__version-title">Старый API</span>
             <span class="lightness-panel__progress-bar">
@@ -228,12 +215,21 @@
         <span class="bankomats-panel__title">Банкоматы<br />Москвы</span>
     </div>
 
-    <div class="footer__panel footer__panel_name_links" data-footer-state="page7">
-        <a class="footer__link" href="#" title="">Документация</a>
-        <a class="footer__link" href="#" title="">Примеры</a>
-        <a class="footer__link" href="#" title="">Идеи и вопросы</a>
+    <div class="footer__panel footer__panel_name_links" data-footer-state="page6">
+        <a class="footer__link" href="http://api.2gis.ru/doc/maps/" target="_blank" title="Документация">Документация</a>
+        <a class="footer__link" href="http://api.2gis.ru/doc/maps/examples/" target="_blank" title="Примеры">Примеры</a>
+        <!--<a class="footer__link" href="#" title="">Идеи и вопросы</a>-->
+        <a href="https://github.com/2gis/mapsapi/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
     </div>
 </div>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-38243181-7', 'auto');
+            ga('send', 'pageview');
+        </script>
     </body>
 </html>
 
