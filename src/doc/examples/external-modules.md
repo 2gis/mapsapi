@@ -10,17 +10,15 @@
 
 Пример подключения кластеризатора. Кластеризатор часто используется для отображения большого количества маркеров. Код модуля и его документация доступна в <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">GitHub-репозитории</a> автора.
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
-data-id="dgLoader"></script>
-<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/example/screen.css" />
-<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
+<link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
 <script src="http://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
         // загрузка кода модуля
-        return DG.plugin('http://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js');
+        return DG.plugin('http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
     }).then(function() {
         map = DG.map('map', {
             center: DG.latLng(54.92, 82.82),
@@ -43,11 +41,9 @@ data-id="dgLoader"></script>
         <head>
             <meta charset='utf-8' />
             <title>Кластеризатор</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
-            data-id="dgLoader"></script>
-            <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/example/screen.css" />
-            <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
-            <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
+            <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+            <link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
+            <link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
             <script src="http://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
         </head>
         <body>
@@ -55,7 +51,7 @@ data-id="dgLoader"></script>
             <script>
                 DG.then(function() {
                     // загрузка кода модуля
-                    return DG.plugin('http://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js');
+                    return DG.plugin('http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.92, 82.82),
@@ -79,14 +75,14 @@ data-id="dgLoader"></script>
 
 ### Тепловая карта
 
-Пример подключения тепловой карты. Тепловая карта позволяет визуализировать количественные данные в зависимости от географического региона. Интенсивность окраски каждого региона зависит от соответствующих ему значений. Код модуля и его документация доступна в <a href="https://github.com/Leaflet/Leaflet.heat" target="_blank">GitHub-репозитории</a> автора.
+Пример подключения тепловой карты. Тепловая карта позволяет визуализировать количественные данные в зависимости от географического региона. Интенсивность окраски каждого региона зависит от соответствующих ему значений.
 
 <script src="http://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
 <div id="map1" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
         // загрузка кода модуля
-        return DG.plugin('http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js');
+        return DG.plugin('http://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
     }).then(function() {
         map = DG.map('map1', {
             center: DG.latLng(54.89, 82.45),
@@ -101,8 +97,7 @@ data-id="dgLoader"></script>
         <head>
             <meta charset='utf-8' />
             <title>Тепловая карта</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
             <script src="http://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
         </head>
         <body>
@@ -110,7 +105,7 @@ data-id="dgLoader"></script>
             <script>
                 DG.then(function() {
                     // загрузка кода модуля
-                    return DG.plugin('http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js');
+                    return DG.plugin('http://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.89, 82.45),

@@ -1,5 +1,5 @@
 /*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false, sinon:false */
-describe('DG.ProjectDetector', function () {
+describe('DG.ProjectDetectorOut', function () {
     var map,
         spy,
         mapContainer = document.createElement('div'),

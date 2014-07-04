@@ -10,7 +10,7 @@
 
 Маркер, при клике на который открывается балун с информацией:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
@@ -26,9 +26,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Маркер с балуном</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -79,9 +79,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Перетаскиваемый маркер</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -104,7 +104,7 @@
 			        marker.on('drag', function(e) {
 			        	var lat = e.target._latlng.lat.toFixed(3),
 			        		lng = e.target._latlng.lng.toFixed(3);
-			        		
+
 			        	locationInfo.innerHTML = lat + ", " + lng;
 			        });
 			    });
@@ -119,7 +119,7 @@
 <div id="map2" style="width: 100%; height: 400px;"></div>
 <script>
 	DG.then(function() {
-		var map, 
+		var map,
 			myIcon,
 			myDivIcon;
 
@@ -135,7 +135,7 @@
 	    DG.marker([54.98, 82.89], {
 	        icon: myIcon
 	    }).addTo(map);
-		
+
 		myDivIcon = DG.divIcon({
 			iconSize: [70, 20],
 			html: '<b style="color:blue;">HTML-код</b>'
@@ -149,16 +149,16 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Маркер с пользовательской иконкой</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
 			<div id="map" style="width: 100%; height: 400px;"></div>
 			<script>
 				DG.then(function() {
-					var map, 
+					var map,
 						myIcon,
 						myDivIcon;
 
@@ -174,7 +174,7 @@
 				    DG.marker([54.98, 82.89], {
 				        icon: myIcon
 				    }).addTo(map);
-					
+
 					myDivIcon = DG.divIcon({
 						iconSize: [70, 20],
 						html: '<b style="color:blue;">HTML-код</b>'
@@ -213,9 +213,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Программное открытие маркера</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -253,7 +253,7 @@
     	});
 		DG.marker([54.98, 82.89])
 			.addTo(map)
-			.bindLabel('Я статическая подсказка!', { 
+			.bindLabel('Я статическая подсказка!', {
 				static: true
 			});
 		DG.marker([54.98, 82.88])
@@ -265,9 +265,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Маркер с подсказкой</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -281,7 +281,7 @@
 			    	});
 					DG.marker([54.98, 82.89])
 						.addTo(map)
-						.bindLabel('Я статическая подсказка!', { 
+						.bindLabel('Я статическая подсказка!', {
 							static: true
 						});
 					DG.marker([54.98, 82.88])
@@ -309,11 +309,11 @@
             center: [54.98, 82.89],
             zoom: 13
     	});
-		
+
 		marker1 = DG.marker([54.96, 82.889]).addTo(map);
 		marker2 = DG.marker([54.98, 82.893]).addTo(map);
 		marker3 = DG.marker([54.99, 82.896]).addTo(map);
-		
+
 		group = DG.featureGroup([marker1, marker2, marker3]);
 		group.addTo(map);
 	    group.on('click', function(e) {
@@ -326,9 +326,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Обработка событий группы маркеров</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -345,11 +345,11 @@
 			            center: [54.98, 82.89],
 			            zoom: 13
 			    	});
-					
+
 					marker1 = DG.marker([54.96, 82.889]).addTo(map);
 					marker2 = DG.marker([54.98, 82.893]).addTo(map);
 					marker3 = DG.marker([54.99, 82.896]).addTo(map);
-					
+
 					group = DG.featureGroup([marker1, marker2, marker3]);
 					group.addTo(map);
 				    group.on('click', function(e) {
@@ -376,7 +376,7 @@
      	marker = DG.marker([54.98, 82.89]).addTo(map);
 
      	var increment = 0.001;
-    	function move() {    		 		
+    	function move() {
     		if (!map.getBounds().contains(marker.getLatLng())) {
     			increment *= -1;
     		}
@@ -384,7 +384,7 @@
     		var newLat = marker.getLatLng().lat + increment,
 	    		newLng = marker.getLatLng().lng + increment;
 
-			marker.setLatLng([newLat, newLng]);    		
+			marker.setLatLng([newLat, newLng]);
     	}
     	setInterval(move, 60);
     });
@@ -393,9 +393,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Анимированное движение маркера</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
@@ -412,7 +412,7 @@
 			     	marker = DG.marker([54.98, 82.89]).addTo(map);
 
 			     	var increment = 0.001;
-			    	function move() {    		 		
+			    	function move() {
 			    		if (!map.getBounds().contains(marker.getLatLng())) {
 			    			increment *= -1;
 			    		}
@@ -420,7 +420,7 @@
 			    		var newLat = marker.getLatLng().lat + increment,
 				    		newLng = marker.getLatLng().lng + increment;
 
-						marker.setLatLng([newLat, newLng]);    		
+						marker.setLatLng([newLat, newLng]);
 			    	}
 			    	setInterval(move, 60);
 			    });
@@ -470,9 +470,9 @@
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Отображение/удаление нескольких маркеров, fitBounds</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 	    <body>
