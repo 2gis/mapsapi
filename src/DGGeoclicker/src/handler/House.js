@@ -91,11 +91,10 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     // init single firm card in case of poi
     _fillFirmCardObject: function (firmId) {
-        var options = this._firmCardSetup(),
-            firmCard;
+        var options = this._firmCardSetup();
 
         this.firmCard = new FirmCard(firmId, options);
-        return firmCard.getContainer();
+        return this.firmCard.getContainer();
     },
 
     _initShortFirmList: function (firms) { //(Object) -> DOMElement
