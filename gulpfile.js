@@ -16,6 +16,7 @@ var extend = require('extend'),
     gendoc = require('./docbuilder/gendoc.js'),
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config),
+    error,
     stat = {}; // Files minification statistics
 
 $.imagemin = require('./build/gulp-imagemin');
@@ -267,6 +268,11 @@ gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
 
     runSequence(['build-scripts', 'build-styles', 'doc', 'copy-private-assets'],
               function () {
+                    if (error) {
+                        $.util.log($.util.colors.red('Build error'));
+                        process.exit(1);
+                    }
+
                     $.util.log('Build contains the next modules:');
 
                     deps.getModulesList($.util.env.pkg).forEach(function (module) {
@@ -409,6 +415,13 @@ function saveSize(file, cb) {
 //Exports API for live src streaming
 //js build api
 function bldJs(opt) {
+    if (typeof opt.pkg === 'boolean') {
+        error = new $.util.PluginError({
+          plugin: 'deps',
+          message: 'pkg param can\'t be empty'
+        });
+        throw error;
+    }
     return gulp.src(deps.getJSFiles(opt))
                .pipe($.redust(config.tmpl))
                .pipe($.frep(config.cfgParams))

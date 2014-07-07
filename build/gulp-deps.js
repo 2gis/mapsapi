@@ -12,6 +12,10 @@ var init = function (config) {
             modulesListRes = [],
             loadedModules = {};
 
+        if (typeof pkg === 'boolean') {
+            throw new Error('pkg param can\'t be empty');
+        }
+
         // Package name with no empty modules list on packs.js (example: 'base')
         if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
             modulesListOrig = packages[pkg].modules;
@@ -24,7 +28,7 @@ var init = function (config) {
         } else if (pkg && pkg in modules) {
             modulesListOrig.push(pkg);
 
-        // Others (null / full package / not correct value)
+        // Others (null / full package)
         } else {
             modulesListOrig = modulesListOrig.concat(Object.keys(modules));
         }
