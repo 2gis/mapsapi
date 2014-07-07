@@ -4,11 +4,12 @@ var extend = require('extend'),
     prettyBytes = require('pretty-bytes'),
 
     gulp = require('gulp'),
-    tasks = require('gulp-load-plugins')(),
+    $ = require('gulp-load-plugins')(),
 
     path = require('path'),
     glob = require('glob'),
     fs = require('fs'),
+    runSequence = require('run-sequence'),
 
     webapiProjects = require('./build/2gis-project-loader'),
 
@@ -17,8 +18,8 @@ var extend = require('extend'),
     deps = require('./build/gulp-deps')(config),
     stat = {}; // Files minification statistics
 
-tasks.imagemin = require('./build/gulp-imagemin');
-tasks.spritesmith = require('gulp.spritesmith');
+$.imagemin = require('./build/gulp-imagemin');
+$.spritesmith = require('gulp.spritesmith');
 
 var projectList;
 
@@ -31,33 +32,33 @@ webapiProjects(function (err, projects) {
 gulp.task('default', ['build']);
 
 gulp.task('help', function () {
-    tasks.util.log('\nTasks list:');
-    tasks.util.log('gulp lint        # Check JS files for errors with JSHint');
-    tasks.util.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
-    tasks.util.log('gulp doc         # Generate documentation from .md files');
-    tasks.util.log('gulp test        # Rebuild source and run unit tests');
-    tasks.util.log('gulp watch       # Starts watching private & leaflet/src folders');
+    $.util.log('\nTasks list:');
+    $.util.log('gulp lint        # Check JS files for errors with JSHint');
+    $.util.log('gulp build       # Lint, combine and minify source files, update doc, copy assets');
+    $.util.log('gulp doc         # Generate documentation from .md files');
+    $.util.log('gulp test        # Rebuild source and run unit tests');
+    $.util.log('gulp watch       # Starts watching private & leaflet/src folders');
 });
 
-gulp.task('build-scripts', ['lint', 'build-clean', 'build-leaflet'], function () {
-    return bldJs(extend({ isDebug: true }, tasks.util.env))
+gulp.task('build-scripts', ['lint', 'build-leaflet'], function () {
+    return bldJs(extend({ isDebug: true }, $.util.env))
         .pipe(map(saveSize))
         .pipe(gulp.dest('./public/js/'))
-        .pipe(tasks.rename({ suffix: '.min' }))
-        .pipe(tasks.cache(tasks.uglify()))
-        .pipe(tasks.header(config.copyright))
+        .pipe($.rename({ suffix: '.min' }))
+        .pipe($.cache($.uglify()))
+        .pipe($.header(config.copyright))
         .pipe(map(saveSize))
         .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('lint', function () {
     return gulp.src('./src/**/src/**/*.js')
-               .pipe(tasks.cache(tasks.jshint('.jshintrc')))
-               .pipe(tasks.jshint.reporter('jshint-stylish'));
+               .pipe($.cache($.jshint('.jshintrc')))
+               .pipe($.jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function () {
-    var cliOptions = extend({}, tasks.util.env);
+gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function (cb) {
+    var cliOptions = extend({}, $.util.env);
 
     cliOptions.mobile = cliOptions.base64 === 'false';
 
@@ -78,26 +79,28 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
             ie8: true,
             excludeBaseCss: true,
             name: 'ie'
-       } 
+       }
     ].map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
         if (!bandle) { return false; }
         return bandle
-            .pipe(list.size ? map(saveSize) : tasks.util.noop())
-            .pipe(list.name ? tasks.rename({ suffix: '.' + list.name }) : tasks.util.noop())
+            .pipe(list.size ? map(saveSize) : $.util.noop())
+            .pipe(list.name ? $.rename({ suffix: '.' + list.name }) : $.util.noop())
             .pipe(gulp.dest('./public/css/'))
-            .pipe(tasks.rename({ suffix: '.min' }))
-            .pipe(tasks.minifyCss())
-            .pipe(tasks.header(config.copyright))
-            .pipe(list.size ? map(saveSize) : tasks.util.noop())
+            .pipe($.rename({ suffix: '.min' }))
+            .pipe($.minifyCss())
+            .pipe($.header(config.copyright))
+            .pipe(list.size ? map(saveSize) : $.util.noop())
             .pipe(gulp.dest('./public/css/'));
     }).filter(Boolean);
 
-    return es.concat.apply(null, css);
+    var stream = es.concat.apply(null, css);
+
+    stream.on('end', cb);
 });
 
-var copyPrivateAssets = function() {
-    return es.concat(
+gulp.task('copy-private-assets', function (cb) {
+    var stream = es.concat(
         gulp.src(['./private/*.*', '!./private/loader.js'])
             .pipe(gulp.dest('./public/')),
 
@@ -107,21 +110,15 @@ var copyPrivateAssets = function() {
             .pipe(gulp.dest('./public/img/vendors/leaflet')),
 
         gulp.src('./src/**/fonts/**/*.*')
-            .pipe(tasks.flatten())
+            .pipe($.flatten())
             .pipe(gulp.dest('./public/fonts/')),
 
         gulp.src('./private/loader.js')
-            .pipe(tasks.uglify())
+            .pipe($.uglify())
             .pipe(gulp.dest('./public/'))
         );
-};
 
-gulp.task('copy-private-assets', ['build-clean'], function () {
-    return copyPrivateAssets();
-});
-
-gulp.task('copy-private-assets-without-clean', function () {
-    return copyPrivateAssets();
+    stream.on('end', cb);
 });
 
 gulp.task('copy-sprites', ['copy-svg', 'generate-sprites'], function () {
@@ -130,61 +127,63 @@ gulp.task('copy-sprites', ['copy-svg', 'generate-sprites'], function () {
 });
 
 
-gulp.task('copy-svg', ['clean-up-tmp-images', 'build-clean'], function () {
+gulp.task('copy-svg', function () {
     return gulp.src('./src/**/img/**/*.svg')
-            .pipe(tasks.imagemin({silent: true}))
-            .pipe(tasks.rename(function (path) {
+            .pipe($.imagemin({silent: true}))
+            .pipe($.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
             .pipe(gulp.dest('./build/tmp/img'))
-            .pipe(tasks.flatten())
+            .pipe($.flatten())
             .pipe(gulp.dest('./build/tmp/img_all'))
             .pipe(gulp.dest('./public/img'));
 });
 
-gulp.task('copy-svg-raster', ['clean-up-tmp-images'], function () {
-    tasks.util.log(tasks.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
+gulp.task('copy-svg-raster', function (cb) {
+    $.util.log($.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
 
-    return es.concat(
+    var stream = es.concat(
             gulp.src('./src/**/img/**/*.svg')
-                .pipe(tasks.raster())
-                .pipe(tasks.rename(function (path) {
+                .pipe($.raster())
+                .pipe($.rename(function (path) {
                     path.extname = '.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
-                .pipe(tasks.imagemin({silent: true}))
+                .pipe($.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
-                .pipe(tasks.flatten())
+                .pipe($.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
                 .pipe(gulp.dest('./public/img')),
 
             gulp.src('./src/**/img/**/*.svg')
-                .pipe(tasks.raster({ scale: 2 }))
-                .pipe(tasks.rename(function (path) {
+                .pipe($.raster({ scale: 2 }))
+                .pipe($.rename(function (path) {
                     path.extname = '@2x.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
                 }))
-                .pipe(tasks.imagemin({silent: true}))
+                .pipe($.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
-                .pipe(tasks.flatten())
+                .pipe($.flatten())
                 .pipe(gulp.dest('./build/tmp/img_all'))
                 .pipe(gulp.dest('./public/img'))
         );
+
+    stream.on('end', cb);
 });
 
-gulp.task('copy-raster', ['clean-up-tmp-images', 'build-clean'], function () {
+gulp.task('copy-raster', function () {
     return gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
-            .pipe(tasks.imagemin({silent: true}))
-            .pipe(tasks.rename(function (path) {
+            .pipe($.imagemin({silent: true}))
+            .pipe($.rename(function (path) {
                 path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
             }))
             .pipe(gulp.dest('./build/tmp/img'))
-            .pipe(tasks.flatten())
+            .pipe($.flatten())
             .pipe(gulp.dest('./build/tmp/img_all'))
             .pipe(gulp.dest('./public/img'));
 });
 
-gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 'copy-raster'], function () {
+gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 'copy-raster'], function (cb) {
     var skins = deps.getSkinsList(),
         stats = deps.getImagesUsageStats(skins),
 
@@ -202,7 +201,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
                     '!./build/tmp/**/' + skinName + '/**/{' + filesToExclude + '}@2x.png'
                 ],
                 spriteData = gulp.src(pngList)
-                    .pipe(tasks.spritesmith({
+                    .pipe($.spritesmith({
                         cssTemplate: './build/sprite-template.mustache',
                         algorithm: 'binary-tree',
                         imgName: 'sprite.' + skinName + '.png',
@@ -211,7 +210,7 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
                         engine: 'pngsmith'
                     })),
                 spriteData2x = gulp.src(png2xList)
-                    .pipe(tasks.spritesmith({
+                    .pipe($.spritesmith({
                         cssTemplate: './build/sprite-template.mustache',
                         algorithm: 'binary-tree',
                         imgName: 'sprite@2x.' + skinName + '.png',
@@ -222,17 +221,19 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
 
             return es.concat(
                 spriteData.img
-                    .pipe(tasks.imagemin({silent: true}))
+                    .pipe($.imagemin({silent: true}))
                     .pipe(gulp.dest('./public/img/')),
                 spriteData2x.img
-                    .pipe(tasks.imagemin({silent: true}))
+                    .pipe($.imagemin({silent: true}))
                     .pipe(gulp.dest('./public/img/')),
                 spriteData.css.pipe(gulp.dest('./build/tmp/less/')),
                 spriteData2x.css.pipe(gulp.dest('./build/tmp/less/'))
                 );
         });
 
-    return es.concat.apply(null, statisticsStreams);
+    var stream = es.concat.apply(null, statisticsStreams);
+
+    stream.on('end', cb);
 });
 
 //TODO: refactor this config
@@ -245,7 +246,7 @@ gulp.task('test', ['build'], function () {
                      './vendors/leaflet/spec/suites/SpecHelper.js',
                      './vendors/leaflet/spec/suites/**/*Spec.js'
                 ])
-               .pipe(tasks.karma({
+               .pipe($.karma({
                     configFile: './test/karma.conf.js',
                     action: 'run'
                 }));
@@ -258,54 +259,58 @@ gulp.task('doc', function () {
 
 gulp.task('build-leaflet', function () {
     return gulp.src(deps.getJSFiles({source: 'leaflet'}))
-           .pipe(tasks.concat('leaflet-src.js'))
+           .pipe($.concat('leaflet-src.js'))
            .pipe(gulp.dest('./vendors/leaflet/dist/'));
 });
 
-gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styles', 'copy-private-assets', 'copy-sprites', 'doc', 'build-leaflet'], function () {
-    tasks.util.log('Build contains the next modules:');
+gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
 
-    deps.getModulesList(tasks.util.env.pkg).forEach(function (module) {
-        console.log('- ' + module);
-    });
+    runSequence(['build-scripts', 'build-styles', 'doc', 'copy-private-assets'],
+              function () {
+                    $.util.log('Build contains the next modules:');
 
-    if (tasks.util.env.sprite === 'true') {
-        tasks.util.log('Builded with sprites');
-    } else if (tasks.util.env.base64 !== 'false' && typeof tasks.util.env.base64 !== 'undefined') {
-        tasks.util.log('Builded with base64 encode');
-    }
+                    deps.getModulesList($.util.env.pkg).forEach(function (module) {
+                        console.log('- ' + module);
+                    });
 
-    console.log('\nDist files statistic:');
-    Object.keys(stat).forEach(function (file) {
-        console.log('- ' + file + ': ' + stat[file]);
-    });
-    tasks.util.log(tasks.util.colors.green('Build successfully complete'));
+                    if ($.util.env.sprite === 'true') {
+                        $.util.log('Builded with sprites');
+                    } else if ($.util.env.base64 !== 'false' && typeof $.util.env.base64 !== 'undefined') {
+                        $.util.log('Builded with base64 encode');
+                    }
 
-    return;
+                    console.log('\nDist files statistic:');
+                    Object.keys(stat).forEach(function (file) {
+                        console.log('- ' + file + ': ' + stat[file]);
+                    });
+                    $.util.log($.util.colors.green('Build successfully complete'));
+
+                    cb();
+              });
 });
 
 //watchers
 gulp.task('watch', function () {
-    gulp.watch('./private/*.*', ['copy-private-assets-without-clean']);
+    gulp.watch('./private/*.*', ['copy-private-assets']);
     gulp.watch('./vendors/leaflet/src/**/*.*', ['build-leaflet']);
 });
 
 //service tasks
 gulp.task('build-clean', function () {
-    return gulp.src('./public', { read: false }).pipe(tasks.clean());
+    return gulp.src('./public', { read: false }).pipe($.clean());
 });
 
 gulp.task('clean-up-tmp-less', function () {
-    return gulp.src(['./build/tmp/less/*'], { read: false }).pipe(tasks.clean());
+    return gulp.src(['./build/tmp/less/*'], { read: false }).pipe($.clean());
 });
 
 gulp.task('clean-up-tmp-images', function () {
-    return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe(tasks.clean());
+    return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe($.clean());
 });
 
 gulp.task('bump', function () {
     return gulp.src('./package.json')
-               .pipe(tasks.bump(tasks.util.env))
+               .pipe($.bump($.util.env))
                .pipe(gulp.dest('./'));
 });
 
@@ -318,19 +323,19 @@ gulp.task('commitFiles', ['bumpLoader'], function () {
         v = pkg.version,
         message = 'Release ' + v;
 
-    return gulp.src('').pipe(tasks.git.commit(message));
+    return gulp.src('').pipe($.git.commit(message));
 });
 
 gulp.task('release', ['commitFiles'], function (done) {
     var pkg = require('./package.json'),
         v = pkg.version;
 
-    tasks.git.tag(v, v);
-    ///tasks.git.push('all', 'master', '--tags');
+    $.git.tag(v, v);
+    ///$.git.push('all', 'master', '--tags');
     done();
 });
 
-gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function () {
+gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function (cb) {
     var skins = deps.getSkinsList(),
 
         imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
@@ -346,7 +351,7 @@ gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function () {
             });
 
             return gulp.src('./private/less/images-usage-statistics.less')
-                    .pipe(tasks.header(deps.lessHeader({
+                    .pipe($.header(deps.lessHeader({
                         variables: {
                             skinName: skinName,
                             baseURL: '\'__BASE_URL__\'',
@@ -358,12 +363,13 @@ gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function () {
                         },
                         imports: skinLessFiles
                     })))
-                    .pipe(tasks.less())
-                    .pipe(tasks.rename('images-usage-statistics.' + skinName + '.less'))
+                    .pipe($.less())
+                    .pipe($.rename('images-usage-statistics.' + skinName + '.less'))
                     .pipe(gulp.dest('./build/tmp/less/'));
         });
 
-    return es.concat.apply(null, statisticsStreams);
+    var stream = es.concat.apply(null, statisticsStreams);
+    stream.on('end', cb);
 });
 
 gulp.task('collect-images-stats', ['copy-svg', 'copy-svg-raster', 'copy-raster'], function (cb) {
@@ -404,14 +410,14 @@ function saveSize(file, cb) {
 //js build api
 function bldJs(opt) {
     return gulp.src(deps.getJSFiles(opt))
-               .pipe(tasks.redust(config.tmpl))
-               .pipe(tasks.frep(config.cfgParams))
-               .pipe(tasks.concat('script.js'))
-               .pipe(tasks.header(config.js.intro))
-               .pipe(tasks.footer(projectList))
-               .pipe(tasks.footer(config.js.outro))
-               .pipe(opt.isDebug ? tasks.util.noop() : tasks.cache(tasks.uglify()))
-               .pipe(tasks.header(config.copyright));
+               .pipe($.redust(config.tmpl))
+               .pipe($.frep(config.cfgParams))
+               .pipe($.concat('script.js'))
+               .pipe($.header(config.js.intro))
+               .pipe($.footer(projectList))
+               .pipe($.footer(config.js.outro))
+               .pipe(opt.isDebug ? $.util.noop() : $.cache($.uglify()))
+               .pipe($.header(config.copyright));
 }
 
 // Builds CSS from Less
@@ -453,13 +459,13 @@ function buildCss(options) {
     if (!lessList.length) { return false; }
 
     return gulp.src(lessList)
-            .pipe(tasks.header(lessPrerequirements))
-            .pipe(tasks.frep(config.cfgParams))
-            .pipe(tasks.less())
-            .pipe(tasks.cache(tasks.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
-            .pipe(tasks.concat('styles.css'))
-            .pipe(options.isDebug ? tasks.util.noop() : tasks.minifyCss())
-            .pipe(tasks.header(config.copyright));
+            .pipe($.header(lessPrerequirements))
+            .pipe($.frep(config.cfgParams))
+            .pipe($.less())
+            .pipe($.cache($.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
+            .pipe($.concat('styles.css'))
+            .pipe(options.isDebug ? $.util.noop() : $.minifyCss())
+            .pipe($.header(config.copyright));
 }
 
 
