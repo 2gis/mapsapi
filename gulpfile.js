@@ -250,7 +250,11 @@ gulp.task('test', ['build'], function () {
                .pipe($.karma({
                     configFile: './test/karma.conf.js',
                     action: 'run'
-                }));
+                }))
+                .on('error', function(err) {
+                    // Make sure failed tests cause gulp to exit non-zero
+                    throw err;
+                });
 });
 
 gulp.task('doc', function () {
