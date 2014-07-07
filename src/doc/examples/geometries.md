@@ -339,7 +339,6 @@
     DG.then(function() {
         
         var map;
-
         map = DG.map('map5', {
             center: [54.98, 82.94],
             zoom: 13
@@ -373,7 +372,6 @@
                 DG.then(function() {
                     
                     var map;
-
                     map = DG.map('map', {
                         center: [54.98, 82.94],
                         zoom: 13

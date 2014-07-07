@@ -254,6 +254,7 @@
 <div id="map5" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
+        
         var map;
 
         map = DG.map('map5', {
@@ -284,6 +285,7 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
+                    
                     var map;
 
                     map = DG.map('map', {

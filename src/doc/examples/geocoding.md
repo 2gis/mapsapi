@@ -21,7 +21,7 @@
                 center: [54.9802, 82.8980],
                 zoom: 18
             });
-
+            
             DG.ajax({
                 url: 'http://catalog.api.2gis.ru/geo/search',
                 data: {

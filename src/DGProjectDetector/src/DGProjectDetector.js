@@ -72,9 +72,11 @@ DG.ProjectDetector = DG.Handler.extend({
                 return (this._boundInProject(project) && this._zoomInProject(project));
             }, this)
             .some(function (project) {
-                this.project = project;
-                this._map.fire('projectchange', {'getProject': this.getProject.bind(this)});
-
+                this.project = project;     
+                var self = this;
+                setTimeout( function() { 
+                    self._map.fire('projectchange', {'getProject': self.getProject.bind(self)} ); 
+                } , 1);
                 return true;
             }, this);
     },
