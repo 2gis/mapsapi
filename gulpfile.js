@@ -24,9 +24,9 @@ $.spritesmith = require('gulp.spritesmith');
 
 var projectList,
     errorNotify = function() {
-
         var args = Array.prototype.slice.call(arguments);
 
+        error = true;
         // Send error to notification center with gulp-notify
         $.notify.onError(
             {
@@ -178,9 +178,6 @@ gulp.task('copy-svg-raster', function (cb) {
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(errorHandle())
                 .pipe($.raster())
-                // .on('error', function(e) {
-                //     console.log(e);
-                // })
                 .pipe($.rename(function (path) {
                     path.extname = '.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
@@ -194,9 +191,6 @@ gulp.task('copy-svg-raster', function (cb) {
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(errorHandle())
                 .pipe($.raster({ scale: 2 }))
-                // .on('error', function(e) {
-                //     console.log(e);
-                // })
                 .pipe($.rename(function (path) {
                     path.extname = '@2x.png';
                     path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
@@ -315,7 +309,7 @@ gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
 
     runSequence(['build-scripts', 'build-styles', 'doc', 'copy-private-assets'],
               function () {
-                    if (error) { return errorNotify(error); }
+                    if (error) { return; }
 
                     cb();
 
@@ -467,6 +461,7 @@ function bldJs(opt) {
           plugin: 'deps',
           message: 'pkg param can\'t be empty'
         });
+        errorNotify(error);
         throw error;
     }
     return gulp.src(deps.getJSFiles(opt))
