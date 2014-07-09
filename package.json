@@ -35,7 +35,7 @@
     "gulp-footer": "1.0.5",
     "gulp-frep": "0.1.0",
     "gulp-git": "0.4.0",
-    "gulp-header": "1.0.2",
+    "gulp-header": "1.0.5",
     "gulp-if": "1.1.0",
     "gulp-jshint": "1.6.4",
     "gulp-karma": "0.0.4",
