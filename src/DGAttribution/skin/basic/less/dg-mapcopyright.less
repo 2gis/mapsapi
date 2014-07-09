@@ -1,52 +1,42 @@
 .leaflet-container .leaflet-control-attribution {
     background-color: transparent !important;
-}
-
-.dg-attribution__copyright {
-    margin: 0 55px 5px 0;
-    text-align: right;
-    white-space: nowrap;
-    font: 9px/12px Helvetica,Arial,sans-serif;
-
-    .leaflet-touch & {
-        margin-top: 90px;
     }
-}
+    .dg-attribution__copyright {
+        margin: 0 55px 5px 0;
+        text-align: right;
+        white-space: nowrap;
+        font: 9px/12px Helvetica, Arial, sans-serif;
 
-.dg-attribution__links {
-    list-style: none;
-    margin: 0;
-    padding: 0 5px 0 0;
-    display: inline-block;
-}
+        .leaflet-touch & {
+            margin-top: 90px;
+            }
+        }
+        .dg-attribution__links {
+            display: inline-block;
+            margin: 0;
+            padding: 0 5px 0 0;
+            }
+            .dg-attribution__link-item {
+                padding: 0;
+                list-style-type: none;
+                }
+                .leaflet-container .dg-attribution__link {
+                    background: linear-gradient(to right, rgba(8, 8, 8, 0.3), rgba(8, 8, 8, 0.3) 100%) 0 95% repeat-x transparent;
+                    background-size: 10px 1px;
+                    color: #333;
+                    text-decoration: none;
+                    font: 9px/12px Helvetica, Arial, sans-serif;
+                    cursor: pointer;
 
-.dg-attribution__links li {
-    padding: 0;
-    font: 9px/12px Helvetica,Arial,sans-serif;
-}
+                    &:hover {
+                        background-image: linear-gradient(to right, #080808, #080808 100%);
+                        color: #333;
+                        }
+                    }
 
-.dg-attribution__link {
-    font: 9px/12px Helvetica,Arial,sans-serif;
-}
-
-.dg-attribution__logo_url {
-    position: absolute;
-    width: 55px;
-    height: 26px;
-    .noRepeatableBg('DGAttribution__logo');
-}
-
-.leaflet-container .dg-attribution__link {
-    cursor: pointer;
-    color: #333;
-    text-decoration: none;
-    background-position: 0 95%;
-    background-size: 10px 1px;
-    background-repeat: repeat-x;
-    background-image: linear-gradient(to right,rgba(8,8,8,.3),rgba(8,8,8,.3)100%);
-
-    &:hover {
-        color: #333;
-        background-image: linear-gradient(to right,#080808,#080808 100%);
-    }
-}   
+        .dg-attribution__logo-url {
+            .noRepeatableBg('DGAttribution__logo');
+            position: absolute;
+            width: 55px;
+            height: 24px;
+            }
