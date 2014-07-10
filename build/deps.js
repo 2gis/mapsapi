@@ -269,6 +269,18 @@ var deps = {
         deps: ['DGMeta', 'DGLabel']
     },
 
+    DGTrafficControl: {
+        desc: 'Traffic control module',
+        src: [
+            'DGTrafficControl/src/Control.Traffic.js',
+            'DGTrafficControl/lang/ru.js',
+            'DGTrafficControl/lang/it.js',
+            'DGTrafficControl/lang/cs.js',
+            'DGTrafficControl/lang/en.js'
+        ],
+        deps: ['DGTraffic', 'DGRoundControl']
+    },
+
     DGRuler: {
         desc: 'Ruler module',
         src: [
