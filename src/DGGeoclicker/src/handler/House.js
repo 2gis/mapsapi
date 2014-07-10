@@ -1,6 +1,4 @@
-/* global
-    FirmCard: false
-*/
+/*global FirmCard */
 DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _firmsOnPage: 20,
