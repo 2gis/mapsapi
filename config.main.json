@@ -36,6 +36,7 @@
         "TRAFFIC_TILE_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
         "TRAFFIC_META_SERVER": "//meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
         "TRAFFIC_TIMESTAMP_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
+        "TRAFFIC_SCORE_SERVER" : "//traffic{s}.2gis.ru/{projectCode}/meta/score/0/",
 
         "POI_META_SERVER": "//tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
 

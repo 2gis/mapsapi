@@ -6,7 +6,8 @@ DG.Control.Traffic = DG.RoundControl.extend({
     },
 
     statics: {
-        Dictionary: {}
+        Dictionary: {},
+        scoreUrl: '__TRAFFIC_SCORE_SERVER__'
     },
 
     initialize: function (options) {
@@ -41,11 +42,26 @@ DG.Control.Traffic = DG.RoundControl.extend({
     },
 
     _showTraffic: function () { // ()
-        this._map.addLayer(this._trafficLayer);
+        var self = this;
+
+        this._getTrafficScore().then(function (score) {
+            console.log('traffic score: %s', score);
+            self._map.addLayer(self._trafficLayer);
+        });
     },
 
     _hideTraffic: function () { // ()
         this._map.removeLayer(this._trafficLayer);
+    },
+
+    _getTrafficScore: function () { // () -> Promise
+        var url = DG.Util.template(DG.Control.Traffic.scoreUrl,
+                                    {
+                                        s: this._trafficLayer.getSubdomain(),
+                                        projectCode: this._map.projectDetector.getProject().code
+                                    });
+
+        return DG.ajax(url, {type: 'get' });
     },
 
     _renderTranslation: function () { // ()
