@@ -57,7 +57,7 @@
         .imageFileData(@name);
         & when (@retina) and not (@filename = '')  {
             .leaflet-retina & {
-                background-image: url('@{baseURL}/img/@{filename}.@{extension}');
+                background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
                 }
             }
     }
