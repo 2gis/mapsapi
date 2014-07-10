@@ -90,13 +90,13 @@ DG.Traffic = DG.TileLayer.extend({
         );
     },
 
-    _getTimestampString: function () {
-        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this._getSubdomain(), projectCode: this._map.projectDetector.getProject().code}, this.options || {})),
-            { type: 'get' });
+    getSubdomain: function () {
+        return DG.Traffic.layersOptions.subdomains[Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)];
     },
 
-    _getSubdomain: function () {
-        return DG.Traffic.layersOptions.subdomains[Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)];
+    _getTimestampString: function () {
+        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this.getSubdomain(), projectCode: this._map.projectDetector.getProject().code}, this.options || {})),
+            { type: 'get' });
     },
 
     _onTimer: function () {
