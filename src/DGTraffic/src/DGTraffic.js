@@ -190,3 +190,7 @@ DG.Traffic = DG.TileLayer.extend({
     }
 
 });
+
+DG.traffic = function (options) { // (Object)
+    return new DG.Traffic(options);
+};
