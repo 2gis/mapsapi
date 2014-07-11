@@ -1,5 +1,7 @@
 ## DG.Traffic
 
+{toc}
+
 Создает слой с информацией о пробках. При наведении на участок дороги отображает дополнительную метаинформацию.
 
 ### Конструктор
@@ -12,7 +14,7 @@
     </tr>
     <tr>
         <td><code><b>DG.Traffic</b>(
-            <nobr>&lt;<a href="#">DG.Traffic options</a>&gt; <i>options?</i> )</nobr>
+            <nobr>&lt;<a href="#опции">DG.Traffic options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>

@@ -168,17 +168,17 @@
     <tbody>
         <tr>
             <td><code><b>latlng</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Географическая точка, в которой было инициировано событие мышки.</td>
         </tr>
         <tr>
             <td><code><b>layerPoint</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Пиксельные координаты, в которых было инициировано событие мышки, относительно слоя карты.</td>
         </tr>
         <tr>
             <td><code><b>containerPoint</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Пиксельные координаты, в которых было инициировано событие мышки, относительно контейнера карты.</td>
         </tr>
         <tr>
@@ -202,12 +202,12 @@
     <tbody>
         <tr>
             <td><code><b>latlng</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Географическое положение пользователя.</td>
         </tr>
         <tr>
             <td><code><b>bounds</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a></code></td>
             <td>Географические границы, в которых находится пользователь (в соответствии с точностью местоположения).</td>
         </tr>
         <tr>
@@ -280,7 +280,7 @@
     <tbody>
         <tr>
             <td><code><b>layer</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a></code></td>
+            <td><code><a href="/doc/maps/manual/interfaces#ilayer">ILayer</a></code></td>
             <td>Слой, который был добавлен или удален.</td>
         </tr>
     </tbody>
@@ -302,11 +302,6 @@
             <td><code>HTMLElement</code></td>
             <td>Элемент тайла (изображение).</td>
         </tr>
-        <tr>
-            <td><code><b>url</b></code></td>
-            <td><code>String</code></td>
-            <td>URL тайла.</td>
-        </tr>
     </tbody>
 </table>
 
@@ -323,12 +318,12 @@
     <tbody>
         <tr>
             <td><code><b>oldSize</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Старый размер, до изменения.</td>
         </tr>
         <tr>
             <td><code><b>newSize</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
             <td>Новый размер, после изменения.</td>
         </tr>
     </tbody>
@@ -347,7 +342,7 @@
     <tbody>
         <tr>
             <td><code><b>layer</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a></code></td>
+            <td><code><a href="/doc/maps/manual/interfaces#ilayer">ILayer</a></code></td>
             <td>Слой GeoJSON объекта добавленного на карту.</td>
         </tr>
         <tr>
@@ -381,7 +376,7 @@
     <tbody>
         <tr>
             <td><code><b>popup</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/popups#описание">Popup</a></code></td>
+            <td><code><a href="/doc/maps/manual/popups#описание">Popup</a></code></td>
             <td>Балун, который был открыт или закрыт.</td>
         </tr>
     </tbody>
@@ -419,7 +414,7 @@
     <tbody>
         <tr>
             <td><code><b>latlng</b></code></td>
-            <td><code><a href="/doc/maps/2.0/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
+            <td><code><a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a></code></td>
             <td>Географические координаты точки объекта допслоя.</td>
         </tr>
         <tr>
@@ -445,13 +440,13 @@
             <td>getProjectList</td>
             <td>Нет</td>
             <td>Object</td>
-            <td>Возвращает все доступные <a href="/doc/maps/2.0/manual/map#map-projectdetector">проекты 2ГИС</a>.</td>
+            <td>Возвращает все доступные <a href="/doc/maps/manual/map#map-projectdetector">проекты 2ГИС</a>.</td>
         </tr>
         <tr>
             <td>getProject</td>
             <td>Нет</td>
             <td>Object</td>
-            <td>Возвращает текущий <a href="/doc/maps/2.0/manual/map#map-projectdetector">проект 2ГИС</a>.</td>
+            <td>Возвращает текущий <a href="/doc/maps/manual/map#map-projectdetector">проект 2ГИС</a>.</td>
         </tr>
     </tbody>
 </table>

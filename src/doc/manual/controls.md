@@ -8,7 +8,7 @@
 
 ### Класс DG.Control
 
-Базовый класс для всех элементов управления. Реализует интерфейс [IControl](/doc/maps/2.0/manual/interfaces#icontrol). Элементы добавляются на карту следующим образом:
+Базовый класс для всех элементов управления. Реализует интерфейс [IControl](/doc/maps/manual/interfaces#icontrol). Элементы добавляются на карту следующим образом:
 
     control.addTo(map);
     // то же самое, что
@@ -83,14 +83,14 @@
         </tr>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет элемент управления на карту.</td>
         </tr>
         <tr>
             <td><code><b>removeFrom</b>(
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Удаляет элемент управления с карты.</td>
@@ -329,7 +329,7 @@
         <td><code><b>locateOptions</b></code></td>
         <td><code>Object</code></td>
         <td><code><span class="string"></span></td>
-        <td>См. <a href="/doc/maps/2.0/manual/map#опции-определения-местоположения">параметры определения расположения</a>.</td>
+        <td>См. <a href="/doc/maps/manual/map#опции-определения-местоположения">параметры определения расположения</a>.</td>
     </tr>
 </table>
 

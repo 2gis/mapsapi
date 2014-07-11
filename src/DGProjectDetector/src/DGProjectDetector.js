@@ -1,22 +1,12 @@
 DG.ProjectDetector = DG.Handler.extend({
-    options: {
-        url: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
-        data: {
-            key: '__WEB_API_KEY__',
-            fields: '__PROJECT_ADDITIONAL_FIELDS__',
-            type: 'project',
-            lang: 'all'
-        }
-    },
-
     initialize: function (map) { // (Object)
         this._map = map;
+        this._osmViewport = false;
         this.project = null;
         this._loadProjectList();
     },
 
     addHooks: function () {
-        this._projectWatch();
         this._map.on('move', this._projectWatch, this);
     },
 
@@ -34,7 +24,7 @@ DG.ProjectDetector = DG.Handler.extend({
         return DG.projectsList.slice(0);
     },
 
-    isProjectHere: function (coords, project) {
+    isProjectHere: function (coords, project, checkMethod) {
         if (!coords) { return; }
 
         if (!(coords instanceof DG.LatLng) && !(coords instanceof DG.LatLngBounds)) {
@@ -44,7 +34,7 @@ DG.ProjectDetector = DG.Handler.extend({
         coords = (coords instanceof DG.LatLngBounds) ?
             DG.latLngBounds(coords.getSouthWest().wrap(), coords.getNorthEast().wrap()) : coords.wrap();
 
-        var checkMethod = (coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains';
+        checkMethod = checkMethod || ((coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains');
 
         return project ?
             this._testProject(checkMethod, coords, project) :
@@ -54,6 +44,11 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _projectWatch: function () {
+        if (this._osmViewport === (this.project && this._boundInProject(this.project, 'contains'))) {
+            this._osmViewport = !this._osmViewport;
+            this._map.attributionControl._update(null, this._osmViewport);
+        }
+
         if (this.project && this._boundInProject(this.project) && this._zoomInProject(this.project)) { return; }
 
         if (this.project) {
@@ -84,9 +79,9 @@ DG.ProjectDetector = DG.Handler.extend({
             }, this);
     },
 
-    _boundInProject: function (project) {
+    _boundInProject: function (project, checkMethod) {
         try {
-            return this.isProjectHere(this._map.getBounds(), project);
+            return this.isProjectHere(this._map.getBounds(), project, checkMethod);
         } catch (e) {
             return false;
         }

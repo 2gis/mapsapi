@@ -2,7 +2,7 @@
     "HOST": null,
     "PORT": "3000",
     "BASE_URL": "",
-    "DEFAULT_SKIN": "light",
+    "DEFAULT_SKIN": "dark",
 
     "TILE_SERVER": "https://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
 
@@ -14,7 +14,7 @@
     "DETECT_RETINA": true,
 
     "PPNOT_LINK": "http://2gis.ru/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
-    "PHOTOS_LINK": "http://beta.2gis.ru/photos/{id}",
+    "PHOTOS_LINK": "http://2gis.ru/photos/{id}",
 
     "HIGHLIGHT_POI_SERVER": "http://tile{s}.maps.2gis.ru/?x={x}&y={y}&z={z}&v=1&type=poi",
     "POI_LAYER_MIN_ZOOM": 15,
@@ -22,7 +22,6 @@
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
-    "PROJECT_ADDITIONAL_FIELDS": "data.bound,data.max_zoom_level,data.min_zoom_level,data.time_zone,data.time_zone_as_offset,data.code, data.has_transport",
     "FIRM_INFO_FIELDS": "data.reviews,data.geo.id,data.geo.entrances,data.photos",
     "GEO_ADDITIONAL_FIELDS": "data.geometry.selection,data.attributes.filials,data.attributes.sight",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",

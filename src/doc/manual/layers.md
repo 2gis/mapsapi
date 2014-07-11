@@ -8,7 +8,7 @@ API карт позволяет накладывать пользователь�
 
 ### Класс DG.TileLayer
 
-Используется для загрузки и отображения тайлового слоя, реализует интерфейс <a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>.
+Используется для загрузки и отображения тайлового слоя, реализует интерфейс <a href="/doc/maps/manual/interfaces#ilayer">ILayer</a>.
 
     var url = 'http://tile{s}.traffic.2gis.ru/novosibirsk/traffic/{z}/{x}/{y}/speed/0/';
     DG.tileLayer(url, {subdomains: '012'}).addTo(map);
@@ -174,7 +174,7 @@ API карт позволяет накладывать пользователь�
 
 #### События
 
-Вы можете подписаться на следующие события используя <a href="/doc/maps/2.0/manual/events#методы-управления-событиями">эти методы</a>.
+Вы можете подписаться на следующие события используя <a href="/doc/maps/manual/events#методы-управления-событиями">эти методы</a>.
 <table>
 	<thead>
 		<tr>
@@ -186,27 +186,27 @@ API карт позволяет накладывать пользователь�
 	<tbody>
 		<tr>
 			<td><code><b>loading</b></code></td>
-			<td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
+			<td><code><a href="/doc/maps/manual/events#event">Event</a></code>
 			<td>Вызывается при начале загрузки тайлов.</td>
 		</tr>
 		<tr>
 			<td><code><b>load</b></code></td>
-			<td><code><a href="/doc/maps/2.0/manual/events#event">Event</a></code>
+			<td><code><a href="/doc/maps/manual/events#event">Event</a></code>
 			<td>Вызывается при окончании загрузки видимых тайлов.</td>
 		</tr>
 		<tr>
 	      <td><code><b>tileloadstart</b></code></td>
-	      <td><code><a href="/doc/maps/2.0/manual/events#tileevent">TileEvent</a></code></td>
+	      <td><code><a href="/doc/maps/manual/events#tileevent">TileEvent</a></code></td>
 	      <td>Вызывается при запросе тайла и начале его загрузки.</td>
 	    </tr>
 		<tr>
 			<td><code><b>tileload</b></code></td>
-			<td><code><a href="/doc/maps/2.0/manual/events#tileevent">TileEvent</a></code>
+			<td><code><a href="/doc/maps/manual/events#tileevent">TileEvent</a></code>
 			<td>Вызывается после загрузки тайла.</td>
 		</tr>
 		<tr>
 			<td><code><b>tileunload</b></code></td>
-			<td><code><a href="/doc/maps/2.0/manual/events#tileevent">TileEvent</a></code>
+			<td><code><a href="/doc/maps/manual/events#tileevent">TileEvent</a></code>
 			<td>Вызывается при удалении тайла (например, при включенном режиме <code>unloadInvisibleTiles</code>).</td>
 		</tr>
 	</tbody>
@@ -224,7 +224,7 @@ API карт позволяет накладывать пользователь�
 	<tbody>
 		<tr>
 			<td><code><b>addTo</b>(
-				<nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>
@@ -381,88 +381,9 @@ API карт позволяет накладывать пользователь�
 	</tbody>
 </table>
 
-### Класс DG.TileLayer.Canvas
-
-Используется для создания тайлового слоя на основе сanvas, при этом тайлы отрисовываются на стороне браузера. Расширяет <a href="#класс-dgtilelayer">TileLayer</a>.
-
-	var canvasTiles = DG.tileLayer.canvas();
-	canvasTiles.drawTile = function(canvas, tilePoint, zoom) {
-		var ctx = canvas.getContext('2d');
-		// отрисовываем тайл
-	}
-
-#### Конструктор
-<table>
-	<thead>
-		<tr>
-			<th>Конструктор</th>
-			<th>Использование</th>
-			<th>Описание</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><code><b>DG.TileLayer.Canvas</b>(
-				<nobr>&lt;<a href="#опции">TileLayer options</a>&gt; <i>options?</i> )</nobr>
-			</code></td>
-			<td>
-				<code>DG.tileLayer.canvas(&hellip;)</code>
-			</td>
-			<td>Создает объект canvas-слоя с необязательными опциями.</td>
-		</tr>
-	</tbody>
-</table>
-
-#### Опции
-<table>
-	<thead>
-		<tr>
-			<th>Опция</th>
-			<th>Тип</th>
-			<th>По умолчанию</th>
-			<th>Описание</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><code><b>async</b></code></td>
-			<td><code>Boolean</code></td>
-			<td><code>false</code></td>
-			<td>Указывает на то, что тайлы будут отрисовываться асинхронно. Метод <a href="#tilelayer-canvas-tiledrawn">tileDrawn</a> должен быть вызван для каждого тайла после завершения отрисовки.</td>
-		</tr>
-	</tbody>
-</table>
-
-#### Методы
-<table>
-	<thead>
-		<tr>
-			<th>Метод</th>
-			<th>Возвращает</th>
-			<th>Описание</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id = "tilelayer-canvas-drawtile">
-			<td><code><b>drawTile</b>(
-				<nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr>,
-				<nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>tilePoint</i></nobr>,
-				<nobr>&lt;Number&gt; <i>zoom</i> )</nobr>
-			</code></td>
-			<td><code>this</code></td>
-			<td>Чтобы отрисовать тайлы, нужно определить этот метод после создания экземпляра класса. <code>canvas</code> &mdash; элемент canvas, на котором будут отрисовываться тайлы, <code>tilePoint</code> &mdash; номер тайла, и <code>zoom</code> &mdash; текущий уровень зума.</td>
-		</tr>
-		<tr id="tilelayer-canvas-tiledrawn">
-			<td><code><b>tileDrawn</b>( <nobr>&lt;HTMLCanvasElement&gt; <i>canvas</i></nobr> )</code></td>
-			<td>-</td>
-			<td>Если опция <code>async</code> задана, тогда эту функцию необходимо вызывать каждый раз после отрисовки тайла. <code>canvas</code> &mdash; это тот же элемент, что передается в <a href="#tilelayer-canvas-drawtile">drawTile</a>.</td>
-		</tr>
-	</tbody>
-</table>
-
 ### Класс DG.ImageOverlay
 
-Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс <a href="/doc/maps/2.0/manual/interfaces#ilayer">ILayer</a>.
+Используется для загрузки и отображения одного изображения в определенной области карты, реализует интерфейс <a href="/doc/maps/manual/interfaces#ilayer">ILayer</a>.
 
 	var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
 		imageBounds = [[54.712216, 82.22655], [54.773941, 82.12544]];
@@ -481,7 +402,7 @@ API карт позволяет накладывать пользователь�
 		<tr>
 			<td><code><b>DG.ImageOverlay</b>(
 				<nobr>&lt;String&gt; <i>imageUrl</i></nobr>,
-				<nobr>&lt;<a href="/doc/maps/2.0/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
+				<nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlngbounds">LatLngBounds</a>&gt; <i>bounds</i></nobr>,
 				<nobr>&lt;<a href="#опции-3">ImageOverlay options</a>&gt; <i>options?</i> )</nobr>
 			</code></td>
 
@@ -532,7 +453,7 @@ API карт позволяет накладывать пользователь�
 	<tbody>
 		<tr>
 			<td><code><b>addTo</b>(
-				<nobr>&lt;<a href="/doc/maps/2.0/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+				<nobr>&lt;<a href="/doc/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
 			</code></td>
 
 			<td><code>this</code></td>

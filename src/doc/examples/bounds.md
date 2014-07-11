@@ -4,13 +4,13 @@
 
 ### Описание
 
-Ниже приведены примеры ограничения границ карты и уровней масштабирования. Для получения подробной информации о работе с картой воспользуйтесь разделом документации [Карта](/doc/maps/2.0/manual/map).
+Ниже приведены примеры ограничения границ карты и уровней масштабирования. Для получения подробной информации о работе с картой воспользуйтесь разделом документации [Карта](/doc/maps/manual/map).
 
 ### Ограничение границ и масштаба
 
 Ограничение просматриваемой области границами города Новосибирск, а также уровней масштабирования диапазоном от 10 до 15:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -30,9 +30,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>Ограничение границ и масштаба</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
         <body>
@@ -95,9 +95,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>Карта с левой панелью</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
             <style>
                 #container {

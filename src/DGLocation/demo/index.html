@@ -3,7 +3,7 @@
 <head>
   <meta charset='utf-8'>
   <title>Leaflet.Control.Locate Demo</title>
-  <script src="http://maps.api.2gis.dev/2.0/loader.js?skin=dark" data-id="dgLoader"></script>
+  <script src="http://maps.api.2gis.dev/2.0/loader.js" data-id="dgLoader"></script>
 
 </head>
 <body>
@@ -19,6 +19,8 @@
         zoom:15,
         locationControl: true
     });
+
+    map.locationControl.setPosition('bottomleft');
 
   });
   </script>
