@@ -1,4 +1,4 @@
-/*global __POI_LAYER_MIN_ZOOM__:false */
+/*global __POI_LAYER_MIN_ZOOM__ */
 
 DG.Map.mergeOptions({
     poi: !DG.Browser.touch
@@ -48,11 +48,12 @@ DG.Poi = DG.Handler.extend({
     },
 
     _processData : function (data, coord) {
-         var map = this._map;
+        var map = this._map,
+            tileOriginPoint;
 
-         if(!coord) {return false;}
+        if(!coord) {return false;}
 
-         tileOriginPoint = coord.multiplyBy(this._metaLayer._getTileSize());
+        tileOriginPoint = coord.multiplyBy(this._metaLayer._getTileSize());
 
         if (data.responseText === '') {
             return [];
