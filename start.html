@@ -4,11 +4,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta id="viewport" name='viewport' content="width=device-width initial-scale=0.65 maximum-scale=0.65" />
+        <meta id="viewport" name='viewport' content="width=device-width initial-scale=1.0 maximum-scale=1.0" />
         <meta name="description" content="Карты 2GIS — это точные данные обо всех объектах города. API карт 2GIS поможет создать интерактивную карту на вашем сайте.">
         <title>2GIS Maps API 2.0</title>
 
-        <link rel="stylesheet" href="./css/leaflet.css" type="text/css" />
         <link rel="icon" type="image/png" href="./img/favicon.ico">
         <!--[if lte IE 8]>
             <link rel="stylesheet" href="./css/style.ie.css" type="text/css" media="screen" charset="utf-8" />
@@ -20,10 +19,9 @@
         <script>
             (function(doc) {
                 var viewport = document.getElementById('viewport');
-                if ( navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
-                    viewport.setAttribute("content", "width=device-width initial-scale=0.5 maximum-scale=0.5");
-                } else if ( navigator.userAgent.match(/iPad/i) ) {
-                    viewport.setAttribute("content", "width=device-width initial-scale=1.0 maximum-scale=1.0");
+                if (screen && screen.width < 550) {
+                    var scale = (screen.width/550).toFixed(2);
+                    viewport.setAttribute("content", "width=device-width height=device-height initial-scale=" + scale + " maximum-scale=" + scale);
                 }
             }(document));
         </script>
@@ -104,8 +102,7 @@
 
     <div class="footer__panel footer__panel_name_links" data-footer-state="page6">
         <a class="footer__link" href="http://api.2gis.ru/doc/maps/" target="_blank" title="Документация">Документация</a>
-        <a class="footer__link" href="http://api.2gis.ru/doc/maps/examples/" target="_blank" title="Примеры">Примеры</a>
-        <!--<a class="footer__link" href="#" title="">Идеи и вопросы</a>-->
+        <a class="footer__link" href="http://api.2gis.ru/doc/maps/examples/base" target="_blank" title="Примеры">Примеры</a>
         <a href="https://github.com/2gis/mapsapi/" target="_blank"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
     </div>
 </div>

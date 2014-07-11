@@ -4,11 +4,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta id="viewport" name='viewport' content="width=device-width initial-scale=0.65 maximum-scale=0.65" />
+        <meta id="viewport" name='viewport' content="width=device-width initial-scale=1.0 maximum-scale=1.0" />
         <meta name="description" content="Карты 2GIS — это точные данные обо всех объектах города. API карт 2GIS поможет создать интерактивную карту на вашем сайте.">
         <title>2GIS Maps API 2.0</title>
 
-        <link rel="stylesheet" href="./css/leaflet.css" type="text/css" />
         <link rel="icon" type="image/png" href="./img/favicon.ico">
         <!--[if lte IE 8]>
             <link rel="stylesheet" href="./css/style.ie.css" type="text/css" media="screen" charset="utf-8" />
@@ -20,10 +19,9 @@
         <script>
             (function(doc) {
                 var viewport = document.getElementById('viewport');
-                if ( navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
-                    viewport.setAttribute("content", "width=device-width initial-scale=0.5 maximum-scale=0.5");
-                } else if ( navigator.userAgent.match(/iPad/i) ) {
-                    viewport.setAttribute("content", "width=device-width initial-scale=1.0 maximum-scale=1.0");
+                if (screen && screen.width < 550) {
+                    var scale = (screen.width/550).toFixed(2);
+                    viewport.setAttribute("content", "width=device-width height=device-height initial-scale=" + scale + " maximum-scale=" + scale);
                 }
             }(document));
         </script>
