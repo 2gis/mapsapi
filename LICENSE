@@ -1,276 +1,338 @@
-THIS DOCUMENT IS A LEGAL AGREEMENT (the “Agreement”) BETWEEN DoubleGIS LLC ("We", "Us", "2GIS") AND
-YOU ("You") IN RELATION TO API SOFTWARE (the "Software").
+НАСТОЯЩИЙ ДОКУМЕНТ ЯВЛЯЕТСЯ ЮРИДИЧЕСКИМ ДОГОВОРОМ («Договор») между ООО «ДубльГИС» («Мы», «Нас»,
+«2ГИС») И ВАМИ («Вы») В ОТНОШЕНИИ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ API («Программное обеспечение»).
 
-BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING THE SOFTWARE, YOU ACCEPT THE FOLLOWING TERMS
-AND CONDITIONS. IF YOU DO NOT AGREE WITH ANY OF THE TERMS OR CONDITIONS OF THIS LICENSE AGREEMENT,
-DO NOT PROCEED WITH THE DOWNLOADING, COPYING, INSTALLATION OR ANY OTHER USE OF THE SOFTWARE OR ANY
-PORTION THEREOF AS YOU HAVE NO RIGHTS TO DO SO. THIS LICENSE AGREEMENT DESCRIBES YOUR RIGHTS AND
-RESTRICTIONS WITH RESPECT TO THE SOFTWARE AND ITS COMPONENTS.
+КОГДА ВЫ СКАЧИВАЕТЕ, УСТАНАВЛИВАЕТЕ, КОПИРУЕТЕ ИЛИ ИНЫМ ОБРАЗОМ ИСПОЛЬЗУЕТЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ,
+ВЫ ТЕМ САМЫМ ПРИНИМАЕТЕ УСЛОВИЯ ДОГОВОРА, ИЗЛОЖЕННЫЕ НИЖЕ. ЕСЛИ ВЫ НЕ СОГЛАСНЫ С НИЖЕСЛЕДУЮЩИМИ
+УСЛОВИЯМИ, ВЫ НЕ ИМЕЕТЕ ПРАВА СКАЧИВАТЬ, УСТАНАВЛИВАТЬ, КОПИРОВАТЬ ИЛИ ИНЫМ ОБРАЗОМ ИСПОЛЬЗОВАТЬ
+ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ИЛИ КАКУЮ-ЛИБО ЕГО ЧАСТЬ. НАСТОЯЩИЙ ЛИЦЕНЗИОННЫЙ ДОГОВОР ОПИСЫВАЕТ ВАШИ
+ПРАВА И ОГРАНИЧЕНИЯ В ОТНОШЕНИИ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ И ЕГО КОМПОНЕНТОВ.
 
-1.DEFINITIONS
+1. ОПРЕДЕЛЕНИЯ
 
-"Application" means any software, application, or elements that You develop and operate using the
-Software or Modifications in accordance with this Agreement.
+«Приложение» означает любое программное обеспечение, приложение или элементы, которые Вы
+«разрабатываете или которыми управляете, используя Программное обеспечение или Модификации в
+«соответствии с настоящим Договором.
 
-"End User" means an end user of Your Application who acquires a license to such solely for their own
-internal use and not for distribution, resale, user interface design or software development
-purposes.
+«Конечный пользователь» означает конечного пользователя Вашего Приложения, который приобрел лицензию
+«на Приложение для собственного внутреннего использования, но не для распространения, перепродажи,
+«разработки пользовательского интерфейса или иных целей, связанных с разработкой.
 
-"Modification" means: a) any addition to or deletion from the contents of a file included in the
-original Software or previous Modifications created by You, and/or b) any new file that leverages
-any part of the original Software or previous Modifications.
+«Модификация» означает: а) любое дополнение или удаление из контента файла, включенного в
+«первоначальную версию Программного обеспечения или предшествующие Модификации, созданные вами,
+«и/или b) любой новый файл, который использует любую часть первоначальной версии Программного
+«обеспечения или предшествующих Модификаций.
 
-"Source" form shall mean the preferred form for making modifications, including but not limited to
-software source code, documentation source, and configuration files.
+«Исходная» форма означает предпочтительную форму для внесения изменений, включая, в том числе,
+«исходный код программного обеспечения, исходную документацию и конфигурационные файлы.
 
-"Object" form shall mean any form resulting from mechanical transformation or translation of a Source
-form, including but not limited to compiled object code, generated documentation, and conversions
-to other media types.
+«Объектная» форма означает любую форму, полученную в результате механической трансформации или
+«перевода из Исходной формы, включая, в том числе, скомпилированный объектный код, генерируемую
+«документацию и конвертирование в иные форматы.
 
-"Hit Counter Script Code" means part of Source that is required for tracking, monitoring and
-registration of End Users activity.
+«Код счетчика посещений» означает часть Исходной формы, которая требуется для отслеживания,
+«мониторинга и регистрации деятельности Конечных пользователей.
 
-"API Software" ("Software") means DoubleGIS LLC application programming interface 2.0 version in the
-form provided by DoubleGIS LLC to You, including any libraries, source code, documentation,
-developer tools kit and other materials provided at https://github.com/2gis/maps-api-2.0 and
-http://api.2gis.ru/ designated for modification, adaptation and any other software changes.
-Software shall include any upgrades, updates, bug fixes or modified versions of the Software
-provided that We are entitled to change the Software, as well as to modify or revoke this license
-agreement to use the Software at Our sole discretion and at any time without giving You prior
-notice. The new version of the Agreement shall enter into force on the date of its posting on the
-http://law.2gis.ru/, unless otherwise provided in the new version of the agreement. In case of Your
-disagreement with the use of a modified or updated version of the Software, the Section 7 of the
-Agreement shall apply.
+«Программное обеспечение API» (Программное обеспечение») означает программный интерфейс приложения
+«ООО ДубльГИС»  версии 2.0 в форме, предоставляемой Вам ООО ДубльГИС», включая библиотеки, исходный
+«код, документацию, набор инструментальных средств разработчика и иные материалы, размещаемый на
+«https://github.com/2gis/maps-api-2.0 и http://api.2gis.ru/, предназначенный для модификаций,
+«адаптаций и иных изменений программного обеспечения.
 
-"Logos" collectively means the DoubleGIS LLC trade names, trademarks, service marks, logos,
-copyright notices, domain names and other Our distinctive brands.
+Программное обеспечение включает любые изменения, обновления, исправления ошибок или
+модифицированные версии Программного обеспечения, при условии, что Мы имеем право изменять
+Программное обеспечение, а также изменять или отзывать настоящую лицензию на использование
+Программного обеспечения по Нашему исключительному усмотрению и в любое время без направления Вам
+предварительного уведомления. Новая версия Договора вступает в силу в день ее размещения на сайте
+http://law.2gis.ru, если иное не предусмотрено новой версией договора. В случае Вашего несогласия с
+измененной или обновленной версией Программного обеспечения, применяется раздел 7 настоящего
+Договора.
 
-"Databases" collectively means publicly accessible and displayed DoubleGIS LLC Databases of an
-electronic map, which includes GIS data on geographical locations and settlements within an area
-bounded by certain geographical coordinates.
+«Средства индивидуализации» означает в совокупности товарные знаки, торговые марки, знаки
+«обслуживания, логотипы, уведомления об авторском праве, доменные имена ООО ДубльГИС», а также иные
+«Наши средства индивидуализации.
 
-"Content" means included, but is not limited to any piece of information stored in and/or retrieved
-from the Databases and/or any other data or information DoubleGIS LLC chooses to include in its
-Software. The use of any Content by You is limited to concurrent use with the Software.
+«Базы данных» означает в совокупности, общедоступные размещаемые и принадлежащие ООО ДубльГИС» Базы
+«данных электронных карт, включающие, в том числе, ГИС данные о географических объектах и населенных
+«пунктах в пределах территории, ограниченной определенными географическими координатами.
 
-2. LICENSE GRANT
+ «Контент» означает данные, включая, в том числе, любые фрагменты информации, хранящиеся и/или
+ «извлекаемые из Баз данных, и/или любые иные данные или информацию, которую ОООДубльГИС» включило в
+ «свое Программное обеспечение. Использование Вами Контента ограничено одновременным использованием
+ «Программного обеспечения.
 
-2.1. Subject to your compliance with all of the terms and conditions of this Agreement, We grant a
-perpetual for the duration of the applicable copyright, worldwide, non-exclusive, royalty-free and
-not-sublicensable license (i) for You to use, copy, modify, merge the Software in source and object
-forms to create Modifications and Applications; (ii) for You to publicly display, publicly perform
-and at no-charge distribute the Software and/or Modifications in source and object forms to End
-Users solely as integrated into the Applications; and (iii) for End Users to use the Software as
-integrated into Your Applications in accordance with the terms of this Agreement; (iv) for You to be
-enable Your Application to interact with the Databases and retrieve therefrom information necessary
-to facilitate the use permitted under this Agreement; (v) for You to make limited intermediate
-copies of the Content only as necessary to perform an activity permitted under this Agreement and to
-modify (solely in order to rearrange or reorganize) the Content within Application; (vi)  for You to
-disclose to the public the structure of the Software and the Source Code, provided that You properly
-identify these by reference to Logo.
+ 
 
-We reserve the right to modify, change, update and/or enhance the Software, the Databases, the
-Source Code, and the Content at any time with or without notice to You Our sole and exclusive
-discretion.
+2. ПРЕДОСТАВЛЕНИЕ ЛИЦЕНЗИИ
 
-2.2. You may modify the Source Code solely for the purposes of designing, developing and testing
-Your own Applications. However, You are permitted to use, copy, reproduce, distribute and
-redistribute Your modified Source Code only if all of the following conditions are met: (a) You
-include Our copyright notice (text is available in Exhibit A to this Agreement) with Your
-Application, including every location in which any other copyright notice appears in such
-Application; and (b) You do not otherwise use Our name, Logos or other of Our trademarks to market
-Your Application, unless otherwise agree by Us in writing.  Except to the above, You may not modify
-remove or alter the Hit Counter Script Code contained in Software.
+2.1. При условии соблюдения условий настоящего Договора, Мы предоставляем на срок защиты авторского
+права, действующую по всему миру, неисключительную, бесплатную и не подлежащую сублицензированию
+лицензию (i) Вам — на использование, копирование, модификацию, объединение Программного обеспечения
+в исходной и объектной формах для создания Модификаций и Приложений; (ii) Вам — на публичный показ,
+публичное исполнение и бесплатное распространение Конечным пользователям Программного обеспечения
+и/или Модификаций в исходной или объектной форме, включенных в Приложения; и (iii) Конечным
+пользователям — на использование Программного обеспечения, включенного в Ваши Приложения в
+соответствии с условиями настоящего Договора; (iv) Вам — на право осуществления коммуникации между
+Вашим Приложением и Базами данных и извлечение из Баз данных информации, необходимой для
+использования способами, разрешенными настоящим Договором; (v) Вам — на изготовление ограниченного
+числа промежуточных копий Контента исключительно для совершение действий, разрешенных настоящим
+Договором, и на изменение (исключительно в целях реорганизации или упорядочивания) Контента в
+пределах Приложения; (vi) Вам — на раскрытие для всеобщего ознакомления структуры Программного
+обеспечения и Исходного кода, при условии, что Вы надлежащим образом идентифицируете их путем
+использования Средств индивидуализации.
 
-2.3. You will not owe Us any royalties for Your distribution of the Software in accordance with this
-Agreement. You will not owe Us any fees for Your use or distribution of Applications in accordance
-with this Agreement.
+Мы сохраняем за собой право модифицировать, изменять, обновлять и/или улучшать Программное
+обеспечение, Базы данных, Исходный код и Контент в любое время с уведомлением Вас или без такого
+уведомления по Нашему исключительному усмотрению.
 
-3.OWNERSHIP
+2.2. Вы можете модифицировать Исходный код исключительно в целях проектирования, разработки и
+тестирования Ваших собственных Приложений. Тем не менее, Вам разрешается использовать, копировать,
+воспроизводить, распространять и перераспределять Ваш модифицированный Исходный код при соблюдении
+следующих условий: (a) Вы включаете Наше уведомление об авторском праве (его текст содержится в
+Дополнении А к настоящему Договору) в Ваше Приложение, в том числе в любом месте, где в таком
+Приложении появляется любое иное уведомление об авторском праве; и (b) Вы не используете иным
+образом Наше наименование, Средства индивидуализации и иные Наши торговые марки для реализации
+Вашего Приложения, кроме случаев когда Мы в письменном виде согласовали иное. Кроме случаев,
+указанных выше, Вы не можете иным образом модифицировать, удалять или изменять Код счетчика
+посещений, включенный в Программное обеспечение.
 
-3.1. This is a license agreement and not an agreement for sale. We reserve ownership of all
-intellectual property rights inherent in or relating to the Software, which include, but are not
-limited to, all copyright, patent rights, all rights in relation to registered and unregistered
-trademarks (service marks), confidential information (including trade secrets and know-how) and all
-rights other than those expressly granted by this Agreement.
+2.3. На Вас не возлагается обязанность по уплате Нам каких-либо роялти в за осуществляемое Вами
+распространение Программного обеспечения в соответствии с настоящим Договором, а также по уплате Нам
+каких-либо комиссий за использование или распространение Приложений в соответствии с настоящим
+Договором.
 
-3.2. We provide You with Source code so that You can create Modifications and Applications. While
-You retain all rights to any original work authored by You as part of the Modifications, We continue
-to own all copyright and other intellectual property rights in the Software, Source Code, Databases,
-Content, Hit Counter script code.
+3. ПРАВО СОБСТВЕННОСТИ
 
-3.3. You must not remove, obscure or interfere with any copyright, acknowledgment, attribution,
-trademark, warning or disclaimer statement affixed to, incorporated in or otherwise applied in
-connection with the Software.
+3.1. Настоящий Договор является лицензионным договором, а не договором купли- продажи. Мы сохраняем
+за собой все права интеллектуальной собственности на Программное обеспечение или связанные с
+Программным обеспечением, включая, в том числе, авторское право, патентные права, все права на
+зарегистрированные и не зарегистрированные товарные знаки (знаки обслуживания), конфиденциальную
+информацию (включая секреты производства и ноу-хау) и все иные права, кроме тех, которые в прямо
+выраженной форме предоставляются по настоящему Договору.
 
-4.FEEDBACK
+3.2. Мы предоставляем Вам Исходный код, что позволяет Вам создавать Модификации и Приложения. В то
+время как Вы сохраняете за собой все права на любые оригинальные произведения в составе Модификаций,
+автором которых Вы являетесь, мы сохраняем все права авторства и интеллектуальной собственности в
+отношении Программного обеспечения, Исходного кода, Баз данных, Контента, Кода счетчика посещений.
 
-4.1. DoubleGIS shall have a royalty-free, worldwide, perpetual license to use or incorporate into
-the Software or Content any suggestions, ideas, enhancement requests, feedback, recommendations or
-other information and derivatives thereof provided by You.
+3.3. Вы не вправе удалять, скрывать или изменять любые уведомления об авторском праве,
+удостоверения, ссылки на источник, товарные знаки, предупреждения или заявление об отказе от
+ответственности, прикрепленные, включенные или иным образом применимые к Программному обеспечению.
 
-5.PROHIBITED USES
+4. ОБРАТНАЯ СВЯЗЬ
 
-5.1. You may not redistribute the Software or Modifications other than by including the Software or
-a portion thereof within Your Application. You may not change or remove the copyright notice from
-any of the files included in the Software or Modifications. 5.2. The permission hereby is granted to
-anyone to use this Software for any purpose,   excluding commercial applications, which is subject
-to the restrictions of present Agreement. Software or Modifications shall be used only as integrated
-into the Applications available for free public use.  Using of Software or Modifications for
-projects intending payment or otherwise restricted access of the End Users to Databases or/and
-Content are strictly prohibited. In case of commercial use is required, please contact us at
-api@2gis.ru.
+4.1. ООО «ДубльГИС» владеет бесплатной, действующей по всему миру, бессрочной лицензией на
+использование и включение в состав Программного обеспечения или Контента любых предложений, идей,
+заявок на расширение, откликов, рекомендаций и иной информации и ее производных, предоставляемых
+Вами.
 
-5.3. Open Source versions of the Software (“GPL Version”) may be licensed under the terms of the GNU
-General Public License versions 3.0 (“GPL”) and not under this Agreement. If You, or another third
-party, has, at any time, developed all (or any portions of) the Application(s) using a GPL Version,
-You may not combine such development work with the Software and must license such Application(s) (or
-any portions derived there from) under the terms of the GNU General Public License version 3, a copy
-of which is located at http://www.gnu.org/copyleft/gpl.html.
+5. ЗАПРЕЩЕННОЕ ИСПОЛЬЗОВАНИЕ
 
-6. RESTRICTIONS
+5.1. Вы не вправе повторно распространять Программное обеспечение или Модификации иным образом,
+кроме как путем включения Программного обеспечения или его части в Ваше Приложение. Вы не вправе
+изменять или удалять уведомление об авторском праве с файлов, включенных в Программное обеспечение
+или Модификации.
 
-6.1. Except as expressly authorized under this Agreement, Licensee shall not (i) use the Software,
-the Databases, the Source Code, or the Content in any way not expressly permitted or granted under
-this Agreement; (ii) copy the Content for purposes outside the scope of the license granted herein;
-(iii) use the Content to create databases or any other compilations of Content, without Our prior
-written consent; (iv)You shall not distribute, publish, facilitate, enable or allow access or
-linking to the Content or Database from any location or source other than Your Application; (v) use
-the Content to create an application that offers or promotes services that may be competitive with,
-damaging to, disparaging of or otherwise detrimental to the Our service; (vi) crawl, spider, index
-or in any way store information obtained from the Content (except for the limited license granted
-herein), or propagate any virus, worms, Trojan horses, or other programming routine intended to
-damage any system or data,  send or store infringing or unlawful material using the Software; (vii)
-provide Content or Databases to any third parties in a manner contrary to the terms of use
-applicable to users of the our web site; (viii) commercialize (i.e., sell, rent, or lease), copy,
-store or cache the Content or Databases, other than for the purposes allowed by this Agreement.
+5.2. Разрешение по настоящему Договору предоставляется любому лицу на использование данного
+Программного обеспечения для любой цели, исключая коммерческое использование, которое ограничивается
+в соответствии с настоящим Договором. Программное обеспечение или Модификации должны использоваться
+исключительно в составе Приложений, доступных для бесплатного общедоступного использования.
+Использование Программного обеспечения или Модификаций для платных проектов или иных проектов,
+предполагающих ограничение доступа Конечных пользователей к Базам данных и/или Контенту, строго
+запрещается. В случае необходимости коммерческого использования, пожалуйста, обратитесь к Нам по
+следующему адресу api@2gis.ru.
 
-6.2. Limits on Sublicensing. Except as set forth in this section, all license rights (under any
-applicable intellectual property right) granted herein are not sublicenseable, transferable or
-assignable. Subject to the terms and conditions below, You may sublicense Your right to display the
-Content and the Logos, as provided in this Agreement, to End Users solely to enable End Users to
-display Content and the Logos on their computer screens and/or websites through Your Application.
+5.3. Версии Программного обеспечения с открытым кодом («GPL Версия») могут лицензироваться в
+соответствии с Универсальной общедоступной лицензией версии 3.0., созданной в рамках проекта GNU
+(«GPL»), а не в соответствии с настоящим Договором. Если Вы или иное третье лицо разработали
+полностью (или любую часть) Приложения(ий), используя GPL Версию, Вы не вправе объединять такое
+разработанное произведение с Программным обеспечением и обязаны лицензировать такое(ие)
+Приложение(я) (или любую их часть) в соответствии с Универсальной общедоступной лицензией версии
+3.0., созданной в рамках проекта GNU, с которой можно ознакомиться по адресу
+http://www.gnu.org/copyleft/gpl.html.
 
-7.TERMINATION
+6. ОГРАНИЧЕНИЯ
 
-7.1. This Agreement and Your right to use the Software and Modifications will terminate immediately
-if You fail to comply with any of the terms and conditions of this Agreement. Upon termination, You
-agree to immediately cease using and destroy the Software or Modifications, including all
-accompanying documents.
+6.1. Кроме случаев, прямо разрешенных настоящим Договором, Лицензиат не вправе:
 
-8.DISCLAIMER OF WARRANTIES
+(i) использовать Программное обеспечение, Базы данных, Исходный код или Контент любым способом,
+(который прямо не разрешен или не предоставлен по настоящему Договору;
 
-8.1. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, WE DISCLAIM ALL WARRANTIES AND CONDITIONS,
-EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE, AND TITLE AND NON-INFRINGEMENT, WITH REGARD TO THE SOFTWARE. WE DO
-NOT GUARANTEE THAT THE OPERATION OF THE SOFTWARE OR THE CODE IT PRODUCES WILL BE UNINTERRUPTED OR
-ERROR-FREE, AND YOU ACKNOWLEDGE THAT IT IS NOT TECHNICALLY PRACTICABLE FOR US TO DO SO.
+(ii) копировать Контент для целей, лежащих вне сферы действия лицензии, предоставленной по
+(настоящему Договору;
 
-9.LIMITATION OF LIABILITIES
+(iii) использовать Контент для создания баз данных или любых компиляций Контента без Нашего
+(предварительного письменного разрешения;
 
-9.1. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL WE BE LIABLE UNDER ANY
-LEGAL THEORY FOR ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING,
-WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS
-INFORMATION OR ANY OTHER PECUNIARY LOSSES) ARISING OUT OF THE USE OF OR INABILITY TO USE THE
-SOFTWARE OR THE CODE IT PRODUCES OR ANY OTHER SUBJECT MATTER RELATING TO THIS AGREEMENT, EVEN IF WE
-HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+(iv) распространять, публиковать, продвигать, предоставлять право или разрешать доступ или
+(предоставлять ссылку на Контент или Базы данных из любого места или источника, кроме Вашего
+(Приложения;
 
-10.FREE SOFTWARE
+(v) использовать Контент для создания приложения, которое предлагает или рекламирует услуги, которые
+(порочат Наши услуги, наносят ущерб или являются конкурирующими по отношению к Нашим услугам или
+(иным образом вредят Нашим услугам;
 
-10.1. Notwithstanding the foregoing, We acknowledges that certain components of the Software may be
-covered by so-called "open source" software licenses ("Open Source Components"). We will prepare an
-overview of the relevant free software and provide You with the complete corresponding source code,
-including any modification We have made to that code if so. The overview shall be included in
-Exhibit A, together with a copy of the license terms governing the relevant free software.
+(vi) обходить, устанавливать спайдеры и индексы или любым способом сохранять информацию, полученную
+(из Контента кроме способов, предусмотренных настоящей ограниченной лицензией) или распространять
+(любые вирусы, «червей», троянские программы или иные программы, направленные на причинение вреда
+(любым системам или данным, отправлять или сохранять наносящие вред или незаконные материалы с
+(использованием Программного обеспечения;
 
-10.2. To the extent required by the licenses covering Open Source Components, the terms of such
-licenses will apply in lieu of the terms of this Agreement, and We hereby represent that only Open
-Source Components with licenses that intend to grant permissions no less broad than the license
-granted in this Agreement are included in the Software. To the extent which the licenses applicable
-to an Open Source Component prohibit any of the restrictions in this Agreement with respect to such
-Open Source Component, such restrictions will not apply regarding to these Components.
+(vii) предоставлять Контент или Базы данных любым третьим сторонам способом, противоречащим условиям
+(использования, предусмотренным для пользователей нашего сайта;
 
-11. INTELLECTUAL PROPERTY
+(viii) осуществлять коммерческое использование т.е. продавать, сдавать в аренду), копировать,
+(хранить или кэшировать Контент или Базы данных для иных целей, кроме разрешенных настоящим
+(Договором.
 
-11.1. The Software contain Our trademarks, logos, patents, trade secrets and/or copyrighted
-materials. You shall not disclose or make available such trade secrets and/or know-how in any form
-to any third party nor remove any trademark notices, copyright notices, or licensing terms from the
-Software or any components therein. Title and intellectual property rights in and to Our trademarks
-and Our copyrighted material which appears in content displayed by or accessed through the Software
-belongs to Us.
+6.2. Ограничение сублицензирования. Кроме случаев, предусмотренных в настоящем разделе, все
+лицензионные права (в соответствии с применимым правом интеллектуальной собственности),
+предоставленные по настоящему Договору, не подлежат сублицензированию, передаче или уступке. При
+условии соблюдения положений ниже, Вы вправе сублицензировать Ваше право на показ Контента и Средств
+индивидуализации, как предусмотрено настоящим Договором, Конечным пользователям исключительно для
+того, чтобы они имели возможность показа Контента и Средств индивидуализации на экранах своих
+компьютеров и/или вебсайтах посредством Вашего Приложения.
 
-11.2. Subject to the terms and conditions in, and during the term of, this Agreement, We grant you a
-limited, nonexclusive, revocable, sublicensable license to display the trade names, trademarks,
-service marks, logos, copyright notices, domain names and other Logos in accordance with this
-Agreement and solely for attributing the source of the Software and for the purpose of promoting
-and/or advertising that You use the Software and in your resulting Application.
+7. ПРЕКРАЩЕНИЕ
 
-11.3. At no time during or after the term of this Agreement shall you challenge or assist others to
-challenge the Logos or, nor shall you attempt to register any Logos or brand identifiers (including
-domain names) that are confusingly similar in any way to any of the Logos.
+7.1. Настоящий Договор и Ваше право на использование Программного обеспечения и Модификаций
+немедленно прекращается в случае Вашего несоблюдения любых условий настоящего Договора. После
+прекращения Вы должны немедленно прекратить использование и уничтожить Программное обеспечение и
+Модификации, включая все сопроводительные документы.
 
-12.PARTIES INDEMNITY OBLIGATIONS
+8. ОТКАЗ ОТ ПРЕДОСТАВЛЕНИЯ ГАРАНТИЙ
 
-12.1 Subject to this Agreement, You shall defend, indemnify and hold Us, our affiliates, and
-licensors, and each of Our respective employees, officers, directors, harmless from and against any
-claims, damages, liabilities, costs and fees (including reasonable attorneys' fees) arising out of
-or related to Your use of the Software (including all Content provided therein) or for any breach of
-this Agreement and/or any of the representations and warranties made herein. You agrees that We
-shall have no indemnity obligations for any use You make of the Software or the Content.
+8.1. В МАКСИМАЛЬНОЙ СТЕПЕНИ, ДОПУСТИМОЙ ПРИМЕНИМЫМ ЗАКОНОДАТЕЛЬСТВОМ, МЫ ОТКАЗЫВАЕМСЯ ОТ
+ПРЕДОСТАВЛЕНИЯ ЛЮБЫХ ГАРАНТИЙ И УСЛОВИЙ, ПРЯМО ВЫРАЖЕННЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ, В ТОМ ЧИСЛЕ,
+ПОДРАЗУМЕВАЕМЫЕ ГАРАНТИИ ПРИГОДНОСТИ ДЛЯ ПРОДАЖИ, ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ, НАЛИЧИЯ ПРАВА
+СОБСТВЕННОСТИ И ОТСУТСТВИЯ НАРУШЕНИЙ В ОТНОШЕНИИ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ. МЫ НЕ ГАРАНТИРУЕМ, ЧТО
+РАБОТА ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ИЛИ ЕГО КОДА, БУДЕТ БЕСПЕРЕБОЙНОЙ И БЕЗОШИБОЧНОЙ, И ВЫ ПРИЗНАЕТЕ,
+ЧТО ПРЕДОСТАВЛЕНИЕ ТАКИХ ГАРАНТИЙ ЯВЛЯЕТСЯ ТЕХНИЧЕСКИ НЕОСУЩЕСТВИМЫМ ДЛЯ НАС.
 
-13.MISCELANEOUS
+9. ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ
 
-13.1. The license granted herein applies only to the version of the Software available in connection
-with the terms of this Agreement, and to any updates and/or upgrades to which you may be entitled.
-For the avoidance of doubt, We are not obligated to provide You with any support, bug fixes,
-upgrades, or updates and/or upgrades to the Software.
+9.1. В МАКСИМАЛЬНОЙ СТЕПЕНИ, ДОПУСТИМОЙ ПРИМЕНИМЫМ ЗАКОНОДАТЕЛЬСТВОМ, МЫ НИ ПРИ КАКИХ
+ОБСТОЯТЕЛЬСТВАХ НЕ ОТВЕЧАЕМ, НА ОСНОВАНИИ КАКИХ-ЛИБО ЗАКОНОВ, ЗА ЛЮБЫЕ ОСОБЫЕ, СЛУЧАЙНЫЕ, КОСВЕННЫЕ
+ИЛИ ВТОРИЧНЫЕ УБЫТКИ (ВКЛЮЧАЯ, В ТОМ ЧИСЛЕ, УБЫТКИ В ФОРМЕ УПУЩЕННОЙ ВЫГОДЫ, ПРИОСТАНОВЛЕНИЯ
+ДЕЯТЕЛЬНОСТИ, ПОТЕРИ КОММЕРЧЕСКОЙ ИНФОРМАЦИИ ИЛИ ЛЮБОЙ ИНОЙ ИМУЩЕСТВЕННЫЙ УЩЕРБ), ВОЗНИКШИЕ В
+РЕЗУЛЬТАТЕ ИСПОЛЬЗОВАНИЯ ИЛИ НЕВОЗМОЖНОСТИ ИСПОЛЬЗОВАНИЯ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ИЛИ ЕГО КОДА, ИЛИ
+ПО ЛЮБОЙ ПРИЧИНЕ, СВЯЗАННОЙ С ПРЕДМЕТОМ НАСТОЯЩЕГО ДОГОВОРА, ДАЖЕ В СЛУЧАЕ ЕСЛИ МЫ БЫЛИ
+ПРЕДУПРЕЖДЕНЫ О ВОЗМОЖНОСТИ ВОЗНИКНОВЕНИЯ ТАКИХ УБЫТКОВ.
 
-13.2. You agree that you will comply with all applicable laws and regulations with respect to the
-Software.
+10. БЕСПЛАТНОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ
 
-13.3. While redistributing the Software or Modifications thereof as part of Your Application, You
-may choose to offer acceptance of support, warranty, indemnity, or other liability obligations
-and/or rights consistent with this Agreement. However, in accepting such obligations, You may act
-only on Your own behalf and on Your sole responsibility, not on our behalf. You shall indemnify Us,
-or at Our option, defend Us against any claim, suit or proceeding brought against Us (i) arising by
-reason of Your accepting any such support, warranty, indemnity or additional liability; or (ii)
-arising out of the use, reproduction or distribution of Your Application, except to the extent such
-claim is solely based on the inclusion of the Software therein.
+10.1. Независимо от указанного выше, Мы признаем, что некоторые компоненты Программного обеспечения
+могут подпадать под действие лицензии на так называемое «программное обеспечение с открытым исходным
+кодом» («Компоненты с открытым кодом»). Мы обязуемся подготовить обзор соответствующего бесплатного
+программного обеспечения и предоставить Вам полный соответствующий исходный код, включая все
+изменения, произведенные нами (при наличии). Обзор будет включен в Дополнение А, вместе с копией
+условий лицензии, регулирующих предоставление соответствующего бесплатного программного обеспечения.
 
-13.4. Further, You agree only to distribute the Software pursuant agreement that includes all the
-limitations and restrictions of this Agreement and is as protective of Us and Software as is this
-Agreement.
+10.2. В степени, требуемой лицензиями, касающимися Компонентов с открытым кодом, условия таких
+лицензий будут применяться вместо условий настоящего Договора, и мы настоящим заявляем, что только
+Компоненты с открытым кодом, лицензируемые на основании лицензий, предоставляющих объем прав не уже,
+чем лицензия, предоставляемая по настоящему Договору, включены в Программное обеспечение. В той
+мере, в какой лицензии, применимые в отношении Компонентов с открытым кодом, запрещают какие-либо
+ограничения, содержащиеся в настоящем Договоре, такие ограничения не будут применяться в отношении
+Компонентов.
 
-13.5. You acknowledge that this Agreement is complete and is the exclusive representation of our
-agreement. No oral or written information given by Us, or otherwise on Our behalf shall create a
-warranty or collateral contract, or in any way increase the scope of this Agreement in any way, and
-You may not rely on any such oral or written information.
+11. ИНТЕЛЛЕКТУАЛЬНАЯ СОБСТВЕННОСТЬ
 
-13.6. There are no implied licenses or other implied rights granted under this Agreement, and all
-rights, save for those expressly granted hereunder, shall remain with Us and our licensors. In
-addition, no licenses or immunities are granted to the combination of the Software and/or
-Modifications, as applicable, with any other software or hardware not delivered by Us to You under
-this Agreement. Your rights under this Agreement apply only to Software, Modifications, and/or
-Applications.
+11.1. Программное обеспечение содержит Наши товарные знаки, логотипы, патенты, секреты производства
+и/или материалы, охраняемые авторским правом. Вы обязуетесь не раскрывать и не предоставлять такие
+секреты производства и/или ноу-хау в любой форме любым третьим сторонам, не удалять уведомления о
+товарных знаках, уведомления об авторском праве, условия лицензии с Программного обеспечения или
+любых его компонентов. Право собственности и права интеллектуальной собственности на Наши товарные
+знаки или в отношении Наших товарных знаков и материалов, охраняемых авторским правом, которые
+отображаются или доступны посредством Программного обеспечения, принадлежат нам.
 
-13.7. If any provision in this Agreement shall be determined to be invalid, such provision shall be
-deemed omitted; the remainder of this Agreement shall continue in full force and effect.
+11.2. При условии соблюдения положений настоящего Договора и на период действия Договора Мы
+предоставляем Вам ограниченную, неисключительную, отзывную, сублицензируемую лицензию на отображение
+товарных знаков, торговых марок, знаков обслуживания, логотипов, уведомлений об авторских правах,
+доменных имен и иных Средств индивидуализации в соответствии с настоящим Договором и исключительно в
+целях указания на источник Программного обеспечения и для продвижения и/или рекламирования того
+факта, что Вы используете Программное обеспечение в Вашем Приложении, разработанном на его основе.
 
-13.8. This Agreement will be governed by the law s of the relevant jurisdiction in which the license
-terms are sought to be enforced. If the suite of rights granted under super imperative rules of
-applicable law in the relevant jurisdiction includes additional rights not granted under this
-License, these additional rights are granted in this License in order to meet the terms of this
-License.
+11.3. Никогда, в течение срока действия настоящего Договора или после его завершения, Вы не вправе
+оспаривать права на Средства индивидуализации или содействовать другим лицам в оспаривании таких
+прав, а также не вправе содействовать в регистрации любых Средств индивидуализации или
+опознавательных черт бренда (включая доменные имена), которые в любом виде схожи до степени смешения
+в любыми Средствами индивидуализации.
 
-Date: 30.06.2014
-Exhibit A
-Copyright notice
-Copyright © 2014 2GIS. The City Expert.
-www.2gis.ru
+12. ГАРАНТИИ СТОРОН В ОТНОШЕНИИ ВОЗМЕЩЕНИЯ УБЫТКОВ
 
-The following is a listing of the open source components detailed in this document. This list is
-provided for your convenience; please read further if you wish to review the copyright notice(s) and
-the full text of the license associated with each component.
+12.1. При условии соблюдения положений настоящего Договора, Вы обязаны защищать, освобождать от
+ответственности и возмещать убытки Нам, нашим аффилированным лицам, лицензиарам, каждому из наших
+сотрудников, должностных лиц, директоров, в отношении любых исков, ущерба, ответственности, затрат и
+сборов (включая разумные затраты за юридические услуги), возникших в результате или в связи с
+использованием Вами Программного обеспечения (включая любой Контент, предоставляемый по настоящему
+Договору) или в связи с нарушением настоящего Договора и/или любых заявлений или гарантий,
+включенных в настоящий Договор. Вы соглашаетесь с тем, что Мы не принимаем на себя обязательств по
+возмещению Вам убытков в связи с Вашим использованием Программного обеспечения или Контента.
+
+13. ПРОЧИЕ УСЛОВИЯ
+
+13.1. Лицензия, предоставляемая по настоящему Договору, применяется исключительно к версии
+Программного обеспечения, предоставляемой в соответствии с настоящим Договором, а также в отношении
+любых изменений и/или обновлений, на получение которых Вы можете иметь право. Во избежание сомнений,
+Мы не обязаны предоставлять Вам какую-либо поддержку, средства устранения ошибок, изменения и
+обновления Программного обеспечения.
+
+13.2. Вы согласны соблюдать все применимые законы и подзаконные акты, относящиеся к Программному
+обеспечению.
+
+13.3. При дальнейшем распространении Программного обеспечения или Модификаций в рамках Вашего
+Приложения, Вы вправе предлагать поддержку, гарантии, гарантии возмещения убытков и иные
+обязательства и/или права, соответствующие условиям настоящего Договора. Тем не менее, при принятии
+таких обязательств Вы вправе действовать исключительно от собственного имени и под свою
+ответственность, но не от нашего имени. Вы должны возмещать Нам убытки или, по нашему выбору,
+защищать нас от любых исков, претензий или судебных процессов, возбужденных против Нас (i) в связи с
+тем, что Вы приняли на себя такую поддержку, гарантии, гарантии возмещения убытков или
+дополнительную ответственность; или (ii) в связи с использованием, воспроизведением или
+распространением Вашего Приложения, кроме случаев когда такой иск основывается исключительно на
+включении Программного обеспечения в такое Приложение.
+
+13.4. Более того, Вы должны распространять Программное обеспечение исключительно в соответствии с
+соглашением, которое включает все ограничения, предусмотренные настоящим Договором, и в той же
+степени защищает Нас и Программное обеспечение, как это делает настоящий Договор.
+
+13.5. Вы признаете, что настоящий Договор является полным и единственным выражением нашего
+соглашения. Никакая устная или письменная информация, предоставленная Нами или предоставленная иным
+образом от Нашего имени, не создает каких-либо гарантий или дополнительных соглашений и никоим
+образом не расширяет сферу действия настоящего Договора, и Вы не вправе полагаться на любую такую
+устную или письменную информацию.
+
+13.6. Настоящий Договор не предоставляет никаких подразумеваемых лицензий или подразумеваемых прав,
+и все иные права, кроме прямо предоставленных по настоящему Договору, сохраняются за Нами и нашими
+лицензиарами. Кроме того, никакие лицензии и привилегии не предоставляются в отношении
+комбинирования Программного обеспечения и/или Модификаций, в зависимости от ситуации, с любым иным
+программным обеспечением или аппаратными средствами, которые не были предоставлены Нами Вам по
+настоящему Договору. Ваши права по настоящему Договору применяются только в отношении Программного
+обеспечения, Модификаций и/или Приложений.
+
+13.7. Если какие-либо положения настоящего Договора будут признаны недействительными, такие
+положения считаются исключенными из настоящего Договора; остальные условия сохраняют полную силу и
+действие.
+
+13.8. Настоящий Договор регулируется законодательством соответствующей юрисдикции, в которой
+лицензия исполняется. Если набор прав по суперимперативным нормам применимого законодательства в
+соответствующей юрисдикции включает дополнительные права, не предусмотренные настоящей Лицензией,
+такие дополнительные права считаются предоставленными по настоящей Лицензии в соответствии с
+условиями настоящей Лицензии.
+
+Редакция от 30.06.2014 г.
+
+
+Дополнение А
+
+Уведомление об авторском праве
+
+Copyright © 2014 2GIS. Эксперт по городу. www.2gis.ru
+
+Ниже предоставляется перечень компонентов с открытым кодом, как предусмотрено настоящим документом.
+Данный перечень предоставляется для вашего удобства; пожалуйста, читайте далее, если желаете
+ознакомиться с уведомлением(ями) об авторском праве и полным текстом лицензии, связанной с каждым
+компонентом.
+
 https://github.com/Leaflet/Leaflet/blob/master/LICENSE
 https://github.com/linkedin/dustjs/blob/master/LICENSE
 https://github.com/gulpjs/gulp/blob/master/LICENSE
