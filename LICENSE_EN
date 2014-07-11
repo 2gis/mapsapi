@@ -1,0 +1,272 @@
+THIS DOCUMENT IS A LEGAL AGREEMENT (the “Agreement”) BETWEEN DoubleGIS LLC ("We", "Us", "2GIS") AND
+YOU ("You") IN RELATION TO API SOFTWARE (the "Software").
+
+BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING THE SOFTWARE, YOU ACCEPT THE FOLLOWING TERMS
+AND CONDITIONS. IF YOU DO NOT AGREE WITH ANY OF THE TERMS OR CONDITIONS OF THIS LICENSE AGREEMENT,
+DO NOT PROCEED WITH THE DOWNLOADING, COPYING, INSTALLATION OR ANY OTHER USE OF THE SOFTWARE OR ANY
+PORTION THEREOF AS YOU HAVE NO RIGHTS TO DO SO. THIS LICENSE AGREEMENT DESCRIBES YOUR RIGHTS AND
+RESTRICTIONS WITH RESPECT TO THE SOFTWARE AND ITS COMPONENTS.
+
+1.DEFINITIONS
+
+"Application" means any software, application, or elements that You develop and operate using the
+Software or Modifications in accordance with this Agreement.
+
+"End User" means an end user of Your Application who acquires a license to such solely for their own
+internal use and not for distribution, resale, user interface design or software development
+purposes.
+
+"Modification" means: a) any addition to or deletion from the contents of a file included in the
+original Software or previous Modifications created by You, and/or b) any new file that leverages
+any part of the original Software or previous Modifications.
+
+"Source" form shall mean the preferred form for making modifications, including but not limited to
+software source code, documentation source, and configuration files.
+
+"Object" form shall mean any form resulting from mechanical transformation or translation of a
+Source form, including but not limited to compiled object code, generated documentation, and
+conversions to other media types.
+
+"Hit Counter Script Code" means part of Source that is required for tracking, monitoring and
+registration of End Users activity.
+
+"API Software" ("Software") means DoubleGIS LLC application programming interface 2.0 version in the
+form provided by DoubleGIS LLC to You, including any libraries, source code, documentation,
+developer tools kit and other materials provided at https://github.com/2gis/maps-api-2.0 and
+http://api.2gis.ru/ designated for modification, adaptation and any other software changes. Software
+shall include any upgrades, updates, bug fixes or modified versions of the Software provided that We
+are entitled to change the Software, as well as to modify or revoke this license agreement to use
+the Software at Our sole discretion and at any time without giving You prior notice. The new version
+of the Agreement shall enter into force on the date of its posting on the http://law.2gis.ru/,
+unless otherwise provided in the new version of the agreement. In case of Your disagreement with the
+use of a modified or updated version of the Software, the Section 7 of the Agreement shall apply.
+
+"Logos" collectively means the DoubleGIS LLC trade names, trademarks, service marks, logos,
+copyright notices, domain names and other Our distinctive brands.
+
+"Databases" collectively means publicly accessible and displayed DoubleGIS LLC Databases of an
+electronic map, which includes GIS data on geographical locations and settlements within an area
+bounded by certain geographical coordinates.
+
+"Content" means included, but is not limited to any piece of information stored in and/or retrieved
+from the Databases and/or any other data or information DoubleGIS LLC chooses to include in its
+Software. The use of any Content by You is limited to concurrent use with the Software.
+
+2. LICENSE GRANT
+
+2.1. Subject to your compliance with all of the terms and conditions of this Agreement, We grant a
+perpetual for the duration of the applicable copyright, worldwide, non-exclusive, royalty-free and
+not-sublicensable license (i) for You to use, copy, modify, merge the Software in source and object
+forms to create Modifications and Applications; (ii) for You to publicly display, publicly perform
+and at no-charge distribute the Software and/or Modifications in source and object forms to End
+Users solely as integrated into the Applications; and (iii) for End Users to use the Software as
+integrated into Your Applications in accordance with the terms of this Agreement; (iv) for You to be
+enable Your Application to interact with the Databases and retrieve therefrom information necessary
+to facilitate the use permitted under this Agreement; (v) for You to make limited intermediate
+copies of the Content only as necessary to perform an activity permitted under this Agreement and to
+modify (solely in order to rearrange or reorganize) the Content within Application; (vi)  for You to
+disclose to the public the structure of the Software and the Source Code, provided that You properly
+identify these by reference to Logo.
+
+We reserve the right to modify, change, update and/or enhance the Software, the Databases, the
+Source Code, and the Content at any time with or without notice to You Our sole and exclusive
+discretion.
+
+2.2. You may modify the Source Code solely for the purposes of designing, developing and testing
+Your own Applications. However, You are permitted to use, copy, reproduce, distribute and
+redistribute Your modified Source Code only if all of the following conditions are met: (a) You
+include Our copyright notice (text is available in Exhibit A to this Agreement) with Your
+Application, including every location in which any other copyright notice appears in such
+Application; and (b) You do not otherwise use Our name, Logos or other of Our trademarks to market
+Your Application, unless otherwise agree by Us in writing. Except to the above, You may not modify
+remove or alter the Hit Counter Script Code contained in Software.
+
+2.3. You will not owe Us any royalties for Your distribution of the Software in accordance with this
+Agreement. You will not owe Us any fees for Your use or distribution of Applications in accordance
+with this Agreement.
+
+3.OWNERSHIP
+
+3.1. This is a license agreement and not an agreement for sale. We reserve ownership of all
+intellectual property rights inherent in or relating to the Software, which include, but are not
+limited to, all copyright, patent rights, all rights in relation to registered and unregistered
+trademarks (service marks), confidential information (including trade secrets and know-how) and all
+rights other than those expressly granted by this Agreement.
+
+3.2. We provide You with Source code so that You can create Modifications and Applications. While
+You retain all rights to any original work authored by You as part of the Modifications, We continue
+to own all copyright and other intellectual property rights in the Software, Source Code, Databases,
+Content, Hit Counter script code.
+
+3.3. You must not remove, obscure or interfere with any copyright, acknowledgment, attribution,
+trademark, warning or disclaimer statement affixed to, incorporated in or otherwise applied in
+connection with the Software.
+
+4.FEEDBACK
+
+4.1. DoubleGIS shall have a royalty-free, worldwide, perpetual license to use or incorporate into
+the Software or Content any suggestions, ideas, enhancement requests, feedback, recommendations or
+other information and derivatives thereof provided by You.
+
+5.PROHIBITED USES
+
+5.1. You may not redistribute the Software or Modifications other than by including the Software or
+a portion thereof within Your Application. You may not change or remove the copyright notice from
+any of the files included in the Software or Modifications. 5.2. The permission hereby is granted to
+anyone to use this Software for any purpose,   excluding commercial applications, which is subject
+to the restrictions of present Agreement. Software or Modifications shall be used only as integrated
+into the Applications available for free public use.  Using of Software or Modifications for
+projects intending payment or otherwise restricted access of the End Users to Databases or/and
+Content are strictly prohibited. In case of commercial use is required, please contact us at
+api@2gis.ru.
+
+5.3. Open Source versions of the Software (“GPL Version”) may be licensed under the terms of the GNU
+General Public License versions 3.0 (“GPL”) and not under this Agreement. If You, or another third
+party, has, at any time, developed all (or any portions of) the Application(s) using a GPL Version,
+You may not combine such development work with the Software and must license such Application(s) (or
+any portions derived there from) under the terms of the GNU General Public License version 3, a copy
+of which is located at http://www.gnu.org/copyleft/gpl.html.
+
+6. RESTRICTIONS
+
+6.1. Except as expressly authorized under this Agreement, Licensee shall not (i) use the Software,
+the Databases, the Source Code, or the Content in any way not expressly permitted or granted under
+this Agreement; (ii) copy the Content for purposes outside the scope of the license granted herein;
+(iii) use the Content to create databases or any other compilations of Content, without Our prior
+written consent; (iv)You shall not distribute, publish, facilitate, enable or allow access or
+linking to the Content or Database from any location or source other than Your Application; (v) use
+the Content to create an application that offers or promotes services that may be competitive with,
+damaging to, disparaging of or otherwise detrimental to the Our service; (vi) crawl, spider, index
+or in any way store information obtained from the Content (except for the limited license granted
+herein), or propagate any virus, worms, Trojan horses, or other programming routine intended to
+damage any system or data,  send or store infringing or unlawful material using the Software; (vii)
+provide Content or Databases to any third parties in a manner contrary to the terms of use
+applicable to users of the our web site; (viii) commercialize (i.e., sell, rent, or lease), copy,
+store or cache the Content or Databases, other than for the purposes allowed by this Agreement.
+
+6.2. Limits on Sublicensing. Except as set forth in this section, all license rights (under any
+applicable intellectual property right) granted herein are not sublicenseable, transferable or
+assignable. Subject to the terms and conditions below, You may sublicense Your right to display the
+Content and the Logos, as provided in this Agreement, to End Users solely to enable End Users to
+display Content and the Logos on their computer screens and/or websites through Your Application.
+
+7.TERMINATION
+
+7.1. This Agreement and Your right to use the Software and Modifications will terminate immediately
+if You fail to comply with any of the terms and conditions of this Agreement. Upon termination, You
+agree to immediately cease using and destroy the Software or Modifications, including all
+accompanying documents.
+
+8.DISCLAIMER OF WARRANTIES
+
+8.1. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, WE DISCLAIM ALL WARRANTIES AND CONDITIONS,
+EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND TITLE AND NON-INFRINGEMENT, WITH REGARD TO THE SOFTWARE. WE DO
+NOT GUARANTEE THAT THE OPERATION OF THE SOFTWARE OR THE CODE IT PRODUCES WILL BE UNINTERRUPTED OR
+ERROR-FREE, AND YOU ACKNOWLEDGE THAT IT IS NOT TECHNICALLY PRACTICABLE FOR US TO DO SO.
+
+9.LIMITATION OF LIABILITIES
+
+9.1. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL WE BE LIABLE UNDER ANY
+LEGAL THEORY FOR ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING,
+WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS
+INFORMATION OR ANY OTHER PECUNIARY LOSSES) ARISING OUT OF THE USE OF OR INABILITY TO USE THE
+SOFTWARE OR THE CODE IT PRODUCES OR ANY OTHER SUBJECT MATTER RELATING TO THIS AGREEMENT, EVEN IF WE
+HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+10.FREE SOFTWARE
+
+10.1. Notwithstanding the foregoing, We acknowledges that certain components of the Software may be
+covered by so-called "open source" software licenses ("Open Source Components"). We will prepare an
+overview of the relevant free software and provide You with the complete corresponding source code,
+including any modification We have made to that code if so. The overview shall be included in
+Exhibit A, together with a copy of the license terms governing the relevant free software.
+
+10.2. To the extent required by the licenses covering Open Source Components, the terms of such
+licenses will apply in lieu of the terms of this Agreement, and We hereby represent that only Open
+Source Components with licenses that intend to grant permissions no less broad than the license
+granted in this Agreement are included in the Software. To the extent which the licenses applicable
+to an Open Source Component prohibit any of the restrictions in this Agreement with respect to such
+Open Source Component, such restrictions will not apply regarding to these Components.
+
+11. INTELLECTUAL PROPERTY
+
+11.1. The Software contain Our trademarks, logos, patents, trade secrets and/or copyrighted
+materials. You shall not disclose or make available such trade secrets and/or know-how in any form
+to any third party nor remove any trademark notices, copyright notices, or licensing terms from the
+Software or any components therein. Title and intellectual property rights in and to Our trademarks
+and Our copyrighted material which appears in content displayed by or accessed through the Software
+belongs to Us.
+
+11.2. Subject to the terms and conditions in, and during the term of, this Agreement, We grant you a
+limited, nonexclusive, revocable, sublicensable license to display the trade names, trademarks,
+service marks, logos, copyright notices, domain names and other Logos in accordance with this
+Agreement and solely for attributing the source of the Software and for the purpose of promoting
+and/or advertising that You use the Software and in your resulting Application.
+
+11.3. At no time during or after the term of this Agreement shall you challenge or assist others to
+challenge the Logos or, nor shall you attempt to register any Logos or brand identifiers (including
+domain names) that are confusingly similar in any way to any of the Logos.
+
+12.PARTIES INDEMNITY OBLIGATIONS
+
+12.1 Subject to this Agreement, You shall defend, indemnify and hold Us, our affiliates, and
+licensors, and each of Our respective employees, officers, directors, harmless from and against any
+claims, damages, liabilities, costs and fees (including reasonable attorneys' fees) arising out of
+or related to Your use of the Software (including all Content provided therein) or for any breach of
+this Agreement and/or any of the representations and warranties made herein. You agrees that We
+shall have no indemnity obligations for any use You make of the Software or the Content.
+
+13.MISCELANEOUS
+
+13.1. The license granted herein applies only to the version of the Software available in connection
+with the terms of this Agreement, and to any updates and/or upgrades to which you may be entitled.
+For the avoidance of doubt, We are not obligated to provide You with any support, bug fixes,
+upgrades, or updates and/or upgrades to the Software.
+
+13.2. You agree that you will comply with all applicable laws and regulations with respect to the
+Software.
+
+13.3. While redistributing the Software or Modifications thereof as part of Your Application, You
+may choose to offer acceptance of support, warranty, indemnity, or other liability obligations
+and/or rights consistent with this Agreement. However, in accepting such obligations, You may act
+only on Your own behalf and on Your sole responsibility, not on our behalf. You shall indemnify Us,
+or at Our option, defend Us against any claim, suit or proceeding brought against Us (i) arising by
+reason of Your accepting any such support, warranty, indemnity or additional liability; or (ii)
+arising out of the use, reproduction or distribution of Your Application, except to the extent such
+claim is solely based on the inclusion of the Software therein.
+
+13.4. Further, You agree only to distribute the Software pursuant agreement that includes all the
+limitations and restrictions of this Agreement and is as protective of Us and Software as is this
+Agreement.
+
+13.5. You acknowledge that this Agreement is complete and is the exclusive representation of our
+agreement. No oral or written information given by Us, or otherwise on Our behalf shall create a
+warranty or collateral contract, or in any way increase the scope of this Agreement in any way, and
+You may not rely on any such oral or written information.
+
+13.6. There are no implied licenses or other implied rights granted under this Agreement, and all
+rights, save for those expressly granted hereunder, shall remain with Us and our licensors. In
+addition, no licenses or immunities are granted to the combination of the Software and/or
+Modifications, as applicable, with any other software or hardware not delivered by Us to You under
+this Agreement. Your rights under this Agreement apply only to Software, Modifications, and/or
+Applications.
+
+13.7. If any provision in this Agreement shall be determined to be invalid, such provision shall be
+deemed omitted; the remainder of this Agreement shall continue in full force and effect.
+
+13.8. This Agreement will be governed by the law s of the relevant jurisdiction in which the license
+terms are sought to be enforced. If the suite of rights granted under super imperative rules of
+applicable law in the relevant jurisdiction includes additional rights not granted under this
+License, these additional rights are granted in this License in order to meet the terms of this
+License.
+
+Date: 30.06.2014 Exhibit A Copyright notice Copyright © 2014 2GIS. The City Expert. www.2gis.ru
+
+The following is a listing of the open source components detailed in this document. This list is
+provided for your convenience; please read further if you wish to review the copyright notice(s) and
+the full text of the license associated with each component.
+https://github.com/Leaflet/Leaflet/blob/master/LICENSE
+https://github.com/linkedin/dustjs/blob/master/LICENSE
+https://github.com/gulpjs/gulp/blob/master/LICENSE
+https://github.com/mapbox/wellknown/blob/master/LICENSE
