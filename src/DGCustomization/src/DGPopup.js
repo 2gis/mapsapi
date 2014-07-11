@@ -272,12 +272,18 @@
 
         _onClick: function (e) {
             e.target = e.target || e.srcElement;
+            var href = e.target.getAttribute('href');
+
             if (!this._moving) { 
                 this.fire('click', {originalEvent: e});
             }
-            if (e.target.className !== 'scroller__bar') {
-                DG.DomEvent.stop(e);
-            }
+
+            if (e.target.className === 'scroller__bar' ||
+                (href &&
+                    (href.indexOf('http') !== -1) ||
+                    href.indexOf('mailto') !== -1)) { return; }
+
+            DG.DomEvent.stop(e);
         },
 
         _onStart: function (e) {
