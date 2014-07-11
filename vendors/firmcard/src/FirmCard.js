@@ -252,6 +252,10 @@ FirmCard.prototype = {
             schedule.style.display = 'block';
             target.className += showClass;
         }
+
+        if (this.options.onToggle) {
+            this.options.onToggle();
+        }
     },
 
     _setOptions: function (options) {
