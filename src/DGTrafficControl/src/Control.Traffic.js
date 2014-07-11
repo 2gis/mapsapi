@@ -1,3 +1,5 @@
+/* global __TRAFFIC_LAYER_MIN_ZOOM__ */
+
 DG.Control.Traffic = DG.RoundControl.extend({
 
     options: {
@@ -7,7 +9,8 @@ DG.Control.Traffic = DG.RoundControl.extend({
 
     statics: {
         Dictionary: {},
-        scoreUrl: '__TRAFFIC_SCORE_SERVER__'
+        scoreUrl: '__TRAFFIC_SCORE_SERVER__',
+        trafficMinZoom: __TRAFFIC_LAYER_MIN_ZOOM__
     },
 
     initialize: function (options) {
@@ -21,6 +24,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
     _controlEvents: {
         add: function () {
             this._trafficLayer = DG.traffic();
+            this._map.on('zoomend', this._onZoomEnd, this);
         },
         click: function () {
             if (this._active = !this._active) { // jshint ignore:line
@@ -33,6 +37,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
         },
         remove: function () {
             this.off(this._controlEvents, this);
+            this._map.off('zoomend', this._onZoomEnd, this);
             if (this._active) {
                 this._map.removeLayer(this._trafficLayer);
                 this._active = false;
@@ -52,6 +57,17 @@ DG.Control.Traffic = DG.RoundControl.extend({
 
     _hideTraffic: function () { // ()
         this._map.removeLayer(this._trafficLayer);
+    },
+
+    _onZoomEnd: function () { // ()
+        var project = this._map.projectDetector.getProject();
+
+        if ((this._map.getZoom() < DG.Control.Traffic.trafficMinZoom) ||
+            (project && !!project.traffic === false)) {
+            this._container.style.display = 'none';
+        } else {
+            this._container.style.display = 'block';
+        }
     },
 
     _getTrafficScore: function () { // () -> Promise
