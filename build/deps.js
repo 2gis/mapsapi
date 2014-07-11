@@ -278,6 +278,9 @@ var deps = {
             'DGTrafficControl/lang/cs.js',
             'DGTrafficControl/lang/en.js'
         ],
+        less: {
+            all: ['DGTrafficControl/skin/{skin}/less/dg-control-round.less']
+        },
         deps: ['DGTraffic', 'DGRoundControl']
     },
 
