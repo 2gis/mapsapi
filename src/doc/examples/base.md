@@ -146,7 +146,8 @@
     var changeSizeButton = document.getElementById('changeSize');
 
     DG.then(function() {
-        var map;
+        var map,
+            enabled = false;
 
         map = DG.map('map3', {
             center: [54.98, 82.89],
@@ -156,7 +157,8 @@
 
         changeSizeButton.onclick = function() {
             var mapDiv = document.getElementById('map3');
-            mapDiv.style.height = "400px";
+            mapDiv.style.height = (enabled ? '200' : '400') + 'px';
+            enabled = !enabled;
             map.invalidateSize();
         }
     });
@@ -177,7 +179,8 @@
                 var changeSizeButton = document.getElementById('changeSize');
 
                 DG.then(function() {
-                    var map;
+                    var map,
+                        enabled = false;
 
                     map = DG.map('map', {
                         center: [54.98, 82.89],
@@ -187,7 +190,7 @@
 
                     changeSizeButton.onclick = function() {
                         var mapDiv = document.getElementById('map');
-                        mapDiv.style.height = "400px";
+                        mapDiv.style.height = (enabled ? '200' : '400') + 'px';
                         //обновление карты
                         map.invalidateSize();
                     }

@@ -355,19 +355,19 @@
     })
 </script>
 
-	<!DOCTYPE html>
-	<html>
-		<head>
-		    <meta charset="utf-8" />
-		    <title>Анимация отрисовки ломаной</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
-		    data-id="dgLoader"></script>
-		</head>
-		<body>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>Анимация отрисовки ломаной</title>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
+            data-id="dgLoader"></script>
+        </head>
+        <body>
             <input id="playAnimation" type="button" value="Запустить анимацию" />
-			<div id="map" style="width: 100%; height: 400px;"></div>
-			<script>
-            	var playAnimationButton = document.getElementById('playAnimation'); 
+            <div id="map" style="width: 100%; height: 400px;"></div>
+            <script>
+                var playAnimationButton = document.getElementById('playAnimation'); 
 
                 DG.then(function() {
                     
@@ -386,6 +386,6 @@
                         })();    
                     }
                 })
-			</script>
-		</body>
-	</html>
+            </script>
+        </body>
+    </html>
