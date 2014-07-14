@@ -47,7 +47,13 @@ var projectList,
     };
 
 webapiProjects(function (err, projects) {
-    if (err) { throw err; }
+    if (err) {
+        error = new $.util.PluginError({
+          plugin: 'webapiProjects',
+          message: err
+        });
+        errorNotify(error);
+    }
     projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
 });
 
