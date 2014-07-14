@@ -188,6 +188,7 @@ var deps = {
         desc: '2GIS Geoclicker',
         less: {
             all: [
+                'DGCustomization/skin/basic/less/fonts.less',
                 'DGGeoclicker/skin/{skin}/less/dg-building-callout.less',
                 'DGGeoclicker/skin/{skin}/less/dg-map-geoclicker.less',
                 'DGGeoclicker/skin/{skin}/less/dg-preloader.less',
