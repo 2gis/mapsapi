@@ -14,6 +14,8 @@ DG.Control.Traffic = DG.RoundControl.extend({
     },
 
     initialize: function (options) {
+        this._trafficClass = 'dg-traffic-control';
+
         DG.setOptions(this, options);
         DG.extend(this, {
             _active: false,
@@ -50,12 +52,25 @@ DG.Control.Traffic = DG.RoundControl.extend({
         var self = this;
 
         this._getTrafficScore().then(function (score) {
-            console.log('traffic score: %s', score);
+            var a = this._link;
+
+            score = parseInt(score, 10); // sometimes webapi returns something like '5,+'
+
+            self._scoreRate = self._getTrafficColor(score);
             self._map.addLayer(self._trafficLayer);
+
+            a.innerHTML = score;
+            DG.DomUtil.addClass(a, self._trafficClass);
+            DG.DomUtil.addClass(a, self._trafficClass + '_color_' + self._scoreRate);
         });
     },
 
     _hideTraffic: function () { // ()
+        var a = this._link;
+
+        a.innerHTML = '';
+        DG.DomUtil.removeClass(a, this._trafficClass);
+        DG.DomUtil.removeClass(a, this._trafficClass + '_color_' + this._scoreRate);
         this._map.removeLayer(this._trafficLayer);
     },
 
@@ -68,6 +83,18 @@ DG.Control.Traffic = DG.RoundControl.extend({
         } else {
             this._container.style.display = 'block';
         }
+    },
+
+    _getTrafficColor: function (score) { // (Number) -> String
+        var result = 'green';
+
+        if (score > 7) {
+            result = 'red';
+        } else if (score > 4) {
+            result = 'yellow';
+        }
+
+        return result;
     },
 
     _getTrafficScore: function () { // () -> Promise
