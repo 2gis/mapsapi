@@ -290,7 +290,7 @@
                     "ru": {
                         "title": "Примеры",
                         "uri": "maps/examples/base",
-                        "_src":"examples/examples.md",
+                        "_src":"examples/base.md",
                         "hide": false
                     }
                 },

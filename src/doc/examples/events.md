@@ -97,7 +97,7 @@
         var map, currentProjectBound;
         map = DG.map('map1', {
             center: DG.latLng(54.98, 82.89),
-            zoom: 8
+            zoom: 9
         });
         // подписываемся на событие изменения текущего проекта 2GIS
         map.on('projectchange', function (e) {
@@ -131,7 +131,7 @@
                     var map, currentProjectBound;
                     map = DG.map('map1', {
                         center: DG.latLng(54.98, 82.89),
-                        zoom: 8
+                        zoom: 9
                     });
                     // подписываемся на событие изменения текущего проекта 2GIS
                     map.on('projectchange', function (e) {
