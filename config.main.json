@@ -22,7 +22,7 @@
     "WEB_API_SERVER": "http://catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
-    "FIRM_INFO_FIELDS": "data.reviews,data.geo.id,data.geo.entrances,data.photos",
+    "FIRM_INFO_FIELDS": "data.reviews,data.geo.id,data.photos",
     "GEO_ADDITIONAL_FIELDS": "data.geometry.selection,data.attributes.filials,data.attributes.sight",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
     "DEFAULT_LANG": "ru",
