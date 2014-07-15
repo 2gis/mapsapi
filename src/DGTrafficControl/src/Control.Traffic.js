@@ -15,6 +15,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
 
     initialize: function (options) {
         this._trafficClass = 'dg-traffic-control';
+        this._controlHideClass = 'dg-control-round_is-hidden_true';
 
         DG.setOptions(this, options);
         DG.extend(this, {
@@ -52,37 +53,34 @@ DG.Control.Traffic = DG.RoundControl.extend({
         var self = this;
 
         this._getTrafficScore().then(function (score) {
-            var a = this._link;
-
             score = parseInt(score, 10); // sometimes webapi returns something like '5,+'
 
             self._scoreRate = self._getTrafficColor(score);
             self._map.addLayer(self._trafficLayer);
 
-            a.innerHTML = score;
-            DG.DomUtil.addClass(a, self._trafficClass);
-            DG.DomUtil.addClass(a, self._trafficClass + '_color_' + self._scoreRate);
+            self._handleDom('add', score);
         });
     },
 
     _hideTraffic: function () { // ()
-        var a = this._link;
-
-        a.innerHTML = '';
-        DG.DomUtil.removeClass(a, this._trafficClass);
-        DG.DomUtil.removeClass(a, this._trafficClass + '_color_' + this._scoreRate);
+        this._handleDom('remove');
         this._map.removeLayer(this._trafficLayer);
     },
 
-    _onZoomEnd: function () { // ()
-        var project = this._map.projectDetector.getProject();
+    _handleDom: function (method, score) {
+        var a = this._link;
 
-        if ((this._map.getZoom() < DG.Control.Traffic.trafficMinZoom) ||
-            (project && !!project.traffic === false)) {
-            this._container.style.display = 'none';
-        } else {
-            this._container.style.display = 'block';
-        }
+        a.innerHTML = score || '';
+        DG.DomUtil[method + 'Class'](a, this._trafficClass);
+        DG.DomUtil[method + 'Class'](a, this._trafficClass + '_color_' + this._scoreRate);
+    },
+
+    _onZoomEnd: function () { // ()
+        var project = this._map.projectDetector.getProject(),
+            method = ((this._map.getZoom() < DG.Control.Traffic.trafficMinZoom) ||
+            (project && !!project.traffic === false)) ? 'addClass' : 'removeClass';
+
+        DG.DomUtil[method](this._container, this._controlHideClass);
     },
 
     _getTrafficColor: function (score) { // (Number) -> String
@@ -98,11 +96,13 @@ DG.Control.Traffic = DG.RoundControl.extend({
     },
 
     _getTrafficScore: function () { // () -> Promise
-        var url = DG.Util.template(DG.Control.Traffic.scoreUrl,
-                                    {
-                                        s: this._trafficLayer.getSubdomain(),
-                                        projectCode: this._map.projectDetector.getProject().code
-                                    });
+        var url = DG.Util.template(
+            DG.Control.Traffic.scoreUrl,
+            {
+                s: this._trafficLayer.getSubdomain(),
+                projectCode: this._map.projectDetector.getProject().code
+            }
+        );
 
         return DG.ajax(url, {type: 'get' });
     },
