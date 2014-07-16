@@ -21,7 +21,7 @@
                 center: [54.9802, 82.8980],
                 zoom: 18
             });
-
+            
             DG.ajax({
                 url: 'http://catalog.api.2gis.ru/geo/search',
                 data: {
@@ -107,17 +107,9 @@
 
 Получение информации об объекте по его координатам:
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <script src="http://maps.api.2gis.ru/2.0/loader.js?"
-            data-id="dgLoader"></script>
-    </head>
-    <body>
-        <div id="map1" style="width:100%; height:400px"></div>
-        <script type="text/javascript">
-            DG.then(function () {
+<div id="map1" style="width:100%; height:400px"></div>
+<script type="text/javascript">
+    DG.then(function () {
         var map,
             latLng = [55.752517, 37.623349];
 
@@ -146,9 +138,7 @@
             }
         });
     });
-        </script>
-    </body>
-</html>
+</script>
 
     <!DOCTYPE html>
     <html>
