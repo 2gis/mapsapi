@@ -1,6 +1,7 @@
 var extend = require('extend'),
     es = require('event-stream'),
     map = require('map-stream'),
+    path = require('path'),
     prettyBytes = require('pretty-bytes'),
 
     gulp = require('gulp'),
@@ -454,7 +455,7 @@ gulp.task('collect-images-stats', ['copy-svg', 'copy-svg-raster', 'copy-raster']
 });
 
 function saveSize(file, cb) {
-    var name = file.path.split('/').pop();
+    var name = path.basename(file.path.split('/').pop());
     stat[name] = prettyBytes(file.contents.length);
     cb(null, file);
 }
