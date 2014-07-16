@@ -15,14 +15,17 @@ DG.Geoclicker = DG.Handler.extend({
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
         if (this._map.poi) {
-            DG.bind(this._mapEventsListeners.click, this._map.poi._layerEventsListeners.click);
-            //this._map.off(this._mapEventsListeners.click);
+            // DG.bind(this._mapEventsListeners.click, this._map.poi._layerEventsListeners.click);
+            this._map.poi.getMetaLayer().on('click', this._mapEventsListeners.click);
         }
 
     },
 
     removeHooks: function () {
         this._map.off(this._mapEventsListeners, this);
+        if (this._map.poi) {
+            this._map.poi.getMetaLayer().off('click', this._mapEventsListeners.click);
+        }
     },
 
     getController: function () {
