@@ -8,7 +8,7 @@
 
 ### Отображение ломаной
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 500px;"></div>
 <script>
     DG.then(function() {
@@ -28,9 +28,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>Отображение ломаной</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
         <body>
@@ -86,9 +86,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>Отображение прямоугольников</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
         <body>
@@ -162,9 +162,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>Отображение многоугольников</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
         <body>
@@ -230,9 +230,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>Отображение круга и круглого маркера</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
         <body>
@@ -288,9 +288,9 @@
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>Геометрии с подсказками и балунами</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
         <body>
@@ -330,47 +330,64 @@
 
 ### Анимация отрисовки ломаной
 
+<input id="playAnimation" type="button" value="Запустить анимацию" />
 <div id="map5" style="width: 100%; height: 400px;"></div>
 <script>
-	DG.then(function() {
-		var map;
-     	map = DG.map('map5', {
+
+    var playAnimationButton = document.getElementById('playAnimation'); 
+
+    DG.then(function() {
+        
+        var map;
+
+        map = DG.map('map5', {
             center: [54.98, 82.94],
             zoom: 13
-    	});
-		var polyline = DG.polyline([]).addTo(map),
-		counter = 0;
-		(function draw() {
-		    polyline.addLatLng([54.98, 82.89 + counter / 10000]);
-		    if (++counter < 1000) {window.setTimeout(draw, 10)} else {counter = 0; draw();};
-		})();
-	})
+        });
+
+        playAnimation.onclick = function() {
+            polyline = DG.polyline([]).addTo(map),
+            counter = 0;
+            (function draw() {
+            polyline.addLatLng([54.98, 82.89 + counter / 10000]);
+            if (++counter < 1000) {window.setTimeout(draw, 10)} else {counter = 0; draw();};
+            })();    
+        }
+    })
 </script>
 
 	<!DOCTYPE html>
 	<html>
 		<head>
-		    <meta charset='utf-8' />
+		    <meta charset="utf-8" />
 		    <title>Анимация отрисовки ломаной</title>
-		    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+		    <script src="http://maps.api.2gis.ru/2.0/loader.js"
 		    data-id="dgLoader"></script>
 		</head>
 		<body>
+            <input id="playAnimation" type="button" value="Запустить анимацию" />
 			<div id="map" style="width: 100%; height: 400px;"></div>
 			<script>
-				DG.then(function() {
-					var map;
-			     	map = DG.map('map', {
-			            center: [54.98, 82.94],
-			            zoom: 13
-			    	});
-					var polyline = DG.polyline([]).addTo(map),
-					counter = 0;
-					(function draw() {
-					    polyline.addLatLng([54.98, 82.89 + counter / 10000]);
-					    if (++counter < 1000) {window.setTimeout(draw, 10)};
-					})();
-				})
+            	var playAnimationButton = document.getElementById('playAnimation'); 
+
+                DG.then(function() {
+                    
+                    var map;
+
+                    map = DG.map('map', {
+                        center: [54.98, 82.94],
+                        zoom: 13
+                    });
+
+                    playAnimation.onclick = function() {
+                        polyline = DG.polyline([]).addTo(map),
+                        counter = 0;
+                        (function draw() {
+                        polyline.addLatLng([54.98, 82.89 + counter / 10000]);
+                        if (++counter < 1000) {window.setTimeout(draw, 10)} else {counter = 0; draw();};
+                        })();    
+                    }
+                })
 			</script>
 		</body>
 	</html>

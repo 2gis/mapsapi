@@ -165,6 +165,28 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Метаслои",
+                                "uri": "maps/manual/metalayers",
+                                "_src":"manual/metalayers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Пробки",
+                                "uri": "maps/manual/traffic",
+                                "_src":"manual/traffic.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "AJAX-запросы",
                                 "uri": "maps/manual/ajax",
                                 "_src":"manual/ajax.md",
@@ -267,7 +289,7 @@
                 "content": {
                     "ru": {
                         "title": "Примеры",
-                        "uri": "maps/examples",
+                        "uri": "maps/examples/base",
                         "_src":"examples/examples.md",
                         "hide": false
                     }
@@ -348,7 +370,7 @@
                                 "hide": false
                             }
                         },
-                        "children": null                        
+                        "children": null
                     },
                     {
                         "content": {
@@ -359,7 +381,7 @@
                                 "hide": false
                             }
                         },
-                        "children": null                        
+                        "children": null
                     },
                     {
                         "content": {
@@ -370,7 +392,7 @@
                                 "hide": false
                             }
                         },
-                        "children": null                        
+                        "children": null
                     },
                     {
                         "content": {
@@ -392,7 +414,7 @@
                                 "hide": false
                             }
                         },
-                        "children": null                        
+                        "children": null
                     }
                 ]
             }

@@ -1,5 +1,7 @@
 ## DG.Meta
 
+{toc}
+
 Позволяет создавать допслои с метаинформацией и добавлять их на карту.
 
 ### DG.Meta.layer
@@ -17,7 +19,7 @@
     <tr>
         <td><code><b>DG.Meta.layer</b>(
             <nobr>&lt;String&gt; <i>source</i>,</nobr>
-            <nobr>&lt;<a href="#">DG.Meta.layer options</a>&gt; <i>options?</i> )</nobr>
+            <nobr>&lt;<a href="#опции">DG.Meta.layer options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
 
         <td>

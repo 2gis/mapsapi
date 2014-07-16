@@ -409,76 +409,6 @@
     </tbody>
 </table>
 
-### Класс DG.MultiPolyline
-
-Расширяет [FeatureGroup](/doc/maps/manual/groups#класс-dgfeaturegroup) и позволяет создавать мультиполилайны (один слой, содержащий несколько ломаных с общими стилями и балуном).
-
-#### Конструктор
-<table>
-    <thead>
-        <tr>
-            <th>Конструктор</th>
-            <th>Использование</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code><b>DG.MultiPolyline</b>(
-                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
-                <nobr>&lt;<a href="#опции-1">Polyline options</a>&gt; <i>options?</i> )</nobr>
-            </code></td>
-
-            <td>
-                <code>DG.multiPolyline(&hellip;)</code>
-            </td>
-
-            <td>Создает объект мультиполилайна по переданному массиву массивов географических точек (каждый для своей ломаной) и необязательному объекту опций.</td>
-        </tr>
-    </tbody>
-</table>
-
-#### Методы
-
-<p>Мультиполилайны содержат все методы класса [Polyline](#класс-dgpolyline)</a>, но их поведение отличается, так как мультиполилайны содержат несколько ломаных.</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Метод</th>
-            <th>Возвращает</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code><b>setLatLngs</b>(
-                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
-            </code></td>
-
-            <td><code>this</code></td>
-            <td>Заменяет все геометрии ломаных новыми на основе переданного многомерного массива географических координат.</td>
-        </tr>
-        <tr>
-            <td><code><b>getLatLngs</b>()</td>
-
-            <td><code><nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
-            </code></td>
-            <td>Возвращает многомерный массив географических координат каждой ломаной.</td>
-        </tr>
-        <tr>
-            <td><code><b>openPopup</b>()</code></td>
-            <td><code>this</code></td>
-            <td>Открывает балун, предварительно прикрепленный с помощью метода <a href="#path-bindpopup">bindPopup</a>.</td>
-        </tr>
-        <tr id="multipolyline-togeojson">
-            <td><code><b>toGeoJSON</b>()</code></td>
-            <td><code>Object</code></td>
-            <td>Возвращает <a target="_blank" href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление мультиполилайна (GeoJSON MultiLineString).</td>
-        </tr>
-    </tbody>
-</table>
-
 ### Класс DG.Polygon
 
 Класс для отрисовки многоугольников на карте. Расширяет [Polyline](#класс-dgpolyline).
@@ -526,73 +456,6 @@
             <td><code><b>toGeoJSON</b>()</code></td>
             <td><code>Object</code></td>
             <td>Возвращает <a target="_blank" href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление многоугольника (GeoJSON Polygon).</td>
-        </tr>
-    </tbody>
-</table>
-
-### Класс DG.MultiPolygon
-
-Расширяет [FeatureGroup](/doc/maps/manual/groups#класс-dgfeaturegroup), позволяя создавать мультиполигоны (один слой, содержащий несколько многоугольников с общими стилями и балуном).
-
-#### Конструктор
-<table>
-    <thead>
-        <tr>
-            <th>Конструктор</th>
-            <th>Использование</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code><b>DG.MultiPolygon</b>(
-                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>,
-                <nobr>&lt;<a href="#опции-1">Polyline options</a>&gt; <i>options?</i> )</nobr>
-            </code></td>
-            <td>
-                <code>DG.multiPolygon(&hellip;)</code>
-            </td>
-            <td>Создает объект мультиполигона по переданному массиву массивов географических точек (каждый для своего многоугольника) и необязательному объекту опций.</td>
-        </tr>
-    </tbody>
-</table>
-
-#### Методы
-
-<p>Мультиполигоны содержат все методы класса [Polyline](#класс-dgpolyline), но их поведение отличается, так как они содержат несколько многоугольников.</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Метод</th>
-            <th>Возвращает</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code><b>setLatLngs</b>(
-                <nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i> )</nobr>
-            </code></td>
-
-            <td><code>this</code></td>
-            <td>Заменяет все геометрии многоугольников новыми на основе переданного многомерного массива географических координат.</td>
-        </tr>
-        <tr>
-            <td><code><b>getLatLngs</b>()</td>
-            <td><code><nobr>&lt;<a href="/doc/maps/manual/base-classes#класс-dglatlng">LatLng</a>[][]&gt; <i>latlngs</i></nobr>
-            </code></td>
-            <td>Возвращает многомерный массив географических координат каждого многоугольника.</td>
-        </tr>
-        <tr>
-            <td><code><b>openPopup</b>()</code></td>
-            <td><code>this</code></td>
-            <td>Открывает балун, предварительно прикрепленный с помощью метода <a href="#path-bindpopup">bindPopup</a>.</td>
-        </tr>
-        <tr id="multipolygon-togeojson">
-            <td><code><b>toGeoJSON</b>()</code></td>
-            <td><code>Object</code></td>
-            <td>Возвращает <a target="_blank" href="http://en.wikipedia.org/wiki/GeoJSON">GeoJSON</a> представление мультиполигона (GeoJSON MultiPolygon).</td>
         </tr>
     </tbody>
 </table>
@@ -661,7 +524,7 @@
 
 ### Класс DG.Circle
 
-Класс для отрисовки круга на карте. Расширяет [Path](#класс-dgpath).
+Класс для отрисовки круга на карте. Расширяет [CircleMarker](#класс-dgcirclemarker).
 
     DG.circle([54.98, 82.89], 200).addTo(map);
 
@@ -739,7 +602,7 @@
 
 ### Класс DG.CircleMarker
 
-Круг фиксированного размера с радиусом указанным в пикселях. Расширяет [Circle](#класс-dgcircle).
+Круг фиксированного размера с радиусом указанным в пикселях. Расширяет [Path](#класс-dgpath).
 
 #### Конструктор
 
