@@ -46,7 +46,7 @@ DG.Meta.Layer = L.Layer.extend({
         var events = {
             viewreset: this._reset
         };
-        'click dblclick mousedown contextmenu'
+        'dblclick mousedown contextmenu'
             .split(' ')
             .forEach(function (event) {
                 events[event] = this._pipeMapEvent;
@@ -115,6 +115,12 @@ DG.Meta.Layer = L.Layer.extend({
                 this._hoveredEntity = null;
             }
             this._currentTile = false;
+        },
+
+        click: function (event) {
+            if (this._hoveredEntity) {
+                this._fireMouseEvent('click', event);
+            }
         }
     },
 

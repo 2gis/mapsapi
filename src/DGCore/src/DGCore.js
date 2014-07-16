@@ -51,8 +51,7 @@ DG.Map.include({
     }
 });
 
-// Detect wich kind of img we should apply
+// Apply class to map container for detect when we dont need hover effects
 DG.Map.addInitHook(function () {
-    // L.DomUtil.addClass(this._container,
-    //         ((L.Browser.ielt9 || L.Browser.mobile) ? ' sprite' : ''));
+    !DG.Browser.touch && DG.DomUtil.addClass(this._container, 'no-touch');
 });

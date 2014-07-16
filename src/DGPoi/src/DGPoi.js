@@ -1,4 +1,4 @@
-/*global __POI_LAYER_MIN_ZOOM__:false */
+/*global __POI_LAYER_MIN_ZOOM__ */
 
 DG.Map.mergeOptions({
     poi: !DG.Browser.touch
@@ -23,6 +23,7 @@ DG.Poi = DG.Handler.extend({
             detectRetina: __DETECT_RETINA__,
             dataFilter: DG.bind(this._processData, this)
         });
+        this._geoclicker = this._map.geoclicker;
     },
 
     addHooks: function () {
@@ -50,6 +51,10 @@ DG.Poi = DG.Handler.extend({
         var map = this._map,
             tileOriginPoint = coord.multiplyBy(this._metaLayer._getTileSize());
 
+        if(!coord) {return false;}
+
+        tileOriginPoint = coord.multiplyBy(this._metaLayer._getTileSize());
+
         if (data.responseText === '') {
             return [];
         }
@@ -73,6 +78,7 @@ DG.Poi = DG.Handler.extend({
 
     _layerEventsListeners : {
         mouseover: function (e) { // (Object)
+            this._map.geoclicker.removeHooks();
             this._setCursor('pointer');
             this._labelHelper
                 .setPosition(e.latlng)
@@ -83,10 +89,17 @@ DG.Poi = DG.Handler.extend({
         mouseout: function () {
             this._setCursor('auto');
             this._map.removeLayer(this._labelHelper);
+            this._map.geoclicker.addHooks();
         },
 
         mousemove: function (e) { // (Object)
             this._labelHelper.setPosition(e.latlng);
+        },
+
+        click: function (e) { // (Object) 
+            console.log("Poi Click ");
+            this._map.geoclicker && this._map.geoclicker._controller.handleClick(e.latlng, e.target._map._zoom);
+            return false;
         }
     },
 

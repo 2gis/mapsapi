@@ -18,10 +18,7 @@
 
         renderList: function (firms) {
             if (firms) {
-                if (!this._eventHandlersInited) {
-                    this._initEventHandlers();
-                }
-
+                this._toggleEventHandlers();
                 this.addFirms(firms);
             }
             if (this.options.onListReady) {
@@ -31,28 +28,25 @@
             return this._container;
         },
 
-        addFirms: function (firms) {
-            if (firms) {
-                if (this._isArray(firms)) {
-                    for (var i = 0, l = firms.length; i < l; i++) {
-                        this._addFirm(firms[i]);
-                    }
-                } else {
-                    this._addFirm(firms);
+        _processFirms: function (firms, action) {
+            if (!firms) { return; }
+            var method = '_' + action + 'Firm';
+            if (this._isArray(firms)) {
+                for (var i = 0, l = firms.length; i < l; i++) {
+                    this[method](firms[i]);
                 }
+            } else {
+                this[method](firms);
             }
+
         },
 
-        removeFirms: function (ids) {
-            if (ids) {
-                if (this._isArray(ids)) {
-                    for (var i = 0, l = ids.length; i < l; i++) {
-                        this._removeFirm(ids[i]);
-                    }
-                } else {
-                    this._removeFirm(ids);
-                }
-            }
+        addFirms: function(firms) { 
+            this._processFirms(firms, 'add');
+        },
+
+        removeFirms: function(firms) {
+            this._processFirms(firms, 'remove');
         },
 
         setLang: function (newLang) {
@@ -69,13 +63,14 @@
 
         clearList : function () {
             this._firms = {};
+            this._toggleEventHandlers(true);
             this._clearContainer();
         },
 
         _removeFirm: function (id) {
-            var firmCard = this._firms[id] ? this._firms[id] : false;
-            firmCard ? this._container.removeChild(firmCard) : false;
-            this._firms[id] ? delete this._firms[id] : false;
+            if (!this._firms[id]) { return false; }
+            this._container.removeChild(this._firms[id]);
+            delete this._firms[id];
         },
 
         _addFirm: function (firmData) {
@@ -88,9 +83,11 @@
             };
 
             if (!(firm.id in this._firms)) {
+                
                 domFirm = this._createListItem();
 
-                tmpl ? content = this.options.firmCard.render(tmpl, {'firm': firm}) : content = firm.name;
+                content = tmpl ? this.options.firmCard.render(tmpl, {'firm': firm}) : firm.name;
+                
                 domFirm.insertAdjacentHTML('beforeend', content);
 
                 this._firms[firm.id] = domFirm;
@@ -123,43 +120,41 @@
             return true;
         },
 
-        _initEventHandlers : function () {
-            var self = this,
-                eventName = this._hasTouch() ? 'touchend' : 'click';
+        _events: {
+            'dg-popup__link': function(target) {
+                var s = this._firmCard.render(target.id);
 
-            this._eventHandlersInited = true;
-            var onClickHandler =  function (e) {
-                e = e || window.event;
-                var target = e.target || e.srcElement;
+                this.options.firmCard[this._isEmptyObj(s) ? 'pasteLoader' : 'onFirmReady'](s);
 
-                if (target && target.nodeName === 'A') {
-                    if (target.className.indexOf('dg-popup__link') !== -1) {
-                        if (target.id) {
+                this.options.firmCard.onFirmClick && this.options.firmCard.onFirmClick();
 
-                            var s = self._firmCard.render(target.id);
-                            if (!self._isEmptyObj(s)) {
-                                self.options.firmCard.onFirmReady(s);
-                            } else {
-                                self.options.firmCard.pasteLoader();
-                            }
+                this._toggleEventHandlers(true);
+            },
+            'dg-building-callout__list-item': function(target) {
+                target = target.children[0];
 
-                            self.options.firmCard.onFirmClick && self.options.firmCard.onFirmClick(e);
-                        }
-                    }
-                }
-            };
+                this._events['dg-popup__link'].call(this, target);
+            },
+            'dg-popup__button_name_back': function() {
+                this.options.firmCard.onShowLess();
 
-            if (this._container.addEventListener) {
-                this._container.addEventListener(eventName, onClickHandler, false);
-            } else {
-                this._container.attachEvent('on' + eventName, onClickHandler);
+                this._toggleEventHandlers(true);
             }
         },
 
-        _hasTouch: function () {
-            return (('ontouchstart' in window) ||       // html5 browsers
-                    (navigator.maxTouchPoints > 0) ||   // future IE
-                    (navigator.msMaxTouchPoints > 0));  // current IE10
+        _toggleEventHandlers : function (flag) {
+            this.options.firmCard.popup[flag ? 'off' : 'on']('click', this._onClick, this);
+        },
+
+        _onClick: function (e) {
+            var target = e.originalEvent.target;
+
+            for (var eventClass in this._events) {
+                if (this._events.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
+                    this._events[eventClass].call(this, target);
+                    return;
+                }
+            }
         },
 
         _clearContainer: function () {
@@ -174,6 +169,7 @@
             options || (options = {});
             this.options = options;
             this.options.firmCard || (this.options.firmCard = {});
+
             if (!options.firmCard.lang) {
                 this.options.firmCard.lang = 'ru';
             }

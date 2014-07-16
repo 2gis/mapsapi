@@ -1,4 +1,4 @@
-// Adds 2GIS-related popup content wrapper and offset
+//2GIS-related popup content wrapper and offset
 (function () {
     var offsetX = DG.configTheme.balloonOptions.offset.x,
         offsetY = DG.configTheme.balloonOptions.offset.y,
@@ -263,11 +263,58 @@
 
             this._isBaronExist = true;
 
-            DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+            this._switchEvents();
         },
 
-        _onScroll: function (event) {
-            this.fire('scroll', {originalEvent: event});
+        _onScroll: function (e) {
+            this.fire('scroll', {originalEvent: e});
+        },
+
+        _onClick: function (e) {
+            if (!this._moving) { 
+                e.target = e.target || e.srcElement;
+                this.fire('click', {originalEvent: e});
+            }
+            DG.DomEvent.stop(e);
+        },
+
+        _onStart: function (e) {
+            this._moved = false;
+
+            if (this._moving) { return; }
+
+            var first = e.touches ? e.touches[0] : e;
+
+            this._startPoint = new DG.Point(first.clientX, first.clientY);
+
+            this._toggleTouchEvents();
+        },
+
+        _onEnd: function (e) {
+            this._toggleTouchEvents(true);
+
+            this._onClick(e);
+
+            this._moving = false;
+        },
+
+        _onMove: function (e) {
+
+            if (e.touches && e.touches.length > 1) {
+                this._moved = true;
+                return;
+            }
+
+            var first = (e.touches && e.touches.length === 1 ? e.touches[0] : e),
+                newPoint = DG.point(first.clientX, first.clientY),
+                offset = Math.abs(newPoint.subtract(this._startPoint).y);
+
+            if (!offset || offset < 10) { return; }
+
+            this._onScroll(e);
+
+            this._moving = this._moved = true;
+
         },
 
         _initBaron: function () {
@@ -307,6 +354,7 @@
             if (!this._map) { return; }
 
             this._container.style.visibility = 'hidden';
+            this._switchEvents(true);
 
             this._clearNode(this._contentNode);
 
@@ -317,7 +365,10 @@
 
             this._updatePopupStructure();
             this.resize();
+
             DG.DomEvent.on(this._wrapper, 'click', DG.DomEvent.stopPropagation);
+            this._switchEvents();
+
             if (DG.Browser.ielt9) {
                 var elem = this._popupStructure.footer;
                 if (elem) {
@@ -413,7 +464,28 @@
         _firePopupClose: function (e) { // (Event)
             DG.DomUtil.TRANSITION && DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             originalOnClose.call(this, e);
+        },
+
+        _switchEvents: function (on) { // (Boolean)
+            
+            var switcher = on ? 'off' : 'on';
+
+            if (!DG.Browser.touch) {
+                DG.DomEvent[switcher](this._contentNode, 'click', this._onClick, this);
+                this._isBaronExist && DG.DomEvent[switcher](this._scroller, 'scroll', this._onScroll, this);
+            } else {
+                DG.DomEvent[switcher](this._contentNode, 'touchstart mousedown mousemove', this._onStart, this);
+            }
+        },
+
+        _toggleTouchEvents: function (on) {
+            var switcher = on ? 'off' : 'on';
+
+            DG.DomEvent
+                [switcher](this._contentNode, 'touchmove', this._onMove, this)
+                [switcher](this._contentNode, 'touchend', this._onEnd, this);
         }
+
     });
 }());
 
