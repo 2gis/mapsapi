@@ -14,6 +14,11 @@ DG.Geoclicker = DG.Handler.extend({
 
     addHooks: function () {
         this._map.on(this._mapEventsListeners, this);
+        if (this._map.poi) {
+            DG.bind(this._mapEventsListeners.click, this._map.poi._layerEventsListeners.click);
+            //this._map.off(this._mapEventsListeners.click);
+        }
+
     },
 
     removeHooks: function () {
