@@ -7,7 +7,8 @@ DG.Meta.Layer = L.Layer.extend({
 
         minZoom: 0,
         maxZoom: 18,
-        zoomOffset: 0
+        zoomOffset: 0,
+        eventBubbling: 'transparent'
         // maxNativeZoom: <Number>,
         // detectRetina: <Number>,
         // zoomReverse: <Number>
@@ -29,13 +30,28 @@ DG.Meta.Layer = L.Layer.extend({
         });
     },
 
+    _turnOnBubbling: function () {
+        var events = {
+            viewreset: this._reset
+        };
+        'click mouseout mousemove dblclick mousedown contextmenu'
+            .split(' ')
+            .forEach(function (event) {
+                events[event] = this._pipeMapEvent;
+            }, this);
+    },
+
     getOrigin: function () { // () -> Object
         return this._origin;
     },
 
     onAdd: function (map) {
         this._reset();
-        DG.DomEvent.on(map.getPane('tilePane'), this._domEvents, this);
+        switch ( this.options.eventBubbling ) {
+            case 'transparent': this._turnOnBubbling(); break;
+            case 'layer': DG.DomEvent.on(map.getPane('tilePane'), this._domEvents, this); break;
+            default: this._turnOnBubbling();
+        }
     },
 
     onRemove: function (map) {
@@ -109,6 +125,7 @@ DG.Meta.Layer = L.Layer.extend({
                 }
             }
         },
+
         mouseout: function (event) {
             if (this._hoveredEntity) {
                 this._fireMouseEvent('mouseout', event);
@@ -137,6 +154,7 @@ DG.Meta.Layer = L.Layer.extend({
             meta: this._hoveredEntity,
             latlng: this._map.mouseEventToLatLng(mouseEvent)
         });
+
     },
 
     _getHoveredObject: function (coords, mouseTileOffset) {
