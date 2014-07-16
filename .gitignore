@@ -16,3 +16,4 @@ docbuilder/doc
 config.local.json
 
 nohup.out
+vendors/leaflet/dist/leaflet-src.js
