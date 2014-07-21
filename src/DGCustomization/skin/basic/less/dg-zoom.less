@@ -1,10 +1,9 @@
 .dg-zoom {
     width: 40px;
     height: 74px;
-    
-    .leaflet-bottom & {
-        margin-bottom: 40px;
-        }
+    }
+.leaflet-bottom .dg-zoom {
+    margin-bottom: 40px;
     }
     .dg-zoom__in {
         position: absolute;
@@ -63,12 +62,15 @@
                 background: #515151;
                 background: rgba(0,0,0,.6);
                 }
-            .leaflet-disabled &:before,
-            .leaflet-disabled &:after {
+            }
+        .leaflet-disabled .dg-zoom__button_type_in {
+            box-shadow: none;
+
+            &:before,
+            &:after {
                 box-shadow: none;
                 }
             }
-            
             .dg-zoom__button_type_out {
                 &:before {
                     top: -6px;
@@ -93,5 +95,13 @@
                 &:hover:after {
                     background: #515151;
                     background: rgba(0,0,0,.6);
+                    }
+                }
+            .leaflet-disabled .dg-zoom__button_type_out {
+                box-shadow: none;
+
+                &:before,
+                &:after {
+                    box-shadow: none;
                     }
                 }
