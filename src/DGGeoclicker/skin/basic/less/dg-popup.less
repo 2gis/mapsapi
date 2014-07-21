@@ -141,23 +141,22 @@
             text-decoration: none;
             -webkit-tap-highlight-color:rgba(0,0,0,0);
             }
-
         .dg-popup__link_type_flamp_reviews {
             margin-left: 0.1em;
             }
 
-            .dg-popup__link_type_photos:before,
+            .dg-popup__link_type_photos:before {
+                position: absolute;
+                top: 2px;
+                left: -16px;
+                display: inherit;
+                content: '';
+                }
             .dg-popup__link_type_booklet:before {
                 position: absolute;
                 top: 2px;
                 left: -16px;
                 display: inherit;
-                width: 12px;
-                height: 10px;
-                background-size: contain;
-                background-repeat: no-repeat;
+                .noRepeatableBgWithSizes('DGPopup__bookletLinkIcon');
                 content: '';
-                }
-            .dg-popup__link_type_booklet:before {
-                .noRepeatableBg('DGPopup__bookletLinkIcon');
                 }

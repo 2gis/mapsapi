@@ -9,37 +9,32 @@
         line-height: 13px;
         cursor: pointer;
 
-        &:before,
-        &:after {
-            background-size: contain;
-            content: '';
-            position: absolute;
-            }
         &:before {
-            top: 1px;
+            position: absolute;
+            top: -1px;
             left: -24px;
+            content: '';
             width: 11px;
             height: 11px;
+            background-size: contain;
             }
         &:after {
+            position: absolute;
+            content: '';
             right: -12px;
             bottom: 3px;
-            width: 10px;
-            height: 6px;
-            }
-
-        .dg-schedule_open_true &:before {
-            .noRepeatableBg('DGSchedule__clockOn');
             }
         }
-
-        .dg-schedule_works-everyday_true .dg-schedule__today {
-            border-bottom: none;
-            cursor: default;
-            
-            &:after {
-                background-image: none;
-                }
+    .dg-schedule_works-everyday_true .dg-schedule__today {
+        border-bottom: none;
+        cursor: default;
+        
+        &:after {
+            background-image: none;
+            }
+        }
+        .dg-schedule_open_true .dg-schedule__today:before {
+            .noRepeatableBg('DGSchedule__clockOn');
             }
 
     .dg-schedule__now {
@@ -89,18 +84,10 @@
 
     .dg-schedule__table-clock {
         margin: 14px 0 0 0;
-        width: 11px;
-        height: 11px;
-        background-size: contain;
-        background-repeat: no-repeat;
         }
 
     .dg-schedule__table-lunch {
-        margin: 36px 0 0 0;
-        width: 11px;
-        height: 11px;
-        background-size: contain;
-        background-repeat: no-repeat;
+        margin: 16px 0 0 0;
         }
 
 .dg-schedule_open_true {}
