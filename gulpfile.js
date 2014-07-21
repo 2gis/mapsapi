@@ -509,16 +509,29 @@ gulp.task('collect-images-stats', ['copy-svg', 'copy-svg-raster', 'copy-raster']
 
         var statisticsObject,
             statisticsString = '',
-            extension;
+
+            imageExtension,
+
+            originalImageName,
+            originalImageStatisticObject;
 
         for (var imageName in skinImagesFilesStats) {
+            originalImageName = imageName.replace(/@\d+(\.\d+)?x/, '');
+
             statisticsObject = skinImagesFilesStats[imageName];
-            extension = (typeof statisticsObject.extension === 'undefined') ? 'svg' : statisticsObject.extension;
+            originalImageStatisticObject = skinImagesFilesStats[originalImageName];
+
+            imageExtension = (typeof statisticsObject.extension === 'undefined') ? 'svg' : statisticsObject.extension;
+
             statisticsString = statisticsString +
                 '.imageFileData(\'' + imageName + '\') {' +
-                    '@filename: \'' + imageName + '\';' +
-                    '@extension: \'' + extension + '\'; ' +
-                    '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + ';' +
+                    '@filename: \'' + imageName + '\'; ' +
+                    '@extension: \'' + imageExtension + '\'; ' +
+                    '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + '; ' +
+                    '@width: ' + statisticsObject.width + 'px; ' +
+                    '@height: ' + statisticsObject.height + 'px; ' +
+                    '@originalWidth: ' + originalImageStatisticObject.width + 'px; ' +
+                    '@originalHeight: ' + originalImageStatisticObject.height + 'px; ' +
                     '}\n';
         }
 

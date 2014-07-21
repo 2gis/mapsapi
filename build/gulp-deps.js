@@ -1,6 +1,7 @@
 var fs = require('fs'),
     glob = require('glob'),
-    path = require('path');
+    path = require('path'),
+    imageSize = require('image-size');
 
 var init = function (config) {
     var packages = config.packages;
@@ -183,7 +184,9 @@ var init = function (config) {
                 var basename = path.basename(imagePath),
                     extname = path.extname(imagePath),
 
-                    name = path.basename(imagePath, extname);
+                    name = path.basename(imagePath, extname),
+
+                    imageDimensions;
 
                 if (!(name in skinStats)) {
                     skinStats[name] = {};
@@ -194,6 +197,11 @@ var init = function (config) {
                 }
                 else {
                     skinStats[name].extension = extname.replace('.', '');
+
+                    imageDimensions = imageSize(imagePath);
+
+                    skinStats[name].width = imageDimensions.width;
+                    skinStats[name].height = imageDimensions.height;
                 }
             });
 

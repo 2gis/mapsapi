@@ -8,6 +8,18 @@
     @filename: '';
     @extension: '';
     @hasVectorVersion: false;
+    @width: 0;
+    @height: 0;
+    @originalWidth: 0;
+    @originalHeight: 0;
+    }
+
+.sizesOfImage(@name) {
+    .imageFileData(@name);
+
+    width: @width;
+    height: @height;
+    background-size: @originalWidth @originalHeight;
     }
 
 .isSprited(@name) when (default()) {
@@ -49,12 +61,10 @@
 
 .directImage(@name; @retina: false) {
     .imageFileData(@name);
-
+        
      & when not (@filename = '') {
         background-image: url('@{baseURL}/img/@{filename}.@{extension}');
         }
-        
-        .imageFileData(@name);
         & when (@retina) and not (@filename = '')  {
             .leaflet-retina & {
                 background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
@@ -102,6 +112,11 @@
             .spriteOrDirectImage('@{name}@2x', @useSprite);
             }
         }
+    }
+
+.noRepeatableBgWithSizes(@name; @useSprite: true) {
+    .noRepeatableBg(@name, @useSprite);
+    .sizesOfImage(@name);
     }
 
 .repeatableBg(@name) {
