@@ -50,6 +50,10 @@
         }
     }
 
+.noRepeatableBgWithSizes(@name; @useSprite: true) {
+    .noRepeatableBg(@name: ''; @useSprite: true);
+    }
+
 .alphaImage(@name: '') {
     @noRepeatableBgNamesNotSprited: ~`addToNoRepeatablesNotSprited(@{name})`;
     }
