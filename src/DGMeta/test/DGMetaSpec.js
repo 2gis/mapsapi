@@ -1,5 +1,19 @@
 describe('DGMeta', function () {
-    var map, meta, ajaxSpy, ajaxStub, demoData, origin;
+    var map, meta, ajaxSpy, ajaxStub, demoData, origin, poiCord, spy;
+
+    function click(el, data){
+        var ev = document.createEvent('MouseEvent');
+            ev.initMouseEvent(
+            "click",
+            true /* bubble */, true /* cancelable */,
+            window, null,
+            0, 0, 0, 0, /* coordinates */
+            false, false, false, false, /* modifier keys */
+            0 /*left*/, null
+        );
+        DG.extend(ev, data || {});
+        el.dispatchEvent(ev);
+    }
 
 
     beforeEach(function () {
@@ -9,7 +23,16 @@ describe('DGMeta', function () {
         });
 
         demoData = [{
-            geometry: {constructor: Object},
+            geometry: {
+                type: 'Polygon',
+                coordinates: [
+                    DG.point(20, 85),
+                    DG.point(40, 85),
+                    DG.point(40, 105),
+                    DG.point(20, 105),
+                    DG.point(20, 85)
+                ]
+            },
             hint: 'Суши Терра, сеть ресторанов японской кухни',
             id: '141806935215016',
             linked: {
@@ -18,6 +41,8 @@ describe('DGMeta', function () {
                 type: 'filial'
             }
         }];
+
+        poiCord = DG.latLng(51.73106181684307, 36.19431853294373);//администрация курской области
 
         meta = DG.Meta.layer(null);
         origin = meta.getOrigin();
@@ -38,6 +63,18 @@ describe('DGMeta', function () {
     describe('#DG.Meta.Layer', function () {
         it('should create and return origin instance', function () {
             expect(origin).to.be.an('object');
+        });
+
+        it('should click on map', function () {
+            origin.setTileData('78713:43453:17:256', demoData);
+            spy = sinon.spy();
+            meta.addTo(map);
+            
+            map.on('click', spy);
+
+            // map.fire('click', {latlng: poiCord});
+            click(map.getPane('tilePane'), {latlng: poiCord});
+            expect(spy.called).to.be.ok();
         });
     });
 
