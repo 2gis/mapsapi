@@ -75,6 +75,13 @@
         <td><code>0</code></td>
         <td>Значение, на которое будет смещен уровень масштабирования в адресе тайла.</td>
     </tr>
+    <tr>
+        <td><code><b>eventBubbling</b></code></td>
+        <td><code>String</code></td>
+        <td><code><span class="string">'transparent'</span>||<span class="string">'layer'</span></td>
+        <td>Способ, которым мета-слой обрабатывает события. Принимает значения <b>layer</b> или <b>transparent</b> (по-умолчанию):<ul><li>transparent &mdash; мета-слой принимает все события и прокидывает их на карту</li><li>layer &mdash; мета-слой принимает события и останавливает их после обработки</li></ul></td>
+    </tr>
+
 </table>
 
 #### События
