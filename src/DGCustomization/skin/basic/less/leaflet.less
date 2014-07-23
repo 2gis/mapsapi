@@ -51,6 +51,13 @@
         line-height: 1.4;
         }
 
+.leaflet-popup {
+    backface-visibility: hidden;
+    perspective: 1000;
+    transform: translate3d(0,0,0);
+    transform-style: preserve-3d;
+    }
+
 .leaflet-popup a {
     outline: none;
     }
@@ -124,7 +131,7 @@
     line-height: 30px;
     cursor: pointer;
 
-    &:hover {
+    .no-touch &:hover {
         border-radius: 2px;
         transition: all .2s;
         }

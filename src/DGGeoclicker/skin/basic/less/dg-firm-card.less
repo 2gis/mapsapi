@@ -1,16 +1,25 @@
-.dg-firm-card__address {
+.dg-firm-card__icon {
     position: relative;
-    margin: 13px 0 9px 24px;
+    padding-left: 24px;
+    margin-bottom: 4px;
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto;
+        background-size: contain;
+        content: '';
+        }
+    }
+
+.dg-firm-card__address {
+    margin: 13px 0 9px 0; 
     font: 16px/16px Arial, sans-serif;
     
     &:before {
-        position: absolute;
-        top: 3px;
-        left: -24px;
         width: 9px;
         height: 11px;
-        background-size: contain;
-        content: '';
         }
     }
     .dg-firm-card__comment {
@@ -22,19 +31,12 @@
         }
 
 .dg-firm-card__phone {
-    position: relative;
     overflow: hidden;
-    padding: 0 0 4px 24px;
     text-overflow: ellipsis;
     
     &:before {
-        position: absolute;
-        top: 3px;
-        left: 0;
         width: 10px;
         height: 10px;
-        background-size: contain;
-        content: '';
         }
     }
     .dg-firm-card__phone-num {
@@ -42,23 +44,15 @@
         }
 
 .dg-firm-card__link {
-    position: relative;
     overflow: hidden;
-    margin: 0 0 4px;
-    padding: 0 0 0 24px;
     text-overflow: ellipsis;
     white-space: nowrap;
     word-wrap: normal;
     line-height: 16px;
     
     &:before {
-        position: absolute;
-        top: 2px;
-        left: 0;
         width: 11px;
         height: 11px;
-        background-size: contain;
-        content: '';
         }
     }
     .dg-firm-card__link a {
@@ -69,7 +63,6 @@
         }
 
     .dg-firm-card__email:before {
-        top: 5px;
         height: 8px;
         }
 
