@@ -5,11 +5,13 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
-    _scrollHeightReserve: 60,
+    _scrollHeightReserve: 60,  
+    _allowedCountries: ['ru','kz','ua'],
 
     options: {
         'showBooklet': true,
-        'showPhotos': true
+        'showPhotos': true,
+        'showRouteSearch': true
     },
 
     initialize: function (controller, view, map, options) { // (Object, Object, Object, Object)
@@ -48,6 +50,11 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return Promise.resolve(this._houseObject);
     },
 
+    _isRouteSearchAllowed : function() { //() -> Boolean
+        var countryCode = this._map.projectDetector.getProject().country_code;
+        return countryCode && this._allowedCountries.indexOf(countryCode) !== -1;
+    },
+
     _firmCardSetup: function () { //() -> Object
         return {
             render: this._view._templates,
@@ -61,7 +68,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             onFirmReady: DG.bind(this._onFirmReady, this),
             onToggle: DG.bind(this._popup.resize, this._popup),
             showBooklet: this.options.showBooklet,
-            showPhotos: this.options.showPhotos
+            showPhotos: this.options.showPhotos,
+            showRouteSearch: this.options.showRouteSearch && this._isRouteSearchAllowed()
         };
     },
 
@@ -83,11 +91,10 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     // init single firm card in case of poi
     _fillFirmCardObject: function (firmId) {
-        var options = this._firmCardSetup(),
-            firmCard;
+        var options = this._firmCardSetup();
 
         this.firmCard = new FirmCard(firmId, options);
-        return firmCard.getContainer();
+        return this.firmCard.getContainer();
     },
 
     _initShortFirmList: function (firms) { //(Object) -> DOMElement

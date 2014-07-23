@@ -72,13 +72,12 @@ DG.Geoclicker.Handler.House.include({
         }
         isShowOrgs && btns.push(this._getShowAllData(attrs.filials_count));
 
-        //UNCOMMENT WHEN ONLINE 4 WILL BE READY
-        /*btns.push({
+        this._isRouteSearchAllowed() && btns.push({
             name: 'goto',
             label: this.t('go_to'),
             icon: true,
             href: this._directionsUrl
-        });*/
+        });
 
         return this._view.render({
             tmpl: 'popupFooterBtns',

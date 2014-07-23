@@ -4,7 +4,7 @@
     <title>DGAjax & DGPromise demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?skin=dark" data-id="dgLoader"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 </head>
 <body>
 
@@ -42,38 +42,6 @@
             geoclicker: true
         });
 
-        function test_jsonp(){
-            console.group('Test JSONP');
-            return DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
-                type: 'jsonp',
-                data: {
-                    output: 'jsonp',
-                    key: 'ruxlih0718',
-                    type: 'filial',
-                    house: 141373143572328,
-                    page: 1
-                },
-                progress: function(data) {
-                    console.log('progress', data);
-                },
-                success: function(data) {
-                    console.log('success', data);
-                },
-                error: function(error) {
-                    console.warn('error', error);
-                },
-                complete: function(){
-                    console.log('complete');
-                }
-            }).then(
-                function(data) { console.log('promise resolve', data) },
-                function(error) { console.warn('promise reject', error) },
-                function(data) { console.log('promise progress', data) }
-            ).ensure(function(){
-                console.groupEnd();
-            });
-        };
-
         function test_get(){
             console.group('Test XHR GET');
             return DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
@@ -100,7 +68,7 @@
                 function(data) { console.log('promise resolve', data) },
                 function(error) { console.warn('promise reject', error) },
                 function(data) { console.log('promise progress', data) }
-            ).ensure(function(){
+            ).then(function(){
                 console.groupEnd();
             });
         };
@@ -137,7 +105,7 @@
         };
 
         DG.DomEvent.addListener( DG.DomUtil.get('sendRequest'), 'click', function(){
-            test_jsonp().then(test_get).then(test_post).then(function(){
+            test_get().then(test_post).then(function(){
                 console.info('Everything seems to be ok!');
             });
         });

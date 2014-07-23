@@ -21,7 +21,7 @@
 
         map.on('projectchange', function (e) {
             // projectchange event
-            var bounds = e.getProject().LatLngBounds;
+            var bounds = e.getProject().latLngBounds;
             currentProjectBound = DG.rectangle(bounds, {color:"#f03", weight:1}).addTo(map);
         });
 

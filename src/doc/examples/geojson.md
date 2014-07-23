@@ -4,13 +4,13 @@
 
 ### Описание
 
-Ниже приведен пример работы с GeoJSON. Для получения подробной информации перейдите в раздел документации <a href="/doc/maps/2.0/manual/geojson">GeoJSON-формат</a>.
+Ниже приведен пример работы с GeoJSON. Для получения подробной информации перейдите в раздел документации <a href="/doc/maps/manual/geojson">GeoJSON-формат</a>.
 
 ### Пример
 
 Отображение объектов, описанных в формате GeoJSON:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -30,7 +30,7 @@
                     "type": "Point",
                     "coordinates": [82.91799, 55.043136]
                 }
-            }, 
+            },
             {
                 "type": "Feature",
                 "properties": {
@@ -40,10 +40,10 @@
                     "type": "Polygon",
                     "coordinates": [
                         [
-                            [82.91699, 55.042136], 
-                            [82.917522, 55.040187], 
-                            [82.918063, 55.040235], 
-                            [82.917540, 55.042184], 
+                            [82.91699, 55.042136],
+                            [82.917522, 55.040187],
+                            [82.918063, 55.040235],
+                            [82.917540, 55.042184],
                             [82.91699, 55.042136]
                         ]
                     ]
@@ -55,16 +55,16 @@
             onEachFeature: function (feature, layer) {
                 layer.bindPopup(feature.properties.info);
             }
-        }).addTo(map);         
+        }).addTo(map);
     });
 </script>
 
     <!DOCTYPE html>
     <html>
         <head>
-            <meta charset='utf-8' />
+            <meta charset="utf-8" />
             <title>GeoJSON</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
             data-id="dgLoader"></script>
         </head>
         <body>
@@ -87,7 +87,7 @@
                                 "type": "Point",
                                 "coordinates": [82.91799, 55.043136]
                             }
-                        }, 
+                        },
                         {
                             "type": "Feature",
                             "properties": {
@@ -97,10 +97,10 @@
                                 "type": "Polygon",
                                 "coordinates": [
                                     [
-                                        [82.91699, 55.042136], 
-                                        [82.917522, 55.040187], 
-                                        [82.918063, 55.040235], 
-                                        [82.917540, 55.042184], 
+                                        [82.91699, 55.042136],
+                                        [82.917522, 55.040187],
+                                        [82.918063, 55.040235],
+                                        [82.917540, 55.042184],
                                         [82.91699, 55.042136]
                                     ]
                                 ]
@@ -112,7 +112,7 @@
                         onEachFeature: function (feature, layer) {
                             layer.bindPopup(feature.properties.info);
                         }
-                    }).addTo(map);         
+                    }).addTo(map);
                 });
             </script>
         </body>

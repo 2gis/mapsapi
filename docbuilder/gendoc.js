@@ -81,8 +81,11 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
                 headerRepeats[text]++;
             }
             return '<h' + level + ' id="' + getHeaderId(text, headerRepeats[text]) + '">' + text + '</h' + level + '>';
-        },
-        html = marked(mdData[i].content.toString());
+        }
+
+        html = marked(mdData[i].content.toString(), {
+            renderer: renderer
+        });
 
         html = html.replace(new RegExp('<ul>', 'g'), '<ul class="list-v-disc">');
         html = html.replace(/{toc}/g, tocHtml);

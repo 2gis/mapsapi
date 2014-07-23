@@ -105,39 +105,6 @@
     </tbody>
 </table>
 
-#### Константы
-
-<table>
-    <thead>
-        <tr>
-            <th>Константа</th>
-            <th>Тип</th>
-            <th>Значение</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code><b>DEG_TO_RAD</b></code></td>
-            <td><code>Number</code></td>
-            <td><code>Math.PI / 180</code></td>
-            <td>Коэффициент для конвертации градусов в радианы.</td>
-        </tr>
-        <tr>
-            <td><code><b>RAD_TO_DEG</b></code></td>
-            <td><code>Number</code></td>
-            <td><code>180 / Math.PI</code></td>
-            <td>Коэффициент для конвертации радиан в градусы.</td>
-        </tr>
-        <tr>
-            <td><code><b>MAX_MARGIN</b></code></td>
-            <td><code>Number</code></td>
-            <td><code>1.0E-9</code></td>
-            <td>Максимальная погрешность для проверки равенства.</td>
-        </tr>
-    </tbody>
-</table>
-
 ### Класс DG.LatLngBounds
 
 Прямоугольная географическая область на карте.
@@ -185,7 +152,7 @@
             <td>
                 <code>DG.latLngBounds(&hellip;)</code>
             </td>
-            <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="/doc/maps/2.0/manual/map#map-fitbounds">fitBounds</a>.</td>
+            <td>Создает объект LatLngBounds на основе географических точек, которые находятся внутри. Удобно использовать, если необходимо подстроить центр и масштаб карты с помощью метода <a href="/doc/maps/manual/map#map-fitbounds">fitBounds</a>.</td>
         </tr>
     </tbody>
 </table>

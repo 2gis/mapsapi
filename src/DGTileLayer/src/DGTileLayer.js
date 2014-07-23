@@ -2,6 +2,11 @@ DG.Map.addInitHook(function () {
     this._tln = 'dgTiles';
 
     this.baseLayer = new (DG.TileLayer.extend({
+        initialize: function (url, options) {
+            this._isDg = true;
+            DG.TileLayer.prototype.initialize.call(this, url, options);
+        },
+
         onRemove: function (map) {
             map.projectDetector.disable();
             DG.TileLayer.prototype.onRemove.call(this, map);

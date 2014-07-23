@@ -288,6 +288,7 @@ gulp.task('build', ['build-scripts', 'copy-svg', 'generate-sprites', 'build-styl
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['copy-private-assets-without-clean']);
     gulp.watch('./vendors/leaflet/src/**/*.*', ['build-leaflet']);
+    gulp.watch('./src/doc/**/*.*', ['doc']);
 });
 
 //service tasks

@@ -1,5 +1,5 @@
 /*global describe:false, it:false, expect:false, afterEach:false */
-describe('DG.ProjectDetector', function () {
+describe('DG.ProjectDetectorInit', function () {
     var map,
         mapContainer = document.createElement('div'),
         maxZoom = 18,

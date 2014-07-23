@@ -3,7 +3,7 @@
 <head>
   <meta charset='utf-8'>
   <title>DGEntrance demo</title>
-  <script src="http://maps.api.2gis.ru/2.0/loader.js?skin=dark" data-id="dgLoader"></script>
+  <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
 
 </head>
 <body>
@@ -86,13 +86,8 @@
             var entrance = entrances[this.id];
             entrance.addTo(map).show();
         }
-
-        map.on('click', function(e) {
-            console.log(e.latlng.lng, e.latlng.lat);
-        });
     });
 
     </script>
-
 </body>
 </html>

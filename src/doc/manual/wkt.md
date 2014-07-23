@@ -36,15 +36,15 @@
                 <nobr>&lt;String | Array&gt; <i>wkt</i>)</nobr>
             </code></td>
             <td><code>Array</code></td>
-            <td>Считывает строку в WKT-формате и возвращает массив точек геометрии в формате <a href="/doc/maps/2.0/manual/base-classes/#класс-dglatlng">LatLng</a> (ее внутреннее представление). Может принимать массив WKT строк.</td>
+            <td>Считывает строку в WKT-формате и возвращает массив точек геометрии в формате <a href="/doc/maps/manual/base-classes/#класс-dglatlng">LatLng</a> (ее внутреннее представление). Может принимать массив WKT строк.</td>
         </tr>
         <tr>
             <td><code><b>DG.Wkt.geoJsonLayer</b>(
                 <nobr>&lt;String&gt; <i>wkt</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/2.0/manual/geojson/#опции">GeoJSON options</a>&gt; <i>options?</i>)</nobr></code></td>
+                <nobr>&lt;<a href="/doc/maps/manual/geojson/#опции">GeoJSON options</a>&gt; <i>options?</i>)</nobr></code></td>
             <td><code>Object</code></td>
             <td>
-            Создает GeoJSON слой. Принимает строку в WKT-формате для отображения данных на карте и объект опций. Формирует геометрию API карт на основе данных, считанных методом DG.Wkt.toGeoJSON. Этот метод поддерживает все опции конструктора класса <a href="/doc/maps/2.0/manual/geojson/#класс-dggeojson">DG.GeoJSON</a>. Например, можно передать параметр <code>DG.Wkt.geoJsonLayer(polygonComponents, {clickable:false})</code>, чтобы сделать геометрию некликабельной.</td>
+            Создает GeoJSON слой. Принимает строку в WKT-формате для отображения данных на карте и объект опций. Формирует геометрию API карт на основе данных, считанных методом DG.Wkt.toGeoJSON. Этот метод поддерживает все опции конструктора класса <a href="/doc/maps/manual/geojson/#класс-dggeojson">DG.GeoJSON</a>. Например, можно передать параметр <code>DG.Wkt.geoJsonLayer(polygonComponents, {clickable:false})</code>, чтобы сделать геометрию некликабельной.</td>
         </tr>
     </tbody>
 </table>
