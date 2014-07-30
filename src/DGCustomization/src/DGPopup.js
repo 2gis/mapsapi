@@ -1,4 +1,4 @@
-// Adds 2GIS-related popup content wrapper and offset
+//2GIS-related popup content wrapper and offset
 (function () {
     var offsetX = DG.configTheme.balloonOptions.offset.x,
         offsetY = DG.configTheme.balloonOptions.offset.y,
@@ -194,9 +194,9 @@
                     this._initBaronScroller();
                     this._initBaron();
                 } else {
-                    DG.DomUtil.removeClass(this._scroller, 'scroller_hidden_true');
-                    DG.DomUtil.addClass(this._scroller, 'scroller_has-header_true');
-                    DG.DomUtil.addClass(this._scroller, 'scroller');
+                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_hidden_true');
+                    DG.DomUtil.addClass(this._scroller, 'dg-scroller_has-header_true');
+                    DG.DomUtil.addClass(this._scroller, 'dg-scroller');
                     if (scrollTop) {
                         this._scroller.scrollTop = scrollTop;
                     }
@@ -204,9 +204,9 @@
                 }
             } else {
                 if (this._isBaronExist) {
-                    DG.DomUtil.addClass(this._scroller, 'scroller_hidden_true');
-                    DG.DomUtil.removeClass(this._scroller, 'scroller_has-header_true');
-                    DG.DomUtil.removeClass(this._scroller, 'scroller');
+                    DG.DomUtil.addClass(this._scroller, 'dg-scroller_hidden_true');
+                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_has-header_true');
+                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller');
                     DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
             }
@@ -249,12 +249,12 @@
 
         _initBaronScroller: function () {
             var contentNode = this._popupStructure.body.parentNode,
-                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'scroller__wrapper', contentNode),
-                scroller = this._scroller = DG.DomUtil.create('div', 'scroller', scrollerWrapper),
-                barWrapper = this._barWrapper = DG.DomUtil.create('div', 'scroller__bar-wrapper', scroller),
+                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'dg-scroller__wrapper', contentNode),
+                scroller = this._scroller = DG.DomUtil.create('div', 'dg-scroller', scrollerWrapper),
+                barWrapper = this._barWrapper = DG.DomUtil.create('div', 'dg-scroller__bar-wrapper', scroller),
                 innerHeight = this.options.maxHeight - this.options.border * 2;
 
-            this._scrollerBar = DG.DomUtil.create('div', 'scroller__bar', barWrapper);
+            this._scrollerBar = DG.DomUtil.create('div', 'dg-scroller__bar', barWrapper);
             scroller.appendChild(this._detachEl(this._popupStructure.body));
 
             innerHeight -= this._getDelta();
@@ -263,19 +263,72 @@
 
             this._isBaronExist = true;
 
-            DG.DomEvent.on(scroller, 'scroll', this._onScroll, this);
+            this._switchEvents();
         },
 
-        _onScroll: function (event) {
-            this.fire('scroll', {originalEvent: event});
+        _onScroll: function (e) {
+            this.fire('scroll', {originalEvent: e});
+        },
+
+        _onClick: function (e) {
+            e.target = e.target || e.srcElement;
+            var href = e.target.getAttribute('href');
+
+            if (e.target.className === 'scroller__bar' ||
+                (href &&
+                    (href.indexOf('http') !== -1 ||
+                    href.indexOf('mailto') !== -1))) { return; }
+
+            if (!this._moving) { 
+                this.fire('click', {originalEvent: e});
+            }
+
+            DG.DomEvent.stop(e);
+        },
+
+        _onStart: function (e) {
+            this._moved = false;
+
+            if (this._moving) { return; }
+
+            var first = e.touches ? e.touches[0] : e;
+
+            this._startPoint = new DG.Point(first.clientX, first.clientY);
+
+            this._toggleTouchEvents();
+        },
+
+        _onEnd: function (e) {
+            this._toggleTouchEvents(true);
+
+            this._onClick(e);
+
+            this._moving = false;
+        },
+
+        _onMove: function (e) {
+
+            if (e.touches && e.touches.length > 1) {
+                this._moved = true;
+                return;
+            }
+
+            var first = (e.touches && e.touches.length === 1 ? e.touches[0] : e),
+                newPoint = DG.point(first.clientX, first.clientY),
+                offset = Math.abs(newPoint.subtract(this._startPoint).y);
+
+            if (!offset || offset < 10) { return; }
+
+            this._moving = this._moved = true;
+
         },
 
         _initBaron: function () {
             var context = this._scrollerWrapper;
             this._baron = graf({
-                scroller: '.scroller',
-                bar: '.scroller__bar',
-                track: '.scroller__bar-wrapper',
+                scroller: '.dg-scroller',
+                bar: '.dg-scroller__bar',
+                track: '.dg-scroller__bar-wrapper',
                 $: function (selector) {
                     var node = {}.toString.call(selector) === '[object String]' ?
                         context.querySelector(selector) : selector;
@@ -307,6 +360,7 @@
             if (!this._map) { return; }
 
             this._container.style.visibility = 'hidden';
+            this._switchEvents(true);
 
             this._clearNode(this._contentNode);
 
@@ -317,7 +371,10 @@
 
             this._updatePopupStructure();
             this.resize();
+
             DG.DomEvent.on(this._wrapper, 'click', DG.DomEvent.stopPropagation);
+            this._switchEvents();
+
             if (DG.Browser.ielt9) {
                 var elem = this._popupStructure.footer;
                 if (elem) {
@@ -413,7 +470,28 @@
         _firePopupClose: function (e) { // (Event)
             DG.DomUtil.TRANSITION && DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
             originalOnClose.call(this, e);
+        },
+
+        _switchEvents: function (on) { // (Boolean)
+            
+            var switcher = on ? 'off' : 'on';
+
+            if (!DG.Browser.touch) {
+                DG.DomEvent[switcher](this._contentNode, 'click', this._onClick, this);
+            } else {
+                DG.DomEvent[switcher](this._contentNode, 'touchstart mousedown mousemove', this._onStart, this);
+            }
+            this._isBaronExist && DG.DomEvent[switcher](this._scroller, 'scroll', this._onScroll, this);
+        },
+
+        _toggleTouchEvents: function (on) {
+            var switcher = on ? 'off' : 'on';
+
+            DG.DomEvent
+                [switcher](this._contentNode, 'touchmove', this._onMove, this)
+                [switcher](this._contentNode, 'touchend', this._onEnd, this);
         }
+
     });
 }());
 

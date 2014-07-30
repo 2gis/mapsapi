@@ -346,6 +346,7 @@ gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['copy-private-assets']);
     gulp.watch('./vendors/leaflet/src/**/*.*', ['build-leaflet']);
+    gulp.watch('./src/doc/**/*.*', ['doc']);
 });
 
 //service tasks
