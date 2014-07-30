@@ -1,4 +1,4 @@
-DG.Ruler.Dictionary.sp = {
+DG.Ruler.Dictionary.es = {
 	km : 'km',
 	m : 'm',
 	delimiter : ','

@@ -1,4 +1,4 @@
-DG.Geoclicker.Handler.Default.Dictionary.sp = DG.extend({
+DG.Geoclicker.Handler.Default.Dictionary.es = DG.extend({
     we_have_not : 'Todavía no hemos recopilado la información sobre este lugar',
     noname : 'Sin nombre',
     place : 'Lugar',
@@ -12,4 +12,4 @@ DG.Geoclicker.Handler.Default.Dictionary.sp = DG.extend({
     show_more_about_sight : 'Read more',
     back_button: 'Atrás',
     n_floors : ['{n} piso', '{n} pisos']
-}, DG.Dictionary.sp);
+}, DG.Dictionary.es);
