@@ -21,6 +21,7 @@ var extend = require('extend'),
     stat = {}; // Files minification statistics
 
 $.imagemin = require('./build/gulp-imagemin');
+$.less = require('./build/gulp-less');
 $.spritesmith = require('gulp.spritesmith');
 
 var projectList,
