@@ -169,8 +169,8 @@ gulp.task('copy-svg', function () {
     return gulp.src('./src/**/img/**/*.svg')
             .pipe(errorHandle())
             .pipe($.imagemin({silent: true}))
-            .pipe($.rename(function (path) {
-                path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+            .pipe($.rename(function (p) {
+                p.dirname = p.dirname.split(path.sep)[2];
             }))
             .pipe(gulp.dest('./build/tmp/img'))
             .pipe($.flatten())
@@ -185,9 +185,9 @@ gulp.task('copy-svg-raster', function (cb) {
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(errorHandle())
                 .pipe($.raster())
-                .pipe($.rename(function (path) {
-                    path.extname = '.png';
-                    path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+                .pipe($.rename(function (p) {
+                    p.extname = '.png';
+                    p.dirname = p.dirname.split(path.sep)[2];
                 }))
                 .pipe($.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
@@ -198,9 +198,9 @@ gulp.task('copy-svg-raster', function (cb) {
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(errorHandle())
                 .pipe($.raster({ scale: 2 }))
-                .pipe($.rename(function (path) {
-                    path.extname = '@2x.png';
-                    path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+                .pipe($.rename(function (p) {
+                    p.extname = '@2x.png';
+                    p.dirname = p.dirname.split(path.sep)[2];
                 }))
                 .pipe($.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
@@ -216,8 +216,8 @@ gulp.task('copy-raster', function () {
     return gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
             .pipe(errorHandle())
             .pipe($.imagemin({silent: true}))
-            .pipe($.rename(function (path) {
-                path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+            .pipe($.rename(function (p) {
+                p.dirname = p.dirname.split(path.sep)[2];
             }))
             .pipe(gulp.dest('./build/tmp/img'))
             .pipe($.flatten())
@@ -350,15 +350,15 @@ gulp.task('watch', function () {
 
 //service tasks
 gulp.task('build-clean', function () {
-    return gulp.src('./public', { read: false }).pipe($.clean());
+    return gulp.src('./public', { read: false }).pipe($.rimraf());
 });
 
 gulp.task('clean-up-tmp-less', function () {
-    return gulp.src(['./build/tmp/less/*'], { read: false }).pipe($.clean());
+    return gulp.src(['./build/tmp/less/*'], { read: false }).pipe($.rimraf());
 });
 
 gulp.task('clean-up-tmp-images', function () {
-    return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe($.clean());
+    return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe($.rimraf());
 });
 
 gulp.task('bump', function () {
