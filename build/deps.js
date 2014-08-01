@@ -62,7 +62,7 @@ var deps = {
             'DGCustomization/lang/DGZoom/it.js',
             'DGCustomization/lang/DGZoom/cs.js',
             'DGCustomization/lang/DGZoom/en.js',
-            'DGCustomization/lang/DGZoom/sp.js'
+            'DGCustomization/lang/DGZoom/es.js'
         ],
         less: {
             all: [
@@ -93,7 +93,7 @@ var deps = {
             'DGAttribution/lang/it.js',
             'DGAttribution/lang/cs.js',
             'DGAttribution/lang/en.js',
-            'DGAttribution/lang/sp.js'
+            'DGAttribution/lang/es.js'
         ],
         less: {
             all: [
@@ -120,7 +120,7 @@ var deps = {
             'DGLocation/lang/it.js',
             'DGLocation/lang/cs.js',
             'DGLocation/lang/en.js',
-            'DGLocation/lang/sp.js'
+            'DGLocation/lang/es.js'
         ],
         less: {
             all: [
@@ -141,7 +141,7 @@ var deps = {
             'DGFullScreen/lang/it.js',
             'DGFullScreen/lang/cs.js',
             'DGFullScreen/lang/en.js',
-            'DGFullScreen/lang/sp.js'
+            'DGFullScreen/lang/es.js'
         ],
         less: {
             all: [
@@ -212,7 +212,7 @@ var deps = {
             'DGGeoclicker/lang/ru.js',
             'DGGeoclicker/lang/en.js',
             'DGGeoclicker/lang/cs.js',
-            'DGGeoclicker/lang/sp.js',
+            'DGGeoclicker/lang/es.js',
 
             '../vendors/firmcard/src/FirmCard.js',
             '../vendors/firmcard/src/FirmCard.DataHelper.js',

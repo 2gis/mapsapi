@@ -1,6 +1,7 @@
 var extend = require('extend'),
     es = require('event-stream'),
     map = require('map-stream'),
+    path = require('path'),
     prettyBytes = require('pretty-bytes'),
 
     gulp = require('gulp'),
@@ -47,7 +48,13 @@ var projectList,
     };
 
 webapiProjects(function (err, projects) {
-    if (err) { throw err; }
+    if (err) {
+        error = new $.util.PluginError({
+          plugin: 'webapiProjects',
+          message: err
+        });
+        errorNotify(error);
+    }
     projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
 });
 
@@ -162,8 +169,8 @@ gulp.task('copy-svg', function () {
     return gulp.src('./src/**/img/**/*.svg')
             .pipe(errorHandle())
             .pipe($.imagemin({silent: true}))
-            .pipe($.rename(function (path) {
-                path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+            .pipe($.rename(function (p) {
+                p.dirname = p.dirname.split(path.sep)[2];
             }))
             .pipe(gulp.dest('./build/tmp/img'))
             .pipe($.flatten())
@@ -178,9 +185,9 @@ gulp.task('copy-svg-raster', function (cb) {
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(errorHandle())
                 .pipe($.raster())
-                .pipe($.rename(function (path) {
-                    path.extname = '.png';
-                    path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+                .pipe($.rename(function (p) {
+                    p.extname = '.png';
+                    p.dirname = p.dirname.split(path.sep)[2];
                 }))
                 .pipe($.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
@@ -191,9 +198,9 @@ gulp.task('copy-svg-raster', function (cb) {
             gulp.src('./src/**/img/**/*.svg')
                 .pipe(errorHandle())
                 .pipe($.raster({ scale: 2 }))
-                .pipe($.rename(function (path) {
-                    path.extname = '@2x.png';
-                    path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+                .pipe($.rename(function (p) {
+                    p.extname = '@2x.png';
+                    p.dirname = p.dirname.split(path.sep)[2];
                 }))
                 .pipe($.imagemin({silent: true}))
                 .pipe(gulp.dest('./build/tmp/img'))
@@ -209,8 +216,8 @@ gulp.task('copy-raster', function () {
     return gulp.src(['./src/**/img/**/*.{png,gif,jpg,jpeg}'])
             .pipe(errorHandle())
             .pipe($.imagemin({silent: true}))
-            .pipe($.rename(function (path) {
-                path.dirname = path.dirname.replace(/^.*\/(.*)\/img$/, '$1');
+            .pipe($.rename(function (p) {
+                p.dirname = p.dirname.split(path.sep)[2];
             }))
             .pipe(gulp.dest('./build/tmp/img'))
             .pipe($.flatten())
@@ -339,19 +346,20 @@ gulp.task('build', ['build-clean', 'clean-up-tmp-images'], function (cb) {
 gulp.task('watch', function () {
     gulp.watch('./private/*.*', ['copy-private-assets']);
     gulp.watch('./vendors/leaflet/src/**/*.*', ['build-leaflet']);
+    gulp.watch('./src/doc/**/*.*', ['doc']);
 });
 
 //service tasks
 gulp.task('build-clean', function () {
-    return gulp.src('./public', { read: false }).pipe($.clean());
+    return gulp.src('./public', { read: false }).pipe($.rimraf());
 });
 
 gulp.task('clean-up-tmp-less', function () {
-    return gulp.src(['./build/tmp/less/*'], { read: false }).pipe($.clean());
+    return gulp.src(['./build/tmp/less/*'], { read: false }).pipe($.rimraf());
 });
 
 gulp.task('clean-up-tmp-images', function () {
-    return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe($.clean());
+    return gulp.src(['./build/tmp/img/*', './build/tmp/img_all/*'], { read: false }).pipe($.rimraf());
 });
 
 gulp.task('bump', function () {
@@ -448,7 +456,7 @@ gulp.task('collect-images-stats', ['copy-svg', 'copy-svg-raster', 'copy-raster']
 });
 
 function saveSize(file, cb) {
-    var name = file.path.split('/').pop();
+    var name = path.basename(file.path.split('/').pop());
     stat[name] = prettyBytes(file.contents.length);
     cb(null, file);
 }

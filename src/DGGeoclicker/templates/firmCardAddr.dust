@@ -1,4 +1,4 @@
-<address class="dg-firm-card__address">
+<address class="dg-firm-card__address dg-firm-card__icon">
     {#data}
         {address}
         {#comment}

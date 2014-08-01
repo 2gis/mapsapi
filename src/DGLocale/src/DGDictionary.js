@@ -1,4 +1,3 @@
-// ru
 DG.Dictionary = {};
 
 DG.Dictionary.ru = {
@@ -16,7 +15,6 @@ DG.Dictionary.ru = {
     }
 };
 
-// en
 DG.Dictionary.en = {
     pluralRules: function (n) { // (Number)
         if (n === 1) { // 1
@@ -27,7 +25,6 @@ DG.Dictionary.en = {
     }
 };
 
-// it
 DG.Dictionary.it = {
     pluralRules: function (n) { // (Number)
         if (n === 1) { // 1
@@ -38,15 +35,13 @@ DG.Dictionary.it = {
     }
 };
 
-// cs
 DG.Dictionary.cs = {
     pluralRules: function (n) { // (Number)
         return (n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;
     }
 };
 
-// sp
-DG.Dictionary.sp = {
+DG.Dictionary.es = {
     pluralRules: function (n) { // (Number)
         return (n >= 2) ? 1 : 0;
     }
