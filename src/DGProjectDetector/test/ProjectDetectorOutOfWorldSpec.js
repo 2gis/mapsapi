@@ -459,12 +459,13 @@ describe('DG.ProjectDetectorOut', function () {
 
     describe('#should fire', function () {
 
-        it('\'projectchange\' event', function () {
+        //TODO: uncomment when 'projectchange' event firing become sync
+        /*it('\'projectchange\' event', function () {
             spy = sinon.spy();
             map.on('projectchange', spy);
             map.setView(project2, maxZoom);
             expect(spy.called).to.be.ok();
-        });
+        });*/
 
         it('\'projectleave\' event', function () {
             spy = sinon.spy();

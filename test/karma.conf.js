@@ -4,6 +4,12 @@ module.exports = function(config) {
 
         frameworks: ['mocha', 'expect', 'sinon'],
 
+        client: {
+            mocha: {
+                timeout: 5000
+            }
+        },
+
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress', 'junit', 'teamcity'
         // CLI --reporters progress
