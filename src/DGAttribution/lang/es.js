@@ -1,4 +1,4 @@
-DG.Control.Attribution.Dictionary.sp = {
+DG.Control.Attribution.Dictionary.es = {
 	copyright_logo : 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
 	copyright_apilink : 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
 	copyright_license : 'http://law.2gis.cl/licensing-agreement/',

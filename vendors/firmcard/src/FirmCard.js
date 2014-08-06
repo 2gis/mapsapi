@@ -17,6 +17,8 @@ FirmCard.prototype = {
         if (firmId !== this._firmId) {
             this._firmContentObject = {};
             this._renderCardById(firmId);
+        } else {
+            this._toggleEventHandlers();
         }
 
         return this._firmContentObject;
@@ -26,16 +28,21 @@ FirmCard.prototype = {
         return this._schedule;
     },
 
+    getContainer: function () {
+        return this._container;
+    },
+
     _renderCardById: function (firmId) {
         var self = this;
 
         this.options.ajax(firmId).then(function (res) {
+            if (!res) { return false; }
             var data = res.result.data;
             if (data !== 'undefined') {
                 self._firmData = data[0];
                 self._firmId = firmId;
                 self._renderFirmCard();
-                self._initEventHandlers();
+                self._toggleEventHandlers();
             }
         });
     },
@@ -142,12 +149,12 @@ FirmCard.prototype = {
                         icon: true
             });
         }
-        
-       if( this.options.showRouteSearch ) {
+
+        if (this.options.showRouteSearch) {
             btns.push({ name: 'goto',
-                    label: this.dict.t(this.options.lang, 'btnFindWay'),
-                    icon: true,
-                    href: this.options.gotoUrl
+                        label: this.dict.t(this.options.lang, 'btnFindWay'),
+                        icon: true,
+                        href: this.options.gotoUrl
             });
         }
 
@@ -202,68 +209,55 @@ FirmCard.prototype = {
         return links;
     },
 
-    _onFooterBtnClick: function (e) {
-        e = e || window.event;
-        var target = e.target || e.srcElement;
-        if (target && target.nodeName === 'A') {
-            if (target.className.indexOf('dg-popup__button_name_firm-card-back') > -1) {
-                this.options.backBtn();
-            } else if (target.className.indexOf('dg-popup__button_name_show-entrance') > -1) {
-                var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
-                ent.addTo(this.options.map).show();
+    _events: {
+        'dg-popup__button_name_firm-card-back': function() {
+            this.options.backBtn();
+            this._toggleEventHandlers(true);
+        },
+        'dg-popup__button_name_show-entrance': function() {
+            var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
+            ent.addTo(this.options.map).show();
+        },
+        'dg-schedule__today': function(target) {
+            this._onToggleSchedule(target);
+        }
+    },
+
+    _toggleEventHandlers: function (flag) {
+        this.options.popup[flag ? 'off' : 'on']('click', this._onClick, this);      
+    },
+
+    _onClick: function (e) {
+        var target = e.originalEvent.target;
+
+        for (var eventClass in this._events) {
+            if (this._events.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
+                this._events[eventClass].call(this, target);
+                return;
             }
         }
     },
 
-    _onToggleSchedule: function (e) {
+    _onToggleSchedule: function (target) {
         var schedule = this._container.querySelector('.dg-schedule__table'),
             forecast = this._container.querySelector('.dg-schedule__now'),
-            showClass = ' dg-schedule__today_shown_true',
-            target = e.target || e.srcElement;
+            showClass = ' dg-schedule__today_shown_true';
 
         if (!schedule) { return; }
 
-        if (target && target.nodeName === 'DIV' && target.className.indexOf('dg-schedule__today') !== -1) {
-            if (schedule.style.display === 'block') {
-                schedule.style.display = 'none';
-                forecast.style.display = 'block';
-                target.className = target.className.replace(showClass, '');
-            } else {
-                forecast.style.display = 'none';
-                schedule.style.display = 'block';
-                target.className += showClass;
-            }
-
-            if (this.options.onToggle) {
-                this.options.onToggle();
-            }
-        }
-    },
-
-    _initEventHandlers: function () {
-
-        var eventName = this._hasTouch() ? 'touchend' : 'click',
-            footer = this._footerContainer,
-            container = this._container;
-
-        if (container.addEventListener) { //TODO: make this code better
-            if (footer) {
-                footer.addEventListener(eventName, this._bind(this._onFooterBtnClick, this), false);
-            }
-            container.addEventListener(eventName, this._bind(this._onToggleSchedule, this), false);
+        if (schedule.style.display === 'block') {
+            schedule.style.display = 'none';
+            forecast.style.display = 'block';
+            target.className = target.className.replace(showClass, '');
         } else {
-            if (footer) {
-                footer.attachEvent('on' + eventName, this._bind(this._onFooterBtnClick, this));
-            }
-            container.attachEvent('on' + eventName, this._bind(this._onToggleSchedule, this));
+            forecast.style.display = 'none';
+            schedule.style.display = 'block';
+            target.className += showClass;
         }
-    },
 
-    _bind: function (fn, obj) { // (Function, Object) -> Function
-        var args = arguments.length > 2 ? Array.prototype.slice.call(arguments, 2) : null;
-        return function () {
-            return fn.apply(obj, args || arguments);
-        };
+        if (this.options.onToggle) {
+            this.options.onToggle();
+        }
     },
 
     _setOptions: function (options) {

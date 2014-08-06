@@ -111,7 +111,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         this._desc = this._popup.findElement('.dg-map-geoclicker__sight-description');
 
         if (this._link && this._desc) {
-            this._addEventHandler('DgShowMoreClick', this._link, 'click', DG.bind(this._showMoreText, this));
+            this._addEventHandler('dg-map-geoclicker__show-more-sights-link', DG.bind(this._showMoreText, this));
         }
     },
 

@@ -61,8 +61,11 @@ function isNull(project) {
 
 function load(cb) {
     request(url, function (err, resp, body) {
+        if (err) {
+            return cb(err);
+        }
         var data = JSON.parse(body);
-        cb(err, data.result.data.filter(isNull).map(parse));
+        cb(null, data.result.data.filter(isNull).map(parse));
     });
 }
 
