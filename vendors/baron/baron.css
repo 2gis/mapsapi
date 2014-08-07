@@ -1,29 +1,29 @@
 /* CSS styles in this file are need for proper Baron work */
-.wrapper {
+.dg-wrapper {
     position: relative;
     overflow: hidden;
 }
-.scroller {
+.dg-scroller {
     height: 100%;
     overflow-y: scroll;
     border: 0;
 }
-.scroller::-webkit-scrollbar { /* Preventing webkit bug of horizontal scrolling */
+.dg-scroller::-webkit-scrollbar { /* Preventing webkit bug of horizontal scrolling */
     width: 0;
 }
-.scroller__bar { /* The bar. You should define width, right and background */
+.dg-scroller__bar { /* The bar. You should define width, right and background */
     position: absolute;    
     z-index: 1;
     right: 0;
     width: 10px;
     background: #999;
 }
-.scroller__bar_h {
+.dg-scroller__bar_h {
     bottom: 2px;
     height: 8px;
 }
 
-.header__title {
+.dg-header__title {
     width: 100%;
     margin: 0;
     -moz-box-sizing: border-box;
@@ -32,7 +32,7 @@
 
     /* pointer-events: none; /* IE9+ https://developer.mozilla.org/en-US/docs/CSS/pointer-events */
 }
-.header__title_state_fixed {
+.dg-header__title_state_fixed {
     position: absolute;
     z-index: 1; /* Removing flicker effect */
 }

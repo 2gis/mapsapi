@@ -1,14 +1,14 @@
 <div class="dg-attribution__copyright">
     <ul class="dg-attribution__links">
-        <li>
+        <li class="dg-attribution__link-item">
             {?osm}
             © <a href="http://www.openstreetmap.org/copyright" target="_blank" class="dg-attribution__link">OpenStreetMap contributors</a>,{~s}
             {/osm}
             <a href="{copyright_apilink}" target="_blank" class="dg-attribution__link">{^osm}{work_on}{~s}{/osm}{API_2GIS}</a>
         </li>
-        <li>
+        <li class="dg-attribution__link-item">
             <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>
         </li>
     </ul>
-    <a href="{copyright_logo}" target="_blank" class="dg-attribution__logo_url"></a>
+    <a href="{copyright_logo}" target="_blank" class="dg-attribution__logo-url"></a>
 </div>

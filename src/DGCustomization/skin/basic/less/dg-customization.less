@@ -21,12 +21,13 @@
     .noRepeatableBg('DGCustomization__marker', false);
     transform-origin: 50% 100%;
     animation: dg-customization__show-marker .2s;
+    background-size: 22px 34px;
 
     &:focus {
         outline: 0;
         }
 
-    &:hover {
+    .no-touch &:hover {
         .noRepeatableBg('DGCustomization__markerHover', false);
         }
 

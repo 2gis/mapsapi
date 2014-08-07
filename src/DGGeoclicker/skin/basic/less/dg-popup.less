@@ -35,7 +35,7 @@
                 width: 100%;
                 }
 
-            &:hover {
+            .no-touch &:hover {
                 transition: all .2s; /* @TODO: all? */
                 }
             }
@@ -55,8 +55,18 @@
         height: 7px;
         }
 
+    .dg-popup__button_name_firm-card-back:before {
+        width: 9px;
+        height: 6px;
+        }
+
+    .dg-popup__button_name_firm-list-back:before {
+        width: 9px;
+        height: 6px;
+        }
+
     .dg-popup__button_name_back:before {
-        width: 10px;
+        width: 9px;
         height: 6px;
         }
 
@@ -71,7 +81,7 @@
     }
 
 .dg-popup__header-links {
-    margin: 0 18px 8px 0;
+    margin: 8px 18px 0 0;
     }
 
 .dg-popup__header-title_for_firmcard {
@@ -89,8 +99,7 @@
         display: block;
         white-space: normal;
         font: 22px/24px 'SuisseCond', 'Arial narrow', Arial, sans-serif;
-        margin: 0 18px 8px 0;
-        margin: 0 18px 8px 0;
+        margin: 0 18px 0 0;
         }
         .dg-popup__header-link {
             display: inline-block;
@@ -130,6 +139,7 @@
             background-size: 10px 1px;
             background-repeat: repeat-x;
             text-decoration: none;
+            -webkit-tap-highlight-color:rgba(0,0,0,0);
             }
 
         .dg-popup__link_type_flamp_reviews {
