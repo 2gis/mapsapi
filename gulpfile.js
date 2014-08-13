@@ -11,6 +11,8 @@ var extend = require('extend'),
     fs = require('fs'),
     runSequence = require('run-sequence'),
 
+    test = require('./test/test.js'),
+
     webapiProjects = require('./build/2gis-project-loader'),
 
     gendoc = require('./docbuilder/gendoc.js'),
@@ -299,6 +301,9 @@ gulp.task('test', ['build'], function () {
                 .pipe(errorHandle())
                 .pipe($.karma({
                     configFile: './test/karma.conf.js',
+                    browsers: test.getBrowsers(),
+                    reporters: test.getReporters(),
+                    junitReporter: test.getJunitReporter(),
                     action: 'run'
                 }))
                 .on('error', function(err) {
