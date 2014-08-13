@@ -463,7 +463,7 @@ gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function (cb) {
                         variables: {
                             skinName: skinName,
                             baseURL: '\'__BASE_URL__\'',
-                            baseIEURL: '"http://maps.api.2gis.ru/2.0"',
+                            spritesURL: '\'__SPRITES_URL__\'',
 
                             mobile: false,
                             ie8: true,
@@ -572,8 +572,8 @@ function buildCss(options, enableSsl) {
 
     lessPrerequirements = deps.lessHeader({
         variables: {
-            baseURL: '"__BASE_URL__"',
-            baseIEURL: '"http://maps.api.2gis.ru/2.0"',
+            baseURL: '\'__BASE_URL__\'',
+            spritesURL: '\'__SPRITES_URL__\'',
 
 
             mobile: options.mobile,
