@@ -135,16 +135,9 @@ gulp.task('build-styles', buildStylesPreTasks, function (cb) {
         mobile: false
     }];
 
-    var cssBuildRules;
+    var cssBuildRules = isTestTaskRun ? buildRules : testRules;
 
-    if (isTestTaskRun) {
-        cssBuildRules = buildRules;
-    }
-    else {
-        cssBuildRules = testRules;
-    }
-
-    var css = cssBuildRules.map(function(list) {
+    var cssStream = cssBuildRules.map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
         if (!bandle) { return false; }
         return bandle
@@ -158,7 +151,7 @@ gulp.task('build-styles', buildStylesPreTasks, function (cb) {
             .pipe(gulp.dest('./public/css/'));
     }).filter(Boolean);
 
-    var stream = es.concat.apply(null, css);
+    var stream = es.concat.apply(null, cssStream);
 
     stream.on('end', cb);
 });
@@ -332,7 +325,7 @@ gulp.task('test', ['build'], function () {
 
     if (modulesToTest.length) {
         modulesToTest.forEach(function (moduleName) {
-            sourcesList.push('./src/' + moduleName + '/test/' + moduleName + 'Spec.js');
+            sourcesList.push('./src/' + moduleName + '/test/*Spec.js');
         });
     }
     else {
