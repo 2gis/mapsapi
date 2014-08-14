@@ -52,7 +52,7 @@ DG.Map.include({
     },
 
     setView: function (center, zoom, options) {
-        this._resctrictZoom(center);
+        this._restrictZoom(center);
 
         zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
         center = this._limitCenter(DG.latLng(center), zoom, this.options.maxBounds);
@@ -94,7 +94,7 @@ DG.Map.include({
     panBy: function (offset, options) {
         var map = panBy.call(this, offset, options);
 
-        var zoom = this._resctrictZoom(this.getCenter());
+        var zoom = this._restrictZoom(this.getCenter());
         if (this.getZoom() > zoom) {
             this.setZoom(zoom);
         }
@@ -103,7 +103,7 @@ DG.Map.include({
     },
 
     getBoundsZoom: function (bounds, inside, padding) {
-        this._resctrictZoom(bounds);
+        this._restrictZoom(bounds);
         return getBoundsZoom.call(this, bounds, inside, padding);
     },
 
@@ -118,7 +118,7 @@ DG.Map.include({
         e.type === 'layeradd' ? this._tln++ : this._tln--;
     },
 
-    _resctrictZoom: function (coords) {
+    _restrictZoom: function (coords) {
         if (this._layers &&
             this.projectDetector.enabled() &&
             (this._tln === 0 || this._tln === 'dgTiles')) {
@@ -135,6 +135,7 @@ DG.Map.include({
                 return mapOptions.maxZoom;
             } else {
                 dgTileLayer.options.maxZoom = project ? project.maxZoom : '__PROJECT_LEAVE_MAX_ZOOM__';
+                dgTileLayer.options.maxNativeZoom = dgTileLayer.options.maxZoom;
                 this._updateZoomLevels();
 
                 return dgTileLayer.options.maxZoom;
