@@ -211,7 +211,7 @@ gulp.task('copy-svg', function () {
 });
 
 gulp.task('copy-svg-raster', function (cb) {
-    $.util.log($.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
+    $.util.log($.util.colors.green('Converting SVG to PNG. It can take a long time, please, be patient'));
 
     var stream = es.concat(
             gulp.src('./src/**/img/**/*.svg')
@@ -313,14 +313,36 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
 });
 
 gulp.task('test', ['build'], function () {
-    return gulp.src(['./vendors/leaflet/spec/before.js',
-                     './public/js/script.js',
-                     './vendors/leaflet/spec/after.js',
-                     './node_modules/happen/happen.js',
-                     './src/**/test/*Spec.js',
-                     './vendors/leaflet/spec/suites/SpecHelper.js',
-                     './vendors/leaflet/spec/suites/**/*Spec.js'
-                ])
+    var cliOptions = extend({}, $.util.env),
+        modulesToTest = [],
+        sourcesList = [
+            './vendors/leaflet/spec/before.js',
+            './public/js/script.js',
+            './vendors/leaflet/spec/after.js',
+            './node_modules/happen/happen.js'
+        ];
+
+    if ('m' in cliOptions) {
+        modulesToTest = cliOptions.m.split(',');
+    }
+
+    if ('module' in cliOptions) {
+        modulesToTest = cliOptions.module.split(',');
+    }
+
+    if (modulesToTest.length) {
+        modulesToTest.forEach(function (moduleName) {
+            sourcesList.push('./src/' + moduleName + '/test/' + moduleName + 'Spec.js');
+        });
+    }
+    else {
+        sourcesList.push('./src/**/test/*Spec.js');
+    }
+
+    sourcesList.push('./vendors/leaflet/spec/suites/SpecHelper.js');
+    sourcesList.push('./vendors/leaflet/spec/suites/**/*Spec.js');
+
+    return gulp.src(sourcesList)
                 .pipe(errorHandle())
                 .pipe($.karma({
                     configFile: './test/karma.conf.js',
