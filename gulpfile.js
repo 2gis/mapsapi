@@ -97,7 +97,16 @@ gulp.task('lint', function () {
                 .pipe($.jshint.reporter('fail'));
 });
 
-gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function (cb) {
+var isTestTaskRun = $.util.env._.indexOf('test') == -1;
+
+var buildStylesPreTasks = [];
+
+if (isTestTaskRun) {
+    buildStylesPreTasks.push('collect-images-stats');
+    buildStylesPreTasks.push('generate-sprites');
+}
+
+gulp.task('build-styles', buildStylesPreTasks, function (cb) {
     var cliOptions = extend({}, $.util.env);
 
     cliOptions.mobile = cliOptions.base64 === 'false';
@@ -106,21 +115,36 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
         cliOptions.sprite = cliOptions.sprite === 'true';
     }
 
-    var css = [
-       {
-            size: true
-       },
-       {
-            ie8: true,
-            sprite: true,
-            name: 'full'
-       },
-       {
-            ie8: true,
-            excludeBaseCss: true,
-            name: 'ie'
-       }
-    ].map(function(list) {
+    var buildRules = [{
+        size: true
+    },
+    {
+        ie8: true,
+        sprite: true,
+        name: 'full'
+    },
+    {
+        ie8: true,
+        excludeBaseCss: true,
+        name: 'ie'
+    }];
+
+    var testRules = [{
+        ie8: true,
+        sprite: false,
+        mobile: false
+    }];
+
+    var cssBuildRules;
+
+    if (isTestTaskRun) {
+        cssBuildRules = buildRules;
+    }
+    else {
+        cssBuildRules = testRules;
+    }
+
+    var css = cssBuildRules.map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
         if (!bandle) { return false; }
         return bandle
@@ -288,7 +312,6 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
     stream.on('end', cb);
 });
 
-//TODO: refactor this config
 gulp.task('test', ['build'], function () {
     return gulp.src(['./vendors/leaflet/spec/before.js',
                      './public/js/script.js',
