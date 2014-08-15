@@ -4,6 +4,51 @@ DG.Control.Attribution.include({
     options: {
         position: 'bottomright'
     },
+
+    _getLink: function(linkType) {
+        var dictionary = {
+            ru: {
+                copyright_logo: 'http://info.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'http://api.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'http://help.2gis.ru/licensing-agreement/'
+            },
+
+            it: {
+                copyright_logo: 'http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'http://2gis.it/'
+            },
+
+            cz: {
+                copyright_logo: 'http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'http://law.2gis.cz/licensing-agreement/'
+            },
+
+            cl: {
+                copyright_logo: 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'http://law.2gis.cl/licensing-agreement/'
+            },
+
+            cy: {
+                copyright_logo: 'http://info.2gis.com.cy/lemesos?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'http://info.2gis.com.cy/lemesos?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'http://law.2gis.com.cy/licensing-agreement/'
+            },
+
+            ae: {
+                copyright_logo: 'http://info.2gis.ae/dubai?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'http://info.2gis.ae/dubai?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'http://law.2gis.ae/licensing-agreement/'
+            }
+        };
+
+        var countryCode = (this._countryCode in dictionary) ? this._countryCode : 'ru';
+
+        return dictionary[countryCode][linkType];
+    },
+
     onAdd: function (map) {
         if (!map._copyright) {
             map._copyright = true;
@@ -11,11 +56,15 @@ DG.Control.Attribution.include({
         }
         return this._onAdd.call(this, map);
     },
-    _update: function (lang, osm) {
+    _update: function (lang, osm, countryCode) {
         if (!this._map) { return; }
 
         if (typeof osm !== 'undefined') {
             this._osm = osm;
+        }
+
+        if (typeof countryCode !== 'undefined') {
+            this._countryCode = countryCode;
         }
 
         var attribs = [];
@@ -50,10 +99,10 @@ DG.Control.Attribution.include({
             'osm': this._osm,
             'work_on': this.t('work_on'),
             'lang': lang || this._map.getLang(),
-            'copyright_apilink': this.t('copyright_apilink'),
-            'copyright_license': this.t('copyright_license'),
+            'copyright_apilink': this._getLink('copyright_apilink'),
+            'copyright_license': this._getLink('copyright_license'),
+            'copyright_logo': this._getLink('copyright_logo'),
             'license_agreement': this.t('license_agreement'),
-            'copyright_logo': this.t('copyright_logo'),
             'API_2GIS': this.t('API_2GIS')
         };
     },
