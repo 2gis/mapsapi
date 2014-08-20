@@ -7,7 +7,6 @@ var extend = require('extend'),
     gulp = require('gulp'),
     $ = require('gulp-load-plugins')(),
 
-    path = require('path'),
     glob = require('glob'),
     fs = require('fs'),
     runSequence = require('run-sequence'),
@@ -23,8 +22,10 @@ var extend = require('extend'),
 $.imagemin = require('./build/gulp-imagemin');
 $.spritesmith = require('gulp.spritesmith');
 
+require('./build/fixFileCache')($.cache.fileCache, './build/tmp'); // fix file cache due to buggy realization
+
 var projectList,
-    errorNotify = function() {
+    errorNotify = function(e) {
         var args = Array.prototype.slice.call(arguments);
 
         error = true;
@@ -36,6 +37,9 @@ var projectList,
             },
             function() {
                 console.error($.util.colors.red('Build failure'));
+                if (e.stack) {
+                    console.error(e.stack);
+                }
                 process.exit(1);
             }
         ).apply(this, args);
