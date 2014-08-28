@@ -57,6 +57,10 @@ DG.ProjectDetector = DG.Handler.extend({
         }
 
         this._searchProject();
+
+        if (this.project) {
+            this._map.attributionControl._update(null, this._osmViewport, this.project.country_code);
+        }
     },
 
     _loadProjectList: function () {
