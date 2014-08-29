@@ -1,10 +1,9 @@
 .dg-zoom {
     width: 40px;
     height: 74px;
-    
-    .leaflet-bottom & {
-        margin-bottom: 40px;
-        }
+    }
+.leaflet-bottom .dg-zoom {
+    margin-bottom: 40px;
     }
     .dg-zoom__in {
         position: absolute;
@@ -58,17 +57,33 @@
                 height: 14px;
                 content: '';
                 }
-            .no-touch &:hover:before,
-            .no-touch &:hover:after {
+            }
+            .no-touch .dg-zoom__button_type_in:hover:before,
+            .no-touch .dg-zoom__button_type_in:hover:after {
                 background: #515151;
                 background: rgba(0,0,0,.6);
                 }
-            .leaflet-disabled &:before,
-            .leaflet-disabled &:after {
+            .no-touch .leaflet-disabled .dg-zoom__button_type_in:hover:before,
+            .no-touch .leaflet-disabled .dg-zoom__button_type_in:hover:after {
+                background: #686868;
+                background: rgba(0,0,0,.5);
+                }
+        .leaflet-disabled .dg-zoom__button_type_in {
+            box-shadow: none;
+
+            &:before,
+            &:after {
                 box-shadow: none;
                 }
             }
-            
+        .no-touch .leaflet-disabled .dg-zoom__button_type_in:hover {
+            box-shadow: none;
+
+            &:before,
+            &:after {
+                box-shadow: none;
+                }
+            }
             .dg-zoom__button_type_out {
                 &:before {
                     top: -6px;
@@ -90,8 +105,20 @@
                     box-shadow: 0 1px #fff;
                     content: '';
                     }
-                .no-touch &:hover:after {
-                    background: #515151;
-                    background: rgba(0,0,0,.6);
+                }
+            .no-touch .dg-zoom__button_type_out:hover:after {
+                background: #515151;
+                background: rgba(0,0,0,.6);
+                }
+            .no-touch .leaflet-disabled .dg-zoom__button_type_out:hover:after {
+                background: #686868;
+                background: rgba(0,0,0,.5);
+                }
+            .leaflet-disabled .dg-zoom__button_type_out {
+                box-shadow: none;
+
+                &:before,
+                &:after {
+                    box-shadow: none;
                     }
                 }
