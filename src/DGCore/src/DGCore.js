@@ -1,4 +1,5 @@
 //DG inheritance
+var oldDG = window.DG;
 DG = new (
     (function () {
         var DgApi = function () {},
@@ -10,6 +11,13 @@ DG = new (
         return DgApi;
     })()
 )();
+
+for (var prop in oldDG) {
+    if (oldDG.hasOwnProperty(prop) && typeof DG[prop] === 'undefined') {
+        DG[prop] = oldDG[prop];
+    }
+}
+
 window.__dgApi__ = window.__dgApi__ || {};
 DG.version = window.__dgApi__.version;
 DG.debug = window.__dgApi__.debug;

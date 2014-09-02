@@ -152,7 +152,7 @@
         requestJs();
     }
 
-    window.DG = {};
+    window.DG = window.DG || {};
     window.DG.ready = false;
     window.__dgApi__ = {
         callbacks: [setReady],
