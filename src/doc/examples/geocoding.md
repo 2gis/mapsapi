@@ -74,7 +74,7 @@
                     DG.ajax({
                         url: 'http://catalog.api.2gis.ru/geo/search',
                         data: {
-                    key: 'ruxlih0718',
+                    key: '12345',
                     version: 1.3,
                     q: 'Москва, Красная площадь, 2'
                 },
@@ -164,7 +164,7 @@
                         url: 'http://catalog.api.2gis.ru/geo/search',
                         data: {
                             output: 'jsonp',
-                            key: 'ruxlih0718',
+                            key: '12345',
                             version: 1.3,
                             q: latLng[1] + ',' + latLng[0]
                         },
@@ -253,7 +253,7 @@
                     DG.ajax({
                         url: 'http://catalog.api.2gis.ru/geo/search',
                         data: {
-                            key: 'ruxlih0718',
+                            key: '12345',
                             version: 1.3,
                             q: latLng[1] + ',' + latLng[0],
                             types: 'metro',

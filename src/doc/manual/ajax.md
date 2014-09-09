@@ -11,7 +11,7 @@
     var promise = DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
         type: 'get',
         data: {
-            key: 'ruxlih0718',
+            key: '12345',
             type: 'filial',
             house: 141373143572328,
             page: 1
