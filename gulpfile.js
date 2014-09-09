@@ -63,7 +63,7 @@ webapiProjects(function (err, projects) {
         });
         errorNotify(error);
     }
-    projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+    projectList = 'DG.fallbackProjectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
 });
 
 //public CLI API
@@ -176,6 +176,7 @@ gulp.task('copy-private-assets', function (cb) {
 
         gulp.src('./private/loader.js')
             .pipe(errorHandle())
+            .pipe($.frep(config.cfgParams))
             .pipe($.uglify())
             .pipe(gulp.dest('./public/'))
         );

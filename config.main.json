@@ -7,7 +7,7 @@
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
     "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
 
-    "PPNOT_LINK": "http://2gis.ru/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
+    "PPNOT_LINK": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
     "PHOTOS_LINK": "http://2gis.ru/photos/{id}",
 
     "POI_LAYER_MIN_ZOOM": 15,
@@ -16,6 +16,7 @@
 
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
+    "REGION_LIST_FIELDS": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain",
     "FIRM_INFO_FIELDS": "data.reviews,data.geo.id,data.photos",
     "GEO_ADDITIONAL_FIELDS": "data.geometry.selection,data.attributes.filials,data.attributes.sight",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",

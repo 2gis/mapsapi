@@ -19,12 +19,16 @@ describe('2gis-project-loader module', function(done){
 	it('should return fileds', function(done){
 		loader(function(err, projects) {
 			Object.keys(projects[0]).should.eql([
+				'id',
+				'name',
+				'type',
+				'country_code',
 				'code',
-				'minZoom',
-				'maxZoom',
-				'timeOffset',
-				'traffic',
-				'bound'
+				'domain',
+				'zoom_level',
+				'flags',
+				'time_zone',
+				'bounds'
 			]);
 			done();
 		});

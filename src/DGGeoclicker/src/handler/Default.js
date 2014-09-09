@@ -43,6 +43,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
     _getDirectionsUrl: function (name) {
         return DG.Util.template('__PPNOT_LINK__', {
+            'domain': this._map.projectDetector.getProject().domain,
             'projectCode': this._map.projectDetector.getProject().code,
             'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
             'zoom': this._map.getZoom(),
