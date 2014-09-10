@@ -13,11 +13,12 @@ var extend = require('extend'),
 
     test = require('./test/test.js'),
 
-    webapiProjects = require('./build/2gis-project-loader'),
-
     gendoc = require('./docbuilder/gendoc.js'),
+
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config),
+    webapiProjects = require('./build/2gis-project-loader')(config),
+
     error,
     stat = {}; // Files minification statistics
 
@@ -97,16 +98,7 @@ gulp.task('lint', function () {
                 .pipe($.jshint.reporter('fail'));
 });
 
-var isTestTaskRun = $.util.env._.indexOf('test') !== -1;
-
-var buildStylesPreTasks = [];
-
-if (!isTestTaskRun) {
-    buildStylesPreTasks.push('collect-images-stats');
-    buildStylesPreTasks.push('generate-sprites');
-}
-
-gulp.task('build-styles', buildStylesPreTasks, function (cb) {
+gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function (cb) {
     var cliOptions = extend({}, $.util.env);
 
     cliOptions.mobile = cliOptions.base64 === 'false';
@@ -115,29 +107,21 @@ gulp.task('build-styles', buildStylesPreTasks, function (cb) {
         cliOptions.sprite = cliOptions.sprite === 'true';
     }
 
-    var buildRules = [{
-        size: true
-    },
-    {
-        ie8: true,
-        sprite: true,
-        name: 'full'
-    },
-    {
-        ie8: true,
-        excludeBaseCss: true,
-        name: 'ie'
-    }];
-
-    var testRules = [{
-        ie8: true,
-        sprite: false,
-        mobile: false
-    }];
-
-    var cssBuildRules = isTestTaskRun ? testRules : buildRules;
-
-    var cssStream = cssBuildRules.map(function(list) {
+    var css = [
+       {
+            size: true
+       },
+       {
+            ie8: true,
+            sprite: true,
+            name: 'full'
+       },
+       {
+            ie8: true,
+            excludeBaseCss: true,
+            name: 'ie'
+       }
+    ].map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
         if (!bandle) { return false; }
         return bandle
@@ -151,7 +135,7 @@ gulp.task('build-styles', buildStylesPreTasks, function (cb) {
             .pipe(gulp.dest('./public/css/'));
     }).filter(Boolean);
 
-    var stream = es.concat.apply(null, cssStream);
+    var stream = es.concat.apply(null, css);
 
     stream.on('end', cb);
 });
@@ -205,7 +189,7 @@ gulp.task('copy-svg', function () {
 });
 
 gulp.task('copy-svg-raster', function (cb) {
-    $.util.log($.util.colors.green('Converting SVG to PNG. It can take a long time, please, be patient'));
+    $.util.log($.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
 
     var stream = es.concat(
             gulp.src('./src/**/img/**/*.svg')
@@ -575,7 +559,6 @@ function buildCss(options, enableSsl) {
         variables: {
             baseURL: '\'__BASE_URL__\'',
             spritesURL: '\'__SPRITES_URL__\'',
-
 
             mobile: options.mobile,
             ie8: options.ie8,
