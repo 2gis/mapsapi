@@ -22,7 +22,9 @@ var extend = require('extend'),
 $.imagemin = require('./build/gulp-imagemin');
 $.spritesmith = require('gulp.spritesmith');
 
-require('./build/fixFileCache')($.cache.fileCache, './build/tmp'); // fix file cache due to buggy realization
+if (!process.env.isRuntime) {
+    require('./build/fixFileCache')($.cache.fileCache, './build/tmp'); // fix file cache due to buggy realization
+}
 
 var projectList,
     errorNotify = function(e) {
