@@ -3,7 +3,6 @@ var express = require('express'),
     cluster = require('cluster'),
     cpuCount = require('os').cpus().length,
     clc = require('cli-color'),
-    gulp = require(__dirname + '/gulpfile.js'),
     config = require(__dirname + '/build/config.js').appConfig;
 
 //Init application
@@ -41,6 +40,9 @@ function getParams(req, resp, next) {
     };
     next();
 }
+
+process.env.isRuntime = true;
+var gulp = require(__dirname + '/gulpfile.js');
 
 app.get('/js', getParams, function (req, res) {
     var jsStream = gulp.getJS(req.query);
