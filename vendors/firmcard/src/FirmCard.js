@@ -37,7 +37,7 @@ FirmCard.prototype = {
 
         this.options.ajax(firmId).then(function (res) {
             if (!res) { return false; }
-            var data = res.result.data;
+            var data = res.result.items;
             if (data !== 'undefined') {
                 self._firmData = data[0];
                 self._firmId = firmId;
@@ -55,29 +55,67 @@ FirmCard.prototype = {
         return firm;
     },
 
+    _getPaymentTypes: function (data) {
+        var result = [],
+            groupName = 'general_payment_type';
+
+        if (!data.attribute_groups) {
+            return result;
+        }
+
+        data.attribute_groups.forEach(function (group) {
+            if (group.name) {
+                return;
+            }
+
+            group.attributes.forEach(function (attr) {
+                if (attr.tag.substring(0, groupName.length) === groupName) {
+                    result.push(attr.name);
+                }
+            });
+        });
+
+        return result;
+    },
+
+    _groupRubrics: function (data) {
+        var result = {
+            primary: [],
+            additional: []
+        };
+
+        if (!data.rubrics || !data.rubrics.length) {
+            return result;
+        }
+
+        data.rubrics.forEach(function (rubric) {
+            result[rubric.kind].push(rubric);
+        });
+
+        return result;
+    },
+
     _renderFirmCard: function () {
-        var firmCardBody, schedule, forecast, links, btns, attributes,
+        var firmCardBody, schedule, forecast, links, btns, paymentTypes, rubrics,
             data = this._firmData,
             container = this._container = this._createFirmContainer();
-
 
         schedule = this._schedule.transform(data.schedule, {
             zoneOffset: this.options.timezoneOffset,
             apiLang: this.options.lang,
             localLang: this.options.lang
         });
+
         forecast = this._schedule.forecast(schedule);
 
-        if (!!(data.attributes && data.attributes.general && data.attributes.general.items)) {
-            data.attributes.general.items ? attributes = data.attributes.general.items : attributes = [];
-        }
+        paymentTypes = this._getPaymentTypes(data);
+        rubrics = this._groupRubrics(data);
 
         firmCardBody = this._buildFirmCardBody(
-            this._getConfigFirmCardBody(data, schedule, forecast, attributes)
+            this._getConfigFirmCardBody(data, schedule, forecast, paymentTypes, rubrics)
         );
 
         links = this._fillHeaderLinks();
-
         btns = this._fillFooterButtons();
 
         //fill object for view render
@@ -96,12 +134,13 @@ FirmCard.prototype = {
         }
     },
 
-    _getConfigFirmCardBody: function (data, schedule, forecast, attributes) {
+    _getConfigFirmCardBody: function (data, schedule, forecast, attributes, rubrics) {
         return [
             {
                 tmpl: 'firmCardAddr',
                 data: {
-                    data: data.geo
+                    address: data.address_name,
+                    comment: data.address_comment
                 }
             },
             {
@@ -126,7 +165,7 @@ FirmCard.prototype = {
             {
                 tmpl: 'firmCardRubric',
                 data: {
-                    rubrics: data.rubrics
+                    rubrics: rubrics
                 }
             }
         ];
@@ -158,7 +197,7 @@ FirmCard.prototype = {
             });
         }
 
-        if (this._firmData.geo.entrances && this.options.showEntrance) {
+        if (this._firmData.links.entrances && this.options.showEntrance) {
             btns.push({ name: 'show-entrance',
                         label: this.dict.t(this.options.lang, 'btnEntrance'),
                         icon: true
@@ -175,27 +214,28 @@ FirmCard.prototype = {
             booklet = this._firmData.booklet,
             link;
 
-        if (reviewData && reviewData.is_allowed_to_show_reviews) {
+        if (reviewData && reviewData.is_reviewable) {
             links.push({
                 name: 'flamp_stars',
                 width: reviewData.rating * 20
             });
             links.push({
                 name: 'flamp_reviews',
-                label: this.dict.t(this.options.lang, 'linkReviews', reviewData.review_count),
+                label: this.dict.t(this.options.lang, 'linkReviews', reviewData.review_count ? reviewData.review_count : 0),
                 href: FirmCard.DataHelper.getFlampUrl(this._firmId)
             });
         }
 
-        if (!this.options.isMobile && photos && photos.length && this.options.showPhotos) {
+        if (!this.options.isMobile && photos && photos.items && photos.items.length && this.options.showPhotos) {
             link = L.Util.template('__PHOTOS_LINK__',
                 {
-                    'id': this._firmId
+                    'id': this._firmId,
+                    'domain': this.options.domain
                 });
 
             links.push({name: 'photos',
                         href: link,
-                        label: this.dict.t(this.options.lang, 'linkPhoto', photos.length)
+                        label: this.dict.t(this.options.lang, 'linkPhoto', photos.items.length)
             });
         }
 
@@ -215,8 +255,9 @@ FirmCard.prototype = {
             this._toggleEventHandlers(true);
         },
         'dg-popup__button_name_show-entrance': function() {
-            var ent = new this.options.showEntrance({'vectors': this._firmData.geo.entrances[0].vectors});
+            var ent = new this.options.showEntrance({'vectors': this._firmData.links.entrances[0].geometry.vectors});
             ent.addTo(this.options.map).show();
+            this._toggleEventHandlers(true);
         },
         'dg-schedule__today': function(target) {
             this._onToggleSchedule(target);
@@ -224,7 +265,8 @@ FirmCard.prototype = {
     },
 
     _toggleEventHandlers: function (flag) {
-        this.options.popup[flag ? 'off' : 'on']('click', this._onClick, this);      
+        this.options.popup[flag ? 'off' : 'on']('click', this._onClick, this);
+        this.options.map[flag ? 'off' : 'on']('popupclose', this._onClose, this);
     },
 
     _onClick: function (e) {
@@ -236,6 +278,10 @@ FirmCard.prototype = {
                 return;
             }
         }
+    },
+
+    _onClose: function (e) {
+        this._toggleEventHandlers(true);
     },
 
     _onToggleSchedule: function (target) {

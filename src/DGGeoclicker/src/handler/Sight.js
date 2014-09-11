@@ -1,7 +1,7 @@
 DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
 
     handle: function (results) { // (Object, String) -> Promise
-        if (!results.sight) {
+        if (!results.attraction) {
             return false;
         }
 
@@ -12,10 +12,8 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
     },
 
     _fillSightObject: function (results) { // (Object) -> Object
-        var attrs = results.sight.attributes,
-            data = {
-                description: attrs.info.description
-            },
+        var attraction = results.attraction,
+            data = {},
             self = this,
             abbr,
             footer = {
@@ -28,36 +26,16 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
                 ]
             };
 
-        if (attrs.building_name) {
-            data.buildingName = attrs.building_name;
+        if (attraction.name) {
+            data.buildingName = attraction.name;
+            data.purpose = attraction.subtype_name;
         } else {
-            data.buildingName = results.sight.short_name;
+            data.buildingName = attraction.subtype_name;
         }
 
-        if (attrs.sight_description) {
-            data.purpose = attrs.sight_description;
-        }
-
-        if (data.buildingName === null) {
-            data.buildingName = data.purpose;
-            data.purpose = this.t('place');
-        }
-
-        data.drillDown = Object.keys(results)
-            .filter(function (type) {
-                return ['sight', 'place', 'extra'].indexOf(type) === -1;
-            })
-            .map(function (type) {
-                return results[type];
-            })
-            .reduce(function (str, item) {
-                if (item.attributes && item.attributes.abbreviation) {
-                    abbr = item.attributes.abbreviation + ' ';
-                }
-                if (item.name) {
-                    return abbr + item.name;
-                }
-            }, '');
+        data.description = attraction.description;
+        
+        data.drillDown = this._getDrilldown(attraction);
 
         if (this._checkDescFieldHeight(data.description)) {
             data.showMoreText = this.t('show_more_about_sight');
@@ -72,10 +50,10 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
                 tmpl: 'popupHeader',
                 data: {'title': data.buildingName}
             }),
-            /*footer: this._view.render({
+            footer: this._view.render({
                 tmpl: 'popupFooterBtns',
                 data: footer
-            }),*/
+            }),
             afterRender: function () {
                 if (self._needShowMore) {
                     self._initShowMore();

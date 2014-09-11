@@ -12,7 +12,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     handle: function (results) { // (Object) -> Promise
-        if (!results.house) {
+        if (!results.building) {
             return false;
         }
 
@@ -26,15 +26,15 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         this._onScroll = false;
         this._isFirmlistOpen = false;
 
-        this._id = results.house.id;
+        this._id = results.building.id;
         this._totalPages = 1;
         this._api = this._controller.getCatalogApi();
         this._popup = this._view.getPopup();
         this._initedPopupClose = false;
-        this._directionsUrl = this._getDirectionsUrl(results.house.name);
+        this._directionsUrl = this._getDirectionsUrl(results.building.name);
         this._firmListLoader = this._view.initLoader(true);
 
-        this._houseObject = this._fillHouseObject(results.house);
+        this._houseObject = this._fillHouseObject(results.building);
 
         return Promise.resolve(this._houseObject);
     },
@@ -48,6 +48,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return {
             render: this._view._templates,
             lang: this._map.getLang(),
+            domain: this._controller.getMap().projectDetector.getProject().domain,
             ajax: DG.bind(this._api.getFirmInfo, this._api),
             timezoneOffset: this._controller.getMap().projectDetector.getProject().timeOffset,
             map: this._map,
@@ -100,7 +101,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     _initFirmList: function (res) { //(Object) -> Promise
         if (!res) { return false; }
 
-        var results = res.result.data,
+        var results = res.result.items,
             options = this._firmListSetup();
 
         options.firmCard.backBtn = DG.bind(function () {
@@ -246,7 +247,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _appendFirmList: function (res) { // (Object)
-        this._firmList.addFirms(res.result.data);
+        this._firmList.addFirms(res.result.items);
         this._popup._updateScrollPosition();
     },
 

@@ -54,19 +54,10 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             type: type
         }, areaInfo;
 
-        areaInfo = results[Object.keys(results).filter(function (obj) {
-            return (obj !== type && obj !== 'extra');
-        })[0]];
+        data.address = this._getDrilldown(results[type]);
 
-        if (areaInfo) {
-            data.address =
-                (areaInfo.attributes && areaInfo.attributes.abbreviation ?
-                    areaInfo.attributes.abbreviation + ' ' : '') +
-                areaInfo.name;
-        }
-
-        if (results[type].short_name) {
-            data.name = results[type].short_name;
+        if (results[type].name) {
+            data.name = results[type].name;
         }
 
         return {

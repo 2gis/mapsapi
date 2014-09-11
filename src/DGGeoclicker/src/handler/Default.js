@@ -51,6 +51,31 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
             'rsType': this._map.projectDetector.getProject().transport ? 'bus' : 'car' ,
             'point': this._popup._latlng.lng + ',' + this._popup._latlng.lat
         });
+    },
+
+    _getDrilldown: function (object) {
+        var admDivs = [],
+            result;
+
+        if (object.adm_div) {
+            admDivs = object.adm_div
+                .reverse()
+                .map(function(admDiv) {
+                    return admDiv.name;
+                });          
+        }
+
+        if (admDivs.length && object.address && object.address.postcode) {
+            admDivs.push(object.address.postcode);
+        }
+
+        result = admDivs
+            .filter(function (element) {
+                return !!element;
+            })
+            .join(', ');
+
+        return result;
     }
 
 });

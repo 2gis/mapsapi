@@ -4,9 +4,9 @@
             {@eq value="phone" type="string"}
                 <div class="dg-firm-card__phone dg-firm-card__icon">
                     <span class="dg-firm-card__phone-num">
-                        {value}
+                        {text}
                         {#comment}
-                            <span class="dg-firm-card__comment" title="{.}">&ndash;&nbsp;&nbsp;{.}</span>
+                            <span class="dg-firm-card__comment" title="{.}">&mdash;&nbsp;&nbsp;{.}</span>
                         {/comment}
                     </span>
                 </div>
@@ -14,16 +14,16 @@
             {@eq value="fax" type="string"}
                 <div class="dg-firm-card__phone dg-firm-card__icon">
                     <span class="dg-firm-card__phone-num">
-                        {value}
+                        {text}
                         {#comment}
-                            <span class="dg-firm-card__comment" title="{.}">&ndash;&nbsp;&nbsp;{.}</span>
+                            <span class="dg-firm-card__comment" title="{.}">&mdash;&nbsp;&nbsp;{.}</span>
                         {/comment}
                     </span>
                 </div>
             {/eq}
             {@eq value="website" type="string"}
                 <div class="dg-firm-card__link dg-firm-card__site dg-firm-card__icon">
-                    <a href="{value}" target="_blank" class="dg-link_scheme_dark dg-firm-card__sitelink">{alias}</a>
+                    <a href="{value}" target="_blank" class="dg-link_scheme_dark dg-firm-card__sitelink">{text}</a>
                 </div>
             {/eq}
             {@eq value="email" type="string"}

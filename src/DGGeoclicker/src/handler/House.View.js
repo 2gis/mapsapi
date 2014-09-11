@@ -1,27 +1,35 @@
 DG.Geoclicker.Handler.House.include({
+    _getAddressString: function (house) {
+        if (!house.address || !house.address.components) {
+            return '';
+        }
+
+        return house.address.components
+            .filter(function (component) {
+                return component.type === 'street_number';
+            })
+            .map(function (component) {
+                return component.street + ', ' + component.number;
+            })
+            .join(' / ');
+    },
+
     _fillBody: function (house) { // // (Object) -> (DOMElement)
-        var attrs = house.attributes,
-            data = {},
+        var data = {},
             wrapper = DG.DomUtil.create('div', 'dg-building-callout__body'),
-            filials = house.attributes.filials;
+            filials = house.links.branches;
 
-        if (attrs.city) {
-            data.address = (attrs.district ? this.t('district') + ' ' + attrs.district  + ', ' : '') +
-                            attrs.city +
-                            (attrs.postal_code ? ', ' + attrs.postal_code : '');
+        data.drilldown = this._getDrilldown(house);
+
+        if (house.building_name) {
+            data.address = this._getAddressString(house);
         }
 
-        if (house.name && attrs.building_name) {
-            data.headAddress = house.name.split(', ').slice(1).join(', ');
-        }
+        data.purpose = house.purpose_name +
+            (house.floors ? ', ' + this.t('n_floors', house.floors.ground_count) : '');
 
-        if (attrs.building_description) {
-            data.purpose = attrs.building_description +
-                (attrs.floors_count ? ', ' + this.t('n_floors', attrs.floors_count) : '');
-        }
-
-        if (attrs.filials_count > 0) {
-            this._totalPages = Math.ceil(attrs.filials_count / this._firmsOnPage);
+        if (house.links.branches.count > 0) {
+            this._totalPages = Math.ceil(house.links.branches.count / this._firmsOnPage);
         }
 
         wrapper.innerHTML = this._view.render({
@@ -29,23 +37,22 @@ DG.Geoclicker.Handler.House.include({
             data: data
         });
 
-        if (filials) {
-            wrapper.appendChild(this._initShortFirmList(filials.popular));
+        if (filials.items) {
+            wrapper.appendChild(this._initShortFirmList(filials.items));
         }
 
         return wrapper;
     },
 
     _fillHeader: function (house) { // (Object) -> (HTMLString)
-        var attrs = house.attributes,
-            header = {};
+        var header = {};
 
-        if (attrs.building_name) {
-            header.title = attrs.building_name;
-        } else if (house.name) {
-            header.title = house.name.split(', ').slice(1).join(', ');
+        if (house.building_name) {
+            header.title = house.building_name;
+        } else if (house.address && house.address.components) {
+            header.title = this._getAddressString(house);
         } else {
-            header.title = attrs.building_description;
+            header.title = house.purpose_name;
         }
 
         this._header = this._view.render({
@@ -57,20 +64,19 @@ DG.Geoclicker.Handler.House.include({
     },
 
     _fillFooter: function (house) { // (Object) -> (HTMLString)
-        var attrs = house.attributes,
-            btns = [],
+        var btns = [],
             isShowOrgs = false;
 
-        if (attrs.filials_count > 0) {
-            if (attrs.filials && attrs.filials.popular) {
-                if (attrs.filials_count > attrs.filials.popular.length) {
+        if (house.links.branches.count > 0) {
+            if (house.links.branches.items) {
+                if (house.links.branches.count > house.links.branches.items.length) {
                     isShowOrgs = true;
                 }
             } else {
                 isShowOrgs = true;
             }
         }
-        isShowOrgs && btns.push(this._getShowAllData(attrs.filials_count));
+        isShowOrgs && btns.push(this._getShowAllData(house.links.branches.count));
 
         this._isRouteSearchAllowed() && btns.push({
             name: 'goto',
