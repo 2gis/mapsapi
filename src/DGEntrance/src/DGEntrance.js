@@ -160,7 +160,8 @@ DG.Entrance = DG.Layer.extend({
                     },
                     lastPointOffset: 2,
                     vmlEndArrow: 'none',
-                    weight: 6
+                    weight: 6,
+                    iconWidth: 4
                 },
                 17: {
                     marker: {
@@ -181,7 +182,8 @@ DG.Entrance = DG.Layer.extend({
                     },
                     lastPointOffset: 0,
                     vmlEndArrow: 'none',
-                    weight: 7
+                    weight: 7,
+                    iconWidth: 6
                 },
                 18: {
                     marker: {
@@ -202,7 +204,8 @@ DG.Entrance = DG.Layer.extend({
                     },
                     lastPointOffset: !DG.Browser.vml ? -5 : -2,
                     vmlEndArrow: 'none',
-                    weight: 8
+                    weight: 8,
+                    iconWidth: 8
                 },
                 19: {
                     marker: {
@@ -227,7 +230,8 @@ DG.Entrance = DG.Layer.extend({
                     },
                     lastPointOffset: !DG.Browser.vml ? -5 : -2,
                     vmlEndArrow: 'none',
-                    weight: 10
+                    weight: 10,
+                    iconWidth: 12
                 }
             }
         };
@@ -251,7 +255,8 @@ DG.Entrance = DG.Layer.extend({
                         }
                     },
                     lastPointOffset: 2,
-                    weight: 2
+                    weight: 2,
+                    iconWidth: 4
                 },
                 17: {
                     marker: {
@@ -265,7 +270,8 @@ DG.Entrance = DG.Layer.extend({
                         }
                     },
                     lastPointOffset: 0,
-                    weight: 3
+                    weight: 3,
+                    iconWidth: 6
                 },
                 18: {
                     marker: {
@@ -279,7 +285,8 @@ DG.Entrance = DG.Layer.extend({
                         }
                     },
                     lastPointOffset: !DG.Browser.vml ? -5 : 0,
-                    weight: 4
+                    weight: 4,
+                    iconWidth: 8
                 },
                 19: {
                     marker: {
@@ -294,7 +301,8 @@ DG.Entrance = DG.Layer.extend({
                         }
                     },
                     lastPointOffset: !DG.Browser.vml ? -5 : 0,
-                    weight: 5
+                    weight: 5,
+                    iconWidth: 12
                 }
             }
         };

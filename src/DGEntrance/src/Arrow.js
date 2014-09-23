@@ -60,35 +60,48 @@ DG.Entrance.Arrow = DG.Polyline.extend({
     },
 
     _offsetLastPathPoint: function () {
-        var lastSegmentInPercents,
-            offsetVector,
-            offsetTo = {},
-            origPoints = this._rings[0],
-            pointsLen = origPoints.length,
+        var origPoints = this._rings[0],
             style = this.options.byZoom[this._map.getZoom()],
-
-            lastPoint = origPoints[pointsLen - 1],
-            lastByOnePoint = origPoints[pointsLen - 2],
-            lastSegmentLen = lastPoint.distanceTo(lastByOnePoint);
+            pointsLen = origPoints.length,
+            lastSegmentLen = origPoints[pointsLen - 1].distanceTo(origPoints[pointsLen - 2]),
+            lastSegmentInPercents,
+            offsetVector,
+            offsetTo;
 
         if (style) {
-            lastSegmentInPercents = Math.abs((style.lastPointOffset * 100) / lastSegmentLen);
-
             offsetVector = {
                 x: origPoints[pointsLen - 1].x - origPoints[pointsLen - 2].x,
                 y: origPoints[pointsLen - 1].y - origPoints[pointsLen - 2].y
             };
 
-            offsetTo.x = Math.round(offsetVector.x * lastSegmentInPercents / 100);
-            offsetTo.y = Math.round(offsetVector.y * lastSegmentInPercents / 100);
+            // сравнение длины последнего сегмента пути с размером иконки стрелки
+            if (lastSegmentLen > style.iconWidth) {
+                lastSegmentInPercents = Math.abs(style.lastPointOffset / lastSegmentLen);
 
-            // move last point forward/back by offsetVector direction
-            if (style.lastPointOffset > 0) {
-                origPoints[pointsLen - 1].x += offsetTo.x;
-                origPoints[pointsLen - 1].y += offsetTo.y;
+                offsetTo = {
+                    x: offsetVector.x * lastSegmentInPercents,
+                    y: offsetVector.y * lastSegmentInPercents
+                };
+
+                // move last point forward/back by offsetVector direction
+                if (style.lastPointOffset > 0) {
+                    origPoints[pointsLen - 1].x += offsetTo.x;
+                    origPoints[pointsLen - 1].y += offsetTo.y;
+                } else {
+                    origPoints[pointsLen - 1].x -= offsetTo.x;
+                    origPoints[pointsLen - 1].y -= offsetTo.y;
+                }
             } else {
-                origPoints[pointsLen - 1].x -= offsetTo.x;
-                origPoints[pointsLen - 1].y -= offsetTo.y;
+                // удлиняем последний участок, если он меньше стрелки
+                lastSegmentInPercents = lastSegmentLen / style.iconWidth;
+
+                if (offsetVector.x !== 0) {
+                    origPoints[pointsLen - 1].x = origPoints[pointsLen - 2].x + offsetVector.x / lastSegmentInPercents;
+                }
+
+                if (offsetVector.y !== 0) {
+                    origPoints[pointsLen - 1].y = origPoints[pointsLen - 2].y + offsetVector.y / lastSegmentInPercents;
+                }
             }
         }
     }
