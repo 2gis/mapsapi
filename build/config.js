@@ -48,8 +48,8 @@ var config = {
 
 config.appConfig = getAppConfig();
 
-toFrep = cgfToFrep(config.appConfig);
-toFrepSsl = cgfToFrep(config.appConfig, true);
+frepPatterns = cfgToFrep(config.appConfig);
+frepPatternsWithSSL = cfgToFrep(config.appConfig, true);
 
 config.cfgParams = cfgParams;
 config.updateLoaderVersion = updateLoaderVersion;
@@ -77,7 +77,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = config;
 }
 
-function cgfToFrep(appConfig, enableSsl) {
+function cfgToFrep(appConfig, enableSsl) {
     var result = [],
         appConfigRelativeUrl = appConfig[config.relativeUrl],
         protocol = enableSsl ? 'https:' : 'http:';
@@ -107,9 +107,9 @@ function cfgParams(options) {
     options = options || {};
 
     if (options.ssl) {
-        return toFrepSsl;
+        return frepPatternsWithSSL;
     } else {
-        return toFrep;
+        return frepPatterns;
     }
 }
 
