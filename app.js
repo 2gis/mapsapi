@@ -45,12 +45,12 @@ function getParams(req, resp, next) {
 }
 
 app.get('/js', getParams, function (req, res) {
-    var jsStream = gulp.getJS(req.query);
+    var jsStream = gulp.getJS(req.query, req.get('X-SSL'));
     req.dgCallback(jsStream, res);
 });
 
 app.get('/css', getParams, function (req, res) {
-    var cssStream = gulp.getCSS(req.query);
+    var cssStream = gulp.getCSS(req.query, req.get('X-SSL'));
     req.dgCallback(cssStream, res);
 });
 

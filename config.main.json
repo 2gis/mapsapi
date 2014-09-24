@@ -4,26 +4,16 @@
     "BASE_URL": "",
     "DEFAULT_SKIN": "dark",
 
-    "TILE_SERVER": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
-
-    "TRAFFIC_TILE_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
-    "TRAFFIC_META_SERVER": "//meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
-    "TRAFFIC_TIMESTAMP_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
-
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
     "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
-
-    "DETECT_RETINA": true,
 
     "PPNOT_LINK": "http://2gis.ru/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
     "PHOTOS_LINK": "http://2gis.ru/photos/{id}",
 
-    "POI_META_SERVER": "//tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
     "POI_LAYER_MIN_ZOOM": 15,
 
     "DETECT_RETINA": true,
 
-    "WEB_API_SERVER": "//catalog.api.2gis.ru",
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
     "FIRM_INFO_FIELDS": "data.reviews,data.geo.id,data.photos",
@@ -33,5 +23,20 @@
     "PROJECT_LEAVE_MAX_ZOOM" : 13,
     "FLAMP_URL" : "http://flamp.ru/r/",
     "FLAMP_GOOGLE_ANALYTICS" : "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
-    "GA_CODE": "UA-38243181-2"
+    "GA_CODE": "UA-38243181-2",
+
+    "RELATIVE_URL": {
+        "TILE_SERVER": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
+
+        "TRAFFIC_TILE_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
+        "TRAFFIC_META_SERVER": "//meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
+        "TRAFFIC_TIMESTAMP_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
+
+        "POI_META_SERVER": "//tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
+
+        "WEB_API_SERVER": "//catalog.api.2gis.ru",
+
+        "ANALYTICS": "//maps.api.2gis.ru/analytics/track-user.png",
+        "GOOGLE_ANALYTICS": "//www.google-analytics.com/analytics.js"
+    }
 }

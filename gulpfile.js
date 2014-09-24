@@ -7,7 +7,6 @@ var extend = require('extend'),
     gulp = require('gulp'),
     $ = require('gulp-load-plugins')(),
 
-    path = require('path'),
     glob = require('glob'),
     fs = require('fs'),
     runSequence = require('run-sequence'),
@@ -463,7 +462,9 @@ function saveSize(file, cb) {
 
 //Exports API for live src streaming
 //js build api
-function bldJs(opt) {
+function bldJs(opt, enableSsl) {
+    var cfgParams;
+
     if (typeof opt.pkg === 'boolean') {
         error = new $.util.PluginError({
           plugin: 'deps',
@@ -472,10 +473,13 @@ function bldJs(opt) {
         errorNotify(error);
         throw error;
     }
+
+    cfgParams = config.cfgParams({ssl: enableSsl});
+
     return gulp.src(deps.getJSFiles(opt))
                 .pipe(errorHandle())
                 .pipe($.redust(config.tmpl))
-                .pipe($.frep(config.cfgParams))
+                .pipe($.frep(cfgParams))
                 .pipe($.concat('script.js'))
                 .pipe($.header(config.js.intro))
                 .pipe($.footer(projectList))
@@ -485,7 +489,7 @@ function bldJs(opt) {
 }
 
 // Builds CSS from Less
-function buildCss(options) {
+function buildCss(options, enableSsl) {
     options = options || {};
 
     var skin = options.skin || config.appConfig.DEFAULT_SKIN,
@@ -518,14 +522,17 @@ function buildCss(options) {
                 './private/less/mixins.less:reference',
                 './private/less/mixins.ie8.less:reference'
             ]
-        });
+        }),
+        cfgParams;
 
     if (!lessList.length) { return false; }
+
+    cfgParams = config.cfgParams({ssl: enableSsl});
 
     return gulp.src(lessList)
                 .pipe(errorHandle())
                 .pipe($.header(lessPrerequirements))
-                .pipe($.frep(config.cfgParams))
+                .pipe($.frep(cfgParams))
                 .pipe($.less())
                 .pipe($.cache($.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
                 .pipe($.concat('styles.css'))
