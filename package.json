@@ -16,6 +16,7 @@
     "url": "git://github.com/2gis/maps-api-2.0.git"
   },
   "dependencies": {
+    "cors": "^2.4.1",
     "chalk": "0.4.0",
     "cli-color": "0.3.2",
     "cluster": "0.7.7",

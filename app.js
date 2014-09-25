@@ -1,6 +1,7 @@
 //Web app of 2GIS Maps API 2.0
 var express = require('express'),
     cluster = require('cluster'),
+    cors = require('cors'),
     cpuCount = require('os').cpus().length,
     clc = require('cli-color'),
     config = require(__dirname + '/build/config.js').appConfig;
@@ -11,6 +12,7 @@ var app = express();
 //General configuration of the application
 app.set('port', config.PORT || '3000');
 app.set('host', config.HOST || null);
+app.use(cors());
 app.use(express.static(__dirname + '/public'));
 
 //Routes
@@ -45,12 +47,12 @@ process.env.isRuntime = true;
 var gulp = require(__dirname + '/gulpfile.js');
 
 app.get('/js', getParams, function (req, res) {
-    var jsStream = gulp.getJS(req.query);
+    var jsStream = gulp.getJS(req.query, req.get('X-SSL'));
     req.dgCallback(jsStream, res);
 });
 
 app.get('/css', getParams, function (req, res) {
-    var cssStream = gulp.getCSS(req.query);
+    var cssStream = gulp.getCSS(req.query, req.get('X-SSL'));
     req.dgCallback(cssStream, res);
 });
 

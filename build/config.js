@@ -4,6 +4,7 @@
 var fs = require('fs');
 var extend = require('extend');
 var basePath = __dirname + '/..'; // Set root application path
+var toFrep, toFrepSsl;
 
 var config = {
 
@@ -11,6 +12,8 @@ var config = {
     localAppConfig: basePath + '/config.local.json',
 
     packages: require(basePath + '/build/packs.js'),
+
+    relativeUrl: 'RELATIVE_URL',
 
     source: {
         deps: require(basePath + '/build/deps.js'),
@@ -44,7 +47,11 @@ var config = {
 };
 
 config.appConfig = getAppConfig();
-config.cfgParams = cgfToFrep(config.appConfig);
+
+frepPatterns = cfgToFrep(config.appConfig);
+frepPatternsWithSSL = cfgToFrep(config.appConfig, true);
+
+config.cfgParams = cfgParams;
 config.updateLoaderVersion = updateLoaderVersion;
 
 // Reeturn actual configuration for replace
@@ -61,7 +68,7 @@ function getAppConfig() { // ()->Object
     mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
     if (fs.existsSync(localConfigPath)) {
         localConfig = JSON.parse(fs.readFileSync(localConfigPath));
-        extend(mainConfig, localConfig);
+        extend(true, mainConfig, localConfig);
     }
     return mainConfig;
 }
@@ -70,13 +77,40 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = config;
 }
 
-function cgfToFrep(config) {
-    return Object.keys(config).map(function (key) {
-        return {
-            pattern: new RegExp('__' + key + '__', 'g'),
-            replacement: config[key]
-        };
+function cfgToFrep(appConfig, enableSsl) {
+    var result = [],
+        appConfigRelativeUrl = appConfig[config.relativeUrl],
+        protocol = enableSsl ? 'https:' : 'http:';
+
+    Object.keys(appConfig).forEach(function (key) {
+        if (key !== config.relativeUrl) {
+            result.push({
+                pattern: new RegExp('__' + key + '__', 'g'),
+                replacement: appConfig[key]
+            });
+        }
     });
+
+    if (appConfigRelativeUrl !== undefined) {
+        Object.keys(appConfigRelativeUrl).forEach(function (key) {
+            result.push ({
+                pattern: new RegExp('__' + key + '__', 'g'),
+                replacement: protocol + appConfigRelativeUrl[key]
+            });
+        });
+    }
+
+    return result;
+}
+
+function cfgParams(options) {
+    options = options || {};
+
+    if (options.ssl) {
+        return frepPatternsWithSSL;
+    } else {
+        return frepPatterns;
+    }
 }
 
 function updateLoaderVersion(done) {

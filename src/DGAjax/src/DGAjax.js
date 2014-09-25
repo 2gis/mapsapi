@@ -3,7 +3,7 @@ DG.ajax = (function () {
     var win = window,
         doc = document,
 
-        rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
+        rurl = /^([\w.+-]+:)?(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
         twoHundo = /^20\d$/,
 
         // Document location
