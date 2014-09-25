@@ -78,7 +78,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
     _onZoomEnd: function () { // ()
         var project = this._map.projectDetector.getProject(),
             method = ((this._map.getZoom() < DG.Control.Traffic.trafficMinZoom) ||
-            (project && !!project.traffic === false)) ? 'addClass' : 'removeClass';
+            (project && !project.traffic)) ? 'addClass' : 'removeClass';
 
         DG.DomUtil[method](this._container, this._controlHideClass);
     },
