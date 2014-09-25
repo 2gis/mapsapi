@@ -47,12 +47,12 @@ process.env.isRuntime = true;
 var gulp = require(__dirname + '/gulpfile.js');
 
 app.get('/js', getParams, function (req, res) {
-    var jsStream = gulp.getJS(req.query, req.get('X-SSL'));
+    var jsStream = gulp.getJS(req.query, req.query.ssl);
     req.dgCallback(jsStream, res);
 });
 
 app.get('/css', getParams, function (req, res) {
-    var cssStream = gulp.getCSS(req.query, req.get('X-SSL'));
+    var cssStream = gulp.getCSS(req.query, req.query.ssl);
     req.dgCallback(cssStream, res);
 });
 
