@@ -17,7 +17,11 @@ describe('DGMeta', function () {
 
 
     beforeEach(function () {
-        map = new DG.Map(document.createElement('div'), {
+        var div = document.createElement('div');
+
+        document.body.appendChild(div);
+
+        map = new DG.Map(div, {
             center : new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 17
         });
