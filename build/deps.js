@@ -265,9 +265,14 @@ var deps = {
     DGTraffic: {
         desc: 'Traffic',
         src: [
-            'DGTraffic/src/DGTraffic.js'
+            'DGTraffic/src/DGTraffic.js',
+            'DGTraffic/lang/ru.js',
+            'DGTraffic/lang/it.js',
+            'DGTraffic/lang/cs.js',
+            'DGTraffic/lang/es.js',
+            'DGTraffic/lang/en.js'
         ],
-        deps: ['DGMeta', 'DGLabel']
+        deps: ['DGMeta', 'DGLabel', 'DGLocale']
     },
 
     DGTrafficControl: {
@@ -277,6 +282,7 @@ var deps = {
             'DGTrafficControl/lang/ru.js',
             'DGTrafficControl/lang/it.js',
             'DGTrafficControl/lang/cs.js',
+            'DGTrafficControl/lang/es.js',
             'DGTrafficControl/lang/en.js'
         ],
         less: {
@@ -298,6 +304,7 @@ var deps = {
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
             'DGRuler/lang/cs.js',
+            'DGRuler/lang/es.js',
             'DGRuler/lang/en.js'
         ],
         less: {
@@ -314,6 +321,7 @@ var deps = {
             'DGRulerControl/lang/ru.js',
             'DGRulerControl/lang/it.js',
             'DGRulerControl/lang/cs.js',
+            'DGRulerControl/lang/es.js',
             'DGRulerControl/lang/en.js'
         ],
         less: {
