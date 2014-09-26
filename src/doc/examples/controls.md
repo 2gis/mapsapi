@@ -84,6 +84,7 @@
                     DG.control.location({position: 'bottomright'}).addTo(map);
                     DG.control.scale().addTo(map);
                     DG.control.ruler({position: 'bottomleft'}).addTo(map);
+                    DG.control.traffic().addTo(map);
                 });
             </script>
         </body>
