@@ -97,11 +97,11 @@ gulp.task('lint', function () {
                 .pipe($.jshint.reporter('fail'));
 });
 
-var isTestTaskRun = $.util.env._.indexOf('test') == -1;
+var isTestTaskRun = $.util.env._.indexOf('test') !== -1;
 
 var buildStylesPreTasks = [];
 
-if (isTestTaskRun) {
+if (!isTestTaskRun) {
     buildStylesPreTasks.push('collect-images-stats');
     buildStylesPreTasks.push('generate-sprites');
 }
@@ -135,7 +135,7 @@ gulp.task('build-styles', buildStylesPreTasks, function (cb) {
         mobile: false
     }];
 
-    var cssBuildRules = isTestTaskRun ? buildRules : testRules;
+    var cssBuildRules = isTestTaskRun ? testRules : buildRules;
 
     var cssStream = cssBuildRules.map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
@@ -543,32 +543,43 @@ function buildCss(options, enableSsl) {
         imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
 
         lessList = deps.getCSSFiles(options),
-        lessPrerequirements = deps.lessHeader({
-            variables: {
-                baseURL: '"__BASE_URL__"',
+        lessHeaderImports, lessPrerequirements;
 
-                mobile: options.mobile,
-                ie8: options.ie8,
+    if (isTestTaskRun) {
+        lessHeaderImports = [
+            './private/less/mixins.less:reference',
+            './private/less/mixins.ie8.less:reference'
+        ];
+    } else {
+        lessHeaderImports = [
+            './build/tmp/less/sprite.basic.less:reference',
+            './build/tmp/less/sprite@2x.basic.less:reference',
+            './build/tmp/less/sprite.' + skin + '.less:reference',
+            './build/tmp/less/sprite@2x.' + skin + '.less:reference',
 
-                shouldUseSprites: options.sprite,
+            './build/tmp/less/images-files-statistics.basic.less:reference',
+            './build/tmp/less/images-files-statistics.' + skin + '.less:reference',
 
-                skinName: skin,
+            './private/less/mixins.less:reference',
+            './private/less/mixins.ie8.less:reference'
+        ];
+    }
 
-                imagesBasePath: '\'' + imagesBasePath + '\''
-            },
-            imports: [
-                './build/tmp/less/sprite.basic.less:reference',
-                './build/tmp/less/sprite@2x.basic.less:reference',
-                './build/tmp/less/sprite.' + skin + '.less:reference',
-                './build/tmp/less/sprite@2x.' + skin + '.less:reference',
+    lessPrerequirements = deps.lessHeader({
+        variables: {
+            baseURL: '"__BASE_URL__"',
 
-                './build/tmp/less/images-files-statistics.basic.less:reference',
-                './build/tmp/less/images-files-statistics.' + skin + '.less:reference',
+            mobile: options.mobile,
+            ie8: options.ie8,
 
-                './private/less/mixins.less:reference',
-                './private/less/mixins.ie8.less:reference'
-            ]
-        });
+            shouldUseSprites: options.sprite,
+
+            skinName: skin,
+
+            imagesBasePath: '\'' + imagesBasePath + '\''
+        },
+        imports: lessHeaderImports
+    });
 
     if (!lessList.length) { return false; }
 
