@@ -14,11 +14,11 @@ module.exports = function (config) {
         return 'items.' + param;
     }).join('%2C');
 
-    var apiServer = config.appConfig.WEB_API_SERVER,
+    var apiServer = config.appConfig.RELATIVE_URL.WEB_API_SERVER,
         apiVersion = config.appConfig.WEB_API_VERSION,
         apiKey = config.appConfig.WEB_API_KEY,
 
-        url = apiServer + '/' + apiVersion + '/region/list?key=' + apiKey + '&fields=' + fields;
+        url = 'http:' + apiServer + '/' + apiVersion + '/region/list?key=' + apiKey + '&fields=' + fields;
 
     function isNull(project) {
         return project.bound !== null;

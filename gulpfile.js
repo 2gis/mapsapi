@@ -160,7 +160,7 @@ gulp.task('copy-private-assets', function (cb) {
 
         gulp.src('./private/loader.js')
             .pipe(errorHandle())
-            .pipe($.frep(config.cfgParams))
+            .pipe($.frep(config.cfgParams()))
             .pipe($.uglify())
             .pipe(gulp.dest('./public/'))
         );
