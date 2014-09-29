@@ -1,21 +1,6 @@
 describe('DGMeta', function () {
     var map, meta, ajaxSpy, ajaxStub, demoData, origin, poiCord, spy;
 
-    function click(el, data){
-        var ev = document.createEvent('MouseEvent');
-            ev.initMouseEvent(
-            "click",
-            true /* bubble */, true /* cancelable */,
-            window, null,
-            0, 0, 0, 0, /* coordinates */
-            false, false, false, false, /* modifier keys */
-            0 /*left*/, null
-        );
-        DG.extend(ev, data || {});
-        el.dispatchEvent(ev);
-    }
-
-
     beforeEach(function () {
         var div = document.createElement('div');
 
@@ -76,8 +61,8 @@ describe('DGMeta', function () {
             
             map.on('click', spy);
 
-            // map.fire('click', {latlng: poiCord});
-            click(map.getPane('tilePane'), {latlng: poiCord});
+            happen.click(map.getPane('tilePane'), {latlng: poiCord});
+
             expect(spy.called).to.be.ok();
         });
     });
