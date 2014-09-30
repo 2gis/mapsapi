@@ -305,7 +305,8 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
     stream.on('end', cb);
 });
 
-gulp.task('test', ['build'], function () {
+var testRequirements = $.util.env.d ? [] : ['build'];
+gulp.task('test', testRequirements, function () {
     var cliOptions = extend({}, $.util.env),
         modulesToTest = [],
         sourcesList = [
