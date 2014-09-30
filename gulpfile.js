@@ -11,6 +11,8 @@ var extend = require('extend'),
     fs = require('fs'),
     runSequence = require('run-sequence'),
 
+    test = require('./test/test.js'),
+
     webapiProjects = require('./build/2gis-project-loader'),
 
     gendoc = require('./docbuilder/gendoc.js'),
@@ -95,7 +97,16 @@ gulp.task('lint', function () {
                 .pipe($.jshint.reporter('fail'));
 });
 
-gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function (cb) {
+var isTestTaskRun = $.util.env._.indexOf('test') !== -1;
+
+var buildStylesPreTasks = [];
+
+if (!isTestTaskRun) {
+    buildStylesPreTasks.push('collect-images-stats');
+    buildStylesPreTasks.push('generate-sprites');
+}
+
+gulp.task('build-styles', buildStylesPreTasks, function (cb) {
     var cliOptions = extend({}, $.util.env);
 
     cliOptions.mobile = cliOptions.base64 === 'false';
@@ -104,21 +115,29 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
         cliOptions.sprite = cliOptions.sprite === 'true';
     }
 
-    var css = [
-       {
-            size: true
-       },
-       {
-            ie8: true,
-            sprite: true,
-            name: 'full'
-       },
-       {
-            ie8: true,
-            excludeBaseCss: true,
-            name: 'ie'
-       }
-    ].map(function(list) {
+    var buildRules = [{
+        size: true
+    },
+    {
+        ie8: true,
+        sprite: true,
+        name: 'full'
+    },
+    {
+        ie8: true,
+        excludeBaseCss: true,
+        name: 'ie'
+    }];
+
+    var testRules = [{
+        ie8: true,
+        sprite: false,
+        mobile: false
+    }];
+
+    var cssBuildRules = isTestTaskRun ? testRules : buildRules;
+
+    var cssStream = cssBuildRules.map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
         if (!bandle) { return false; }
         return bandle
@@ -132,7 +151,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
             .pipe(gulp.dest('./public/css/'));
     }).filter(Boolean);
 
-    var stream = es.concat.apply(null, css);
+    var stream = es.concat.apply(null, cssStream);
 
     stream.on('end', cb);
 });
@@ -185,7 +204,7 @@ gulp.task('copy-svg', function () {
 });
 
 gulp.task('copy-svg-raster', function (cb) {
-    $.util.log($.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
+    $.util.log($.util.colors.green('Converting SVG to PNG. It can take a long time, please, be patient'));
 
     var stream = es.concat(
             gulp.src('./src/**/img/**/*.svg')
@@ -286,19 +305,43 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
     stream.on('end', cb);
 });
 
-//TODO: refactor this config
 gulp.task('test', ['build'], function () {
-    return gulp.src(['./vendors/leaflet/spec/before.js',
-                     './public/js/script.js',
-                     './vendors/leaflet/spec/after.js',
-                     './node_modules/happen/happen.js',
-                     './src/**/test/*Spec.js',
-                     './vendors/leaflet/spec/suites/SpecHelper.js',
-                     './vendors/leaflet/spec/suites/**/*Spec.js'
-                ])
+    var cliOptions = extend({}, $.util.env),
+        modulesToTest = [],
+        sourcesList = [
+            './vendors/leaflet/spec/before.js',
+            './public/js/script.js',
+            './vendors/leaflet/spec/after.js',
+            './node_modules/happen/happen.js'
+        ];
+
+    if ('m' in cliOptions) {
+        modulesToTest = cliOptions.m.split(',');
+    }
+
+    if ('module' in cliOptions) {
+        modulesToTest = cliOptions.module.split(',');
+    }
+
+    if (modulesToTest.length) {
+        modulesToTest.forEach(function (moduleName) {
+            sourcesList.push('./src/' + moduleName + '/test/*Spec.js');
+        });
+    }
+    else {
+        sourcesList.push('./src/**/test/*Spec.js');
+    }
+
+    sourcesList.push('./vendors/leaflet/spec/suites/SpecHelper.js');
+    sourcesList.push('./vendors/leaflet/spec/suites/**/*Spec.js');
+
+    return gulp.src(sourcesList)
                 .pipe(errorHandle())
                 .pipe($.karma({
                     configFile: './test/karma.conf.js',
+                    browsers: test.getBrowsers(),
+                    reporters: test.getReporters(),
+                    junitReporter: test.getJunitReporter(),
                     action: 'run'
                 }))
                 .on('error', function(err) {
@@ -500,32 +543,43 @@ function buildCss(options, enableSsl) {
         imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all'),
 
         lessList = deps.getCSSFiles(options),
-        lessPrerequirements = deps.lessHeader({
-            variables: {
-                baseURL: '"__BASE_URL__"',
+        lessHeaderImports, lessPrerequirements;
 
-                mobile: options.mobile,
-                ie8: options.ie8,
+    if (isTestTaskRun) {
+        lessHeaderImports = [
+            './private/less/mixins.less:reference',
+            './private/less/mixins.ie8.less:reference'
+        ];
+    } else {
+        lessHeaderImports = [
+            './build/tmp/less/sprite.basic.less:reference',
+            './build/tmp/less/sprite@2x.basic.less:reference',
+            './build/tmp/less/sprite.' + skin + '.less:reference',
+            './build/tmp/less/sprite@2x.' + skin + '.less:reference',
 
-                shouldUseSprites: options.sprite,
+            './build/tmp/less/images-files-statistics.basic.less:reference',
+            './build/tmp/less/images-files-statistics.' + skin + '.less:reference',
 
-                skinName: skin,
+            './private/less/mixins.less:reference',
+            './private/less/mixins.ie8.less:reference'
+        ];
+    }
 
-                imagesBasePath: '\'' + imagesBasePath + '\''
-            },
-            imports: [
-                './build/tmp/less/sprite.basic.less:reference',
-                './build/tmp/less/sprite@2x.basic.less:reference',
-                './build/tmp/less/sprite.' + skin + '.less:reference',
-                './build/tmp/less/sprite@2x.' + skin + '.less:reference',
+    lessPrerequirements = deps.lessHeader({
+        variables: {
+            baseURL: '"__BASE_URL__"',
 
-                './build/tmp/less/images-files-statistics.basic.less:reference',
-                './build/tmp/less/images-files-statistics.' + skin + '.less:reference',
+            mobile: options.mobile,
+            ie8: options.ie8,
 
-                './private/less/mixins.less:reference',
-                './private/less/mixins.ie8.less:reference'
-            ]
-        });
+            shouldUseSprites: options.sprite,
+
+            skinName: skin,
+
+            imagesBasePath: '\'' + imagesBasePath + '\''
+        },
+        imports: lessHeaderImports
+    });
 
     if (!lessList.length) { return false; }
 
