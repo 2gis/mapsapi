@@ -19,6 +19,9 @@ var deps = {
             'DGCore/src/DGthen.js',
             'DGCore/src/DGplugin.js'
         ],
+        less: {
+            all: ['DGCore/skin/basic/less/dg-core.less']
+        },
         heading: '2GIS modules',
         deps: ['Leaflet']
     },
