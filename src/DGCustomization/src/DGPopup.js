@@ -105,6 +105,18 @@
             return this;
         },
 
+        getContent: function() { // () -> HTML
+            return this._bodyContent;
+        },
+
+        getHeaderContent: function() { // () -> HTML
+            return this._headerContent;
+        },
+
+        getFooterContent: function() { // () -> HTML
+            return this._footerContent;
+        },
+
         clear: function () { // () -> Popup
             Object.keys(this._popupStructure).forEach(this._clearElement, this);
 
