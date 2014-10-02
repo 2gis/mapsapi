@@ -108,7 +108,16 @@ DG.Map.include({
     },
 
     _testAnimation: function (coords) {//if we jump to other project - disable animation
-        return this.projectDetector.enabled() ? (this.projectDetector.getProject().code === this.projectDetector.isProjectHere(coords).code) : true;
+        if (this.projectDetector.enabled()) {
+            var projectFrom = this.projectDetector.getProject(),
+                projectTo = this.projectDetector.isProjectHere(coords);
+
+            if (projectFrom && projectTo) {
+                return projectFrom.code === projectTo.code;
+            }
+        }
+
+        return true;
     },
 
     _updateTln: function (e) {
