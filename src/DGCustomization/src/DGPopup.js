@@ -171,7 +171,7 @@
 
                 path.setAttribute('d', this._tipSVGPath);
 
-                tip = DG.SVG.create('svg'),
+                tip = DG.SVG.create('svg');
                 tip.setAttribute('class', svgClass);
 
                 tip.appendChild(path);
@@ -375,6 +375,7 @@
             this._switchEvents(true);
 
             this._clearNode(this._contentNode);
+            this._isBaronExist = false;
 
             //init popup content dom structure
             this._headerContent && this._initHeader();
