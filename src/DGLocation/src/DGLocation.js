@@ -143,9 +143,8 @@ DG.Control.Location = DG.RoundControl.extend({
                 this.options.onLocationOutsideMapBounds(this);
             } else {
                 /* global __PROJECT_LEAVE_MAX_ZOOM__:false*/
-                this._map.setView(this._event.latlng, __PROJECT_LEAVE_MAX_ZOOM__);
                 var zoom = this._map.projectDetector.getProject().maxZoom || __PROJECT_LEAVE_MAX_ZOOM__;
-                this._map.setZoom(zoom);
+                this._map.setView(this._event.latlng, zoom);
             }
             this._locateOnNextLocationFound = false;
         }
