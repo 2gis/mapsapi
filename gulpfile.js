@@ -305,7 +305,9 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
     stream.on('end', cb);
 });
 
-var testRequirements = $.util.env.d ? [] : ['build'];
+var isTestDebug = $.util.env.d || $.util.env.debug,
+    testRequirements = isTestDebug ? [] : ['build'];
+
 gulp.task('test', testRequirements, function () {
     var cliOptions = extend({}, $.util.env),
         modulesToTest = [],
@@ -313,7 +315,8 @@ gulp.task('test', testRequirements, function () {
             './vendors/leaflet/spec/before.js',
             './public/js/script.js',
             './vendors/leaflet/spec/after.js',
-            './node_modules/happen/happen.js'
+            './node_modules/happen/happen.js',
+            './test/geolocate.js'
         ];
 
     if ('m' in cliOptions) {
