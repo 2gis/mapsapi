@@ -11,6 +11,11 @@ describe('DG.ProjectDetectorInit', function () {
     mapContainer.style.width = 1900 + 'px';
     mapContainer.style.height = 600 + 'px';
 
+    after(function() {
+        document.body.removeChild(mapContainer);
+        map = mapContainer = maxZoom = maxDesertZoom = project1 = desert1 = null;
+    });
+
     describe('#initMap', function () {
 
         afterEach(function () {
