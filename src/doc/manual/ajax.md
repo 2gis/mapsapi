@@ -85,12 +85,6 @@
             <td>Функция, которая срабатывает при возникновении ошибки. В качестве параметра принимает информацию об ошибке.</td>
         </tr>
         <tr>
-            <td><code><b>complete</b></code></td>
-            <td><code>Function</code></td>
-            <td><code>null</code></td>
-            <td>Функция, которая срабатывает по окончанию отправки запроса (после выполнения функции success или error).</td>
-        </tr>
-        <tr>
             <td><code><b>url</b></code></td>
             <td><code>String</code></td>
             <td><code>null</code></td>
