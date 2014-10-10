@@ -22,11 +22,11 @@ exports.getBrowsers = function () {
     return browsers;
 };
 
-exports.getReporters = function () {
-    var reporters = ['dots'];
+exports.getReporters = function (isDebug) {
+    var reporters = isDebug ? ['mocha'] : ['dots'];
 
     if (argv.hasOwnProperty('reporters')) {
-        reporters = argv.reporters.split(',');;
+        reporters = argv.reporters.split(',');
     }
 
     return reporters;

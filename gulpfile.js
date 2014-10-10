@@ -344,7 +344,7 @@ gulp.task('test', testRequirements, function () {
                 .pipe($.karma({
                     configFile: './test/karma.conf.js',
                     browsers: test.getBrowsers(),
-                    reporters: test.getReporters(),
+                    reporters: test.getReporters(isTestDebug),
                     junitReporter: test.getJunitReporter(),
                     action: 'run'
                 }))

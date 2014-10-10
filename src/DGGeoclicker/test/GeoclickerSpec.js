@@ -45,7 +45,7 @@ describe('DG.Geoclicker', function () {
 
 });
 
-describe.only('DG.Geoclicker advance tests', function () {
+describe('DG.Geoclicker advance tests', function () {
     var map, mapContainer, spy;
 
     before(function() {
