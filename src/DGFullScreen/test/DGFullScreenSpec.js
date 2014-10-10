@@ -1,6 +1,12 @@
 /*global describe:false, it:false, expect:false, sinon:false */
 describe('DG.FullScreen', function () {
-    var mapContainer = document.createElement('div'),
+    var mapContainer, map, classControl, container, spy;
+
+    before(function() {
+        mapContainer = document.createElement('div');
+
+        document.body.appendChild(mapContainer);
+
         map = new DG.Map(mapContainer, {
             center: [54.98117239821992, 82.88922250270844],
             'zoom': 17,
@@ -8,19 +14,81 @@ describe('DG.FullScreen', function () {
             'zoomAnimation': false
         });
 
-    describe('#should fire', function () {
+        classControl = 'dg-control-round__icon_name_fullscreen';
+    });
 
-        it('events', function () {
-            var enterFS = sinon.spy(),
-                exitFS = sinon.spy();
-            map.on('requestfullscreen', enterFS);
-            map.on('cancelfullscreen', exitFS);
+    after(function() {
+        document.body.removeChild(mapContainer);
+        mapContainer = map = classControl = container = spy = null;
+    });
 
-            map.fullscreenControl._toggleFullscreen();
-            map.fullscreenControl._toggleFullscreen();
+    describe('check init', function() {
+        it('should be one container on map', function() {
+            container = mapContainer.getElementsByClassName(classControl);
+            expect(container.length).to.be(1);
+            container = container[0];
+        });
 
-            expect(enterFS.calledOnce).to.be.ok();
-            expect(exitFS.calledOnce).to.be.ok();
+        it('should be DG.control.fullscreen', function() {
+            expect(DG.control.fullscreen).to.be.ok();
+        });
+    });
+
+    describe('enable fullscreen', function() {
+        before(function() {
+            spy = sinon.spy();
+            map.on('requestfullscreen', spy);
+
+            happen.click(container);
+        });
+
+        after(function() {
+            map.off('requestfullscreen', spy);
+            spy = null;
+        });
+
+        it('should fire request event', function() {
+            expect(spy.calledOnce).to.be.ok();
+        });
+
+        // phantom hasn't fullscreen
+        if (DG.screenfull.api['fullscreenElement']) {
+            it('should enable fullscreen', function () {
+                expect(document[DG.screenfull.api['fullscreenElement']]).to.be(null);
+            });
+        }
+
+        it('should container has active class', function() {
+            expect(container.className).to.contain('active');
+        });
+    });
+
+    describe('enable fullscreen', function() {
+        before(function() {
+            spy = sinon.spy();
+            map.on('cancelfullscreen', spy);
+
+            happen.click(container);
+        });
+
+        after(function() {
+            map.off('cancelfullscreen', spy);
+            spy = null;
+        });
+
+        it('should fire cancel event', function() {
+            expect(spy.calledOnce).to.be.ok();
+        });
+
+        // phantom hasn't fullscreen
+        if (DG.screenfull.api['fullscreenElement']) {
+            it('should disable fullscreen', function() {
+                expect(document[DG.screenfull.api['fullscreenElement']]).to.be(null);
+            });
+        }
+
+        it('should container hasn\'t active class', function() {
+            expect(container.className).not.to.contain('active');
         });
     });
 });
