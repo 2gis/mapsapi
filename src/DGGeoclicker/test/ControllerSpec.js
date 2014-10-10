@@ -7,6 +7,10 @@ describe('DG.Geoclicker.Controller', function () {
         initZoom = 17,
         controller;
 
+    after(function() {
+        mapContainer = initZoom = null;
+    });
+
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.98117239821992, 82.88922250270844),

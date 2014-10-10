@@ -5,6 +5,10 @@ describe('DG.Geoclicker.Provider.CatalogApi', function () {
         map,
         mapContainer = document.createElement("div");
 
+    after(function() {
+        mapContainer = null;
+    });
+
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.98117239821992, 82.88922250270844),
