@@ -7,6 +7,10 @@ describe('DG.Entrance', function () {
         ua = navigator.userAgent.toLowerCase(),
         ff = ua.indexOf('firefox') > -1;
 
+    after(function() {
+        map = spy = entrance = mapContainer = ua = ff = null;
+    });
+
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(69.349552990994837, 87.75222519148015),
@@ -38,6 +42,26 @@ describe('DG.Entrance', function () {
             });
             expect(entrance1.addTo(map)).to.be.a(DG.Entrance);
             expect(entrance1.removeFrom(map)).to.be.a(DG.Entrance);
+        });
+
+        it('should add layers on map and not visible container', function() {
+            var layers = entrance._arrows._layers;
+
+            Object.keys(layers).forEach(function(el) {
+                expect(map.hasLayer(layers[el])).to.be.ok();
+                expect(layers[el].options.visibility).not.be('visible');
+            });
+        });
+
+        it('should remove layers on map and not visible container', function() {
+            var layers = entrance._arrows._layers;
+
+            entrance.removeFrom(map);
+
+            Object.keys(layers).forEach(function(el) {
+                expect(map.hasLayer(layers[el])).not.be.ok();
+                expect(layers[el].options.visibility).not.be('visible');
+            });
         });
     });
     // since ff/mocha/phantom has some strange bug with svg beginElement()
@@ -75,6 +99,17 @@ describe('DG.Entrance', function () {
                 entrance.show(false);
                 expect(map.getCenter()).not.to.eql(entrance.getBounds().getCenter()); // Kayerkan
             });
+
+            it('should add layers on map and visible container', function() {
+                var layers = entrance._arrows._layers;
+
+                entrance.show();
+
+                Object.keys(layers).forEach(function(el) {
+                    expect(map.hasLayer(layers[el])).to.be.ok();
+                    expect(layers[el].options.visibility).to.be('visible');
+                });
+            });
         });
     }
     describe('#hide', function () {
@@ -96,6 +131,15 @@ describe('DG.Entrance', function () {
             map.on('entrancehide', spy);
             entrance.hide();
             expect(spy.called).not.to.be.ok();
+        });
+
+        it('should layers on map and not visible container', function() {
+            var layers = entrance._arrows._layers;
+
+            Object.keys(layers).forEach(function(el) {
+                expect(map.hasLayer(layers[el])).to.be.ok();
+                expect(layers[el].options.visibility).not.be('visible');
+            });
         });
 
     });
