@@ -101,7 +101,6 @@ describe('DGMeta', function () {
 
             origin.setURL('http://demo/data');
             data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
 
             expect(data).to.not.be.ok();
             expect(ajaxSpy.callCount).to.be.eql(1);

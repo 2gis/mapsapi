@@ -78,7 +78,7 @@ describe('DG Locale Module', function () {
 	describe('t() method test cases', function () {
 		var TestPlugin,
 			plugin,
-			pluginSpy;
+            tSpy;
 
 		beforeEach(function () {
 			TestPlugin = DG.Control.extend({
@@ -89,7 +89,7 @@ describe('DG Locale Module', function () {
 			    statics: {
 					Dictionary: {}
 			    },
-			    onAdd: function (map) {
+			    onAdd: function () {
 			        return DG.DomUtil.create('div', 'locale-example');
 			    }
 			});

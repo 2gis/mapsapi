@@ -19,6 +19,12 @@ describe('DG.ProjectDetectorOut', function () {
     mapContainer.style.width = 1900 + 'px';
     mapContainer.style.height = 600 + 'px';
 
+    after(function() {
+        document.body.removeChild(mapContainer);
+        mapContainer = initZoom = maxZoom = maxDesertZoom = start = project1 = null;
+        project2 = edgeProject1 = edgeProject2 = edgeProject3 = desert1 = desert2 = null;
+    });
+
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: start,

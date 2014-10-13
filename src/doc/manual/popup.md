@@ -203,9 +203,19 @@
 			<td>Задает содержимое секции footer балуна. Может принимать HTML строку или DOM-элемент.</td>
 		</tr>
 		<tr>
+			<td><code><b>getHeaderContent</b>()</code></td>
+			<td><code>&lt;String&nbsp;|&nbsp;HTMLElement&gt;</code></td>
+			<td>Возвращает содержимое секции header балуна.</td>
+		</tr>
+		<tr>
 			<td><code><b>getContent</b>()</code></td>
 			<td><code>&lt;String&nbsp;|&nbsp;HTMLElement&gt;</code></td>
-			<td>Возвращает контент балуна.</td>
+			<td>Возвращает содержимое секции body балуна.</td>
+		</tr>
+		<tr>
+			<td><code><b>getFooterContent</b>()</code></td>
+			<td><code>&lt;String&nbsp;|&nbsp;HTMLElement&gt;</code></td>
+			<td>Возвращает содержимое секции footer балуна.</td>
 		</tr>
 		<tr>
             <td><code><b>on</b>(

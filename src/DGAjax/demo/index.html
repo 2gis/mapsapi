@@ -52,26 +52,23 @@
                     house: 141373143572328,
                     page: 1
                 },
-                progress: function(data) {
-                    console.log('progress', data);
-                },
                 success: function(data) {
                     console.log('success', data);
                 },
                 error: function(error) {
                     console.warn('error', error);
-                },
-                complete: function(){
-                    console.log('complete');
                 }
             }).then(
-                function(data) { console.log('promise resolve', data) },
-                function(error) { console.warn('promise reject', error) },
-                function(data) { console.log('promise progress', data) }
-            ).then(function(){
-                console.groupEnd();
-            });
-        };
+                function(data) {
+                    console.log('promise resolve', data);
+                    console.groupEnd();
+                },
+                function(error) {
+                    console.warn('promise reject', error);
+                    console.groupEnd();
+                }
+            );
+        }
 
         function test_post(){
             console.group('Test XHR POST');
@@ -83,26 +80,23 @@
                     house: 141373143572328,
                     page: 1
                 },
-                progress: function(data) {
-                    console.log('progress', data);
-                },
                 success: function(data) {
                     console.log('success', data);
                 },
                 error: function(error) {
                     console.warn('error', error);
-                },
-                complete: function(){
-                    console.log('complete');
                 }
             }).then(
-                function(data) { console.log('promise resolve', data) },
-                function(error) { console.warn('promise reject', error) },
-                function(data) { console.log('promise progress', data) }
-            ).ensure(function(){
-                console.groupEnd();
-            });
-        };
+                function(data) {
+                    console.log('promise resolve', data);
+                    console.groupEnd();
+                },
+                function(error) {
+                    console.warn('promise reject', error);
+                    console.groupEnd();
+                }
+            );
+        }
 
         DG.DomEvent.addListener( DG.DomUtil.get('sendRequest'), 'click', function(){
             test_get().then(test_post).then(function(){

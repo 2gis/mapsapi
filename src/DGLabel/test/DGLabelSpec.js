@@ -2,6 +2,10 @@ describe('DG.Label', function () {
     var map,
         mapContainer = document.createElement("div");
 
+    after(function() {
+        mapContainer = null;
+    });
+
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(69.349552990994837, 87.75222519148015),

@@ -11,6 +11,10 @@ describe('DG.Ruler', function () {
             [5, 6]
         ];
 
+    after(function() {
+        mRuler = kmRuler = originalLatLngs = null;
+    });
+
     beforeEach(function () {
         map = new DG.Map(document.createElement('div'), {
             center: new DG.LatLng(51.7302800, 36.1938900),
@@ -22,8 +26,7 @@ describe('DG.Ruler', function () {
 
     afterEach(function () {
         map && map.remove();
-        ruler = null;
-        map = null;
+        ruler = map = null;
     });
 
     describe("#setLatLngs", function () {

@@ -305,14 +305,18 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
     stream.on('end', cb);
 });
 
-gulp.task('test', ['build'], function () {
+var isTestDebug = $.util.env.d || $.util.env.debug,
+    testRequirements = isTestDebug ? [] : ['build'];
+
+gulp.task('test', testRequirements, function () {
     var cliOptions = extend({}, $.util.env),
         modulesToTest = [],
         sourcesList = [
             './vendors/leaflet/spec/before.js',
             './public/js/script.js',
             './vendors/leaflet/spec/after.js',
-            './node_modules/happen/happen.js'
+            './node_modules/happen/happen.js',
+            './test/geolocate.js'
         ];
 
     if ('m' in cliOptions) {
@@ -340,7 +344,7 @@ gulp.task('test', ['build'], function () {
                 .pipe($.karma({
                     configFile: './test/karma.conf.js',
                     browsers: test.getBrowsers(),
-                    reporters: test.getReporters(),
+                    reporters: test.getReporters(isTestDebug),
                     junitReporter: test.getJunitReporter(),
                     action: 'run'
                 }))

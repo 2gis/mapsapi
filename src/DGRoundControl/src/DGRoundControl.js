@@ -22,8 +22,6 @@ DG.RoundControl = DG.Control.extend({
 
         this._map = map;
 
-        this.fireEvent('add');
-
         DG.DomEvent
             .on(container, 'click', this._toggleControl, this)
             .on(container, 'dblclick', DG.DomEvent.stopPropagation);

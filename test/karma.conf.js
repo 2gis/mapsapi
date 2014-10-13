@@ -73,7 +73,8 @@ module.exports = function(config) {
             'karma-phantomjs-launcher',
             'karma-chrome-launcher',
             'karma-opera-launcher',
-            'karma-firefox-launcher'
+            'karma-firefox-launcher',
+            'karma-mocha-reporter'
         ]
     });
 };
