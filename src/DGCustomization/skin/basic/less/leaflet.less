@@ -1,5 +1,9 @@
 .dg-map-container:after {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+        opacity linear 0.2s,
+        visibility 0.2s;
     }
 
 .leaflet-container {

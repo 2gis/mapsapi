@@ -74,6 +74,7 @@
                 'bottom: 0;' +
                 'left: 0;' +
                 'background-color: #f7f3df;' +
+                'opacity: 1;' +
                 'z-index: 4;' +
             '}';
         var style = document.createElement('style');
