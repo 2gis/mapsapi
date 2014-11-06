@@ -463,6 +463,7 @@ gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function (cb) {
                         variables: {
                             skinName: skinName,
                             baseURL: '\'__BASE_URL__\'',
+                            spritesURL: '\'__SPRITES_URL__\'',
 
                             mobile: false,
                             ie8: true,
@@ -571,7 +572,9 @@ function buildCss(options, enableSsl) {
 
     lessPrerequirements = deps.lessHeader({
         variables: {
-            baseURL: '"__BASE_URL__"',
+            baseURL: '\'__BASE_URL__\'',
+            spritesURL: '\'__SPRITES_URL__\'',
+
 
             mobile: options.mobile,
             ie8: options.ie8,
