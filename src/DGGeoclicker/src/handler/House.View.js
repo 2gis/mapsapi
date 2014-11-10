@@ -32,6 +32,16 @@ DG.Geoclicker.Handler.House.include({
             this._totalPages = Math.ceil(house.links.branches.count / this._firmsOnPage);
         }
 
+        if (house.links.attractions && house.links.attractions.length) {
+            data.attractions = house.links.attractions.reduce(function(attractions, attraction) {
+                if (attraction.name) {
+                    attractions.push(attraction.name);
+                }
+
+                return attractions;
+            }, []);
+        }
+
         wrapper.innerHTML = this._view.render({
             tmpl: 'house',
             data: data

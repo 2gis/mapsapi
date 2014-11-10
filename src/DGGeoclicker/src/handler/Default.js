@@ -59,21 +59,21 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
         if (object.adm_div) {
             admDivs = object.adm_div
-                .reverse()
-                .map(function(admDiv) {
-                    return admDiv.name;
-                });          
+                .reduce(function(admDivs, admDiv) {
+                    if (admDiv.name) {
+                        admDivs.push(admDiv.name);
+                    }
+
+                    return admDivs;
+                }, [])
+                .reverse();
         }
 
         if (admDivs.length && object.address && object.address.postcode) {
             admDivs.push(object.address.postcode);
         }
 
-        result = admDivs
-            .filter(function (element) {
-                return !!element;
-            })
-            .join(', ');
+        result = admDivs.join(', ');
 
         return result;
     }

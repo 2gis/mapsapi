@@ -98,7 +98,17 @@ gulp.task('lint', function () {
                 .pipe($.jshint.reporter('fail'));
 });
 
-gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function (cb) {
+var isTestTaskRun = $.util.env._.indexOf('test') !== -1;
+
+var buildStylesPreTasks = [];
+
+if (!isTestTaskRun) {
+    buildStylesPreTasks.push('collect-images-stats');
+    buildStylesPreTasks.push('generate-sprites');
+}
+
+
+gulp.task('build-styles', buildStylesPreTasks, function (cb) {
     var cliOptions = extend({}, $.util.env);
 
     cliOptions.mobile = cliOptions.base64 === 'false';
@@ -107,21 +117,31 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
         cliOptions.sprite = cliOptions.sprite === 'true';
     }
 
-    var css = [
-       {
+    var buildRules = [
+        {
             size: true
-       },
-       {
+        },
+        {
             ie8: true,
             sprite: true,
             name: 'full'
-       },
-       {
+        },
+        {
             ie8: true,
             excludeBaseCss: true,
             name: 'ie'
-       }
-    ].map(function(list) {
+        }
+    ];
+
+    var testRules = [{
+        ie8: true,
+        sprite: false,
+        mobile: false
+    }];
+
+    var cssBuildRules = isTestTaskRun ? testRules : buildRules;
+
+    var cssStream = cssBuildRules.map(function(list) {
         var bandle = buildCss(extend({ isDebug: true }, list, cliOptions));
         if (!bandle) { return false; }
         return bandle
@@ -135,7 +155,7 @@ gulp.task('build-styles', ['collect-images-stats', 'generate-sprites'], function
             .pipe(gulp.dest('./public/css/'));
     }).filter(Boolean);
 
-    var stream = es.concat.apply(null, css);
+    var stream = es.concat.apply(null, cssStream);
 
     stream.on('end', cb);
 });
@@ -189,7 +209,7 @@ gulp.task('copy-svg', function () {
 });
 
 gulp.task('copy-svg-raster', function (cb) {
-    $.util.log($.util.colors.green(('Converting SVG to PNG. It can take a long time, please, be patient')));
+    $.util.log($.util.colors.green('Converting SVG to PNG. It can take a long time, please, be patient'));
 
     var stream = es.concat(
             gulp.src('./src/**/img/**/*.svg')
