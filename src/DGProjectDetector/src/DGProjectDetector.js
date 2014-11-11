@@ -21,7 +21,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     getProjectsList: function () {
-        return DG.projectsList.slice(0);
+        return this._projectList.slice(0);
     },
 
     isProjectHere: function (coords, project, checkMethod) {
@@ -38,7 +38,7 @@ DG.ProjectDetector = DG.Handler.extend({
 
         return project ?
             this._testProject(checkMethod, coords, project) :
-            DG.projectsList.filter(
+            this._projectList.filter(
                 this._testProject.bind(this, checkMethod, coords)
             )[0];
     },
@@ -66,15 +66,63 @@ DG.ProjectDetector = DG.Handler.extend({
         }
     },
 
+    _wktToBnd: function (wkt) {
+        var arr,
+            pointsArr,
+            bracketsContent,
+            regExp,
+            southWest,
+            northEast;
+
+        wkt = wkt.replace(/, /g, ',');
+        wkt.replace(' (', '(');
+
+        arr = /^POLYGON\((.*)\)/.exec(wkt);
+        regExp = /\((.*?)\)/g;
+
+        bracketsContent = (regExp).exec(arr[1]);
+        pointsArr = bracketsContent[1].split(',');
+        southWest = pointsArr[0].split(' ');
+        northEast = pointsArr[2].split(' ');
+
+        return [
+            [parseFloat(southWest[1]), parseFloat(southWest[0])],
+            [parseFloat(northEast[1]), parseFloat(northEast[0])]
+        ];
+    },
+
+
     _loadProjectList: function () {
-        DG.projectsList.map(function (project) {
-            project.latLngBounds = new DG.LatLngBounds(project.bound);
-            return project;
+        var self = this;
+
+        if (!DG.projectsList) {
+            DG.projectsList = DG.fallbackProjectsList;
+        }
+        delete DG.fallbackProjectsList;
+
+        this._projectList = DG.projectsList.map(function (project) {
+            var bound = self._wktToBnd(project.bounds);
+            var latLngBounds = new DG.LatLngBounds(bound);
+
+            return {
+                code: project.code,
+                /*jshint camelcase: false */
+                minZoom: project.zoom_level.min,
+                maxZoom: project.zoom_level.max,
+                timeOffset: project.time_zone.offset,
+                bound: bound,
+                latLngBounds: latLngBounds,
+                traffic: !!project.flags.traffic,
+                transport: !!project.flags.public_transport,
+                roads: !!project.flags.road_network,
+                country_code: project.country_code,
+                domain: project.domain
+            };
         });
     },
 
     _searchProject: function () {
-        DG.projectsList
+        this._projectList
             .filter(function (project) {
                 return (this._boundInProject(project) && this._zoomInProject(project));
             }, this)

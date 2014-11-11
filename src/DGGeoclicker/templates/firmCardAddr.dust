@@ -1,8 +1,6 @@
 <address class="dg-firm-card__address dg-firm-card__icon">
-    {#data}
-        {address}
-        {#comment}
-            <span class="dg-firm-card__comment">{.}</span>
-        {/comment}
-    {/data}
+    {address}
+    {#comment}
+        <span class="dg-firm-card__comment">&mdash; {.}</span>
+    {/comment}
 </address>

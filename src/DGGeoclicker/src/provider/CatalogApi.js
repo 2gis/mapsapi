@@ -1,7 +1,8 @@
 DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     options: {
-        urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/search',
-        urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/details',
+        urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/geo/search',
+        urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/catalog/branch/get',
+        urlFirmsInHouse: '__WEB_API_SERVER__/__WEB_API_VERSION__/catalog/branch/list',
         data: {
             key: '__GEOCLICKER_CATALOG_API_KEY__'
         },
@@ -39,12 +40,11 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         parameters = parameters || {};
 
         var params = DG.extend(this.options.data, {
-            type: 'filial',
-            house: houseId,
+            building_id: houseId,
             page: parameters.page || 1
         });
 
-        return this._performRequest(params, this.options.urlGeo);
+        return this._performRequest(params, this.options.urlFirmsInHouse);
     },
 
     getFirmInfo: function (firmId) {
@@ -58,9 +58,8 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     geoSearch: function (q, types, zoomlevel) { // (String, String, Number)
         var params = {
             point: q,
-            geo_type: types,
+            type: types,
             zoom_level: zoomlevel,
-            type: 'geo',
             fields: this.options.geoFields
         };
 
@@ -75,18 +74,15 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
 
     getTypesByZoom: function (zoom) { // (Number) -> String|Null
         var types = {
-            settlement:         8,
-            city:               8,
-            division:           11,
-            district:           12,
-            station:            12,
-            metro:              12,
-            station_platform:   12,
-            street:             14,
-            house:              14,
-            place:              15,
-            poi:                15,
-            sight:              17
+            'adm_div.settlement':   8,
+            'adm_div.city':         8,
+            'adm_div.division':     11,
+            'adm_div.district':     12,
+            'street':               14,
+            'building':             14,
+            'adm_div.place':        15,
+            'poi':                  15,
+            'attraction':           17
         },
         selectedTypes = [];
 
@@ -126,21 +122,27 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
-        var result = {}, i, item, found, data;
+        var result = {}, i, item, found, data, type;
 
         if (this._isNotFound(response)) {
             return false;
         }
 
-        data = response.result.data;
+        data = response.result.items;
 
         for (i = data.length - 1; i >= 0; i--) {
             item = data[i];
-            if (allowedTypes && allowedTypes.indexOf(item.geo_type) === -1) {
+
+            type = item.type;
+            if (item.subtype) {
+                type += '.' + item.subtype;
+            }
+
+            if (allowedTypes && allowedTypes.indexOf(type) === -1) {
                 continue;
             }
 
-            result[item.geo_type] = item;
+            result[type] = item;
             found = true;
         }
 
@@ -152,7 +154,11 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     },
 
     _isNotFound: function (response) { // (Object) -> Boolean
-        return !response || !!response.error_code || !response.result || !response.result.data.length;
+        return !response ||
+               !!response.meta && !!response.meta.error ||
+               !response.result ||
+               !response.result.items ||
+               !response.result.items.length;
     }
 
 });

@@ -141,6 +141,33 @@
         DG.ready = true;
     }
 
+    function loadProjectList() {
+        var url = '__WEB_API_SERVER__/__WEB_API_VERSION__/region/list';
+
+        return new Promise(function (resolve, reject) {
+            DG.ajax(url, {
+                type: 'get',
+                data: {
+                    key: '__WEB_API_KEY__',
+                    fields: '__REGION_LIST_FIELDS__'
+                },
+                success: function (data) {
+                    var result = data.result;
+                    if (result && result.items && result.items.length) {
+                        DG.projectsList = result.items.filter(function (project) {
+                            return project.bound !== null;
+                        });
+                    }
+
+                    resolve();
+                },
+                error: function () {
+                    resolve();
+                }
+            });
+        });
+    }
+
     function runRejects() {
         for (var i = 0, len = rejects.length; i < len; i++) {
             (typeof(rejects[i]) === 'function') && rejects[i]();
@@ -155,7 +182,7 @@
     window.DG = window.DG || {};
     window.DG.ready = false;
     window.__dgApi__ = {
-        callbacks: [setReady],
+        callbacks: [[loadProjectList, undefined], [setReady, undefined]],
         debug: getDebugParam(),
         version: version
     };

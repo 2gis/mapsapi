@@ -13,11 +13,12 @@ var extend = require('extend'),
 
     test = require('./test/test.js'),
 
-    webapiProjects = require('./build/2gis-project-loader'),
-
     gendoc = require('./docbuilder/gendoc.js'),
+
     config = require('./build/config.js'),
     deps = require('./build/gulp-deps')(config),
+    webapiProjects = require('./build/2gis-project-loader')(config),
+
     error,
     stat = {}; // Files minification statistics
 
@@ -63,7 +64,7 @@ webapiProjects(function (err, projects) {
         });
         errorNotify(error);
     }
-    projectList = 'DG.projectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
+    projectList = 'DG.fallbackProjectsList = JSON.parse(\'' + JSON.stringify(projects) + '\')';
 });
 
 //public CLI API
@@ -106,6 +107,7 @@ if (!isTestTaskRun) {
     buildStylesPreTasks.push('generate-sprites');
 }
 
+
 gulp.task('build-styles', buildStylesPreTasks, function (cb) {
     var cliOptions = extend({}, $.util.env);
 
@@ -115,19 +117,21 @@ gulp.task('build-styles', buildStylesPreTasks, function (cb) {
         cliOptions.sprite = cliOptions.sprite === 'true';
     }
 
-    var buildRules = [{
-        size: true
-    },
-    {
-        ie8: true,
-        sprite: true,
-        name: 'full'
-    },
-    {
-        ie8: true,
-        excludeBaseCss: true,
-        name: 'ie'
-    }];
+    var buildRules = [
+        {
+            size: true
+        },
+        {
+            ie8: true,
+            sprite: true,
+            name: 'full'
+        },
+        {
+            ie8: true,
+            excludeBaseCss: true,
+            name: 'ie'
+        }
+    ];
 
     var testRules = [{
         ie8: true,
@@ -176,6 +180,7 @@ gulp.task('copy-private-assets', function (cb) {
 
         gulp.src('./private/loader.js')
             .pipe(errorHandle())
+            .pipe($.frep(config.cfgParams()))
             .pipe($.uglify())
             .pipe(gulp.dest('./public/'))
         );
@@ -574,7 +579,6 @@ function buildCss(options, enableSsl) {
         variables: {
             baseURL: '\'__BASE_URL__\'',
             spritesURL: '\'__SPRITES_URL__\'',
-
 
             mobile: options.mobile,
             ie8: options.ie8,

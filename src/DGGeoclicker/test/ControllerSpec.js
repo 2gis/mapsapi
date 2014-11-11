@@ -43,9 +43,9 @@ describe('DG.Geoclicker.Controller', function () {
 
             spy = sinon.spy(controller, 'findHandler');
 
-            controller.findHandler({'house': 2});
+            controller.findHandler({'building': 2});
 
-            expect(spy.returnValues.pop()).to.be.equal('house');
+            expect(spy.returnValues.pop()).to.be.equal('building');
         });
 
     });
