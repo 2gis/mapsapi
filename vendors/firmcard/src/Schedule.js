@@ -690,7 +690,7 @@ FirmCard.Schedule.prototype = {
                     // далее - закрытие на обед
                     if (schedule.will && schedule.will.h < maxHours) {
                         // менее maxHours до закрытия  на обед
-                        nowText = this.dict.t(this.localLang, 'in') + ' ' + this.dict.t(this.localLang, 'nMins', interval) + this.dict.t(this.localLang, 'isClosingOnDinner');
+                        nowText = this.dict.t(this.localLang, '_in') + ' ' + this.dict.t(this.localLang, 'nMins', interval) + this.dict.t(this.localLang, 'isClosingOnDinner');
                     } else {
                         // больше maxHours до закрытия  на обед
                         nowText = this.dict.t(this.localLang, 'isOpen');
