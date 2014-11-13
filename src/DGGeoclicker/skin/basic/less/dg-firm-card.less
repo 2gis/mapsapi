@@ -1,26 +1,27 @@
+// Хелпер
 .dg-firm-card__icon {
     position: relative;
     padding-left: 24px;
-    margin-bottom: 4px;
+
     &:before {
         position: absolute;
         top: 0;
-        left: 0;
         bottom: 0;
+        left: 0;
         margin: auto;
-        background-size: contain;
+        background-position: 0 50%;
+        background-repeat: no-repeat;
         content: '';
         }
     }
 
 .dg-firm-card__address {
-    margin: 13px 0 9px 0; 
+    margin: 13px 0 9px 0;
     font: 16px/16px Arial, sans-serif;
-    
+
     &:before {
         position: absolute;
         top: 3px;
-        left: -24px;
         content: '';
         }
     }
@@ -34,8 +35,9 @@
 
 .dg-firm-card__phone {
     overflow: hidden;
+    margin-bottom: 4px;
     text-overflow: ellipsis;
-    
+
     &:before {
         position: absolute;
         top: 3px;
@@ -49,11 +51,12 @@
 
 .dg-firm-card__link {
     overflow: hidden;
+    margin-bottom: 4px;
     text-overflow: ellipsis;
     white-space: nowrap;
     word-wrap: normal;
     line-height: 16px;
-    
+
     &:before {
         width: 11px;
         height: 11px;

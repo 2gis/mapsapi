@@ -1,4 +1,4 @@
-/* 
+/*
     See gulpfile.js for predefined stuff
        — Variables: @baseURL, @isModernBrowser, @ie8, @shouldUseSprites, @skinName;
        — Mixins: .imageData, .imageFileData, .isSprited.
@@ -61,7 +61,7 @@
 
 .directImage(@name; @retina: false) {
     .imageFileData(@name);
-        
+
      & when not (@filename = '') {
         background-image: url('@{baseURL}/img/@{filename}.@{extension}');
         }
@@ -116,7 +116,10 @@
 
 .noRepeatableBgWithSizes(@name; @useSprite: true) {
     .noRepeatableBg(@name, @useSprite);
-    .sizesOfImage(@name);
+
+    & when not (@ie8) {
+        .sizesOfImage(@name);
+        }
     }
 
 .repeatableBg(@name) {
