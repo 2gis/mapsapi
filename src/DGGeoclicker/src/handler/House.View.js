@@ -19,10 +19,17 @@ DG.Geoclicker.Handler.House.include({
             wrapper = DG.DomUtil.create('div', 'dg-building-callout__body'),
             filials = house.links.branches;
 
-        data.drilldown = this._getDrilldown(house);
+        var drilldown = this._getDrilldown(house);
 
         if (house.building_name) {
-            data.address = this._getAddressString(house);
+            data.address = {
+                header: this._getAddressString(house),
+                drilldown: drilldown
+            };
+        } else if (drilldown) {
+            data.address = {
+                drilldown: drilldown
+            };
         }
 
         data.purpose = house.purpose_name +
