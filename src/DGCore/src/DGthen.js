@@ -2,9 +2,9 @@ var handlers = window.__dgApi__.callbacks || [],
     chain = Promise.resolve();
 
 //dont pollute global space!
-try { 
+try {
     delete window.__dgApi__; 
-} catch(e) { 
+} catch(e) {
     window.__dgApi__ = undefined; //ie8 cant delete from window object
 }
 
@@ -15,3 +15,7 @@ handlers.forEach(function (handlers) {
 DG.then = function (resolve, reject) {
     return chain.then(resolve, reject);
 };
+
+chain.catch(function(err) {
+    console.error(err);
+});
