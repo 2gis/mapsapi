@@ -160,23 +160,37 @@ gulp.task('build-styles', buildStylesPreTasks, function (cb) {
     stream.on('end', cb);
 });
 
-gulp.task('copy-private-assets', function (cb) {
-    var stream = es.concat(
-        gulp.src(['./private/*.*', '!./private/loader.js'])
-            .pipe(errorHandle())
-            .pipe(gulp.dest('./public/')),
+gulp.task('copy-fonts', function () {
+    return gulp.src('./src/**/fonts/**/*.*')
+        .pipe(errorHandle())
+        .pipe($.flatten())
+        .pipe(gulp.dest('./public/fonts/'));
+});
 
+gulp.task('copy-img', function(cb) {
+    var stream = es.concat(
         gulp.src('./private/img/*.*')
             .pipe(errorHandle())
             .pipe(gulp.dest('./public/img')),
+
         gulp.src('./vendors/leaflet/dist/images/*')
             .pipe(errorHandle())
-            .pipe(gulp.dest('./public/img/vendors/leaflet')),
+            .pipe(gulp.dest('./public/img/vendors/leaflet'))
+    );
 
-        gulp.src('./src/**/fonts/**/*.*')
+    stream.on('end', cb);
+});
+
+gulp.task('copy-private-assets', ['copy-fonts', 'copy-img'], function (cb) {
+    var stream = es.concat(
+        gulp.src(['./private/*.*', '!./private/loader.js', '!./private/index.html'])
             .pipe(errorHandle())
-            .pipe($.flatten())
-            .pipe(gulp.dest('./public/fonts/')),
+            .pipe(gulp.dest('./public/')),
+
+        gulp.src('./private/index.html')
+            .pipe(errorHandle())
+            .pipe($.frep(config.cfgParams()))
+            .pipe(gulp.dest('./public/')),
 
         gulp.src('./private/loader.js')
             .pipe(errorHandle())
