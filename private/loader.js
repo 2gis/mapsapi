@@ -144,6 +144,10 @@
     function loadProjectList() {
         var url = '__WEB_API_SERVER__/__WEB_API_VERSION__/region/list';
 
+        // При необходимости меняем у ссылки протокол
+        var protocol = window.location.protocol == 'http:' ? 'http:' : 'https:';
+        url = url.replace(/^https?:/, protocol);
+
         return new Promise(function (resolve, reject) {
             DG.ajax(url, {
                 type: 'get',
