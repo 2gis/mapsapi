@@ -3,7 +3,7 @@ var handlers = window.__dgApi__.callbacks || [],
 
 //dont pollute global space!
 try {
-    delete window.__dgApi__; 
+    delete window.__dgApi__;
 } catch(e) {
     window.__dgApi__ = undefined; //ie8 cant delete from window object
 }
@@ -16,6 +16,7 @@ DG.then = function (resolve, reject) {
     return chain.then(resolve, reject);
 };
 
-chain.catch(function(err) {
+// IE8 throw error if `chain.catch`
+chain['catch'](function(err) {
     console.error(err);
 });

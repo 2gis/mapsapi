@@ -1,7 +1,6 @@
 {
     "HOST": null,
     "PORT": "3000",
-    "BASE_URL": "",
     "DEFAULT_SKIN": "dark",
 
     "TRAFFIC_LAYER_MIN_ZOOM": 10,
@@ -29,6 +28,7 @@
     "RELATIVE_URL": {
         "LOADER_URL": "//maps.api.2gis.ru/2.0/loader.js",
 
+        "BASE_URL": "//maps.api.2gis.ru/2.0",
         "SPRITES_URL": "//maps.api.2gis.ru/2.0",
 
         "TILE_SERVER": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",

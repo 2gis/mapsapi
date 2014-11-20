@@ -289,20 +289,18 @@ gulp.task('generate-sprites', ['collect-images-usage-stats', 'copy-svg-raster', 
                 spriteData = gulp.src(pngList)
                     .pipe(errorHandle())
                     .pipe($.spritesmith({
-                        cssTemplate: './build/sprite-template.mustache',
+                        cssTemplate: 'build/sprite-template.mustache',
                         algorithm: 'binary-tree',
                         imgName: 'sprite.' + skinName + '.png',
-                        imgPath: 'sprite.' + skinName + '.png',
                         cssName: 'sprite.' + skinName + '.less',
                         engine: 'pngsmith'
                     })),
                 spriteData2x = gulp.src(png2xList)
                     .pipe(errorHandle())
                     .pipe($.spritesmith({
-                        cssTemplate: './build/sprite-template.mustache',
+                        cssTemplate: 'build/sprite-template.mustache',
                         algorithm: 'binary-tree',
                         imgName: 'sprite@2x.' + skinName + '.png',
-                        imgPath: 'sprite@2x.' + skinName + '.png',
                         cssName: 'sprite@2x.' + skinName + '.less',
                         engine: 'pngsmith'
                     }));
@@ -509,16 +507,29 @@ gulp.task('collect-images-stats', ['copy-svg', 'copy-svg-raster', 'copy-raster']
 
         var statisticsObject,
             statisticsString = '',
-            extension;
+
+            imageExtension,
+
+            originalImageName,
+            originalImageStatisticObject;
 
         for (var imageName in skinImagesFilesStats) {
+            originalImageName = imageName.replace(/@\d+(\.\d+)?x/, '');
+
             statisticsObject = skinImagesFilesStats[imageName];
-            extension = (typeof statisticsObject.extension === 'undefined') ? 'svg' : statisticsObject.extension;
+            originalImageStatisticObject = skinImagesFilesStats[originalImageName];
+
+            imageExtension = (typeof statisticsObject.extension === 'undefined') ? 'svg' : statisticsObject.extension;
+
             statisticsString = statisticsString +
                 '.imageFileData(\'' + imageName + '\') {' +
-                    '@filename: \'' + imageName + '\';' +
-                    '@extension: \'' + extension + '\'; ' +
-                    '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + ';' +
+                    '@filename: \'' + imageName + '\'; ' +
+                    '@extension: \'' + imageExtension + '\'; ' +
+                    '@hasVectorVersion: ' + !!statisticsObject.hasVectorVersion + '; ' +
+                    '@width: ' + statisticsObject.width + 'px; ' +
+                    '@height: ' + statisticsObject.height + 'px; ' +
+                    '@originalWidth: ' + originalImageStatisticObject.width + 'px; ' +
+                    '@originalHeight: ' + originalImageStatisticObject.height + 'px; ' +
                     '}\n';
         }
 
@@ -591,8 +602,8 @@ function buildCss(options, enableSsl) {
 
     lessPrerequirements = deps.lessHeader({
         variables: {
-            baseURL: '\'__BASE_URL__\'',
-            spritesURL: '\'__SPRITES_URL__\'',
+            baseURL: options.ie8 ? '\'__BASE_URL__\'' : '',
+            spritesURL: options.ie8 ? '\'__SPRITES_URL__\'' : '',
 
             mobile: options.mobile,
             ie8: options.ie8,

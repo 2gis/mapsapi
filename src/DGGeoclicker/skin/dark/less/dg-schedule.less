@@ -15,22 +15,20 @@
     }
 
 .dg-schedule__table-clock {
-    .noRepeatableBg('DGSchedule__clockOff_dark');
+    .noRepeatableBgWithSizes('DGSchedule__clockOff_dark');
     }
 
 .dg-schedule__table-lunch {
-    .noRepeatableBg('DGSchedule__lunchIcon_dark');
+    .noRepeatableBgWithSizes('DGSchedule__lunchIcon_dark');
+    width: 11px;
     }
 
-.dg-schedule__today {
-    &:after {
-        .noRepeatableBg('DGSchedule__expandIcon_dark');
-        }
-
-    .dg-schedule_open_false &:before {
-        .noRepeatableBg('DGSchedule__clockOff_dark');
-        }
+.dg-schedule_open_false .dg-schedule__today:before {
+    .noRepeatableBg('DGSchedule__clockOff_dark');
     }
-    .dg-schedule__today_shown_true:after {
-        .noRepeatableBg('DGSchedule__collapseIcon_dark');
-        }
+.dg-schedule__today:after {
+    .noRepeatableBgWithSizes('DGSchedule__expandIcon_dark');
+    }
+.dg-schedule__today_shown_true:after {
+    .noRepeatableBgWithSizes('DGSchedule__collapseIcon_dark');
+    }
