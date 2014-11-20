@@ -8,6 +8,7 @@
 
     "PPNOT_LINK": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
     "PHOTOS_LINK": "http://2gis.{domain}/photos/{id}",
+    "LOADER_URL": "//maps.api.2gis.ru/2.0/loader.js",
 
     "POI_LAYER_MIN_ZOOM": 15,
 
@@ -26,7 +27,6 @@
     "GA_CODE": "UA-38243181-2",
 
     "RELATIVE_URL": {
-        "LOADER_URL": "//maps.api.2gis.ru/2.0/loader.js",
 
         "BASE_URL": "",
         "IE8_BASE_URL": "//maps.api.2gis.ru/2.0",
