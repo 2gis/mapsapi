@@ -480,7 +480,7 @@ gulp.task('collect-images-usage-stats', ['clean-up-tmp-less'], function (cb) {
                         variables: {
                             skinName: skinName,
                             baseURL: '\'__BASE_URL__\'',
-                            spritesURL: '\'__SPRITES_URL__\'',
+                            spritesURL: '\'__BASE_URL__\'',
 
                             mobile: false,
                             ie8: true,
@@ -602,8 +602,8 @@ function buildCss(options, enableSsl) {
 
     lessPrerequirements = deps.lessHeader({
         variables: {
-            baseURL: options.ie8 ? '\'__BASE_URL__\'' : '',
-            spritesURL: options.ie8 ? '\'__SPRITES_URL__\'' : '',
+            baseURL: options.ie8 ? '\'__IE8_BASE_URL__\'' : '\'__BASE_URL__\'',
+            spritesURL: options.ie8 ? '\'__IE8_BASE_URL__\'' : '\'__BASE_URL__\'',
 
             mobile: options.mobile,
             ie8: options.ie8,
