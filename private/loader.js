@@ -65,6 +65,30 @@
         return getParamsURI().indexOf('mode=debug') > -1;
     }
 
+    function setCurtain() {
+        var css = '.dg-map-container:after {' +
+                'content: "";' +
+                'position: absolute;' +
+                'top: 0;' +
+                'right: 0;' +
+                'bottom: 0;' +
+                'left: 0;' +
+                'background-color: #f7f3df;' +
+                'opacity: 1;' +
+                'z-index: 4;' +
+            '}';
+        var style = document.createElement('style');
+        style.type = 'text/css';
+
+        if (style.styleSheet){
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
     function loadCSS(link) {
         var css = document.createElement('link');
         css.setAttribute('rel', 'stylesheet');
@@ -179,6 +203,7 @@
     }
 
     function loadApi() {
+        setCurtain();
         loadCSS(baseURL + 'css/' + queryString);
         requestJs();
     }

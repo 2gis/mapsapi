@@ -27,6 +27,8 @@ DG.Map.include({
         this._initContainer(id);
         this._initLayout();
 
+        DG.DomUtil.addClass(this._container, 'dg-map-container');
+
         // hack for https://github.com/Leaflet/Leaflet/issues/1980
         this._onResize = L.bind(this._onResize, this);
 
