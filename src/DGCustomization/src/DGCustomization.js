@@ -40,7 +40,6 @@ DG.Map.include({
 
         this._layers = {};
         this._zoomBoundLayers = {};
-        this._tileLayersNum = 0;
 
         this.callInitHooks();
 
@@ -49,6 +48,8 @@ DG.Map.include({
         if (options.center && options.zoom !== undefined) {
             this.setView(L.latLng(options.center), options.zoom, {reset: true});
         }
+
+        this._sizeChanged = true;
     },
 
     setView: function (center, zoom, options) {
