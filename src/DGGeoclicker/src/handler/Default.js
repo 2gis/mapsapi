@@ -12,7 +12,6 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
         this._controller = controller;
         this._view = view;
         this._map = map;
-        this._view._popup.on('click', this._runEventHandlers, this);
     },
 
     handle: function () { // () -> Promise
@@ -20,6 +19,15 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
             tmpl: 'popupHeader',
             data: {'title': this.t('we_have_not')}
         });
+    },
+
+    addClickEvent: function () {
+        this._view._popup.on('click', this._runEventHandlers, this);
+        this._map.once('popupclose', this._removeClickEvent, this);
+    },
+
+    _removeClickEvent: function () {
+        this._view._popup.off('click', this._runEventHandlers, this);
     },
 
     _addEventHandler: function (el, handler) { // (String, Function)

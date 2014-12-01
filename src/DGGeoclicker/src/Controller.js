@@ -111,6 +111,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
     _runHandler: function (type, data) { // (String, Object) -> Boolean
         data = data || {};
         this._initHandlerOnce(type);
+        this._handlers[type].addClickEvent();
 
         var handlerResult = this._handlers[type].handle(data, type);
 
