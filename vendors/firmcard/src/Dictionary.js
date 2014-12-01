@@ -234,7 +234,7 @@ FirmCard.prototype.dict = {
         openTill: 'Open till ',
         closeIn: 'Closes in ',
         openAt: 'Opens at ',
-        openIn: 'Opens in',
+        openIn: 'Opens in ',
         open: 'Opens ',
         nHours: ['hour', 'hours'],
         nMins: ['minute', 'minutes'],
