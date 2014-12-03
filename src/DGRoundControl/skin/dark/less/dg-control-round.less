@@ -1,36 +1,30 @@
 .dg-control-round {
-    border: 5px solid #3d3d3d;
-    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.3);
+    border: 5px solid #3d3d3d; // 24%
+    box-shadow: 0 3px 5px 0 rgba(0,0,0,.3);
     }
     .dg-control-round__icon {
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,.4);
 
         .no-touch &:hover {
             box-shadow:
-                0 1px #ffffff inset,
-                0 0 0 1px rgba(0, 0, 0, 0.3),
-                0 1px 0 1px rgba(0, 0, 0, 0.4);
+                inset 0 1px #fff,
+                0 0 0 1px rgba(0,0,0,.3),
+                0 1px 0 1px rgba(0,0,0,.4);
             }
 
-        &:active {
+        &:active,
+        .no-touch &:active,
+        &_state_active {
             box-shadow:
-                0 1px 1px 1px rgba(0, 0, 0, 0.2) inset,
-                0 0 0 1px rgba(0, 0, 0, 0.3),
-                0 -1px 1px 0 #000000;
+                inset 0 1px 1px 1px rgba(0,0,0,.2),
+                0 0 0 1px rgba(0,0,0,.3),
+                0 -1px 1px 0 #000;
             }
-        }
-    .leaflet-disabled .dg-control-round__icon {
-        background: #b0b1af;
-        }
 
-    .dg-control-round__icon_state_active {
-        box-shadow:
-            0 1px 1px 1px rgba(0, 0, 0, 0.2) inset,
-            0 0 0 1px rgba(0, 0, 0, 0.3),
-            0 -1px 1px 0 #000000;
-
-        .no-touch &:hover,
-        &:active {
-            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.4);
+        .leaflet-disabled &,
+        .no-touch .leaflet-disabled &:hover,
+        .leaflet-disabled &:active {
+            background-color: #b8b8b8; // 72%
+            box-shadow: none;
             }
         }

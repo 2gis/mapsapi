@@ -1,7 +1,7 @@
-var fs = require('fs'),
-    glob = require('glob'),
-    path = require('path'),
-    imageSize = require('image-size');
+var fs = require('fs');
+var glob = require('glob');
+var path = require('path');
+var imageSize = require('image-size');
 
 var init = function (config) {
     var packages = config.packages;
@@ -9,11 +9,12 @@ var init = function (config) {
     // Generates a list of modules by pkg
     function getModulesList(pkg, modules) { //(String|Null)->Array
         modules = modules || config.source.deps;
-        var modulesListOrig = [],
-            modulesListRes = [],
-            loadedModules = {};
 
-        if (typeof pkg === 'boolean') {
+        var modulesListOrig = [];
+        var modulesListRes = [];
+        var loadedModules = {};
+
+        if (typeof pkg == 'boolean') {
             throw new Error('pkg param can\'t be empty');
         }
 
@@ -22,7 +23,7 @@ var init = function (config) {
             modulesListOrig = packages[pkg].modules;
 
         // Modules list (example: 'Core,JSONP,TileLayer')
-        } else if (pkg && pkg.indexOf(',') > -1) {
+        } else if (pkg && pkg.indexOf(',') != -1) {
             modulesListOrig = pkg.split(',');
 
         // Modules single (example: 'Core')
@@ -36,9 +37,11 @@ var init = function (config) {
 
         function processModule(name) {
             var module = modules[name];
+
             if (module && module.deps) {
                 module.deps.forEach(processModule);
             }
+
             if (!loadedModules[name]) {
                 modulesListRes.push(name);
                 loadedModules[name] = true;
@@ -52,9 +55,10 @@ var init = function (config) {
 
     function getJSFiles(options) {
         options = options || {};
-        var source = config[options.source || 'source'],
-            modules = source.deps,
-            sourcePath = source.path;
+
+        var source = config[options.source || 'source'];
+        var modules = source.deps;
+        var sourcePath = source.path;
 
         return getModulesList(options.pkg, modules)
             .map(function (name) {
@@ -66,21 +70,21 @@ var init = function (config) {
             .reduce(function (array, items) {
                 return array.concat(items);
             })
-            .filter(function (item, key, list) {//filter dublicates
-                return list.indexOf(item) === key;
+            .filter(function (item, index, list) { //filter dublicates
+                return list.indexOf(item) == index;
             })
             .map(function (file) {
                 return sourcePath + file;
-            })
-            ;
+            });
     }
 
     function getCSSFiles(options) {
         options = options || {};
-        var source = config[options.source || 'source'],
-            modules = source.deps,
-            sourcePath = source.path,
-            skin = options.skin || config.appConfig.DEFAULT_SKIN;
+
+        var source = config[options.source || 'source'];
+        var modules = source.deps;
+        var sourcePath = source.path;
+        var skin = options.skin || config.appConfig.DEFAULT_SKIN;
 
         return getModulesList(options.pkg, modules)
             .map(function (name) {
@@ -106,20 +110,20 @@ var init = function (config) {
             .reduce(function (array, items) {
                 return array.concat(items);
             }, [])
-            .reduce(function (array, item) {//if css have skin, we add basic theme
-                if (item.indexOf('{skin}') > -1) {
+            .reduce(function (array, item) { // if css have skin, we add basic theme
+                if (item.indexOf('{skin}') != -1) {
                     array.push(item.replace('{skin}', 'basic'));
                 }
+
                 return array.concat(item);
             }, [])
-            .map(function (file) {//add selected theme
+            .map(function (file) { // add selected theme
                 return file.replace('{skin}', skin);
             })
             .map(function (file) {
                 return sourcePath + file;
             })
-            .filter(fs.existsSync)
-            ;
+            .filter(fs.existsSync);
     }
 
     // Build string with Less variables and imports
@@ -130,24 +134,22 @@ var init = function (config) {
 
         if (options.variables) {
             Object.keys(options.variables).forEach(function (varableName) {
-                header = header + '\n' +
-                    '@' + varableName + ': ' + options.variables[varableName] + ';';
+                header = header + '\n' + '@' + varableName + ': ' + options.variables[varableName] + ';';
             });
         }
 
         var importsBase = '';
 
-        if (typeof options.importsBase === 'string' && options.importsBase.length) {
+        if (typeof options.importsBase == 'string' && options.importsBase.length) {
             importsBase = options.importsBase.replace(/\/*$/, '/');
         }
 
         if (options.imports) {
-            for (var i = 0, type = '', imoportPath = ''; i < options.imports.length; i += 1) {
-                type = options.imports[i].replace(/^.*:/, '');
-                imoportPath = options.imports[i].replace(/:.*$/, '');
+            for (var i = 0, type = '', imoportPath = ''; i < options.imports.length; i++) {
+                type = options.imports[i].replace(/^.*\:/, '');
+                imoportPath = options.imports[i].replace(/\:.*$/, '');
 
-                header = header + '\n' +
-                    '@import (' + type + ') \'' + importsBase + imoportPath + '\';';
+                header = header + '\n' + '@import (' + type + ') \'' + importsBase + imoportPath + '\';';
             }
         }
 
@@ -156,13 +158,13 @@ var init = function (config) {
 
     // Scans the project for skins directories to get skins names
     function getSkinsList() {
-        var skinsDirectories = glob.sync(__dirname + '/../src/**/skin/*'),
-            skins = [];
+        var skinsDirectories = glob.sync(__dirname + '/../src/**/skin/*');
+        var skins = [];
 
         skinsDirectories.forEach(function (directory) {
             var skinName = path.basename(directory);
 
-            if (skins.indexOf(skinName) === -1) {
+            if (skins.indexOf(skinName) == -1) {
                 skins.push(skinName);
             }
         });
@@ -177,25 +179,24 @@ var init = function (config) {
         var perSkinStats = {};
 
         skins.forEach(function (skinName) {
-            var imagesPaths = glob.sync(__dirname + '/../build/tmp/img/' + skinName + '/*'),
-                skinStats = {};
+            var imagesPaths = glob.sync(__dirname + '/../build/tmp/img/' + skinName + '/*');
+            var skinStats = {};
 
             imagesPaths.forEach(function (imagePath) {
-                var basename = path.basename(imagePath),
-                    extname = path.extname(imagePath),
+                var basename = path.basename(imagePath);
+                var extname = path.extname(imagePath);
 
-                    name = path.basename(imagePath, extname),
+                var name = path.basename(imagePath, extname);
 
-                    imageDimensions;
+                var imageDimensions;
 
                 if (!(name in skinStats)) {
                     skinStats[name] = {};
                 }
 
-                if (extname === '.svg') {
+                if (extname == '.svg') {
                     skinStats[name].hasVectorVersion = true;
-                }
-                else {
+                } else {
                     skinStats[name].extension = extname.replace('.', '');
 
                     imageDimensions = imageSize(imagePath);
@@ -218,21 +219,21 @@ var init = function (config) {
         var perSkinStats = {};
 
         skins.forEach(function (skinName) {
-            var stats = {},
+            var stats = {};
 
-                statsFilePath = __dirname + '/tmp/less/images-usage-statistics.' + skinName + '.less',
-                statsFileContent = fs.readFileSync(statsFilePath).toString(),
-                preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','), // 6 is 'stats '.length
+            var statsFilePath = __dirname + '/tmp/less/images-usage-statistics.' + skinName + '.less';
+            var statsFileContent = fs.readFileSync(statsFilePath).toString();
+            var preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','); // 6 is 'stats '.length
 
-                rawStats = (new Function('return ' + preparedStatsFileContent))();
+            var rawStats = Function('return ' + preparedStatsFileContent + ';')();
 
             stats.repeatable = rawStats.repeatable.split(',');
-            stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',');
-            stats.noRepeatableNotSprited = rawStats.noRepeatableNotSprited.split(',');
+            stats.notRepeatableSprited = rawStats.notRepeatableSprited.split(',');
+            stats.notRepeatableNotSprited = rawStats.notRepeatableNotSprited.split(',');
             // Repeatable images can be used as no-repeatable images,
             // so we should exclude repeatable images from no-repeatable images list
-            stats.noRepeatableSprited = rawStats.noRepeatableSprited.split(',').filter(function (name) {
-                return stats.repeatable.indexOf(name) === -1;
+            stats.notRepeatableSprited = rawStats.notRepeatableSprited.split(',').filter(function (name) {
+                return stats.repeatable.indexOf(name) == -1;
             });
 
             perSkinStats[skinName] = stats;
@@ -257,6 +258,6 @@ var init = function (config) {
 };
 
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module != 'undefined' && module.exports) {
     module.exports = init;
 }

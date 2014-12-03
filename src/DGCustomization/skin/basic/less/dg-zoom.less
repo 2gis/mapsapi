@@ -1,15 +1,16 @@
 .dg-zoom {
     width: 40px;
     height: 74px;
-    }
-.leaflet-bottom .dg-zoom {
-    margin-bottom: 40px;
+
+    .leaflet-bottom & {
+        margin-bottom: 40px;
+        }
     }
     .dg-zoom__in {
         position: absolute;
         top: 0;
         left: 0;
-        
+
         &:after {
             position: absolute;
             top: 34px;
@@ -23,6 +24,7 @@
             content: '';
             }
         }
+
     .dg-zoom__out {
         position: absolute;
         top: 40px;
@@ -31,21 +33,22 @@
         margin: auto;
         width: 22px;
         height: 22px;
-        box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
+        box-shadow: 0 2px 3px 0 rgba(0,0,0,.3); // override .dg-control-round
         }
-        .dg-zoom__button {}
-
         .dg-zoom__button_type_in {
+            //
+
             &:before,
             &:after {
-                background: #686868;
-                background: rgba(0,0,0,.5);
+                background: #7a7a7a; // 48%
                 box-shadow: 0 1px #fff;
                 }
+
             &:before {
                 width: 14px;
                 height: 2px;
                 }
+
             &:after {
                 position: absolute;
                 top: 0;
@@ -57,68 +60,65 @@
                 height: 14px;
                 content: '';
                 }
-            }
-            .no-touch .dg-zoom__button_type_in:hover:before,
-            .no-touch .dg-zoom__button_type_in:hover:after {
-                background: #515151;
-                background: rgba(0,0,0,.6);
-                }
-            .no-touch .leaflet-disabled .dg-zoom__button_type_in:hover:before,
-            .no-touch .leaflet-disabled .dg-zoom__button_type_in:hover:after {
-                background: #686868;
-                background: rgba(0,0,0,.5);
-                }
-        .leaflet-disabled .dg-zoom__button_type_in {
-            box-shadow: none;
 
-            &:before,
+            .no-touch &:hover:before,
+            .no-touch &:hover:after {
+                background: #616161; // 38%
+                }
+
+            &:active:before,
+            &:active:after,
+            .no-touch &:active:before,
+            .no-touch &:active:after {
+                background: #575757; // 34%
+                }
+
+            .leaflet-disabled &:before,
+            .leaflet-disabled &:after,
+            .no-touch .leaflet-disabled &:hover:before,
+            .no-touch .leaflet-disabled &:hover:after,
+            .leaflet-disabled &:active:before,
+            .leaflet-disabled &:active:after {
+                background: #999; // 60%
+                box-shadow: none;
+                }
+            }
+
+        .dg-zoom__button_type_out {
+            &:before {
+                top: -6px;
+                bottom: auto;
+                width: 12px;
+                height: 2px;
+                }
+
             &:after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+                width: 10px;
+                height: 2px;
+                background: #7a7a7a; // 48%
+                box-shadow: 0 1px #fff;
+                content: '';
+                }
+
+            .no-touch &:hover:after {
+                background: #616161; // 38%
+                }
+
+            &:active:after,
+            .no-touch &:active:after {
+                background: #575757; // 34%
+                }
+
+            .leaflet-disabled &:after,
+            .no-touch .leaflet-disabled &:hover:after,
+            .leaflet-disabled &:active:after {
+                background: #999; // 60%
                 box-shadow: none;
                 }
             }
-        .no-touch .leaflet-disabled .dg-zoom__button_type_in:hover {
-            box-shadow: none;
-
-            &:before,
-            &:after {
-                box-shadow: none;
-                }
-            }
-            .dg-zoom__button_type_out {
-                &:before {
-                    top: -6px;
-                    bottom: auto;
-                    width: 12px;
-                    height: 2px;
-                    }
-                &:after {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    margin: auto;
-                    width: 10px;
-                    height: 2px;
-                    background: #686868;
-                    background: rgba(0,0,0,.5);
-                    box-shadow: 0 1px #fff;
-                    content: '';
-                    }
-                }
-            .no-touch .dg-zoom__button_type_out:hover:after {
-                background: #515151;
-                background: rgba(0,0,0,.6);
-                }
-            .no-touch .leaflet-disabled .dg-zoom__button_type_out:hover:after {
-                background: #686868;
-                background: rgba(0,0,0,.5);
-                }
-            .leaflet-disabled .dg-zoom__button_type_out {
-                box-shadow: none;
-
-                &:before,
-                &:after {
-                    box-shadow: none;
-                    }
-                }

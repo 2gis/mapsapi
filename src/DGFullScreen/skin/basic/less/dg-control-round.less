@@ -1,8 +1,7 @@
-.dg-control-round__icon_name_fullscreen:before {
-    width: 16px;
-    height: 16px;
-    background-size: contain;
-    }
-.dg-control-round__icon_name_fullscreen.dg-control-round__icon_state_active:before {
-    .noRepeatableBg('DGRoundControl__fullscreenIconActive');
+.dg-control-round__icon_name_fullscreen {
+    .dg-control-round__icon_state_active&:before,
+    .no-touch .dg-control-round__icon_state_active&:hover:before,
+    .dg-control-round__icon_state_active&:active:before {
+        .notRepeatableBg('DGRoundControl__fullscreenIconEnabled');
+        }
     }

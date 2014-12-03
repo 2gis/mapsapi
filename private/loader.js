@@ -1,98 +1,80 @@
 (function () {
     'use strict';
 
-    var baseURL,
-        isLazy = false,
-        isJsRequested = false,
-        queryString,
-        rejects = [],
-        version = 'v2.0.29.1';
+    var isJSRequested = false;
+    var rejects = [];
+    var version = 'v2.0.29.1';
 
-    function processURL() {
+    var url = (function () {
         var scripts = document.getElementsByTagName('script');
 
-        for (var i = scripts.length - 1; i >= 0; i--) {
-            if (scripts[i].getAttribute('data-id') === 'dgLoader') {
+        for (var i = scripts.length; i;) {
+            if (scripts[--i].getAttribute('data-id') == 'dgLoader') {
                 return scripts[i].src.split('?');
             }
         }
-    }
+    })();
 
-    function getBaseURL() {
-        var pattern = /loader.js/,
-            url = processURL();
-        return (url[0]) ? url[0].replace(pattern, '') : '/';
-    }
+    var baseURL = url[0].replace(/loader\.js$/, '');
 
-    function getParamsURI() {
-        var url = processURL();
-        return (url[1]) ? url[1] + '&' : '';
-    }
+    // Амперсанды с обоих сторон, это позволяет делать надёжный поиск параметров через `indexOf('&name=')` и
+    // `indexOf('&name=value&')`. Без амперсандов прийдётся искать через `indexOf('name=')` и `indexOf('name=value')`,
+    // в результате можем получить ложные совпадения.
+    var urlParams = url[1] ? '&' + url[1] + '&' : '&';
 
-    function getParamsIE() {
-        var versionIE;
-        if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
-            versionIE = parseInt(RegExp.$1, 10);
+    if (urlParams.indexOf('&retina=') == -1) {
+        if (window.devicePixelRatio && window.devicePixelRatio >= 1.5) {
+            urlParams += 'retina=true&';
         }
-        return (versionIE && versionIE < 9) ? 'ie8=true&' : '';
     }
 
-    function getParamsSprite() {
-        var mobile = (typeof orientation !== undefined + ''),
-            svg = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
-
-        return  (mobile || !svg) ? 'sprite=true&' : 'sprite=false&';
+    if (urlParams.indexOf('&ie8=') == -1) {
+        // IE8
+        if (/MSIE\x20(\d+\.\d+);/.test(navigator.userAgent) && parseInt(RegExp.$1, 10) < 9) {
+            urlParams += 'ie8=true&';
+        }
     }
 
-    function getParams() {
-        var paramsURI = getParamsURI(),
-            sprite = paramsURI.indexOf('sprite') === -1 ? getParamsSprite() : '',
-            paramsIE = getParamsIE();
-        return '?' + paramsURI + paramsIE + sprite + 'version=' + version;
+    if (urlParams.indexOf('&sprite=') == -1) {
+        // SVG
+        if (
+            !(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect)
+        ) {
+            urlParams += 'sprite=true&';
+        }
     }
 
-    function getDebugParam() {
-        return getParamsURI().indexOf('mode=debug') > -1;
-    }
+    var qs = '?' + urlParams.slice(1) + 'version=' + version;
+    var isLazy = urlParams.indexOf('&lazy=true&') != -1;
 
     function loadCSS() {
-        var link = baseURL + 'css/' + queryString;
+        var link = document.createElement('link');
 
-        var css = document.createElement('link');
-        css.setAttribute('rel', 'stylesheet');
-        css.setAttribute('type', 'text/css');
-        css.setAttribute('href', link);
-        document.getElementsByTagName('head')[0].appendChild(css);
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        link.setAttribute('href', baseURL + 'css/' + qs);
+
+        document.getElementsByTagName('head')[0].appendChild(link);
     }
 
     function loadJS() {
-        var link = baseURL + 'js/' + queryString;
+        isJSRequested = true;
 
-        isJsRequested = true;
+        var script = document.createElement('script');
 
-        var js = document.createElement('script');
-        js.setAttribute('type', 'text/javascript');
-        js.setAttribute('src', link);
-        js.onerror = function (err) {
-            runRejects(err);
-        };
-        //IE
-        js.onreadystatechange = function (err) {
-            if (js.readyState !== 'complete' && js.readyState !== 'loaded') {
-                runRejects(err);
-            }
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', baseURL + 'js/' + qs);
+
+        script.onerror = function (evt) {
+            runRejects(evt);
         };
 
-        document.getElementsByTagName('head')[0].appendChild(js);
-    }
-
-    function setReady() {
-        DG.ready = true;
+        document.getElementsByTagName('head')[0].appendChild(script);
     }
 
     function waitForPageLoad() {
         return new Promise(function (resolve, reject) {
-            if (document.readyState === 'complete') {
+            if (document.readyState == 'complete') {
                 return resolve();
             }
 
@@ -109,25 +91,30 @@
 
         // При необходимости меняем у ссылки протокол
         var protocol = window.location.protocol == 'http:' ? 'http:' : 'https:';
-        url = url.replace(/^https?:/, protocol);
+
+        url = url.replace(/^https?\:/, protocol);
 
         return new Promise(function (resolve, reject) {
             DG.ajax(url, {
                 type: 'get',
+
                 data: {
                     key: '__WEB_API_KEY__',
                     fields: '__REGION_LIST_FIELDS__'
                 },
+
                 success: function (data) {
                     var result = data.result;
+
                     if (result && result.items && result.items.length) {
                         DG.projectsList = result.items.filter(function (project) {
-                            return project.bound !== null;
+                            return project.bounds;
                         });
                     }
 
                     resolve();
                 },
+
                 error: function () {
                     resolve();
                 }
@@ -135,41 +122,49 @@
         });
     }
 
+    function setReady() {
+        DG.ready = true;
+    }
+
     function runRejects() {
-        for (var i = 0, len = rejects.length; i < len; i++) {
-            (typeof(rejects[i]) === 'function') && rejects[i]();
+        for (var i = 0, l = rejects.length; i < l; i++) {
+            if (typeof rejects[i] == 'function') {
+                rejects[i]();
+            }
         }
     }
 
     window.DG = window.DG || {};
     window.DG.ready = false;
+
     window.__dgApi__ = {
         callbacks: [
             [waitForPageLoad, undefined],
             [loadProjectList, undefined],
             [setReady, undefined]
         ],
-        debug: getDebugParam(),
+        debug: urlParams.indexOf('&mode=debug&') != -1,
         version: version
     };
 
-    baseURL = getBaseURL();
-    queryString = getParams();
-    isLazy = (queryString.indexOf('lazy=true')  > -1);
-
     loadCSS();
+
     if (!isLazy) {
         loadJS();
     }
 
     window.DG.then = function (resolve, reject) {
-        if (isLazy && !isJsRequested) {
+        if (isLazy && !isJSRequested) {
             loadJS();
         }
 
         window.__dgApi__.callbacks.push([resolve, reject]);
-        reject && rejects.push(reject);
+
+        if (reject) {
+            rejects.push(reject);
+        }
 
         return this;
     };
+
 })();

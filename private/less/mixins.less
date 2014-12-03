@@ -1,10 +1,21 @@
 /*
-    See gulpfile.js for predefined stuff
-       — Variables: @baseURL, @isModernBrowser, @ie8, @shouldUseSprites, @skinName;
-       — Mixins: .imageData, .imageFileData, .isSprited.
- */
+    Variables:
+        @baseURL
+        @spritesURL
+        @ie8
+        @mobile
+        @retina
+        @useSprites
+        @skinName
+        @imagesBasePath
 
-.imageFileData(@name) when (default()) {
+    Mixins:
+        .imageData
+        .spriteData
+        .isSprited
+*/
+
+.imageData(@name) when (default()) {
     @filename: '';
     @extension: '';
     @hasVectorVersion: false;
@@ -14,122 +25,107 @@
     @originalHeight: 0;
     }
 
-.sizesOfImage(@name) {
-    .imageFileData(@name);
-
-    width: @width;
-    height: @height;
-    background-size: @originalWidth @originalHeight;
-    }
-
 .isSprited(@name) when (default()) {
     @isSprited: false;
     }
 
-.spriteImage(@name; @retina: false) {
+.dataURIImage(@name) {
     .imageData(@name);
+
+    & when (@hasVectorVersion) {
+        background-image: data-uri('@{imagesBasePath}/@{filename}.svg');
+        }
+
+    & when not (@hasVectorVersion) {
+        background-image: data-uri('@{imagesBasePath}/@{filename}.@{extension}');
+        }
+    }
+
+.directImage(@name) {
+    .imageData(@name);
+
+    background-image: url('@{baseURL}/img/@{filename}.@{extension}');
+    background-size: @originalWidth @originalHeight;
+
+    & when (@retina) {
+        .leaflet-retina & {
+            background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
+            }
+        }
+    }
+
+.spriteImage(@name) {
+    .spriteData(@name);
 
     width: @width;
     height: @height;
-
     background-image: url('@{spritesURL}/img/@{backgroundImage}');
-
     background-position: @backgroundPosition;
     background-size: @totalWidth @totalHeight;
 
     & when (@retina) {
         .leaflet-retina & {
-            .imageData('@{name}@2x');
-            background-image: url('@{baseURL}/img/@{backgroundImage}');
+            .spriteData('@{name}@2x');
+            background-image: url('@{spritesURL}/img/@{backgroundImage}');
+            // Spritesmith при формировании 2x-спрайтов часто располагает изображения в другой последовательности,
+            // поэтому размеры проставляем заново, определённые выше скорей всего не подходят.
+            background-position: @backgroundPositionLeft / 2 @backgroundPositionTop / 2;
+            background-size: @totalWidth / 2 @totalHeight / 2;
             }
-        }
-    }
-
-.dataUriImage(@name) {
-    .imageFileData(@name);
-
-    & when not (@filename = '') {
-        & when (@hasVectorVersion) {
-            background-image: data-uri('@{imagesBasePath}/@{filename}.svg');
-            }
-
-        & when not (@hasVectorVersion) {
-            background-image: data-uri('@{imagesBasePath}/@{filename}.@{extension}');
-            }
-        }
-    }
-
-.directImage(@name; @retina: false) {
-    .imageFileData(@name);
-
-     & when not (@filename = '') {
-        background-image: url('@{baseURL}/img/@{filename}.@{extension}');
-        }
-        & when (@retina) and not (@filename = '')  {
-            .leaflet-retina & {
-                background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
-                }
-            }
-    }
-
-.spriteOrDirectImage(@name; @useSprite: true; @retina: false) {
-    .isSprited(@name);
-
-    & when (@shouldUseSprites) {
-        & when (@isSprited) and (@useSprite) {
-            .spriteImage(@name, @retina);
-            }
-
-        & when not (@isSprited), not (@useSprite) {
-            .directImage(@name, @retina);
-            }
-        }
-
-    & when not (@shouldUseSprites) {
-        .directImage(@name, @retina);
-        }
-    }
-
-.noRepeatableBg(@name; @useSprite: true) {
-    background-repeat: no-repeat;
-
-    & when (@shouldUseSprites) {
-        .spriteOrDirectImage(@name, @useSprite, true);
-        }
-
-    & when not (@mobile) and not (@ie8) and not (@shouldUseSprites) {
-        .dataUriImage(@name);
-        }
-
-    & when not (@mobile) and (@ie8) {
-        .spriteOrDirectImage(@name, @useSprite);
-        }
-
-    & when (@mobile) {
-        .spriteOrDirectImage(@name, @useSprite, true);
-
-        .leaflet-retina & {
-            .spriteOrDirectImage('@{name}@2x', @useSprite);
-            }
-        }
-    }
-
-.noRepeatableBgWithSizes(@name; @useSprite: true) {
-    .noRepeatableBg(@name, @useSprite);
-
-    & when not (@ie8) {
-        .sizesOfImage(@name);
         }
     }
 
 .repeatableBg(@name) {
-    & when not (@mobile) and not (@ie8) {
-        .dataUriImage(@name);
+    .imageData(@name);
+
+    & when not (@ie8) and (@hasVectorVersion) {
+        .dataURIImage(@name);
         }
-    & when not (@mobile) and (@ie8) {
+
+    & when (@ie8), not (@hasVectorVersion) {
         .directImage(@name);
         }
-    & when (@mobile) and not (@ie8) {
-        .directImage(@name, true);
+    }
+
+.notRepeatableBg(@name; @newerNotUseSprite: false) {
+    background-repeat: no-repeat;
+
+    .imageData(@name);
+
+    & when not (@ie8) and not (@useSprites) and (@hasVectorVersion) {
+        .dataURIImage(@name);
+        }
+
+    & when (@ie8), (@useSprites), not (@hasVectorVersion) {
+        .isSprited(@name);
+
+        & when (@isSprited) and not (@newerNotUseSprite) {
+            .spriteImage(@name);
+            }
+
+        & when not (@isSprited), (@newerNotUseSprite) {
+            .directImage(@name);
+            }
+        }
+    }
+
+.notRepeatableBgWithSizes(@name; @newerNotUseSprite: false) {
+    .imageData(@name);
+    .isSprited(@name);
+    .notRepeatableBg(@name, @newerNotUseSprite);
+
+    & when not (@ie8) and not (@useSprites) and (@hasVectorVersion) {
+        width: @width;
+        height: @height;
+        background-size: @originalWidth @originalHeight;
+        }
+
+    & when (@ie8), (@useSprites), not (@hasVectorVersion) {
+        .isSprited(@name);
+
+        & when not (@isSprited), (@newerNotUseSprite) {
+            width: @width;
+            height: @height;
+            }
         }
     }

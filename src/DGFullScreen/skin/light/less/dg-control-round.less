@@ -1,8 +1,10 @@
 .dg-control-round__icon_name_fullscreen {
     &:before {
-        .noRepeatableBg('DGRoundControl__fullscreenIconActive_light');
+        .notRepeatableBgWithSizes('DGRoundControl__fullscreenIcon_light');
         }
-    .no-touch &:hover:before {
-        .noRepeatableBg('DGRoundControl__fullscreenIconHover_light');
+
+    .no-touch &:hover:before,
+    &:active:before {
+        .notRepeatableBg('DGRoundControl__fullscreenIconHover_light');
         }
     }

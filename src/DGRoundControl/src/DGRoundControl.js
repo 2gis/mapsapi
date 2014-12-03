@@ -16,15 +16,22 @@ DG.RoundControl = DG.Control.extend({
         }
         DG.DomUtil.addClass(container, controlClass);
 
-        this._link = DG.DomUtil.create('a', controlIconClass + ' ' + controlIconClass + '_name_' + this.options.iconClass, container);
-        this._link.href = '#';
+        var link = this._link = DG.DomUtil.create(
+            'a',
+            controlIconClass + ' ' + controlIconClass + '_name_' + this.options.iconClass,
+            container
+        );
+
+        link.href = '#';
+
         this._renderTranslation();
 
         this._map = map;
 
         DG.DomEvent
             .on(container, 'click', this._toggleControl, this)
-            .on(container, 'dblclick', DG.DomEvent.stopPropagation);
+            .on(container, 'dblclick', DG.DomEvent.stopPropagation)
+            .on(link, 'mousedown', DG.DomEvent.stopPropagation);
 
         this.fireEvent('add');
 

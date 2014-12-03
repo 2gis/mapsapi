@@ -6,7 +6,7 @@
     }
 
 .leaflet-popup-tip-container_image {
-    .noRepeatableBg('DGCustomization__popupShadow_dark', false);
+    .notRepeatableBg('DGCustomization__popupShadow_dark', true);
     }
 
 .leaflet-map-pane .leaflet-popup-tip-container_svg {
@@ -16,11 +16,12 @@
 .leaflet-container a.leaflet-popup-close-button {
     .no-touch &:hover {
         background-color: #222;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 3px rgba(0,0,0,.5);
         }
+
     &:active {
         background-color: #323232;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+        box-shadow: 0 1px 3px rgba(0,0,0,.5) inset;
         }
 
     &:after {
