@@ -67,17 +67,23 @@ describe('DG.Geoclicker.Controller', function () {
             citySpy = sinon.stub().returns(Promise.resolve({}));
             districtSpy = sinon.stub().returns(false);
 
+            addClickEventStub = sinon.stub();
+
             defaultHandler = DG.Class.extend({
-                handle: defaultSpy
+                handle: defaultSpy,
+                addClickEvent: addClickEventStub
             });
             houseHandler = DG.Class.extend({
-                handle: houseSpy
+                handle: houseSpy,
+                addClickEvent: addClickEventStub
             });
             cityHandler = DG.Class.extend({
-                handle: citySpy
+                handle: citySpy,
+                addClickEvent: addClickEventStub
             });
             districtHandler = DG.Class.extend({
-                handle: districtSpy
+                handle: districtSpy,
+                addClickEvent: addClickEventStub
             });
 
             DG.Geoclicker.Controller.mergeOptions({
