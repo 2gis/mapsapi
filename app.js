@@ -62,7 +62,7 @@ var host = app.get('host'),
 
 if (cluster.isMaster) {
     cluster
-        .on('death', function (worker) {
+        .on('disconnect', function (worker) {
             console.log('PID #' + worker.process.pid + ' died. spawning a new process...');
             cluster.fork();
         })

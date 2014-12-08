@@ -18,7 +18,6 @@
   "dependencies": {
     "chalk": "0.4.0",
     "cli-color": "0.3.2",
-    "cluster": "0.7.7",
     "cors": "^2.4.1",
     "dustjs-linkedin": "2.3.1",
     "event-stream": "3.1.0",
