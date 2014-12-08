@@ -162,7 +162,7 @@
             this.options.closeButton && this._innerContainer.appendChild(this._detachEl(this._closeButton));
 
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
-            
+
             var tip = this._detachEl(this._tipContainer);
 
             if (DG.Browser.svg) {
@@ -291,7 +291,7 @@
                     (href.indexOf('http') !== -1 ||
                     href.indexOf('mailto') !== -1))) { return; }
 
-            if (!this._moving) { 
+            if (!this._moving) {
                 this.fire('click', {originalEvent: e});
             }
 
@@ -371,7 +371,9 @@
         update: function () {
             if (!this._map) { return; }
 
-            this._container.style.visibility = 'hidden';
+            if (!DG.Browser.ielt9) {
+                this._container.style.visibility = 'hidden';
+            }
             this._switchEvents(true);
 
             this._clearNode(this._contentNode);
@@ -395,7 +397,9 @@
                 }
             }
 
-            this._container.style.visibility = '';
+            if (!DG.Browser.ielt9) {
+                this._container.style.visibility = '';
+            }
         },
 
         _getDelta: function () { // () -> Number
@@ -486,7 +490,7 @@
         },
 
         _switchEvents: function (on) { // (Boolean)
-            
+
             var switcher = on ? 'off' : 'on';
 
             if (!DG.Browser.touch) {
