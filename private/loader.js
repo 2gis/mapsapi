@@ -44,16 +44,6 @@
         return  (mobile || !svg) ? 'sprite=true&' : 'sprite=false&';
     }
 
-    function getParamsMobile() {
-        return  (typeof orientation !== 'undefined') ? 'mobile=true&' : 'mobile=false&';
-    }
-
-    function getParamsSvg() {
-        var isSvgSupported = !!(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
-
-        return  isSvgSupported ? 'svg=true&' : 'svg=false&';
-    }
-
     function getParams() {
         var paramsURI = getParamsURI(),
             sprite = paramsURI.indexOf('sprite') === -1 ? getParamsSprite() : '',
@@ -65,7 +55,9 @@
         return getParamsURI().indexOf('mode=debug') > -1;
     }
 
-    function loadCSS(link) {
+    function loadCSS() {
+        var link = baseURL + 'css/' + queryString;
+
         var css = document.createElement('link');
         css.setAttribute('rel', 'stylesheet');
         css.setAttribute('type', 'text/css');
@@ -73,7 +65,11 @@
         document.getElementsByTagName('head')[0].appendChild(css);
     }
 
-    function loadJS(link) {
+    function loadJS() {
+        var link = baseURL + 'js/' + queryString;
+
+        isJsRequested = true;
+
         var js = document.createElement('script');
         js.setAttribute('type', 'text/javascript');
         js.setAttribute('src', link);
@@ -90,55 +86,22 @@
         document.getElementsByTagName('head')[0].appendChild(js);
     }
 
-    function DOMContentLoaded() {
-        if (document.addEventListener) {
-            document.removeEventListener('DOMContentLoaded', DOMContentLoaded, false);
-        } else if (document.readyState === 'complete') {
-            document.detachEvent('onreadystatechange', DOMContentLoaded);
-        }
-    }
-
-    function ready() {
-        loadJS(baseURL + 'js/' + queryString);
-    }
-
-    function requestJs() {
-        isJsRequested = true;
-        if (document.readyState === 'complete') {
-            // Handle it asynchronously to allow scripts the opportunity to delay ready
-            setTimeout(ready, 1);
-        } else if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', DOMContentLoaded, false);
-            window.addEventListener('load', ready, false);
-        } else {
-            document.attachEvent('onreadystatechange', DOMContentLoaded);
-            window.attachEvent('onload', ready);
-            // If IE and not a frame
-            // continually check to see if the document is ready
-            var top = false;
-            try {
-                top = window.frameElement === null && document.documentElement;
-            } catch (e) {}
-
-            if (top && top.doScroll) {
-                (function doScrollCheck() {
-                    if (!DG.ready) {
-                        try {
-                            // Use the trick by Diego Perini
-                            // http://javascript.nwbox.com/IEContentLoaded/
-                            top.doScroll('left');
-                        } catch (e) {
-                            return setTimeout(doScrollCheck, 50);
-                        }
-                        ready();
-                    }
-                })();
-            }
-        }
-    }
-
     function setReady() {
         DG.ready = true;
+    }
+
+    function waitForPageLoad() {
+        return new Promise(function (resolve, reject) {
+            if (document.readyState === 'complete') {
+                return resolve();
+            }
+
+            if (window.addEventListener) {
+                window.addEventListener('load', resolve, false);
+            } else {
+                window.attachEvent('onload', resolve);
+            }
+        });
     }
 
     function loadProjectList() {
@@ -178,15 +141,14 @@
         }
     }
 
-    function loadApi() {
-        loadCSS(baseURL + 'css/' + queryString);
-        requestJs();
-    }
-
     window.DG = window.DG || {};
     window.DG.ready = false;
     window.__dgApi__ = {
-        callbacks: [[loadProjectList, undefined], [setReady, undefined]],
+        callbacks: [
+            [waitForPageLoad, undefined],
+            [loadProjectList, undefined],
+            [setReady, undefined]
+        ],
         debug: getDebugParam(),
         version: version
     };
@@ -194,13 +156,15 @@
     baseURL = getBaseURL();
     queryString = getParams();
     isLazy = (queryString.indexOf('lazy=true')  > -1);
-    //load api in normal mode
-    !isLazy && loadApi();
+
+    loadCSS();
+    if (!isLazy) {
+        loadJS();
+    }
 
     window.DG.then = function (resolve, reject) {
-        if (isLazy) {
-            //load api on demand
-            if (!isJsRequested) { loadApi(); }
+        if (isLazy && !isJsRequested) {
+            loadJS();
         }
 
         window.__dgApi__.callbacks.push([resolve, reject]);
