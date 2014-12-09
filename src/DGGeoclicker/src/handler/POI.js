@@ -5,6 +5,7 @@ DG.Geoclicker.Handler.Poi = DG.Geoclicker.Handler.House.extend({
             return false;
         }
 
+        // The house handler always needs to be called
         var houseHandlerResult =
             DG.Geoclicker.Handler.House.prototype.handle.call(this, results);
 
