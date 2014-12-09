@@ -197,7 +197,9 @@ FirmCard.prototype = {
             });
         }
 
-        if (this._firmData.links.entrances && this.options.showEntrance) {
+        if (this._firmData.links &&
+            this._firmData.links.entrances &&
+            this.options.showEntrance) {
             btns.push({ name: 'show-entrance',
                         label: this.dict.t(this.options.lang, 'btnEntrance'),
                         icon: true
