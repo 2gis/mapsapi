@@ -5,14 +5,20 @@ DG.Geoclicker.Handler.Poi = DG.Geoclicker.Handler.House.extend({
             return false;
         }
 
-        // The house handler always needs to be called
-        var houseHandlerResult =
-            DG.Geoclicker.Handler.House.prototype.handle.call(this, results);
+        var houseHandler = DG.Geoclicker.Handler.House.prototype.handle;
+        houseHandler.call(this, results);
 
-        // If the POI refers to a building (e.g. galleries in Santiago), simply
+        // If the POI refers to a building (e.g. galleries in Santiago),
         // show a building callout
         if (results.poi.reference.type === 'building') {
-            return houseHandlerResult;
+            var self = this;
+
+            return self._api.geoGet(results.poi.reference.id)
+                .then(function (result) {
+                    return houseHandler.call(self, {
+                        building: result.result.items[0]
+                    });
+                });
         }
 
         // Otherwise, show a firm callout

@@ -1,6 +1,7 @@
 DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     options: {
-        urlGeo: '__WEB_API_SERVER__/__WEB_API_VERSION__/geo/search',
+        urlGeoSearch: '__WEB_API_SERVER__/__WEB_API_VERSION__/geo/search',
+        urlGeoGet: '__WEB_API_SERVER__/__WEB_API_VERSION__/geo/get',
         urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/catalog/branch/get',
         urlFirmsInHouse: '__WEB_API_SERVER__/__WEB_API_VERSION__/catalog/branch/list',
         data: {
@@ -63,7 +64,16 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             fields: this.options.geoFields
         };
 
-        return this._performRequest(params, this.options.urlGeo);
+        return this._performRequest(params, this.options.urlGeoSearch);
+    },
+
+    geoGet: function (id) {
+        var params = {
+            id: id,
+            fields: this.options.geoFields
+        };
+
+        return this._performRequest(params, this.options.urlGeoGet);
     },
 
     cancelLastRequest: function () {
