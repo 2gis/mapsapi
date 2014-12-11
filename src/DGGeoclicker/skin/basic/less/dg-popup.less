@@ -1,18 +1,7 @@
-@font-face {
-    font-weight: normal;
-    font-style: normal;
-    font-family: 'SuisseCond';
-    src: url('@{baseURL}/fonts/suisseintl-cond.eot');
-    src: url('@{baseURL}/fonts/suisseintl-cond.eot?#iefix') format('embedded-opentype'),
-         url('@{baseURL}/fonts/suisseintl-cond.woff') format('woff'),
-         url('@{baseURL}/fonts/suisseintl-cond.ttf') format('truetype'),
-         url('@{baseURL}/fonts/suisseintl-cond.svg#suisse_intlcondensed') format('svg');
-    }
-
 .dg-popup__footer-buttons {
     display: table;
-    width: 100%;
     margin: 10px 0 0 0;
+    width: 100%;
     }
     .dg-popup__footer-button-wrapper {
         display: table-cell;
@@ -97,9 +86,9 @@
         }
     .dg-popup__header-title {
         display: block;
-        white-space: normal;
-        font: 22px/24px 'SuisseCond', 'Arial narrow', Arial, sans-serif;
         margin: 0 18px 0 0;
+        white-space: normal;
+        font: 22px/24px 'Arial narrow', Arial, sans-serif;
         }
         .dg-popup__header-link {
             display: inline-block;
@@ -114,8 +103,8 @@
         display: inline-block;
         margin: 0 0.4em 3px 0;
         width: 70px;
-        vertical-align: middle;
         height: 14px;
+        vertical-align: middle;
 
         &:after {
             display: block;
@@ -127,18 +116,18 @@
         }
         .dg-popup__rating-stars {
             .repeatableBg('DGPopup__ratingStar');
-            height: 100%;
             float: left;
+            height: 100%;
             }
 
         .dg-popup__link {
             position: relative;
             height: 14px;
-            line-height: 14px;
             background-position: center bottom;
             background-size: 10px 1px;
             background-repeat: repeat-x;
             text-decoration: none;
+            line-height: 14px;
             -webkit-tap-highlight-color:rgba(0,0,0,0);
             }
         .dg-popup__link_type_flamp_reviews {
@@ -153,10 +142,10 @@
                 content: '';
                 }
             .dg-popup__link_type_booklet:before {
+                .notRepeatableBgWithSizes('DGPopup__bookletLinkIcon');
                 position: absolute;
                 top: 2px;
                 left: -16px;
                 display: inherit;
-                .noRepeatableBgWithSizes('DGPopup__bookletLinkIcon');
                 content: '';
                 }

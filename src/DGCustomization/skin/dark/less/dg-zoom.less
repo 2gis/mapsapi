@@ -1,3 +1,26 @@
-.dg-zoom__button_type_out:before {
-    background: #3d3d3d;
+.dg-zoom__button_type_in {
+    //
+
+    .leaflet-disabled &:before,
+    .leaflet-disabled &:after,
+    .no-touch .leaflet-disabled &:hover:before,
+    .no-touch .leaflet-disabled &:hover:after,
+    .leaflet-disabled &:active:before,
+    .leaflet-disabled &:active:after {
+        background: #707070; // 44%
+        box-shadow: none;
+        }
+    }
+
+.dg-zoom__button_type_out {
+    &:before {
+        background: #3d3d3d; // 24%
+        }
+
+    .leaflet-disabled &:after,
+    .no-touch .leaflet-disabled &:hover:after,
+    .leaflet-disabled &:active:after {
+        background: #707070; // 44%
+        box-shadow: none;
+        }
     }

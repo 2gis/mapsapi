@@ -1,7 +1,7 @@
 .leaflet-container {
+    z-index: 0;
     background: rgb(247, 243, 223);
     cursor: default;
-    z-index: 0;
 
     &:fullscreen {
         width: 100% !important;
@@ -52,10 +52,10 @@
         }
 
 .leaflet-popup {
-    backface-visibility: hidden;
-    perspective: 1000;
     transform: translate3d(0,0,0);
     transform-style: preserve-3d;
+    perspective: 1000;
+    backface-visibility: hidden;
     }
 
 .leaflet-popup a {
@@ -97,7 +97,7 @@
     }
 
 /* В коллауте ошибка вместо контента */
-.leaflet-popup_error_true { }
+.leaflet-popup_error_true {}
 
 .leaflet-map-pane .leaflet-popup-tip-container {
     position: relative;
@@ -111,7 +111,7 @@
         }
 
 .leaflet-popup-tip-container_svg {
-    .noRepeatableBg('DGCustomization__popupShadow', false);
+    .notRepeatableBg('DGCustomization__popupShadow', true);
     background-position: 50% 95%;
     background-size: 36px 12px;
     }

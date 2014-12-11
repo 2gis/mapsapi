@@ -8,7 +8,7 @@
         width: 100%;
         height: 100%;
         background-image: inherit;
-        background-size: 22px 34px;
+        background-size: contain;
         background-repeat: no-repeat;
         transition:
             opacity ease-in-out .2s,
@@ -17,33 +17,34 @@
         transform-origin: 50% 100%;
         }
     }
+
 .dg-customization__marker_type_mushroom {
-    .noRepeatableBgWithSizes('DGCustomization__marker', false);
+    .notRepeatableBgWithSizes('DGCustomization__marker', true);
     transform-origin: 50% 100%;
     animation: dg-customization__show-marker .2s;
-    background-size: 22px 34px;
 
     &:focus {
         outline: 0;
         }
 
     .no-touch &:hover {
-        .noRepeatableBg('DGCustomization__markerHover', false);
+        .notRepeatableBg('DGCustomization__markerHover', true);
         }
 
-    &:active {
-        .noRepeatableBg('DGCustomization__markerActive', false);
+    &:active,
+    .no-touch &:active {
+        .notRepeatableBg('DGCustomization__markerActive', true);
         }
     }
 
 @keyframes dg-customization__show-marker {
     from { opacity: 0; }
-      to { opacity: 1; }
+    to { opacity: 1; }
     }
 
 .dg-customization__marker_appear {
     background-position: 999px;
-    
+
     &:before {
         content: '';
         }
@@ -52,7 +53,7 @@
 .dg-customization__marker_disappear {
     background-position: 999px;
     pointer-events: none;
-    
+
     &:before {
         visibility: hidden;
         content: '';
