@@ -3,7 +3,7 @@
 
     var isJSRequested = false;
     var rejects = [];
-    var version = 'v2.0.29.1';
+    var version = 'v2.0.30';
 
     var url = (function () {
         var scripts = document.getElementsByTagName('script');
