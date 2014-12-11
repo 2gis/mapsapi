@@ -1,13 +1,14 @@
 DG.Meta = {};
 
-DG.Meta.Layer = L.Layer.extend({
+DG.Meta.Layer = DG.Layer.extend({
 
     options: {
         tileSize: 256,
 
         minZoom: 0,
         maxZoom: 18,
-        zoomOffset: 0
+        zoomOffset: 0,
+        eventBubbling: 'transparent'
         // maxNativeZoom: <Number>,
         // detectRetina: <Number>,
         // zoomReverse: <Number>
@@ -35,21 +36,27 @@ DG.Meta.Layer = L.Layer.extend({
 
     onAdd: function (map) {
         this._reset();
-        DG.DomEvent.on(map.getPane('tilePane'), this._domEvents, this);
+        DG.DomEvent.on(map.getPane('tilePane'), this._getEvents(), this);
     },
 
     onRemove: function (map) {
-        DG.DomEvent.off(map.getPane('tilePane'), this._domEvents, this);
+        DG.DomEvent.off(map.getPane('tilePane'), this._getEvents(), this);
     },
 
     getEvents: function () {
         var events = {
             viewreset: this._reset
         };
+
+        return events;
+    },
+
+    _getEvents: function () {
+        var events = this._domEvents;
         'click dblclick mousedown contextmenu'
             .split(' ')
             .forEach(function (event) {
-                events[event] = this._pipeMapEvent;
+                events[event] = DG.bind(this._fireMouseEvent, this, event);
             }, this);
 
         return events;
@@ -95,42 +102,34 @@ DG.Meta.Layer = L.Layer.extend({
             } else {
                 mouseTileOffset = DG.point(tileOriginPoint.x % tileSize, tileOriginPoint.y % tileSize);
                 hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
+
                 if (this._hoveredEntity !== hoveredObject) {
-                    if (this._hoveredEntity) {
-                        this._fireMouseEvent('mouseout', event);
-                    }
+                    this._fireMouseEvent('mouseout', event);
+
                     this._hoveredEntity = hoveredObject;
-                    if (hoveredObject) {
-                        this._fireMouseEvent('mouseover', event);
-                    }
+                    this._fireMouseEvent('mouseover', event);
                 }
-                if (this._hoveredEntity) {
-                    this._fireMouseEvent('mousemove', event);
-                }
+
+                this._fireMouseEvent('mousemove', event);
             }
         },
         mouseout: function (event) {
-            if (this._hoveredEntity) {
-                this._fireMouseEvent('mouseout', event);
-                this._hoveredEntity = null;
-            }
+            this._fireMouseEvent('mouseout', event);
+            this._hoveredEntity = null;
             this._currentTile = false;
         }
     },
 
-    _pipeMapEvent: function (event) {
-        if (this._hoveredEntity) {
-            this.fire(event.type, DG.extend({}, event, {
-                meta : this._hoveredEntity
-            }));
-        }
-    },
-
     _fireMouseEvent: function (type, mouseEvent) {
-        this.fire(type, {
-            meta: this._hoveredEntity,
-            latlng: this._map.mouseEventToLatLng(mouseEvent)
-        });
+        if (this._hoveredEntity) {
+            this.fire(type, {
+                meta: this._hoveredEntity,
+                latlng: this._map.mouseEventToLatLng(mouseEvent)
+            });
+            if (this.options.eventBubbling === 'layer') {
+                DG.DomEvent.stop(event);
+            }
+        }
     },
 
     _getHoveredObject: function (coords, mouseTileOffset) {

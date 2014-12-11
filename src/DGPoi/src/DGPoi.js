@@ -21,6 +21,7 @@ DG.Poi = DG.Handler.extend({
             minZoom: __POI_LAYER_MIN_ZOOM__,
             maxNativeZoom: 18,
             detectRetina: __DETECT_RETINA__,
+            eventBubbling: 'layer',
             dataFilter: DG.bind(this._processData, this)
         });
     },

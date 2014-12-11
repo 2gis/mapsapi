@@ -13,11 +13,18 @@ DG.Geoclicker = DG.Handler.extend({
     },
 
     addHooks: function () {
-        this._map.on(this._mapEventsListeners, this);
+        this._toggleEvents(true);
     },
 
     removeHooks: function () {
-        this._map.off(this._mapEventsListeners, this);
+        this._toggleEvents();
+    },
+
+    _toggleEvents: function (flag) {
+        this._map[flag ? 'on' : 'off'](this._mapEventsListeners, this);
+        if (this._map.poi) {
+            this._map.poi.getMetaLayer()[flag ? 'on' : 'off']('click', DG.bind(this._mapEventsListeners.click, this));
+        }
     },
 
     getController: function () {
@@ -52,7 +59,7 @@ DG.Geoclicker = DG.Handler.extend({
         clearTimeout(this.pendingClick);
 
         this.pendingClick = setTimeout(function () {
-            var zoom = e.target._zoom,
+            var zoom = self._map.getZoom(),
                 latlng = e.latlng;
 
             self._controller.handleClick(latlng, zoom);

@@ -1,15 +1,27 @@
 describe('DGMeta', function () {
-    var map, meta, ajaxSpy, ajaxStub, demoData, origin;
-
+    var map, meta, ajaxSpy, ajaxStub, demoData, origin, poiCord, spy;
 
     beforeEach(function () {
-        map = new DG.Map(document.createElement('div'), {
+        var div = document.createElement('div');
+
+        document.body.appendChild(div);
+
+        map = new DG.Map(div, {
             center : new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 17
         });
 
         demoData = [{
-            geometry: {constructor: Object},
+            geometry: {
+                type: 'Polygon',
+                coordinates: [
+                    DG.point(20, 85),
+                    DG.point(40, 85),
+                    DG.point(40, 105),
+                    DG.point(20, 105),
+                    DG.point(20, 85)
+                ]
+            },
             hint: 'Суши Терра, сеть ресторанов японской кухни',
             id: '141806935215016',
             linked: {
@@ -18,6 +30,8 @@ describe('DGMeta', function () {
                 type: 'filial'
             }
         }];
+
+        poiCord = DG.latLng(51.73106181684307, 36.19431853294373);//администрация курской области
 
         meta = DG.Meta.layer(null);
         origin = meta.getOrigin();
@@ -38,6 +52,18 @@ describe('DGMeta', function () {
     describe('#DG.Meta.Layer', function () {
         it('should create and return origin instance', function () {
             expect(origin).to.be.an('object');
+        });
+
+        it('should click on map', function () {
+            origin.setTileData('78713:43453:17:256', demoData);
+            spy = sinon.spy();
+            meta.addTo(map);
+            
+            map.on('click', spy);
+
+            happen.click(map.getPane('tilePane'), {latlng: poiCord});
+
+            expect(spy.called).to.be.ok();
         });
     });
 
