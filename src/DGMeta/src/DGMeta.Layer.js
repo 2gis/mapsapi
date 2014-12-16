@@ -127,7 +127,7 @@ DG.Meta.Layer = DG.Layer.extend({
                 latlng: this._map.mouseEventToLatLng(mouseEvent)
             });
             if (this.options.eventBubbling === 'layer') {
-                DG.DomEvent.stop(event);
+                DG.DomEvent.stop(mouseEvent);
             }
         }
     },
