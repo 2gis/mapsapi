@@ -96,7 +96,6 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
     },
 
     _clearPopup: function () {
-        this._popup.clear('header');
         this._map
                 .removeLayer(this._geometry)
                 .off('zoomend', this._updateGeometry, this);

@@ -74,7 +74,18 @@
         onRemove: function (map) { // (Map)
             this._animateClosing();
             map.off('entranceshow', this._closePopup, this);
-            originalOnRemove.call(this, map);
+
+            if (DG.DomUtil.TRANSITION) {
+                this._removeTimeout = setTimeout(L.bind(L.DomUtil.remove, L.DomUtil, this._container), 200);
+            } else {
+                L.DomUtil.remove(this._container);
+            }
+
+            map.fire('popupclose', {popup: this});
+
+            if (this._source) {
+                this._source.fire('popupclose', {popup: this}, true);
+            }
         },
 
         setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
@@ -473,20 +484,6 @@
         _detachEl: function (elem) { // (DOMElement) -> DOMElement
             elem.parentNode && elem.parentNode.removeChild(elem);
             return elem;
-        },
-
-        _onCloseButtonClick: function (e) { // (Event)
-            this._animateClosing();
-
-            DG.DomUtil.TRANSITION ?
-                DG.DomEvent.on(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this) :
-                this._firePopupClose(e);
-            DG.DomEvent.stop(e);
-        },
-
-        _firePopupClose: function (e) { // (Event)
-            DG.DomUtil.TRANSITION && DG.DomEvent.off(this._innerContainer, DG.DomUtil.TRANSITION_END, this._firePopupClose, this);
-            originalOnClose.call(this, e);
         },
 
         _switchEvents: function (on) { // (Boolean)

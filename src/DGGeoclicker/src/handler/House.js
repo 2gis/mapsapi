@@ -3,7 +3,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _firmsOnPage: 20,
     _scrollThrottleInterval: 400,
-    _scrollHeightReserve: 60,  
+    _scrollHeightReserve: 60,
 
     options: {
         'showBooklet': true,
@@ -228,7 +228,6 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         }
         this._firmListLoader = null;
         this._page = 1;
-        this._popup.clear();
         this._clearEventHandlers();
     },
 
@@ -253,7 +252,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _handlePopupScroll: function (e) {
         var scroller = e.originalEvent.target || e.target._scroller;
-        
+
         DG.DomEvent.stop(e);
 
         if (this._totalPages <= 1) { return; }

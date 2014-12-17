@@ -34,7 +34,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         }
 
         data.description = attraction.description;
-        
+
         data.drillDown = this._getDrilldown(attraction);
 
         if (this._checkDescFieldHeight(data.description)) {
@@ -74,7 +74,6 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
 
     _clearPopup: function () {
         this._initedPopupClose = false;
-        this._popup.clear();
         this._clearEventHandlers();
     },
 
