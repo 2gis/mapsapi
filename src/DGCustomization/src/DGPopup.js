@@ -6,7 +6,6 @@
         originalInitLayout = DG.Popup.prototype._initLayout,
         originalOnClose = DG.Popup.prototype._onCloseButtonClick,
         originalOnAdd = DG.Popup.prototype.onAdd,
-        originalOnRemove = DG.Popup.prototype.onRemove,
         originalAdjustPan = DG.Popup.prototype._adjustPan,
         /*global baron:false */
         graf = baron.noConflict();
