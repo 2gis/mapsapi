@@ -160,3 +160,32 @@ DG.Map.addInitHook(function () {
 
 // Add some browser detection
 DG.Browser.safari51 = DG.Browser.safari && navigator.userAgent.indexOf('Version/5.1') !== -1;
+
+// Fix bug with tileLayer minZoom
+DG.GridLayer.include({
+    _update: function () {
+
+        if (!this._map) { return; }
+
+        var bounds = this._map.getPixelBounds(),
+            zoom = this._map.getZoom(),
+            tileSize = this._getTileSize();
+
+        if (zoom > this.options.maxZoom ||
+            zoom < this.options.minZoom) {
+            this._clearBgBuffer();
+            return;
+        }
+
+        // tile coordinates range for the current view
+        var tileBounds = L.bounds(
+            bounds.min.divideBy(tileSize).floor(),
+            bounds.max.divideBy(tileSize).floor());
+
+        this._addTiles(tileBounds);
+
+        if (this.options.unloadInvisibleTiles) {
+            this._removeOtherTiles(tileBounds);
+        }
+    }
+});
