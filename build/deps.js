@@ -290,7 +290,8 @@ var deps = {
                 'DGCustomization/skin/basic/less/fonts.less',
                 'DGTrafficControl/skin/{skin}/less/dg-control-round.less',
                 'DGTrafficControl/skin/{skin}/less/dg-traffic-control.less'
-            ]
+            ],
+            ie: ['DGTrafficControl/skin/{skin}/less/dg-traffic-control.ie.less']
         },
         deps: ['DGTraffic', 'DGRoundControl']
     },

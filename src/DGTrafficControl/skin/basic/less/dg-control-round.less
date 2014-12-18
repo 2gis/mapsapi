@@ -1,13 +1,17 @@
+
 .dg-control-round__icon_name_traffic {
     &:before {
         .notRepeatableBgWithSizes('DGRoundControl__trafficIcon');
         }
 
-    .no-touch &:hover:before {
+    .no-touch &:hover:before,
+    &:active:before {
         .notRepeatableBg('DGRoundControl__trafficIconHover');
         }
-    }
-.dg-control-round__icon_name_traffic.dg-control-round__icon_state_active:before,
-.dg-control-round__icon_name_traffic.dg-control-round__icon_state_active:hover:before {
-    background-image: none;
+
+    .dg-control-round__icon_state_active&:before,
+    .no-touch .dg-control-round__icon_state_active&:hover:before,
+    .dg-control-round__icon_state_active&:active:before {
+        background-image: none;
+        }
     }

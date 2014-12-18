@@ -1,12 +1,17 @@
+
 .dg-control-round__icon_name_ruler {
     &:before {
         .notRepeatableBgWithSizes('DGRoundControl__rulerIcon');
         }
 
-    .no-touch &:hover:before {
+    .no-touch &:hover:before,
+    &:active:before {
         .notRepeatableBg('DGRoundControl__rulerIconHover');
         }
-    }
-.dg-control-round__icon_name_ruler.dg-control-round__icon_state_active:before {
-    .notRepeatableBg('DGRoundControl__rulerIconActive');
+
+    .dg-control-round__icon_state_active&:before,
+    .no-touch .dg-control-round__icon_state_active&:hover:before,
+    .dg-control-round__icon_state_active&:active:before {
+        .notRepeatableBg('DGRoundControl__rulerIconEnabled');
+        }
     }
