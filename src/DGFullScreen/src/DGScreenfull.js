@@ -56,6 +56,10 @@ DG.Screenfull = DG.Class.extend({
         return !!document[this.api.fullscreenElement];
     },
 
+    isAvailable: function () {
+        return Boolean(this.api);
+    },
+
     _api: function () {
         var api = {},
             apiMap = this._apiMap;
