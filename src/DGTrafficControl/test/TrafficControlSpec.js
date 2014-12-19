@@ -20,17 +20,6 @@ describe('DG.TrafficControl', function() {
     document.body.appendChild(mapContainer);
     map.addControl(trafficControl);
 
-    before(function(done) {
-        // wait for map loading
-        if (map._loaded) {
-            done();
-        } else {
-            map.on('load', function () {
-                done();
-            });
-        }
-    });
-
     describe('module init', function() {
         it('traffic control show', function() {
             expect(control.length).to.be(1);
