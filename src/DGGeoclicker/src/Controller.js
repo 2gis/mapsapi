@@ -5,10 +5,8 @@ DG.Geoclicker.Controller = DG.Class.extend({
         // default handler always should return rendering object
         'handlersSequence': {
             'poi': DG.Geoclicker.Handler.Poi,
-            'building': DG.Geoclicker.Handler.House,
-
             'attraction': DG.Geoclicker.Handler.Sight,
-
+            'building': DG.Geoclicker.Handler.House,
             'street': DG.Geoclicker.Handler.CityArea,
             'adm_div.place': DG.Geoclicker.Handler.CityArea,
             'adm_div.district': DG.Geoclicker.Handler.CityArea,
