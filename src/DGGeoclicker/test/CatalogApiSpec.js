@@ -44,11 +44,9 @@ describe('DG.Geoclicker.Provider.CatalogApi', function () {
                     12: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district',
                     13: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district',
                     14: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building',
-                    15: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi',
-                    16: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi',
-                    17: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi,attraction',
-                    18: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi,attraction',
-                    19: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi,attraction'
+                    17: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,attraction',
+                    18: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,attraction',
+                    19: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,attraction'
                 },
                 zoom;
 
