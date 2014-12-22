@@ -1,3 +1,4 @@
+
 .dg-preloader {
     position: relative;
     margin: 0 auto;
@@ -5,11 +6,13 @@
     height: 44px;
     vertical-align: middle;
     }
+
 .dg-preloader_animation_false {
     .notRepeatableBg('DGPreloader__preloader');
     background-attachment: scroll;
     background-position: 50% 50%;
     }
+
 .dg-preloader_animation_true {
     &:before {
         position: absolute;
@@ -23,15 +26,18 @@
         animation: dg-preloader__outer 5s linear infinite;
         image-rendering: optimizeQuality;
         }
+
     &.dg-preloader_size_small:before {
         margin: -12px 0 0 -12px;
         width: 24px;
         height: 24px;
         }
+
     &.dg-preloader_scheme_regular:before {
         .notRepeatableBg('DGPreloader__preloaderBig', true);
         background-size: 44px 44px;
         }
+
     &.dg-preloader_scheme_regular.dg-preloader_size_small:before {
         .notRepeatableBg('DGPreloader__preloaderSmall', true);
         background-size: 24px 24px;
@@ -49,15 +55,18 @@
         animation: dg-preloader__inner 4s linear infinite;
         image-rendering: optimizeQuality;
         }
+
     &.dg-preloader_size_small:after {
         margin: -6px 0 0 -6px;
         width: 12px;
         height: 12px;
         }
+
     &.dg-preloader_scheme_regular:after {
         .notRepeatableBg('DGPreloader__preloaderBigInner', true);
         background-size: 32px 32px;
         }
+
     &.dg-preloader_scheme_regular.dg-preloader_size_small:after {
         .notRepeatableBg('DGPreloader__preloaderSmallInner', true);
         background-size: 12px 12px;

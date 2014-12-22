@@ -1,4 +1,4 @@
-// Хелпер
+
 .dg-firm-card__icon {
     position: relative;
     padding-left: 24px;
@@ -6,7 +6,6 @@
     &:before {
         position: absolute;
         top: 0;
-        bottom: 0;
         left: 0;
         margin: auto;
         background-position: 0 50%;
@@ -15,40 +14,6 @@
         }
     }
 
-.dg-firm-card__address {
-    margin: 13px 0 9px 0;
-    font: 16px/16px Arial, sans-serif;
-
-    &:before {
-        position: absolute;
-        top: 3px;
-        content: '';
-        }
-    }
-    .dg-firm-card__comment {
-        position: relative;
-        top: 1px;
-        margin: 0 0 0 5px;
-        vertical-align: top;
-        font-size: 12px;
-        }
-
-.dg-firm-card__phone {
-    overflow: hidden;
-    margin-bottom: 4px;
-    text-overflow: ellipsis;
-
-    &:before {
-        position: absolute;
-        top: 3px;
-        left: 0;
-        content: '';
-        }
-    }
-    .dg-firm-card__phone-num {
-        white-space: nowrap;
-        }
-
 .dg-firm-card__link {
     overflow: hidden;
     margin-bottom: 4px;
@@ -56,11 +21,6 @@
     white-space: nowrap;
     word-wrap: normal;
     line-height: 16px;
-
-    &:before {
-        width: 11px;
-        height: 11px;
-        }
     }
     .dg-firm-card__link a {
         background-position: center bottom;
@@ -69,13 +29,54 @@
         text-decoration: none;
         }
 
-    .dg-firm-card__email:before {
-        height: 8px;
+.dg-firm-card__address {
+    margin-bottom: 10px;
+    font-size: 16px;
+
+    &:before {
+        position: absolute;
+        top: 5px;
+        left: 1px;
+        content: '';
         }
+    }
+    .dg-firm-card__comment {
+        position: relative;
+        margin-left: 5px;
+        font-size: 12px;
+        }
+
+.dg-firm-card__phone {
+    overflow: hidden;
+    margin-bottom: 4px;
+    text-overflow: ellipsis;
+    line-height: 16px;
+
+    &:before {
+        top: 3px;
+        left: 1px;
+        }
+    }
+    .dg-firm-card__phone-num {
+        white-space: nowrap;
+        }
+
+.dg-firm-card__site {
+    &:before {
+        top: 3px;
+        }
+    }
+
+.dg-firm-card__email {
+    &:before {
+        top: 5px;
+        height: 7px;
+        }
+    }
 
 .dg-firm-card__rubrics {
     overflow: hidden;
-    margin-top: 8px;
+    margin-bottom: 4px;
     font-size: 12px;
     line-height: 16px;
     }
@@ -140,5 +141,5 @@
     }
 
 .dg-firm-card__schedule {
-    margin: 0 0 10px;
+    margin-bottom: 10px;
     }

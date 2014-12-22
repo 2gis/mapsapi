@@ -1,43 +1,67 @@
+
 .dg-map-geoclicker__address {
-    position: relative;
-    padding: 0 0 0 24px;
-    font: 12px/16px Arial, sans-serif;
+    margin-bottom: 10px;
+    font-size: 16px;
+
+    .dg-map-geoclicker__purpose + & {
+        margin-top: -6px;
+        }
     }
 
 .dg-map-geoclicker__address-header {
-    margin: 6px 0 2px;
-    font: 16px/16px Arial, sans-serif;
+    position: relative;
+    margin-bottom: 4px;
+    padding-left: 24px;
+
+    &:first-child:before {
+        position: absolute;
+        top: 5px;
+        left: 1px;
+        content: '';
+        }
     }
 
 .dg-map-geoclicker__address-drilldown {
+    position: relative;
+    margin-bottom: 4px;
+    padding-left: 24px;
     color: #aaa;
-    font: 12px/16px Arial, sans-serif;
-    }
+    font-size: 12px;
 
-.dg-map-geoclicker__elevation {
-    display: block;
-    margin-bottom: 1px;
-    color: #a0a0a0;
-    font-size: 15px;
+    &:first-child:before {
+        position: absolute;
+        top: 2px;
+        left: 1px;
+        content: '';
+        }
     }
 
 .dg-map-geoclicker__purpose {
     position: relative;
-    padding: 3px 0 2px 24px;
+    margin-bottom: 10px;
+    padding-left: 24px;
     font-size: 16px;
+
+    .dg-map-geoclicker__address + & {
+        margin-top: -6px;
+        }
 
     &:before {
         position: absolute;
-        top: 8px;
-        left: 0;
+        top: 4px;
+        left: 2px;
         content: '';
+        }
+
+    &_type_street:before {
+        top: 4px;
         }
     }
 
 .dg-map-geoclicker__sight-description {
     overflow: hidden;
     padding: 0.5em 0 0 24px;
-    max-height: 2.9em;
+    max-height: 3.6em;
     }
 
 .dg-map-geoclicker__show-more-sights-link {
@@ -45,22 +69,24 @@
     margin-left: 24px;
     border-bottom: 1px dotted;
     text-decoration: none;
-
-    &:after {
-        position: absolute;
-        top: 4px;
-        margin-left: 5px;
-        width: 6px;
-        height: 10px;
-        content: '';
-        font-weight: bold;
-        }
     }
+    .dg-map-geoclicker__show-more-sights-link {
+        &:after {
+            position: absolute;
+            top: 4px;
+            margin-left: 5px;
+            width: 6px;
+            height: 10px;
+            content: '';
+            font-weight: bold;
+            }
+        }
 
 .dg-map-geoclicker__clamped-line {
     display: block;
     white-space: nowrap;
     }
+
 .dg-map-geoclicker__clamped-line_last {
     overflow: hidden;
     width: 100%;
@@ -71,4 +97,8 @@
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+    }
+
+.dg-map-geoclicker__drilldown {
+    margin-bottom: 10px;
     }

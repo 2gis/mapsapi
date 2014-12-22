@@ -28,7 +28,9 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
     },
 
     handle: function (results, type) { // (Object, String) -> Promise
-        if (!results[type]) { return false; }
+        if (!results[type]) {
+            return false;
+        }
 
         !this._stylesInited && this._initStyles();
 
@@ -40,8 +42,8 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         }).addTo(this._map);
 
         this._map
-                .on('zoomend', this._updateGeometry, this)
-                .once('popupclose', this._clearPopup, this);
+            .on('zoomend', this._updateGeometry, this)
+            .once('popupclose', this._clearPopup, this);
 
         return Promise.resolve(this._fillCityAreaObject(results, type));
     },
@@ -49,12 +51,12 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
     _fillCityAreaObject: function (results, type) {
         var data = {
             name: this.t('noname'),
-            address: '',
+            drilldown: '',
             purpose: this.t(type),
-            type: type
+            type: type.split('.').join('_')
         }, areaInfo;
 
-        data.address = this._getDrilldown(results[type]);
+        data.drilldown = this._getDrilldown(results[type]);
 
         if (results[type].name) {
             data.name = results[type].name;

@@ -211,7 +211,14 @@
             this._updateLayout();
             this._updatePosition();
 
-            if (this._isContentHeightFit()) {
+            if (this._isContentHeightEnough()) {
+                if (this._isBaronExist) {
+                    DG.DomUtil.addClass(this._scroller, 'dg-scroller_hidden_true');
+                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_has-header_true');
+                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller');
+                    DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
+                }
+            } else {
                 if (!this._isBaronExist) {
                     this._initBaronScroller();
                     this._initBaron();
@@ -223,13 +230,6 @@
                         this._scroller.scrollTop = scrollTop;
                     }
                     this._updateScrollPosition();
-                }
-            } else {
-                if (this._isBaronExist) {
-                    DG.DomUtil.addClass(this._scroller, 'dg-scroller_hidden_true');
-                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_has-header_true');
-                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller');
-                    DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
             }
 
@@ -256,22 +256,25 @@
                 this._adjustPan();
         },
 
-        _isContentHeightFit: function () { // () -> Boolean
-            var popupHeight,
-                maxHeight = this.options.maxHeight;
+        _isContentHeightEnough: function () { // () -> Boolean
+            var options = this.options;
 
-            popupHeight = this._popupStructure.body ?
+            if (!options.maxHeight) {
+                return true;
+            }
+
+            var popupHeight = this._popupStructure.body ?
                 this._popupStructure.body.offsetHeight + this._getDelta() :
                 this._contentNode.offsetHeight;
 
-            popupHeight += this.options.border * 2;
+            popupHeight += options.border * 2;
 
-            return (maxHeight && maxHeight < popupHeight); // dont need scroll on 300 height
+            return popupHeight <= options.maxHeight;
         },
 
         _initBaronScroller: function () {
             var contentNode = this._popupStructure.body.parentNode,
-                scrollerWrapper = this._scrollerWrapper =  DG.DomUtil.create('div', 'dg-scroller__wrapper', contentNode),
+                scrollerWrapper = this._scrollerWrapper = DG.DomUtil.create('div', 'dg-scroller__wrapper', contentNode),
                 scroller = this._scroller = DG.DomUtil.create('div', 'dg-scroller', scrollerWrapper),
                 barWrapper = this._barWrapper = DG.DomUtil.create('div', 'dg-scroller__bar-wrapper', scroller),
                 innerHeight = this.options.maxHeight - this.options.border * 2;
@@ -419,28 +422,28 @@
         },
 
         _updateLayout: function () {
-            var container = this._contentNode, // leaflet-popup-content
-                wrapper = this._wrapper, //leaflet-popup-content-wrapper
-                style = container.style,
+            var content = this._contentNode, // leaflet-popup-content
+                wrapper = this._wrapper, // leaflet-popup-content-wrapper
+                style = content.style,
                 wrapperStyle = wrapper.style,
                 width,
                 scrolledClass = 'leaflet-popup-scrolled';
 
             style.margin = this.options.border + 'px';
-            if (this._isContentHeightFit()) {
-                wrapperStyle.maxHeight = this.options.maxHeight + 'px';
-                DG.DomUtil.addClass(container, scrolledClass);
+
+            if (this._isContentHeightEnough()) {
+                wrapperStyle.maxHeight = content.offsetHeight + this.options.border * 2 + 'px';
+                DG.DomUtil.removeClass(content, scrolledClass);
             } else {
-                wrapperStyle.maxHeight = container.offsetHeight + this.options.border * 2 + 'px';
-                DG.DomUtil.removeClass(container, scrolledClass);
+                wrapperStyle.maxHeight = this.options.maxHeight + 'px';
+                DG.DomUtil.addClass(content, scrolledClass);
             }
 
             style.whiteSpace = 'nowrap';
             width = wrapper.offsetWidth;
             style.whiteSpace = '';
 
-            width = Math.min(width, this.options.maxWidth);
-            width = Math.max(width, this.options.minWidth);
+            width = Math.min(Math.max(width, this.options.minWidth), this.options.maxWidth);
 
             wrapperStyle.width = width + 'px';
 

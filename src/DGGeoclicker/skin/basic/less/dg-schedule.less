@@ -1,25 +1,28 @@
+
 .dg-schedule {
     }
     .dg-schedule__today {
         position: relative;
         display: inline-block;
         margin-left: 24px;
-        border-bottom: 1px dotted #aaa5a0;
+        background-position: center bottom;
+        background-size: 2px 1px;
+        background-repeat: repeat-x;
         font-size: 14px;
-        line-height: 13px;
+        line-height: 16px;
         cursor: pointer;
 
         &:before {
             position: absolute;
-            top: -1px;
+            top: 3px;
             left: -24px;
             content: '';
             }
 
         &:after {
             position: absolute;
-            right: -12px;
-            bottom: 3px;
+            right: -15px;
+            bottom: 4px;
             content: '';
             }
         }
@@ -37,7 +40,7 @@
             }
 
     .dg-schedule__now {
-        margin: 1px 7px 0px 36px;
+        margin: 2px 7px 0px 36px;
         font-size: 12px;
         }
 
@@ -71,6 +74,7 @@
                 color: #8c8782;
                 text-transform: capitalize;
                 }
+
             .dg-schedule__td {
                 margin: 10px 0 0;
                 }
@@ -83,15 +87,18 @@
         }
 
     .dg-schedule__table-clock {
-        margin: 14px 0 0 0;
+        margin: 13px 0 0 0;
         }
 
     .dg-schedule__table-lunch {
-        margin: 16px 0 0 0;
+        margin: 31px 0 0 0;
         }
 
-.dg-schedule_open_true {}
+.dg-schedule_open_true {
+    }
 
-.dg-schedule_state_expanded {}
+.dg-schedule_state_expanded {
+    }
 
-.dg-schedule_works-everyday_true {}
+.dg-schedule_works-everyday_true {
+    }
