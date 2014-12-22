@@ -44,23 +44,34 @@ DG.Geoclicker.Controller = DG.Class.extend({
         }
     },
 
-    handleClick: function (latlng, zoom) { // (Object, Number)
+    handleClick: function (latlng, zoom, meta) { // (Object, Number, Object)
         var self = this,
             args = Array.prototype.slice.call(arguments, 0);
 
-        this._catalogApi.getLocations({
-            latlng: latlng,
-            zoom: zoom,
-            callback: function (result) {
-                self.handleResponse(result);
-            },
-            beforeRequest: function () {
-                var loader = self._view.initLoader();
-                self._view._popup.clear();
-                self._view.showPopup(latlng, loader);
-                self._lastHandleClickArguments = args;
-            }
-        });
+        function beforeRequest() {
+            var loader = self._view.initLoader();
+            self._view._popup.clear();
+            self._view.showPopup(latlng, loader);
+            self._lastHandleClickArguments = args;
+        }
+
+        if (meta && meta.linked) {
+            beforeRequest();
+            self.handleResponse({
+                poi: {
+                    reference: meta.linked
+                }
+            });
+        } else {
+            this._catalogApi.getLocations({
+                latlng: latlng,
+                zoom: zoom,
+                callback: function (result) {
+                    self.handleResponse(result);
+                },
+                beforeRequest: beforeRequest
+            });
+        }
     },
 
     handleResponse: function (result) { // (Object)

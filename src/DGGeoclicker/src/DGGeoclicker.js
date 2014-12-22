@@ -59,10 +59,9 @@ DG.Geoclicker = DG.Handler.extend({
         clearTimeout(this.pendingClick);
 
         this.pendingClick = setTimeout(function () {
-            var zoom = self._map.getZoom(),
-                latlng = e.latlng;
+            var zoom = self._map.getZoom();
 
-            self._controller.handleClick(latlng, zoom);
+            self._controller.handleClick(e.latlng, zoom, e.meta);
             self.clickCount = 0;
         }, this.timeout);
     }
