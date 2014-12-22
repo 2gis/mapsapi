@@ -31,6 +31,7 @@ describe('DG.Popup', function() {
         });
 
         afterEach(function() {
+            popup.clear();
             popup.remove();
         });
 
