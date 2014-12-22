@@ -1,8 +1,23 @@
 .dg-control-round {
+    position: relative;
     width: 30px;
     height: 30px;
     border-radius: 50%;
     cursor: default;
+
+    .leaflet-touch &:before {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        bottom: -15px;
+        left: -15px;
+        content: '';
+        }
+
+    /*.leaflet-touch.debug &:before {
+        background-color: red;
+        opacity: .5;
+        }*/
     }
     .dg-control-round__icon {
         position: absolute;
