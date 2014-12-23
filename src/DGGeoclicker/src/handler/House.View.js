@@ -81,19 +81,16 @@ DG.Geoclicker.Handler.House.include({
     },
 
     _fillFooter: function (house) { // (Object) -> (HTMLString)
-        var btns = [],
-            isShowOrgs = false;
+        var btns = [];
 
-        if (house.links.branches.count > 0) {
-            if (house.links.branches.items) {
-                if (house.links.branches.count > house.links.branches.items.length) {
-                    isShowOrgs = true;
-                }
-            } else {
-                isShowOrgs = true;
-            }
+        // Decide if we need to display 'more organisations' button
+        if (
+            house.links.branches.count > 0 &&
+            house.links.branches.items &&
+            house.links.branches.count > house.links.branches.items.length
+        ) {
+            btns.push(this._getShowAllData(house.links.branches.count));
         }
-        isShowOrgs && btns.push(this._getShowAllData(house.links.branches.count));
 
         this._isRouteSearchAllowed() && btns.push({
             name: 'goto',
