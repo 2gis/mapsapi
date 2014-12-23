@@ -1,3 +1,5 @@
+var rulerRenderer = DG.svg({pane: 'rulerLabelPane'});
+
 DG.Ruler.mergeOptions({
     pathStyles: {
         back: {
@@ -5,14 +7,16 @@ DG.Ruler.mergeOptions({
             opacity: 1,
             weight: 12,
             pointerEvents: 'none',
-            noClip: true
+            noClip: true,
+            renderer: rulerRenderer
         },
         middle: {
             color: '#0da5d5',
             opacity: 1,
             weight: 4,
             pointerEvents: 'none',
-            noClip: true
+            noClip: true,
+            renderer: rulerRenderer
         },
         mouse: {
             color: '#fff',
@@ -31,7 +35,8 @@ DG.Ruler.mergeOptions({
                 fillColor: '#fff',
                 fillOpacity: 1,
                 weight: 1,
-                radius: 13
+                radius: 13,
+                renderer: rulerRenderer
             },
             middle: {
                 color: '#0da5d5',
@@ -39,7 +44,8 @@ DG.Ruler.mergeOptions({
                 fillColor: '#0da5d5',
                 fillOpacity: 1,
                 weight: 1,
-                radius: 9
+                radius: 9,
+                renderer: rulerRenderer
             },
             front: {
                 color: '#fff',
@@ -47,7 +53,8 @@ DG.Ruler.mergeOptions({
                 fillColor: '#0da5d5',
                 fillOpacity: 1,
                 weight: 4,
-                radius: 5
+                radius: 5,
+                renderer: rulerRenderer
             }
         },
         small: {
@@ -57,7 +64,8 @@ DG.Ruler.mergeOptions({
                 fillColor: '#fff',
                 fillOpacity: 1,
                 weight: 1,
-                radius: 9
+                radius: 9,
+                renderer: rulerRenderer
             },
             middle: {
                 color: '#0da5d5',
@@ -65,7 +73,8 @@ DG.Ruler.mergeOptions({
                 fillColor: '#0da5d5',
                 fillOpacity: 1,
                 weight: 1,
-                radius: 5
+                radius: 5,
+                renderer: rulerRenderer
             },
             front: {
                 color: '#fff',
@@ -73,7 +82,8 @@ DG.Ruler.mergeOptions({
                 fillColor: '#0da5d5',
                 fillOpacity: 1,
                 weight: 4,
-                radius: 2
+                radius: 2,
+                renderer: rulerRenderer
             }
         }
     }
