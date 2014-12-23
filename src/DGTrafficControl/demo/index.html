@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <title>DGRulerControl demo</title>
+    <meta charset="utf-8">
+    <title>DGTrafficControl demo</title>
     <script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
     <style type="text/css">
         html,body { height: 100%; margin: 0px; padding: 0px; }
@@ -14,11 +14,11 @@
     <script type="text/javascript">
         DG.then(function () {
             map = new DG.Map('map', {
-                'center': new DG.LatLng(51.7302800, 36.1938900),
-                'zoom': 17
+                'center': new DG.LatLng(59.92160287366319, 30.313425064086918),
+                'zoom': 15
             });
 
-            map.addControl(DG.control.ruler());
+            map.addControl(DG.control.traffic());
         });
     </script>
 </body>

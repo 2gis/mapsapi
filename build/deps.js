@@ -264,9 +264,34 @@ var deps = {
     DGTraffic: {
         desc: 'Traffic',
         src: [
-            'DGTraffic/src/DGTraffic.js'
+            'DGTraffic/src/DGTraffic.js',
+            'DGTraffic/lang/ru.js',
+            'DGTraffic/lang/it.js',
+            'DGTraffic/lang/cs.js',
+            'DGTraffic/lang/es.js',
+            'DGTraffic/lang/en.js'
         ],
-        deps: ['DGMeta', 'DGLabel']
+        deps: ['DGMeta', 'DGLabel', 'DGLocale']
+    },
+
+    DGTrafficControl: {
+        desc: 'Traffic control module',
+        src: [
+            'DGTrafficControl/src/Control.Traffic.js',
+            'DGTrafficControl/lang/ru.js',
+            'DGTrafficControl/lang/it.js',
+            'DGTrafficControl/lang/cs.js',
+            'DGTrafficControl/lang/es.js',
+            'DGTrafficControl/lang/en.js'
+        ],
+        less: {
+            all: [
+                'DGTrafficControl/skin/{skin}/less/dg-control-round.less',
+                'DGTrafficControl/skin/{skin}/less/dg-traffic-control.less'
+            ],
+            ie: ['DGTrafficControl/skin/{skin}/less/dg-traffic-control.ie.less']
+        },
+        deps: ['DGTraffic', 'DGRoundControl']
     },
 
     DGRuler: {
@@ -278,6 +303,7 @@ var deps = {
             'DGRuler/lang/ru.js',
             'DGRuler/lang/it.js',
             'DGRuler/lang/cs.js',
+            'DGRuler/lang/es.js',
             'DGRuler/lang/en.js'
         ],
         less: {
@@ -294,6 +320,7 @@ var deps = {
             'DGRulerControl/lang/ru.js',
             'DGRulerControl/lang/it.js',
             'DGRulerControl/lang/cs.js',
+            'DGRulerControl/lang/es.js',
             'DGRulerControl/lang/en.js'
         ],
         less: {

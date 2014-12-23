@@ -1,0 +1,50 @@
+
+.dg-traffic-control {
+    z-index: 0;
+    color: #f2f2f2;
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,.3);
+    font: normal 15px/32px 'Arial narrow', Arial, sans-serif;
+
+    &_color_green:before,
+    &_color_yellow:before,
+    &_color_red:before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        margin: auto;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        box-shadow:
+            inset 0 1px 0 0 rgba(0,0,0,.2),
+            0 1px 0 0 #fff;
+        }
+
+    &_color_green:before {
+        background: #3fc03b;
+        }
+
+    &_color_green:hover:before {
+        background: linear-gradient(to top, #2aa731, #53e13a) #3ec435;
+        }
+
+    &_color_yellow:before {
+        background: #f3b223;
+        }
+
+    &_color_yellow:hover:before {
+        background: linear-gradient(to top, #ef931b, #f7be26) #f4a820;
+        }
+
+    &_color_red:before {
+        background: #eb240c;
+        }
+
+    &_color_red:hover:before {
+        background: linear-gradient(to top, #c01c0a, #f73416) #db2811;
+        }
+    }

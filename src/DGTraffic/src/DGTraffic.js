@@ -8,6 +8,7 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     statics: {
+        Dictionary: {},
         tileUrl: '__TRAFFIC_TILE_SERVER__',
         metaUrl: '__TRAFFIC_META_SERVER__',
         timeUrl: '__TRAFFIC_TIMESTAMP_SERVER__',
@@ -90,13 +91,13 @@ DG.Traffic = DG.TileLayer.extend({
         );
     },
 
-    _getTimestampString: function () {
-        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this._getSubdomain(), projectCode: this._map.projectDetector.getProject().code}, this.options || {})),
-            { type: 'get' });
+    getSubdomain: function () {
+        return DG.Traffic.layersOptions.subdomains[Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)];
     },
 
-    _getSubdomain: function () {
-        return DG.Traffic.layersOptions.subdomains[Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)];
+    _getTimestampString: function () {
+        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this.getSubdomain(), projectCode: this._map.projectDetector.getProject().code}, this.options || {})),
+            { type: 'get' });
     },
 
     _onTimer: function () {
@@ -168,7 +169,7 @@ DG.Traffic = DG.TileLayer.extend({
             if (this._labelHelper && e.meta.speed) {
                 this._labelHelper
                     .setPosition(e.latlng)
-                    .setContent(e.meta.speed + ' км/ч')
+                    .setContent(e.meta.speed + ' ' + this.t('speed_unit_km_h'))
                     .addTo(this._map);
             }
         },
@@ -190,3 +191,9 @@ DG.Traffic = DG.TileLayer.extend({
     }
 
 });
+
+DG.Traffic.include(DG.Locale);
+
+DG.traffic = function (options) { // (Object)
+    return new DG.Traffic(options);
+};

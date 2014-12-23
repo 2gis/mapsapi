@@ -82,7 +82,7 @@
                    radius: 500,
                    page_size: 50,
                    type: 'filial',
-                   key: 'ruhcbx0197'
+                   key: '12345678'
                },
                success: DG.bind(this._showFirms, this),
                error: DG.bind(this._logError, this)
