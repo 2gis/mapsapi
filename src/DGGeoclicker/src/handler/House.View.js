@@ -86,8 +86,8 @@ DG.Geoclicker.Handler.House.include({
 
         // Decide if we need to display 'more organisations' button
         if (
-            houseFilials.count > 0 &&
             houseFilials.items &&
+            houseFilials.items.length &&
             houseFilials.count > houseFilials.items.length
         ) {
             btns.push(this._getShowAllData(houseFilials.count));
