@@ -82,14 +82,15 @@ DG.Geoclicker.Handler.House.include({
 
     _fillFooter: function (house) { // (Object) -> (HTMLString)
         var btns = [];
+        var houseFilials = house.links.branches;
 
         // Decide if we need to display 'more organisations' button
         if (
-            house.links.branches.count > 0 &&
-            house.links.branches.items &&
-            house.links.branches.count > house.links.branches.items.length
+            houseFilials.count > 0 &&
+            houseFilials.items &&
+            houseFilials.count > houseFilials.items.length
         ) {
-            btns.push(this._getShowAllData(house.links.branches.count));
+            btns.push(this._getShowAllData(houseFilials.count));
         }
 
         this._isRouteSearchAllowed() && btns.push({
