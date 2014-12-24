@@ -91,6 +91,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             'street':               14,
             'building':             14,
             'adm_div.place':        15,
+            'poi':                  15,
             'attraction':           17
         },
         selectedTypes = [];
