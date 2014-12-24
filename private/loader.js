@@ -48,7 +48,7 @@
     var isLazy = urlParams.indexOf('&lazy=true&') != -1;
 
     function requestJS() {
-        var isJSRequested = true;
+        isJSRequested = true;
 
         var script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');
