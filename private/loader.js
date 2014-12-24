@@ -2,7 +2,6 @@
     'use strict';
 
     var isJSRequested = false;
-    var isJSLoaded = false;
     var rejects = [];
     var version = 'v2.0.30';
 
@@ -48,19 +47,10 @@
     var qs = '?' + urlParams.slice(1) + 'version=' + version;
     var isLazy = urlParams.indexOf('&lazy=true&') != -1;
 
-    function loadCSS() {
-        var link = document.createElement('link');
+    function requestJS() {
+        var isJSRequested = true;
 
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('type', 'text/css');
-        link.setAttribute('href', baseURL + 'css/' + qs);
-
-        document.getElementsByTagName('head')[0].appendChild(link);
-    }
-
-    function loadJS() {
         var script = document.createElement('script');
-
         script.setAttribute('type', 'text/javascript');
         script.setAttribute('src', baseURL + 'js/' + qs);
 
@@ -71,68 +61,100 @@
         document.getElementsByTagName('head')[0].appendChild(script);
     }
 
-    // Loads scripts once the DOM is ready. Based on
+    // Returns a promise that resolves once the DOM is ready. Based on
     // https://github.com/addyosmani/jquery.parts/blob/master/jquery.documentReady.js
-    function requestJS() {
-        isJSRequested = true;
+    function ensureDOMReady() {
+        return new Promise(function(resolve, reject) {
+            var isResolved = false;
 
-        function loadJSOnce() {
-            // Clean up all listeners we added
-            if (document.addEventListener) {
-                document.removeEventListener('DOMContentLoaded', loadJSOnce, false);
-                window.removeEventListener('load', loadJSOnce, false);
-            } else {
-                document.detachEvent('onreadystatechange', loadJSOnce);
-                window.detachEvent('onload', loadJSOnce);
+            function resolveOnce() {
+                // Clean up all listeners we added
+                if (document.addEventListener) {
+                    document.removeEventListener('DOMContentLoaded', resolveOnce, false);
+                    window.removeEventListener('load', resolveOnce, false);
+                } else {
+                    document.detachEvent('onreadystatechange', resolveOnce);
+                    window.detachEvent('onload', resolveOnce);
+                }
+
+                if (isResolved) {
+                    return;
+                }
+
+                isResolved = true;
+                resolve();
             }
-
-            if (isJSLoaded) {
-                return;
-            }
-
-            isJSLoaded = true;
-            loadJS();
-        }
-
-        // Scroll check hack for IE8
-        function doScrollCheck() {
-            if (isJSLoaded) {
-                return;
-            }
-
-            try {
-                document.documentElement.doScroll('left');
-            } catch (e) {
-                setTimeout(doScrollCheck, 50);
-                return;
-            }
-
-            loadJSOnce();
-        }
-
-        // If the DOM is already ready, load JS immediately
-        if (document.readyState !== 'loading') {
-            return loadJSOnce();
-        }
-
-        // Adding event listeners. We also listen to window load event as a
-        // 'better late than never' fallback.
-        if (document.addEventListener) {
-            document.addEventListener('DOMContentLoaded', loadJSOnce, false);
-            window.addEventListener('load', loadJSOnce, false);
-        } else if (document.attachEvent) { // IE8
-            document.attachEvent('onreadystatechange', loadJSOnce);
-            window.attachEvent('onload', loadJSOnce);
 
             // Scroll check hack for IE8
-            var isTopLevel = false;
-            try {
-                isTopLevel = window.frameElement == null;
-            } catch (e) {}
-            if (document.documentElement.doScroll && isTopLevel) {
-                doScrollCheck();
+            function doScrollCheck() {
+                if (isResolved) {
+                    return;
+                }
+
+                try {
+                    document.documentElement.doScroll('left');
+                } catch (e) {
+                    setTimeout(doScrollCheck, 50);
+                    return;
+                }
+
+                resolveOnce();
             }
-        }
+
+            // If the DOM is already ready, load JS immediately
+            if (document.readyState !== 'loading') {
+                return resolveOnce();
+            }
+
+            // Adding event listeners. We also listen to window load event as a
+            // 'better late than never' fallback.
+            if (document.addEventListener) {
+                document.addEventListener('DOMContentLoaded', resolveOnce, false);
+                window.addEventListener('load', resolveOnce, false);
+            } else if (document.attachEvent) { // IE8
+                document.attachEvent('onreadystatechange', resolveOnce);
+                window.attachEvent('onload', resolveOnce);
+
+                // Scroll check hack for IE8
+                var isTopLevel = false;
+                try {
+                    isTopLevel = window.frameElement == null;
+                } catch (e) {}
+                if (document.documentElement.doScroll && isTopLevel) {
+                    doScrollCheck();
+                }
+            }
+        });
+    }
+
+    function loadStylesheet() {
+        var url = baseURL + 'css/' + qs;
+        var style = document.createElement('style');
+        style.type = 'text/css';
+
+        return new Promise(function (resolve, reject) {
+            DG.ajax(url, {
+                type: 'get',
+
+                dataType: 'html',
+
+                success: function (data) {
+                    if (style.styleSheet){
+                        style.styleSheet.cssText = data;
+                    } else {
+                        style.appendChild(document.createTextNode(data));
+                    }
+
+                    document.getElementsByTagName('head')[0].appendChild(style);
+
+                    resolve();
+                },
+
+                error: function () {
+                    reject();
+                }
+            });
+        });
     }
 
     function loadProjectList() {
@@ -171,6 +193,14 @@
         });
     }
 
+    function prepareForInit() {
+        return Promise.all([
+            loadStylesheet(),
+            loadProjectList(),
+            ensureDOMReady()
+        ]);
+    }
+
     function setReady() {
         DG.ready = true;
     }
@@ -188,14 +218,12 @@
 
     window.__dgApi__ = {
         callbacks: [
-            [loadProjectList, undefined],
+            [prepareForInit, undefined],
             [setReady, undefined]
         ],
         debug: urlParams.indexOf('&mode=debug&') != -1,
         version: version
     };
-
-    loadCSS();
 
     if (!isLazy) {
         requestJS();
