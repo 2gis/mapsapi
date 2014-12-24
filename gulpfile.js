@@ -647,7 +647,7 @@ function buildCss(options, enableSsl) {
     return gulp.src(lessList)
         .pipe(errorHandle())
         .pipe($.header(lessPrerequirements))
-        .pipe($.frep( config.cfgParams({ssl: enableSsl})))
+        .pipe($.frep(config.cfgParams({ssl: enableSsl})))
         .pipe($.less())
         .pipe($.cache($.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4')))
         .pipe($.concat('styles.css'))

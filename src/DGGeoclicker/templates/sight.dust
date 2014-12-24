@@ -9,7 +9,7 @@
 	{/address.header}
 
 	{#address.drilldown}
-	    <div class="dg-map-geoclicker__drilldown">{.}</div>
+	    <div class="dg-map-geoclicker__address-drilldown">{.}</div>
 	{/address.drilldown}
 </address>
 {/address}

@@ -1,3 +1,13 @@
+
+.dg-schedule__today {
+    background-image: linear-gradient(to right,
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.55) 50%,
+        rgba(0,0,0,.0) 51%,
+        rgba(0,0,0,.0) 100%
+        );
+    }
+
 .dg-schedule__now {
     color: #666;
     }
@@ -25,9 +35,11 @@
 .dg-schedule_open_false .dg-schedule__today:before {
     .notRepeatableBg('DGSchedule__clockOff_light');
     }
+
 .dg-schedule__today:after {
     .notRepeatableBgWithSizes('DGSchedule__expandIcon_light');
     }
+
 .dg-schedule__today_shown_true:after {
     .notRepeatableBgWithSizes('DGSchedule__collapseIcon_light');
     }
