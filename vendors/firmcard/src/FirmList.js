@@ -41,7 +41,7 @@
 
         },
 
-        addFirms: function(firms) { 
+        addFirms: function(firms) {
             this._processFirms(firms, 'add');
         },
 
@@ -83,11 +83,11 @@
             };
 
             if (!(firm.id in this._firms)) {
-                
+
                 domFirm = this._createListItem();
 
                 content = tmpl ? this.options.firmCard.render(tmpl, {'firm': firm}) : firm.name;
-                
+
                 domFirm.insertAdjacentHTML('beforeend', content);
 
                 this._firms[firm.id] = domFirm;
@@ -151,6 +151,7 @@
 
             for (var eventClass in this._events) {
                 if (this._events.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
+                    DG.DomEvent.preventDefault(e.originalEvent);
                     this._events[eventClass].call(this, target);
                     return;
                 }

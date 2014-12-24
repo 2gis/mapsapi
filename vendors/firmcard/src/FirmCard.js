@@ -278,6 +278,7 @@ FirmCard.prototype = {
 
         for (var eventClass in this._events) {
             if (this._events.hasOwnProperty(eventClass) && target.className.indexOf(eventClass) > -1) {
+                DG.DomEvent.preventDefault(e.originalEvent);
                 this._events[eventClass].call(this, target);
                 return;
             }
