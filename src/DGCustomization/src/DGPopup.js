@@ -206,30 +206,39 @@
         },
 
         resize: function () {
-            var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
+            var content = this._contentNode,
+                scrolledClass = 'leaflet-popup-scrolled';
 
-            this._updateLayout();
+            var scrolled = this._updateLayout();
             this._updatePosition();
 
-            if (this._isContentHeightEnough()) {
+            if (!scrolled) {
                 if (this._isBaronExist) {
+                    this._scrollerWrapper.style.height = '';
+                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller');
+
                     DG.DomUtil.addClass(this._scroller, 'dg-scroller_hidden_true');
-                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_has-header_true');
                     DG.DomUtil.removeClass(this._scroller, 'dg-scroller');
                     DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
             } else {
-                if (!this._isBaronExist) {
-                    this._initBaronScroller();
-                    this._initBaron();
-                } else {
+                if (this._isBaronExist) {
                     DG.DomUtil.removeClass(this._scroller, 'dg-scroller_hidden_true');
-                    DG.DomUtil.addClass(this._scroller, 'dg-scroller_has-header_true');
                     DG.DomUtil.addClass(this._scroller, 'dg-scroller');
+
+                    var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
+
                     if (scrollTop) {
                         this._scroller.scrollTop = scrollTop;
                     }
+
+                    var innerHeight = this.options.maxHeight - this.options.border * 2 - this._getDelta();
+                    this._scrollerWrapper.style.height = innerHeight + 'px';
+
                     this._updateScrollPosition();
+                } else {
+                    this._initBaronScroller();
+                    this._initBaron();
                 }
             }
 
@@ -427,16 +436,19 @@
                 style = content.style,
                 wrapperStyle = wrapper.style,
                 width,
-                scrolledClass = 'leaflet-popup-scrolled';
+                scrolledClass = 'leaflet-popup-scrolled',
+                result = false;
 
             style.margin = this.options.border + 'px';
 
+            DG.DomUtil.removeClass(content, scrolledClass);
+
             if (this._isContentHeightEnough()) {
                 wrapperStyle.maxHeight = content.offsetHeight + this.options.border * 2 + 'px';
-                DG.DomUtil.removeClass(content, scrolledClass);
             } else {
                 wrapperStyle.maxHeight = this.options.maxHeight + 'px';
                 DG.DomUtil.addClass(content, scrolledClass);
+                result = true;
             }
 
             style.whiteSpace = 'nowrap';
@@ -448,6 +460,8 @@
             wrapperStyle.width = width + 'px';
 
             this._containerWidth = this._container.offsetWidth;
+
+            return result;
         },
 
         _updatePopupStructure: function () {
@@ -481,7 +495,6 @@
         },
 
         _switchEvents: function (on) { // (Boolean)
-
             var switcher = on ? 'off' : 'on';
 
             if (!DG.Browser.touch) {
