@@ -57,6 +57,9 @@ DG.Map.mergeOptions({
 DG.Map.addInitHook(function () {
     if (this.options.fullscreenControl) {
         this.fullscreenControl = DG.control.fullscreen(this.options.fullscreenControl);
-        this.addControl(this.fullscreenControl);
+
+        if (DG.screenfull.isAvailable()) {
+            this.addControl(this.fullscreenControl);
+        }
     }
 });
