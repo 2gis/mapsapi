@@ -139,13 +139,15 @@
                 dataType: 'html',
 
                 success: function (data) {
-                    if (style.styleSheet){
+                    var head = document.getElementsByTagName('head')[0];
+
+                    if (style.styleSheet) {
+                        head.appendChild(style);
                         style.styleSheet.cssText = data;
                     } else {
                         style.appendChild(document.createTextNode(data));
+                        head.appendChild(style);
                     }
-
-                    document.getElementsByTagName('head')[0].appendChild(style);
 
                     resolve();
                 },
