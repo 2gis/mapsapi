@@ -1,6 +1,16 @@
-.dg-zoom__button_type_in {
-    //
+.dg-zoom__in {
+    &:before {
+        bottom: -5px;
+        }
+    }
 
+.dg-zoom__out {
+    &:before {
+        top: -5px;
+        }
+    }
+
+.dg-zoom__button_type_in {
     .leaflet-disabled &:before,
     .leaflet-disabled &:after,
     .no-touch .leaflet-disabled &:hover:before,
