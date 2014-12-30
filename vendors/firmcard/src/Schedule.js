@@ -403,7 +403,9 @@ FirmCard.Schedule.prototype = {
             if (from === to) { // Круглосуточно
                 schedule.today = {
                     alltime: true,
-                    alltimeStr: t(localLang, 'worksAroundTheClock')
+                    alltimeStr: t(localLang, 'worksAroundTheClock'),
+                    from: '00:00',
+                    to: '24:00'
                 };
             } else { // От from до to
                 schedule.today = {
@@ -494,6 +496,10 @@ FirmCard.Schedule.prototype = {
                         to: lunchesTime[i + 1],
                         lunchStr: capitaliseFirstLetter(t(localLang, 'lunch'))
                     });
+                }
+
+                if (out.from == '00:00' && out.to == '00:00') {
+                    out.to = '24:00';
                 }
 
                 if (day.round_the_clock) {
@@ -680,7 +686,7 @@ FirmCard.Schedule.prototype = {
         }
 
         // Текущий статус и прогноз
-        if (schedule.always || (schedule.today && schedule.today.alltime)) { // Если круглосуточно, ничего кроме "Круглосуточно" выводить не нужно
+        if (schedule.always) { // Если круглосуточно, ничего кроме "Круглосуточно" выводить не нужно
             today.text = this.dict.t(this.localLang, 'aroundTheClock');
             open = true;
         } else if (schedule.now) {
