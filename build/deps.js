@@ -59,6 +59,7 @@ var deps = {
             'DGCustomization/skin/basic/skin.config.js',
             '../vendors/baron/baron.js',
             'DGCustomization/src/DGCustomization.js',
+            'DGCustomization/src/DGMap.Tap.js',
             'DGCustomization/src/DGPopup.js',
             'DGCustomization/src/DGZoom.js',
             'DGCustomization/lang/DGZoom/ru.js',
