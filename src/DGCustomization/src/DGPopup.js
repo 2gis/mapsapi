@@ -451,6 +451,8 @@
                 result = true;
             }
 
+            wrapperStyle.width = '';
+
             style.whiteSpace = 'nowrap';
             width = wrapper.offsetWidth;
             style.whiteSpace = '';
