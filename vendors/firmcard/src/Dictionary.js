@@ -367,7 +367,7 @@ FirmCard.prototype.dict = {
         isClosingOnDinner : 'začíná polední přestávka'
     },
 
-    sp: {
+    es: {
         pluralRules: function (n) { // (Number)
           return (n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;
         },
