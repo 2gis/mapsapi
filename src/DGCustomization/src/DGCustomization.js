@@ -155,17 +155,21 @@ DG.Map.include({
 
     // Fix for https://github.com/2gis/mapsapi/issues/34
     // Remove on the next leaflet version
+    // Add prepreclick event before preclick than geoclicker can track popup state
+    // https://github.com/2gis/mapsapi/pull/96
     _fireMouseEvent: function (obj, e, type, propagate, latlng) {
         type = type || e.type;
 
         if (L.DomEvent._skipped(e)) { return; }
+
         if (type === 'click') {
             var draggableObj = obj.options.draggable === true ? obj : this;
             if (!e._simulated && ((draggableObj.dragging && draggableObj.dragging.moved()) ||
-                                  (this.boxZoom && this.boxZoom.moved()))) {
+                (this.boxZoom && this.boxZoom.moved()))) {
                 L.DomEvent.stopPropagation(e);
                 return;
             }
+            obj.fire('prepreclick');
             obj.fire('preclick');
         }
 
