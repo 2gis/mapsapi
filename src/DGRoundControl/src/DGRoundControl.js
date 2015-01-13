@@ -28,8 +28,10 @@ DG.RoundControl = DG.Control.extend({
 
         this._map = map;
 
+        var clickEvent = DG.Browser.touch ? 'click touchend' : 'click';
+
         DG.DomEvent
-            .on(container, 'click', this._toggleControl, this)
+            .on(container, clickEvent, this._toggleControl, this)
             .on(container, 'dblclick', DG.DomEvent.stopPropagation)
             .on(link, 'mousedown', DG.DomEvent.stopPropagation);
 
@@ -39,8 +41,9 @@ DG.RoundControl = DG.Control.extend({
     },
 
     onRemove: function () {
+        var clickEvent = DG.Browser.touch ? 'click touchend' : 'click';
         this.fireEvent('remove');
-        DG.DomEvent.off(this._link, 'click', this._toggleControl);
+        DG.DomEvent.off(this._link, clickEvent, this._toggleControl);
     },
 
     setState: function (state) {
