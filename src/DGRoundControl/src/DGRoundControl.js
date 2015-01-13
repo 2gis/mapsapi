@@ -28,6 +28,7 @@ DG.RoundControl = DG.Control.extend({
 
         this._map = map;
 
+        // add touchend event because tap don't work on controls when popup is open
         var clickEvent = DG.Browser.touch ? 'click touchend' : 'click';
 
         DG.DomEvent

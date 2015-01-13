@@ -35,6 +35,7 @@ DG.Control.Zoom.include({
         this._zoomOutButton.title = this.t('zoom_out');
     },
 
+    // add touchend event because tap don't work on controls when popup is open
     _createButton: function (html, title, className, container, fn) {
         var link = L.DomUtil.create('a', className, container);
         link.innerHTML = html;
