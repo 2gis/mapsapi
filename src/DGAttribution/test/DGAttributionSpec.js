@@ -16,7 +16,7 @@ describe('DG.Control.Attribution', function() {
             center: latLngCenterNsk,
             zoom: 15
         }),
-        attribution = mapContainer.getElementsByClassName('leaflet-control-attribution')[0];
+        attribution = mapContainer.getElementsByClassName('dg-attribution')[0];
 
     after(function() {
         dictionaryLicense = osmCopyright = latLngWithoutProject = latLngCenterNsk = mapContainer = map = attribution = null;
