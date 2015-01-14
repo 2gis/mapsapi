@@ -1203,6 +1203,11 @@ DG.Map &mdash; основной класс API, используется для 
             <td><a href="/doc/maps/manual/controls#класс-dgcontrolfullscreen"><code>Control.FullScreen</code></a></td>
             <td>Кнопка включения полноэкранного режима.</td>
         </tr>
+        <tr>
+            <td><code><b>baseLayer</b></code></td>
+            <td><a href="/doc/maps/manual/layers#класс-dgtilelayer"><code>TileLayer</code></a></td>
+            <td>Слой с тайлами 2ГИС, автоматически добавляемый на карту при её создании.</td>
+        </tr>
     </tbody>
 </table>
 
