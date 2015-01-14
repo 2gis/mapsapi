@@ -174,7 +174,7 @@ DG.Traffic = DG.TileLayer.extend({
             }
         },
         mouseout: function () {
-            this._setCursor('auto');
+            this._setCursor('');
             if (this._labelHelper) {
                 this._map.removeLayer(this._labelHelper);
             }
