@@ -104,7 +104,7 @@
 <div id="map2" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
-        var map;
+        var map,
             popups = DG.featureGroup(),
             coordinates = [];
 
@@ -139,7 +139,7 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
-                    var map;
+                    var map,
                         popups = DG.featureGroup(),
                         coordinates = [];
 
@@ -148,7 +148,7 @@
                         zoom: 13
                     });
 
-                    // создаем 10 баулнов в случайных местах и добавляем их в группу
+                    // создаем 10 балунов в случайных местах и добавляем их в группу
                     for (i = 0; i < 10; i++) {
                         coordinates[0] = 54.98 - Math.random();
                         coordinates[1] = 82.89 + Math.random();
@@ -159,7 +159,7 @@
                     }
 
                     popups.addTo(map);
-                    //фокусируем область видимости на балунах
+                    // фокусируем область видимости на балунах
                     map.fitBounds(popups.getBounds());
                 });
             </script>
