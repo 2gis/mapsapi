@@ -39,7 +39,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return Promise.resolve(this._houseObject);
     },
 
-    _isRouteSearchAllowed : function() { //() -> Boolean
+    _isRouteSearchAllowed: function() { //() -> Boolean
         var project = this._controller.getMap().projectDetector.getProject();
         return project.transport || project.roads;
     },
@@ -104,10 +104,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         var results = res.result.items,
             options = this._firmListSetup();
 
-        options.firmCard.backBtn = DG.bind(function () {
-            this._popup.on('scroll', this._onScroll);
-            this._showListPopup();
-        }, this);
+        options.firmCard.backBtn = DG.bind(this._showListPopup, this);
 
         this._firmList = new FirmCard.List(results, options);
 
@@ -159,6 +156,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _showHousePopup: function () {
+        this._popup.off('scroll', this._onScroll);
         this._clearAndRenderPopup(this._houseObject);
         this._shortFirmList._toggleEventHandlers();
     },
@@ -195,18 +193,18 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             this._clearAndRenderPopup(firmList);
             this._firmList._toggleEventHandlers();
         }
+
+        if (!this._onScroll) {
+            this._onScroll = DG.Util.throttle(this._handlePopupScroll, this._scrollThrottleInterval, this);
+        }
+
+        this._popup.on('scroll', this._onScroll);
     },
 
     _renderFirmList: function () {
         if (!this._isFirmlistOpen) {
             this._popup.resize();
             this._isFirmlistOpen = true;
-
-            if (!this._onScroll) {
-                this._onScroll = DG.Util.throttle(this._handlePopupScroll, this._scrollThrottleInterval, this);
-            }
-
-            this._popup.on('scroll', this._onScroll);
         }
 
         if (this._totalPages === 1 && this._firmListLoader) {
