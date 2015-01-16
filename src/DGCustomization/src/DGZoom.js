@@ -26,6 +26,35 @@ DG.Control.Zoom.include({
         return container;
     },
 
+    _originalCreateButton: DG.Control.Zoom.prototype._createButton,
+
+    _createButton: function (html, title, className, container, fn) {
+        var link = this._originalCreateButton.call(
+            this,
+            html,
+            title,
+            className,
+            container,
+            fn
+        );
+
+        var icon = link.children[0];
+        var linkActiveClass = 'dg-control-round_state_active';
+        var iconActiveClass = 'dg-control-round__icon_state_active';
+
+        DG.DomEvent
+            .on(link, 'touchstart', function () {
+                DG.DomUtil.addClass(link, linkActiveClass);
+                DG.DomUtil.addClass(icon, iconActiveClass);
+            })
+            .on(link, 'touchend touchcancel', function () {
+                DG.DomUtil.removeClass(link, linkActiveClass);
+                DG.DomUtil.removeClass(icon, iconActiveClass);
+            });
+
+        return link;
+    },
+
     onRemove: function (map) {
         map.off(this._eventListeners, this);
     },
