@@ -31,14 +31,9 @@ DG.Geoclicker = DG.Handler.extend({
         return this._controller;
     },
 
-    _mapEventsListeners : {
+    _mapEventsListeners: {
         langchange: function () {
             this._controller.reinvokeHandler();
-        },
-
-        dblclick: function () {
-            clearTimeout(this.pendingClick);
-            this.clickCount = 0;
         },
 
         popupclose: function (e) { // (Object)
@@ -49,6 +44,9 @@ DG.Geoclicker = DG.Handler.extend({
             if (this.clickCount === 0) {
                 this.clickCount = 1;
                 this._singleClick(e);
+            } else {
+                this.clickCount = 0;
+                clearTimeout(this.pendingClick);
             }
         }
     },
