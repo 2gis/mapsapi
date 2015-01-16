@@ -13,7 +13,7 @@ module.exports = function(config) {
         // use dots reporter, as travis terminal does not support escaping sequences
         // possible values: 'dots', 'progress', 'junit', 'teamcity'
         // CLI --reporters progress
-        reporters: ['dots'],
+        reporters: ['dots', 'coverage'],
 
         // excluded, because L.DG.TileLayer added to the map by default,
         // but leaflet tests think that map without layers and fails
@@ -21,6 +21,16 @@ module.exports = function(config) {
             'vendors/leaflet/spec/suites/map/MapSpec.js',
             'vendors/leaflet/spec/suites/layer/tile/TileLayerSpec.js'
         ],
+
+        preprocessors: {
+            'public/js/script.js': ['coverage']
+        },
+
+        coverageReporter: {
+            type : 'lcov',
+            dir : 'coverage/',
+            subdir: '.'
+        },
 
         // web server port
         // CLI --port 9876
@@ -75,7 +85,8 @@ module.exports = function(config) {
             'karma-chrome-launcher',
             'karma-opera-launcher',
             'karma-firefox-launcher',
-            'karma-mocha-reporter'
+            'karma-mocha-reporter',
+            'karma-coverage'
         ]
     });
 };
