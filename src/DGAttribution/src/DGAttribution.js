@@ -54,8 +54,21 @@ DG.Control.Attribution.include({
             map._copyright = true;
             this._first = true;
         }
-        return this._onAdd.call(this, map);
+
+        this._container = DG.DomUtil.create('div', 'dg-attribution');
+        DG.DomEvent.disableClickPropagation(this._container);
+
+        for (var i in map._layers) {
+            if (map._layers[i].getAttribution) {
+                this.addAttribution(map._layers[i].getAttribution());
+            }
+        }
+
+        this._update();
+
+        return this._container;
     },
+
     _update: function (lang, osm, countryCode) {
         if (!this._map) { return; }
 
@@ -93,7 +106,6 @@ DG.Control.Attribution.include({
     },
     /* global __DGAttribution_TMPL__ */
     _tmpl: DG.dust(__DGAttribution_TMPL__),
-    _onAdd: DG.Control.Attribution.prototype.onAdd,
     _getData: function (lang, osm) {
         return {
             'osm': this._osm,
