@@ -24,7 +24,7 @@
     "express": "4.1.0",
     "extend": "1.2.1",
     "glob": "3.2.9",
-    "gulp": "3.8.6",
+    "gulp": "^3.8.6",
     "gulp-autoprefixer": "0.0.7",
     "gulp-base64": "0.0.3",
     "gulp-bump": "0.1.4",
