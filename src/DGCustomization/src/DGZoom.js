@@ -29,14 +29,8 @@ DG.Control.Zoom.include({
     _originalCreateButton: DG.Control.Zoom.prototype._createButton,
 
     _createButton: function (html, title, className, container, fn) {
-        var link = this._originalCreateButton.call(
-            this,
-            html,
-            title,
-            className,
-            container,
-            fn
-        );
+        var args = Array.prototype.slice.call(arguments);
+        var link = this._originalCreateButton.apply(this, args);
 
         var icon = link.children[0];
         var linkActiveClass = 'dg-control-round_state_active';
