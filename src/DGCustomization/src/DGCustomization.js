@@ -187,7 +187,7 @@ DG.Map.include({
         data.latlng = latlng || this.layerPointToLatLng(data.layerPoint);
 
         obj.fire(type, data, propagate);
-    },
+    }
 });
 
 DG.Map.addInitHook(function () {
