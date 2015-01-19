@@ -1,3 +1,4 @@
+
 .dg-zoom {
     width: 40px;
     height: 74px;
@@ -12,13 +13,18 @@
         left: 0;
 
         .leaflet-touch &:before {
-            bottom: -5px;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            bottom: 0;
+            left: -10px;
+            content: '';
             }
 
         &:after {
             position: absolute;
-            top: 34px;
             right: 0;
+            bottom: -1px;
             left: 0;
             z-index: -1;
             margin: auto;
@@ -28,6 +34,49 @@
             content: '';
             }
         }
+        .dg-zoom__button_type_in {
+            &:before,
+            .leaflet-touch &:before,
+            &:after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+                width: 14px;
+                height: 2px;
+                background-color: #7a7a7a; // 48%
+                box-shadow: 0 1px #fff;
+                content: '';
+                }
+
+            &:after {
+                width: 2px;
+                height: 14px;
+                }
+
+            .no-touch &:hover:before,
+            .no-touch &:hover:after {
+                background-color: #616161; // 38%
+                }
+
+            &:active:before,
+            &:active:after,
+            .no-touch &:active:before,
+            .no-touch &:active:after {
+                background-color: #575757; // 34%
+                }
+
+            .leaflet-disabled &:before,
+            .leaflet-disabled &:after,
+            .no-touch .leaflet-disabled &:hover:before,
+            .no-touch .leaflet-disabled &:hover:after,
+            .leaflet-disabled &:active:before,
+            .leaflet-disabled &:active:after {
+                box-shadow: none;
+                }
+            }
 
     .dg-zoom__out {
         position: absolute;
@@ -37,68 +86,27 @@
         margin: auto;
         width: 22px;
         height: 22px;
-        box-shadow: 0 2px 3px 0 rgba(0,0,0,.3); // override .dg-control-round
 
-        .leaflet-touch &:before {
-            top: -5px;
-            left: -19px;
-            right: -19px;
-            bottom: -19px;
+        &:after {
+            position: absolute;
+            top: -1px;
+            right: 0;
+            left: 0;
+            margin: auto;
+            width: 12px;
+            height: 2px;
+            content: '';
             }
         }
-        .dg-zoom__button_type_in {
-            &:before,
-            &:after {
-                background: #7a7a7a; // 48%
-                box-shadow: 0 1px #fff;
-                }
-
-            &:before {
-                width: 14px;
-                height: 2px;
-                }
-
-            &:after {
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                margin: auto;
-                width: 2px;
-                height: 14px;
-                content: '';
-                }
-
-            .no-touch &:hover:before,
-            .no-touch &:hover:after {
-                background: #616161; // 38%
-                }
-
-            &:active:before,
-            &:active:after,
-            .no-touch &:active:before,
-            .no-touch &:active:after {
-                background: #575757; // 34%
-                }
-
-            .leaflet-disabled &:before,
-            .leaflet-disabled &:after,
-            .no-touch .leaflet-disabled &:hover:before,
-            .no-touch .leaflet-disabled &:hover:after,
-            .leaflet-disabled &:active:before,
-            .leaflet-disabled &:active:after {
-                background: #999; // 60%
-                box-shadow: none;
-                }
-            }
-
         .dg-zoom__button_type_out {
-            &:before {
-                top: -6px;
-                bottom: auto;
-                width: 12px;
-                height: 2px;
+            width: 22px;
+            height: 22px;
+
+            .leaflet-touch &:before {
+                top: -5px;
+                right: -19px;
+                left: -19px;
+                bottom: -19px;
                 }
 
             &:after {
@@ -127,7 +135,6 @@
             .leaflet-disabled &:after,
             .no-touch .leaflet-disabled &:hover:after,
             .leaflet-disabled &:active:after {
-                background: #999; // 60%
                 box-shadow: none;
                 }
             }

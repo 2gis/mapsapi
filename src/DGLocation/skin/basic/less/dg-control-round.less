@@ -1,7 +1,18 @@
+
 .dg-control-round__icon_name_locate {
-    .dg-control-round__icon_state_active&:before,
-    .no-touch .dg-control-round__icon_state_active&:hover:before,
-    .dg-control-round__icon_state_active&:active:before {
+    &:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        content: '';
+        }
+
+    .dg-control-round__icon_state_active&:after,
+    .no-touch .dg-control-round__icon_state_active&:hover:after,
+    .dg-control-round__icon_state_active&:active:after {
         .notRepeatableBg('DGRoundControl__locateIconEnabled');
         }
     }

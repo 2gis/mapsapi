@@ -1,16 +1,16 @@
 .dg-control-round__icon_name_locate {
-    &:before {
+    &:after {
         .notRepeatableBgWithSizes('DGRoundControl__locateIcon_dark');
         }
 
-    .no-touch &:hover:before,
-    &:active:before {
+    .no-touch &:hover:after,
+    &:active:after {
         .notRepeatableBg('DGRoundControl__locateIconHover_dark');
         }
 
-    .dg-control-round__icon_state_requesting&:before,
-    .no-touch .dg-control-round__icon_state_requesting&:hover:before,
-    .dg-control-round__icon_state_requesting&:active:before {
+    .dg-control-round__icon_state_requesting&:after,
+    .no-touch .dg-control-round__icon_state_requesting&:hover:after,
+    .dg-control-round__icon_state_requesting&:active:after {
         .notRepeatableBgWithSizes('DGRoundControl__locateIconRequesting_dark');
         animation: DGLocation__locateIconRequestingAnim 1s linear infinite;
         image-rendering: optimizeQuality;

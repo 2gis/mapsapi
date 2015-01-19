@@ -133,7 +133,9 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             afterRender: function () {
                 self._initPopupClose();
                 if (self._firmListLoader) {
-                    this.tmpl.parentNode.appendChild(self._firmListLoader);  // "this" here is self._firmListObject
+                    // "this" here is self._firmListObject
+                    var parent = this.tmpl.parentNode;
+                    parent.insertBefore(self._firmListLoader, parent.firstChild);
                 }
             }
         };
@@ -169,7 +171,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         var loaderWrapper  = DG.DomUtil.create('div', 'dg-map-geoclicker__preloader-wrapper'),
             loader = this._view.initLoader();
 
-        loaderWrapper.appendChild(loader);
+        loaderWrapper.insertBefore(loader, loaderWrapper.firstChild);
         loaderWrapper.style.height = this._popup._contentNode.offsetHeight - 1 + 'px'; // MAGIC
         loaderWrapper.style.width = this._popup._contentNode.offsetWidth + 'px';
         this._clearAndRenderPopup({tmpl: loaderWrapper});
