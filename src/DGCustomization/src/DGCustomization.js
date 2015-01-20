@@ -151,6 +151,42 @@ DG.Map.include({
                 return dgTileLayer.options.maxZoom;
             }
         }
+    },
+
+    // Fix for https://github.com/2gis/mapsapi/issues/34
+    // Remove on the next leaflet version
+    _fireMouseEvent: function (obj, e, type, propagate, latlng) {
+        type = type || e.type;
+
+        if (L.DomEvent._skipped(e)) { return; }
+        if (type === 'click') {
+            var draggableObj = obj.options.draggable === true ? obj : this;
+            if (!e._simulated && ((draggableObj.dragging && draggableObj.dragging.moved()) ||
+                                  (this.boxZoom && this.boxZoom.moved()))) {
+                L.DomEvent.stopPropagation(e);
+                return;
+            }
+            obj.fire('preclick');
+        }
+
+        if (!obj.listens(type, propagate)) { return; }
+
+        if (type === 'contextmenu') {
+            L.DomEvent.preventDefault(e);
+        }
+        if (type === 'click' || type === 'dblclick' || type === 'contextmenu') {
+            L.DomEvent.stopPropagation(e);
+        }
+
+        var data = {
+            originalEvent: e,
+            containerPoint: this.mouseEventToContainerPoint(e)
+        };
+
+        data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
+        data.latlng = latlng || this.layerPointToLatLng(data.layerPoint);
+
+        obj.fire(type, data, propagate);
     }
 });
 
