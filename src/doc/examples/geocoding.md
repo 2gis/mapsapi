@@ -14,14 +14,14 @@
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script type="text/javascript">
     DG.then(function () {
-            
+
             var map, point, lat, lng, marker;
 
             map = DG.map('map', {
                 center: [54.9802, 82.8980],
                 zoom: 18
             });
-            
+
             DG.ajax({
                 url: 'http://catalog.api.2gis.ru/geo/search',
                 data: {
@@ -34,7 +34,7 @@
                     if(typeof marker !== 'undefined') {
                         map.removeLayer(marker);
                     }
-                    // считываем строку в WKT-формате и возвращаем объект Point 
+                    // считываем строку в WKT-формате и возвращаем объект Point
                     point = DG.Wkt.toPoints(data.result[0].centroid);
                     // извлекаем координаты для маркера
                     lng = point[0];
@@ -74,9 +74,9 @@
                     DG.ajax({
                         url: 'http://catalog.api.2gis.ru/geo/search',
                         data: {
-                        key: '12345',
-                        version: 1.3,
-                        q: 'Москва, Красная площадь, 2'
+                            key: '12345',
+                            version: 1.3,
+                            q: 'Москва, Красная площадь, 2'
                         },
                         type: 'GET',
                         success: function(data) {
@@ -163,7 +163,6 @@
                     DG.ajax({
                         url: 'http://catalog.api.2gis.ru/geo/search',
                         data: {
-                            output: 'jsonp',
                             key: '12345',
                             version: 1.3,
                             q: latLng[1] + ',' + latLng[0]
