@@ -378,8 +378,12 @@
         },
 
         _initBodyContainer: function () {
+            var bodyClassName = (this._headerContent || this._footerContent) ?
+                'dg-popup__container' :
+                'dg-popup__container dg-popup__container_withoutLayouts';
+
             this._popupStructure.wrapper = DG.DomUtil.create('div', 'dg-popup__container-wrapper', this._contentNode);
-            this._popupStructure.body = DG.DomUtil.create('div', 'dg-popup__container', this._popupStructure.wrapper);
+            this._popupStructure.body = DG.DomUtil.create('div', bodyClassName, this._popupStructure.wrapper);
         },
 
         update: function () {
