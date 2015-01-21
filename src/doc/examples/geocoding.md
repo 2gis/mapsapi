@@ -74,31 +74,31 @@
                     DG.ajax({
                         url: 'http://catalog.api.2gis.ru/geo/search',
                         data: {
-                    key: '12345',
-                    version: 1.3,
-                    q: 'Москва, Красная площадь, 2'
-                    },
-                    type: 'GET',
-                    success: function(data) {
-                        if(typeof marker !== 'undefined') {
-                            map.removeLayer(marker);
+                        key: '12345',
+                        version: 1.3,
+                        q: 'Москва, Красная площадь, 2'
+                        },
+                        type: 'GET',
+                        success: function(data) {
+                            if(typeof marker !== 'undefined') {
+                                map.removeLayer(marker);
+                            }
+                            // считываем строку в WKT-формате и возвращаем объект Point
+                            point = DG.Wkt.toPoints(data.result[0].centroid);
+                            // извлекаем координаты для маркера
+                            lng = point[0];
+                            lat = point[1];
+                            // создаем и добавляем маркер на карту
+                            marker = DG.marker([lat, lng]);
+                            map.addLayer(marker);
+                            // центрируем карту в координаты маркера
+                            map.panTo([lat, lng]);
+                        },
+                        error: function(error) {
+                            console.log(error);
                         }
-                        // считываем строку в WKT-формате и возвращаем объект Point
-                        point = DG.Wkt.toPoints(data.result[0].centroid);
-                        // извлекаем координаты для маркера
-                        lng = point[0];
-                        lat = point[1];
-                        // создаем и добавляем маркер на карту
-                        marker = DG.marker([lat, lng]);
-                        map.addLayer(marker);
-                        // центрируем карту в координаты маркера
-                        map.panTo([lat, lng]);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
+                    });
                 });
-            });
             </script>
         </body>
     </html>
