@@ -23,7 +23,7 @@ DG.Geoclicker = DG.Handler.extend({
     _toggleEvents: function (flag) {
         this._map[flag ? 'on' : 'off'](this._mapEventsListeners, this);
         if (this._map.poi) {
-            this._map.poi.getMetaLayer()[flag ? 'on' : 'off']('click', DG.bind(this._mapEventsListeners.click, this));
+            this._map.poi.getMetaLayer()[flag ? 'on' : 'off']('click', this._mapEventsListeners.click, this);
         }
     },
 
