@@ -519,6 +519,9 @@
 }());
 
 
+L.Popup.prototype.options.autoPanPadding = [60, 5];
+
+
 DG.Map.include({
     _markerClass: 'dg-customization__marker_type_mushroom',
     _markerShowClass: 'dg-customization__marker_appear',
