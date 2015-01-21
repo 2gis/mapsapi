@@ -53,6 +53,7 @@
             data-id="dgLoader"></script>
         </head>
         <body>
+            Вы кликнули в: <span id="clicked_element">никуда</span>
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
@@ -129,7 +130,7 @@
             <script>
                 DG.then(function () {
                     var map, currentProjectBound;
-                    map = DG.map('map1', {
+                    map = DG.map('map', {
                         center: DG.latLng(54.98, 82.89),
                         zoom: 9
                     });
