@@ -43,6 +43,17 @@
         max-height ease-out .2s,
         height ease-out .2s;
     transform-origin: 50% 100%;
+
+    // Чтобы текст не заезжал под кнопку закрытия. Для не инлайновых боксов
+    // можно получить нужное поведение применяя к ним overflow:hidden или display:(inline-block|table) .
+    &:before {
+        float: right;
+        width: 30px;
+        // popupPadding + 1 , первая строчка текста уже среагирует на кнопку,
+        // но минимум проблем с не инлайновыми боксами
+        height: 17px;
+        content: '';
+        }
     }
     .leaflet-popup-content {
         position: relative;
