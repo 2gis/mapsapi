@@ -219,6 +219,7 @@
             data-id="dgLoader"></script>
         </head>
         <body>
+            <button id='open-popup'>Открыть балун</button>
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 var openPopupBtn = document.getElementById('open-popup')
