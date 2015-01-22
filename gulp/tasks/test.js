@@ -5,20 +5,22 @@ var gulp = require('gulp');
 
 var error = require('../util/error');
 var test = require('../../test/test');
+var config = require('../../build/config.js');
+var deps = require('../../build/gulp-deps')(config);
 
 var isTestDebug = util.env.d || util.env.debug;
-var testRequirements = (isTestDebug) ? [] : ['buildTest'];
+var testRequirements = isTestDebug ? [] : ['buildTest'];
 
 gulp.task('test', testRequirements, function () {
     var cliOptions = extend({}, util.env);
     var modulesToTest = [];
-    var sourcesList = [
-        'vendors/leaflet/spec/before.js',
-        'public/js/script.js',
+
+    var sourcesList = deps.getJSFiles({source: 'testSource'}).concat([
+        'build/tmp/testJS/projectList.js',
         'vendors/leaflet/spec/after.js',
         'node_modules/happen/happen.js',
         'test/geolocate.js'
-    ];
+    ]);
 
     if ('m' in cliOptions) {
         modulesToTest = cliOptions.m.split(',');
@@ -46,7 +48,10 @@ gulp.task('test', testRequirements, function () {
             browsers: test.getBrowsers(),
             reporters: test.getReporters(isTestDebug),
             junitReporter: test.getJunitReporter(),
-            action: 'run'
+            action: 'run',
+            preprocessors: {
+                'build/tmp/testJS/src/**/*.js': ['coverage']
+            }
         }))
         .on('error', function (err) {
             // Make sure failed tests cause gulp to exit non-zero

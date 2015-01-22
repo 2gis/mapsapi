@@ -22,10 +22,6 @@ module.exports = function(config) {
             'vendors/leaflet/spec/suites/layer/tile/TileLayerSpec.js'
         ],
 
-        preprocessors: {
-            'public/js/script.js': ['coverage']
-        },
-
         coverageReporter: {
             type : 'lcov',
             dir : 'coverage/',

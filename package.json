@@ -30,6 +30,7 @@
     "gulp-bump": "0.1.4",
     "gulp-cache": "0.2.0",
     "gulp-concat": "^2.2.0",
+    "gulp-file": "^0.2.0",
     "gulp-flatten": "0.0.2",
     "gulp-footer": "1.0.5",
     "gulp-frep": "0.1.0",
