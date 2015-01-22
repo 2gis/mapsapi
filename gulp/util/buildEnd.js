@@ -1,6 +1,6 @@
 var util = require('gulp-util');
 
-var stat = require('../util/stat');
+var stat = require('./stat');
 var config = require('../../build/config');
 var deps = require('../../build/gulp-deps')(config);
 
@@ -19,8 +19,10 @@ module.exports = function () {
 
     console.log('\nDist files statistic:');
 
-    Object.keys(stat.get()).forEach(function (file) {
-        console.log('- ' + file + ': ' + stat[file]);
+    var statValues = stat.get();
+
+    Object.keys(statValues).forEach(function (file, val) {
+        console.log('- ' + file + ': ' + statValues[file]);
     });
 
     util.log(util.colors.green('Build successfully complete'));
