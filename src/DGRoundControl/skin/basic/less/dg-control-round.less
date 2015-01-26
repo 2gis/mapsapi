@@ -25,7 +25,7 @@
         height: 100%;
         border-radius: 50%;
         background-color: #f0f0f0; // 94%, fallback
-        background-image: linear-gradient(to bottom, #fff 0%, hsl(0,0%,88%) 100%);
+        background-image: linear-gradient(to bottom, #fff 0, hsl(0,0%,88%) 100%);
         color: #2b2a29;
         text-align: center;
         text-shadow: 0 1px 0 #fff;
@@ -49,14 +49,14 @@
 
         .no-touch &:hover {
             background-color: #f5f5f5; // 96%, fallback
-            background-image: linear-gradient(to bottom, hsl(0,0%,92%) 0%, #fff 100%);
+            background-image: linear-gradient(to bottom, hsl(0,0%,92%) 0, #fff 100%);
             }
 
         &:active,
         .no-touch &:active,
         &_state_active {
             background-color: #ebebeb; // 92%, fallback
-            background-image: linear-gradient(to bottom, hsl(0,0%,84%) 0%, #fff 100%);
+            background-image: linear-gradient(to bottom, hsl(0,0%,84%) 0, #fff 100%);
             }
 
         .leaflet-disabled &,
