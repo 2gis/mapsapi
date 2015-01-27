@@ -211,7 +211,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         if (this._totalPages === 1) {
             var loader = this._firmListLoader;
 
-            if (loader) {
+            if (loader && loader.parentNode) {
                 loader.parentNode.removeChild(loader);
             }
         }
@@ -274,7 +274,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         if (this._page === this._totalPages) {
             var loader = this._firmListLoader;
 
-            if (loader) {
+            if (loader && loader.parentNode) {
                 loader.parentNode.removeChild(loader);
             }
 
