@@ -20,6 +20,11 @@ var config = {
         path: basePath + '/src/'
     },
 
+    testSource: {
+        deps: require(basePath + '/build/deps.js'),
+        path: basePath + '/build/tmp/testJS/src/'
+    },
+
     leaflet: {
         deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
         path: basePath + '/vendors/leaflet/src/'

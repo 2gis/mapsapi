@@ -30,6 +30,7 @@
     "gulp-bump": "0.1.4",
     "gulp-cache": "0.2.0",
     "gulp-concat": "^2.2.0",
+    "gulp-file": "^0.2.0",
     "gulp-flatten": "0.0.2",
     "gulp-footer": "1.0.5",
     "gulp-frep": "0.1.0",
@@ -69,8 +70,10 @@
     "underscore.string": "2.3.3"
   },
   "devDependencies": {
+    "coveralls": "^2.11.2",
     "karma": "0.12.14",
     "karma-chrome-launcher": "0.1.2",
+    "karma-coverage": "^0.2.7",
     "karma-expect": "1.1.0",
     "karma-firefox-launcher": "0.1.3",
     "karma-mocha": "0.1.1",

@@ -25,6 +25,8 @@ exports.getBrowsers = function () {
 exports.getReporters = function (isDebug) {
     var reporters = isDebug ? ['mocha'] : ['dots'];
 
+    reporters.push('coverage');
+
     if (argv.hasOwnProperty('reporters')) {
         reporters = argv.reporters.split(',');
     }

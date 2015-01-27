@@ -4,7 +4,7 @@ var buildEnd = require('../util/buildEnd.js');
 
 gulp.task('buildTest', [
     'buildClean',
-    'buildScripts',
+    'buildTestScripts',
     'buildTestStyles',
     'doc',
     'copyPrivateAssets'
