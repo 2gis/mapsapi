@@ -1,3 +1,4 @@
+var sourcemaps = require('gulp-sourcemaps');
 var redust = require('gulp-redust');
 var concat = require('gulp-concat');
 var header = require('gulp-header');
@@ -6,6 +7,7 @@ var uglify = require('gulp-uglify');
 var cache = require('gulp-cache');
 var frep = require('gulp-frep');
 var util = require('gulp-util');
+var gulpif = require('gulp-if');
 var gulp = require('gulp');
 
 var config = require('../../build/config.js');
@@ -25,14 +27,16 @@ module.exports = function (opt, enableSsl) {
         throw err;
     }
 
-    return gulp.src(deps.getJSFiles(opt))
+    return gulp.src(deps.getJSFiles(opt), {base: '.'})
         .pipe(error.handle())
         .pipe(redust(config.tmpl))
         .pipe(frep(config.cfgParams({ssl: enableSsl})))
+        .pipe(gulpif(opt.isDebug, sourcemaps.init()))
         .pipe(concat('script.js'))
         .pipe(header(config.js.intro))
         .pipe(footer(projectList.get()))
         .pipe(footer(config.js.outro))
-        .pipe(opt.isDebug ? util.noop() : cache(uglify()))
-        .pipe(header(config.copyright));
+        .pipe(gulpif(!opt.isDebug, cache(uglify())))
+        .pipe(header(config.copyright))
+        .pipe(gulpif(opt.isDebug, sourcemaps.write()));
 };
