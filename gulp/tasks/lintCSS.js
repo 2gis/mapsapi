@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var csslint = require('../util/csslint/gulp-csslint');
 var error = require('../util/error');
 
-gulp.task('lintCSS', function () {
+gulp.task('lintCSS', ['buildCSS'], function () {
     return gulp.src('public/css/**.css')
         .pipe(error.handle())
         .pipe(csslint({
