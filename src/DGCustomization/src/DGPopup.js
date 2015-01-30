@@ -457,6 +457,7 @@
             width = wrapper.offsetWidth;
             style.whiteSpace = '';
 
+            width = Math.min(width, this._map._container.offsetWidth - 10);
             width = Math.min(Math.max(width, this.options.minWidth), this.options.maxWidth);
 
             wrapperStyle.width = width + 'px';
