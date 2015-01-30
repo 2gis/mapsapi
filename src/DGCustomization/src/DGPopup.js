@@ -66,6 +66,9 @@
 
         onAdd: function (map) { // (Map)
             map.on('entranceshow', this._closePopup, this);
+
+            this.options.autoPanPadding[0] = this._map._container.offsetWidth >= this.options.maxWidth + 120 ? 60 : 5;
+
             originalOnAdd.call(this, map);
             this._animateOpening();
         },
@@ -517,9 +520,6 @@
 
     });
 }());
-
-
-L.Popup.prototype.options.autoPanPadding = [60, 5];
 
 
 DG.Map.include({
