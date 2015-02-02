@@ -1,5 +1,5 @@
 var flatten = require('gulp-flatten');
-var svg2png = require('gulp-svg2png');
+var rsvg = require('gulp-rsvg');
 var rename = require('gulp-rename');
 var newer = require('gulp-newer');
 var util = require('gulp-util');
@@ -15,7 +15,7 @@ gulp.task('copySVGRaster', ['buildClean'], function (cb) {
     gulp.src('src/**/img/**/*.svg')
         .pipe(error.handle())
         .pipe(newer({dest: 'build/tmp/img_newer', ext: '.png'}))
-        .pipe(svg2png())
+        .pipe(rsvg())
         .pipe(rename(function (p) {
             p.dirname = p.dirname.split(path.sep)[2];
         }))
@@ -28,7 +28,7 @@ gulp.task('copySVGRaster', ['buildClean'], function (cb) {
             gulp.src('src/**/img/**/*.svg')
                 .pipe(error.handle())
                 .pipe(newer({dest: 'build/tmp/img_newer', ext: '.png'}))
-                .pipe(svg2png(2))
+                .pipe(rsvg({scale: 2}))
                 .pipe(gulp.dest('build/tmp/img_newer'))
                 .pipe(rename(function (p) {
                     p.extname = '@2x.png';
