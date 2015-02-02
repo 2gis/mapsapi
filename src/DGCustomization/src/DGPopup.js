@@ -39,8 +39,11 @@
     DG.Popup.prototype.options.offset = DG.point(offsetX, offsetY);
 
     DG.Popup.mergeOptions({
-        border: 16
+        border: 16,
+        controlsWidth: 60
     });
+
+    var origAutoPanPadding0 = DG.Popup.prototype.options.autoPanPadding[0];
 
     DG.Popup.include({
         _headerContent: null,
@@ -67,7 +70,12 @@
         onAdd: function (map) { // (Map)
             map.on('entranceshow', this._closePopup, this);
 
-            this.options.autoPanPadding[0] = this._map._container.offsetWidth >= this.options.maxWidth + 120 ? 60 : 5;
+            var opts = this.options;
+
+            DG.Popup.prototype.options.autoPanPadding[0] =
+                this._map._container.offsetWidth >= opts.maxWidth + (opts.controlsWidth * 2) ?
+                    opts.controlsWidth :
+                    origAutoPanPadding0;
 
             originalOnAdd.call(this, map);
             this._animateOpening();
