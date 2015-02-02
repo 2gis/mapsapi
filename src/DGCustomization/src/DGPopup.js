@@ -62,8 +62,11 @@
         _popupTipClass: 'leaflet-popup-tip-container',
         _tipSVGPath: 'M0 0c12.643 0 28 7.115 28 44h2c0-36.885 15.358-44 28-44h-58z',
 
+        _isAutoPanPaddingUserDefined: false,
+
         initialize: function (options, source) { // (Object, Object)
             this._popupStructure = {};
+            this._isAutoPanPaddingUserDefined = options && options.hasOwnProperty('autoPanPadding');
             originalInitialize.call(this, options, source);
         },
 
@@ -72,10 +75,14 @@
 
             var opts = this.options;
 
-            DG.Popup.prototype.options.autoPanPadding[0] =
-                this._map._container.offsetWidth >= opts.maxWidth + (opts.controlsWidth * 2) ?
-                    opts.controlsWidth :
-                    origAutoPanPadding0;
+            if (!this._isAutoPanPaddingUserDefined) {
+                opts.autoPanPadding = [
+                    this._map._container.offsetWidth >= opts.maxWidth + (opts.controlsWidth * 2) ?
+                        opts.controlsWidth :
+                        origAutoPanPadding0,
+                    opts.autoPanPadding[1]
+                ];
+            }
 
             originalOnAdd.call(this, map);
             this._animateOpening();
