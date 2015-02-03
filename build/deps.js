@@ -195,7 +195,10 @@ var deps = {
                 'DGGeoclicker/skin/{skin}/less/dg-schedule.less',
                 'DGGeoclicker/skin/{skin}/less/dg-link.less'
             ],
-            ie: ['DGGeoclicker/skin/{skin}/less/dg-popup.ie.less']
+            ie: [
+                'DGGeoclicker/skin/{skin}/less/dg-popup.ie.less',
+                'DGGeoclicker/skin/{skin}/less/dg-schedule.ie.less'
+            ]
         },
         src: [
             'DGGeoclicker/src/DGGeoclicker.js',
