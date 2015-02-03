@@ -132,7 +132,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             }),
             afterRender: function () {
                 self._initPopupClose();
-                if (self._firmListLoader) {
+
+                if (self._totalPages > 1 && self._firmListLoader) {
                     // "this" here is self._firmListObject
                     this.tmpl.parentNode.appendChild(self._firmListLoader);
                 }
@@ -206,14 +207,6 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         if (!this._isFirmlistOpen) {
             this._popup.resize();
             this._isFirmlistOpen = true;
-        }
-
-        if (this._totalPages === 1) {
-            var loader = this._firmListLoader;
-
-            if (loader && loader.parentNode) {
-                loader.parentNode.removeChild(loader);
-            }
         }
     },
 
