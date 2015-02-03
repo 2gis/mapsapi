@@ -40,10 +40,8 @@
 
     DG.Popup.mergeOptions({
         border: 16,
-        controlsWidth: 60
+        mapControlsWidth: 60
     });
-
-    var origAutoPanPadding0 = DG.Popup.prototype.options.autoPanPadding[0];
 
     DG.Popup.include({
         _headerContent: null,
@@ -72,18 +70,6 @@
 
         onAdd: function (map) { // (Map)
             map.on('entranceshow', this._closePopup, this);
-
-            var opts = this.options;
-
-            if (!this._isAutoPanPaddingUserDefined) {
-                opts.autoPanPadding = [
-                    this._map._container.offsetWidth >= opts.maxWidth + (opts.controlsWidth * 2) ?
-                        opts.controlsWidth :
-                        origAutoPanPadding0,
-                    opts.autoPanPadding[1]
-                ];
-            }
-
             originalOnAdd.call(this, map);
             this._animateOpening();
         },
@@ -260,7 +246,7 @@
                 }
             }
 
-            originalAdjustPan.call(this);
+            this._adjustPan();
             this._bindAdjustPanOnTransitionEnd();
         },
 
@@ -272,8 +258,59 @@
                     setTimeout(originalAdjustPan.bind(this), 1); //JSAPI-3409 fix safari glich
                     DG.DomEvent.off(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan);
                 }
-            } else {
-                originalAdjustPan.call(this);
+
+                return;
+            }
+
+            var options = this.options;
+
+            if (!options.autoPan) { return; }
+
+            var map = this._map,
+                containerHeight = this._container.offsetHeight,
+                containerWidth = this._containerWidth,
+                layerPos = new L.Point(this._containerLeft, -containerHeight - this._containerBottom);
+
+            if (this._zoomAnimated) {
+                layerPos._add(L.DomUtil.getPosition(this._container));
+            }
+
+            var autoPanPadding = [options.autoPanPadding[0], options.autoPanPadding[1]];
+
+            // if width of map is more then width of popup and controls
+            // set default autoPanPadding to width controls
+            if (
+                !this._isAutoPanPaddingUserDefined &&
+                    this._map._container.offsetWidth >= options.maxWidth + options.mapControlsWidth * 2
+            ) {
+                autoPanPadding[0] = options.mapControlsWidth;
+            }
+
+            var containerPos = map.layerPointToContainerPoint(layerPos),
+                padding = L.point(autoPanPadding),
+                paddingTL = L.point(options.autoPanPaddingTopLeft || padding),
+                paddingBR = L.point(options.autoPanPaddingBottomRight || padding),
+                size = map.getSize(),
+                dx = 0,
+                dy = 0;
+
+            if (containerPos.x + containerWidth + paddingBR.x > size.x) { // right
+                dx = containerPos.x + containerWidth - size.x + paddingBR.x;
+            }
+            if (containerPos.x - dx - paddingTL.x < 0) { // left
+                dx = containerPos.x - paddingTL.x;
+            }
+            if (containerPos.y + containerHeight + paddingBR.y > size.y) { // bottom
+                dy = containerPos.y + containerHeight - size.y + paddingBR.y;
+            }
+            if (containerPos.y - dy - paddingTL.y < 0) { // top
+                dy = containerPos.y - paddingTL.y;
+            }
+
+            if (dx || dy) {
+                map
+                    .fire('autopanstart')
+                    .panBy([dx, dy]);
             }
         },
 
