@@ -36,11 +36,17 @@ DG.Meta.Layer = DG.Layer.extend({
 
     onAdd: function (map) {
         this._reset();
-        DG.DomEvent.on(map.getPane('tilePane'), this._getEvents(), this);
+        this._addDomEvents();
+
+        map.on('rulerstart', this._removeDomEvents, this);
+        map.on('rulerend', this._addDomEvents, this);
     },
 
     onRemove: function (map) {
-        DG.DomEvent.off(map.getPane('tilePane'), this._getEvents(), this);
+        this._removeDomEvents();
+
+        map.off('rulerstart', this._removeDomEvents, this);
+        map.off('rulerend', this._addDomEvents, this);
     },
 
     getEvents: function () {
@@ -51,15 +57,12 @@ DG.Meta.Layer = DG.Layer.extend({
         return events;
     },
 
-    _getEvents: function () {
-        var events = this._domEvents;
-        'click dblclick mousedown contextmenu'
-            .split(' ')
-            .forEach(function (event) {
-                events[event] = DG.bind(this._fireMouseEvent, this, event);
-            }, this);
+    _addDomEvents: function () {
+        DG.DomEvent.on(this._map.getPane('tilePane'), this._domEvents, this);
+    },
 
-        return events;
+    _removeDomEvents: function () {
+        DG.DomEvent.off(this._map.getPane('tilePane'), this._domEvents, this);
     },
 
     _getZoomForUrl: DG.TileLayer.prototype._getZoomForUrl,
@@ -69,7 +72,7 @@ DG.Meta.Layer = DG.Layer.extend({
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
     _resetWrap: DG.GridLayer.prototype._resetWrap,
 
-    _domEvents : {
+    _domEvents: {
         mousemove: function (event) { // (MouseEvent)
             var tileSize = this._getTileSize(),
                 layerPoint = this._map.mouseEventToLayerPoint(event),
@@ -117,6 +120,22 @@ DG.Meta.Layer = DG.Layer.extend({
             this._fireMouseEvent('mouseout', event);
             this._hoveredEntity = null;
             this._currentTile = false;
+        },
+
+        click: function (event) {
+            this._fireMouseEvent('click', event);
+        },
+
+        dblclick: function (event) {
+            this._fireMouseEvent('dblclick', event);
+        },
+
+        mousedown: function (event) {
+            this._fireMouseEvent('mousedown', event);
+        },
+
+        contextmenu: function (event) {
+            this._fireMouseEvent('contextmenu', event);
         }
     },
 

@@ -43,22 +43,20 @@ DG.Control.Ruler = DG.RoundControl.extend({
 
     _startDrawing: function () { // ()
         this._map
-                .addLayer(this._drawingHelper)
-                .on('click', this._handleMapClick, this);
+            .addLayer(this._drawingHelper)
+            .on('click', this._handleMapClick, this);
 
-        if (this._geoclickerNeedRestore = this._map.geoclicker.enabled()) { // jshint ignore:line
-            this._map.geoclicker.disable();
-        }
+        this._map.fire('rulerstart');
     },
 
     _finishDrawing: function () { // ()
         this._map
-                .off('click', this._handleMapClick, this)
-                .removeLayer(this._drawingHelper);
+            .off('click', this._handleMapClick, this)
+            .removeLayer(this._drawingHelper);
+
         this._drawingHelper.setLatLngs([]);
-        if (this._geoclickerNeedRestore) {
-            this._map.geoclicker.enable();
-        }
+
+        this._map.fire('rulerend');
     },
 
     _handleMapClick: function (event) {   // (MouseEvents)
