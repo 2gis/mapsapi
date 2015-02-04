@@ -132,8 +132,10 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             }),
             afterRender: function () {
                 self._initPopupClose();
-                if (self._firmListLoader) {
-                    this.tmpl.parentNode.appendChild(self._firmListLoader);  // "this" here is self._firmListObject
+
+                if (self._totalPages > 1 && self._firmListLoader) {
+                    // "this" here is self._firmListObject
+                    this.tmpl.parentNode.appendChild(self._firmListLoader);
                 }
             }
         };
@@ -169,7 +171,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         var loaderWrapper  = DG.DomUtil.create('div', 'dg-map-geoclicker__preloader-wrapper'),
             loader = this._view.initLoader();
 
-        loaderWrapper.appendChild(loader);
+        loaderWrapper.insertBefore(loader, loaderWrapper.firstChild);
         loaderWrapper.style.height = this._popup._contentNode.offsetHeight - 1 + 'px'; // MAGIC
         loaderWrapper.style.width = this._popup._contentNode.offsetWidth + 'px';
         this._clearAndRenderPopup({tmpl: loaderWrapper});
@@ -205,10 +207,6 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         if (!this._isFirmlistOpen) {
             this._popup.resize();
             this._isFirmlistOpen = true;
-        }
-
-        if (this._totalPages === 1 && this._firmListLoader) {
-            this._view.hideLoader(this._firmListLoader);
         }
     },
 
@@ -267,9 +265,12 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         }
 
         if (this._page === this._totalPages) {
-            if (this._firmListLoader) {
-                this._view.hideLoader(this._firmListLoader);
+            var loader = this._firmListLoader;
+
+            if (loader && loader.parentNode) {
+                loader.parentNode.removeChild(loader);
             }
+
             this._popup.off('scroll', this._onScroll);
         }
     }

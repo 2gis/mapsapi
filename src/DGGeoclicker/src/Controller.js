@@ -75,8 +75,6 @@ DG.Geoclicker.Controller = DG.Class.extend({
     handleResponse: function (result) { // (Object)
         var type;
 
-        this._view.hideLoader();
-
         if (!result) {
             this._runHandler('default');
             return;

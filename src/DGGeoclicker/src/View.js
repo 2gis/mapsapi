@@ -16,18 +16,6 @@ DG.Geoclicker.View = DG.Class.extend({
         }
     },
 
-    showLoader: function (loader) {
-        if (loader) {
-            loader.style.display = 'block';
-        }
-    },
-
-    hideLoader: function (loader) {
-        if (loader) {
-            loader.style.display = 'none';
-        }
-    },
-
     initLoader: function (isSmall) {
         var loader = document.createElement('div');
         loader.innerHTML = this._templates('loader',

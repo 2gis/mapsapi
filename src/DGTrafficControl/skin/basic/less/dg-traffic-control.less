@@ -6,9 +6,9 @@
     text-shadow: 0 1px 2px rgba(0,0,0,.3);
     font: normal 15px/32px 'Arial narrow', Arial, sans-serif;
 
-    &_color_green:before,
-    &_color_yellow:before,
-    &_color_red:before {
+    &_color_green:after,
+    &_color_yellow:after,
+    &_color_red:after {
         position: absolute;
         top: 0;
         right: 0;
@@ -24,27 +24,30 @@
             0 1px 0 0 #fff;
         }
 
-    &_color_green:before {
+    &_color_green:after {
         background: #3fc03b;
         }
 
-    &_color_green:hover:before {
+    .no-touch &_color_green:hover:after,
+    &_color_green:active:after {
         background: linear-gradient(to top, #2aa731, #53e13a) #3ec435;
         }
 
-    &_color_yellow:before {
+    &_color_yellow:after {
         background: #f3b223;
         }
 
-    &_color_yellow:hover:before {
+    .no-touch &_color_yellow:hover:after,
+    &_color_yellow:active:after {
         background: linear-gradient(to top, #ef931b, #f7be26) #f4a820;
         }
 
-    &_color_red:before {
+    &_color_red:after {
         background: #eb240c;
         }
 
-    &_color_red:hover:before {
+    .no-touch &_color_red:hover:after,
+    &_color_red:active:after {
         background: linear-gradient(to top, #c01c0a, #f73416) #db2811;
         }
     }
