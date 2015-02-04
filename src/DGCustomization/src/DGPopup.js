@@ -451,14 +451,10 @@
                 result = true;
             }
 
-            wrapperStyle.width = '';
-
-            style.whiteSpace = 'nowrap';
-            width = wrapper.offsetWidth;
-            style.whiteSpace = '';
+            width = this.options.maxWidth;
 
             width = Math.min(width, this._map._container.offsetWidth - 10);
-            width = Math.min(Math.max(width, this.options.minWidth), this.options.maxWidth);
+            width = Math.max(width, this.options.minWidth);
 
             wrapperStyle.width = width + 'px';
 
