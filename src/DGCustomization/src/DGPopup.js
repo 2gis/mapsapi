@@ -173,7 +173,10 @@
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
 
-            this.options.closeButton && this._innerContainer.appendChild(this._detachEl(this._closeButton));
+            if (this.options.closeButton) {
+                this._innerContainer.appendChild(this._detachEl(this._closeButton));
+                DG.DomEvent.disableClickPropagation(this._closeButton);
+            }
 
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
 
