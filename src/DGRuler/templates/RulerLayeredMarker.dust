@@ -3,4 +3,5 @@
 	<div class="dg-ruler__point"></div>
 	<span class="dg-ruler__label-distance">0 км</span>
 	<span class="dg-ruler__label-remove-link"></span>
+	<div class="dg-ruler__remove-link-overlay"></div>
 </div>

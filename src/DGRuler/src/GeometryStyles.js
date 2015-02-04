@@ -21,7 +21,7 @@ DG.Ruler.mergeOptions({
         mouse: {
             color: '#fff',
             opacity: DG.Browser.vml ? 0.1 : 0,
-            weight: DG.Browser.touch ? 30 : 20,
+            weight: DG.Browser.touch ? 40 : 20,
             pointerEvents: 'painted',
             noClip: true,
             renderer: DG.svg({pane: 'rulerEventPane'})

@@ -56,7 +56,7 @@ DG.Ruler = DG.Layer.extend({
         }
 
         this._layersContainer.addTo(this._map);
-        
+
         if (this._points.length) {
             this._layers.mouse.fire('layeradd');
             this._updateDistance();
@@ -143,7 +143,7 @@ DG.Ruler = DG.Layer.extend({
         this.spliceLatLngs(this._points.length, 0, latlng);
         return this;
     },
-    
+
     getLatLngs: function () { // () -> Array
         return this._points.map(function (point) {
             return point.getLatLng();
@@ -181,7 +181,7 @@ DG.Ruler = DG.Layer.extend({
         },
         mouseover : function (event) { // (MouseEvent)
             var target = event.layer;
-            
+
             target._hovered = true;
             if (this._morphingNow) {
                 return;
@@ -291,7 +291,7 @@ DG.Ruler = DG.Layer.extend({
             here = this._map.latLngToLayerPoint(hereLatLng),
             k = (to.x - from.x) / (to.y - from.y),
             b = from.x - k * from.y;
-        
+
         // http://en.wikipedia.org/wiki/Line_(geometry)
         if (isNaN(k)) {
             return hereLatLng;
@@ -376,7 +376,8 @@ DG.Ruler = DG.Layer.extend({
         var originalEvent = event.originalEvent,
             target = originalEvent.target  || originalEvent.srcElement;
 
-        if (target.className !== 'dg-ruler__label-remove-link') {
+        if (target.className !== 'dg-ruler__label-remove-link' &&
+            target.className !== 'dg-ruler__remove-link-overlay') {
             return;
         }
         DG.DomEvent.stop(event.originalEvent);
