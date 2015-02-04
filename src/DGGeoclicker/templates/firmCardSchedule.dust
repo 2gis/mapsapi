@@ -70,6 +70,10 @@
                                 {/schedule.week.hasLunch}
                             </div>
                             {#schedule.week.table}
+                                {@if cond="({$idx} == {$len} - 2)"}
+                                    <span class="dg-schedule__table-cell-group">
+                                {/if}
+
                                 <div class="dg-schedule__tc{?active} dg-schedule__tc_active_true{/active}">
                                     <div class="dg-schedule__day-name">{key}</div>
                                     <div class="dg-schedule__td">
@@ -89,6 +93,10 @@
                                         </div>
                                     {/lunch}
                                 </div> {! dg-schedule__tc !}
+
+                                {@if cond="({$idx} == {$len})"}
+                                    </span>
+                                {/if}
                             {/schedule.week.table}
                         </div>  {! dg-schedule__table !}
                     </div>
