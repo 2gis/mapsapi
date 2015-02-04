@@ -2,17 +2,19 @@
     {?schedule}
         {?forecast.today}
             <div class="dg-schedule__today">
-                {forecast.today.text}&nbsp;
-                {?forecast.today.from}
-                    {forecast.today.from}&ndash;{forecast.today.to}
-                {/forecast.today.from}
+                <div class="dg-schedule__today-inner">
+                    {forecast.today.text}&nbsp;
+                    {?forecast.today.from}
+                        {forecast.today.from}&ndash;{forecast.today.to}
+                    {/forecast.today.from}
 
-                {?schedule.lunch}
-                    ,&nbsp;{forecast.today.lunchStr}&nbsp;
-                    {#schedule.lunch}
-                        {from}&ndash;{to}
+                    {?schedule.lunch}
+                        ,&nbsp;{forecast.today.lunchStr}&nbsp;
+                        {#schedule.lunch}
+                            {from}&ndash;{to}
+                        {/schedule.lunch}
                     {/schedule.lunch}
-                {/schedule.lunch}
+                </div>
             </div>
         {/forecast.today}
 

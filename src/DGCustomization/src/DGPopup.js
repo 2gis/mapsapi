@@ -454,7 +454,12 @@
 
             var availableWidth = opts.autoPanPadding[0] * 2;
 
-            if (opts.hasOwnProperty('minWidth')) {
+            if (opts.sprawling) {
+                width = opts.maxWidth;
+
+                width = Math.min(width, this._map._container.offsetWidth - availableWidth);
+                width = Math.max(width, opts.minWidth);
+            } else {
                 wrapperStyle.width = '';
 
                 style.whiteSpace = 'nowrap';
@@ -463,11 +468,6 @@
 
                 width = Math.min(width, this._map._container.offsetWidth - availableWidth);
                 width = Math.min(Math.max(width, opts.minWidth), opts.maxWidth);
-            } else {
-                width = opts.maxWidth;
-
-                width = Math.min(width, this._map._container.offsetWidth - availableWidth);
-                width = Math.max(width, opts.minWidth);
             }
 
             wrapperStyle.width = width + 'px';

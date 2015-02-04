@@ -5,6 +5,7 @@
         position: relative;
         display: inline-block;
         margin-left: 24px;
+        max-width: 84%;
         background-position: center bottom;
         background-size: 2px 1px;
         background-repeat: repeat-x;
@@ -26,6 +27,12 @@
             content: '';
             }
         }
+        .dg-schedule__today-inner {
+            overflow: hidden;
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            }
 
     .dg-schedule_works-everyday_true .dg-schedule__today {
         background-image: none;
