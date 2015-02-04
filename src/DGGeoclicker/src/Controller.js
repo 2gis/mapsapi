@@ -124,7 +124,9 @@ DG.Geoclicker.Controller = DG.Class.extend({
 
         var handlerResult = this._handlers[type].handle(data, type);
 
-        return handlerResult ? handlerResult.then(this._renderHandlerResult) : false;
+        return handlerResult && handlerResult.then ?
+            handlerResult.then(this._renderHandlerResult) :
+            handlerResult;
     },
 
     _renderHandlerResult: function (result) {
