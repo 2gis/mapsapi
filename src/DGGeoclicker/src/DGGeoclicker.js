@@ -14,10 +14,29 @@ DG.Geoclicker = DG.Handler.extend({
 
     addHooks: function () {
         this._toggleEvents(true);
+
+        this._map
+            .on('rulerstart', this._pause, this)
+            .on('rulerend', this._unpause, this);
     },
 
     removeHooks: function () {
         this._toggleEvents();
+
+        this._map
+            .off('rulerstart', this._pause, this)
+            .off('rulerend', this._unpause, this);
+    },
+
+    _pause: function () {
+        this._toggleEvents();
+    },
+
+    _unpause: function () {
+        // Reenable event handling only in case geoclicker is enabled
+        if (this.enabled()) {
+            this._toggleEvents(true);
+        }
     },
 
     _toggleEvents: function (flag) {
