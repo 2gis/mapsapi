@@ -40,6 +40,11 @@ FirmCard.prototype = {
             var data = res.result.items;
             if (data !== 'undefined') {
                 self._firmData = data[0];
+
+                // Support for old WebAPI format.
+                // TODO: remove this call after WebAPI release
+                self._convertWebsite();
+
                 self._firmId = firmId;
                 self._renderFirmCard();
                 self._toggleEventHandlers();
@@ -93,6 +98,22 @@ FirmCard.prototype = {
         });
 
         return result;
+    },
+
+    // Support for old WebAPI format.
+    // TODO: remove this function after WebAPI release
+    _convertWebsite: function () {
+        this._firmData.contact_groups.forEach(function (group) {
+            group.contacts.forEach(function (contact) {
+                if (contact.type != 'website') {
+                    return;
+                }
+
+                if (!contact.url) {
+                    contact.url = contact.value;
+                }
+            });
+        });
     },
 
     _renderFirmCard: function () {
