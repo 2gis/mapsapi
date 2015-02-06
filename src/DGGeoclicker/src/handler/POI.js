@@ -37,7 +37,7 @@ DG.Geoclicker.Handler.Poi = DG.Geoclicker.Handler.House.extend({
 
         // Otherwise, show a firm callout
         if (results.poi.reference.type === 'branch') {
-            this._firmCardObject = this._fillFirmCardObject(results.poi.reference.id);
+            this._fillFirmCardObject(results.poi.reference.id);
             return true;
         }
 

@@ -1,4 +1,6 @@
 DG.Geoclicker.Handler.Default.Dictionary.ru = DG.extend({
+    apiErrorTitle: 'Ошибочка вышла',
+    apiErrorBody: 'Наши серверы отказываются отвечать. Мы уже прикладываем все силы, чтобы вразумить их. Возвращайтесь к&nbsp;нам через&nbsp;несколько минут.',
     we_have_not : 'Это место мы ещё не успели изучить',
     noname: 'Без названия',
     'adm_div.place': 'Место',

@@ -14,7 +14,9 @@ DG.Geoclicker.Controller = DG.Class.extend({
             'adm_div.settlement': DG.Geoclicker.Handler.CityArea,
             'adm_div.city': DG.Geoclicker.Handler.CityArea,
 
-            'default': DG.Geoclicker.Handler.Default
+            'default': DG.Geoclicker.Handler.Default,
+
+            'apiError': DG.Geoclicker.Handler.ApiError
 
 //            station_platform
 //            project
@@ -64,10 +66,11 @@ DG.Geoclicker.Controller = DG.Class.extend({
             this._catalogApi.getLocations({
                 latlng: latlng,
                 zoom: zoom,
-                callback: function (result) {
-                    self.handleResponse(result);
-                },
                 beforeRequest: beforeRequest
+            }).then(function (result) {
+                self.handleResponse(result);
+            }, function (error) {
+                self.handleResponse(error);
             });
         }
     },
@@ -79,9 +82,16 @@ DG.Geoclicker.Controller = DG.Class.extend({
             this._runHandler('default');
             return;
         }
-        if (result.error && result.error === 'no type') {
+
+        if (result === 'no type') {
             return;
         }
+
+        if (result === 'ajax error') {
+            this._runHandler('apiError');
+            return;
+        }
+
         while (type = this.findHandler(result)) { // jshint ignore:line
             if (this._runHandler(type, result)) {
                 return;

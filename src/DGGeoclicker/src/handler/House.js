@@ -60,7 +60,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
             onToggle: DG.bind(this._popup.resize, this._popup),
             showBooklet: this.options.showBooklet,
             showPhotos: this.options.showPhotos,
-            showRouteSearch: this.options.showRouteSearch && this._isRouteSearchAllowed()
+            showRouteSearch: this.options.showRouteSearch && this._isRouteSearchAllowed(),
+            t: DG.bind(this.t, this)
         };
     },
 

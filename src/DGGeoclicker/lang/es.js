@@ -1,4 +1,6 @@
 DG.Geoclicker.Handler.Default.Dictionary.es = DG.extend({
+    apiErrorTitle: 'Vaya, ha ocurrido un error',
+    apiErrorBody: 'Nuestros servidores se niegan a responder. Ya nos estamos esforzando por hacerlos entrar en razón. Vuelva con nosotros pasados unos minutos.',
     we_have_not : 'Todavía no hemos recopilado la información sobre este lugar',
     noname : 'Sin nombre',
     'adm_div.place' : 'Lugar',

@@ -54,7 +54,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             drilldown: '',
             purpose: this.t(type),
             type: type.split('.').join('_')
-        }, areaInfo;
+        };
 
         data.drilldown = this._getDrilldown(results[type]);
 

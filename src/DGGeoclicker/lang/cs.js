@@ -1,4 +1,6 @@
 DG.Geoclicker.Handler.Default.Dictionary.cs = DG.extend({
+    apiErrorTitle: 'Chybička se&nbsp;vloudila',
+    apiErrorBody: 'Naše servery odmítají reagovat. Již nyní vynakládáme veškeré úsilí, abychom je přivedli k rozumu. Zkuste akci opakovat za několik minut.',
     we_have_not : 'O tomto místě zatím nemáme informace',
     noname : 'Bez názvu',
     'adm_div.place' : 'Místo',
