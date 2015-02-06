@@ -109,7 +109,7 @@ FirmCard.prototype = {
                     return;
                 }
 
-                if (typeof contact.url == 'undefined') {
+                if (!contact.url) {
                     contact.url = contact.value;
                 }
             });
