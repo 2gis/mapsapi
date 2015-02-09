@@ -2,17 +2,19 @@
     {?schedule}
         {?forecast.today}
             <div class="dg-schedule__today">
-                {forecast.today.text}&nbsp;
-                {?forecast.today.from}
-                    {forecast.today.from}&ndash;{forecast.today.to}
-                {/forecast.today.from}
+                <div class="dg-schedule__today-inner">
+                    {forecast.today.text}&nbsp;
+                    {?forecast.today.from}
+                        {forecast.today.from}&ndash;{forecast.today.to}
+                    {/forecast.today.from}
 
-                {?schedule.lunch}
-                    ,&nbsp;{forecast.today.lunchStr}&nbsp;
-                    {#schedule.lunch}
-                        {from}&ndash;{to}
+                    {?schedule.lunch}
+                        ,&nbsp;{forecast.today.lunchStr}&nbsp;
+                        {#schedule.lunch}
+                            {from}&ndash;{to}
+                        {/schedule.lunch}
                     {/schedule.lunch}
-                {/schedule.lunch}
+                </div>
             </div>
         {/forecast.today}
 
@@ -68,6 +70,10 @@
                                 {/schedule.week.hasLunch}
                             </div>
                             {#schedule.week.table}
+                                {@if cond="({$idx} == {$len} - 2)"}
+                                    <span class="dg-schedule__table-cell-group">
+                                {/if}
+
                                 <div class="dg-schedule__tc{?active} dg-schedule__tc_active_true{/active}">
                                     <div class="dg-schedule__day-name">{key}</div>
                                     <div class="dg-schedule__td">
@@ -87,6 +93,10 @@
                                         </div>
                                     {/lunch}
                                 </div> {! dg-schedule__tc !}
+
+                                {@if cond="({$idx} == {$len})"}
+                                    </span>
+                                {/if}
                             {/schedule.week.table}
                         </div>  {! dg-schedule__table !}
                     </div>

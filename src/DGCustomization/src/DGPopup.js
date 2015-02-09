@@ -486,7 +486,8 @@
         },
 
         _updateLayout: function () {
-            var content = this._contentNode, // leaflet-popup-content
+            var opts = this.options,
+                content = this._contentNode, // leaflet-popup-content
                 wrapper = this._wrapper, // leaflet-popup-content-wrapper
                 style = content.style,
                 wrapperStyle = wrapper.style,
@@ -494,25 +495,35 @@
                 scrolledClass = 'leaflet-popup-scrolled',
                 result = false;
 
-            style.margin = this.options.border + 'px';
+            style.margin = opts.border + 'px';
 
             DG.DomUtil.removeClass(content, scrolledClass);
 
             if (this._isContentHeightEnough()) {
-                wrapperStyle.maxHeight = content.offsetHeight + this.options.border * 2 + 'px';
+                wrapperStyle.maxHeight = content.offsetHeight + opts.border * 2 + 'px';
             } else {
-                wrapperStyle.maxHeight = this.options.maxHeight + 'px';
+                wrapperStyle.maxHeight = opts.maxHeight + 'px';
                 DG.DomUtil.addClass(content, scrolledClass);
                 result = true;
             }
 
-            wrapperStyle.width = '';
+            var availableWidth = opts.autoPanPadding[0] * 2;
 
-            style.whiteSpace = 'nowrap';
-            width = wrapper.offsetWidth;
-            style.whiteSpace = '';
+            if (opts.sprawling) {
+                width = opts.maxWidth;
 
-            width = Math.min(Math.max(width, this.options.minWidth), this.options.maxWidth);
+                width = Math.min(width, this._map._container.offsetWidth - availableWidth);
+                width = Math.max(width, opts.minWidth);
+            } else {
+                wrapperStyle.width = '';
+
+                style.whiteSpace = 'nowrap';
+                width = wrapper.offsetWidth;
+                style.whiteSpace = '';
+
+                width = Math.min(width, this._map._container.offsetWidth - availableWidth);
+                width = Math.min(Math.max(width, opts.minWidth), opts.maxWidth);
+            }
 
             wrapperStyle.width = width + 'px';
 

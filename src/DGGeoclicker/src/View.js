@@ -6,11 +6,13 @@ DG.Geoclicker.View = DG.Class.extend({
             maxHeight: 300,
             minHeight: 50,
             maxWidth: 385,
-            minWidth: 385
+            minWidth: 310,
+            sprawling: true
         });
 
         /*global __DGGeoclicker_TMPL__ */
         this._templates = DG.dust(__DGGeoclicker_TMPL__);
+
         if (options) {
             DG.Util.setOptions(this, options);
         }
