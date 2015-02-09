@@ -87,7 +87,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
             return;
         }
 
-        if (result === 'ajax error') {
+        if (result === 'aborted') {
             this._runHandler('apiError');
             return;
         }

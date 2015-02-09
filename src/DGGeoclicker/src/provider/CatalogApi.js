@@ -127,9 +127,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             timeout: this.options.timeoutMs
         });
 
-        return this._lastRequest.then(undefined, function () {
-            return Promise.reject('ajax error');
-        });
+        return this._lastRequest;
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
