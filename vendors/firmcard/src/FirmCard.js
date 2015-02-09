@@ -103,7 +103,15 @@ FirmCard.prototype = {
     // Support for old WebAPI format.
     // TODO: remove this function after WebAPI release
     _convertWebsite: function () {
+        if (!this._firmData.contact_groups) {
+            return;
+        }
+
         this._firmData.contact_groups.forEach(function (group) {
+            if (!group.contacts) {
+                return;
+            }
+
             group.contacts.forEach(function (contact) {
                 if (contact.type != 'website') {
                     return;
