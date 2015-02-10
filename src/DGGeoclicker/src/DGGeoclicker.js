@@ -50,6 +50,14 @@ DG.Geoclicker = DG.Handler.extend({
         return this._controller;
     },
 
+    _checkOpenPopup: function () {
+        if (DG.Browser.mobile && this._map._popup &&
+            (this._map._popup.options.closeOnClick ||
+            this._map.options.closePopupOnClick)) {
+            this.popupWasOpen = true;
+        }
+    },
+
     _mapEventsListeners: {
         langchange: function () {
             this._controller.reinvokeHandler();
@@ -59,6 +67,10 @@ DG.Geoclicker = DG.Handler.extend({
             this._controller.handlePopupClose(e.popup);
         },
 
+        prepreclick: function () {
+            this._checkOpenPopup();
+        },
+
         click: function (e) { // (Object)
             if (this.clickCount === 0) {
                 this.clickCount = 1;
@@ -66,6 +78,7 @@ DG.Geoclicker = DG.Handler.extend({
             } else {
                 this.clickCount = 0;
                 clearTimeout(this.pendingClick);
+                this.popupWasOpen = false;
             }
         }
     },
@@ -76,10 +89,19 @@ DG.Geoclicker = DG.Handler.extend({
         clearTimeout(this.pendingClick);
 
         this.pendingClick = setTimeout(function () {
-            var zoom = self._map.getZoom();
+            // prepreclick event not available in meta layer
+            if (e.meta) {
+                self._checkOpenPopup();
+                self._map.closePopup();
+            }
 
-            self._controller.handleClick(e.latlng, zoom, e.meta);
+            if (!self.popupWasOpen) {
+                var zoom = self._map.getZoom();
+                self._controller.handleClick(e.latlng, zoom, e.meta);
+            }
+
             self.clickCount = 0;
+            self.popupWasOpen = false;
         }, this.timeout);
     }
 });
