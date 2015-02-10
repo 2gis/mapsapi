@@ -14,7 +14,6 @@ gulp.task('copySVGRaster', ['buildClean'], function (cb) {
 
     gulp.src('src/**/img/**/*.svg')
         .pipe(error.handle())
-        .pipe(newer({dest: 'build/tmp/img_newer', ext: '.png'}))
         .pipe(rsvg())
         .pipe(rename(function (p) {
             p.dirname = p.dirname.split(path.sep)[2];
@@ -27,9 +26,7 @@ gulp.task('copySVGRaster', ['buildClean'], function (cb) {
         .on('end', function () {
             gulp.src('src/**/img/**/*.svg')
                 .pipe(error.handle())
-                .pipe(newer({dest: 'build/tmp/img_newer', ext: '.png'}))
                 .pipe(rsvg({scale: 2}))
-                .pipe(gulp.dest('build/tmp/img_newer'))
                 .pipe(rename(function (p) {
                     p.extname = '@2x.png';
                     p.dirname = p.dirname.split(path.sep)[2];
