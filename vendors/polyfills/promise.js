@@ -1,686 +1,771 @@
-if (typeof Promise !== 'function') {
-  (function() {
-  var define, requireModule, require, requirejs;
+(function( global ) {
 
-  (function() {
-    var registry = {}, seen = {};
+  'use strict';
 
-    define = function(name, deps, callback) {
-      registry[name] = { deps: deps, callback: callback };
+  var $$iterator, ArrayIteratorPrototype;
+
+  // don't trample native promises if they exist
+  if ( 'Promise' in global && typeof global.Promise.all === 'function' ) {
+    return;
+  }
+
+  // set a value as non-configurable and non-enumerable
+  function defineInternal ( obj, key, val ) {
+    Object.defineProperty(obj, key, {
+      configurable: false,
+      enumerable: false,
+      writable: true,
+      value: val
+    });
+  }
+
+  // From the ES6 spec (http://people.mozilla.org/~jorendorff/es6-draft.html)
+
+  // 6 ECMAScript Data Types and Values
+  function Type ( x ) {
+    switch ( typeof x ) {
+      case 'undefined':
+      case 'boolean':
+      case 'string':
+      case 'number':
+        return typeof x;
+      default:
+        if ( x === null ) {
+          return 'null';
+        }
+        if ( typeof Symbol === 'function' && x instanceof Symbol ) {
+          return 'symbol';
+        }
+        return 'object';
+    }
+  }
+
+  // 6.1.5.1 Well-Known Symbols (iterator key)
+  $$iterator = typeof Symbol !== 'undefined' && Symbol.iterator ||
+    '_shim_iterator_';
+
+  // 7.1.4 ToInteger
+  function ToInteger ( argument ) {
+    var number = +argument;
+    if ( number !== number ) {
+      return 0;
+    }
+    if ( number === 0 || number === Infinity || number === -Infinity ) {
+      return number;
+    }
+    return ( number >= 0 ? 1 : -1 ) * Math.floor(Math.abs(number));
+  }
+
+  // 7.1.12 ToString
+  function ToString ( argument ) {
+    return typeof argument === 'string' ? argument : String(argument);
+  }
+
+  // 7.1.13 ToObject
+  function ToObject ( argument ) {
+    if ( argument == null ) {
+      throw TypeError();
+    }
+    switch ( typeof argument ) {
+      case 'boolean':
+      case 'number':
+      case 'string':
+        return Object(argument);
+      default:
+        return argument;
+    }
+  }
+
+  // 7.1.15 ToLength
+  function ToLength ( argument ) {
+    var len = ToInteger(argument);
+    return len <= 0 ? 0 : Math.min(len, Math.pow(2, 53) - 1);
+  }
+
+  // 7.2.2 IsCallable
+  function IsCallable ( argument ) {
+    return typeof argument === 'function';
+  }
+
+  // 7.2.3 SameValue( x, y )
+  function SameValue ( x, y ) {
+    if ( typeof x !== typeof y ) {
+      return false;
+    }
+    if ( Type(x) === 'undefined' ) {
+      return true;
+    }
+    if ( Type(x) === 'number' ) {
+      if ( x !== x && y !== y ) {
+        return true;
+      }
+      if ( x === 0 ) {
+        return 1 / x === 1 / y;
+      }
+    }
+    return x === y;
+  }
+
+  // 7.2.5 IsConstructor
+  // this is an ES6 abstract operation, and it's not really
+  // possible in JS, but this should be good enough
+  function IsConstructor ( obj ) {
+    return typeof obj === 'function';
+  }
+
+  // 7.4.1 GetIterator ( obj )
+  // not a real shim, but it works
+  function GetIterator ( obj ) {
+    var iterator = obj[$$iterator]();
+    if ( Type(obj) !== 'object' ) {
+      throw TypeError();
+    }
+    return iterator;
+  }
+
+  // 7.4.2 IteratorNext ( iterator, value )
+  function IteratorNext ( iterator, value ) {
+    var result = iterator.next(value);
+    if ( Type(result) !== 'object' ) {
+      throw TypeError();
+    }
+    return result;
+  }
+
+  // 7.4.3 IteratorComplete ( iterResult )
+  function IteratorComplete ( iterResult ) {
+    if ( Type(iterResult) !== 'object' ) {
+      throw TypeError();
+    }
+    return Boolean(iterResult.done);
+  }
+
+  // 7.4.4 IteratorValue ( iterResult )
+  function IteratorValue ( iterResult ) {
+    if ( Type(iterResult) !== 'object' ) {
+      throw TypeError();
+    }
+    return iterResult.value;
+  }
+
+  // 7.4.5 IteratorStep ( iterator )
+  function IteratorStep ( iterator ) {
+    var result = IteratorNext(iterator);
+    return IteratorComplete(result) === true ? false : result;
+  }
+
+  // 7.4.6 CreateIterResultObject ( value, done )
+  function CreateIterResultObject ( value, done ) {
+    if ( Type(done) !== 'boolean' ) {
+      throw TypeError();
+    }
+    return {value: value, done: done};
+  }
+
+  // 8.4.1 EnqueueTask ( queueName, task, arguments)
+  // not a real shim, but good enough
+  function EnqueueTask ( task, args ) {
+    if ( typeof setImmediate === 'function' ) {
+      setImmediate(function() {
+        task.apply(null, args);
+      });
+    } else {
+      setTimeout(function() {
+        task.apply(null, args);
+      }, 0);
+    }
+  }
+
+  // 22.1.5.1 CreateArrayIterator Abstract Operation
+  function CreateArrayIterator ( array, kind ) {
+    var O = ToObject(array),
+      iterator = Object.create(ArrayIteratorPrototype);
+    defineInternal(iterator, '[[IteratedObject]]', O);
+    defineInternal(iterator, '[[ArrayIteratorNextIndex]]', 0);
+    defineInternal(iterator, '[[ArrayIteratorKind]]', kind);
+    return iterator;
+  }
+
+  // 22.1.3.29 Array.prototype.values ( )
+  defineInternal( Array.prototype, 'values', function () {
+    var O = ToObject(this);
+    return CreateArrayIterator(O, 'value');
+  });
+
+  // 22.1.3.30 Array.prototype [ @@iterator ] ( )
+  defineInternal( Array.prototype, $$iterator, Array.prototype.values );
+
+  // 22.1.5.2 The %ArrayIteratorPrototype% Object
+  ArrayIteratorPrototype = {};
+
+  // 22.1.5.2.1 %ArrayIteratorPrototype%. next()
+  ArrayIteratorPrototype.next = function () {
+    var O = this, a, index, itemKind, lenValue, len,
+      elementKey, elementValue, result;
+    if ( Type(O) !== 'object' ) {
+      throw TypeError();
+    }
+    a = O['[[IteratedObject]]'];
+    if ( Type(a) === 'undefined' ) {
+      return CreateIterResultObject(undefined, true);
+    }
+    index = O['[[ArrayIteratorNextIndex]]'];
+    itemKind = O['[[ArrayIteratorKind]]'];
+    lenValue = a.length;
+    len = ToLength(lenValue);
+    if ( index >= len ) {
+      defineInternal(O, '[[IteratedObject]]', undefined);
+      return CreateIterResultObject(undefined, true);
+    }
+    defineInternal(O, '[[ArrayIteratorNextIndex]]', index + 1);
+    if ( itemKind.indexOf('value') !== -1 ) {
+      elementKey = ToString(index);
+      elementValue = a[elementKey];
+    }
+    if ( itemKind.indexOf('key+value') !== -1 ) {
+      result = [index, elementValue];
+      return CreateIterResultObject(result, false);
+    } else if ( itemKind.indexOf('key') !== -1 ) {
+      return CreateIterResultObject(index, false);
+    }
+    if ( itemKind.indexOf('value') === -1 ) {
+      throw TypeError();
+    }
+    return CreateIterResultObject(elementValue, false);
+  };
+
+  // 22.1.5.2.2 %ArrayIteratorPrototype% [ @@iterator ] ( )
+  ArrayIteratorPrototype[$$iterator] = function () {
+    return this;
+  };
+
+  // 25.4.1.1.1 IfAbruptRejectPromise (value, capability)
+  function IfAbruptRejectPromise ( value, capability ) {
+    try {
+      capability['[[Reject]]'].call(undefined, [value]);
+    } catch ( e ) {
+      return e;
+    }
+    return capability;
+  }
+
+  // 25.4.1.3 CreateRejectFunction ( promise )
+  function CreateRejectFunction ( promise ) {
+    var reject = new PromiseReject();
+    defineInternal(reject, '[[Promise]]', promise);
+    return reject;
+  }
+
+  // 25.4.1.3.1 Promise Reject Functions
+  function PromiseReject () {
+    return function F ( reason ) {
+      var promise = F['[[Promise]]'], reactions;
+      if ( Type(promise) !== 'object' ) {
+        throw TypeError();
+      }
+      if ( promise['[[PromiseStatus]]'] !== 'unresolved' ) {
+        return undefined;
+      }
+      reactions = promise['[[PromiseRejectReactions]]'];
+      defineInternal(promise, '[[PromiseResult]]', reason);
+      defineInternal(promise, '[[PromiseResolveReactions]]', undefined);
+      defineInternal(promise, '[[PromiseRejectReactions]]', undefined);
+      defineInternal(promise, '[[PromiseStatus]]', 'has-rejection');
+      return TriggerPromiseReactions(reactions, reason);
     };
+  }
 
-    requirejs = require = requireModule = function(name) {
-    requirejs._eak_seen = registry;
+  // 25.4.1.4 CreateRejectFunction ( promise )
+  function CreateResolveFunction ( promise ) {
+    var resolve = new PromiseResolve();
+    defineInternal(resolve, '[[Promise]]', promise);
+    return resolve;
+  }
 
-      if (seen[name]) { return seen[name]; }
-      seen[name] = {};
-
-      if (!registry[name]) {
-        throw new Error("Could not find module " + name);
+  // 25.4.1.4.1 Promise Resolve Functions
+  function PromiseResolve () {
+    return function F ( resolution ) {
+      var promise = F['[[Promise]]'], reactions;
+      if ( Type(promise) !== 'object' ) {
+        throw TypeError();
       }
-
-      var mod = registry[name],
-          deps = mod.deps,
-          callback = mod.callback,
-          reified = [],
-          exports;
-
-      for (var i=0, l=deps.length; i<l; i++) {
-        if (deps[i] === 'exports') {
-          reified.push(exports = {});
-        } else {
-          reified.push(requireModule(resolve(deps[i])));
-        }
+      if ( promise['[[PromiseStatus]]'] !== 'unresolved' ) {
+        return undefined;
       }
-
-      var value = callback.apply(this, reified);
-      return seen[name] = exports || value;
-
-      function resolve(child) {
-        if (child.charAt(0) !== '.') { return child; }
-        var parts = child.split("/");
-        var parentBase = name.split("/").slice(0, -1);
-
-        for (var i=0, l=parts.length; i<l; i++) {
-          var part = parts[i];
-
-          if (part === '..') { parentBase.pop(); }
-          else if (part === '.') { continue; }
-          else { parentBase.push(part); }
-        }
-
-        return parentBase.join("/");
-      }
+      reactions = promise['[[PromiseResolveReactions]]'];
+      defineInternal(promise, '[[PromiseResult]]', resolution);
+      defineInternal(promise, '[[PromiseResolveReactions]]', undefined);
+      defineInternal(promise, '[[PromiseRejectReactions]]', undefined);
+      defineInternal(promise, '[[PromiseStatus]]', 'has-resolution');
+      return TriggerPromiseReactions(reactions, resolution);
     };
-  })();
+  }
 
-  define("promise/all",
-    ["./utils","exports"],
-    function(__dependency1__, __exports__) {
-      "use strict";
-      /* global toString */
+  // 25.4.1.5 NewPromiseCapability ( C )
+  function NewPromiseCapability ( C ) {
+    var promise;
+    if ( !IsConstructor(C) ) {
+      throw TypeError();
+    }
+    try {
+      promise = Object.create(C.prototype);
+    } catch ( e ) {
+      return e;
+    }
+    return CreatePromiseCapabilityRecord(promise, C);
+  }
 
-      var isArray = __dependency1__.isArray;
-      var isFunction = __dependency1__.isFunction;
+  // 25.4.1.5.1 CreatePromiseCapabilityRecord( promise, constructor )
+  function CreatePromiseCapabilityRecord ( promise, constructor ) {
+    var promiseCapability = {}, executor, constructorResult;
+    defineInternal(promiseCapability, '[[Promise]]', promise);
+    defineInternal(promiseCapability, '[[Resolve]]', undefined);
+    defineInternal(promiseCapability, '[[Reject]]', undefined);
+    executor = new GetCapabilitiesExecutor();
+    defineInternal(executor, '[[Capability]]', promiseCapability);
+    try {
+      constructorResult = constructor.call(promise, executor);
+    } catch ( e ) {
+      return e;
+    }
+    if ( !IsCallable(promiseCapability['[[Resolve]]']) ) {
+      throw TypeError();
+    }
+    if ( !IsCallable(promiseCapability['[[Reject]]']) ) {
+      throw TypeError();
+    }
+    if ( typeof constructorResult === 'object' &&
+      !SameValue(promise, constructorResult) ) {
+      throw TypeError();
+    }
+    return promiseCapability;
+  }
 
-      /**
-        Returns a promise that is fulfilled when all the given promises have been
-        fulfilled, or rejected if any of them become rejected. The return promise
-        is fulfilled with an array that gives all the values in the order they were
-        passed in the `promises` array argument.
-
-        Example:
-
-        ```javascript
-        var promise1 = RSVP.resolve(1);
-        var promise2 = RSVP.resolve(2);
-        var promise3 = RSVP.resolve(3);
-        var promises = [ promise1, promise2, promise3 ];
-
-        RSVP.all(promises).then(function(array){
-          // The array here would be [ 1, 2, 3 ];
-        });
-        ```
-
-        If any of the `promises` given to `RSVP.all` are rejected, the first promise
-        that is rejected will be given as an argument to the returned promises's
-        rejection handler. For example:
-
-        Example:
-
-        ```javascript
-        var promise1 = RSVP.resolve(1);
-        var promise2 = RSVP.reject(new Error("2"));
-        var promise3 = RSVP.reject(new Error("3"));
-        var promises = [ promise1, promise2, promise3 ];
-
-        RSVP.all(promises).then(function(array){
-          // Code here never runs because there are rejected promises!
-        }, function(error) {
-          // error.message === "2"
-        });
-        ```
-
-        @method all
-        @for RSVP
-        @param {Array} promises
-        @param {String} label
-        @return {Promise} promise that is fulfilled when all `promises` have been
-        fulfilled, or rejected if any of them become rejected.
-      */
-      function all(promises) {
-        /*jshint validthis:true */
-        var Promise = this;
-
-        if (!isArray(promises)) {
-          throw new TypeError('You must pass an array to all.');
-        }
-
-        return new Promise(function(resolve, reject) {
-          var results = [], remaining = promises.length,
-          promise;
-
-          if (remaining === 0) {
-            resolve([]);
-          }
-
-          function resolver(index) {
-            return function(value) {
-              resolveAll(index, value);
-            };
-          }
-
-          function resolveAll(index, value) {
-            results[index] = value;
-            if (--remaining === 0) {
-              resolve(results);
-            }
-          }
-
-          for (var i = 0; i < promises.length; i++) {
-            promise = promises[i];
-
-            if (promise && isFunction(promise.then)) {
-              promise.then(resolver(i), reject);
-            } else {
-              resolveAll(i, promise);
-            }
-          }
-        });
+  // 25.4.1.5.2 GetCapabilitiesExecutor Functions
+  function GetCapabilitiesExecutor () {
+    return function F ( resolve, reject ) {
+      var promiseCapability = F['[[Capability]]'];
+      if ( Type(promiseCapability['[[Resolve]]']) !== 'undefined' ) {
+        throw TypeError();
       }
+      if ( Type(promiseCapability['[[Reject]]']) !== 'undefined' ) {
+        throw TypeError();
+      }
+      defineInternal(promiseCapability, '[[Resolve]]', resolve);
+      defineInternal(promiseCapability, '[[Reject]]', reject);
+    };
+  }
 
-      __exports__.all = all;
+  // 25.4.1.6 IsPromise ( x )
+  function IsPromise ( x ) {
+    if ( Type(x) !== 'object' ) {
+      return false;
+    }
+    if ( Type(x['[[PromiseStatus]]']) === 'undefined' ) {
+      return false;
+    }
+    return true;
+  }
+
+  // 25.4.1.7 TriggerPromiseReactions ( reactions, argument )
+  function TriggerPromiseReactions ( reactions, argument ) {
+    reactions.forEach(function( reaction ) {
+      EnqueueTask(PromiseReactionTask, [reaction, argument]);
     });
-  define("promise/asap",
-    ["exports"],
-    function(__exports__) {
-      "use strict";
-      var browserGlobal = (typeof window !== 'undefined') ? window : {};
-      var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
-      var local = (typeof global !== 'undefined') ? global : (this === undefined? window:this);
+  }
 
-      // node
-      function useNextTick() {
-        return function() {
-          process.nextTick(flush);
-        };
+  // 25.4.1.8 UpdatePromiseFromPotentialThenable ( x, promiseCapability )
+  function UpdatePromiseFromPotentialThenable ( x, promiseCapability ) {
+    var then, rejectResult, thenCallResult;
+    if ( Type(x) !== 'object' ) {
+      return 'not a thenable';
+    }
+    try {
+      then = x.then;
+    } catch ( e ) {
+      rejectResult = promiseCapability['[[Reject]]'].call(undefined, e);
+      return null;
+    }
+    if ( !IsCallable(then) ) {
+      return 'not a thenable';
+    }
+    try {
+      thenCallResult = then.call(x, promiseCapability['[[Resolve]]'],
+        promiseCapability['[[Reject]]']
+      );
+    } catch ( e ) {
+      rejectResult = promiseCapability['[[Reject]]'].call(undefined, e);
+      return null;
+    }
+    return null;
+  }
+
+  // 25.4.2.1 PromiseReactionTask( reaction, argument )
+  function PromiseReactionTask ( reaction, argument ) {
+    var promiseCapability = reaction['[[Capabilities]]'],
+      handler = reaction['[[Handler]]'],
+      handlerResult, selfResolutionError, updateResult;
+    try {
+      handlerResult = handler.call(undefined, argument);
+    } catch ( e ) {
+      return promiseCapability['[[Reject]]'].call(undefined, e);
+    }
+    if ( SameValue(handlerResult, promiseCapability['[[Promise]]']) ) {
+      selfResolutionError = TypeError();
+      return promiseCapability['[[Reject]]']
+        .call(undefined, selfResolutionError);
+    }
+    updateResult = UpdatePromiseFromPotentialThenable(handlerResult,
+      promiseCapability
+    );
+    if ( updateResult === 'not a thenable' ) {
+      return promiseCapability['[[Resolve]]'].call(undefined, handlerResult);
+    }
+    return undefined;
+  }
+
+  // 25.4.3.1 Promise ( executor )
+  function Promise ( executor ) {
+    var promise = this;
+    if ( !IsCallable(executor) ) {
+      throw TypeError('Invalid executor');
+    }
+    if ( Type(promise) !== 'object' ) {
+      throw TypeError('Invalid promise');
+    }
+    if ( Type(promise['[[PromiseStatus]]']) !== 'undefined' ) {
+      throw TypeError();
+    }
+    defineInternal(this, '[[PromiseConstructor]]', Promise);
+    return InitializePromise(promise, executor);
+  }
+
+  // 25.4.3.1.1 InitializePromise( promise, executor )
+  function InitializePromise ( promise, executor) {
+    var resolve, reject, completion, status;
+    if ( Type(promise['[[PromiseStatus]]']) !== 'undefined' ) {
+      throw TypeError();
+    }
+    if ( !IsCallable(executor) ) {
+      throw TypeError();
+    }
+    defineInternal(promise, '[[PromiseStatus]]', 'unresolved');
+    defineInternal(promise, '[[PromiseResolveReactions]]', []);
+    defineInternal(promise, '[[PromiseRejectReactions]]', []);
+    resolve = CreateResolveFunction(promise);
+    reject = CreateRejectFunction(promise);
+    try {
+      completion = executor.call(undefined, resolve, reject);
+    } catch ( e ) {
+      try {
+        status = reject.call(undefined, e);
+      } catch ( e ) {
+        return e;
       }
+    }
+    return promise;
+  }
 
-      function useMutationObserver() {
-        var iterations = 0;
-        var observer = new BrowserMutationObserver(flush);
-        var node = document.createTextNode('');
-        observer.observe(node, { characterData: true });
-
-        return function() {
-          node.data = (iterations = ++iterations % 2);
-        };
+  // 25.4.4.1 Promise.all ( iterable )
+  Promise.all = function ( iterable ) {
+    var C = this, promiseCapability, iterator, values,
+      remainingElementsCount, index, next, resolveResult,
+      nextValue, nextPromise, resolveElement, result;
+    try {
+      promiseCapability = NewPromiseCapability(C);
+    } catch ( e ) {
+      return e;
+    }
+    try {
+      iterator = GetIterator(iterable);
+    } catch ( e ) {
+      return IfAbruptRejectPromise(e, promiseCapability);
+    }
+    values = [];
+    remainingElementsCount = {'[[value]]': 0};
+    index = 0;
+    while ( true ) {
+      try {
+        next = IteratorStep(iterator);
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
-
-      function useSetTimeout() {
-        return function() {
-          local.setTimeout(flush, 1);
-        };
-      }
-
-      var queue = [];
-      function flush() {
-        for (var i = 0; i < queue.length; i++) {
-          var tuple = queue[i];
-          var callback = tuple[0], arg = tuple[1];
-          callback(arg);
-        }
-        queue = [];
-      }
-
-      var scheduleFlush;
-
-      // Decide what async method to use to triggering processing of queued callbacks:
-      if (typeof process !== 'undefined' && {}.toString.call(process) === '[object process]') {
-        scheduleFlush = useNextTick();
-      } else if (BrowserMutationObserver) {
-        scheduleFlush = useMutationObserver();
-      } else {
-        scheduleFlush = useSetTimeout();
-      }
-
-      function asap(callback, arg) {
-        var length = queue.push([callback, arg]);
-        if (length === 1) {
-          // If length is 1, that means that we need to schedule an async flush.
-          // If additional callbacks are queued before the queue is flushed, they
-          // will be processed by this flush that we are scheduling.
-          scheduleFlush();
-        }
-      }
-
-      __exports__.asap = asap;
-    });
-  define("promise/config",
-    ["exports"],
-    function(__exports__) {
-      "use strict";
-      var config = {
-        instrument: false
-      };
-
-      function configure(name, value) {
-        if (arguments.length === 2) {
-          config[name] = value;
-        } else {
-          return config[name];
-        }
-      }
-
-      __exports__.config = config;
-      __exports__.configure = configure;
-    });
-  define("promise/polyfill",
-    ["./promise","./utils","exports"],
-    function(__dependency1__, __dependency2__, __exports__) {
-      "use strict";
-      /*global self*/
-      var RSVPPromise = __dependency1__.Promise;
-      var isFunction = __dependency2__.isFunction;
-
-      function polyfill() {
-        var local;
-
-        if (typeof global !== 'undefined') {
-          local = global;
-        } else if (typeof window !== 'undefined' && window.document) {
-          local = window;
-        } else {
-          local = self;
-        }
-
-        var es6PromiseSupport =
-          "Promise" in local &&
-          // Some of these methods are missing from
-          // Firefox/Chrome experimental implementations
-          "resolve" in local.Promise &&
-          "reject" in local.Promise &&
-          "all" in local.Promise &&
-          "race" in local.Promise &&
-          // Older version of the spec had a resolver object
-          // as the arg rather than a function
-          (function() {
-            var resolve;
-            new local.Promise(function(r) { resolve = r; });
-            return isFunction(resolve);
-          }());
-
-        if (!es6PromiseSupport) {
-          local.Promise = RSVPPromise;
-        }
-      }
-
-      __exports__.polyfill = polyfill;
-    });
-  define("promise/promise",
-    ["./config","./utils","./all","./race","./resolve","./reject","./asap","exports"],
-    function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __dependency6__, __dependency7__, __exports__) {
-      "use strict";
-      var config = __dependency1__.config;
-      var configure = __dependency1__.configure;
-      var objectOrFunction = __dependency2__.objectOrFunction;
-      var isFunction = __dependency2__.isFunction;
-      var now = __dependency2__.now;
-      var all = __dependency3__.all;
-      var race = __dependency4__.race;
-      var staticResolve = __dependency5__.resolve;
-      var staticReject = __dependency6__.reject;
-      var asap = __dependency7__.asap;
-
-      var counter = 0;
-
-      config.async = asap; // default async is asap;
-
-      function Promise(resolver) {
-        if (!isFunction(resolver)) {
-          throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
-        }
-
-        if (!(this instanceof Promise)) {
-          throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
-        }
-
-        this._subscribers = [];
-
-        invokeResolver(resolver, this);
-      }
-
-      function invokeResolver(resolver, promise) {
-        function resolvePromise(value) {
-          resolve(promise, value);
-        }
-
-        function rejectPromise(reason) {
-          reject(promise, reason);
-        }
-
-        try {
-          resolver(resolvePromise, rejectPromise);
-        } catch(e) {
-          rejectPromise(e);
-        }
-      }
-
-      function invokeCallback(settled, promise, callback, detail) {
-        var hasCallback = isFunction(callback),
-            value, error, succeeded, failed;
-
-        if (hasCallback) {
+      if ( next === false ) {
+        if ( index === 0 ) {
           try {
-            value = callback(detail);
-            succeeded = true;
-          } catch(e) {
-            failed = true;
-            error = e;
+            resolveResult = promiseCapability['[[Resolve]]']
+              .call(undefined, values);
+          } catch ( e ) {
+            return e;
           }
-        } else {
-          value = detail;
-          succeeded = true;
         }
-
-        if (handleThenable(promise, value)) {
-          return;
-        } else if (hasCallback && succeeded) {
-          resolve(promise, value);
-        } else if (failed) {
-          reject(promise, error);
-        } else if (settled === FULFILLED) {
-          resolve(promise, value);
-        } else if (settled === REJECTED) {
-          reject(promise, value);
-        }
+        return promiseCapability['[[Promise]]'];
       }
-
-      var PENDING   = void 0;
-      var SEALED    = 0;
-      var FULFILLED = 1;
-      var REJECTED  = 2;
-
-      function subscribe(parent, child, onFulfillment, onRejection) {
-        var subscribers = parent._subscribers;
-        var length = subscribers.length;
-
-        subscribers[length] = child;
-        subscribers[length + FULFILLED] = onFulfillment;
-        subscribers[length + REJECTED]  = onRejection;
+      try {
+        nextValue = IteratorValue(next);
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
-
-      function publish(promise, settled) {
-        var child, callback, subscribers = promise._subscribers, detail = promise._detail;
-
-        for (var i = 0; i < subscribers.length; i += 3) {
-          child = subscribers[i];
-          callback = subscribers[i + settled];
-
-          invokeCallback(settled, child, callback, detail);
-        }
-
-        promise._subscribers = null;
+      try {
+        nextPromise = C.cast(nextValue);
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
-
-      Promise.prototype = {
-        constructor: Promise,
-
-        _state: undefined,
-        _detail: undefined,
-        _subscribers: undefined,
-
-        then: function(onFulfillment, onRejection) {
-          var promise = this;
-
-          var thenPromise = new this.constructor(function() {});
-
-          if (this._state) {
-            var callbacks = arguments;
-            config.async(function invokePromiseCallback() {
-              invokeCallback(promise._state, thenPromise, callbacks[promise._state - 1], promise._detail);
-            });
-          } else {
-            subscribe(this, thenPromise, onFulfillment, onRejection);
-          }
-
-          return thenPromise;
-        },
-
-        'catch': function(onRejection) {
-          return this.then(null, onRejection);
-        }
-      };
-
-      Promise.all = all;
-      Promise.race = race;
-      Promise.resolve = staticResolve;
-      Promise.reject = staticReject;
-
-      function handleThenable(promise, value) {
-        var then = null,
-        resolved;
-
-        try {
-          if (promise === value) {
-            throw new TypeError("A promises callback cannot return that same promise.");
-          }
-
-          if (objectOrFunction(value)) {
-            then = value.then;
-
-            if (isFunction(then)) {
-              then.call(value, function(val) {
-                if (resolved) { return true; }
-                resolved = true;
-
-                if (value !== val) {
-                  resolve(promise, val);
-                } else {
-                  fulfill(promise, val);
-                }
-              }, function(val) {
-                if (resolved) { return true; }
-                resolved = true;
-
-                reject(promise, val);
-              });
-
-              return true;
-            }
-          }
-        } catch (error) {
-          if (resolved) { return true; }
-          reject(promise, error);
-          return true;
-        }
-
-        return false;
+      resolveElement = new PromiseAllResolveElementFunction();
+      defineInternal(resolveElement, '[[Index]]', index);
+      defineInternal(resolveElement, '[[Values]]', values);
+      defineInternal(resolveElement, '[[Capabilities]]', promiseCapability);
+      defineInternal(resolveElement, '[[RemainingElements]]',
+        remainingElementsCount
+      );
+      try {
+        result = nextPromise.then(resolveElement,
+          promiseCapability['[[Reject]]']
+        );
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
+      index++;
+      remainingElementsCount['[[value]]']++;
+    }
+  };
 
-      function resolve(promise, value) {
-        if (promise === value) {
-          fulfill(promise, value);
-        } else if (!handleThenable(promise, value)) {
-          fulfill(promise, value);
-        }
+  // 25.4.4.1.1 Promise.all Resolve Element Functions
+  function PromiseAllResolveElementFunction () {
+    return function F ( x ) {
+      var index = F['[[Index]]'],
+        values = F['[[Values]]'],
+        promiseCapability = F['[[Capabilities]]'],
+        remainingElementsCount = F['[[RemainingElements]]'];
+      try {
+        values[index] = x;
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
-
-      function fulfill(promise, value) {
-        if (promise._state !== PENDING) { return; }
-        promise._state = SEALED;
-        promise._detail = value;
-
-        config.async(publishFulfillment, promise);
+      remainingElementsCount['[[value]]']--;
+      if ( remainingElementsCount['[[value]]'] === 0 ) {
+        promiseCapability['[[Resolve]]'].call(undefined, values);
       }
+      return undefined;
+    };
+  }
 
-      function reject(promise, reason) {
-        if (promise._state !== PENDING) { return; }
-        promise._state = SEALED;
-        promise._detail = reason;
-
-        config.async(publishRejection, promise);
+  // 25.4.4.2 Promise.cast ( x )
+  Promise.cast = function ( x ) {
+    var C = this,
+      promiseCapability,
+      resolveResult,
+      constructor;
+    if ( IsPromise(x) ) {
+      constructor = x['[[PromiseConstructor]]'];
+      if ( SameValue(constructor, C) ) {
+        return x;
       }
+    }
+    try {
+      promiseCapability = NewPromiseCapability(C);
+    } catch ( e ) {
+      return e;
+    }
+    try {
+      resolveResult = promiseCapability['[[Resolve]]'].call(undefined, x);
+    } catch ( e ) {
+      return e;
+    }
+    return promiseCapability['[[Promise]]'];
+  };
 
-      function publishFulfillment(promise) {
-        publish(promise, promise._state = FULFILLED);
+  // 25.4.4.4 Promise.race ( iterable )
+  Promise.race = function ( iterable ) {
+    var C = this, promiseCapability, iterator, nextValue, nextPromise, next;
+    try {
+      promiseCapability = NewPromiseCapability(C);
+    } catch ( e ) {
+      return e;
+    }
+    try {
+      iterator = GetIterator(iterable);
+    } catch ( e ) {
+      return IfAbruptRejectPromise(e, promiseCapability);
+    }
+    while ( true ) {
+      try {
+        next = IteratorStep(iterator);
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
-
-      function publishRejection(promise) {
-        publish(promise, promise._state = REJECTED);
+      if ( next === false ) {
+        return promiseCapability['[[Promise]]'];
       }
-
-      __exports__.Promise = Promise;
-    });
-  define("promise/race",
-    ["./utils","exports"],
-    function(__dependency1__, __exports__) {
-      "use strict";
-      /* global toString */
-      var isArray = __dependency1__.isArray;
-
-      /**
-        `RSVP.race` allows you to watch a series of promises and act as soon as the
-        first promise given to the `promises` argument fulfills or rejects.
-
-        Example:
-
-        ```javascript
-        var promise1 = new RSVP.Promise(function(resolve, reject){
-          setTimeout(function(){
-            resolve("promise 1");
-          }, 200);
-        });
-
-        var promise2 = new RSVP.Promise(function(resolve, reject){
-          setTimeout(function(){
-            resolve("promise 2");
-          }, 100);
-        });
-
-        RSVP.race([promise1, promise2]).then(function(result){
-          // result === "promise 2" because it was resolved before promise1
-          // was resolved.
-        });
-        ```
-
-        `RSVP.race` is deterministic in that only the state of the first completed
-        promise matters. For example, even if other promises given to the `promises`
-        array argument are resolved, but the first completed promise has become
-        rejected before the other promises became fulfilled, the returned promise
-        will become rejected:
-
-        ```javascript
-        var promise1 = new RSVP.Promise(function(resolve, reject){
-          setTimeout(function(){
-            resolve("promise 1");
-          }, 200);
-        });
-
-        var promise2 = new RSVP.Promise(function(resolve, reject){
-          setTimeout(function(){
-            reject(new Error("promise 2"));
-          }, 100);
-        });
-
-        RSVP.race([promise1, promise2]).then(function(result){
-          // Code here never runs because there are rejected promises!
-        }, function(reason){
-          // reason.message === "promise2" because promise 2 became rejected before
-          // promise 1 became fulfilled
-        });
-        ```
-
-        @method race
-        @for RSVP
-        @param {Array} promises array of promises to observe
-        @param {String} label optional string for describing the promise returned.
-        Useful for tooling.
-        @return {Promise} a promise that becomes fulfilled with the value the first
-        completed promises is resolved with if the first completed promise was
-        fulfilled, or rejected with the reason that the first completed promise
-        was rejected with.
-      */
-      function race(promises) {
-        /*jshint validthis:true */
-        var Promise = this;
-
-        if (!isArray(promises)) {
-          throw new TypeError('You must pass an array to race.');
-        }
-        return new Promise(function(resolve, reject) {
-          var results = [], promise;
-
-          for (var i = 0; i < promises.length; i++) {
-            promise = promises[i];
-
-            if (promise && typeof promise.then === 'function') {
-              promise.then(resolve, reject);
-            } else {
-              resolve(promise);
-            }
-          }
-        });
+      try {
+        nextValue = IteratorValue(next);
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
-
-      __exports__.race = race;
-    });
-  define("promise/reject",
-    ["exports"],
-    function(__exports__) {
-      "use strict";
-      /**
-        `RSVP.reject` returns a promise that will become rejected with the passed
-        `reason`. `RSVP.reject` is essentially shorthand for the following:
-
-        ```javascript
-        var promise = new RSVP.Promise(function(resolve, reject){
-          reject(new Error('WHOOPS'));
-        });
-
-        promise.then(function(value){
-          // Code here doesn't run because the promise is rejected!
-        }, function(reason){
-          // reason.message === 'WHOOPS'
-        });
-        ```
-
-        Instead of writing the above, your code now simply becomes the following:
-
-        ```javascript
-        var promise = RSVP.reject(new Error('WHOOPS'));
-
-        promise.then(function(value){
-          // Code here doesn't run because the promise is rejected!
-        }, function(reason){
-          // reason.message === 'WHOOPS'
-        });
-        ```
-
-        @method reject
-        @for RSVP
-        @param {Any} reason value that the returned promise will be rejected with.
-        @param {String} label optional string for identifying the returned promise.
-        Useful for tooling.
-        @return {Promise} a promise that will become rejected with the given
-        `reason`.
-      */
-      function reject(reason) {
-        /*jshint validthis:true */
-        var Promise = this;
-
-        return new Promise(function (resolve, reject) {
-          reject(reason);
-        });
+      try {
+        nextPromise = C.cast(nextValue);
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
-
-      __exports__.reject = reject;
-    });
-  define("promise/resolve",
-    ["exports"],
-    function(__exports__) {
-      "use strict";
-      function resolve(value) {
-        /*jshint validthis:true */
-        if (value && typeof value === 'object' && value.constructor === this) {
-          return value;
-        }
-
-        var Promise = this;
-
-        return new Promise(function(resolve) {
-          resolve(value);
-        });
+      try {
+        nextPromise.then(promiseCapability['[[Resolve]]'],
+          promiseCapability['[[Reject]]']
+        );
+      } catch ( e ) {
+        return IfAbruptRejectPromise(e, promiseCapability);
       }
+    }
+  };
 
-      __exports__.resolve = resolve;
-    });
-  define("promise/utils",
-    ["exports"],
-    function(__exports__) {
-      "use strict";
-      function objectOrFunction(x) {
-        return isFunction(x) || (typeof x === "object" && x !== null);
+  // 25.4.4.5 Promise.reject ( r )
+  Promise.reject = function ( r ) {
+    var C = this, promiseCapability, rejectResult;
+    try {
+      promiseCapability = NewPromiseCapability(C);
+    } catch ( e ) {
+      return e;
+    }
+    try {
+      rejectResult = promiseCapability['[[Reject]]'].call(undefined, r);
+    } catch ( e ) {
+      return e;
+    }
+    return promiseCapability['[[Promise]]'];
+  };
+
+  // 25.4.4.6 Promise.resolve ( x )
+  Promise.resolve = function ( x ) {
+    var C = this, promiseCapability, resolveResult;
+    try {
+      promiseCapability = NewPromiseCapability(C);
+    } catch ( e ) {
+      return e;
+    }
+    try {
+      resolveResult = promiseCapability['[[Resolve]]'].call(undefined, x);
+    } catch ( e ) {
+      return e;
+    }
+    return promiseCapability['[[Promise]]'];
+  };
+
+  // 25.4.5.1 Promise.prototype.catch ( onRejected )
+  Promise.prototype['catch'] = function ( onRejected ) {
+    var promise = this;
+    return promise.then(undefined, onRejected);
+  };
+
+  // 25.4.5.3 Promise.prototype.then ( onFulfilled , onRejected )
+  Promise.prototype.then = function ( onFulfilled , onRejected ) {
+    var promise = this,
+      C, promiseCapability, rejectionHandler, fulfillmentHandler,
+      resolutionHandler, resolveReaction, rejectReaction, resolution;
+    if ( !IsPromise(promise) ) {
+      throw TypeError();
+    }
+    try {
+      C = promise.constructor;
+    } catch ( e ) {
+      return e;
+    }
+    try {
+      promiseCapability = NewPromiseCapability(C);
+    } catch ( e ) {
+      return e;
+    }
+    if ( IsCallable(onRejected) ) {
+      rejectionHandler = onRejected;
+    } else {
+      rejectionHandler = new ThrowerFunction();
+    }
+    if ( IsCallable(onFulfilled) ) {
+      fulfillmentHandler = onFulfilled;
+    } else {
+      fulfillmentHandler = new IdentityFunction();
+    }
+    resolutionHandler = new PromiseResolutionHandlerFunction();
+    defineInternal(resolutionHandler, '[[Promise]]', promise);
+    defineInternal(resolutionHandler, '[[FulfillmentHandler]]',
+      fulfillmentHandler
+    );
+    defineInternal(resolutionHandler, '[[RejectionHandler]]',
+      rejectionHandler
+    );
+    resolveReaction = {
+      '[[Capabilities]]': promiseCapability,
+      '[[Handler]]': resolutionHandler
+    };
+    rejectReaction = {
+      '[[Capabilities]]': promiseCapability,
+      '[[Handler]]': rejectionHandler
+    };
+    if ( promise['[[PromiseStatus]]'] === 'unresolved' ) {
+      promise['[[PromiseResolveReactions]]'].push(resolveReaction);
+      promise['[[PromiseRejectReactions]]'].push(rejectReaction);
+    }
+    if ( promise['[[PromiseStatus]]'] === 'has-resolution' ) {
+      resolution = promise['[[PromiseResult]]'];
+      EnqueueTask(PromiseReactionTask, [resolveReaction, resolution]);
+    }
+    if ( promise['[[PromiseStatus]]'] === 'has-rejection' ) {
+      resolution = promise['[[PromiseResult]]'];
+      EnqueueTask(PromiseReactionTask, [rejectReaction, resolution]);
+    }
+    return promiseCapability['[[Promise]]'];
+  };
+
+  // 25.4.5.3.1 Identity Functions
+  function IdentityFunction () {
+    return function F ( x ) {
+      return x;
+    };
+  }
+
+  // 25.4.5.3.2 PromiseResolutionHandlerFunctions
+  function PromiseResolutionHandlerFunction () {
+    return function F ( x ) {
+      var promise = F['[[Promise]]'],
+        fulfillmentHandler = F['[[FulfillmentHandler]]'],
+        rejectionHandler = F['[[RejectionHandler]]'],
+        selfResolutionError, C, promiseCapability, updateResult;
+      if ( SameValue(x, promise) ) {
+        selfResolutionError = TypeError();
+        return rejectionHandler.call(undefined, selfResolutionError);
       }
-
-      function isFunction(x) {
-        return typeof x === "function";
+      C = promise['[[PromiseConstructor]]'];
+      try {
+        promiseCapability = NewPromiseCapability(C);
+      } catch ( e ) {
+        return e;
       }
-
-      function isArray(x) {
-        return Object.prototype.toString.call(x) === "[object Array]";
+      try {
+        updateResult = UpdatePromiseFromPotentialThenable(x,
+          promiseCapability
+        );
+      } catch ( e ) {
+        return e;
       }
+      if ( updateResult !== 'not a thenable') {
+        return promiseCapability['[[Promise]]'].then(fulfillmentHandler,
+          rejectionHandler
+        );
+      }
+      return fulfillmentHandler.call(undefined, x);
+    };
+  }
 
-      // Date.now is not available in browsers < IE9
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now#Compatibility
-      var now = Date.now || function() { return new Date().getTime(); };
+  // 25.4.5.3.3 Thrower Functions
+  function ThrowerFunction () {
+    return function F ( e ) {
+      throw e;
+    };
+  }
 
+  // export the Promise constructor
+  if ( typeof module === 'object' && typeof module.exports === 'object' ) {
+    module.exports = Promise;
+  } else {
+    global.Promise = Promise;
+  }
 
-      __exports__.objectOrFunction = objectOrFunction;
-      __exports__.isFunction = isFunction;
-      __exports__.isArray = isArray;
-      __exports__.now = now;
-    });
-  requireModule('promise/polyfill').polyfill();
-  }());
-}
+}(this));
