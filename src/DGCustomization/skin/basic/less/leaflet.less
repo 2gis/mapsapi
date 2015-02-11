@@ -104,11 +104,15 @@
 .leaflet-popup_error_true {}
 
 .leaflet-map-pane .leaflet-popup-tip-container {
-    position: relative;
-    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    margin-left: -29px;
+    top: auto;
+    bottom: -47px;
     width: 58px;
     height: 47px;
     background-repeat: no-repeat;
+    pointer-events: none;
     }
     .leaflet-popup-tip {
         display: none;
