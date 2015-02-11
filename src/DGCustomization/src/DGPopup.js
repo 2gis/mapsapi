@@ -173,6 +173,10 @@
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
 
+            // Prevents mouse events from leaking through close button
+            // See https://github.com/2gis/mapsapi/pull/153/
+            DG.DomEvent.disableClickPropagation(this._innerContainer);
+
             this.options.closeButton && this._innerContainer.appendChild(this._detachEl(this._closeButton));
 
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
