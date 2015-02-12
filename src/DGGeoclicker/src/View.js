@@ -7,7 +7,8 @@ DG.Geoclicker.View = DG.Class.extend({
             minHeight: 50,
             maxWidth: 385,
             minWidth: 310,
-            sprawling: true
+            sprawling: true,
+            closeOnClick: true
         });
 
         /*global __DGGeoclicker_TMPL__ */
