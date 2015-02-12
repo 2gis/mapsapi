@@ -1,9 +1,10 @@
-var rimraf = require('gulp-rimraf');
 var gulp = require('gulp');
+var del = require('del');
 
 var error = require('../util/error');
 
-gulp.task('cleanupTmpLess', function () {
-    return gulp.src(['build/tmp/less/*'], {read: false})
-        .pipe(rimraf());
+gulp.task('cleanupTmpLess', function (cb) {
+    del([
+        'build/tmp/less/*'
+    ], cb);
 });
