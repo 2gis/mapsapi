@@ -276,7 +276,7 @@
 
 * Распакуйте в `C:\GTK`
 
-* Добавте `C:\GTK\bin;` в системную переменную PATH (подробнее: [https://www.java.com/ru/download/help/path.xml](https://www.java.com/ru/download/help/path.xml))
+* Добавьте `C:\GTK\bin;` в системную переменную PATH (подробнее: [https://www.java.com/ru/download/help/path.xml](https://www.java.com/ru/download/help/path.xml))
 
 ## Стандарты кодирования
 
