@@ -1,7 +1,6 @@
 var flatten = require('gulp-flatten');
 var rsvg = require('gulp-rsvg');
 var rename = require('gulp-rename');
-var newer = require('gulp-newer');
 var util = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
