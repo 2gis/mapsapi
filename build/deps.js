@@ -258,8 +258,7 @@ var deps = {
         desc: 'Control helper',
         src: ['DGRoundControl/src/DGRoundControl.js'],
         less: {
-            all: ['DGRoundControl/skin/{skin}/less/dg-control-round.less'],
-            ie: ['DGRoundControl/skin/{skin}/less/dg-control-round.ie.less']
+            all: ['DGRoundControl/skin/{skin}/less/dg-control-round.less']
         },
         deps: ['DGCore', 'DGLocale']
     },
