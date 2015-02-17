@@ -207,6 +207,7 @@ var deps = {
             'DGGeoclicker/src/provider/CatalogApi.js',
             'DGGeoclicker/src/handler/Handler.js',
             'DGGeoclicker/src/handler/Default.js',
+            'DGGeoclicker/src/handler/ApiError.js',
             'DGGeoclicker/src/handler/CityArea.js',
             'DGGeoclicker/src/handler/House.js',
             'DGGeoclicker/src/handler/House.View.js',

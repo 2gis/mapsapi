@@ -21,19 +21,18 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         // Callback will receive array of found results or void if errors occurred or nothing was found.
         var zoom = options.zoom,
             latlng = options.latlng,
-            callback = options.callback,
             beforeRequest = options.beforeRequest || function () {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
 
         if (!types) {
-            callback({'error': 'no type'});
-            return;
+            return Promise.reject('no type');
         }
 
         beforeRequest();
-        this.geoSearch(q, types, zoom).then(DG.bind(function (result) {
-            callback(this._filterResponse(result, types));
+
+        return this.geoSearch(q, types, zoom).then(DG.bind(function (result) {
+            return this._filterResponse(result, types);
         }, this));
     },
 
@@ -128,7 +127,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             timeout: this.options.timeoutMs
         });
 
-        return this._lastRequest.then(undefined, function () { return false; });
+        return this._lastRequest;
     },
 
     _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object

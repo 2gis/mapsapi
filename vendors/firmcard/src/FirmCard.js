@@ -49,6 +49,8 @@ FirmCard.prototype = {
                 self._renderFirmCard();
                 self._toggleEventHandlers();
             }
+        }, function (error) {
+            self._renderError();
         });
     },
 
@@ -157,6 +159,18 @@ FirmCard.prototype = {
             this._footerContainer.innerHTML = this.options.render('popupFooterBtns', {'btns': btns});
             this._firmContentObject.footer = this._footerContainer;
         }
+
+        if (this.options.onFirmReady) {
+            this.options.onFirmReady(this._firmContentObject);
+        }
+    },
+
+    _renderError: function() {
+        this._firmContentObject.header = this.options.render('popupHeader', {
+            title: this.options.t('apiErrorTitle')
+        });
+
+        this._firmContentObject.tmpl = this.options.t('apiErrorBody');
 
         if (this.options.onFirmReady) {
             this.options.onFirmReady(this._firmContentObject);

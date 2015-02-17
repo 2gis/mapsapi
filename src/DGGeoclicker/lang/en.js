@@ -1,4 +1,6 @@
 DG.Geoclicker.Handler.Default.Dictionary.en = DG.extend({
+    apiErrorTitle: 'Oops! Error detected.',
+    apiErrorBody: 'Our servers are not responding. We are doing our best to straighten them out. Please return to us in a few minutes.',
     we_have_not: 'We haven\'t collected info about this place yet',
     noname : 'No name',
     'adm_div.place' : 'Place',
