@@ -35,7 +35,6 @@ gulp.task('generateSprites', [
             .pipe(error.handle())
             .pipe(spritesmith({
                 cssTemplate: 'build/sprite-template.mustache',
-                algorithm: 'binary-tree',
                 imgName: 'sprite.' + skinName + '.png',
                 cssName: 'sprite.' + skinName + '.less',
                 engine: 'pngsmith'
@@ -44,7 +43,6 @@ gulp.task('generateSprites', [
             .pipe(error.handle())
             .pipe(spritesmith({
                 cssTemplate: 'build/sprite-template.mustache',
-                algorithm: 'binary-tree',
                 //padding: 1, // генерирует неправильные смещения :(
                 imgName: 'sprite@2x.' + skinName + '.png',
                 cssName: 'sprite@2x.' + skinName + '.less',

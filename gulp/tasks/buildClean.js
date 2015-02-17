@@ -1,13 +1,6 @@
-var rimraf = require('gulp-rimraf');
 var gulp = require('gulp');
+var del = require('del');
 
-gulp.task('buildClean', function () {
-    return gulp.src([
-        'public/js',
-        'public/css',
-        'public/fonts',
-        'public/doc',
-        'public/*.*'
-    ], {read: false})
-        .pipe(rimraf());
+gulp.task('buildClean', function (cb) {
+    del('public', cb);
 });
