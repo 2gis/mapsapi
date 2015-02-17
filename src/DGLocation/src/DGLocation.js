@@ -151,6 +151,7 @@ DG.Control.Location = DG.RoundControl.extend({
 
         // circle with the radius of the location's accuracy
         var style = {
+            clickable: false,
             color: '#FFF',
             fillColor: '#FFF',
             fillOpacity: 0.4,
