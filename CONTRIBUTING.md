@@ -240,6 +240,10 @@
 ## Установка окружения для разных ОС
 ### Mac OS X
 
+* Установите homebrew перейдя по ссылке:
+
+        [http://brew.sh/index_ru.html](Руководство по установке brew)
+
 * Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/). Или с помощью homebrew:
 
         sudo brew install node
@@ -249,13 +253,6 @@
         sh install_osx.sh
 
 ### Ubuntu
-
-* Установите NodeJS из командной строки:
-
-        sudo apt-get install python-software-properties
-        sudo add-apt-repository -y ppa:chris-lea/node.js
-        sudo apt-get update
-        sudo apt-get install nodejs
 
 * Запустите `install_ubuntu.sh`
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 echo 'Preparing to install Node.js & mapsapi'
+
 node -v || brew install node
 sudo npm install -g npm@2.x
 brew install pkg-config
