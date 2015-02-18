@@ -244,10 +244,6 @@
 
         [http://brew.sh/index_ru.html](Руководство по установке brew)
 
-* Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/). Или с помощью homebrew:
-
-        sudo brew install node
-
 * Запустите `install_osx.sh`
 
         sh install_osx.sh
