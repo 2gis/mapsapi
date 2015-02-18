@@ -455,14 +455,6 @@ describe('DG.ProjectDetectorIn', function () {
         });
     });
 
-    describe('#projectDetector & dgTileLayer connection', function () {
-        it('when remove 2gis tilelayer ProjectDetector should be disabled', function () {
-            expect(map.projectDetector.enabled()).to.be.ok();
-            map.removeLayer(map.baseLayer);
-            expect(map.projectDetector.enabled()).to.not.be.ok();
-        });
-    });
-
     describe('#should fire', function () {
 
         //TODO: uncomment when 'projectchange' event firing become sync

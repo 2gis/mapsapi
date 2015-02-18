@@ -22,11 +22,4 @@ describe('DG.TileLayer', function() {
             expect(map.baseLayer).to.be.a('object');
         });
     });
-
-    describe('#onRemove', function() {
-        it('should projectDetector is disable', function() {
-            map.baseLayer.remove();
-            expect(map.projectDetector.enabled()).not.be.ok();
-        })
-    });
 });
