@@ -40,7 +40,7 @@
     "sub": false,
     "indent": 4,
 
-    "eqeqeq": true,
+    "eqeqeq": false,
     "trailing": true,
     "white": true,
     "smarttabs": true,

@@ -3,7 +3,7 @@ var packages = {
     basic: {
         name: 'Basic package',
         desc: 'Provides basic functionality: map, markers, popups, geometries',
-        modules: ['DGCustomization', 'DGTileLayer', 'DGFullScreen', 'DGAttribution', 'DGAjax']
+        modules: ['DGCustomization', 'DGFullScreen', 'DGAttribution', 'DGAjax']
     },
 
     full: {

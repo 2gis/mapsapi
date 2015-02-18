@@ -25,6 +25,8 @@ var config = {
         path: basePath + '/build/tmp/testJS/src/'
     },
 
+    deprecatedModules: ['DGTileLayer'],
+
     leaflet: {
         deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
         path: basePath + '/vendors/leaflet/src/'
