@@ -101,15 +101,11 @@ DG.Marker.include({
         this
             .off('mouseover', this._mouseOverLabel)
             .off('mouseout', this._mouseOutLabel)
-            .off('mouseover', this._mouseOverLabel)
-            .off('mouseout', this._mouseOutLabel)
             .hideLabel();
     },
 
     _dragEndLabel: function () {
         this
-            .on('mouseover', this._mouseOverLabel)
-            .on('mouseout', this._mouseOutLabel)
             .on('mouseover', this._mouseOverLabel)
             .on('mouseout', this._mouseOutLabel)
             .showLabel();
