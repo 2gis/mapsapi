@@ -98,24 +98,30 @@ DG.Marker.include({
     },
 
     _dragStartLabel: function () {
-        this
-            .off('mouseover', this._mouseOverLabel)
-            .off('mouseout', this._mouseOutLabel)
-            .hideLabel();
+        this._label.isMarkerDragging = true;
+
+        this.hideLabel();
     },
 
     _dragEndLabel: function () {
-        this
-            .on('mouseover', this._mouseOverLabel)
-            .on('mouseout', this._mouseOutLabel)
-            .showLabel();
+        this._label.isMarkerDragging = false;
+
+        if (this._label.isMouseOverMarker) {
+            this.showLabel();
+        }
     },
 
     _mouseOverLabel: function () {
-        this.showLabel();
+        this._label.isMouseOverMarker = true;
+
+        if (!this._label.isMarkerDragging) {
+            this.showLabel();
+        }
     },
 
     _mouseOutLabel: function () {
+        this._label.isMouseOverMarker = false;
+
         this.hideLabel();
     }
 });
