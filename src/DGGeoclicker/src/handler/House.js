@@ -107,6 +107,8 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
         options.firmCard.backBtn = DG.bind(this._showListPopup, this);
 
+        this._shortFirmList._toggleEventHandlers(true);
+
         this._firmList = new FirmCard.List(results, options);
 
         this._firmListObject = this._fillFirmListObject(this._firmList.renderList());
