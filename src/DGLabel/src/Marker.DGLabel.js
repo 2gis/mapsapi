@@ -23,7 +23,11 @@ DG.Marker.include({
             if (options.static) {
                 this.showLabel();
             } else {
-                this.once('mouseover', this._mouseOverLabel);
+                this
+                    .on('mouseover', this._mouseOverLabel)
+                    .on('mouseout', this._mouseOutLabel)
+                    .on('dragstart', this._dragStartLabel)
+                    .on('dragend', this._dragEndLabel);
             }
 
             if (typeof this._map !== 'undefined') {
@@ -94,30 +98,31 @@ DG.Marker.include({
     },
 
     _dragStartLabel: function () {
-        this
-            .off('mouseout', this._mouseOutLabel)
-            .off('dragstart', this._mouseOutLabel)
-            .once('dragend', this._dragEndLabel)
-            .hideLabel();
+        this._label.isMarkerDragging = true;
+
+        this.hideLabel();
     },
 
     _dragEndLabel: function () {
-        this.once('mouseover', this._mouseOverLabel);
+        this._label.isMarkerDragging = false;
+
+        if (this._label.isMouseOverMarker) {
+            this.showLabel();
+        }
     },
 
     _mouseOverLabel: function () {
-        this
-            .showLabel()
-            .on('dragstart', this._dragStartLabel)
-            .on('mouseout', this._mouseOutLabel);
+        this._label.isMouseOverMarker = true;
+
+        if (!this._label.isMarkerDragging) {
+            this.showLabel();
+        }
     },
 
     _mouseOutLabel: function () {
-        this
-            .hideLabel()
-            .off('mouseout', this._mouseOutLabel)
-            .off('dragstart', this._dragStartLabel)
-            .once('mouseover', this._mouseOverLabel);
+        this._label.isMouseOverMarker = false;
+
+        this.hideLabel();
     }
 });
 
