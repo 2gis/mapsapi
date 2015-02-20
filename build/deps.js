@@ -79,7 +79,6 @@ var deps = {
             ],
             ie: [
                 'DGCustomization/skin/{skin}/less/leaflet.ie.less',
-                'DGCustomization/skin/{skin}/less/dg-zoom.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-customization.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-popup.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-schedule.ie.less'
