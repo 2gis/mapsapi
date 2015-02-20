@@ -292,11 +292,6 @@ DG.ajax = (function () {
         self.promise = new Promise(function (resolve, reject) {
             self.abort = function () {
                 self._aborted = true;
-                //self.reject('aborted');
-            };
-
-            self.abort = function () {
-                self._aborted = true;
                 reject('aborted');
             };
 
