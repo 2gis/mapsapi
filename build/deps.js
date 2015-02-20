@@ -79,7 +79,6 @@ var deps = {
             ],
             ie: [
                 'DGCustomization/skin/{skin}/less/leaflet.ie.less',
-                'DGCustomization/skin/{skin}/less/dg-zoom.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-customization.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-popup.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-schedule.ie.less'
@@ -259,8 +258,7 @@ var deps = {
         desc: 'Control helper',
         src: ['DGRoundControl/src/DGRoundControl.js'],
         less: {
-            all: ['DGRoundControl/skin/{skin}/less/dg-control-round.less'],
-            ie: ['DGRoundControl/skin/{skin}/less/dg-control-round.ie.less']
+            all: ['DGRoundControl/skin/{skin}/less/dg-control-round.less']
         },
         deps: ['DGCore', 'DGLocale']
     },
