@@ -1,15 +1,12 @@
 var flatten = require('gulp-flatten');
 var rename = require('gulp-rename');
 var rsvg = require('gulp-rsvg');
-var util = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
 
 var error = require('../util/error');
 
-gulp.task('copySVGRaster', function (cb) {
-    util.log(util.colors.green('Converting SVG to PNG. It can take a long time, please, be patient'));
-
+gulp.task('rasterAndCopySVG', function (cb) {
     gulp.src('src/**/img/**/*.svg')
         .pipe(error.handle())
         .pipe(rsvg())
