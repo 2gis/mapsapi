@@ -74,19 +74,19 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     update: function () {
-
+        var self = this;
         this._getTimestampString().then(
             function (response) {
-                this.options.timestampString = '?' + response;
+                self.options.timestampString = '?' + response;
             },
             function () {
-                this.options.timestampString = '?' + (new Date()).getTime();
+                self.options.timestampString = '?' + (new Date()).getTime();
             }).then(
             function () {
-                this.fire('update', { timestamp: this.options.timestampString });
-                this._layerEventsListeners.mouseout.call(this);
-                this._metaLayer.getOrigin().setURL(this._prepareMetaURL(), true);
-                this.redraw();
+                self.fire('update', { timestamp: self.options.timestampString });
+                self._layerEventsListeners.mouseout.call(self);
+                self._metaLayer.getOrigin().setURL(self._prepareMetaURL(), self);
+                self.redraw();
             }
         );
     },
