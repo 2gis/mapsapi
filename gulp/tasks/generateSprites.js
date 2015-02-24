@@ -5,7 +5,6 @@ var gulp = require('gulp');
 var error = require('../util/error');
 var config = require('../../build/config');
 var deps = require('../../build/gulp-deps')(config);
-var imagemin = require('../../build/gulp-imagemin');
 
 gulp.task('generateSprites', [
     'collectImagesUsageStats',
@@ -50,11 +49,9 @@ gulp.task('generateSprites', [
 
         return es.concat(
             spriteData.img
-                .pipe(imagemin({silent: true}))
                 .pipe(gulp.dest('public/img/')),
 
             spriteData2x.img
-                .pipe(imagemin({silent: true}))
                 .pipe(gulp.dest('public/img/')),
 
             spriteData.css

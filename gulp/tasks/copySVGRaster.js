@@ -1,11 +1,10 @@
 var flatten = require('gulp-flatten');
-var rsvg = require('gulp-rsvg');
 var rename = require('gulp-rename');
+var rsvg = require('gulp-rsvg');
 var util = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
 
-var imagemin = require('../../build/gulp-imagemin');
 var error = require('../util/error');
 
 gulp.task('copySVGRaster', function (cb) {
@@ -17,7 +16,6 @@ gulp.task('copySVGRaster', function (cb) {
         .pipe(rename(function (p) {
             p.dirname = p.dirname.split(path.sep)[2];
         }))
-        .pipe(imagemin({silent: true}))
         .pipe(gulp.dest('build/tmp/img'))
         .pipe(flatten())
         .pipe(gulp.dest('build/tmp/img_all'))
@@ -30,7 +28,6 @@ gulp.task('copySVGRaster', function (cb) {
                     p.extname = '@2x.png';
                     p.dirname = p.dirname.split(path.sep)[2];
                 }))
-                .pipe(imagemin({silent: true}))
                 .pipe(gulp.dest('build/tmp/img'))
                 .pipe(flatten())
                 .pipe(gulp.dest('build/tmp/img_all'))
