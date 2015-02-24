@@ -6,7 +6,7 @@ var path = require('path');
 var imagemin = require('../../build/gulp-imagemin');
 var error = require('../util/error');
 
-gulp.task('copySVG', ['buildClean'], function () {
+gulp.task('copySVG', function () {
     return gulp.src('src/**/img/**/*.svg')
         .pipe(error.handle())
         .pipe(imagemin({silent: true}))

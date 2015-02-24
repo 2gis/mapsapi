@@ -8,7 +8,6 @@ var deps = require('../../build/gulp-deps')(config);
 var imagemin = require('../../build/gulp-imagemin');
 
 gulp.task('generateSprites', [
-    'buildClean',
     'collectImagesUsageStats',
     'copySVGRaster',
     'copyRaster'

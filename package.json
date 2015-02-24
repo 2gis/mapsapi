@@ -67,6 +67,7 @@
     "pretty-bytes": "^1.0.2",
     "request": "^2.53.0",
     "require-dir": "^0.1.0",
+    "run-sequence": "^1.0.2",
     "through2": "0.6.3",
     "underscore.string": "^2.4.0"
   },

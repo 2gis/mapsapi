@@ -8,7 +8,7 @@ var path = require('path');
 var imagemin = require('../../build/gulp-imagemin');
 var error = require('../util/error');
 
-gulp.task('copySVGRaster', ['buildClean'], function (cb) {
+gulp.task('copySVGRaster', function (cb) {
     util.log(util.colors.green('Converting SVG to PNG. It can take a long time, please, be patient'));
 
     gulp.src('src/**/img/**/*.svg')

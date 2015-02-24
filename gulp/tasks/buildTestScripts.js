@@ -10,7 +10,7 @@ var projectList = require('../util/projectList');
 var error = require('../util/error');
 var stat = require('../util/stat');
 
-gulp.task('buildTestScripts', ['buildClean', 'loadProjectList', 'lintJS', 'buildLeaflet'], function () {
+gulp.task('buildTestScripts', ['loadProjectList', 'lintJS', 'buildLeaflet'], function () {
     // part from buildJS
     return gulp.src(deps.getJSFiles(), {base: '.'})
         .pipe(error.handle())

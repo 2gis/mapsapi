@@ -5,7 +5,7 @@ var error = require('../util/error');
 var config = require('../../build/config');
 var deps = require('../../build/gulp-deps')(config);
 
-gulp.task('collectImagesStats', ['buildClean', 'copySVG', 'copySVGRaster', 'copyRaster'], function (cb) {
+gulp.task('collectImagesStats', ['copySVG', 'copySVGRaster', 'copyRaster'], function (cb) {
     var skins = deps.getSkinsList();
     var imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 

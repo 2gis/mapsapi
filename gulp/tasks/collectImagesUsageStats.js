@@ -10,7 +10,7 @@ var error = require('../util/error');
 var config = require('../../build/config');
 var deps = require('../../build/gulp-deps')(config);
 
-gulp.task('collectImagesUsageStats', ['buildClean', 'cleanupTmpLess'], function (cb) {
+gulp.task('collectImagesUsageStats', function (cb) {
     var skins = deps.getSkinsList();
 
     var imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all');

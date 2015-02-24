@@ -4,7 +4,7 @@ var gulp = require('gulp');
 
 var error = require('../util/error');
 
-gulp.task('copyImg', ['buildClean'], function (cb) {
+gulp.task('copyImg', function (cb) {
     var stream = es.concat(
         gulp.src('private/img/*.*')
             .pipe(error.handle())
