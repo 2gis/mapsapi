@@ -240,26 +240,19 @@
 ## Установка окружения для разных ОС
 ### Mac OS X
 
-* Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/). Или с помощью homebrew:
+* Установите homebrew перейдя по ссылке:
 
-        sudo brew install node
+        [http://brew.sh/index_ru.html](Руководство по установке brew)
 
-* Установите Gulp из командной строки:
+* Запустите `install_osx.sh`
 
-        sudo npm install -g gulp
+        sh install_osx.sh
 
 ### Ubuntu
 
-* Установите NodeJS из командной строки:
+* Запустите `install_ubuntu.sh`
 
-        sudo apt-get install python-software-properties
-        sudo add-apt-repository -y ppa:chris-lea/node.js
-        sudo apt-get update
-        sudo apt-get install nodejs
-
-* Установите Gulp из командной строки:
-
-        sudo npm install -g gulp
+        sh install_osx.sh
 
 ### Windows
 
@@ -268,6 +261,15 @@
 * Установите Gulp из командной строки:
 
         npm install -g gulp
+
+* Перейдите по ссылке [http://www.gtk.org/download/win64.php](http://www.gtk.org/download/win64.php)
+(или [http://www.gtk.org/download/win32.php](http://www.gtk.org/download/win32.php) для 32-разрядного NodeJS)
+
+* Скачайте архив с бинарной сборкой GTK+
+
+* Распакуйте в `C:\GTK`
+
+* Добавьте `C:\GTK\bin;` в системную переменную PATH (подробнее: [https://www.java.com/ru/download/help/path.xml](https://www.java.com/ru/download/help/path.xml))
 
 ## Стандарты кодирования
 
