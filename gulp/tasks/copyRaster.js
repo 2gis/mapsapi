@@ -1,15 +1,18 @@
 var flatten = require('gulp-flatten');
 var rename = require('gulp-rename');
+var util = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
 
 var error = require('../util/error');
+var config = require('../../build/config');
+var deps = require('../../build/gulp-deps')(config);
 
 gulp.task('copyRaster', function () {
-    return gulp.src(['src/**/img/**/*.{png,gif,jpg,jpeg}'])
+    return gulp.src(deps.getImgGlob(util.env))
         .pipe(error.handle())
         .pipe(rename(function (p) {
-            p.dirname = p.dirname.split(path.sep)[2];
+            p.dirname = p.dirname.split(path.sep)[1];
         }))
         .pipe(gulp.dest('build/tmp/img'))
         .pipe(flatten())
