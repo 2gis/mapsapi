@@ -60,8 +60,9 @@ DG.Control.Location = DG.RoundControl.extend({
     },
 
     _handleLocate: function () {
-        if (this._active && this._event && (this._map.getBounds().contains(this._event.latlng) ||
-            this._isOutsideMapBounds())) {
+        if (this._active && (!this._event ||
+            (this._map.getBounds().contains(this._event.latlng) ||
+            this._isOutsideMapBounds()))) {
             this._stopLocate();
         } else {
             this._locateOnNextLocationFound = true;
@@ -167,15 +168,6 @@ DG.Control.Location = DG.RoundControl.extend({
             }
         }
 
-        var distance, unit;
-        if (this.options.metric) {
-            distance = radius.toFixed(0);
-            unit = 'meters';
-        } else {
-            distance = (radius * 3.2808399).toFixed(0);
-            unit = 'feet';
-        }
-
         var markerClass = 'dg-location__pin';
 
         markerClass += this._following ? (' ' + markerClass + 'state_following') : '';
@@ -197,7 +189,7 @@ DG.Control.Location = DG.RoundControl.extend({
 
         DG.DomEvent.on(this._marker, 'click', function () {
             this._map.fireEvent('dgLocateClick');
-        });
+        }, this);
 
         if (!this._container) {
             return;
