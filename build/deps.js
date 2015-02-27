@@ -86,7 +86,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/less/dg-schedule.ie.less'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
     },
 
     DGAttribution: {
@@ -159,7 +159,7 @@ var deps = {
     DGProjectDetector: {
         desc: '2GIS project detector module',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
-        deps: ['DGCore', 'DGCustomization']
+        deps: ['DGCore']
     },
 
     DGMeta: {
