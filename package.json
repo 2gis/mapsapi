@@ -16,7 +16,6 @@
     "url": "git://github.com/2gis/maps-api-2.0.git"
   },
   "dependencies": {
-    "chalk": "0.5.1",
     "cli-color": "0.3.2",
     "cors": "^2.5.3",
     "del": "^1.1.1",
@@ -38,6 +37,7 @@
     "gulp-git": "0.4.0",
     "gulp-header": "^1.2.2",
     "gulp-if": "^1.2.5",
+    "gulp-imagemin": "^2.2.0",
     "gulp-jshint": "^1.9.2",
     "gulp-karma": "0.0.4",
     "gulp-less": "^3.0.0",
@@ -53,7 +53,6 @@
     "gulp-util": "^3.0.3",
     "gulp.spritesmith": "^2.5.1",
     "happen": "0.1.3",
-    "image-min": "0.4.5",
     "image-size": "0.3.5",
     "jshint-stylish": "^1.0.0",
     "less": "^2.4.0",
@@ -61,13 +60,12 @@
     "map-stream": "0.1.0",
     "marked": "0.3.3",
     "mkdirp": "0.5.0",
-    "object-assign": "^2.0.0",
     "optimist": "^0.6.1",
     "pngsmith": "^0.1.3",
     "pretty-bytes": "^1.0.2",
     "request": "^2.53.0",
     "require-dir": "^0.1.0",
-    "through2": "0.6.3",
+    "run-sequence": "^1.0.2",
     "underscore.string": "^2.4.0"
   },
   "devDependencies": {

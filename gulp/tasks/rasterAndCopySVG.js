@@ -1,23 +1,18 @@
 var flatten = require('gulp-flatten');
-var rsvg = require('gulp-rsvg');
 var rename = require('gulp-rename');
-var util = require('gulp-util');
+var rsvg = require('gulp-rsvg');
 var gulp = require('gulp');
 var path = require('path');
 
-var imagemin = require('../../build/gulp-imagemin');
 var error = require('../util/error');
 
-gulp.task('copySVGRaster', ['buildClean'], function (cb) {
-    util.log(util.colors.green('Converting SVG to PNG. It can take a long time, please, be patient'));
-
+gulp.task('rasterAndCopySVG', function (cb) {
     gulp.src('src/**/img/**/*.svg')
         .pipe(error.handle())
         .pipe(rsvg())
         .pipe(rename(function (p) {
             p.dirname = p.dirname.split(path.sep)[2];
         }))
-        .pipe(imagemin({silent: true}))
         .pipe(gulp.dest('build/tmp/img'))
         .pipe(flatten())
         .pipe(gulp.dest('build/tmp/img_all'))
@@ -30,7 +25,6 @@ gulp.task('copySVGRaster', ['buildClean'], function (cb) {
                     p.extname = '@2x.png';
                     p.dirname = p.dirname.split(path.sep)[2];
                 }))
-                .pipe(imagemin({silent: true}))
                 .pipe(gulp.dest('build/tmp/img'))
                 .pipe(flatten())
                 .pipe(gulp.dest('build/tmp/img_all'))
