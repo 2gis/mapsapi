@@ -110,7 +110,7 @@ DG.Map.include({
         return true;
     },
 
-    _updateTln: function (e) {
+    _updateTileLayers: function (e) {
         if (!(e.layer instanceof DG.TileLayer) || e.layer._isDg) { return; }
 
         e.type === 'layeradd' ? this._tileLayersNumber++ : this._tileLayersNumber--;
@@ -183,5 +183,5 @@ DG.Map.include({
 });
 
 DG.Map.addInitHook(function () {
-    this.on('layeradd layerremove', this._updateTln);
+    this.on('layeradd layerremove', this._updateTileLayers);
 });
