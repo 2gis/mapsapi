@@ -53,15 +53,35 @@ var deps = {
         deps: ['DGCore']
     },
 
+    DGPopup: {
+        src: [
+            'DGPopup/skin/basic/skin.config.js',
+            '../vendors/baron/baron.js',
+            'DGPopup/src/DGPopup.js'
+        ],
+        less: {
+            all: [
+                'DGPopup/skin/{skin}/less/leaflet.less',
+                '../vendors/baron/baron.css',
+                'DGPopup/skin/{skin}/less/scroller.less',
+                'DGPopup/skin/{skin}/less/dg-popup.less'
+            ],
+            ie: [
+                'DGPopup/skin/{skin}/less/leaflet.ie.less',
+                'DGPopup/skin/{skin}/less/dg-popup.ie.less',
+                'DGPopup/skin/{skin}/less/dg-schedule.ie.less'
+            ]
+        },
+        deps: ['DGCore']
+    },
+
     DGCustomization: {
         desc: 'LeafLet customization module',
         src: [
             'DGCustomization/skin/basic/skin.config.js',
-            '../vendors/baron/baron.js',
             'DGCustomization/src/DGCustomization.js',
             'DGCustomization/src/DGMap.js',
             'DGCustomization/src/DGMap.BaseLayer.js',
-            'DGCustomization/src/DGPopup.js',
             'DGCustomization/src/DGZoom.js',
             'DGCustomization/lang/DGZoom/ru.js',
             'DGCustomization/lang/DGZoom/it.js',
@@ -75,14 +95,11 @@ var deps = {
                 '../vendors/baron/baron.css',
                 'DGCustomization/skin/{skin}/less/scroller.less',
                 'DGCustomization/skin/{skin}/less/dg-zoom.less',
-                'DGCustomization/skin/{skin}/less/dg-customization.less',
-                'DGCustomization/skin/{skin}/less/dg-popup.less',
-                'DGCustomization/skin/{skin}/less/dg-firm-card.less'
+                'DGCustomization/skin/{skin}/less/dg-customization.less'
             ],
             ie: [
                 'DGCustomization/skin/{skin}/less/leaflet.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-customization.ie.less',
-                'DGCustomization/skin/{skin}/less/dg-popup.ie.less',
                 'DGCustomization/skin/{skin}/less/dg-schedule.ie.less'
             ]
         },
@@ -222,7 +239,7 @@ var deps = {
             '../vendors/firmcard/src/Schedule.js',
             '../vendors/firmcard/src/Dictionary.js'
         ],
-        deps: ['DGAjax', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector']
+        deps: ['DGAjax', 'DGCore', 'DGDust', 'DGLocale', 'DGPoi', 'DGEntrance', 'DGProjectDetector', 'DGPopup']
     },
 
     DGDust: {
