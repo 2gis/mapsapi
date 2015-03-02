@@ -46,15 +46,15 @@
 <input id="create" type="button" value="Показать карту" />
 <div id="mapBlock"></div>
 <script>
-    var createButton = document.getElementById("create");
+    var createButton = document.getElementById('create');
 
     createButton.onclick = function() {
         var container = document.createElement('div'),
             mapBlock = document.getElementById('mapBlock');
 
         container.id = 'map1';
-        container.style.width = "100%";
-        container.style.height = "400px";
+        container.style.width = '100%';
+        container.style.height = '400px';
         mapBlock.appendChild(container);
 
         DG.then(function(){
@@ -80,15 +80,15 @@
             <input id="create" type="button" value="Показать карту" />
             <div id="mapBlock"></div>
             <script>
-                var createButton = document.getElementById("create");
+                var createButton = document.getElementById('create');
 
                 createButton.onclick = function() {
                     var container = document.createElement('div'),
                         mapBlock = document.getElementById('mapBlock');
 
                     container.id = 'map';
-                    container.style.width = "100%";
-                    container.style.height = "400px";
+                    container.style.width = '100%';
+                    container.style.height = '400px';
                     mapBlock.appendChild(container);
 
                     DG.then(function(){
@@ -191,7 +191,7 @@
                     changeSizeButton.onclick = function() {
                         var mapDiv = document.getElementById('map');
                         mapDiv.style.height = (enabled ? '200' : '400') + 'px';
-                        //обновление карты
+                        // обновление карты
                         map.invalidateSize();
                     }
                 });
@@ -257,7 +257,6 @@
 <div id="map5" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
-        
         var map;
 
         map = DG.map('map5', {
@@ -266,13 +265,13 @@
         });
 
         map.locate({setView: true, watch: true})
-        .on('locationfound', function(e){
-            DG.marker([e.latitude, e.longitude]).addTo(map);
-        })
-       .on('locationerror', function(e){
-            console.log(e);
-            alert("Location access denied.");
-        });
+            .on('locationfound', function(e) {
+                DG.marker([e.latitude, e.longitude]).addTo(map);
+            })
+            .on('locationerror', function(e) {
+                console.log(e);
+                alert("Location access denied.");
+            });
     });
 </script>
 
@@ -288,7 +287,6 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
-                    
                     var map;
 
                     map = DG.map('map', {
@@ -297,13 +295,13 @@
                     });
 
                     map.locate({setView: true, watch: true})
-                    .on('locationfound', function(e){
-                        DG.marker([e.latitude, e.longitude]).addTo(map);
-                    })
-                   .on('locationerror', function(e){
-                        console.log(e);
-                        alert("Location access denied.");
-                    });
+                        .on('locationfound', function(e) {
+                            DG.marker([e.latitude, e.longitude]).addTo(map);
+                        })
+                        .on('locationerror', function(e) {
+                            console.log(e);
+                            alert("Location access denied.");
+                        });
                 });
             </script>
         </body>

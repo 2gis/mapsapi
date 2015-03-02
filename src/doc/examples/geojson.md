@@ -14,8 +14,7 @@
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
-        var map;
-        map = DG.map('map', {
+        var map = DG.map('map', {
             center: [55.042136, 82.91699],
             zoom: 16
         });
@@ -71,8 +70,7 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
-                    var map;
-                    map = DG.map('map', {
+                    var map = DG.map('map', {
                         center: [55.042136, 82.91699],
                         zoom: 16
                     });

@@ -24,7 +24,9 @@
             center: DG.latLng(54.92, 82.82),
             zoom: 9
         });
+
         var markers = DG.markerClusterGroup();
+
         for (var i = 0; i < addressPoints.length; i++) {
             var a = addressPoints[i];
             var title = a[2];
@@ -32,6 +34,7 @@
             marker.bindPopup(title);
             markers.addLayer(marker);
         }
+
         map.addLayer(markers);
     });
 </script>
@@ -57,7 +60,9 @@
                         center: DG.latLng(54.92, 82.82),
                         zoom: 9
                     });
+
                     var markers = DG.markerClusterGroup();
+
                     // обработка координат для установки маркеров
                     for (var i = 0; i < addressPoints.length; i++) {
                         var a = addressPoints[i];
@@ -66,6 +71,7 @@
                         marker.bindPopup(title);
                         markers.addLayer(marker);
                     }
+
                     map.addLayer(markers);
                 });
             </script>
@@ -88,6 +94,7 @@
             center: DG.latLng(54.89, 82.45),
             zoom: 10
         });
+
         DG.heatLayer(addressPoints1).addTo(map);
     });
 </script>
@@ -111,6 +118,7 @@
                         center: DG.latLng(54.89, 82.45),
                         zoom: 10
                     });
+
                     DG.heatLayer(addressPoints1).addTo(map);
                 });
             </script>
