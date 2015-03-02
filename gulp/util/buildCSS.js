@@ -9,6 +9,7 @@ var less = require('gulp-less');
 var util = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
+var fs = require('fs');
 
 var config = require('../../build/config.js');
 var deps = require('../../build/gulp-deps')(config);
@@ -43,6 +44,16 @@ module.exports = function (options, enableSsl) {
             './private/less/mixins.ie8.less:reference'
         ];
     }
+
+    lessHeaderImports = lessHeaderImports.filter(function(src) {
+        var lessFileSrc = src.split(':')[0];
+
+        try {
+            return fs.readFileSync(path.join(__dirname, '../..', lessFileSrc));
+        } catch (e) {
+            return false;
+        }
+    });
 
     var lessPrerequirements = deps.lessHeader({
         variables: {
