@@ -9,6 +9,7 @@ public
 dist
 private/dev*
 build/tmp
+build/cache
 
 docbuilder/doc
 .tern-port
