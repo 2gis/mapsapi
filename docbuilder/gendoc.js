@@ -13,7 +13,7 @@ function walkItem(menu, callback) { // (Object, Function)
     }
 }
 
-function getMdFileNames(config) { // (Object) -> Object
+function getMdFileNames() { // (Object) -> Object
     var menu = require('../src/menu.json'),
         result = [];
     walkItem(menu, function (filepath) {
@@ -56,48 +56,51 @@ function writeFile(dir, htmlFileName, html) {
 
 // Usage: generateDocumentation('menu.json', './src', './doc')
 function generateDocumentation(config, rootPath, destPath) { // (Object, String, String)
-    var mdFileNames = getMdFileNames(config),
+    var mdFileNames = getMdFileNames(),
         mdData = getMdFilesData(mdFileNames, rootPath);
 
     for (var i = 0, leng = mdData.length; i < leng; i++) {
-        var mdFilePath = mdData[i].path,
-            htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
-            pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
-            renderer = new marked.Renderer(),
-            tocHtml = generateTableOfContents(marked.lexer(mdData[i].content.toString())),
-            headerRepeats = {},
-            dir = destPath + '/' + pluginDirName + '/',
-            html;
+        (function(i) {
+            var mdFilePath = mdData[i].path,
+                htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
+                pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
+                renderer = new marked.Renderer(),
+                tocHtml = generateTableOfContents(marked.lexer(mdData[i].content.toString())),
+                headerRepeats = {},
+                dir = destPath + '/' + pluginDirName + '/',
+                html;
 
-        renderer.listitem = function (text) {
-            return '<li><div class="restore-color">' + text + '</div></li>';
-        }
+            renderer.listitem = function (text) {
+                return '<li><div class="restore-color">' + text + '</div></li>';
+            };
 
-        renderer.heading = function (text, level) {
-            if (typeof headerRepeats[text] === 'undefined') {
-                headerRepeats[text] = 0;
-            }
-            else {
-                headerRepeats[text]++;
-            }
-            return '<h' + level + ' id="' + getHeaderId(text, headerRepeats[text]) + '">' + text + '</h' + level + '>';
-        }
+            renderer.heading = function (text, level) {
+                if (typeof headerRepeats[text] === 'undefined') {
+                    headerRepeats[text] = 0;
+                } else {
+                    headerRepeats[text]++;
+                }
+                return '<h' + level + ' id="' + getHeaderId(text, headerRepeats[text]) + '">' + text + '</h' + level + '>';
+            };
 
-        html = marked(mdData[i].content.toString(), {
-            renderer: renderer
-        });
+            html = marked(mdData[i].content.toString(), {
+                renderer: renderer
+            });
 
-        html = html.replace(new RegExp('<ul>', 'g'), '<ul class="list-v-disc">');
-        html = html.replace(/{toc}/g, tocHtml);
+            html = html.replace('<ul>', '<ul class="list-v-disc">');
+            html = html.replace(/\{toc}/g, tocHtml);
 
-        writeFile(dir, htmlFileName, html);
+            writeFile(dir, htmlFileName, html);
+        })(i);
     }
 
     copyConfigFile(config, destPath);
 }
 
 function generateTableOfContents(tokens) { // (Array) -> String
-    var prevDepth = startH = 2, // generate ToC for H2, H3, ...
+    // generate ToC for H2, H3, ...
+    var prevDepth = 2,
+        startH = prevDepth,
         tocHtml = '',
         headers = [],
         headerRepeats = {};
@@ -154,8 +157,8 @@ function generateTableOfContents(tokens) { // (Array) -> String
 }
 
 function getHeaderId(text, num) { // (String, Number) -> String
-    var id = text.toLowerCase().replace(/ /g, '-');
-    id = id.replace(/\./g, '');
+    var id = text.toLowerCase().replace(' ', '-');
+    id = id.replace('.', '');
     id = num > 0 ? id + '-' + num : id;
     return id;
 }
