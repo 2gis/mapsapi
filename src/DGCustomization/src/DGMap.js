@@ -102,6 +102,10 @@ DG.Map.include({
         return getBoundsZoom.call(this, bounds, inside, padding);
     },
 
+    getTileLayersNumber: function () {
+        return this._tileLayersNumber;
+    },
+
     _testAnimation: function (coords) {//if we jump to other project - disable animation
         if (this.projectDetector.enabled()) {
             var projectFrom = this.projectDetector.getProject(),
