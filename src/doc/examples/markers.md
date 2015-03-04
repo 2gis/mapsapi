@@ -14,11 +14,11 @@
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
-        var map;
-        map = DG.map('map', {
+        var map = DG.map('map', {
             center: [54.98, 82.89],
             zoom: 15
         });
+
         DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я балун!');
     });
 </script>
@@ -35,11 +35,11 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
-                    var map;
-                    map = DG.map('map', {
+                    var map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 15
                     });
+
                     DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я балун!');
                 });
             </script>
@@ -50,7 +50,7 @@
 
 Маркер, который пользователи могут перетаскивать:
 
-Координаты маркера: <div id = "location">54.981, 82.891</div>
+Координаты маркера: <div id="location">54.981, 82.891</div>
 
 <div id="map1" style="width: 100%; height: 400px;"></div>
 <script type="text/javascript">
@@ -67,11 +67,12 @@
         marker = DG.marker([54.981, 82.891], {
             draggable: true
         }).addTo(map);
+
         marker.on('drag', function(e) {
             var lat = e.target._latlng.lat.toFixed(3),
                 lng = e.target._latlng.lng.toFixed(3);
 
-            locationInfo.innerHTML = lat + ", " + lng;
+            locationInfo.innerHTML = lat + ', ' + lng;
         });
     });
 </script>
@@ -85,10 +86,11 @@
             data-id="dgLoader"></script>
         </head>
         <body>
-            Координаты маркера: <div id = "location">LatLng(54.98, 82.89)</div>
+            Координаты маркера: <div id="location">LatLng(54.98, 82.89)</div>
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script type="text/javascript">
                 var locationInfo = document.getElementById('location');
+
                 DG.then(function () {
                     var map,
                         marker;
@@ -101,11 +103,12 @@
                     marker = DG.marker([54.981, 82.891], {
                         draggable: true
                     }).addTo(map);
+
                     marker.on('drag', function(e) {
                         var lat = e.target._latlng.lat.toFixed(3),
                             lng = e.target._latlng.lng.toFixed(3);
 
-                        locationInfo.innerHTML = lat + ", " + lng;
+                        locationInfo.innerHTML = lat + ', ' + lng;
                     });
                 });
             </script>
@@ -194,16 +197,20 @@
 <button id='open-popup'>Открыть балун</button>
 <div id="map3" style="width: 100%; height: 400px;"></div>
 <script>
-    var openPopupBtn = document.getElementById('open-popup')
+    var openPopupBtn = document.getElementById('open-popup');
+
     DG.then(function() {
         var map,
             marker;
+
         map = DG.map('map3', {
             center: [54.98, 82.89],
             zoom: 15
         });
+
         marker = DG.marker([54.98, 82.89]).addTo(map);
         marker.bindPopup('Я балун!');
+
         openPopupBtn.onclick = function() {
             marker.openPopup();
         }
@@ -222,16 +229,20 @@
             <button id='open-popup'>Открыть балун</button>
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
-                var openPopupBtn = document.getElementById('open-popup')
+                var openPopupBtn = document.getElementById('open-popup');
+
                 DG.then(function() {
                     var map,
                         marker;
+
                     map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 15
                     });
+
                     marker = DG.marker([54.98, 82.89]).addTo(map);
                     marker.bindPopup('Я балун!');
+
                     openPopupBtn.onclick = function() {
                         marker.openPopup();
                     }
@@ -247,16 +258,17 @@
 <div id="map4" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
-        var map;
-        map = DG.map('map4', {
+        var map = DG.map('map4', {
             center: [54.98, 82.89],
             zoom: 15
         });
+
         DG.marker([54.98, 82.89])
             .addTo(map)
             .bindLabel('Я статическая подсказка!', {
                 static: true
             });
+
         DG.marker([54.98, 82.88])
             .addTo(map)
             .bindLabel('Я обычная подсказка!');
@@ -275,16 +287,17 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
-                    var map;
-                    map = DG.map('map4', {
+                    var map = DG.map('map4', {
                         center: [54.98, 82.89],
                         zoom: 15
                     });
+
                     DG.marker([54.98, 82.89])
                         .addTo(map)
                         .bindLabel('Я статическая подсказка!', {
                             static: true
                         });
+
                     DG.marker([54.98, 82.88])
                         .addTo(map)
                         .bindLabel('Я обычная подсказка!');
@@ -374,9 +387,11 @@
             center: [54.98, 82.89],
             zoom: 13
         });
+
         marker = DG.marker([54.98, 82.89]).addTo(map);
 
         var increment = 0.001;
+
         function move() {
             if (!map.getBounds().contains(marker.getLatLng())) {
                 increment *= -1;
@@ -387,6 +402,7 @@
 
             marker.setLatLng([newLat, newLng]);
         }
+
         setInterval(move, 60);
     });
 </script>
@@ -410,9 +426,11 @@
                         center: [54.98, 82.89],
                         zoom: 13
                     });
+
                     marker = DG.marker([54.98, 82.89]).addTo(map);
 
                     var increment = 0.001;
+
                     function move() {
                         if (!map.getBounds().contains(marker.getLatLng())) {
                             increment *= -1;
@@ -423,6 +441,7 @@
 
                         marker.setLatLng([newLat, newLng]);
                     }
+
                     setInterval(move, 60);
                 });
             </script>
@@ -446,14 +465,14 @@
             zoom: 13
         });
 
-        for (i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
             coordinates[0] = 54.98 + Math.random();
             coordinates[1] = 82.89 + Math.random();
             DG.marker(coordinates).addTo(markers);
         }
 
-        document.getElementById("hide").onclick = hideMarkers;
-        document.getElementById("show").onclick = showMarkers;
+        document.getElementById('hide').onclick = hideMarkers;
+        document.getElementById('show').onclick = showMarkers;
 
         function showMarkers() {
             markers.addTo(map);
@@ -489,14 +508,14 @@
                     zoom: 13
                 });
 
-                for (i = 0; i < 100; i++) {
+                for (var i = 0; i < 100; i++) {
                     coordinates[0] = 54.98 + Math.random();
                     coordinates[1] = 82.89 + Math.random();
                     DG.marker(coordinates).addTo(markers);
                 }
 
-                document.getElementById("hide").onclick = hideMarkers;
-                document.getElementById("show").onclick = showMarkers;
+                document.getElementById('hide').onclick = hideMarkers;
+                document.getElementById('show').onclick = showMarkers;
 
                 function showMarkers() {
                     markers.addTo(map);

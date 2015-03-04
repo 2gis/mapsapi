@@ -33,8 +33,8 @@
 
         DG.then(function () {
             map = DG.map('map', {
-                "center": [54.98, 82.89],
-                "zoom": 13
+                center: [54.98, 82.89],
+                zoom: 13
             });
         });
     </script>
@@ -53,8 +53,8 @@
 
         DG.then(function () {
             map = DG.map('map', {
-                "center": [54.98, 82.89],
-                "zoom": 13
+                center: [54.98, 82.89],
+                zoom: 13
             });
 
             DG.marker([54.98, 82.89]).addTo(map);
@@ -70,8 +70,8 @@
 
         DG.then(function () {
             map = DG.map('map', {
-                "center": [54.98, 82.89],
-                "zoom": 13
+                center: [54.98, 82.89],
+                zoom: 13
             });
 
             DG.marker([54.98, 82.89]).addTo(map).bindPopup('Вы кликнули по мне!');
@@ -93,8 +93,8 @@
         
                 DG.then(function () {
                     map = DG.map('map', {
-                        "center": [54.98, 82.89],
-                        "zoom": 13
+                        center: [54.98, 82.89],
+                        zoom: 13
                     });
         
                     DG.marker([54.98, 82.89]).addTo(map).bindPopup('Вы кликнули по мне!');

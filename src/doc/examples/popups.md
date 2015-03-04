@@ -12,11 +12,11 @@
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
-        var map;
-        map = DG.map('map', {
+        var map = DG.map('map', {
             center: [54.98, 82.89],
             zoom: 15
         });
+
         DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я балун!');
     });
 </script>
@@ -33,11 +33,11 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
-                    var map;
-                    map = DG.map('map', {
+                    var map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 15
                     });
+
                     DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я балун!');
                 });
             </script>
@@ -50,19 +50,25 @@
 <div id="map1" style="width: 100%; height: 400px;"></div>
 <script>
     var showButton = document.getElementById('showPopup');
+
     DG.then(function() {
-        var map;
+        var map,
+            myPopUp;
+
         map = DG.map('map1', {
             center: [54.98, 82.89],
             zoom: 13
         });
+
         DG.popup([54.98, 82.89])
             .setLatLng([54.98, 82.89])
             .setContent('Я открыт по умолчанию')
             .openOn(map);
-        var myPopUp = DG.popup()
+
+        myPopUp = DG.popup()
             .setLatLng([54.98, 82.89])
             .setContent('Я открылся по требованию и закрыл прошлый балун!');
+
         showButton.onclick = function() {myPopUp.openOn(map)};
     });
 </script>
@@ -80,19 +86,25 @@
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 var showButton = document.getElementById('showPopup');
+
                 DG.then(function() {
-                    var map;
+                    var map,
+                        myPopUp;
+
                     map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 13
                     });
+
                     DG.popup([54.98, 82.89])
                         .setLatLng([54.98, 82.89])
                         .setContent('Я открыт по умолчанию')
                         .openOn(map);
-                    var myPopUp = DG.popup()
+
+                    myPopUp = DG.popup()
                         .setLatLng([54.98, 82.89])
                         .setContent('Я открылся по требованию и закрыл прошлый балун!');
+
                     showButton.onclick = function() {myPopUp.openOn(map)};
                 });
             </script>
@@ -113,7 +125,7 @@
             zoom: 13
         });
 
-        for (i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
             coordinates[0] = 54.98 - Math.random();
             coordinates[1] = 82.89 + Math.random();
             DG.popup()
@@ -149,7 +161,7 @@
                     });
 
                     // создаем 10 балунов в случайных местах и добавляем их в группу
-                    for (i = 0; i < 10; i++) {
+                    for (var i = 0; i < 10; i++) {
                         coordinates[0] = 54.98 - Math.random();
                         coordinates[1] = 82.89 + Math.random();
                         DG.popup()
@@ -159,6 +171,7 @@
                     }
 
                     popups.addTo(map);
+
                     // фокусируем область видимости на балунах
                     map.fitBounds(popups.getBounds());
                 });

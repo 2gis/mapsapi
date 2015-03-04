@@ -23,6 +23,7 @@
                 [54.984, 82.925],
                 [54.981, 82.928]
             ];
+
         map = DG.map('map', {
             center: [54.98, 82.89],
             zoom: 13
@@ -35,12 +36,14 @@
         DG.marker([54.98, 82.89])
             .on('click', function() {
                 clickedElement.innerHTML = 'маркер';
-            }).addTo(map);
+            })
+            .addTo(map);
 
         DG.polygon(coords)
             .on('click', function() {
                 clickedElement.innerHTML = 'многоугольник';
-            }).addTo(map);
+            })
+            .addTo(map);
     });
 </script>
 
@@ -65,6 +68,7 @@
                             [54.984, 82.925],
                             [54.981, 82.928]
                         ];
+
                     map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 13
@@ -77,12 +81,14 @@
                     DG.marker([54.98, 82.89])
                         .on('click', function() {
                             clickedElement.innerHTML = 'маркер';
-                        }).addTo(map);
+                        })
+                        .addTo(map);
 
                     DG.polygon(coords)
                         .on('click', function() {
                             clickedElement.innerHTML = 'многоугольник';
-                        }).addTo(map);
+                        })
+                        .addTo(map);
                 });
             </script>
         </body>
@@ -94,22 +100,26 @@
 
 <div id="map1" style="width: 100%; height: 400px;"></div>
 <script>
-    DG.then(function () {
+    DG.then(function() {
         var map, currentProjectBound;
+
         map = DG.map('map1', {
             center: DG.latLng(54.98, 82.89),
             zoom: 9
         });
+
         // подписываемся на событие изменения текущего проекта 2GIS
-        map.on('projectchange', function (e) {
+        map.on('projectchange', function(e) {
             var bounds = e.getProject().latLngBounds;
+
             currentProjectBound = DG.rectangle(bounds, {
                 color:"#f03",
                 weight:1
             }).addTo(map);
         });
+
         // подписываемся на событие выхода из проекта 2GIS
-        map.on('projectleave', function (e) {
+        map.on('projectleave', function(e) {
             if (currentProjectBound) {
                 map.removeLayer(currentProjectBound);
             }
@@ -128,22 +138,25 @@
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
-                DG.then(function () {
+                DG.then(function() {
                     var map, currentProjectBound;
+
                     map = DG.map('map', {
                         center: DG.latLng(54.98, 82.89),
                         zoom: 9
                     });
+
                     // подписываемся на событие изменения текущего проекта 2GIS
-                    map.on('projectchange', function (e) {
+                    map.on('projectchange', function(e) {
                         var bounds = e.getProject().latLngBounds;
                         currentProjectBound = DG.rectangle(bounds, {
                             color:"#f03",
                             weight:1
                         }).addTo(map);
                     });
+
                     // подписываемся на событие выхода из проекта 2GIS
-                    map.on('projectleave', function (e) {
+                    map.on('projectleave', function(e) {
                         if (currentProjectBound) {
                             map.removeLayer(currentProjectBound);
                         }

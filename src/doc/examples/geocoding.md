@@ -14,7 +14,6 @@
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script type="text/javascript">
     DG.then(function () {
-
             var map, point, lat, lng, marker;
 
             map = DG.map('map', {
@@ -31,17 +30,21 @@
                 },
                 type: 'GET',
                 success: function(data) {
-                    if(typeof marker !== 'undefined') {
+                    if (typeof marker !== 'undefined') {
                         map.removeLayer(marker);
                     }
+
                     // считываем строку в WKT-формате и возвращаем объект Point
                     point = DG.Wkt.toPoints(data.result[0].centroid);
+
                     // извлекаем координаты для маркера
                     lng = point[0];
                     lat = point[1];
+
                     // создаем и добавляем маркер на карту
                     marker = DG.marker([lat, lng]);
                     map.addLayer(marker);
+
                     // центрируем карту в координаты маркера
                     map.panTo([lat, lng]);
                 },
@@ -80,17 +83,21 @@
                         },
                         type: 'GET',
                         success: function(data) {
-                            if(typeof marker !== 'undefined') {
+                            if (typeof marker !== 'undefined') {
                                 map.removeLayer(marker);
                             }
+
                             // считываем строку в WKT-формате и возвращаем объект Point
                             point = DG.Wkt.toPoints(data.result[0].centroid);
+
                             // извлекаем координаты для маркера
                             lng = point[0];
                             lat = point[1];
+
                             // создаем и добавляем маркер на карту
                             marker = DG.marker([lat, lng]);
                             map.addLayer(marker);
+
                             // центрируем карту в координаты маркера
                             map.panTo([lat, lng]);
                         },
@@ -213,9 +220,11 @@
                 data.result.forEach(function(metro) {
                     // считываем строку в WKT-формате
                     point = DG.Wkt.toPoints(metro.centroid);
+
                     // извлекаем координаты для маркера
                     var lng = point[0];
                     var lat = point[1];
+
                     // создаем и добавляем маркер на карту
                     marker = DG.marker([lat, lng]);
                     marker.bindPopup(metro.name);
@@ -263,9 +272,11 @@
                             data.result.forEach(function(metro) {
                                 // считываем строку в WKT-формате
                                 point = DG.Wkt.toPoints(metro.centroid);
+
                                 // извлекаем координаты для маркера
                                 var lng = point[0];
                                 var lat = point[1];
+
                                 // создаем и добавляем маркер на карту
                                 marker = DG.marker([lat, lng]);
                                 marker.bindPopup(metro.name);
