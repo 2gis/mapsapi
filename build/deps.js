@@ -59,6 +59,8 @@ var deps = {
             'DGCustomization/skin/basic/skin.config.js',
             '../vendors/baron/baron.js',
             'DGCustomization/src/DGCustomization.js',
+            'DGCustomization/src/DGMap.js',
+            'DGCustomization/src/DGMap.BaseLayer.js',
             'DGCustomization/src/DGPopup.js',
             'DGCustomization/src/DGZoom.js',
             'DGCustomization/lang/DGZoom/ru.js',
@@ -154,12 +156,6 @@ var deps = {
         deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
 
-    DGTileLayer: {
-        desc: '2GIS tile layer module',
-        src: ['DGTileLayer/src/DGTileLayer.js'],
-        deps: ['DGCore']
-    },
-
     DGProjectDetector: {
         desc: '2GIS project detector module',
         src: ['DGProjectDetector/src/DGProjectDetector.js'],
@@ -173,7 +169,7 @@ var deps = {
             'DGMeta/src/DGMeta.Origin.js',
             'DGMeta/src/PolyUtilContains.js'
         ],
-        deps: ['DGAjax', 'DGCore', 'DGTileLayer', 'DGWkt', 'DGProjectDetector']
+        deps: ['DGAjax', 'DGCore', 'DGCustomization', 'DGWkt', 'DGProjectDetector']
     },
 
     DGPoi: {

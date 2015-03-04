@@ -36,6 +36,10 @@ var init = function (config) {
         }
 
         function processModule(name) {
+            if (config.deprecatedModules.indexOf(name) != -1) {
+                return;
+            }
+
             var module = modules[name];
 
             if (module && module.deps) {
