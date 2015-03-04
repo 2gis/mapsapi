@@ -126,6 +126,30 @@ var init = function (config) {
             .filter(fs.existsSync);
     }
 
+    function getImgGlob(options) {
+        options = options || {};
+
+        var source = config[options.source || 'source'];
+        var modules = source.deps;
+
+        return getModulesList(options.pkg, modules)
+            .map(function(name) {
+                return 'src/' + name + '/**/img/**/*.{png,gif,jpg,jpeg}';
+            });
+    }
+
+    function getSVGGlob(options) {
+        options = options || {};
+
+        var source = config[options.source || 'source'];
+        var modules = source.deps;
+
+        return getModulesList(options.pkg, modules)
+            .map(function(name) {
+                return 'src/' + name + '/**/img/**/*.svg';
+            });
+    }
+
     // Build string with Less variables and imports
     function lessHeader(options) {
         options = options || {};
@@ -253,7 +277,10 @@ var init = function (config) {
         getSkinsList: getSkinsList,
 
         getImagesFilesStats: getImagesFilesStats,
-        getImagesUsageStats: getImagesUsageStats
+        getImagesUsageStats: getImagesUsageStats,
+
+        getImgGlob: getImgGlob,
+        getSVGGlob: getSVGGlob
     };
 };
 
