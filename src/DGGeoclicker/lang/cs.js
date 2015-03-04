@@ -9,7 +9,7 @@ DG.Geoclicker.Handler.Default.Dictionary.cs = DG.extend({
     street : 'Ulice',
     'adm_div.district' : 'Městská část',
     'adm_div.city' : 'Město',
-    go_to : 'cs - Directions to here',
+    go_to : 'Cesta sem',
     show_organization_in_building : ['Celkem {n} organizace', 'Celkem {n} organizace', 'Celkem {n} organizací'],
     back_button : 'Zpět',
     show_more_about_sight : 'Více',
