@@ -54,6 +54,7 @@ var deps = {
     },
 
     DGPopup: {
+        desc: '2GIS Popup module',
         src: [
             'DGPopup/skin/basic/skin.config.js',
             '../vendors/baron/baron.js',

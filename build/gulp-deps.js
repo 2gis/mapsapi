@@ -7,7 +7,7 @@ var init = function (config) {
     var packages = config.packages;
 
     // Generates a list of modules by pkg
-    function getModulesList(pkg, modules) { //(String|Null)->Array
+    function getModulesList(pkg, modules, isLeaflet) { //(String|Null)->Array
         modules = modules || config.source.deps;
 
         var modulesListOrig = [];
@@ -33,6 +33,10 @@ var init = function (config) {
         // Others (null / full package)
         } else {
             modulesListOrig = modulesListOrig.concat(Object.keys(modules));
+        }
+
+        if (!isLeaflet) {
+            modulesListOrig = modulesListOrig.concat(config.coreModules);
         }
 
         function processModule(name) {
@@ -63,8 +67,9 @@ var init = function (config) {
         var source = config[options.source || 'source'];
         var modules = source.deps;
         var sourcePath = source.path;
+        var isLeaflet = options.source === 'leaflet';
 
-        return getModulesList(options.pkg, modules)
+        return getModulesList(options.pkg, modules, isLeaflet)
             .map(function (name) {
                 return modules[name];
             })
