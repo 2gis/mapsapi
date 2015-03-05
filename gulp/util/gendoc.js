@@ -14,7 +14,7 @@ function walkItem(menu, callback) { // (Object, Function)
 }
 
 function getMdFileNames() { // (Object) -> Object
-    var menu = require('../src/menu.json'),
+    var menu = require('../../src/menu.json'),
         result = [];
     walkItem(menu, function (filepath) {
         result.push(filepath);
