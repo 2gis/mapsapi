@@ -1,17 +1,15 @@
 .DS_Store
 
-.idea/
+.idea
 
 node_modules
 npm-debug.log
 
 public
-dist
 private/dev*
 build/tmp
 build/cache
 
-docbuilder/doc
 .tern-port
 
 config.local.json
