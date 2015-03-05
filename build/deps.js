@@ -69,8 +69,7 @@ var deps = {
             ],
             ie: [
                 'DGPopup/skin/{skin}/less/leaflet.ie.less',
-                'DGPopup/skin/{skin}/less/dg-popup.ie.less',
-                'DGPopup/skin/{skin}/less/dg-schedule.ie.less'
+                'DGPopup/skin/{skin}/less/dg-popup.ie.less'
             ]
         },
         deps: ['DGCore']
@@ -100,8 +99,7 @@ var deps = {
             ],
             ie: [
                 'DGCustomization/skin/{skin}/less/leaflet.ie.less',
-                'DGCustomization/skin/{skin}/less/dg-customization.ie.less',
-                'DGCustomization/skin/{skin}/less/dg-schedule.ie.less'
+                'DGCustomization/skin/{skin}/less/dg-customization.ie.less'
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
