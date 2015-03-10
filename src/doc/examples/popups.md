@@ -178,3 +178,115 @@
             </script>
         </body>
     </html>
+
+### Поведение балуна с параметром sprawling
+
+<div id="map3" style="width: 300px; height: 150px;"></div>
+<input style="width: 300px;" type="button" id="sprawling" value="Балун с включенным параметром sprawling"><br />
+<input style="width: 300px;" type="button" id="no-sprawling" value="Балун без параметра sprawling"><br />
+<input style="width: 300px;" type="button" id="minWidth" value="Балун с минимальной шириной 320px">
+<script>
+    DG.then(function () {
+        var latLng = DG.latLng([54.98, 82.89]),
+            map = DG.map('map3', {
+                center: latLng,
+                zoom: 13,
+                fullscreenControl: false,
+                zoomControl: false
+            });
+
+        document.getElementById('sprawling').onclick = function () {
+            DG.popup({
+                maxWidth: 350,
+                sprawling: true
+            })
+            .setLatLng(latLng)
+            .setContent('Я балун!')
+            .openOn(map);
+        };
+
+        document.getElementById('no-sprawling').onclick = function () {
+            DG.popup({
+                maxWidth: 350
+            })
+            .setLatLng(latLng)
+            .setContent('Я балун!')
+            .openOn(map);
+        };
+
+        document.getElementById('minWidth').onclick = function () {
+            DG.popup({
+                maxWidth: 350,
+                minWidth: 320
+            })
+            .setLatLng(latLng)
+            .setContent('Я балун!')
+            .openOn(map);
+        };
+    });
+</script>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Поведение балуна с параметром sprawling</title>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"
+            data-id="dgLoader"></script>
+        </head>
+        <body>
+            <div id="map" style="width: 300px; height: 150px;"></div>
+            <input style="width: 300px;" type="button" id="sprawling" value="Балун с включенным параметром sprawling"><br />
+            <input style="width: 300px;" type="button" id="no-sprawling" value="Балун без параметра sprawling"><br />
+            <input style="width: 300px;" type="button" id="minWidth" value="Балун с минимальной шириной 320px">
+            <script>
+                DG.then(function () {
+                    var latLng = DG.latLng([54.98, 82.89]),
+                        map;
+
+                    // проинициализируем карту с шириной 300 пикселей
+                    map = DG.map('map', {
+                        center: latLng,
+                        zoom: 13,
+                        fullscreenControl: false,
+                        zoomControl: false
+                    });
+
+                    // балун с включенным параметром sprawling
+                    // растянется до границ карты
+                    document.getElementById('sprawling').onclick = function () {
+                        DG.popup({
+                            maxWidth: 350,
+                            sprawling: true
+                        })
+                        .setLatLng(latLng)
+                        .setContent('Я балун!')
+                        .openOn(map);
+                    };
+
+                    // балун без параметра sprawling
+                    // подстроится под ширину контента
+                    document.getElementById('no-sprawling').onclick = function () {
+                        DG.popup({
+                            maxWidth: 350
+                        })
+                        .setLatLng(latLng)
+                        .setContent('Я балун!')
+                        .openOn(map);
+                    };
+
+                    // балун с минимальной шириной 320px
+                    // залезет за границу карты
+                    document.getElementById('minWidth').onclick = function () {
+                        DG.popup({
+                            maxWidth: 350,
+                            minWidth: 320
+                        })
+                        .setLatLng(latLng)
+                        .setContent('Я балун!')
+                        .openOn(map);
+                    };
+                });
+            </script>
+        </body>
+    </html>
