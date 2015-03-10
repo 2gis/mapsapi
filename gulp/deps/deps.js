@@ -2,9 +2,9 @@ var deps = {
 
     Leaflet: {
         desc: 'Leaflet dist',
-        src: ['../vendors/leaflet/dist/leaflet-src.js'],
+        src: ['../node_modules/leaflet/dist/leaflet-src.js'],
         less: {
-            all: ['../vendors/leaflet/dist/leaflet.css']
+            all: ['../node_modules/leaflet/dist/leaflet.css']
         }
     },
 

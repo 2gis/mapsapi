@@ -4042,6 +4042,7 @@ var Properties = {
     "white-space-collapse"          : 1,
     "widows"                        : "<integer> | inherit",
     "width"                         : "<length> | <percentage> | <content-sizing> | auto | inherit",
+    "will-change"                   : 1,
     "word-break"                    : "normal | keep-all | break-all",
     "word-spacing"                  : "<length> | normal | inherit",
     "word-wrap"                     : "normal | break-word",

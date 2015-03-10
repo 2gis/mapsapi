@@ -24,8 +24,8 @@ var config = {
     },
 
     leaflet: {
-        deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
-        path: basePath + '/vendors/leaflet/src/'
+        deps: require(basePath + '/node_modules/leaflet/build/deps.js').deps,
+        path: basePath + '/node_modules/leaflet/src/'
     },
 
     js: {
