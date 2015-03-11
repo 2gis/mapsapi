@@ -262,7 +262,7 @@ FirmCard.prototype = {
             link;
 
         if (this._firmData.external_content) {
-            this._firmData.external_content.forEach(function(el) {
+            this._firmData.external_content.forEach(function (el) {
                 if (el && el.type == 'booklet') {
                     booklet = el;
                 }
