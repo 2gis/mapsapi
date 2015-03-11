@@ -17,7 +17,7 @@
     "WEB_API_KEY": "rujrdp3400",
     "WEB_API_VERSION": "2.0",
     "REGION_LIST_FIELDS": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain",
-    "FIRM_INFO_FIELDS": "items.reviews,items.photos,items.links,items.booklet",
+    "FIRM_INFO_FIELDS": "items.reviews,items.photos,items.links,items.external_content",
     "GEO_ADDITIONAL_FIELDS": "items.geometry.selection,items.links,items.adm_div,items.address,items.floors,items.description",
     "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
     "DEFAULT_LANG": "ru",

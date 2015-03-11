@@ -258,8 +258,16 @@ FirmCard.prototype = {
         var links = [],
             reviewData = this._firmData.reviews,
             photos = this._firmData.photos,
-            booklet = this._firmData.booklet,
+            booklet,
             link;
+
+        if (this._firmData.external_content) {
+            this._firmData.external_content.forEach(function(el) {
+                if (el && el.type == 'booklet') {
+                    booklet = el;
+                }
+            });
+        }
 
         if (reviewData && reviewData.is_reviewable) {
             links.push({
