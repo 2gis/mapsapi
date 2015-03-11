@@ -50,7 +50,9 @@ var config = {
         output: './public/doc'
     },
 
-    copyright: fs.readFileSync('./src/copyright.js')
+    copyright: fs.readFileSync('./src/copyright.js'),
+
+    coreModules: ['Leaflet', 'DGCore', 'DGCustomization']
 };
 
 config.appConfig = getAppConfig();
