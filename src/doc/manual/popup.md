@@ -130,8 +130,14 @@
 		<tr>
 			<td><code><b>closeOnClick</b></code></td>
 			<td><code>Boolean</code></td>
-			<td><code>null</code></td>
+			<td><code>false</code></td>
 			<td>Установите в <code>false</code>, если необходимо переопределить поведение закрытия балуна при клике по карте (глобальное поведение для всех балунов задается опцией карты <code>closePopupOnClick</code>).</td>
+		</tr>
+		<tr>
+			<td><code><b>sprawling</b></code></td>
+			<td><code>Boolean</code></td>
+			<td><code>false</code></td>
+			<td>По умолчанию, ширина балуна подстраивается под ширину его контента и под ширину карты. Выставьте значение <code>true</code>, если хотите, чтобы выбиралась максимальная ширина, ограниченная только шириной карты.</td>
 		</tr>
 	</tbody>
 </table>
