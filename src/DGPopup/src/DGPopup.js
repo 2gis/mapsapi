@@ -619,7 +619,10 @@ DG.Map.include({
             return this;
         }
 
-        this.closePopup();
+        if (this._popup && this._popup.options.autoClose) {
+            this.closePopup();
+        }
+
         this._popup = popup;
 
         if (popup._source && popup._source._icon) {
