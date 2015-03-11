@@ -185,3 +185,39 @@ DG.Map.include({
 DG.Map.addInitHook(function () {
     this.on('layeradd layerremove', this._updateTileLayers);
 });
+
+// fix bug with dragging map into new parallel world
+// remove on next leaflet version
+DG.Map.Drag.include({
+    _onDrag: function () {
+        if (this._map.options.inertia) {
+            var time = this._lastTime = +new Date(),
+                pos = this._lastPos = this._draggable._absPos || this._draggable._newPos;
+
+            this._positions.push(pos);
+            this._times.push(time);
+
+            if (time - this._times[0] > 200) {
+                this._positions.shift();
+                this._times.shift();
+            }
+        }
+
+        this._map
+            .fire('move')
+            .fire('drag');
+    },
+    _onPreDrag: function () {
+        // TODO refactor to be able to adjust map pane position after zoom
+        var worldWidth = this._worldWidth,
+            halfWidth = Math.round(worldWidth / 2),
+            dx = this._initialWorldOffset,
+            x = this._draggable._newPos.x,
+            newX1 = (x - halfWidth + dx) % worldWidth + halfWidth - dx,
+            newX2 = (x + halfWidth + dx) % worldWidth - halfWidth - dx,
+            newX = Math.abs(newX1 + dx) < Math.abs(newX2 + dx) ? newX1 : newX2;
+
+        this._draggable._absPos = this._draggable._newPos.clone();
+        this._draggable._newPos.x = newX;
+    }
+});
