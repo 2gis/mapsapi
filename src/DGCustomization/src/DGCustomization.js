@@ -10,8 +10,5 @@ DG.Control.include({
     _renderTranslation: function () {}
 });
 
-// Applies 2GIS divIcon to marker
-DG.Marker.prototype.options.icon = DG.divIcon(DG.configTheme.markersData);
-
 // Add some browser detection
 DG.Browser.safari51 = DG.Browser.safari && navigator.userAgent.indexOf('Version/5.1') !== -1;

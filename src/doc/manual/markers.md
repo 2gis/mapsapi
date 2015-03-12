@@ -52,7 +52,7 @@
 			<td>Иконка, используемая для отображения маркера.</td>
 		</tr>
 		<tr>
-			<td><code><b>clickable</b></code></td>
+			<td><code><b>interactive</b></code></td>
 			<td><code>Boolean</code></td>
 			<td><code>true</code></td>
 			<td>Если значение <code>false</code>, тогда обработчик клика по маркеру не вызывается.</td>
