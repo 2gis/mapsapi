@@ -1,5 +1,5 @@
 /*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false, sinon:false */
-describe.skip('DG.ProjectDetectorUnder', function () {
+describe('DG.ProjectDetectorUnder', function () {
     var map,
         spy,
         mapContainer = document.createElement('div'),
@@ -63,9 +63,9 @@ describe.skip('DG.ProjectDetectorUnder', function () {
         });
 
         it('go to from project to desert', function () {
-            map.setView(project1, maxZoom);
+            map.setView(project1, maxZoom, {animate: false});
 
-            expect(map.setView(desert1)).to.be(map);
+            expect(map.setView(desert1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
             expect(map.getCenter()).to.be.equal(desert1);
         });
@@ -392,13 +392,13 @@ describe.skip('DG.ProjectDetectorUnder', function () {
         it('set max zoom, go to from project to desert and back to the project', function () {
             map.options.maxZoom = 16;
             expect(map.getMaxZoom()).to.be.equal(16);
-            map.setView(project1, maxZoom);
+            map.setView(project1, maxZoom, {animate: false});
 
-            expect(map.setView(desert1)).to.be(map);
+            expect(map.setView(desert1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
             expect(map.getCenter()).to.be.equal(desert1);
 
-            expect(map.setView(project1, maxZoom)).to.be(map);
+            expect(map.setView(project1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(16);
             expect(map.getCenter()).to.be.equal(project1);
         });
