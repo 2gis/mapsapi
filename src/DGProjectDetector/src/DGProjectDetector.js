@@ -4,6 +4,7 @@ DG.ProjectDetector = DG.Handler.extend({
         this._osmViewport = false;
         this.project = null;
         this._loadProjectList();
+        this._searchProject();
     },
 
     addHooks: function () {
