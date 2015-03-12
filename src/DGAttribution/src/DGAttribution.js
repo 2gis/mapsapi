@@ -5,7 +5,7 @@ DG.Control.Attribution.include({
         position: 'bottomright'
     },
 
-    _getLink: function(linkType) {
+    _getLink: function (linkType) {
         var dictionary = {
             ru: {
                 copyright_logo: 'http://info.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
