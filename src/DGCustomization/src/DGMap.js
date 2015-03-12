@@ -44,7 +44,7 @@ DG.Map.include({
     setView: function (center, zoom, options) {
         this._restrictZoom(center, zoom);
 
-        zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
+        zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
         center = this._limitCenter(DG.latLng(center), zoom, this.options.maxBounds);
         options = options || {};
 
@@ -52,9 +52,7 @@ DG.Map.include({
             options.animate = this._testAnimation(center);
         }
 
-        if (this._panAnim) {
-            this._panAnim.stop();
-        }
+        this.stop();
 
         if (this._loaded && !options.reset && options !== true) {
 
@@ -164,83 +162,35 @@ DG.Map.include({
         }
     },
 
-    // Fix for https://github.com/2gis/mapsapi/issues/34
-    // Remove on the next leaflet version
     // Add prepreclick event before preclick than geoclicker can track popup state
     // https://github.com/2gis/mapsapi/pull/96
-    _fireMouseEvent: function (obj, e, type, propagate, latlng) {
-        type = type || e.type;
-
-        if (L.DomEvent._skipped(e)) { return; }
-
-        if (type === 'click') {
-            var draggableObj = obj.options.draggable === true ? obj : this;
-            if (!e._simulated && ((draggableObj.dragging && draggableObj.dragging.moved()) ||
-                (this.boxZoom && this.boxZoom.moved()))) {
-                L.DomEvent.stopPropagation(e);
-                return;
-            }
-            obj.fire('prepreclick');
-            obj.fire('preclick');
-        }
-
-        if (!obj.listens(type, propagate)) { return; }
+    _fireDOMEvent: function (target, e, type) {
+        if (!target.listens(type, true) && (type !== 'click' || !target.listens('preclick', true))) { return; }
 
         if (type === 'contextmenu') {
             L.DomEvent.preventDefault(e);
         }
-        if (type === 'click' || type === 'dblclick' || type === 'contextmenu') {
-            L.DomEvent.stopPropagation(e);
-        }
+
+        // prevents firing click after you just dragged an object
+        if (e.type === 'click' && !e._simulated && this._draggableMoved(target)) { return; }
 
         var data = {
-            originalEvent: e,
-            containerPoint: this.mouseEventToContainerPoint(e)
+            originalEvent: e
         };
-
-        data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
-        data.latlng = latlng || this.layerPointToLatLng(data.layerPoint);
-
-        obj.fire(type, data, propagate);
+        if (e.type !== 'keypress') {
+            data.containerPoint = target instanceof L.Marker ?
+                this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
+            data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
+            data.latlng = this.layerPointToLatLng(data.layerPoint);
+        }
+        if (type === 'click') {
+            target.fire('prepreclick', data, true);
+            target.fire('preclick', data, true);
+        }
+        target.fire(type, data, true);
     }
 });
 
 DG.Map.addInitHook(function () {
     this.on('layeradd layerremove', this._updateTileLayers);
-});
-
-// fix bug with dragging map into new parallel world
-// remove on next leaflet version
-DG.Map.Drag.include({
-    _onDrag: function () {
-        if (this._map.options.inertia) {
-            var time = this._lastTime = +new Date(),
-                pos = this._lastPos = this._draggable._absPos || this._draggable._newPos;
-
-            this._positions.push(pos);
-            this._times.push(time);
-
-            if (time - this._times[0] > 200) {
-                this._positions.shift();
-                this._times.shift();
-            }
-        }
-
-        this._map
-            .fire('move')
-            .fire('drag');
-    },
-    _onPreDrag: function () {
-        // TODO refactor to be able to adjust map pane position after zoom
-        var worldWidth = this._worldWidth,
-            halfWidth = Math.round(worldWidth / 2),
-            dx = this._initialWorldOffset,
-            x = this._draggable._newPos.x,
-            newX1 = (x - halfWidth + dx) % worldWidth + halfWidth - dx,
-            newX2 = (x + halfWidth + dx) % worldWidth - halfWidth - dx,
-            newX = Math.abs(newX1 + dx) < Math.abs(newX2 + dx) ? newX1 : newX2;
-
-        this._draggable._absPos = this._draggable._newPos.clone();
-        this._draggable._newPos.x = newX;
-    }
 });
