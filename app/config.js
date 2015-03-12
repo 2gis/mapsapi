@@ -48,7 +48,7 @@ var config = {
 
     copyright: fs.readFileSync('./src/copyright.js'),
 
-    coreModules: ['Leaflet', 'DGCore', 'DGCustomization']
+    coreModules: ['Leaflet', 'DGCore', 'DGCustomization', 'DGAjax']
 };
 
 function getMainConfig() {
