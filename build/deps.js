@@ -245,7 +245,7 @@ var deps = {
         desc: '2GIS Template',
         src: [
             '../node_modules/dustjs-linkedin/dist/dust-core.js',
-            '../vendors/dustjs-helpers/dist/dust-helpers-1.1.2.js',
+            '../node_modules/dustjs-helpers/dist/dust-helpers.js',
             'DGDust/src/DGDust.js'
         ],
         deps: ['DGCore']

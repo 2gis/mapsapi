@@ -19,6 +19,7 @@
     "cli-color": "0.3.2",
     "cors": "^2.5.3",
     "del": "^1.1.1",
+    "dustjs-helpers": "^1.6.1",
     "dustjs-linkedin": "^2.6.1",
     "event-stream": "^3.2.2",
     "express": "^4.11.2",
