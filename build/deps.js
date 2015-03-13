@@ -11,7 +11,7 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            '../vendors/polyfills/html5shiv.js',
+            '../node_modules/html5shiv/dist/html5shiv.js',
             '../vendors/polyfills/es5.js',
             '../vendors/polyfills/promise.js',
             'DGCore/src/DGCore.js',
