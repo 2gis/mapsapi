@@ -43,7 +43,6 @@ DG.Ruler = DG.Layer.extend({
 
     onAdd: function (map) { // (Map)
         this._map = map.on('langchange', this._updateDistance, this);
-        this._maxLat = map.unproject([0, 0], 0).lat;
 
         // pane for the running label
         if (!this._map.getPane('rulerLabelPane')) {
@@ -112,6 +111,7 @@ DG.Ruler = DG.Layer.extend({
                 this._points[mutationStart - 1].setPointStyle(this.options.iconStyles.small);
             }
             this._updateDistance();
+            this._normalizeRulerPoints();
         }
         if (DG.Browser.touch && this._lineMarkerHelper) {
             this._lineMarkerHelper.collapse();
@@ -121,25 +121,9 @@ DG.Ruler = DG.Layer.extend({
     },
 
     addLatLng: function (latlng) { // (LatLng) -> Ruler
-        var lastPoint = this._points[this._points.length - 1] || null,
-            latlng = DG.latLng(latlng); // jshint ignore:line
+        var lastPoint = this._points[this._points.length - 1] || null;
+        latlng = DG.latLng(latlng);
 
-        latlng.lat = Math.max(Math.min(this._maxLat, latlng.lat), -this._maxLat);
-
-        if (lastPoint) {
-            var lastLatlng = lastPoint.getLatLng(),
-                wraped = latlng.wrap(),
-                wrapedLast = lastLatlng.wrap(),
-                deltaLng = wraped.lng - wrapedLast.lng;
-
-            if (Math.abs(latlng.lng - lastLatlng.lng) > 180) {
-                latlng.lng = lastLatlng.lng + deltaLng;
-                deltaLng = latlng.lng - lastLatlng.lng;
-                if (Math.abs(deltaLng - 360) < Math.abs(deltaLng)) {
-                    latlng.lng -= 360;
-                }
-            }
-        }
         this.spliceLatLngs(this._points.length, 0, latlng);
         return this;
     },
@@ -192,7 +176,7 @@ DG.Ruler = DG.Layer.extend({
                 var point = target._point;
 
                 this._lineMarkerHelper = this._addRunningLabel(
-                    this._interpolate(point.getLatLng(), this._points[point._pos + 1].getLatLng(), event.latlng),
+                    this._nearestPoint(point._legs.middle, event.latlng),
                     point
                 );
             }
@@ -222,7 +206,7 @@ DG.Ruler = DG.Layer.extend({
             }
 
             var point = event.layer._point,
-                latlng = this._interpolate(point.getLatLng(), this._points[point._pos + 1].getLatLng(), event.latlng);
+                latlng = this._nearestPoint(point._legs.middle, event.latlng);
 
             this._lineMarkerHelper
                     .setLatLng(latlng)
@@ -285,24 +269,41 @@ DG.Ruler = DG.Layer.extend({
         this._updateLegs(point);
     },
 
-    _interpolate: function (fromLatLng, toLatLng, hereLatLng) { // (LatLng, LatLng, LatLng) -> LatLng
-        var from = this._map.latLngToLayerPoint(fromLatLng),
-            to = this._map.latLngToLayerPoint(toLatLng),
-            here = this._map.latLngToLayerPoint(hereLatLng),
-            k = (to.x - from.x) / (to.y - from.y),
-            b = from.x - k * from.y;
+    // Find the point on given polyline which is closest to given latlng
+    _nearestPoint: function (polyline, latlng) { // (Polyline, LatLng) -> LatLng
+        var self = this;
 
-        // http://en.wikipedia.org/wiki/Line_(geometry)
-        if (isNaN(k)) {
-            return hereLatLng;
-        } else if (!isFinite(k)) { // Infinity is not the limit!
-            here.y = to.y;
-        } else {
-            here.y = (here.y + k * here.x - k * b) / (k * k + 1); // Don't even ask me!
-            here.x = k * here.y + b;
+        // Convert everything to pixel coordinates
+        var point = this._project(latlng);
+        var linePoints = polyline.getLatLngs().map(function(latlng) {
+            return self._project(latlng);
+        });
+
+        // First look for closest polyline segment
+        var minDistance;
+        var closestSegmentIndex;
+        for (var i = 0; i < linePoints.length - 1; i++) {
+            var distance = DG.LineUtil.pointToSegmentDistance(
+                point,
+                linePoints[i],
+                linePoints[i + 1]
+            );
+
+            if (minDistance === undefined || distance < minDistance) {
+                minDistance = distance;
+                closestSegmentIndex = i;
+            }
         }
 
-        return this._map.layerPointToLatLng(here);
+        // Then look for closest point on that segment
+        var closestPoint = DG.LineUtil.closestPointOnSegment(
+            point,
+            linePoints[closestSegmentIndex],
+            linePoints[closestSegmentIndex + 1]
+        );
+
+        // Convert back to LatLng
+        return this._unproject(closestPoint);
     },
 
     _addCloseHandler: function (event) { // (Event)
@@ -324,35 +325,80 @@ DG.Ruler = DG.Layer.extend({
         });
     },
 
+    // Moves curr LatLng to correct world if necessary so that ruler section
+    // between curr and base can be plotted correctly. Returns a new LatLng
+    // object.
+    _normalizeLatLng: function(curr, base) { // (LatLng, LatLng) -> LatLng
+        var diff = (curr.lng < base.lng) ? 360 : -360;
+
+        var newLng = curr.lng;
+        while(Math.abs(newLng - base.lng) > 180) {
+            newLng += diff;
+        }
+
+        return DG.latLng(curr.lat, newLng);
+    },
+
+    // Rearranges ruler points between worlds based on point param so that all
+    // ruler sections can be plotted correctly.
+    _normalizeRulerPoints: function (point) { // (Ruler.LayeredMarker)
+        point = point || this._points[0];
+
+        var self = this;
+        var position = point._pos;
+        var changedPoints = [];
+        var i, currPoint, prevPoint, latlng, normalized;
+
+        // Check points to the right
+        for(i = position + 1; i < this._points.length; i++) {
+            currPoint = this._points[i];
+            prevPoint = this._points[i - 1];
+
+            latlng = currPoint.getLatLng();
+            normalized = this._normalizeLatLng(latlng, prevPoint.getLatLng());
+
+            if (!normalized.equals(latlng)) {
+                currPoint.setLatLng(normalized);
+                changedPoints.push(i);
+            }
+        }
+
+        // Check points to the left
+        for(i = position - 1; i >= 0; i--) {
+            currPoint = this._points[i];
+            prevPoint = this._points[i + 1];
+
+            latlng = currPoint.getLatLng();
+            normalized = this._normalizeLatLng(latlng, prevPoint.getLatLng());
+
+            if (!normalized.equals(latlng)) {
+                currPoint.setLatLng(normalized);
+                changedPoints.push(i);
+            }
+        }
+
+        // Update legs of all points that changed position
+        changedPoints.sort().reduce(function(previous, current) {
+            var skipPrevious = previous && previous == current - 1;
+
+            self._updateLegs(self._points[current], skipPrevious);
+
+            return current;
+        }, null);
+    },
+
     _pointEvents: {
         'drag' : function (event) { // (Event)
             var point = event.target,
                 latlng = point.getLatLng(),
-                lastPoint = this._points[point._pos - 1] || null,
-                wraped = latlng.wrap();
+                lastPoint = this._points[point._pos - 1] || null;
 
-            if (lastPoint) {
-                var lastLatlng = lastPoint.getLatLng(),
-                    wrapedLast = lastLatlng.wrap(),
-                    deltaLng = wraped.lng - wrapedLast.lng;
-
-                if (Math.abs(latlng.lng - lastLatlng.lng) > 180) {
-                    wraped.lng = lastLatlng.lng + deltaLng;
-                    deltaLng = wraped.lng - lastLatlng.lng;
-                    if (Math.abs(deltaLng - 360) < Math.abs(deltaLng)) {
-                        wraped.lng -= 360;
-                    }
-                }
-            }
-
-            wraped.lat = Math.max(Math.min(this._maxLat, wraped.lat), -this._maxLat);
-            if (!latlng.equals(wraped)) {
-                point.setLatLng(wraped);
-            }
+            this._normalizeRulerPoints(point);
 
             if (!DG.Browser.touch && point !== this._points[this._points.length - 1]) {
                 point.setText(this._getFormatedDistance(point));
             }
+
             this._updateLegs(point);
             this._updateDistance();
         },
@@ -384,13 +430,160 @@ DG.Ruler = DG.Layer.extend({
         this.spliceLatLngs(event.target._pos, 1);
     },
 
+    _degToRad: function (deg) {
+        return (Math.PI / 180) * deg;
+    },
+
+    _radToDeg: function (rad) {
+        return (180 / Math.PI) * rad;
+    },
+
+    // Map-independent project method
+    _project: function (latlng) {
+        return DG.CRS.EPSG3857.latLngToPoint(latlng, 1);
+    },
+
+    // Map-independent unproject method
+    _unproject: function(point) {
+        return DG.CRS.EPSG3857.pointToLatLng(point, 1);
+    },
+
+    // Calculates the size of angle point1-point-point2
+    _calcAngle: function(point, point1, point2) { // (LatLng, LatLng, LatLng) -> Number
+        point1 = this._normalizeLatLng(point1, point);
+        point2 = this._normalizeLatLng(point2, point);
+
+        point = this._project(point);
+        point1 = this._project(point1);
+        point2 = this._project(point2);
+
+        var x1 = point1.x - point.x;
+        var x2 = point2.x - point.x;
+        var y1 = point1.y - point.y;
+        var y2 = point2.y - point.y;
+
+        var dotProduct = x1 * x2 + y1 * y2;
+        var mag1 = Math.sqrt(x1 * x1 + y1 * y1);
+        var mag2 = Math.sqrt(x2 * x2 + y2 * y2);
+
+        return Math.acos(dotProduct / (mag1 * mag2));
+    },
+
+    // Calculates the midpoint on the great circle between two LatLngs
+    _calcMidPoint: function(latlng1, latlng2) { // (LatLng, LatLng) -> LatLng
+        var lon1 = this._degToRad(latlng1.lng);
+        var lat1 = this._degToRad(latlng1.lat);
+
+        var lon2 = this._degToRad(latlng2.lng);
+        var lat2 = this._degToRad(latlng2.lat);
+
+        // Based on formulae from
+        // http://williams.best.vwh.net/avform.htm#Intermediate
+        var d = Math.acos(Math.sin(lat1) * Math.sin(lat2) +
+            Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2));
+
+        // Split the arc in half
+        var f = 0.5;
+
+        var A = Math.sin((1 - f) * d) / Math.sin(d);
+        var B = Math.sin(f * d) / Math.sin(d);
+
+        var x = A * Math.cos(lat1) * Math.cos(lon1) +
+            B * Math.cos(lat2) * Math.cos(lon2);
+
+        var y = A * Math.cos(lat1) * Math.sin(lon1) +
+            B * Math.cos(lat2) * Math.sin(lon2);
+
+        var z = A * Math.sin(lat1) + B * Math.sin(lat2);
+
+        var lat = Math.atan2(z, Math.sqrt(x * x + y * y));
+        var lon = Math.atan2(y, x);
+
+        return DG.latLng(this._radToDeg(lat), this._radToDeg(lon));
+    },
+
+    // Adaptive sampling algorithm based on
+    // http://ariel.chronotext.org/dd/defigueiredo93adaptive.pdf
+    _adaptiveSample: function(left, right, depth, middle) { // (LatLng, LatLng, Number[, LatLng]) -> LatLng[]
+        if (depth > 9) {
+            // Max recursion depth reached
+            return [];
+        }
+
+        middle = middle || this._calcMidPoint(left, right);
+
+        var leftMiddle = this._calcMidPoint(left, middle);
+        var rightMiddle = this._calcMidPoint(middle, right);
+
+        var angle1 = this._calcAngle(leftMiddle, middle, left);
+        var angle2 = this._calcAngle(middle, left, right);
+        var angle3 = this._calcAngle(rightMiddle, middle, right);
+
+        // left --- leftMiddle --- middle --- rightMiddle --- right
+        //            angle1       angle2       angle3
+
+        var minAngle = 3.1;
+        if (angle1 > minAngle && angle2 > minAngle && angle3 > minAngle) {
+            // This section is straight enough, no intermediate points needed.
+            return [];
+        } else {
+            // Angles are too small. Recursively sample halves of this section.
+            var result = [];
+            result = result.concat(this._adaptiveSample(left, middle, depth + 1, leftMiddle));
+            result.push(middle);
+            result = result.concat(this._adaptiveSample(middle, right, depth + 1, rightMiddle));
+
+            return result;
+        }
+    },
+
+    // Calculates the great circle arc between two LatLngs.
+    _calcGreatCircle: function(latlng1, latlng2) { // (LatLng, LatLng) -> LatLng[]
+        // Special case: points are close to each other (within 1 degree)
+        if (latlng1.equals(latlng2, 1)) {
+            return [latlng1, latlng2];
+        }
+
+        // Special case: the great circle crosses a pole
+        if (Math.abs(latlng2.lng - latlng1.lng) == 180) {
+            // North or south pole?
+            var latitude = (latlng1.lat + latlng2.lat > 0) ? 90 : -90;
+
+            return [
+                latlng1,
+                DG.latLng(latitude, latlng1.lng),
+                DG.latLng(latitude, latlng2.lng),
+                latlng2
+            ];
+        }
+
+        var result = [];
+
+        result.push(latlng1);
+        result = result.concat(this._adaptiveSample(latlng1, latlng2, 0));
+        result.push(latlng2);
+
+        // Make sure the arc doesn't jump between worlds
+        for (var i = 1; i < result.length; i++) {
+            result[i] = this._normalizeLatLng(result[i], result[i - 1]);
+        }
+
+        return result;
+    },
+
     _addLegs: function (point) {
-        var coordinates = [point.getLatLng(), this._points[point._pos + 1].getLatLng()],
-            pathStyles = this.options.pathStyles;
+        var self = this;
+
+        var pathStyles = this.options.pathStyles;
+
+        var greatCirclePoints = this._calcGreatCircle(
+            point.getLatLng(),
+            this._points[point._pos + 1].getLatLng()
+        );
 
         point._legs = {};
         Object.keys(pathStyles).forEach(function (layer) {
-            point._legs[layer] = DG.polyline(coordinates, pathStyles[layer]).addTo(this._layers[layer]);
+            point._legs[layer] = DG.polyline(greatCirclePoints, pathStyles[layer]).addTo(this._layers[layer]);
         }, this);
 
         point._legs.mouse._point = point.once('remove', this._clearRemovingPointLegs, this);
@@ -417,18 +610,26 @@ DG.Ruler = DG.Layer.extend({
         }
     },
 
-    _updateLegs: function (point) { // (Ruler.LayeredMarker)
+    _updateLegs: function (point, skipPrevious) { // (Ruler.LayeredMarker, Boolean)
         var latlng = point.getLatLng(),
-            previousPoint = this._points[point._pos - 1];
+            previousPoint = this._points[point._pos - 1],
+            nextPoint = this._points[point._pos + 1],
+            self = this,
+            newPoints;
 
-        if (previousPoint) {
+        if (previousPoint && !skipPrevious) {
+            newPoints = self._calcGreatCircle(previousPoint.getLatLng(), latlng);
+
             Object.keys(previousPoint._legs).forEach(function (layer) {
-                previousPoint._legs[layer].spliceLatLngs(1, 1, latlng);
+                previousPoint._legs[layer].setLatLngs(newPoints);
             });
         }
-        if (point._legs) {
+
+        if (nextPoint) {
+            newPoints = self._calcGreatCircle(latlng, nextPoint.getLatLng());
+
             Object.keys(point._legs).forEach(function (layer) {
-                point._legs[layer].spliceLatLngs(0, 1, latlng);
+                point._legs[layer].setLatLngs(newPoints);
             });
         }
     },
