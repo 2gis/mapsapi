@@ -3,7 +3,7 @@
 DG.Control.Traffic = DG.RoundControl.extend({
 
     options: {
-        position: DG.Browser.touch ? 'topright' : 'topright',
+        position: 'topright',
         iconClass: 'traffic'
     },
 

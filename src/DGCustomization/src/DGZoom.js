@@ -2,11 +2,6 @@ DG.Control.Zoom.include(DG.Locale);
 DG.Control.Zoom.Dictionary = {};
 
 DG.Control.Zoom.include({
-    // Sets default zoom position from current theme
-    options: {
-        position: DG.Browser.touch ? 'bottomright' : 'topleft'
-    },
-
     // TODO: think about pull request to leaflet with zoom control button's titles as options
     onAdd: function (map) {
         var zoomName = 'dg-zoom',

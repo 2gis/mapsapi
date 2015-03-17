@@ -1,7 +1,7 @@
 DG.Control.Ruler = DG.RoundControl.extend({
 
     options: {
-        position: DG.Browser.touch ? 'topright' : 'topright',
+        position: 'topright',
         iconClass: 'ruler'
     },
 
