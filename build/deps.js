@@ -11,8 +11,7 @@ var deps = {
     DGCore: {
         desc: 'Main module',
         src: [
-            '../vendors/polyfills/json2.js',
-            '../vendors/polyfills/html5shiv.js',
+            '../node_modules/html5shiv/dist/html5shiv.js',
             '../vendors/polyfills/es5.js',
             '../vendors/polyfills/promise.js',
             'DGCore/src/DGCore.js',
@@ -244,8 +243,8 @@ var deps = {
     DGDust: {
         desc: '2GIS Template',
         src: [
-            '../vendors/dustjs/dist/dust-core.js',
-            '../vendors/dustjs-helpers/dist/dust-helpers-1.1.2.js',
+            '../node_modules/dustjs-linkedin/dist/dust-core.js',
+            '../node_modules/dustjs-helpers/dist/dust-helpers.js',
             'DGDust/src/DGDust.js'
         ],
         deps: ['DGCore']

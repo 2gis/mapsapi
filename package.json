@@ -19,7 +19,8 @@
     "cli-color": "0.3.2",
     "cors": "^2.5.3",
     "del": "^1.1.1",
-    "dustjs-linkedin": "^2.3.1",
+    "dustjs-helpers": "^1.6.1",
+    "dustjs-linkedin": "^2.6.1",
     "event-stream": "^3.2.2",
     "express": "^4.11.2",
     "extend": "^2.0.0",
@@ -52,6 +53,7 @@
     "gulp-util": "^3.0.3",
     "gulp.spritesmith": "^3.2.0",
     "happen": "0.1.3",
+    "html5shiv": "^3.7.2",
     "image-size": "0.3.5",
     "jshint-stylish": "^1.0.0",
     "less": "^2.4.0",
@@ -77,6 +79,7 @@
     "karma-mocha-reporter": "^1.0.0",
     "karma-opera-launcher": "0.1.0",
     "karma-phantomjs-launcher": "0.1.4",
-    "karma-sinon": "1.0.4"
+    "karma-sinon": "1.0.4",
+    "mock-geolocation": "^1.0.9"
   }
 }

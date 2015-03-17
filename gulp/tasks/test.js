@@ -19,7 +19,7 @@ gulp.task('test', testRequirements, function () {
         'build/tmp/testJS/projectList.js',
         'vendors/leaflet/spec/after.js',
         'node_modules/happen/happen.js',
-        'test/geolocate.js'
+        'node_modules/mock-geolocation/dist/geolocate.js'
     ]);
 
     if ('m' in cliOptions) {
