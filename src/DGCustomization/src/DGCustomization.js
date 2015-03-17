@@ -19,8 +19,8 @@ DG.Marker.prototype.options.icon = DG.divIcon(DG.configTheme.markersData);
 // support old option clickable
 var utilSetOptions = DG.Util.setOptions;
 
-DG.setOptions = DG.Util.setOptions = function (obj, options) {
-    if (options && options.clickable) {
+DG.setOptions = L.setOptions = DG.Util.setOptions = function (obj, options) {
+    if (options && typeof options.clickable !== 'undefined') {
         options.interactive = options.clickable;
     }
 
