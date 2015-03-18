@@ -440,11 +440,19 @@ DG.Ruler = DG.Layer.extend({
 
     // Map-independent project method
     _project: function (latlng) {
+        if (this._map) {
+            return this._map.project(latlng);
+        }
+
         return DG.CRS.EPSG3857.latLngToPoint(latlng, 1);
     },
 
     // Map-independent unproject method
     _unproject: function (point) {
+        if (this._map) {
+            return this._map.unproject(point);
+        }
+
         return DG.CRS.EPSG3857.pointToLatLng(point, 1);
     },
 
