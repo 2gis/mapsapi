@@ -8,7 +8,8 @@ DG.Ruler.mergeOptions({
             weight: 12,
             pointerEvents: 'none',
             noClip: true,
-            renderer: rulerRenderer
+            renderer: rulerRenderer,
+            smoothFactor: 0
         },
         middle: {
             color: '#0da5d5',
@@ -16,7 +17,8 @@ DG.Ruler.mergeOptions({
             weight: 4,
             pointerEvents: 'none',
             noClip: true,
-            renderer: rulerRenderer
+            renderer: rulerRenderer,
+            smoothFactor: 0
         },
         mouse: {
             color: '#fff',
@@ -24,7 +26,8 @@ DG.Ruler.mergeOptions({
             weight: DG.Browser.touch ? 40 : 20,
             pointerEvents: 'painted',
             noClip: true,
-            renderer: DG.svg({pane: 'rulerEventPane'})
+            renderer: DG.svg({pane: 'rulerEventPane'}),
+            smoothFactor: 0
         }
     },
     iconStyles: {
