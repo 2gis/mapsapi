@@ -124,6 +124,10 @@ DG.Ruler = DG.Layer.extend({
         var lastPoint = this._points[this._points.length - 1] || null;
         latlng = DG.latLng(latlng);
 
+        if (lastPoint) {
+            latlng = this._normalizeLatLng(latlng, lastPoint.getLatLng());
+        }
+
         this.spliceLatLngs(this._points.length, 0, latlng);
         return this;
     },
@@ -547,6 +551,8 @@ DG.Ruler = DG.Layer.extend({
 
     // Calculates the great circle arc between two LatLngs.
     _calcGreatCircle: function (latlng1, latlng2) { // (LatLng, LatLng) -> LatLng[]
+        latlng2 = this._normalizeLatLng(latlng2, latlng1);
+
         // Special case: points are close to each other (within 1 degree)
         if (latlng1.equals(latlng2, 1)) {
             return [latlng1, latlng2];
