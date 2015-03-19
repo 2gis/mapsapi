@@ -323,7 +323,7 @@ describe('DG.ProjectDetectorUnder', function () {
 
     });
 
-     describe.skip('#panBy', function () {
+     describe('#panBy', function () {
 
         it('call with viewport size', function () {
             map.setView(project1, 16);
