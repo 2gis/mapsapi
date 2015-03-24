@@ -87,6 +87,43 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         };
     },
 
+    // fix for binding events on complex marker divIcon
+    // see https://github.com/Leaflet/Leaflet/pull/3288
+    _initInteraction: function () {
+
+        if (!this.options.interactive) { return; }
+
+        L.DomUtil.addClass(this._icon, 'leaflet-interactive');
+
+        var subElements = [this._icon].concat(Array.prototype.slice.call(this._icon.querySelectorAll('*')));
+        for (var i = 0; i < subElements.length; i++) {
+            this.addInteractiveTarget(subElements[i]);
+        }
+
+        if (L.Handler.MarkerDrag) {
+            var draggable = this.options.draggable;
+            if (this.dragging) {
+                draggable = this.dragging.enabled();
+                this.dragging.disable();
+            }
+
+            this.dragging = new L.Handler.MarkerDrag(this);
+
+            if (draggable) {
+                this.dragging.enable();
+            }
+        }
+    },
+
+    // don't change icon zIndex
+    _setPos: function (pos) {
+        L.DomUtil.setPosition(this._icon, pos);
+
+        if (this._shadow) {
+            L.DomUtil.setPosition(this._shadow, pos);
+        }
+    },
+
     _afterInit : function () {
         this._layers = this.options.layers || null;
         this.options.icon = DG.divIcon({

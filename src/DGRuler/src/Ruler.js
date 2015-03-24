@@ -257,17 +257,24 @@ DG.Ruler = DG.Layer.extend({
         point = this._points[insertPos];
         point.setText(this._getFormatedDistance(point));
 
-        if (document.createEvent) {
-            var e = document.createEvent('MouseEvents');
-            e.initMouseEvent('mousedown', false, false, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
-            point._icon.dispatchEvent(e);
-        } else {
-            point._icon.fireEvent('onMouseDown', DG.extend(document.createEventObject(), {
-                button: 1,
-                bubbles: false,
-                cancelable: false
-            }));
-        }
+        setTimeout(function () {
+            if (document.createEvent) {
+                var e = document.createEvent('MouseEvents');
+                e.initMouseEvent('mouseup', false, false, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
+                document.dispatchEvent(e);
+
+                e = document.createEvent('MouseEvents');
+                e.initMouseEvent('mousedown', false, false, document.defaultView, 1, 0, 0, 0, 0, false, false, false, false, 1, point._icon);
+                point._icon.dispatchEvent(e);
+            } else {
+                point._icon.fireEvent('onMouseDown', DG.extend(document.createEventObject(), {
+                    button: 1,
+                    bubbles: false,
+                    cancelable: false
+                }));
+            }
+        }, 0);
+
         this._removeRunningLabel();
 
         this._updateLegs(point);
