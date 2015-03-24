@@ -80,20 +80,13 @@ var deps = {
             'DGCustomization/skin/basic/skin.config.js',
             'DGCustomization/src/DGCustomization.js',
             'DGCustomization/src/DGMap.js',
-            'DGCustomization/src/DGMap.BaseLayer.js',
-            'DGCustomization/src/DGZoom.js',
-            'DGCustomization/lang/DGZoom/ru.js',
-            'DGCustomization/lang/DGZoom/it.js',
-            'DGCustomization/lang/DGZoom/cs.js',
-            'DGCustomization/lang/DGZoom/en.js',
-            'DGCustomization/lang/DGZoom/es.js'
+            'DGCustomization/src/DGMap.BaseLayer.js'
         ],
         less: {
             all: [
                 'DGCustomization/skin/{skin}/less/leaflet.less',
                 '../vendors/baron/baron.css',
                 'DGCustomization/skin/{skin}/less/scroller.less',
-                'DGCustomization/skin/{skin}/less/dg-zoom.less',
                 'DGCustomization/skin/{skin}/less/dg-customization.less'
             ],
             ie: [
@@ -102,6 +95,24 @@ var deps = {
             ]
         },
         deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
+    },
+
+    DGZoomControl: {
+        desc: '2GIS zoom control module',
+        src: [
+            'DGZoomControl/src/DGZoomControl.js',
+            'DGZoomControl/lang/ru.js',
+            'DGZoomControl/lang/it.js',
+            'DGZoomControl/lang/cs.js',
+            'DGZoomControl/lang/en.js',
+            'DGZoomControl/lang/es.js'
+        ],
+        less: {
+            all: [
+                'DGZoomControl/skin/{skin}/less/dg-zoom-control.less'
+            ]
+        },
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl']
     },
 
     DGAttribution: {
