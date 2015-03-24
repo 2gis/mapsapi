@@ -23,12 +23,12 @@ DG.version = window.__dgApi__.version;
 DG.debug = window.__dgApi__.debug;
 DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
 
-/* jshint ignore:start */
+/* eslint-disable */
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','__GOOGLE_ANALYTICS__','ga');
-/* jshint ignore:end */
+/* eslint-enable */
 
 /*global ga:false*/
 ga('create', '__GA_CODE__', 'none');
@@ -43,7 +43,7 @@ newImg.src = '__ANALYTICS__?' +
 // Improve IHandler
 DG.Map.include({
     addHandler: function (name, HandlerClass) {
-        if (!HandlerClass) { return; }
+        if (!HandlerClass) { return this; }
 
         var options = this.options[name],
             param = (options === Object(options)) ? options : null,
@@ -61,5 +61,7 @@ DG.Map.include({
 
 // Apply class to map container for detect when we dont need hover effects
 DG.Map.addInitHook(function () {
-    !DG.Browser.touch && DG.DomUtil.addClass(this._container, 'no-touch');
+    if (!DG.Browser.touch) {
+        DG.DomUtil.addClass(this._container, 'no-touch');
+    }
 });

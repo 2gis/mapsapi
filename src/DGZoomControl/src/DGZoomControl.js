@@ -10,8 +10,8 @@ DG.Control.Zoom.include({
 
         this._map = map;
 
-        this._zoomInButton = this._createButton(DG.Util.template(buttonTemplate, { type : 'in' }), this.t('zoom_in'), 'dg-control-round ' + zoomName + '__in', container, this._zoomIn, this);
-        this._zoomOutButton = this._createButton(DG.Util.template(buttonTemplate, { type : 'out' }), this.t('zoom_out'), 'dg-control-round ' + zoomName + '__out', container, this._zoomOut, this);
+        this._zoomInButton = this._createButton(DG.Util.template(buttonTemplate, {type : 'in'}), this.t('zoom_in'), 'dg-control-round ' + zoomName + '__in', container, this._zoomIn, this);
+        this._zoomOutButton = this._createButton(DG.Util.template(buttonTemplate, {type : 'out'}), this.t('zoom_out'), 'dg-control-round ' + zoomName + '__out', container, this._zoomOut, this);
 
         this._eventListeners = {};
         this._eventListeners.zoomend = this._eventListeners.zoomlevelschange = this._updateDisabled;
@@ -23,7 +23,7 @@ DG.Control.Zoom.include({
 
     _originalCreateButton: DG.Control.Zoom.prototype._createButton,
 
-    _createButton: function (html, title, className, container, fn) {
+    _createButton: function () {
         var args = Array.prototype.slice.call(arguments);
         var link = this._originalCreateButton.apply(this, args);
 

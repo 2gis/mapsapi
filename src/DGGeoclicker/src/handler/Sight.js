@@ -15,7 +15,6 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         var attraction = results.attraction,
             data = {},
             self = this,
-            abbr,
             footer = {
                 btns: [
                     {

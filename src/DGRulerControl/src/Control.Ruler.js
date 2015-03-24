@@ -23,7 +23,9 @@ DG.Control.Ruler = DG.RoundControl.extend({
             this._drawingHelper = DG.ruler([]);
         },
         click: function () {
-            if (this._active = !this._active) { // jshint ignore:line
+            this._active = !this._active;
+
+            if (this._active) {
                 this.setState('active');
                 this._startDrawing();
             } else {
@@ -59,7 +61,7 @@ DG.Control.Ruler = DG.RoundControl.extend({
         this._map.fire('rulerend');
     },
 
-    _handleMapClick: function (event) {   // (MouseEvents)
+    _handleMapClick: function (event) { // (MouseEvents)
         this._drawingHelper.addLatLng(event.latlng);
     },
 

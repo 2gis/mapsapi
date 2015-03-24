@@ -6,6 +6,7 @@ DG.Control.Attribution.include({
     },
 
     _getLink: function (linkType) {
+        /* eslint-disable camelcase */
         var dictionary = {
             ru: {
                 copyright_logo: 'http://info.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
@@ -43,6 +44,7 @@ DG.Control.Attribution.include({
                 copyright_license: 'http://law.2gis.ae/licensing-agreement/'
             }
         };
+        /* eslint-enable camelcase */
 
         var countryCode = (this._countryCode in dictionary) ? this._countryCode : 'ru';
 
@@ -106,7 +108,7 @@ DG.Control.Attribution.include({
     },
     /* global __DGAttribution_TMPL__ */
     _tmpl: DG.dust(__DGAttribution_TMPL__),
-    _getData: function (lang, osm) {
+    _getData: function (lang) {
         return {
             'osm': this._osm,
             'work_on': this.t('work_on'),

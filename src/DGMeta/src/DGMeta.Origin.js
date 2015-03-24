@@ -35,7 +35,7 @@ DG.Meta.Origin = DG.Class.extend({
 
         if (this._tileStorage[tileKey].constructor === Object) {
             return Object.keys(this._tileStorage[tileKey]).map(function (id) {
-                return DG.extend({ geometry: this._tileStorage[tileKey][id]}, this._dataStorage[id]);
+                return DG.extend({geometry: this._tileStorage[tileKey][id]}, this._dataStorage[id]);
             }, this);
         }
 
@@ -66,7 +66,9 @@ DG.Meta.Origin = DG.Class.extend({
         this._tileStorage = {};
         this._dataStorage = {};
         Object.keys(this._requests).forEach(function (tileKey) {
-            this[tileKey].abort && this[tileKey].abort();
+            if (this[tileKey].abort) {
+                this[tileKey].abort();
+            }
         }, this._requests);
 
         return this;

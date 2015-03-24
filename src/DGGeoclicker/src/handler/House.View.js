@@ -93,12 +93,14 @@ DG.Geoclicker.Handler.House.include({
             btns.push(this._getShowAllData(houseFilials.count));
         }
 
-        this._isRouteSearchAllowed() && btns.push({
-            name: 'goto',
-            label: this.t('go_to'),
-            icon: true,
-            href: this._directionsUrl
-        });
+        if (this._isRouteSearchAllowed()) {
+            btns.push({
+                name: 'goto',
+                label: this.t('go_to'),
+                icon: true,
+                href: this._directionsUrl
+            });
+        }
 
         return this._view.render({
             tmpl: 'popupFooterBtns',

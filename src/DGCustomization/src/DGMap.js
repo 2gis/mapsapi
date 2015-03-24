@@ -113,7 +113,11 @@ DG.Map.include({
     _updateTileLayers: function (e) {
         if (!(e.layer instanceof DG.TileLayer) || e.layer._isDg) { return; }
 
-        e.type === 'layeradd' ? this._tileLayersNumber++ : this._tileLayersNumber--;
+        if (e.type === 'layeradd') {
+            this._tileLayersNumber++;
+        } else {
+            this._tileLayersNumber--;
+        }
     },
 
     _restrictZoom: function (coords) {
@@ -128,7 +132,9 @@ DG.Map.include({
             if (isMapMaxZoom) {
                 if (!this._mapMaxZoomCache) { this._mapMaxZoomCache = mapOptions.maxZoom; }
                 mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  '__PROJECT_LEAVE_MAX_ZOOM__';
-                project && (this._mapMaxZoomCache = mapOptions.maxZoom);
+                if (project) {
+                    this._mapMaxZoomCache = mapOptions.maxZoom;
+                }
 
                 return mapOptions.maxZoom;
             } else {

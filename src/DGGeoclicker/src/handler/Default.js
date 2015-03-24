@@ -8,7 +8,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
     _eventHandlers: {},
 
-    initialize: function (controller, view, map, options) { // (Object, Object, Object, Object)
+    initialize: function (controller, view, map) { // (Object, Object, Object)
         this._controller = controller;
         this._view = view;
         this._map = map;
@@ -57,7 +57,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
             'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
             'zoom': this._map.getZoom(),
             'name': encodeURIComponent(name),
-            'rsType': this._map.projectDetector.getProject().transport ? 'bus' : 'car' ,
+            'rsType': this._map.projectDetector.getProject().transport ? 'bus' : 'car',
             'point': this._popup._latlng.lng + ',' + this._popup._latlng.lat
         });
     },

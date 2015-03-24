@@ -34,7 +34,7 @@ DG.Path.include(!DG.Path.ANIMATION_AVAILABLE ? {} : {
         if (animOptions && points.length > 0) {
             animationEl = DG.SVG.create('animate');
 
-            //calculate values if attributeName: 'd' was used to animate
+            // calculate values if attributeName: 'd' was used to animate
             if (animOptions.getValues) {
                 animOptions.values = animOptions.getValues(points);
             }
@@ -55,7 +55,9 @@ DG.Path.include(!DG.Path.ANIMATION_AVAILABLE ? {} : {
 
     _removeAnimation: function (animationEl) {
         this._map.once('zoomstart', function () {
-            animationEl && this._path.removeChild(animationEl);
+            if (animationEl) {
+                this._path.removeChild(animationEl);
+            }
             this._animationEl = null;
         }, this);
     }

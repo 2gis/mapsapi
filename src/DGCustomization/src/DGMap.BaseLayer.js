@@ -12,7 +12,8 @@
     DG.Map.addInitHook(function () {
         this.baseLayer = new BaseLayer('__TILE_SERVER__', {
                 subdomains: '0123',
-                errorTileUrl: this.getLang() == 'ru' ? errorRuUrl : errorUrl,
+                errorTileUrl: this.getLang() === 'ru' ? errorRuUrl : errorUrl,
+                /* global __DETECT_RETINA__ */
                 detectRetina: __DETECT_RETINA__,
                 maxZoom: 19,
                 maxNativeZoom: 19
@@ -20,7 +21,7 @@
         ).addTo(this);
 
         this.on('langchange', function(ev) {
-            if (ev.lang == 'ru') {
+            if (ev.lang === 'ru') {
                 this.baseLayer.options.errorTileUrl = errorRuUrl;
             } else {
                 this.baseLayer.options.errorTileUrl = errorUrl;

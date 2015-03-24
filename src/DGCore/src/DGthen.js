@@ -1,11 +1,11 @@
 var handlers = window.__dgApi__.callbacks || [],
     chain = Promise.resolve();
 
-//dont pollute global space!
+// dont pollute global space!
 try {
     delete window.__dgApi__;
 } catch(e) {
-    window.__dgApi__ = undefined; //ie8 cant delete from window object
+    window.__dgApi__ = undefined; // ie8 cant delete from window object
 }
 
 handlers.forEach(function (handlers) {
@@ -17,6 +17,8 @@ DG.then = function (resolve, reject) {
 };
 
 // IE8 throw error if `chain.catch`
+/* eslint-disable dot-notation, no-console */
 chain['catch'](function(err) {
     console.error(err);
 });
+/* eslint-enable dot-notation, no-console */
