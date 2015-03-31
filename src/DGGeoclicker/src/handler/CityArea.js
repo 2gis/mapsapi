@@ -32,7 +32,9 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             return false;
         }
 
-        !this._stylesInited && this._initStyles();
+        if (!this._stylesInited) {
+            this._initStyles();
+        }
 
         this._popup = this._view.getPopup();
 

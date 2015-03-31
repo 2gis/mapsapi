@@ -334,7 +334,7 @@ DG.ajax = (function () {
                 } catch (e) {
                     // can't assign this in IE<=8, just ignore
                 }
-                /*jshint evil:true */
+                /* eslint-disable no-eval */
                 if (r) {
                     switch (type) {
                     case 'json':
@@ -355,7 +355,7 @@ DG.ajax = (function () {
                         break;
                     }
                 }
-                /*jshint evil:false */
+                /* eslint-enable no-eval */
                 self._responseArgs.resp = resp;
                 complete(resp);
             }
@@ -412,7 +412,12 @@ DG.ajax = (function () {
             enc = encodeURIComponent,
             add = function (key, value) {
                 // If value is a function, invoke it and return its value
-                value = ('function' === typeof value) ? value() : (value ? value : '');
+                if (typeof value == 'function') {
+                    value = value();
+                } else {
+                    value = value || '';
+                }
+
                 s[s.length] = enc(key) + '=' + enc(value);
             };
 

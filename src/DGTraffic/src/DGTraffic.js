@@ -1,4 +1,4 @@
-/* global __TRAFFIC_LAYER_UPDATE_INTERVAL__, __TRAFFIC_LAYER_MIN_ZOOM__ */
+/* global __TRAFFIC_LAYER_UPDATE_INTERVAL__, __TRAFFIC_LAYER_MIN_ZOOM__,__DETECT_RETINA__ */
 
 DG.Traffic = DG.TileLayer.extend({
 
@@ -83,7 +83,7 @@ DG.Traffic = DG.TileLayer.extend({
                 self.options.timestampString = '?' + (new Date()).getTime();
             }).then(
             function () {
-                self.fire('update', { timestamp: self.options.timestampString });
+                self.fire('update', {timestamp: self.options.timestampString});
                 self._layerEventsListeners.mouseout.call(self);
                 self._metaLayer.getOrigin().setURL(self._prepareMetaURL(), self);
                 self.redraw();
@@ -92,12 +92,21 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     getSubdomain: function () {
-        return DG.Traffic.layersOptions.subdomains[Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)];
+        return DG.Traffic.layersOptions.subdomains[
+            Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)
+        ];
     },
 
     _getTimestampString: function () {
-        return DG.ajax(DG.Util.template(DG.Traffic.timeUrl, DG.extend({ s : this.getSubdomain(), projectCode: this._map.projectDetector.getProject().code}, this.options || {})),
-            { type: 'get' });
+        return DG.ajax(
+            DG.Util.template(
+                DG.Traffic.timeUrl,
+                DG.extend({
+                    s : this.getSubdomain(),
+                    projectCode: this._map.projectDetector.getProject().code
+                }, this.options || {})),
+            {type: 'get'}
+        );
     },
 
     _onTimer: function () {

@@ -25,7 +25,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     isProjectHere: function (coords, project, checkMethod) {
-        if (!coords) { return; }
+        if (!coords) { return null; }
 
         if (!(coords instanceof DG.LatLng) && !(coords instanceof DG.LatLngBounds)) {
             coords = DG.latLng(coords);
@@ -36,11 +36,11 @@ DG.ProjectDetector = DG.Handler.extend({
 
         checkMethod = checkMethod || ((coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains');
 
-        return project ?
-            this._testProject(checkMethod, coords, project) :
-            this._projectList.filter(
-                this._testProject.bind(this, checkMethod, coords)
-            )[0];
+        if (project) {
+            return this._testProject(checkMethod, coords, project);
+        } else {
+            return this._projectList.filter(this._testProject.bind(this, checkMethod, coords))[0];
+        }
     },
 
     _projectWatch: function () {
@@ -104,9 +104,9 @@ DG.ProjectDetector = DG.Handler.extend({
             var bound = self._wktToBnd(project.bounds);
             var latLngBounds = new DG.LatLngBounds(bound);
 
+            /* eslint-disable camelcase */
             return {
                 code: project.code,
-                /*jshint camelcase: false */
                 minZoom: project.zoom_level.min,
                 maxZoom: project.zoom_level.max,
                 timeOffset: project.time_zone.offset,
@@ -118,6 +118,7 @@ DG.ProjectDetector = DG.Handler.extend({
                 country_code: project.country_code,
                 domain: project.domain
             };
+            /* eslint-enable camelcase */
         });
     },
 

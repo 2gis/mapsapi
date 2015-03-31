@@ -274,7 +274,7 @@
 ## Стандарты кодирования
 
 ### JavaScript
-Основные требования к JavaScript коду обеспечиваются синтаксическим анализатором и описаны в конфигурационом файле [jsHint](https://github.com/2gis/maps-api-2.0/blob/master/.jshintrc). В процессе разработки мы стараемся придерживаться соглашений, схожими с [Airbnb style guide](https://github.com/airbnb/javascript), за исключением соглашений о [пробелах](https://github.com/airbnb/javascript#whitespace) и [комментариях](https://github.com/airbnb/javascript#comments).
+Основные требования к JavaScript коду обеспечиваются синтаксическим анализатором и описаны в конфигурационом файле [ESLint](https://github.com/2gis/maps-api-2.0/blob/master/.eslintrc). В процессе разработки мы стараемся придерживаться соглашений, схожими с [Airbnb style guide](https://github.com/airbnb/javascript), за исключением соглашений о [пробелах](https://github.com/airbnb/javascript#whitespace) и [комментариях](https://github.com/airbnb/javascript#comments).
 
 ### HTML и CSS
 #### Определения

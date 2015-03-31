@@ -1,10 +1,9 @@
 DG.Entrance.Arrow = DG.Polyline.extend({
-    
     initialize: function (latlngs, options) { // (Array, Object)
+        options = options || {};
+
         this._setLatLngs(latlngs);
-        /*jshint shadow: true */
-        var options = options || {};
-        /*jshint shadow: false */
+
         if (DG.Path.ANIMATION_AVAILABLE) {
             options.animation = this.getArrowAnimation(this._convertLatLngs(latlngs));
         }

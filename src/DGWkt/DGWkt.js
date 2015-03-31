@@ -1,4 +1,3 @@
-/* jshint ignore:start */
 DG.Wkt = {};
 
 DG.Wkt.toGeoJSON = function (_) {
@@ -221,4 +220,3 @@ DG.Wkt.pointsToLatLngOnMap = function (wkt, map) {
             map.containerPointToLatLng(points);
     })(DG.Wkt.toPoints(wkt));
 };
-/* jshint ignore:end */

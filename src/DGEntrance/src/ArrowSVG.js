@@ -35,9 +35,14 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
             marker.setAttribute('markerUnits', 'userSpaceOnUse');
             marker.setAttribute('stroke-width', '0');
 
-            markerStyle.path && marker.appendChild(this._getMarkerChild('path', markerStyle.path, layer));
+            if (markerStyle.path) {
+                marker.appendChild(this._getMarkerChild('path', markerStyle.path, layer));
+            }
 
-            markerStyle.polygon && marker.appendChild(this._getMarkerChild('polygon', markerStyle.polygon, layer));
+            if (markerStyle.polygon) {
+                marker.appendChild(this._getMarkerChild('polygon', markerStyle.polygon, layer));
+            }
+
 
             layer._markers.push(marker);
             this._getDefs().appendChild(marker);
@@ -115,7 +120,9 @@ L.Map.include({
             renderer = this._arrowRenderer = new DG.Entrance.Arrow.SVG();
         }
 
-        !this.hasLayer(renderer) && this.addLayer(renderer);
+        if (!this.hasLayer(renderer)) {
+            this.addLayer(renderer);
+        }
 
         return renderer;
     }

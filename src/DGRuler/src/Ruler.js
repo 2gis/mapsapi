@@ -77,7 +77,7 @@ DG.Ruler = DG.Layer.extend({
         return this._calcDistance();
     },
 
-    spliceLatLngs: function (index, pointsToRemove) { // (Number, Number, args ...) -> Array
+    spliceLatLngs: function (index) { // (Number, Number, args ...) -> Array
         var oldLength = this._points.length,
             mutationStart = index >= 0 ? Math.min(index, oldLength) : oldLength - index,
             removed = Array.prototype.splice.apply(this._points, arguments).map(function (point) {
@@ -224,7 +224,7 @@ DG.Ruler = DG.Layer.extend({
     },
 
     _fireChangeEvent: function () {
-        this.fire('changed', { latlngs : this.getLatLngs() });
+        this.fire('changed', {latlngs : this.getLatLngs()});
     },
 
     _addRunningLabel: function (latlng, previousPoint) { // (LatLng, Ruler.LayeredMarker)
@@ -383,7 +383,7 @@ DG.Ruler = DG.Layer.extend({
 
         // Update legs of all points that changed position
         changedPoints.sort().reduce(function (previous, current) {
-            var skipPrevious = previous && previous == current - 1;
+            var skipPrevious = previous && previous === current - 1;
 
             self._updateLegs(self._points[current], skipPrevious);
 
@@ -393,9 +393,7 @@ DG.Ruler = DG.Layer.extend({
 
     _pointEvents: {
         drag: function (event) { // (Event)
-            var point = event.target,
-                latlng = point.getLatLng(),
-                lastPoint = this._points[point._pos - 1] || null;
+            var point = event.target;
 
             this._normalizeRulerPoints(point);
 
@@ -586,8 +584,6 @@ DG.Ruler = DG.Layer.extend({
     },
 
     _addLegs: function (point) {
-        var self = this;
-
         var pathStyles = this.options.pathStyles;
 
         var greatCirclePoints = this._calcGreatCircle(
@@ -659,7 +655,7 @@ DG.Ruler = DG.Layer.extend({
         return distance;
     },
 
-    _getFormatedDistance: function (finishPoint, tail) { // (Ruler.LayeredMarker, Number) -> String
+    _getFormatedDistance: function () { // () -> String
         var distance = this._calcDistance.apply(this, arguments),
             units = 'm';
 

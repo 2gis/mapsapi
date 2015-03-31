@@ -83,20 +83,14 @@ DG.Geoclicker.View = DG.Class.extend({
 
     _detectCssAnimation: function () {
         var animation = false,
-            animationstring = 'animation',
-            keyframeprefix = '',
             domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
-            elm = document.createElement('div'),
-            pfx  = '';
+            elm = document.createElement('div');
 
         if (elm.style.animationName) { animation = true; }
 
         if (animation === false) {
             for (var i = 0; i < domPrefixes.length; i++) {
                 if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
-                    pfx = domPrefixes[i];
-                    animationstring = pfx + 'Animation';
-                    keyframeprefix = '-' + pfx.toLowerCase() + '-';
                     animation = true;
                     break;
                 }

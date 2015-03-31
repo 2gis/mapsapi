@@ -42,7 +42,9 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
     },
 
     _onFullScreenStateChange: function () {
-        (!DG.screenfull.isFullscreen()) && this._toggle(false, 'exit', 'on', 'cancelfullscreen');
+        if (!DG.screenfull.isFullscreen()) {
+            this._toggle(false, 'exit', 'on', 'cancelfullscreen');
+        }
     }
 });
 

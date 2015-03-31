@@ -132,7 +132,7 @@ DG.Entrance = DG.Layer.extend({
     },
 
     _isAllowedZoom: function () {
-        return !(this._map.getZoom() < DG.Entrance.SHOW_FROM_ZOOM);  // jshint ignore:line
+        return this._map.getZoom() >= DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _getArrowStrokeOptions: function () {

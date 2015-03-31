@@ -39,10 +39,12 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     firmsInHouse: function (houseId, parameters) { // (String, Function, Number)
         parameters = parameters || {};
 
+        /* eslint-disable camelcase */
         var params = DG.extend(this.options.data, {
             building_id: houseId,
             page: parameters.page || 1
         });
+        /* eslint-enable camelcase */
 
         return this._performRequest(params, this.options.urlFirmsInHouse);
     },
@@ -56,12 +58,14 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     },
 
     geoSearch: function (q, types, zoomlevel) { // (String, String, Number)
+        /* eslint-disable camelcase */
         var params = {
             point: q,
             type: types,
             zoom_level: zoomlevel,
             fields: this.options.geoFields
         };
+        /* eslint-enable camelcase */
 
         return this._performRequest(params, this.options.urlGeoSearch);
     },

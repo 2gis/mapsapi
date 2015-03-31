@@ -30,7 +30,9 @@ DG.Control.Traffic = DG.RoundControl.extend({
             this._map.on('zoomend projectchange projectleave', this._updateControlVisibility, this);
         },
         click: function () {
-            if (this._active = !this._active) { // jshint ignore:line
+            this._active = !this._active;
+
+            if (this._active) {
                 this.setState('active');
                 this._showTraffic();
             } else {
@@ -111,7 +113,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
             }
         );
 
-        return DG.ajax(url, {type: 'get' });
+        return DG.ajax(url, {type: 'get'});
     },
 
     _renderTranslation: function () { // ()

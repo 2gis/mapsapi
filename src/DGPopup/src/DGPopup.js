@@ -1,13 +1,11 @@
-//2GIS-related popup content wrapper and offset
+// 2GIS-related popup content wrapper and offset
 (function () {
     var offsetX = DG.configTheme.balloonOptions.offset.x,
         offsetY = DG.configTheme.balloonOptions.offset.y,
         originalInitialize = DG.Popup.prototype.initialize,
         originalInitLayout = DG.Popup.prototype._initLayout,
-        originalOnClose = DG.Popup.prototype._onCloseButtonClick,
         originalOnAdd = DG.Popup.prototype.onAdd,
         originalAdjustPan = DG.Popup.prototype._adjustPan,
-        /*global baron:false */
         graf = baron.noConflict();
 
     var BaronDomHelper = function (element) {
@@ -92,7 +90,7 @@
         },
 
         setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
-            if (!this._isNode(content) && typeof content === 'object' && typeof content !== null) {
+            if (!this._isNode(content) && typeof content === 'object') {
                 Object.keys(content).forEach(function (item) {
                     this['_' + item + 'Content'] = content[item];
                 }, this);
@@ -177,7 +175,9 @@
             // See https://github.com/2gis/mapsapi/pull/153/
             DG.DomEvent.disableClickPropagation(this._innerContainer);
 
-            this.options.closeButton && this._innerContainer.appendChild(this._detachEl(this._closeButton));
+            if (this.options.closeButton) {
+                this._innerContainer.appendChild(this._detachEl(this._closeButton));
+            }
 
             this._innerContainer.appendChild(this._detachEl(this._wrapper));
 
@@ -210,13 +210,12 @@
         },
 
         _updateScrollPosition: function () {
-            this._baron && this._baron.update();
+            if (this._baron) {
+                this._baron.update();
+            }
         },
 
         resize: function () {
-            var content = this._contentNode,
-                scrolledClass = 'leaflet-popup-scrolled';
-
             var scrolled = this._updateLayout();
             this._updatePosition();
 
@@ -229,25 +228,23 @@
                     DG.DomUtil.removeClass(this._scroller, 'dg-scroller');
                     DG.DomEvent.off(this._scroller, 'scroll', this._onScroll);
                 }
-            } else {
-                if (this._isBaronExist) {
-                    DG.DomUtil.removeClass(this._scroller, 'dg-scroller_hidden_true');
-                    DG.DomUtil.addClass(this._scroller, 'dg-scroller');
+            } else if (this._isBaronExist) {
+                DG.DomUtil.removeClass(this._scroller, 'dg-scroller_hidden_true');
+                DG.DomUtil.addClass(this._scroller, 'dg-scroller');
 
-                    var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
+                var scrollTop = this._isBaronExist ? this._scroller.scrollTop : false;
 
-                    if (scrollTop) {
-                        this._scroller.scrollTop = scrollTop;
-                    }
-
-                    var innerHeight = this.options.maxHeight - this.options.border * 2 - this._getDelta();
-                    this._scrollerWrapper.style.height = innerHeight + 'px';
-
-                    this._updateScrollPosition();
-                } else {
-                    this._initBaronScroller();
-                    this._initBaron();
+                if (scrollTop) {
+                    this._scroller.scrollTop = scrollTop;
                 }
+
+                var innerHeight = this.options.maxHeight - this.options.border * 2 - this._getDelta();
+                this._scrollerWrapper.style.height = innerHeight + 'px';
+
+                this._updateScrollPosition();
+            } else {
+                this._initBaronScroller();
+                this._initBaron();
             }
 
             this._adjustPan();
@@ -319,9 +316,11 @@
         },
 
         _bindAdjustPanOnTransitionEnd: function () {
-            DG.DomUtil.TRANSITION ?
-                DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this) :
+            if (DG.DomUtil.TRANSITION) {
+                DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this);
+            } else {
                 this._adjustPan();
+            }
         },
 
         _isContentHeightEnough: function () { // () -> Boolean
@@ -452,10 +451,10 @@
             this._clearNode(this._contentNode);
             this._isBaronExist = false;
 
-            //init popup content dom structure
-            this._headerContent && this._initHeader();
-            this._bodyContent && this._initBodyContainer();
-            this._footerContent && this._initFooter();
+            // init popup content dom structure
+            if (this._headerContent) { this._initHeader(); }
+            if (this._bodyContent) { this._initBodyContainer(); }
+            if (this._footerContent) { this._initFooter(); }
 
             this._updatePopupStructure();
             this.resize();
@@ -562,7 +561,9 @@
         },
 
         _detachEl: function (elem) { // (DOMElement) -> DOMElement
-            elem.parentNode && elem.parentNode.removeChild(elem);
+            if (elem.parentNode) {
+                elem.parentNode.removeChild(elem);
+            }
             return elem;
         },
 
@@ -574,7 +575,10 @@
             } else {
                 DG.DomEvent[switcher](this._contentNode, 'touchstart mousedown mousemove', this._onStart, this);
             }
-            this._isBaronExist && DG.DomEvent[switcher](this._scroller, 'scroll', this._onScroll, this);
+
+            if (this._isBaronExist) {
+                DG.DomEvent[switcher](this._scroller, 'scroll', this._onScroll, this);
+            }
         },
 
         _toggleTouchEvents: function (on) {

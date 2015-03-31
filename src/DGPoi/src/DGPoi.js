@@ -1,4 +1,4 @@
-/*global __POI_LAYER_MIN_ZOOM__:false */
+/* global __POI_LAYER_MIN_ZOOM__,__DETECT_RETINA__ */
 
 DG.Map.mergeOptions({
     poi: !DG.Browser.touch
