@@ -91,6 +91,22 @@ DG.ProjectDetector = DG.Handler.extend({
         ];
     },
 
+    _checkProject: function (project) {
+        function check(value) {
+            return value !== undefined && value !== null;
+        }
+
+        return project &&
+                project.bounds &&
+                check(project.code) &&
+                check(project.domain) &&
+                check(project.country_code) &&
+                project.zoom_level &&
+                    check(project.zoom_level.min) &&
+                    check(project.zoom_level.max) &&
+                project.time_zone &&
+                    check(project.time_zone.offset);
+    },
 
     _loadProjectList: function () {
         var self = this;
@@ -100,26 +116,28 @@ DG.ProjectDetector = DG.Handler.extend({
         }
         delete DG.fallbackProjectsList;
 
-        this._projectList = DG.projectsList.map(function (project) {
-            var bound = self._wktToBnd(project.bounds);
-            var latLngBounds = new DG.LatLngBounds(bound);
+        this._projectList = DG.projectsList
+            .filter(self._checkProject)
+            .map(function (project) {
+                var bound = self._wktToBnd(project.bounds);
+                var latLngBounds = new DG.LatLngBounds(bound);
 
-            /* eslint-disable camelcase */
-            return {
-                code: project.code,
-                minZoom: project.zoom_level.min,
-                maxZoom: project.zoom_level.max,
-                timeOffset: project.time_zone.offset,
-                bound: bound,
-                latLngBounds: latLngBounds,
-                traffic: !!project.flags.traffic,
-                transport: !!project.flags.public_transport,
-                roads: !!project.flags.road_network,
-                country_code: project.country_code,
-                domain: project.domain
-            };
-            /* eslint-enable camelcase */
-        });
+                /* eslint-disable camelcase */
+                return {
+                    code: project.code,
+                    minZoom: project.zoom_level.min,
+                    maxZoom: project.zoom_level.max,
+                    timeOffset: project.time_zone.offset,
+                    bound: bound,
+                    latLngBounds: latLngBounds,
+                    traffic: !!project.flags.traffic,
+                    transport: !!project.flags.public_transport,
+                    roads: !!project.flags.road_network,
+                    country_code: project.country_code,
+                    domain: project.domain
+                };
+                /* eslint-enable camelcase */
+            });
     },
 
     _searchProject: function () {
