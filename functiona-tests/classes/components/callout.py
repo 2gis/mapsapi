@@ -2,6 +2,7 @@
 from classes.components.component import Component
 from classes.util.unescape import unescape_text
 
+
 class Callout(Component):
     selectors = {
         'self': '.leaflet-popup',
@@ -115,3 +116,21 @@ class MonumentCalloutWrapped(MonumentCallout):
 
     def unwrap(self):
         self.element.find_element_by_css_selector(self.selectors['wrapper']).click()
+
+
+class BuildCallout(Callout):
+    selectors = {
+        'self': '.leaflet-popup',
+        'header': '.dg-popup__header-title',
+        'X': '.leaflet-popup-close-button'
+    }
+
+    @property
+    def header(self):
+        """
+        :return: str
+        """
+        return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
+
+    def close(self):
+        self.element.find_element_by_css_selector(self.selectors['X']).click()

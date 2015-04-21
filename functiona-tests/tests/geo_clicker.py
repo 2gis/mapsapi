@@ -6,7 +6,7 @@ from lode_runner.dataprovider import dataprovider
 from classes.components.scrips import SetScripts
 from classes.WAPI.dataWorker import GeoData
 from classes.components.scrips import GetScripts
-from difflib import Differ
+
 
 class ClickDifferentZoomsCords(MapsAPIBaseTest):
     not_found = {
@@ -30,6 +30,7 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         'es': u"Comuna",
         'it': u"Municipalità"
     }
+
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
@@ -41,7 +42,7 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         sleep(1)
         self.page.map_container.center_click()
         sleep(2)
-        self.assertEqual(True, self.page.unkown_place.is_visible, 'Unknown place card present')
+        self.assertTrue(self.page.unkown_place.is_visible, 'Unknown place card present')
         for lang in self.not_found:
             self.driver.execute_script(SetScripts.set_lang(lang))
             header = self.page.unkown_place.header
@@ -74,13 +75,33 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         self.page.map_container.center_click()
         zoom = self.driver.execute_script(GetScripts.getZoom)
         g = GeoData(center, zoom)
-        print(self.page.addresed_place_cllout.drilldown)
-        print(g.district_address())
-        self.assertEqual(self.page.addresed_place_cllout.header, g.district_name(), 'District name correct')
-        #self.assertEqual(self.page.addresed_place_cllout.drilldown, g.district_address(), 'District address correct')
+        district_addr = g.district_address()
+        callout_addr = self.page.addresed_place_callout.drilldown
+        self.assertEqual(self.page.addresed_place_callout.header, g.district_name(), 'District name correct')
+        self.assertEqual(callout_addr, district_addr,
+                         'District address correct')
         for lang in self.district:
             self.driver.execute_script(SetScripts.set_lang(lang))
-            purpose = self.page.addresed_place_cllout.purpose
-            print(purpose)
-            print(self.district[lang])
+            purpose = self.page.addresed_place_callout.purpose
             self.assertEqual(self.district[lang], purpose, 'Purpose correct in ' + lang)
+
+    @dataprovider([
+        config.aut['local'] + u'/base.html'
+    ])
+    def test_building_name(self, url):
+        self.driver.get(url)
+        sleep(2)
+        self.driver.execute_script(SetScripts.pan_to(54.9802611969944, 82.89837956428528))
+        self.driver.execute_script(SetScripts.set_zoom(18))
+        self.page.map_container.center_click()
+        center = self.driver.execute_script(GetScripts.getCenter)
+        g = GeoData(center, 18)
+        sleep(2)
+        self.assertTrue(self.page.build_callout.is_visible, 'Build callout present')
+        self.assertEqual(g.build_name(), self.page.build_callout.header, 'Header text correct')
+        self.driver.execute_script(SetScripts.pan_to(54.98511556781472, 82.85259425640108))
+        self.page.map_container.center_click()
+        center = self.driver.execute_script(GetScripts.getCenter)
+        g = GeoData(center, 18)
+        sleep(2)
+        self.assertEqual(g.build_name(), self.page.build_callout.header, 'Header text correct')

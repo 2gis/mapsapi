@@ -77,9 +77,17 @@ class Page(BasePage):
         return PlaceCallout(self.test, self.test.find_element_by_css_selector(PlaceCallout.selectors['self']))
 
     @property
-    def addresed_place_cllout(self):
+    def addresed_place_callout(self):
         """
         :return: AddressPlaceCallout
         """
         from classes.components.callout import AddressPlaceCallout
         return AddressPlaceCallout(self.test, self.test.find_element_by_css_selector(AddressPlaceCallout.selectors['self']))
+
+    @property
+    def build_callout(self):
+        """
+        :return: BuildCallout
+        """
+        from classes.components.callout import BuildCallout
+        return BuildCallout(self.test, self.test.find_element_by_css_selector(BuildCallout.selectors['self']))

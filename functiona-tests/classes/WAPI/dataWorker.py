@@ -6,29 +6,35 @@ class GeoData(object):
         request = GeoSearch()
         self.response = request.get(cords, zoom)
 
-    def city_name(self):
+    def get_value_by_key(self, key_name, key_value, key_return):
+        """
+        :param key_name: Key name, that want use (example: 'subtype')
+        :param key_value: Value that element with key_name should be equal (example: 'city')
+        :param key_return: Key name that should be returned (example: 'name')
+        :return: string or list (depends on field)
+        """
         for elem in self.response['items']:
-            if elem['subtype'] == u'city':
-                return elem['name']
+            if elem.get(key_name) == key_value:
+                return elem.get(key_return)
+
+    def city_name(self):
+        return self.get_value_by_key('subtype', 'city', 'name')
 
     def district_name(self):
-        for elem in self.response['items']:
-            if elem['subtype'] == u'district':
-                return elem['name']
+        return self.get_value_by_key('subtype', 'district', 'name')
 
     def district_address(self):
-        for elem in self.response['items']:
-            if elem['subtype'] == u'district':
-                elem['adm_div'].reverse()
-                dist_addr = elem['adm_div'].pop(0)['name']
-                for div in elem['adm_div']:
-                    dist_addr = dist_addr + ', ' + div['name']
-                return dist_addr
+        adm_divs = self.get_value_by_key('subtype', 'district', 'adm_div')
+        adm_divs.reverse()
+        dist_addr = adm_divs.pop(0)['name']
+        for div in adm_divs:
+            dist_addr = dist_addr + ', ' + div['name']
+        return dist_addr.replace(u'\xa0', ' ')
 
     def build_name(self):
-        for elem in self.response['items']:
-            if elem.get('subtype') is None:
-                if elem.get('building_name') is None:
-                    return elem['address_name']
-                else:
-                    return elem['building_name']
+        address_name = self.get_value_by_key('subtype', None, 'address_name')
+        building_name = self.get_value_by_key('subtype', None, 'building_name')
+        if building_name is None:
+            return address_name
+        else:
+            return building_name
