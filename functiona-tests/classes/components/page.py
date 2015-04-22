@@ -1,11 +1,9 @@
 from contesto.basis.page import BasePage
-from classes.util.decorators import catches_not_found
-from classes.components.scrips import GetScripts
 
 class Page(BasePage):
     def __init__(self, test):
         """
-        :type test: InfoPortalDriver
+        :type test: Mapsapi driver
         """
         self.test = test
         super(Page, self).__init__(test)
@@ -91,3 +89,20 @@ class Page(BasePage):
         """
         from classes.components.callout import BuildCallout
         return BuildCallout(self.test, self.test.find_element_by_css_selector(BuildCallout.selectors['self']))
+
+    @property
+    def attraction_callout(self):
+        """
+        :return: AttractionCallout
+        """
+        from classes.components.callout import AttractionCallout
+        return AttractionCallout(self.test, self.test.find_element_by_css_selector(AttractionCallout.selectors['self']))
+
+    @property
+    def attraction_callout_wrapped(self):
+        """
+        :return: AttractionCallout
+        """
+        from classes.components.callout import AttractionCallouttWrapped
+        return AttractionCallouttWrapped(self.test, self.test.find_element_by_css_selector(
+            AttractionCallouttWrapped.selectors['self']))
