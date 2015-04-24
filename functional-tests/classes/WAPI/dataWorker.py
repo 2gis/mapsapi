@@ -1,4 +1,6 @@
-from classes.WAPI.request import GeoSearch
+# -*- coding: utf-8 -*-
+from classes.WAPI.request import *
+# TODO: Сделать хэлпер для выпиливания html entities из ответа API
 
 
 class GeoData(object):
@@ -31,7 +33,7 @@ class GeoData(object):
         adm_divs.reverse()
         dist_addr = adm_divs.pop(0)['name']
         for div in adm_divs:
-            dist_addr = dist_addr + ', ' + div['name']
+            dist_addr = "%s, %s" % (dist_addr, div['name'])
         return dist_addr.replace(u'\xa0', ' ')
 
     @property
@@ -63,3 +65,21 @@ class GeoData(object):
     @property
     def attraction_description(self):
         return self.get_value_by_key('type', 'attraction', 'description')
+
+
+class FirmData(object):
+    def __init__(self, firm_id):
+        request = FirmInfo()
+        self.response = request.get(firm_id)
+
+    @property
+    def firm_name(self):
+        return self.response['items'][0]['name']
+
+    @property
+    def review_count(self):
+        return self.response['item'][0]['reviews']['review_count']
+
+    @property
+    def rating(self):
+        return self.response['item'][0]['reviews']['rating']

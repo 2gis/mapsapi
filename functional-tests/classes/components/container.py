@@ -4,6 +4,8 @@ from component import Component
 from classes.components.scrips import GetScripts
 from classes.components.scrips import WheelScript
 from classes.components.scrips import SetScripts
+from time import time
+from classes.exceptions import exceptions
 
 
 class MapContainer(Component):
@@ -38,3 +40,8 @@ class MapContainer(Component):
 
     def set_zoom(self, level):
         self.driver.execute_script(SetScripts.set_zoom(level))
+
+    def map_in_scope(self):
+        not_inited = True
+        while not_inited:
+            not_inited = not self.driver.execute_script('return !!window.map')

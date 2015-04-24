@@ -6,7 +6,6 @@ from config import config
 from classes.exceptions.exceptions import WebAPIException
 
 
-# TODO: Сделать хэлпер для выпиливания html entities из ответа API
 class BaseReq(object):
 
     def __init__(self):
@@ -31,11 +30,7 @@ class BaseReq(object):
         else:
             if not result['meta']['code'] == 200 and not result['meta']['code'] == 404:
                 raise WebAPIException('Response code is %s, API response:\n%s' % (result['meta']['code'], result))
-            return BaseReq.html_entities(result['result'])
-
-    @staticmethod
-    def html_entities(text):
-        return text
+            return result['result']
 
 
 class GeoSearch(BaseReq):
@@ -58,7 +53,7 @@ class GeoSearch(BaseReq):
                     'street,building,adm_div.place,poi,attraction'
         }
         url = self.api_url + method
-        return self.html_entities(self.request(url, params))
+        return self.request(url, params)
 
 
 class FirmList(BaseReq):
@@ -77,8 +72,8 @@ class FirmList(BaseReq):
             'building_id': str(build_id),
             'page': str(page)
         }
-        url = self.api_url + method
-        return self.html_entities(self.request(url, params))
+        url = "%s%s" % (self.api_url, method)
+        return self.request(url, params)
 
 
 class FirmInfo(BaseReq):
@@ -97,24 +92,25 @@ class FirmInfo(BaseReq):
             'type': 'filial',
             'fields': 'items.reviews,items.photos,items.links,items.external_content'
         }
-        url = self.api_url + method
-        return self.html_entities(self.request(url, params))
+        url = "%s%s" % (self.api_url, method)
+        return self.request(url, params)
 
 
-class PoiCoordinate(BaseReq):
+class GalleryInfo(BaseReq):
     def __init__(self):
-        super(PoiCoordinate, self).__init__()
+        super(GalleryInfo, self).__init__()
 
-    def get(self):
+    def get(self, id):
         """
+        :param firm_id: int or str
         :return: dict
         """
-        method = '/geo/list'
+        method = '/geo/get'
         params = {
             'key': self.base_params['key'],
-            # Захордкоженный параметр id региона Новосибирск
-            'region_id': 1,
-            'type': 'poi'
+            'id': str(id),
+            'type': 'filial',
+            'fields': 'items.geometry.selection,items.links,items.adm_div,items.address,items.floors,items.description'
         }
-        url = self.api_url + method
-        return self.html_entities(self.request(url, params))
+        url = "%s%s" % (self.api_url, method)
+        return self.request(url, params)

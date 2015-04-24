@@ -45,23 +45,10 @@ class ZoomTest(MapsAPIBaseTest):
         self.assertEqual(zoom_end - zoom_start, 1, 'Zoom level changed correct')
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+         config.aut['local'] + u'/base.html'
     ])
     def test_zoomIn_shift_select(self, url):
         self.driver.get(url)
-        # Ждем инициализацию карты
-        sleep(2)
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.zoom_selection()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
-        self.assertEqual(zoom_end - zoom_start, 1, 'Zoom level changed correct')
-
-    @dataprovider([
-        config.aut['local'] + u'/base.html'
-    ])
-    def test_zoomIn_shift_select(self, url):
-        self.driver.get(url)
-        # Ждем инициализацию карты
         sleep(2)
         zoom_start = self.driver.execute_script(GetScripts.getZoom)
         self.page.map_container.zoom_selection()

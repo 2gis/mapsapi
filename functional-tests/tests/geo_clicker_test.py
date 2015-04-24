@@ -6,6 +6,9 @@ from lode_runner.dataprovider import dataprovider
 from classes.components.scrips import SetScripts
 from classes.WAPI.dataWorker import GeoData
 from classes.components.scrips import GetScripts
+from classes.WAPI.dataWorker import FirmData
+from classes.WAPI.request import GalleryInfo
+# TODO: вынести в датапровайдеры захордкоженные координаты для памятников и пои
 
 
 class ClickDifferentZoomsCords(MapsAPIBaseTest):
@@ -195,3 +198,39 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         self.assertEqual(g.attraction_description, self.page.attraction_callout_wrapped.text)
         self.page.attraction_callout_wrapped.unwrap()
         self.assertFalse(self.page.attraction_callout_wrapped.wrapper())
+
+    @dataprovider([
+        config.aut['local'] + u'/base.html'
+    ])
+    def test_poi_click(self, url):
+        """
+        :param url: powered by dataprovider decorator
+        POI callout test
+        """
+        self.driver.get(url)
+        sleep(2)
+        self.driver.execute_script(SetScripts.set_zoom(18))
+        self.driver.execute_script(SetScripts.pan_to('54.98088611087379', '82.89719912975313'))
+        sleep(2)
+        self.page.map_container.center_click()
+        f = FirmData(141265770417218)
+        self.assertEqual(self.page.firm_callout.header, f.firm_name)
+
+    @dataprovider([
+        config.aut['local'] + u'/base.html'
+    ])
+    def test_poi_gallery_click(self, url):
+        """
+        :param url: powered by dataprovider decorator
+        POI callout test
+        """
+        self.driver.get(url)
+        sleep(2)
+        self.driver.execute_script(SetScripts.pan_to('-33.44692090822703', '-70.65750718116762'))
+        self.driver.execute_script(SetScripts.set_zoom(19))
+        sleep(2)
+        self.page.map_container.center_click()
+        f = GalleryInfo()
+        sleep(3)
+        print(f.get(14215121979385186))
+        self.assertFalse(True)

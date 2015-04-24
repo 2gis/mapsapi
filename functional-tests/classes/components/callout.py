@@ -157,3 +157,24 @@ class BuildCallout(Callout):
 
     def close(self):
         self.element.find_element_by_css_selector(self.selectors['X']).click()
+
+
+class FirmCallout(Callout):
+    """
+    Firm and common poi callout
+    """
+    selectors = {
+        'self': '.leaflet-popup',
+        'header': '.dg-popup__header-title',
+        'X': '.leaflet-popup-close-button'
+    }
+
+    @property
+    def header(self):
+        """
+        :return: str
+        """
+        return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
+
+    def close(self):
+        self.element.find_element_by_css_selector(self.selectors['X']).click()

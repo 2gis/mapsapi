@@ -1,22 +1,22 @@
 class GetScripts:
-    getZoom = """return map.getZoom();"""
-    getCenter = """return map.getCenter();"""
-    getContainerCenter = """return map.latLngToContainerPoint(map.getCenter());"""
+    getZoom = 'return map.getZoom();'
+    getCenter = 'return map.getCenter();'
+    getContainerCenter = 'return map.latLngToContainerPoint(map.getCenter());'
 
 
 class SetScripts:
 
     @staticmethod
     def set_zoom(level=10):
-        return """map.setZoom(""" + str(level) + """);"""
+        return 'map.setZoom(%s);' % str(level)
 
     @staticmethod
     def pan_to(lat, lng):
-        return """map.panTo([""" + str(lat) + """,""" + str(lng) + """]);"""
+        return 'map.panTo([%s, %s]);' % (str(lat), str(lng))
 
     @staticmethod
     def set_lang(lang):
-        return """map.setLang('""" + str(lang) + """');"""
+        return 'map.setLang("%s");' % str(lang)
 
 
 class WheelScript:
@@ -28,6 +28,7 @@ class WheelScript:
             console.log('Start center is ' + map.getCenter());
             console.log('Start zoom is ' + map.getZoom());
         }
+
         function prepareWheel() {
             wheelContainer = document.getElementById('map');
             var coord = wheelContainer.getBoundingClientRect();
@@ -67,4 +68,4 @@ class WheelScript:
         :param count: scrolling wheel click count
         :return: string
         """
-        return """wheelFire(""" + str(count) + """)"""
+        return 'wheelFire(%s)' % str(count)

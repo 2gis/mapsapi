@@ -106,3 +106,12 @@ class Page(BasePage):
         from classes.components.callout import AttractionCallouttWrapped
         return AttractionCallouttWrapped(self.test, self.test.find_element_by_css_selector(
             AttractionCallouttWrapped.selectors['self']))
+
+    @property
+    def firm_callout(self):
+        """
+        :return: FirmCallout
+        """
+        from classes.components.callout import FirmCallout
+        return FirmCallout(self.test, self.test.find_element_by_css_selector(
+            FirmCallout.selectors['self']))
