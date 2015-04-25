@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from component import Component
-from classes.components.scrips import GetScripts
-from classes.components.scrips import WheelScript
-from classes.components.scrips import SetScripts
+from classes.util.scripts import GetScripts
+from classes.util.scripts import WheelScript
+from classes.util.scripts import SetScripts
 from time import time
 from classes.exceptions import exceptions
 
@@ -41,7 +42,17 @@ class MapContainer(Component):
     def set_zoom(self, level):
         self.driver.execute_script(SetScripts.set_zoom(level))
 
-    def map_in_scope(self):
-        not_inited = True
-        while not_inited:
-            not_inited = not self.driver.execute_script('return !!window.map')
+    # TODO: Модифицировать задествовав поллинг
+    #
+    def wait_map_init(self, timeout=3, polling=0.5):
+        """
+        :param timeout: timeout to rise exception
+        :param polling: how often check map init
+        :return: None
+        """
+        start = time()
+        time_outed = False
+        map_inited = False
+        while not time_outed and not map_inited:
+            map_inited = self.driver.execute_script('return !!map.getZoom')
+            time_outed = time() - start > timeout

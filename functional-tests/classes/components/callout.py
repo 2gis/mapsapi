@@ -2,13 +2,21 @@
 from classes.components.component import Component
 from classes.util.unescape import unescape_text
 from classes.util.decorators import catches_not_found
-
+from config import config
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class Callout(Component):
     selectors = {
         'self': '.leaflet-popup',
         'X': '.leaflet-popup-close-button'
     }
+
+    def wait_present(self):
+        WebDriverWait(self.driver, config.timeout['normal']).until(
+            EC.visibility_of(self.driver.find_element(By.CSS_SELECTOR, self.selectors['self']))
+        )
 
 
 class UnknownPlace(Callout):

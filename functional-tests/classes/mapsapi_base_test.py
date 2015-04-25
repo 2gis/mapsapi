@@ -19,12 +19,3 @@ class MapsAPIBaseTest(UnittestContestoTestCase):
     def tearDown(self):
         # log.info("JS Errors: %s" % self.driver.js_errors)
         super(MapsAPIBaseTest, self).tearDown()
-
-    @property
-    def baseWAPI(self):
-        """
-        :rtype: BaseWAPI
-        """
-        if self._baseWAPI is None:
-            self._baseWAPI = BaseReq()
-        return self._baseWAPI

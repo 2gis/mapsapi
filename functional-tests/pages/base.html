@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>release source</title>
+    <script src="../loader.js" data-id="dgLoader"></script>
+</head>
+<body>
+<div id="map" style="width: 1000px; height: 600px;"></div>
+<script>
+    DG.then(function() {
+        map = DG.map('map', {
+            center: [54.98, 82.89],
+            zoom: 13,
+            "geoclicker": true,
+            "worldCopyJump": true,
+            "zoomAnimation": false
+        });
+
+        DG.control.location({position: 'bottomright'}).addTo(map);
+        DG.control.scale().addTo(map);
+        DG.control.ruler({position: 'bottomleft'}).addTo(map);
+        DG.control.traffic().addTo(map);
+    });
+    var wheelContainer;
+    var mapX, mapY;
+
+    function wheel(event) {
+    console.log('Start center is ' + map.getCenter());
+    console.log('Start zoom is ' + map.getZoom());
+    }
+    function prepareWheel() {
+    wheelContainer = document.getElementById('map');
+    var coord = wheelContainer.getBoundingClientRect();
+    var offsets = map.latLngToContainerPoint(map.getCenter());
+    mapY = coord.top + offsets.y;
+    mapX = coord.left + offsets.x;
+    wheelContainer.addEventListener('DOMMouseScroll', wheel, false);
+    }
+
+    function wheelFireIn() {
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent(
+      'DOMMouseScroll', // in DOMString typeArg,
+       true,  // in boolean canBubbleArg,
+       true,  // in boolean cancelableArg,
+       window,// in views::AbstractView viewArg,
+       -1,   // in long detailArg,
+       0,     // in long screenXArg,
+       0,     // in long screenYArg,
+       mapX,     // in long clientXArg,
+       mapY,     // in long clientYArg,
+       0,     // in boolean ctrlKeyArg,
+       0,     // in boolean altKeyArg,
+       0,     // in boolean shiftKeyArg,
+       0,     // in boolean metaKeyArg,
+       0,     // in unsigned short buttonArg,
+       null   // in EventTarget relatedTargetArg
+    );
+    wheelContainer.dispatchEvent(evt);
+    }
+
+</script>
+</body>
+</html>
