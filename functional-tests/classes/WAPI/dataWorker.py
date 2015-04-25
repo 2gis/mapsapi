@@ -83,3 +83,13 @@ class FirmData(object):
     @property
     def rating(self):
         return self.response['item'][0]['reviews']['rating']
+
+
+class GalleryData(object):
+    def __init__(self, gallery_id):
+        request = GalleryInfo()
+        self.response = request.get(gallery_id)
+
+    @property
+    def gallery_name(self):
+        return self.response['items'][0]['name']

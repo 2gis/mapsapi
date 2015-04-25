@@ -6,7 +6,7 @@ from classes.util.scripts import SetScripts
 from classes.WAPI.dataWorker import GeoData
 from classes.util.scripts import GetScripts
 from classes.WAPI.dataWorker import FirmData
-from classes.WAPI.request import GalleryInfo
+from classes.WAPI.dataWorker import GalleryData
 # TODO: вынести в датапровайдеры захордкоженные координаты для памятников и пои
 
 
@@ -225,5 +225,5 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         self.driver.execute_script(SetScripts.set_zoom(19))
         self.page.map_container.center_click()
         self.page.build_callout.wait_present()
-        f = GalleryInfo()
-        self.assertFalse(True)
+        g = GalleryData(14215121979385186)
+        self.assertEqual(self.page.build_callout.header, g.gallery_name)
