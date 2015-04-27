@@ -167,7 +167,7 @@
 
         url = url.replace(/^https?\:/, protocol);
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             DG.ajax(url, {
                 type: 'get',
 
@@ -180,9 +180,7 @@
                     var result = data.result;
 
                     if (result && result.items && result.items.length) {
-                        DG.projectsList = result.items.filter(function (project) {
-                            return project.bounds;
-                        });
+                        DG.projectsList = result.items;
                     }
 
                     resolve();

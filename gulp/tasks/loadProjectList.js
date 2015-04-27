@@ -37,9 +37,7 @@ gulp.task('loadProjectList', function (cb) {
 
         var data = JSON.parse(body);
 
-        var projects = data.result.items.filter(function(project) {
-            return project.bound !== null;
-        });
+        var projects = data.result.items;
 
         var projectListString = 'DG.fallbackProjectsList = JSON.parse(\'' +
             JSON.stringify(projects) +
