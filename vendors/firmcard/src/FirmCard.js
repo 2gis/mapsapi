@@ -257,7 +257,6 @@ FirmCard.prototype = {
     _fillHeaderLinks: function () {
         var links = [],
             reviewData = this._firmData.reviews,
-            photos = this._firmData.photos,
             booklet,
             link;
 
@@ -281,23 +280,38 @@ FirmCard.prototype = {
             });
         }
 
-        if (!this.options.isMobile && photos && photos.items && photos.items.length && this.options.showPhotos) {
-            link = L.Util.template('__PHOTOS_LINK__',
-                {
-                    'id': this._firmId,
-                    'domain': this.options.domain
-                });
+        // Retrieve photo data from external content block
+        var photos;
+        var externalContent = this._firmData.external_content;
+
+        for (var i = 0; i < externalContent.length; i++) {
+            if (
+                externalContent[i].type == 'photo_album' &&
+                externalContent[i].subtype == 'common'
+            ) {
+                photos = externalContent[i];
+                break;
+            }
+        }
+
+        if (!this.options.isMobile && photos && photos.count && this.options.showPhotos) {
+            link = L.Util.template('__PHOTOS_LINK__', {
+                'id': this._firmId,
+                'domain': this.options.domain
+            });
 
             links.push({name: 'photos',
-                        href: link,
-                        label: this.dict.t(this.options.lang, 'linkPhoto', photos.items.length)
+                href: link,
+                label: this.dict.t(this.options.lang, 'linkPhoto', photos.count)
             });
         }
 
         if (!this.options.isMobile && booklet && booklet.url && this.options.showBooklet) {
-            links.push({name: 'booklet',
-                        href:  booklet.url,
-                        label: this.dict.t(this.options.lang, 'linkBooklet')});
+            links.push({
+                name: 'booklet',
+                href:  booklet.url,
+                label: this.dict.t(this.options.lang, 'linkBooklet')
+            });
         }
 
 
