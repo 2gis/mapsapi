@@ -38,12 +38,13 @@
             options = { position: 'bottomright' };
         }
 
-        DG.control.fullscreen(options).addTo(map);
-        DG.control.traffic(options).addTo(map);
         DG.control.zoom(options).addTo(map);
+        DG.control.traffic(options).addTo(map);
         DG.control.location(options).addTo(map);
         DG.control.ruler(options).addTo(map);
-
+        if (DG.screenfull.isAvailable()) {
+            DG.control.fullscreen(options).addTo(map);
+        }
         balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
         <img src="/2.0/img/2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
         <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
