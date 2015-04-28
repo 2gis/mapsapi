@@ -7,7 +7,7 @@ DG.Geoclicker.Handler.Default.Dictionary.en = DG.extend({
     'adm_div.division' : 'Area',
     'adm_div.settlement' : 'Village',
     street : 'Street',
-    'adm_div.district' : 'Disctict',
+    'adm_div.district' : 'District',
     'adm_div.city' : 'City',
     go_to : 'Directions to here',
     show_organization_in_building : ['{n} organization total', '{n} organizations total'],
