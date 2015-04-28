@@ -27,7 +27,7 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
     }
     district = {
         'ru': u"Район",
-        # 'en': u"District",
+        'en': u"District",
         'cs': u"Městská část",
         'es': u"Comuna",
         'it': u"Municipalità"
