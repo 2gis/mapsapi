@@ -19,7 +19,7 @@ DG.Poi = DG.Handler.extend({
         DG.Util.setOptions(this, options);
         this._metaLayer = DG.Meta.layer(DG.Poi.metaURL, {
             minZoom: __POI_LAYER_MIN_ZOOM__,
-            maxNativeZoom: 18,
+            maxNativeZoom: 19,
             detectRetina: __DETECT_RETINA__,
             eventBubbling: 'layer',
             dataFilter: DG.bind(this._processData, this)
