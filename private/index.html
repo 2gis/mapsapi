@@ -30,15 +30,14 @@
             geoclicker: true,
             worldCopyJump: true,
             zoomControl: false,
-            fullscreenControl: false
+            fullscreenControl: true
         });
 
         // change control position on touch devices
         if (DG.Browser.touch) {
             options = { position: 'bottomright' };
         }
-
-        DG.control.fullscreen(options).addTo(map);
+        
         DG.control.traffic(options).addTo(map);
         DG.control.zoom(options).addTo(map);
         DG.control.location(options).addTo(map);
