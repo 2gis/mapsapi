@@ -1,0 +1,18 @@
+## Project ###
+config/config.my.ini
+nosetests.xml
+nosetests-*.xml
+run_my.sh
+.noseids
+
+### Python ###
+*.py[cod]
+
+### Virtualenv ###
+.env/
+
+### Tox ###
+.tox/
+
+### IDE ###
+.idea/
