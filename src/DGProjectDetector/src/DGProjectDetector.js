@@ -82,12 +82,22 @@ DG.ProjectDetector = DG.Handler.extend({
 
         bracketsContent = (regExp).exec(arr[1]);
         pointsArr = bracketsContent[1].split(',');
-        southWest = pointsArr[0].split(' ');
-        northEast = pointsArr[2].split(' ');
+
+        // Create a LatLng array of all points in WKT
+        pointsArr = pointsArr.map(function(pointString) {
+            var numbers = pointString.split(' ');
+
+            return DG.latLng(
+                parseFloat(numbers[1]),
+                parseFloat(numbers[0])
+            );
+        });
+
+        var bound = DG.latLngBounds(pointsArr);
 
         return [
-            [parseFloat(southWest[1]), parseFloat(southWest[0])],
-            [parseFloat(northEast[1]), parseFloat(northEast[0])]
+            [bound.getSouthWest().lat, bound.getSouthWest().lng],
+            [bound.getNorthEast().lat, bound.getNorthEast().lng]
         ];
     },
 
