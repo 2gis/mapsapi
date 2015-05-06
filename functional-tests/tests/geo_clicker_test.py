@@ -10,7 +10,12 @@ from classes.WAPI.dataWorker import GalleryData
 # TODO: вынести в датапровайдеры захордкоженные координаты для памятников и пои
 
 
-class ClickDifferentZoomsCords(MapsAPIBaseTest):
+class GeoClickerTests(MapsAPIBaseTest):
+    """
+    Тесты геокликера.
+    В данных тестах проверяется открытие нужных колаутов в соответствии с координатами и зумом.
+    Кроме того для описания переводов используются словари с ключами языков.
+    """
     not_found = {
         'ru': u"Это место мы ещё не успели изучить",
         'en': u"We haven't collected info about this place yet",
@@ -32,7 +37,6 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         'es': u"Comuna",
         'it': u"Municipalità"
     }
-
     street = {
         'ru': u"Улица",
         'en': u"Street",
@@ -42,16 +46,22 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
     }
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+        (config.aut['local'] + u'/base.html', 54.98, 82.32)
     ])
-    def test_unknown_place(self, url):
+    def test_unknown_place(self, url, lat, lng):
         """
-        :param url: powered by dataprovider
-        Unknown place callout test
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        Тест на проверку колаута неизвестного места.
+        1.Перемещаемся к координатам
+        2.Кликаем в центр
+        3.Проверяем открытие калаута
+        4.Проверяем содержимое колаута для всех языков
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to(54.98, 82.32))
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.page.map_container.center_click()
         self.page.unkown_place.wait_present()
         self.assertTrue(self.page.unkown_place.is_visible)
@@ -65,8 +75,13 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
     ])
     def test_city_place(self, url):
         """
-        :param url: powered by dataprovider decorator
-        City  callout test
+        :param url: Адрес страницы
+        Тест на проверку колаута города.
+        1.Изменяем изначальный зум к 8
+        2.Кликаем в центр
+        3.Проверяем открытие калаута
+        4.Проверяем название города
+        5.Проверяем информацию о геообъекте на всех языках
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
@@ -86,8 +101,13 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
     ])
     def test_district_place(self, url):
         """
-        :param url: powered by dataprovider decorator
-        District callout test
+        :param url: Адрес страницы
+        Тест на проверку колаута района.
+        1.Кликаем в центр
+        2.Проверяем открытие калаута
+        3.Проверяем название района
+        4.Проверяем адрес района
+        5.Проверяем информацию о геообъекте на всех языках
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
@@ -106,40 +126,75 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
             self.assertEqual(self.district[lang], purpose)
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+        (config.aut['local'] + u'/base.html', 54.9802611969944, 82.89837956428528)
+
     ])
-    def test_building_name(self, url):
+    def test_building_name(self, url, lat, lng):
         """
-        :param url: powered by dataprovider decorator
-        Building with and without name callout
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        Проверка здания с названием.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие названия в заголовке
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to(54.9802611969944, 82.89837956428528))
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.driver.execute_script(SetScripts.set_zoom(18))
         self.page.map_container.center_click()
         center = self.driver.execute_script(GetScripts.getCenter)
         self.page.build_callout.wait_present()
         g = GeoData(center, 18)
-        self.assertTrue(self.page.build_callout.is_visible)
-        self.assertEqual(g.build_name, self.page.build_callout.header)
-        self.driver.execute_script(SetScripts.pan_to(54.98511556781472, 82.85259425640108))
-        self.page.map_container.center_click()
-        center = self.driver.execute_script(GetScripts.getCenter)
-        g = GeoData(center, 18)
         self.assertEqual(g.build_name, self.page.build_callout.header)
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+        (config.aut['local'] + u'/base.html', 54.98511556781472, 82.85259425640108)
+
     ])
-    def test_street_callout(self, url):
+    def test_building_without_name(self, url, lat, lng):
         """
-        :param url: powered by dataprovider decorator
-        Street callout test
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        Проверка здания без названия.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие адреса в заголовке
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to(54.9833825909448, 82.89679169654848))
+        self.driver.execute_script(SetScripts.set_zoom(18))
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
+        self.page.map_container.center_click()
+        center = self.driver.execute_script(GetScripts.getCenter)
+        g = GeoData(center, 18)
+        self.page.build_callout.wait_present()
+        self.assertEqual(g.build_name, self.page.build_callout.header)
+
+    @dataprovider([
+        (config.aut['local'] + u'/base.html', 54.9833825909448, 82.89679169654848)
+    ])
+    def test_street_callout(self, url, lat, lng):
+        """
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        Проверка калаута улицы.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие калаута
+        5.Проверяем название улицы
+        6.Проверяем расположение улицы
+        7.Проверяем информацию о геообъекте на всех языках
+        """
+        self.driver.get(url)
+        self.page.map_container.wait_map_init()
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.driver.execute_script(SetScripts.set_zoom(18))
         self.page.map_container.center_click()
         center = self.driver.execute_script(GetScripts.getCenter)
@@ -153,16 +208,23 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
             self.assertEqual(self.page.addresed_place_callout.purpose, self.street[lang])
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+        (config.aut['local'] + u'/base.html', 54.98127706190138, 82.88240969181062)
     ])
-    def test_attraction_callout(self, url):
+    def test_attraction_callout(self, url, lat, lng):
         """
-        :param url: powered by dataprovider decorator
-        Street callout test
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        Проверка калаута достопремичательности.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие калаута
+        6.Проверяем заголовок калаута
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to(54.98127706190138, 82.88240969181062))
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.driver.execute_script(SetScripts.set_zoom(18))
         self.page.map_container.center_click()
         self.page.attraction_callout.wait_present()
@@ -172,17 +234,28 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         self.assertEqual(g.attraction_name, self.page.attraction_callout.header)
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+        (config.aut['local'] + u'/base.html', '54.986870015252265', '82.8704744636')
     ])
-    def test_attraction_text(self, url):
+    def test_attraction_text(self, url, lat, lng):
         """
-        :param url: powered by dataprovider decorator
-        Street callout test
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        Проверка калаута памятника с текстом.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие калаута
+        6.Проверяем заголовок калаута
+        7.Проверяем наличие враппера
+        8.Проверяем текст
+        9.Кликаем во враппер
+        10.Проверяем отсутствие враппера
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
         self.driver.execute_script(SetScripts.set_zoom(18))
-        self.driver.execute_script(SetScripts.pan_to('54.986870015252265', '82.8704744636'))
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.page.map_container.center_click()
         self.page.attraction_callout_wrapped.wait_present()
         center = self.driver.execute_script(GetScripts.getCenter)
@@ -195,35 +268,51 @@ class ClickDifferentZoomsCords(MapsAPIBaseTest):
         self.assertFalse(self.page.attraction_callout_wrapped.wrapper())
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+        (config.aut['local'] + u'/base.html', '54.98088611087379', '82.89719912975313', 141265770417218)
     ])
-    def test_poi_click(self, url):
+    def test_poi_click(self, url, lat, lng, firm_id):
         """
-        :param url: powered by dataprovider decorator
-        POI callout test
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        :param firm_id:
+        Проверка калаута POI.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие калаута
+        6.Проверяем заголовок калаута
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
         self.driver.execute_script(SetScripts.set_zoom(18))
-        self.driver.execute_script(SetScripts.pan_to('54.98088611087379', '82.89719912975313'))
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.page.map_container.center_click()
         self.page.firm_callout.wait_present()
-        f = FirmData(141265770417218)
+        f = FirmData(firm_id)
         self.assertEqual(self.page.firm_callout.header, f.firm_name)
 
     @dataprovider([
-        config.aut['local'] + u'/base.html'
+        (config.aut['local'] + u'/base.html', '-33.44692090822703', '-70.65750718116762', 14215121979385186)
     ])
-    def test_poi_gallery_click(self, url):
+    def test_poi_gallery_click(self, url, lat, lng, firm_id):
         """
-        :param url: powered by dataprovider decorator
-        POI callout test
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        :param firm_id:
+        Проверка калаута памятника с текстом.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие калаута
+        6.Проверяем заголовок калаута
         """
         self.driver.get(url)
         self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to('-33.44692090822703', '-70.65750718116762'))
+        self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.driver.execute_script(SetScripts.set_zoom(19))
         self.page.map_container.center_click()
         self.page.build_callout.wait_present()
-        g = GalleryData(14215121979385186)
+        g = GalleryData(firm_id)
         self.assertEqual(self.page.build_callout.header, g.gallery_name)

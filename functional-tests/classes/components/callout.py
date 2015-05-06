@@ -7,10 +7,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 class Callout(Component):
     selectors = {
-        'self': '.leaflet-popup',
-        'X': '.leaflet-popup-close-button'
+        'self': '.leaflet-popup'
     }
 
     def wait_present(self):
@@ -19,7 +19,18 @@ class Callout(Component):
         )
 
 
-class UnknownPlace(Callout):
+class CalloutCrossed(Callout):
+    selectors = {
+        'self': '.leaflet-popup',
+        'header': '.dg-popup__header-title',
+        'X': '.leaflet-popup-close-button'
+    }
+
+    def close(self):
+        self.element.find_element_by_css_selector(self.selectors['X']).click()
+
+
+class UnknownPlace(CalloutCrossed):
     """
     Unknown place callout
     """
@@ -36,11 +47,8 @@ class UnknownPlace(Callout):
         """
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
 
-    def close(self):
-        self.element.find_element_by_css_selector(self.selectors['X']).click()
 
-
-class PlaceCallout(Callout):
+class PlaceCallout(CalloutCrossed):
     """
     Base place callout (example: city callout)
     """
@@ -65,9 +73,6 @@ class PlaceCallout(Callout):
         """
         return self.element.find_element_by_css_selector(self.selectors['purpose']).text.strip()
 
-    def close(self):
-        self.element.find_element_by_css_selector(self.selectors['X']).click()
-
 
 class AddressPlaceCallout(PlaceCallout):
     """
@@ -89,7 +94,7 @@ class AddressPlaceCallout(PlaceCallout):
         return unescape_text(self.element.find_element_by_css_selector(self.selectors['drilldown']).text.strip())
 
 
-class AttractionCallout(Callout):
+class AttractionCallout(CalloutCrossed):
     """
     Attraction callout without text (example: sandboxes, toilets, attractions)
     """
@@ -113,9 +118,6 @@ class AttractionCallout(Callout):
         :return: str
         """
         return self.element.find_element_by_css_selector(self.selectors['purpose']).text.strip()
-
-    def close(self):
-        self.element.find_element_by_css_selector(self.selectors['X']).click()
 
 
 class AttractionCallouttWrapped(AttractionCallout):
@@ -146,7 +148,7 @@ class AttractionCallouttWrapped(AttractionCallout):
         self.element.find_element_by_css_selector(self.selectors['wrapper']).click()
 
 
-class BuildCallout(Callout):
+class BuildCallout(CalloutCrossed):
     """
     Base build callout
     """
@@ -163,11 +165,8 @@ class BuildCallout(Callout):
         """
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
 
-    def close(self):
-        self.element.find_element_by_css_selector(self.selectors['X']).click()
 
-
-class FirmCallout(Callout):
+class FirmCallout(CalloutCrossed):
     """
     Firm and common poi callout
     """
@@ -183,6 +182,3 @@ class FirmCallout(Callout):
         :return: str
         """
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
-
-    def close(self):
-        self.element.find_element_by_css_selector(self.selectors['X']).click()
