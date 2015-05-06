@@ -110,7 +110,7 @@ class MarkerTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/groupMarkerEvent.html'
     ])
-    def marker_programm_open_test(self, url):
+    def marker_group_events_test(self, url):
         """
         :param url: Адрес страницы
         Проверка обработки событиев у маркеров
@@ -125,3 +125,24 @@ class MarkerTest(MapsAPIBaseTest):
         lng = '%.3f' % center['lng']
         self.assertEqual(lat, self.page.marker.get_lat('marker3'))
         self.assertEqual(lng, self.page.marker.get_lng('marker3'))
+
+    @dataprovider([
+        config.aut['local'] + u'/groupMarkerEvent.html'
+    ])
+    def marker_group_bounds_test(self, url):
+        """
+        :param url: Адрес страницы
+        Проверка подстройки границ под положение маркеров
+        1.Выставляем большой зум
+        2.Выполняем fitBounds по маркерам
+        2.Проверяем изменение координат карты и зума
+        """
+        self.driver.get(url)
+        self.page.map_container.wait_map_init()
+        self.page.map_container.set_zoom(17)
+        self.driver.execute_script('map.fitBounds(group.getBounds())')
+        center = self.driver.execute_script(GetScripts.getCenter)
+        lat = '%.3f' % center['lat']
+        lng = '%.3f' % center['lng']
+        self.assertEqual(lat, '54.914')
+        self.assertEqual(lng, '82.976')
