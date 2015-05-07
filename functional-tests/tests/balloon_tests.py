@@ -3,7 +3,6 @@ from classes.mapsapi_base_test import MapsAPIBaseTest
 from config import config
 from lode_runner.dataprovider import dataprovider
 from classes.util import scripts
-from time import sleep
 
 
 class Balloons(MapsAPIBaseTest):
@@ -28,7 +27,7 @@ class Balloons(MapsAPIBaseTest):
         pass
 
     @dataprovider([
-        config.aut['local'] + u'/sprawlingBaloon.html'
+        config.aut['local'] + u'/sprawlingBalloon.html'
     ])
     def balloon_sprawling(self, url):
         """
@@ -37,6 +36,6 @@ class Balloons(MapsAPIBaseTest):
         1.Проверяем что балун входит в границу карты
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.driver.find_element_by_css_selector('input#sprawling').click()
         self.assertTrue(False)

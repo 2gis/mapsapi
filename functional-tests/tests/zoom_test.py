@@ -19,10 +19,10 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем что зум стал на единицу больше
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
         self.page.zoom_control_in.zoom_in_click()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
@@ -37,10 +37,10 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем что зум стал на единицу меньше
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
         self.page.zoom_control_out.zoom_out_click()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, -1)
 
     @dataprovider([
@@ -55,10 +55,10 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем что зум стал на единицу меньше
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.center_dbclick()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.center_dbclick()
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
@@ -73,10 +73,10 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем изменение зума
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.zoom_selection()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.zoom_selection()
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
@@ -91,10 +91,10 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем изсенение зума
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.wheel_zoom(1)
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.wheel_zoom(1)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
@@ -109,8 +109,8 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем изсенение зума
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.wheel_zoom(-1)
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.wheel_zoom(-1)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, -1)

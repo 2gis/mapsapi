@@ -60,9 +60,9 @@ class GeoClickerTests(MapsAPIBaseTest):
         4.Проверяем содержимое колаута для всех языков
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.driver.execute_script(SetScripts.pan_to(lat, lng))
-        self.page.map_container.center_click()
+        self.page.map.center_click()
         self.page.unkown_place.wait_present()
         self.assertTrue(self.page.unkown_place.is_visible)
         for lang in self.not_found:
@@ -84,11 +84,11 @@ class GeoClickerTests(MapsAPIBaseTest):
         5.Проверяем информацию о геообъекте на всех языках
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.driver.execute_script(SetScripts.set_zoom(8))
         center = self.driver.execute_script(GetScripts.getCenter)
         g = GeoData(center, 8)
-        self.page.map_container.center_click()
+        self.page.map.center_click()
         self.page.place_callout.wait_present()
         self.assertEqual(self.page.place_callout.header, g.city_name)
         for lang in self.city:
@@ -110,9 +110,9 @@ class GeoClickerTests(MapsAPIBaseTest):
         5.Проверяем информацию о геообъекте на всех языках
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         center = self.driver.execute_script(GetScripts.getCenter)
-        self.page.map_container.center_click()
+        self.page.map.center_click()
         self.page.addresed_place_callout.wait_present()
         zoom = self.driver.execute_script(GetScripts.getZoom)
         g = GeoData(center, zoom)
@@ -141,10 +141,10 @@ class GeoClickerTests(MapsAPIBaseTest):
         4.Проверяем наличие названия в заголовке
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.driver.execute_script(SetScripts.pan_to(lat, lng))
         self.driver.execute_script(SetScripts.set_zoom(18))
-        self.page.map_container.center_click()
+        self.page.map.center_click()
         center = self.driver.execute_script(GetScripts.getCenter)
         self.page.build_callout.wait_present()
         g = GeoData(center, 18)
@@ -166,11 +166,11 @@ class GeoClickerTests(MapsAPIBaseTest):
         4.Проверяем наличие адреса в заголовке
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.set_zoom(18))
-        self.driver.execute_script(SetScripts.pan_to(lat, lng))
-        self.page.map_container.center_click()
-        center = self.driver.execute_script(GetScripts.getCenter)
+        self.page.map.wait_init()
+        self.page.console(SetScripts.set_zoom(18))
+        self.page.console(SetScripts.pan_to(lat, lng))
+        self.page.map.center_click()
+        center = self.page.console(GetScripts.getCenter)
         g = GeoData(center, 18)
         self.page.build_callout.wait_present()
         self.assertEqual(g.build_name, self.page.build_callout.header)
@@ -193,18 +193,18 @@ class GeoClickerTests(MapsAPIBaseTest):
         7.Проверяем информацию о геообъекте на всех языках
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to(lat, lng))
-        self.driver.execute_script(SetScripts.set_zoom(18))
-        self.page.map_container.center_click()
-        center = self.driver.execute_script(GetScripts.getCenter)
+        self.page.map.wait_init()
+        self.page.console(SetScripts.pan_to(lat, lng))
+        self.page.console(SetScripts.set_zoom(18))
+        self.page.map.center_click()
+        center = self.page.console(GetScripts.getCenter)
         g = GeoData(center, 18)
         self.page.addresed_place_callout.wait_present()
         self.assertTrue(self.page.addresed_place_callout.is_visible)
         self.assertEqual(g.street_name, self.page.addresed_place_callout.header)
         self.assertEqual(self.page.addresed_place_callout.drilldown, g.street_address)
         for lang in self.street:
-            self.driver.execute_script(SetScripts.set_lang(lang))
+            self.page.console(SetScripts.set_lang(lang))
             self.assertEqual(self.page.addresed_place_callout.purpose, self.street[lang])
 
     @dataprovider([
@@ -223,12 +223,12 @@ class GeoClickerTests(MapsAPIBaseTest):
         6.Проверяем заголовок калаута
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to(lat, lng))
-        self.driver.execute_script(SetScripts.set_zoom(18))
-        self.page.map_container.center_click()
+        self.page.map.wait_init()
+        self.page.console(SetScripts.pan_to(lat, lng))
+        self.page.console(SetScripts.set_zoom(18))
+        self.page.map.center_click()
         self.page.attraction_callout.wait_present()
-        center = self.driver.execute_script(GetScripts.getCenter)
+        center = self.page.console(GetScripts.getCenter)
         g = GeoData(center, 18)
         self.assertTrue(self.page.attraction_callout.is_visible)
         self.assertEqual(g.attraction_name, self.page.attraction_callout.header)
@@ -253,12 +253,12 @@ class GeoClickerTests(MapsAPIBaseTest):
         10.Проверяем отсутствие враппера
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.set_zoom(18))
-        self.driver.execute_script(SetScripts.pan_to(lat, lng))
-        self.page.map_container.center_click()
+        self.page.map.wait_init()
+        self.page.console(SetScripts.set_zoom(18))
+        self.page.console(SetScripts.pan_to(lat, lng))
+        self.page.map.center_click()
         self.page.attraction_callout_wrapped.wait_present()
-        center = self.driver.execute_script(GetScripts.getCenter)
+        center = self.page.console(GetScripts.getCenter)
         g = GeoData(center, 18)
         self.assertTrue(self.page.attraction_callout_wrapped.is_visible)
         self.assertEqual(g.attraction_name, self.page.attraction_callout.header)
@@ -284,10 +284,10 @@ class GeoClickerTests(MapsAPIBaseTest):
         6.Проверяем заголовок калаута
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.set_zoom(18))
-        self.driver.execute_script(SetScripts.pan_to(lat, lng))
-        self.page.map_container.center_click()
+        self.page.map.wait_init()
+        self.page.console(SetScripts.set_zoom(18))
+        self.page.console(SetScripts.pan_to(lat, lng))
+        self.page.map.center_click()
         self.page.firm_callout.wait_present()
         f = FirmData(firm_id)
         self.assertEqual(self.page.firm_callout.header, f.firm_name)
@@ -309,10 +309,10 @@ class GeoClickerTests(MapsAPIBaseTest):
         6.Проверяем заголовок калаута
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.driver.execute_script(SetScripts.pan_to(lat, lng))
-        self.driver.execute_script(SetScripts.set_zoom(19))
-        self.page.map_container.center_click()
+        self.page.map.wait_init()
+        self.page.console(SetScripts.pan_to(lat, lng))
+        self.page.console(SetScripts.set_zoom(19))
+        self.page.map.center_click()
         self.page.build_callout.wait_present()
         g = GalleryData(firm_id)
         self.assertEqual(self.page.build_callout.header, g.gallery_name)

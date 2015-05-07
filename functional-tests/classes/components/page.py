@@ -1,4 +1,5 @@
 from contesto.basis.page import BasePage
+from time import sleep
 
 
 class Page(BasePage):
@@ -36,12 +37,12 @@ class Page(BasePage):
         act.click().perform()
 
     @property
-    def map_container(self):
+    def map(self):
         """
         :return: MapContainer
         """
-        from classes.components.container import MapContainer
-        return MapContainer(self.test, self.test.find_element_by_css_selector(MapContainer.selectors['self']))
+        from classes.components.map import Map
+        return Map(self.test, self.test.find_element_by_css_selector(Map.selectors['self']))
 
     @property
     def zoom_control_in(self):
@@ -72,8 +73,8 @@ class Page(BasePage):
         """
         :return: CalloutCrossed
         """
-        from classes.components.callout import CalloutCrossed
-        return CalloutCrossed(self.test, self.test.find_element_by_css_selector(CalloutCrossed.selectors['self']))
+        from classes.components.callout import BalloonCrossed
+        return BalloonCrossed(self.test, self.test.find_element_by_css_selector(BalloonCrossed.selectors['self']))
 
     @property
     def unkown_place(self):
@@ -140,3 +141,8 @@ class Page(BasePage):
         """
         from classes.components.marker import Marker
         return Marker(self.test, self.test.find_element_by_css_selector(Marker.selectors['self']))
+
+    def console(self, script, timeout=0):
+        result = self.test.execute_script(script)
+        sleep(timeout)
+        return result
