@@ -11,7 +11,7 @@ class MarkerTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/demo.html'
     ])
-    def baloon_to_marker_test(self, url):
+    def balloon_to_marker_test(self, url):
         """
         :param url: Адрес страницы
         Проверка появления маркера при закрытии балуна
@@ -27,7 +27,7 @@ class MarkerTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/demo.html'
     ])
-    def marker_to_baloon_test(self, url):
+    def marker_to_balloon_test(self, url):
         """
         :param url: Адрес страницы
         Проверка появления балуна при клике в маркер
@@ -45,7 +45,7 @@ class MarkerTest(MapsAPIBaseTest):
         self.assertTrue(self.page.callout_crossed.is_visible)
 
     @dataprovider([
-        config.aut['local'] + u'/dragableMarker.html'
+        config.aut['local'] + u'/draggableMarker.html'
     ])
     def drag_marker_test(self, url):
         """
@@ -94,7 +94,7 @@ class MarkerTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/demo.html'
     ])
-    def marker_programm_open_test(self, url):
+    def marker_program_open_test(self, url):
         """
         :param url: Адрес страницы
         Проверка возможности програмного открытия маркеров

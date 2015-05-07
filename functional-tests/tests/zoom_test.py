@@ -62,7 +62,7 @@ class ZoomTest(MapsAPIBaseTest):
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
-         config.aut['local'] + u'/base.html'
+        config.aut['local'] + u'/base.html'
     ])
     def test_zoomIn_shift_select(self, url):
         """
