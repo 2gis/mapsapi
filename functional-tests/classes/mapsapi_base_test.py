@@ -2,7 +2,6 @@
 from classes.components.page import Page
 from contesto.basis.test_case import UnittestContestoTestCase
 from config import config
-from classes.WAPI.request import BaseReq
 
 
 # TODO: Переопределить логгер из contesto, чтоб не падать при пустых логах
