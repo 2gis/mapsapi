@@ -40,5 +40,3 @@ class Balloons(MapsAPIBaseTest):
         self.page.map_container.wait_map_init()
         self.driver.find_element_by_css_selector('input#sprawling').click()
         self.assertTrue(False)
-
-
