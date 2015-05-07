@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Обработка событий группы маркеров</title>
+        <script src="../loader.js" data-id="dgLoader"></script>
+    </head>
+    <body>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <script>
+            DG.then(function() {
+
+                map = DG.map('map', {
+                    center: [54.98, 82.89],
+                    zoom: 10
+                });
+
+                marker1 = DG.marker([54.96, 82.889]).addTo(map);
+                marker2 = DG.marker([54.98, 82.893]).addTo(map);
+                marker3 = DG.marker([54.847182907052186, 83.06230008602144]).addTo(map);
+
+                group = DG.featureGroup([marker1, marker2, marker3]);
+                group.addTo(map);
+                group.on('click', function(e) {
+                    map.setView([e.latlng.lat, e.latlng.lng],{animate: false});
+                });
+            });
+        </script>
+    </body>
+</html>

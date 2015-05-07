@@ -18,6 +18,10 @@ class SetScripts:
     def set_lang(lang):
         return 'map.setLang("%s");' % str(lang)
 
+    @staticmethod
+    def open_marker(name='marker'):
+        return '%s.openPopup();' % name
+
 
 class WheelScript:
     prepare = """

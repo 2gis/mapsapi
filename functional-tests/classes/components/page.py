@@ -1,5 +1,6 @@
 from contesto.basis.page import BasePage
 
+
 class Page(BasePage):
     def __init__(self, test):
         """
@@ -59,6 +60,22 @@ class Page(BasePage):
         return ZoomControlOut(self.test, self.test.find_element_by_css_selector(ZoomControlOut.selectors['self']))
 
     @property
+    def callout(self):
+        """
+        :return: Callout
+        """
+        from classes.components.callout import Callout
+        return Callout(self.test, self.test.find_element_by_css_selector(Callout.selectors['self']))
+
+    @property
+    def callout_crossed(self):
+        """
+        :return: CalloutCrossed
+        """
+        from classes.components.callout import CalloutCrossed
+        return CalloutCrossed(self.test, self.test.find_element_by_css_selector(CalloutCrossed.selectors['self']))
+
+    @property
     def unkown_place(self):
         """
         :return: UnknownPlace
@@ -115,3 +132,11 @@ class Page(BasePage):
         from classes.components.callout import FirmCallout
         return FirmCallout(self.test, self.test.find_element_by_css_selector(
             FirmCallout.selectors['self']))
+
+    @property
+    def marker(self):
+        """
+        :return: Marker
+        """
+        from classes.components.marker import Marker
+        return Marker(self.test, self.test.find_element_by_css_selector(Marker.selectors['self']))

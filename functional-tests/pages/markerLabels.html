@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Маркер с подсказкой</title>
+        <script src="../loader.js"
+        data-id="dgLoader"></script>
+    </head>
+    <body>
+        <div id="map" style="width: 100%; height: 400px;"></div>
+        <script>
+            DG.then(function() {
+                map = DG.map('map', {
+                    center: [54.98, 82.89],
+                    zoom: 15
+                });
+
+                DG.marker([54.98, 82.89])
+                    .addTo(map)
+                    .bindLabel("static", {
+                        static: true
+                    });
+
+                DG.marker([54.98, 82.88])
+                    .addTo(map)
+                    .bindLabel('default');
+            });
+        </script>
+    </body>
+</html>
