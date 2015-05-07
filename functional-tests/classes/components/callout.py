@@ -26,7 +26,7 @@ class UnknownPlace(Callout):
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
 
 
-class PlaceCallout(Callout):
+class Place(Callout):
     """
     Base place callout (example: city callout)
     """
@@ -52,7 +52,7 @@ class PlaceCallout(Callout):
         return self.element.find_element_by_css_selector(self.selectors['purpose']).text.strip()
 
 
-class AddressPlaceCallout(PlaceCallout):
+class AddressPlace(Place):
     """
     Addressed place callout (example: district)
     """
@@ -72,7 +72,7 @@ class AddressPlaceCallout(PlaceCallout):
         return unescape_text(self.element.find_element_by_css_selector(self.selectors['drilldown']).text.strip())
 
 
-class AttractionCallout(Callout):
+class Attraction(Callout):
     """
     Attraction callout without text (example: sandboxes, toilets, attractions)
     """
@@ -98,7 +98,7 @@ class AttractionCallout(Callout):
         return self.element.find_element_by_css_selector(self.selectors['purpose']).text.strip()
 
 
-class AttractionCallouttWrapped(AttractionCallout):
+class AttractionWrapped(Attraction):
     """
     Attraction callout with text (example: monuments etc.)
     """
@@ -126,7 +126,7 @@ class AttractionCallouttWrapped(AttractionCallout):
         self.element.find_element_by_css_selector(self.selectors['wrapper']).click()
 
 
-class BuildCallout(Callout):
+class Build(Callout):
     """
     Base build callout
     """
@@ -144,7 +144,7 @@ class BuildCallout(Callout):
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
 
 
-class FirmCallout(Callout):
+class Firm(Callout):
     """
     Firm and common poi callout
     """

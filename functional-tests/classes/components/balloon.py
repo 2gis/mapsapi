@@ -16,6 +16,9 @@ class Balloon(Component):
             EC.visibility_of(self.driver.find_element(By.CSS_SELECTOR, self.selectors['self']))
         )
 
+    def count(self):
+        return len(self.driver.find_elements_by_css_selector(self.selectors['self']))
+
 
 class BalloonCrossed(Balloon):
     selectors = {

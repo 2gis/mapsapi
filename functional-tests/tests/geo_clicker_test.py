@@ -7,10 +7,9 @@ from classes.WAPI.dataWorker import GeoData
 from classes.util.scripts import GetScripts
 from classes.WAPI.dataWorker import FirmData
 from classes.WAPI.dataWorker import GalleryData
-# TODO: вынести в датапровайдеры захордкоженные координаты для памятников и пои
 
 
-class GeoClickerTests(MapsAPIBaseTest):
+class GeoClicker(MapsAPIBaseTest):
     """
     Тесты геокликера.
     В данных тестах проверяется открытие нужных колаутов в соответствии с координатами и зумом.
@@ -48,7 +47,7 @@ class GeoClickerTests(MapsAPIBaseTest):
     @dataprovider([
         (config.aut['local'] + u'/base.html', 54.98, 82.32)
     ])
-    def test_unknown_place(self, url, lat, lng):
+    def callout_unknown_place_test(self, url, lat, lng):
         """
         :param url: Адрес страницы
         :param lat: Широта
@@ -73,7 +72,7 @@ class GeoClickerTests(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_city_place(self, url):
+    def callout_city_place_test(self, url):
         """
         :param url: Адрес страницы
         Тест на проверку колаута города.
@@ -99,7 +98,7 @@ class GeoClickerTests(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_district_place(self, url):
+    def callout_district_place_test(self, url):
         """
         :param url: Адрес страницы
         Тест на проверку колаута района.
@@ -129,7 +128,7 @@ class GeoClickerTests(MapsAPIBaseTest):
         (config.aut['local'] + u'/base.html', 54.9802611969944, 82.89837956428528)
 
     ])
-    def test_building_name(self, url, lat, lng):
+    def callout_building_name_test(self, url, lat, lng):
         """
         :param url: Адрес страницы
         :param lat: Широта
@@ -154,7 +153,7 @@ class GeoClickerTests(MapsAPIBaseTest):
         (config.aut['local'] + u'/base.html', 54.98511556781472, 82.85259425640108)
 
     ])
-    def test_building_without_name(self, url, lat, lng):
+    def callout_building_without_name_test(self, url, lat, lng):
         """
         :param url: Адрес страницы
         :param lat: Широта
@@ -176,9 +175,35 @@ class GeoClickerTests(MapsAPIBaseTest):
         self.assertEqual(g.build_name, self.page.build_callout.header)
 
     @dataprovider([
+        (config.aut['local'] + u'/base.html', 54.98127706190138, 82.88240969181062)
+    ])
+    def callout_attraction_test(self, url, lat, lng):
+        """
+        :param url: Адрес страницы
+        :param lat: Широта
+        :param lng: Долгота
+        Проверка калаута достопремичательности.
+        1.Перемещаемся к координатам
+        2.Изменяем изначальный зум к 18
+        3.Кликаем в центр
+        4.Проверяем наличие калаута
+        6.Проверяем заголовок калаута
+        """
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(SetScripts.pan_to(lat, lng))
+        self.page.console(SetScripts.set_zoom(18))
+        self.page.map.center_click()
+        self.page.attraction_callout.wait_present()
+        center = self.page.console(GetScripts.getCenter)
+        g = GeoData(center, 18)
+        self.assertTrue(self.page.attraction_callout.is_visible)
+        self.assertEqual(g.attraction_name, self.page.attraction_callout.header)
+
+    @dataprovider([
         (config.aut['local'] + u'/base.html', 54.9833825909448, 82.89679169654848)
     ])
-    def test_street_callout(self, url, lat, lng):
+    def callout_street_test(self, url, lat, lng):
         """
         :param url: Адрес страницы
         :param lat: Широта
@@ -208,35 +233,9 @@ class GeoClickerTests(MapsAPIBaseTest):
             self.assertEqual(self.page.addresed_place_callout.purpose, self.street[lang])
 
     @dataprovider([
-        (config.aut['local'] + u'/base.html', 54.98127706190138, 82.88240969181062)
-    ])
-    def test_attraction_callout(self, url, lat, lng):
-        """
-        :param url: Адрес страницы
-        :param lat: Широта
-        :param lng: Долгота
-        Проверка калаута достопремичательности.
-        1.Перемещаемся к координатам
-        2.Изменяем изначальный зум к 18
-        3.Кликаем в центр
-        4.Проверяем наличие калаута
-        6.Проверяем заголовок калаута
-        """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(SetScripts.pan_to(lat, lng))
-        self.page.console(SetScripts.set_zoom(18))
-        self.page.map.center_click()
-        self.page.attraction_callout.wait_present()
-        center = self.page.console(GetScripts.getCenter)
-        g = GeoData(center, 18)
-        self.assertTrue(self.page.attraction_callout.is_visible)
-        self.assertEqual(g.attraction_name, self.page.attraction_callout.header)
-
-    @dataprovider([
         (config.aut['local'] + u'/base.html', '54.986870015252265', '82.8704744636')
     ])
-    def test_attraction_text(self, url, lat, lng):
+    def callout_attraction_text_test(self, url, lat, lng):
         """
         :param url: Адрес страницы
         :param lat: Широта
@@ -270,7 +269,7 @@ class GeoClickerTests(MapsAPIBaseTest):
     @dataprovider([
         (config.aut['local'] + u'/base.html', '54.98088611087379', '82.89719912975313', 141265770417218)
     ])
-    def test_poi_click(self, url, lat, lng, firm_id):
+    def callout_poi_test(self, url, lat, lng, firm_id):
         """
         :param url: Адрес страницы
         :param lat: Широта
@@ -295,7 +294,7 @@ class GeoClickerTests(MapsAPIBaseTest):
     @dataprovider([
         (config.aut['local'] + u'/base.html', '-33.44692090822703', '-70.65750718116762', 14215121979385186)
     ])
-    def test_poi_gallery_click(self, url, lat, lng, firm_id):
+    def callout_poi_gallery_test(self, url, lat, lng, firm_id):
         """
         :param url: Адрес страницы
         :param lat: Широта

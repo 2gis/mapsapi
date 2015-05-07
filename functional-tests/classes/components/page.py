@@ -89,50 +89,48 @@ class Page(BasePage):
         """
         :return: PlaceCallout
         """
-        from classes.components.callout import PlaceCallout
-        return PlaceCallout(self.test, self.test.find_element_by_css_selector(PlaceCallout.selectors['self']))
+        from classes.components.callout import Place
+        return Place(self.test, self.test.find_element_by_css_selector(Place.selectors['self']))
 
     @property
     def addresed_place_callout(self):
         """
         :return: AddressPlaceCallout
         """
-        from classes.components.callout import AddressPlaceCallout
-        return AddressPlaceCallout(self.test, self.test.find_element_by_css_selector(AddressPlaceCallout.selectors['self']))
+        from classes.components.callout import AddressPlace
+        return AddressPlace(self.test, self.test.find_element_by_css_selector(AddressPlace.selectors['self']))
 
     @property
     def build_callout(self):
         """
         :return: BuildCallout
         """
-        from classes.components.callout import BuildCallout
-        return BuildCallout(self.test, self.test.find_element_by_css_selector(BuildCallout.selectors['self']))
+        from classes.components.callout import Build
+        return Build(self.test, self.test.find_element_by_css_selector(Build.selectors['self']))
 
     @property
     def attraction_callout(self):
         """
         :return: AttractionCallout
         """
-        from classes.components.callout import AttractionCallout
-        return AttractionCallout(self.test, self.test.find_element_by_css_selector(AttractionCallout.selectors['self']))
+        from classes.components.callout import Attraction
+        return Attraction(self.test, self.test.find_element_by_css_selector(Attraction.selectors['self']))
 
     @property
     def attraction_callout_wrapped(self):
         """
         :return: AttractionCallout
         """
-        from classes.components.callout import AttractionCallouttWrapped
-        return AttractionCallouttWrapped(self.test, self.test.find_element_by_css_selector(
-            AttractionCallouttWrapped.selectors['self']))
+        from classes.components.callout import AttractionWrapped
+        return AttractionWrapped(self.test, self.test.find_element_by_css_selector(AttractionWrapped.selectors['self']))
 
     @property
     def firm_callout(self):
         """
         :return: FirmCallout
         """
-        from classes.components.callout import FirmCallout
-        return FirmCallout(self.test, self.test.find_element_by_css_selector(
-            FirmCallout.selectors['self']))
+        from classes.components.callout import Firm
+        return Firm(self.test, self.test.find_element_by_css_selector(Firm.selectors['self']))
 
     @property
     def marker(self):

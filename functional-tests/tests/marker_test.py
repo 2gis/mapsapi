@@ -6,23 +6,7 @@ from classes.util.scripts import SetScripts
 from classes.util.scripts import GetScripts
 
 
-class MarkerTest(MapsAPIBaseTest):
-
-    @dataprovider([
-        config.aut['local'] + u'/demo.html'
-    ])
-    def balloon_to_marker_test(self, url):
-        """
-        :param url: Адрес страницы
-        Проверка появления маркера при закрытии балуна
-        1.Кликаем в контрол закрытия балуна
-        2.Проверяем видимость маркера
-        """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.callout_crossed.wait_present()
-        self.page.callout_crossed.close()
-        self.assertTrue(self.page.marker.is_visible)
+class Marker(MapsAPIBaseTest):
 
     @dataprovider([
         config.aut['local'] + u'/demo.html'
@@ -47,7 +31,7 @@ class MarkerTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/draggableMarker.html'
     ])
-    def drag_marker_test(self, url):
+    def marker_drag_test(self, url):
         """
         :param url: Адрес страницы
         Проверка изменения координат маркера

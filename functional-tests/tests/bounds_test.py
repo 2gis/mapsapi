@@ -10,7 +10,7 @@ class Bounds(MapsAPIBaseTest):
     """
     Тесты на ограничение зума и границ
     """
-    def zoom_bound_min(self, url):
+    def bound_min_zoom(self, url):
         """
         :param url: Адрес страницы
         Проверка ограничения минимального зума
@@ -19,7 +19,7 @@ class Bounds(MapsAPIBaseTest):
         """
         pass
 
-    def zoom_bound_max(self, url):
+    def bound_max_zoom(self, url):
         """
         :param url: Адрес страницы
         Проверка ограничения максимального зума
@@ -28,7 +28,7 @@ class Bounds(MapsAPIBaseTest):
         """
         pass
 
-    def side_bound(self, url):
+    def bound_border(self, url):
         """
         :param url: Адрес страницы
         Проверка ограничения границ

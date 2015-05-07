@@ -40,3 +40,6 @@ class Marker(Component):
     def hover_marker(self, index=0):
         actions = ActionChains(self.driver)
         actions.move_to_element(self.get_markers()[index]).perform()
+
+    def count(self):
+        return len(self.driver.find_elements_by_css_selector(self.selectors['self']))

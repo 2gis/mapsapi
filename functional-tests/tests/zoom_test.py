@@ -5,12 +5,12 @@ from lode_runner.dataprovider import dataprovider
 from classes.util.scripts import GetScripts
 
 
-class ZoomTest(MapsAPIBaseTest):
+class Zoom(MapsAPIBaseTest):
 
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomin_click(self, url):
+    def zoomin_click_test(self, url):
         """
         :param url: Адрес страницы
         Проверка контрола зума +.
@@ -28,7 +28,7 @@ class ZoomTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomout_click(self, url):
+    def zoomout_click_test(self, url):
         """
         :param url: Адрес страницы
         Проерка контрола зума -.
@@ -46,7 +46,7 @@ class ZoomTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomIn_dbclick(self, url):
+    def zoomIn_dbclick_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума даблкликом.
@@ -64,7 +64,7 @@ class ZoomTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomIn_shift_select(self, url):
+    def zoomIn_shift_select_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума селектом с shift.
@@ -82,7 +82,7 @@ class ZoomTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomIn_wheel(self, url):
+    def zoomIn_wheel_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума скролом вперед
@@ -100,7 +100,7 @@ class ZoomTest(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomOut_wheel(self, url):
+    def zoomOut_wheel_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума скролом назад

@@ -2,14 +2,29 @@
 from classes.mapsapi_base_test import MapsAPIBaseTest
 from config import config
 from lode_runner.dataprovider import dataprovider
-from classes.util import scripts
 
 
 class Balloons(MapsAPIBaseTest):
     """
     Тесты балунов
     """
-    def program_open(self, url):
+    @dataprovider([
+        config.aut['local'] + u'/demo.html'
+    ])
+    def balloon_to_marker_test(self, url):
+        """
+        :param url: Адрес страницы
+        Проверка появления маркера при закрытии балуна
+        1.Кликаем в контрол закрытия балуна
+        2.Проверяем видимость маркера
+        """
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.callout_crossed.wait_present()
+        self.page.callout_crossed.close()
+        self.assertTrue(self.page.marker.is_visible)
+
+    def balloon_program_open(self, url):
         """
         :param url: Адрес страницы
         Проверка програмного открытия балуна.
@@ -18,7 +33,7 @@ class Balloons(MapsAPIBaseTest):
         """
         pass
 
-    def baloon_group(self, url):
+    def balloon_group_open(self, url):
         """
         :param url:
         Проверка открытия группы балунов
