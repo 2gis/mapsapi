@@ -7,10 +7,10 @@ from classes.util.scripts import WheelScript
 from classes.util.scripts import SetScripts
 from time import time
 import math
-from classes.exceptions import exceptions
+from time import sleep
 
 
-class MapContainer(Component):
+class Map(Component):
     selectors = {
         'self': '#map'
     }
@@ -39,17 +39,19 @@ class MapContainer(Component):
 
     def wheel_zoom(self, count):
         self.driver.execute_script(WheelScript.prepare + WheelScript.wheel_levels(count))
+        # :`(
+        sleep(1)
 
     def set_zoom(self, level):
         self.driver.execute_script(SetScripts.set_zoom(level))
 
-    def wait_map_init(self, timeout=3, polling=0.5):
+    def wait_init(self, timeout=3, polling=0.5):
         """
         :param timeout: timeout to rise exception
         :param polling: how often check map init
         :return: None
         """
-        request_num = math.ceil(timeout/polling)
+        request_num = math.ceil(timeout / polling)
         tries = 0
         tries_out = False
         map_inited = False

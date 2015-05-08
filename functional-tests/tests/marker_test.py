@@ -6,23 +6,7 @@ from classes.util.scripts import SetScripts
 from classes.util.scripts import GetScripts
 
 
-class MarkerTest(MapsAPIBaseTest):
-
-    @dataprovider([
-        config.aut['local'] + u'/demo.html'
-    ])
-    def balloon_to_marker_test(self, url):
-        """
-        :param url: Адрес страницы
-        Проверка появления маркера при закрытии балуна
-        1.Кликаем в контрол закрытия балуна
-        2.Проверяем видимость маркера
-        """
-        self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.page.callout_crossed.wait_present()
-        self.page.callout_crossed.close()
-        self.assertTrue(self.page.marker.is_visible)
+class Marker(MapsAPIBaseTest):
 
     @dataprovider([
         config.aut['local'] + u'/demo.html'
@@ -36,18 +20,18 @@ class MarkerTest(MapsAPIBaseTest):
         3.Проверяем наличие балуна
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.page.callout_crossed.wait_present()
-        self.page.callout_crossed.close()
+        self.page.map.wait_init()
+        self.page.balloon_crossed.wait_present()
+        self.page.balloon_crossed.close()
         self.page.marker.wait_present()
         self.page.marker.click()
-        self.page.callout_crossed.wait_present()
-        self.assertTrue(self.page.callout_crossed.is_visible)
+        self.page.balloon_crossed.wait_present()
+        self.assertTrue(self.page.balloon_crossed.is_visible)
 
     @dataprovider([
         config.aut['local'] + u'/draggableMarker.html'
     ])
-    def drag_marker_test(self, url):
+    def marker_drag_test(self, url):
         """
         :param url: Адрес страницы
         Проверка изменения координат маркера
@@ -55,7 +39,7 @@ class MarkerTest(MapsAPIBaseTest):
         2.Проверяем значение абзацев с координатами
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.page.marker.drag_marker(10, 10)
         lat = self.page.marker.get_lat()
         lng = self.page.marker.get_lng()
@@ -72,7 +56,7 @@ class MarkerTest(MapsAPIBaseTest):
         1.Проверяем наличие лейбла у маркера
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.assertEqual(self.page.marker.get_labels()[0].text, u'static')
 
     @dataprovider([
@@ -86,7 +70,7 @@ class MarkerTest(MapsAPIBaseTest):
         2.Проверяем наличие лейбла
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.page.marker.hover_marker(1)
         text = self.page.marker.get_labels()[1].text
         self.assertEqual(text, u'default')
@@ -102,10 +86,10 @@ class MarkerTest(MapsAPIBaseTest):
         2.Открываем его программно
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.page.callout_crossed.close()
-        self.driver.execute_script(SetScripts.open_marker())
-        self.assertTrue(self.page.callout_crossed.is_visible)
+        self.page.map.wait_init()
+        self.page.balloon_crossed.close()
+        self.page.console(SetScripts.open_marker())
+        self.assertTrue(self.page.balloon_crossed.is_visible)
 
     @dataprovider([
         config.aut['local'] + u'/groupMarkerEvent.html'
@@ -118,9 +102,9 @@ class MarkerTest(MapsAPIBaseTest):
         2.Проверяем изменение координат карты
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
+        self.page.map.wait_init()
         self.page.marker.click(2)
-        center = self.driver.execute_script(GetScripts.getCenter)
+        center = self.page.console(GetScripts.getCenter)
         lat = '%.3f' % center['lat']
         lng = '%.3f' % center['lng']
         self.assertEqual(lat, self.page.marker.get_lat('marker3'))
@@ -138,10 +122,10 @@ class MarkerTest(MapsAPIBaseTest):
         2.Проверяем изменение координат карты и зума
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        self.page.map_container.set_zoom(17)
-        self.driver.execute_script('map.fitBounds(group.getBounds())')
-        center = self.driver.execute_script(GetScripts.getCenter)
+        self.page.map.wait_init()
+        self.page.map.set_zoom(17)
+        self.page.console('map.fitBounds(group.getBounds())')
+        center = self.page.console(GetScripts.getCenter)
         lat = '%.3f' % center['lat']
         lng = '%.3f' % center['lng']
         self.assertEqual(lat, '54.914')

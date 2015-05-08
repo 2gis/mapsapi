@@ -1,36 +1,14 @@
 # -*- coding: utf-8 -*-
-from classes.components.component import Component
 from classes.util.unescape import unescape_text
 from classes.util.decorators import catches_not_found
-from config import config
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from classes.components.balloon import BalloonCrossed
 
 
-class Callout(Component):
-    selectors = {
-        'self': '.leaflet-popup'
-    }
-
-    def wait_present(self):
-        WebDriverWait(self.driver, config.timeout['normal']).until(
-            EC.visibility_of(self.driver.find_element(By.CSS_SELECTOR, self.selectors['self']))
-        )
+class Callout(BalloonCrossed):
+    pass
 
 
-class CalloutCrossed(Callout):
-    selectors = {
-        'self': '.leaflet-popup',
-        'header': '.dg-popup__header-title',
-        'X': '.leaflet-popup-close-button'
-    }
-
-    def close(self):
-        self.element.find_element_by_css_selector(self.selectors['X']).click()
-
-
-class UnknownPlace(CalloutCrossed):
+class UnknownPlace(Callout):
     """
     Unknown place callout
     """
@@ -48,7 +26,7 @@ class UnknownPlace(CalloutCrossed):
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
 
 
-class PlaceCallout(CalloutCrossed):
+class Place(Callout):
     """
     Base place callout (example: city callout)
     """
@@ -74,7 +52,7 @@ class PlaceCallout(CalloutCrossed):
         return self.element.find_element_by_css_selector(self.selectors['purpose']).text.strip()
 
 
-class AddressPlaceCallout(PlaceCallout):
+class AddressPlace(Place):
     """
     Addressed place callout (example: district)
     """
@@ -94,7 +72,7 @@ class AddressPlaceCallout(PlaceCallout):
         return unescape_text(self.element.find_element_by_css_selector(self.selectors['drilldown']).text.strip())
 
 
-class AttractionCallout(CalloutCrossed):
+class Attraction(Callout):
     """
     Attraction callout without text (example: sandboxes, toilets, attractions)
     """
@@ -120,7 +98,7 @@ class AttractionCallout(CalloutCrossed):
         return self.element.find_element_by_css_selector(self.selectors['purpose']).text.strip()
 
 
-class AttractionCallouttWrapped(AttractionCallout):
+class AttractionWrapped(Attraction):
     """
     Attraction callout with text (example: monuments etc.)
     """
@@ -148,7 +126,7 @@ class AttractionCallouttWrapped(AttractionCallout):
         self.element.find_element_by_css_selector(self.selectors['wrapper']).click()
 
 
-class BuildCallout(CalloutCrossed):
+class Build(Callout):
     """
     Base build callout
     """
@@ -166,7 +144,7 @@ class BuildCallout(CalloutCrossed):
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
 
 
-class FirmCallout(CalloutCrossed):
+class Firm(Callout):
     """
     Firm and common poi callout
     """

@@ -5,12 +5,12 @@ from lode_runner.dataprovider import dataprovider
 from classes.util.scripts import GetScripts
 
 
-class ZoomTest(MapsAPIBaseTest):
+class Zoom(MapsAPIBaseTest):
 
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomin_click(self, url):
+    def zoomIn_click_test(self, url):
         """
         :param url: Адрес страницы
         Проверка контрола зума +.
@@ -19,16 +19,16 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем что зум стал на единицу больше
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
         self.page.zoom_control_in.zoom_in_click()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomout_click(self, url):
+    def zoomOut_click_test(self, url):
         """
         :param url: Адрес страницы
         Проерка контрола зума -.
@@ -37,16 +37,16 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем что зум стал на единицу меньше
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
         self.page.zoom_control_out.zoom_out_click()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, -1)
 
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomIn_dbclick(self, url):
+    def zoomIn_dbclick_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума даблкликом.
@@ -55,16 +55,16 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем что зум стал на единицу меньше
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.center_dbclick()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.center_dbclick()
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomIn_shift_select(self, url):
+    def zoomIn_shift_select_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума селектом с shift.
@@ -73,16 +73,16 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем изменение зума
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.zoom_selection()
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.zoom_selection()
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomIn_wheel(self, url):
+    def zoomIn_wheel_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума скролом вперед
@@ -91,16 +91,16 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем изсенение зума
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.wheel_zoom(1)
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.wheel_zoom(1)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
 
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def test_zoomOut_wheel(self, url):
+    def zoomOut_wheel_test(self, url):
         """
         :param url: Адрес страницы
         Проверка зума скролом назад
@@ -109,8 +109,8 @@ class ZoomTest(MapsAPIBaseTest):
         3.Проверяем изсенение зума
         """
         self.driver.get(url)
-        self.page.map_container.wait_map_init()
-        zoom_start = self.driver.execute_script(GetScripts.getZoom)
-        self.page.map_container.wheel_zoom(-1)
-        zoom_end = self.driver.execute_script(GetScripts.getZoom)
+        self.page.map.wait_init()
+        zoom_start = self.page.console(GetScripts.getZoom)
+        self.page.map.wheel_zoom(-1)
+        zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, -1)

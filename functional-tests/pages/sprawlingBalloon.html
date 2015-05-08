@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Поведение балуна с параметром sprawling</title>
+        <script src="../loader.js" data-id="dgLoader"></script>
+    </head>
+    <body>
+        <div id="map" style="width: 300px; height: 150px;"></div>
+        <div>
+            <input style="width: 300px;" type="button" id="sprawling" value="Sprawling"><br />
+            <input style="width: 300px;" type="button" id="no-sprawling" value="No sprawling"><br />
+            <input style="width: 300px;" type="button" id="minWidth" value="Minimal width 320px"><br />
+            <input style="width: 300px;" type="button" id="small" value="Small map" onclick="resize(200)"><br />
+            <input style="width: 300px;" type="button" id="mid" value="Medium map" onclick="resize(300)"><br />
+            <input style="width: 300px;" type="button" id="large" value="Large map" onclick="resize(500)">
+        </div>
+        <script>
+            DG.then(function () {
+                    latLng = DG.latLng([54.98, 82.89]);
+
+                map = DG.map('map', {
+                    center: latLng,
+                    zoom: 13,
+                    fullscreenControl: false,
+                    zoomControl: false
+                });
+
+                document.getElementById('sprawling').onclick = function () {
+                    DG.popup({
+                        maxWidth: 350,
+                        sprawling: true
+                    })
+                    .setLatLng(latLng)
+                    .setContent('Я балун!')
+                    .openOn(map);
+                };
+
+                document.getElementById('no-sprawling').onclick = function () {
+                    DG.popup({
+                        maxWidth: 350
+                    })
+                    .setLatLng(latLng)
+                    .setContent('Я балун!')
+                    .openOn(map);
+                };
+
+                document.getElementById('minWidth').onclick = function () {
+                    DG.popup({
+                        maxWidth: 350,
+                        minWidth: 320
+                    })
+                    .setLatLng(latLng)
+                    .setContent('Я балун!')
+                    .openOn(map);
+                };
+            });
+            function resize(pixels){
+                document.getElementById('map').style.width = pixels + "px";
+                map.invalidateSize(false);
+            }
+        </script>
+    </body>
+</html>
