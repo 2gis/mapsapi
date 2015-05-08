@@ -7,15 +7,18 @@
     </head>
     <body>
         <div id="map" style="width: 300px; height: 150px;"></div>
-        <input style="width: 300px;" type="button" id="sprawling" value="Балун с включенным параметром sprawling"><br />
-        <input style="width: 300px;" type="button" id="no-sprawling" value="Балун без параметра sprawling"><br />
-        <input style="width: 300px;" type="button" id="minWidth" value="Балун с минимальной шириной 320px">
+        <div>
+            <input style="width: 300px;" type="button" id="sprawling" value="Sprawling"><br />
+            <input style="width: 300px;" type="button" id="no-sprawling" value="No sprawling"><br />
+            <input style="width: 300px;" type="button" id="minWidth" value="Minimal width 320px"><br />
+            <input style="width: 300px;" type="button" id="small" value="Small map" onclick="resize(200)"><br />
+            <input style="width: 300px;" type="button" id="mid" value="Medium map" onclick="resize(300)"><br />
+            <input style="width: 300px;" type="button" id="large" value="Large map" onclick="resize(500)">
+        </div>
         <script>
             DG.then(function () {
-                var latLng = DG.latLng([54.98, 82.89]),
-                    map;
+                    latLng = DG.latLng([54.98, 82.89]);
 
-                // проинициализируем карту с шириной 300 пикселей
                 map = DG.map('map', {
                     center: latLng,
                     zoom: 13,
@@ -23,8 +26,6 @@
                     zoomControl: false
                 });
 
-                // балун с включенным параметром sprawling
-                // растянется до границ карты
                 document.getElementById('sprawling').onclick = function () {
                     DG.popup({
                         maxWidth: 350,
@@ -35,8 +36,6 @@
                     .openOn(map);
                 };
 
-                // балун без параметра sprawling
-                // подстроится под ширину контента
                 document.getElementById('no-sprawling').onclick = function () {
                     DG.popup({
                         maxWidth: 350
@@ -46,8 +45,6 @@
                     .openOn(map);
                 };
 
-                // балун с минимальной шириной 320px
-                // залезет за границу карты
                 document.getElementById('minWidth').onclick = function () {
                     DG.popup({
                         maxWidth: 350,
@@ -58,6 +55,10 @@
                     .openOn(map);
                 };
             });
+            function resize(pixels){
+                document.getElementById('map').style.width = pixels + "px";
+                map.invalidateSize(false);
+            }
         </script>
     </body>
 </html>

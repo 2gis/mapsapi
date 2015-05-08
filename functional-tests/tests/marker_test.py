@@ -21,12 +21,12 @@ class Marker(MapsAPIBaseTest):
         """
         self.driver.get(url)
         self.page.map.wait_init()
-        self.page.callout_crossed.wait_present()
-        self.page.callout_crossed.close()
+        self.page.balloon_crossed.wait_present()
+        self.page.balloon_crossed.close()
         self.page.marker.wait_present()
         self.page.marker.click()
-        self.page.callout_crossed.wait_present()
-        self.assertTrue(self.page.callout_crossed.is_visible)
+        self.page.balloon_crossed.wait_present()
+        self.assertTrue(self.page.balloon_crossed.is_visible)
 
     @dataprovider([
         config.aut['local'] + u'/draggableMarker.html'
@@ -87,9 +87,9 @@ class Marker(MapsAPIBaseTest):
         """
         self.driver.get(url)
         self.page.map.wait_init()
-        self.page.callout_crossed.close()
+        self.page.balloon_crossed.close()
         self.page.console(SetScripts.open_marker())
-        self.assertTrue(self.page.callout_crossed.is_visible)
+        self.assertTrue(self.page.balloon_crossed.is_visible)
 
     @dataprovider([
         config.aut['local'] + u'/groupMarkerEvent.html'

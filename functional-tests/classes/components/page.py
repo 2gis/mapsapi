@@ -61,15 +61,15 @@ class Page(BasePage):
         return ZoomControlOut(self.test, self.test.find_element_by_css_selector(ZoomControlOut.selectors['self']))
 
     @property
-    def callout(self):
+    def balloon(self):
         """
         :return: Callout
         """
-        from classes.components.callout import Callout
-        return Callout(self.test, self.test.find_element_by_css_selector(Callout.selectors['self']))
+        from classes.components.balloon import Balloon
+        return Balloon(self.test, self.test.find_element_by_css_selector(Balloon.selectors['self']))
 
     @property
-    def callout_crossed(self):
+    def balloon_crossed(self):
         """
         :return: CalloutCrossed
         """

@@ -10,7 +10,7 @@ class Zoom(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def zoomin_click_test(self, url):
+    def zoomIn_click_test(self, url):
         """
         :param url: Адрес страницы
         Проверка контрола зума +.
@@ -28,7 +28,7 @@ class Zoom(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/base.html'
     ])
-    def zoomout_click_test(self, url):
+    def zoomOut_click_test(self, url):
         """
         :param url: Адрес страницы
         Проерка контрола зума -.
