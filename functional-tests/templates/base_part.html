@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{{title}}</title>
+    {%- if loaderPath -%}
+    <script src="{{loaderPath}}/loader.js" data-id="dgLoader"></script>
+    {% else %}
+    <script src="../loader.js" data-id="dgLoader"></script>
+    {% endif %}
+    {%- if headStyle -%}
+    <style>
+        {{headStyle}}
+    </style>
+    {% endif %}
+</head>
+<body>
+{%- if style -%}
+<div id="map" style="{{style}}"></div>
+{% else %}
+<div id="map" style="width: 1000px; height: 600px;"></div>
+{% endif %}
+<script>
+    {{mapInit}}
+</script>
+{%- if controls -%}
+{{controls}}
+{% endif %}
+</body>
+</html>
