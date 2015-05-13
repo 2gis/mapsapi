@@ -61,3 +61,11 @@ class Map(Component):
                 map_inited = self.driver.execute_script('return !!map.getZoom')
                 tries_out = tries >= request_num
                 tries += 1
+
+    def drag(self, x_offset, y_offset):
+        center = self.driver.execute_script(GetScripts.getContainerCenter)
+        actions = ActionChains(self.driver)
+        actions.move_to_element_with_offset(self.element, int(center['x']), int(center['y']))
+        actions.click_and_hold()
+        actions.move_by_offset(x_offset, y_offset)
+        actions.release().perform()
