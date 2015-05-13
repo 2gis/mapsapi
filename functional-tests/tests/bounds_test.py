@@ -28,7 +28,7 @@ class Bounds(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/boundsNsk.html'
     ])
-    def bound_max_zoom_script_text(self, url):
+    def bound_max_zoom_script_test(self, url):
         """
         :param url: Адрес страницы
         Проверка ограничения максимального зума
@@ -44,7 +44,7 @@ class Bounds(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/boundsNsk.html'
     ])
-    def bound_max_zoom_control_text(self, url):
+    def bound_max_zoom_control_test(self, url):
         """
         :param url: Адрес страницы
         Проверка ограничения максимального зума
@@ -62,7 +62,7 @@ class Bounds(MapsAPIBaseTest):
     @dataprovider([
         config.aut['local'] + u'/boundsNsk.html'
     ])
-    def bound_min_zoom_click_test(self, url):
+    def bound_min_zoom_control_test(self, url):
         """
         :param url: Адрес страницы
         Проверка ограничения минимального зума
@@ -73,22 +73,6 @@ class Bounds(MapsAPIBaseTest):
         self.driver.get(url)
         self.page.map.wait_init()
         self.page.console(scripts.SetScripts.set_zoom(10))
-        self.page.zoom_control_in.zoom_in_click()
+        self.page.zoom_control_out.zoom_out_click()
         zoom = self.page.console(scripts.GetScripts.getZoom)
         self.assertEqual(10, zoom)
-
-    def bound_border(self, url):
-        """
-        :param url: Адрес страницы
-        Проверка ограничения границ
-        1.Драгаем карту за границу
-        2.Проверяем что центр карты в границе
-        """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        center_start = self.page.console(scripts.GetScripts.getCenter)
-        self.page.map.drag(300, 0)
-        from time import sleep
-        sleep(3)
-        center_end = self.page.console(scripts.GetScripts.getCenter)
-        self.assertEqual(center_start, center_end)

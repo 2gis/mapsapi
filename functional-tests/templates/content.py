@@ -75,7 +75,8 @@ def pages():
             DG.then(function () {
                 map = DG.map('map', {
                     center: [54.981, 82.891],
-                    zoom: 15
+                    zoom: 15,
+                    "zoomAnimation": false
                 });
 
                 marker = DG.marker([54.981, 82.891], {
@@ -94,7 +95,8 @@ def pages():
                     coordinates = [];
                 map = DG.map('map', {
                     center: [54.98, 82.89],
-                    zoom: 13
+                    zoom: 13,
+                    "zoomAnimation": false
                 });
                 for (var i = 0; i < 10; i++) {
                     coordinates[0] = 54.98 - Math.random();
@@ -118,7 +120,8 @@ def pages():
 
                 map = DG.map('map', {
                     center: [54.98, 82.89],
-                    zoom: 10
+                    zoom: 10,
+                    "zoomAnimation": false
                 });
 
                 marker1 = DG.marker([54.96, 82.889]).addTo(map);
@@ -140,7 +143,8 @@ def pages():
              DG.then(function() {
                 map = DG.map('map', {
                     center: [54.98, 82.89],
-                    zoom: 15
+                    zoom: 15,
+                    "zoomAnimation": false
                 });
 
                 DG.marker([54.98, 82.89])
@@ -163,7 +167,8 @@ def pages():
                 DG.then(function() {
                     map = DG.map('map', {
                         center: [54.98, 82.89],
-                        zoom: 13
+                        zoom: 13,
+                        "zoomAnimation": false
                     });
 
                     DG.popup([54.98, 82.89])
@@ -193,7 +198,8 @@ def pages():
                         center: latLng,
                         zoom: 13,
                         fullscreenControl: false,
-                        zoomControl: false
+                        zoomControl: false,
+                        "zoomAnimation": false
                     });
 
                     document.getElementById('sprawling').onclick = function () {
@@ -242,6 +248,26 @@ def pages():
             </div>
             """,
             'style': u"""width: 300px; height: 150px;"""
+        },
+        boundsNsk={
+            'title': u'boundsNsk',
+            'mapInit':
+            u"""
+            DG.then(function() {
+                map = DG.map('map', {
+                    center: [54.98, 82.89],
+                    zoom: 10,
+                    maxBounds: [
+                        [54.8220, 82.4304],
+                        [55.1372, 83.3505]
+                    ],
+                    minZoom: 10,
+                    maxZoom: 15,
+                    "zoomAnimation": false
+                });
+            });
+            """,
+            'style': 'width: 670px; height: 400px;'
         }
     )
     defaults = dict(
