@@ -1,4 +1,16 @@
 # -*- coding: utf-8 -*-
+def extend(extension, base):
+    """
+    :param base: dict of dicts
+    :param extension: dict
+    :return: dict
+    Extend each base dict from key of extension
+    """
+    for part in base:
+        for default_prop in extension:
+            if default_prop not in base[part]:
+                base[part][default_prop] = extension[default_prop]
+    return base
 
 
 def comment_equals(comment, wapi_comment):
@@ -64,6 +76,7 @@ class AttrDict(dict):
     def __init__(self, *args, **kwargs):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
+
 
 def to_str(s):
     """

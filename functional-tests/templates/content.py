@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from classes.util.misc import extend
+
+
 def pages():
     parts = dict(
         base={
@@ -241,9 +244,8 @@ def pages():
             'style': u"""width: 300px; height: 150px;"""
         }
     )
-    for item in parts:
-        if 'loaderPath' not in parts[item]:
-            parts[item]['loaderPath'] = '..'
-        if 'style' not in parts[item]:
-            parts[item]['style'] = 'width: 1000px; height: 600px;'
-    return parts
+    defaults = dict(
+        style='width: 1000px; height: 600px;',
+        loaderPath='..'
+    )
+    return extend(defaults, parts)
