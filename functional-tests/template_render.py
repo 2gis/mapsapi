@@ -6,10 +6,14 @@ import os
 
 if not os.path.exists('../public/pages'):
     os.mkdir('../public/pages')
-page = open('templates/base_part.html', 'r')
-template = Template(page.read())
-page.close()
-for page in pages:
-    out = codecs.open("../public/pages/%s.html" % pages[page]['title'], 'w', 'utf-8')
-    out.write(template.render(pages[page]))
+
+base = open('templates/base.html', 'r')
+template = Template(base.read())
+base.close()
+
+parts = pages()
+
+for page in parts:
+    out = codecs.open("../public/pages/%s.html" % parts[page]['title'], 'w', 'utf-8')
+    out.write(template.render(parts[page]))
     out.close()
