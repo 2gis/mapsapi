@@ -12,9 +12,9 @@ def pages():
                 map = DG.map('map', {
                 center: [54.98, 82.89],
                 zoom: 13,
-                "geoclicker": true,
-                "worldCopyJump": true,
-                "zoomAnimation": false
+                geoclicker: true,
+                worldCopyJump: true,
+                zoomAnimation: false
             });
 
                 DG.control.location({position: 'bottomright'}).addTo(map);
@@ -76,7 +76,7 @@ def pages():
                 map = DG.map('map', {
                     center: [54.981, 82.891],
                     zoom: 15,
-                    "zoomAnimation": false
+                    zoomAnimation: false
                 });
 
                 marker = DG.marker([54.981, 82.891], {
@@ -96,7 +96,7 @@ def pages():
                 map = DG.map('map', {
                     center: [54.98, 82.89],
                     zoom: 13,
-                    "zoomAnimation": false
+                    zoomAnimation: false
                 });
                 for (var i = 0; i < 10; i++) {
                     coordinates[0] = 54.98 - Math.random();
@@ -121,7 +121,7 @@ def pages():
                 map = DG.map('map', {
                     center: [54.98, 82.89],
                     zoom: 10,
-                    "zoomAnimation": false
+                    zoomAnimation: false
                 });
 
                 marker1 = DG.marker([54.96, 82.889]).addTo(map);
@@ -144,7 +144,7 @@ def pages():
                 map = DG.map('map', {
                     center: [54.98, 82.89],
                     zoom: 15,
-                    "zoomAnimation": false
+                    zoomAnimation: false
                 });
 
                 DG.marker([54.98, 82.89])
@@ -168,7 +168,7 @@ def pages():
                     map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 13,
-                        "zoomAnimation": false
+                        zoomAnimation: false
                     });
 
                     DG.popup([54.98, 82.89])
@@ -199,7 +199,7 @@ def pages():
                         zoom: 13,
                         fullscreenControl: false,
                         zoomControl: false,
-                        "zoomAnimation": false
+                        zoomAnimation: false
                     });
 
                     document.getElementById('sprawling').onclick = function () {
@@ -263,7 +263,7 @@ def pages():
                     ],
                     minZoom: 10,
                     maxZoom: 15,
-                    "zoomAnimation": false
+                    zoomAnimation: false
                 });
             });
             """,
