@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 source .env/bin/activate
-cp -R pages ../public
+python template_render.py
 PYTHONPATH=$(pwd) .env/bin/lode_runner -v tests/ --with-xunit
