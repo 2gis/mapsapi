@@ -73,7 +73,9 @@ DG.Marker.include({
 
     _originalUpdateZIndex: DG.Marker.prototype._updateZIndex,
     _updateZIndex: function (offset) {
-        if (!this._zIndex) this._zIndex = 0;
+        if (!this._zIndex) {
+            this._zIndex = 0;
+        }
         this._originalUpdateZIndex(offset);
         this._updateLabelZIndex();
         return this;
