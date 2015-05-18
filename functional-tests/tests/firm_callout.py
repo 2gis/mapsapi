@@ -168,50 +168,150 @@ class FirmCallout(MapsAPIBaseTest):
         reviews_count = misc.to_int(reviews.text)
         self.assertEqual(reviews_count, f.review_count)
 
-    # Через датапровайдер дать 2 фирмы с комментарием и без
-    def firm_address(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.98271154250782,
+        82.88130998611452,
+        141265769373564
+    )
+    ])
+    def firm_address_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия адреса
         1.Открыть фирму
         2.Проверить наличие адреса
         3.Проверить адрес
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        self.assertTrue(self.page.firm_callout.address.is_displayed())
+        self.assertEqual(self.page.firm_callout.address.text, f.address_name)
 
-    def firm_address_comment(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265771060872
+    )
+    ])
+    def firm_address_comment_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия комментария к адресу
         1.Открыть фирму с комментарием
-        2.Праверить наличие еомментария
+        2.Праверить наличие комментария
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        self.assertTrue(self.page.firm_callout.address.is_displayed())
+        full_adress = misc.address_and_comment(f.address_name, f.address_comment)
+        self.assertEqual(self.page.firm_callout.address.text, full_adress)
 
-    # Через датапровайдер дать 2 фирмы с разным кол-тел (1,n)
-    def firm_telephone_count(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265771060872
+    ), (
+        config.aut['local'] + u'/base.html',
+        54.9810307939813,
+        82.87442207336427,
+        141265769728580
+    )
+    ])
+    def firm_telephone_count(self, url, lat, lng, firm_id):
         """
         Проверка наличия и количества телефонов
         1.Открывем фирму
         2.Получаем количество телефонов (из API)
         3.Проверяем количество телефонов
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        phones_wapi = f.get_phones()
+        phones_num = len(phones_wapi)
+        phones_callout = self.page.firm_callout.phones()
+        self.assertEqual(phones_num, len(phones_callout))
 
-    def firm_telephone_comment(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265771060872
+    )
+    ])
+    def firm_telephone_comment_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия комментария к телефону
         1.Открываем фирму
         2.Проверяем наличия комментария к телефону
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        phones_wapi = f.get_phones()
+        phones_callout = self.page.firm_callout.phones()
+        phone_and_comment = misc.phone_and_comment(phones_wapi[0]['text'], phones_wapi[0]['comment'])
+        self.assertEqual(phones_callout[0].text, phone_and_comment)
 
-    # Через датапровайдер дать 2 фирмы с разным кол-website(1,n)
-    def firm_website_count(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265770417218
+    ), (
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265770847007
+    )
+    ])
+    def firm_website_count_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия ссылки на вебсайт
         1.Открываем фирму
         2.Проверяем наличие ссылки на вебсайт
+        3.Проверяем количество ссылок
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        websites_wapi = f.get_websites()
+        websites_callout = self.page.firm_callout.websites()
+        self.assertEqual(len(websites_callout), len(websites_wapi))
+        self.assertEqual(websites_callout[0].text, websites_wapi[0]['text'])
 
     def firm_email(self):
         """

@@ -88,6 +88,29 @@ class FirmData(object):
     def photos(self):
         return self.response['items'][0]['photos']['items']
 
+    @property
+    def address_name(self):
+        return self.response['items'][0]['address_name'].replace(u'\xa0', ' ')
+
+    @property
+    def address_comment(self):
+        return self.response['items'][0]['address_comment'].replace(u'\xa0', ' ')
+
+    def _contacts_by_type(self, contact_type):
+        contacts = list()
+        contact_groups = self.response['items'][0]['contact_groups']
+        for group in contact_groups:
+            for item in group['contacts']:
+                if item['type'] == contact_type:
+                    contacts.append(item)
+        return contacts
+
+    def get_phones(self):
+        return self._contacts_by_type('phone')
+
+    def get_websites(self):
+        return self._contacts_by_type('website')
+
 
 class GalleryData(object):
     def __init__(self, gallery_id):

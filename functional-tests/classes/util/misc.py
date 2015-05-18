@@ -105,3 +105,11 @@ def to_int(s):
         if started and not x.isdigit():
             return int(out)
     return int(out)
+
+
+def address_and_comment(address, comment):
+    return u"%s— %s" % (address, comment)
+
+
+def phone_and_comment(phone, comment):
+    return u"%s—  %s" % (phone, comment)

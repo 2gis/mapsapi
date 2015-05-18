@@ -185,7 +185,10 @@ class Firm(Callout):
         'reviews': '.dg-popup__link_type_flamp_reviews',
         'stars': '.dg-popup__rating-stars',
         'back': '.dg-popup__button_name_firm-card-back',
-        'route': '.dg-popup__button_name_goto'
+        'route': '.dg-popup__button_name_goto',
+        'address': '.dg-firm-card__address',
+        'phones': '.dg-firm-card__phone-num',
+        'websites': '.dg-firm-card__site'
     }
 
     @property
@@ -226,3 +229,13 @@ class Firm(Callout):
     @property
     def route_link(self):
         return self.element.find_element_by_css_selector(self.selectors['route'])
+
+    @property
+    def address(self):
+        return self.driver.find_element_by_css_selector(self.selectors['address'])
+
+    def phones(self):
+        return self.driver.find_elements_by_css_selector(self.selectors['phones'])
+
+    def websites(self):
+        return self.driver.find_elements_by_css_selector(self.selectors['websites'])
