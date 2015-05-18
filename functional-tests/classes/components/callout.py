@@ -133,8 +133,11 @@ class Build(Callout):
     selectors = {
         'self': '.leaflet-popup',
         'header': '.dg-popup__header-title',
-        'X': '.leaflet-popup-close-button'
+        'X': '.leaflet-popup-close-button',
+        'firm': '.dg-popup__link',
+        'firm_list': '.dg-popup__button_name_all'
     }
+    # TODO добавить конструктор route-ссылок
 
     @property
     def header(self):
@@ -142,6 +145,32 @@ class Build(Callout):
         :return: str
         """
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
+
+    def open_firm_by_index(self, index):
+        self.driver.find_elements_by_css_selector(self.selectors['firm'])[index].click()
+
+    @catches_not_found()
+    def open_firm_list(self):
+        self.driver.find_element_by_css_selector(self.selectors['firm_list']).click()
+
+    @catches_not_found()
+    def open_firm_by_id(self, firm_id):
+        self.driver.find_element_by_id(str(firm_id)).click()
+
+
+class FirmList(Callout):
+    """
+    Firm list callout
+    """
+    selectors = {
+        'self': '.leaflet-popup',
+        'header': '.dg-popup__header-title',
+        'X': '.leaflet-popup-close-button',
+        'list': '.dg-building-callout__list'
+    }
+
+    def list_present(self):
+        return self.driver.find_element_by_css_selector(self.selectors['list']).is_displayed()
 
 
 class Firm(Callout):
@@ -151,7 +180,12 @@ class Firm(Callout):
     selectors = {
         'self': '.leaflet-popup',
         'header': '.dg-popup__header-title',
-        'X': '.leaflet-popup-close-button'
+        'X': '.leaflet-popup-close-button',
+        'photo': '.dg-popup__link_type_photos',
+        'reviews': '.dg-popup__link_type_flamp_reviews',
+        'stars': '.dg-popup__rating-stars',
+        'back': '.dg-popup__button_name_firm-card-back',
+        'route': '.dg-popup__button_name_goto'
     }
 
     @property
@@ -160,3 +194,35 @@ class Firm(Callout):
         :return: str
         """
         return self.element.find_element_by_css_selector(self.selectors['header']).text.strip()
+
+    @property
+    @catches_not_found()
+    def photo(self):
+        """
+        :return: web_element
+        """
+        return self.element.find_element_by_css_selector(self.selectors['photo'])
+
+    @property
+    @catches_not_found()
+    def reviews(self):
+        """
+        :return: web_element
+        """
+        return self.element.find_element_by_css_selector(self.selectors['reviews'])
+
+    @property
+    @catches_not_found()
+    def stars(self):
+        """
+        :return: web_element
+        """
+        return self.element.find_element_by_css_selector(self.selectors['stars'])
+
+    @catches_not_found()
+    def back(self):
+        return self.element.find_element_by_css_selector(self.selectors['back']).click()
+
+    @property
+    def route_link(self):
+        return self.element.find_element_by_css_selector(self.selectors['route'])

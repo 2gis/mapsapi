@@ -78,11 +78,15 @@ class FirmData(object):
 
     @property
     def review_count(self):
-        return self.response['item'][0]['reviews']['review_count']
+        return self.response['items'][0]['reviews']['review_count']
 
     @property
     def rating(self):
-        return self.response['item'][0]['reviews']['rating']
+        return self.response['items'][0]['reviews']['rating']
+
+    @property
+    def photos(self):
+        return self.response['items'][0]['photos']['items']
 
 
 class GalleryData(object):

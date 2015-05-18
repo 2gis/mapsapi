@@ -88,3 +88,20 @@ def to_str(s):
         return s.encode('utf-8')
     except UnicodeDecodeError:
         return s
+
+
+def to_int(s):
+    """
+    Return first number from string
+    :param s: strin or unicode
+    :return: int
+    """
+    out = ''
+    started = False
+    for x in s:
+        if x.isdigit():
+            out += x
+            started = True
+        if started and not x.isdigit():
+            return int(out)
+    return int(out)

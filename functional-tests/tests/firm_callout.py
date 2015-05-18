@@ -3,47 +3,117 @@ from classes.mapsapi_base_test import MapsAPIBaseTest
 from config import config
 from lode_runner.dataprovider import dataprovider
 from classes.util import scripts
+from classes.WAPI.dataWorker import FirmData
+import classes.util.misc as misc
+import classes.util.link_generator as links
 
 
 class FirmCallout(MapsAPIBaseTest):
     """
     Тесты на сallout фирмы
     """
-    def firm_name(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265770417218
+    )
+    ])
+    def firm_name_test(self, url, lat, lng, firm_id):
         """
         Проверка заголовка фирмы
         1.Открываем калаут фирмы
         2.Проверяем заголовок
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        callout_text = self.page.firm_callout.header
+        f = FirmData(firm_id)
+        self.assertEqual(f.firm_name, callout_text)
 
-    def firm_back_list(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265770417218
+    )
+    ])
+    def firm_back_list_test(self, url, lat, lng, firm_id):
         """
         Проверка кнопки назад (в здании с мн. организаций)
         1.Открываем калаут фирмы
         2.Нажимаем назад
         3.Провираем наличие списка организаций
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_index(1)
+        self.page.firm_callout.back()
+        self.assertTrue(self.page.firm_list.list_present())
 
-    def firm_back_build(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.987722587459736,
+        82.88787066936494
+    )
+    ])
+    def firm_back_build_test(self, url, lat, lng):
         """
         Проверка кнопки назад (к зданию)
         1.Открываем калаут фирмы
         2.Нажимаем назад
         3.Провираем наличие колаута здания
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_by_index(1)
+        self.page.firm_callout.back()
+        self.assertTrue(self.page.build_callout.is_visible)
 
-    def firm_route_to(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.987722587459736,
+        82.88787066936494,
+    )
+    ])
+    def firm_route_to(self, url, lat, lng):
         """
         Проверка ссылки на проехать до
         1.Открываем калаут фирмы
         2.Проверяем атирибут ссылки "Проехать сюда"
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_by_index(1)
+        route = self.page.firm_callout.route_link
 
-    def firm_photo(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265770417218
+    )
+    ])
+    def firm_photo_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия фото у фирмы
         1.Открыть фирму с фото
@@ -51,9 +121,30 @@ class FirmCallout(MapsAPIBaseTest):
         3.Проверить url ссылки
         4.Проверить количество фото
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        photo = self.page.firm_callout.photo
+        self.assertTrue(photo.is_displayed())
+        f = FirmData(firm_id)
+        num = misc.to_int(photo.text)
+        self.assertEqual(len(f.photos), num)
+        link = links.photo_link(firm_id)
+        self.assertEqual(link, photo.get_attribute('href'))
 
-    def firm_rating(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265771060872
+    )
+    ])
+    def firm_rating_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия рейтинга у фирмы
         1.Открыть фирму с рейтингом
@@ -61,7 +152,21 @@ class FirmCallout(MapsAPIBaseTest):
         3.Проверить url ссылки
         4.Проверить количество отзывов
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        stars = self.page.firm_callout.stars
+        reviews = self.page.firm_callout.reviews
+        f = FirmData(firm_id)
+        self.assertTrue(stars.is_displayed())
+        self.assertEqual(reviews.get_attribute('href'), links.reviews_link(firm_id))
+        reviews_count = misc.to_int(reviews.text)
+        self.assertEqual(reviews_count, f.review_count)
 
     # Через датапровайдер дать 2 фирмы с комментарием и без
     def firm_address(self):
