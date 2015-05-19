@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import urllib
+
+
 def extend(extension, base):
     """
     :param base: dict of dicts
@@ -113,3 +116,28 @@ def address_and_comment(address, comment):
 
 def phone_and_comment(phone, comment):
     return u"%s—  %s" % (phone, comment)
+
+
+def check_route(link, check_part):
+    link = urllib.unquote(to_str(link[7:]))
+    parts = link.split('/')
+    coords = parts[len(parts) - 1].split('╎')[0]
+    address = parts[len(parts) - 1].split('╎')[1]
+    parts.remove(parts[len(parts) - 1])
+    parts.append(coords)
+    parts.append(address)
+    center = parts[3].split(',')
+    baloon = parts[len(parts) - 2].split(',')
+    parts[3] = center[0]
+    parts.insert(4, center[1])
+    parts[len(parts) - 2] = baloon[0]
+    parts.insert(len(parts) - 1, baloon[1])
+    i = 0
+    check = list()
+    while i < len(parts):
+        if isinstance(check_part[i], float):
+            check_part[i] = round(check_part[i], 2)
+            parts[i] = round(float(parts[i]), 2)
+        check.append(check_part[i] == parts[i])
+        i += 1
+    return all(item for item in check)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from classes.WAPI.request import *
+import itertools
 # TODO: Сделать хэлпер для выпиливания html entities из ответа API
 
 
@@ -110,6 +111,25 @@ class FirmData(object):
 
     def get_websites(self):
         return self._contacts_by_type('website')
+
+    def get_emails(self):
+        return self._contacts_by_type('email')
+
+    def get_rubrics_primary(self):
+        primary = list()
+        rubrics = self.response['items'][0]['rubrics']
+        for rubric in rubrics:
+            if rubric['kind'] == 'primary':
+                primary.append(rubric)
+        return primary
+
+    def get_rubrics_additional(self):
+        additional = list()
+        rubrics = self.response['items'][0]['rubrics']
+        for rubric in rubrics:
+            if rubric['kind'] == 'additional':
+                additional.append(rubric)
+        return additional
 
 
 class GalleryData(object):

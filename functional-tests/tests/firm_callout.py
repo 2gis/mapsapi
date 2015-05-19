@@ -44,7 +44,7 @@ class FirmCallout(MapsAPIBaseTest):
         141265770417218
     )
     ])
-    def firm_back_list_test(self, url, lat, lng, firm_id):
+    def firm_back_list_test(self, url, lat, lng):
         """
         Проверка кнопки назад (в здании с мн. организаций)
         1.Открываем калаут фирмы
@@ -89,9 +89,19 @@ class FirmCallout(MapsAPIBaseTest):
         config.aut['local'] + u'/base.html',
         54.987722587459736,
         82.88787066936494,
+        17,
+        ['2gis.ru', 'novosibirsk', 'center', 82.89, 54.99, 'zoom', '17',
+         'routeTab', 'rsType', 'bus', 'to', 82.89, 54.99, 'Новосибирск, Ватутина, 16']
+    ), (
+        config.aut['local'] + u'/base.html',
+        -33.44449709158904,
+        -70.6516680121422,
+        18,
+        ['2gis.cl', 'santiago', 'center', -70.65, -33.44, 'zoom', '18',
+         'routeTab', 'rsType', 'bus', 'to', -70.65, -33.44, 'Santiago, Avenida Libertador Bernardo O\'Higgins, 1112']
     )
     ])
-    def firm_route_to(self, url, lat, lng):
+    def firm_route_to(self, url, lat, lng, zoom, parts):
         """
         Проверка ссылки на проехать до
         1.Открываем калаут фирмы
@@ -100,11 +110,12 @@ class FirmCallout(MapsAPIBaseTest):
         self.driver.get(url)
         self.page.map.wait_init()
         self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.console(scripts.SetScripts.set_zoom(zoom))
         self.page.map.center_click()
         self.page.build_callout.wait_present()
         self.page.build_callout.open_firm_by_index(1)
         route = self.page.firm_callout.route_link
+        self.assertTrue(misc.check_route(route.get_attribute('href'), parts))
 
     @dataprovider([(
         config.aut['local'] + u'/base.html',
@@ -232,7 +243,7 @@ class FirmCallout(MapsAPIBaseTest):
         141265769728580
     )
     ])
-    def firm_telephone_count(self, url, lat, lng, firm_id):
+    def firm_telephone_count_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия и количества телефонов
         1.Открывем фирму
@@ -313,14 +324,32 @@ class FirmCallout(MapsAPIBaseTest):
         self.assertEqual(len(websites_callout), len(websites_wapi))
         self.assertEqual(websites_callout[0].text, websites_wapi[0]['text'])
 
-    def firm_email(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265770847007
+    )
+    ])
+    def firm_email_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия email
         1.Открываем фирму
         2.Проверяем наличие email
         3.Проверяем ссыль на мейл
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        email = self.page.firm_callout.email
+        self.assertEqual(email.text, f.get_emails()[0]['text'])
+        self.assertEqual(email.get_attribute('href'), "mailto:%s" % f.get_emails()[0]['value'])
 
     # для простого, списка и таблицы
     def firm_schedule(self):
@@ -354,29 +383,83 @@ class FirmCallout(MapsAPIBaseTest):
         """
         pass
 
-    def firm_rubrics(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265771060872
+    )
+    ])
+    def firm_rubrics_test(self, url, lat, lng, firm_id):
         """
         Проверка рубрик
         1.Открываем фирму
         2.Проверяем количество рубрик
-        3.Проверяем порядок(первая, последняя, в сеередине)
+        3.Проверяем порядок(первая, последняя, в сеередине с учетом primary)
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        primary = self.page.firm_callout.primary_rubrics
+        self.assertEqual(primary[0].text, f.get_rubrics_primary()[0]['name'])
+        primary_last = len(f.get_rubrics_primary()) - 1
+        self.assertEqual(primary[primary_last].text, f.get_rubrics_primary()[primary_last]['name'])
+        additional = self.page.firm_callout.additional_rubrics
+        self.assertEqual(additional[0].text, f.get_rubrics_additional()[0]['name'])
+        additional_last = len(f.get_rubrics_additional()) - 1
+        self.assertEqual(additional[additional_last].text,
+                         f.get_rubrics_additional()[additional_last]['name'])
 
-    def firm_scroll_bar(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.980678320392336,
+        82.89860486984254,
+        141265771060872
+    )
+    ])
+    def firm_scroll_bar_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия скролл-бара
         1.Открываем фирму со скроллбаром
         2.Проверяем его наличия
-        3.Проверяем высоту конетента (>300)
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        self.assertTrue(self.page.firm_callout.scroll.is_displayed())
 
-    def firm_no_scroll_bar(self):
+    @dataprovider([(
+        config.aut['local'] + u'/base.html',
+        54.98131092362227,
+        82.89792358875276,
+        141265771619797
+    )
+    ])
+    def firm_no_scroll_bar_test(self, url, lat, lng, firm_id):
         """
         Проверка отсутсвия скролл-бара
         1.Открывем фирму без скролл бара
         2.Проверяем его отсутвие
-        3.Проверяем высоту контента (< 300)
         """
-        pass
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.page.console(scripts.SetScripts.pan_to(lat, lng))
+        self.page.console(scripts.SetScripts.set_zoom(17))
+        self.page.map.center_click()
+        self.page.build_callout.wait_present()
+        self.page.build_callout.open_firm_list()
+        self.page.build_callout.open_firm_by_id(firm_id)
+        f = FirmData(firm_id)
+        self.assertTrue(not self.page.firm_callout.scroll)

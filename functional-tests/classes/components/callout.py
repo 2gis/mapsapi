@@ -188,8 +188,16 @@ class Firm(Callout):
         'route': '.dg-popup__button_name_goto',
         'address': '.dg-firm-card__address',
         'phones': '.dg-firm-card__phone-num',
-        'websites': '.dg-firm-card__site'
+        'websites': '.dg-firm-card__site',
+        'email': '.dg-firm-card__email > a',
+        'primary': '.dg-firm-card__rubrics-list_type_primary > .dg-firm-card__rubrics-list-item',
+        'additional': '.dg-firm-card__rubrics-list_type_additional > .dg-firm-card__rubrics-list-item',
+        'scroll': '.dg-scroller__bar'
     }
+
+    @property
+    def callout(self):
+        return self.driver.find_element_by_css_selector(self.selectors['self'])
 
     @property
     def header(self):
@@ -239,3 +247,20 @@ class Firm(Callout):
 
     def websites(self):
         return self.driver.find_elements_by_css_selector(self.selectors['websites'])
+
+    @property
+    def email(self):
+        return self.driver.find_element_by_css_selector(self.selectors['email'])
+
+    @property
+    def primary_rubrics(self):
+        return self.driver.find_elements_by_css_selector(self.selectors['primary'])
+
+    @property
+    def additional_rubrics(self):
+        return self.driver.find_elements_by_css_selector(self.selectors['additional'])
+
+    @property
+    @catches_not_found()
+    def scroll(self):
+        return self.driver.find_element_by_css_selector(self.selectors['scroll'])
