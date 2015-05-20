@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from classes.WAPI.request import *
+import itertools
 # TODO: Сделать хэлпер для выпиливания html entities из ответа API
 
 
@@ -78,11 +79,57 @@ class FirmData(object):
 
     @property
     def review_count(self):
-        return self.response['item'][0]['reviews']['review_count']
+        return self.response['items'][0]['reviews']['review_count']
 
     @property
     def rating(self):
-        return self.response['item'][0]['reviews']['rating']
+        return self.response['items'][0]['reviews']['rating']
+
+    @property
+    def photos(self):
+        return self.response['items'][0]['photos']['items']
+
+    @property
+    def address_name(self):
+        return self.response['items'][0]['address_name'].replace(u'\xa0', ' ')
+
+    @property
+    def address_comment(self):
+        return self.response['items'][0]['address_comment'].replace(u'\xa0', ' ')
+
+    def _contacts_by_type(self, contact_type):
+        contacts = list()
+        contact_groups = self.response['items'][0]['contact_groups']
+        for group in contact_groups:
+            for item in group['contacts']:
+                if item['type'] == contact_type:
+                    contacts.append(item)
+        return contacts
+
+    def get_phones(self):
+        return self._contacts_by_type('phone')
+
+    def get_websites(self):
+        return self._contacts_by_type('website')
+
+    def get_emails(self):
+        return self._contacts_by_type('email')
+
+    def get_rubrics_primary(self):
+        primary = list()
+        rubrics = self.response['items'][0]['rubrics']
+        for rubric in rubrics:
+            if rubric['kind'] == 'primary':
+                primary.append(rubric)
+        return primary
+
+    def get_rubrics_additional(self):
+        additional = list()
+        rubrics = self.response['items'][0]['rubrics']
+        for rubric in rubrics:
+            if rubric['kind'] == 'additional':
+                additional.append(rubric)
+        return additional
 
 
 class GalleryData(object):

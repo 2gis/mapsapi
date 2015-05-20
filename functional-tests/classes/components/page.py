@@ -144,3 +144,11 @@ class Page(BasePage):
         result = self.test.execute_script(script)
         sleep(timeout)
         return result
+
+    @property
+    def firm_list(self):
+        """
+        :return: FirmList callout
+        """
+        from classes.components.callout import FirmList
+        return FirmList(self.test, self.test.find_element_by_css_selector(FirmList.selectors['self']))
