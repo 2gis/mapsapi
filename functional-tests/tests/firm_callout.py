@@ -40,8 +40,7 @@ class FirmCallout(MapsAPIBaseTest):
     @dataprovider([(
         config.aut['local'] + u'/base.html',
         54.980678320392336,
-        82.89860486984254,
-        141265770417218
+        82.89860486984254
     )
     ])
     def firm_back_list_test(self, url, lat, lng):
@@ -49,7 +48,7 @@ class FirmCallout(MapsAPIBaseTest):
         Проверка кнопки назад (в здании с мн. организаций)
         1.Открываем калаут фирмы
         2.Нажимаем назад
-        3.Провираем наличие списка организаций
+        3.Проверяем наличие списка организаций
         """
         self.driver.get(url)
         self.page.map.wait_init()
@@ -73,7 +72,7 @@ class FirmCallout(MapsAPIBaseTest):
         Проверка кнопки назад (к зданию)
         1.Открываем калаут фирмы
         2.Нажимаем назад
-        3.Провираем наличие колаута здания
+        3.Проверяем наличие колаута здания
         """
         self.driver.get(url)
         self.page.map.wait_init()
@@ -132,14 +131,7 @@ class FirmCallout(MapsAPIBaseTest):
         3.Проверить url ссылки
         4.Проверить количество фото
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         photo = self.page.firm_callout.photo
         self.assertTrue(photo.is_displayed())
         f = FirmData(firm_id)
@@ -163,14 +155,7 @@ class FirmCallout(MapsAPIBaseTest):
         3.Проверить url ссылки
         4.Проверить количество отзывов
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         stars = self.page.firm_callout.stars
         reviews = self.page.firm_callout.reviews
         f = FirmData(firm_id)
@@ -193,14 +178,7 @@ class FirmCallout(MapsAPIBaseTest):
         2.Проверить наличие адреса
         3.Проверить адрес
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         f = FirmData(firm_id)
         self.assertTrue(self.page.firm_callout.address.is_displayed())
         self.assertEqual(self.page.firm_callout.address.text, f.address_name)
@@ -218,14 +196,7 @@ class FirmCallout(MapsAPIBaseTest):
         1.Открыть фирму с комментарием
         2.Праверить наличие комментария
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         f = FirmData(firm_id)
         self.assertTrue(self.page.firm_callout.address.is_displayed())
         full_adress = misc.address_and_comment(f.address_name, f.address_comment)
@@ -250,14 +221,7 @@ class FirmCallout(MapsAPIBaseTest):
         2.Получаем количество телефонов (из API)
         3.Проверяем количество телефонов
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         f = FirmData(firm_id)
         phones_wapi = f.get_phones()
         phones_num = len(phones_wapi)
@@ -277,14 +241,7 @@ class FirmCallout(MapsAPIBaseTest):
         1.Открываем фирму
         2.Проверяем наличия комментария к телефону
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         f = FirmData(firm_id)
         phones_wapi = f.get_phones()
         phones_callout = self.page.firm_callout.phones()
@@ -310,14 +267,7 @@ class FirmCallout(MapsAPIBaseTest):
         2.Проверяем наличие ссылки на вебсайт
         3.Проверяем количество ссылок
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         f = FirmData(firm_id)
         websites_wapi = f.get_websites()
         websites_callout = self.page.firm_callout.websites()
@@ -338,14 +288,7 @@ class FirmCallout(MapsAPIBaseTest):
         2.Проверяем наличие email
         3.Проверяем ссыль на мейл
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         f = FirmData(firm_id)
         email = self.page.firm_callout.email
         self.assertEqual(email.text, f.get_emails()[0]['text'])
@@ -397,14 +340,7 @@ class FirmCallout(MapsAPIBaseTest):
         2.Проверяем количество рубрик
         3.Проверяем порядок(первая, последняя, в сеередине с учетом primary)
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         f = FirmData(firm_id)
         primary = self.page.firm_callout.primary_rubrics
         self.assertEqual(primary[0].text, f.get_rubrics_primary()[0]['name'])
@@ -429,15 +365,7 @@ class FirmCallout(MapsAPIBaseTest):
         1.Открываем фирму со скроллбаром
         2.Проверяем его наличия
         """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        self.page.console(scripts.SetScripts.pan_to(lat, lng))
-        self.page.console(scripts.SetScripts.set_zoom(17))
-        self.page.map.center_click()
-        self.page.build_callout.wait_present()
-        self.page.build_callout.open_firm_list()
-        self.page.build_callout.open_firm_by_id(firm_id)
-        f = FirmData(firm_id)
+        self._open_firm(url, lat, lng, firm_id)
         self.assertTrue(self.page.firm_callout.scroll.is_displayed())
 
     @dataprovider([(
@@ -453,6 +381,10 @@ class FirmCallout(MapsAPIBaseTest):
         1.Открывем фирму без скролл бара
         2.Проверяем его отсутвие
         """
+        self._open_firm(url, lat, lng, firm_id)
+        self.assertTrue(not self.page.firm_callout.scroll)
+
+    def _open_firm(self, url, lat, lng, firm_id):
         self.driver.get(url)
         self.page.map.wait_init()
         self.page.console(scripts.SetScripts.pan_to(lat, lng))
@@ -461,5 +393,3 @@ class FirmCallout(MapsAPIBaseTest):
         self.page.build_callout.wait_present()
         self.page.build_callout.open_firm_list()
         self.page.build_callout.open_firm_by_id(firm_id)
-        f = FirmData(firm_id)
-        self.assertTrue(not self.page.firm_callout.scroll)

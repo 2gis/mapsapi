@@ -119,7 +119,19 @@ def phone_and_comment(phone, comment):
 
 
 def check_route(link, check_part):
+    """
+    :param link: string with route link
+    :param check_part: list of fixture base parts of route link
+    :return: bool
+    Remove protocol and unquote url
+    Split route link by '/', split last part by '╎', split coordinates part by ','
+    Save each parts in 'parts' list with original order.
+    Round coordinates and check equal part in parts and check_part, save result in 'check' list
+    Return all True of check list.
+    """
+    # unquote
     link = urllib.unquote(to_str(link[7:]))
+    # make parts list
     parts = link.split('/')
     coords = parts[len(parts) - 1].split('╎')[0]
     address = parts[len(parts) - 1].split('╎')[1]
@@ -132,6 +144,7 @@ def check_route(link, check_part):
     parts.insert(4, center[1])
     parts[len(parts) - 2] = baloon[0]
     parts.insert(len(parts) - 1, baloon[1])
+    # check equals
     i = 0
     check = list()
     while i < len(parts):
