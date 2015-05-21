@@ -169,9 +169,10 @@
 
         return new Promise(function (resolve) {
             DG.ajax(url, {
-                type: 'get',
+                type: DG.ajax.corsSupport ? 'get' : 'jsonp',
 
                 data: {
+                    format: DG.ajax.corsSupport ? 'json' : 'jsonp',
                     key: '__WEB_API_KEY__',
                     fields: '__REGION_LIST_FIELDS__'
                 },

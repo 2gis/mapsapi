@@ -442,7 +442,9 @@ DG.ajax = (function () {
 
     var testxhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
 
-    Ajax.corsSupport = !(!(testxhr && 'withCredentials' in testxhr) && !win[xDomainRequest]);
+    Ajax.corsSupport = !(!(testxhr && 'withCredentials' in testxhr) && !win[xDomainRequest]) &&
+        // cors not available in IE and with cyrillic domain
+        !(DG.Browser.ie && document.location.host.toLowerCase().search(/[а-я]/) != -1);
 
     return Ajax;
 })();
