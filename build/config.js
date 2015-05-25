@@ -70,15 +70,13 @@ function getAppConfig() { // ()->Object
         mainConfig,
         localConfig;
 
-    if (!fs.existsSync(mainConfigPath)) {
-        throw new Error('File \'config.main.json\' was not found in ' + mainConfigPath);
-    }
+    mainConfig = require(mainConfigPath);
 
-    mainConfig = JSON.parse(fs.readFileSync(mainConfigPath));
-    if (fs.existsSync(localConfigPath)) {
-        localConfig = JSON.parse(fs.readFileSync(localConfigPath));
+    try {
+        localConfig = require(localConfigPath);
         extend(true, mainConfig, localConfig);
-    }
+    } catch (e) {}
+
     return mainConfig;
 }
 

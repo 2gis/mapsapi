@@ -70,9 +70,7 @@ DG.ProjectDetector = DG.Handler.extend({
         var arr,
             pointsArr,
             bracketsContent,
-            regExp,
-            southWest,
-            northEast;
+            regExp;
 
         wkt = wkt.replace(/, /g, ',');
         wkt.replace(' (', '(');
