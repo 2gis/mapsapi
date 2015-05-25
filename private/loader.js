@@ -230,11 +230,11 @@
     }
 
     window.DG.then = function (resolve, reject) {
+        window.__dgApi__.callbacks.push([resolve, reject]);
+
         if (isLazy && !isJSRequested) {
             requestJS();
         }
-
-        window.__dgApi__.callbacks.push([resolve, reject]);
 
         if (reject) {
             rejects.push(reject);
