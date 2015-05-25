@@ -122,7 +122,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         this.cancelLastRequest();
 
         if (!DG.ajax.corsSupport) {
-            type = data.output = 'jsonp';
+            type = data.format = 'jsonp';
         }
 
         this._lastRequest = DG.ajax(url, {
