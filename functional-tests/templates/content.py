@@ -268,6 +268,44 @@ def pages():
             });
             """,
             'style': 'width: 670px; height: 400px;'
+        },
+        clickEvent={
+            'title': u'clickEvent',
+            'mapInit':
+            u"""
+            DG.then(function() {
+                    var clickedElement = document.getElementById('info'),
+                    coords = [
+                        [54.99, 82.88],
+                        [54.985, 82.94],
+                        [54.984, 82.925],
+                        [54.981, 82.928]
+                    ];
+
+                map = DG.map('map', {
+                    center: [54.98, 82.89],
+                    zoom: 13,
+                    zoomAnimation: false
+                });
+
+                map.on('click', function(e) {
+                    clickedElement.innerHTML = 'map ' + e.latlng.lat + ', ' + e.latlng.lng;
+                });
+
+                DG.marker([54.98, 82.89])
+                    .on('click', function() {
+                        clickedElement.innerHTML = 'marker';
+                    })
+                    .addTo(map);
+
+                DG.polygon(coords)
+                    .on('click', function() {
+                        clickedElement.innerHTML = 'polygon';
+                    })
+                    .addTo(map);
+            });
+            """,
+            'style': u"width: 100%; height: 400px;"
         }
     )
     defaults = dict(

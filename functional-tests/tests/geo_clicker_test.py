@@ -3,8 +3,8 @@ from classes.mapsapi_base_test import MapsAPIBaseTest
 from config import config
 from lode_runner.dataprovider import dataprovider
 from classes.util.scripts import SetScripts
-from classes.WAPI.dataWorker import GeoData
 from classes.util.scripts import GetScripts
+from classes.WAPI.dataWorker import GeoData
 from classes.WAPI.dataWorker import FirmData
 from classes.WAPI.dataWorker import GalleryData
 

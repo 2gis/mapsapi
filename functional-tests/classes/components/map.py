@@ -12,7 +12,8 @@ from time import sleep
 
 class Map(Component):
     selectors = {
-        'self': '#map'
+        'self': '#map',
+        'info': '#info'
     }
 
     def zoom_selection(self):
@@ -69,3 +70,6 @@ class Map(Component):
         actions.click_and_hold()
         actions.move_by_offset(x_offset, y_offset)
         actions.release().perform()
+
+    def info_elem(self):
+        return self.driver.find_element_by_css_selector(self.selectors['info'])

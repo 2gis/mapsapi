@@ -154,3 +154,30 @@ def check_route(link, check_part):
         check.append(check_part[i] == parts[i])
         i += 1
     return all(item for item in check)
+
+
+def coord_equals(expected, got, precision):
+    """
+    :param expected: Expected coordinate value
+    :param got: Got coordinate value
+    :param precision: Precision for round latitude and longitude
+    :return: bool
+    Check part by part coordinate equals with precision
+    """
+    checks = list()
+    checks.append(round(expected['lat'], precision) == round(got['lat'], precision))
+    checks.append(round(expected['lng'], precision) == round(got['lng'], precision))
+    print(round(expected['lat'], precision))
+    print(round(got['lat'], precision))
+    print(round(expected['lng'], precision))
+    print(round(got['lng'], precision))
+    return all(check for check in checks)
+
+
+def coord_string_to_dict(coord_str):
+    """
+    :param coord_str: string like 'lat, lng'
+    :return: dict from coord_string content lat and lng respectively
+    """
+    parts = coord_str.split(', ')
+    return {'lat': float(parts[0]), 'lng': float(parts[1])}
