@@ -226,11 +226,11 @@
         version: version
     };
 
-    if (!isLazy) {
-        requestJS();
-    }
+    var loaderDgThen = window.DG.then = function (resolve, reject) {
+        if (DG.then !== loaderDgThen) {
+            return DG.then(resolve, reject);
+        }
 
-    window.DG.then = function (resolve, reject) {
         window.__dgApi__.callbacks.push([resolve, reject]);
 
         if (isLazy && !isJSRequested) {
@@ -244,4 +244,7 @@
         return this;
     };
 
+    if (!isLazy) {
+        requestJS();
+    }
 })();
