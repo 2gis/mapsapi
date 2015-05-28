@@ -36,7 +36,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             this._initStyles();
         }
 
-        // remove previously geometry see https://github.com/2gis/mapsapi/issues/213
+        // remove previous geometry see https://github.com/2gis/mapsapi/issues/213
         if (this._geometry) {
             this._map.removeLayer(this._geometry);
         }
