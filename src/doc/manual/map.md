@@ -504,12 +504,12 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>poihover</b></code></td>
-            <td><code><a href="/doc/maps/manual/events#poievent">PoiEvent</a></code>
+            <td><code><a href="/doc/maps/manual/events#poievent">MetaEvent</a></code>
             <td>Вызывается при наведении курсора мышки на точку интереса.</td>
         </tr>
         <tr>
             <td><code><b>poileave</b></code></td>
-            <td><code><a href="/doc/maps/manual/events#poievent">PoiEvent</a></code></td>
+            <td><code><a href="/doc/maps/manual/events#poievent">MetaEvent</a></code></td>
             <td>Вызывается когда курсор мышки покидает область точки интереса.</td>
         </tr>
         <tr>

@@ -79,11 +79,19 @@ DG.Poi = DG.Handler.extend({
                 .setPosition(e.latlng)
                 .setContent(e.meta.hint);
             this._map.addLayer(this._labelHelper);
+            this._map.fire('poihover', {
+                latlng: e.latlng,
+                meta: e.meta
+            });
         },
 
-        mouseout: function () {
+        mouseout: function (e) {
             this._setCursor('');
             this._map.removeLayer(this._labelHelper);
+            this._map.fire('poileave', {
+                latlng: e.latlng,
+                meta: e.meta
+            });
         },
 
         mousemove: function (e) { // (Object)
