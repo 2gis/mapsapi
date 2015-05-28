@@ -1,0 +1,13 @@
+<h2 id="локализация">Локализация</h2><p>API карт предоставляет возможность отображения элементов пользовательского интерфейса на нескольких языках. Перевод самих тайлов при этом не предусмотрен, так как подписи на тайлах всегда соответствуют языку отображаемой страны.</p>
+<p>По умолчанию задается такой же язык, как и у корневого тега html:</p>
+<pre><code>&lt;html lang=&quot;it&quot;&gt;
+    &lt;head&gt;&lt;/head&gt;
+    &lt;body&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>Если язык в корневом теге не указан, тогда будет использоваться язык по умолчанию — русский.</p>
+<p>Получить или динамически изменить язык можно с помощью соответствующих методов карты <a href="/doc/maps/manual/map#map-getlang">getLang</a> и <a href="/doc/maps/manual/map#map-setlang">setLang</a>:</p>
+<pre><code>map.setLang(&#39;it&#39;);
+map.getLang(); // вернет &#39;it&#39;
+</code></pre><p>На данный момент поддерживаются следующие языки:</p>
+<ul class="list-v-disc">
+<li><div class="restore-color">en &mdash; английский;</div></li><li><div class="restore-color">ru &mdash; русский;</div></li><li><div class="restore-color">it &mdash; итальянский;</div></li><li><div class="restore-color">cs &mdash; чешский;</div></li><li><div class="restore-color">es &mdash; испанский.</div></li></ul>

@@ -1,0 +1,109 @@
+<h2 id="работа-с geojson">Работа с GeoJSON</h2><p><dl class="api-incut"><ul class="page-contents"><li><a href="#описание">Описание</a></li><li><a href="#пример">Пример</a></li></ul></dl></p>
+<h3 id="описание">Описание</h3><p>Ниже приведен пример работы с GeoJSON. Для получения подробной информации перейдите в раздел документации <a href="/doc/maps/manual/geojson">GeoJSON-формат</a>.</p>
+<h3 id="пример">Пример</h3><p>Отображение объектов, описанных в формате GeoJSON:</p>
+<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<div id="map" style="width: 100%; height: 400px;"></div>
+<script>
+    DG.then(function() {
+        var map = DG.map('map', {
+            center: [55.042136, 82.91699],
+            zoom: 16
+        });
+
+        var data = [
+            {
+                "type": "Feature",
+                "properties": {
+                    "info": "Я маркер"
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [82.91799, 55.043136]
+                }
+            },
+            {
+                "type": "Feature",
+                "properties": {
+                    "info": "Я полигон"
+                },
+                "geometry": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [82.91699, 55.042136],
+                            [82.917522, 55.040187],
+                            [82.918063, 55.040235],
+                            [82.917540, 55.042184],
+                            [82.91699, 55.042136]
+                        ]
+                    ]
+                }
+            }
+        ];
+
+        DG.geoJson(data, {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup(feature.properties.info);
+            }
+        }).addTo(map);
+    });
+</script>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot; /&gt;
+        &lt;title&gt;GeoJSON&lt;/title&gt;
+        &lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js&quot;
+        data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;map&quot; style=&quot;width: 100%; height: 400px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            DG.then(function() {
+                var map = DG.map(&#39;map&#39;, {
+                    center: [55.042136, 82.91699],
+                    zoom: 16
+                });
+
+                var data = [
+                    {
+                        &quot;type&quot;: &quot;Feature&quot;,
+                        &quot;properties&quot;: {
+                            &quot;info&quot;: &quot;Я маркер&quot;
+                        },
+                        &quot;geometry&quot;: {
+                            &quot;type&quot;: &quot;Point&quot;,
+                            &quot;coordinates&quot;: [82.91799, 55.043136]
+                        }
+                    },
+                    {
+                        &quot;type&quot;: &quot;Feature&quot;,
+                        &quot;properties&quot;: {
+                            &quot;info&quot;: &quot;Я полигон&quot;
+                        },
+                        &quot;geometry&quot;: {
+                            &quot;type&quot;: &quot;Polygon&quot;,
+                            &quot;coordinates&quot;: [
+                                [
+                                    [82.91699, 55.042136],
+                                    [82.917522, 55.040187],
+                                    [82.918063, 55.040235],
+                                    [82.917540, 55.042184],
+                                    [82.91699, 55.042136]
+                                ]
+                            ]
+                        }
+                    }
+                ];
+
+                DG.geoJson(data, {
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup(feature.properties.info);
+                    }
+                }).addTo(map);
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>

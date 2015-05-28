@@ -1,0 +1,423 @@
+{
+    "mapsapi": {
+        "content": {
+            "ru": {
+                "title": "API карт",
+                "uri": "maps/quickstart",
+                "_src":"quickstart/quickstart.md",
+                "hide": false
+            }
+        },
+        "children": [
+            {
+                "content": {
+                    "ru": {
+                        "title": "Быстрый старт",
+                        "uri": "maps/quickstart",
+                        "_src":"quickstart/quickstart.md",
+                        "hide": false
+                    }
+                },
+                "children": null
+            },
+            {
+                "content": {
+                    "ru": {
+                        "title": "Руководство",
+                        "uri": "maps/manual/loading",
+                        "_src":"manual/loading.md",
+                        "hide": false
+                    }
+                },
+                "children": [
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Подключение API",
+                                "uri": "maps/manual/loading",
+                                "_src":"manual/loading.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Карта",
+                                "uri": "maps/manual/map",
+                                "_src":"manual/map.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Базовые классы",
+                                "uri": "maps/manual/base-classes",
+                                "_src":"manual/base-classes.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Маркеры",
+                                "uri": "maps/manual/markers",
+                                "_src":"manual/markers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Балуны",
+                                "uri": "maps/manual/popups",
+                                "_src":"manual/popup.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Подсказки",
+                                "uri": "maps/manual/label",
+                                "_src":"manual/label.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Геометрии",
+                                "uri": "maps/manual/geometries",
+                                "_src":"manual/geometries.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Элементы управления",
+                                "uri": "maps/manual/controls",
+                                "_src":"manual/controls.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Слои",
+                                "uri": "maps/manual/layers",
+                                "_src":"manual/layers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Группы",
+                                "uri": "maps/manual/groups",
+                                "_src":"manual/groups.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Внешние модули",
+                                "uri": "maps/manual/external-modules",
+                                "_src":"manual/external-modules.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Линейка",
+                                "uri": "maps/manual/ruler",
+                                "_src":"manual/ruler.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Метаслои",
+                                "uri": "maps/manual/metalayers",
+                                "_src":"manual/metalayers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Пробки",
+                                "uri": "maps/manual/traffic",
+                                "_src":"manual/traffic.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "AJAX-запросы",
+                                "uri": "maps/manual/ajax",
+                                "_src":"manual/ajax.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "GeoJSON-формат",
+                                "uri": "maps/manual/geojson",
+                                "_src":"manual/geojson.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "WKT-формат",
+                                "uri": "maps/manual/wkt",
+                                "_src":"manual/wkt.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "События",
+                                "uri": "maps/manual/events",
+                                "_src":"manual/events.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Локализация",
+                                "uri": "maps/manual/locale",
+                                "_src":"manual/locale.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Утилиты",
+                                "uri": "maps/manual/utils",
+                                "_src":"manual/utils.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с DOM",
+                                "uri": "maps/manual/dom-utils",
+                                "_src":"manual/dom-utils.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Интерфейсы",
+                                "uri": "maps/manual/interfaces",
+                                "_src":"manual/interfaces.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Переход на версию 2.0",
+                                "uri": "maps/manual/migration",
+                                "_src":"manual/migration.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    }
+                ]
+            },
+            {
+                "content": {
+                    "ru": {
+                        "title": "Примеры",
+                        "uri": "maps/examples/base",
+                        "_src":"examples/base.md",
+                        "hide": false
+                    }
+                },
+                "children": [
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Базовое использование",
+                                "uri": "maps/examples/base",
+                                "_src":"examples/base.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с маркерами",
+                                "uri": "maps/examples/markers",
+                                "_src":"examples/markers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с балунами",
+                                "uri": "maps/examples/popups",
+                                "_src":"examples/popups.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с границами",
+                                "uri": "maps/examples/bounds",
+                                "_src":"examples/bounds.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с геометриями",
+                                "uri": "maps/examples/geometries",
+                                "_src":"examples/geometries.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Элементы управления",
+                                "uri": "maps/examples/controls",
+                                "_src":"examples/controls.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с API геоданных",
+                                "uri": "maps/examples/geocoding",
+                                "_src":"examples/geocoding.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с GeoJSON",
+                                "uri": "maps/examples/geojson",
+                                "_src":"examples/geojson.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Работа с WKT",
+                                "uri": "maps/examples/wkt",
+                                "_src":"examples/wkt.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Обработка событий",
+                                "uri": "maps/examples/events",
+                                "_src":"examples/events.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Внешние модули",
+                                "uri": "maps/examples/external-modules",
+                                "_src":"examples/external-modules.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    }
+                ]
+            }
+        ]
+    }
+}
