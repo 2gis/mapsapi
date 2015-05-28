@@ -196,17 +196,32 @@ DG.Wkt.geoJsonLayer = function (data, opts) {
     return DG.geoJson(DG.Wkt.toGeoJSON(data), opts);
 };
 
+DG.Wkt._coordsToLatLngs = function (coords) {
+    if (DG.Util.isArray(coords) && !DG.Util.isArray(coords[0])) {
+        return [DG.GeoJSON.coordsToLatLng(coords)];
+    }
+
+
+    return coords.map(function (el) {
+            return DG.Wkt._coordsToLatLngs(el);
+        })
+        .reduce(function (arr, coord) {
+            return arr.concat(coord);
+        });
+};
+
 DG.Wkt.toLatLngs = function (data) {
-    var coords = DG.Wkt.toGeoJSON(data).coordinates;
-    return DG.Util.isArray(coords) ?
-        coords
-            .map(function (coord) {
-                return DG.Util.isArray(coord[0]) ? DG.GeoJSON.coordsToLatLngs(coord) : [DG.GeoJSON.coordsToLatLng(coord)];
-            })
-            .reduce(function (arr, coord) {
-                return arr.concat(coord);
-            }) :
-        DG.GeoJSON.coordsToLatLngs(coords);
+    if (!DG.Util.isArray(data)) {
+        data = [data];
+    }
+
+    return data.map(function (el) {
+        var coords = DG.Wkt.toGeoJSON(el).coordinates;
+
+        return DG.Wkt._coordsToLatLngs(coords);
+    }).reduce(function (arr, coord) {
+        return arr.concat(coord);
+    });
 };
 
 DG.Wkt.toPoints = function (data) {
