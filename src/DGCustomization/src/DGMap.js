@@ -93,6 +93,7 @@ DG.Map.include({
     },
 
     getBoundsZoom: function (bounds, inside, padding) {
+        bounds = DG.latLngBounds(bounds);
         this._restrictZoom(bounds);
         return getBoundsZoom.call(this, bounds, inside, padding);
     },
