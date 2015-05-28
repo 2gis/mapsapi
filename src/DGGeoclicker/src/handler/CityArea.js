@@ -36,6 +36,11 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             this._initStyles();
         }
 
+        // remove previously geometry see https://github.com/2gis/mapsapi/issues/213
+        if (this._geometry) {
+            this._map.removeLayer(this._geometry);
+        }
+
         this._popup = this._view.getPopup();
 
         this._geometryZoomStyle = this._getPolyStyleNum();
