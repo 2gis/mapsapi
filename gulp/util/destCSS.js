@@ -59,7 +59,7 @@ module.exports = function(opt, cb) {
             .pipe(list.name ? rename({suffix: '.' + list.name}) : util.noop())
             .pipe(gulp.dest('public/css/'))
             .pipe(rename({suffix: '.min'}))
-            .pipe(minifyCss())
+            .pipe(minifyCss({compatibility: 'ie8'}))
             .pipe(header(config.copyright))
             .pipe(list.size ? map(stat.save) : util.noop())
             .pipe(gulp.dest('public/css/'));
