@@ -67,14 +67,20 @@
         },
 
         onAdd: function (map) { // (Map)
-            map.on('entranceshow', this._closePopup, this);
+            map.on({
+                entranceshow: this._closePopup,
+                resize: this.resize
+            }, this);
             originalOnAdd.call(this, map);
             this._animateOpening();
         },
 
         onRemove: function (map) { // (Map)
             this._animateClosing();
-            map.off('entranceshow', this._closePopup, this);
+            map.off({
+                entranceshow: this._closePopup,
+                resize: this.resize
+            }, this);
 
             if (DG.DomUtil.TRANSITION) {
                 this._removeTimeout = setTimeout(L.bind(L.DomUtil.remove, L.DomUtil, this._container), 200);
