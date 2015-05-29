@@ -201,7 +201,6 @@ DG.Wkt._coordsToLatLngs = function (coords) {
         return [DG.GeoJSON.coordsToLatLng(coords)];
     }
 
-
     return coords.map(function (el) {
             return DG.Wkt._coordsToLatLngs(el);
         })
