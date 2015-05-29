@@ -1,7 +1,9 @@
 var autoprefixer = require('gulp-autoprefixer');
 var minify = require('gulp-minify-css');
+var remember = require('gulp-remember');
 var concat = require('gulp-concat');
 var header = require('gulp-header');
+var cache = require('gulp-cached');
 var gulpif = require('gulp-if');
 var less = require('gulp-less');
 var util = require('gulp-util');
@@ -64,9 +66,11 @@ module.exports = function (options) {
 
     return gulp.src(lessList)
         .pipe(error.handle())
+        .pipe(cache('css.' + options.suffix))
         .pipe(header(lessPrerequirements))
         .pipe(less())
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        .pipe(remember('css.' + options.suffix))
         .pipe(concat('styles.' + (options.suffix ? options.suffix + '.' : '') + 'css'))
         .pipe(gulpif(util.env.release, minify()))
         .pipe(header(config.copyright))
