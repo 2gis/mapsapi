@@ -89,13 +89,6 @@
             <td>Добавляет элемент управления на карту.</td>
         </tr>
         <tr>
-            <td><code><b>removeFrom</b>(
-                <nobr>&lt;<a href="/doc/maps/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
-            </code></td>
-            <td><code>this</code></td>
-            <td>Удаляет элемент управления с карты.</td>
-        </tr>
-        <tr>
             <td><code><b>getContainer</b>()</code></td>
             <td><code>HTMLElement</code></td>
             <td>Возвращает HTML контейнер элемента управления.</td>
