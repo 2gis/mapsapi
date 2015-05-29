@@ -34,7 +34,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
         this._eventHandlers[el] = handler;
     },
 
-    _runEventHandlers: function(e) {
+    _runEventHandlers: function (e) {
         var target = e.originalEvent.target;
 
         for (var eventClass in this._eventHandlers) {
@@ -51,7 +51,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
     },
 
     _getDirectionsUrl: function (name) {
-        return DG.Util.template('__PPNOT_LINK__', {
+        return DG.Util.template(DG.config.ppnotLink, {
             'domain': this._map.projectDetector.getProject().domain,
             'projectCode': this._map.projectDetector.getProject().code,
             'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
@@ -68,7 +68,7 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
 
         if (object.adm_div) {
             admDivs = object.adm_div
-                .reduce(function(admDivs, admDiv) {
+                .reduce(function (admDivs, admDiv) {
                     if (admDiv.name) {
                         admDivs.push(admDiv.name);
                     }

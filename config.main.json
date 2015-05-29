@@ -1,48 +1,47 @@
 {
-    "HOST": null,
-    "PORT": "3000",
-    "DEFAULT_SKIN": "dark",
+    "host": null,
+    "port": 3000,
 
-    "TRAFFIC_LAYER_MIN_ZOOM": 10,
-    "TRAFFIC_LAYER_UPDATE_INTERVAL": 300000,
+    "defaultSkin": "dark",
+    "defaultLang": "ru",
 
-    "PPNOT_LINK": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
-    "PHOTOS_LINK": "http://2gis.{domain}/photos/{id}",
-    "LOADER_URL": "//maps.api.2gis.ru/2.0/loader.js",
+    "trafficLayerMinZoom": 10,
+    "trafficLayerUpdateInterval": 300000,
 
-    "POI_LAYER_MIN_ZOOM": 15,
+    "ppnotLink": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
+    "photosLink": "http://2gis.{domain}/photos/{id}",
 
-    "DETECT_RETINA": true,
+    "poiLayerMinZoom": 15,
 
-    "WEB_API_KEY": "rujrdp3400",
-    "WEB_API_VERSION": "2.0",
-    "REGION_LIST_FIELDS": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain",
-    "FIRM_INFO_FIELDS": "items.reviews,items.photos,items.links,items.external_content",
-    "GEO_ADDITIONAL_FIELDS": "items.geometry.selection,items.links,items.adm_div,items.address,items.floors,items.description",
-    "GEOCLICKER_CATALOG_API_KEY": "ruxlih0718",
-    "DEFAULT_LANG": "ru",
-    "PROJECT_LEAVE_MAX_ZOOM" : 13,
-    "FLAMP_URL" : "http://flamp.ru/r/",
-    "FLAMP_GOOGLE_ANALYTICS" : "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
-    "GA_CODE": "UA-38243181-2",
+    "detectRetina": true,
 
-    "RELATIVE_URL": {
+    "webApiKey": "rujrdp3400",
+    "webApiVersion": "2.0",
 
-        "BASE_URL": "//maps.api.2gis.ru/2.0",
-        "IE8_BASE_URL": "//maps.api.2gis.ru/2.0",
+    "regionListFields": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain",
+    "firmInfoFields": "items.reviews,items.photos,items.links,items.external_content",
+    "geoAdditionalFields": "items.geometry.selection,items.links,items.adm_div,items.address,items.floors,items.description",
+    "geoclickerCatalogApiKey": "ruxlih0718",
+    "projectLeaveMaxZoom": 13,
+    "flampUrl": "http://flamp.ru/r/",
+    "flampGoogleAnalytics": "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
+    "gaCode": "UA-38243181-2",
 
-        "TILE_SERVER": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
+    "protocol": "http:",
 
-        "TRAFFIC_TILE_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
-        "TRAFFIC_META_SERVER": "//meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
-        "TRAFFIC_TIMESTAMP_SERVER": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
-        "TRAFFIC_SCORE_SERVER" : "//traffic{s}.maps.2gis.com/{projectCode}/meta/score/0/",
+    "baseUrl": "//maps.api.2gis.ru/2.0",
 
-        "POI_META_SERVER": "//tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
+    "tileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
 
-        "WEB_API_SERVER": "//catalog.api.2gis.ru",
+    "trafficTileServer": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
+    "trafficMetaServer": "//meta{s}.maps.2gis.com/{projectCode}/meta/{z}/{x}/{y}/graph_speed/{period}/{timestampString}",
+    "trafficTimestampServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
+    "trafficScoreServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/score/0/",
 
-        "ANALYTICS": "//maps.api.2gis.ru/analytics/track-user.png",
-        "GOOGLE_ANALYTICS": "//www.google-analytics.com/analytics.js"
-    }
+    "poiMetaServer": "//tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
+
+    "webApiServer": "//catalog.api.2gis.ru",
+
+    "analytics": "//maps.api.2gis.ru/analytics/track-user.png",
+    "googleAnalytics": "//www.google-analytics.com/analytics.js"
 }

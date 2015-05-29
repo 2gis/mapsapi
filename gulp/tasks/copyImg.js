@@ -1,4 +1,3 @@
-var flatten = require('gulp-flatten');
 var es = require('event-stream');
 var gulp = require('gulp');
 

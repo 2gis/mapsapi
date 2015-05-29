@@ -1,11 +1,7 @@
 /*
     Variables:
         @baseURL
-        @spritesURL
         @ie8
-        @mobile
-        @retina
-        @useSprites
         @skinName
         @imagesBasePath
 
@@ -47,10 +43,8 @@
     background-image: url('@{baseURL}/img/@{filename}.@{extension}');
     background-size: @originalWidth @originalHeight;
 
-    & when (@retina) {
-        .leaflet-retina & {
-            background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
-            }
+    .leaflet-retina & {
+        background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
         }
     }
 
@@ -59,19 +53,17 @@
 
     width: @width;
     height: @height;
-    background-image: url('@{spritesURL}/img/@{backgroundImage}');
+    background-image: url('@{baseURL}/img/@{backgroundImage}');
     background-position: @backgroundPosition;
     background-size: @totalWidth @totalHeight;
 
-    & when (@retina) {
-        .leaflet-retina & {
-            .spriteData('@{name}@2x');
-            background-image: url('@{spritesURL}/img/@{backgroundImage}');
-            // Spritesmith при формировании 2x-спрайтов часто располагает изображения в другой последовательности,
-            // поэтому размеры проставляем заново, определённые выше скорей всего не подходят.
-            background-position: @backgroundPositionLeft / 2 @backgroundPositionTop / 2;
-            background-size: @totalWidth / 2 @totalHeight / 2;
-            }
+    .leaflet-retina & {
+        .spriteData('@{name}@2x');
+        background-image: url('@{baseURL}/img/@{backgroundImage}');
+        // Spritesmith при формировании 2x-спрайтов часто располагает изображения в другой последовательности,
+        // поэтому размеры проставляем заново, определённые выше скорей всего не подходят.
+        background-position: @backgroundPositionLeft / 2 @backgroundPositionTop / 2;
+        background-size: @totalWidth / 2 @totalHeight / 2;
         }
     }
 
@@ -92,11 +84,11 @@
 
     .imageData(@name);
 
-    & when not (@ie8) and not (@useSprites) and (@hasVectorVersion) {
+    & when not (@ie8) and (@hasVectorVersion) {
         .dataURIImage(@name);
         }
 
-    & when (@ie8), (@useSprites), not (@hasVectorVersion) {
+    & when (@ie8), not (@hasVectorVersion) {
         .isSprited(@name);
 
         & when (@isSprited) and not (@newerNotUseSprite) {
@@ -114,13 +106,13 @@
     .isSprited(@name);
     .notRepeatableBg(@name, @newerNotUseSprite);
 
-    & when not (@ie8) and not (@useSprites) and (@hasVectorVersion) {
+    & when not (@ie8) and (@hasVectorVersion) {
         width: @width;
         height: @height;
         background-size: @originalWidth @originalHeight;
         }
 
-    & when (@ie8), (@useSprites), not (@hasVectorVersion) {
+    & when (@ie8), not (@hasVectorVersion) {
         .isSprited(@name);
 
         & when not (@isSprited), (@newerNotUseSprite) {

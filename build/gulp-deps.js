@@ -40,10 +40,6 @@ var init = function (config) {
         }
 
         function processModule(name) {
-            if (config.deprecatedModules.indexOf(name) != -1) {
-                return;
-            }
-
             var module = modules[name];
 
             if (module && module.deps) {
@@ -93,7 +89,7 @@ var init = function (config) {
         var source = config[options.source || 'source'];
         var modules = source.deps;
         var sourcePath = source.path;
-        var skin = options.skin || config.appConfig.DEFAULT_SKIN;
+        var skin = options.skin || config.appConfig.defaultSkin;
 
         return getModulesList(options.pkg, modules)
             .map(function (name) {

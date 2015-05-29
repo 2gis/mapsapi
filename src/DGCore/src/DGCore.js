@@ -1,4 +1,4 @@
-//DG inheritance
+// DG inheritance
 var oldDG = window.DG;
 DG = new (
     (function () {
@@ -23,22 +23,23 @@ DG.version = window.__dgApi__.version;
 DG.debug = window.__dgApi__.debug;
 DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
 
-/* eslint-disable */
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','__GOOGLE_ANALYTICS__','ga');
-/* eslint-enable */
+DG.Map.addInitHook(function () {
+    /*eslint-disable */
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script',DG.config.protocol+DG.config.googleAnalytics,'ga');
 
-/*global ga:false*/
-ga('create', '__GA_CODE__', 'none');
-ga('send', 'pageview');
+    ga('create', DG.config.gaCode, 'none');
+    ga('send', 'pageview');
+    /*eslint-enable */
 
-//track statistics
-var newImg = new Image();
-newImg.src = '__ANALYTICS__?' +
-            'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
-            'v=' + DG.version;
+    var newImg = new Image();
+    newImg.src = DG.config.protocol + DG.config.analytics +
+        'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
+        'v=' + DG.version;
+
+});
 
 // Improve IHandler
 DG.Map.include({

@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var fs = require('fs');
 
-var error = require('../util/error');
 var config = require('../../build/config');
 var deps = require('../../build/gulp-deps')(config);
 

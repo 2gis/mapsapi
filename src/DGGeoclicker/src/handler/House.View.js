@@ -40,7 +40,7 @@ DG.Geoclicker.Handler.House.include({
         }
 
         if (house.links.attractions && house.links.attractions.length) {
-            data.attractions = house.links.attractions.reduce(function(attractions, attraction) {
+            data.attractions = house.links.attractions.reduce(function (attractions, attraction) {
                 if (attraction.name) {
                     attractions.push(attraction.name);
                 }

@@ -1,4 +1,6 @@
 var imagemin = require('gulp-imagemin');
+var util = require('gulp-util');
+var gulpif = require('gulp-if');
 var gulp = require('gulp');
 
 gulp.task('imageMinify', [
@@ -8,6 +10,6 @@ gulp.task('imageMinify', [
     'generateSprites'
 ], function () {
     return gulp.src('public/img/**/*.{png,gif,jpg,jpeg}')
-        .pipe(imagemin())
+        .pipe(gulpif(util.env.release, imagemin()))
         .pipe(gulp.dest('public/img'));
 });

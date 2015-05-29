@@ -1,5 +1,3 @@
-/* global __POI_LAYER_MIN_ZOOM__,__DETECT_RETINA__ */
-
 DG.Map.mergeOptions({
     poi: !DG.Browser.touch
 });
@@ -10,17 +8,13 @@ DG.Poi = DG.Handler.extend({
         disableLabel: false
     },
 
-    statics: {
-        metaURL: '__POI_META_SERVER__'
-    },
-
     initialize: function (map, options) { // (Object)
         this._map = map;
         DG.Util.setOptions(this, options);
-        this._metaLayer = DG.Meta.layer(DG.Poi.metaURL, {
-            minZoom: __POI_LAYER_MIN_ZOOM__,
+        this._metaLayer = DG.Meta.layer(DG.config.protocol + DG.config.poiMetaServer, {
+            minZoom: DG.config.poiLayerMinZoom,
             maxNativeZoom: 19,
-            detectRetina: __DETECT_RETINA__,
+            detectRetina: DG.config.detectRetina,
             eventBubbling: 'layer',
             dataFilter: DG.bind(this._processData, this)
         });

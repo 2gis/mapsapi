@@ -39,7 +39,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return Promise.resolve(this._houseObject);
     },
 
-    _isRouteSearchAllowed: function() { //() -> Boolean
+    _isRouteSearchAllowed: function () { //() -> Boolean
         var project = this._controller.getMap().projectDetector.getProject();
         return project.transport || project.roads;
     },
@@ -74,7 +74,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
         return this.firmCard.getContainer();
     },
 
-    _firmListSetup: function() {
+    _firmListSetup: function () {
         var options = this._firmCardSetup();
 
         DG.extend(options, {

@@ -295,7 +295,7 @@ FirmCard.prototype = {
         }
 
         if (!this.options.isMobile && photos && photos.count && this.options.showPhotos) {
-            link = L.Util.template('__PHOTOS_LINK__', {
+            link = L.Util.template(DG.config.photosLink, {
                 'id': this._firmId,
                 'domain': this.options.domain
             });

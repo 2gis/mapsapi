@@ -35,15 +35,6 @@
         }
     }
 
-    if (urlParams.indexOf('&sprite=') == -1) {
-        // SVG
-        if (
-            !(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect)
-        ) {
-            urlParams += 'sprite=true&';
-        }
-    }
-
     var qs = '?' + urlParams.slice(1) + 'version=' + version;
     var isLazy = urlParams.indexOf('&lazy=true&') != -1;
 
@@ -141,6 +132,15 @@
                 success: function (data) {
                     var head = document.getElementsByTagName('head')[0];
 
+                    var baseURL = DG.config.protocol + DG.config.baseUrl;
+
+                    if (baseURL !== 'http://maps.api.2gis.ru/2.0') {
+                        data = data.replace(
+                            new RegExp('http://maps.api.2gis.ru/2.0', 'g'),
+                            baseURL
+                        );
+                    }
+
                     if (style.styleSheet) {
                         head.appendChild(style);
                         style.styleSheet.cssText = data;
@@ -160,12 +160,9 @@
     }
 
     function loadProjectList() {
-        var url = '__WEB_API_SERVER__/__WEB_API_VERSION__/region/list';
-
-        // При необходимости меняем у ссылки протокол
-        var protocol = window.location.protocol == 'http:' ? 'http:' : 'https:';
-
-        url = url.replace(/^https?\:/, protocol);
+        var url = DG.config.protocol +
+            DG.config.webApiServer + '/' +
+            DG.config.webApiVersion + '/region/list';
 
         return new Promise(function (resolve) {
             DG.ajax(url, {
@@ -173,8 +170,8 @@
 
                 data: {
                     format: DG.ajax.corsSupport ? 'json' : 'jsonp',
-                    key: '__WEB_API_KEY__',
-                    fields: '__REGION_LIST_FIELDS__'
+                    key: DG.config.webApiKey,
+                    fields: DG.config.regionListFields
                 },
 
                 success: function (data) {
@@ -192,6 +189,10 @@
                 }
             });
         });
+    }
+
+    function extendConfig() {
+        DG.extend(DG.config, __LOCAL_CONFIG__);
     }
 
     function prepareForInit() {
@@ -219,6 +220,7 @@
 
     window.__dgApi__ = {
         callbacks: [
+            [extendConfig, undefined],
             [prepareForInit, undefined],
             [setReady, undefined]
         ],

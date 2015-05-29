@@ -132,14 +132,14 @@ DG.Map.include({
                 project = this.projectDetector.isProjectHere(coords);
             if (isMapMaxZoom) {
                 if (!this._mapMaxZoomCache) { this._mapMaxZoomCache = mapOptions.maxZoom; }
-                mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  '__PROJECT_LEAVE_MAX_ZOOM__';
+                mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  DG.config.projectLeaveMaxZoom;
                 if (project) {
                     this._mapMaxZoomCache = mapOptions.maxZoom;
                 }
 
                 return mapOptions.maxZoom;
             } else {
-                dgTileLayer.options.maxZoom = project ? project.maxZoom : '__PROJECT_LEAVE_MAX_ZOOM__';
+                dgTileLayer.options.maxZoom = project ? project.maxZoom : DG.config.projectLeaveMaxZoom;
                 dgTileLayer.options.maxNativeZoom = dgTileLayer.options.maxZoom;
                 this._updateZoomLevels();
 

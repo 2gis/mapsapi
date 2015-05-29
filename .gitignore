@@ -8,7 +8,6 @@ npm-debug.log
 public
 private/dev*
 build/tmp
-build/cache
 
 .tern-port
 
