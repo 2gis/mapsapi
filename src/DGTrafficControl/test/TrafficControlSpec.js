@@ -61,6 +61,26 @@ describe('DG.TrafficControl', function() {
         });
     });
 
+    describe('traffic point request', function(){
+        var spy, center, zoom;
+        before(function() {
+            spy = sinon.spy();
+            spy(trafficControl, '_updateTrafficScore');
+            zoom = map.getZoom();
+            center = map.getCenter();
+            happen.click(controlParent);
+
+        });
+        after(function(){
+            map.setView(center, zoom);
+            happen.click(controlParent);
+        });
+
+        it('traffic points update called', function() {
+            expect(spy.calledOnce).to.be(true);
+        });
+    });
+
     describe('project leave/enter/change', function() {
         describe('with traffic off', function() {
             before(function() {
