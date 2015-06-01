@@ -132,9 +132,14 @@
                 success: function (data) {
                     var head = document.getElementsByTagName('head')[0];
 
+                    // Replace urls in CSS in case local config was changed
+                    // after build. originalBaseUrl contains URL value at the
+                    // moment application was built. baseUrl contains current
+                    // value.
                     var originalBaseUrl = '__ORIGINAL_BASE_URL__';
                     var baseURL = DG.config.protocol + DG.config.baseUrl;
 
+                    // Replace if they don't match
                     if (baseURL !== originalBaseUrl) {
                         data = data.replace(
                             new RegExp(originalBaseUrl, 'g'),
