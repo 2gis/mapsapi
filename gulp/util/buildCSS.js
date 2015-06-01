@@ -19,7 +19,7 @@ var error = require('./error');
 
 module.exports = function (options) {
     var imagesBasePath = path.resolve(path.join(__dirname, '../../build/tmp/img_all'));
-    var baseURL = 'http://maps.api.2gis.ru/2.0';
+    var baseURL = config.appConfig.protocol + config.appConfig.baseUrl;
     var lessList = deps.getCSSFiles(options);
 
     var lessHeaderImports;

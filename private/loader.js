@@ -132,11 +132,12 @@
                 success: function (data) {
                     var head = document.getElementsByTagName('head')[0];
 
+                    var originalBaseUrl = '__ORIGINAL_BASE_URL__';
                     var baseURL = DG.config.protocol + DG.config.baseUrl;
 
-                    if (baseURL !== 'http://maps.api.2gis.ru/2.0') {
+                    if (baseURL !== originalBaseUrl) {
                         data = data.replace(
-                            new RegExp('http://maps.api.2gis.ru/2.0', 'g'),
+                            new RegExp(originalBaseUrl, 'g'),
                             baseURL
                         );
                     }
