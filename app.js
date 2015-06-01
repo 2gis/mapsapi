@@ -20,7 +20,7 @@ app.get('/loader.js', function(req, res) {
     // Set correct protocol according to GET param
     localConfig.protocol = req.query.ssl ? 'https:' : 'http:';
 
-    res.set('Content-Type', 'application/javascript');
+    res.set('Content-Type', 'application/javascript; charset=utf-8');
     res.set('X-Powered-By', '2GIS Maps API Server');
 
     // Send loader with injected local config
