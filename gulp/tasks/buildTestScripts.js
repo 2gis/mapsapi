@@ -13,7 +13,7 @@ gulp.task('buildTestScripts', ['loadProjectList', 'lintJS', 'buildLeaflet'], fun
     return gulp.src(deps.getJSFiles(), {base: '.'})
         .pipe(error.handle())
         .pipe(file('projectList.js', projectList.get()))
-        .pipe(file('config.js', 'DG.config = ' + JSON.stringify(config.mainConfig) + ';'))
+        .pipe(file('config.js', 'DG.config = ' + JSON.stringify(config.appConfig) + ';'))
         .pipe(redust(config.tmpl))
         .pipe(map(stat.save))
         .pipe(gulp.dest('build/tmp/testJS'));

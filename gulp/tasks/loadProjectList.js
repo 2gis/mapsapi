@@ -4,6 +4,7 @@ var gulp = require('gulp');
 
 var projectList = require('../util/projectList');
 var config = require('../../build/config.js');
+var errorNotifier = require('../util/error');
 
 gulp.task('loadProjectList', function (cb) {
     if (projectList.get()) {
@@ -34,7 +35,7 @@ gulp.task('loadProjectList', function (cb) {
                 message: err
             });
 
-            error.notify(error);
+            errorNotifier.notify(error);
 
             return cb();
         }

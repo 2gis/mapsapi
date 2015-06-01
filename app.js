@@ -21,23 +21,19 @@ app.get('/loader.js', function(req, res) {
     localConfig.protocol = req.query.ssl ? 'https:' : 'http:';
 
     res.set('Content-Type', 'application/javascript');
+    res.set('X-Powered-By', '2GIS Maps API Server');
 
     // Send loader with injected local config
-    res.send(loader.replace(
-        new RegExp('__LOCAL_CONFIG__', 'g'),
-        JSON.stringify(localConfig)
-    ));
+    res.send(loader.replace(/__LOCAL_CONFIG__/g, JSON.stringify(localConfig)));
 });
 
 // Load index file and inject base URL
 var indexFile = fs.readFileSync('./public/index.html', {encoding: 'utf8'});
-indexFile = indexFile.replace(
-    new RegExp('__BASE_URL__', 'g'),
-    config.appConfig.baseUrl
-);
+indexFile = indexFile.replace(/__BASE_URL__/g, config.appConfig.baseUrl);
 
 // Serve index file
 function serveIndexFile(req, res) {
+    res.set('X-Powered-By', '2GIS Maps API Server');
     res.send(indexFile);
 }
 app.get('/', serveIndexFile);

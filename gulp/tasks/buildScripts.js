@@ -19,7 +19,7 @@ var stat = require('../util/stat');
 var dependencies = util.env['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
 
 gulp.task('buildScripts', dependencies, function () {
-    var isCustom = util.env.custom;
+    var isCustom = util.env.pkg || util.env.skin;
     var packages;
 
     if (isCustom) {
@@ -36,7 +36,7 @@ gulp.task('buildScripts', dependencies, function () {
             .pipe(concat('script.' + (!isCustom ? pkg + '.' : '') + 'js'))
             .pipe(header(config.js.intro))
             .pipe(footer(projectList.get()))
-            .pipe(footer('DG.config = ' + JSON.stringify(config.mainConfig) + ';'))
+            .pipe(footer('DG.config = ' + JSON.stringify(config.appConfig) + ';'))
             .pipe(footer(config.js.outro))
             .pipe(gulpif(util.env.release, uglify()))
             .pipe(header(config.copyright))

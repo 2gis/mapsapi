@@ -14,7 +14,8 @@ module.exports = function (opt) {
     var packages = Object.keys(config.packages);
     var browsers = ['', 'ie8'];
 
-    if (util.env.custom) {
+    if (util.env.pkg || util.env.skin) {
+        // Custom build
         buildRules = browsers.map(function (browser) {
             return {
                 suffix: browser === 'ie8' ? 'ie8' : null,
