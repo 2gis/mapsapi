@@ -124,3 +124,14 @@ DG.Control.Traffic = DG.RoundControl.extend({
 DG.control.traffic = function (options) {
     return new DG.Control.Traffic(options);
 };
+
+DG.Map.mergeOptions({
+    trafficControl: false
+});
+
+DG.Map.addInitHook(function () {
+    if (this.options.trafficControl) {
+        this.trafficControl = DG.control.traffic(this.options.trafficControl);
+        this.addControl(this.trafficControl);
+    }
+});

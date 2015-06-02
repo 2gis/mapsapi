@@ -73,3 +73,14 @@ DG.Control.Ruler = DG.RoundControl.extend({
 DG.control.ruler = function (options) {
     return new DG.Control.Ruler(options);
 };
+
+DG.Map.mergeOptions({
+    rulerControl: false
+});
+
+DG.Map.addInitHook(function () {
+    if (this.options.rulerControl) {
+        this.rulerControl = DG.control.ruler(this.options.rulerControl);
+        this.addControl(this.rulerControl);
+    }
+});

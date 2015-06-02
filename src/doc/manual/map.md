@@ -161,10 +161,7 @@ DG.Map &mdash; основной класс API, используется для 
         <tr>
             <td><code><b>geoclicker</b></code></td>
             <td><code>Boolean | Object</code></td>
-            <td><code>{
-            &nbsp;showPhotos:true,
-            &nbsp;showBooklet:true
-            }</code></td>
+            <td><code>false</code></td>
             <td>Включено ли геокодирование по клику (геокликер). Если `false`, тогда при клике в любой объект карты (улицы, дома, остановки) не будет отображаться информация об этом объекте. Если в качестве параметра передан объект с опциями, тогда геокликер будет включен. Опции `showPhotos` и `showBooklet` позволяют отключить в балуне организации ссылки на буклеты и фотографии.</td>
         </tr>
         <tr id="map-projectdetector">
@@ -1195,13 +1192,23 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr>
             <td><code><b>zoomControl</b></code></td>
-            <td><a href="/doc/maps/manual/controls#класс-dgcontrolzoom"><code>Control.Zoom</code></a></td>
+            <td><a href="/doc/maps/manual/controls#класс-dgcontrol.zoom"><code>Control.Zoom</code></a></td>
             <td>Элемент управления масштабом.</td>
         </tr>
         <tr>
             <td><code><b>fullscreenControl</b></code></td>
-            <td><a href="/doc/maps/manual/controls#класс-dgcontrolfullscreen"><code>Control.FullScreen</code></a></td>
+            <td><a href="/doc/maps/manual/controls#класс-dgcontrol.fullscreen"><code>Control.FullScreen</code></a></td>
             <td>Кнопка включения полноэкранного режима.</td>
+        </tr>
+        <tr>
+            <td><code><b>rulerControl</b></code></td>
+            <td><a href="/doc/maps/manual/controls#класс-dgcontrol.ruler"><code>Control.Ruler</code></a></td>
+            <td>Кнопка включения линейки.</td>
+        </tr>
+        <tr>
+            <td><code><b>trafficControl</b></code></td>
+            <td><a href="/doc/maps/manual/controls#класс-dgcontrol.traffic"><code>Control.Traffic</code></a></td>
+            <td>Кнопка включения слоя с пробками.</td>
         </tr>
         <tr>
             <td><code><b>baseLayer</b></code></td>
