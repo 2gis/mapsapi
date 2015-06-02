@@ -119,6 +119,8 @@ DG.ProjectDetector = DG.Handler.extend({
     _loadProjectList: function () {
         var self = this;
 
+        DG.fallbackProjectsList = DG.fallbackProjectsList || [];
+
         if (!DG.projectsList) {
             DG.projectsList = DG.fallbackProjectsList;
         }

@@ -11,7 +11,9 @@ var config = require('../../build/config.js');
 var buildJS = require('../util/buildJS.js');
 var stat = require('../util/stat');
 
-gulp.task('buildScripts', ['loadProjectList', 'buildLeaflet'], function () {
+var dependencies = util.env['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
+
+gulp.task('buildScripts', dependencies, function () {
     return buildJS(extend({isDebug: true}, util.env))
         .pipe(map(stat.save))
         .pipe(gulp.dest('public/js/'))
