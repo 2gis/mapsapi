@@ -2,18 +2,16 @@
  * Build config
  */
 var fs = require('fs');
-var extend = require('extend');
+var _ = require('lodash');
 var basePath = __dirname + '/..'; // Set root application path
-var frepPatterns, frepPatternsWithSSL;
 
 var config = {
-
     mainAppConfig: basePath + '/config.main.json',
     localAppConfig: basePath + '/config.local.json',
 
     packages: require(basePath + '/build/packs.js'),
 
-    relativeUrl: 'RELATIVE_URL',
+    skins: ['dark', 'light'],
 
     source: {
         deps: require(basePath + '/build/deps.js'),
@@ -24,8 +22,6 @@ var config = {
         deps: require(basePath + '/build/deps.js'),
         path: basePath + '/build/tmp/testJS/src/'
     },
-
-    deprecatedModules: ['DGTileLayer'],
 
     leaflet: {
         deps: require(basePath + '/vendors/leaflet/build/deps.js').deps,
@@ -55,69 +51,20 @@ var config = {
     coreModules: ['Leaflet', 'DGCore', 'DGCustomization']
 };
 
-config.appConfig = getAppConfig();
+function getMainConfig() {
+    return require(config.mainAppConfig);
+}
 
-frepPatterns = cfgToFrep(config.appConfig);
-frepPatternsWithSSL = cfgToFrep(config.appConfig, true);
-
-config.cfgParams = cfgParams;
-config.updateLoaderVersion = updateLoaderVersion;
-
-// Reeturn actual configuration for replace
-function getAppConfig() { // ()->Object
-    var mainConfigPath = config.mainAppConfig,
-        localConfigPath = config.localAppConfig,
-        mainConfig,
-        localConfig;
-
-    mainConfig = require(mainConfigPath);
-
+function getLocalConfig() {
     try {
-        localConfig = require(localConfigPath);
-        extend(true, mainConfig, localConfig);
-    } catch (e) {}
-
-    return mainConfig;
-}
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = config;
-}
-
-function cfgToFrep(appConfig, enableSsl) {
-    var result = [],
-        appConfigRelativeUrl = appConfig[config.relativeUrl],
-        protocol = enableSsl ? 'https:' : 'http:';
-
-    Object.keys(appConfig).forEach(function (key) {
-        if (key !== config.relativeUrl) {
-            result.push({
-                pattern: new RegExp('__' + key + '__', 'g'),
-                replacement: appConfig[key]
-            });
-        }
-    });
-
-    if (appConfigRelativeUrl !== undefined) {
-        Object.keys(appConfigRelativeUrl).forEach(function (key) {
-            result.push ({
-                pattern: new RegExp('__' + key + '__', 'g'),
-                replacement: protocol + appConfigRelativeUrl[key]
-            });
-        });
+        return require(config.localAppConfig);
+    } catch (e) {
+        return {};
     }
-
-    return result;
 }
 
-function cfgParams(options) {
-    options = options || {};
-
-    if (options.ssl) {
-        return frepPatternsWithSSL;
-    } else {
-        return frepPatterns;
-    }
+function getAppConfig() {
+    return _.assign({}, getMainConfig(), getLocalConfig());
 }
 
 function updateLoaderVersion(done) {
@@ -134,3 +81,11 @@ function updateLoaderVersion(done) {
         fs.writeFile(loaderPath + '/' + loaderFileName, loaderContent, done);
     });
 }
+
+config.mainConfig = getMainConfig();
+config.localConfig = getLocalConfig();
+config.appConfig = getAppConfig();
+
+config.updateLoaderVersion = updateLoaderVersion;
+
+module.exports = config;

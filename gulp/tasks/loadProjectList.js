@@ -2,11 +2,15 @@ var request = require('request');
 var util = require('gulp-util');
 var gulp = require('gulp');
 
-var error = require('../util/error');
 var projectList = require('../util/projectList');
 var config = require('../../build/config.js');
+var errorNotifier = require('../util/error');
 
 gulp.task('loadProjectList', function (cb) {
+    if (projectList.get()) {
+        return cb();
+    }
+
     var fields = [
         'items.bounds',
         'items.zoom_level',
@@ -17,11 +21,12 @@ gulp.task('loadProjectList', function (cb) {
         'items.domain'
     ].join(',');
 
-    var apiServer = config.appConfig.RELATIVE_URL.WEB_API_SERVER;
-    var apiVersion = config.appConfig.WEB_API_VERSION;
-    var apiKey = config.appConfig.WEB_API_KEY;
+    var protocol = config.appConfig.protocol;
+    var apiServer = config.appConfig.webApiServer;
+    var apiVersion = config.appConfig.webApiVersion;
+    var apiKey = config.appConfig.webApiKey;
 
-    var url = 'http:' + apiServer + '/' + apiVersion + '/region/list?key=' + apiKey + '&fields=' + fields;
+    var url = protocol + apiServer + '/' + apiVersion + '/region/list?key=' + apiKey + '&fields=' + fields;
 
     request(url, function (err, res, body) {
         if (err) {
@@ -30,7 +35,7 @@ gulp.task('loadProjectList', function (cb) {
                 message: err
             });
 
-            error.notify(error);
+            errorNotifier.notify(error);
 
             return cb();
         }
@@ -41,7 +46,7 @@ gulp.task('loadProjectList', function (cb) {
 
         var projectListString = 'DG.fallbackProjectsList = JSON.parse(\'' +
             JSON.stringify(projects) +
-            '\')';
+            '\');';
 
         projectList.set(projectListString);
 

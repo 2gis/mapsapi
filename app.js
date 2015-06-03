@@ -1,73 +1,111 @@
-
 //Web app of 2GIS Maps API 2.0
 var express = require('express');
 var cluster = require('cluster');
 var cors = require('cors');
 var cpuCount = require('os').cpus().length;
 var clc = require('cli-color');
-var config = require(__dirname + '/build/config.js').appConfig;
+var config = require('./build/config.js');
+var _ = require('lodash');
+var fs = require('fs');
 
-//Init application
+// Init application
 var app = express();
-
-//General configuration of the application
-app.set('port', config.PORT || '3000');
-app.set('host', config.HOST || null);
 app.use(cors());
-app.use(express.static(__dirname + '/public'));
 
-//Routes
-function getParams(req, resp, next) {
-    req.query.isDebug = (req.query.mode === 'debug');
-    req.query.ie8 = (req.query.ie8 === 'true');
-    req.query.sprite = (req.query.sprite === 'true');
-    req.query.mobile = (req.query.mobile === 'true');
-    req.query.retina = (req.query.retina === 'true');
+// Serve loader
+var loader = fs.readFileSync('./public/loader.js', {encoding: 'utf8'});
+app.get('/loader.js', function(req, res) {
+    var localConfig = _.cloneDeep(config.localConfig);
 
-    var contentType = (req.path === '/js/') ? 'application/javascript; charset=utf-8' : 'text/css';
+    // Set correct protocol according to GET param
+    localConfig.protocol = req.query.ssl ? 'https:' : 'http:';
 
-    req.dgCallback = function (stream, response) {
-        response.set('Cache-Control', 'public, max-age=604800');
-        response.set('X-Powered-By', '2GIS Maps API Server');
-        response.set('Content-Type', contentType);
+    res.set('Content-Type', 'application/javascript; charset=utf-8');
+    res.set('X-Powered-By', '2GIS Maps API Server');
 
-        stream.on('data', function (file) {
-            var directWrite = response.write(file.contents.toString('utf8'));
+    // Send loader with injected local config
+    res.send(loader.replace(/__LOCAL_CONFIG__/g, JSON.stringify(localConfig)));
+});
 
-            if (!directWrite) {
-                stream.pause();
+// Load index file and inject base URL
+var indexFile = fs.readFileSync('./public/index.html', {encoding: 'utf8'});
+indexFile = indexFile.replace(/__BASE_URL__/g, config.appConfig.baseUrl);
 
-                response.once('drain', function () {
-                    stream.resume();
-                });
-            }
-        });
+// Serve index file
+function serveIndexFile(req, res) {
+    res.set('X-Powered-By', '2GIS Maps API Server');
+    res.send(indexFile);
+}
+app.get('/', serveIndexFile);
+app.get('/index.html', serveIndexFile);
 
-        stream.on('end', function () {
-            response.end();
-        });
-    };
+function getParams(req) {
+    var pkg = req.query.pkg;
+    var skin = req.query.skin;
+    var ie8 = req.query.ie8 === 'true';
 
-    next();
+    if (Object.keys(config.packages).indexOf(pkg) === -1) {
+        pkg = 'full';
+    }
+
+    if (config.skins.indexOf(skin) === -1) {
+        skin = config.appConfig.defaultSkin;
+    }
+
+    return {
+        pkg: pkg,
+        skin: skin,
+        ie8: ie8
+    }
 }
 
-process.env.isRuntime = true;
+function loadDir(dirPath) {
+    var files = {};
 
-var gulp = require(__dirname + '/gulpfile.js');
+    fs.readdirSync(dirPath).forEach(function(fileName) {
+        files[fileName] = fs.readFileSync(dirPath + '/' + fileName);
+    });
 
-app.get('/js', getParams, function (req, res) {
-    var jsStream = gulp.getJS(req.query, req.query.ssl);
-    req.dgCallback(jsStream, res);
+    return files;
+}
+
+// Load and serve JS files
+var jsFiles = loadDir('./public/js');
+app.get('/js', function (req, res) {
+    var params = getParams(req);
+    var fileName = 'script.' + params.pkg + '.js';
+
+    res.set('Content-Type', 'application/javascript; charset=utf-8');
+    res.set('Cache-Control', 'public, max-age=604800');
+    res.set('X-Powered-By', '2GIS Maps API Server');
+
+    res.send(jsFiles[fileName]);
 });
 
-app.get('/css', getParams, function (req, res) {
-    var cssStream = gulp.getCSS(req.query, req.query.ssl);
-    req.dgCallback(cssStream, res);
+// Load and serve CSS files
+var cssFiles = loadDir('./public/css');
+app.get('/css', function (req, res) {
+    var params = getParams(req);
+
+    var fileName = 'styles.' +
+        params.pkg + '.' +
+        params.skin + '.' +
+        (params.ie8 ? 'ie8' + '.' : '') +
+        'css';
+
+    res.set('Content-Type', 'text/css');
+    res.set('Cache-Control', 'public, max-age=604800');
+    res.set('X-Powered-By', '2GIS Maps API Server');
+
+    res.send(cssFiles[fileName]);
 });
 
-//Start server
-var host = app.get('host');
-var port = app.get('port');
+// Serve everything else
+app.use(express.static(__dirname + '/public'));
+
+// Start server
+var host = config.appConfig.host;
+var port = config.appConfig.port;
 
 if (cluster.isMaster) {
     cluster
@@ -87,7 +125,7 @@ if (cluster.isMaster) {
 } else {
     app.listen(port, host, function () {
         if (process.env.number == 0) {
-            console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + app.get('port')));
+            console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + port));
         }
     });
 }

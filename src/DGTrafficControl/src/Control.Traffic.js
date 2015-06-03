@@ -1,16 +1,11 @@
-/* global __TRAFFIC_LAYER_MIN_ZOOM__ */
-
 DG.Control.Traffic = DG.RoundControl.extend({
-
     options: {
         position: 'topright',
         iconClass: 'traffic'
     },
 
     statics: {
-        Dictionary: {},
-        scoreUrl: '__TRAFFIC_SCORE_SERVER__',
-        trafficMinZoom: __TRAFFIC_LAYER_MIN_ZOOM__
+        Dictionary: {}
     },
 
     initialize: function (options) {
@@ -81,10 +76,10 @@ DG.Control.Traffic = DG.RoundControl.extend({
         return result;
     },
 
-    _updateControlVisibility: function() {
+    _updateControlVisibility: function () {
         var project = this._map.projectDetector.getProject(),
             projectHasTraffic = project && project.traffic,
-            method = ((this._map.getZoom() < DG.Control.Traffic.trafficMinZoom) ||
+            method = ((this._map.getZoom() < DG.config.trafficLayerMinZoom) ||
             (!projectHasTraffic)) ? 'addClass' : 'removeClass';
 
         DG.DomUtil[method](this._container, this._controlHideClass);
@@ -93,7 +88,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
         }
     },
 
-    _updateTrafficScore: function() {
+    _updateTrafficScore: function () {
         var self = this;
 
         this._getTrafficScore().then(function (score) {
@@ -106,7 +101,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
 
     _getTrafficScore: function () { // () -> Promise
         var url = DG.Util.template(
-            DG.Control.Traffic.scoreUrl,
+            DG.config.protocol + DG.config.trafficScoreServer,
             {
                 s: this._trafficLayer.getSubdomain(),
                 projectCode: this._map.projectDetector.getProject().code

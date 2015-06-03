@@ -18,7 +18,7 @@ DG.then = function (resolve, reject) {
 
 // IE8 throw error if `chain.catch`
 /* eslint-disable dot-notation, no-console */
-chain['catch'](function(err) {
+chain['catch'](function (err) {
     console.error(err);
 });
 /* eslint-enable dot-notation, no-console */

@@ -1,7 +1,7 @@
 var karma = require('gulp-karma');
 var util = require('gulp-util');
-var extend = require('extend');
 var gulp = require('gulp');
+var _ = require('lodash');
 
 var error = require('../util/error');
 var test = require('../../test/test');
@@ -12,10 +12,11 @@ var isTestDebug = util.env.d || util.env.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
 
 gulp.task('test', testRequirements, function () {
-    var cliOptions = extend({}, util.env);
+    var cliOptions = _.cloneDeep(util.env);
     var modulesToTest = [];
 
     var sourcesList = deps.getJSFiles({source: 'testSource'}).concat([
+        'build/tmp/testJS/config.js',
         'build/tmp/testJS/projectList.js',
         'vendors/leaflet/spec/after.js',
         'node_modules/happen/happen.js',

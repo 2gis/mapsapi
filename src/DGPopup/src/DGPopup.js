@@ -123,15 +123,15 @@
             return this;
         },
 
-        getContent: function() { // () -> HTML
+        getContent: function () { // () -> HTML
             return this._bodyContent;
         },
 
-        getHeaderContent: function() { // () -> HTML
+        getHeaderContent: function () { // () -> HTML
             return this._headerContent;
         },
 
-        getFooterContent: function() { // () -> HTML
+        getFooterContent: function () { // () -> HTML
             return this._footerContent;
         },
 

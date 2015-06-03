@@ -3985,6 +3985,9 @@ var Properties = {
     "stress"                        : 1,
     "string-set"                    : 1,
 
+    "stroke"                        : 1,
+    "stroke-dasharray"              : 1,
+
     "table-layout"                  : "auto | fixed | inherit",
     "tab-size"                      : "<integer> | <length>",
     "target"                        : 1,

@@ -60,7 +60,7 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
         mdData = getMdFilesData(mdFileNames, rootPath);
 
     for (var i = 0, leng = mdData.length; i < leng; i++) {
-        (function(i) {
+        (function (i) {
             var mdFilePath = mdData[i].path,
                 htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
                 pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
@@ -106,12 +106,12 @@ function generateTableOfContents(tokens) { // (Array) -> String
         headerRepeats = {};
 
     // extract headers from all tokens
-    tokens.forEach(function(token) {
+    tokens.forEach(function (token) {
         if (token.type = 'heading' && token.depth > startH) headers.push(token);
     });
 
     // assign number for each header
-    headers.forEach(function(header) {
+    headers.forEach(function (header) {
         if (typeof headerRepeats[header.text] === 'undefined') {
             headerRepeats[header.text] = 0;
         }

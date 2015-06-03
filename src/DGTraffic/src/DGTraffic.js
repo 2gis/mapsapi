@@ -1,29 +1,28 @@
-/* global __TRAFFIC_LAYER_UPDATE_INTERVAL__, __TRAFFIC_LAYER_MIN_ZOOM__,__DETECT_RETINA__ */
-
 DG.Traffic = DG.TileLayer.extend({
-
     options: {
         period: 0,
         disableLabel: false
     },
 
     statics: {
-        Dictionary: {},
-        tileUrl: '__TRAFFIC_TILE_SERVER__',
-        metaUrl: '__TRAFFIC_META_SERVER__',
-        timeUrl: '__TRAFFIC_TIMESTAMP_SERVER__',
-        updateInterval: __TRAFFIC_LAYER_UPDATE_INTERVAL__,
-        layersOptions: {
-            errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-            subdomains: '012345679',
-            maxNativeZoom: 18,
-            detectRetina: __DETECT_RETINA__,
-            minZoom: __TRAFFIC_LAYER_MIN_ZOOM__
-        }
+        Dictionary: {}
     },
 
     initialize: function (options) {
-        options = DG.setOptions(this, DG.extend(options || {}, DG.Traffic.layersOptions));
+        this._tileUrl = DG.config.protocol + DG.config.trafficTileServer;
+        this._metaUrl = DG.config.protocol + DG.config.trafficMetaServer;
+        this._timeUrl = DG.config.protocol + DG.config.trafficTimestampServer;
+        this._updateInterval = DG.config.trafficLayerUpdateInterval;
+
+        this._layersOptions = {
+            errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            subdomains: '012345679',
+            maxNativeZoom: 18,
+            detectRetina: DG.config.detectRetina,
+            minZoom: DG.config.trafficLayerMinZoom
+        };
+
+        options = DG.setOptions(this, DG.extend(options || {}, this._layersOptions));
         options.timestampString = options.period ? '' : ('?' +  (new Date()).getTime());
         this._metaLayer = DG.Meta.layer(null, {
             detectRetina: options.detectRetina,
@@ -33,7 +32,7 @@ DG.Traffic = DG.TileLayer.extend({
         });
         this._isDg = true;
         this._onTimer = DG.bind(this._onTimer, this);
-        DG.TileLayer.prototype.initialize.call(this, DG.Traffic.tileUrl, options);
+        DG.TileLayer.prototype.initialize.call(this, this._tileUrl, options);
     },
 
     // #setTime(day [0-6], time[0-23]) ????
@@ -50,8 +49,8 @@ DG.Traffic = DG.TileLayer.extend({
             this._labelHelper = DG.label();
         }
 
-        if (DG.Traffic.updateInterval) {
-            this._updateTimer = setInterval(this._onTimer, DG.Traffic.updateInterval);
+        if (this._updateInterval) {
+            this._updateTimer = setInterval(this._onTimer, this._updateInterval);
         }
 
         DG.TileLayer.prototype.onAdd.call(this, map);
@@ -92,15 +91,15 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     getSubdomain: function () {
-        return DG.Traffic.layersOptions.subdomains[
-            Math.floor(Math.random() * DG.Traffic.layersOptions.subdomains.length)
+        return this._layersOptions.subdomains[
+            Math.floor(Math.random() * this._layersOptions.subdomains.length)
         ];
     },
 
     _getTimestampString: function () {
         return DG.ajax(
             DG.Util.template(
-                DG.Traffic.timeUrl,
+                this._timeUrl,
                 DG.extend({
                     s : this.getSubdomain(),
                     projectCode: this._map.projectDetector.getProject().code
@@ -145,7 +144,7 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     _prepareMetaURL: function () {
-        return DG.Util.template(DG.Traffic.metaUrl, DG.extend({
+        return DG.Util.template(this._metaUrl, DG.extend({
             x: '{x}',
             y: '{y}',
             z: '{z}',
@@ -158,7 +157,7 @@ DG.Traffic = DG.TileLayer.extend({
         DG.setOptions(this, project && project.traffic ? {
                 projectCode: project.code,
                 bounds: project.latLngBounds,
-                minZoom: Math.max(project.minZoom, DG.Traffic.layersOptions.minZoom),
+                minZoom: Math.max(project.minZoom, this._layersOptions.minZoom),
                 maxZoom: project.maxZoom
             } : {
                 maxZoom: 0,

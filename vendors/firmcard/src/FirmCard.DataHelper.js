@@ -1,8 +1,4 @@
 FirmCard.DataHelper = {
-
-	FLAMP_URL : '__FLAMP_URL__',
-	FLAMP_GOOGLE_ANALYTICS : '__FLAMP_GOOGLE_ANALYTICS__',
-
 	payMethods : [
 		'americanexpress',
 		'cash',
@@ -17,7 +13,7 @@ FirmCard.DataHelper = {
 	_msgs : {},
 
 	getFlampUrl : function (id) {
-	    return this.FLAMP_URL.concat(id, '?', this.FLAMP_GOOGLE_ANALYTICS);
+	    return DG.config.flampUrl.concat(id, '?', DG.config.flampGoogleAnalytics);
 	},
 
 	msg : function (msg) {

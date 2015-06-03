@@ -1,26 +1,25 @@
+var replace = require('gulp-replace');
 var uglify = require('gulp-uglify');
 var es = require('event-stream');
-var frep = require('gulp-frep');
+var gulpif = require('gulp-if');
+var util = require('gulp-util');
 var gulp = require('gulp');
 
+var config = require('../../build/config.js');
 var error = require('../util/error');
-var config = require('../../build/config');
 
 gulp.task('copyPrivateAssets', ['copyFonts', 'copyImg'], function (cb) {
-    var stream = es.concat(
-        gulp.src(['private/*.*', '!./private/loader.js', '!./private/index.html'])
-            .pipe(error.handle())
-            .pipe(gulp.dest('public/')),
+    var originalBaseUrl = config.appConfig.protocol + config.appConfig.baseUrl;
 
-        gulp.src('private/index.html')
+    var stream = es.concat(
+        gulp.src(['private/*.*', '!./private/loader.js'])
             .pipe(error.handle())
-            .pipe(frep(config.cfgParams()))
             .pipe(gulp.dest('public/')),
 
         gulp.src('private/loader.js')
             .pipe(error.handle())
-            .pipe(frep(config.cfgParams()))
-            .pipe(uglify())
+            .pipe(replace(/__ORIGINAL_BASE_URL__/g, originalBaseUrl))
+            .pipe(gulpif(util.env.release, uglify()))
             .pipe(gulp.dest('public/'))
     );
 

@@ -1,20 +1,19 @@
 DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
-    options: {
-        urlGeoSearch: '__WEB_API_SERVER__/__WEB_API_VERSION__/geo/search',
-        urlGeoGet: '__WEB_API_SERVER__/__WEB_API_VERSION__/geo/get',
-        urlDetails: '__WEB_API_SERVER__/__WEB_API_VERSION__/catalog/branch/get',
-        urlFirmsInHouse: '__WEB_API_SERVER__/__WEB_API_VERSION__/catalog/branch/list',
-        data: {
-            key: '__GEOCLICKER_CATALOG_API_KEY__'
-        },
-        geoFields: '__GEO_ADDITIONAL_FIELDS__',
-        firmInfoFields: '__FIRM_INFO_FIELDS__',
-
-        timeoutMs: 5000
-    },
-
     initialize: function (map) { // (Object)
         this._map = map;
+
+        var apiUrl = DG.config.protocol +
+            DG.config.webApiServer + '/' +
+            DG.config.webApiVersion + '/';
+
+        this._urlGeoSearch = apiUrl + 'geo/search';
+        this._urlGeoGet = apiUrl + 'geo/get';
+        this._urlDetails = apiUrl + 'catalog/branch/get';
+        this._urlFirmsInHouse = apiUrl + 'catalog/branch/list';
+
+        this._key = DG.config.geoclickerCatalogApiKey;
+        this._geoFields = DG.config.geoAdditionalFields;
+        this._firmInfoFields = DG.config.firmInfoFields;
     },
 
     getLocations: function (options) { // (Object)
@@ -40,21 +39,21 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         parameters = parameters || {};
 
         /* eslint-disable camelcase */
-        var params = DG.extend(this.options.data, {
+        var params = {
             building_id: houseId,
             page: parameters.page || 1
-        });
+        };
         /* eslint-enable camelcase */
 
-        return this._performRequest(params, this.options.urlFirmsInHouse);
+        return this._performRequest(params, this._urlFirmsInHouse);
     },
 
     getFirmInfo: function (firmId) {
         return this._performRequest({
             type: 'filial',
             id: firmId,
-            fields: this.options.firmInfoFields
-        }, this.options.urlDetails);
+            fields: this._firmInfoFields
+        }, this._urlDetails);
     },
 
     geoSearch: function (q, types, zoomlevel) { // (String, String, Number)
@@ -63,20 +62,20 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             point: q,
             type: types,
             zoom_level: zoomlevel,
-            fields: this.options.geoFields
+            fields: this._geoFields
         };
         /* eslint-enable camelcase */
 
-        return this._performRequest(params, this.options.urlGeoSearch);
+        return this._performRequest(params, this._urlGeoSearch);
     },
 
     geoGet: function (id) {
         var params = {
             id: id,
-            fields: this.options.geoFields
+            fields: this._geoFields
         };
 
-        return this._performRequest(params, this.options.urlGeoGet);
+        return this._performRequest(params, this._urlGeoGet);
     },
 
     cancelLastRequest: function () {
@@ -113,11 +112,8 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
     },
 
     _performRequest: function (params, url) { // (Object, String, Function, Function)
-        var source = this.options.data,
-            data = DG.extend({ // TODO clone function should be used instead of manually copying
-                key: source.key
-            }, params),
-            type = 'get';
+        var data = DG.extend({key: this._key}, params);
+        var type = 'get';
 
         this.cancelLastRequest();
 
@@ -128,7 +124,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         this._lastRequest = DG.ajax(url, {
             type: type,
             data: data,
-            timeout: this.options.timeoutMs
+            timeout: this._timeoutMs
         });
 
         return this._lastRequest;

@@ -35,15 +35,6 @@
         }
     }
 
-    if (urlParams.indexOf('&sprite=') == -1) {
-        // SVG
-        if (
-            !(document.createElementNS && document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect)
-        ) {
-            urlParams += 'sprite=true&';
-        }
-    }
-
     var qs = '?' + urlParams.slice(1) + 'version=' + version;
     var isLazy = urlParams.indexOf('&lazy=true&') != -1;
 
@@ -141,6 +132,21 @@
                 success: function (data) {
                     var head = document.getElementsByTagName('head')[0];
 
+                    // Replace urls in CSS in case local config was changed
+                    // after build. originalBaseUrl contains URL value at the
+                    // moment application was built. baseUrl contains current
+                    // value.
+                    var originalBaseUrl = '__ORIGINAL_BASE_URL__';
+                    var baseURL = DG.config.protocol + DG.config.baseUrl;
+
+                    // Replace if they don't match
+                    if (baseURL !== originalBaseUrl) {
+                        data = data.replace(
+                            new RegExp(originalBaseUrl, 'g'),
+                            baseURL
+                        );
+                    }
+
                     if (style.styleSheet) {
                         head.appendChild(style);
                         style.styleSheet.cssText = data;
@@ -160,12 +166,9 @@
     }
 
     function loadProjectList() {
-        var url = '__WEB_API_SERVER__/__WEB_API_VERSION__/region/list';
-
-        // При необходимости меняем у ссылки протокол
-        var protocol = window.location.protocol == 'http:' ? 'http:' : 'https:';
-
-        url = url.replace(/^https?\:/, protocol);
+        var url = DG.config.protocol +
+            DG.config.webApiServer + '/' +
+            DG.config.webApiVersion + '/region/list';
 
         return new Promise(function (resolve) {
             DG.ajax(url, {
@@ -173,8 +176,8 @@
 
                 data: {
                     format: DG.ajax.corsSupport ? 'json' : 'jsonp',
-                    key: '__WEB_API_KEY__',
-                    fields: '__REGION_LIST_FIELDS__'
+                    key: DG.config.webApiKey,
+                    fields: DG.config.regionListFields
                 },
 
                 success: function (data) {
@@ -192,6 +195,10 @@
                 }
             });
         });
+    }
+
+    function extendConfig() {
+        DG.extend(DG.config, __LOCAL_CONFIG__);
     }
 
     function prepareForInit() {
@@ -219,6 +226,7 @@
 
     window.__dgApi__ = {
         callbacks: [
+            [extendConfig, undefined],
             [prepareForInit, undefined],
             [setReady, undefined]
         ],

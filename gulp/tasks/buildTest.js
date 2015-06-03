@@ -5,12 +5,11 @@ var buildEnd = require('../util/buildEnd.js');
 
 gulp.task('buildTest', function (cb) {
     runSequence('clean', [
-        'checkPackage',
         'buildTestScripts',
         'buildTestStyles',
         'doc',
         'copyPrivateAssets'
-    ], function() {
+    ], function () {
         buildEnd();
         cb();
     });

@@ -82,7 +82,7 @@ DG.ProjectDetector = DG.Handler.extend({
         pointsArr = bracketsContent[1].split(',');
 
         // Create a LatLng array of all points in WKT
-        pointsArr = pointsArr.map(function(pointString) {
+        pointsArr = pointsArr.map(function (pointString) {
             var numbers = pointString.split(' ');
 
             return DG.latLng(
