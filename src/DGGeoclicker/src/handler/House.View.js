@@ -35,7 +35,7 @@ DG.Geoclicker.Handler.House.include({
         data.purpose = house.purpose_name +
             (house.floors ? ', ' + this.t('n_floors', house.floors.ground_count) : '');
 
-        if (house.links.branches.count > 0) {
+        if (filials && filials.count > 0) {
             this._totalPages = Math.ceil(house.links.branches.count / this._firmsOnPage);
         }
 
@@ -54,7 +54,7 @@ DG.Geoclicker.Handler.House.include({
             data: data
         });
 
-        if (filials.items) {
+        if (filials && filials.items) {
             wrapper.appendChild(this._initShortFirmList(filials.items));
         }
 
@@ -86,6 +86,7 @@ DG.Geoclicker.Handler.House.include({
 
         // Decide if we need to display 'more organisations' button
         if (
+            houseFilials &&
             houseFilials.items &&
             houseFilials.items.length &&
             houseFilials.count > houseFilials.items.length
