@@ -1,6 +1,11 @@
 DG.Marker.include({
 
     bindLabel: function (content, options) {
+        this._lastLabelData = {
+            content: content,
+            options: options
+        };
+
         if (this._label) {
             this._label.setContent(content);
             if (options) {
@@ -52,6 +57,9 @@ DG.Marker.include({
                 .off('add', this._updateLabelZIndex);
 
             this._label = null;
+            this.once('add', function() {
+                this.bindLabel(this._lastLabelData.content, this._lastLabelData.options);
+            });
         }
         return this;
     },
