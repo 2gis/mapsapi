@@ -58,8 +58,10 @@ DG.Marker.include({
 
     _onMarkerRemove: function () {
         if (this._label) {
+            var content = this._label._content;
             this.once('add', function () {
-                this.bindLabel(this._content);
+                if (this._label) return; // new label added after removing marker
+                this.bindLabel(content);
             });
             this.unbindLabel();
         }
