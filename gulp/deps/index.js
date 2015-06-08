@@ -187,7 +187,7 @@ var init = function (config) {
 
     // Scans the project for skins directories to get skins names
     function getSkinsList() {
-        var skinsDirectories = glob.sync(__dirname + '/../src/**/skin/*');
+        var skinsDirectories = glob.sync(__dirname + '/../../src/**/skin/*');
         var skins = [];
 
         skinsDirectories.forEach(function (directory) {
@@ -208,7 +208,7 @@ var init = function (config) {
         var perSkinStats = {};
 
         skins.forEach(function (skinName) {
-            var imagesPaths = glob.sync(__dirname + '/../build/tmp/img/' + skinName + '/*');
+            var imagesPaths = glob.sync(__dirname + '/../tmp/img/' + skinName + '/*');
             var skinStats = {};
 
             imagesPaths.forEach(function (imagePath) {
@@ -250,7 +250,7 @@ var init = function (config) {
         skins.forEach(function (skinName) {
             var stats = {};
 
-            var statsFilePath = __dirname + '/tmp/less/images-usage-statistics.' + skinName + '.less';
+            var statsFilePath = __dirname + '/../tmp/less/images-usage-statistics.' + skinName + '.less';
             var statsFileContent = fs.readFileSync(statsFilePath).toString();
             var preparedStatsFileContent = statsFileContent.slice(6).replace(/\;/g, ','); // 6 is 'stats '.length
 

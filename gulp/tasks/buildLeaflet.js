@@ -1,8 +1,8 @@
 var concat = require('gulp-concat');
 var gulp = require('gulp');
 
-var config = require('../../build/config.js');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config.js');
+var deps = require('../deps')(config);
 
 gulp.task('buildLeaflet', function () {
     return gulp.src(deps.getJSFiles({source: 'leaflet'}))

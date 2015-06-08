@@ -12,13 +12,13 @@ var gulp = require('gulp');
 var path = require('path');
 var fs = require('fs');
 
-var config = require('../../build/config.js');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config.js');
+var deps = require('../deps')(config);
 var stat = require('../util/stat');
 var error = require('./error');
 
 module.exports = function (options) {
-    var imagesBasePath = path.resolve(path.join(__dirname, '../../build/tmp/img_all'));
+    var imagesBasePath = path.resolve(path.join(__dirname, '../../gulp/tmp/img_all'));
     var baseURL = config.appConfig.protocol + config.appConfig.baseUrl;
     var lessList = deps.getCSSFiles(options);
 
@@ -30,13 +30,13 @@ module.exports = function (options) {
         ];
     } else {
         lessHeaderImports = [
-            './build/tmp/less/sprite.basic.less:reference',
-            './build/tmp/less/sprite@2x.basic.less:reference',
-            './build/tmp/less/sprite.' + options.skin + '.less:reference',
-            './build/tmp/less/sprite@2x.' + options.skin + '.less:reference',
+            './gulp/tmp/less/sprite.basic.less:reference',
+            './gulp/tmp/less/sprite@2x.basic.less:reference',
+            './gulp/tmp/less/sprite.' + options.skin + '.less:reference',
+            './gulp/tmp/less/sprite@2x.' + options.skin + '.less:reference',
 
-            './build/tmp/less/images-files-statistics.basic.less:reference',
-            './build/tmp/less/images-files-statistics.' + options.skin + '.less:reference',
+            './gulp/tmp/less/images-files-statistics.basic.less:reference',
+            './gulp/tmp/less/images-files-statistics.' + options.skin + '.less:reference',
 
             './src/less/mixins.less:reference',
             './src/less/mixins.ie8.less:reference'

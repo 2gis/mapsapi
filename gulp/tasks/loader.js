@@ -5,7 +5,7 @@ var uglify = require('gulp-uglify');
 var replace = require('gulp-replace');
 
 var error = require('../util/error');
-var config = require('../../build/config.js');
+var config = require('../../app/config.js');
 
 gulp.task('loader', function () {
     var originalBaseUrl = config.appConfig.protocol + config.appConfig.baseUrl;

@@ -3,8 +3,8 @@ var es = require('event-stream');
 var gulp = require('gulp');
 
 var error = require('../util/error');
-var config = require('../../build/config');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config');
+var deps = require('../deps')(config);
 
 gulp.task('generateSprites', [
     'collectImagesUsageStats',
@@ -21,18 +21,18 @@ gulp.task('generateSprites', [
             stats[skinName].notRepeatableNotSprited.join(',');
 
         var pngList = [
-            'build/tmp/img/' + skinName + '/*.png',
-            '!build/tmp/img/' + skinName + '/*@2x.png',
-            '!build/tmp/img/' + skinName + '/{' + filesToExclude + '}.png'
+            'gulp/tmp/img/' + skinName + '/*.png',
+            '!gulp/tmp/img/' + skinName + '/*@2x.png',
+            '!gulp/tmp/img/' + skinName + '/{' + filesToExclude + '}.png'
         ];
         var png2xList = [
-            'build/tmp/img/' + skinName + '/*@2x.png',
-            '!build/tmp/img/' + skinName + '/{' + filesToExclude + '}@2x.png'
+            'gulp/tmp/img/' + skinName + '/*@2x.png',
+            '!gulp/tmp/img/' + skinName + '/{' + filesToExclude + '}@2x.png'
         ];
         var spriteData = gulp.src(pngList)
             .pipe(error.handle())
             .pipe(spritesmith({
-                cssTemplate: 'build/sprite-template.mustache',
+                cssTemplate: 'gulp/sprite-template.mustache',
                 imgName: 'sprite.' + skinName + '.png',
                 cssName: 'sprite.' + skinName + '.less',
                 engine: 'pngsmith'
@@ -40,7 +40,7 @@ gulp.task('generateSprites', [
         var spriteData2x = gulp.src(png2xList)
             .pipe(error.handle())
             .pipe(spritesmith({
-                cssTemplate: 'build/sprite-template.mustache',
+                cssTemplate: 'gulp/sprite-template.mustache',
                 //padding: 1, // генерирует неправильные смещения :(
                 imgName: 'sprite@2x.' + skinName + '.png',
                 cssName: 'sprite@2x.' + skinName + '.less',
@@ -55,10 +55,10 @@ gulp.task('generateSprites', [
                 .pipe(gulp.dest('dist/img/')),
 
             spriteData.css
-                .pipe(gulp.dest('build/tmp/less/')),
+                .pipe(gulp.dest('gulp/tmp/less/')),
 
             spriteData2x.css
-                .pipe(gulp.dest('build/tmp/less/'))
+                .pipe(gulp.dest('gulp/tmp/less/'))
         );
     });
 

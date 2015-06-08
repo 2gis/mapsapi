@@ -3,7 +3,7 @@ var util = require('gulp-util');
 var gulp = require('gulp');
 
 var projectList = require('../util/projectList');
-var config = require('../../build/config.js');
+var config = require('../../app/config.js');
 var errorNotifier = require('../util/error');
 
 gulp.task('loadProjectList', function (cb) {

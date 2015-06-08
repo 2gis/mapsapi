@@ -6,7 +6,7 @@ node_modules
 npm-debug.log
 
 dist
-build/tmp
+gulp/tmp
 
 .tern-port
 

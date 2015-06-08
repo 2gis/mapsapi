@@ -7,13 +7,13 @@ var path = require('path');
 var glob = require('glob');
 
 var error = require('../util/error');
-var config = require('../../build/config');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config');
+var deps = require('../deps')(config);
 
-gulp.task('collectImagesUsageStats', function (cb) {
+gulp.task('collectImagesUsageStats', function () {
     var skins = deps.getSkinsList();
 
-    var imagesBasePath = path.resolve(__dirname + '/build/tmp/img_all');
+    var imagesBasePath = path.resolve(__dirname + '/gulp/tmp/img_all');
 
     var statisticsStreams = skins.map(function (skinName) {
         var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');
@@ -45,9 +45,8 @@ gulp.task('collectImagesUsageStats', function (cb) {
             })))
             .pipe(less())
             .pipe(rename('images-usage-statistics.' + skinName + '.less'))
-            .pipe(gulp.dest('build/tmp/less/'));
+            .pipe(gulp.dest('gulp/tmp/less/'));
     });
 
-    var stream = es.concat.apply(null, statisticsStreams);
-    stream.on('end', cb);
+    return es.concat.apply(null, statisticsStreams);
 });

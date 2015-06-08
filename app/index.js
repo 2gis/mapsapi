@@ -4,7 +4,7 @@ var cluster = require('cluster');
 var cors = require('cors');
 var cpuCount = require('os').cpus().length;
 var clc = require('cli-color');
-var config = require('../build/config.js');
+var config = require('./config.js');
 var _ = require('lodash');
 var fs = require('fs');
 

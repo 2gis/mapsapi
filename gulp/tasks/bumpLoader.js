@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 
-var config = require('../../build/config');
+var config = require('../../app/config');
 
 gulp.task('bumpLoader', ['bump'], function (done) {
     config.updateLoaderVersion(done);

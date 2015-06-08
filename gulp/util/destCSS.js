@@ -2,7 +2,7 @@ var es = require('event-stream');
 var util = require('gulp-util');
 var gulp = require('gulp');
 
-var config = require('../../build/config');
+var config = require('../../app/config');
 var buildCSS = require('../util/buildCSS');
 
 module.exports = function (opt) {
