@@ -42,7 +42,7 @@ DG.Map.include({
     },
 
     setView: function (center, zoom, options) {
-        this._restrictZoom(center);
+        this._restrictZoom(center, zoom);
 
         zoom =  this._limitZoom(zoom === undefined ? this._zoom : zoom);
         center = this._limitCenter(DG.latLng(center), zoom, this.options.maxBounds);
@@ -121,7 +121,21 @@ DG.Map.include({
         }
     },
 
-    _restrictZoom: function (coords) {
+    _getNewBounds: function(coords, zoom) {
+        if (coords instanceof DG.LatLngBounds) {
+            return coords;
+        }
+
+        var point = this.project(coords, zoom);
+        var screenSize = this.getSize().divideBy(2);
+
+        var sw = this.unproject(point.subtract(screenSize), zoom);
+        var ne = this.unproject(point.add(screenSize), zoom);
+
+        return DG.latLngBounds(sw, ne);
+    },
+
+    _restrictZoom: function (coords, zoom) {
         if (this._layers &&
             this.projectDetector.enabled() &&
             (this._tileLayersNumber === 0)) {
@@ -129,7 +143,9 @@ DG.Map.include({
             var mapOptions = this.options,
                 isMapMaxZoom = !!mapOptions.maxZoom,
                 dgTileLayer = this.baseLayer,
-                project = this.projectDetector.isProjectHere(coords);
+                bounds = this._getNewBounds(coords, zoom),
+                project = this.projectDetector.isProjectHere(bounds);
+
             if (isMapMaxZoom) {
                 if (!this._mapMaxZoomCache) { this._mapMaxZoomCache = mapOptions.maxZoom; }
                 mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  DG.config.projectLeaveMaxZoom;
