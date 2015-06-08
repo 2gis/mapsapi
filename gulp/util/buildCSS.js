@@ -25,8 +25,8 @@ module.exports = function (options) {
     var lessHeaderImports;
     if (options.isTest) {
         lessHeaderImports = [
-            './private/less/mixins.less:reference',
-            './private/less/mixins.ie8.less:reference'
+            './src/less/mixins.less:reference',
+            './src/less/mixins.ie8.less:reference'
         ];
     } else {
         lessHeaderImports = [
@@ -38,8 +38,8 @@ module.exports = function (options) {
             './build/tmp/less/images-files-statistics.basic.less:reference',
             './build/tmp/less/images-files-statistics.' + options.skin + '.less:reference',
 
-            './private/less/mixins.less:reference',
-            './private/less/mixins.ie8.less:reference'
+            './src/less/mixins.less:reference',
+            './src/less/mixins.ie8.less:reference'
         ];
     }
 

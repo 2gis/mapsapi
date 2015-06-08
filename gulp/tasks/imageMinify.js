@@ -4,12 +4,12 @@ var gulpif = require('gulp-if');
 var gulp = require('gulp');
 
 gulp.task('imageMinify', [
-    'copyImg',
+    'copyAssets',
     'copyRaster',
     'rasterAndCopySVG',
     'generateSprites'
 ], function () {
-    return gulp.src('public/img/**/*.{png,gif,jpg,jpeg}')
+    return gulp.src('dist/img/**/*.{png,gif,jpg,jpeg}')
         .pipe(gulpif(util.env.release, imagemin()))
-        .pipe(gulp.dest('public/img'));
+        .pipe(gulp.dest('dist/img'));
 });

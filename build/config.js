@@ -43,7 +43,7 @@ var config = {
     doc: {
         menu: './src/menu.json',
         input: './src/doc/',
-        output: './public/doc'
+        output: './dist/doc'
     },
 
     copyright: fs.readFileSync('./src/copyright.js'),

@@ -42,7 +42,7 @@ gulp.task('buildScripts', dependencies, function () {
             .pipe(header(config.copyright))
             .pipe(map(stat.save))
             .pipe(gulpif(!util.env.release, sourcemaps.write()))
-            .pipe(gulp.dest('public/js/'));
+            .pipe(gulp.dest('dist/js/'));
     }).reduce(function (prev, curr) {
         return es.merge(prev, curr);
     });

@@ -19,7 +19,7 @@ gulp.task('rasterAndCopySVG', function (cb) {
         .pipe(gulp.dest('build/tmp/img'))
         .pipe(flatten())
         .pipe(gulp.dest('build/tmp/img_all'))
-        .pipe(gulp.dest('public/img'))
+        .pipe(gulp.dest('dist/img'))
         .on('end', function () {
             gulp.src(deps.getSVGGlob(util.env))
                 .pipe(error.handle())
@@ -31,7 +31,7 @@ gulp.task('rasterAndCopySVG', function (cb) {
                 .pipe(gulp.dest('build/tmp/img'))
                 .pipe(flatten())
                 .pipe(gulp.dest('build/tmp/img_all'))
-                .pipe(gulp.dest('public/img'))
+                .pipe(gulp.dest('dist/img'))
                 .on('end', cb);
         });
 });

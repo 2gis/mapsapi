@@ -17,5 +17,5 @@ gulp.task('copyRaster', function () {
         .pipe(gulp.dest('build/tmp/img'))
         .pipe(flatten())
         .pipe(gulp.dest('build/tmp/img_all'))
-        .pipe(gulp.dest('public/img'));
+        .pipe(gulp.dest('dist/img'));
 });

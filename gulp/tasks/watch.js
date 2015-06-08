@@ -5,8 +5,8 @@ var runSequence = require('run-sequence');
 gulp.task('watch', function () {
     gulp.watch('src/doc/**/*.*', ['doc']);
 
-    gulp.watch('private/*.*', function () {
-        runSequence('copyPrivateAssets', 'server');
+    gulp.watch('assets/*.*', function () {
+        runSequence('copyAssets', 'server');
     });
 
     gulp.watch([

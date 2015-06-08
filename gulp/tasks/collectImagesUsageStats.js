@@ -18,14 +18,14 @@ gulp.task('collectImagesUsageStats', function (cb) {
     var statisticsStreams = skins.map(function (skinName) {
         var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');
 
-        skinLessFiles.unshift('./private/less/mixins.images-usage-statistics.less');
-        skinLessFiles.unshift('./private/less/mixins.ie8.less');
+        skinLessFiles.unshift('./src/less/mixins.images-usage-statistics.less');
+        skinLessFiles.unshift('./src/less/mixins.ie8.less');
 
         skinLessFiles = skinLessFiles.map(function (lessFilePath) {
             return lessFilePath + ':reference';
         });
 
-        return gulp.src('private/less/images-usage-statistics.less')
+        return gulp.src('src/less/images-usage-statistics.less')
             .pipe(error.handle())
             .pipe(header(deps.lessHeader({
                 variables: {

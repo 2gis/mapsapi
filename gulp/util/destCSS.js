@@ -42,7 +42,7 @@ module.exports = function (opt) {
     }
 
     return buildRules.map(function (buildRule) {
-        return buildCSS(buildRule).pipe(gulp.dest('public/css/'));
+        return buildCSS(buildRule).pipe(gulp.dest('dist/css/'));
     }).reduce(function (prev, next) {
         return es.merge(prev, next);
     });

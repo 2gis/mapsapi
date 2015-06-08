@@ -49,10 +49,10 @@ gulp.task('generateSprites', [
 
         return es.concat(
             spriteData.img
-                .pipe(gulp.dest('public/img/')),
+                .pipe(gulp.dest('dist/img/')),
 
             spriteData2x.img
-                .pipe(gulp.dest('public/img/')),
+                .pipe(gulp.dest('dist/img/')),
 
             spriteData.css
                 .pipe(gulp.dest('build/tmp/less/')),

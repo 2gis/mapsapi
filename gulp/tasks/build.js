@@ -8,7 +8,9 @@ gulp.task('build', function (cb) {
         'buildScripts',
         'buildStyles',
         'doc',
-        'copyPrivateAssets'
+        'loader',
+        'copyAssets',
+        'copyIndexPage'
     ], function () {
         buildEnd();
         cb();

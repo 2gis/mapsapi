@@ -5,7 +5,7 @@ var csslint = require('../util/csslint/gulp-csslint');
 var error = require('../util/error');
 
 gulp.task('lintCSS', ['buildCSS'], function () {
-    return gulp.src('public/css/**.css')
+    return gulp.src('dist/css/**.css')
         .pipe(error.handle())
         .pipe(csslint({
             'adjoining-classes': false,

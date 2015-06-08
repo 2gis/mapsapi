@@ -5,8 +5,7 @@
 node_modules
 npm-debug.log
 
-public
-private/dev*
+dist
 build/tmp
 
 .tern-port
