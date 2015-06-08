@@ -1,11 +1,10 @@
 var gulp = require('gulp');
-var destCSS = require('../util/destCSS');
 var runSequence = require('run-sequence');
 
 gulp.task('watch', function () {
     gulp.watch('src/doc/**/*.*', ['doc']);
 
-    gulp.watch('assets/*.*', function () {
+    gulp.watch('assets/**/*', function () {
         runSequence('copyAssets', 'server');
     });
 
@@ -24,5 +23,13 @@ gulp.task('watch', function () {
         runSequence('build', 'server');
     });
 
-    gulp.watch(['app.js', 'config.local.json'], ['server']);
+    gulp.watch(['app/index.js', 'config.local.json'], ['server']);
+
+    gulp.watch('app/loader.js', function () {
+        runSequence('loader', 'server');
+    });
+
+    gulp.watch('app/index.html', function() {
+        runSequence('copyIndexPage', 'server');
+    });
 });

@@ -14,5 +14,5 @@ gulp.task('loader', function () {
         .pipe(error.handle())
         .pipe(replace(/__ORIGINAL_BASE_URL__/g, originalBaseUrl))
         .pipe(gulpif(util.env.release, uglify()))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 });
