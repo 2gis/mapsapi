@@ -60,7 +60,7 @@ DG.Marker.include({
         if (this._label) {
             var content = this._label._content;
             this.once('add', function () {
-                if (this._label) return; // new label added after removing marker
+                if (this._label) { return; } // new label added after removing marker
                 this.bindLabel(content);
             });
             this.unbindLabel();
