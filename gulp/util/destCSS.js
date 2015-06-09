@@ -21,7 +21,8 @@ module.exports = function (opt) {
                 suffix: browser === 'ie8' ? 'ie8' : null,
                 pkg: util.env.pkg || 'full',
                 skin: util.env.skin || config.appConfig.defaultSkin,
-                ie8: browser === 'ie8'
+                ie8: browser === 'ie8',
+                isTest: opt.isTest
             };
         });
     } else {
@@ -32,21 +33,15 @@ module.exports = function (opt) {
                         suffix: [pkg, skin, browser].join('.').replace(/\.$/, ''),
                         pkg: pkg,
                         skin: skin,
-                        ie8: browser === 'ie8'
+                        ie8: browser === 'ie8',
+                        isTest: opt.isTest
                     });
                 });
             });
         });
     }
 
-    var testRules = [{
-        isTest: true,
-        ie8: true
-    }];
-
-    var cssBuildRules = opt.isTest ? testRules : buildRules;
-
-    return cssBuildRules.map(function (buildRule) {
+    return buildRules.map(function (buildRule) {
         return buildCSS(buildRule).pipe(gulp.dest('public/css/'));
     }).reduce(function (prev, next) {
         return es.merge(prev, next);

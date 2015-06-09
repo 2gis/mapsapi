@@ -10,14 +10,6 @@ describe('DG.TileLayer', function() {
     });
 
     describe('check init', function() {
-        it('should tile url contain \'2gis\'', function() {
-            var img = map.getPane('mapPane').getElementsByTagName('img');
-
-            expect(img.length > 0).to.be.ok();
-
-            expect(img[0].getAttribute('src')).contain('2gis');
-        });
-
         it('should be map.baseLayer', function() {
             expect(map.baseLayer).to.be.a('object');
         });
