@@ -1,10 +1,11 @@
 DG.Locale = {
     t: function (msg, argument) { // (String, Number) -> String
         var result,
-            lang = this._map.options.currentLang,
+            lang = this._map.getLang(),
             msgIsset = false,
             dictionaryMsg,
             exp;
+
         if (typeof this.constructor.Dictionary[lang] === 'undefined') {
             lang = DG.config.defaultLang;
             this._map.setLang(lang);
@@ -28,24 +29,24 @@ DG.Locale = {
     }
 };
 
-DG.Map.addInitHook(function () {
-    var root = document.documentElement,
-        lang = root.lang || (root.getAttributeNS && root.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'lang')) || DG.config.defaultLang;
-
-    if (!this.options.currentLang) {
-        this.options.currentLang = lang;
-    }
-});
-
 DG.Map.include({
     setLang: function (lang) { // (String)
         if (lang && Object.prototype.toString.call(lang) === '[object String]') {
-            this.options.currentLang = lang;
+            this._currentLang = lang;
             this.fire('langchange', {'lang': lang});
         }
     },
 
     getLang: function () { // () -> String
-        return this.options.currentLang;
+        // If the language hasn't been set before, set it to page language or
+        // default language from config
+        if (!this._currentLang) {
+            var root = document.documentElement;
+            var lang = root.lang || (root.getAttributeNS && root.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'lang')) || DG.config.defaultLang;
+
+            this._currentLang = lang;
+        }
+
+        return this._currentLang;
     }
 });

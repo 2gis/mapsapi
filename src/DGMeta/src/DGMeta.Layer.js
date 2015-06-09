@@ -35,7 +35,7 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     onAdd: function (map) {
-        this._viewReset();
+        this._resetView();
         this._addDomEvents();
 
         map.on('rulerstart', this._removeDomEvents, this);
@@ -52,7 +52,8 @@ DG.Meta.Layer = DG.Layer.extend({
 
     getEvents: function () {
         return {
-            viewreset: this._viewReset
+            viewreset: this._resetAll,
+            zoom: this._resetView
         };
     },
 
@@ -64,12 +65,14 @@ DG.Meta.Layer = DG.Layer.extend({
         DG.DomEvent.off(this._map.getPane('tilePane'), this._domEvents, this);
     },
 
+    _removeAllTiles: DG.GridLayer.prototype._removeAllTiles,
     _getZoomForUrl: DG.TileLayer.prototype._getZoomForUrl,
     _getTileSize: DG.TileLayer.prototype._getTileSize,
     _isValidTile: DG.GridLayer.prototype._isValidTile,
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
-    _viewReset: DG.GridLayer.prototype._viewReset,
+    _resetView: DG.GridLayer.prototype._resetView,
     _resetGrid: DG.GridLayer.prototype._resetGrid,
+    _resetAll: DG.GridLayer.prototype._resetAll,
     _pxBoundsToTileRange: DG.GridLayer.prototype._pxBoundsToTileRange,
 
     _domEvents: {
@@ -161,16 +164,15 @@ DG.Meta.Layer = DG.Layer.extend({
         return null;
     },
 
-    _reset: function (center, zoom, hard, noPrune, noUpdate) {
+    _setView: function (center, zoom, noPrune, noUpdate) {
         var tileZoom = Math.round(zoom),
             tileZoomChanged = this._tileZoom !== tileZoom;
 
-        if (!noUpdate && (hard || tileZoomChanged)) {
+        if (!noUpdate && tileZoomChanged) {
             this._tileZoom = tileZoom;
             this._resetGrid();
         }
     }
-
 });
 
 DG.Meta.layer = function (source, options) {
