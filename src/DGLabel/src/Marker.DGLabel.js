@@ -18,7 +18,7 @@ DG.Marker.include({
 
             this._label = DG.label(content, options);
 
-            this.once('remove', this.unbindLabel);
+            this.once('remove', this._onMarkerRemove);
 
             if (options.static) {
                 this.showLabel();
@@ -54,6 +54,17 @@ DG.Marker.include({
             this._label = null;
         }
         return this;
+    },
+
+    _onMarkerRemove: function () {
+        if (this._label) {
+            var content = this._label._content;
+            this.once('add', function () {
+                if (this._label) { return; } // new label added after removing marker
+                this.bindLabel(content);
+            });
+            this.unbindLabel();
+        }
     },
 
     getLabel: function () {
