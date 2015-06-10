@@ -30,8 +30,8 @@ DG.Map.addInitHook(function () {
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script',DG.config.protocol+DG.config.googleAnalytics,'ga');
 
-    ga('create', DG.config.gaCode, 'none');
-    ga('send', 'pageview');
+    ga('create', DG.config.gaCode, 'none', {name: 'mapsapi2gis'});
+    ga('mapsapi2gis.send', 'pageview');
     /*eslint-enable */
 
     var newImg = new Image();
