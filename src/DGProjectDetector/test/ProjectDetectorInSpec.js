@@ -193,7 +193,7 @@ describe('DG.ProjectDetectorIn', function () {
             map.setView(project1, 8);
 
             expect(map.fitBounds(new DG.LatLngBounds(edgeProject1, edgeProject2))).to.be(map);
-            expect(map.getZoom()).to.be(maxDesertZoom);
+            expect(map.getZoom()).to.be(14);
         });
 
         it('bound on project1 from project1 small zoom', function () {
