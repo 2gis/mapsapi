@@ -9,18 +9,18 @@ var config = {
     mainAppConfig: basePath + '/config.main.json',
     localAppConfig: basePath + '/config.local.json',
 
-    packages: require(basePath + '/build/packs.js'),
+    packages: require(basePath + '/gulp/deps/packs.js'),
 
     skins: ['dark', 'light'],
 
     source: {
-        deps: require(basePath + '/build/deps.js'),
+        deps: require(basePath + '/gulp/deps/deps.js'),
         path: basePath + '/src/'
     },
 
     testSource: {
-        deps: require(basePath + '/build/deps.js'),
-        path: basePath + '/build/tmp/testJS/src/'
+        deps: require(basePath + '/gulp/deps/deps.js'),
+        path: basePath + '/gulp/tmp/testJS/src/'
     },
 
     leaflet: {
@@ -43,7 +43,7 @@ var config = {
     doc: {
         menu: './src/menu.json',
         input: './src/doc/',
-        output: './public/doc'
+        output: './dist/doc'
     },
 
     copyright: fs.readFileSync('./src/copyright.js'),

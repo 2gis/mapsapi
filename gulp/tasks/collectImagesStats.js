@@ -1,8 +1,8 @@
 var gulp = require('gulp');
 var fs = require('fs');
 
-var config = require('../../build/config');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config');
+var deps = require('../deps')(config);
 
 gulp.task('collectImagesStats', ['copySVG', 'rasterAndCopySVG', 'copyRaster'], function (cb) {
     var skins = deps.getSkinsList();
@@ -38,7 +38,7 @@ gulp.task('collectImagesStats', ['copySVG', 'rasterAndCopySVG', 'copyRaster'], f
             '}\n';
         }
 
-        fs.writeFileSync('./build/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
+        fs.writeFileSync('./gulp/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
     });
 
     cb();

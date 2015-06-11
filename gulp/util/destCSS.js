@@ -2,7 +2,7 @@ var es = require('event-stream');
 var util = require('gulp-util');
 var gulp = require('gulp');
 
-var config = require('../../build/config');
+var config = require('../../app/config');
 var buildCSS = require('../util/buildCSS');
 
 module.exports = function (opt) {
@@ -42,7 +42,7 @@ module.exports = function (opt) {
     }
 
     return buildRules.map(function (buildRule) {
-        return buildCSS(buildRule).pipe(gulp.dest('public/css/'));
+        return buildCSS(buildRule).pipe(gulp.dest('dist/css/'));
     }).reduce(function (prev, next) {
         return es.merge(prev, next);
     });

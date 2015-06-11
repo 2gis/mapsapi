@@ -10,8 +10,8 @@ var util = require('gulp-util');
 var map = require('map-stream');
 var gulp = require('gulp');
 
-var config = require('../../build/config.js');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config.js');
+var deps = require('../deps')(config);
 var projectList = require('../util/projectList');
 var error = require('../util/error');
 var stat = require('../util/stat');
@@ -42,7 +42,7 @@ gulp.task('buildScripts', dependencies, function () {
             .pipe(header(config.copyright))
             .pipe(map(stat.save))
             .pipe(gulpif(!util.env.release, sourcemaps.write()))
-            .pipe(gulp.dest('public/js/'));
+            .pipe(gulp.dest('dist/js/'));
     }).reduce(function (prev, curr) {
         return es.merge(prev, curr);
     });

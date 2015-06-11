@@ -1,8 +1,8 @@
 var util = require('gulp-util');
 
 var stat = require('./stat');
-var config = require('../../build/config');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config');
+var deps = require('../deps')(config);
 
 module.exports = function () {
     console.log('Build contains the next modules:');

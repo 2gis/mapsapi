@@ -6,8 +6,8 @@ var gulp = require('gulp');
 var path = require('path');
 
 var error = require('../util/error');
-var config = require('../../build/config');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config');
+var deps = require('../deps')(config);
 
 gulp.task('rasterAndCopySVG', function (cb) {
     gulp.src(deps.getSVGGlob(util.env))
@@ -16,10 +16,10 @@ gulp.task('rasterAndCopySVG', function (cb) {
         .pipe(rename(function (p) {
             p.dirname = p.dirname.split(path.sep)[1];
         }))
-        .pipe(gulp.dest('build/tmp/img'))
+        .pipe(gulp.dest('gulp/tmp/img'))
         .pipe(flatten())
-        .pipe(gulp.dest('build/tmp/img_all'))
-        .pipe(gulp.dest('public/img'))
+        .pipe(gulp.dest('gulp/tmp/img_all'))
+        .pipe(gulp.dest('dist/img'))
         .on('end', function () {
             gulp.src(deps.getSVGGlob(util.env))
                 .pipe(error.handle())
@@ -28,10 +28,10 @@ gulp.task('rasterAndCopySVG', function (cb) {
                     p.extname = '@2x.png';
                     p.dirname = p.dirname.split(path.sep)[1];
                 }))
-                .pipe(gulp.dest('build/tmp/img'))
+                .pipe(gulp.dest('gulp/tmp/img'))
                 .pipe(flatten())
-                .pipe(gulp.dest('build/tmp/img_all'))
-                .pipe(gulp.dest('public/img'))
+                .pipe(gulp.dest('gulp/tmp/img_all'))
+                .pipe(gulp.dest('dist/img'))
                 .on('end', cb);
         });
 });

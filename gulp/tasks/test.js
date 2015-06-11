@@ -5,8 +5,8 @@ var _ = require('lodash');
 
 var error = require('../util/error');
 var test = require('../../test/test');
-var config = require('../../build/config.js');
-var deps = require('../../build/gulp-deps')(config);
+var config = require('../../app/config.js');
+var deps = require('../deps')(config);
 
 var isTestDebug = util.env.d || util.env.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
@@ -16,8 +16,8 @@ gulp.task('test', testRequirements, function () {
     var modulesToTest = [];
 
     var sourcesList = deps.getJSFiles({source: 'testSource'}).concat([
-        'build/tmp/testJS/config.js',
-        'build/tmp/testJS/projectList.js',
+        'gulp/tmp/testJS/config.js',
+        'gulp/tmp/testJS/projectList.js',
         'vendors/leaflet/spec/after.js',
         'node_modules/happen/happen.js',
         'node_modules/mock-geolocation/dist/geolocate.js'
@@ -51,7 +51,7 @@ gulp.task('test', testRequirements, function () {
             junitReporter: test.getJunitReporter(),
             action: 'run',
             preprocessors: {
-                'build/tmp/testJS/src/**/*.js': ['coverage']
+                'gulp/tmp/testJS/src/**/*.js': ['coverage']
             }
         }))
         .on('error', function (err) {

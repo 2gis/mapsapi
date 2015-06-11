@@ -4,7 +4,7 @@ var cluster = require('cluster');
 var cors = require('cors');
 var cpuCount = require('os').cpus().length;
 var clc = require('cli-color');
-var config = require('./build/config.js');
+var config = require('./config.js');
 var _ = require('lodash');
 var fs = require('fs');
 
@@ -13,7 +13,7 @@ var app = express();
 app.use(cors());
 
 // Serve loader
-var loader = fs.readFileSync('./public/loader.js', {encoding: 'utf8'});
+var loader = fs.readFileSync('./dist/loader.js', {encoding: 'utf8'});
 app.get('/loader.js', function(req, res) {
     var localConfig = _.cloneDeep(config.localConfig);
 
@@ -28,7 +28,7 @@ app.get('/loader.js', function(req, res) {
 });
 
 // Load index file and inject base URL
-var indexFile = fs.readFileSync('./public/index.html', {encoding: 'utf8'});
+var indexFile = fs.readFileSync('./dist/index.html', {encoding: 'utf8'});
 indexFile = indexFile.replace(/__BASE_URL__/g, config.appConfig.baseUrl);
 
 // Serve index file
@@ -70,7 +70,7 @@ function loadDir(dirPath) {
 }
 
 // Load and serve JS files
-var jsFiles = loadDir('./public/js');
+var jsFiles = loadDir('./dist/js');
 app.get('/js', function (req, res) {
     var params = getParams(req);
     var fileName = 'script.' + params.pkg + '.js';
@@ -83,7 +83,7 @@ app.get('/js', function (req, res) {
 });
 
 // Load and serve CSS files
-var cssFiles = loadDir('./public/css');
+var cssFiles = loadDir('./dist/css');
 app.get('/css', function (req, res) {
     var params = getParams(req);
 
@@ -101,7 +101,7 @@ app.get('/css', function (req, res) {
 });
 
 // Serve everything else
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../dist'));
 
 // Start server
 var host = config.appConfig.host;
