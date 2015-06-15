@@ -35,7 +35,7 @@ DG.Map.addInitHook(function () {
     /*eslint-enable */
 
     var newImg = new Image();
-    newImg.src = DG.config.protocol + DG.config.analytics +
+    newImg.src = DG.config.protocol + DG.config.analytics + '?' +
         'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
         'v=' + DG.version;
 
