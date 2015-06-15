@@ -78,7 +78,6 @@
     "karma-opera-launcher": "0.1.0",
     "karma-phantomjs-launcher": "0.1.4",
     "karma-sinon": "1.0.4",
-    "mock-geolocation": "^1.0.9",
-    "sinon": "1.14.1"
+    "mock-geolocation": "^1.0.9"
   }
 }
