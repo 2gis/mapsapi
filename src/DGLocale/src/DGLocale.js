@@ -32,7 +32,7 @@ DG.Locale = {
 DG.Map.include({
     setLang: function (lang) { // (String)
         if (lang && Object.prototype.toString.call(lang) === '[object String]') {
-            this._currentLang = lang;
+            this.options.currentLang = lang;
             this.fire('langchange', {'lang': lang});
         }
     },
@@ -40,13 +40,13 @@ DG.Map.include({
     getLang: function () { // () -> String
         // If the language hasn't been set before, set it to page language or
         // default language from config
-        if (!this._currentLang) {
+        if (!this.options.currentLang) {
             var root = document.documentElement;
             var lang = root.lang || (root.getAttributeNS && root.getAttributeNS('http://www.w3.org/XML/1998/namespace', 'lang')) || DG.config.defaultLang;
 
-            this._currentLang = lang;
+            this.options.currentLang = lang;
         }
 
-        return this._currentLang;
+        return this.options.currentLang;
     }
 });
