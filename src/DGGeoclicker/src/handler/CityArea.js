@@ -52,6 +52,15 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
             .on('zoomend', this._updateGeometry, this)
             .once('popupclose', this._clearPopup, this);
 
+        // We have to manually propagate clicks through the vector layer because
+        // VML doesn't support pointer-events: none
+        if (DG.Browser.ielt9) {
+            this._geometry.on('click', function (e) {
+                this._clearPopup();
+                this._map.fire('click', e);
+            }, this);
+        }
+
         return Promise.resolve(this._fillCityAreaObject(results, type));
     },
 
