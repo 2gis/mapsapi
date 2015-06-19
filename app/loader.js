@@ -12,7 +12,8 @@
     function getQueryString() {
         var params = {
             skin: query.skin,
-            pkg: query.pkg
+            pkg: query.pkg,
+            version: version
         };
 
         if (/MSIE\x20(\d+\.\d+);/.test(navigator.userAgent) && parseInt(RegExp.$1, 10) < 9) {
