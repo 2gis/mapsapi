@@ -11,7 +11,7 @@
 Пример подписки на различные события (клик в маркер, карту, геометрию):
 
 Вы кликнули в: <span id="clicked_element">никуда</span>
-<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -52,8 +52,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Подписка на события</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             Вы кликнули в: <span id="clicked_element">никуда</span>
@@ -132,8 +131,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Подписка на изменение проекта 2ГИС</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>

@@ -8,7 +8,7 @@
 
 ### Создание карты
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -24,8 +24,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Создание карты</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
         <div id="map" style="width: 100%; height: 400px;"></div>
@@ -73,8 +72,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Создание карты по требованию</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?lazy=true"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?lazy=true"></script>
         </head>
         <body>
             <input id="create" type="button" value="Показать карту" />
@@ -104,7 +102,7 @@
 
 ### Использование опций подключения
 
-Ниже представлен пример вызова карты с таким набором опций: 'pkg=basic', 'skin=dark', 'mode=debug', 'sprite=true'. Как результат мы получим неминифицированные исходники и иконки собранные в спрайт в тёмной теме. Все возможные опции можно посмотреть в разделе [Опции подключения](/doc/maps/manual/loading/#sel=21:1,21:2). На выходе имеем такую карту:
+Ниже представлен пример вызова карты с таким набором опций: 'pkg=basic', 'skin=light'. Как результат мы получим сборку с базовой функциональностью в светлой теме. Все возможные опции можно посмотреть в разделе [Опции подключения](/doc/maps/manual/loading/#sel=21:1,21:2). На выходе имеем такую карту:
 <div id="map2" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -121,7 +119,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Использование опций подключения</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=basic&skin=dark&mode=debug&sprite=true" data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=basic&skin=light"></script>
         </head>
         <body>
         <div id="map" style="width: 100%; height: 400px;"></div>
@@ -169,8 +167,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Изменение размера карты</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="changeSize" type="button" value="Изменить размер" />
@@ -226,8 +223,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Отключение опций взаимодействия</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -280,8 +276,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Определение местоположения пользователя</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>

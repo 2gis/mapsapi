@@ -10,9 +10,7 @@
 
 Сперва подключим API карт, поместив в секцию `head` HTML-страницы следующий код:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
-
-Атрибут `data-id="dgLoader"` обязательный.
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
 Затем воспользуемся функцией `DG.then`, в которую поместим код инициализации карты:
 
@@ -29,7 +27,7 @@
 
 Вы можете загрузить API карт именно в тот момент, когда карта станет нужна. Для этого в URL подключения API необходимо добавить параметр `lazy=true`:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true" data-id="dgLoader"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true"></script>
 
 Затем в нужный момент времени (например, при нажатии на кнопку) необходимо вызвать функцию DG.then:
 

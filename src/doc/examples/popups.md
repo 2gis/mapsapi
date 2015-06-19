@@ -8,7 +8,7 @@
 
 ### Открытие балуна при клике на маркер
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
@@ -26,8 +26,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Открытие балуна при клике на маркер</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -78,8 +77,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Открытие балуна по умолчанию и по требованию</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="showPopup" type="button" value="Открыть балун" />
@@ -144,8 +142,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Добавление нескольких балунов на карту</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -231,8 +228,7 @@
         <head>
             <meta charset="UTF-8">
             <title>Поведение балуна с параметром sprawling</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 300px; height: 150px;"></div>

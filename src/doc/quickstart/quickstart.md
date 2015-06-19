@@ -14,7 +14,7 @@
 
 Для подключения JavaScript кода API добавьте в секцию head HTML-страницы следующий код:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
 ### Создайте контейнер карты
 
@@ -87,7 +87,7 @@
         <head>
             <meta charset=utf-8 />
             <title>API карт 2ГИС</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
             <script type="text/javascript">
                 var map;
         
