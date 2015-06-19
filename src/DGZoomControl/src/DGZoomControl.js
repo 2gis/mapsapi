@@ -43,6 +43,10 @@ DG.Control.Zoom.include({
     },
 
     _renderTranslation: function () {
+        if (!this._zoomInButton || !this._zoomOutButton) {
+            return;
+        }
+
         this._zoomInButton.title = this.t('zoom_in');
         this._zoomOutButton.title = this.t('zoom_out');
     }
