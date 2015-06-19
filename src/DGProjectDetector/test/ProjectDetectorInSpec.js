@@ -42,14 +42,14 @@ describe('DG.ProjectDetectorIn', function () {
     describe('#setView', function () {
 
         it('go to from project to project', function () {
-            expect(map.setView(project1, maxZoom)).to.be(map);
+            expect(map.setView(project1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxZoom);
             expect(map.getCenter()).to.be.equal(project1);
         });
 
         it('go to from desert to project', function () {
-            map.setView(desert1, maxZoom);
-            expect(map.setView(project1, maxZoom)).to.be(map);
+            map.setView(desert1, maxZoom, {animate: false});
+            expect(map.setView(project1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxZoom);
             expect(map.getCenter()).to.be.equal(project1);
         });
@@ -57,7 +57,7 @@ describe('DG.ProjectDetectorIn', function () {
         it('go to from project1 to project2', function () {
             map.setView(project1, maxZoom);
 
-            expect(map.setView(project2)).to.be(map);
+            expect(map.setView(project2, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxZoom);
             expect(map.getCenter()).to.be.equal(project2);
         });
@@ -65,23 +65,23 @@ describe('DG.ProjectDetectorIn', function () {
         it('go to from project to desert', function () {
             map.setView(project1, maxZoom);
 
-            expect(map.setView(desert1)).to.be(map);
+            expect(map.setView(desert1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
             expect(map.getCenter()).to.be.equal(desert1);
         });
 
         it('go to from desert1 to desert2', function () {
-            map.setView(desert1, maxDesertZoom);
+            map.setView(desert1, maxDesertZoom, {animate: false});
 
-            expect(map.setView(desert2)).to.be(map);
+            expect(map.setView(desert2, maxDesertZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
             expect(map.getCenter()).to.be.equal(desert2);
         });
 
         it('go to from desert1 to desert2', function () {
-            map.setView(project1, maxZoom);
+            map.setView(project1, maxZoom, {animate: false});
 
-            expect(map.setView(edgeProject1)).to.be(map);
+            expect(map.setView(edgeProject1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxZoom);
             expect(map.getCenter()).to.be.equal(edgeProject1);
         });
@@ -285,7 +285,7 @@ describe('DG.ProjectDetectorIn', function () {
         it('fire on project1 from project1', function () {
             map.setView(start, 15);
 
-            expect(map.panTo(project1)).to.be(map);
+            expect(map.panTo(project1, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(15);
             expect(map.getCenter().distanceTo(project1)).to.be.below(15);
         });
@@ -328,25 +328,25 @@ describe('DG.ProjectDetectorIn', function () {
         it('call with viewport size', function () {
             map.setView(project1, 16);
 
-            expect(map.panBy([1901, 601])).to.be(map);
+            expect(map.panBy([1901, 601], {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(16);
-            expect(map.getCenter()).to.be.eql(new DG.LatLng(54.971628386497684, 82.86006689071657));
+            expect(map.getCenter()).to.nearLatLng(DG.latLng(54.971628386497684, 82.86006689071657));
         });
 
         it('call on project edge from desert', function () {
             map.setView(edgeProject1, maxZoom);
 
-            expect(map.panBy([0, -2000])).to.be(map);
+            expect(map.panBy([0, -2000]), {animate: false}).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
-            expect(map.getCenter()).to.be.eql(new DG.LatLng(55.25058537744133, 82.85625815391542));
+            expect(map.getCenter()).to.nearLatLng(DG.latLng(55.25058537744133, 82.85625815391542));
         });
 
         it('call on project viewport', function () {
             map.setView(project1, maxZoom);
 
-            expect(map.panBy([100, -200])).to.be(map);
+            expect(map.panBy([100, -200]), {animate: false}).to.be(map);
             expect(map.getZoom()).to.be(maxZoom);
-            expect(map.getCenter()).to.be.eql(new DG.LatLng(54.97964243031826, 82.819801568985));
+            expect(map.getCenter()).to.nearLatLng(DG.latLng(54.97964243031826, 82.819801568985), 10e-4);
         });
 
     });
@@ -392,13 +392,13 @@ describe('DG.ProjectDetectorIn', function () {
         it('set max zoom, go to from project to desert and back to the project', function () {
             map.options.maxZoom = 16;
             expect(map.getMaxZoom()).to.be.equal(16);
-            map.setView(project1, maxZoom);
+            map.setView(project1, maxZoom, {animate: false});
 
-            expect(map.setView(desert1)).to.be(map);
+            expect(map.setView(desert1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
             expect(map.getCenter()).to.be.equal(desert1);
 
-            expect(map.setView(project1, maxZoom)).to.be(map);
+            expect(map.setView(project1, maxZoom, {animate: false})).to.be(map);
             expect(map.getZoom()).to.be(16);
             expect(map.getCenter()).to.be.equal(project1);
         });

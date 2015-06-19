@@ -2,9 +2,9 @@ var deps = {
 
     Leaflet: {
         desc: 'Leaflet dist',
-        src: ['../vendors/leaflet/dist/leaflet-src.js'],
+        src: ['../node_modules/leaflet/dist/leaflet-src.js'],
         less: {
-            all: ['../vendors/leaflet/dist/leaflet.css']
+            all: ['../node_modules/leaflet/dist/leaflet.css']
         }
     },
 
@@ -80,7 +80,8 @@ var deps = {
             'DGCustomization/skin/basic/skin.config.js',
             'DGCustomization/src/DGCustomization.js',
             'DGCustomization/src/DGMap.js',
-            'DGCustomization/src/DGMap.BaseLayer.js'
+            'DGCustomization/src/DGMap.BaseLayer.js',
+            'DGCustomization/src/DGMarker.js'
         ],
         less: {
             all: [

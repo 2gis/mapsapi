@@ -18,7 +18,7 @@ gulp.task('test', testRequirements, function () {
     var sourcesList = deps.getJSFiles({source: 'testSource'}).concat([
         'gulp/tmp/testJS/config.js',
         'gulp/tmp/testJS/projectList.js',
-        'vendors/leaflet/spec/after.js',
+        'node_modules/leaflet/spec/after.js',
         'node_modules/happen/happen.js',
         'node_modules/mock-geolocation/dist/geolocate.js'
     ]);
@@ -39,8 +39,8 @@ gulp.task('test', testRequirements, function () {
         sourcesList.push('src/**/test/*Spec.js');
     }
 
-    sourcesList.push('vendors/leaflet/spec/suites/SpecHelper.js');
-    sourcesList.push('vendors/leaflet/spec/suites/**/*Spec.js');
+    sourcesList.push('node_modules/leaflet/spec/suites/SpecHelper.js');
+    sourcesList.push('node_modules/leaflet/spec/suites/**/*Spec.js');
 
     return gulp.src(sourcesList)
         .pipe(error.handle())

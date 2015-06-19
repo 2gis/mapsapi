@@ -6,7 +6,7 @@ module.exports = function(config) {
 
         client: {
             mocha: {
-                timeout: 60000
+                timeout: 120000
             }
         },
 
@@ -18,8 +18,11 @@ module.exports = function(config) {
         // excluded, because L.DG.TileLayer added to the map by default,
         // but leaflet tests think that map without layers and fails
         exclude: [
-            'vendors/leaflet/spec/suites/map/MapSpec.js',
-            'vendors/leaflet/spec/suites/layer/tile/TileLayerSpec.js'
+            'node_modules/leaflet/spec/suites/core/UtilSpec.js',
+            'node_modules/leaflet/spec/suites/map/MapSpec.js',
+            'node_modules/leaflet/spec/suites/layer/tile/TileLayerSpec.js',
+            'node_modules/leaflet/spec/suites/layer/tile/GridLayerSpec.js',
+            'node_modules/leaflet/spec/suites/layer/PopupSpec.js'
         ],
 
         coverageReporter: {
@@ -62,8 +65,8 @@ module.exports = function(config) {
 
         // If browser does not capture in given timeout [ms], kill it
         // CLI --capture-timeout 5000
-        captureTimeout: 60000,
-        browserNoActivityTimeout: 60000,
+        captureTimeout: 120000,
+        browserNoActivityTimeout: 120000,
 
         // Auto run test on start (when browsers are captured) and exit
         // CLI --single-run --no-single-run

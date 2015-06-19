@@ -55,6 +55,7 @@
     "html5shiv": "^3.7.2",
     "image-size": "0.3.5",
     "less": "^2.4.0",
+    "leaflet": "git://github.com/Leaflet/Leaflet.git#cc04a82be1d2bd830e2cdb5755013f510b089196",
     "lodash": "^2.4.1",
     "map-stream": "0.1.0",
     "marked": "0.3.3",

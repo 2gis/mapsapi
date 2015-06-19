@@ -87,6 +87,15 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         };
     },
 
+    // don't change icon zIndex
+    _setPos: function (pos) {
+        L.DomUtil.setPosition(this._icon, pos);
+
+        if (this._shadow) {
+            L.DomUtil.setPosition(this._shadow, pos);
+        }
+    },
+
     _afterInit : function () {
         this._layers = this.options.layers || null;
         this.options.icon = DG.divIcon({

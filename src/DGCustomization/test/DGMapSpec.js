@@ -1,88 +1,100 @@
-describe('DGCustomization', function() {
+describe('DGMap', function () {
     var mapContainer = document.createElement('div'),
+        center = [54.980206086231, 82.898068362003],
         map = new DG.Map(mapContainer, {
-            center: [54.980206086231, 82.898068362003],
+            center: center,
             zoom: 15
-        });
+        }),
+        newCenter = [55.01749277152058, 82.92145729064943],
+        moveStartSpy, moveEndSpy;
 
     document.body.appendChild(mapContainer);
     map.setLang('ru');
 
-    after(function() {
+    after(function () {
         mapContainer.parentElement.removeChild(mapContainer);
-        mapContainer = map = null;
+        mapContainer = map = center = newCenter = moveStartSpy = moveEndSpy = null;
     });
 
-    describe('DG.Map', function() {
-        describe('#setView', function() {
-            it('should change center with animate', function(done) {
-                var events = {
-                        movestart: sinon.spy(),
-                        moveend: sinon.spy()
-                    },
-                    center = [55.01749277152058, 82.92145729064943];
-
-                map.setView([55.01749277152058, 82.12145729064943], 13, {animate: false});
-
-                map.on(events);
-
-                function trasitionEnd() {
-                    expect(events.moveend.called).to.be.ok();
-
-                    map.off(events);
-                    document.removeEventListener('transitionend', trasitionEnd);
-                    document.removeEventListener('webkitTransitionEnd', trasitionEnd);
-
-                    done();
-                }
-
-                document.addEventListener('transitionend', trasitionEnd);
-                document.addEventListener('webkitTransitionEnd', trasitionEnd);
-
-                map.setView(center, 13, {animate: true});
-
-                expect(events.movestart.called).to.be.ok();
-                expect(events.moveend.called).not.be.ok();
-                expect(DG.latLng(center)).to.nearLatLng(map.getCenter());
-            });
-
-            it('should change center without animate', function() {
-                var events = {
-                        movestart: sinon.spy(),
-                        moveend: sinon.spy()
-                    },
-                    center = [55.01749277152058, 82.92145729064943];
-
-                map.setView([55.01749277152058, 82.12145729064943], 13, {animate: false});
-
-                map.on(events);
-
+    describe('#setView', function () {
+        describe('change center without animate', function () {
+            before(function() {
                 map.setView(center, 13, {animate: false});
 
-                expect(events.movestart.called).to.be.ok();
-                expect(events.moveend.called).to.be.ok();
+                moveStartSpy = sinon.spy();
+                moveEndSpy = sinon.spy();
+
+                map.on('movestart', moveStartSpy);
+                map.on('moveend', moveEndSpy);
+
+                map.setView(newCenter, 13, {animate: false});
+            });
+
+            after(function () {
+                map.off('movestart', moveStartSpy);
+                map.off('moveend', moveEndSpy);
+            });
+
+            it('should change center', function () {
+                expect(DG.latLng(newCenter)).to.nearLatLng(map.getCenter());
+            });
+
+            it('should fire movestart event', function () {
+                expect(moveStartSpy.calledOnce).to.be.ok();
+            });
+
+            it('shouldn fire moveend event while animate', function () {
+                expect(moveEndSpy.calledOnce).to.be.ok();
+            });
+        });
+
+        describe('change center with animate = true', function () {
+            before(function () {
+                map.setView(center, 13, {animate: false});
+
+                moveStartSpy = sinon.spy();
+                moveEndSpy = sinon.spy();
+
+                map.on('movestart', moveStartSpy);
+                map.on('moveend', moveEndSpy);
+
+                map.setView(newCenter, 13, {animate: true});
+            });
+
+            after(function () {
+                map.off('movestart', moveStartSpy);
+                map.off('moveend', moveEndSpy);
+            });
+
+            it('should not change center while animate', function () {
                 expect(DG.latLng(center)).to.nearLatLng(map.getCenter());
+            });
 
-                map.off(events);
+            it('should fire movestart event before animate', function () {
+                expect(moveStartSpy.calledOnce).to.be.ok();
+            });
+
+            it('shouldn\'t fire moveend event while animate', function () {
+                expect(moveEndSpy.calledOnce).not.be.ok();
             });
         });
+    });
 
-        describe('#panBy', function() {
-            it('should set zoom to 13 after panBy to place without project', function() {
-                map.setView([55.005582426668404, 82.93081283569337], 15, {animate: false});
-                map.panBy([1e15, 0]);
-                expect(map.getZoom()).to.be(13);
-            });
+    describe('#panBy', function () {
+        it('should set zoom to 13 after panBy to place without project', function () {
+            map.setView([55.005582426668404, 82.93081283569337], 15, {animate: false});
+            map.panBy([1e15, 0]);
+            expect(map.getZoom()).to.be(13);
         });
+    });
 
-        describe('#getBoundsZoom', function() {
-            it('should return 13', function() {
-                var sw = DG.latLng(54.97369439559682, 80.99043041467668),
-                    ne = DG.latLng(54.97441793550156, 80.99262982606889),
-                    b = DG.latLngBounds(sw, ne);
+    describe('#getBoundsZoom', function () {
+        it('should return 13', function () {
+            var sw = DG.latLng(54.97369439559682, 80.99043041467668),
+                ne = DG.latLng(54.97441793550156, 80.99262982606889),
+                b = DG.latLngBounds(sw, ne);
 
-                expect(map.getBoundsZoom(b)).to.be(13);
-            });
+            expect(map.getBoundsZoom(b)).to.be(13);
         });
     });
 });

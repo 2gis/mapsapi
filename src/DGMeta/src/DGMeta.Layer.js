@@ -35,7 +35,7 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     onAdd: function (map) {
-        this._reset();
+        this._resetView();
         this._addDomEvents();
 
         map.on('rulerstart', this._removeDomEvents, this);
@@ -44,17 +44,17 @@ DG.Meta.Layer = DG.Layer.extend({
 
     onRemove: function (map) {
         this._removeDomEvents();
+        this._tileZoom = null;
 
         map.off('rulerstart', this._removeDomEvents, this);
         map.off('rulerend', this._addDomEvents, this);
     },
 
     getEvents: function () {
-        var events = {
-            viewreset: this._reset
+        return {
+            viewreset: this._resetAll,
+            zoom: this._resetView
         };
-
-        return events;
     },
 
     _addDomEvents: function () {
@@ -65,12 +65,15 @@ DG.Meta.Layer = DG.Layer.extend({
         DG.DomEvent.off(this._map.getPane('tilePane'), this._domEvents, this);
     },
 
+    _removeAllTiles: DG.GridLayer.prototype._removeAllTiles,
     _getZoomForUrl: DG.TileLayer.prototype._getZoomForUrl,
     _getTileSize: DG.TileLayer.prototype._getTileSize,
-    _getTileNumBounds: DG.GridLayer.prototype._getTileNumBounds,
     _isValidTile: DG.GridLayer.prototype._isValidTile,
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
-    _resetWrap: DG.GridLayer.prototype._resetWrap,
+    _resetView: DG.GridLayer.prototype._resetView,
+    _resetGrid: DG.GridLayer.prototype._resetGrid,
+    _resetAll: DG.GridLayer.prototype._resetAll,
+    _pxBoundsToTileRange: DG.GridLayer.prototype._pxBoundsToTileRange,
 
     _domEvents: {
         mousemove: function (event) { // (MouseEvent)
@@ -161,11 +164,15 @@ DG.Meta.Layer = DG.Layer.extend({
         return null;
     },
 
-    _reset: function () {
-        this._tileNumBounds = this._getTileNumBounds();
-        this._resetWrap(this._tileNumBounds);
-    }
+    _setView: function (center, zoom, noPrune, noUpdate) {
+        var tileZoom = Math.round(zoom),
+            tileZoomChanged = this._tileZoom !== tileZoom;
 
+        if (!noUpdate && tileZoomChanged) {
+            this._tileZoom = tileZoom;
+            this._resetGrid();
+        }
+    }
 });
 
 DG.Meta.layer = function (source, options) {
