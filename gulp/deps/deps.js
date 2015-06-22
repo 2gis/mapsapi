@@ -335,7 +335,7 @@ var deps = {
             all: ['DGRuler/skin/{skin}/less/dg-ruler.less'],
             ie: ['DGRuler/skin/{skin}/less/dg-ruler.ie.less']
         },
-        deps: ['DGCore', 'DGLocale', 'DGDust']
+        deps: ['DGCore', 'DGLocale']
     },
 
     DGRulerControl: {

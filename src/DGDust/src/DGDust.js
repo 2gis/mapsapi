@@ -1,17 +1,12 @@
-DG.dust = function (tmpl) {
-    return function (name, data) {
-        if (!dust.cache[name]) {
-            dust.loadSource(tmpl[name]);
-        }
+DG.dust = function (name, data) {
+    var result;
 
-        var result;
+    // The callback is called synchronously, so this works
+    dust.render(name, data, function (err, html) {
+        result = html;
+    });
 
-        dust.render(name, data, function (err, html) {
-            result = html;
-        });
-
-        return result;
-    };
+    return result;
 };
 
 if (DG.debug) { dust.debugLevel = 'ERROR'; }

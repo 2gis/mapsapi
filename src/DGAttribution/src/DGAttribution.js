@@ -106,8 +106,6 @@ DG.Control.Attribution.include({
 
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
     },
-    /* global __DGAttribution_TMPL__ */
-    _tmpl: DG.dust(__DGAttribution_TMPL__),
     _getData: function (lang) {
         return {
             'osm': this._osm,
@@ -121,7 +119,7 @@ DG.Control.Attribution.include({
         };
     },
     _getAttributionHTML: function (lang) {
-        return this._tmpl('copyright', this._getData(lang));
+        return DG.dust('DGAttribution/copyright', this._getData(lang));
     },
     _renderTranslation: function (e) {
         this._update(e.lang);
