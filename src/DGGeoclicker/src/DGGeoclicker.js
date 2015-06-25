@@ -80,6 +80,14 @@ DG.Geoclicker = DG.Handler.extend({
                 clearTimeout(this.pendingClick);
                 this.popupWasOpen = false;
             }
+        },
+
+        dblclick: function(e) {
+            if (DG.Browser.ielt9) {
+                this.clickCount = 0;
+                this.popupWasOpen = false;
+                clearTimeout(this.pendingClick);
+            }
         }
     },
 
