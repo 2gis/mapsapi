@@ -3,7 +3,6 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
     _polylineStyleDefault : {
         fillColor: '#ff9387',
         color: '#ff9387',
-        clickable: false,
         noClip: true,
         opacity: 1
     },
@@ -45,21 +44,13 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
 
         this._geometryZoomStyle = this._getPolyStyleNum();
         this._geometry = DG.Wkt.geoJsonLayer(results[type].geometry.selection, {
-            style: this._polylineStyles[this._geometryZoomStyle]
+            style: this._polylineStyles[this._geometryZoomStyle],
+            interactive: false
         }).addTo(this._map);
 
         this._map
             .on('zoomend', this._updateGeometry, this)
             .once('popupclose', this._clearPopup, this);
-
-        // We have to manually propagate clicks through the vector layer because
-        // VML doesn't support pointer-events: none
-        if (DG.Browser.ielt9) {
-            this._geometry.on('click', function (e) {
-                this._clearPopup();
-                this._map.fire('click', e);
-            }, this);
-        }
 
         return Promise.resolve(this._fillCityAreaObject(results, type));
     },
