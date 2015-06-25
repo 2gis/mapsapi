@@ -43,7 +43,7 @@
     background-image: url('@{baseURL}/img/@{filename}.@{extension}');
     background-size: @originalWidth @originalHeight;
 
-    .leaflet-retina & {
+    .leaflet-retina & when not (@extension = 'gif') {
         background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
         }
     }
