@@ -1,4 +1,4 @@
-var redust = require('gulp-redust');
+var streamqueue = require('streamqueue');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var header = require('gulp-header');
@@ -9,6 +9,7 @@ var gulpif = require('gulp-if');
 var util = require('gulp-util');
 var gulp = require('gulp');
 
+var templateStream = require('../util/templateStream');
 var config = require('../../app/config.js');
 var deps = require('../deps')(config);
 var projectList = require('../util/projectList');
@@ -22,9 +23,11 @@ gulp.task('buildTestScripts', ['loadProjectList', 'lintJS', 'buildLeaflet'], fun
     // no loading tiles
     config.appConfig.tileServer = '';
 
-    var stream = gulp.src(deps.getJSFiles({pkg: pkg}), {base: '.'})
-        .pipe(error.handle())
-        .pipe(redust(config.tmpl));
+    var stream = streamqueue({objectMode: true},
+            gulp.src(deps.getJSFiles({pkg: pkg}), {base: '.'}),
+            templateStream(pkg).pipe(concat('templates.js'))
+        )
+        .pipe(error.handle());
 
     if (isConcat) {
         stream = stream

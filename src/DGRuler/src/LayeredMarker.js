@@ -1,14 +1,17 @@
 DG.Ruler.LayeredMarker = DG.Marker.extend({
-
-    /*global __DGRuler_TMPL__:false */
-
     options: {
         draggable: false,
         keyboard: false,
         riseOnHover: true,
-        iconHTML: DG.dust(__DGRuler_TMPL__)('RulerLayeredMarker', {
-            blankgif : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-        })
+        iconHTML: [
+            '<img class="dg-ruler__label-spacer" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="26" height="26" />',
+            '<div class="dg-ruler__label-container">',
+            '    <div class="dg-ruler__point"></div>',
+            '    <span class="dg-ruler__label-distance">0 км</span>',
+            '    <span class="dg-ruler__label-remove-link"></span>',
+            '    <div class="dg-ruler__remove-link-overlay"></div>',
+            '</div>'
+        ].join('\n')
     },
 
     statics: {

@@ -46,7 +46,7 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
     _firmCardSetup: function () { //() -> Object
         return {
-            render: this._view._templates,
+            render: this._view.renderTemplate,
             lang: this._map.getLang(),
             domain: this._controller.getMap().projectDetector.getProject().domain,
             ajax: DG.bind(this._api.getFirmInfo, this._api),
