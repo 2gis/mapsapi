@@ -8,11 +8,11 @@ class SetScripts:
 
     @staticmethod
     def set_zoom(level=10):
-        return 'map.setZoom(%s);' % str(level)
+        return 'map.setZoom(%s, {animate: false});' % str(level)
 
     @staticmethod
     def pan_to(lat, lng):
-        return 'map.panTo([%s, %s]);' % (str(lat), str(lng))
+        return 'map.panTo([%s, %s], {animate: false});' % (str(lat), str(lng))
 
     @staticmethod
     def set_lang(lang):

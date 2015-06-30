@@ -1,5 +1,4 @@
 ## Project ###
-config/config.my.ini
 nosetests.xml
 nosetests-*.xml
 run_my.sh
