@@ -62,22 +62,59 @@ describe('DG.TrafficControl', function() {
     });
 
     describe('traffic point request', function () {
-        var spy, center, zoom;
+        var xhr, center, zoom, requests;
         before(function () {
-            spy = sinon.spy();
-            spy(trafficControl, '_updateTrafficScore');
             zoom = map.getZoom();
             center = map.getCenter();
+            xhr = sinon.useFakeXMLHttpRequest();
+            requests =  [];
+
+            xhr.onCreate = function (xhr) {
+                requests.push(xhr);
+            };
+
             happen.click(controlParent);
 
         });
         after(function () {
+            xhr.restore();
             map.setView(center, zoom);
             happen.click(controlParent);
         });
 
-        it('traffic points update called', function () {
-            expect(spy.calledOnce).to.be(true);
+        it('traffic points request called', function () {
+            var urlRE = new RegExp('http://traffic\\d+.maps.2gis.com/\\w+/meta/score/0/');
+            expect(urlRE.test(requests[0].url)).to.be(true);
+        });
+    });
+
+    describe('traffic point timer request', function () {
+        var xhr, center, zoom, requests, clock;
+        before(function () {
+            zoom = map.getZoom();
+            center = map.getCenter();
+            xhr = sinon.useFakeXMLHttpRequest();
+            clock = sinon.useFakeTimers();
+            requests =  [];
+
+            xhr.onCreate = function (xhr) {
+                requests.push(xhr);
+            };
+
+            happen.click(controlParent);
+
+        });
+        after(function () {
+            xhr.restore();
+            clock.restore();
+            map.setView(center, zoom);
+            happen.click(controlParent);
+        });
+
+        it('traffic points update request called', function () {
+            var urlRE = new RegExp('http://traffic\\d+.maps.2gis.com/\\w+/meta/speed/time/');
+            clock.tick(DG.config.trafficLayerUpdateInterval + 1);
+            expect(urlRE.test(requests[1].url)).to.be(true);
         });
     });
 
