@@ -1,10 +1,10 @@
-describe('DG.traffic', function(){
+describe('DG.traffic', function () {
     var map,
         traffic,
         mapContainer = document.createElement('div');
         document.body.appendChild(mapContainer);
 
-    before(function() {
+    before(function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.980156831455, 82.897440725094),
             zoom: 17
@@ -15,13 +15,13 @@ describe('DG.traffic', function(){
         map.removeLayer(traffic);
     });
 
-    after(function() {
+    after(function () {
         map.remove();
         document.body.removeChild(mapContainer);
         map = traffic = mapContainer = null;
     });
 
-    it('should present two layer', function(){
+    it('should present two layer', function () {
         traffic = DG.traffic();
         traffic.addTo(map);
         var layers = mapContainer.querySelectorAll('.leaflet-layer');

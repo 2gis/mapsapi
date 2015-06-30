@@ -1,9 +1,9 @@
-describe('DG.Location', function() {
+describe('DG.Location', function () {
     var mapContainer, position, map, control, classControl, classControlRequest,
         classControlActive, container, classPin;
     var left = 'leaflet-left', right = 'leaflet-right', top = 'leaflet-top', bottom = 'leaflet-bottom';
 
-    before(function(){
+    before(function () {
         geolocate.use();
 
         mapContainer = document.createElement('div');
@@ -24,7 +24,7 @@ describe('DG.Location', function() {
         classPin = 'dg-location__pin';
     });
 
-    after(function() {
+    after(function () {
         geolocate.restore();
         map.remove();
         mapContainer.parentElement.removeChild(mapContainer);
@@ -32,76 +32,74 @@ describe('DG.Location', function() {
 
     function initTests() {
         var locationControl;
-        describe('check init', function() {
-            it('should be html container on map', function() {
+        describe('check init', function () {
+            it('should be html container on map', function () {
                 expect(container.length).to.be(1);
 
                 locationControl = container[0];
             });
         });
 
-        describe('check clicks', function() {
-            describe('click to enable', function() {
-                before(function() {
+        describe('check clicks', function () {
+            describe('click to enable', function () {
+                before(function () {
                     happen.click(locationControl);
                 });
 
-                it('should change to request class', function() {
+                it('should change to request class', function () {
                     expect(locationControl.className).to.contain(classControlRequest);
                 });
 
-                it('should change to active class', function() {
+                it('should change to active class', function () {
                     geolocate.send(position);
                     expect(locationControl.className).to.contain(classControlActive);
                 });
 
-                it('should change center map near coord', function() {
+                it('should change center map near coord', function () {
                     expect(map.getCenter()).to.nearLatLng(DG.latLng(position));
                 });
 
-                it('should be location pin on map', function() {
+                it('should be location pin on map', function () {
                     expect(document.body.getElementsByClassName(classPin).length).to.be(1);
                 });
             });
 
-            describe('click to disable', function() {
-                before(function() {
+            describe('click to disable', function () {
+                before(function () {
                     happen.click(locationControl);
                 });
 
-                it('should remove active class', function() {
+                it('should remove active class', function () {
                     expect(locationControl.className).not.contain(classControlActive);
                 });
 
-                it('shouldn\'t be location pin on map', function() {
+                it('shouldn\'t be location pin on map', function () {
                     expect(document.body.getElementsByClassName(classPin).length).to.be(0);
                 });
 
-                it('should center map near coord', function() {
+                it('should center map near coord', function () {
                     expect(map.getCenter()).to.nearLatLng(DG.latLng(position));
                 });
             });
         });
 
-        describe('change position', function() {
-            before(function() {
+        describe('change position', function () {
+            before(function () {
                 geolocate.change(position);
             });
 
-            it('should center map near coord', function() {
+            it('should center map near coord', function () {
                 expect(map.getCenter()).to.nearLatLng(DG.latLng(position));
             });
         });
     }
 
-    describe('check auto init from map options', function() {
+    describe('check auto init from map options', function () {
         initTests();
     });
 
-    // TODO: после фиксов багов с DGLocation доделать #remove #addTo и пр.
-
-    describe('check custom init', function() {
-        before(function() {
+    describe('check custom init', function () {
+        before(function () {
             if (map.locationControl) {
                 map.locationControl.remove();
             }
@@ -112,26 +110,28 @@ describe('DG.Location', function() {
 
         initTests();
 
-        after(function(){
+        after(function () {
             map.removeControl(control);
         });
     });
 
-    describe('check addTo', function() {
-        before(function(){
+    describe('#addTo', function () {
+        before(function () {
             if (map.locationControl) {
                 map.locationControl.remove();
             }
             control.addTo(map);
         });
+
         initTests();
-        after(function(){
+
+        after(function () {
             control.remove();
         });
     });
 
-    describe('check remove', function() {
-        before(function() {
+    describe('#remove', function () {
+        before(function () {
             if (map.locationControl) {
                 map.locationControl.remove();
                 control.addTo(map);
@@ -139,21 +139,22 @@ describe('DG.Location', function() {
             control.remove(map);
         });
 
-        it('control not present',function(){
+        it('control not present',function () {
             expect(container.length).to.be(0);
         });
     });
 
-    describe('position init property', function(){
+    describe('position init property', function () {
         var tmpControl, content;
-        before(function(){
+
+        before(function () {
            if(map.locationControl){
                map.locationControl.remove();
            }
            control.remove(map);
         });
 
-        it('default', function() {
+        it('default', function () {
             tmpControl = DG.control.location();
             content = document.querySelector(classControl) == document.querySelector([top, left].join('.'));
             expect(tmpControl.getPosition()).to.be('topleft');
@@ -161,34 +162,33 @@ describe('DG.Location', function() {
 
         });
 
-        it('topleft', function() {
+        it('topleft', function () {
             tmpControl = DG.control.location({position: 'topleft'});
             content = document.querySelector(classControl) == document.querySelector([top, left].join('.'));
             expect(tmpControl.getPosition()).to.be('topleft');
             expect(content).to.be.ok();
         });
 
-        it('topright', function() {
+        it('topright', function () {
             tmpControl = DG.control.location({position: 'topright'});
             content = document.querySelector(classControl) == document.querySelector([top, right].join('.'));
             expect(tmpControl.getPosition()).to.be('topright');
             expect(content).to.be.ok();
         });
 
-        it('bottomleft', function() {
+        it('bottomleft', function () {
             tmpControl = DG.control.location({position: 'bottomleft'});
             content = document.querySelector(classControl) == document.querySelector([bottom, left].join('.'));
             expect(tmpControl.getPosition()).to.be('bottomleft');
             expect(content).to.be.ok();
         });
 
-        it('topleft', function() {
+        it('topleft', function () {
             tmpControl = DG.control.location({position: 'bottomright'});
             content = document.querySelector(classControl) == document.querySelector([bottom, right].join('.'));
             expect(tmpControl.getPosition()).to.be('bottomright');
             expect(content).to.be.ok()
         });
     });
-
 
 });
