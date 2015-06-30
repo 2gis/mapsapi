@@ -28,7 +28,7 @@
             {/eq}
             {@eq value="email" type="string"}
                 <div class="dg-firm-card__link dg-firm-card__email dg-firm-card__icon">
-                    <a href="mailto: {value}">{value}</a>
+                    <a href="mailto:{value}">{value}</a>
                 </div>
             {/eq}
         {/select}
