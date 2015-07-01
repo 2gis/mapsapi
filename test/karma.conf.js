@@ -5,6 +5,7 @@ module.exports = function(config) {
         frameworks: ['mocha', 'expect', 'sinon'],
 
         client: {
+            captureConsole: true,
             mocha: {
                 timeout: 120000
             }

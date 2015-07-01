@@ -82,7 +82,7 @@ DG.Geoclicker = DG.Handler.extend({
             }
         },
 
-        dblclick: function(e) {
+        dblclick: function () {
             if (DG.Browser.ielt9) {
                 this.clickCount = 0;
                 this.popupWasOpen = false;
