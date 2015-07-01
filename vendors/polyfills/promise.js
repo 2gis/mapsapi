@@ -157,7 +157,7 @@ if (typeof Promise !== 'function') {
       "use strict";
       var browserGlobal = (typeof window !== 'undefined') ? window : {};
       var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
-      var local = (typeof global !== 'undefined') ? global : (this === undefined? window:this);
+      var local = window;
 
       // node
       function useNextTick() {
@@ -246,9 +246,7 @@ if (typeof Promise !== 'function') {
       function polyfill() {
         var local;
 
-        if (typeof global !== 'undefined') {
-          local = global;
-        } else if (typeof window !== 'undefined' && window.document) {
+        if (typeof window !== 'undefined' && window.document) {
           local = window;
         } else {
           local = self;
