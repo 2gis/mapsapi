@@ -306,7 +306,7 @@ FirmCard.Schedule.prototype = {
 
 
         //Возвращает интервал в целых днях, с поправкой на смену дня в полночь, между
-        //@param timestampEnd и @param dateStart
+        // @param timestampEnd и @param dateStart
         function dayInterval(timestampEnd, dateStart) {
 
             var oneDay = 1000 * 60 * 60 * 24,

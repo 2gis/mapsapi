@@ -225,6 +225,8 @@ DG.ajax = (function () {
 
         if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
             http.onload = fn;
+            http.onprogress = function () {};
+            http.ontimeout = function () {};
             http.onerror = err;
             sendWait = true;
         } else {
