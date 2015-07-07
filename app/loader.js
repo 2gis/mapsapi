@@ -170,15 +170,6 @@
             DG.config.webApiServer + '/' +
             DG.config.webApiVersion + '/region/list';
 
-        var isResolved = false;
-
-        function runResolve(resolve) {
-            if (!isResolved) {
-                isResolved = true;
-                resolve();
-            }
-        }
-
         return new Promise(function (resolve) {
             DG.ajax(url, {
                 type: DG.ajax.corsSupport ? 'get' : 'jsonp',
@@ -189,6 +180,8 @@
                     fields: DG.config.regionListFields
                 },
 
+                timeout: DG.config.loadProjectListTimeout,
+
                 success: function (data) {
                     var result = data.result;
 
@@ -196,17 +189,13 @@
                         DG.projectsList = result.items;
                     }
 
-                    runResolve(resolve);
+                    resolve();
                 },
 
-                error: function () {
-                    runResolve(resolve);
+                error: function (err) {
+                    resolve();
                 }
             });
-
-            setTimeout(function () {
-                runResolve(resolve);
-            }, DG.config.loadProjectListTimeout);
         });
     }
 
