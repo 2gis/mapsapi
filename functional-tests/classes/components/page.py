@@ -152,3 +152,11 @@ class Page(BasePage):
         """
         from classes.components.callout import FirmList
         return FirmList(self.test, self.test.find_element_by_css_selector(FirmList.selectors['self']))
+
+    @property
+    def sources(self):
+        """
+        :return: Source
+        """
+        from classes.components.mapsapi_sources import Source
+        return Source(self.test, self.test.find_element_by_css_selector(Source.selectors['loader']))

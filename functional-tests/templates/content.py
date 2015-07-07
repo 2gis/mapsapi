@@ -306,10 +306,19 @@ def pages():
             });
             """,
             'style': u"width: 100%; height: 400px;"
+        },
+        lazyLoad={
+            'title': u'lazyLoad',
+            'getParams': u'?lazy=true'
+        },
+        notLazyLoad={
+            'title': u'notLazyLoad',
+            'getParams': u'?lazy=false'
         }
     )
     defaults = dict(
         style='width: 1000px; height: 600px;',
-        loaderPath='..'
+        loaderPath='..',
+        dgLoader='data-id="dgLoader"'
     )
     return extend(defaults, parts)
