@@ -180,6 +180,8 @@
                     fields: DG.config.regionListFields
                 },
 
+                timeout: DG.config.loadProjectListTimeout,
+
                 success: function (data) {
                     var result = data.result;
 
@@ -190,7 +192,7 @@
                     resolve();
                 },
 
-                error: function () {
+                error: function (err) {
                     resolve();
                 }
             });
