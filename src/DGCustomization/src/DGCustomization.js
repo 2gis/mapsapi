@@ -26,3 +26,7 @@ DG.setOptions = L.setOptions = DG.Util.setOptions = function (obj, options) {
 
     return utilSetOptions.call(this, obj, options);
 };
+
+DG.Layer.mergeOptions({
+    nonBubblingEvents: ['click', 'dblclick', 'mouseover', 'mouseout', 'contextmenu']
+});

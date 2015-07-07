@@ -67,7 +67,7 @@ DG.Meta.Layer = DG.Layer.extend({
 
     _removeAllTiles: DG.GridLayer.prototype._removeAllTiles,
     _getZoomForUrl: DG.TileLayer.prototype._getZoomForUrl,
-    _getTileSize: DG.TileLayer.prototype._getTileSize,
+    getTileSize: DG.TileLayer.prototype.getTileSize,
     _isValidTile: DG.GridLayer.prototype._isValidTile,
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
     _resetView: DG.GridLayer.prototype._resetView,
@@ -77,10 +77,10 @@ DG.Meta.Layer = DG.Layer.extend({
 
     _domEvents: {
         mousemove: function (event) { // (MouseEvent)
-            var tileSize = this._getTileSize(),
+            var tileSize = this.getTileSize(),
                 layerPoint = this._map.mouseEventToLayerPoint(event),
                 tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
-                tileCoord = tileOriginPoint.divideBy(tileSize).floor(),
+                tileCoord = tileOriginPoint.unscaleBy(tileSize).floor(),
                 mouseTileOffset,
                 tileKey,
                 hoveredObject,
@@ -95,7 +95,7 @@ DG.Meta.Layer = DG.Layer.extend({
             this._wrapCoords(tileCoord);
 
             tileCoord.z = this._getZoomForUrl();
-            tileCoord.key = tileSize;
+            tileCoord.key = tileSize.x + 'x' + tileSize.y;
             tileKey = this._origin.getTileKey(tileCoord);
 
             if (tileKey !== this._currentTile) {
@@ -106,7 +106,7 @@ DG.Meta.Layer = DG.Layer.extend({
             if (this._currentTileData === false) {
                 this._currentTileData = this._origin.getTileData(tileCoord);
             } else {
-                mouseTileOffset = DG.point(tileOriginPoint.x % tileSize, tileOriginPoint.y % tileSize);
+                mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
                 hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
 
                 if (this._hoveredEntity !== hoveredObject) {

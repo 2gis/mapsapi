@@ -43,7 +43,7 @@ DG.Poi = DG.Handler.extend({
 
     _processData : function (data, coord) {
         var map = this._map,
-            tileOriginPoint = coord.multiplyBy(this._metaLayer._getTileSize());
+            tileOriginPoint = coord.scaleBy(this._metaLayer.getTileSize());
 
         if (data.responseText === '') {
             return [];
