@@ -10,6 +10,7 @@ describe('DGMap', function () {
 
     document.body.appendChild(mapContainer);
     map.setLang('ru');
+    map.invalidateSize();
 
     after(function () {
         mapContainer.parentElement.removeChild(mapContainer);
