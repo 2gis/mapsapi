@@ -24,7 +24,7 @@ class SetScripts:
 
     @staticmethod
     def dg_then(cb=''):
-        return 'DG.then(%s)' % cb
+        return 'DG.then(%s);' % cb
 
 
 class WheelScript:
