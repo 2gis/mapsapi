@@ -22,6 +22,10 @@ class SetScripts:
     def open_marker(name='marker'):
         return '%s.openPopup();' % name
 
+    @staticmethod
+    def dg_then(cb=''):
+        return 'DG.then(%s);' % cb
+
 
 class WheelScript:
     prepare = """
