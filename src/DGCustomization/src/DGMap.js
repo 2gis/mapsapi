@@ -30,6 +30,10 @@ DG.Map.include({
         this._layers = {};
         this._zoomBoundLayers = {};
 
+        // initialize _sizeChanged, before init BaseLayer
+        // see https://github.com/2gis/mapsapi/pull/264
+        this._sizeChanged = true;
+
         this.callInitHooks();
 
         this._addLayers(options.layers);
@@ -38,7 +42,6 @@ DG.Map.include({
             this.setView(L.latLng(options.center), options.zoom, {reset: true});
         }
 
-        this._sizeChanged = true;
     },
 
     setView: function (center, zoom, options) {
