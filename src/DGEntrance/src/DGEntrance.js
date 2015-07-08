@@ -1,7 +1,12 @@
 DG.Entrance = DG.Layer.extend({
 
     options: {
-        vectors: []
+        vectors: [],
+
+        fillColor: '#0085a0',
+        strokeColor: '#fff',
+
+        enableAnimation: true
     },
 
     statics: {
@@ -45,6 +50,8 @@ DG.Entrance = DG.Layer.extend({
     },
 
     show: function (fitBounds) { // () -> DG.Entrance
+        var self = this;
+
         if (!this._arrows) {
             return this;
         }
@@ -54,7 +61,7 @@ DG.Entrance = DG.Layer.extend({
         if (this._isAllowedZoom()) {
             this._arrows.eachLayer(function (arrow) {
                 arrow.setStyle({visibility: 'visible'});
-                if (DG.Path.ANIMATION_AVAILABLE) {
+                if (self.options.enableAnimation && DG.Path.ANIMATION_AVAILABLE) {
                     arrow.runAnimation('animateArrowPathGeom');
                 }
             });
@@ -137,8 +144,9 @@ DG.Entrance = DG.Layer.extend({
 
     _getArrowStrokeOptions: function () {
         return {
+            enableAnimation: this.options.enableAnimation,
             clickable: false,
-            color: '#fff',
+            color: this.options.strokeColor,
             weight: 6,
             byZoom: {
                 16: {
@@ -239,8 +247,9 @@ DG.Entrance = DG.Layer.extend({
 
     _getArrowOptions: function () {
         return {
+            enableAnimation: this.options.enableAnimation,
             clickable: false,
-            color: '#0085a0',
+            color: this.options.fillColor,
             weight: 3,
             byZoom: {
                 16: {
