@@ -1,9 +1,9 @@
-DG.Path.include({
+DG.Entrance.include({
     bindLabel: function (content, options) {
 
         if (!this._label) {
             this._label = DG.label(content, options);
-            this.on(this._labelEvents, this);
+            this._arrows.on(this._labelEvents, this);
         } else {
             this._label.setContent(content);
 
@@ -16,7 +16,7 @@ DG.Path.include({
 
     unbindLabel: function () {
         if (this._label) {
-            this.off(this._labelEvents, this);
+            this._arrows.off(this._labelEvents, this);
             this._map.removeLayer(this._label);
             this._label = null;
         }
@@ -43,7 +43,7 @@ DG.Path.include({
     }
 });
 
-DG.Path.addInitHook(function () {
+DG.Entrance.addInitHook(function () {
     if (typeof this.options.label !== 'undefined') {
         this.bindLabel(this.options.label);
     }

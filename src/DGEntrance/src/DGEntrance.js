@@ -6,7 +6,8 @@ DG.Entrance = DG.Layer.extend({
         fillColor: '#0085a0',
         strokeColor: '#fff',
 
-        enableAnimation: true
+        enableAnimation: true,
+        interactive: false
     },
 
     statics: {
@@ -15,11 +16,13 @@ DG.Entrance = DG.Layer.extend({
 
     initialize: function (options) { // (Object)
         DG.setOptions(this, options);
+
+        this._initArrows();
     },
 
     onAdd: function (map) { // (DG.Map)
         this._map = map;
-        this._initArrows().addTo(map);
+        this._arrows.addTo(map);
         this._eventHandler = new DG.Entrance.EventHandler(map, this);
         this._eventHandler.enable();
 
@@ -145,7 +148,7 @@ DG.Entrance = DG.Layer.extend({
     _getArrowStrokeOptions: function () {
         return {
             enableAnimation: this.options.enableAnimation,
-            clickable: false,
+            interactive: this.options.interactive,
             color: this.options.strokeColor,
             weight: 6,
             byZoom: {
@@ -248,7 +251,7 @@ DG.Entrance = DG.Layer.extend({
     _getArrowOptions: function () {
         return {
             enableAnimation: this.options.enableAnimation,
-            clickable: false,
+            interactive: this.options.interactive,
             color: this.options.fillColor,
             weight: 3,
             byZoom: {

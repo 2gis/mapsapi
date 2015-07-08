@@ -36,12 +36,13 @@ var deps = {
         src: [
             'DGLabel/src/DGLabel.js',
             'DGLabel/src/Marker.DGLabel.js',
-            'DGLabel/src/Path.DGLabel.js'
+            'DGLabel/src/Path.DGLabel.js',
+            'DGLabel/src/Entrance.DGLabel.js'
         ],
         less: {
             all: ['DGLabel/skin/{skin}/less/dg-label.less']
         },
-        deps: ['DGCore']
+        deps: ['DGCore', 'DGEntrance']
     },
 
     DGWkt: {
