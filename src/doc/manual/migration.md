@@ -30,7 +30,7 @@ DG.autoload(function() {
 });</code></pre>
             </td>
             <td>
-<pre><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full" data-id=&quot;dgLoader&quot;&gt;&lt;/script&gt;
+<pre><code>&lt;script src=&quot;http://maps.api.2gis.ru/2.0/loader.js?pkg=full"&gt;&lt;/script&gt;
 
 DG.then(function() {
     // инициализация карты

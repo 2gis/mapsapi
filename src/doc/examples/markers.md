@@ -10,7 +10,7 @@
 
 Маркер, при клике на который открывается балун с информацией:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
@@ -28,8 +28,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Маркер с балуном</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -82,8 +81,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Перетаскиваемый маркер</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             Координаты маркера: <div id="location">LatLng(54.98, 82.89)</div>
@@ -154,8 +152,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Маркер с пользовательской иконкой</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -222,8 +219,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Программное открытие маркера</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <button id='open-popup'>Открыть балун</button>
@@ -280,8 +276,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Маркер с подсказкой</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -342,8 +337,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Обработка событий группы маркеров</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -412,8 +406,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Анимированное движение маркера</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -490,8 +483,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Отображение/удаление нескольких маркеров, fitBounds</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="hide" type="button" value="hide markers" />

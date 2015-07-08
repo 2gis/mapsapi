@@ -18,13 +18,20 @@ app.get('/loader.js', function(req, res) {
     var localConfig = _.cloneDeep(config.localConfig);
 
     // Set correct protocol according to GET param
-    localConfig.protocol = req.query.ssl ? 'https:' : 'http:';
+    var protocol = req.query.ssl ? 'https:' : 'http:';
+
+    localConfig.protocol = protocol;
 
     res.set('Content-Type', 'application/javascript; charset=utf-8');
     res.set('X-Powered-By', '2GIS Maps API Server');
 
-    // Send loader with injected local config
-    res.send(loader.replace(/__LOCAL_CONFIG__/g, JSON.stringify(localConfig)));
+    var result = loader
+        .replace(/__LOCAL_CONFIG__/g, JSON.stringify(localConfig))
+        .replace(/__BASE_URL__/g, protocol + config.appConfig.baseUrl)
+        .replace(/__QUERY__/g, JSON.stringify(req.query));
+
+    // Send loader with injected params
+    res.send(result);
 });
 
 // Load index file and inject base URL

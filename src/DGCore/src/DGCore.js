@@ -20,7 +20,6 @@ for (var prop in oldDG) {
 
 window.__dgApi__ = window.__dgApi__ || {};
 DG.version = window.__dgApi__.version;
-DG.debug = window.__dgApi__.debug;
 DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
 
 DG.Map.addInitHook(function () {

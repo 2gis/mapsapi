@@ -10,7 +10,7 @@
 
 Отображение объектов, описанных в формате GeoJSON:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -63,8 +63,7 @@
         <head>
             <meta charset="utf-8" />
             <title>GeoJSON</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>

@@ -4,46 +4,45 @@
     var isJSRequested = false;
     var rejects = [];
     var version = 'v2.1.1';
+    var baseURL = '__BASE_URL__';
+    var query = __QUERY__;
+    var isLazy = query.lazy === 'true';
+    var qs = getQueryString();
 
-    var url = (function () {
-        var scripts = document.getElementsByTagName('script');
+    function getQueryString() {
+        var params = {
+            skin: query.skin,
+            pkg: query.pkg,
+            version: version
+        };
 
-        for (var i = scripts.length; i;) {
-            if (scripts[--i].getAttribute('data-id') == 'dgLoader') {
-                return scripts[i].src.split('?');
+        if (/MSIE\x20(\d+\.\d+);/.test(navigator.userAgent) && parseInt(RegExp.$1, 10) < 9) {
+            params.ie8 = true;
+        }
+
+        var qsComponents = [];
+
+        for (var key in params) {
+            var value = params[key];
+
+            if (value) {
+                qsComponents.push(key + '=' + value);
             }
         }
-    })();
 
-    var baseURL = url[0].replace(/loader\.js$/, '');
-
-    // Амперсанды с обоих сторон, это позволяет делать надёжный поиск параметров через `indexOf('&name=')` и
-    // `indexOf('&name=value&')`. Без амперсандов прийдётся искать через `indexOf('name=')` и `indexOf('name=value')`,
-    // в результате можем получить ложные совпадения.
-    var urlParams = url[1] ? '&' + url[1] + '&' : '&';
-
-    if (urlParams.indexOf('&retina=') == -1) {
-        if (window.devicePixelRatio && window.devicePixelRatio >= 1.5) {
-            urlParams += 'retina=true&';
+        if (!qsComponents.length) {
+            return '';
         }
-    }
 
-    if (urlParams.indexOf('&ie8=') == -1) {
-        // IE8
-        if (/MSIE\x20(\d+\.\d+);/.test(navigator.userAgent) && parseInt(RegExp.$1, 10) < 9) {
-            urlParams += 'ie8=true&';
-        }
+        return '?' + qsComponents.join('&');
     }
-
-    var qs = '?' + urlParams.slice(1) + 'version=' + version;
-    var isLazy = urlParams.indexOf('&lazy=true&') != -1;
 
     function requestJS() {
         isJSRequested = true;
 
         var script = document.createElement('script');
         script.setAttribute('type', 'text/javascript');
-        script.setAttribute('src', baseURL + 'js/' + qs);
+        script.setAttribute('src', baseURL + '/js/' + qs);
 
         script.onerror = function (evt) {
             runRejects(evt);
@@ -119,7 +118,7 @@
     }
 
     function loadStylesheet() {
-        var url = baseURL + 'css/' + qs;
+        var url = baseURL + '/css/' + qs;
         var style = document.createElement('style');
         style.type = 'text/css';
 
@@ -137,7 +136,6 @@
                     // moment application was built. baseUrl contains current
                     // value.
                     var originalBaseUrl = '__ORIGINAL_BASE_URL__';
-                    var baseURL = DG.config.protocol + DG.config.baseUrl;
 
                     // Replace if they don't match
                     if (baseURL !== originalBaseUrl) {
@@ -232,7 +230,6 @@
             [prepareForInit, undefined],
             [setReady, undefined]
         ],
-        debug: urlParams.indexOf('&mode=debug&') != -1,
         version: version
     };
 

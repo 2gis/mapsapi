@@ -8,7 +8,7 @@
 
 ### Отображение ломаной
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 500px;"></div>
 <script>
     DG.then(function() {
@@ -36,8 +36,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Отображение ломаной</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 500px;"></div>
@@ -100,8 +99,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Отображение прямоугольников</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -180,8 +178,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Отображение многоугольников</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -250,8 +247,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Отображение круга и круглого маркера</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -311,8 +307,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Геометрии с подсказками и балунами</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -388,8 +383,7 @@
         <head>
             <meta charset="utf-8" />
             <title>Анимация отрисовки ломаной</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="playAnimation" type="button" value="Запустить анимацию" />

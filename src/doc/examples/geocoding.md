@@ -10,7 +10,7 @@
 
 Определение координат объекта по его адресу:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js" data-id="dgLoader"></script>
+<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script type="text/javascript">
     DG.then(function () {
@@ -59,8 +59,7 @@
     <html>
         <head>
             <meta charset="utf-8">
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
 
         <body>
@@ -151,8 +150,7 @@
     <html>
         <head>
             <meta charset="utf-8">
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
 
         <body>
@@ -242,8 +240,7 @@
     <html>
         <head>
             <meta charset="utf-8">
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"
-            data-id="dgLoader"></script>
+            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
 
         <body>
