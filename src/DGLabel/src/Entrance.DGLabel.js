@@ -3,7 +3,7 @@ DG.Entrance.include({
 
         if (!this._label) {
             this._label = DG.label(content, options);
-            this._arrows.on(this._labelEvents, this);
+            this.on(this._labelEvents, this);
         } else {
             this._label.setContent(content);
 
@@ -16,7 +16,7 @@ DG.Entrance.include({
 
     unbindLabel: function () {
         if (this._label) {
-            this._arrows.off(this._labelEvents, this);
+            this.off(this._labelEvents, this);
             this._map.removeLayer(this._label);
             this._label = null;
         }
@@ -35,10 +35,10 @@ DG.Entrance.include({
             this._label.setPosition(event.latlng);
         },
         mouseout: function () {
-            this._map.removeLayer(this._label);
+            this._label.remove();
         },
         remove: function () {
-            this._map.removeLayer(this._label);
+            this._label.remove();
         }
     }
 });

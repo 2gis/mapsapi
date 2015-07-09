@@ -1,4 +1,4 @@
-DG.Entrance = DG.Layer.extend({
+DG.Entrance = DG.FeatureGroup.extend({
 
     options: {
         vectors: [],
@@ -19,51 +19,49 @@ DG.Entrance = DG.Layer.extend({
     initialize: function (options) { // (Object)
         DG.setOptions(this, options);
 
+        DG.FeatureGroup.prototype.initialize.call(this, options);
+
         this._initArrows();
     },
 
     onAdd: function (map) { // (DG.Map)
+        DG.FeatureGroup.prototype.onAdd.call(this, map);
+
         this._map = map;
-        this._arrows.addTo(map);
         this._eventHandler = new DG.Entrance.EventHandler(map, this, this.options);
         this._eventHandler.enable();
 
         // hide without event by default
-        this._arrows.eachLayer(function (arrow) {
+        this.eachLayer(function (arrow) {
             arrow.setStyle({visibility: 'hidden'});
         });
+
         this._isShown = false;
+
+        this.show(false);
     },
 
-    addTo: function (map) { // (DG.Map) -> DG.Entrance
-        map.addLayer(this);
-        return this;
-    },
+    onRemove: function (map) { // (DG.Map)
+        DG.FeatureGroup.prototype.onRemove.call(this, map);
 
-    onRemove: function () { // (DG.Map)
         this._isShown = false;
-        this._removeArrows();
+        this._map.fire('entrancehide');
         this._map = null;
         this._eventHandler.disable();
         this._eventHandler = null;
     },
 
-    removeFrom: function (map) { // (DG.Map) -> DG.Entrance
-        map.removeLayer(this);
-        return this;
-    },
-
     show: function (fitBounds) { // () -> DG.Entrance
         var self = this;
 
-        if (!this._arrows) {
+        if (!this._layers) {
             return this;
         }
         if (fitBounds !== false) {
-            this._fitBounds();
+            this.fitBounds();
         }
         if (this._isAllowedZoom()) {
-            this._arrows.eachLayer(function (arrow) {
+            this.eachLayer(function (arrow) {
                 arrow.setStyle({visibility: 'visible'});
                 if (self.options.enableAnimation && DG.Path.ANIMATION_AVAILABLE) {
                     arrow.runAnimation('animateArrowPathGeom');
@@ -80,8 +78,8 @@ DG.Entrance = DG.Layer.extend({
 
     hide: function () { // () -> DG.Entrance
 
-        if (this.isShown() && this._arrows) {
-            this._arrows.eachLayer(function (arrow) {
+        if (this.isShown() && this._layers) {
+            this.eachLayer(function (arrow) {
                 arrow.setStyle({visibility: 'hidden'});
             });
             this._isShown = false;
@@ -95,36 +93,40 @@ DG.Entrance = DG.Layer.extend({
         return this._isShown;
     },
 
-    getBounds: function () { // () -> DG.LatLngBounds
-        return this._arrows.getBounds();
+    setFillColor: function (color) {
+        this.eachLayer(function (arrow) {
+            if (arrow.options.type == 'fill') {
+                arrow.setStyle({color: color});
+            }
+        });
+    },
+
+    setStrokeColor: function (color) {
+        this.eachLayer(function (arrow) {
+            if (arrow.options.type == 'stroke') {
+                arrow.setStyle({color: color});
+            }
+        });
     },
 
     _initArrows: function () { // () -> DG.FeatureGroup
-        this._arrows = DG.featureGroup();
-
         this.options.vectors
             .map(function (vector) {
                 return DG.Wkt.toLatLngs(vector);
             })
             .forEach(function (latlngs) {
                 // stroke
-                this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
+                this.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
                 // basis
-                this._arrows.addLayer(DG.Entrance.arrow(latlngs, this._getArrowOptions()));
+                this.addLayer(DG.Entrance.arrow(latlngs, this._getArrowOptions()));
             }, this);
-
-        return this._arrows;
-    },
-
-    _removeArrows: function () {
-        this._map.removeLayer(this._arrows);
     },
 
     _getFitZoom: function () {
         return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
-    _fitBounds: function () {
+    fitBounds: function () {
         var map = this._map,
             fitZoom,
             bounds = this.getBounds();
@@ -140,6 +142,8 @@ DG.Entrance = DG.Layer.extend({
                 animate : true
             });
         }
+
+        return this;
     },
 
     _isAllowedZoom: function () {
@@ -148,6 +152,7 @@ DG.Entrance = DG.Layer.extend({
 
     _getArrowStrokeOptions: function () {
         return {
+            type: 'stroke',
             enableAnimation: this.options.enableAnimation,
             interactive: this.options.interactive,
             color: this.options.strokeColor,
@@ -251,6 +256,7 @@ DG.Entrance = DG.Layer.extend({
 
     _getArrowOptions: function () {
         return {
+            type: 'fill',
             enableAnimation: this.options.enableAnimation,
             interactive: this.options.interactive,
             color: this.options.fillColor,

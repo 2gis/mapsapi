@@ -22,7 +22,6 @@ describe('DG.Entrance', function () {
             'points': ['POINT(87.75222519148015 69.349552990994837)'],
             'vectors': ['LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)']
         });
-        entrance.addTo(map);
     });
 
     afterEach(function () {
@@ -31,79 +30,39 @@ describe('DG.Entrance', function () {
         map = null;
     });
 
-    describe('#addTo and #removeFrom', function () {
-
-        it('should return \'DG.Entrance\' instance', function () {
-            var entrance1 = new DG.Entrance({
-                'is_primary': false,
-                'name': 'ЗАГС',
-                'points': ['POINT(87.75222519148015 69.349552990994837)'],
-                'vectors': ['LINESTRING(87.752433542237128 69.349501774294012,87.75222519148015 69.349552990994837)']
-            });
-            expect(entrance1.addTo(map)).to.be.a(DG.Entrance);
-            expect(entrance1.removeFrom(map)).to.be.a(DG.Entrance);
-        });
-
-        it('should add layers on map and not visible container', function() {
-            var layers = entrance._arrows._layers;
-
-            Object.keys(layers).forEach(function(el) {
-                expect(map.hasLayer(layers[el])).to.be.ok();
-                expect(layers[el].options.visibility).not.be('visible');
-            });
-        });
-
-        it('should remove layers on map and not visible container', function() {
-            var layers = entrance._arrows._layers;
-
-            entrance.removeFrom(map);
-
-            Object.keys(layers).forEach(function(el) {
-                expect(map.hasLayer(layers[el])).not.be.ok();
-                expect(layers[el].options.visibility).not.be('visible');
-            });
-        });
-    });
     // since ff/mocha/phantom has some strange bug with svg beginElement()
     if (!ff) {
-        describe('#show', function () {
-
+        describe('#addTo', function () {
             it('should return \'DG.Entrance\' instance', function () {
-                expect(entrance.show()).to.be.a(DG.Entrance);
+                expect(entrance.addTo(map)).to.be.a(DG.Entrance);
             });
 
             it('should fire \'entranceshow\' event', function () {
                 spy = sinon.spy();
                 map.on('entranceshow', spy);
-                entrance.show();
+                entrance.addTo(map);
                 expect(spy.called).to.be.ok();
             });
 
             it('should not fire \'entranceshow\' event if already shown', function () {
-                entrance.show();
+                entrance.addTo(map);
                 spy = sinon.spy();
                 map.on('entranceshow', spy);
-                entrance.show();
+                entrance.addTo(map);
                 expect(spy.called).not.to.be.ok();
             });
 
             it('should adjust map center and show entrance in viewport', function () {
                 map.setView([54.980206086231, 82.898068362003], 17); // Novosibirsk
-                entrance.show();
+                entrance.addTo(map);
+                entrance.fitBounds();
                 expect(map.getCenter()).to.eql(entrance.getBounds().getCenter()); // Kayerkan
             });
 
-            it('should not adjust map center if entrance is shown already and \'fitBounds\' is set to false', function () {
-                entrance.show();
-                map.setView([54.980206086231, 82.898068362003], 17); // Novosibirsk
-                entrance.show(false);
-                expect(map.getCenter()).not.to.eql(entrance.getBounds().getCenter()); // Kayerkan
-            });
-
             it('should add layers on map and visible container', function() {
-                var layers = entrance._arrows._layers;
+                var layers = entrance._layers;
 
-                entrance.show();
+                entrance.addTo(map);
 
                 Object.keys(layers).forEach(function(el) {
                     expect(map.hasLayer(layers[el])).to.be.ok();
@@ -112,32 +71,32 @@ describe('DG.Entrance', function () {
             });
         });
     }
-    describe('#hide', function () {
+    describe('#removeFrom', function () {
 
         it('should return \'DG.Entrance\' instance', function () {
-            expect(entrance.hide()).to.be.a(DG.Entrance);
+            expect(entrance.removeFrom(map)).to.be.a(DG.Entrance);
         });
         if (!ff) {
             it('should fire \'entrancehide\' event', function () {
-                entrance.show();
+                entrance.addTo(map);
                 spy = sinon.spy();
                 map.on('entrancehide', spy);
-                entrance.hide();
+                entrance.removeFrom(map);
                 expect(spy.called).to.be.ok();
             });
         }
         it('should not fire \'entrancehide\' event if already hidden (hidden by default)', function () {
             spy = sinon.spy();
             map.on('entrancehide', spy);
-            entrance.hide();
+            entrance.removeFrom(map);
             expect(spy.called).not.to.be.ok();
         });
 
-        it('should layers on map and not visible container', function() {
-            var layers = entrance._arrows._layers;
+        it('should layers not on map and not visible container', function() {
+            var layers = entrance._layers;
 
             Object.keys(layers).forEach(function(el) {
-                expect(map.hasLayer(layers[el])).to.be.ok();
+                expect(map.hasLayer(layers[el])).not.be.ok();
                 expect(layers[el].options.visibility).not.be('visible');
             });
         });
@@ -151,9 +110,9 @@ describe('DG.Entrance', function () {
         });
         if (!ff) {
             it('should return \'true\' after show and \'false\' after hide', function () {
-                entrance.show();
+                entrance.addTo(map);
                 expect(entrance.isShown()).to.be.ok();
-                entrance.hide();
+                entrance.removeFrom(map);
                 expect(entrance.isShown()).not.to.be.ok();
             });
         }
