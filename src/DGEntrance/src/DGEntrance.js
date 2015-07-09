@@ -7,7 +7,9 @@ DG.Entrance = DG.Layer.extend({
         strokeColor: '#fff',
 
         enableAnimation: true,
-        interactive: false
+        interactive: false,
+
+        autoClose: true
     },
 
     statics: {
@@ -23,7 +25,7 @@ DG.Entrance = DG.Layer.extend({
     onAdd: function (map) { // (DG.Map)
         this._map = map;
         this._arrows.addTo(map);
-        this._eventHandler = new DG.Entrance.EventHandler(map, this);
+        this._eventHandler = new DG.Entrance.EventHandler(map, this, this.options);
         this._eventHandler.enable();
 
         // hide without event by default
@@ -44,7 +46,6 @@ DG.Entrance = DG.Layer.extend({
         this._map = null;
         this._eventHandler.disable();
         this._eventHandler = null;
-        this._arrows = null;
     },
 
     removeFrom: function (map) { // (DG.Map) -> DG.Entrance
@@ -116,7 +117,7 @@ DG.Entrance = DG.Layer.extend({
     },
 
     _removeArrows: function () {
-        this._map.removeLayer(this._arrows.clearLayers());
+        this._map.removeLayer(this._arrows);
     },
 
     _getFitZoom: function () {
