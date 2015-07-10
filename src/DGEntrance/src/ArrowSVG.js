@@ -20,7 +20,7 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
             this._refresh();
         }
 
-        this._update();
+        this._update(e);
     },
 
     _initMarkers: function (layer) {
