@@ -2,7 +2,9 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
 
     getEvents: function () {
         var events = {
-            move: this._update
+            viewreset: this._reset,
+            zoom: this._updateTransform,
+            moveend: this._update
         };
         if (this._zoomAnimated) {
             events.zoomanim = this._animateZoom;
