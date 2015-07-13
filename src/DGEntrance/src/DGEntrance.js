@@ -116,7 +116,9 @@ DG.Entrance = DG.FeatureGroup.extend({
             })
             .forEach(function (latlngs) {
                 // stroke
-                this.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
+                if (!DG.Browser.ielt9) {
+                    this.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
+                }
                 // basis
                 this.addLayer(DG.Entrance.arrow(latlngs, this._getArrowOptions()));
             }, this);
