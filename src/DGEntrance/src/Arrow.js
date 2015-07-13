@@ -34,8 +34,8 @@ DG.Entrance.Arrow = DG.Polyline.extend({
 
     getEvents: function () {
         return {
-            viewreset: this._project,
-            move: this._update,
+            viewreset: this._reset,
+            moveend: this._update,
             zoomend: this._updateStyleByZoom
         };
     },
@@ -52,6 +52,8 @@ DG.Entrance.Arrow = DG.Polyline.extend({
     },
 
     _updateStyleByZoom: function () {
+        this._project();
+
         var optionsByZoom = this.options.byZoom,
             zoom = this._map.getZoom();
 

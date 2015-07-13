@@ -2,15 +2,25 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
 
     getEvents: function () {
         var events = {
-            move: this._update
+            viewreset: this._reset,
+            zoom: this._updateTransform,
+            moveend: this._onMoveEnd
         };
         if (this._zoomAnimated) {
             events.zoomanim = this._animateZoom;
         }
         if (DG.Browser.ie) {
-            events.moveend = events.mousemove = events.zoomend = this._refresh; //JSAPI-3379
+            events.mousemove = events.zoomend = this._refresh; //JSAPI-3379
         }
         return events;
+    },
+
+    _onMoveEnd: function (e) {
+        if (DG.Browser.ie) {
+            this._refresh();
+        }
+
+        this._update(e);
     },
 
     _initMarkers: function (layer) {
