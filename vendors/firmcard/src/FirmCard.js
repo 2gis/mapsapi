@@ -325,7 +325,8 @@ FirmCard.prototype = {
         },
         'dg-popup__button_name_show-entrance': function() {
             var ent = new this.options.showEntrance({'vectors': this._firmData.links.entrances[0].geometry.vectors});
-            ent.addTo(this.options.map).show();
+            ent.addTo(this.options.map);
+            ent.fitBounds();
             this._toggleEventHandlers(true);
         },
         'dg-schedule__today': function(target) {

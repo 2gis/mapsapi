@@ -56,7 +56,9 @@ DG.Path.include(!DG.Path.ANIMATION_AVAILABLE ? {} : {
     _removeAnimation: function (animationEl) {
         this._map.once('zoomstart', function () {
             if (animationEl) {
-                this._path.removeChild(animationEl);
+                try {
+                    this._path.removeChild(animationEl);
+                } catch(e) {}
             }
             this._animationEl = null;
         }, this);

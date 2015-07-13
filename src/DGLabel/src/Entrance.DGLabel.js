@@ -1,4 +1,4 @@
-DG.Path.include({
+DG.Entrance.include({
     bindLabel: function (content, options) {
 
         if (!this._label) {
@@ -35,15 +35,15 @@ DG.Path.include({
             this._label.setPosition(event.latlng);
         },
         mouseout: function () {
-            this._map.removeLayer(this._label);
+            this._label.remove();
         },
         remove: function () {
-            this._map.removeLayer(this._label);
+            this._label.remove();
         }
     }
 });
 
-DG.Path.addInitHook(function () {
+DG.Entrance.addInitHook(function () {
     if (typeof this.options.label !== 'undefined') {
         this.bindLabel(this.options.label);
     }

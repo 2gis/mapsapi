@@ -4,7 +4,7 @@ DG.Entrance.Arrow = DG.Polyline.extend({
 
         this._setLatLngs(latlngs);
 
-        if (DG.Path.ANIMATION_AVAILABLE) {
+        if (options.enableAnimation && DG.Path.ANIMATION_AVAILABLE) {
             options.animation = this.getArrowAnimation(this._convertLatLngs(latlngs));
         }
 

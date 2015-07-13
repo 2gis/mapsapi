@@ -115,6 +115,12 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
 
         layer._markers.forEach(function (marker) {
             marker.setAttribute('fill-opacity', options.opacity);
+
+            var paths = marker.getElementsByTagName('path');
+
+            for (var i = 0; i < paths.length; i++) {
+                paths[i].setAttribute('fill', options.color);
+            }
         });
 
         this._updateMarker(layer);
