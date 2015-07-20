@@ -1,6 +1,6 @@
 {
   "name": "2GIS-Maps-API-2.0",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Interactive 2GIS maps API, based on Leaflet",
   "keywords": [
     "2gis",
