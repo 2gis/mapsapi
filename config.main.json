@@ -15,13 +15,13 @@
 
     "detectRetina": true,
 
-    "webApiKey": "rujrdp3400",
+    "webApiKey": "ruregt3044",
     "webApiVersion": "2.0",
 
     "regionListFields": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain",
     "firmInfoFields": "items.reviews,items.photos,items.links,items.external_content",
     "geoAdditionalFields": "items.geometry.selection,items.links,items.adm_div,items.address,items.floors,items.description",
-    "geoclickerCatalogApiKey": "ruxlih0718",
+    "geoclickerCatalogApiKey": "ruregt3044",
     "projectLeaveMaxZoom": 13,
     "flampUrl": "http://flamp.ru/r/",
     "flampGoogleAnalytics": "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
