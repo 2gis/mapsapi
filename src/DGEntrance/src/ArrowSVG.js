@@ -81,6 +81,8 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
     },
 
     _updateMarker: function (layer) {
+        if (!layer._map) { return; }
+
         var zoom = layer._map.getZoom(),
             bound = layer._map.getBounds(),
             lastPoint = layer._latlngs[layer._latlngs.length - 1],
