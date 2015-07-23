@@ -17,11 +17,20 @@ DG.Map.addInitHook(function () {
         maxNativeZoom: 19
     }).addTo(this);
 
-    this.on('langchange', function (ev) {
-        if (ev.lang === 'ru') {
+    function updateErrorTileUrl() {
+        var lang = this.getLang();
+        var project = this.projectDetector && this.projectDetector.getProject();
+
+        if (lang === 'ru' && !project) {
             this.baseLayer.options.errorTileUrl = errorRuUrl;
         } else {
             this.baseLayer.options.errorTileUrl = errorUrl;
         }
-    });
+    }
+
+    this.on({
+        langchange: updateErrorTileUrl,
+        projectchange: updateErrorTileUrl,
+        projectleave: updateErrorTileUrl
+    }, this);
 });
