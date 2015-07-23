@@ -41,7 +41,6 @@ DG.Map.include({
         if (options.center && options.zoom !== undefined) {
             this.setView(L.latLng(options.center), options.zoom, {reset: true});
         }
-
     },
 
     setView: function (center, zoom, options) {
@@ -148,7 +147,13 @@ DG.Map.include({
                 project = this.projectDetector.isProjectHere(bounds);
 
             if (isMapMaxZoom) {
-                if (!this._mapMaxZoomCache) { this._mapMaxZoomCache = mapOptions.maxZoom; }
+                if (!this._mapMaxZoomCache) {
+                    if (this.baseLayer.options.detectRetina && DG.Browser.retina && mapOptions.maxZoom > 0) {
+                        mapOptions.maxZoom--;
+                    }
+
+                    this._mapMaxZoomCache = mapOptions.maxZoom;
+                }
                 mapOptions.maxZoom = (this._mapMaxZoomCache && project) ? this._mapMaxZoomCache :  DG.config.projectLeaveMaxZoom;
                 if (project) {
                     this._mapMaxZoomCache = mapOptions.maxZoom;
@@ -156,7 +161,16 @@ DG.Map.include({
 
                 return mapOptions.maxZoom;
             } else {
-                dgTileLayer.options.maxZoom = project ? project.maxZoom : DG.config.projectLeaveMaxZoom;
+                if (project) {
+                    if (dgTileLayer.options.detectRetina && DG.Browser.retina && project.maxZoom > 0) {
+                        dgTileLayer.options.maxZoom = project.maxZoom - 1;
+                    } else {
+                        dgTileLayer.options.maxZoom = project.maxZoom;
+                    }
+                } else {
+                    dgTileLayer.options.maxZoom = DG.config.projectLeaveMaxZoom;
+                }
+
                 dgTileLayer.options.maxNativeZoom = dgTileLayer.options.maxZoom;
                 this._updateZoomLevels();
 
