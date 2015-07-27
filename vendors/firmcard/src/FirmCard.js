@@ -329,8 +329,8 @@ FirmCard.prototype = {
             ent.fitBounds();
             this._toggleEventHandlers(true);
         },
-        'dg-schedule__today': function(target) {
-            this._onToggleSchedule(target);
+        'dg-schedule__today': function() {
+            this._onToggleSchedule();
         }
     },
 
@@ -355,9 +355,10 @@ FirmCard.prototype = {
         this._toggleEventHandlers(true);
     },
 
-    _onToggleSchedule: function (target) {
+    _onToggleSchedule: function () {
         var schedule = this._container.querySelector('.dg-schedule__table'),
             forecast = this._container.querySelector('.dg-schedule__now'),
+            target = this._container.querySelector('.dg-schedule__today'),
             showClass = ' dg-schedule__today_shown_true';
 
         if (!schedule) { return; }
