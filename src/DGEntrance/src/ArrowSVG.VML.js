@@ -8,6 +8,8 @@ DG.Entrance.Arrow.SVG.include(!L.Browser.vml ? {} : {
     },
 
     _updateMarker: function (layer) {
+        if (!layer._map) { return; }
+
         var style = layer.options.byZoom[layer._map.getZoom()];
 
         layer._markers.endarrow =
