@@ -14,7 +14,8 @@ DG.Map.addInitHook(function () {
         errorTileUrl: this.getLang() === 'ru' ? errorRuUrl : errorUrl,
         detectRetina: DG.config.detectRetina,
         maxZoom: 19,
-        maxNativeZoom: 19
+        maxNativeZoom: 19,
+        zIndex: 0
     }).addTo(this);
 
     function updateErrorTileUrl() {
