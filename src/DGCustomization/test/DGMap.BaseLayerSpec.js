@@ -13,5 +13,11 @@ describe('DG.TileLayer', function() {
         it('should be map.baseLayer', function() {
             expect(map.baseLayer).to.be.a('object');
         });
+
+        it('should be zIndex 0 on layer container', function() {
+            var layerContainer = map.baseLayer._container;
+
+            expect(Number(layerContainer.style.zIndex)).to.be(0);
+        });
     });
 });
