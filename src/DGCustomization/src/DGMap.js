@@ -25,6 +25,10 @@ DG.Map.include({
             this.setMaxBounds(options.maxBounds);
         }
 
+        if (options.zoom !== undefined) {
+            this._zoom = this._limitZoom(options.zoom);
+        }
+
         this._handlers = [];
 
         this._layers = {};
@@ -181,30 +185,68 @@ DG.Map.include({
 
     // Add prepreclick event before preclick than geoclicker can track popup state
     // https://github.com/2gis/mapsapi/pull/96
-    _fireDOMEvent: function (target, e, type) {
-        if (!target.listens(type, true) && (type !== 'click' || !target.listens('preclick', true))) { return; }
+    _handleDOMEvent: function (e) {
+        if (!this._loaded || L.DomEvent._skipped(e)) { return; }
 
-        if (type === 'contextmenu') {
+        // find the layer the event is propagating from and its parents
+        var type = e.type === 'keypress' && e.keyCode === 13 ? 'click' : e.type;
+
+        if (e.type === 'click') {
+            // Fire a synthetic 'preclick' event which propagates up (mainly for closing popups).
+            var synthPrePre = L.Util.extend({}, e);
+            synthPrePre.type = 'prepreclick';
+            this._handleDOMEvent(synthPrePre);
+
+            var synth = L.Util.extend({}, e);
+            synth.type = 'preclick';
+            this._handleDOMEvent(synth);
+        }
+
+        if (type === 'mousedown') {
+            // prevents outline when clicking on keyboard-focusable element
+            L.DomUtil.preventOutline(e.target || e.srcElement);
+        }
+
+        this._fireDOMEvent(e, type);
+    },
+
+    _fireDOMEvent: function (e, type, targets) {
+
+        var isHover = type === 'mouseover' || type === 'mouseout';
+        targets = (targets || []).concat(this._findEventTargets(e.target || e.srcElement, type, !isHover));
+
+        if (!targets.length) {
+            targets = [this];
+
+            // special case for map mouseover/mouseout events so that they're actually mouseenter/mouseleave
+            if (isHover && !L.DomEvent._checkMouse(this._container, e)) { return; }
+        } else if (type === 'contextmenu') {
+            // we only want to call preventDefault when targets listen to it.
             L.DomEvent.preventDefault(e);
         }
 
+        var target = targets[0];
+
         // prevents firing click after you just dragged an object
-        if (e.type === 'click' && !e._simulated && this._draggableMoved(target)) { return; }
+        if ((e.type === 'click' || e.type === 'preclick' || e.type === 'prepreclick') && !e._simulated && this._draggableMoved(target)) { return; }
 
         var data = {
             originalEvent: e
         };
+
         if (e.type !== 'keypress') {
-            data.containerPoint = target instanceof L.Marker ?
-                this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
+            var isMarker = target instanceof L.Marker;
+            data.containerPoint = isMarker ?
+                    this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
             data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
-            data.latlng = this.layerPointToLatLng(data.layerPoint);
+            data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
         }
-        if (type === 'click') {
-            target.fire('prepreclick', data, true);
-            target.fire('preclick', data, true);
+
+        for (var i = 0; i < targets.length; i++) {
+            targets[i].fire(type, data, true);
+            if (data.originalEvent._stopped
+                || (targets[i].options.nonBubblingEvents && L.Util.indexOf(targets[i].options.nonBubblingEvents, type) !== -1)) { return; }
         }
-        target.fire(type, data, true);
     }
 });
 

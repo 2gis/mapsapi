@@ -238,21 +238,21 @@ describe('DG.ProjectDetectorIn', function () {
             map.setView(project1, maxZoom);
 
             expect(map.fitWorld()).to.be(map);
-            expect(map.getZoom()).to.be(0);
+            expect(map.getZoom()).to.be(1);
         });
 
         it('fire from min zoom', function () {
             map.setView(project1, 0);
 
             expect(map.fitWorld()).to.be(map);
-            expect(map.getZoom()).to.be(0);
+            expect(map.getZoom()).to.be(1);
         });
 
         it('fire after min zoom 15', function () {
             map.setZoom(15);
 
             expect(map.fitWorld()).to.be(map);
-            expect(map.getZoom()).to.be(0);
+            expect(map.getZoom()).to.be(1);
         });
     });
 

@@ -55,7 +55,7 @@ describe('DGMeta', function () {
         });
 
         it('should click on map', function () {
-            origin.setTileData('78713:43453:17:256', demoData);
+            origin.setTileData('78713:43453:17:256x256', demoData);
             spy = sinon.spy();
             meta.addTo(map);
             
@@ -71,7 +71,7 @@ describe('DGMeta', function () {
         it('getTileData should NOT call ajax and return false', function () {
             var data;
 
-            data = origin.getTileData('124:12:42:256');
+            data = origin.getTileData('124:12:42:256x256');
 
             expect(data).to.not.be.ok();
             //ajax should not be called since empty url provided
@@ -81,9 +81,9 @@ describe('DGMeta', function () {
         it('flush should clear cache', function () {
             var chain, data;
 
-            origin.setTileData({x: 124, y: 12, z: 42, key: 256}, demoData);
+            origin.setTileData({x: 124, y: 12, z: 42, key: '256x256'}, demoData);
             chain = origin.flush();
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
+            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
 
             expect(data).to.not.be.ok();
             // check for returning this
@@ -98,7 +98,7 @@ describe('DGMeta', function () {
                 data, chain;
 
             chain = origin.setURL('http://demo/data');
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
+            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
 
             expect(data).to.not.be.ok();
             expect(ajaxSpy.callCount).to.be.eql(1);
@@ -126,7 +126,7 @@ describe('DGMeta', function () {
             var data;
 
             origin.setURL('http://demo/data');
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
+            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
 
             expect(data).to.not.be.ok();
             expect(ajaxSpy.callCount).to.be.eql(1);
@@ -135,9 +135,9 @@ describe('DGMeta', function () {
         it('setTileData by object key should write and cache tileData', function () {
             var chain, data;
 
-            chain = origin.setTileData({x: 124, y: 12, z: 42, key: 256}, demoData);
+            chain = origin.setTileData({x: 124, y: 12, z: 42, key: '256x256'}, demoData);
 
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
+            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
             expect(data).to.be.a('object');
             expect(ajaxSpy.callCount).to.be.eql(0);
             // check for returning this
@@ -147,9 +147,9 @@ describe('DGMeta', function () {
         it('setTileData by string key should write and cache tileData', function () {
             var chain, data;
 
-            chain = origin.setTileData('124:12:42:256', demoData);
+            chain = origin.setTileData('124:12:42:256x256', demoData);
 
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: 256});
+            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
             expect(data).to.be.a('object');
             expect(ajaxSpy.callCount).to.be.eql(0);
             // check for returning this
@@ -159,9 +159,9 @@ describe('DGMeta', function () {
         it('getTileKey should string tileKey representation', function () {
             var tileKey;
 
-            tileKey = origin.getTileKey({x: 124, y: 12, z: 42, key: 256});
+            tileKey = origin.getTileKey({x: 124, y: 12, z: 42, key: '256x256'});
 
-            expect(tileKey).to.be.eql('124:12:42:256');
+            expect(tileKey).to.be.eql('124:12:42:256x256');
         });
     });
 });

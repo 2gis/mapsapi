@@ -116,7 +116,7 @@ DG.Traffic = DG.TileLayer.extend({
 
     _processData: function (trafficData, coord) {
         var map = this._map,
-            tileOriginPoint = coord.multiplyBy(this._getTileSize()),
+            tileOriginPoint = coord.scaleBy(this.getTileSize()),
             hints = {};
 
         if (!DG.Util.isArray(trafficData)) {    // TODO remove
