@@ -131,6 +131,15 @@ class FirmData(object):
                 additional.append(rubric)
         return additional
 
+    def photo_count(self):
+        try:
+            externals = self.response['items'][0]['external_content']
+            for item in externals:
+                if item['subtype'] == 'common':
+                    return item['count']
+        except KeyError:
+            return len(self.photos())
+
 
 class GalleryData(object):
     def __init__(self, gallery_id):

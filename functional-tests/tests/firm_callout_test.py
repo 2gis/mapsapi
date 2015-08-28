@@ -136,7 +136,7 @@ class FirmCallout(MapsAPIBaseTest):
         self.assertTrue(photo.is_displayed())
         f = FirmData(firm_id)
         num = misc.to_int(photo.text)
-        self.assertEqual(len(f.photos), num)
+        self.assertEqual(f.photo_count(), num)
         link = links.photo_link(firm_id)
         self.assertEqual(link, photo.get_attribute('href'))
 
