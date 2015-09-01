@@ -6,6 +6,10 @@ DG.Map.addInitHook(function () {
         initialize: function (url, options) {
             this._isDg = true;
             DG.TileLayer.prototype.initialize.call(this, url, options);
+        },
+
+        getTiles: function () {
+            return this._tiles;
         }
     });
 
