@@ -7,12 +7,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import time
 from contesto.exceptions import ElementNotFound
 from time import sleep
+from classes.util.decorators import catches_not_found
 
 
 class Balloon(Component):
     selectors = {
         'self': '.leaflet-popup',
-        'content': '.dg-popup__container'
+        'content': '.dg-popup__container',
+        'scroll': '.dg-scroller__bar'
     }
 
     def wait_present(self):
@@ -44,6 +46,15 @@ class Balloon(Component):
     @property
     def width(self):
         return self.driver.find_element_by_css_selector(self.selectors['self']).value_of_css_property('width')
+
+    @property
+    def height(self):
+        return self.driver.find_element_by_css_selector(self.selectors['self']).value_of_css_property('height')
+
+    @property
+    @catches_not_found()
+    def scroll(self):
+        return self.driver.find_element_by_css_selector(self.selectors['scroll'])
 
 
 class BalloonCrossed(Balloon):

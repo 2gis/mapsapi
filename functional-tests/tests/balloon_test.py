@@ -118,3 +118,43 @@ class Balloons(MapsAPIBaseTest):
         self.driver.find_element_by_css_selector("input#%s" % end).click()
         balloon_width = self.page.balloon.width
         self.assertEqual(balloon_width, width)
+
+    @dataprovider([
+        (config.aut['local'] + u'/scrollBarBalloon.html', 'scrollBar', True),
+        (config.aut['local'] + u'/scrollBarBalloon.html', 'noMaxHeight', False),
+        (config.aut['local'] + u'/scrollBarBalloon.html', 'noScrollBar', False),
+    ])
+    def balloon_scroll_bar_test(self, url, type_, scroll_bar):
+        """
+        Проверка скроллбара
+        :param url: Адрес страницы
+        :param type_: Какой балун
+        :param scroll_bar: Есть ли скролбар
+        1.Кликаем в создать балун
+        2.Проверяем наличие скролбара
+        """
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.driver.find_element_by_css_selector("input#%s" % type_).click()
+
+        self.assertEqual(bool(self.page.balloon.scroll), scroll_bar)
+
+    @dataprovider([
+        (config.aut['local'] + u'/scrollBarBalloon.html', 'scrollBar', 300),
+        (config.aut['local'] + u'/scrollBarBalloon.html', 'noScrollBar', 208),
+    ])
+    def balloon_max_height_test(self, url, type_, height):
+        """
+        Проверка скроллбара
+        :param url: Адрес страницы
+        :param type_: Какой балун
+        :param height: Высота
+        1.Кликаем в создать балун
+        2.Проверяем высоту балуна
+        """
+        self.driver.get(url)
+        self.page.map.wait_init()
+        self.driver.find_element_by_css_selector("input#%s" % type_).click()
+
+        balloon_height = self.page.balloon.height
+        self.assertEqual(balloon_height, "%dpx" % height)

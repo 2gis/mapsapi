@@ -368,22 +368,6 @@ class FirmCallout(MapsAPIBaseTest):
         self._open_firm(url, lat, lng, firm_id)
         self.assertTrue(self.page.firm_callout.scroll.is_displayed())
 
-    @dataprovider([(
-        config.aut['local'] + u'/base.html',
-        54.98131092362227,
-        82.89792358875276,
-        141265771619797
-    )
-    ])
-    def firm_no_scroll_bar_test(self, url, lat, lng, firm_id):
-        """
-        Проверка отсутсвия скролл-бара
-        1.Открывем фирму без скролл бара
-        2.Проверяем его отсутвие
-        """
-        self._open_firm(url, lat, lng, firm_id)
-        self.assertTrue(not self.page.firm_callout.scroll)
-
     def _open_firm(self, url, lat, lng, firm_id):
         self.driver.get(url)
         self.page.map.wait_init()

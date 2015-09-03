@@ -249,6 +249,57 @@ def pages():
             """,
             'style': u"""width: 300px; height: 150px;"""
         },
+        scrollBarBaloon={
+            'title': u'scrollBarBalloon',
+            'mapInit':
+            u"""
+            DG.then(function () {
+                        latLng = DG.latLng([54.98, 82.89]);
+
+                    map = DG.map('map', {
+                        center: latLng,
+                        zoom: 13,
+                        fullscreenControl: false,
+                        zoomControl: false,
+                        zoomAnimation: false
+                    });
+
+                    document.getElementById('scrollBar').onclick = function () {
+                        DG.popup({
+                            maxHeight: 300,
+                        })
+                        .setLatLng(latLng)
+                        .setContent('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus ipsam itaque velit aut error ipsa sunt neque, ut molestiae. Omnis officia architecto similique, enim et voluptates sunt doloremque error repudiandae, iure est a quisquam, nulla voluptatibus quis nostrum voluptas vel ipsa consequatur ipsum velit. Nam laudantium, nemo iste enim ut soluta et explicabo amet nulla impedit sequi animi consectetur alias repellendus, laboriosam dolor dolorum tenetur quod modi sunt sapiente recusandae, pariatur! Delectus nihil provident hic perferendis veniam atque id, ad ipsum error laudantium, quo praesentium qui! Odit saepe distinctio aperiam autem dolor beatae nam, nostrum voluptate, reprehenderit tenetur quidem aspernatur!')
+                        .openOn(map);
+                    };
+
+                    document.getElementById('noMaxHeight').onclick = function () {
+                        DG.popup()
+                        .setLatLng(latLng)
+                        .setContent('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, perspiciatis corrupti? Minima beatae sed delectus obcaecati, officia eos! Sint, excepturi facere iusto, sapiente facilis repellat. Eum facere, illo necessitatibus voluptatibus, illum quas. Cumque nisi incidunt, facere laboriosam asperiores nihil fugiat dolor dolorum sequi soluta consectetur non nulla vel praesentium omnis.')
+                        .openOn(map);
+                    };
+
+                    document.getElementById('noScrollBar').onclick = function () {
+                        DG.popup({
+                            maxHeight: 300
+                        })
+                        .setLatLng(latLng)
+                        .setContent('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas numquam distinctio impedit, quod totam eveniet dolorum qui? Corporis praesentium ipsum officiis impedit quas, inventore laboriosam ipsam nobis soluta maxime delectus quasi voluptatem, tenetur obcaecati laudantium error. Velit expedita, reprehenderit natus nihil cupiditate doloribus quis? In obcaecati cupiditate vero laudantium maiores.')
+                        .openOn(map);
+                    };
+                });
+            """,
+            'controls':
+            u"""
+            <div>
+                <input style="width: 300px;" type="button" id="scrollBar" ><br />
+                <input style="width: 300px;" type="button" id="noMaxHeight"><br />
+                <input style="width: 300px;" type="button" id="noScrollBar"><br />
+            </div>
+            """,
+            'style': u"""width: 300px; height: 500px;"""
+        },
         boundsNsk={
             'title': u'boundsNsk',
             'mapInit':

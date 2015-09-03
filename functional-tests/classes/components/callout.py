@@ -191,8 +191,7 @@ class Firm(Callout):
         'websites': '.dg-firm-card__site',
         'email': '.dg-firm-card__email > a',
         'primary': '.dg-firm-card__rubrics-list_type_primary > .dg-firm-card__rubrics-list-item',
-        'additional': '.dg-firm-card__rubrics-list_type_additional > .dg-firm-card__rubrics-list-item',
-        'scroll': '.dg-scroller__bar'
+        'additional': '.dg-firm-card__rubrics-list_type_additional > .dg-firm-card__rubrics-list-item'
     }
 
     @property
@@ -259,8 +258,3 @@ class Firm(Callout):
     @property
     def additional_rubrics(self):
         return self.driver.find_elements_by_css_selector(self.selectors['additional'])
-
-    @property
-    @catches_not_found()
-    def scroll(self):
-        return self.driver.find_element_by_css_selector(self.selectors['scroll'])
