@@ -141,7 +141,7 @@ class Balloons(MapsAPIBaseTest):
 
     @dataprovider([
         (config.aut['local'] + u'/scrollBarBalloon.html', 'scrollBar', 300),
-        (config.aut['local'] + u'/scrollBarBalloon.html', 'noScrollBar', 208),
+        (config.aut['local'] + u'/scrollBarBalloon.html', 'noScrollBar', 240),
     ])
     def balloon_max_height_test(self, url, type_, height):
         """
