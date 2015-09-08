@@ -248,7 +248,7 @@
                 this._scrollerWrapper.style.height = innerHeight + 'px';
 
                 this._updateScrollPosition();
-            } else {
+            } else if (!this._isContentHeightEnough()) {
                 this._initBaronScroller();
                 this._initBaron();
             }
