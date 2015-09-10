@@ -31,7 +31,7 @@ describe('DGMeta', function () {
             }
         }];
 
-        poiCord = DG.latLng(51.73106181684307, 36.19431853294373);//администрация курской области
+        poiCord = DG.latLng(51.73106181684307, 36.19431853294373); // администрация курской области
 
         meta = DG.Meta.layer(null);
         origin = meta.getOrigin();
@@ -58,7 +58,7 @@ describe('DGMeta', function () {
             origin.setTileData('78713:43453:17:256x256', demoData);
             spy = sinon.spy();
             meta.addTo(map);
-            
+
             map.on('click', spy);
 
             happen.click(map.getPane('tilePane'), {latlng: poiCord});
@@ -74,7 +74,7 @@ describe('DGMeta', function () {
             data = origin.getTileData('124:12:42:256x256');
 
             expect(data).to.not.be.ok();
-            //ajax should not be called since empty url provided
+            // ajax should not be called since empty url provided
             expect(ajaxSpy.callCount).to.be.eql(0);
         });
 
