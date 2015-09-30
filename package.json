@@ -45,7 +45,7 @@
     "gulp-remember": "^0.3.0",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.3",
-    "gulp-rsvg": "^1.0.0",
+    "gulp-rsvg": "^1.0.1",
     "gulp-sourcemaps": "^1.3.0",
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.3",
