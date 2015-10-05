@@ -1,6 +1,7 @@
-var karma = require('gulp-karma');
+var Server = require('karma').Server;
 var util = require('gulp-util');
 var gulp = require('gulp');
+var path = require('path');
 var _ = require('lodash');
 
 var error = require('../util/error');
@@ -11,7 +12,7 @@ var deps = require('../deps')(config);
 var isTestDebug = util.env.d || util.env.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
 
-gulp.task('test', testRequirements, function () {
+gulp.task('test', testRequirements, function (done) {
     var cliOptions = _.cloneDeep(util.env);
     var modulesToTest = [];
 
@@ -44,20 +45,16 @@ gulp.task('test', testRequirements, function () {
     sourcesList.push('node_modules/leaflet/spec/suites/SpecHelper.js');
     sourcesList.push('node_modules/leaflet/spec/suites/**/*Spec.js');
 
-    return gulp.src(sourcesList)
-        .pipe(error.handle())
-        .pipe(karma({
-            configFile: './test/karma.conf.js',
-            browsers: test.getBrowsers(),
-            reporters: test.getReporters(isTestDebug),
-            junitReporter: test.getJunitReporter(),
-            action: 'run',
-            preprocessors: {
-                'gulp/tmp/testJS/src/**/*.js': ['coverage']
-            }
-        }))
-        .on('error', function (err) {
-            // Make sure failed tests cause gulp to exit non-zero
-            throw err;
-        });
+    new Server({
+        files: sourcesList,
+        configFile: path.join(__dirname, '../../test/karma.conf.js'),
+        browsers: test.getBrowsers(),
+        reporters: test.getReporters(isTestDebug),
+        junitReporter: test.getJunitReporter(),
+        action: 'run',
+        preprocessors: {
+            'gulp/tmp/testJS/src/**/*.js': ['coverage']
+        },
+        singleRun: true
+    }, done).start();
 });
