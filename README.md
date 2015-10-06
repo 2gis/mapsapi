@@ -1,4 +1,4 @@
-API карт 2GIS [![Build Status](https://travis-ci.org/2gis/mapsapi.svg?branch=master)](https://travis-ci.org/2gis/mapsapi) [![Coverage Status](https://img.shields.io/coveralls/2gis/mapsapi.svg?branch=master&service=github)](https://coveralls.io/r/2gis/mapsapi) [![Dependency Status](https://gemnasium.com/2gis/mapsapi.svg)]
+API карт 2GIS [![Build Status](https://travis-ci.org/2gis/mapsapi.svg?branch=master)](https://travis-ci.org/2gis/mapsapi) [![Coverage Status](https://img.shields.io/coveralls/2gis/mapsapi.svg?branch=master&service=github)](https://coveralls.io/r/2gis/mapsapi)
 ====
 
 При помощи API карт вы сможете:
