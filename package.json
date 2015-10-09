@@ -54,7 +54,7 @@
     "html5shiv": "^3.7.2",
     "image-size": "0.3.5",
     "karma": "^0.13.10",
-    "leaflet": "git://github.com/2gis/Leaflet.git#6998a11da56a796a8bbee34f00705e264ec41ff8",
+    "leaflet": "git://github.com/Leaflet/Leaflet.git#c6bef03929965d15d3636999d17a7cd057ab575e",
     "less": "^2.4.0",
     "lodash": "^2.4.1",
     "map-stream": "0.1.0",
