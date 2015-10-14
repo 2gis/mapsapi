@@ -1,5 +1,6 @@
 var panBy = DG.Map.prototype.panBy,
-    getBoundsZoom = DG.Map.prototype.getBoundsZoom;
+    getBoundsZoom = DG.Map.prototype.getBoundsZoom,
+    setMaxZoom = DG.Map.prototype.setMaxZoom;
 
 // Restrict zoom level according to 2gis projects, in case if dgTileLayer is only one
 DG.Map.include({
@@ -7,7 +8,7 @@ DG.Map.include({
     // number of tileLayers without 2gis layers
     _tileLayersNumber: 0,
 
-    _mapMaxZoomCache: undefined,
+    _mapMaxZoomCache: null,
 
     //TODO try refactor it after up on new leaflet (> 0.7)
     initialize: function (id, options) { // (HTMLElement or String, Object)
@@ -104,6 +105,11 @@ DG.Map.include({
 
     getTileLayersNumber: function () {
         return this._tileLayersNumber;
+    },
+
+    setMaxZoom: function (zoom) {
+        this._mapMaxZoomCache = null;
+        return setMaxZoom.call(this, zoom);
     },
 
     _testAnimation: function (coords) {//if we jump to other project - disable animation
