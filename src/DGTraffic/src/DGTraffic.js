@@ -12,7 +12,6 @@ DG.Traffic = DG.TileLayer.extend({
         this._tileUrl = DG.config.protocol + DG.config.trafficTileServer;
         this._metaUrl = DG.config.protocol + DG.config.trafficMetaServer;
         this._timeUrl = DG.config.protocol + DG.config.trafficTimestampServer;
-        this._updateInterval = DG.config.trafficLayerUpdateInterval;
 
         this._layersOptions = {
             errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
@@ -36,6 +35,7 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     // #setTime(day [0-6], time[0-23]) ????
+    // Что это за штука? Оо
 
     onAdd: function (map) {
         this._updateLayerProject();
@@ -49,9 +49,8 @@ DG.Traffic = DG.TileLayer.extend({
             this._labelHelper = DG.label();
         }
 
-        if (this._updateInterval) {
-            this._updateTimer = setInterval(this._onTimer, this._updateInterval);
-        }
+        this._setNextInterval();
+        this.update();
 
         DG.TileLayer.prototype.onAdd.call(this, map);
     },
@@ -74,7 +73,9 @@ DG.Traffic = DG.TileLayer.extend({
 
     update: function () {
         var self = this;
-        this._getTimestampString().then(
+        var ajaxPromise = this._getTimestampString();
+
+        ajaxPromise.then(
             function (response) {
                 self.options.timestampString = '?' + response;
             },
@@ -82,6 +83,15 @@ DG.Traffic = DG.TileLayer.extend({
                 self.options.timestampString = '?' + (new Date()).getTime();
             }).then(
             function () {
+                var interval;
+
+                try {
+                    var expiresData = ajaxPromise.getResponseHeader('Expires');
+                    var currentServerData = ajaxPromise.getResponseHeader('Date');
+                    interval = new Date(expiresData).getTime() - new Date(currentServerData).getTime();
+                } catch(e) {}
+
+                self._setNextInterval(interval);
                 self.fire('update', {timestamp: self.options.timestampString});
                 self._layerEventsListeners.mouseout.call(self);
                 self._metaLayer.getOrigin().setURL(self._prepareMetaURL(), self);
@@ -94,6 +104,15 @@ DG.Traffic = DG.TileLayer.extend({
         return this._layersOptions.subdomains[
             Math.floor(Math.random() * this._layersOptions.subdomains.length)
         ];
+    },
+
+    _setNextInterval: function(time) {
+        if (!time) {
+            time = DG.config.trafficLayerUpdateInterval;
+        }
+
+        clearInterval(this._updateTimer);
+        this._updateTimer = setInterval(this._onTimer, time);
     },
 
     _getTimestampString: function () {

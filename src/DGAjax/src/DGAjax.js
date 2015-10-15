@@ -395,6 +395,14 @@ DG.ajax = (function () {
 
         resultPromise.abort = requestPromise.abort;
 
+        resultPromise.getResponseHeader = function (name) {
+            if (requestPromise.request && requestPromise.request.getResponseHeader) {
+                return requestPromise.request.getResponseHeader(name);
+            }
+
+            return null;
+        };
+
         return resultPromise;
     }
 
