@@ -170,7 +170,7 @@ DG.ProjectDetector = DG.Handler.extend({
 
     _boundInProject: function (project, checkMethod) {
         try {
-            return this.isProjectHere(this._map.getBounds(), project, checkMethod);
+            return this.isProjectHere(this._map.getCenter(), project, checkMethod);
         } catch (e) {
             return false;
         }
