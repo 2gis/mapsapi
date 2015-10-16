@@ -67,10 +67,6 @@ describe('DGMap', function () {
                 map.off('moveend', moveEndSpy);
             });
 
-            it('should not change center while animate', function () {
-                expect(DG.latLng(center)).to.nearLatLng(map.getCenter());
-            });
-
             it('should fire movestart event before animate', function () {
                 expect(moveStartSpy.calledOnce).to.be.ok();
             });
