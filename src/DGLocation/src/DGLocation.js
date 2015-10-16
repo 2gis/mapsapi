@@ -35,8 +35,9 @@ DG.Control.Location = DG.RoundControl.extend({
 
         this._locateOptions = {
             watch: true,  // if you overwrite this, visualization cannot be updated
-            setView: false,
-            maximumAge: Infinity
+            setView: true,
+            maximumAge: Infinity,
+            maxZoom: Infinity
         };
         DG.extend(this._locateOptions, this.options.locateOptions);
 
@@ -142,8 +143,9 @@ DG.Control.Location = DG.RoundControl.extend({
         if (this._locateOnNextLocationFound) {
             if (this._isOutsideMapBounds()) {
                 this.options.onLocationOutsideMapBounds(this);
-            } else {
+            } else if (this._locateOptions.setView) {
                 var zoom = this._map.projectDetector.getProject().maxZoom || DG.config.projectLeaveMaxZoom;
+                zoom = Math.min(this._locateOptions.maxZoom, zoom);
                 this._map.setView(this._event.latlng, zoom);
             }
             this._locateOnNextLocationFound = false;
