@@ -73,7 +73,7 @@ describe('Popup', function () {
 
         marker1.description = "I'm marker 1.";
         marker2.description = "I'm marker 2.";
-        group.bindPopup(function(layer) {
+        group.bindPopup(function (layer) {
             return layer.description;
         });
 
@@ -103,7 +103,7 @@ describe('Popup', function () {
 
         marker1.description = "I'm marker 1.";
         marker2.description = "I'm marker 2.";
-        group.bindPopup(function(layer) {
+        group.bindPopup(function (layer) {
             return layer.description;
         });
 
@@ -128,13 +128,13 @@ describe('Popup', function () {
         expect(group._popup._contentNode.innerHTML).to.be("I'm marker 2.");
     });
 
-    it.skip("should use a function for popup content when a source is passed to Popup", function() {
+    it.skip("should use a function for popup content when a source is passed to Popup", function () {
         var marker = new L.Marker(new L.LatLng(55.8, 37.6)).addTo(map);
         var popup = L.popup({}, marker);
 
         marker.description = "I am a marker.";
 
-        marker.bindPopup(function(layer) {
+        marker.bindPopup(function (layer) {
             return layer.description;
         });
 
@@ -204,6 +204,7 @@ describe('Popup', function () {
             icon = new L.DivIcon({popupAnchor: offset}),
             marker1 = new L.Marker(latlng),
             marker2 = new L.Marker(latlng, {icon: icon});
+
         marker1.bindPopup('Popup').addTo(map);
         marker1.openPopup();
         var defaultLeft = parseInt(marker1._popup._container.style.left, 10);
@@ -275,4 +276,25 @@ describe("L.Map#openPopup", function () {
         expect(map.hasLayer(p1)).to.be(true);
         expect(map.hasLayer(p2)).to.be(true);
     });
+
+    it('should not be closen when dragging map', function (done) {
+        document.body.appendChild(c);
+        c.style.position = 'absolute';
+        c.style.left = 0;
+        c.style.top = 0;
+        c.style.zIndex = 10000;
+        var coords = map._container.getBoundingClientRect();
+        var spy = sinon.spy();
+        var p = new L.Popup().setLatLng(new L.LatLng(55.8, 37.6));
+        map.openPopup(p);
+        expect(map.hasLayer(p)).to.be(true);
+        map.on('drag', spy);
+        happen.drag(coords.left + 100, coords.top + 100, coords.left + 110, coords.top + 110, function () {
+            expect(spy.called).to.be(true);
+            expect(map.hasLayer(p)).to.be(true);
+            document.body.removeChild(c);
+            done();
+        });
+    });
+
 });

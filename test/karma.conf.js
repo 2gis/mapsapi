@@ -23,7 +23,8 @@ module.exports = function(config) {
             'node_modules/leaflet/spec/suites/map/MapSpec.js',
             'node_modules/leaflet/spec/suites/layer/tile/TileLayerSpec.js',
             'node_modules/leaflet/spec/suites/layer/tile/GridLayerSpec.js',
-            'node_modules/leaflet/spec/suites/layer/PopupSpec.js'
+            'node_modules/leaflet/spec/suites/layer/PopupSpec.js',
+            'node_modules/leaflet/spec/suites/layer/vector/CanvasSpec.js'
         ],
 
         coverageReporter: {

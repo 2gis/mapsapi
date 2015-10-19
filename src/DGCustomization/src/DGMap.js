@@ -222,20 +222,16 @@ DG.Map.include({
 
     _fireDOMEvent: function (e, type, targets) {
 
-        var isHover = type === 'mouseover' || type === 'mouseout';
-        targets = (targets || []).concat(this._findEventTargets(e.target || e.srcElement, type, !isHover));
+        if (e._stopped) { return; }
 
-        if (!targets.length) {
-            targets = [this];
+        targets = (targets || []).concat(this._findEventTargets(e, type));
 
-            // special case for map mouseover/mouseout events so that they're actually mouseenter/mouseleave
-            if (isHover && !L.DomEvent._checkMouse(this._container, e)) { return; }
-        } else if (type === 'contextmenu') {
-            // we only want to call preventDefault when targets listen to it.
-            L.DomEvent.preventDefault(e);
-        }
+        if (!targets.length) { return; }
 
         var target = targets[0];
+        if (type === 'contextmenu' && target.listens(type, true)) {
+            L.DomEvent.preventDefault(e);
+        }
 
         // prevents firing click after you just dragged an object
         if ((e.type === 'click' || e.type === 'preclick' || e.type === 'prepreclick') && !e._simulated && this._draggableMoved(target)) { return; }
