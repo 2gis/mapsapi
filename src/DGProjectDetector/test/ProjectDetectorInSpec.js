@@ -9,9 +9,12 @@ describe('DG.ProjectDetectorIn', function () {
         start =        new DG.LatLng(54.98117239821992, 82.88922250270844),
         project1 =     new DG.LatLng(54.97902673261798, 82.819265127182),
         project2 =     new DG.LatLng(54.98620210307464, 73.41429233551025),
-        edgeProject1 = new DG.LatLng(55.24446959522988, 82.85625815391539),
-        edgeProject2 = new DG.LatLng(55.27354174049191, 82.869873046875),
-        edgeProject3 = new DG.LatLng(55.28664323349526, 82.87656784057617),
+
+        // have no idea what is the difference between these points
+        edgeProject1 = new DG.LatLng(55.39120059140201, 82.86191493272783),
+        edgeProject2 = new DG.LatLng(55.42039863481294, 82.86188274621965),
+        edgeProject3 = new DG.LatLng(55.43341996250572, 82.86186128854753),
+
         desert1 =      new DG.LatLng(54.817453325877906, 81.85930252075195),
         desert2 =      new DG.LatLng(61.1128985047811, 89.5414924621582);
 
@@ -336,9 +339,9 @@ describe('DG.ProjectDetectorIn', function () {
         it('call on project edge from desert', function () {
             map.setView(edgeProject1, maxZoom);
 
-            expect(map.panBy([0, -2000]), {animate: false}).to.be(map);
+            expect(map.panBy([0, -4000]), {animate: false}).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
-            expect(map.getCenter()).to.nearLatLng(DG.latLng(55.25058537744133, 82.85625815391542));
+            expect(map.getCenter()).to.nearLatLng(DG.latLng(55.40338603055721, 82.86191493272783));
         });
 
         it('call on project viewport', function () {
