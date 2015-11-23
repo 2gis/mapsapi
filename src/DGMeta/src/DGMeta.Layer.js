@@ -23,7 +23,6 @@ DG.Meta.Layer = DG.Layer.extend({
 
         this._currentTile = false;
         this._currentTileData = false;
-        this._hoveredObject = null;
 
         this._origin = DG.Meta.origin(source, {
             dataFilter: this.options.dataFilter
@@ -155,7 +154,7 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     _getHoveredObject: function (coords, mouseTileOffset) {
-        for (var i = this._currentTileData.length - 1; i >= 0; i--) {
+        for (var i = 0; i < this._currentTileData.length; i++) {
             if (DG.PolyUtil.contains(mouseTileOffset, this._currentTileData[i].geometry.coordinates[0])) {
                 return this._currentTileData[i];
             }

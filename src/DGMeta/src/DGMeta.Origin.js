@@ -12,7 +12,6 @@ DG.Meta.Origin = DG.Class.extend({
         this._requests = {};
 
         this._tileStorage = {};
-        this._dataStorage = {};
 
         options = DG.setOptions(this, options);
 
@@ -31,12 +30,7 @@ DG.Meta.Origin = DG.Class.extend({
                 self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
                 delete self._requests[tileKey];
             });
-        }
-
-        if (this._tileStorage[tileKey].constructor === Object) {
-            return Object.keys(this._tileStorage[tileKey]).map(function (id) {
-                return DG.extend({geometry: this._tileStorage[tileKey][id]}, this._dataStorage[id]);
-            }, this);
+            return false;
         }
 
         return this._tileStorage[tileKey];
@@ -52,11 +46,9 @@ DG.Meta.Origin = DG.Class.extend({
                 entity.geometry = DG.Wkt.toGeoJSON(entity.geometry);
             }
             if (!this._tileStorage[key]) {
-                this._tileStorage[key] = {};
+                this._tileStorage[key] = [];
             }
-            this._tileStorage[key][entity.id] = entity.geometry;
-            delete entity.geometry;
-            this._dataStorage[entity.id] = entity;
+            this._tileStorage[key].push(entity);
         }, this);
 
         return this;
@@ -64,7 +56,6 @@ DG.Meta.Origin = DG.Class.extend({
 
     flush: function () { // () -> Object
         this._tileStorage = {};
-        this._dataStorage = {};
         Object.keys(this._requests).forEach(function (tileKey) {
             if (this[tileKey].abort) {
                 this[tileKey].abort();
