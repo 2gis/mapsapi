@@ -103,7 +103,7 @@ class GalleryInfo(BaseReq):
 
     def get(self, id):
         """
-        :param firm_id: int or str
+        :param id: int or str
         :return: dict
         """
         method = '/geo/get'
