@@ -56,6 +56,10 @@ DG.Geoclicker.Controller = DG.Class.extend({
         }
 
         if (meta && meta.linked) {
+            if (meta.linked.type != 'branch' && meta.linked.type != 'building') {
+                return;
+            }
+
             beforeRequest();
             self.handleResponse({
                 poi: {
