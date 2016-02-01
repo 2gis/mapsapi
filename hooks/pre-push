@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Pre-push hooks started"
+
+if ! npm run lint
+then
+    echo "Linting is failed"
+    exit 1
+fi
+
+if ! npm run test
+then
+    echo "Test is failed"
+    exit 1
+fi
+
+echo "Everything is fine!"
+exit 0
