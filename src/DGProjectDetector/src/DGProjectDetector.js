@@ -3,6 +3,7 @@ DG.ProjectDetector = DG.Handler.extend({
         this._map = map;
         this._osmViewport = false;
         this.project = null;
+        this._noProjectEventFired = false;
         this._loadProjectList();
         this._searchProject();
     },
@@ -153,20 +154,38 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _searchProject: function () {
-        this._projectList
+        var foundProjects = this._projectList
             .filter(function (project) {
                 return (this._boundInProject(project) && this._zoomInProject(project));
-            }, this)
-            .some(function (project) {
-                var self = this;
-
-                this.project = project;
-                setTimeout(function () {
-                    self._map.fire('projectchange', {'getProject': self.getProject.bind(self)});
-                }, 1);
-
-                return true;
             }, this);
+
+        var loaded = false;
+
+        try {
+            this._map._checkIfLoaded();
+            loaded = true;
+        } catch (e) {
+            loaded = false;
+        }
+
+        if (loaded && foundProjects.length === 0 && !this._noProjectEventFired) {
+            var self = this;
+            setTimeout(function () {
+                self._map.fire('projectleave');
+                self._noProjectEventFired = true;
+            }, 1);
+        }
+
+        foundProjects.some(function (project) {
+            var self = this;
+
+            this.project = project;
+            setTimeout(function () {
+                self._map.fire('projectchange', {'getProject': self.getProject.bind(self)});
+            }, 1);
+
+            return true;
+        }, this);
     },
 
     _boundInProject: function (project, checkMethod) {
