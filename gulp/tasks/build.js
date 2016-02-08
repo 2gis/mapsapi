@@ -10,7 +10,8 @@ gulp.task('build', function (cb) {
         'doc',
         'loader',
         'copyAssets',
-        'copyIndexPage'
+        'copyIndexPage',
+        'hooks'
     ], function () {
         buildEnd();
         cb();

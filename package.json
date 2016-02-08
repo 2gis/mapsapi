@@ -10,8 +10,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "gulp test",
-    "lint": "gulp lint",
-    "postinstall": "node hooks/install.js"
+    "lint": "gulp lint"
   },
   "repository": {
     "type": "git",
