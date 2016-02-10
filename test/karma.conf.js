@@ -7,7 +7,7 @@ module.exports = function(config) {
         client: {
             captureConsole: true,
             mocha: {
-                timeout: 120000
+                timeout: 480000
             }
         },
 
@@ -67,8 +67,8 @@ module.exports = function(config) {
 
         // If browser does not capture in given timeout [ms], kill it
         // CLI --capture-timeout 5000
-        captureTimeout: 120000,
-        browserNoActivityTimeout: 120000,
+        captureTimeout: 480000,
+        browserNoActivityTimeout: 480000,
 
         // Auto run test on start (when browsers are captured) and exit
         // CLI --single-run --no-single-run
