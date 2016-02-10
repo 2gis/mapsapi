@@ -12,12 +12,18 @@ var deps = require('../deps')(config);
 
 var isTestDebug = util.env.d || util.env.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
-var itemInChunk = util.env['items-in-chunk'] || 5;
-
-// TODO: Remove after update lodash to v3.10.1 or higher.
-_.chunk = require('../../node_modules/karma/node_modules/lodash/array/chunk.js');
+var itemInChunk = util.env['items-in-chunk'] || 10;
+var karmaConf = require('../../test/karma.conf.js');
 
 gulp.task('test', testRequirements, function (done) {
+    // Need for get expelled tests from karma.conf.js
+    var config = {};
+    config.set = function(obj) {
+        this.conf = obj;
+    };
+    karmaConf(config);
+    var karmaConfExcludeTests = config.conf.exclude || [];
+
     var cliOptions = _.cloneDeep(util.env);
     var modulesToTest = [];
     var currentChunk = 0;
@@ -49,20 +55,27 @@ gulp.task('test', testRequirements, function (done) {
     } else {
         modulesToTestSourceList = modulesToTestSourceList.concat(glob.sync('src/**/test/*Spec.js'));
     }
+    modulesToTestSourceList = modulesToTestSourceList.concat(glob.sync('node_modules/leaflet/spec/suites/**/*Spec.js'));
 
-    console.log("ITEMS IN CHUNK: " + itemInChunk + ". Use --items-in-chunk for set this.");
+    modulesToTestSourceList = _.xor(modulesToTestSourceList, karmaConfExcludeTests);
 
-    var splittedModulesToTestSourceList = _.chunk(modulesToTestSourceList, itemInChunk);
-    var numberOfChunks = splittedModulesToTestSourceList.length;
+    var splittedModules = _.chunk(modulesToTestSourceList, itemInChunk);
 
+    var numberOfChunks = splittedModules.length;
+
+    console.log("\nITEMS IN CHUNK: " + itemInChunk + ". Use --items-in-chunk for set this.");
     console.log("NUMBER OF CHUNKS: " + numberOfChunks);
 
-    var startServer = function(){
+    var totalErr = false;
+
+    var startServer = function(err){
+        totalErr = err || totalErr;
         console.log('\nCHUNK #' + currentChunk.toString());
 
-        var localeSourceList = sourcesList.concat(splittedModulesToTestSourceList[currentChunk++]);
+        var localeSourceList = sourcesList.concat(splittedModules[currentChunk]);
+        currentChunk++;
+
         localeSourceList.push('node_modules/leaflet/spec/suites/SpecHelper.js');
-        localeSourceList.push('node_modules/leaflet/spec/suites/**/*Spec.js');
 
         new Server({
             files: localeSourceList,
@@ -75,7 +88,14 @@ gulp.task('test', testRequirements, function (done) {
                 'gulp/tmp/testJS/src/**/*.js': ['coverage']
             },
             singleRun: true
-        }, currentChunk == numberOfChunks ? done : startServer).start();
+        }, currentChunk == numberOfChunks ? function(){
+            if (totalErr) {
+                process.exit(1);
+            }
+            else {
+                done();
+            }
+        } : startServer).start();
     };
     startServer();
 });
