@@ -135,6 +135,7 @@ DG.ProjectDetector = DG.Handler.extend({
 
                 /* eslint-disable camelcase */
                 return {
+                    id: project.id,
                     code: project.code,
                     minZoom: project.zoom_level.min,
                     maxZoom: project.zoom_level.max,
