@@ -9,21 +9,14 @@ var error = require('../util/error');
 var test = require('../../test/test');
 var config = require('../../app/config.js');
 var deps = require('../deps')(config);
+var excludedTests = require('../../test/excludedTests.js') || [];
 
 var isTestDebug = util.env.d || util.env.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
 var itemInChunk = util.env['items-in-chunk'] || 10;
-var karmaConf = require('../../test/karma.conf.js');
+var oneChunk = util.env['one-chunk'] || false;
 
 gulp.task('test', testRequirements, function (done) {
-    // Need for get expelled tests from karma.conf.js
-    var config = {};
-    config.set = function(obj) {
-        this.conf = obj;
-    };
-    karmaConf(config);
-    var karmaConfExcludeTests = config.conf.exclude || [];
-
     var cliOptions = _.cloneDeep(util.env);
     var modulesToTest = [];
     var currentChunk = 0;
@@ -57,18 +50,24 @@ gulp.task('test', testRequirements, function (done) {
     }
     modulesToTestSourceList = modulesToTestSourceList.concat(glob.sync('node_modules/leaflet/spec/suites/**/*Spec.js'));
 
-    modulesToTestSourceList = _.xor(modulesToTestSourceList, karmaConfExcludeTests);
+    modulesToTestSourceList = _.difference(modulesToTestSourceList, excludedTests);
+
+    if (oneChunk) {
+        itemInChunk = modulesToTestSourceList.length;
+    }
 
     var splittedModules = _.chunk(modulesToTestSourceList, itemInChunk);
 
     var numberOfChunks = splittedModules.length;
 
-    console.log("\nITEMS IN CHUNK: " + itemInChunk + ". Use --items-in-chunk for set this.");
+    console.log("\nITEMS IN CHUNK: " + itemInChunk);
     console.log("NUMBER OF CHUNKS: " + numberOfChunks);
 
+    // Flag of existing errors.
     var totalErr = false;
 
-    var startServer = function(err){
+    // Function will be run recursive, because need execute chunks in order.
+    function startServer(err) {
         totalErr = err || totalErr;
         console.log('\nCHUNK #' + currentChunk.toString());
 
@@ -76,6 +75,11 @@ gulp.task('test', testRequirements, function (done) {
         currentChunk++;
 
         localeSourceList.push('node_modules/leaflet/spec/suites/SpecHelper.js');
+
+        function localDone(errDone) {
+            totalErr = errDone || totalErr;
+            done(totalErr);
+        }
 
         new Server({
             files: localeSourceList,
@@ -88,14 +92,8 @@ gulp.task('test', testRequirements, function (done) {
                 'gulp/tmp/testJS/src/**/*.js': ['coverage']
             },
             singleRun: true
-        }, currentChunk == numberOfChunks ? function(){
-            if (totalErr) {
-                process.exit(1);
-            }
-            else {
-                done();
-            }
-        } : startServer).start();
-    };
+            // Function localDone will be executed in the last iteration.
+        }, currentChunk == numberOfChunks ? localDone : startServer).start();
+    }
     startServer();
 });

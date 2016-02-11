@@ -14,7 +14,7 @@ then
     exit 1
 fi
 
-./functional-tests/pep8-hook.sh`
+./functional-tests/pep8-hook.sh
 
 echo 'Everything is fine'
 exit 0
