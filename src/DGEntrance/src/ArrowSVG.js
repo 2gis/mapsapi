@@ -3,11 +3,11 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
     getEvents: function () {
         var events = {
             viewreset: this._reset,
-            zoom: this._updateTransform,
+            zoom: this._onZoom,
             moveend: this._onMoveEnd
         };
         if (this._zoomAnimated) {
-            events.zoomanim = this._animateZoom;
+            events.zoomanim = this._onAnimZoom;
         }
         if (DG.Browser.ie) {
             events.mousemove = events.zoomend = this._refresh; //JSAPI-3379
