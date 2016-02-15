@@ -5,6 +5,11 @@ describe("Map", function () {
 		map = L.map(document.createElement('div'));
 	});
 
+	// Remove our layers.
+	beforeEach(function () {
+		map.clearLayers();
+	});
+
 	describe("#remove", function () {
 		it("fires an unload event if loaded", function () {
 			var container = document.createElement('div'),
@@ -129,7 +134,8 @@ describe("Map", function () {
 			expect(map.getCenter().distanceTo([51.605, -0.11])).to.be.lessThan(5);
 		});
 
-		it("limits initial zoom when no zoom specified", function () {
+		// Skip because we have custom logic for maxZoom. Function setZoom is overridden in DGMap.js
+		it.skip("limits initial zoom when no zoom specified", function () {
 			map.options.maxZoom = 20;
 			map.setZoom(100);
 			expect(map.setView([51.605, -0.11])).to.be(map);
@@ -323,7 +329,8 @@ describe("Map", function () {
 			map.addLayer(layer);
 		});
 
-		describe("When the first layer is added to a map", function () {
+		// Skip because we have base layer with greater zooms.
+		describe.skip("When the first layer is added to a map", function () {
 			it("fires a zoomlevelschange event", function () {
 				var spy = sinon.spy();
 				map.on("zoomlevelschange", spy);
@@ -333,7 +340,8 @@ describe("Map", function () {
 			});
 		});
 
-		describe("when a new layer with greater zoomlevel coverage than the current layer is added to a map", function () {
+		// Skip because we have base layer with greater zooms.
+		describe.skip("when a new layer with greater zoomlevel coverage than the current layer is added to a map", function () {
 			it("fires a zoomlevelschange event", function () {
 				var spy = sinon.spy();
 				L.tileLayer("{z}{x}{y}", {minZoom: 0, maxZoom: 10}).addTo(map);
