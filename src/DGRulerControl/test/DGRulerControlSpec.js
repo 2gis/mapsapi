@@ -17,6 +17,7 @@ describe('DG.Control.Ruler', function() {
 
     after(function() {
         mapContainer.parentElement.removeChild(mapContainer);
+        map.remove();
         map = mapContainer = control = classControl = containerControl = ruler = null;
     });
 

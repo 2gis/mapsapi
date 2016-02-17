@@ -14,6 +14,7 @@ describe('DG Locale Module', function () {
 	});
 
 	afterEach(function () {
+		map.remove();
 		map = null;
 		getLangSpy = null;
 		setLangSpy = null;

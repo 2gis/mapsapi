@@ -1,13 +1,6 @@
 describe('DG.Popup', function() {
-    var mapContainer = document.createElement('div');
-
-    document.body.appendChild(mapContainer);
-
-    var map = new DG.Map(mapContainer, {
-            center: [54.980206086231, 82.898068362003],
-            zoom: 15
-        }),
-
+    var map,
+        mapContainer,
         shortString = 'qwerty',
         longString = (new Array(15)).join('1<br>'),
 
@@ -16,7 +9,18 @@ describe('DG.Popup', function() {
         classPopupFooterContainer = 'dg-popup__footer',
         classScrollBar = 'dg-scroller__bar';
 
+    before(function () {
+        mapContainer = document.createElement('div');
+        document.body.appendChild(mapContainer);
+
+        map = new DG.Map(mapContainer, {
+            center: [54.980206086231, 82.898068362003],
+            zoom: 15
+        });
+    });
+
     after(function() {
+        map.remove();
         mapContainer.parentElement.removeChild(mapContainer);
         mapContainer = map = shortString = longString = classPopupBodyContainer = classPopupHeaderContainer = classPopupFooterContainer = classScrollBar = null;
     });

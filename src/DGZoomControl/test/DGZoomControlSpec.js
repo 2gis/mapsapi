@@ -1,19 +1,24 @@
 describe('DG.Zoom', function() {
     var classZoomIn = 'dg-zoom__in',
         classZoomOut = 'dg-zoom__out',
-
-        mapContainer = document.createElement('div'),
-        map = new DG.Map(mapContainer, {
-            center: [54.980206086231, 82.898068362003],
-            zoom: 15
-        }),
-
-        zoomControl = DG.control.zoom(),
+        mapContainer,
+        map,
+        zoomControl,
         zoomContainer,
         zoomIn,
         zoomOut;
 
+    before(function () {
+        zoomControl = DG.control.zoom();
+        mapContainer = document.createElement('div');
+        map = new DG.Map(mapContainer, {
+            center: [54.980206086231, 82.898068362003],
+            zoom: 15
+        });
+    });
+
     after(function() {
+        map.remove();
         classZoomIn = classZoomOut = map = zoomControl = zoomContainer = zoomIn = zoomOut = null;
     });
 
