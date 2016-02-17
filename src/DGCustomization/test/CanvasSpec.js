@@ -18,6 +18,16 @@ describe('Canvas', function () {
 		latLngs = [p2ll(0, 0), p2ll(0, 100), p2ll(100, 100), p2ll(100, 0)];
 	});
 
+	// Remove our layers for run test of leflet.
+	// Set nonBubblingEvents to [],
+	// beacuse in DGCustomization.js we set click is not bubling and test of leflet isn't work
+	before(function () {
+		map.clearLayers();
+		DG.Layer.mergeOptions({
+			nonBubblingEvents: []
+		});
+	});
+
 	after(function () {
 		document.body.removeChild(c);
 	});
