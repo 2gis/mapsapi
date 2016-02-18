@@ -14,7 +14,7 @@ var excludedTests = require('../../test/excludedTests.js') || [];
 var isTestDebug = util.env.d || util.env.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
 var itemInChunk = util.env['items-in-chunk'] || 10;
-var oneChunk = util.env['one-chunk'] || false;
+var multipleChunks = util.env['multiple-chunks'] || false;
 
 gulp.task('test', testRequirements, function (done) {
     var cliOptions = _.cloneDeep(util.env);
@@ -52,7 +52,7 @@ gulp.task('test', testRequirements, function (done) {
 
     modulesToTestSourceList = _.difference(modulesToTestSourceList, excludedTests);
 
-    if (oneChunk) {
+    if (!multipleChunks) {
         itemInChunk = modulesToTestSourceList.length;
     }
 
