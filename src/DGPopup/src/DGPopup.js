@@ -552,6 +552,8 @@
         _insertContent: function (content, node) { // (String | DOMElement, DOMElement)
             if (!content || !node) { return; }
 
+            content = (typeof content === 'function') ? content(this._source || this) : content;
+
             if (typeof content === 'string') {
                 node.innerHTML = content;
             } else {

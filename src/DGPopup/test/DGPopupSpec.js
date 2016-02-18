@@ -145,3 +145,102 @@ describe('DG.Popup', function() {
 
     // TODO: дописать остальные тесты после фикса https://github.com/2gis/mapsapi/issues/44
 });
+
+//  Modified tests from PopupSpec.js
+describe('L.Popup', function () {
+
+    var c, map;
+
+    beforeEach(function () {
+        c = document.createElement('div');
+        c.style.width = '400px';
+        c.style.height = '400px';
+        document.body.appendChild(c);
+        map = new L.Map(c);
+        map.setView(new L.LatLng(55.8, 37.6), 6);
+    });
+
+    afterEach(function () {
+        document.body.removeChild(c);
+    });
+
+    it("it should use a popup with a function as content with a FeatureGroup", function () {
+        var marker1 = new L.Marker(new L.LatLng(55.8, 37.6));
+        var marker2 = new L.Marker(new L.LatLng(54.6, 38.2));
+        var group = new L.FeatureGroup([marker1, marker2]).addTo(map);
+
+        marker1.description = "I'm marker 1.";
+        marker2.description = "I'm marker 2.";
+        group.bindPopup(function (layer) {
+            return layer.description;
+        });
+
+        map.options.closePopupOnClick = true;
+
+        // toggle popup on marker1
+        group.fire('click', {
+            latlng: new L.LatLng(55.8, 37.6),
+            layer: marker1
+        });
+        expect(map.hasLayer(group._popup)).to.be(true);
+        expect(group._popup._contentNode.firstElementChild.firstElementChild.innerHTML).to.be("I'm marker 1.");
+
+        // toggle popup on marker2
+        group.fire('click', {
+            latlng: new L.LatLng(54.6, 38.2),
+            layer: marker2
+        });
+        expect(map.hasLayer(group._popup)).to.be(true);
+        expect(group._popup._contentNode.firstElementChild.firstElementChild.innerHTML).to.be("I'm marker 2.");
+    });
+
+    it("it should function for popup content after bindPopup is called", function () {
+        var marker1 = new L.Marker(new L.LatLng(55.8, 37.6));
+        var marker2 = new L.Marker(new L.LatLng(54.6, 38.2));
+        var group = new L.FeatureGroup([marker1]).addTo(map);
+
+        marker1.description = "I'm marker 1.";
+        marker2.description = "I'm marker 2.";
+        group.bindPopup(function (layer) {
+            return layer.description;
+        });
+
+        group.addLayer(marker2);
+
+        map.options.closePopupOnClick = true;
+
+        // toggle popup on marker1
+        group.fire('click', {
+            latlng: new L.LatLng(55.8, 37.6),
+            layer: marker1
+        });
+        expect(map.hasLayer(group._popup)).to.be(true);
+        expect(group._popup._contentNode.firstElementChild.firstElementChild.innerHTML).to.be("I'm marker 1.");
+
+        // toggle popup on marker2
+        group.fire('click', {
+            latlng: new L.LatLng(54.6, 38.2),
+            layer: marker2
+        });
+        expect(map.hasLayer(group._popup)).to.be(true);
+        expect(group._popup._contentNode.firstElementChild.firstElementChild.innerHTML).to.be("I'm marker 2.");
+    });
+
+    it("should use a function for popup content when a source is passed to Popup", function () {
+        var marker = new L.Marker(new L.LatLng(55.8, 37.6)).addTo(map);
+        var popup = L.popup({}, marker);
+
+        marker.description = "I am a marker.";
+
+        marker.bindPopup(function (layer) {
+            return layer.description;
+        });
+
+        marker.fire('click', {
+            latlng: new L.LatLng(55.8, 37.6)
+        });
+
+        expect(map.hasLayer(marker._popup)).to.be(true);
+        expect(marker._popup._contentNode.firstElementChild.firstElementChild.innerHTML).to.be("I am a marker.");
+    });
+});

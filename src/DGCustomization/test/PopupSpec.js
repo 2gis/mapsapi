@@ -67,7 +67,7 @@ describe('Popup', function () {
 		expect(map.hasLayer(marker._popup)).to.be(false);
 	});
 
-	it("it should use a popup with a function as content with a FeatureGroup", function () {
+	it.skip("it should use a popup with a function as content with a FeatureGroup", function () {
 		var marker1 = new L.Marker(new L.LatLng(55.8, 37.6));
 		var marker2 = new L.Marker(new L.LatLng(54.6, 38.2));
 		var group = new L.FeatureGroup([marker1, marker2]).addTo(map);
@@ -97,7 +97,7 @@ describe('Popup', function () {
 		expect(group._popup._contentNode.innerHTML).to.be("I'm marker 2.");
 	});
 
-	it("it should function for popup content after bindPopup is called", function () {
+	it.skip("it should function for popup content after bindPopup is called", function () {
 		var marker1 = new L.Marker(new L.LatLng(55.8, 37.6));
 		var marker2 = new L.Marker(new L.LatLng(54.6, 38.2));
 		var group = new L.FeatureGroup([marker1]).addTo(map);
@@ -129,7 +129,7 @@ describe('Popup', function () {
 		expect(group._popup._contentNode.innerHTML).to.be("I'm marker 2.");
 	});
 
-	it("should use a function for popup content when a source is passed to Popup", function () {
+	it.skip("should use a function for popup content when a source is passed to Popup", function () {
 		var marker = new L.Marker(new L.LatLng(55.8, 37.6)).addTo(map);
 		var popup = L.popup({}, marker);
 
