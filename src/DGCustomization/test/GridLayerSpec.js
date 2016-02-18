@@ -168,7 +168,9 @@ describe('GridLayer', function () {
 	});
 
 	describe("#getMaxZoom, #getMinZoom", function () {
-		describe("when a tilelayer is added to a map with no other layers", function () {
+
+		// Skip because we have base layer with greater zooms.
+		describe.skip("when a tilelayer is added to a map with no other layers", function () {
 			it("has the same zoomlevels as the tilelayer", function () {
 				var maxZoom = 10,
 				    minZoom = 5;
@@ -194,7 +196,8 @@ describe('GridLayer', function () {
 			});
 		});
 
-		describe("when a tilelayer is added to a map that already has a tilelayer", function () {
+		// Skip because we have base layer with greater zooms.
+		describe.skip("when a tilelayer is added to a map that already has a tilelayer", function () {
 			it("has its zoomlevels updated to fit the new layer", function () {
 				map.setView([0, 0], 1);
 
