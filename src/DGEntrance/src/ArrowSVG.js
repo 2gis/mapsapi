@@ -75,7 +75,11 @@ DG.Entrance.Arrow.SVG = DG.SVG.extend({
     _getDefs: function () {
         this._defs = this._defs || DG.SVG.create('defs');
         if (!this._defs.parentNode) {
-            this._container.appendChild(this._defs);
+            if (this._container.childElementCount) {
+                this._container.insertBefore(this._defs, this._container.firstChild);
+            } else {
+                this._container.appendChild(this._defs);
+            }
         }
         return this._defs;
     },

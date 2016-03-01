@@ -263,7 +263,9 @@ var deps = {
             'DGEntrance/src/ArrowSVG.js',
             'DGEntrance/src/ArrowSVG.VML.js',
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
-            'DGEntrance/src/EventHandler.js'
+            'DGEntrance/src/EventHandler.js',
+            'DGEntrance/src/DGVectorTransform.js',
+            'DGEntrance/src/DGEntrance2.js'
         ],
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     },
