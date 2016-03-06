@@ -181,7 +181,8 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             || DG.Entrance.Arrow.SHAPE;
         this._shape = {
             points: {},
-            drawings: {}
+            drawings: {},
+            bounds: {}
         };
         this._drawings = [];
 
@@ -221,12 +222,13 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                 if (!this._shape.points[zoom]) {
                     this._produceShape(zoom);
                 }
-                this._drawings = [this._shape.drawings[zoom]];
+                this._drawings = this._shape.drawings[zoom];
 
                 result.push(this._transform.transform());
 
                 this.setStyle({weight: weight});
 
+                //  TODO: Cache bounds
                 po = map.getPixelOrigin();
                 for (i = 0, len = result[0].length; i < len; i++) {
                     latlng = map.unproject(result[0][i].add(po));
@@ -234,7 +236,7 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                     latlngs[i] = latlng;
                 }
             } else {
-                this._latlngs = [this._transform._vectors[this._transform._vectors.length - 1].clone()];
+                this._latlngs = [this._transform._vertices[this._transform._vertices.length - 1].clone()];
                 bounds.extend(this._latlngs[0]);
             }
         }
@@ -273,12 +275,12 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         while (i--) {
             drawings.push('L');
         }
-        this._shape.drawings[zoom] = _drawings.concat(drawings).concat('C').concat(drawings);
+        this._shape.drawings[zoom] = [_drawings.concat(drawings).concat('C').concat(drawings)];
 
         ls = Math.abs(lp[0]) + width + 5 - Math.abs(path[1][0]);
         ls = ls > 0 ? ls : 0;
-        points = _transform._translate(_points, [ls, 0]).concat(points);
-        this._shape.points[zoom] = _transform._rotate(points);
+        points = _transform.translate(_points, [ls, 0]).concat(points);
+        this._shape.points[zoom] = _transform.rotate(points);
     },
 
     _getStrokePoints: function (path, angles, width, points, endings) {
@@ -288,9 +290,9 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         for (i = 0, len = angles.length; i < len; i++) {
             x = path[i + 1][0];
             dx = width * angles[i].cot;
-            points[i][0] = x + dx;
+            points[i][0] = x - dx;
             points[i][1] = -width;
-            points[end - i][0] = x - dx;
+            points[end - i][0] = x + dx;
             points[end - i][1] = width;
 
             path = transform(path, angles[i], [x, 0]);
@@ -434,11 +436,11 @@ DG.Entrance.Arrow.SHAPE = {
         points = DG.Entrance.Arrow.SHAPE.points[shapeZoom],
         endings = DG.Entrance.Arrow.SHAPE.endings[shapeZoom],
         drawings = DG.Entrance.Arrow.SHAPE.drawings[shapeZoom],
-        transform = new DG.VectorTransform([[0, 0], [0, 0]]);
+        transform = new DG.VertexTransform([[0, 0], [0, 0]]);
 
     for (scale = 0.9, i = shapeZoom - 1; i > minZoom; i--, scale -= 0.15) {
-        DG.Entrance.Arrow.SHAPE.points[i] = transform._scale(points, scale);
-        DG.Entrance.Arrow.SHAPE.endings[i] = transform._scale(endings, scale);
+        DG.Entrance.Arrow.SHAPE.points[i] = transform.scale(points, scale);
+        DG.Entrance.Arrow.SHAPE.endings[i] = transform.scale(endings, scale);
         DG.Entrance.Arrow.SHAPE.drawings[i] = drawings;
     }
 })();
