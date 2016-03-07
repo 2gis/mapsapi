@@ -257,9 +257,9 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             _endings = this.options.shape.endings[zoom],
             _drawings = this.options.shape.drawings[zoom],
             _transform = this._transform,
-            path, points, angles, width,
-            drawings = [],
-            i, ls, lp;
+            transform = DG.ShapeTransform.transform,
+            path, points, angles, width, drawings = [],
+            i, len, x, dx, ls, lp;
 
         path = _transform.getTranslatedPath(zoom);
 
@@ -268,50 +268,33 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         lp = _points[_points.length - 1];
         width = Math.abs(lp[1]);
 
-        points = _transform.getEmptyPoints();
-        points = this._getStrokePoints(path, angles, width, points, _endings);
-
-        i = points.length / 2 - 1;
-        while (i--) {
-            drawings.push('L');
-        }
-        this._shape.drawings[zoom] = [_drawings.concat(drawings).concat('C').concat(drawings)];
-
         ls = Math.abs(lp[0]) + width + 5 - Math.abs(path[1][0]);
         ls = ls > 0 ? ls : 0;
-        points = _transform.translate(_points, [ls, 0]).concat(points);
-        this._shape.points[zoom] = _transform.rotate(points);
-    },
 
-    _getStrokePoints: function (path, angles, width, points, endings) {
-        var i, len, x, dx, end = points.length - 1,
-            transform = DG.ShapeTransform.transform;
-
+        points = [path, [], []];
         for (i = 0, len = angles.length; i < len; i++) {
             x = path[i + 1][0];
             dx = width * angles[i].cot;
-            points[i][0] = x - dx;
-            points[i][1] = -width;
-            points[end - i][0] = x + dx;
-            points[end - i][1] = width;
-
-            path = transform(path, angles[i], [x, 0]);
-            points = transform(points, angles[i], [x, 0]);
+            points[1].push([x - dx, -width]);
+            points[2].push([x + dx, +width]);
+            transform(points, angles[i], [x, 0]);
+            drawings.push('L');
         }
 
         dx = path[i + 1][0];
-        points[i][0] = dx;
-        points[i][1] = -width;
-        points[end - i][0] = dx;
-        points[end - i][1] = width;
+        points[1].push([dx, -width]);
+        points[2].push([dx, +width]);
+        points[1].push([_endings[0][0] + dx, _endings[0][1]]);
+        points[2].push([_endings[1][0] + dx, _endings[1][1]]);
+        drawings.push('L'); //  Middle 'C' will be added at final array construction time
 
-        i++;
-        points[i][0] = endings[0][0] + dx;
-        points[i][1] = endings[0][1];
-        points[end - i][0] = endings[1][0] + dx;
-        points[end - i][1] = endings[1][1];
+        points = points[1].concat(points[2].reverse());
+        transform([points], angles.fullAngle, path[0]);
 
-        return transform(points, angles.fullAngle, path[0]);
+        points = _transform.translate(_points, [ls, 0]).concat(points);
+        this._shape.points[zoom] = _transform.rotate(points);
+
+        this._shape.drawings[zoom] = [_drawings.concat(drawings).concat('C').concat(drawings)];
     }
 });
 
@@ -326,91 +309,6 @@ DG.Entrance.arrow2 = function (latlngs, options) {
 
 
 //  --------------------------------------------------------------------------------------------------------------------
-DG.extend(L.SVG.prototype, {
-    _updateComplexShape: function (layer, closed) {
-        this._setPath(layer, L.SVG.complexPointsToPath(layer._rings, layer._drawings, closed));
-    }
-});
-
-DG.extend(L.Canvas.prototype, {
-    _updateComplexShape: function (layer, closed) {
-        var i, j, k, len, len2, points, d, x, y, _x, _y,
-            drawings = layer._drawings,
-            rings = layer._rings,
-            ctx = this._ctx;
-
-        this._drawnLayers[layer._leaflet_id] = layer;
-
-        ctx.beginPath();
-
-        for (i = 0, len = rings.length; i < len; i++) {
-            points = rings[i];
-            x = y = 0;
-
-            for (j = 0, k = 0, len2 = points.length; j < len2; /* j++, k++ */) {
-                d = drawings[i][k++];
-                _x = points[j].x;
-                _y = points[j++].y;
-                switch (d) {
-                    case 'M':   ctx.moveTo(x  = _x, y  = _y); break;
-                    case 'm':   ctx.moveTo(x += _x, y += _y); break;
-                    case 'L':   ctx.lineTo(x  = _x, y  = _y); break;
-                    case 'l':   ctx.lineTo(x += _x, y += _y); break;
-                    case 'C':
-                        ctx.bezierCurveTo(_x, _y,
-                            points[j].x, points[j++].y,
-                            x = points[j].x, y = points[j++].y);
-                        break;
-                    case 'c':
-                        ctx.bezierCurveTo(x + _x, y + _y,
-                            x + points[j].x, y + points[j++].y,
-                            x += points[j].x, y += points[j++].y);
-                        break;
-                }
-            }
-            if (closed) {
-                ctx.closePath();
-            }
-        }
-
-        this._fillStroke(ctx, layer);
-    }
-});
-
-DG.extend(L.SVG, {
-    complexPointsToPath: function (rings, drawings, closed) {
-        var str = '',
-            svg = DG.Browser.svg,
-            i, j, k, l, n, len, len2, points, d;
-
-        for (i = 0, len = rings.length; i < len; i++) {
-            points = rings[i];
-
-            for (j = 0, k = 0, len2 = points.length; j < len2; /* j++, k++ */) {
-                d = drawings[i][k++];
-                switch (d) {
-                    case 'M':   l = svg ? d : 'm'; n = 1; break;
-                    case 'm':   l = svg ? d : 't'; n = 1; break;
-                    case 'L':   l = svg ? d : 'l'; n = 1; break;
-                    case 'l':   l = svg ? d : 'r'; n = 1; break;
-                    case 'C':   l = svg ? d : 'c'; n = 3; break;
-                    case 'c':   l = svg ? d : 'v'; n = 3; break;
-                    default:    l = d; n = 1;
-                }
-                str += l;
-                while (n-- > 0) {
-                    str += ' ' + points[j].x + ',' + points[j++].y;
-                }
-            }
-
-            str += closed ? (svg ? 'z' : 'x') : '';
-        }
-
-        // SVG complains about empty path strings
-        return str || 'M0,0';
-    }
-});
-
 //DG.Entrance.Arrow.memory = {};
 DG.Entrance.SHOW_FROM_ZOOM = 16;
 DG.Entrance.Arrow.SHAPE_ZOOM = 19;

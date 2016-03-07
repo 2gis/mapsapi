@@ -254,17 +254,19 @@ DG.extend(DG.ShapeTransform.prototype, {
     }
 });
 
-DG.ShapeTransform.transform = function (ring, angle, vector) {
+DG.ShapeTransform.transform = function (rings, angle, vector) {
     var cos = angle.cos, sin = angle.sin,
         dx = vector[0], dy = vector[1],
-        x, y, rx, ry, _ring = [];
+        ring, x, y, j, i = rings.length;
 
-    for (var j = 0, len = ring.length; j < len; j++) {
-        rx = ring[j][0] - dx;
-        ry = ring[j][1] - dy;
-        x = rx * cos - ry * sin;
-        y = rx * sin + ry * cos;
-        _ring.push([x, y]);
+    while (i--) {
+        ring = rings[i];
+        j = ring.length;
+        while (j--) {
+            x = ring[j][0] - dx;
+            y = ring[j][1] - dy;
+            ring[j][0] = x * cos - y * sin;
+            ring[j][1] = x * sin + y * cos;
+        }
     }
-    return _ring;
 };
