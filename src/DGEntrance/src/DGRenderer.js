@@ -100,13 +100,13 @@ DG.extend(L.SVG, {
                             //  So we'll emulate Cubic Bézier curve by applying Quadratic variant in both cases
                             //  Both control points will use the same value
                             str += 'C' +
-                                points[j].x + ',' + points[ j ].y + ' ' +
+                                points[j].x + ',' + points[ j ].y + ' ' +   //  eslint-disable-line space-in-brackets
                                 points[j].x + ',' + points[j++].y + ' ' +
                                 points[j].x + ',' + points[j++].y + ' ';
                             d = ''; n = 0; break;
                         case 'q':
                             str += 'c' +
-                                points[j].x + ',' + points[ j ].y + ' ' +
+                                points[j].x + ',' + points[ j ].y + ' ' +   //  eslint-disable-line space-in-brackets
                                 points[j].x + ',' + points[j++].y + ' ' +
                                 points[j].x + ',' + points[j++].y + ' ';
                             d = ''; n = 0; break;

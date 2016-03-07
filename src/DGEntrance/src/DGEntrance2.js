@@ -182,7 +182,7 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         this._shape = {
             points: {},
             drawings: {},
-            bounds: {}
+            bounds: null
         };
         this._drawings = [];
 
@@ -206,38 +206,30 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
     addLatLng: function (latlng, latlngs) { return this },      // eslint-disable-line
 
     _projectLatlngs: function (latlngs, result) {
-        var weight, zoom, po,
-            i, len, latlng, bounds,
+        var weight, zoom, points,
             map = this._map;
 
-        bounds = this._bounds = new DG.LatLngBounds();
         if (map) {
-
-            //  TODO: try to reproduce 'scale' and 'weight' params by math
+             //  TODO: try to reproduce 'scale' and 'weight' params by math
             zoom = map.getZoom();
             weight = 2.50 - ((DG.Entrance.Arrow.SHAPE_ZOOM - zoom) * 0.25);
 
             if (zoom >= DG.Entrance.SHOW_FROM_ZOOM) {
+                this.setStyle({weight: weight});
 
                 if (!this._shape.points[zoom]) {
                     this._produceShape(zoom);
                 }
                 this._drawings = this._shape.drawings[zoom];
 
-                result.push(this._transform.transform());
+                points = this._transform.transform(this._shape.points[zoom]);
+                result.push(points);
 
-                this.setStyle({weight: weight});
-
-                //  TODO: Cache bounds
-                po = map.getPixelOrigin();
-                for (i = 0, len = result[0].length; i < len; i++) {
-                    latlng = map.unproject(result[0][i].add(po));
-                    bounds.extend(latlng);
-                    latlngs[i] = latlng;
-                }
+                this._bounds = this._getBounds(points);
+                this._latlngs = [this._bounds.getSouthWest(), this._bounds.getNorthEast()];
             } else {
-                this._latlngs = [this._transform._vertices[this._transform._vertices.length - 1].clone()];
-                bounds.extend(this._latlngs[0]);
+                this._latlngs = [this._transform._vertices[this._transform._vTo].clone()];
+                this._bounds = new DG.LatLngBounds(this._latlngs);
             }
         }
     },
@@ -250,6 +242,22 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
 
     _updatePath: function () {
         this._renderer._updateComplexShape(this, true);
+    },
+
+    _getBounds: function (points) {
+        var i = points.length,
+            po, map, bounds;
+
+        if (!this._shape.bounds) {
+            map = this._map;
+            po = map.getPixelOrigin();
+            bounds = new DG.LatLngBounds();
+            while (i--) {
+                bounds.extend(map.unproject(points[i].add(po)));
+            }
+            this._shape.bounds = bounds;
+        }
+        return this._shape.bounds;
     },
 
     _produceShape: function (zoom) {
@@ -336,7 +344,7 @@ DG.Entrance.Arrow.SHAPE = {
         drawings = DG.Entrance.Arrow.SHAPE.drawings[shapeZoom],
         transform = new DG.VertexTransform([[0, 0], [0, 0]]);
 
-    for (scale = 0.9, i = shapeZoom - 1; i > minZoom; i--, scale -= 0.15) {
+    for (scale = 0.75, i = shapeZoom - 1; i > minZoom; i--, scale -= 0.1) {
         DG.Entrance.Arrow.SHAPE.points[i] = transform.scale(points, scale);
         DG.Entrance.Arrow.SHAPE.endings[i] = transform.scale(endings, scale);
         DG.Entrance.Arrow.SHAPE.drawings[i] = drawings;
@@ -380,6 +388,8 @@ DG.Entrance.Arrow.SHAPE = {
 
 
 /*
+style="transform: translateY(-40px) translateX(8px);"
+
 var c = []; for (var i = 0; i < this.options.ring.length; i++) { var t = map.unproject([this.options.ring[i][0]+67108864, this.options.ring[i][1]+67108864], 19); c.push([t.lat, t.lng]) };
 var str = ''; for (var a = 0; a < c.length; a++) {str += '['+c[a][0]+', '+c[a][1]+'], '}
 

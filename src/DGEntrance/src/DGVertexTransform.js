@@ -157,22 +157,18 @@ DG.extend(DG.ShapeTransform.prototype, {
         return this;
     },
 
-    //  TODO: Refactor to remove outer object dependency (shape)
-    transform: function (scale) {
+    transform: function (ring, scale) {
         var to = this._map.project(this._vertices[this._vTo]),
             po = this._map.getPixelOrigin(),
             dx = to.x - po.x,
             dy = to.y - po.y,
-            ring = this._shape.points[this._map.getZoom()],
             x, y, _ring = [];
 
-        if (ring) {
-            scale = scale || 1;
-            for (var j = 0, len = ring.length; j < len; j++) {
-                x = ring[j][0] * scale + dx;
-                y = ring[j][1] * scale + dy;
-                _ring.push(new DG.Point(+x.toFixed(2), +y.toFixed(2)));
-            }
+        scale = scale || 1;
+        for (var j = 0, len = ring.length; j < len; j++) {
+            x = ring[j][0] * scale + dx;
+            y = ring[j][1] * scale + dy;
+            _ring.push(new DG.Point(+x.toFixed(2), +y.toFixed(2)));
         }
         return _ring;
     },
@@ -231,16 +227,6 @@ DG.extend(DG.ShapeTransform.prototype, {
         }
 
         return this.unRotate(path);
-    },
-
-    getEmptyPoints: function (num) {
-        var result = [];
-
-        num = num || this._vertices.length;
-        while (num--) {
-            result.push([0, 0], [0, 0]);
-        }
-        return result;
     },
 
     _excludeVector: function (index) {
