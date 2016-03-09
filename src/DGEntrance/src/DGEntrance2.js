@@ -266,8 +266,9 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             _drawings = this.options.shape.drawings[zoom],
             _transform = this._transform,
             transform = DG.ShapeTransform.transform,
-            path, points, angles, width, drawings = [],
-            i, len, x, dx, ls, lp;
+            drawingsL = [], drawingsR = [],
+            path, points, angles, width,
+            i, len, x, ax, bx, ls, lp;
 
         path = _transform.getTranslatedPath(zoom);
 
@@ -282,19 +283,41 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         points = [path, [], []];
         for (i = 0, len = angles.length; i < len; i++) {
             x = path[i + 1][0];
-            dx = width * angles[i].cot;
-            points[1].push([x - dx, -width]);
-            points[2].push([x + dx, +width]);
-            transform(points, angles[i], [x, 0]);
-            drawings.push('L');
+            ax = width * angles[i].cot;
+
+            //  http://pomax.github.io/bezierinfo/#circles_cubic
+            //  actual equation is (4/3 * tan(α/4) * radius)
+            bx = angles[i].tan * width * 8 / 3;
+
+            //  Next code can be combined by -/+ inversion but for simplicity it is left as is
+            if (ax < 0) {
+                points[1].push([x - ax, -width]);
+                drawingsR.push('L');
+
+                points[2].push([x - ax, +width]);
+                points[2].push([x - ax + bx, +width]);
+                transform(points, angles[i], [x, 0]);
+                points[2].push([0 + ax - bx, +width]);
+                points[2].push([0 + ax, +width]);
+                drawingsL.push('L', 'C');
+            } else {
+                points[2].push([x + ax, +width]);
+                drawingsL.push('L');
+
+                points[1].push([x + ax, -width]);
+                points[1].push([x + ax - bx, -width]);
+                transform(points, angles[i], [x, 0]);
+                points[1].push([0 - ax + bx, -width]);
+                points[1].push([0 - ax, -width]);
+                drawingsR.push('L', 'C');
+            }
         }
 
-        dx = path[i + 1][0];
-        points[1].push([dx, -width]);
-        points[2].push([dx, +width]);
-        points[1].push([_endings[0][0] + dx, _endings[0][1]]);
-        points[2].push([_endings[1][0] + dx, _endings[1][1]]);
-        drawings.push('L'); //  Middle 'C' will be added at final array construction time
+        ax = path[i + 1][0];
+        points[1].push([ax, -width]);
+        points[2].push([ax, +width]);
+        points[1].push([_endings[0][0] + ax, _endings[0][1]]);
+        points[2].push([_endings[1][0] + ax, _endings[1][1]]);
 
         points = points[1].concat(points[2].reverse());
         transform([points], angles.fullAngle, path[0]);
@@ -302,7 +325,7 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         points = _transform.translate(_points, [ls, 0]).concat(points);
         this._shape.points[zoom] = _transform.rotate(points);
 
-        this._shape.drawings[zoom] = [_drawings.concat(drawings).concat('C').concat(drawings)];
+        this._shape.drawings[zoom] = [_drawings.concat(drawingsR).concat('L', 'C', 'L').concat(drawingsL.reverse())];
     }
 });
 
@@ -396,11 +419,12 @@ var str = ''; for (var a = 0; a < c.length; a++) {str += '['+c[a][0]+', '+c[a][1
 var a = new DG.Entrance.Arrow2([DG.latLng(54.979515,82.897354), DG.latLng(54.979599,82.89741)]);;
 [[54.979515,82.897354], [54.979599,82.89741]]
 
-var a = new DG.Entrance.Arrow2([DG.latLng(55.733819, 37.588498), DG.latLng(55.733906, 37.588372), DG.latLng(55.733934, 37.588434)]);;
+var a = new DG.Entrance.Arrow2([DG.latLng(55.733819, 37.588498), DG.latLng(55.733906, 37.588372), DG.latLng(55.733934, 37.588434)]);;;
 [55.733819, 37.588498], [55.733906, 37.588372], [55.733934, 37.588434]
 [55.733787, 37.588427], [55.733857, 37.588326]
 [55.734122, 37.588066], [55.734179, 37.588189]
 
+var a = new DG.Entrance.Arrow2([DG.latLng(55.733890, 37.588248), DG.latLng(55.73395, 37.588178), DG.latLng(55.733906, 37.588372), DG.latLng(55.733934, 37.588434)]);;;
 
 LngLat!
 vectors:Array[1]

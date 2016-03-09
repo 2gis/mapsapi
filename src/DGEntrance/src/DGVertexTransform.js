@@ -178,7 +178,7 @@ DG.extend(DG.ShapeTransform.prototype, {
     },
 
     _getAngles: function () {
-        var i, len, absSin, cos, sin, angle, angles = [],
+        var i, len, absSin, cos, sin, cot, angle, angles = [],
             getAngle = DG.VertexTransform.getAngle,
             path = this.getTranslatedPath(),
             fullAngle = {cos: 1, sin: 0};
@@ -194,8 +194,17 @@ DG.extend(DG.ShapeTransform.prototype, {
                 //  This is half ∢α cotangent, sign describes angle direction and used to shortcut stroke calculations
                 //  '-1' - right angle is inner angle, '1' - left angle is inner angle (if seen from [0, 0] to [-1, 0])
                 angle.cot = (1 + angle.cos) / angle.sin;
+
                 //  We need to rotate next segment to [-1, 0] axis, so we need complementary angle actually
                 angle.cos = -angle.cos;
+
+                //  Complimentary angle also used to calculate it's quaternary ∢β tangent
+                //  ∢β tangent used in approximation of outer arc segment by Bézier curve
+                cot = (1 + angle.cos) / angle.sin;
+                sin = (cot < 0 ? -1 : 1) / Math.sqrt((1 + cot * cot));
+                cos = Math.sqrt(1 - sin * sin);
+                angle.tan = sin / (1 + cos);
+
                 angles.push(angle);
 
                 cos = fullAngle.cos * angle.cos - fullAngle.sin * angle.sin;
