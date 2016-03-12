@@ -210,11 +210,10 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             map = this._map;
 
         if (map) {
-             //  TODO: try to reproduce 'scale' and 'weight' params by math
             zoom = map.getZoom();
-            weight = 2.50 - ((DG.Entrance.Arrow.SHAPE_ZOOM - zoom) * 0.25);
+            weight = 2.2 - ((19 - zoom) * 0.2); //  This values are OK but '19' (max possible zoom) is hardcoded for now
 
-            if (zoom >= DG.Entrance.SHOW_FROM_ZOOM) {
+            if (this.options.shape.points[zoom]) {
                 this.setStyle({weight: weight});
 
                 if (!this._shape.points[zoom]) {
@@ -262,7 +261,6 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
 
     _produceShape: function (zoom) {
         var _points = this.options.shape.points[zoom],
-            _endings = this.options.shape.endings[zoom],
             _drawings = this.options.shape.drawings[zoom],
             _transform = this._transform,
             transform = DG.ShapeTransform.transform,
@@ -277,7 +275,7 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         lp = _points[_points.length - 1];
         width = Math.abs(lp[1]);
 
-        ls = Math.abs(lp[0]) + width + 5 - Math.abs(path[1][0]);
+        ls = Math.abs(lp[0]) + width - Math.abs(path[1][0]);
         ls = ls > 0 ? ls : 0;
 
         points = [path, [], []];
@@ -314,18 +312,25 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         }
 
         ax = path[i + 1][0];
+        bx = width * 4 / 3; // tan(PI/4) = 1
         points[1].push([ax, -width]);
         points[2].push([ax, +width]);
-        points[1].push([_endings[0][0] + ax, _endings[0][1]]);
-        points[2].push([_endings[1][0] + ax, _endings[1][1]]);
+        points[1].push([ax - bx, -width]);
+        points[2].push([ax - bx, +width]);
 
-        points = points[1].concat(points[2].reverse());
+        points = points[2].concat(points[1].reverse());
         transform([points], angles.fullAngle, path[0]);
 
-        points = _transform.translate(_points, [ls, 0]).concat(points);
+        points = points.concat(_transform.translate(_points, [ls, 0]));
+        points.unshift(points[points.length - 1]);  //  TODO: Temp hack
         this._shape.points[zoom] = _transform.rotate(points);
 
-        this._shape.drawings[zoom] = [_drawings.concat(drawingsR).concat('L', 'C', 'L').concat(drawingsL.reverse())];
+        this._shape.drawings[zoom] = [['M']
+            .concat(drawingsL)
+            .concat('L', 'C', 'L')
+            .concat(drawingsR.reverse())
+            .concat(_drawings)
+        ];
     }
 });
 
@@ -342,73 +347,66 @@ DG.Entrance.arrow2 = function (latlngs, options) {
 //  --------------------------------------------------------------------------------------------------------------------
 //DG.Entrance.Arrow.memory = {};
 DG.Entrance.SHOW_FROM_ZOOM = 16;
-DG.Entrance.Arrow.SHAPE_ZOOM = 19;
 /*eslint-disable space-in-brackets */
 DG.Entrance.Arrow.SHAPE = {
-    points: {19: [[-14.277800,   3.914987],
-        [-16.955177,   9.920100],
-        [-17.201977,  10.445900], [-15.678277,  11.733500], [-15.195377,  11.454500],
-        [-11.418377,   9.265500], [-2.093776,    2.130000], [ -2.093776,   2.130000],
-        [  0.007382,   0.123400], [  0.007382,  -0.123400], [ -2.093776,  -2.130000],
-        [ -2.093776,  -2.130000], [-11.418377,  -9.265500], [-15.195377, -11.454500],
-        [-15.678277, -11.733500], [-17.201977, -10.445900], [-16.955177,  -9.920100],
-        [-14.277800,  -3.914987]]},
-    endings: {19: [[-3.795562, -3.644000], [-3.795562, 3.644000]]},
-    drawings: {19: ['M', 'L', 'C', 'C', 'C', 'C', 'C', 'L']}
+    points: {
+        16: [
+            [ -6.5000,  -1.8000],
+            [ -6.0522,  -1.8000],
+            [ -7.0975,  -5.2537],
+            [ -6.6619,  -6.2565], [ -6.5980,  -6.3550], [ -6.1757,  -6.1470],
+            [  0.8371,  -0.3552],
+            [  0.9275,  -0.1764], [  0.9275,   0.1764], [  0.8371,   0.3552],
+            [ -6.1757,   6.1470],
+            [ -6.5980,   6.3550], [ -6.6619,   6.2565], [ -7.0975,   5.2537],
+            [ -6.0522,   1.8000],
+            [ -6.5000,   1.8000]
+        ],
+        17: [
+            [ -9.0000,  -2.4000],
+            [ -7.8890,  -2.4000],
+            [ -9.9245,  -7.2548],
+            [ -9.3363,  -8.6404], [ -9.3448,  -8.6448], [ -8.8717,  -8.3508],
+            [  1.0285,  -0.3552],
+            [  1.1190,  -0.1764], [  1.1190,   0.1764], [  1.0285,   0.3552],
+            [ -8.8717,   8.3508],
+            [ -9.3448,   8.6448], [ -9.3363,   8.6404], [ -9.9245,   7.2548],
+            [ -7.8890,   2.4000],
+            [ -9.0000,   2.4000]
+        ],
+        18: [
+            [-11.5000,  -3.0000],
+            [-10.0795,  -3.0000],
+            [-12.4909,  -9.3173],
+            [-11.8402, -10.7654], [-11.5986, -10.7073], [-10.9380, -10.2258],
+            [  1.1497,  -0.3552],
+            [  1.2402,  -0.1764], [  1.2402,   0.1764], [  1.1497,   0.3552],
+            [-10.9380,  10.2258],
+            [-11.5986,  10.7073], [-11.8402,  10.7654], [-12.4909,   9.3173],
+            [-10.0795,   3.0000],
+            [-11.5000,   3.0000]
+        ],
+        19: [
+            [-13.0000,  -3.6000],
+            [-11.6600,  -3.6000],
+            [-14.1696, -10.8351],
+            [-13.5189, -12.2832], [-13.2773, -12.2251], [-12.6167, -11.7436],
+            [  1.3061,  -0.3552],
+            [  1.3966,  -0.1764], [  1.3966,   0.1764], [  1.3061,   0.3552],
+            [-12.6167,  11.7436],
+            [-13.2773,  12.2251], [-13.5189,  12.2832], [-14.1696,  10.8351],
+            [-11.6600,   3.6000],
+            [-13.0000,   3.6000]
+        ]
+    },
+    drawings: {
+        16: ['L', 'L', 'C', 'L', 'C', 'L', 'C', 'L', 'L'],
+        17: ['L', 'L', 'C', 'L', 'C', 'L', 'C', 'L', 'L'],
+        18: ['L', 'L', 'C', 'L', 'C', 'L', 'C', 'L', 'L'],
+        19: ['L', 'L', 'C', 'L', 'C', 'L', 'C', 'L', 'L']
+    }
 };
 /*eslint-enable space-in-brackets */
-
-(function () {
-    var scale, i,
-        shapeZoom = DG.Entrance.Arrow.SHAPE_ZOOM,
-        minZoom = DG.Entrance.SHOW_FROM_ZOOM - 1,
-        points = DG.Entrance.Arrow.SHAPE.points[shapeZoom],
-        endings = DG.Entrance.Arrow.SHAPE.endings[shapeZoom],
-        drawings = DG.Entrance.Arrow.SHAPE.drawings[shapeZoom],
-        transform = new DG.VertexTransform([[0, 0], [0, 0]]);
-
-    for (scale = 0.75, i = shapeZoom - 1; i > minZoom; i--, scale -= 0.1) {
-        DG.Entrance.Arrow.SHAPE.points[i] = transform.scale(points, scale);
-        DG.Entrance.Arrow.SHAPE.endings[i] = transform.scale(endings, scale);
-        DG.Entrance.Arrow.SHAPE.drawings[i] = drawings;
-    }
-})();
-
-//DG.Entrance.Arrow.SHAPE = {
-//    points: [
-//        [-36.160941,   3.914987],
-//        [-14.277800,   3.914987],
-//        [-16.955177,   9.920100],
-//        [-17.201977,  10.445900], [-15.678277,  11.733500], [-15.195377,  11.454500],
-//        [-11.418377,   9.265500], [-2.093776,    2.130000], [ -2.093776,   2.130000],
-//        [  0.007382,   0.123400], [  0.007382,  -0.123400], [ -2.093776,  -2.130000],
-//        [ -2.093776,  -2.130000], [-11.418377,  -9.265500], [-15.195377, -11.454500],
-//        [-15.678277, -11.733500], [-17.201977, -10.445900], [-16.955177,  -9.920100],
-//        [-14.277800,  -3.914987],
-//        [-36.160941,  -3.914987],
-//        [-39.956503,  -3.644000], [-39.956503,   3.644000], [-36.160941,   3.914987]
-//    ],
-//    drawings: [['M', 'L', 'L', 'C', 'C', 'C', 'C', 'C', 'L', 'L', 'C']]
-//};
-
-//DG.Entrance.Arrow.SHAPE = {
-//    points: [[ -2.093776,   2.130000],
-//        [  0.007382,   0.123400], [  0.007382,  -0.123400], [ -2.093776,  -2.130000],
-//        [ -2.093776,  -2.130000], [-11.418377,  -9.265500], [-15.195377, -11.454500],
-//        [-15.678277, -11.733500], [-17.201977, -10.445900], [-16.955177,  -9.920100],
-//        [-14.835555,  -5.165904],
-//        [-14.365296,  -4.111138], [-14.398960,  -3.910886], [-15.934809,  -3.911130],
-//        [-36.160941,  -3.914987],
-//        [-39.956503,  -3.644000], [-39.956503,   3.644000], [-36.160941,   3.914987],
-//        [-15.934809,   3.911130],
-//        [-14.398960,   3.910886], [-14.365296,   4.111138], [-14.835555,   5.165904],
-//        [-16.955177,   9.920100],
-//        [-17.201977,  10.445900], [-15.678277,  11.733500], [-15.195377,  11.454500],
-//        [-11.418377,   9.265500], [-2.093776,    2.130000], [ -2.093776,   2.130000]],
-//    drawings: [['M', 'C', 'C', 'C', 'L', 'C', 'L', 'C', 'L', 'C', 'L', 'C', 'C']]
-//};
-
-
 
 /*
 style="transform: translateY(-40px) translateX(8px);"
