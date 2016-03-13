@@ -26,8 +26,8 @@ DG.VertexTransform.prototype = {
         cosS = this._angle.cos * scale;
         sinS = this._angle.sin * scale;
         for (var j = 0, len = ring.length; j < len; j++) {
-            rx = ring[j][0];
-            ry = ring[j][1];
+            rx = ring[j].x;
+            ry = ring[j].y;
             x = rx * cosS - ry * sinS + dx;
             y = rx * sinS + ry * cosS + dy;
             _ring.push(new DG.Point(+x.toFixed(2), +y.toFixed(2)));
@@ -40,9 +40,9 @@ DG.VertexTransform.prototype = {
 
         scale = scale || 1;
         for (var j = 0, len = ring.length; j < len; j++) {
-            x = ring[j][0] * scale;
-            y = ring[j][1] * scale;
-            _ring.push([x, y]);
+            x = ring[j].x * scale;
+            y = ring[j].y * scale;
+            _ring.push(new DG.Point(x, y));
         }
         return _ring;
     },
@@ -59,11 +59,11 @@ DG.VertexTransform.prototype = {
             _ring = [];
 
         for (var j = 0, len = ring.length; j < len; j++) {
-            rx = ring[j][0];
-            ry = ring[j][1];
+            rx = ring[j].x;
+            ry = ring[j].y;
             x = rx * cos - ry * sin;
             y = rx * sin + ry * cos;
-            _ring.push([x, y]);
+            _ring.push(new DG.Point(x, y));
         }
         return _ring;
     },
@@ -75,22 +75,22 @@ DG.VertexTransform.prototype = {
     },
 
     translate: function (ring, v) {
-        var dx = v ? v[0] : 0,
-            dy = v ? v[1] : 0,
+        var dx = v ? v.x : 0,
+            dy = v ? v.y : 0,
             x, y, _ring = [];
 
         for (var j = 0, len = ring.length; j < len; j++) {
-            x = ring[j][0] + dx;
-            y = ring[j][1] + dy;
-            _ring.push([x, y]);
+            x = ring[j].x + dx;
+            y = ring[j].y + dy;
+            _ring.push(new DG.Point(x, y));
         }
         return _ring;
     },
 
     unTranslate: function (ring, v) {
-        var dx = v ? v[0] : 0,
-            dy = v ? v[1] : 0;
-        return this.translate(ring, [-dx, -dy]);
+        var dx = v ? v.x : 0,
+            dy = v ? v.y : 0;
+        return this.translate(ring, new DG.Point(-dx, -dy));
     }
 };
 
@@ -101,9 +101,9 @@ DG.VertexTransform.getLength = function (x, y) {
         //  'x' and 'y' are absolute coordinates of vector
         return Math.sqrt(x * x + y * y);
     } else {
-        //  'x' and 'y' are vector objects [x1, y1] and [x2, y2]
-        dx = x[0] - y[0];
-        dy = x[1] - y[1];
+        //  'x' and 'y' are vector objects
+        dx = y.x - x.x;
+        dy = y.y - x.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
 };
@@ -120,12 +120,12 @@ DG.VertexTransform.getAngle = function (x, y, o) {
             return {cos: 1, sin: 0};
         }
     } else {
-        //  'x' and 'y' are vector objects [x1, y1] and [x2, y2]
-        x1 = x[0]; y1 = x[1];
-        x2 = y[0]; y2 = y[1];
+        //  'x' and 'y' are vector objects
+        x1 = x.x; y1 = x.y;
+        x2 = y.x; y2 = y.y;
         if (o) {
-            x1 -= o[0]; y1 -= o[1];
-            x2 -= o[0]; y2 -= o[1];
+            x1 -= o.x; y1 -= o.y;
+            x2 -= o.x; y2 -= o.y;
         }
         sp = Math.sqrt(x1 * x1 + y1 * y1) * Math.sqrt(x2 * x2 + y2 * y2);
         return {
@@ -138,8 +138,8 @@ DG.VertexTransform.getAngle = function (x, y, o) {
 
 
 
-DG.ShapeTransform = function (vectors) {
-    DG.VertexTransform.call(this, vectors);
+DG.ShapeTransform = function (vertices) {
+    DG.VertexTransform.call(this, vertices);
     this._map = null;
     this._shape = null;
     this._angles = null;
@@ -166,8 +166,8 @@ DG.extend(DG.ShapeTransform.prototype, {
 
         scale = scale || 1;
         for (var j = 0, len = ring.length; j < len; j++) {
-            x = ring[j][0] * scale + dx;
-            y = ring[j][1] * scale + dy;
+            x = ring[j].x * scale + dx;
+            y = ring[j].y * scale + dy;
             _ring.push(new DG.Point(+x.toFixed(2), +y.toFixed(2)));
         }
         return _ring;
@@ -178,7 +178,7 @@ DG.extend(DG.ShapeTransform.prototype, {
     },
 
     _getAngles: function () {
-        var i, len, absSin, cos, sin, cot, angle, angles = [],
+        var i, len, absSin, det, cos, sin, cot, angle, angles = [],
             getAngle = DG.VertexTransform.getAngle,
             path = this.getTranslatedPath(),
             fullAngle = {cos: 1, sin: 0};
@@ -188,8 +188,8 @@ DG.extend(DG.ShapeTransform.prototype, {
 
             absSin = Math.abs(angle.sin);
             if (absSin < 0.000001) {
-                //  Exclude angle from vectors array
-                this._excludeVector(i);
+                //  Exclude angle from vertices array
+                this._excludeVertex(i);
             } else {
                 //  This is half ∢α cotangent, sign describes angle direction and used to shortcut stroke calculations
                 //  '-1' - right angle is inner angle, '1' - left angle is inner angle (if seen from [0, 0] to [-1, 0])
@@ -201,9 +201,11 @@ DG.extend(DG.ShapeTransform.prototype, {
                 //  Complimentary angle also used to calculate it's quaternary ∢β tangent
                 //  ∢β tangent used in approximation of outer arc segment by Bézier curve
                 cot = (1 + angle.cos) / angle.sin;
-                sin = (cot < 0 ? -1 : 1) / Math.sqrt((1 + cot * cot));
-                cos = Math.sqrt(1 - sin * sin);
-                angle.tan = sin / (1 + cos);
+                //sin = (cot < 0 ? -1 : 1) / Math.sqrt(1 + cot * cot);
+                //cos = Math.sqrt(1 - sin * sin);
+                //angle.tan = sin / (1 + cos);
+                det = Math.sqrt(4 * cot * cot + 4) * (cot < 0 ? -1 : 1);
+                angle.tan = -0.5 * (cot + cot - det);
 
                 angles.push(angle);
 
@@ -221,24 +223,24 @@ DG.extend(DG.ShapeTransform.prototype, {
 
     getTranslatedPath: function (zoom) {
         var map = this._map,
-            vectors = this._vertices,
-            i = vectors.length - 1,
+            vertices = this._vertices,
+            i = vertices.length - 1,
             dx, dy, v, path = [];
 
         zoom = zoom || map.getMaxZoom();
-        v = map.project(vectors[i], zoom);
+        v = map.project(vertices[i], zoom);
         dx = v.x; dy = v.y;
-        path.push([0, 0]);
+        path.push(new DG.Point(0, 0));
 
         while (i--) {
-            v = map.project(vectors[i], zoom);
-            path.push([v.x - dx, v.y - dy]);
+            v = map.project(vertices[i], zoom);
+            path.push(new DG.Point(v.x - dx, v.y - dy));
         }
 
         return this.unRotate(path);
     },
 
-    _excludeVector: function (index) {
+    _excludeVertex: function (index) {
         index = this._vertices.length - index - 1;
         this._vertices.splice(index, 1);
     },
@@ -251,17 +253,17 @@ DG.extend(DG.ShapeTransform.prototype, {
 
 DG.ShapeTransform.transform = function (rings, angle, vector) {
     var cos = angle.cos, sin = angle.sin,
-        dx = vector[0], dy = vector[1],
+        dx = vector.x, dy = vector.y,
         ring, x, y, j, i = rings.length;
 
     while (i--) {
         ring = rings[i];
         j = ring.length;
         while (j--) {
-            x = ring[j][0] - dx;
-            y = ring[j][1] - dy;
-            ring[j][0] = x * cos - y * sin;
-            ring[j][1] = x * sin + y * cos;
+            x = ring[j].x - dx;
+            y = ring[j].y - dy;
+            ring[j].x = x * cos - y * sin;
+            ring[j].y = x * sin + y * cos;
         }
     }
 };

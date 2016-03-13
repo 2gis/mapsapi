@@ -264,23 +264,24 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             _drawings = this.options.shape.drawings[zoom],
             _transform = this._transform,
             transform = DG.ShapeTransform.transform,
-            drawingsL = [], drawingsR = [],
-            path, points, angles, width,
-            i, len, x, ax, bx, ls, lp;
+            path, points, drawings, angles, width,
+            i, len, x, ax, bx, ls, lp,
+            Point = DG.Point;
 
         path = _transform.getTranslatedPath(zoom);
 
         angles = _transform.getAngles();
 
         lp = _points[_points.length - 1];
-        width = Math.abs(lp[1]);
+        width = Math.abs(lp.y);
 
-        ls = Math.abs(lp[0]) + width - Math.abs(path[1][0]);
+        ls = Math.abs(lp.x) + width - Math.abs(path[1].x);
         ls = ls > 0 ? ls : 0;
 
-        points = [path, [], []];
+        points = [[], [], path];
+        drawings = [[], []];
         for (i = 0, len = angles.length; i < len; i++) {
-            x = path[i + 1][0];
+            x = path[i + 1].x;
             ax = width * angles[i].cot;
 
             //  http://pomax.github.io/bezierinfo/#circles_cubic
@@ -288,47 +289,55 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             bx = angles[i].tan * width * 8 / 3;
 
             //  Next code can be combined by -/+ inversion but for simplicity it is left as is
-            if (ax < 0) {
-                points[1].push([x - ax, -width]);
-                drawingsR.push('L');
+            if (ax > 0) {
+                points[0].push(new Point(x + ax,      +width));
+                drawings[0].push('L');
 
-                points[2].push([x - ax, +width]);
-                points[2].push([x - ax + bx, +width]);
-                transform(points, angles[i], [x, 0]);
-                points[2].push([0 + ax - bx, +width]);
-                points[2].push([0 + ax, +width]);
-                drawingsL.push('L', 'C');
+                points[1].push(new Point(x + ax,      -width));
+                points[1].push(new Point(x + ax - bx, -width));
+
+                transform(points, angles[i], new Point(x, 0));
+
+                points[1].push(new Point(0 - ax + bx, -width));
+                points[1].push(new Point(0 - ax,      -width));
+                drawings[1].push('L', 'C');
             } else {
-                points[2].push([x + ax, +width]);
-                drawingsL.push('L');
+                points[1].push(new Point(x - ax,      -width));
+                drawings[1].push('L');
 
-                points[1].push([x + ax, -width]);
-                points[1].push([x + ax - bx, -width]);
-                transform(points, angles[i], [x, 0]);
-                points[1].push([0 - ax + bx, -width]);
-                points[1].push([0 - ax, -width]);
-                drawingsR.push('L', 'C');
+                points[0].push(new Point(x - ax,      +width));
+                points[0].push(new Point(x - ax + bx, +width));
+
+                transform(points, angles[i], new Point(x, 0));
+
+                points[0].push(new Point(0 + ax - bx, +width));
+                points[0].push(new Point(0 + ax,      +width));
+                drawings[0].push('L', 'C');
             }
         }
 
-        ax = path[i + 1][0];
+        ax = path[i + 1].x;
         bx = width * 4 / 3; // tan(PI/4) = 1
-        points[1].push([ax, -width]);
-        points[2].push([ax, +width]);
-        points[1].push([ax - bx, -width]);
-        points[2].push([ax - bx, +width]);
+        points[0].push(new Point(ax, +width));
+        points[1].push(new Point(ax, -width));
+        points[0].push(new Point(ax - bx, +width));
+        points[1].push(new Point(ax - bx, -width));
 
-        points = points[2].concat(points[1].reverse());
+        //  Combine path points and return them to the original position
+        points = points[0].concat(points[1].reverse());
         transform([points], angles.fullAngle, path[0]);
 
-        points = points.concat(_transform.translate(_points, [ls, 0]));
-        points.unshift(points[points.length - 1]);  //  TODO: Temp hack
+        //  Last arrow-shape point is actually 'Move To' (start) point
+        //  We need it at the beginning to successfully start the path
+        points = [new Point(lp.x + ls, lp.y)]
+            .concat(points)
+            .concat(_transform.translate(_points, new Point(ls, 0)));
         this._shape.points[zoom] = _transform.rotate(points);
 
         this._shape.drawings[zoom] = [['M']
-            .concat(drawingsL)
+            .concat(drawings[0])
             .concat('L', 'C', 'L')
-            .concat(drawingsR.reverse())
+            .concat(drawings[1].reverse())
             .concat(_drawings)
         ];
     }
@@ -407,6 +416,14 @@ DG.Entrance.Arrow.SHAPE = {
     }
 };
 /*eslint-enable space-in-brackets */
+
+
+(function (points) {
+    for (var i in points) {
+        points[i] = points[i].map(function(point) { return DG.point(point); }); // eslint-disable-line no-loop-func
+    }
+})(DG.Entrance.Arrow.SHAPE.points);
+
 
 /*
 style="transform: translateY(-40px) translateX(8px);"
