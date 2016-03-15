@@ -182,6 +182,7 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         this._shape = {
             points: {},
             drawings: {},
+            lengths: {},
             bounds: null
         };
         this._drawings = [];
@@ -265,7 +266,7 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             _transform = this._transform,
             transform = DG.ShapeTransform.transform,
             path, points, drawings, angles, width,
-            i, len, x, ax, bx, ls, lp,
+            i, len, x, ax, bx, ls, lp, arc, lengths,
             Point = DG.Point;
 
         path = _transform.getTranslatedPath(zoom);
@@ -278,8 +279,9 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         ls = Math.abs(lp.x) + width - Math.abs(path[1].x);
         ls = ls > 0 ? ls : 0;
 
-        points = [[], [], path];
+        lengths = [];
         drawings = [[], []];
+        points = [[], [], path];
         for (i = 0, len = angles.length; i < len; i++) {
             x = path[i + 1].x;
             ax = width * angles[i].cot;
@@ -301,6 +303,9 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                 points[1].push(new Point(0 - ax + bx, -width));
                 points[1].push(new Point(0 - ax,      -width));
                 drawings[1].push('L', 'C');
+
+                arc = new DG.ArcBezier(points[1].slice(points[1].length - 4));
+                lengths.push(Math.abs(x + ax), +arc.length());
             } else {
                 points[1].push(new Point(x - ax,      -width));
                 drawings[1].push('L');
@@ -313,6 +318,9 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                 points[0].push(new Point(0 + ax - bx, +width));
                 points[0].push(new Point(0 + ax,      +width));
                 drawings[0].push('L', 'C');
+
+                arc = new DG.ArcBezier(points[0].slice(points[0].length - 4));
+                lengths.push(Math.abs(x - ax), -arc.length());
             }
         }
 
@@ -322,6 +330,7 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         points[1].push(new Point(ax, -width));
         points[0].push(new Point(ax - bx, +width));
         points[1].push(new Point(ax - bx, -width));
+        lengths.push(Math.abs(ax));
 
         //  Combine path points and return them to the original position
         points = points[0].concat(points[1].reverse());
@@ -340,6 +349,9 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             .concat(drawings[1].reverse())
             .concat(_drawings)
         ];
+    },
+    getAnimatedPath: function (pathRatio) {
+
     }
 });
 
