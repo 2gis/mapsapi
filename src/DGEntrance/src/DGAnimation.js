@@ -1,6 +1,7 @@
 //  ease function: DG.point(0.25, 0.1), DG.point(0.25, 1)
 
-//  TODO    This is a Test to check Bezier curve returning values
+/*
+//  TODO    This is a Test case to check Bezier curve returning values
 var time = 2000;
 var start;
 var tb = new DG.TimeBezier(DG.point(0.25, 0.1), DG.point(0.25, 1));
@@ -22,3 +23,4 @@ function step(timestamp) {
 
 window.setTimeout(function () { window.requestAnimationFrame(step) }, 3000);
 
+*/

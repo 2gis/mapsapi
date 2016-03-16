@@ -108,6 +108,20 @@ DG.VertexTransform.getLength = function (x, y) {
     }
 };
 
+DG.VertexTransform.getScaled = function (x, y, r) {
+    var dx, dy;
+
+    if (typeof x === 'number') {
+        //  'x' and 'y' are absolute coordinates of vector
+        return new DG.Point(x * r, y * r);
+    } else {
+        //  'x' and 'y' are vector objects
+        dx = (y.x - x.x) * r;
+        dy = (y.y - x.y) * r;
+        return new DG.Point(x.x + dx, x.y + dy);
+    }
+};
+
 DG.VertexTransform.getAngle = function (x, y, o) {
     var l, sp, x1, y1, x2, y2;
 
