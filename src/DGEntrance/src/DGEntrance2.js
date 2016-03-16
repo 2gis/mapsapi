@@ -262,6 +262,13 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                 this._drawings = [this._shape.drawings[zoom]];
 
                 points = this._transform.transform(this._shape.points[zoom]);
+
+                //  TODO -----------------------------------------------------------------------------------------------
+                var shape = this._getSubShape(zoom, 0.5);
+                points = this._transform.transform(shape.points);
+                this._drawings = [shape.drawings];
+                //  TODO -----------------------------------------------------------------------------------------------
+
                 result.push(points);
 
                 this._bounds = this._getBounds(points);
@@ -304,8 +311,8 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             _drawings = this.options.shape.drawings[zoom],
             _transform = this._transform,
             transform = DG.ShapeTransform.transform,
-            path, points, drawings, angles, width,
-            i, len, x, ax, bx, ls, lp, arc, subparts,
+            path, points, drawings, angles, width, arcs,
+            i, len, x, ax, bx, ls, lp, subparts,
             lengths = [], Point = DG.Point;
 
         path = _transform.getTranslatedPath(zoom);
@@ -318,9 +325,10 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         ls = Math.abs(lp.x) + width - Math.abs(path[1].x);
         ls = ls > 0 ? ls : 0;
 
+        arcs = [[], [], []];
         drawings = [[], []];
         points = [[], [], path];
-        subparts = {lengths: null, spi: -1, sdi: -1, arcs: []};
+        subparts = {lengths: null, arcs: null, spi: -1, sdi: -1};
         for (i = 0, len = angles.length; i < len; i++) {
             x = path[i + 1].x;
             ax = width * angles[i].cot;
@@ -334,6 +342,8 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                 points[0].push(new Point(x + ax,      +width));
                 drawings[0].push('L');
 
+                arcs[2].push(1);
+                arcs[1].push(points[1].length);
                 points[1].push(new Point(x + ax,      -width));
                 points[1].push(new Point(x + ax - bx, -width));
 
@@ -344,11 +354,12 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                 drawings[1].push('L', 'C');
 
                 lengths.push(Math.abs(x + ax));
-                subparts.arcs.push(points[1].slice(points[1].length - 4).reverse());
             } else {
                 points[1].push(new Point(x - ax,      -width));
                 drawings[1].push('L');
 
+                arcs[2].push(0);
+                arcs[0].push(points[0].length);
                 points[0].push(new Point(x - ax,      +width));
                 points[0].push(new Point(x - ax + bx, +width));
 
@@ -359,7 +370,6 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
                 drawings[0].push('L', 'C');
 
                 lengths.push(Math.abs(x - ax));
-                subparts.arcs.push(points[0].slice(points[0].length - 4).reverse());
             }
         }
 
@@ -373,14 +383,6 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         lengths.push(Math.abs(ax));
         subparts.spi = points[0].length - 1;
         subparts.sdi = drawings[0].length + 1;
-        subparts.arcs = subparts.arcs.map(function (arc) { return new DG.ArcBezier(arc); }).reverse();
-
-        lengths[0] += ls;
-        //  TODO
-
-        subparts.lengths = lengths;
-
-        this._shape.subparts[zoom] = subparts;
 
         //  Combine path points and return them to the original position
         points = points[0].concat(points[1].reverse());
@@ -391,14 +393,35 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
         points = [new Point(lp.x + ls, lp.y)]
             .concat(points)
             .concat(_transform.translate(_points, new Point(ls, 0)));
-        this._shape.points[zoom] = _transform.rotate(points);
+        points = _transform.rotate(points);
+        this._shape.points[zoom] = points;
 
         this._shape.drawings[zoom] = ['M']
             .concat(drawings[0])
             .concat('L', 'C', 'L')
             .concat(drawings[1].reverse())
             .concat(_drawings);
+
+        //  We need to reconstruct arc's indexes but too mach variables already touched, reuse some of them
+        ax = 1;
+        bx = points.length - _points.length;
+        subparts.arcs = arcs[2].map(function (i) {
+            var a = arcs[i].shift();
+            if (i > 0) {
+                return new DG.ArcBezier(points.slice(bx - a - 4, bx - a));
+            } else {
+                return new DG.ArcBezier(points.slice(ax + a, ax + a + 4).reverse());
+            }
+        }).reverse();
+
+        lengths[0] += ls;
+        subparts.lengths = new DG.PathLength().push(lengths.pop());
+        lengths.reverse().forEach(function (v, i) {
+            subparts.lengths.push(subparts.arcs[i].length()).push(v);
+        });
+        this._shape.subparts[zoom] = subparts;
     },
+
     _getSubShape: function (zoom, pathRatio) {
         var _points = this._shape.points[zoom],
             _drawings = this._shape.drawings[zoom],
@@ -406,25 +429,25 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             _lengths = _subparts.lengths,
             _transform = this._transform,
             _getScaled = DG.VertexTransform.getScaled,
-            transform = DG.ShapeTransform.transform,
+            shape = this.options.shape,
+            points, drawings, angle,
             Point = DG.Point;
 
         pathRatio = pathRatio > 1 ? 1 : pathRatio;
-        var len = _lengths.getLength() * pathRatio;
-        var seg = _lengths.getIndex(len);
-        var segRatio = _lengths.getSegRatio(len);
-        var spiL = _subparts.spi;
-        var spiR = spiL + 3;
-        var sdiL = _subparts.sdi;
-        var sdiR = sdiL + 2;
-        var arcI = 0;
-        var aed = 0;
+
+        var len = _lengths.getLength() * pathRatio,
+            seg = _lengths.getIndex(len),
+            segRatio = _lengths.getSegRatio(len),
+            spiL = _subparts.spi, spiR = spiL + 3,
+            sdiL = _subparts.sdi, sdiR = sdiL + 2,
+            arc, lArc, pR, pL, arcI = 0, aed = 0;
+
         while (aed++ < seg) {
             if (aed & 1) {
                 spiL--; spiR++;
                 sdiL--; sdiR++;
             } else {
-                var lArc = _drawings[sdiL].toUpperCase() === 'C';
+                lArc = _drawings[sdiL].toUpperCase() === 'C';
                 if (lArc) {
                     spiL -= 3;
                     sdiL -= 1;
@@ -436,36 +459,48 @@ DG.Entrance.Arrow2 = DG.Polyline.extend({
             }
         }
 
-        var points;
         if (seg & 1) {
             //  One path ends with an arc
-            var arc = _subparts.arcs[arcI];
-            var lArc = _drawings[sdiL].toUpperCase() === 'C';
+            arc = _subparts.arcs[arcI];
+            lArc = _drawings[sdiL].toUpperCase() === 'C';
             if (lArc) {
                 arc = arc.split1(arc.getTbyL(_lengths.getSegLength(len)));
                 points = _points.slice(spiL, spiR);
                 points.unshift(arc.points[2], arc.points[1]);
-                var pR = _points[spiR];
-                var pL = arc.points[3];
-                var dr = _drawings.slice(sdiL, sdiR);
+                pR = _points[spiR];
+                pL = arc.points[3];
+                drawings = _drawings.slice(sdiL, sdiR);
             } else {
                 arc = arc.split1(arc.getTbyL(_lengths.getSegLength(len)));
                 points = _points.slice(spiL + 1, spiR + 1);
                 points.push(arc.points[1], arc.points[2]);
-                var pR = arc.points[3];
-                var pL = _points[spiL];
-                var dr = _drawings.slice(sdiL + 1, sdiR + 1);
+                pR = arc.points[3];
+                pL = _points[spiL];
+                drawings = _drawings.slice(sdiL + 1, sdiR + 1);
             }
         } else {
             //  Both paths end with lines
-            var pL = _getScaled(_points[spiL], _points[spiL - 1], segRatio);
-            var pR = _getScaled(_points[spiR], _points[spiR + 1], segRatio);
+            pL = _getScaled(_points[spiL], _points[spiL - 1], segRatio);
+            pR = _getScaled(_points[spiR], _points[spiR + 1], segRatio);
             points = _points.slice(spiL, spiR + 1);
-            var dr = _drawings.slice(sdiL, sdiR + 1);
+            drawings = _drawings.slice(sdiL, sdiR + 1);
         }
-        var angle = DG.VertexTransform.getAngle(pL.x - pR.x, pL.y - pR.y);
 
-        //  TODO return {ring, drawing}
+        angle = DG.VertexTransform.getAngle(new Point(pL.x - pR.x, pL.y - pR.y), new Point(0, 1));
+
+        _points = _transform.unTranslate(shape.points[zoom], shape.points[zoom][0]);
+        _points = _transform.unRotate(_points, angle);
+        _points = _transform.translate(_points, pR);
+        _points = [_points[_points.length - 1]]
+            .concat(points)
+            .concat(_points);
+
+        _drawings = ['M']
+            .concat(drawings)
+            .concat(shape.drawings[zoom]);
+
+        //  TODO
+        return {points: _points, drawings: _drawings};
     }
 });
 

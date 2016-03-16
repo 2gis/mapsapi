@@ -325,7 +325,7 @@ DG.extend(DG.ArcBezier.prototype, {
 
         if (l <= 0) return 0;
         if (l >= lut[max].l) return 1;
-        //  'L' is monotonically increasing so we can do a simple binary search (LUT)
+        //  'L' is monotonically increasing so we can do a binary search (LUT)
         while (true) {
             mid = min + (max - min >> 1);
             if (l < lut[mid].l) {
