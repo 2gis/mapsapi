@@ -264,6 +264,8 @@ var deps = {
             'DGEntrance/src/ArrowSVG.VML.js',
             'DGEntrance/src/ArrowSvgAnimationOptions.js',
             'DGEntrance/src/EventHandler.js',
+
+            'DGEntrance/src/DGMetric.js',
             'DGEntrance/src/DGVertexTransform.js',
             'DGEntrance/src/DGRenderer.js',
             'DGEntrance/src/DGBezierCurves.js',

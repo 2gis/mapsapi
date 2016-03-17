@@ -253,8 +253,8 @@ DG.TimeBezier = function (controlPoint1, controlPoint2) {
 
 DG.TimeBezier.prototype = DG.Util.create(DG.Bezier.prototype);
 DG.extend(DG.TimeBezier.prototype, {
-    getYbyX: function (x, steps) {
-        var lut = this.getLUT(steps),
+    getYbyX: function (x) {
+        var lut = this.getLUT(),
             min = 0, max = lut.length - 1, mid;
         if (x <= 0) return 0;
         if (x >= 1) return 1;
