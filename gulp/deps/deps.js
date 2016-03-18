@@ -270,6 +270,7 @@ var deps = {
             'DGEntrance/src/DGRenderer.js',
             'DGEntrance/src/DGBezierCurves.js',
             'DGEntrance/src/DGAnimation.js',
+            'DGEntrance/src/DGEntranceArrow.js',
             'DGEntrance/src/DGEntrance2.js'
         ],
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
