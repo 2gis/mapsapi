@@ -61,7 +61,7 @@ DG.Animation = DG.Evented.extend({
 
     _run: function (elapsed) {
         //  Possible skip zero delta time but who cares?!
-        elapsed = elapsed ? elapsed : new Date().valueOf() - this._startTime; 
+        elapsed = elapsed ? elapsed : new Date().valueOf() - this._startTime;
 
         if (elapsed < this._durations.getLength()) {
             var index = this._durations.getIndex(elapsed),
@@ -76,7 +76,7 @@ DG.Animation = DG.Evented.extend({
     _step: function (progress) {
         this.fire('step', {progress: progress});
     },
-    
+
     _complete: function () {
         DG.Util.cancelAnimFrame(this._animID);
 

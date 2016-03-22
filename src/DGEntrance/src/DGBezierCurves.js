@@ -74,6 +74,7 @@ DG.Bezier.prototype = {
     },
 
     length: function () {
+        /* eslint-disable camelcase */
         var w_i = DG.Bezier.WEIGHT,
             x_i = DG.Bezier.ABSCISSA,
             len = x_i.length,
@@ -87,6 +88,7 @@ DG.Bezier.prototype = {
             l = d.x * d.x + d.y * d.y;
             sum += w_i[i] * Math.sqrt(l);
         }
+        /* eslint-enable camelcase */
 
         return z * sum;
     },
@@ -138,7 +140,7 @@ DG.Bezier.prototype = {
             d, c, j, list,
             result = [];
 
-        for(d = p.length, c = d - 1; d > 1; d--, c--) {
+        for (d = p.length, c = d - 1; d > 1; d--, c--) {
             list = [];
             for (j = 0; j < c; j++) {
                 list.push(new DG.Point(
@@ -166,7 +168,7 @@ DG.Bezier.prototype = {
     },
 
     _setLUT2: function (steps) {
-
+        steps = steps;  //  TODO
     },
     _setLUT3: function (steps) {
         var lut = this._getLUTDefaults(),
@@ -174,7 +176,7 @@ DG.Bezier.prototype = {
             mt, mt2, t2,
             a, b, c, d;
 
-        lut.push({ x: p[0].x, y: p[0].y, l: 0 });
+        lut.push({x: p[0].x, y: p[0].y, l: 0});
         for (s = 1; s < steps; s++) {
             t = s / steps;
             mt = 1 - t;
@@ -189,7 +191,7 @@ DG.Bezier.prototype = {
                 y: a * p[0].y + b * p[1].y + c * p[2].y + d * p[3].y
             });
         }
-        lut.push({ x: p[3].x, y: p[3].y, l: 0 });
+        lut.push({x: p[3].x, y: p[3].y, l: 0});
     },
 /*
     _setLOD: function () {
@@ -219,7 +221,7 @@ DG.Bezier.prototype = {
             xReversed: undefined,
             yReversed: undefined
         };
-        return this._lut = [];
+        return this._lut = [];  //  eslint-disable-line no-return-assign
     }
 };
 
@@ -256,6 +258,7 @@ DG.extend(DG.TimeBezier.prototype, {
     getYbyX: function (x) {
         var lut = this.getLUT(),
             min = 0, max = lut.length - 1, mid;
+        /* eslint-disable curly */
         if (x <= 0) return 0;
         if (x >= 1) return 1;
         //  'X' is monotonically increasing so we can do a simple binary search (LUT)
@@ -269,6 +272,7 @@ DG.extend(DG.TimeBezier.prototype, {
             }
             if (max - min < 2) break;
         }
+        /* eslint-enable curly */
         x = (x - lut[min].x) / (lut[max].x - lut[min].x);
         return (lut[min].y + (lut[max].y - lut[min].y) * x);
     },
@@ -285,7 +289,7 @@ DG.extend(DG.TimeBezier.prototype, {
             this._lut = lut = [];
         }
 
-        lut.push({ x: 0, y: 0 });
+        lut.push({x: 0, y: 0});
         for (s = 1; s < steps; s++) {
             t = s / steps;
             mt = 1 - t;
@@ -299,7 +303,7 @@ DG.extend(DG.TimeBezier.prototype, {
                 y: b * p[1].y + c * p[2].y + d
             });
         }
-        lut.push({ x: 1, y: 1 });
+        lut.push({x: 1, y: 1});
 
         return lut;
     }
@@ -323,6 +327,7 @@ DG.extend(DG.ArcBezier.prototype, {
         var lut = this.getLUT(), x, y,
             min = 0, max = lut.length - 1, mid;
 
+        /* eslint-disable curly */
         if (l <= 0) return 0;
         if (l >= lut[max].l) return 1;
         //  'L' is monotonically increasing so we can do a binary search (LUT)
@@ -336,6 +341,7 @@ DG.extend(DG.ArcBezier.prototype, {
             if (max - min < 2) break;
         }
         l = (l - lut[min].l) / (lut[max].l - lut[min].l);
+        /* eslint-enable curly */
 
         x = (lut[min].x + (lut[max].x - lut[min].x) * l);
         y = (lut[min].y + (lut[max].y - lut[min].y) * l);

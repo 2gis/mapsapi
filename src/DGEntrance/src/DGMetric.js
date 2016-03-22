@@ -19,7 +19,7 @@ DG.Metric.Segments.prototype = {
     getReverse: function () {
         var newPL = new DG.PathLength();
         var i = this.length - 1;
-        if (i < 0) return newPL;
+        if (i < 0) return newPL;        //  eslint-disable-line curly
         while (i--) {
             newPL.push(this[i + 1] - this[i]);
         }
@@ -28,7 +28,7 @@ DG.Metric.Segments.prototype = {
     getIndex: function (len) {
         var i = this.length - 1;
         while (i--) {
-            if (this[i] <= len) break;
+            if (this[i] <= len) break;  //  eslint-disable-line curly
         }
         return i + 1;
     },

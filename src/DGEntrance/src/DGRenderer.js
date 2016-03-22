@@ -1,8 +1,8 @@
 DG.extend(L.Canvas.prototype, {
-    _updateComplexShape: function (layer, closed) {
+    _updateComplexPath: function (layer, closed) {
         var i, j, k, len, len2, points, d, x, y, _x, _y,
             drawings = layer._drawings,
-            rings = layer._rings,
+            vertices = layer._vertices,
             ctx = this._ctx;
 
         this._drawnLayers[layer._leaflet_id] = layer;
@@ -10,8 +10,8 @@ DG.extend(L.Canvas.prototype, {
         //  TODO: Do we need to do a 'beginPath()' and possible 'closePath()' per ring?!
         ctx.beginPath();
 
-        for (i = 0, len = rings.length; i < len; i++) {
-            points = rings[i];
+        for (i = 0, len = vertices.length; i < len; i++) {
+            points = vertices[i];
             x = y = 0;
 
             for (j = 0, k = 0, len2 = points.length; j < len2; /* j++, k++ */) {
@@ -53,20 +53,20 @@ DG.extend(L.Canvas.prototype, {
 
 
 DG.extend(L.SVG.prototype, {
-    _updateComplexShape: function (layer, closed) {
-        this._setPath(layer, L.SVG.complexPointsToPath(layer._rings, layer._drawings, closed));
+    _updateComplexPath: function (layer, closed) {
+        this._setPath(layer, L.SVG.complexPointsToPath(layer._vertices, layer._drawings, closed));
     }
 });
 
 
 DG.extend(L.SVG, {
-    complexPointsToPath: function (rings, drawings, closed) {
+    complexPointsToPath: function (vertices, drawings, closed) {
         var str = '',
             svg = DG.Browser.svg,
             i, j, k, n, len, len2, points, d;
 
-        for (i = 0, len = rings.length; i < len; i++) {
-            points = rings[i];
+        for (i = 0, len = vertices.length; i < len; i++) {
+            points = vertices[i];
 
             //  Speedup hot path by removing if/ternary condition checks but duplicating loops
             if (svg) {
@@ -82,7 +82,7 @@ DG.extend(L.SVG, {
                     }
                     str += d;
                     while (n--) {
-                        str += points[j].x + ',' + points[j++].y + ' ';
+                        str += points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
                     }
                 }
             } else {
@@ -98,24 +98,24 @@ DG.extend(L.SVG, {
                         case 'Q':
                             //  VML spec has 'qb' command in 'v' attribute string but no 'relativeTo' compliment
                             //  So we'll emulate Cubic Bézier curve by applying Quadratic variant in both cases
-                            //  Both control points will use the same value
+                            //  TODO: Both control points will use the same value but this is not true solution
                             str += 'C' +
-                                points[j].x + ',' + points[ j ].y + ' ' +   //  eslint-disable-line space-in-brackets
-                                points[j].x + ',' + points[j++].y + ' ' +
-                                points[j].x + ',' + points[j++].y + ' ';
+                                points[j].x.toFixed(4) + ',' + points[ j ].y.toFixed(4) + ' ' +   //  eslint-disable-line space-in-brackets
+                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ' +
+                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
                             d = ''; n = 0; break;
                         case 'q':
                             str += 'c' +
-                                points[j].x + ',' + points[ j ].y + ' ' +   //  eslint-disable-line space-in-brackets
-                                points[j].x + ',' + points[j++].y + ' ' +
-                                points[j].x + ',' + points[j++].y + ' ';
+                                points[j].x.toFixed(4) + ',' + points[ j ].y.toFixed(4) + ' ' +   //  eslint-disable-line space-in-brackets
+                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ' +
+                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
                             d = ''; n = 0; break;
 
                         default:    n = 1;
                     }
                     str += d;
                     while (n--) {
-                        str += points[j].x + ',' + points[j++].y + ' ';
+                        str += points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
                     }
                 }
             }
