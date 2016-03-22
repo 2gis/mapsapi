@@ -302,8 +302,11 @@ DG.extend(DG.ArrowTipTransform.prototype, {
             length = sp.x,              //  negative value
             offset = pl - length + width + width;
 
-        path.offset = length + (offset > 0 ? offset : 0);
         path.width = width;
+        path.offset = length + (offset > 0 ? offset : 0);
+        if (path.vertices.length < 3 && length > -10) {
+            path.offset += 2.5;
+        }
 
         this._vertices = this.load().unTranslate(sp).vertices;
     },
