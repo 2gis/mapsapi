@@ -3,7 +3,6 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from component import Component
 from classes.util.scripts import GetScripts
-from classes.util.scripts import WheelScript
 from classes.util.scripts import SetScripts
 from time import time
 import math
@@ -37,11 +36,6 @@ class Map(Component):
         actions = ActionChains(self.driver)
         actions.move_to_element_with_offset(self.element, int(center['x']), int(center['y']))
         actions.double_click().perform()
-
-    def wheel_zoom(self, count):
-        self.driver.execute_script(WheelScript.prepare + WheelScript.wheel_levels(count))
-        # :`(
-        sleep(1)
 
     def set_zoom(self, level):
         self.driver.execute_script(SetScripts.set_zoom(level))
