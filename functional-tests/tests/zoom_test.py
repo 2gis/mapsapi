@@ -78,39 +78,3 @@ class Zoom(MapsAPIBaseTest):
         self.page.map.zoom_selection()
         zoom_end = self.page.console(GetScripts.getZoom)
         self.assertEqual(zoom_end - zoom_start, 1)
-
-    @dataprovider([
-        config.aut['local'] + u'/base.html'
-    ])
-    def zoomIn_wheel_test(self, url):
-        """
-        :param url: Адрес страницы
-        Проверка зума скролом вперед
-        1.Получаем зум страницы
-        2.Скролим вперед на одно деление увеличивая зум
-        3.Проверяем изсенение зума
-        """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        zoom_start = self.page.console(GetScripts.getZoom)
-        self.page.map.wheel_zoom(1)
-        zoom_end = self.page.console(GetScripts.getZoom)
-        self.assertEqual(zoom_end - zoom_start, 1)
-
-    @dataprovider([
-        config.aut['local'] + u'/base.html'
-    ])
-    def zoomOut_wheel_test(self, url):
-        """
-        :param url: Адрес страницы
-        Проверка зума скролом назад
-        1.Получаем зум страницы
-        2.Скролим вперед на одно деление уменьшая зум
-        3.Проверяем изсенение зума
-        """
-        self.driver.get(url)
-        self.page.map.wait_init()
-        zoom_start = self.page.console(GetScripts.getZoom)
-        self.page.map.wheel_zoom(-1)
-        zoom_end = self.page.console(GetScripts.getZoom)
-        self.assertEqual(zoom_end - zoom_start, -1)
