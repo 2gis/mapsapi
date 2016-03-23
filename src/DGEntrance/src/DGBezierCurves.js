@@ -1,5 +1,9 @@
-DG.Bezier = function (coords) {
-    this.points = coords;   //  [DG.Point(start), DG.Point(control1), (DG.Point(control2),)? DG.Point(end)]
+DG.Bezier = function (coords, clone) {  //  [DG.Point(start), DG.Point(control1), (DG.Point(control2),)? DG.Point(end)]
+    if (clone) {
+        this.points = coords.map(function (coord) { return coord.clone(); });
+    } else {
+        this.points = coords;
+    }
     this.dpoints = this._getDerivatives();
     this.order = this.points.length - 1;
     this._lut = this._getLUTDefaults();
@@ -11,15 +15,24 @@ DG.bezier = function (coords) {
     }
 
     if (typeof coords[0] === 'number') {
-        coords = [
-            new DG.Point(coords[0], coords[1]),
-            new DG.Point(coords[2], coords[3]),
-            new DG.Point(coords[4], coords[5]),
-            new DG.Point(coords[6], coords[7])
-        ];
+        if (coords.length < 7) {
+            coords = [
+                new DG.Point(coords[0], coords[1]),
+                new DG.Point(coords[2], coords[3]),
+                new DG.Point(coords[4], coords[5])
+            ];
+        } else {
+            coords = [
+                new DG.Point(coords[0], coords[1]),
+                new DG.Point(coords[2], coords[3]),
+                new DG.Point(coords[4], coords[5]),
+                new DG.Point(coords[6], coords[7])
+            ];
+        }
+        return new DG.Bezier(coords);
+    } else {
+        return new DG.Bezier(coords, true);
     }
-
-    return new DG.Bezier(coords);
 };
 
 
@@ -98,38 +111,81 @@ DG.Bezier.prototype = {
             z2, z3, mz, mz2, mz3,
             b$3, b$4, c$4, curve;
 
-        if (z === 1) { return this; }
+        if (z === 1) { return this.clone(); }
 
         curve = [];
         z2 = z * z;
         mz = z - 1;
         mz2 = mz * mz;
 
-        curve.push(new DG.Point(
+        curve[0] = new DG.Point(
             p[0].x,
             p[0].y
-        ));
+        );
 
-        curve.push(new DG.Point(
+        curve[1] = new DG.Point(
             z * p[1].x - mz * p[0].x,
             z * p[1].y - mz * p[0].y
-        ));
+        );
 
         b$3 = z * mz * 2;
-        curve.push(new DG.Point(
+        curve[2] = new DG.Point(
             z2 * p[2].x - b$3 * p[1].x + mz2 * p[0].x,
             z2 * p[2].y - b$3 * p[1].y + mz2 * p[0].y
-        ));
+        );
 
         if (this.order > 2) {
             z3 = z2 * z;
             mz3 = mz2 * mz;
             b$4 = z2 * mz * 3;
             c$4 = z * mz2 * 3;
-            curve.push(new DG.Point(
+            curve[3] = new DG.Point(
                 z3 * p[3].x - b$4 * p[2].x + c$4 * p[1].x - mz3 * p[0].x,
                 z3 * p[3].y - b$4 * p[2].y + c$4 * p[1].y - mz3 * p[0].y
-            ));
+            );
+        }
+
+        return new DG.Bezier(curve);
+    },
+
+    split2: function (z) {
+        var p = this.points,
+            z2, z3, mz, mz2, mz3,
+            b$3, b$4, c$4, curve,
+            n = this.order;
+
+        if (z === 1) { return this.clone(); }
+
+        curve = [];
+        z2 = z * z;
+        mz = z - 1;
+        mz2 = mz * mz;
+
+        curve[n](new DG.Point(
+            p[n].x,
+            p[n].y
+        ));
+
+        curve[--n] = new DG.Point(
+            z * p[n + 1].x - mz * p[n].x,
+            z * p[n + 1].y - mz * p[n].y
+        );
+
+        b$3 = z * mz * 2;
+        curve[--n] = new DG.Point(
+            z2 * p[n + 2].x - b$3 * p[n + 1].x + mz2 * p[n].x,
+            z2 * p[n + 2].y - b$3 * p[n + 1].y + mz2 * p[n].y
+        );
+
+        if (this.order > 2) {
+            z3 = z2 * z;
+            mz3 = mz2 * mz;
+            b$4 = z2 * mz * 3;
+            c$4 = z * mz2 * 3;
+            curve[--n] = new DG.Point(
+                z3 * p[n + 3].x - b$4 * p[n + 2].x + c$4 * p[n + 1].x - mz3 * p[n].x,
+                z3 * p[n + 3].y - b$4 * p[n + 2].y + c$4 * p[n + 1].y - mz3 * p[n].y
+            );
         }
 
         return new DG.Bezier(curve);
@@ -168,8 +224,25 @@ DG.Bezier.prototype = {
     },
 
     _setLUT2: function (steps) {
-        steps = steps;  //  TODO
+        var lut = this._getLUTDefaults(),
+            s, t, p = this.points,
+            mt, a, b, c;
+
+        lut.push({x: p[0].x, y: p[0].y, l: 0});
+        for (s = 1; s < steps; s++) {
+            t = s / steps;
+            mt = 1 - t;
+            a = mt * mt;
+            b = mt * t * 2;
+            c = t * t;
+            lut.push({
+                x: a * p[0].x + b * p[1].x + c * p[2].x,
+                y: a * p[0].y + b * p[1].y + c * p[2].y
+            });
+        }
+        lut.push({x: p[2].x, y: p[2].y, l: 0});
     },
+
     _setLUT3: function (steps) {
         var lut = this._getLUTDefaults(),
             s, t, p = this.points,
@@ -222,6 +295,10 @@ DG.Bezier.prototype = {
             yReversed: undefined
         };
         return this._lut = [];  //  eslint-disable-line no-return-assign
+    },
+
+    clone: function () {
+        return new DG.Bezier(this.points, true);
     }
 };
 
@@ -249,8 +326,8 @@ DG.Bezier.ABSCISSA = [
 
 //  This curve is monotonically ordered by 'X' coordinate and has P[0] = {0, 0} and P[3] = {1, 1}
 //  We can utilize this facts to shortcut calculations
-DG.TimeBezier = function (controlPoint1, controlPoint2) {
-    DG.Bezier.call(this, [DG.TimeBezier.START, controlPoint1, controlPoint2, DG.TimeBezier.END]);
+DG.TimeBezier = function (controlPoint1, controlPoint2, clone) {
+    DG.Bezier.call(this, [DG.TimeBezier.START, controlPoint1, controlPoint2, DG.TimeBezier.END], clone);
 };
 
 DG.TimeBezier.prototype = DG.Util.create(DG.Bezier.prototype);
@@ -258,9 +335,9 @@ DG.extend(DG.TimeBezier.prototype, {
     getYbyX: function (x) {
         var lut = this.getLUT(),
             min = 0, max = lut.length - 1, mid;
-        /* eslint-disable curly */
-        if (x <= 0) return 0;
-        if (x >= 1) return 1;
+
+        if (x <= 0) { return 0; }
+        if (x >= 1) { return 1; }
         //  'X' is monotonically increasing so we can do a simple binary search (LUT)
         //  and then fine-tune the result by linear interpolation assuming 'Y' is not changed so radically
         while (true) {
@@ -270,9 +347,8 @@ DG.extend(DG.TimeBezier.prototype, {
             } else {
                 min = mid;
             }
-            if (max - min < 2) break;
+            if (max - min < 2) { break; }
         }
-        /* eslint-enable curly */
         x = (x - lut[min].x) / (lut[max].x - lut[min].x);
         return (lut[min].y + (lut[max].y - lut[min].y) * x);
     },
@@ -306,17 +382,21 @@ DG.extend(DG.TimeBezier.prototype, {
         lut.push({x: 1, y: 1});
 
         return lut;
+    },
+
+    clone: function () {
+        return new DG.TimeBezier(this.points, true);
     }
 });
 
-DG.TimeBezier.START = new DG.Point(0, 0);
-DG.TimeBezier.END = new DG.Point(1, 1);
+DG.TimeBezier.START = DG.point(0, 0);
+DG.TimeBezier.END = DG.point(1, 1);
 
 
 
 //  This is cubic Bezier describing circular arc
-DG.ArcBezier = function (coords) {
-    DG.Bezier.call(this, coords);
+DG.ArcBezier = function (coords, clone) {
+    DG.Bezier.call(this, coords, clone);
     this.getLUT();
     this.getLengths();
 };
@@ -327,9 +407,8 @@ DG.extend(DG.ArcBezier.prototype, {
         var lut = this.getLUT(), x, y,
             min = 0, max = lut.length - 1, mid;
 
-        /* eslint-disable curly */
-        if (l <= 0) return 0;
-        if (l >= lut[max].l) return 1;
+        if (l <= 0) { return 0; }
+        if (l >= lut[max].l) { return 1; }
         //  'L' is monotonically increasing so we can do a binary search (LUT)
         while (true) {
             mid = min + (max - min >> 1);
@@ -338,10 +417,9 @@ DG.extend(DG.ArcBezier.prototype, {
             } else {
                 min = mid;
             }
-            if (max - min < 2) break;
+            if (max - min < 2) { break; }
         }
         l = (l - lut[min].l) / (lut[max].l - lut[min].l);
-        /* eslint-enable curly */
 
         x = (lut[min].x + (lut[max].x - lut[min].x) * l);
         y = (lut[min].y + (lut[max].y - lut[min].y) * l);
@@ -379,5 +457,9 @@ DG.extend(DG.ArcBezier.prototype, {
 
     length: function () {
         return this._lut[this._lut.length - 1].l;
+    },
+
+    clone: function () {
+        return new DG.ArcBezier(this.points, true);
     }
 });
