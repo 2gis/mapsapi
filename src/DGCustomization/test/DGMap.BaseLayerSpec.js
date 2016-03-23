@@ -1,11 +1,17 @@
 describe('DG.TileLayer', function () {
-    var mapContainer = document.createElement('div'),
+    var mapContainer,
+        map;
+
+    before(function () {
+        mapContainer = document.createElement('div');
         map = new DG.Map(mapContainer, {
             center: [54.980206086231, 82.898068362003],
             zoom: 15
         });
+    });
 
     after(function () {
+        map.remove();
         mapContainer = map = null;
     });
 

@@ -18,6 +18,7 @@ describe.skip('DG.FullScreen', function () {
     });
 
     after(function() {
+        map.remove();
         document.body.removeChild(mapContainer);
         mapContainer = map = classControl = container = spy = null;
     });

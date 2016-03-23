@@ -2,25 +2,38 @@
 describe('DG.ProjectDetectorUnder', function () {
     var map,
         spy,
-        mapContainer = document.createElement('div'),
+        mapContainer,
         initZoom = 1,
         maxZoom = 18,
         maxDesertZoom = 13,
-        start =        new DG.LatLng(54.98117239821992, 82.88922250270844),
-        project1 =     new DG.LatLng(54.97902673261798, 82.819265127182),
-        project2 =     new DG.LatLng(54.98620210307464, 73.41429233551025),
+        start,
+        project1,
+        project2,
+        edgeProject1,
+        edgeProject2,
+        edgeProject3,
+        desert1,
+        desert2;
+
+    before(function () {
+        mapContainer = document.createElement('div');
+
+        start =        new DG.LatLng(54.98117239821992, 82.88922250270844);
+        project1 =     new DG.LatLng(54.97902673261798, 82.819265127182);
+        project2 =     new DG.LatLng(54.98620210307464, 73.41429233551025);
 
         // have no idea what is the difference between these points
-        edgeProject1 = new DG.LatLng(55.39120059140201, 82.86191493272783),
-        edgeProject2 = new DG.LatLng(55.42039863481294, 82.86188274621965),
-        edgeProject3 = new DG.LatLng(55.43341996250572, 82.86186128854753),
+        edgeProject1 = new DG.LatLng(55.39120059140201, 82.86191493272783);
+        edgeProject2 = new DG.LatLng(55.42039863481294, 82.86188274621965);
+        edgeProject3 = new DG.LatLng(55.43341996250572, 82.86186128854753);
 
-        desert1 =      new DG.LatLng(54.817453325877906, 81.85930252075195),
+        desert1 =      new DG.LatLng(54.817453325877906, 81.85930252075195);
         desert2 =      new DG.LatLng(61.1128985047811, 89.5414924621582);
 
-    document.body.appendChild(mapContainer);
-    mapContainer.style.width = 1900 + 'px';
-    mapContainer.style.height = 600 + 'px';
+        document.body.appendChild(mapContainer);
+        mapContainer.style.width = 1900 + 'px';
+        mapContainer.style.height = 600 + 'px';
+    });
 
     after(function () {
         document.body.removeChild(mapContainer);

@@ -64,8 +64,14 @@ DG.Map.include({
         if (this._loaded && !options.reset && options !== true) {
 
             if (options.animate !== undefined) {
-                options.zoom = DG.extend({animate: options.animate}, options.zoom);
-                options.pan = DG.extend({animate: options.animate}, options.pan);
+                options.zoom = DG.extend({
+                    animate: options.animate,
+                    duration: options.duration
+                }, options.zoom);
+                options.pan = DG.extend({
+                    animate: options.animate,
+                    duration: options.duration
+                }, options.pan);
             }
 
             // try animating pan or zoom

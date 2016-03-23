@@ -18,6 +18,7 @@ describe('DG.Poi', function() {
     });
 
     after(function() {
+        map.remove();
         mapContainer.parentElement.removeChild(mapContainer);
         map = mapContainer = ajaxSpy = ajaxStub = tileData = tileKey = null;
     });

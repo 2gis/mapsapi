@@ -5,6 +5,11 @@ describe("Map", function () {
         map = L.map(document.createElement('div'));
     });
 
+    // Remove our layers.
+    beforeEach(function () {
+        map.clearLayers();
+    });
+
     describe("#remove", function () {
         it("fires an unload event if loaded", function () {
             var container = document.createElement('div'),
@@ -31,8 +36,8 @@ describe("Map", function () {
                 expect(function () {
                     L.map(container);
                 }).to.throwException(function (e) {
-                        expect(e.message).to.eql("Map container is already initialized.");
-                    });
+                    expect(e.message).to.eql("Map container is already initialized.");
+                });
                 map.remove();
             });
 
@@ -40,8 +45,8 @@ describe("Map", function () {
                 expect(function () {
                     L.map('nonexistentdivelement');
                 }).to.throwException(function (e) {
-                        expect(e.message).to.eql("Map container not found.");
-                    });
+                    expect(e.message).to.eql("Map container not found.");
+                });
                 map.remove();
             });
         });
@@ -129,6 +134,7 @@ describe("Map", function () {
             expect(map.getCenter().distanceTo([51.605, -0.11])).to.be.lessThan(5);
         });
 
+        // Skip because we have custom logic for maxZoom. Function setZoom is overridden in DGMap.js
         it.skip("limits initial zoom when no zoom specified", function () {
             map.options.maxZoom = 20;
             map.setZoom(100);
@@ -141,6 +147,14 @@ describe("Map", function () {
             map = L.map(document.createElement('div'), {zoom: 13});
             expect(map.setView([51.605, -0.11])).to.be(map);
             expect(map.getZoom()).to.be(13);
+        });
+
+        it("passes duration option to panBy", function () {
+            map = L.map(document.createElement('div'), {zoom: 13, center: [0, 0]});
+            map.panBy = sinon.spy();
+            map.setView([51.605, -0.11], 13, {animate: true, duration: 13});
+            expect(map.panBy.callCount).to.eql(1);
+            expect(map.panBy.args[0][1].duration).to.eql(13);
         });
     });
 
@@ -295,7 +309,7 @@ describe("Map", function () {
             expect(spy.called).to.be.ok();
         });
 
-        it.skip("does not fire a layeradd event if the layer is removed before the map becomes ready", function () {
+        it("does not fire a layeradd event if the layer is removed before the map becomes ready", function () {
             var layer = layerSpy(),
                 spy = sinon.spy();
             map.on('layeradd', spy);
@@ -305,7 +319,7 @@ describe("Map", function () {
             expect(spy.called).not.to.be.ok();
         });
 
-        it.skip("adds the layer before firing layeradd", function (done) {
+        it("adds the layer before firing layeradd", function (done) {
             var layer = layerSpy();
             map.on('layeradd', function () {
                 expect(map.hasLayer(layer)).to.be.ok();
@@ -315,6 +329,7 @@ describe("Map", function () {
             map.addLayer(layer);
         });
 
+        // Skip because we have base layer with greater zooms.
         describe.skip("When the first layer is added to a map", function () {
             it("fires a zoomlevelschange event", function () {
                 var spy = sinon.spy();
@@ -325,6 +340,7 @@ describe("Map", function () {
             });
         });
 
+        // Skip because we have base layer with greater zooms.
         describe.skip("when a new layer with greater zoomlevel coverage than the current layer is added to a map", function () {
             it("fires a zoomlevelschange event", function () {
                 var spy = sinon.spy();
@@ -477,7 +493,7 @@ describe("Map", function () {
             expect(map.eachLayer(function () {})).to.be(map);
         });
 
-        it.skip("calls the provided function for each layer", function () {
+        it("calls the provided function for each layer", function () {
             var t1 = L.tileLayer("{z}{x}{y}").addTo(map),
                 t2 = L.tileLayer("{z}{x}{y}").addTo(map),
                 spy = sinon.spy();
@@ -644,14 +660,6 @@ describe("Map", function () {
             expect(spy.calledOnce).to.be.ok();
         });
 
-        it("DOM events propagate from canvas polygon to map", function () {
-            var spy = sinon.spy();
-            map.on("mousemove", spy);
-            var layer = new L.Polygon([[1, 2], [3, 4], [5, 6]], {rendered: L.canvas()}).addTo(map);
-            happen.mousemove(layer._path);
-            expect(spy.calledOnce).to.be.ok();
-        });
-
         it("DOM events propagate from marker to map", function () {
             var spy = sinon.spy();
             map.on("mousemove", spy);
@@ -676,17 +684,6 @@ describe("Map", function () {
             var layerSpy = sinon.spy();
             map.on("mousemove", mapSpy);
             var layer = new L.Polygon([[1, 2], [3, 4], [5, 6]]).addTo(map);
-            layer.on("mousemove", L.DomEvent.stopPropagation).on("mousemove", layerSpy);
-            happen.mousemove(layer._path);
-            expect(layerSpy.calledOnce).to.be.ok();
-            expect(mapSpy.called).not.to.be.ok();
-        });
-
-        it("DOM events fired on canvas polygon can be cancelled before being caught by the map", function () {
-            var mapSpy = sinon.spy();
-            var layerSpy = sinon.spy();
-            map.on("mousemove", mapSpy);
-            var layer = new L.Polygon([[1, 2], [3, 4], [5, 6]], {rendered: L.canvas()}).addTo(map);
             layer.on("mousemove", L.DomEvent.stopPropagation).on("mousemove", layerSpy);
             happen.mousemove(layer._path);
             expect(layerSpy.calledOnce).to.be.ok();
@@ -736,7 +733,7 @@ describe("Map", function () {
             layer.on("mouseout", layerSpy);
             happen.mouseout(layer._icon, {relatedTarget: child});
             expect(mapSpy.called).not.to.be.ok();
-            //expect(layerSpy.calledOnce).not.to.be.ok(); // I don't understand this assert, but in don't pass =(
+            expect(layerSpy.calledOnce).not.to.be.ok();
         });
 
         it("mouseout is not forwarded if fired on target's child", function () {
@@ -752,7 +749,7 @@ describe("Map", function () {
             layer.on("mouseout", layerSpy);
             happen.mouseout(child, {relatedTarget: layer._icon});
             expect(mapSpy.called).not.to.be.ok();
-            //expect(layerSpy.calledOnce).not.to.be.ok(); // I don't understand this assert, but in don't pass =(
+            expect(layerSpy.calledOnce).not.to.be.ok();
         });
 
         it("mouseout is not forwarded to layers if fired on the map", function () {

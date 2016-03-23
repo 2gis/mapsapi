@@ -8,6 +8,8 @@ describe('DG.Entrance', function () {
         ff = ua.indexOf('firefox') > -1;
 
     after(function() {
+        entrance.remove();
+        map && map.remove();
         map = spy = entrance = mapContainer = ua = ff = null;
     });
 
