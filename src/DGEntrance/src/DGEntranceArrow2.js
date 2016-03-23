@@ -6,7 +6,7 @@ DG.Entrance.Arrow2 = DG.LayerGroup.extend({
 
         this._progress = 1;
         this._visibility = {
-            isShown: true       //  TODO
+            isShown: false
         };
         this._position =
             options.latlngs[options.latlngs.length - 1];
@@ -30,10 +30,15 @@ DG.Entrance.Arrow2 = DG.LayerGroup.extend({
     },
 
     setVisibility: function (isShown) {
-        //  TODO
-        this._visibility._isShown = isShown;
-        if (!this.options.animation) {
-            this._reset();
+        if (this._visibility.isShown !== isShown) {
+            this._visibility.isShown = isShown;
+            if (isShown) {
+                if (!this.options.animation) {
+                    this._reset();
+                }
+            } else {
+                this._reset();
+            }
         }
     },
 
@@ -61,7 +66,11 @@ DG.Entrance.Arrow2 = DG.LayerGroup.extend({
     },
 
     _animation: function (e) {
-        this._progress = e.progress;
+        if (e.distance != undefined) {
+            this._distance = e.distance;    //  bounce animation effect
+        } else {
+            this._progress = e.progress;    //  path animation effect
+        }
         if (this._visibility.isShown) {
             this._reset();
         }
@@ -71,17 +80,23 @@ DG.Entrance.Arrow2 = DG.LayerGroup.extend({
         var map = this._map || this._mapToAdd,
             zoom = map.getZoom(), shape, path, pl,
             vertices = this._shape.vertices[zoom],
-            drawings = this._shape.drawings[zoom];
+            drawings = this._shape.drawings[zoom],
+            latlngs = this.options.latlngs;
 
         if (vertices && drawings) {
             if (!this._att[zoom]) {
-                path = DG.ArrowPathTransform.getTranslatedPath(map, this.options.latlngs);
+                path = DG.ArrowPathTransform.getTranslatedPath(map, latlngs);
                 shape = {vertices: vertices, drawings: drawings};
                 this._att[zoom] = new DG.ArrowTipTransform(path, shape);
                 this._apt[zoom] = new DG.ArrowPathTransform(path);
             }
 
             pl = map.latLngToLayerPoint(this._position);
+            if (this._distance != undefined) {
+                pl = DG.VertexTransform.getScaled(pl,
+                    map.latLngToLayerPoint(latlngs[latlngs.length - 2]),
+                    this._distance);
+            }
             this._apt[zoom].subPath(this._progress).translate(pl);
             this._att[zoom].subShape(this._apt[zoom]).translate(pl);
         }
@@ -102,30 +117,3 @@ DG.Entrance.Arrow2 = DG.LayerGroup.extend({
 DG.Entrance.arrow2 = function (options) {
     return new DG.Entrance.Arrow2(options);
 };
-
-
-/*
- style="transform: translateY(-40px) translateX(8px);"
-
- var c = []; for (var i = 0; i < this.options.ring.length; i++) { var t = map.unproject([this.options.ring[i][0]+67108864, this.options.ring[i][1]+67108864], 19); c.push([t.lat, t.lng]) };
- var str = ''; for (var a = 0; a < c.length; a++) {str += '['+c[a][0]+', '+c[a][1]+'], '}
-
- var a = new DG.Entrance.Arrow2([DG.latLng(54.979515,82.897354), DG.latLng(54.979599,82.89741)]);;
- [[54.979515,82.897354], [54.979599,82.89741]]
-
- var a = new DG.Entrance.Arrow2([DG.latLng(55.733819, 37.588498), DG.latLng(55.733906, 37.588372), DG.latLng(55.733934, 37.588434)]);;;
- [55.733819, 37.588498], [55.733906, 37.588372], [55.733934, 37.588434]
- [55.733787, 37.588427], [55.733857, 37.588326]
- [55.734122, 37.588066], [55.734179, 37.588189]
-
- var a = new DG.Entrance.Arrow2([DG.latLng(55.733890, 37.588248), DG.latLng(55.73395, 37.588178), DG.latLng(55.733906, 37.588372), DG.latLng(55.733934, 37.588434)]);;;
-
- LngLat!
- vectors:Array[1]
- 0:"LINESTRING(82.897354 54.979515,82.89741 54.979599)"
-
- vectors:Array[3]
- 0:"LINESTRING(37.588498 55.733819,37.588372 55.733906,37.588434 55.733934)"
- 1:"LINESTRING(37.588427 55.733787,37.588326 55.733857)"
- 2:"LINESTRING(37.588066 55.734122,37.588189 55.734179)"
- */

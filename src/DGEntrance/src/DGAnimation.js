@@ -3,7 +3,7 @@ DG.Animation = DG.Evented.extend({
         // animation: {    //  Or array of objects
         //     function: DG.Animation.EASE,
         //     duration: 2 * 1000,
-        //     keyframe: null
+        //     keys: null
         // }
 
         //offset: 0
@@ -60,21 +60,24 @@ DG.Animation = DG.Evented.extend({
     },
 
     _run: function (elapsed) {
+        var el, index, progress;
         //  Possible skip zero delta time but who cares?!
         elapsed = elapsed ? elapsed : new Date().valueOf() - this._startTime;
 
         if (elapsed < this._durations.getLength()) {
-            var index = this._durations.getIndex(elapsed),
-                el = this._durations.getSegRatio(elapsed);
-            this._step(this._animation[index].function.getYbyX(el));
+            index = this._durations.getIndex(elapsed);
+            el = this._durations.getSegRatio(elapsed);
+            progress = this._animation[index].function.getYbyX(el);
+            this._step(this._getFrameValues(index, progress));
         } else {
-            this._step(1);
+            index = this._durations.length - 1;
+            this._step(this._getFrameValues(index, 1));
             this._complete();
         }
     },
 
-    _step: function (progress) {
-        this.fire('step', {progress: progress});
+    _step: function (obj) {
+        this.fire('step', obj);
     },
 
     _complete: function () {
@@ -84,6 +87,25 @@ DG.Animation = DG.Evented.extend({
         this._animation = null;
         this._running = false;
         this.fire('end');
+    },
+
+    _getFrameValues: function (index, progress) {
+        var keys = this._animation[index].keys,
+            obj = {progress: progress},
+            key, fr, to;
+
+        if (keys) {
+            for (key in keys) {
+                if (keys[key].progress) {
+                    obj[key] = keys[key].progress(progress);
+                } else {
+                    fr = keys[key].from;
+                    to = keys[key].to;
+                    obj[key] = fr + (to - fr) * progress;
+                }
+            }
+        }
+        return obj;
     }
 });
 

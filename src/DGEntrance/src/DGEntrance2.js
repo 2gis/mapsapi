@@ -17,6 +17,8 @@ DG.Entrance2 = DG.LayerGroup.extend({
 
         DG.setOptions(this, options);
 
+        this._bounds =
+            new DG.LatLngBounds();
         this._animations = {
             bounce: DG.animation(DG.Entrance.BOUNCE_ANIMATION),
             path: DG.animation(DG.Entrance.PATH_ANIMATION)
@@ -28,17 +30,9 @@ DG.Entrance2 = DG.LayerGroup.extend({
     onAdd: function (map) {
         DG.LayerGroup.prototype.onAdd.call(this, map);
 
-        // this._map = map;
-        // if (this.options.autoClose) {
-        //     map.on('layeradd', this._removeEntrance, this);
-        // }
-        // if (this.options.enableAnimation) {
-        //     map.on('zoomend', this._animate, this);
-        // }
-
         this._isShown = false;
 
-        this.show(false);
+        this.show(true);
     },
 
     onRemove: function (map) {
@@ -66,9 +60,9 @@ DG.Entrance2 = DG.LayerGroup.extend({
 
     show: function (fitBounds) {
         if (this._layers) {
-            // if (fitBounds !== false) {
-            //     this.fitBounds();
-            // }
+            if (fitBounds) {
+                this.fitBounds();
+            }
             if (!this._isShown) {
                 this._isShown = true;
                 this.eachLayer(function (arrow) {
@@ -76,7 +70,9 @@ DG.Entrance2 = DG.LayerGroup.extend({
                 });
                 this._map.fire('entranceshow');
             }
-            this._animate();
+            if (this.options.enableAnimation) {
+                this._animate();
+            }
         }
 
         return this;
@@ -96,6 +92,10 @@ DG.Entrance2 = DG.LayerGroup.extend({
 
     isShown: function () {
         return this._isShown;
+    },
+
+    getBounds: function () {
+        return this._bounds;
     },
 
     setFillColor: function (color) {
@@ -123,12 +123,14 @@ DG.Entrance2 = DG.LayerGroup.extend({
             })
             .forEach(function (latlngs) {
                 var options = DG.Util.create(base);
-                options.latlngs = latlngs;
 
+                this._bounds.extend(DG.latLngBounds(latlngs));
+
+                options.latlngs = latlngs;
                 if (this.options.enableAnimation) {
                     options.animation = latlngs.length > 2
-                        ? this._animations.bounce
-                        : this._animations.path;
+                        ? this._animations.path
+                        : this._animations.bounce;
                 } else {
                     options.animation = null;
                 }
@@ -137,13 +139,8 @@ DG.Entrance2 = DG.LayerGroup.extend({
             }, this);
     },
 
-    _getFitZoom: function () {
-        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
-    },
-
     fitBounds: function () {
-        var map = this._map,
-            fitZoom,
+        var map = this._map, fitZoom,
             bounds = this.getBounds();
 
         if (!map.getBounds().contains(bounds) || !this._isAllowedZoom()) {
@@ -153,12 +150,14 @@ DG.Entrance2 = DG.LayerGroup.extend({
                     map.setZoom(this._getFitZoom());
                 }, this);
             }
-            map.setView(bounds.getCenter(), fitZoom, {
-                animate: true
-            });
+            map.setView(bounds.getCenter(), fitZoom, {animate: true});
         }
 
         return this;
+    },
+
+    _getFitZoom: function () {
+        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _isAllowedZoom: function () {
@@ -189,14 +188,17 @@ DG.entrance2 = function (options) {
 DG.Entrance.SHOW_FROM_ZOOM = 16;
 DG.Entrance.PATH_ANIMATION = {
     animation: {
-        function: DG.Animation.EASE,
-        duration: 2 * 1000
+        function: DG.Animation.EASE_IN_OUT,
+        duration: 750
     }
 };
 DG.Entrance.BOUNCE_ANIMATION = {
-    animation: {
-        function: DG.Animation.EASE,
-        duration: 2 * 1000
-    }
+    animation: [
+        {function: DG.Animation.EASE_IN_OUT, duration: 250, keys: {distance: {from: 0, to: 0.6}}},
+        {function: DG.Animation.EASE_IN, duration: 135, keys: {distance: {from: 0.6, to: 0}}},
+        {function: DG.Animation.EASE_OUT, duration: 135, keys: {distance: {from: 0, to: 0.16}}},
+        {function: DG.Animation.EASE_IN, duration: 90, keys: {distance: {from: 0.16, to: 0}}},
+        {function: DG.Animation.EASE_OUT, duration: 90, keys: {distance: {from: 0, to: 0.06}}},
+        {function: DG.Animation.EASE_IN, duration: 50, keys: {distance: {from: 0.06, to: 0}}}
+    ]
 };
-
