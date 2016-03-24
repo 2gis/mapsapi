@@ -1,3 +1,10 @@
+/*
+ * Actual painting methods that can draw complex objects with curves
+ *
+ * Point coordinates must be provided in layer._vertices object
+ * And types of line must be provided in layer._drawings object
+ */
+
 DG.extend(L.Canvas.prototype, {
     _updateComplexPath: function (layer, closed) {
         var i, j, k, len, len2, points, d, x, y, _x, _y,

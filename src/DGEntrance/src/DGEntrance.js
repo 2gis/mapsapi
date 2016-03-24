@@ -1,4 +1,9 @@
-DG.Entrance = DG.FeatureGroup.extend({
+/*
+ * DG.Entrance is a main class that hosts actual arrow layers
+ * It orchestrates animation and provides user space methods like .show() and .hide()
+ */
+
+DG.Entrance = DG.LayerGroup.extend({
 
     options: {
         vectors: [],
@@ -12,125 +17,137 @@ DG.Entrance = DG.FeatureGroup.extend({
         autoClose: true
     },
 
-    statics: {
-        SHOW_FROM_ZOOM: DG.Browser.svg ? 16 : 17
-    },
+    initialize: function (options) {
+        DG.LayerGroup.prototype.initialize.call(this);
 
-    initialize: function (options) { // (Object)
         DG.setOptions(this, options);
 
-        DG.FeatureGroup.prototype.initialize.call(this, options);
+        this._bounds =
+            new DG.LatLngBounds();
+        this._animations = {
+            bounce: DG.animation(DG.Entrance.BOUNCE_ANIMATION),
+            path: DG.animation(DG.Entrance.PATH_ANIMATION)
+        };
 
         this._initArrows();
     },
 
-    onAdd: function (map) { // (DG.Map)
-        DG.FeatureGroup.prototype.onAdd.call(this, map);
-
-        this._map = map;
-        this._eventHandler = new DG.Entrance.EventHandler(map, this, this.options);
-        this._eventHandler.enable();
-
-        // hide without event by default
-        this.eachLayer(function (arrow) {
-            arrow.setStyle({visibility: 'hidden'});
-        });
-
-        this._isShown = false;
-
-        this.show(false);
+    onAdd: function (map) {
+        DG.LayerGroup.prototype.onAdd.call(this, map);
+        this.show();
     },
 
-    onRemove: function (map) { // (DG.Map)
-        DG.FeatureGroup.prototype.onRemove.call(this, map);
-
-        this._isShown = false;
-        this._map.fire('entrancehide');
-        this._map = null;
-        this._eventHandler.disable();
-        this._eventHandler = null;
+    onRemove: function (map) {
+        this.hide();
+        DG.LayerGroup.prototype.onRemove.call(this, map);
     },
 
-    show: function (fitBounds) { // () -> DG.Entrance
-        var self = this;
+    getEvents: function () {
+        var events = {};
 
-        if (!this._layers) {
-            return this;
+        if (this.options.autoClose) {
+            events['layeradd'] = this._removeEntrance;  //  eslint-disable-line dot-notation
         }
-        if (fitBounds !== false) {
-            this.fitBounds();
+        if (this.options.enableAnimation) {
+            events['zoomend'] = this._animate;          //  eslint-disable-line dot-notation
         }
-        if (this._isAllowedZoom()) {
-            this.eachLayer(function (arrow) {
-                arrow.setStyle({visibility: 'visible'});
-                if (self.options.enableAnimation && DG.Path.ANIMATION_AVAILABLE) {
-                    arrow.runAnimation('animateArrowPathGeom');
-                }
-            });
-            if (!this._isShown) {
-                this._map.fire('entranceshow');
+
+        return events;
+    },
+
+    show: function (fitBounds) {
+        if (this._layers) {
+            if (fitBounds) {
+                this.fitBounds();
+            }
+            if (!this._isShown && this._isAllowedZoom()) {
                 this._isShown = true;
+                this.eachLayer(function (arrow) {
+                    arrow.setVisibility(true);
+                });
+                if (this.options.enableAnimation) {
+                    this._animate();
+                }
+                this._map.fire('entranceshow');
             }
         }
 
         return this;
     },
 
-    hide: function () { // () -> DG.Entrance
-
-        if (this.isShown() && this._layers) {
-            this.eachLayer(function (arrow) {
-                arrow.setStyle({visibility: 'hidden'});
-            });
+    hide: function () {
+        if (this._layers && this._isShown) {
             this._isShown = false;
+            this.eachLayer(function (arrow) {
+                arrow.setVisibility(false);
+            });
             this._map.fire('entrancehide');
         }
 
         return this;
     },
 
-    isShown: function () { // () -> Boolean
+    isShown: function () {
         return this._isShown;
+    },
+
+    getBounds: function () {
+        return this._bounds;
     },
 
     setFillColor: function (color) {
         this.eachLayer(function (arrow) {
-            if (arrow.options.type == 'fill') {
-                arrow.setStyle({color: color});
-            }
+            arrow.setStyle({fillColor: color});
         });
     },
 
     setStrokeColor: function (color) {
         this.eachLayer(function (arrow) {
-            if (arrow.options.type == 'stroke') {
-                arrow.setStyle({color: color});
-            }
+            arrow.setStyle({color: color});
         });
     },
 
-    _initArrows: function () { // () -> DG.FeatureGroup
+    _initArrows: function () {
+        var base = {
+            color: this.options.strokeColor,
+            fillColor: this.options.fillColor,
+            interactive: this.options.interactive
+        };
+
         this.options.vectors
             .map(function (vector) {
                 return DG.Wkt.toLatLngs(vector);
             })
             .forEach(function (latlngs) {
-                // stroke
-                if (!DG.Browser.ielt9) {
-                    this.addLayer(DG.Entrance.arrow(latlngs, this._getArrowStrokeOptions()));
+                var options = DG.Util.create(base);
+
+                this._bounds.extend(DG.latLngBounds(latlngs));
+
+                options.latlngs = latlngs;
+                if (this.options.enableAnimation) {
+                    if (latlngs.length > 2) {
+                        options.animation = this._animations.path;
+                    } else {
+                        options.animation = this._animations.bounce;
+                        options.distance = true;
+                    }
                 }
-                // basis
-                this.addLayer(DG.Entrance.arrow(latlngs, this._getArrowOptions()));
+
+                this.addLayer(DG.Entrance.arrow(options));
             }, this);
     },
 
-    _getFitZoom: function () {
-        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
+
+    _animate: function (e) {    //  eslint-disable-line no-unused-vars
+        if (this._isShown) {
+            this._animations.bounce.start();
+            this._animations.path.start();
+        }
     },
 
+    //  Current logic of next four methods extracted from original source, additional check is needed
     fitBounds: function () {
-        var map = this._map,
-            fitZoom,
+        var map = this._map, fitZoom,
             bounds = this.getBounds();
 
         if (!map.getBounds().contains(bounds) || !this._isAllowedZoom()) {
@@ -140,192 +157,47 @@ DG.Entrance = DG.FeatureGroup.extend({
                     map.setZoom(this._getFitZoom());
                 }, this);
             }
-            map.setView(bounds.getCenter(), fitZoom, {
-                animate : true
-            });
+            map.setView(bounds.getCenter(), fitZoom, {animate: true});
         }
 
         return this;
+    },
+
+    _getFitZoom: function () {
+        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _isAllowedZoom: function () {
         return this._map.getZoom() >= DG.Entrance.SHOW_FROM_ZOOM;
     },
 
-    _getArrowStrokeOptions: function () {
-        return {
-            type: 'stroke',
-            enableAnimation: this.options.enableAnimation,
-            interactive: this.options.interactive,
-            color: this.options.strokeColor,
-            weight: 6,
-            byZoom: {
-                16: {
-                    marker: {
-                        viewBox: '0 0 24 24',
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 24,
-                        markerWidth: 24,
-                        path: {
-                            d:  'M9.313,18.984c2.246-1.468,7.101-5.562,' +
-                                '7.101-5.562c0.781-0.781,0.781-2.047,0-' +
-                                '2.828c0,0-5.242-4.023-7.101-5.102C9.74' +
-                                ',5.354,8.583,5.93,8.125,6.5C7.902,6.77' +
-                                '7,9,11.614,9,11.614v0.789c0,0-0.879,4.' +
-                                '237-0.905,5.285C8.09,17.891,9.108,19.1' +
-                                '18,9.313,18.984z'
-                        }
-                    },
-                    lastPointOffset: 2,
-                    vmlEndArrow: 'none',
-                    weight: 6,
-                    iconWidth: 4
-                },
-                17: {
-                    marker: {
-                        viewBox: '0 0 24 24',
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 24,
-                        markerWidth: 24,
-                        path: {
-                            d:  'M7.912,21.498c3.106-2.029,9.859-7.873,' +
-                                '9.859-7.873c2.059-1.807,2.142-1.542,0.' +
-                                '146-3.208c0,0-7.434-6.084-10.005-7.576' +
-                                'C7.583,2.649,6.903,3.446,6.271,4.233c-' +
-                                '0.308,0.384,2.209,6.051,2.209,6.051v3.' +
-                                '388c0,0-2.215,4.583-2.25,6.03C6.222,19' +
-                                '.986,7.629,21.684,7.912,21.498z'
-                        }
-                    },
-                    lastPointOffset: 0,
-                    vmlEndArrow: 'none',
-                    weight: 7,
-                    iconWidth: 6
-                },
-                18: {
-                    marker: {
-                        viewBox: '0 0 24 24',
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 24,
-                        markerWidth: 24,
-                        path: {
-                            d:  'M7.61,22.688c4.045-2.642,11.312-8.906,' +
-                                '11.312-8.906c1.92-1.781,1.938-2-0.124-' +
-                                '3.781c0,0-8.151-6.334-11.5-8.276C6.87,' +
-                                '1.475,5.516,2.62,5.732,3.093c2.146,4.6' +
-                                '94,2.063,4.741,2.612,7.469l0.016,2.75c' +
-                                '0,0-1.573,5.458-2.619,7.958C5.599,21.6' +
-                                '11,7.241,22.93,7.61,22.688z'
-                        }
-                    },
-                    lastPointOffset: !DG.Browser.vml ? -5 : -2,
-                    vmlEndArrow: 'none',
-                    weight: 8,
-                    iconWidth: 8
-                },
-                19: {
-                    marker: {
-                        viewBox: '0 0 24 24',
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 27,
-                        markerWidth: 27,
-                        path: {
-                            d:  'M6.254472,23.8475c4.560355,-2.972281 1' +
-                                '2.747538,-10.032785 12.747538,-10.0327' +
-                                '85c2.167521,-2.006556 2.178242,-2.2533' +
-                                '53 -0.13949,-4.25991c0,0 -9.185101,-7.' +
-                                '13562 -12.962148,-9.324594c-0.482861,-' +
-                                '0.278985 -2.006558,1.008645 -1.759761,' +
-                                '1.534428c2.414306,5.290015 2.414306,5.' +
-                                '290015 3.272724,8.294486l0,3.433681c0,' +
-                                '0 -2.081665,5.933829 -3.261997,8.75588' +
-                                '9c-0.160951,0.386288 1.684652,1.867062' +
-                                ' 2.103134,1.598804z'
-                        }
-                    },
-                    lastPointOffset: !DG.Browser.vml ? -5 : -2,
-                    vmlEndArrow: 'none',
-                    weight: 10,
-                    iconWidth: 12
-                }
-            }
-        };
-    },
+    _removeEntrance: function (e) {
+        if (e.layer instanceof DG.Popup ||
+            (e.layer instanceof DG.Entrance && e.layer !== this)) {
 
-    _getArrowOptions: function () {
-        return {
-            type: 'fill',
-            enableAnimation: this.options.enableAnimation,
-            interactive: this.options.interactive,
-            color: this.options.fillColor,
-            weight: 3,
-            byZoom: {
-                16: {
-                    marker: {
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 24,
-                        markerWidth: 24,
-                        path: {
-                            d:  'M11.068,13.011L9.5,17.285l6.379-5.169L9' +
-                                '.313,7.19l1.717,3.824'
-                        }
-                    },
-                    lastPointOffset: 2,
-                    weight: 2,
-                    iconWidth: 4
-                },
-                17: {
-                    marker: {
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 24,
-                        markerWidth: 24,
-                        path: {
-                            d:  'M10.354,13.969l-2.184,5.18L16.993,12L7.' +
-                                '912,5.188l2.38,4.781'
-                        }
-                    },
-                    lastPointOffset: 0,
-                    weight: 3,
-                    iconWidth: 6
-                },
-                18: {
-                    marker: {
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 24,
-                        markerWidth: 24,
-                        path: {
-                            d:  'M10.281,13.781L7.42,21.271l11.488-9.308' +
-                                'L7.083,3.093L10.219,10'
-                        }
-                    },
-                    lastPointOffset: !DG.Browser.vml ? -5 : 0,
-                    weight: 4,
-                    iconWidth: 8
-                },
-                19: {
-                    marker: {
-                        refX: 12,
-                        refY: 12,
-                        markerHeight: 27,
-                        markerWidth: 27,
-                        path: {
-                            d:  'M9.344783,13.814714l-3.326375,8.476902' +
-                                'l12.983603,-10.51565l-13.305513,-9.979' +
-                                '137l3.648286,7.940389'
-                        }
-                    },
-                    lastPointOffset: !DG.Browser.vml ? -5 : 0,
-                    weight: 5,
-                    iconWidth: 12
-                }
-            }
-        };
+            this.remove();
+        }
     }
 });
+
+DG.entrance2 = function (options) {
+    return new DG.Entrance(options);
+};
+
+DG.Entrance.SHOW_FROM_ZOOM = 16;
+DG.Entrance.PATH_ANIMATION = {
+    animation: {
+        function: DG.Animation.EASE_IN_OUT,
+        duration: 750
+    }
+};
+DG.Entrance.BOUNCE_ANIMATION = {
+    animation: [
+        {function: DG.Animation.EASE_IN_OUT, duration: 250, keys: {distance: {from: 0, to: 0.6}}},
+        {function: DG.Animation.EASE_IN, duration: 135, keys: {distance: {from: 0.6, to: 0}}},
+        {function: DG.Animation.EASE_OUT, duration: 135, keys: {distance: {from: 0, to: 0.16}}},
+        {function: DG.Animation.EASE_IN, duration: 90, keys: {distance: {from: 0.16, to: 0}}},
+        {function: DG.Animation.EASE_OUT, duration: 90, keys: {distance: {from: 0, to: 0.06}}},
+        {function: DG.Animation.EASE_IN, duration: 50, keys: {distance: {from: 0.06, to: 0}}}
+    ]
+};

@@ -1,3 +1,7 @@
+/*
+ * Utility class, self-explanatory
+ */
+
 DG.VertexTransform = function (vertices) {
     this._vertices = vertices;
 

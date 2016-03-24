@@ -1,4 +1,3 @@
-/*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false, sinon:false */
 describe('DG.Entrance', function () {
     var map,
         spy,
@@ -68,7 +67,7 @@ describe('DG.Entrance', function () {
 
                 Object.keys(layers).forEach(function(el) {
                     expect(map.hasLayer(layers[el])).to.be.ok();
-                    expect(layers[el].options.visibility).to.be('visible');
+                    expect(layers[el]._visibility.isShown).to.be(true);
                 });
             });
         });
@@ -99,7 +98,7 @@ describe('DG.Entrance', function () {
 
             Object.keys(layers).forEach(function(el) {
                 expect(map.hasLayer(layers[el])).not.be.ok();
-                expect(layers[el].options.visibility).not.be('visible');
+                expect(layers[el]._visibility.isShown).not.be(true);
             });
         });
 

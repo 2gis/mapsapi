@@ -1,6 +1,7 @@
 /*
  * Utility functions
  */
+
 DG.Metric = function () {};
 
 
@@ -13,30 +14,36 @@ DG.Metric.Segments.prototype = {
         this.length += 1;
         return this;
     },
+
     getLength: function () {
         return this[this.length - 1];
     },
+
     getReverse: function () {
-        var newPL = new DG.PathLength();
+        var segments = new DG.Metric.Segments();
         var i = this.length - 1;
-        if (i < 0) return newPL;        //  eslint-disable-line curly
+        if (i < 0) { return segments; }
         while (i--) {
-            newPL.push(this[i + 1] - this[i]);
+            segments.push(this[i + 1] - this[i]);
         }
-        return newPL.push(this[0]);
+        return segments.push(this[0]);
     },
+
     getIndex: function (len) {
         var i = this.length - 1;
+        if (i < 0) { return i; }
         while (i--) {
             if (this[i] <= len) break;  //  eslint-disable-line curly
         }
         return i + 1;
     },
+
     getSegRatio: function (len) {
         var i = this.getIndex(len),
             sub = i > 0 ? this[i - 1] : 0;
         return (len - sub) / (this[i] - sub);
     },
+
     getSegLength: function (len) {
         var i = this.getIndex(len),
             sub = i > 0 ? this[i - 1] : 0;

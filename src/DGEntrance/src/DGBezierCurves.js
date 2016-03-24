@@ -1,3 +1,13 @@
+/*
+ * DGBezierCurves is a collection of three classes:
+ * Original DG.Bezier class provides basic math for Cubic and Quadratic Bézier curves
+ * DG.TimeBezier used in animation effects it can return 'Distance' (Y) by Time (X) value
+ * DG.ArcBezier can return 't' value by curve's segment length
+ * Actual calculations can be very hard (in math terms) so we use LUT's to optimize them
+ *
+ * Original ideas come from this source:   https://pomax.github.io/bezierinfo/
+ */
+
 DG.Bezier = function (coords, clone) {  //  [DG.Point(start), DG.Point(control1), (DG.Point(control2),)? DG.Point(end)]
     if (clone) {
         this.points = coords.map(function (coord) { return coord.clone(); });
@@ -86,7 +96,7 @@ DG.Bezier.prototype = {
         );
     },
 
-    length: function () {
+    getLength: function () {
         /* eslint-disable camelcase */
         var w_i = DG.Bezier.WEIGHT,
             x_i = DG.Bezier.ABSCISSA,
@@ -161,10 +171,10 @@ DG.Bezier.prototype = {
         mz = z - 1;
         mz2 = mz * mz;
 
-        curve[n](new DG.Point(
+        curve[n] = new DG.Point(
             p[n].x,
             p[n].y
-        ));
+        );
 
         curve[--n] = new DG.Point(
             z * p[n + 1].x - mz * p[n].x,
@@ -398,7 +408,7 @@ DG.TimeBezier.END = DG.point(1, 1);
 DG.ArcBezier = function (coords, clone) {
     DG.Bezier.call(this, coords, clone);
     this.getLUT();
-    this.getLengths();
+    this._setLengths();
 };
 
 DG.ArcBezier.prototype = DG.Util.create(DG.Bezier.prototype);
@@ -443,7 +453,7 @@ DG.extend(DG.ArcBezier.prototype, {
         return t;
     },
 
-    getLengths: function () {
+    _setLengths: function () {
         var lut = this._lut,
             i, len, dx, dy;
 
@@ -455,7 +465,7 @@ DG.extend(DG.ArcBezier.prototype, {
         }
     },
 
-    length: function () {
+    getLength: function () {
         return this._lut[this._lut.length - 1].l;
     },
 

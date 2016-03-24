@@ -1,8 +1,14 @@
+/*
+ * DG.Animation provides tick (step) logic returning progression values
+ * calculated over provided or custom Bézier curves
+ * Original input can be array object btw...
+ */
+
 DG.Animation = DG.Evented.extend({
     options: {
         // animation: {    //  Or array of objects
         //     function: DG.Animation.EASE,
-        //     duration: 2 * 1000,
+        //     duration: 2000,
         //     keys: null
         // }
 

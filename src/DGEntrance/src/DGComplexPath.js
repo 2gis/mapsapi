@@ -1,3 +1,10 @@
+/*
+ * DG.ComplexPath is a simple vector layer class with empty .getEvents() object(!)
+ * It's drawing logic is maintained in DG.Entrance.Arrow class
+ *
+ * _pxBounds is a pixel bounds of this drawings and they are used in L.Canvas
+ */
+
 DG.ComplexPath = DG.Path.extend({
     options: {
         fill: true,
@@ -10,6 +17,11 @@ DG.ComplexPath = DG.Path.extend({
 
         this._empty = [];
 
+        this._pxEmpty = DG.bounds(
+            DG.point(0, 0), DG.point(0, 0)
+        );
+        this._pxBounds = this._pxEmpty;
+
         this._vertices = [this._empty];
         this._drawings = [this._empty];
     },
@@ -19,9 +31,14 @@ DG.ComplexPath = DG.Path.extend({
     },
 
     _project: function () {
-        var zoom = this._map.getZoom(),
-            opts = this.options,
-            weight;
+        var opts = this.options,
+            zoom, weight;
+
+        if (this._map) {
+            zoom = this._map.getZoom();
+        } else {
+            return;
+        }
 
         if (opts.visibility.isShown && opts.transform[zoom]) {
             weight = 2.2 - ((19 - zoom) * 0.2);
@@ -31,21 +48,14 @@ DG.ComplexPath = DG.Path.extend({
 
             this._vertices[0] = opts.transform[zoom].vertices;
             this._drawings[0] = opts.transform[zoom].drawings;
+
+            this._pxBounds = opts.transform[zoom]._pxBounds;
         } else {
             this._vertices[0] = this._empty;
             this._drawings[0] = this._empty;
-        }
-/*
-        // project bounds as well to use later for Canvas hit detection/etc.
-        var w = this._clickTolerance(),
-            p = new L.Point(w, -w);
 
-        if (this._bounds.isValid()) {
-            this._pxBounds = new L.Bounds(
-                this._map.latLngToLayerPoint(this._bounds.getSouthWest())._subtract(p),
-                this._map.latLngToLayerPoint(this._bounds.getNorthEast())._add(p));
+            this._pxBounds = this._pxEmpty;
         }
-*/
     },
 
     _update: function () {

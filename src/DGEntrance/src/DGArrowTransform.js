@@ -1,3 +1,17 @@
+/*
+ * DG.ArrowXXXTransform classes is a core of arrow's body and tip calculations
+ *
+ * General ideas are:
+ *      We construct arrow body with stroke points making arcs on outer path turns
+ *      Processing is done segment by segment around {0, 0} virtual point
+ *          and resulting 'path' finally rotated to it's original angle
+ *      Subset of this vertices lately used in .subPath() calculations
+ *      Ending points of .subPath() calculated separately and used to bound
+ *          ArrowTip to the path, see .subShape()
+ *
+ *  Final translation (see DG.Entrance.Arrow) moves arrow objects to their original positions
+ */
+
 DG.ArrowPathTransform = function (path) {
     //  'path.offset' is initial points offset (-x / +x) to compensate arrow tip length
 
@@ -79,6 +93,7 @@ DG.extend(DG.ArrowPathTransform.prototype, {
             }
         }
 
+        //  Final segments and tail arc
         ax = path.vertices[i + 1].x;
         bx = width * 4 / 3; // tan(PI/4) = 1
         vertices[0].push(new Point(ax, +width));
@@ -94,9 +109,6 @@ DG.extend(DG.ArrowPathTransform.prototype, {
         //  Move vertices into original position (before last translation)
         angle = DG.VertexTransform.getAnglesSum(angles.fullAngle, path.getAngle());
         transform(vertices, angle, vertices.pop()[0]);  //  path.vertices[0]
-        //  TODO: check and remove
-        // transform(vertices, angles.fullAngle, vertices.pop()[0]);   //  path.vertices[0]
-        // transform(vertices, path._angle, {x: 0, y: 0});
 
         //  We need to reconstruct arc's indexes but too mach variables already touched, reuse some of them
         ax = vertices[0].length;
@@ -112,7 +124,7 @@ DG.extend(DG.ArrowPathTransform.prototype, {
 
         this._lengths.push(lengths.pop());
         lengths.reverse().forEach(function (l, i) {
-            this._lengths.push(this._arcs[i].length()).push(l);
+            this._lengths.push(this._arcs[i].getLength()).push(l);
         }, this);
 
         //  Shortcut border cases (0%-length sub-path and full-path)
@@ -126,7 +138,7 @@ DG.extend(DG.ArrowPathTransform.prototype, {
         };
     },
 
-    _setAD: function (vL, vR) {
+    _setAD: function (vL, vR) { // Used in DG.ArrowTipTransform.subShape()
         this.angle = DG.VertexTransform.getAngle({x: vL.x - vR.x, y: vL.y - vR.y}, {x: 0, y: 1});
         this.displ = vR.clone();
     },
@@ -280,10 +292,6 @@ DG.ArrowPathTransform.transform = function (rings, angle, vector) {
         }
     }
 };
-
-
-
-
 
 
 DG.ArrowTipTransform = function (path, shape) {
