@@ -119,19 +119,27 @@ DG.VertexTransform.prototype = {
     },
 
     transform: function (matrix) {
-        var a = matrix ? matrix[0] : this._matrix ? this._matrix[0] : 1,
-            b = matrix ? matrix[1] : this._matrix ? this._matrix[1] : 0,
-            d = matrix ? matrix[4] : this._matrix ? this._matrix[4] : 1,
-            c = matrix ? matrix[3] : this._matrix ? this._matrix[3] : 0,
-            dx =  matrix ? matrix[2] : this._matrix ? this._matrix[2] : 0,
-            dy =  matrix ? matrix[5] : this._matrix ? this._matrix[5] : 0,
+        var a, b, c, d, dx, dy,
             v = this.vertices,
             i = v.length, x, y;
+
+        if (matrix) {
+            a = matrix[0]; b = matrix[1]; dx = matrix[2];
+            c = matrix[3]; d = matrix[4]; dy = matrix[5];
+        } else {
+            if (this._matrix) { //  eslint-disable-line no-lonely-if
+                a = this._matrix[0]; b = this._matrix[1]; dx = this._matrix[2];
+                c = this._matrix[3]; d = this._matrix[4]; dy = this._matrix[5];
+            } else {
+                a = 1; b = 0; dx = 0;
+                c = 0; d = 1; dy = 0;
+            }
+        }
 
         while (i--) {
             x = v[i].x;
             y = v[i].y;
-            v[i].x = x * a - y * b + dx;
+            v[i].x = x * a + y * b + dx;
             v[i].y = x * c + y * d + dy;
         }
         return this;

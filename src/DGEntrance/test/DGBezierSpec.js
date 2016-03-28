@@ -9,7 +9,7 @@ describe('DG.Bezier', function () {
     });
 
     after(function () {
-        bc = null;
+        bc = s = e = cp1 = cp2 = null;
     });
 
     describe('#getPoint', function () {

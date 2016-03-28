@@ -1,8 +1,8 @@
 describe('DG.Metric', function () {
     var dgMetric = DG.Metric;
 
-    it('should be an object', function () {
-        expect(dgMetric).to.exist;
+    it('should be a function object', function () {
+        expect(dgMetric).to.be.a('function');
     });
 
     describe('DG.Metric.Segments', function () {
