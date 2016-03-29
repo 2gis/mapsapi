@@ -1,8 +1,8 @@
 describe('DGMeta', function () {
-    var map, meta, ajaxSpy, ajaxStub, demoData, origin, poiCord, spy;
+    var map, meta, ajaxSpy, ajaxStub, demoData, origin, poiCord, spy, div;
 
     beforeEach(function () {
-        var div = document.createElement('div');
+        div = document.createElement('div');
 
         document.body.appendChild(div);
 
@@ -45,6 +45,8 @@ describe('DGMeta', function () {
     });
 
     afterEach(function () {
+        document.body.removeChild(div);
+        map && map.remove();
         map = meta = origin = demoData = ajaxSpy = null;
         ajaxStub.restore();
     });

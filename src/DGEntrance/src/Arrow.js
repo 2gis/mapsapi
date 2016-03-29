@@ -40,8 +40,8 @@ DG.Entrance.Arrow = DG.Polyline.extend({
         };
     },
 
-    _projectLatlngs: function (latlngs, result) {
-        DG.Polyline.prototype._projectLatlngs.call(this, latlngs, result);
+    _projectLatlngs: function (latlngs, result, projectedBounds) {
+        DG.Polyline.prototype._projectLatlngs.call(this, latlngs, result, projectedBounds);
         this._offsetLastPathPoint();
     },
 

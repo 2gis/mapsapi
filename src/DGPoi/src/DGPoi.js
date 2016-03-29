@@ -1,5 +1,5 @@
 DG.Map.mergeOptions({
-    poi: !DG.Browser.touch
+    poi: !DG.Browser.mobile
 });
 
 DG.Poi = DG.Handler.extend({
@@ -71,7 +71,8 @@ DG.Poi = DG.Handler.extend({
             this._setCursor('pointer');
             this._labelHelper
                 .setPosition(e.latlng)
-                .setContent(e.meta.hint);
+                .setContent(e.meta.hint)
+                .setZIndexOffset(300);
             this._map.addLayer(this._labelHelper);
             this._map.fire('poihover', {
                 latlng: e.latlng,

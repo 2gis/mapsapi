@@ -11,12 +11,18 @@ describe('DG.Control.Attribution', function() {
         latLngWithoutProject = [54.83391822270635, 80.34439086914064],
         latLngCenterNsk = [55.017493, 82.819576],
 
-        mapContainer = document.createElement('div'),
+        mapContainer,
+        map,
+        attribution;
+
+    before(function () {
+        mapContainer = document.createElement('div');
         map = new DG.Map(mapContainer, {
             center: latLngCenterNsk,
             zoom: 15
-        }),
+        });
         attribution = mapContainer.getElementsByClassName('dg-attribution')[0];
+    });
 
     after(function() {
         dictionaryLicense = osmCopyright = latLngWithoutProject = latLngCenterNsk = mapContainer = map = attribution = null;

@@ -1,16 +1,21 @@
 describe('DGMap', function () {
-    var mapContainer = document.createElement('div'),
+    var mapContainer,
         center = [54.980206086231, 82.898068362003],
+        map,
+        newCenter = [55.01749277152058, 82.92145729064943],
+        moveStartSpy,
+        moveEndSpy;
+
+    before(function () {
+        mapContainer = document.createElement('div');
         map = new DG.Map(mapContainer, {
             center: center,
             zoom: 15
-        }),
-        newCenter = [55.01749277152058, 82.92145729064943],
-        moveStartSpy, moveEndSpy;
-
-    document.body.appendChild(mapContainer);
-    map.setLang('ru');
-    map.invalidateSize();
+        });
+        document.body.appendChild(mapContainer);
+        map.setLang('ru');
+        map.invalidateSize();
+    });
 
     after(function () {
         mapContainer.parentElement.removeChild(mapContainer);

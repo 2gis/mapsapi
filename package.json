@@ -1,6 +1,6 @@
 {
   "name": "2GIS-Maps-API-2.0",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Interactive 2GIS maps API, based on Leaflet",
   "keywords": [
     "2gis",
@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "start": "node app.js",
-    "test": "gulp test"
+    "test": "gulp test",
+    "lint": "gulp lint"
   },
   "repository": {
     "type": "git",
@@ -50,13 +51,13 @@
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.3",
     "gulp.spritesmith": "^3.2.0",
-    "happen": "0.1.3",
+    "happen": "~0.2.0",
     "html5shiv": "^3.7.2",
     "image-size": "0.3.5",
     "karma": "^0.13.10",
-    "leaflet": "git://github.com/Leaflet/Leaflet.git#c6bef03929965d15d3636999d17a7cd057ab575e",
+    "leaflet": "git://github.com/Leaflet/Leaflet.git#07039e05a9d2d2e20ecaba3fc9ebd25db9ff72fc",
     "less": "^2.4.0",
-    "lodash": "^2.4.1",
+    "lodash": "^4.3.0",
     "map-stream": "0.1.0",
     "marked": "0.3.3",
     "mkdirp": "0.5.0",

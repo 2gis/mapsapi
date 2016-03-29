@@ -1,17 +1,17 @@
 DG.Wkt = {};
 
-DG.Wkt.toGeoJSON = function (_) {
-    if (DG.Util.isArray(_)) {
-        _ = _[0];
+DG.Wkt.toGeoJSON = function (data) {
+    if (DG.Util.isArray(data)) {
+        data = data[0];
     }
-    var parts = _.split(';');
-    _ = parts.pop();
+    var parts = data.split(';');
+    data = parts.pop();
 
     var i = 0,
         srid = (parts.shift() || '').split('=').pop();
 
     function $(re) {
-        var match = _.substring(i).match(re);
+        var match = data.substring(i).match(re);
         if (!match) {
             return null;
         }

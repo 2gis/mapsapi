@@ -1,6 +1,6 @@
 #!/bin/sh
 
-py_files=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
+py_files=$(git diff `git merge-base master HEAD`..HEAD --name-only | grep ".py$")
 if [ "$py_files" = "" ]; then
     exit 0
 fi

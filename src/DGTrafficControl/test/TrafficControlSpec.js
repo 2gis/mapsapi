@@ -7,18 +7,32 @@ describe('DG.TrafficControl', function() {
         centerSpb = [59.937706, 30.13249],
         centerWithoutProject = [54.83391822270635, 80.34439086914064],
 
-        mapContainer = document.createElement('div'),
+        mapContainer,
+        map,
+        control,
+        trafficControl,
+        controlParent;
+
+    before(function () {
+        mapContainer = document.createElement('div');
         map = new DG.Map(mapContainer, {
             center: centerSpb,
             zoom: 15
-        }),
+        });
 
-        control = mapContainer.getElementsByClassName(controlClass),
-        trafficControl = DG.control.traffic(),
-        controlParent;
+        control = mapContainer.getElementsByClassName(controlClass);
+        trafficControl = DG.control.traffic();
 
-    document.body.appendChild(mapContainer);
-    map.addControl(trafficControl);
+        document.body.appendChild(mapContainer);
+        map.addControl(trafficControl);
+    });
+
+    after(function () {
+        map.remove();
+        document.body.removeChild(mapContainer);
+        controlClass = controlParentActiveClass = controlParentHiddenClass = centerNsk = null;
+        centerSpb = centerWithoutProject = mapContainer = map = control = trafficControl = controlParent = null;
+    });
 
     describe('module init', function () {
         it('traffic control show', function () {

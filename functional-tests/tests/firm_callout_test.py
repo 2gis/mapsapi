@@ -278,9 +278,8 @@ class FirmCallout(MapsAPIBaseTest):
         config.aut['local'] + u'/base.html',
         54.980678320392336,
         82.89860486984254,
-        141265770847007
-    )
-    ])
+        141265771881838
+    )])
     def firm_email_test(self, url, lat, lng, firm_id):
         """
         Проверка наличия email

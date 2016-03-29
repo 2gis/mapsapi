@@ -18,6 +18,7 @@ describe('DG.RoundControl', function() {
 
     after(function() {
         mapContainer.parentElement.removeChild(mapContainer);
+        map.remove();
         map = mapContainer = control = classIconControl = classActive = containerControl = spy = null;
     });
 

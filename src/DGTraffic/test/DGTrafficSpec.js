@@ -1,10 +1,11 @@
 describe('DG.traffic', function () {
     var map,
         traffic,
-        mapContainer = document.createElement('div');
-        document.body.appendChild(mapContainer);
+        mapContainer;
 
     before(function () {
+        mapContainer = document.createElement('div');
+        document.body.appendChild(mapContainer);
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.980156831455, 82.897440725094),
             zoom: 17

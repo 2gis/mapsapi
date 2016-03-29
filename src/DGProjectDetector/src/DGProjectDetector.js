@@ -2,7 +2,8 @@ DG.ProjectDetector = DG.Handler.extend({
     initialize: function (map) { // (Object)
         this._map = map;
         this._osmViewport = false;
-        this.project = null;
+        this._project = null;
+        this._noProjectEventFired = false;
         this._loadProjectList();
         this._searchProject();
     },
@@ -16,9 +17,9 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     getProject: function () {
-        if (!this.project) { return false; }
+        if (!this._project) { return false; }
 
-        return DG.Util.extend({}, this.project);
+        return DG.Util.extend({}, this._project);
     },
 
     getProjectsList: function () {
@@ -45,25 +46,25 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _projectWatch: function () {
-        if (this._osmViewport === (this.project && this._boundInProject(this.project, 'contains'))) {
+        if (this._osmViewport === (this._project && this._boundInProject(this._project, 'contains'))) {
             this._osmViewport = !this._osmViewport;
             this._map.attributionControl._update(null, this._osmViewport);
         }
 
-        if (this.project && this._boundInProject(this.project) && this._zoomInProject(this.project)) { return; }
+        if (this._project && this._boundInProject(this._project) && this._zoomInProject(this._project)) { return; }
 
-        if (this.project) {
-            this.project = null;
+        if (this._project) {
+            this._project = null;
             this._map.fire('projectleave');
         }
 
         this._searchProject();
 
-        if (this.project) {
-            if (this._osmViewport === (this.project && this._boundInProject(this.project, 'contains'))) {
+        if (this._project) {
+            if (this._osmViewport === (this._project && this._boundInProject(this._project, 'contains'))) {
                 this._osmViewport = !this._osmViewport;
             }
-            this._map.attributionControl._update(null, this._osmViewport, this.project.country_code);
+            this._map.attributionControl._update(null, this._osmViewport, this._project.country_code);
         }
     },
 
@@ -135,6 +136,7 @@ DG.ProjectDetector = DG.Handler.extend({
 
                 /* eslint-disable camelcase */
                 return {
+                    id: project.id,
                     code: project.code,
                     minZoom: project.zoom_level.min,
                     maxZoom: project.zoom_level.max,
@@ -152,20 +154,38 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _searchProject: function () {
-        this._projectList
+        var foundProjects = this._projectList
             .filter(function (project) {
                 return (this._boundInProject(project) && this._zoomInProject(project));
-            }, this)
-            .some(function (project) {
-                var self = this;
-
-                this.project = project;
-                setTimeout(function () {
-                    self._map.fire('projectchange', {'getProject': self.getProject.bind(self)});
-                }, 1);
-
-                return true;
             }, this);
+
+        var loaded = false;
+
+        try {
+            this._map._checkIfLoaded();
+            loaded = true;
+        } catch (e) {
+            loaded = false;
+        }
+
+        if (loaded && foundProjects.length === 0 && !this._noProjectEventFired) {
+            var self = this;
+            setTimeout(function () {
+                self._map.fire('projectleave');
+                self._noProjectEventFired = true;
+            }, 1);
+        }
+
+        foundProjects.some(function (project) {
+            var self = this;
+
+            this._project = project;
+            setTimeout(function () {
+                self._map.fire('projectchange', {'getProject': self.getProject.bind(self)});
+            }, 1);
+
+            return true;
+        }, this);
     },
 
     _boundInProject: function (project, checkMethod) {

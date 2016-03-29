@@ -18,6 +18,16 @@ describe('Canvas', function () {
         latLngs = [p2ll(0, 0), p2ll(0, 100), p2ll(100, 100), p2ll(100, 0)];
     });
 
+    // Remove our layers for run test of leflet.
+    // Set nonBubblingEvents to [],
+    // beacuse in DGCustomization.js we set click is not bubling and test of leflet isn't work
+    before(function () {
+        map.clearLayers();
+        DG.Layer.mergeOptions({
+            nonBubblingEvents: []
+        });
+    });
+
     after(function () {
         document.body.removeChild(c);
     });
@@ -33,7 +43,7 @@ describe('Canvas', function () {
             layer.remove();
         });
 
-        it.skip("should fire event when layer contains mouse", function () {
+        it("should fire event when layer contains mouse", function () {
             var spy = sinon.spy();
             layer.on('click', spy);
             happen.at('click', 50, 50);  // Click on the layer.
@@ -51,7 +61,7 @@ describe('Canvas', function () {
             map.off("click", spy);
         });
 
-        it.skip("DOM events fired on canvas polygon can be cancelled before being caught by the map", function () {
+        it("DOM events fired on canvas polygon can be cancelled before being caught by the map", function () {
             var mapSpy = sinon.spy();
             var layerSpy = sinon.spy();
             map.on("click", mapSpy);
@@ -75,4 +85,25 @@ describe('Canvas', function () {
 
     });
 
+    describe("#events(interactive=false)", function () {
+        var layer;
+
+        beforeEach(function () {
+            layer = L.polygon(latLngs, {interactive: false}).addTo(map);
+        });
+
+        afterEach(function () {
+            layer.remove();
+        });
+
+        it("should not fire click when not interactive", function () {
+            var spy = sinon.spy();
+            layer.on('click', spy);
+            happen.at('click', 50, 50);  // Click on the layer.
+            expect(spy.callCount).to.eql(0);
+            happen.at('click', 150, 150);  // Click outside layer.
+            expect(spy.callCount).to.eql(0);
+            layer.off("click", spy);
+        });
+    });
 });

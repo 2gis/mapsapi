@@ -1,15 +1,20 @@
 /*global describe:false, it:false, expect:false, afterEach:false */
 describe('DG.ProjectDetectorInit', function () {
     var map,
-        mapContainer = document.createElement('div'),
+        mapContainer,
         maxZoom = 18,
         maxDesertZoom = 13,
-        project1 =     new DG.LatLng(54.97902673261798, 82.819265127182),
-        desert1 =      new DG.LatLng(54.817453325877906, 81.85930252075195);
+        project1,
+        desert1;
 
-    document.body.appendChild(mapContainer);
-    mapContainer.style.width = 1900 + 'px';
-    mapContainer.style.height = 600 + 'px';
+    before(function () {
+        mapContainer = document.createElement('div');
+        project1 = new DG.LatLng(54.97902673261798, 82.819265127182);
+        desert1 = new DG.LatLng(54.817453325877906, 81.85930252075195);
+        document.body.appendChild(mapContainer);
+        mapContainer.style.width = 1900 + 'px';
+        mapContainer.style.height = 600 + 'px';
+    });
 
     after(function() {
         document.body.removeChild(mapContainer);
