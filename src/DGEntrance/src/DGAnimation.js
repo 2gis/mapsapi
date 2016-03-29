@@ -35,7 +35,7 @@ DG.Animation = DG.Evented.extend({
         this.fire('start');
 
         //  Date.now(), but... IE9+
-        this._startTime = new Date().valueOf();
+        this._startTime = new Date().getTime();
 
         this._animate();
     },
@@ -47,17 +47,12 @@ DG.Animation = DG.Evented.extend({
     },
 
     _prepare: function () {
-        this._durations = new DG.Metric.Segments();
+        this._animation = DG.Util.isArray(this.options.animation) ? this.options.animation : [this.options.animation];
 
-        if (DG.Util.isArray(this.options.animation)) {
-            this._animation = this.options.animation;
-            this._animation.forEach(function (animation) {
-                this.push(animation.duration);
-            }, this._durations);
-        } else {
-            this._animation = [this.options.animation];
-            this._durations.push(this._animation[0].duration);
-        }
+        this._durations = new DG.Metric.Segments();
+        this._animation.forEach(function (animation) {
+            this.push(animation.duration);
+        }, this._durations);
     },
 
     _animate: function () {
@@ -68,7 +63,7 @@ DG.Animation = DG.Evented.extend({
     _run: function (elapsed) {
         var el, index, progress;
         //  Possible skip zero delta time but who cares?!
-        elapsed = elapsed ? elapsed : new Date().valueOf() - this._startTime;
+        elapsed = elapsed ? elapsed : new Date().getTime() - this._startTime;
 
         if (elapsed < this._durations.getLength()) {
             index = this._durations.getIndex(elapsed);
