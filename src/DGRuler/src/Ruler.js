@@ -28,7 +28,7 @@ DG.Ruler = DG.Layer.extend({
 
         this._reset();
 
-        if (DG.Browser.touch) {
+        if (DG.Browser.mobile) {
             delete this._lineMouseEvents.mouseover;
             delete this._lineMouseEvents.mouseout;
             delete this._lineMouseEvents.mousemove;
@@ -610,7 +610,7 @@ DG.Ruler = DG.Layer.extend({
 
         point._legs.mouse._point = point.once('remove', this._clearRemovingPointLegs, this);
 
-        if (this.options.editable && !DG.Browser.touch) {
+        if (this.options.editable && !DG.Browser.mobile) {
             point._legs.mouse.on('mousedown', this._insertPointInLine, this);
         }
 
