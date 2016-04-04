@@ -141,7 +141,7 @@ DG.Map.include({
         }
     },
 
-    _getNewBounds: function(coords, zoom) {
+    _getNewBounds: function (coords, zoom) {
         if (coords instanceof DG.LatLngBounds) {
             return coords;
         }

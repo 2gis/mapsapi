@@ -1,10 +1,10 @@
 DG.plugin = function (plugins) {
     var count,
         jsReg = new RegExp(/.js$/i),
-        cssReg = new RegExp(/.css$/i),
+        cssReg = new RegExp(/.css$/i);
 
-    promise = new Promise(function (resolve) {
-        function checkLoading() {
+    return new Promise(function (resolve) {
+        function checkLoading () {
             count--;
 
             if (count === 0) {
@@ -12,7 +12,7 @@ DG.plugin = function (plugins) {
             }
         }
 
-        function appendJS(link) {
+        function appendJS (link) {
             var js = document.createElement('script');
             js.setAttribute('type', 'text/javascript');
             js.setAttribute('src', link);
@@ -32,7 +32,7 @@ DG.plugin = function (plugins) {
             document.getElementsByTagName('head')[0].appendChild(js);
         }
 
-        function appendCSS(link) {
+        function appendCSS (link) {
             var css = document.createElement('link');
             css.setAttribute('rel', 'stylesheet');
             css.setAttribute('type', 'text/css');
@@ -42,15 +42,15 @@ DG.plugin = function (plugins) {
             checkLoading();
         }
 
-        function isJs(url) {
+        function isJs (url) {
             return jsReg.test(url);
         }
 
-        function isCss(url) {
+        function isCss (url) {
             return cssReg.test(url);
         }
 
-        function appendAsset(asset) {
+        function appendAsset (asset) {
             if (isJs(asset)) {
                 appendJS(asset);
             } else if (isCss(asset)) {
@@ -72,6 +72,4 @@ DG.plugin = function (plugins) {
             appendAsset(plugins);
         }
     });
-
-    return promise;
 };

@@ -35,7 +35,7 @@ gulp.task('generateSprites', [
                 cssTemplate: 'gulp/sprite-template.mustache',
                 imgName: 'sprite.' + skinName + '.png',
                 cssName: 'sprite.' + skinName + '.less',
-                engine: 'pngsmith'
+                engine: 'pixelsmith'
             }));
         var spriteData2x = gulp.src(png2xList)
             .pipe(error.handle())
@@ -44,7 +44,7 @@ gulp.task('generateSprites', [
                 //padding: 1, // генерирует неправильные смещения :(
                 imgName: 'sprite@2x.' + skinName + '.png',
                 cssName: 'sprite@2x.' + skinName + '.less',
-                engine: 'pngsmith'
+                engine: 'pixelsmith'
             }));
 
         return es.concat(

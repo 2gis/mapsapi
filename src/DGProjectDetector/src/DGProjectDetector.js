@@ -102,7 +102,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _checkProject: function (project) {
-        function check(value) {
+        function check (value) {
             return value !== undefined && value !== null;
         }
 
