@@ -54,7 +54,7 @@
     "happen": "~0.3.0",
     "html5shiv": "^3.x",
     "image-size": "0.5.0",
-    "karma": "^0.13.10",
+    "karma": "^0.13.22",
     "leaflet": "git://github.com/Leaflet/Leaflet.git#07039e05a9d2d2e20ecaba3fc9ebd25db9ff72fc",
     "less": "^2.x",
     "lodash": "^4.x",
@@ -70,16 +70,16 @@
     "streamqueue": "^1.x"
   },
   "devDependencies": {
-    "coveralls": "^2.11.2",
+    "coveralls": "^2.x",
     "karma-chrome-launcher": "^0.2.0",
-    "karma-coverage": "^0.5.2",
+    "karma-coverage": "^0.5.5",
     "karma-expect": "^1.1.0",
-    "karma-firefox-launcher": "^0.1.6",
+    "karma-firefox-launcher": "^0.1.0",
     "karma-mocha": "^0.2.0",
-    "karma-mocha-reporter": "^1.1.1",
+    "karma-mocha-reporter": "^2.x",
     "karma-opera-launcher": "^0.3.0",
-    "karma-phantomjs-launcher": "^0.2.1",
-    "karma-sinon": "^1.0.4",
-    "mock-geolocation": "^1.0.9"
+    "karma-phantomjs-launcher": "^1.x",
+    "karma-sinon": "^1.x",
+    "mock-geolocation": "^1.x"
   }
 }
