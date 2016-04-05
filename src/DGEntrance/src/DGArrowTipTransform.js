@@ -12,15 +12,14 @@
  *  Final translation (see DG.Entrance.Arrow) moves arrow objects to their original positions
  */
 
-DG.ArrowTipTransform = function (path, shape) {
-    this.drawings = shape.drawings; //  static mapping
-    this._vertices = shape.vertices;
+DG.ArrowTipTransform = DG.VertexTransform.extend({
+    initialize: function (path, shape) {
+        this.drawings = shape.drawings; //  static mapping
+        this._vertices = shape.vertices;
 
-    this._setShape(path, shape);
-};
+        this._setShape(path, shape);
+    },
 
-DG.ArrowTipTransform.prototype = DG.Util.create(DG.VertexTransform.prototype);
-DG.extend(DG.ArrowTipTransform.prototype, {
     _setShape: function (path, shape) {
         var sp = shape.vertices[0];
         var width = Math.abs(sp.y);

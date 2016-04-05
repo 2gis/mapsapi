@@ -12,21 +12,20 @@
  *  Final translation (see DG.Entrance.Arrow) moves arrow objects to their original positions
  */
 
-DG.ArrowPathTransform = function (path) {
-    //  'path.offset' is initial points offset (-x / +x) to compensate arrow tip length
+DG.ArrowPathTransform = DG.VertexTransform.extend({
+    initialize: function (path) {
+        //  'path.offset' is initial points offset (-x / +x) to compensate arrow tip length
 
-    //  Skip super initialization as we need only subset of DG.VertexTransform power
-    this._lengths = new DG.Metric.Segments();
-    this._vertices = [[], []];
-    this._drawings = [[], []];
-    //  this._arcs = [];    //  initialized in _setPath()
+        //  Skip super initialization as we need only subset of DG.VertexTransform power
+        this._lengths = new DG.Metric.Segments();
+        this._vertices = [[], []];
+        this._drawings = [[], []];
+        //  this._arcs = [];    //  initialized in _setPath()
 
-    this._setPath(path);
-    this.subPath(1);
-};
+        this._setPath(path);
+        this.subPath(1);
+    },
 
-DG.ArrowPathTransform.prototype = DG.Util.create(DG.VertexTransform.prototype);
-DG.extend(DG.ArrowPathTransform.prototype, {
     load: function () {
         return this.subPath(1);
     },
@@ -223,91 +222,93 @@ DG.extend(DG.ArrowPathTransform.prototype, {
 
         this._setAD(vL, vR);
         return this;
+    },
+
+    statics: {
+        getAngles: function (path) {
+            var getAngle = DG.VertexTransform.getAngle;
+            var fullAngle = {cos: 1, sin: 0};
+            var vertices = path.vertices;
+            var angles = [];
+
+            var absSin, angle,
+                det, cos, sin, cot;
+
+            for (var i = 1, len = vertices.length - 1; i < len; i++) {
+                angle = getAngle(vertices[i - 1], vertices[i + 1], vertices[i]);
+
+                absSin = Math.abs(angle.sin);
+                if (absSin < 0.000001) {
+                    //  Exclude 180° angle from vertices array
+                    vertices.splice(vertices.length - i - 1, 1);
+                    len--; i--;
+                } else {
+                    //  This is half ∢α cotangent, sign describes angle direction and used to shortcut stroke calculations
+                    //  '-1' - right angle is inner angle, '1' - left angle is inner angle (if seen from [0, 0] to [-1, 0])
+                    angle.cot = (1 + angle.cos) / angle.sin;
+
+                    //  We need to rotate next segment to [-1, 0] axis, so we need complementary angle actually
+                    angle.cos = -angle.cos;
+
+                    //  Complimentary angle also used to calculate it's quaternary ∢β tangent
+                    //  ∢β tangent used in approximation of outer arc segment by Bézier curve
+                    cot = (1 + angle.cos) / angle.sin;
+                    //sin = (cot < 0 ? -1 : 1) / Math.sqrt(1 + cot * cot);
+                    //cos = Math.sqrt(1 - sin * sin);
+                    //angle.tan = sin / (1 + cos);
+                    det = Math.sqrt(4 * cot * cot + 4) * (cot < 0 ? -1 : 1);
+                    angle.tan = -0.5 * (cot + cot - det);
+
+                    angles.push(angle);
+
+                    cos = fullAngle.cos * angle.cos - fullAngle.sin * angle.sin;
+                    sin = fullAngle.sin * angle.cos + fullAngle.cos * angle.sin;
+
+                    fullAngle = {cos: cos, sin: sin};
+                }
+            }
+
+            //  Used in final stroke points translation
+            angles.fullAngle =  {cos: fullAngle.cos, sin: -fullAngle.sin};
+            return angles;
+        },
+
+        //  TODO - if length of 'latlngs' array is less than 2 or it is undefined next function produces exception
+        //  check this condition in outer routines?!
+        getTranslatedPath: function (map, latlngs) {
+            var path = new DG.VertexTransform([]);
+            var i = latlngs.length - 1;
+            var v = map.project(latlngs[i]);
+            var dx = v.x, dy = v.y;
+
+            path.vertices.push(new DG.Point(0, 0));
+            while (i--) {
+                v = map.project(latlngs[i]);
+                path.vertices.push(new DG.Point(v.x - dx, v.y - dy));
+            }
+            return path
+                .setAngle(DG.VertexTransform.getAngle(-path.vertices[1].x, -path.vertices[1].y))
+                .unRotate();
+        },
+
+        transform: function (rings, angle, vector) {
+            var i = rings.length;
+            var cos = angle.cos;
+            var sin = angle.sin;
+            var dx = vector.x;
+            var dy = vector.y;
+            var ring, x, y, j;
+
+            while (i--) {
+                ring = rings[i];
+                j = ring.length;
+                while (j--) {
+                    x = ring[j].x - dx;
+                    y = ring[j].y - dy;
+                    ring[j].x = x * cos - y * sin;
+                    ring[j].y = x * sin + y * cos;
+                }
+            }
+        }
     }
 });
-
-DG.ArrowPathTransform.getAngles = function (path) {
-    var getAngle = DG.VertexTransform.getAngle;
-    var fullAngle = {cos: 1, sin: 0};
-    var vertices = path.vertices;
-    var angles = [];
-
-    var absSin, angle,
-        det, cos, sin, cot;
-
-    for (var i = 1, len = vertices.length - 1; i < len; i++) {
-        angle = getAngle(vertices[i - 1], vertices[i + 1], vertices[i]);
-
-        absSin = Math.abs(angle.sin);
-        if (absSin < 0.000001) {
-            //  Exclude 180° angle from vertices array
-            vertices.splice(vertices.length - i - 1, 1);
-            len--; i--;
-        } else {
-            //  This is half ∢α cotangent, sign describes angle direction and used to shortcut stroke calculations
-            //  '-1' - right angle is inner angle, '1' - left angle is inner angle (if seen from [0, 0] to [-1, 0])
-            angle.cot = (1 + angle.cos) / angle.sin;
-
-            //  We need to rotate next segment to [-1, 0] axis, so we need complementary angle actually
-            angle.cos = -angle.cos;
-
-            //  Complimentary angle also used to calculate it's quaternary ∢β tangent
-            //  ∢β tangent used in approximation of outer arc segment by Bézier curve
-            cot = (1 + angle.cos) / angle.sin;
-            //sin = (cot < 0 ? -1 : 1) / Math.sqrt(1 + cot * cot);
-            //cos = Math.sqrt(1 - sin * sin);
-            //angle.tan = sin / (1 + cos);
-            det = Math.sqrt(4 * cot * cot + 4) * (cot < 0 ? -1 : 1);
-            angle.tan = -0.5 * (cot + cot - det);
-
-            angles.push(angle);
-
-            cos = fullAngle.cos * angle.cos - fullAngle.sin * angle.sin;
-            sin = fullAngle.sin * angle.cos + fullAngle.cos * angle.sin;
-
-            fullAngle = {cos: cos, sin: sin};
-        }
-    }
-
-    //  Used in final stroke points translation
-    angles.fullAngle =  {cos: fullAngle.cos, sin: -fullAngle.sin};
-    return angles;
-};
-
-//  TODO - if length of 'latlngs' array is less than 2 or it is undefined next function produces exception
-//  check this condition in outer routines?!
-DG.ArrowPathTransform.getTranslatedPath = function (map, latlngs) {
-    var path = new DG.VertexTransform([]);
-    var i = latlngs.length - 1;
-    var v = map.project(latlngs[i]);
-    var dx = v.x, dy = v.y;
-
-    path.vertices.push(new DG.Point(0, 0));
-    while (i--) {
-        v = map.project(latlngs[i]);
-        path.vertices.push(new DG.Point(v.x - dx, v.y - dy));
-    }
-    return path
-        .setAngle(DG.VertexTransform.getAngle(-path.vertices[1].x, -path.vertices[1].y))
-        .unRotate();
-};
-
-DG.ArrowPathTransform.transform = function (rings, angle, vector) {
-    var i = rings.length;
-    var cos = angle.cos;
-    var sin = angle.sin;
-    var dx = vector.x;
-    var dy = vector.y;
-    var ring, x, y, j;
-
-    while (i--) {
-        ring = rings[i];
-        j = ring.length;
-        while (j--) {
-            x = ring[j].x - dx;
-            y = ring[j].y - dy;
-            ring[j].x = x * cos - y * sin;
-            ring[j].y = x * sin + y * cos;
-        }
-    }
-};

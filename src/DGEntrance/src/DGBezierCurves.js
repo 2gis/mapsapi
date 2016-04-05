@@ -8,45 +8,18 @@
  * Original ideas come from this source:   https://pomax.github.io/bezierinfo/
  */
 
-DG.Bezier = function (coords, clone) {  //  [DG.Point(start), DG.Point(control1), (DG.Point(control2),)? DG.Point(end)]
-    if (clone) {
-        this.points = coords.map(function (coord) { return coord.clone(); });
-    } else {
-        this.points = coords;
-    }
-    this.dpoints = this._getDerivatives();
-    this.order = this.points.length - 1;
-    this._lut = [];
-};
-
-DG.bezier = function (coords) {
-    if (typeof coords === 'number' || coords instanceof DG.Point) {
-        coords = Array.prototype.slice.call(arguments);
-    }
-
-    if (typeof coords[0] === 'number') {
-        if (coords.length < 7) {
-            coords = [
-                new DG.Point(coords[0], coords[1]),
-                new DG.Point(coords[2], coords[3]),
-                new DG.Point(coords[4], coords[5])
-            ];
+DG.Bezier = DG.Class.extend({
+    initialize: function (coords, clone) {// [DG.Point(start), DG.Point(control1), (DG.Point(control2),)? DG.Point(end)]
+        if (clone) {
+            this.points = coords.map(function (coord) { return coord.clone(); });
         } else {
-            coords = [
-                new DG.Point(coords[0], coords[1]),
-                new DG.Point(coords[2], coords[3]),
-                new DG.Point(coords[4], coords[5]),
-                new DG.Point(coords[6], coords[7])
-            ];
+            this.points = coords;
         }
-        return new DG.Bezier(coords);
-    } else {
-        return new DG.Bezier(coords, true);
-    }
-};
+        this.dpoints = this._getDerivatives();
+        this.order = this.points.length - 1;
+        this._lut = [];
+    },
 
-
-DG.Bezier.prototype = {
     getPoint: function (t) {
         var p = this.points;
         var mt, mt2, t2;
@@ -286,6 +259,32 @@ DG.Bezier.prototype = {
     clone: function () {
         return new DG.Bezier(this.points, true);
     }
+});
+
+DG.bezier = function (coords) {
+    if (typeof coords === 'number' || coords instanceof DG.Point) {
+        coords = Array.prototype.slice.call(arguments);
+    }
+
+    if (typeof coords[0] === 'number') {
+        if (coords.length < 7) {
+            coords = [
+                new DG.Point(coords[0], coords[1]),
+                new DG.Point(coords[2], coords[3]),
+                new DG.Point(coords[4], coords[5])
+            ];
+        } else {
+            coords = [
+                new DG.Point(coords[0], coords[1]),
+                new DG.Point(coords[2], coords[3]),
+                new DG.Point(coords[4], coords[5]),
+                new DG.Point(coords[6], coords[7])
+            ];
+        }
+        return new DG.Bezier(coords);
+    } else {
+        return new DG.Bezier(coords, true);
+    }
 };
 
 DG.Bezier.WEIGHT = [
@@ -312,12 +311,15 @@ DG.Bezier.ABSCISSA = [
 
 //  This curve is monotonically ordered by 'X' coordinate and has P[0] = {0, 0} and P[3] = {1, 1}
 //  We can utilize this facts to shortcut calculations
-DG.TimeBezier = function (controlPoint1, controlPoint2, clone) {
-    DG.Bezier.call(this, [DG.TimeBezier.START, controlPoint1, controlPoint2, DG.TimeBezier.END], clone);
-};
+DG.TimeBezier = DG.Bezier.extend({
+    initialize: function (controlPoint1, controlPoint2, clone) {
+        DG.Bezier.prototype.initialize.call(
+            this,
+            [DG.TimeBezier.START, controlPoint1, controlPoint2, DG.TimeBezier.END],
+            clone
+        );
+    },
 
-DG.TimeBezier.prototype = DG.Util.create(DG.Bezier.prototype);
-DG.extend(DG.TimeBezier.prototype, {
     getYbyX: function (x) {
         var lut = this.getLUT();
         var max = lut.length - 1;
@@ -384,16 +386,14 @@ DG.TimeBezier.START = DG.point(0, 0);
 DG.TimeBezier.END = DG.point(1, 1);
 
 
-
 //  This is cubic Bezier describing circular arc
-DG.ArcBezier = function (coords, clone) {
-    DG.Bezier.call(this, coords, clone);
-    this.getLUT();
-    this._setLengths();
-};
+DG.ArcBezier = DG.Bezier.extend({
+    initialize: function (coords, clone) {
+        DG.Bezier.prototype.initialize.call(this, coords, clone);
+        this.getLUT();
+        this._setLengths();
+    },
 
-DG.ArcBezier.prototype = DG.Util.create(DG.Bezier.prototype);
-DG.extend(DG.ArcBezier.prototype, {
     getTbyL: function (l) {
         var lut = this.getLUT();
         var max = lut.length - 1;
