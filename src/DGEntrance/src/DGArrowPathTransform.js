@@ -17,9 +17,9 @@ DG.ArrowPathTransform = function (path) {
 
     //  Skip super initialization as we need only subset of DG.VertexTransform power
     this._lengths = new DG.Metric.Segments();
-    this._vertices = [ [], [] ];    //  eslint-disable-line space-in-brackets
-    this._drawings = [ [], [] ];    //  eslint-disable-line space-in-brackets
-    //  this._arcs = [ ];   //  initialized in _setPath()
+    this._vertices = [[], []];
+    this._drawings = [[], []];
+    //  this._arcs = [];    //  initialized in _setPath()
 
     this._setPath(path);
     this.subPath(1);
@@ -36,20 +36,25 @@ DG.extend(DG.ArrowPathTransform.prototype, {
     },
 
     _setPath: function (path) {
-        var transform = DG.ArrowPathTransform.transform,
-            vertices = this._vertices,
-            drawings = this._drawings,
-            Point = DG.Point, cx = -path.offset,
-            arcs = [ [], [], [] ], lengths = [],    //  eslint-disable-line space-in-brackets
-            i, len, x, ax, bx, angles, angle,
-            width = path.width;
+        var transform = DG.ArrowPathTransform.transform;
+        var vertices = this._vertices;
+        var drawings = this._drawings;
+        var Point = DG.Point;
+        var width = path.width;
+        var arcs = [[], [], []];
+        var lengths = [];
+
+        var i, x,
+            ax, bx, cx,
+            angles, angle;
 
         vertices.push(path.vertices);   //  expect .pop() in final transform
         vertices[0].push(new DG.Point(path.offset, +width));
         vertices[1].push(new DG.Point(path.offset, -width));
         angles = DG.ArrowPathTransform.getAngles(path);
 
-        for (i = 0, len = angles.length; i < len; i++) {
+        cx = -path.offset;
+        for (i = 0; i < angles.length; i++) {
             x = path.vertices[i + 1].x;
             ax = width * angles[i].cot;
 
@@ -96,16 +101,22 @@ DG.extend(DG.ArrowPathTransform.prototype, {
         //  Final segments and tail arc
         ax = path.vertices[i + 1].x;
         bx = width * 4 / 3; // tan(PI/4) = 1
+
         vertices[0].push(new Point(ax, +width));
         vertices[1].push(new Point(ax, -width));
+
         vertices[0].push(new Point(ax - bx, +width));
         vertices[1].push(new Point(ax - bx, -width));
-        drawings[0].push('L'); drawings[1].push('L');
+
+        drawings[0].push('L');
+        drawings[1].push('L');
+
         lengths.push(Math.abs(ax) - cx);
 
         //  Reverse right path
         vertices[1].reverse();
         drawings[1].reverse();
+
         //  Move vertices into original position (before last translation)
         angle = DG.VertexTransform.getAnglesSum(angles.fullAngle, path.getAngle());
         transform(vertices, angle, vertices.pop()[0]);  //  path.vertices[0]
@@ -154,16 +165,17 @@ DG.extend(DG.ArrowPathTransform.prototype, {
             return this;
         }
 
-        var getScaled = DG.VertexTransform.getScaled,
-            vertices = this._vertices,
-            drawings = this._drawings,
-            lengths = this._lengths,
-            len = lengths.getLength() * pathRatio,
-            seg = lengths.getIndex(len),
-            srt = lengths.getSegRatio(len),
-            sviL = vertices[0].length - 2, sviR = 1,
-            sdiL = drawings[0].length - 1, sdiR = 0,
-            vR, vL, arc = 0, aed = 0;
+        var getScaled = DG.VertexTransform.getScaled;
+        var vertices = this._vertices;
+        var drawings = this._drawings;
+        var lengths = this._lengths;
+        var len = lengths.getLength() * pathRatio;
+        var seg = lengths.getIndex(len);
+        var srt = lengths.getSegRatio(len);
+        var sviL = vertices[0].length - 2, sviR = 1;
+        var sdiL = drawings[0].length - 1, sdiR = 0;
+        var arc = 0, aed = 0;
+        var vR, vL;
 
         while (aed++ < seg) {
             if (aed & 1) {
@@ -183,15 +195,17 @@ DG.extend(DG.ArrowPathTransform.prototype, {
             //  One path ends with an arc
             arc = this._arcs[arc];
             if (drawings[0][sdiL] === 'C') {
-                arc = arc.split1(arc.getTbyL(lengths.getSegLength(len)));
-                vL = arc.points[3]; vR = vertices[1][sviR];
+                arc = arc.getBefore(arc.getTbyL(lengths.getSegLength(len)));
+                vL = arc.points[3];
+                vR = vertices[1][sviR];
                 this.vertices = arc.points.slice(1).reverse()
                     .concat(vertices[0].slice(sviL), vertices[1].slice(0, sviR + 1))
                     .map(function (vertex) { return vertex.clone(); });
                 this.drawings = ['M'].concat(drawings[0].slice(sdiL), 'C', drawings[1].slice(0, sdiR));
             } else {
-                arc = arc.split1(arc.getTbyL(lengths.getSegLength(len)));
-                vL = vertices[0][sviL]; vR = arc.points[3];
+                arc = arc.getBefore(arc.getTbyL(lengths.getSegLength(len)));
+                vL = vertices[0][sviL];
+                vR = arc.points[3];
                 this.vertices = vertices[0].slice(sviL)
                     .concat(vertices[1].slice(0, sviR + 1), arc.points.slice(1))
                     .map(function (vertex) { return vertex.clone(); });
@@ -213,13 +227,15 @@ DG.extend(DG.ArrowPathTransform.prototype, {
 });
 
 DG.ArrowPathTransform.getAngles = function (path) {
-    var i, len, absSin, det, cos, sin, cot, angle,
-        getAngle = DG.VertexTransform.getAngle,
-        fullAngle = {cos: 1, sin: 0},
-        vertices = path.vertices,
-        angles = [];
+    var getAngle = DG.VertexTransform.getAngle;
+    var fullAngle = {cos: 1, sin: 0};
+    var vertices = path.vertices;
+    var angles = [];
 
-    for (i = 1, len = vertices.length - 1; i < len; i++) {
+    var absSin, angle,
+        det, cos, sin, cot;
+
+    for (var i = 1, len = vertices.length - 1; i < len; i++) {
         angle = getAngle(vertices[i - 1], vertices[i + 1], vertices[i]);
 
         absSin = Math.abs(angle.sin);
@@ -261,10 +277,10 @@ DG.ArrowPathTransform.getAngles = function (path) {
 //  TODO - if length of 'latlngs' array is less than 2 or it is undefined next function produces exception
 //  check this condition in outer routines?!
 DG.ArrowPathTransform.getTranslatedPath = function (map, latlngs) {
-    var i = latlngs.length - 1,
-        v = map.project(latlngs[i]),
-        dx = v.x, dy = v.y,
-        path = new DG.VertexTransform([]);
+    var path = new DG.VertexTransform([]);
+    var i = latlngs.length - 1;
+    var v = map.project(latlngs[i]);
+    var dx = v.x, dy = v.y;
 
     path.vertices.push(new DG.Point(0, 0));
     while (i--) {
@@ -277,9 +293,12 @@ DG.ArrowPathTransform.getTranslatedPath = function (map, latlngs) {
 };
 
 DG.ArrowPathTransform.transform = function (rings, angle, vector) {
-    var cos = angle.cos, sin = angle.sin,
-        dx = vector.x, dy = vector.y,
-        ring, x, y, j, i = rings.length;
+    var i = rings.length;
+    var cos = angle.cos;
+    var sin = angle.sin;
+    var dx = vector.x;
+    var dy = vector.y;
+    var ring, x, y, j;
 
     while (i--) {
         ring = rings[i];
@@ -292,35 +311,3 @@ DG.ArrowPathTransform.transform = function (rings, angle, vector) {
         }
     }
 };
-
-
-DG.ArrowTipTransform = function (path, shape) {
-    this.drawings = shape.drawings; //  static mapping
-    this._vertices = shape.vertices;
-
-    this._setShape(path, shape);
-};
-
-DG.ArrowTipTransform.prototype = DG.Util.create(DG.VertexTransform.prototype);
-DG.extend(DG.ArrowTipTransform.prototype, {
-    _setShape: function (path, shape) {
-        var sp = shape.vertices[0],
-            width = Math.abs(sp.y),
-            pl = path.vertices[1].x,    //  negative value
-            length = sp.x,              //  negative value
-            offset = pl - length + width + width;
-
-        path.width = width;
-        path.offset = length + (offset > 0 ? offset : 0);
-        if (path.vertices.length < 3 && length > -10) {
-            path.offset += 2.5;
-        }
-
-        this._vertices = this.load().unTranslate(sp).vertices;
-    },
-
-    subShape: function (transform) {
-        this.load().unRotate(transform.angle).translate(transform.displ);
-        return this;
-    }
-});

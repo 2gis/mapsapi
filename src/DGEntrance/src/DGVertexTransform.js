@@ -17,11 +17,13 @@ DG.VertexTransform.prototype = {
     load: function () {
         this.vertices = this._vertices.map(function (vertex) { return vertex.clone(); });
         this.vertices.clone = DG.VertexTransform.clone;
+
         return this;
     },
 
     save: function () {
         this._vertices = this.vertices.map(function (vertex) { return vertex.clone(); });
+
         return this;
     },
 
@@ -62,14 +64,15 @@ DG.VertexTransform.prototype = {
     },
 
     scale: function (scale) {
-        var v = this.vertices,
-            i = v.length;
+        var v = this.vertices;
+        var i = v.length;
 
         scale = scale || this._scale || 1;
         while (i--) {
             v[i].x *= scale;
             v[i].y *= scale;
         }
+
         return this;
     },
 
@@ -79,10 +82,11 @@ DG.VertexTransform.prototype = {
     },
 
     rotate: function (angle) {
-        var cos = angle ? angle.cos : this._angle ? this._angle.cos : 1,
-            sin = angle ? angle.sin : this._angle ? this._angle.sin : 0,
-            v = this.vertices,
-            i = v.length, x, y;
+        var cos = angle ? angle.cos : this._angle ? this._angle.cos : 1;
+        var sin = angle ? angle.sin : this._angle ? this._angle.sin : 0;
+        var v = this.vertices;
+        var i = v.length;
+        var x, y;
 
         while (i--) {
             x = v[i].x;
@@ -90,50 +94,53 @@ DG.VertexTransform.prototype = {
             v[i].x = x * cos - y * sin;
             v[i].y = x * sin + y * cos;
         }
+
         return this;
     },
 
     unRotate: function (angle) {
-        var cos = angle ? angle.cos : this._angle ? this._angle.cos : 1,
-            sin = angle ? angle.sin : this._angle ? this._angle.sin : 0;
+        var cos = angle ? angle.cos : this._angle ? this._angle.cos : 1;
+        var sin = angle ? angle.sin : this._angle ? this._angle.sin : 0;
+
         return this.rotate({cos: cos, sin: -sin});
     },
 
     translate: function (trans) {
-        var dx = trans ? trans.x : this._trans ? this._trans.x : 0,
-            dy = trans ? trans.y : this._trans ? this._trans.y : 0,
-            v = this.vertices,
-            i = v.length;
+        var dx = trans ? trans.x : this._trans ? this._trans.x : 0;
+        var dy = trans ? trans.y : this._trans ? this._trans.y : 0;
+        var v = this.vertices;
+        var i = v.length;
 
         while (i--) {
             v[i].x += dx;
             v[i].y += dy;
         }
+
         return this;
     },
 
     unTranslate: function (trans) {
-        var dx = trans ? trans.x : this._trans ? this._trans.x : 0,
-            dy = trans ? trans.y : this._trans ? this._trans.y : 0;
+        var dx = trans ? trans.x : this._trans ? this._trans.x : 0;
+        var dy = trans ? trans.y : this._trans ? this._trans.y : 0;
+
         return this.translate({x: -dx, y: -dy});
     },
 
     transform: function (matrix) {
-        var a, b, c, d, dx, dy,
-            v = this.vertices,
-            i = v.length, x, y;
+        var a, b, c, d, dx, dy;
+        var v = this.vertices;
+        var i = v.length;
+        var x, y;
 
         if (matrix) {
             a = matrix[0]; b = matrix[1]; dx = matrix[2];
             c = matrix[3]; d = matrix[4]; dy = matrix[5];
+        } else if (this._matrix) {
+            a = this._matrix[0]; b = this._matrix[1]; dx = this._matrix[2];
+            c = this._matrix[3]; d = this._matrix[4]; dy = this._matrix[5];
         } else {
-            if (this._matrix) { //  eslint-disable-line no-lonely-if
-                a = this._matrix[0]; b = this._matrix[1]; dx = this._matrix[2];
-                c = this._matrix[3]; d = this._matrix[4]; dy = this._matrix[5];
-            } else {
-                a = 1; b = 0; dx = 0;
-                c = 0; d = 1; dy = 0;
-            }
+            a = 1; b = 0; dx = 0;
+            c = 0; d = 1; dy = 0;
         }
 
         while (i--) {
@@ -142,22 +149,25 @@ DG.VertexTransform.prototype = {
             v[i].x = x * a + y * b + dx;
             v[i].y = x * c + y * d + dy;
         }
+
         return this;
     }
 };
 
 
 DG.VertexTransform.scale = function (vt, scale) {
-    var x, y, result = [],
-        v = vt.vertices;
+    var v = vt.vertices;
+    var result = [];
+    var x, y;
 
     scale = scale || 1;
-    for (var i = 0, len = v.length; i < len; i++) {
+    for (var i = 0; i < v.length; i++) {
         x = v[i].x * scale;
         y = v[i].y * scale;
         result.push(new DG.Point(x, y));
     }
     result.clone = DG.VertexTransform.clone;
+
     return result;
 };
 
@@ -167,12 +177,13 @@ DG.VertexTransform.unScale = function (vt, scale) {
 };
 
 DG.VertexTransform.rotate = function (vt, angle) {
-    var cos = angle ? angle.cos : 1,
-        sin = angle ? angle.sin : 0,
-        x, y, rx, ry, result = [],
-        v = vt.vertices;
+    var cos = angle ? angle.cos : 1;
+    var sin = angle ? angle.sin : 0;
+    var v = vt.vertices;
+    var x, y, rx, ry;
+    var result = [];
 
-    for (var i = 0, len = v.length; i < len; i++) {
+    for (var i = 0; i < v.length; i++) {
         rx = v[i].x;
         ry = v[i].y;
         x = rx * cos - ry * sin;
@@ -180,33 +191,38 @@ DG.VertexTransform.rotate = function (vt, angle) {
         result.push(new DG.Point(x, y));
     }
     result.clone = DG.VertexTransform.clone;
+
     return result;
 };
 
 DG.VertexTransform.unRotate = function (vt, angle) {
-    var cos = angle ? angle.cos : 1,
-        sin = angle ? angle.sin : 0;
+    var cos = angle ? angle.cos : 1;
+    var sin = angle ? angle.sin : 0;
+
     return DG.VertexTransform.rotate(vt, {cos: cos, sin: -sin});
 };
 
 DG.VertexTransform.translate = function (vt, trans) {
-    var dx = trans ? trans.x : 0,
-        dy = trans ? trans.y : 0,
-        x, y, result = [],
-        v = vt.vertices;
+    var dx = trans ? trans.x : 0;
+    var dy = trans ? trans.y : 0;
+    var v = vt.vertices;
+    var result = [];
+    var x, y;
 
-    for (var i = 0, len = v.length; i < len; i++) {
+    for (var i = 0; i < v.length; i++) {
         x = v[i].x + dx;
         y = v[i].y + dy;
         result.push(new DG.Point(x, y));
     }
     result.clone = DG.VertexTransform.clone;
+
     return result;
 };
 
 DG.VertexTransform.unTranslate = function (vt, trans) {
-    var dx = trans ? trans.x : 0,
-        dy = trans ? trans.y : 0;
+    var dx = trans ? trans.x : 0;
+    var dy = trans ? trans.y : 0;
+
     return DG.VertexTransform.translate(vt, {x: -dx, y: -dy});
 };
 

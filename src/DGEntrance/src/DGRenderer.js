@@ -7,21 +7,21 @@
 
 DG.extend(L.Canvas.prototype, {
     _updateComplexPath: function (layer, closed) {
-        var i, j, k, len, len2, points, d, x, y, _x, _y,
-            drawings = layer._drawings,
-            vertices = layer._vertices,
-            ctx = this._ctx;
+        var i, j, k, d, x, y, _x, _y, points;
+        var drawings = layer._drawings;
+        var vertices = layer._vertices;
+        var ctx = this._ctx;
 
         this._drawnLayers[layer._leaflet_id] = layer;
 
         //  TODO: Do we need to do a 'beginPath()' and possible 'closePath()' per ring?!
         ctx.beginPath();
 
-        for (i = 0, len = vertices.length; i < len; i++) {
+        for (i = 0; i < vertices.length; i++) {
             points = vertices[i];
             x = y = 0;
 
-            for (j = 0, k = 0, len2 = points.length; j < len2; /* j++, k++ */) {
+            for (j = 0, k = 0; j < points.length; /* j++, k++ */) {
                 d = drawings[i][k++];
                 _x = points[j].x; _y = points[j++].y;
                 switch (d) {
@@ -68,16 +68,16 @@ DG.extend(L.SVG.prototype, {
 
 DG.extend(L.SVG, {
     complexPointsToPath: function (vertices, drawings, closed) {
-        var str = '',
-            svg = DG.Browser.svg,
-            i, j, k, n, len, len2, points, d;
+        var str = '';
+        var svg = DG.Browser.svg;
+        var i, j, k, n, d, points;
 
-        for (i = 0, len = vertices.length; i < len; i++) {
+        for (i = 0; i < vertices.length; i++) {
             points = vertices[i];
 
             //  Speedup hot path by removing if/ternary condition checks but duplicating loops
             if (svg) {
-                for (j = 0, k = 0, len2 = points.length; j < len2; /* j++, k++ */) {
+                for (j = 0, k = 0; j < points.length; /* j++, k++ */) {
                     d = drawings[i][k++];
                     switch (d) {
                         case 'C':
@@ -93,7 +93,7 @@ DG.extend(L.SVG, {
                     }
                 }
             } else {
-                for (j = 0, k = 0, len2 = points.length; j < len2; /* j++, k++ */) {
+                for (j = 0, k = 0; j < points.length; /* j++, k++ */) {
                     d = drawings[i][k++];
                     switch (d) {
                         case 'M':   d = 'm'; n = 1; break;
@@ -107,13 +107,13 @@ DG.extend(L.SVG, {
                             //  So we'll emulate Cubic Bézier curve by applying Quadratic variant in both cases
                             //  TODO: Both control points will use the same value but this is not true solution
                             str += 'C' +
-                                points[j].x.toFixed(4) + ',' + points[ j ].y.toFixed(4) + ' ' +   //  eslint-disable-line space-in-brackets
+                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
                                 points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ' +
                                 points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
                             d = ''; n = 0; break;
                         case 'q':
                             str += 'c' +
-                                points[j].x.toFixed(4) + ',' + points[ j ].y.toFixed(4) + ' ' +   //  eslint-disable-line space-in-brackets
+                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
                                 points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ' +
                                 points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
                             d = ''; n = 0; break;

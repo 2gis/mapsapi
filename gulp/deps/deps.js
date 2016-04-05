@@ -259,7 +259,8 @@ var deps = {
         src: [
             'DGEntrance/src/DGMetric.js',
             'DGEntrance/src/DGVertexTransform.js',
-            'DGEntrance/src/DGArrowTransform.js',
+            'DGEntrance/src/DGArrowPathTransform.js',
+            'DGEntrance/src/DGArrowTipTransform.js',
             'DGEntrance/src/DGComplexPath.js',
             'DGEntrance/src/DGRenderer.js',
             'DGEntrance/src/DGBezierCurves.js',

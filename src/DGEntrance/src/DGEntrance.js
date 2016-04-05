@@ -133,12 +133,12 @@ DG.Entrance = DG.LayerGroup.extend({
                     }
                 }
 
-                this.addLayer(DG.Entrance.arrow(options));
+                this.addLayer(DG.entrance.arrow(options));
             }, this);
     },
 
 
-    _animate: function (e) {    //  eslint-disable-line no-unused-vars
+    _animate: function (/* e */) {
         if (this._isShown) {
             this._animations.bounce.start();
             this._animations.path.start();
@@ -180,7 +180,7 @@ DG.Entrance = DG.LayerGroup.extend({
     }
 });
 
-DG.entrance2 = function (options) {
+DG.entrance = function (options) {
     return new DG.Entrance(options);
 };
 
@@ -193,11 +193,11 @@ DG.Entrance.PATH_ANIMATION = {
 };
 DG.Entrance.BOUNCE_ANIMATION = {
     animation: [
-        {function: DG.Animation.EASE_IN_OUT, duration: 250, keys: {distance: {from: 0, to: 0.6}}},
-        {function: DG.Animation.EASE_IN, duration: 135, keys: {distance: {from: 0.6, to: 0}}},
-        {function: DG.Animation.EASE_OUT, duration: 135, keys: {distance: {from: 0, to: 0.16}}},
-        {function: DG.Animation.EASE_IN, duration: 90, keys: {distance: {from: 0.16, to: 0}}},
-        {function: DG.Animation.EASE_OUT, duration: 90, keys: {distance: {from: 0, to: 0.06}}},
-        {function: DG.Animation.EASE_IN, duration: 50, keys: {distance: {from: 0.06, to: 0}}}
+        {function: DG.Animation.EASE_IN_OUT, duration: 250, frames: {distance: {from: 0, to: 0.6}}},
+        {function: DG.Animation.EASE_IN, duration: 135, frames: {distance: {from: 0.6, to: 0}}},
+        {function: DG.Animation.EASE_OUT, duration: 135, frames: {distance: {from: 0, to: 0.16}}},
+        {function: DG.Animation.EASE_IN, duration: 90, frames: {distance: {from: 0.16, to: 0}}},
+        {function: DG.Animation.EASE_OUT, duration: 90, frames: {distance: {from: 0, to: 0.06}}},
+        {function: DG.Animation.EASE_IN, duration: 50, frames: {distance: {from: 0.06, to: 0}}}
     ]
 };

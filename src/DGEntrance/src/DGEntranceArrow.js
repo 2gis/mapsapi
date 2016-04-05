@@ -25,35 +25,37 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
         this._att = {};
     },
 
-    beforeAdd: function (map) { //  eslint-disable-line no-unused-vars
+    beforeAdd: function (map) {
         //  this._map is not initialized yet, so we can freely addLayer(s)
-        var opts = this.options,
-            options1 = {
-                lineCap: 'butt',
-                color: opts.color,
-                fillColor: opts.fillColor,
-                interactive: opts.interactive,
-                visibility: this._visibility,
-                transform: this._apt},
-            options2 = {
-                lineJoin: 'miter',
-                color: opts.color,
-                fillColor: opts.fillColor,
-                interactive: opts.interactive,
-                visibility: this._visibility,
-                transform: this._att};
+        var opts = this.options;
 
         //  TODO: Check Canvas processing order
         //  Additional logic to DISABLE animation on Canvas for now!
-        if (opts.animation && !map.options.preferCanvas) {
+        if (opts.animation && !map.options.preferCanvas && !DG.Browser.ielt9) {
             opts.animation.on('step', this._animation, this);
         } else {
             opts.animation = null;
         }
 
         this.projection();
-        this.addLayer(new DG.ComplexPath(options1));
-        this.addLayer(new DG.ComplexPath(options2));
+
+        this.addLayer(new DG.ComplexPath({
+            lineCap: 'butt',
+            color: opts.color,
+            fillColor: opts.fillColor,
+            interactive: opts.interactive,
+            visibility: this._visibility,
+            transform: this._apt
+        }));
+
+        this.addLayer(new DG.ComplexPath({
+            lineJoin: 'miter',
+            color: opts.color,
+            fillColor: opts.fillColor,
+            interactive: opts.interactive,
+            visibility: this._visibility,
+            transform: this._att
+        }));
     },
 
     getEvents: function () {
@@ -82,12 +84,12 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
     },
 
     projection: function () {
-        var map = this._map || this._mapToAdd,
-            zoom = map ? map.getZoom() : 0,
-            vertices = this._shape.vertices[zoom],
-            drawings = this._shape.drawings[zoom],
-            latlngs = this.options.latlngs,
-            shape, path, pl, pp;
+        var map = this._map || this._mapToAdd;
+        var zoom = map ? map.getZoom() : 0;
+        var vertices = this._shape.vertices[zoom];
+        var drawings = this._shape.drawings[zoom];
+        var latlngs = this.options.latlngs;
+        var shape, path, pl, pp;
 
         if (zoom && vertices && drawings) {
             if (!this._att[zoom]) {
@@ -151,9 +153,11 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
     _resetBounds: function () {
         //  Canvas renderer specific
         var z;
+
         for (z in this._apt) {
             this._apt[z]._pxBounds = null;
         }
+
         for (z in this._att) {
             this._att[z]._pxBounds = null;
         }
@@ -176,6 +180,6 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
     }
 });
 
-DG.Entrance.arrow = function (options) {
+DG.entrance.arrow = function (options) {
     return new DG.Entrance.Arrow(options);
 };

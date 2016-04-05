@@ -9,7 +9,7 @@ DG.Animation = DG.Evented.extend({
         // animation: {    //  Or array of objects
         //     function: DG.Animation.EASE,
         //     duration: 2000,
-        //     keys: null
+        //     frames: null
         // }
 
         //offset: 0
@@ -91,17 +91,17 @@ DG.Animation = DG.Evented.extend({
     },
 
     _getFrameValues: function (index, progress) {
-        var keys = this._animation[index].keys,
-            obj = {progress: progress},
-            key, fr, to;
+        var frames = this._animation[index].frames;
+        var obj = {progress: progress};
+        var fr, to;
 
-        if (keys) {
-            for (key in keys) {
-                if (keys[key].progress) {
-                    obj[key] = keys[key].progress(progress);
+        if (frames) {
+            for (var key in frames) {
+                if (frames[key].progress) {
+                    obj[key] = frames[key].progress(progress);
                 } else {
-                    fr = keys[key].from;
-                    to = keys[key].to;
+                    fr = frames[key].from;
+                    to = frames[key].to;
                     obj[key] = fr + (to - fr) * progress;
                 }
             }

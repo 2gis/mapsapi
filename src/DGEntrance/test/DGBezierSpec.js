@@ -26,16 +26,16 @@ describe('DG.Bezier', function () {
         });
     });
 
-    describe('#split1', function () {
+    describe('#getBefore', function () {
         it('should return new curve as a (beginning) part of original', function () {
-            expect(bc.split1(0.25).points)
+            expect(bc.getBefore(0.25).points)
                 .to.be.eql([{x: 1, y: 0}, {x: 1.5, y: 0.25}, {x: 2, y: 0.3125}, {x: 2.5, y: 0.28125}]);
         });
     });
 
-    describe('#split2', function () {
+    describe('#getAfter', function () {
         it('should return new curve as a (ending) part of original', function () {
-            expect(bc.split2(0.25).points)
+            expect(bc.getAfter(0.25).points)
                 .to.be.eql([{x: 2.5, y: 0.28125}, {x: 4, y: 0.1875}, {x: 5.5, y: -0.75}, {x: 7, y: 0}]);
         });
     });
@@ -43,7 +43,8 @@ describe('DG.Bezier', function () {
 
 
 describe('DG.TimeBezier', function () {
-    var cp1 = DG.point(0.42, 0.0), cp2 = DG.point(0.58, 1.0);
+    var cp1 = DG.point(0.42, 0.0);
+    var cp2 = DG.point(0.58, 1.0);
 
     it('should return correct distance (Y) by time (X) value', function () {
         expect(new DG.TimeBezier(cp1, cp2).getYbyX(0.37)).to.be.within(0.2851635, 0.2851640);
