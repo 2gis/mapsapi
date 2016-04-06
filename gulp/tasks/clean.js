@@ -2,5 +2,5 @@ var gulp = require('gulp');
 var del = require('del');
 
 gulp.task('clean', function () {
-    del(['dist', 'gulp/tmp']);
+    return del(['dist', 'gulp/tmp']);
 });
