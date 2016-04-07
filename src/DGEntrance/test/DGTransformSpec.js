@@ -23,7 +23,7 @@ describe('DG.VertexTransform', function () {
     });
 
     it('should contain chaining methods', function () {
-        expect(vt.load().save().setScale(1).setAngle({cos: 1, sin: 0}).setTrans({x: 0, y: 0}).setMatrix([1, 0, 0, 0, 1, 0])
+        expect(vt.load().save().setScale(1).setAngle({cos: 1, sin: 0}).setTranslation({x: 0, y: 0}).setMatrix([1, 0, 0, 0, 1, 0])
             .scale().unScale().rotate().unRotate().translate().unTranslate().transform().vertices).to.be.an('array');
     });
 
@@ -161,7 +161,7 @@ describe('DG.VertexTransform', function () {
                         return {x: p.x + p5.x, y: p.y + p5.y};
                     }));
 
-                expect(vt.setTrans(DG.point(9.3, 49.6)).translate().save()._vertices).to.be
+                expect(vt.setTranslation(DG.point(9.3, 49.6)).translate().save()._vertices).to.be
                     .eql([p1, p2, p3, p4, p5, p6].map(function (p) {
                         return {x: p.x + p6.x, y: p.y + p6.y};
                     }));

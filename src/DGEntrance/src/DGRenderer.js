@@ -7,7 +7,7 @@
 
 DG.extend(L.Canvas.prototype, {
     _updateComplexPath: function (layer, closed) {
-        var i, j, k, d, x, y, _x, _y, points;
+        var i, j, k, d, x, y, _x, _y, $x, $y, points;
         var drawings = layer._drawings;
         var vertices = layer._vertices;
         var ctx = this._ctx;
@@ -20,32 +20,82 @@ DG.extend(L.Canvas.prototype, {
         for (i = 0; i < vertices.length; i++) {
             points = vertices[i];
             x = y = 0;
-
-            for (j = 0, k = 0; j < points.length; /* j++, k++ */) {
+            j = k = 0;
+            while (j < points.length) {
                 d = drawings[i][k++];
-                _x = points[j].x; _y = points[j++].y;
                 switch (d) {
-                    case 'M':   ctx.moveTo(x  = _x, y  = _y); break;
-                    case 'm':   ctx.moveTo(x += _x, y += _y); break;
-                    case 'L':   ctx.lineTo(x  = _x, y  = _y); break;
-                    case 'l':   ctx.lineTo(x += _x, y += _y); break;
+                    case 'M':
+                        x = points[j].x;
+                        y = points[j].y;
+                        j += 1;
+                        ctx.moveTo(x, y);
+                        break;
+
+                    case 'm':
+                        x += points[j].x;
+                        y += points[j].y;
+                        j += 1;
+                        ctx.moveTo(x, y);
+                        break;
+
+                    case 'L':
+                        x = points[j].x;
+                        y = points[j].y;
+                        j += 1;
+                        ctx.lineTo(x, y);
+                        break;
+
+                    case 'l':
+                        x += points[j].x;
+                        y += points[j].y;
+                        j += 1;
+                        ctx.lineTo(x, y);
+                        break;
+
                     case 'C':
-                        ctx.bezierCurveTo(_x, _y,
-                            points[j].x, points[j++].y,
-                            x = points[j].x, y = points[j++].y);
+                        _x = points[j].x;
+                        _y = points[j].y;
+                        j += 1;
+                        $x = points[j].x;
+                        $y = points[j].y;
+                        j += 1;
+                        x = points[j].x;
+                        y = points[j].y;
+                        j += 1;
+                        ctx.bezierCurveTo(_x, _y, $x, $y, x, y);
                         break;
+
                     case 'c':
-                        ctx.bezierCurveTo(x + _x, y + _y,
-                            x + points[j].x, y + points[j++].y,
-                            x += points[j].x, y += points[j++].y);
+                        _x = x + points[j].x;
+                        _y = y + points[j].y;
+                        j += 1;
+                        $x = x + points[j].x;
+                        $y = y + points[j].y;
+                        j += 1;
+                        x = x + points[j].x;
+                        y = y + points[j].y;
+                        j += 1;
+                        ctx.bezierCurveTo(_x, _y, $x, $y, x, y);
                         break;
+
                     case 'Q':
-                        ctx.quadraticCurveTo(_x, _y,
-                            x = points[j].x, y = points[j++].y);
+                        _x = points[j].x;
+                        _y = points[j].y;
+                        j += 1;
+                        x = points[j].x;
+                        y = points[j].y;
+                        j += 1;
+                        ctx.quadraticCurveTo(_x, _y, x, y);
                         break;
+
                     case 'q':
-                        ctx.quadraticCurveTo(x + _x, y + _y,
-                            x += points[j].x, y += points[j++].y);
+                        _x = x + points[j].x;
+                        _y = y + points[j].y;
+                        j += 1;
+                        x = x + points[j].x;
+                        y = y + points[j].y;
+                        j += 1;
+                        ctx.quadraticCurveTo(_x, _y, x, y);
                         break;
                 }
             }
@@ -77,7 +127,8 @@ DG.extend(L.SVG, {
 
             //  Speedup hot path by removing if/ternary condition checks but duplicating loops
             if (svg) {
-                for (j = 0, k = 0; j < points.length; /* j++, k++ */) {
+                j = k = 0;
+                while (j < points.length) {
                     d = drawings[i][k++];
                     switch (d) {
                         case 'C':
@@ -89,11 +140,13 @@ DG.extend(L.SVG, {
                     }
                     str += d;
                     while (n--) {
-                        str += points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
+                        str += points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ';
+                        j += 1;
                     }
                 }
             } else {
-                for (j = 0, k = 0; j < points.length; /* j++, k++ */) {
+                j = k = 0;
+                while (j < points.length) {
                     d = drawings[i][k++];
                     switch (d) {
                         case 'M':   d = 'm'; n = 1; break;
@@ -108,21 +161,28 @@ DG.extend(L.SVG, {
                             //  TODO: Both control points will use the same value but this is not true solution
                             str += 'C' +
                                 points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
-                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ' +
-                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
-                            d = ''; n = 0; break;
+                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
+                                points[j + 1].x.toFixed(4) + ',' + points[j + 1].y.toFixed(4) + ' ';
+                            j += 2;
+                            d = '';
+                            n = 0;
+                            break;
                         case 'q':
                             str += 'c' +
                                 points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
-                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ' +
-                                points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
-                            d = ''; n = 0; break;
+                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
+                                points[j + 1].x.toFixed(4) + ',' + points[j + 1].y.toFixed(4) + ' ';
+                            j += 2;
+                            d = '';
+                            n = 0;
+                            break;
 
                         default:    n = 1;
                     }
                     str += d;
                     while (n--) {
-                        str += points[j].x.toFixed(4) + ',' + points[j++].y.toFixed(4) + ' ';
+                        str += points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ';
+                        j += 1;
                     }
                 }
             }

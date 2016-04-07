@@ -21,8 +21,8 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
             this.options.shape ||
             DG.Entrance.Arrow.SHAPE;
 
-        this._apt = {};
-        this._att = {};
+        this._apt = {}; // DG.ArrowPathTransform objects by zoom levels
+        this._att = {}; // DG.ArrowTipTransform objects by zoom levels
     },
 
     beforeAdd: function (map) {
@@ -89,7 +89,7 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
         var vertices = this._shape.vertices[zoom];
         var drawings = this._shape.drawings[zoom];
         var latlngs = this.options.latlngs;
-        var shape, path, pl, pp;
+        var shape, path, lastPoint, prevPoint;
 
         if (zoom && vertices && drawings) {
             if (!this._att[zoom]) {
@@ -99,22 +99,22 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
                 this._apt[zoom] = new DG.ArrowPathTransform(path);
             }
 
-            pl = map.latLngToLayerPoint(this._position);
-            pp = map.latLngToLayerPoint(latlngs[latlngs.length - 2]);
+            lastPoint = map.latLngToLayerPoint(this._position);
+            prevPoint = map.latLngToLayerPoint(latlngs[latlngs.length - 2]);
             if (!this._apt[zoom]._pxBounds) {
                 //  One-time action per 'viewreset' event
                 //  Caching _pxBounds for using with Canvas renderer
-                this._setBounds(pl, pp, this._apt[zoom], this._att[zoom]);
+                this._setBounds(lastPoint, prevPoint, this._apt[zoom], this._att[zoom]);
             }
             if (this.options.distance) {
                 //  Arrow position recalculated for Bounce animation effect
-                pl = DG.VertexTransform.getScaled(pl, pp, this._distance);
+                lastPoint = DG.VertexTransform.getScaled(lastPoint, prevPoint, this._distance);
             }
 
             //  Main calculations
             //  Get part of the arrow path and move (bound) arrow tip to it
-            this._apt[zoom].subPath(this._progress).translate(pl);
-            this._att[zoom].subShape(this._apt[zoom]).translate(pl);
+            this._apt[zoom].subPath(this._progress).translate(lastPoint);
+            this._att[zoom].subShape(this._apt[zoom]).translate(lastPoint);
         }
 
         return this;

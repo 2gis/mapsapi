@@ -26,16 +26,16 @@ describe('DG.Bezier', function () {
         });
     });
 
-    describe('#getBefore', function () {
+    describe('#getCurveBefore', function () {
         it('should return new curve as a (beginning) part of original', function () {
-            expect(bc.getBefore(0.25).points)
+            expect(bc.getCurveBefore(0.25).points)
                 .to.be.eql([{x: 1, y: 0}, {x: 1.5, y: 0.25}, {x: 2, y: 0.3125}, {x: 2.5, y: 0.28125}]);
         });
     });
 
-    describe('#getAfter', function () {
+    describe('#getCurveAfter', function () {
         it('should return new curve as a (ending) part of original', function () {
-            expect(bc.getAfter(0.25).points)
+            expect(bc.getCurveAfter(0.25).points)
                 .to.be.eql([{x: 2.5, y: 0.28125}, {x: 4, y: 0.1875}, {x: 5.5, y: -0.75}, {x: 7, y: 0}]);
         });
     });

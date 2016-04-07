@@ -9,7 +9,12 @@
  */
 
 DG.Bezier = DG.Class.extend({
-    initialize: function (coords, clone) {// [DG.Point(start), DG.Point(control1), (DG.Point(control2),)? DG.Point(end)]
+    /**
+     * Initialize curve object by provided control points
+     * @param {Array<DG.Point>} coords Curve's control points in DG.Point format (up to four control points supported)
+     * @param {boolean} [clone] Clone original points or not (Default)
+     */
+    initialize: function (coords, clone) {
         if (clone) {
             this.points = coords.map(function (coord) { return coord.clone(); });
         } else {
@@ -90,7 +95,7 @@ DG.Bezier = DG.Class.extend({
         return z * sum;
     },
 
-    getBefore: function (z) {
+    getCurveBefore: function (z) {
         var p = this.points;
         var z2, z3, mz, mz2, mz3;
         var b$3, b$4, c$4;
@@ -133,7 +138,7 @@ DG.Bezier = DG.Class.extend({
         return new DG.Bezier(curve);
     },
 
-    getAfter: function (z) {
+    getCurveAfter: function (z) {
         var p = this.points;
         var n = this.order;
         var z2, z3, mz, mz2, mz3;
@@ -391,7 +396,7 @@ DG.ArcBezier = DG.Bezier.extend({
     initialize: function (coords, clone) {
         DG.Bezier.prototype.initialize.call(this, coords, clone);
         this.getLUT();
-        this._setLengths();
+        this._setLutLengths();
     },
 
     getTbyL: function (l) {
@@ -405,6 +410,7 @@ DG.ArcBezier = DG.Bezier.extend({
         if (l >= lut[max].l) { return 1; }
 
         //  'L' is monotonically increasing so we can do a binary search (LUT)
+        //  and then fine-tune the result by linear interpolation
         while (true) {
             mid = min + (max - min >> 1);
             if (l < lut[mid].l) {
@@ -439,7 +445,7 @@ DG.ArcBezier = DG.Bezier.extend({
         return t;
     },
 
-    _setLengths: function () {
+    _setLutLengths: function () {
         var lut = this._lut;
         var dx, dy;
 

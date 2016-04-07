@@ -41,6 +41,8 @@ DG.ComplexPath = DG.Path.extend({
         }
 
         if (opts.visibility.isShown && opts.transform[zoom]) {
+            //  Next numbers was empirically selected in order to provide visual compliance
+            //  to the original arrow's implementation
             weight = 2.2 - ((19 - zoom) * 0.2);
             if (opts.weight !== weight) {
                 this.setStyle({weight: +weight.toFixed(2)});

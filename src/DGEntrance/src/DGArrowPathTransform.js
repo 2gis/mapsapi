@@ -1,13 +1,12 @@
 /*
- * DG.ArrowXXXTransform classes is a core of arrow's body and tip calculations
+ * DG.ArrowPathTransform class is a core of arrow's body calculations
  *
  * General ideas are:
  *      We construct arrow body with stroke points making arcs on outer path turns
  *      Processing is done segment by segment around {0, 0} virtual point
- *          and resulting 'path' finally rotated to it's original angle
- *      Subset of this vertices lately used in .subPath() calculations
- *      Ending points of .subPath() calculated separately and used to bound
- *          ArrowTip to the path, see .subShape()
+ *          and resulting 'path' finally rotated to it's original map's angle (.fullAngle)
+ *      Subset of this vertices lately used in .subPath() calculations which can be used
+ *          in animations for ex.
  *
  *  Final translation (see DG.Entrance.Arrow) moves arrow objects to their original positions
  */
@@ -34,6 +33,8 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         return this;    //  NoOp
     },
 
+    //  Method constructs new path points with some displacement from original 'path'
+    //  Outer corners will be smoothed by arcs (cubic Bézier curves)
     _setPath: function (path) {
         var transform = DG.ArrowPathTransform.transform;
         var vertices = this._vertices;
@@ -120,7 +121,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         angle = DG.VertexTransform.getAnglesSum(angles.fullAngle, path.getAngle());
         transform(vertices, angle, vertices.pop()[0]);  //  path.vertices[0]
 
-        //  We need to reconstruct arc's indexes but too mach variables already touched, reuse some of them
+        //  We need to reconstruct arc's indexes but too many variables already touched, reuse some of them
         ax = vertices[0].length;
         bx = vertices[1].length;
         this._arcs = arcs[2].map(function (i) {
@@ -148,7 +149,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         };
     },
 
-    _setAD: function (vL, vR) { // Used in DG.ArrowTipTransform.subShape()
+    _setAngle$Displ: function (vL, vR) { // Used in DG.ArrowTipTransform.subShape()
         this.angle = DG.VertexTransform.getAngle({x: vL.x - vR.x, y: vL.y - vR.y}, {x: 0, y: 1});
         this.displ = vR.clone();
     },
@@ -160,7 +161,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         if (pathRatio === 0 || pathRatio === 1) {
             this.vertices = this[pathRatio].vertices.map(function (vertex) { return vertex.clone(); });
             this.drawings = this[pathRatio].drawings;
-            this._setAD(this.vertices[0], this.vertices[this.vertices.length - 1]);
+            this._setAngle$Displ(this.vertices[0], this.vertices[this.vertices.length - 1]);
             return this;
         }
 
@@ -169,58 +170,64 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         var drawings = this._drawings;
         var lengths = this._lengths;
         var len = lengths.getLength() * pathRatio;
-        var seg = lengths.getIndex(len);
-        var srt = lengths.getSegRatio(len);
-        var sviL = vertices[0].length - 2, sviR = 1;
-        var sdiL = drawings[0].length - 1, sdiR = 0;
+        var segIndex = lengths.getIndex(len);
+        var segRatio = lengths.getSegRatio(len);
+        var vertexIndexLeft = vertices[0].length - 2;
+        var vertexIndexRight = 1;
+        var drawingIndexLeft = drawings[0].length - 1;
+        var drawingIndexRight = 0;
+        var vectorLeft, vectorRight;
         var arc = 0, aed = 0;
-        var vR, vL;
 
-        while (aed++ < seg) {
-            if (aed & 1) {
-                sviL--; sdiL--;
-                sviR++; sdiR++;
+        while (aed++ < segIndex) {
+            if (aed % 2 == 1) {
+                vertexIndexLeft--;
+                drawingIndexLeft--;
+                vertexIndexRight++;
+                drawingIndexRight++;
             } else {
-                if (drawings[0][sdiL] === 'C') {
-                    sviL -= 3; sdiL -= 1;
+                if (drawings[0][drawingIndexLeft] === 'C') {
+                    vertexIndexLeft -= 3;
+                    drawingIndexLeft -= 1;
                 } else {
-                    sviR += 3; sdiR += 1;
+                    vertexIndexRight += 3;
+                    drawingIndexRight += 1;
                 }
                 arc++;
             }
         }
 
-        if (seg & 1) {
+        if (segIndex % 2 == 1) {
             //  One path ends with an arc
             arc = this._arcs[arc];
-            if (drawings[0][sdiL] === 'C') {
-                arc = arc.getBefore(arc.getTbyL(lengths.getSegLength(len)));
-                vL = arc.points[3];
-                vR = vertices[1][sviR];
+            if (drawings[0][drawingIndexLeft] === 'C') {
+                arc = arc.getCurveBefore(arc.getTbyL(lengths.getSegLength(len)));
+                vectorLeft = arc.points[3];
+                vectorRight = vertices[1][vertexIndexRight];
                 this.vertices = arc.points.slice(1).reverse()
-                    .concat(vertices[0].slice(sviL), vertices[1].slice(0, sviR + 1))
+                    .concat(vertices[0].slice(vertexIndexLeft), vertices[1].slice(0, vertexIndexRight + 1))
                     .map(function (vertex) { return vertex.clone(); });
-                this.drawings = ['M'].concat(drawings[0].slice(sdiL), 'C', drawings[1].slice(0, sdiR));
+                this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft), 'C', drawings[1].slice(0, drawingIndexRight));
             } else {
-                arc = arc.getBefore(arc.getTbyL(lengths.getSegLength(len)));
-                vL = vertices[0][sviL];
-                vR = arc.points[3];
-                this.vertices = vertices[0].slice(sviL)
-                    .concat(vertices[1].slice(0, sviR + 1), arc.points.slice(1))
+                arc = arc.getCurveBefore(arc.getTbyL(lengths.getSegLength(len)));
+                vectorLeft = vertices[0][vertexIndexLeft];
+                vectorRight = arc.points[3];
+                this.vertices = vertices[0].slice(vertexIndexLeft)
+                    .concat(vertices[1].slice(0, vertexIndexRight + 1), arc.points.slice(1))
                     .map(function (vertex) { return vertex.clone(); });
-                this.drawings = ['M'].concat(drawings[0].slice(sdiL + 1), 'C', drawings[1].slice(0, sdiR + 1));
+                this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft + 1), 'C', drawings[1].slice(0, drawingIndexRight + 1));
             }
         } else {
             //  Both paths end with lines
-            vL = getScaled(vertices[0][sviL], vertices[0][sviL - 1], srt);
-            vR = getScaled(vertices[1][sviR], vertices[1][sviR + 1], srt);
-            this.vertices = [vL]
-                .concat(vertices[0].slice(sviL), vertices[1].slice(0, sviR + 1), vR)
+            vectorLeft = getScaled(vertices[0][vertexIndexLeft], vertices[0][vertexIndexLeft - 1], segRatio);
+            vectorRight = getScaled(vertices[1][vertexIndexRight], vertices[1][vertexIndexRight + 1], segRatio);
+            this.vertices = [vectorLeft]
+                .concat(vertices[0].slice(vertexIndexLeft), vertices[1].slice(0, vertexIndexRight + 1), vectorRight)
                 .map(function (vertex) { return vertex.clone(); });
-            this.drawings = ['M'].concat(drawings[0].slice(sdiL), 'C', drawings[1].slice(0, sdiR + 1));
+            this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft), 'C', drawings[1].slice(0, drawingIndexRight + 1));
         }
 
-        this._setAD(vL, vR);
+        this._setAngle$Displ(vectorLeft, vectorRight);
         return this;
     },
 
@@ -232,7 +239,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
             var angles = [];
 
             var absSin, angle,
-                det, cos, sin, cot;
+                cos, sin, cot, temp, sign;
 
             for (var i = 1, len = vertices.length - 1; i < len; i++) {
                 angle = getAngle(vertices[i - 1], vertices[i + 1], vertices[i]);
@@ -241,7 +248,8 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
                 if (absSin < 0.000001) {
                     //  Exclude 180° angle from vertices array
                     vertices.splice(vertices.length - i - 1, 1);
-                    len--; i--;
+                    len--;
+                    i--;
                 } else {
                     //  This is half ∢α cotangent, sign describes angle direction and used to shortcut stroke calculations
                     //  '-1' - right angle is inner angle, '1' - left angle is inner angle (if seen from [0, 0] to [-1, 0])
@@ -253,11 +261,9 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
                     //  Complimentary angle also used to calculate it's quaternary ∢β tangent
                     //  ∢β tangent used in approximation of outer arc segment by Bézier curve
                     cot = (1 + angle.cos) / angle.sin;
-                    //sin = (cot < 0 ? -1 : 1) / Math.sqrt(1 + cot * cot);
-                    //cos = Math.sqrt(1 - sin * sin);
-                    //angle.tan = sin / (1 + cos);
-                    det = Math.sqrt(4 * cot * cot + 4) * (cot < 0 ? -1 : 1);
-                    angle.tan = -0.5 * (cot + cot - det);
+                    sign = cot < 0 ? -1 : 1;
+                    temp = sign * Math.sqrt(4 * cot * cot + 4);
+                    angle.tan = -0.5 * (cot + cot - temp);
 
                     angles.push(angle);
 

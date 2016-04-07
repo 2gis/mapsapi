@@ -1,5 +1,10 @@
 /*
- * Utility class, self-explanatory
+ * DG.VertexTransform is a classic 2D matrix transformation class
+ *
+ * Prototype methods can scale/rotate/translate vertices
+ *
+ * Static methods do the same but return simple array instances with attached
+ * .clone() method which can reconstruct full DG.VertexTransform object
  */
 
 DG.VertexTransform = DG.Class.extend({
@@ -45,12 +50,12 @@ DG.VertexTransform = DG.Class.extend({
         return this._angle;
     },
 
-    setTrans: function (trans) {
+    setTranslation: function (trans) {
         this._trans = trans;
         return this;
     },
 
-    getTrans: function () {
+    getTranslation: function () {
         return this._trans;
     },
 
@@ -82,8 +87,8 @@ DG.VertexTransform = DG.Class.extend({
     },
 
     rotate: function (angle) {
-        var cos = angle ? angle.cos : this._angle ? this._angle.cos : 1;
-        var sin = angle ? angle.sin : this._angle ? this._angle.sin : 0;
+        var cos = angle ? angle.cos : (this._angle ? this._angle.cos : 1);
+        var sin = angle ? angle.sin : (this._angle ? this._angle.sin : 0);
         var v = this.vertices;
         var i = v.length;
         var x, y;
@@ -99,15 +104,15 @@ DG.VertexTransform = DG.Class.extend({
     },
 
     unRotate: function (angle) {
-        var cos = angle ? angle.cos : this._angle ? this._angle.cos : 1;
-        var sin = angle ? angle.sin : this._angle ? this._angle.sin : 0;
+        var cos = angle ? angle.cos : (this._angle ? this._angle.cos : 1);
+        var sin = angle ? angle.sin : (this._angle ? this._angle.sin : 0);
 
         return this.rotate({cos: cos, sin: -sin});
     },
 
     translate: function (trans) {
-        var dx = trans ? trans.x : this._trans ? this._trans.x : 0;
-        var dy = trans ? trans.y : this._trans ? this._trans.y : 0;
+        var dx = trans ? trans.x : (this._trans ? this._trans.x : 0);
+        var dy = trans ? trans.y : (this._trans ? this._trans.y : 0);
         var v = this.vertices;
         var i = v.length;
 
@@ -120,8 +125,8 @@ DG.VertexTransform = DG.Class.extend({
     },
 
     unTranslate: function (trans) {
-        var dx = trans ? trans.x : this._trans ? this._trans.x : 0;
-        var dy = trans ? trans.y : this._trans ? this._trans.y : 0;
+        var dx = trans ? trans.x : (this._trans ? this._trans.x : 0);
+        var dy = trans ? trans.y : (this._trans ? this._trans.y : 0);
 
         return this.translate({x: -dx, y: -dy});
     },
@@ -230,52 +235,52 @@ DG.VertexTransform = DG.Class.extend({
             return new DG.VertexTransform(this).save();
         },
 
-        getLength: function (x, y) {
+        getLength: function (vec1, vec2) {
             var dx, dy;
 
-            if (typeof x === 'number') {
-                //  'x' and 'y' are absolute coordinates of vector
-                return Math.sqrt(x * x + y * y);
+            if (typeof vec1 === 'number') {
+                //  'vec1' and 'vec2' are absolute coordinates of vector
+                return Math.sqrt(vec1 * vec1 + vec2 * vec2);
             } else {
-                //  'x' and 'y' are vector objects
-                dx = y.x - x.x;
-                dy = y.y - x.y;
+                //  'vec1' and 'vec2' are vector objects
+                dx = vec2.x - vec1.x;
+                dy = vec2.y - vec1.y;
                 return Math.sqrt(dx * dx + dy * dy);
             }
         },
 
-        getScaled: function (x, y, s) {
+        getScaled: function (vec1, vec2, scale) {
             var dx, dy;
 
-            if (typeof x === 'number') {
-                //  'x' and 'y' are absolute coordinates of vector
-                return new DG.Point(x * s, y * s);
+            if (typeof vec1 === 'number') {
+                //  'vec1' and 'vec2' are absolute coordinates of vector
+                return new DG.Point(vec1 * scale, vec2 * scale);
             } else {
-                //  'x' and 'y' are vector objects
-                dx = (y.x - x.x) * s;
-                dy = (y.y - x.y) * s;
-                return new DG.Point(x.x + dx, x.y + dy);
+                //  'vec1' and 'vec2' are vector objects
+                dx = (vec2.x - vec1.x) * scale;
+                dy = (vec2.y - vec1.y) * scale;
+                return new DG.Point(vec1.x + dx, vec1.y + dy);
             }
         },
 
-        getAngle: function (x, y, o) {
+        getAngle: function (vec1, vec2, origin) {
             var l, sp, x1, y1, x2, y2;
 
-            if (typeof x === 'number') {
-                //  'x' and 'y' are absolute coordinates of vector
-                l = Math.sqrt(x * x + y * y);
+            if (typeof vec1 === 'number') {
+                //  'vec1' and 'vec2' are absolute coordinates of vector
+                l = Math.sqrt(vec1 * vec1 + vec2 * vec2);
                 if (l > 0) {
-                    return {cos: x / l, sin: y / l};
+                    return {cos: vec1 / l, sin: vec2 / l};
                 } else {
                     return {cos: 1, sin: 0};
                 }
             } else {
-                //  'x' and 'y' are vector objects
-                x1 = x.x; y1 = x.y;
-                x2 = y.x; y2 = y.y;
-                if (o) {
-                    x1 -= o.x; y1 -= o.y;
-                    x2 -= o.x; y2 -= o.y;
+                //  'vec1' and 'vec2' are vector objects
+                x1 = vec1.x; y1 = vec1.y;
+                x2 = vec2.x; y2 = vec2.y;
+                if (origin) {
+                    x1 -= origin.x; y1 -= origin.y;
+                    x2 -= origin.x; y2 -= origin.y;
                 }
                 sp = Math.sqrt(x1 * x1 + y1 * y1) * Math.sqrt(x2 * x2 + y2 * y2);
                 return {
@@ -285,17 +290,17 @@ DG.VertexTransform = DG.Class.extend({
             }
         },
 
-        getAnglesSum: function (a, b) {
+        getAnglesSum: function (angle1, angle2) {
             return {
-                cos: a.cos * b.cos - a.sin * b.sin,
-                sin: a.sin * b.cos + a.cos * b.sin
+                cos: angle1.cos * angle2.cos - angle1.sin * angle2.sin,
+                sin: angle1.sin * angle2.cos + angle1.cos * angle2.sin
             };
         },
 
-        getAnglesDif: function (a, b) {
+        getAnglesDif: function (angle1, angle2) {
             return {
-                cos: a.cos * b.cos + a.sin * b.sin,
-                sin: a.sin * b.cos - a.cos * b.sin
+                cos: angle1.cos * angle2.cos + angle1.sin * angle2.sin,
+                sin: angle1.sin * angle2.cos - angle1.cos * angle2.sin
             };
         }
     }

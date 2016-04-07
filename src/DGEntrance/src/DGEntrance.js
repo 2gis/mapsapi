@@ -138,14 +138,14 @@ DG.Entrance = DG.LayerGroup.extend({
     },
 
 
-    _animate: function (/* e */) {
+    _animate: function () {
         if (this._isShown) {
             this._animations.bounce.start();
             this._animations.path.start();
         }
     },
 
-    //  Current logic of next four methods extracted from original source, additional check is needed
+    //  Current logic of next four methods extracted from original arrow's implementation
     fitBounds: function () {
         var map = this._map, fitZoom,
             bounds = this.getBounds();

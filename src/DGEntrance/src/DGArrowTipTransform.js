@@ -1,13 +1,8 @@
 /*
- * DG.ArrowXXXTransform classes is a core of arrow's body and tip calculations
+ * DG.ArrowTipTransform class is a core of arrow's tip calculations
  *
- * General ideas are:
- *      We construct arrow body with stroke points making arcs on outer path turns
- *      Processing is done segment by segment around {0, 0} virtual point
- *          and resulting 'path' finally rotated to it's original angle
- *      Subset of this vertices lately used in .subPath() calculations
- *      Ending points of .subPath() calculated separately and used to bound
- *          ArrowTip to the path, see .subShape()
+ * .subShape() routine 'bound' arrow's tip to the ending points of .subPath()
+ * calculated separately in DG.ArrowPathTransform
  *
  *  Final translation (see DG.Entrance.Arrow) moves arrow objects to their original positions
  */
