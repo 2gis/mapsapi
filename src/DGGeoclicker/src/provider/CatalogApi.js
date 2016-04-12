@@ -86,17 +86,17 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
 
     getTypesByZoom: function (zoom) { // (Number) -> String|Null
         var types = {
-            'adm_div.settlement':   8,
-            'adm_div.city':         8,
-            'adm_div.division':     11,
-            'adm_div.district':     12,
-            'street':               14,
-            'building':             14,
-            'adm_div.place':        15,
-            'poi':                  15,
-            'attraction':           17
-        },
-        selectedTypes = [];
+                'adm_div.settlement':   8,
+                'adm_div.city':         8,
+                'adm_div.division':     11,
+                'adm_div.district':     12,
+                'street':               14,
+                'building':             14,
+                'adm_div.place':        15,
+                'poi':                  15,
+                'attraction':           17
+            },
+            selectedTypes = [];
 
         Object.keys(types).forEach(function (type) {
             if (zoom >= types[type]) {

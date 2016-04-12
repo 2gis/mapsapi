@@ -48,7 +48,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
         var self = this,
             args = Array.prototype.slice.call(arguments, 0);
 
-        function beforeRequest() {
+        function beforeRequest () {
             var loader = self._view.initLoader();
             self._view._popup.clear();
             self._view.showPopup(latlng, loader);

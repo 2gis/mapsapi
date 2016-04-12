@@ -22,7 +22,7 @@ DG.Map.addInitHook(function () {
         zIndex: 0
     }).addTo(this);
 
-    function updateErrorTileUrl() {
+    function updateErrorTileUrl () {
         var lang = this.getLang();
         var project = this.projectDetector && this.projectDetector.getProject();
 

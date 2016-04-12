@@ -58,7 +58,7 @@ DG.Path.include(!DG.Path.ANIMATION_AVAILABLE ? {} : {
             if (animationEl) {
                 try {
                     this._path.removeChild(animationEl);
-                } catch(e) {}
+                } catch (e) {}
             }
             this._animationEl = null;
         }, this);

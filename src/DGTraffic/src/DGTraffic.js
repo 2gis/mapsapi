@@ -155,14 +155,14 @@ DG.Traffic = DG.TileLayer.extend({
     _updateLayerProject: function () {
         var project = this._map.projectDetector.getProject();
         DG.setOptions(this, project && project.traffic ? {
-                projectCode: project.code,
-                bounds: project.latLngBounds,
-                minZoom: Math.max(project.minZoom, this._layersOptions.minZoom),
-                maxZoom: project.maxZoom
-            } : {
-                maxZoom: 0,
-                minZoom: 0
-            });
+            projectCode: project.code,
+            bounds: project.latLngBounds,
+            minZoom: Math.max(project.minZoom, this._layersOptions.minZoom),
+            maxZoom: project.maxZoom
+        } : {
+            maxZoom: 0,
+            minZoom: 0
+        });
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL());
     },
 

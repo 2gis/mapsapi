@@ -73,7 +73,7 @@ DG.ajax = (function () {
     // Segment location into parts
     ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [];
 
-    function handleReadyState(r, success, error) {
+    function handleReadyState (r, success, error) {
         return function () {
             // use _aborted to mitigate against IE err c00c023f
             // (can't read props on aborted request objects)
@@ -91,7 +91,7 @@ DG.ajax = (function () {
         };
     }
 
-    function setHeaders(http, o) {
+    function setHeaders (http, o) {
         var headers = o.headers || {},
             h;
 
@@ -111,21 +111,21 @@ DG.ajax = (function () {
         }
     }
 
-    function setCredentials(http, o) {
+    function setCredentials (http, o) {
         if (typeof o.withCredentials !== 'undefined' && typeof http.withCredentials !== 'undefined') {
             http.withCredentials = !!o.withCredentials;
         }
     }
 
-    function generalCallback(data) {
+    function generalCallback (data) {
         lastValue = data;
     }
 
-    function urlappend(url, s) {
+    function urlappend (url, s) {
         return url + (/\?/.test(url) ? '&' : '?') + s;
     }
 
-    function handleJsonp(o, fn, err, url) {
+    function handleJsonp (o, fn, err, url) {
         var reqId = uniqid++,
             cbkey = o.jsonpCallback || 'callback', // the 'callback' key
             cbval = o.jsonpCallbackName || callbackPrefix,
@@ -197,7 +197,7 @@ DG.ajax = (function () {
         };
     }
 
-    function getRequest(fn, err) {
+    function getRequest (fn, err) {
         var o = this.options,
             method = (o.type || 'GET').toUpperCase(),
             url = typeof o === 'string' ? o : o.url,
@@ -242,7 +242,7 @@ DG.ajax = (function () {
         return http;
     }
 
-    function buildParams(prefix, obj, traditional, add) {
+    function buildParams (prefix, obj, traditional, add) {
         var name, i, v,
             rbracket = /\[\]$/;
 
@@ -270,12 +270,12 @@ DG.ajax = (function () {
         }
     }
 
-    function setType(url) {
+    function setType (url) {
         var m = url.match(/\.(json|jsonp|html|xml)(\?|$)/);
         return m ? m[1] : 'js';
     }
 
-    function isCrossDomain(url) {
+    function isCrossDomain (url) {
         var parts = rurl.exec(url.toLowerCase());
         return !!(parts &&
                 (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
@@ -284,7 +284,7 @@ DG.ajax = (function () {
             );
     }
 
-    function doRequest(o) {
+    function doRequest (o) {
 
         if (!('crossDomain' in o)) {
             o.crossDomain = isCrossDomain(o.url);
@@ -313,7 +313,7 @@ DG.ajax = (function () {
                 }, o.timeout);
             }
 
-            function complete(resp) {
+            function complete (resp) {
                 if (o.timeout) {
                     clearTimeout(self.timeout);
                 }
@@ -325,7 +325,7 @@ DG.ajax = (function () {
                 }
             }
 
-            function success(resp) {
+            function success (resp) {
                 resp = (type !== 'jsonp') ? self.request : resp;
                 // use global data filter on response text
                 var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type),
@@ -339,22 +339,22 @@ DG.ajax = (function () {
                 /* eslint-disable no-eval */
                 if (r) {
                     switch (type) {
-                    case 'json':
-                        try {
-                            resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
-                        } catch (err) {
-                            return error(resp, 'Could not parse JSON in response', err);
-                        }
-                        break;
-                    case 'js':
-                        resp = eval('(' + r + ')');
-                        break;
-                    case 'html':
-                        resp = r;
-                        break;
-                    case 'xml':
-                        resp = resp.responseXML && resp.responseXML.parseError && resp.responseXML.parseError.errorCode && resp.responseXML.parseError.reason ? null : resp.responseXML;
-                        break;
+                        case 'json':
+                            try {
+                                resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
+                            } catch (err) {
+                                return error(resp, 'Could not parse JSON in response', err);
+                            }
+                            break;
+                        case 'js':
+                            resp = eval('(' + r + ')');
+                            break;
+                        case 'html':
+                            resp = r;
+                            break;
+                        case 'xml':
+                            resp = resp.responseXML && resp.responseXML.parseError && resp.responseXML.parseError.errorCode && resp.responseXML.parseError.reason ? null : resp.responseXML;
+                            break;
                     }
                 }
                 /* eslint-enable no-eval */
@@ -362,7 +362,7 @@ DG.ajax = (function () {
                 complete(resp);
             }
 
-            function error(resp, msg, t) {
+            function error (resp, msg, t) {
                 resp = self.request;
                 self._responseArgs.resp = resp;
                 self._responseArgs.msg = msg;
@@ -377,7 +377,7 @@ DG.ajax = (function () {
         return self;
     }
 
-    function Ajax(url, options) {
+    function Ajax (url, options) {
 
         if (Object.prototype.toString.call(url) === '[object Object]') {
             options = url;
