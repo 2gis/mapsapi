@@ -2,7 +2,7 @@
  * Predefined arrow tips
  */
 
-/* eslint-disable space-in-brackets */
+/* eslint-disable array-bracket-spacing */
 DG.Entrance.Arrow.SHAPE = {
     vertices: {
         16: [
@@ -61,11 +61,11 @@ DG.Entrance.Arrow.SHAPE = {
         19: ['M', 'L', 'L', 'C', 'L', 'C', 'L', 'C', 'L', 'L']
     }
 };
-/* eslint-enable space-in-brackets */
+/* eslint-enable array-bracket-spacing */
 
 
 (function (vertices) {
     for (var i in vertices) {
-        vertices[i] = vertices[i].map(function(vertex) { return DG.point(vertex); }); // eslint-disable-line no-loop-func
+        vertices[i] = vertices[i].map(function (vertex) { return DG.point(vertex); });
     }
 })(DG.Entrance.Arrow.SHAPE.vertices);

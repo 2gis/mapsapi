@@ -149,7 +149,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         };
     },
 
-    _setAngle$Displ: function (vL, vR) { // Used in DG.ArrowTipTransform.subShape()
+    _setAngleAndDisplacement: function (vL, vR) { // Used in DG.ArrowTipTransform.subShape()
         this.angle = DG.VertexTransform.getAngle({x: vL.x - vR.x, y: vL.y - vR.y}, {x: 0, y: 1});
         this.displ = vR.clone();
     },
@@ -161,7 +161,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         if (pathRatio === 0 || pathRatio === 1) {
             this.vertices = this[pathRatio].vertices.map(function (vertex) { return vertex.clone(); });
             this.drawings = this[pathRatio].drawings;
-            this._setAngle$Displ(this.vertices[0], this.vertices[this.vertices.length - 1]);
+            this._setAngleAndDisplacement(this.vertices[0], this.vertices[this.vertices.length - 1]);
             return this;
         }
 
@@ -176,7 +176,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         var vertexIndexRight = 1;
         var drawingIndexLeft = drawings[0].length - 1;
         var drawingIndexRight = 0;
-        var vectorLeft, vectorRight;
+        var vertexLeft, vertexRight;
         var arc = 0, aed = 0;
 
         while (aed++ < segIndex) {
@@ -202,16 +202,16 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
             arc = this._arcs[arc];
             if (drawings[0][drawingIndexLeft] === 'C') {
                 arc = arc.getCurveBefore(arc.getTbyL(lengths.getSegLength(len)));
-                vectorLeft = arc.points[3];
-                vectorRight = vertices[1][vertexIndexRight];
+                vertexLeft = arc.points[3];
+                vertexRight = vertices[1][vertexIndexRight];
                 this.vertices = arc.points.slice(1).reverse()
                     .concat(vertices[0].slice(vertexIndexLeft), vertices[1].slice(0, vertexIndexRight + 1))
                     .map(function (vertex) { return vertex.clone(); });
                 this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft), 'C', drawings[1].slice(0, drawingIndexRight));
             } else {
                 arc = arc.getCurveBefore(arc.getTbyL(lengths.getSegLength(len)));
-                vectorLeft = vertices[0][vertexIndexLeft];
-                vectorRight = arc.points[3];
+                vertexLeft = vertices[0][vertexIndexLeft];
+                vertexRight = arc.points[3];
                 this.vertices = vertices[0].slice(vertexIndexLeft)
                     .concat(vertices[1].slice(0, vertexIndexRight + 1), arc.points.slice(1))
                     .map(function (vertex) { return vertex.clone(); });
@@ -219,15 +219,15 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
             }
         } else {
             //  Both paths end with lines
-            vectorLeft = getScaled(vertices[0][vertexIndexLeft], vertices[0][vertexIndexLeft - 1], segRatio);
-            vectorRight = getScaled(vertices[1][vertexIndexRight], vertices[1][vertexIndexRight + 1], segRatio);
-            this.vertices = [vectorLeft]
-                .concat(vertices[0].slice(vertexIndexLeft), vertices[1].slice(0, vertexIndexRight + 1), vectorRight)
+            vertexLeft = getScaled(vertices[0][vertexIndexLeft], vertices[0][vertexIndexLeft - 1], segRatio);
+            vertexRight = getScaled(vertices[1][vertexIndexRight], vertices[1][vertexIndexRight + 1], segRatio);
+            this.vertices = [vertexLeft]
+                .concat(vertices[0].slice(vertexIndexLeft), vertices[1].slice(0, vertexIndexRight + 1), vertexRight)
                 .map(function (vertex) { return vertex.clone(); });
             this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft), 'C', drawings[1].slice(0, drawingIndexRight + 1));
         }
 
-        this._setAngle$Displ(vectorLeft, vectorRight);
+        this._setAngleAndDisplacement(vertexLeft, vertexRight);
         return this;
     },
 

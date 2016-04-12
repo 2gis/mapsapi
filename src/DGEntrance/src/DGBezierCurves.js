@@ -292,6 +292,7 @@ DG.bezier = function (coords) {
     }
 };
 
+/* eslint-disable indent */
 DG.Bezier.WEIGHT = [
     0.3626837833783620,
     0.3626837833783620,
@@ -312,6 +313,7 @@ DG.Bezier.ABSCISSA = [
    -0.9602898564975363,
     0.9602898564975363
 ];
+/* eslint-enable indent */
 
 
 //  This curve is monotonically ordered by 'X' coordinate and has P[0] = {0, 0} and P[3] = {1, 1}
