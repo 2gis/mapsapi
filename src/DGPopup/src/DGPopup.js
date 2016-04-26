@@ -173,6 +173,17 @@
             return (o.nodeName ? true : false);
         },
 
+        _close: function () {
+            if (this._map) {
+                if (DG.Browser.mobile && this._map.geoclicker &&
+                    (this.options.closeOnClick || this._map.options.closePopupOnClick)) {
+                    this._map.geoclicker.popupWasOpen = true;
+                }
+
+                this._map.closePopup(this);
+            }
+        },
+
         _initLayout: function () {
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);

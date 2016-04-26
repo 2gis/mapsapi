@@ -51,8 +51,10 @@ DG.Meta.Layer = DG.Layer.extend({
 
     getEvents: function () {
         return {
-            viewreset: this._resetAll,
-            zoom: this._resetView
+            viewprereset: this._invalidateAll,
+            viewreset: this._resetView,
+            zoom: this._resetView,
+            moveend: this._onMoveEnd
         };
     },
 
@@ -71,7 +73,8 @@ DG.Meta.Layer = DG.Layer.extend({
     _wrapCoords: DG.GridLayer.prototype._wrapCoords,
     _resetView: DG.GridLayer.prototype._resetView,
     _resetGrid: DG.GridLayer.prototype._resetGrid,
-    _resetAll: DG.GridLayer.prototype._resetAll,
+    _invalidateAll: DG.GridLayer.prototype._invalidateAll,
+    _onMoveEnd: DG.GridLayer.prototype._onMoveEnd,
     _pxBoundsToTileRange: DG.GridLayer.prototype._pxBoundsToTileRange,
 
     _domEvents: {

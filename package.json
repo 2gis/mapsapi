@@ -55,7 +55,7 @@
     "html5shiv": "^3.7.3",
     "image-size": "0.5.0",
     "karma": "^0.13.22",
-    "leaflet": "git://github.com/Leaflet/Leaflet.git#c22ee29d7972b112ec08038c8dc401883e706a4e",
+    "leaflet": "1.0.0-rc.1",
     "less": "^2.6.1",
     "lodash": "^4.8.2",
     "map-stream": "0.1.0",
@@ -83,6 +83,7 @@
     "mocha": "^2.4.5",
     "mock-geolocation": "^1.0.11",
     "phantomjs-prebuilt": "^2.1.7",
+    "prosthetic-hand": "^1.3.0",
     "sinon": "^1.17.3"
   }
 }

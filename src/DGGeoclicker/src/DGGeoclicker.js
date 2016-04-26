@@ -50,14 +50,6 @@ DG.Geoclicker = DG.Handler.extend({
         return this._controller;
     },
 
-    _checkOpenPopup: function () {
-        if (DG.Browser.mobile && this._map._popup &&
-            (this._map._popup.options.closeOnClick ||
-            this._map.options.closePopupOnClick)) {
-            this.popupWasOpen = true;
-        }
-    },
-
     _mapEventsListeners: {
         langchange: function () {
             this._controller.reinvokeHandler();
@@ -65,10 +57,6 @@ DG.Geoclicker = DG.Handler.extend({
 
         popupclose: function (e) { // (Object)
             this._controller.handlePopupClose(e.popup);
-        },
-
-        prepreclick: function () {
-            this._checkOpenPopup();
         },
 
         click: function (e) { // (Object)

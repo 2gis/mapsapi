@@ -95,7 +95,8 @@ describe('GridLayer', function () {
             grid.on('tileunload', function (e) {
                 delete tiles[grid._tileCoordsToKey(e.coords)];
                 if (Object.keys(tiles).length === 1) {
-                    expect(Object.keys(tiles)).to.eql(['0:0:0']);
+                    var tunKey = Object.keys(tiles)[0];
+                    expect(tunKey === '0:0:0' || tunKey === '1:1:1').to.be.ok();
                     done();
                 }
             });
