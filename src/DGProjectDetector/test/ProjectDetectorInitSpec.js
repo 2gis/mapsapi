@@ -9,8 +9,8 @@ describe('DG.ProjectDetectorInit', function () {
 
     before(function () {
         mapContainer = document.createElement('div');
-        project1 = new DG.LatLng(54.97902673261798, 82.819265127182);
-        desert1 = new DG.LatLng(54.817453325877906, 81.85930252075195);
+        project1 = new DG.LatLng(55.00, 83.00);
+        desert1 = new DG.LatLng(55.00, 80.00);
         document.body.appendChild(mapContainer);
         mapContainer.style.width = 1900 + 'px';
         mapContainer.style.height = 600 + 'px';

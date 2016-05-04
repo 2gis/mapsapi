@@ -92,8 +92,8 @@ describe('DGMap', function () {
 
     describe('#getBoundsZoom', function () {
         it('should return 13', function () {
-            var sw = DG.latLng(54.97369439559682, 80.99043041467668),
-                ne = DG.latLng(54.97441793550156, 80.99262982606889),
+            var sw = DG.latLng(54.97369439559682, 80.59043041467668),
+                ne = DG.latLng(54.97441793550156, 80.59262982606889),
                 b = DG.latLngBounds(sw, ne);
 
             expect(map.getBoundsZoom(b)).to.be(13);
