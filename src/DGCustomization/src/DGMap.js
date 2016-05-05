@@ -13,6 +13,11 @@ DG.Map.include({
 
     //TODO try refactor it after up on new leaflet (> 0.7)
     initialize: function (id, options) { // (HTMLElement or String, Object)
+        // Override default wheelPxPerZoomLevel value to avoid zooming too fast
+        // on mouse wheel rotation
+        // See https://github.com/2gis/mapsapi/issues/343
+        options = DG.extend({wheelPxPerZoomLevel: 10000}, options);
+
         initMap.call(this, id, options);
 
         //  Project must be checked after BaseLayer init which occurs in InitHook (see orig method definition)
