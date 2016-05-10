@@ -3,7 +3,7 @@
  * It orchestrates animation and provides user space methods like .show() and .hide()
  */
 
-DG.Entrance = DG.LayerGroup.extend({
+DG.Entrance = DG.FeatureGroup.extend({
 
     options: {
         vectors: [],
@@ -30,6 +30,8 @@ DG.Entrance = DG.LayerGroup.extend({
         };
 
         this._initArrows();
+
+        this._isShown = false;
     },
 
     onAdd: function (map) {
@@ -60,7 +62,7 @@ DG.Entrance = DG.LayerGroup.extend({
             if (fitBounds) {
                 this.fitBounds();
             }
-            if (!this._isShown && this._isAllowedZoom()) {
+            if (!this._isShown) {
                 this._isShown = true;
                 this.eachLayer(function (arrow) {
                     arrow.setVisibility(true);
@@ -119,11 +121,13 @@ DG.Entrance = DG.LayerGroup.extend({
                 return DG.Wkt.toLatLngs(vector);
             })
             .forEach(function (latlngs) {
-                var options = DG.Util.create(base);
+                var options = DG.Util.create(base),
+                    bounds = DG.latLngBounds(latlngs);
 
-                this._bounds.extend(DG.latLngBounds(latlngs));
+                this._bounds.extend(bounds);
 
                 options.latlngs = latlngs;
+                options.bounds = bounds;
                 if (this.options.enableAnimation) {
                     if (latlngs.length > 2) {
                         options.animation = this._animations.path;

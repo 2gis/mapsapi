@@ -4,7 +4,7 @@
  * Actual calculations produced in DG.ArrowPathTransform and DG.ArrowTipTransform classes
  */
 
-DG.Entrance.Arrow = DG.LayerGroup.extend({
+DG.Entrance.Arrow = DG.FeatureGroup.extend({
     initialize: function (options) {
         DG.LayerGroup.prototype.initialize.call(this);
 
@@ -79,8 +79,8 @@ DG.Entrance.Arrow = DG.LayerGroup.extend({
         }
     },
 
-    setStyle: function (style) {
-        return this.invoke('setStyle', style);
+    getBounds: function () {
+        return this.options.bounds;
     },
 
     projection: function () {
