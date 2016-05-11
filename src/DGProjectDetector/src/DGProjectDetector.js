@@ -38,20 +38,23 @@ DG.ProjectDetector = DG.Handler.extend({
 
         checkMethod = checkMethod || ((coords instanceof DG.LatLngBounds) ?  'intersects' : 'contains');
 
+        var method = checkMethod == 'intersects' ? this._testProjectIntersects : this._testProjectContains;
+        method = method.bind(this, coords);
+
         if (project) {
-            return this._testProject(checkMethod, coords, project);
+            return method(project);
         } else {
-            return this._projectList.filter(this._testProject.bind(this, checkMethod, coords))[0];
+            return this._projectList.filter(method)[0];
         }
     },
 
     _projectWatch: function () {
-        if (this._osmViewport === (this._project && this._boundInProject(this._project, 'contains'))) {
+        if (this._osmViewport === (this._project && this._centerInProject(this._project, 'contains'))) {
             this._osmViewport = !this._osmViewport;
             this._map.attributionControl._update(null, this._osmViewport);
         }
 
-        if (this._project && this._boundInProject(this._project) && this._zoomInProject(this._project)) { return; }
+        if (this._project && this._centerInProject(this._project) && this._zoomInProject(this._project)) { return; }
 
         if (this._project) {
             this._project = null;
@@ -61,44 +64,11 @@ DG.ProjectDetector = DG.Handler.extend({
         this._searchProject();
 
         if (this._project) {
-            if (this._osmViewport === (this._project && this._boundInProject(this._project, 'contains'))) {
+            if (this._osmViewport === (this._project && this._centerInProject(this._project, 'contains'))) {
                 this._osmViewport = !this._osmViewport;
             }
             this._map.attributionControl._update(null, this._osmViewport, this._project.country_code);
         }
-    },
-
-    _wktToBnd: function (wkt) {
-        var arr,
-            pointsArr,
-            bracketsContent,
-            regExp;
-
-        wkt = wkt.replace(/, /g, ',');
-        wkt.replace(' (', '(');
-
-        arr = /^POLYGON\((.*)\)/.exec(wkt);
-        regExp = /\((.*?)\)/g;
-
-        bracketsContent = (regExp).exec(arr[1]);
-        pointsArr = bracketsContent[1].split(',');
-
-        // Create a LatLng array of all points in WKT
-        pointsArr = pointsArr.map(function (pointString) {
-            var numbers = pointString.split(' ');
-
-            return DG.latLng(
-                parseFloat(numbers[1]),
-                parseFloat(numbers[0])
-            );
-        });
-
-        var bound = DG.latLngBounds(pointsArr);
-
-        return [
-            [bound.getSouthWest().lat, bound.getSouthWest().lng],
-            [bound.getNorthEast().lat, bound.getNorthEast().lng]
-        ];
     },
 
     _checkProject: function (project) {
@@ -131,8 +101,8 @@ DG.ProjectDetector = DG.Handler.extend({
         this._projectList = DG.projectsList
             .filter(self._checkProject)
             .map(function (project) {
-                var bound = self._wktToBnd(project.bounds);
-                var latLngBounds = new DG.LatLngBounds(bound);
+                var bound = DG.Wkt.toGeoJSON(project.bounds);
+                var latLngBounds = DG.geoJSON(bound).getBounds();
 
                 /* eslint-disable camelcase */
                 return {
@@ -156,7 +126,7 @@ DG.ProjectDetector = DG.Handler.extend({
     _searchProject: function () {
         var foundProjects = this._projectList
             .filter(function (project) {
-                return (this._boundInProject(project) && this._zoomInProject(project));
+                return (this._centerInProject(project) && this._zoomInProject(project));
             }, this);
 
         var loaded = false;
@@ -188,7 +158,15 @@ DG.ProjectDetector = DG.Handler.extend({
         }, this);
     },
 
-    _boundInProject: function (project, checkMethod) {
+    _testProjectIntersects: function (bounds, project) {
+        return project.latLngBounds.intersects(bounds);
+    },
+
+    _testProjectContains: function (latlng, project) {
+        return this._inside(latlng, project.bound);
+    },
+
+    _centerInProject: function (project, checkMethod) {
         try {
             return this.isProjectHere(this._map.getCenter(), project, checkMethod);
         } catch (e) {
@@ -196,8 +174,46 @@ DG.ProjectDetector = DG.Handler.extend({
         }
     },
 
-    _testProject: function (method, coords, project) {
-        return project.latLngBounds[method](coords);
+    // from https://github.com/Turfjs/turf-inside/blob/master/index.js
+    _inside: function (latlng, polygon) {
+        var polys = polygon.coordinates;
+        var pt = [latlng.lng, latlng.lat];
+        // normalize to multipolygon
+        if (polygon.type === 'Polygon') polys = [polys];
+
+        var insidePoly = false;
+        var i = 0;
+        while (i < polys.length && !insidePoly) {
+            // check if it is in the outer ring first
+            if (this._inRing(pt, polys[i][0])) {
+                var inHole = false;
+                var k = 1;
+                // check for the point in any of the holes
+                while (k < polys[i].length && !inHole) {
+                    if (this._inRing(pt, polys[i][k])) {
+                        inHole = true;
+                    }
+                    k++;
+                }
+                if (!inHole) insidePoly = true;
+            }
+            i++;
+        }
+        return insidePoly;
+    },
+
+    // pt is [x,y] and ring is [[x,y], [x,y],..]
+    _inRing: function (pt, ring) {
+        var isInside = false;
+        for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+            var xi = ring[i][0], yi = ring[i][1];
+            var xj = ring[j][0], yj = ring[j][1];
+            var intersect = ((yi > pt[1]) !== (yj > pt[1])) &&
+                (pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi);
+
+            if (intersect) isInside = !isInside;
+        }
+        return isInside;
     },
 
     _zoomInProject: function (project) {

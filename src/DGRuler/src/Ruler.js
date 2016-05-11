@@ -44,14 +44,14 @@ DG.Ruler = DG.Layer.extend({
     onAdd: function (map) { // (Map)
         this._map = map.on('langchange', this._updateDistance, this);
 
-        // pane for the running label
-        if (!this._map.getPane('rulerLabelPane')) {
-            this._map.createPane('rulerLabelPane');
+        //  Pane for ruler Markers
+        if (!this._map.getPane('rulerMarkerPane')) {
+            this._map.createPane('rulerMarkerPane');
         }
 
-        // pane with transperent vector for events handling (over running label)
-        if (!this._map.getPane('rulerEventPane')) {
-            this._map.createPane('rulerEventPane');
+        //  Main ruler pane (svg objects and runner)
+        if (!this._map.getPane('rulerPane')) {
+            this._map.createPane('rulerPane');
         }
 
         this._layersContainer.addTo(this._map);
@@ -229,7 +229,8 @@ DG.Ruler = DG.Layer.extend({
 
     _addRunningLabel: function (latlng, previousPoint) { // (LatLng, Ruler.LayeredMarker)
         var point = this._createPoint(latlng).addTo(this._layers.mouse, this._layers);
-        this._map.getPane('rulerLabelPane').appendChild(point._icon);
+        var pane = this._map.getPane('rulerPane');
+        pane.insertBefore(point._icon, pane.lastElementChild);
         return point.setText(this._getFormatedDistance(previousPoint, previousPoint.getLatLng().distanceTo(latlng)));
     },
 
