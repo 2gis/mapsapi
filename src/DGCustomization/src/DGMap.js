@@ -181,3 +181,12 @@ DG.Map.include({
 DG.Map.addInitHook(function () {
     this.on('layeradd layerremove', this._updateTileLayers);
 });
+
+// Set css property touch-action to auto if dragging is false.
+// Need for scrolling page in mobile using our map dom element.
+// todo: I made issue in leaflet https://github.com/Leaflet/Leaflet/issues/4415
+DG.Map.addInitHook(function () {
+    if (this.options.dragging == false && this.options.tap == false) {
+        DG.DomUtil.addClass(this._container, 'dg-dragging-false');
+    }
+});

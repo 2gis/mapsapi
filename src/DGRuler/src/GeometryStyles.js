@@ -1,4 +1,5 @@
-var rulerRenderer = DG.svg({pane: 'rulerLabelPane'});
+var rulerRenderer = DG.svg({pane: 'rulerPane'});
+var hoverRenderer = DG.svg({pane: 'rulerPane'});
 
 DG.Ruler.mergeOptions({
     pathStyles: {
@@ -26,7 +27,7 @@ DG.Ruler.mergeOptions({
             weight: DG.Browser.touch ? 40 : 20,
             pointerEvents: 'painted',
             noClip: true,
-            renderer: DG.svg({pane: 'rulerEventPane'}),
+            renderer: hoverRenderer,
             smoothFactor: 0
         }
     },
