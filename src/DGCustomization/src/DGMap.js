@@ -1,4 +1,5 @@
-var panBy = DG.Map.prototype.panBy,
+var initMap = DG.Map.prototype.initialize,
+    panBy = DG.Map.prototype.panBy,
     getBoundsZoom = DG.Map.prototype.getBoundsZoom,
     setMaxZoom = DG.Map.prototype.setMaxZoom;
 
@@ -12,39 +13,16 @@ DG.Map.include({
 
     //TODO try refactor it after up on new leaflet (> 0.7)
     initialize: function (id, options) { // (HTMLElement or String, Object)
-        options = L.setOptions(this, options);
+        // Override default wheelPxPerZoomLevel value to avoid zooming too fast
+        // on mouse wheel rotation
+        // See https://github.com/2gis/mapsapi/issues/343
+        options = DG.extend({wheelPxPerZoomLevel: 10000}, options);
 
-        this._initContainer(id);
-        this._initLayout();
+        initMap.call(this, id, options);
 
-        // hack for https://github.com/Leaflet/Leaflet/issues/1980
-        this._onResize = L.bind(this._onResize, this);
-
-        this._initEvents();
-
-        if (options.maxBounds) {
-            this.setMaxBounds(options.maxBounds);
-        }
-
-        if (options.zoom !== undefined) {
-            this._zoom = this._limitZoom(options.zoom);
-        }
-
-        this._handlers = [];
-
-        this._layers = {};
-        this._zoomBoundLayers = {};
-
-        // initialize _sizeChanged, before init BaseLayer
-        // see https://github.com/2gis/mapsapi/pull/264
-        this._sizeChanged = true;
-
-        this.callInitHooks();
-
-        this._addLayers(options.layers);
-
-        if (options.center && options.zoom !== undefined) {
-            this.setView(L.latLng(options.center), options.zoom, {reset: true});
+        //  Project must be checked after BaseLayer init which occurs in InitHook (see orig method definition)
+        if (this.options.center && this.options.zoom !== undefined) {
+            this.setView(DG.latLng(this.options.center), this.options.zoom, {reset: true});
         }
     },
 
@@ -59,7 +37,7 @@ DG.Map.include({
             options.animate = this._testAnimation(center);
         }
 
-        this.stop();
+        this._stop();
 
         if (this._loaded && !options.reset && options !== true) {
 
@@ -196,68 +174,6 @@ DG.Map.include({
 
                 return dgTileLayer.options.maxZoom;
             }
-        }
-    },
-
-    // Add prepreclick event before preclick than geoclicker can track popup state
-    // https://github.com/2gis/mapsapi/pull/96
-    _handleDOMEvent: function (e) {
-        if (!this._loaded || L.DomEvent._skipped(e)) { return; }
-
-        // find the layer the event is propagating from and its parents
-        var type = e.type === 'keypress' && e.keyCode === 13 ? 'click' : e.type;
-
-        if (e.type === 'click') {
-            // Fire a synthetic 'preclick' event which propagates up (mainly for closing popups).
-            var synthPrePre = L.Util.extend({}, e);
-            synthPrePre.type = 'prepreclick';
-            this._handleDOMEvent(synthPrePre);
-
-            var synth = L.Util.extend({}, e);
-            synth.type = 'preclick';
-            this._handleDOMEvent(synth);
-        }
-
-        if (type === 'mousedown') {
-            // prevents outline when clicking on keyboard-focusable element
-            L.DomUtil.preventOutline(e.target || e.srcElement);
-        }
-
-        this._fireDOMEvent(e, type);
-    },
-
-    _fireDOMEvent: function (e, type, targets) {
-
-        if (e._stopped) { return; }
-
-        targets = (targets || []).concat(this._findEventTargets(e, type));
-
-        if (!targets.length) { return; }
-
-        var target = targets[0];
-        if (type === 'contextmenu' && target.listens(type, true)) {
-            L.DomEvent.preventDefault(e);
-        }
-
-        // prevents firing click after you just dragged an object
-        if ((e.type === 'click' || e.type === 'preclick' || e.type === 'prepreclick') && !e._simulated && this._draggableMoved(target)) { return; }
-
-        var data = {
-            originalEvent: e
-        };
-
-        if (e.type !== 'keypress') {
-            var isMarker = target instanceof L.Marker;
-            data.containerPoint = isMarker ?
-                    this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
-            data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
-            data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
-        }
-
-        for (var i = 0; i < targets.length; i++) {
-            targets[i].fire(type, data, true);
-            if (data.originalEvent._stopped
-                || (targets[i].options.nonBubblingEvents && L.Util.indexOf(targets[i].options.nonBubblingEvents, type) !== -1)) { return; }
         }
     }
 });

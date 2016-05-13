@@ -27,6 +27,8 @@ gulp.task('test', testRequirements, function (done) {
         'gulp/tmp/testJS/templates.js',
         'node_modules/leaflet/spec/after.js',
         'node_modules/happen/happen.js',
+        "node_modules/prosthetic-hand/dist/prosthetic-hand.js",
+        "node_modules/leaflet/spec/suites/SpecHelper.js",
         'node_modules/mock-geolocation/dist/geolocate.js',
         'test/after.js'
     ]);

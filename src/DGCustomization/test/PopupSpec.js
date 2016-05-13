@@ -278,7 +278,7 @@ describe("L.Map#openPopup", function () {
         expect(map.hasLayer(p2)).to.be(true);
     });
 
-    it('should not be closen when dragging map', function (done) {
+    it('should not be closed when dragging map', function (done) {
         document.body.appendChild(c);
         c.style.position = 'absolute';
         c.style.left = 0;
@@ -290,11 +290,16 @@ describe("L.Map#openPopup", function () {
         map.openPopup(p);
         expect(map.hasLayer(p)).to.be(true);
         map.on('drag', spy);
-        happen.drag(coords.left + 100, coords.top + 100, coords.left + 110, coords.top + 110, function () {
-            expect(spy.called).to.be(true);
-            expect(map.hasLayer(p)).to.be(true);
-            document.body.removeChild(c);
-            done();
+        var hand = new Hand({
+            timing: 'fastframe',
+            onStop: function () {
+                expect(spy.called).to.be(true);
+                expect(map.hasLayer(p)).to.be(true);
+                document.body.removeChild(c);
+                done();
+            }
         });
+        var toucher = hand.growFinger('touch');
+        toucher.moveTo(coords.left + 100, coords.top + 100, 0).down().moveBy(10, 10, 20).up();
     });
 });

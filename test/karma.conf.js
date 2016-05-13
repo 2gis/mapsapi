@@ -64,8 +64,8 @@ module.exports = function(config) {
         singleRun: false,
 
         // report which specs are slower than 500ms
-        // CLI --report-slower-than 500
-        reportSlowerThan: 500,
+        // CLI --report-slower-than 1000
+        reportSlowerThan: 1000,
 
         plugins: [
             'karma-mocha',

@@ -50,14 +50,6 @@ DG.Geoclicker = DG.Handler.extend({
         return this._controller;
     },
 
-    _checkOpenPopup: function () {
-        if (DG.Browser.mobile && this._map._popup &&
-            (this._map._popup.options.closeOnClick ||
-            this._map.options.closePopupOnClick)) {
-            this.popupWasOpen = true;
-        }
-    },
-
     _mapEventsListeners: {
         langchange: function () {
             this._controller.reinvokeHandler();
@@ -65,10 +57,6 @@ DG.Geoclicker = DG.Handler.extend({
 
         popupclose: function (e) { // (Object)
             this._controller.handlePopupClose(e.popup);
-        },
-
-        prepreclick: function () {
-            this._checkOpenPopup();
         },
 
         click: function (e) { // (Object)
@@ -97,12 +85,14 @@ DG.Geoclicker = DG.Handler.extend({
         clearTimeout(this.pendingClick);
 
         this.pendingClick = setTimeout(function () {
-            // prepreclick event not available in meta layer
             if (e.meta) {
                 self._checkOpenPopup();
                 self._map.closePopup();
             }
 
+            //  DGPopup's '_close' method is the only place where .popupWasOpen is modified
+            //  It signals geoclicker that popup was open before user do a 'click' on map
+            //  Multistage behavior is needed as this processing occurs after popup was already closed
             if (!self.popupWasOpen) {
                 var zoom = self._map.getZoom();
                 self._controller.handleClick(e.latlng, zoom, e.meta);
