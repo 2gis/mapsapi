@@ -57,6 +57,7 @@ DG.Control.Attribution.include({
             this._first = true;
         }
 
+        map.attributionControl = this;
         this._container = DG.DomUtil.create('div', 'dg-attribution');
         DG.DomEvent.disableClickPropagation(this._container);
 

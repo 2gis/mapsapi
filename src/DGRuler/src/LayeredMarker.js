@@ -3,6 +3,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         draggable: false,
         keyboard: false,
         riseOnHover: true,
+        pane: 'rulerMarkerPane',
         iconHTML: [
             '<img class="dg-ruler__label-spacer" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" width="26" height="26" />',
             '<div class="dg-ruler__label-container">',

@@ -90,8 +90,8 @@ describe('DG.Ruler', function () {
             });
             // it makes no sense to check with higher accuracy than 1 cm.
             var roundedDistance = Math.round(ruler.getTotalDistance() * 100) / 100;
-            expect(roundedDistance).to.eql(742.83);
-            expect(ruler._getFormatedDistance()).to.eql('743 м');
+            expect(roundedDistance).to.eql(742);
+            expect(ruler._getFormatedDistance()).to.eql('742 м');
         });
         it('km', function () {
             kmRuler.forEach(function (ll) {
@@ -99,7 +99,7 @@ describe('DG.Ruler', function () {
             });
             // it makes no sense to check with higher accuracy than 1 cm.
             var roundedDistance = Math.round(ruler.getTotalDistance() * 100) / 100;
-            expect(roundedDistance).to.eql(1903.44);
+            expect(roundedDistance).to.eql(1901.31);
             expect(ruler._getFormatedDistance()).to.eql('1,90 км');
         });
     });
