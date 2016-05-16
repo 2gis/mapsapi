@@ -4,7 +4,7 @@
 
 ### Класс DG.DomEvent
 
-Класс для работы с DOM событиями.
+Класс для работы с [событиями DOM](https://developer.mozilla.org/ru/docs/Web/API/Event).
 
 #### Методы
 
@@ -17,79 +17,124 @@
         </tr>
     </thead>
     <tbody>
+        <tr id="domevent-on">
+            <td><code><b>on</b>(
+                <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
+                <nobr>&lt;String&gt; <i>types</i>,</nobr>
+                <nobr>&lt;Function&gt; <i>fn</i>,</nobr>
+                <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
+            </code></td>
+
+		    <td><code>this</code></td>
+            <td>Добавляет метод <code>fn</code> к цепочкам обработчиков событий DOM, привязанных к элементу <code>el</code>. Вы также можете указать (изменить) контекст вызова обработчика (объект, на который ссылается ключевое слово <code>this</code> внутри обработчика). Также, можно указать несколько типов событий, разделив их пробелами (например: <code>&#39;click dblclick&#39;</code>).</td>
+        </tr>
         <tr>
-            <td><code><b>addListener</b>(
-                <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
-                <nobr>&lt;String&gt; <i>type</i></nobr>,
-                <nobr>&lt;Function&gt; <i>fn</i></nobr>,
+            <td><code><b>on</b>(
+                <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
+                <nobr>&lt;Object&gt; <i>eventMap</i>,</nobr>
                 <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
-            <td>Подписывает обработчик <code>fn</code> на DOM событие определенного типа. Ключевое слово <code>this</code> внутри обработчика будет указывать на <code>context</code>, или на элемент на котором произошло событие, если контекст не задан.</td>
+            <td>Добавляет набор пар &#39;тип/обработчик&#39; в качестве обработчиков событий DOM (например:  <code>{click: onClick, mousemove: onMouseMove}</code>).</td>
         </tr>
-        <tr>
-            <td><code><b>removeListener</b>(
-                <nobr>&lt;HTMLElement&gt; <i>el</i></nobr>,
-                <nobr>&lt;String&gt; <i>type</i></nobr>,
-                <nobr>&lt;Function&gt; <i>fn</i> )</nobr>
+        <tr id="domevent-off">
+            <td><code><b>off</b>(
+                <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
+                <nobr>&lt;String&gt; <i>types</i>,</nobr>
+                <nobr>&lt;Function&gt; <i>fn</i>,</nobr>
+                <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
-            <td>Отписывает ранее подписанный обработчик.</td>
+            <td>Удаляет метод <code>fn</code> из цепочек обработчиков событий DOM, привязанных к элементу <code>el</code>. Если метод не указан, то удаляются все методы, привязанные на текущий момент. Замечание: если методу <code>on</code> передавался контекстный объект, этот-же объект должен быть передан и методу <code>off</code>.</td>
         </tr>
         <tr>
-            <td><code><b>stopPropagation</b>(
-                <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+            <td><code><b>off</b>(
+                <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
+                <nobr>&lt;Object&gt; <i>eventMap</i>,</nobr>
+                <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
             </code></td>
 
-            <td><code><span class="keyword">this</span></code></td>
-            <td>Останавливает всплытие события к родительским элементам. Используется внутри функции-обработчика:
-                <code>DG.DomEvent.addListener(div, 'click', function (e) {
-                    DG.DomEvent.stopPropagation(e);
+            <td><code>this</code></td>
+            <td>Удаляет набор пар &#39;тип/обработчик&#39; из цепочек обработчиков событий DOM.</td>
+        </tr>
+        <tr id="domevent-stoppropagation">
+            <td><code><b>stopPropagation</b>(
+                <nobr>&lt;DOMEvent&gt; <i>ev</i> )</nobr>
+            </code></td>
+
+            <td><code>this</code></td>
+            <td>Останавливает всплытие события к родительским элементам. Используется внутри функции-обработчика. Пример:
+                <code>DG.DomEvent.on(div, 'click', function (ev) {
+    DG.DomEvent.stopPropagation(ev);
                 });</code>
             </td>
         </tr>
-        <tr>
-            <td><code><b>preventDefault</b>(
-                <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+        <tr id="domevent-disablescrollpropagation">
+            <td><code><b>disableScrollPropagation</b>(
+                <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
-            <td>Предотвращает поведение DOM элемента по умолчанию (например, переход по ссылке указанной в свойстве <code>href</code> элемента <code>a</code>). Используется внутри функции-обработчика.</td>
+            <td>Добавляет <code>stopPropagation</code> к событиям элемента <code>&#39;mousewheel&#39;</code>.</td>
         </tr>
-        <tr>
-            <td><code><b>stop</b>(
-                <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
-            </code></td>
-
-            <td><code>this</code></td>
-            <td>Вызывает одновременно <code>stopPropagation</code> и <code>preventDefault</code>.</td>
-        </tr>
-        <tr>
+        <tr id="domevent-disableclickpropagation">
             <td><code><b>disableClickPropagation</b>(
                 <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
-            <td>Добавляет <code>stopPropagation</code> к DOM элементу для событий <code>'click'</code>, <code>'doubleclick'</code>, <code>'mousedown'</code> и <code>'touchstart'</code>.</td>
+            <td>Добавляет <code>stopPropagation</code> к событиям элемента <code>&#39;click&#39;</code>, <code>&#39;doubleclick&#39;</code>, <code>&#39;mousedown&#39;</code> and <code>&#39;touchstart&#39;</code>.</td>
         </tr>
-        <tr>
+        <tr id="domevent-preventdefault">
+            <td><code><b>preventDefault</b>(
+                <nobr>&lt;DOMEvent&gt; <i>ev</i> )</nobr>
+            </code></td>
+
+            <td><code>this</code></td>
+            <td>Предотвращает поведение DOM элемента по умолчанию (например, переход по ссылке указанной в свойстве <code>href</code> элемента <code>a</code>). Используется внутри функции-обработчика.</td>
+        </tr>
+        <tr id="domevent-stop">
+            <td><code><b>stop</b>(
+                <nobr>&lt;DOMEvent&gt; <i>ev</i> )</nobr>
+            </code></td>
+
+            <td><code>this</code></td>
+            <td>Вызывает одновременно <code>stopPropagation</code> и <code>preventDefault</code>. Используется внутри функции-обработчика.</td>
+        </tr>
+        <tr id="domevent-getmouseposition">
             <td><code><b>getMousePosition</b>(
-                <nobr>&lt;DOMEvent&gt; <i>e</i></nobr>,
+                <nobr>&lt;DOMEvent&gt; <i>ev</i>,</nobr>
                 <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/maps/manual/base-classes#класс-dgpoint">Point</a></code></td>
-            <td>Возвращает позицию мышки из DOM события относительно контейнера или относительно всей страницы, если контейнер не указан.</td>
+            <td><code><a href="/doc/maps/manual/base-classes/#класс-dgpoint">Point</a></code></td>
+            <td>Возвращает нормализованную позицию мышки из события DOM относительно контейнера или относительно всей страницы, если контейнер не указан.</td>
         </tr>
-        <tr>
+        <tr id="domevent-getwheeldelta">
             <td><code><b>getWheelDelta</b>(
-                <nobr>&lt;DOMEvent&gt; <i>e</i> )</nobr>
+                <nobr>&lt;DOMEvent&gt; <i>ev</i> )</nobr>
             </code></td>
 
             <td><code>Number</code></td>
-            <td>Возвращает дельту колесика мышки из DOM события <code>mousewheel</code>.</td>
+            <td>Возвращает нормализованную дельту колесика мышки, в виде вертикального смещения в пикселях (отрицательного, при прокрутке вниз), из события DOM <code>mousewheel</code>. Данные для события, от устройств без точного позиционирования, приближаются в диапазон 50-60px.</td>
+        </tr>
+        <tr id="domevent-addlistener>
+            <td><code><b>addListener</b>(
+                <nobr><i>…</i> )</nobr>
+            </code></td>
+
+		    <td><code>this</code></td>
+            <td>Псевдоним для <a href="#domevent-on"><code>DG.DomEvent.on</code></a></td>
+        </tr>
+        <tr id="domevent-removelistener">
+            <td><code><b>removeListener</b>(
+                <nobr><i>…</i> )</nobr>
+            </code></td>
+
+		    <td><code>this</code></td>
+            <td>Псевдоним для <a href="#domevent-off"><code>DG.DomEvent.off</code></a></td>
         </tr>
     </tbody>
 </table>
