@@ -1,4 +1,11 @@
-
 var gulp = require('gulp');
 
-gulp.task('buildStyles', ['buildCSS', 'lintCSS']);
+var destCSS = require('../util/destCSS');
+
+gulp.task('buildStyles', [
+    'collectImagesStats',
+    'generateSprites',
+    'imageMinify'
+], function () {
+    return destCSS();
+});

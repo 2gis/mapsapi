@@ -1,0 +1,15 @@
+.idea
+node_modules
+app
+assets
+coverage
+src
+functional-tests
+test
+vendors
+gulp
+hooks
+.csscomb.json
+.eslintrc
+.travis.yml
+.npmignore

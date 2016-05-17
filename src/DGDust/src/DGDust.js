@@ -1,3 +1,6 @@
+var dust = require('dustjs-linkedin');
+require('dustjs-helpers');
+
 DG.dust = function (name, data) {
     var result;
 
@@ -8,5 +11,3 @@ DG.dust = function (name, data) {
 
     return result;
 };
-
-if (DG.debug) { dust.debugLevel = 'ERROR'; }
