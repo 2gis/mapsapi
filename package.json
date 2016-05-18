@@ -1,6 +1,6 @@
 {
   "name": "2gis-maps",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Interactive 2GIS maps API, based on Leaflet",
   "license": "SEE LICENSE IN FILE",
   "keywords": [
@@ -12,7 +12,7 @@
     "start": "node app",
     "test": "gulp test",
     "lint": "gulp lint",
-    "pub": "gulp clean && gulp build --npm && npm publish"
+    "prepublish": "gulp clean && gulp build --npm"
   },
   "repository": {
     "type": "git",
