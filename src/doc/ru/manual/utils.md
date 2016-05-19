@@ -144,7 +144,7 @@
         <tr id="browser-vml">
             <td><code><b>vml</b></code></td>
             <td><code>Boolean</code></td>
-            <td><code>true</code> для браузеров, поддерживающих <a href="https://en.wikipedia.org/wiki/Vector_Markup_Language">VML</a>.</td>
+            <td><code>true</code> для браузеров, поддерживающих <a href="https://ru.wikipedia.org/wiki/VML">VML</a>.</td>
         </tr>
         <tr id="browser-svg">
             <td><code><b>svg</b></code></td>
@@ -158,12 +158,12 @@
 
 Общие служебные методы и свойства.
 
-#### Методы
+#### Функции
 
 <table>
     <thead>
         <tr>
-            <th>Метод</th>
+            <th>Функция</th>
             <th>Возвращает</th>
             <th>Описание</th>
         </tr>
@@ -351,13 +351,91 @@
     </tbody>
 </table>
 
+### DG.LineUtil
+
+Набор методов для обработки ломаных.
+
+#### Функции
+
+<table>
+    <thead>
+        <tr>
+            <th>Функция</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="lineutil-simplify">
+            <td><code><b>simplify</b>(
+                <nobr>&lt;Point[]&gt; <i>points</i>,</nobr>
+                <nobr>&lt;Number&gt; <i>tolerance</i> )</nobr>
+            </code></td>
+
+            <td><code>Point[]</code></td>
+            <td>Уменьшает количество точек в ломаной и возвращает новую упрощенную ломаную. Позволяет увеличить
+                производительность обработки/отображения ломаных на карте. Параметр <code>tolerance</code> влияет
+                на величину упрощения (чем меньше значение, тем лучше качество геометрии и ниже производительность).</td>
+        </tr>
+        <tr id="lineutil-pointtosegmentdistance">
+            <td><code><b>pointToSegmentDistance</b>(
+                <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>p</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>p1</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>p2</i> )</nobr>
+            </code></td>
+
+            <td><code>Number</code></td>
+            <td>Возвращает расстояние между точкой <code>p</code> и сегментом между точками <code>p1</code> и <code>p2</code>.</td>
+        </tr>
+        <tr id="lineutil-closestpointonsegment">
+            <td><code><b>closestPointOnSegment</b>(
+                <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>p</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>p1</i></nobr>,
+                <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>p2</i> )</nobr>
+            </code></td>
+
+            <td><code>Number</code></td>
+            <td>Возвращает ближайшую точку на сегменте <code>p1</code> <code>p2</code> до точки <code>p</code>.</td>
+        </tr>
+    </tbody>
+</table>
+
+### DG.PolyUtil
+
+Набор методов для обработки геометрии многоугольников.
+
+#### Функции
+
+<table>
+    <thead>
+        <tr>
+            <th>Функция</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="polyutil-clippolygon">
+		    <td><code><b>clipPolygon</b>(
+		        <nobr>&lt;Point[]&gt; <i>points</i>,</nobr>
+		        <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgbounds">Bounds</a>&gt; <i>bounds</i>,</nobr>
+		        <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
+		    </code></td>
+
+    		<td><code>Point[]</code></td>
+    		<td>Обрезает многоугольник, заданный координатами <code>points</code> по заданным границам
+    		    (используя алгоритм <a href="https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm">Sutherland-Hodgeman</a>а).</td>
+    	</tr>
+    </tbody>
+</table>
+
 ### DG.Locale
 
 Функционал, с помощью которого осуществляется <a href="/doc/maps/ru/manual/locale">перевод пользовательского интерфейса</a>.
 
-Подмешивает в карту два метода: <a href="/doc/maps/ru/manual/map#map-setlang">setLang</a> и
+Добавляет в карту два метода: <a href="/doc/maps/ru/manual/map#map-setlang">setLang</a> и
 <a href="/doc/maps/ru/manual/map#map-getlang">getLang</a>. Также имеется объект DG.Locale, который можно подмешать
-в любой <a href="/doc/maps/manual/external-modules">внешний модуль</a>, после чего в нем появится метод t,
+в любой <a href="/doc/maps/ru/manual/external-modules">внешний модуль</a>, после чего в нем появится метод t,
 с помощью которого можно осуществить перевод. Классы модулей, к которым примешивается DG.Locale должны
 содержать внутри себя свойство `_map` и статическое свойство `Dictionary`.
 
@@ -400,77 +478,3 @@ Cодержимое файла lang/ru.js:
         "{n} people" : ["{n} пользователь", "{n} пользователя", "{n} пользователей"],
         "regularly use 2GIS" : "регулярно используют 2GIS"
     }, DG.Dictionary.ru);
-
-### DG.LineUtil
-
-Набор методов для обработки ломаных.
-
-<table>
-    <thead>
-        <tr>
-            <th>Метод</th>
-            <th>Возвращает</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr id="lineutil-simplify">
-            <td><code><b>simplify</b>(
-                <nobr>&lt;Point[]&gt; <i>points</i>,</nobr>
-                <nobr>&lt;Number&gt; <i>tolerance</i> )</nobr>
-            </code></td>
-
-            <td><code>Point[]</code></td>
-            <td>Уменьшает количество точек в ломаной и возвращает новую упрощенную ломаную. Позволяет увеличить
-                производительность обработки/отображения ломаных на карте. Параметр <code>tolerance</code> влияет
-                на величину упрощения (чем меньше значение, тем лучше качество геометрии и ниже производительность).</td>
-        </tr>
-        <tr id="lineutil-pointtosegmentdistance">
-            <td><code><b>pointToSegmentDistance</b>(
-                <nobr>&lt;<a href="/doc/maps/ru/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/ru/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p1</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/ru/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p2</i> )</nobr>
-            </code></td>
-
-            <td><code>Number</code></td>
-            <td>Возвращает расстояние между точкой <code>p</code> и сегментом между точками <code>p1</code> и <code>p2</code>.</td>
-        </tr>
-        <tr id="lineutil-closestpointonsegment">
-            <td><code><b>closestPointOnSegment</b>(
-                <nobr>&lt;<a href="/doc/maps/ru/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/ru/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p1</i></nobr>,
-                <nobr>&lt;<a href="/doc/maps/ru/manual/base-classes#класс-dgpoint">Point</a>&gt; <i>p2</i> )</nobr>
-            </code></td>
-
-            <td><code>Number</code></td>
-            <td>Возвращает ближайшую точку на сегменте <code>p1</code> <code>p2</code> до точки <code>p</code>.</td>
-        </tr>
-    </tbody>
-</table>
-
-### DG.PolyUtil
-
-Набор методов для обработки геометрии многоугольников.
-
-<table>
-    <thead>
-        <tr>
-            <th>Метод</th>
-            <th>Возвращает</th>
-            <th>Описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr id="polyutil-clippolygon">
-		    <td><code><b>clipPolygon</b>(
-		        <nobr>&lt;Point[]&gt; <i>points</i>,</nobr>
-		        <nobr>&lt;<a href="/doc/maps/ru/manual/base-classes#класс-dgbounds">Bounds</a>&gt; <i>bounds</i>,</nobr>
-		        <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
-		    </code></td>
-
-    		<td><code>Point[]</code></td>
-    		<td>Обрезает многоугольник, заданный координатами <code>points</code> по заданным границам
-    		    (используя алгоритм <a href="https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm">Sutherland-Hodgeman</a>а).</td>
-    	</tr>
-    </tbody>
-</table>
