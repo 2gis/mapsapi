@@ -2,7 +2,7 @@
 
 {toc}
 
-### Класс DG.DomEvent
+### DG.DomEvent
 
 Класс для работы с [событиями DOM](https://developer.mozilla.org/ru/docs/Web/API/Event).
 
@@ -121,7 +121,7 @@
                 <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/maps/ru/manual/base-classes/#класс-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a></code></td>
             <td>Возвращает нормализованную позицию мышки из события DOM относительно контейнера или
                 относительно всей страницы, если контейнер не указан.</td>
         </tr>
@@ -154,7 +154,7 @@
     </tbody>
 </table>
 
-### Класс DG.DomUtil
+### DG.DomUtil
 
 Класс для работы с [DOM деревом](https://developer.mozilla.org/ru/docs/DOM/DOM_Reference).
 
@@ -299,7 +299,7 @@
         <tr id="domutil-settransform">
 		    <td><code><b>setTransform</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/ru/manual/base-classes/#класс-dgpoint'>Point</a>&gt; <i>offset</i>,</nobr>
+		        <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#dgpoint'>Point</a>&gt; <i>offset</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>scale?</i> )</nobr>
 		    </code></td>
 
@@ -311,7 +311,7 @@
         <tr id="domutil-setposition">
     		<td><code><b>setPosition</b>(
     		    <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-    		    <nobr>&lt;<a href='/doc/maps/ru/manual/base-classes/#класс-dgpoint'>Point</a>&gt; <i>position</i> )</nobr>
+    		    <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#dgpoint'>Point</a>&gt; <i>position</i> )</nobr>
     		</code></td>
 
     		<td><code></code></td>
@@ -323,7 +323,7 @@
 		        <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
 		    </code></td>
 
-    		<td><code><a href='/doc/maps/ru/manual/base-classes/#класс-dgpoint'>Point</a></code></td>
+    		<td><code><a href='/doc/maps/ru/manual/#dgpoint'>Point</a></code></td>
 		    <td>Возвращает координаты элемента, ранее установленные методом <code>setPosition</code>.</td>
 	    </tr>
         <tr id="domutil-disabletextselection">
@@ -397,14 +397,12 @@
     </tbody>
 </table>
 
-### Класс DG.PosAnimation
+### DG.PosAnimation
 
 Используется для плавного перемещения элементов, используя CSS3 transitions для современных браузеров и таймер для IE6-9.
 
-<pre><code>
-  var fx = new DG.PosAnimation();
-  fx.run(el, [300, 500], 0.5);
-</code></pre>
+    var fx = new DG.PosAnimation();
+    fx.run(el, [300, 500], 0.5);
 
 #### События
 
@@ -449,7 +447,7 @@
         <tr id='posanimation-run'>
 		    <td><code><b>run</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/ru/manual/base-classes/#класс-dgpoint'>Point</a>&gt; <i>newPos</i>,</nobr>
+		        <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#dgpoint'>Point</a>&gt; <i>newPos</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>duration?</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>easeLinearity?</i>)</nobr>
 		    </code></td>
@@ -468,15 +466,13 @@
     </tbody>
 </table>
 
-### Класс DG.Draggable
+### DG.Draggable
 
 Класс, с помощью которого можно сделать DOM элемент перетаскиваемым (включая поддержку тач-устройств).
 Работает только в том случае, если элемент был позиционирован с помошью <a href="#domutil-setposition">DG.DomUtil.setPosition</a>.
 
-<pre><code>
-  var draggable = new DG.Draggable(elementToDrag);
-  draggable.enable();
-</code></pre>
+    var draggable = new DG.Draggable(elementToDrag);
+    draggable.enable();
 
 #### Свойства
 

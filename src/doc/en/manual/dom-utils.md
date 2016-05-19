@@ -118,7 +118,7 @@ Utility functions to work with the [DOM events](https://developer.mozilla.org/do
                 <nobr>&lt;HTMLElement&gt; <i>container?</i> )</nobr>
             </code></td>
 
-            <td><code><a href="/doc/maps/en/manual/base-classes/#class-dgpoint">Point</a></code></td>
+            <td><code><a href="/doc/maps/en/manual/basic-types#dgpoint">Point</a></code></td>
             <td>Gets normalized mouse position from a DOM event relative to the
                 <code>container</code> or to the whole page if not specified.</td>
         </tr>
@@ -295,7 +295,7 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
         <tr id="domutil-settransform">
 		    <td><code><b>setTransform</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/en/manual/base-classes/#class-dgpoint'>Point</a>&gt; <i>offset</i>,</nobr>
+		        <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a>&gt; <i>offset</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>scale?</i> )</nobr>
 		    </code></td>
 
@@ -307,7 +307,7 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
         <tr id="domutil-setposition">
     		<td><code><b>setPosition</b>(
     		    <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-    		    <nobr>&lt;<a href='/doc/maps/en/manual/base-classes/#class-dgpoint'>Point</a>&gt; <i>position</i> )</nobr>
+    		    <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a>&gt; <i>position</i> )</nobr>
     		</code></td>
 
     		<td><code></code></td>
@@ -320,7 +320,7 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
 		        <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
 		    </code></td>
 
-    		<td><code><a href='/doc/maps/en/manual/base-classes/#class-dgpoint'>Point</a></code></td>
+    		<td><code><a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a></code></td>
 		    <td>Returns the coordinates of an element previously positioned with setPosition.</td>
 	    </tr>
         <tr id="domutil-disabletextselection">
@@ -366,7 +366,7 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
 	    	<td><code><b>restoreOutline</b>()</code></td>
 
     		<td><code></code></td>
-    		<td>Cancels the effects of a previous <a href=""><code>DG.DomUtil.preventOutline</code></a>.</td>
+    		<td>Cancels the effects of a previous <a href="#domutil-preventoutline"><code>DG.DomUtil.preventOutline</code></a>.</td>
     	</tr>
     </tbody>
 </table>
@@ -399,10 +399,8 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
 
 Used internally for panning animations, utilizing CSS3 Transitions for modern browsers and a timer fallback for IE6-9.
 
-<pre><code>
-  var fx = new DG.PosAnimation();
-  fx.run(el, [300, 500], 0.5);
-</code></pre>
+    var fx = new DG.PosAnimation();
+    fx.run(el, [300, 500], 0.5);
 
 #### Events
 
@@ -447,7 +445,7 @@ Used internally for panning animations, utilizing CSS3 Transitions for modern br
         <tr id='posanimation-run'>
 		    <td><code><b>run</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/en/manual/base-classes/#class-dgpoint'>Point</a>&gt; <i>newPos</i>,</nobr>
+		        <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a>&gt; <i>newPos</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>duration?</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>easeLinearity?</i>)</nobr>
 		    </code></td>
@@ -472,10 +470,8 @@ A class for making DOM elements draggable (including touch support).
 Used internally for map and marker dragging. Only works for elements
 that were positioned with [DG.DomUtil.setPosition](#domutil-setposition)
 
-<pre><code>
-  var draggable = new DG.Draggable(elementToDrag);
-  draggable.enable();
-</code></pre>
+    var draggable = new DG.Draggable(elementToDrag);
+    draggable.enable();
 
 #### Properties
 
