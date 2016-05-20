@@ -19,7 +19,6 @@
     "url": "git@github.com:2gis/mapsapi.git"
   },
   "main": "dist/js/script.full.js",
-  "style": "dist/css/styles.full.dark.css",
   "dependencies": {
     "dustjs-helpers": "1.7.3",
     "dustjs-linkedin": "2.7.2",
@@ -28,6 +27,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
+    "browserify-css": "^0.9.1",
     "cli-color": "^1.1.0",
     "cors": "^2.7.1",
     "coveralls": "^2.11.9",

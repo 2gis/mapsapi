@@ -13,9 +13,8 @@ gulp.task('build', function (cb) {
         config.appConfig.protocol = 'https:';
     }
 
-    runSequence('clean', [
+    runSequence('clean', 'buildStyles', [
         'buildScripts',
-        'buildStyles',
         'doc',
         'loader',
         'copyAssets',

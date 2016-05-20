@@ -35,6 +35,11 @@ gulp.task('buildScripts', ['concatScripts'], function () {
             packageCache: {}
         });
 
+        bundler.transform('browserify-css', {
+            autoInject: true,
+            minify: true
+        });
+
         return bundler.bundle()
             .pipe(source(name))
             .pipe(buffer())

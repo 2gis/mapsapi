@@ -3,6 +3,7 @@ var streamqueue = require('streamqueue');
 var concat = require('gulp-concat');
 var footer = require('gulp-footer');
 var es = require('event-stream');
+var file = require('gulp-file');
 var gulpif = require('gulp-if');
 var util = require('gulp-util');
 var map = require('map-stream');
@@ -17,6 +18,10 @@ var error = require('../util/error');
 var stat = require('../util/stat');
 
 var dependencies = util.env['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
+
+function getStyleRequireStatement(package, skin) {
+    return `require('../../../dist/css/styles.${package}.${skin}.css');`;
+}
 
 gulp.task('concatScripts', dependencies, function () {
     var isCustom = util.env.pkg || util.env.skin;
@@ -36,7 +41,8 @@ gulp.task('concatScripts', dependencies, function () {
     }
 
     return packages.map(function (pkg) {
-        return streamqueue({objectMode: true},
+        var stream = streamqueue(
+                {objectMode: true},
                 gulp.src(deps.getJSFiles({pkg: pkg}), {base: '.'}),
                 templateStream(pkg)
             )
@@ -44,7 +50,13 @@ gulp.task('concatScripts', dependencies, function () {
             .pipe(gulpif(!util.env.release, sourcemaps.init()))
             .pipe(concat('script.' + (!isCustom ? pkg + '.' : '') + 'js'))
             .pipe(footer(projectList.get()))
-            .pipe(footer('DG.config = ' + JSON.stringify(config.appConfig) + ';'))
+            .pipe(footer('DG.config = ' + JSON.stringify(config.appConfig) + ';'));
+
+        if (util.env.npm) {
+            stream = stream.pipe(footer(getStyleRequireStatement(pkg, 'dark')));
+        }
+
+        return stream
             .pipe(map(stat.save))
             .pipe(gulpif(!util.env.release, sourcemaps.write()))
             .pipe(gulp.dest('gulp/tmp/js'));
