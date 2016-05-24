@@ -28,6 +28,14 @@ DG.Geoclicker = DG.Handler.extend({
             .off('rulerend', this._unpause, this);
     },
 
+    _checkOpenPopup: function () {
+        if (DG.Browser.mobile && this._map._popup &&
+            (this._map._popup.options.closeOnClick ||
+            this._map.options.closePopupOnClick)) {
+            this.popupWasOpen = true;
+        }
+    },
+
     _pause: function () {
         this._toggleEvents();
     },
@@ -42,12 +50,20 @@ DG.Geoclicker = DG.Handler.extend({
     _toggleEvents: function (flag) {
         this._map[flag ? 'on' : 'off'](this._mapEventsListeners, this);
         if (this._map.poi) {
-            this._map.poi.getMetaLayer()[flag ? 'on' : 'off']('click', this._mapEventsListeners.click, this);
+            this._map.poi.getMetaLayer()[flag ? 'on' : 'off']('click', this._onMetaClick, this);
         }
     },
 
     getController: function () {
         return this._controller;
+    },
+
+    _onMetaClick: function (e) {
+        this.clickCount = 0;
+        clearTimeout(this.pendingClick);
+        this.popupWasOpen = false;
+
+        this._mapEventsListeners.click.call(this, e);
     },
 
     _mapEventsListeners: {
