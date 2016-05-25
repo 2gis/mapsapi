@@ -561,7 +561,7 @@ is removed from the map or another popup is opened.
         <tr id="layer-getpopup">
             <td><code><b>getPopup</b>()</code></td>
 
-            <td><code><a href="#popup">Popup</a></code></td>
+            <td><code><a href="/doc/maps/en/manual/popup#dgpopup">Popup</a></code></td>
             <td>Returns the popup bound to this layer.</td>
         </tr>
     </tbody>
@@ -855,7 +855,7 @@ Do not use this class directly, use <code>DG.SVG</code> and <code>DG.Canvas</cod
 
 ### Event objects
 
-Whenever a class inheriting from <a href="#evented"><code>Evented</code></a> fires an event, a listener function
+Whenever a class inheriting from <a href="#dgevented"><code>Evented</code></a> fires an event, a listener function
 will be called with an event argument, which is a plain object containing information about the event. For example:
 
     map.on('click', function(ev) {
@@ -1015,7 +1015,7 @@ The base event object. All other event objects contain these properties too.
     <tbody>
         <tr id="layerevent-layer">
             <td><code><b>layer</b></code></td>
-            <td><code><a href='#layer'>ILayer</a></code></td>
+            <td><code><a href='#dglayer'>ILayer</a></code></td>
             <td>The layer that was added or removed.</td>
         </tr>
     </tbody>
@@ -1034,7 +1034,7 @@ The base event object. All other event objects contain these properties too.
     <tbody>
         <tr id="layerscontrolevent-layer">
             <td><code><b>layer</b></code></td>
-            <td><code><a href="#layer">ILayer</a></code></td>
+            <td><code><a href="#dglayer">ILayer</a></code></td>
             <td>The layer that was added or removed.</td>
         </tr>
         <tr id="layerscontrolevent-name">
@@ -1119,7 +1119,7 @@ The base event object. All other event objects contain these properties too.
         </thead><tbody>
         <tr id="geojson-event-layer">
             <td><code><b>layer</b></code></td>
-            <td><code><a href="#layer">ILayer</a></code></td>
+            <td><code><a href="#dglayer">ILayer</a></code></td>
             <td>The layer for the GeoJSON feature that is being added to the map.</td>
         </tr>
         <tr id="geojson-event-properties">
