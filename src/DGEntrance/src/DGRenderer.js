@@ -145,6 +145,7 @@ DG.extend(L.SVG, {
                     }
                 }
             } else {
+                //  vml in IE8 can support only integer values in 'path', sorry about loss of precision
                 j = k = 0;
                 while (j < points.length) {
                     d = drawings[i][k++];
@@ -160,18 +161,18 @@ DG.extend(L.SVG, {
                             //  So we'll emulate Cubic Bézier curve by applying Quadratic variant in both cases
                             //  TODO: Both control points will use the same value but this is not true solution
                             str += 'C' +
-                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
-                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
-                                points[j + 1].x.toFixed(4) + ',' + points[j + 1].y.toFixed(4) + ' ';
+                                points[j].x.toFixed(0) + ',' + points[j].y.toFixed(0) + ' ' +
+                                points[j].x.toFixed(0) + ',' + points[j].y.toFixed(0) + ' ' +
+                                points[j + 1].x.toFixed(0) + ',' + points[j + 1].y.toFixed(0) + ' ';
                             j += 2;
                             d = '';
                             n = 0;
                             break;
                         case 'q':
                             str += 'c' +
-                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
-                                points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ' +
-                                points[j + 1].x.toFixed(4) + ',' + points[j + 1].y.toFixed(4) + ' ';
+                                points[j].x.toFixed(0) + ',' + points[j].y.toFixed(0) + ' ' +
+                                points[j].x.toFixed(0) + ',' + points[j].y.toFixed(0) + ' ' +
+                                points[j + 1].x.toFixed(0) + ',' + points[j + 1].y.toFixed(0) + ' ';
                             j += 2;
                             d = '';
                             n = 0;
@@ -181,7 +182,7 @@ DG.extend(L.SVG, {
                     }
                     str += d;
                     while (n--) {
-                        str += points[j].x.toFixed(4) + ',' + points[j].y.toFixed(4) + ' ';
+                        str += points[j].x.toFixed(0) + ',' + points[j].y.toFixed(0) + ' ';
                         j += 1;
                     }
                 }
