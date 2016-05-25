@@ -68,7 +68,7 @@ DG.Animation = DG.Evented.extend({
         if (elapsed < this._durations.getLength()) {
             index = this._durations.getIndex(elapsed);
             el = this._durations.getSegRatio(elapsed);
-            progress = this._animation[index].function.getYbyX(el);
+            progress = this._animation[index]['function'].getYbyX(el);
             this._step(this._getFrameValues(index, progress));
         } else {
             index = this._durations.length - 1;

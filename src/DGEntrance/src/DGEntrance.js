@@ -191,17 +191,17 @@ DG.entrance = function (options) {
 DG.Entrance.SHOW_FROM_ZOOM = 16;
 DG.Entrance.PATH_ANIMATION = {
     animation: {
-        function: DG.Animation.EASE_IN_OUT,
-        duration: 750
+        'function': DG.Animation.EASE_IN_OUT,
+        'duration': 750
     }
 };
 DG.Entrance.BOUNCE_ANIMATION = {
     animation: [
-        {function: DG.Animation.EASE_IN_OUT, duration: 250, frames: {distance: {from: 0, to: 0.6}}},
-        {function: DG.Animation.EASE_IN, duration: 135, frames: {distance: {from: 0.6, to: 0}}},
-        {function: DG.Animation.EASE_OUT, duration: 135, frames: {distance: {from: 0, to: 0.16}}},
-        {function: DG.Animation.EASE_IN, duration: 90, frames: {distance: {from: 0.16, to: 0}}},
-        {function: DG.Animation.EASE_OUT, duration: 90, frames: {distance: {from: 0, to: 0.06}}},
-        {function: DG.Animation.EASE_IN, duration: 50, frames: {distance: {from: 0.06, to: 0}}}
+        {'function': DG.Animation.EASE_IN_OUT, 'duration': 250, 'frames': {'distance': {'from': 0, 'to': 0.6}}},
+        {'function': DG.Animation.EASE_IN, 'duration': 135, 'frames': {'distance': {'from': 0.6, 'to': 0}}},
+        {'function': DG.Animation.EASE_OUT, 'duration': 135, 'frames': {'distance': {'from': 0, 'to': 0.16}}},
+        {'function': DG.Animation.EASE_IN, 'duration': 90, 'frames': {'distance': {'from': 0.16, 'to': 0}}},
+        {'function': DG.Animation.EASE_OUT, 'duration': 90, 'frames': {'distance': {'from': 0, 'to': 0.06}}},
+        {'function': DG.Animation.EASE_IN, 'duration': 50, 'frames': {'distance': {'from': 0.06, 'to': 0}}}
     ]
 };
