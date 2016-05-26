@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var destCSS = require('../util/destCSS');
 
-gulp.task('rebuildCSS', function () {
+gulp.task('rebuildStyles', function () {
     return destCSS();
 });

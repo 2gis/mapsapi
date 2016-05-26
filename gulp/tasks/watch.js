@@ -16,7 +16,7 @@ gulp.task('watch', function () {
     });
 
     gulp.watch('src/**/*.less', function () {
-        runSequence('rebuildCSS', 'server');
+        runSequence('rebuildStyles', 'server');
     });
 
     gulp.watch('config.main.json', function () {

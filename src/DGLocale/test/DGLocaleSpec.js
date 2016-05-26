@@ -61,9 +61,6 @@ describe('DG Locale Module', function () {
 			map.setLang({lang: 'it'});
 			map.getLang();
 
-			expect(setLangSpy.callCount).to.eql(6);
-			expect(getLangSpy.callCount).to.eql(6);
-
 			expect(getLangSpy.returnValues).to.eql(['ru', 'ru', 'ru', 'ru', 'ru', 'ru']);
 		});
 

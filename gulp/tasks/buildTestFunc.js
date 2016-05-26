@@ -4,11 +4,11 @@ var gulp = require('gulp');
 var buildEnd = require('../util/buildEnd.js');
 
 gulp.task('buildTestFunc', function (cb) {
-    global.isConcatJS = true;
+    global.isTestBuild = true;
 
     runSequence('clean', [
-        'buildTestScripts',
-        'buildTestStyles',
+        'buildScripts',
+        'buildStyles',
         'doc',
         'copyPrivateAssets'
     ], function () {

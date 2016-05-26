@@ -1,3 +1,6 @@
+require('leaflet');
+require('html5shiv');
+
 // DG inheritance
 var oldDG = window.DG;
 DG = new (
@@ -75,3 +78,5 @@ DG.Map.addInitHook(function () {
         DG.DomUtil.addClass(this._container, 'no-touch');
     }
 });
+
+module.exports = DG;

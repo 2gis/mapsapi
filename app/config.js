@@ -28,11 +28,6 @@ var config = {
         path: basePath + '/node_modules/leaflet/src/'
     },
 
-    js: {
-        intro: '(function (window, document, undefined) {\n',
-        outro: '}(this, document));\n'
-    },
-
     tmpl: {
         dir: 'templates',
         pattern: '*.dust',
@@ -48,7 +43,7 @@ var config = {
 
     copyright: fs.readFileSync('./src/copyright.js'),
 
-    coreModules: ['Leaflet', 'DGCore', 'DGCustomization', 'DGAjax']
+    coreModules: ['DGCore', 'DGCustomization', 'DGAjax']
 };
 
 function getMainConfig() {

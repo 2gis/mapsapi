@@ -1,17 +1,7 @@
 var deps = {
-
-    Leaflet: {
-        desc: 'Leaflet dist',
-        src: ['../node_modules/leaflet/dist/leaflet-src.js'],
-        less: {
-            all: ['../node_modules/leaflet/dist/leaflet.css']
-        }
-    },
-
     DGCore: {
         desc: 'Main module',
         src: [
-            '../node_modules/html5shiv/dist/html5shiv.js',
             '../vendors/polyfills/es5.js',
             '../vendors/polyfills/promise.js',
             'DGCore/src/DGCore.js',
@@ -19,10 +9,12 @@ var deps = {
             'DGCore/src/DGplugin.js'
         ],
         less: {
-            all: ['DGCore/skin/basic/less/dg-core.less']
+            all: [
+                '../node_modules/leaflet/dist/leaflet.css',
+                'DGCore/skin/basic/less/dg-core.less'
+            ]
         },
-        heading: '2GIS modules',
-        deps: ['Leaflet']
+        heading: '2GIS modules'
     },
 
     DGAjax: {
@@ -57,7 +49,6 @@ var deps = {
         desc: '2GIS Popup module',
         src: [
             'DGPopup/skin/basic/skin.config.js',
-            '../vendors/baron/baron.js',
             'DGPopup/src/DGPopup.js'
         ],
         less: {
@@ -258,8 +249,6 @@ var deps = {
     DGDust: {
         desc: '2GIS Template',
         src: [
-            '../node_modules/dustjs-linkedin/dist/dust-core.js',
-            '../node_modules/dustjs-helpers/dist/dust-helpers.js',
             'DGDust/src/DGDust.js'
         ],
         deps: ['DGCore']

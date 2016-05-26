@@ -1,3 +1,5 @@
+require('../../../vendors/baron');
+
 // 2GIS-related popup content wrapper and offset
 (function () {
     var offsetX = DG.configTheme.balloonOptions.offset.x,

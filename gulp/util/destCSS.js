@@ -5,9 +5,7 @@ var gulp = require('gulp');
 var config = require('../../app/config');
 var buildCSS = require('../util/buildCSS');
 
-module.exports = function (opt) {
-    opt = opt || {};
-
+module.exports = function () {
     var buildRules = [];
 
     var skins = config.skins;
@@ -22,7 +20,7 @@ module.exports = function (opt) {
                 pkg: util.env.pkg || 'full',
                 skin: util.env.skin || config.appConfig.defaultSkin,
                 ie8: browser === 'ie8',
-                isTest: opt.isTest
+                isTest: global.isTestBuild
             };
         });
     } else {
@@ -34,7 +32,7 @@ module.exports = function (opt) {
                         pkg: pkg,
                         skin: skin,
                         ie8: browser === 'ie8',
-                        isTest: opt.isTest
+                        isTest: global.isTestBuild
                     });
                 });
             });
