@@ -7,8 +7,8 @@ Controls is a user interface components by which a user can interact with the ma
 ### DG.Control.Zoom
 
 A basic zoom control with two buttons (zoom in and zoom out). It is put on the map by default unless
-you set its <a href="#map-zoomcontrol"><code>zoomControl</code> option</a> to <code>false</code>.
-Extends <a href="#control"><code>Control</code></a>.
+you set its <a href="/doc/maps/en/manual/map#map-zoomcontrol"><code>zoomControl</code> option</a> to <code>false</code>.
+Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>Control</code></a>.
 
 #### Creation
 
@@ -71,9 +71,11 @@ Extends <a href="#control"><code>Control</code></a>.
 ### DG.Control.Attribution
 
 The attribution control allows you to display attribution data in a small text box on a map.
-It is put on the map by default unless you set its <a href="#map-attributioncontrol"><code>attributionControl</code> option</a>
+It is put on the map by default unless you set its
+<a href="/doc/maps/en/manual/map#map-attributioncontrol"><code>attributionControl</code> option</a>
 to <code>false</code>, and it fetches attribution texts from layers with the
-<a href="#layer-getattribution"><code>getAttribution</code> method</a> automatically. Extends DG.Control.
+<a href="/doc/maps/en/manual/base-classes#layer-getattribution"><code>getAttribution</code> method</a> automatically.
+Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
 #### Creation
 
@@ -156,7 +158,7 @@ to <code>false</code>, and it fetches attribution texts from layers with the
 ### DG.Control.Scale
 
 A simple scale control that shows the scale of the current center of screen in metric (m/km) and imperial
-(mi/ft) systems. Extends <a href="#control"><code>DG.Control</code></a>.
+(mi/ft) systems. Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.scale().addTo(map);
 
@@ -213,15 +215,16 @@ A simple scale control that shows the scale of the current center of screen in m
             <td><code><b>updateWhenIdle</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
-            <td>If <code>true</code>, the control is updated on <a href="#map-moveend"><code>moveend</code></a>,
-                otherwise it&#39;s always up-to-date (updated on <a href="#map-move"><code>move</code></a>).</td>
+            <td>If <code>true</code>, the control is updated on <a href="/doc/maps/en/manual/map#map-moveend"><code>moveend</code></a>,
+                otherwise it&#39;s always up-to-date (updated on <a href="/doc/maps/en/manual/map#map-move"><code>move</code></a>).</td>
         </tr>
     </tbody>
 </table>
 
 ### DG.Control.Ruler
 
-When clicked opens a ruler - the tool for measurement of distances on a map. Extends <a href="#control"><code>DG.Control</code></a>.
+When clicked opens a ruler - the tool for measurement of distances on a map.
+Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.ruler().addTo(map);
 
@@ -246,7 +249,8 @@ When clicked opens a ruler - the tool for measurement of distances on a map. Ext
 
 ### DG.Control.Traffic
 
-The traffic control allows you to display traffic overlay data on a map. Extends <a href="#control"><code>DG.Control</code></a>.
+The traffic control allows you to display traffic overlay data on a map.
+Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.traffic().addTo(map);
 
@@ -273,7 +277,8 @@ The traffic control allows you to display traffic overlay data on a map. Extends
 
 The fullscreen control enables display of the map over fullscreen window which bounds are physical bounds of a given
 user monitor. The button works like a trigger. It is put on the map by default unless you set its
-<a href="#map-attributioncontrol"><code>fullscreenControl</code> option</a> to <code>false</code>. Extends DG.Control.
+<a href="/doc/maps/en/manual/map#map-attributioncontrol"><code>fullscreenControl</code> option</a> to <code>false</code>.
+Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.fullscreen().addTo(map);
 

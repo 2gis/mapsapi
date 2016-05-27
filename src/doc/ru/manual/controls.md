@@ -7,8 +7,8 @@
 ### DG.Control.Zoom
 
 Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию,
-если не передана опция <a href="#map-zoomcontrol"><code>zoomControl</code> со значением `false`.
-Расширяет <a href="#control"><code>Control</code></a>.
+если не передана опция <a href="/doc/maps/ru/manual/map#map-zoomcontrol"><code>zoomControl</code> со значением `false`.
+Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
 #### Создание
 
@@ -71,9 +71,10 @@
 ### DG.Control.Attribution
 
 Позволяет показать информацию об авторстве в небольшом текстовом контейнере на карте. Добавляется на карту по умолчанию,
-если значение свойства <a href="#map-attributioncontrol"><code>attributionControl</code> option</a> не выставлено в `false`.
-Компонует итоговый текст из слоев, вызывая их метод <a href="#layer-getattribution"><code>getAttribution</code></a>.
-Расширяет <a href="#control"><code>Control</code></a>.
+если значение свойства <a href="/doc/maps/ru/manual/map#map-attributioncontrol"><code>attributionControl</code> option</a>
+не выставлено в `false`. Компонует итоговый текст из слоев, вызывая их метод
+<a href="/doc/maps/ru/manual/base-classes#layer-getattribution"><code>getAttribution</code></a>.
+Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
 #### Создание
 
@@ -157,7 +158,7 @@
 ### DG.Control.Scale
 
 Показывает масштаб карты в метрической (метры, километры) и английской (мили, футы) системах измерений.
-Расширяет <a href="#control"><code>DG.Control</code></a>.
+Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.scale().addTo(map);
 
@@ -215,8 +216,8 @@
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>При значении <code>true</code>, элемент будет обновляться только при возникновении события
-                <a href="#map-moveend"><code>moveend</code></a>, в противном случае, при каждом событии
-                <a href="#map-move"><code>move</code></a>.</td>
+                <a href="/doc/maps/ru/manual/map#map-moveend"><code>moveend</code></a>, в противном случае, при каждом событии
+                <a href="/doc/maps/ru/manual/map#map-move"><code>move</code></a>.</td>
         </tr>
     </tbody>
 </table>
@@ -224,7 +225,7 @@
 ### DG.Control.Ruler
 
 Элемент управления (кнопка), при клике на который включается линейка измерения расстояний на карте.
-Extends <a href="#control"><code>DG.Control</code></a>.
+Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.ruler().addTo(map);
 
@@ -242,24 +243,25 @@ Extends <a href="#control"><code>DG.Control</code></a>.
             <td><code><b>DG.control.ruler</b>(
                 <nobr>&lt;<a href="#control-ruler-option">DG.Control.Ruler options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
-            <td>Creates a ruler control with the given options.</td>
+            <td>Создает элемент управления линейкой.</td>
         </tr>
 	</tbody>
 </table>
 
 ### DG.Control.Traffic
 
-The traffic control allows you to display traffic overlay data on a map. Extends <a href="#control"><code>DG.Control</code></a>.
+Элемент управления (кнопка), при клике на который на карте отображается слой пробок.
+Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.traffic().addTo(map);
 
-#### Creation
+#### Создание
 
 <table>
     <thead>
         <tr>
-            <th>Factory</th>
-            <th>Description</th>
+            <th>Конструктор</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
@@ -267,26 +269,27 @@ The traffic control allows you to display traffic overlay data on a map. Extends
             <td><code><b>DG.control.traffic</b>(
                 <nobr>&lt;<a href="#control-traffic-option">DG.Control.Traffic options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
-            <td>Creates a traffic control with the given options.</td>
+            <td>Создает элемент управления слоем пробок.</td>
         </tr>
 	</tbody>
 </table>
 
 ### DG.Control.Fullscreen
 
-The fullscreen control enables display of the map over fullscreen window which bounds are physical bounds of a given
-user monitor. The button works like a trigger. It is put on the map by default unless you set its
-<a href="#map-attributioncontrol"><code>fullscreenControl</code> option</a> to <code>false</code>. Extends DG.Control.
+Элемент управления (кнопка), при клике на который карта разворачивается на весь экран,
+повторный клик восстанавливает предыдущий размер. Добавляется на карту по умолчанию,
+если не передана опция <code>fullscreenControl</code> со значением `false`.
+Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.fullscreen().addTo(map);
 
-#### Creation
+#### Создание
 
 <table>
     <thead>
         <tr>
-            <th>Factory</th>
-            <th>Description</th>
+            <th>Конструктор</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
@@ -294,25 +297,25 @@ user monitor. The button works like a trigger. It is put on the map by default u
             <td><code><b>DG.control.fullscreen</b>(
                 <nobr>&lt;<a href="#control-fullscreen-option">DG.Control.Fullscreen options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
-            <td>Creates a fullscreen control with the given options.</td>
+            <td>Создает элемент управления полноэкранным режимом.</td>
         </tr>
 	</tbody>
 </table>
 
 ### DG.Control.LocationControl
 
-The geo-location control allow users to detect their geographic positions and automatically pan the map layer to found coordinates.
-Control is disabled if geo-location API is not available.
+Элемент управление (кнопка), при клике на которую определяется и отображается текущее месторасположение пользователя.
+Если API геолокации не поддерживается устройством, тогда элемент управления не выводится.
 
     DG.control.location().addTo(map);
 
-#### Creation
+#### Создание
 
 <table>
     <thead>
         <tr>
-            <th>Factory</th>
-            <th>Description</th>
+            <th>Конструктор</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
@@ -320,20 +323,20 @@ Control is disabled if geo-location API is not available.
             <td><code><b>DG.control.location</b>(
                 <nobr>&lt;<a href="#control-location-option">DG.Control.LocationControl options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
-            <td>Creates a geo-location control with the given options.</td>
+            <td>Создает элемент управления геопозиционированием.</td>
         </tr>
 	</tbody>
 </table>
 
-#### Options
+#### Свойства
 
 <table>
     <thead>
         <tr>
-            <th>Option</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Значение<br>по умолчанию</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
@@ -341,32 +344,32 @@ Control is disabled if geo-location API is not available.
             <td><code><b>drawCircle</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>true</code></td>
-            <td>Will the circle showing the accuracy of the detection be displayed or not.</td>
+            <td>Будет ли отображаться круг, показывающий точность определения месторасположения.</td>
         </tr>
         <tr id="control-location-follow">
             <td><code><b>follow</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
-            <td>Update user location dynamically or not, works if <code>watch</code> and <code>setView</code> options are
-                exposed to `true` in <code>locateOptions</code>.</td>
+            <td>Динамическое обновление месторасположения пользователя, работает, если <code>watch</code> и
+                <code>setView</code> выставлены в `true`.</td>
         </tr>
         <tr id="control-location-stopfollowingondrag">
             <td><code><b>stopFollowingOnDrag</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
-            <td>Enables or disables the user's location update as he drag the map.</td>
+            <td>Включает или отключает обновление месторасположения пользователя при перетаскивании карты.</td>
         </tr>
         <tr id="control-location-metric">
             <td><code><b>metric</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>true</code></td>
-            <td>Use metric or English units of measurement.</td>
+            <td>Использовать метрические или английские единицы измерения.</td>
         </tr>
         <tr id="control-location-locateoptions">
             <td><code><b>locateOptions</b></code></td>
             <td><code>Object </code></td>
             <td><code></code></td>
-            <td>See <a href="/doc/maps/en/manual/map#geolocation-options">geo-location options</a>.</td>
+            <td>См. <a href="/doc/maps/ru/manual/map#geolocation-options">geo-location options</a>.</td>
         </tr>
     </tbody>
 </table>
