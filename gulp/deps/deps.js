@@ -257,13 +257,17 @@ var deps = {
     DGEntrance: {
         desc: '2GIS Entrances',
         src: [
+            'DGEntrance/src/DGMetric.js',
+            'DGEntrance/src/DGVertexTransform.js',
+            'DGEntrance/src/DGArrowPathTransform.js',
+            'DGEntrance/src/DGArrowTipTransform.js',
+            'DGEntrance/src/DGComplexPath.js',
+            'DGEntrance/src/DGRenderer.js',
+            'DGEntrance/src/DGBezierCurves.js',
+            'DGEntrance/src/DGAnimation.js',
             'DGEntrance/src/DGEntrance.js',
-            'DGEntrance/src/PathAnimation.js',
-            'DGEntrance/src/Arrow.js',
-            'DGEntrance/src/ArrowSVG.js',
-            'DGEntrance/src/ArrowSVG.VML.js',
-            'DGEntrance/src/ArrowSvgAnimationOptions.js',
-            'DGEntrance/src/EventHandler.js'
+            'DGEntrance/src/DGEntranceArrow.js',
+            'DGEntrance/src/DGEntranceArrowShape.js'
         ],
         deps: ['DGCore', 'DGWkt', 'DGProjectDetector']
     },
