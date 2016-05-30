@@ -160,7 +160,7 @@
 
 Если вы разрабатываете модуль к API карт, существует вероятность того, что вам понадобится выполнить
 дополнительные действия при инициализации объектов существующих классов (например, при инициализации
-объекта <a href="/doc/maps/ru/manual/geometries"#polyline"><code>DG.Polyline</code></a>).
+объекта <a href="/doc/maps/ru/manual/geometries#polyline"><code>DG.Polyline</code></a>).
 Для подобного рода задач имеется метод `addInitHook`:
 
     MyClass.addInitHook(function () {
@@ -240,7 +240,7 @@
 
 #### Методы
 
-<table>
+<table id='dgevented-methods'>
     <thead>
         <tr>
             <th>Метод</th>
@@ -391,7 +391,7 @@
 
 #### Свойства
 
-<table>
+<table id='dglayer-options'>
     <thead>
         <tr>
             <th>Свойство</th>
@@ -413,7 +413,7 @@
 
 #### События
 
-<table>
+<table id='dglayer-events'>
     <thead>
         <tr>
             <th>Событие</th>
@@ -437,7 +437,7 @@
 
 #### События всплывающих элементов
 
-<table>
+<table id='dglayer-popup-events'>
     <thead>
         <tr>
             <th>Событие</th>
@@ -461,7 +461,7 @@
 
 #### Методы
 
-<table>
+<table id='dglayer-methods'>
     <thead>
         <tr>
             <th>Метод</th>
@@ -515,7 +515,7 @@
 Всплывающие элементы автоматически открываются при щелчке мышкой по слою, а также закрываются,
 при удалении слоя или открытии другого всплывающего элемента.
 
-<table>
+<table id='dglayer-popup-methods'>
     <thead>
         <tr>
             <th>Метод</th>

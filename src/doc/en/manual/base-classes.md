@@ -231,7 +231,7 @@ define it as a function:
 
 #### Methods
 
-<table>
+<table id='dgevented-methods'>
     <thead>
         <tr>
             <th>Method</th>
@@ -381,7 +381,7 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
 
 #### Options
 
-<table>
+<table id='dglayer-options'>
     <thead>
         <tr>
             <th>Option</th>
@@ -403,7 +403,7 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
 
 #### Events
 
-<table>
+<table id='dglayer-events'>
     <thead>
         <tr>
             <th>Event</th>
@@ -427,7 +427,7 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
 
 #### Popup events
 
-<table>
+<table id='dglayer-popup-events'>
     <thead>
         <tr>
             <th>Event</th>
@@ -452,7 +452,7 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
 #### Methods
 
 Classes extending <a href="#dglayer"><code>DG.Layer</code></a> will inherit the following methods:
-<table>
+<table id='dglayer-methods'>
     <thead>
         <tr>
             <th>Method</th>
@@ -506,7 +506,7 @@ All layers share a set of methods convenient for binding popups to it.
 Popups will also be automatically opened when the layer is clicked on and closed when the layer
 is removed from the map or another popup is opened.
 
-<table>
+<table id='dglayer-popup-methods'>
     <thead>
         <tr>
             <th>Method</th>
@@ -834,7 +834,7 @@ Do not use this class directly, use <code>DG.SVG</code> and <code>DG.Canvas</cod
 
 ##### Options
 
-<table>
+<table id='dgrenderer-options'>
     <thead>
         <tr>
             <th>Option</th>
