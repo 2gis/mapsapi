@@ -10,7 +10,7 @@
 ### DG.Path
 
 Абстрактный класс, содержащий опции и константы векторных слоев (Polygon, Polyline, Circle).
-Никогда не используется напрямую. не используйте этот класс напрямую. РасширяетExtends [Layer](/doc/maps/en/manual/base-classes#dglayer).
+Никогда не используется напрямую. не используйте этот класс напрямую. РасширяетExtends [Layer](/doc/maps/ru/manual/base-classes#dglayer).
 
 #### Опции
 
@@ -137,9 +137,9 @@
             <td><code><a href='#renderer'>Renderer</a></code></td>
             <td><code></code></td>
             <td>
-                Использовать этот экземпляр <a href="/doc/maps/en/manual/base-classes#renderer"><code>renderer</code></a>
+                Использовать этот экземпляр <a href="/doc/maps/ru/manual/base-classes#renderer"><code>renderer</code></a>
                 для данного векторного объекта. Переопределяет
-                <a href="/doc/maps/en/manual/map#map-renderer">renderer карты</a>, установленный по умолчанию.
+                <a href="/doc/maps/ru/manual/map#map-renderer">renderer карты</a>, установленный по умолчанию.
             </td>
         </tr>
         <tr id='path-classname'>
@@ -152,13 +152,13 @@
     </tbody>
 </table>
 
-Опции, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
@@ -197,11 +197,11 @@
     </tbody>
 </table>
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 
 ### DG.polyline
@@ -296,14 +296,14 @@
 
 Опции, унаследованные от [Path](#dgpath-options) <!-- TODO: include options -->
 
-Опции, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапов, унаследованные [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапов, унаследованные [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
@@ -341,12 +341,12 @@
         </tr>
         <tr id='polyline-getcenter'>
             <td><code><b>getCenter</b>()</code></td>
-            <td><code><a href='/doc/maps/en/manual/basic-types#latlng'>LatLng</a></code></td>
+            <td><code><a href='/doc/maps/ru/manual/basic-types#latlng'>LatLng</a></code></td>
             <td><p>Возвращает центр (<a href="http://en.wikipedia.org/wiki/Centroid">centroid</a>) ломаной.</p></td>
         </tr>
         <tr id='polyline-getbounds'>
             <td><code><b>getBounds</b>()</code></td>
-            <td><code><a href='/doc/maps/en/manual/basic-types#latlngbounds'>LatLngBounds</a></code></td>
+            <td><code><a href='/doc/maps/ru/manual/basic-types#latlngbounds'>LatLngBounds</a></code></td>
             <td>Возвращает границы ломаной.</td>
         </tr>
         <tr id='polyline-addlatlng'>
@@ -367,11 +367,11 @@
 
 Методы, унаследованные от [Path](#dgpath-methods) <!-- TODO: include methods -->
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 ### DG.polygon
 
@@ -439,13 +439,13 @@
 
 Опции, унаследованные от [Path](#dgpath-options) <!-- TODO: include options -->
 
-Опции, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапов, унаследованные [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапов, унаследованные [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
@@ -455,11 +455,11 @@
 
 Методы, унаследованные от [Path](#dgpath-methods) <!-- TODO: include methods -->
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 ### DG.rectangle
 
@@ -490,7 +490,7 @@
         <tr id='rectangle-dg-rectangle'>
             <td><code>
                 <b>DG.rectangle</b>(
-                <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#latlngbounds'>LatLngBounds</a>&gt; <i>latLngBounds</i></nobr>,
+                <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#latlngbounds'>LatLngBounds</a>&gt; <i>latLngBounds</i></nobr>,
                 <nobr>&lt;Polyline options&gt; <i>options?</i>)</nobr>
             </code></td>
             <td></td>
@@ -504,14 +504,14 @@
 
 Опции, унаследованные от [Path](#dgpath-options) <!-- TODO: include options -->
 
-Опции, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапов, унаследованные [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапов, унаследованные [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
@@ -526,7 +526,7 @@
     <tbody>
         <tr id='rectangle-setbounds'>
             <td><code><b>setBounds</b>(
-                <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#latlngbounds'>LatLngBounds</a>&gt; <i>latLngBounds</i>)</nobr>
+                <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#latlngbounds'>LatLngBounds</a>&gt; <i>latLngBounds</i>)</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Перерисовывает прямоугольник с новыми границами.</td>
@@ -539,11 +539,11 @@
 
 Методы, унаследованные от [Path](#dgpath-methods) <!-- TODO: include methods -->
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 ### DG.circle
 
@@ -570,7 +570,7 @@ and starts to diverge from a real circle closer to poles (due to projection dist
         <tr id='circle-dg-circle'>
             <td><code>
                 <b>DG.circle</b>(
-                    <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#latlng'>LatLng</a>&gt; <i>latlng</i></nobr>,
+                    <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#latlng'>LatLng</a>&gt; <i>latlng</i></nobr>,
                     <nobr>&lt;<a href='#dgpath-options'>Path options</a>&gt; <i>options?</i>)</nobr>
             </code></td>
             <td>
@@ -580,7 +580,7 @@ and starts to diverge from a real circle closer to poles (due to projection dist
         </tr>
         <tr id='circle-dg-circle-2'>
             <td><code><b>DG.circle</b>(
-                <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#latlng'>LatLng</a>&gt; <i>latlng</i></nobr>,
+                <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#latlng'>LatLng</a>&gt; <i>latlng</i></nobr>,
                 <nobr>&lt;Number&gt; <i>radius</i></nobr>,
                 <nobr>&lt;<a href='#dgpath-options'>Path options</a>&gt; <i>options?</i>)</nobr>
             </code></td>
@@ -615,13 +615,13 @@ and starts to diverge from a real circle closer to poles (due to projection dist
 
 Опции, унаследованные от [Path](#dgpath-options) <!-- TODO: include options -->
 
-Опции, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапов, унаследованные [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапов, унаследованные [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
@@ -649,9 +649,9 @@ and starts to diverge from a real circle closer to poles (due to projection dist
         </tr>
         <tr id='circle-getbounds'>
             <td><code><b>getBounds</b>()</code></td>
-            <td><code><a href='/doc/maps/en/manual/basic-types#latlngbounds'>LatLngBounds</a></code></td>
+            <td><code><a href='/doc/maps/ru/manual/basic-types#latlngbounds'>LatLngBounds</a></code></td>
             <td>
-                <p>Возвращает <a href="/doc/maps/en/manual/basic-types#latlngbounds"><code>LatLngBounds</code></a>
+                <p>Возвращает <a href="/doc/maps/ru/manual/basic-types#latlngbounds"><code>LatLngBounds</code></a>
                 объекта.</p>
             </td>
         </tr>
@@ -662,11 +662,11 @@ and starts to diverge from a real circle closer to poles (due to projection dist
 
 Методы, унаследованные от [Path](#dgpath-methods) <!-- TODO: include methods -->
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 ### DG.circleMarker
 
@@ -716,14 +716,14 @@ and starts to diverge from a real circle closer to poles (due to projection dist
 
 Опции, унаследованные от [Path](#dgpath-options) <!-- TODO: include options -->
 
-Опции, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
@@ -746,13 +746,13 @@ and starts to diverge from a real circle closer to poles (due to projection dist
         </tr>
         <tr id='circlemarker-setlatlng'>
             <td><code><b>setLatLng</b>(
-                <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#latlng'>LatLng</a>&gt; <i>latLng</i>)</nobr></code></td>
+                <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#latlng'>LatLng</a>&gt; <i>latLng</i>)</nobr></code></td>
             <td><code>this</code></td>
             <td>Устанавливает географическую позицию круглого маркера.</td>
         </tr>
         <tr id='circlemarker-getlatlng'>
             <td><code><b>getLatLng</b>()</code></td>
-            <td><code><a href='/doc/maps/en/manual/basic-types#latlng'>LatLng</a></code></td>
+            <td><code><a href='/doc/maps/ru/manual/basic-types#latlng'>LatLng</a></code></td>
             <td>Возвращает текущую географическую позицию круглого маркера.</td>
         </tr>
         <tr id='circlemarker-setradius'>
@@ -770,16 +770,16 @@ and starts to diverge from a real circle closer to poles (due to projection dist
 
 Методы, унаследованные от [Path](#dgpath-methods) <!-- TODO: include methods -->
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 ### DG.svg
 
 Данный класс позволяет отображать векторные слои с помощью [SVG](https://developer.mozilla.org/docs/Web/SVG).
-Наследуется от [Renderer](/doc/maps/en/manual/base-classes#renderer).
+Наследуется от [Renderer](/doc/maps/ru/manual/base-classes#renderer).
 
 Из-за [технических ограничений](http://caniuse.com/#search=svg) SVG не доступен во всех браузерах
 (например, SVG не поддерживает Android версий 2.x и 3.x).
@@ -823,21 +823,21 @@ VML в этом случае. В 2012 году VML был признан уст�
 
 #### Опции
 
-Опции, унаследованные от [Renderer](/doc/maps/en/manual/base-classes#dgrenderer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Renderer](/doc/maps/ru/manual/base-classes#dgrenderer-options) <!-- TODO: include options -->
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 #### Функции
 
@@ -879,7 +879,7 @@ VML в этом случае. В 2012 году VML был признан уст�
 ### DG.canvas
 
 Позволяет отрисовывать векторные слои с помощью [canvas](https://developer.mozilla.org/docs/Web/API/Canvas_API).
-Наследуется от [Renderer](/doc/maps/en/manual/base-classes#renderer).
+Наследуется от [Renderer](/doc/maps/ru/manual/base-classes#renderer).
 В виду [технических ограничений](http://caniuse.com/#search=canvas) Canvas не доступен
 во всех браузерах, например в IE8, и пересекающиеся объекты могут отображаться некорректно
 в некоторых крайних случаях.
@@ -919,20 +919,20 @@ VML в этом случае. В 2012 году VML был признан уст�
 
 #### Опции
 
-Опции, унаследованные от [Renderer](/doc/maps/en/manual/base-classes#dgrenderer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Renderer](/doc/maps/ru/manual/base-classes#dgrenderer-options) <!-- TODO: include options -->
 
-Опции, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 #### События
 
-События, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
-Методы попапа, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
