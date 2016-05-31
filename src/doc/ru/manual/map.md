@@ -1698,7 +1698,9 @@ DG.Map &mdash; основной класс API, используется для 
     </tbody>
 </table>
 
-#### Методы унаследованные от Evented смотрите <a href="/doc/maps/ru/manual/events">здесь</a>.
+#### Методы, унаследованные от Evented
+
+Методы, унаследованные от Evented, смотрите [здесь](/doc/maps/ru/manual/base-classes#dgevented-methods).
 
 ### Свойства
 
