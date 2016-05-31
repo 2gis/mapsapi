@@ -124,8 +124,7 @@ DG.Marker is used to display clickable/draggable icons on the map.
 
 #### Events
 
-You can subscribe to the following events using
-<a href="/doc/maps/en/manual/events#evented-method">these methods</a>.
+You can subscribe to the following events using [these methods](a href="/doc/maps/en/manual/base-classes#dgevented-methods"). <!-- TODO: include methods -->
 
 <table>
     <thead>
@@ -217,7 +216,7 @@ Dragging events
     </tbody>
 </table>
 
-Events inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a>
+Events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
 <table>
     <thead>
@@ -241,7 +240,7 @@ Events inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a>
     </tbody>
 </table>
 
-Popup events inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a>
+Popup events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 <table>
     <thead>
@@ -340,13 +339,11 @@ Popup events inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a>
     </tbody>
 </table>
 
+Popup methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Popup methods inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
+Methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Methods inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
-
-Methods inherited from <a href="/doc/maps/en/manual/events#evented-method">Evented</a> <!-- TODO: include methods -->
-
+Methods inherited from [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 #### Interaction handlers
 
@@ -412,7 +409,7 @@ Represents an icon to provide when creating a marker.
 
 #### Options
 
-<table>
+<table id='dgicon-options'>
     <thead>
         <tr>
             <th>Option</th>
@@ -495,18 +492,18 @@ Represents an icon to provide when creating a marker.
     </tbody>
 </table>
 
-Options inherited from Layer <!-- TODO: include options -->
+Options inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 
 #### Events
 
-Events inherited from Layer <!-- TODO: include events -->
+Events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-Popup events inherited from Layer <!-- TODO: include events -->
+Popup events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Methods
 
-<table>
+<table id='dgicon-methods'>
     <thead>
         <tr>
             <th>Method</th>
@@ -532,12 +529,11 @@ Popup events inherited from Layer <!-- TODO: include events -->
     </tbody>
 </table>
 
-Popup methods inherited from Layer <!-- TODO: include methods -->
+Popup methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Methods inherited from Layer <!-- TODO: include methods -->
+Methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Methods inherited from Evented <!-- TODO: include methods -->
-
+Methods inherited from [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 ### DG.DivIcon
 
@@ -597,24 +593,24 @@ but ignores the <code>iconUrl</code> and shadow options.
 </table>
 
 
-Options inherited from Icon <!-- TODO: include options -->
+Options inherited from [Icon](#dgicon-options) <!-- TODO: include options -->
 
-Options inherited from Layer <!-- TODO: include options -->
+Options inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 
 #### Events
 
-Events inherited from Layer <!-- TODO: include events -->
+Events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-Popup events inherited from Layer <!-- TODO: include events -->
+Popup events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 
 #### Methods
 
-Methods inherited from Icon <!-- TODO: include methods -->
+Methods inherited from [Icon](#dgicon-methods) <!-- TODO: include methods -->
 
-Popup methods inherited from Layer <!-- TODO: include methods -->
+Popup methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Methods inherited from Layer <!-- TODO: include methods -->
+Methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Methods inherited from Evented <!-- TODO: include methods -->
+Methods inherited from [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->

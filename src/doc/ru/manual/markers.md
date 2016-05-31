@@ -137,7 +137,7 @@
 #### События
 
 Вы можете подписаться на следующие события используя
-<a href="/doc/maps/ru/manual/events#evented-method">методы класса Evented</a>.
+[методы класса Evented](a href="/doc/maps/ru/manual/base-classes#dgevented-methods"). <!-- TODO: include methods -->
 
 <table>
     <thead>
@@ -234,7 +234,7 @@
     </tbody>
 </table>
 
-События, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a>
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
 <table>
     <thead>
@@ -258,7 +258,7 @@
     </tbody>
 </table>
 
-События балуна, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a>
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 <table>
     <thead>
@@ -272,12 +272,12 @@
         <tr id='marker-popupopen'>
             <td><code><b>popupopen</b></code></td>
             <td><code>PopupEvent</code></td>
-            <td>Вызывается, когда открывается балун, привязанный к данному слою</td>
+            <td>Вызывается, когда открывается попап, привязанный к данному слою</td>
         </tr>
         <tr id='marker-popupclose'>
             <td><code><b>popupclose</b></code></td>
             <td><code>PopupEvent</code></td>
-            <td>Вызывается, когда закрываетс балун, привязанный к данному слою</td>
+            <td>Вызывается, когда закрываетс попап, привязанный к данному слою</td>
         </tr>
     </tbody>
 </table>
@@ -359,11 +359,11 @@
 </table>
 
 
-Методы балуна, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от <a href="/doc/maps/ru/manual/events#evented-method">Evented</a> <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 
 #### Обработчики взаимодействия
@@ -431,7 +431,7 @@
 
 #### Опции
 
-<table>
+<table id='dgicon-options'>
     <thead>
         <tr>
 			<th>Опция</th>
@@ -474,7 +474,7 @@
             <td><code><b>popupAnchor</b></code></td>
             <td><code>Point </code></td>
             <td><code>null</code></td>
-	        <td>Координаты точки, из которой будет открываться балун (относительно <code>iconAnchor</code>).</td>
+	        <td>Координаты точки, из которой будет открываться попап (относительно <code>iconAnchor</code>).</td>
         </tr>
         <tr id='icon-shadowurl'>
             <td><code><b>shadowUrl</b></code></td>
@@ -515,18 +515,18 @@
     </tbody>
 </table>
 
-Опции, унаследованные от Layer <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 
 #### События
 
-События, унаследованные от Layer <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События балуна, унаследованные от Layer <!-- TODO: include events -->
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 #### Методы
 
-<table>
+<table id='dgicon-methods'>
     <thead>
         <tr>
 			<th>Метод</th>
@@ -551,11 +551,11 @@
     </tbody>
 </table>
 
-Методы балуна, унаследованные от Layer <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от Layer <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от Evented <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
 
 
@@ -616,24 +616,24 @@
 </table>
 
 
-Опции, унаследованные от Icon <!-- TODO: include options -->
+Опции, унаследованные от [Icon](#dgicon-options) <!-- TODO: include options -->
 
-Опции, унаследованные от Layer <!-- TODO: include options -->
+Опции, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-options) <!-- TODO: include options -->
 
 
 #### События
 
-События, унаследованные от Layer <!-- TODO: include events -->
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
-События балуна, унаследованные от Layer <!-- TODO: include events -->
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 
 #### Methods
 
-Методы, унаслелованные от Icon <!-- TODO: include methods -->
+Методы, унаследованные от [Icon](#dgicon-methods) <!-- TODO: include methods -->
 
-Методы балуна, унаслелованные от Layer <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от Layer <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от Evented <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
