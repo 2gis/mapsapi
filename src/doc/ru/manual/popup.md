@@ -4,24 +4,24 @@
 
 ### Описание
 
-Балун — это всплывающее окно, в котором можно отобразить произвольный HTML-код.
-Балун связан с определенным местом на карте.
+Попап — это всплывающее окно, в котором можно отобразить произвольный HTML-код.
+Попап связан с определенным местом на карте.
 
-Для открытия балуна можно использовать метод карты
+Для открытия попапа можно использовать метод карты
 <a href="/doc/maps/ru/manual/map#map-openpopup">Map.openPopup</a>, в таком случае
-одновременно может быть открыт лишь один балун, либо метод
+одновременно может быть открыт лишь один попап, либо метод
 <a href="/doc/maps/ru/manual/map#map-addlayer">Map.addLayer</a> для отображения
-любого количества балунов.
+любого количества попапов.
 
 
 ### Пример использования
 
-Включить отображение балуна по клику на маркер довольно просто:
+Включить отображение попапа по клику на маркер довольно просто:
 
 	marker.bindPopup(popupContent).openPopup();
 
 У дополнительных слоев, таких как ломаные, также есть метод bindPopup.
-Вот более сложный пример отображения балуна:
+Вот более сложный пример отображения попапа:
 
 	var popup = DG.popup()
 		.setLatLng(latlng)
@@ -29,7 +29,7 @@
 		.openOn(map);
 
 
-### Создание балуна
+### Создание попапа
 
 <table>
     <thead>
@@ -47,9 +47,9 @@
                 </code>
             </td>
             <td>
-                Создает объект Popup с переданными опциями, описывающими внешний вид и расположение балуна.
+                Создает объект Popup с переданными опциями, описывающими внешний вид и расположение попапа.
                 Также вторым параметром можно передать объект <code>source</code>, указывающий привязку
-                балуна к определенному объекту типа Layer.
+                попапа к определенному объекту типа Layer.
             </td>
         </tr>
     </tbody>
@@ -71,20 +71,20 @@
             <td><code><b>maxWidth</b></code></td>
             <td><code>Number </code></td>
             <td><code>300</code></td>
-            <td>Максимальная ширина балуна в пикселях.</td>
+            <td>Максимальная ширина попапа в пикселях.</td>
         </tr>
         <tr id='popup-minwidth'>
             <td><code><b>minWidth</b></code></td>
             <td><code>Number </code></td>
             <td><code>50</code></td>
-            <td>Минимальная ширина балуна в пикселях.</td>
+            <td>Минимальная ширина попапа в пикселях.</td>
         </tr>
         <tr id='popup-maxheight'>
             <td><code><b>maxHeight</b></code></td>
             <td><code>Number </code></td>
             <td><code>null</code></td>
             <td>
-                Если значение установлено и содержимое балуна превышает заданную высоту,
+                Если значение установлено и содержимое попапа превышает заданную высоту,
                 создается контейнер указанной высоты со скроллом.
             </td>
         </tr>
@@ -94,7 +94,7 @@
             <td><code>true</code></td>
             <td>
                 Установите значение в false, если не хотите, чтобы карта автоматически сдвигалась
-                для полного отображения балуна.
+                для полного отображения попапа.
             </td>
         </tr>
         <tr id='popup-autopanpaddingtopleft'>
@@ -102,7 +102,7 @@
             <td><code>Point </code></td>
             <td><code>null</code></td>
             <td>
- 	            Задает расстояние от края балуна до левого верхнего угла карты при автоматическом сдвиге.
+ 	            Задает расстояние от края попапа до левого верхнего угла карты при автоматическом сдвиге.
             </td>
         </tr>
         <tr id='popup-autopanpaddingbottomright'>
@@ -110,7 +110,7 @@
             <td><code>Point </code></td>
             <td><code>null</code></td>
             <td>
-                Задает расстояние от края балуна до правого нижнего угла карты при автоматическом сдвиге.
+                Задает расстояние от края попапа до правого нижнего угла карты при автоматическом сдвиге.
             </td>
         </tr>
         <tr id='popup-autopanpadding'>
@@ -118,7 +118,7 @@
             <td><code>Point </code></td>
             <td><code>Point(5, 5)</code></td>
             <td>
-                Задает расстояние от края балуна до границы карты при автоматическом сдвиге,
+                Задает расстояние от края попапа до границы карты при автоматическом сдвиге,
                 устанавливает одинаковые значения для autoPanPaddingBottomRight и autoPanPaddingTopLeft.
             </td>
         </tr>
@@ -128,21 +128,21 @@
             <td><code>false</code></td>
             <td>
                 Установите в <code>true</code>, если необходимо предотвратить вероятность перемещения
-                балуна за пределы видимой области карты пока он открыт.
+                попапа за пределы видимой области карты пока он открыт.
             </td>
         </tr>
         <tr id='popup-closebutton'>
             <td><code><b>closeButton</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>true</code></td>
-            <td>Отвечает за отображение кнопки закрытия балуна.</td>
+            <td>Отвечает за отображение кнопки закрытия попапа.</td>
         </tr>
         <tr id='popup-offset'>
             <td><code><b>offset</b></code></td>
             <td><code>Point </code></td>
             <td><code>Point(0, 7)</code></td>
             <td>
-                Устанавливает отступ позиции балуна. Удобно для управления ножкой балуна.
+                Устанавливает отступ позиции попапа. Удобно для управления ножкой попапа.
             </td>
         </tr>
         <tr id='popup-autoclose'>
@@ -151,7 +151,7 @@
             <td><code>true</code></td>
             <td>
                 Установите эту опцию в <code>false</code>, если вы хотите изменить стандартное
-                поведение, когда балун закрывается при кликах в карту (устанавливается глобально
+                поведение, когда попап закрывается при кликах в карту (устанавливается глобально
                 с помощью метода <code>Map</code>
                 <a href="/doc/maps/ru/manual/map#map-closepopuponclick">closePopupOnClick</a>)
             </td>
@@ -161,28 +161,28 @@
             <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
-                Анимировать ли балун при масштабировании. Отключите, если есть проблемы с
-                отображением Flash содержимого внутри балуна.
+                Анимировать ли попап при масштабировании. Отключите, если есть проблемы с
+                отображением Flash содержимого внутри попапа.
             </td>
         </tr>
         <tr id='popup-classname'>
             <td><code><b>className</b></code></td>
             <td><code>String </code></td>
             <td><code>&#x27;&#x27;</code></td>
-            <td>Имя CSS-класса, которое будет назначено балуну.</td>
+            <td>Имя CSS-класса, которое будет назначено попапу.</td>
         </tr>
         <tr id='popup-pane'>
             <td><code><b>pane</b></code></td>
             <td><code>String </code></td>
             <td><code>&#x27;popupPane&#x27;</code></td>
-            <td>Панель карты, на которую будет добавлен балун.</td>
+            <td>Панель карты, на которую будет добавлен попап.</td>
         </tr>
         <tr id='popup-sprawling'>
             <td><code><b>sprawling</b></code></td>
             <td><code>Boolean</code></td>
             <td><code>false</code></td>
             <td>
-                По умолчанию, ширина балуна подстраивается под ширину его контента и под ширину карты.
+                По умолчанию, ширина попапа подстраивается под ширину его контента и под ширину карты.
                 Выставьте значение <code>true</code>, если хотите, чтобы выбиралась максимальная ширина,
                 ограниченная только шириной карты.
             </td>
@@ -216,7 +216,7 @@
     </tbody>
 </table>
 
-События балуна, унаследованные от <a href='/doc/maps/ru/manual/layers#dglayer'>Layer</a>
+События попапа, унаследованные от <a href='/doc/maps/ru/manual/layers#dglayer'>Layer</a>
 
 <table>
     <thead>
@@ -230,12 +230,12 @@
         <tr id='popup-popupopen'>
             <td><code><b>popupopen</b></code></td>
             <td><code>PopupEvent</code></td>
-            <td>Вызывается при открытии балуна.</td>
+            <td>Вызывается при открытии попапа.</td>
         </tr>
         <tr id='popup-popupclose'>
             <td><code><b>popupclose</b></code></td>
             <td><code>PopupEvent</code></td>
-            <td>Вызывается при закрытии балуна.</td>
+            <td>Вызывается при закрытии попапа.</td>
         </tr>
     </tbody>
 </table>
@@ -257,24 +257,24 @@
         </code></td>
 		<td><code>this</code></td>
 		<td>
-            <p>Добавляет балун на карту, предварительно закрыв другие балуны. Аналогично map.openPopup(popup).</p>
+            <p>Добавляет попап на карту, предварительно закрыв другие попапы. Аналогично map.openPopup(popup).</p>
         </td>
 	</tr>
 	<tr id='popup-getlatlng'>
 		<td><code><b>getLatLng</b>()</code></td>
 		<td><code><a href='/doc/maps/ru/manual/basic-types#dglatlng'>LatLng</a></code></td>
-		<td><p>Возвращает географические координаты точки открытия балуна.</p></td>
+		<td><p>Возвращает географические координаты точки открытия попапа.</p></td>
 	</tr>
 	<tr id='popup-setlatlng'>
 		<td><code><b>setLatLng</b>(
             <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#dglatlng'>LatLng</a>&gt; <i>latlng</i>)</nobr></code></td>
 		<td><code>this</code></td>
-		<td><p>Устанавливает географические координаты точки открытия балуна.</p></td>
+		<td><p>Устанавливает географические координаты точки открытия попапа.</p></td>
 	</tr>
 	<tr id='popup-getcontent'>
 		<td><code><b>getContent</b>()</code></td>
 		<td><code>String|HTMLElement</code></td>
-		<td><p>Возвращает содержимое основной части балуна.</p></td>
+		<td><p>Возвращает содержимое основной части попапа.</p></td>
 	</tr>
 	<tr id='popup-setcontent'>
 		<td><code><b>setContent</b>(
@@ -282,7 +282,7 @@
         </code></td>
 		<td><code>this</code></td>
 		<td>
-            Задает содержимое основной части балуна. Может принимать HTML строку или DOM-элемент.
+            Задает содержимое основной части попапа. Может принимать HTML строку или DOM-элемент.
             Если метод получает функцию, данной функции будет передан исходный слой. Функция должна возвращать
             <code>String</code> или <code>HTMLElement</code>
         </td>
@@ -290,26 +290,26 @@
 	<tr id='popup-getheadercontent'>
 		<td><code><b>getHeaderContent</b>()</code></td>
 		<td><code>String|HTMLElement</code></td>
-		<td><p>Возвращает содержимое секции header балуна.</p></td>
+		<td><p>Возвращает содержимое секции header попапа.</p></td>
 	</tr>
 	<tr id='popup-setheadercontent'>
 		<td><code><b>setHeaderContent</b>(
             <nobr>&lt;String|HTMLElement&gt; <i>htmlContent</i>)</nobr>
         </code></td>
 		<td><code>this</code></td>
-		<td><p>Задает содержимое секции header балуна. Может принимать HTML строку или DOM-элемент.</p></td>
+		<td><p>Задает содержимое секции header попапа. Может принимать HTML строку или DOM-элемент.</p></td>
 	</tr>
 	<tr id='popup-getfootercontent'>
 		<td><code><b>getFooterContent</b>()</code></td>
 		<td><code>String|HTMLElement</code></td>
-		<td><p>Возвращает содержимое секции footer балуна.</p></td>
+		<td><p>Возвращает содержимое секции footer попапа.</p></td>
 	</tr>
 	<tr id='popup-setfootercontent'>
 		<td><code><b>setFooterContent</b>(
             <nobr>&lt;String|HTMLElement&gt; <i>htmlContent</i>)</nobr>
         </code></td>
 		<td><code>this</code></td>
-		<td><p>Задает содержимое секции footer балуна. Может принимать HTML строку или DOM-элемент.</p></td>
+		<td><p>Задает содержимое секции footer попапа. Может принимать HTML строку или DOM-элемент.</p></td>
 	</tr>
 	<tr id='popup-getelement'>
 		<td><code><b>getElement</b>()</code></td>
@@ -320,29 +320,29 @@
 		<td><code><b>update</b>()</code></td>
 		<td><code>null</code></td>
 		<td>
-            <p>Обновляет содержимое балуна, разметку и позиционирование. Полезно при обновлении
-            балуна, когда внутри него что-то изменилось, например, загрузилось изображение.</p>
+            <p>Обновляет содержимое попапа, разметку и позиционирование. Полезно при обновлении
+            попапа, когда внутри него что-то изменилось, например, загрузилось изображение.</p>
         </td>
 	</tr>
 	<tr id='popup-isopen'>
 		<td><code><b>isOpen</b>()</code></td>
 		<td><code>Boolean</code></td>
-        <td><p>Возвращает <code>true</code>, когда балун отображается на карте.</p></td>
+        <td><p>Возвращает <code>true</code>, когда попап отображается на карте.</p></td>
 	</tr>
 	<tr id='popup-bringtofront'>
 		<td><code><b>bringToFront</b>()</code></td>
 		<td><code>this</code></td>
-		<td><p>Помещает данный балун выше других балунов (в пределах одной панели карты)</p></td>
+		<td><p>Помещает данный попап выше других попапов (в пределах одной панели карты)</p></td>
 	</tr>
 	<tr id='popup-bringtoback'>
 		<td><code><b>bringToBack</b>()</code></td>
 		<td><code>this</code></td>
-		<td><p>Помещает данный балун под другими балунами (в пределах одной панели карты)</p></td>
+		<td><p>Помещает данный попап под другими попапами (в пределах одной панели карты)</p></td>
 	</tr>
     </tbody>
 </table>
 
-Методы балуна, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
+Методы попапа, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
 
 Методы, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
 
