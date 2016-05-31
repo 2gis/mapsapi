@@ -5,9 +5,9 @@
 ### Description
 
 Used to open popups in certain places of the map. Use
-<a href="/doc/maps/en/manual/map#map-openpopup">Map.openPopup</a> to
+[Map.openPopup](/doc/maps/en/manual/map#map-openpopup) to
 open popups while making sure that only one popup is open at one time
-(recommended for usability), or use <a href="/doc/maps/en/manual/map#map-addlayer">Map.addLayer</a>
+(recommended for usability), or use [Map.addLayer](/doc/maps/en/manual/map#map-addlayer)
 to open as many as you want.
 
 ### Usage example
@@ -183,7 +183,7 @@ Here&#39;s a more complicated way to open a popup on a map:
 
 ### Events
 
-Events inherited from <a href='/doc/maps/en/manual/layers#dglayer'>Layer</a>
+Events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
 <table>
     <thead>
@@ -207,7 +207,7 @@ Events inherited from <a href='/doc/maps/en/manual/layers#dglayer'>Layer</a>
     </tbody>
 </table>
 
-Popup events inherited from Layer<a href='/doc/maps/en/manual/layers#dglayer'>Layer</a>
+Popup events inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 <table>
     <thead>
@@ -342,10 +342,8 @@ Popup events inherited from Layer<a href='/doc/maps/en/manual/layers#dglayer'>La
     </tbody>
 </table>
 
- Layer
+Popup methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Popup methods inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
+Methods inherited from [Layer](/doc/maps/en/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Methods inherited from <a href='/doc/maps/en/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
-
-Methods inherited from <a href="/doc/maps/en/manual/events#evented-method">Evented</a> <!-- TODO: include methods -->
+Methods inherited from [Evented](/doc/maps/en/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->

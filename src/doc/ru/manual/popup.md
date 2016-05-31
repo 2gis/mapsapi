@@ -8,9 +8,9 @@
 Попап связан с определенным местом на карте.
 
 Для открытия попапа можно использовать метод карты
-<a href="/doc/maps/ru/manual/map#map-openpopup">Map.openPopup</a>, в таком случае
+[Map.openPopup](/doc/maps/ru/manual/map#map-openpopup), в таком случае
 одновременно может быть открыт лишь один попап, либо метод
-<a href="/doc/maps/ru/manual/map#map-addlayer">Map.addLayer</a> для отображения
+[Map.addLayer](/doc/maps/ru/manual/map#map-addlayer) для отображения
 любого количества попапов.
 
 
@@ -25,7 +25,7 @@
 
 	var popup = DG.popup()
 		.setLatLng(latlng)
-		.setContent(&#39;&lt;p&gt;Hello world!&lt;br /&gt;This is a nice popup.&lt;/p&gt;&#39;)
+		.setContent(&#39;&lt;p&gt;Привет мир!&lt;br /&gt;Это попап.&lt;/p&gt;&#39;)
 		.openOn(map);
 
 
@@ -192,7 +192,7 @@
 
 ### События
 
-События, унаследованные от <a href='/doc/maps/ru/manual/layers#dglayer'>Layer</a>
+События, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-events) <!-- TODO: include events -->
 
 <table>
     <thead>
@@ -216,7 +216,7 @@
     </tbody>
 </table>
 
-События попапа, унаследованные от <a href='/doc/maps/ru/manual/layers#dglayer'>Layer</a>
+События попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-events) <!-- TODO: include popup events -->
 
 <table>
     <thead>
@@ -342,8 +342,8 @@
     </tbody>
 </table>
 
-Методы попапа, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
+Методы попапа, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-popup-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от <a href='/doc/maps/ru/manual/layers#layer'>Layer</a> <!-- TODO: include methods -->
+Методы, унаследованные от [Layer](/doc/maps/ru/manual/base-classes#dglayer-methods) <!-- TODO: include methods -->
 
-Методы, унаследованные от <a href="/doc/maps/ru/manual/events#evented-method">Evented</a> <!-- TODO: include methods -->
+Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
