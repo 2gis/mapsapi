@@ -56,7 +56,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-prefercanvas'>
             <td><code><b>preferCanvas</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 Должны ли экземпляры <a href="/doc/maps/ru/manual/geometries#dgpath"><code>Path</code></a>
@@ -121,7 +121,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-zoomsnap'>
             <td><code><b>zoomSnap</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>1</code></td>
             <td>
                 Всегда приводит уровень масштабирования к значению кратному данному параметру. Приведение
@@ -135,7 +135,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-zoomdelta'>
             <td><code><b>zoomDelta</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>1</code></td>
             <td>
                 Управляет тем, насколько изменится уровень масштаба после
@@ -148,19 +148,19 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-trackresize'>
             <td><code><b>trackResize</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>Обновляется ли карта при изменении размера окна браузера.</td>
         </tr>
         <tr id='map-boxzoom'>
             <td><code><b>boxZoom</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>Может ли масштаб карты быть изменен с помощью box-масштабирования (shift + выделение мышкой).</td>
         </tr>
         <tr id='map-doubleclickzoom'>
             <td><code><b>doubleClickZoom</b></code></td>
-            <td><code>Boolean|String </code>
+            <td><code>Boolean|String </code></td>
             <td><code>true</code></td>
             <td>
                 Разрешено ли увеличивать масштаб карты двойным кликом мышки (удерживание Shift позволяет уменьшать
@@ -170,7 +170,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-dragging'>
             <td><code><b>dragging</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>Разрешено ли перетаскивать карту мышкой или тачем.</td>
         </tr>
@@ -197,7 +197,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-tilescheck'>
             <td><code><b>tilesCheck</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Возвращается ли карта к предыдущему состоянию, если на целевом уровне
@@ -221,19 +221,19 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-center'>
             <td><code><b>center</b></code></td>
-            <td><code>LatLng </code>
+            <td><code>LatLng </code></td>
             <td><code>undefined</code></td>
             <td>Начальный географический центр карты.</td>
         </tr>
         <tr id='map-zoom'>
             <td><code><b>zoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>undefined</code></td>
             <td>Начальный уровень масштаба.</td>
         </tr>
         <tr id='map-minzoom'>
             <td><code><b>minZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>undefined</code></td>
             <td>
                 Минимальный уровень масштабируемости карты. Переопределяет свойство <code>minZoom</code>
@@ -242,7 +242,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-maxzoom'>
             <td><code><b>maxZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>undefined</code></td>
             <td>
                 Максимальный уровень масштабируемости карты. Переопределяет свойство <code>maxZoom</code>
@@ -251,13 +251,13 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-layers'>
             <td><code><b>layers</b></code></td>
-            <td><code>Layer[] </code>
+            <td><code>Layer[] </code></td>
             <td><code>[]</code></td>
             <td>Массив слоев, которые изначально будут добавлены на карту.</td>
         </tr>
         <tr id='map-maxbounds'>
             <td><code><b>maxBounds</b></code></td>
-            <td><code>LatLngBounds </code>
+            <td><code>LatLngBounds </code></td>
             <td><code>null</code></td>
             <td>
                 Если свойство установлено, карта ограничивает область просмотра согласно заданным географическим
@@ -269,7 +269,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-renderer'>
             <td><code><b>renderer</b></code></td>
-            <td><code>Renderer </code>
+            <td><code>Renderer </code></td>
             <td><code>*</code></td>
             <td>
                 Метод, который используется для отрисовки векторных слоев на карте.
@@ -281,7 +281,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-poi'>
             <td><code><b>poi</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Отображать ли точки интереса на карте.
@@ -304,7 +304,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-fadeanimation'>
             <td><code><b>fadeAnimation</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Включена ли анимация затухания тайлов. По умолчанию включена во всех браузерах
@@ -313,7 +313,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-markerzoomanimation'>
             <td><code><b>markerZoomAnimation</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Включена ли анимация масштабирования маркеров при анимации масштабирования карты,
@@ -323,7 +323,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-transform3dlimit'>
             <td><code><b>transform3DLimit</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>2^23</code></td>
             <td>
                 Определяет максимальное значение CSS translation transform. Значение по умолчанию
@@ -333,7 +333,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-zoomanimation'>
             <td><code><b>zoomAnimation</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Включена ли анимация масштабирования тайлов. По умолчанию включена во всех браузерах
@@ -342,7 +342,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-zoomanimationthreshold'>
             <td><code><b>zoomAnimationThreshold</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>4</code></td>
             <td>Порог, начиная с которого будет отключаться анимация масштабирования.</td>
         </tr>
@@ -363,7 +363,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-inertia'>
             <td><code><b>inertia</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>*</code></td>
             <td>
                 Если опция включена, тогда создается эффект инерции при движении карты &mdash; при
@@ -374,31 +374,31 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-inertiadeceleration'>
             <td><code><b>inertiaDeceleration</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>3000</code></td>
             <td>Величина, на которую замедляется движение карты, указывается в пикселях/секунду<sup>2</sup>.</td>
         </tr>
         <tr id='map-inertiamaxspeed'>
             <td><code><b>inertiaMaxSpeed</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>Infinity</code></td>
             <td>Максимальная скорость инерционного движения, указывается в пикселях/секунду.</td>
         </tr>
         <tr id='map-easelinearity'>
             <td><code><b>easeLinearity</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>0.2</code></td>
             <td></td>
         </tr>
         <tr id='map-worldcopyjump'>
             <td><code><b>worldCopyJump</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>Опция позволяет зациклить просмотр карты с сохранением слоев и маркеров на ней.</td>
         </tr>
         <tr id='map-maxboundsviscosity'>
             <td><code><b>maxBoundsViscosity</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>0.0</code></td>
             <td>
                 Если установлено свойство <code>maxBounds</code>, эта опция позволяет контролировать
@@ -426,7 +426,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-keyboard'>
             <td><code><b>keyboard</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Устанавливает фокус на карту и позволяет перемещаться по карте с помощью
@@ -435,7 +435,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-keyboardpandelta'>
             <td><code><b>keyboardPanDelta</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>80</code></td>
             <td>Указывает, на сколько пикселей сдвинется карта при нажатии стрелки на клавиатуре.</td>
         </tr>
@@ -456,7 +456,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-scrollwheelzoom'>
             <td><code><b>scrollWheelZoom</b></code></td>
-            <td><code>Boolean|String </code>
+            <td><code>Boolean|String </code></td>
             <td><code>true</code></td>
             <td>
                 Можно ли изменять масштаб карты с помощью колеса мышки. Если в качестве параметра
@@ -467,7 +467,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-wheeldebouncetime'>
             <td><code><b>wheelDebounceTime</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>40</code></td>
             <td>
                 Ограничевает частоту, с которой кручение колеса мышки будет отправлять событие на изменение
@@ -477,7 +477,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-wheelpxperzoomlevel'>
             <td><code><b>wheelPxPerZoomLevel</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>50</code></td>
             <td>
                 Какое количество пикселей прокрутки (можно определить через
@@ -503,7 +503,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-tap'>
             <td><code><b>tap</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Активирует поддержку мгновенных тапов (отключение задержки в 200мс в iOS/Android) 
@@ -512,7 +512,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-taptolerance'>
             <td><code><b>tapTolerance</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>15</code></td>
             <td>
                 Максимальное число пикселей, на которое пользователь может сдвинуть свой палец во
@@ -521,7 +521,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-touchzoom'>
             <td><code><b>touchZoom</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>*</code></td>
             <td>
                 Разрешено ли изменять масштаб карты двумя пальцами на тач-устройствах.
@@ -533,7 +533,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-bounceatzoomlimits'>
             <td><code><b>bounceAtZoomLimits</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Если <code>true</code>, карта будет возвращаться к допустимому масштабу,
@@ -658,7 +658,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-projectchange'>
             <td><code><b>projectchange</b></code></td>
-            <td><code><a href="/doc/maps/ru/manual/events#projectevent">ProjectEvent</a></code>
+            <td><code><a href="/doc/maps/ru/manual/events#projectevent">ProjectEvent</a></code></td>
             <td>
                 Вызывается при перемещении пользователя из одного
                 <a href="#map-projectdetector">проекта 2ГИС</a> в другой.
@@ -666,7 +666,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-projectleave'>
             <td><code><b>projectleave</b></code></td>
-            <td><code><a href="/doc/maps/ru/manual/events#projectevent">ProjectEvent</a></code>
+            <td><code><a href="/doc/maps/ru/manual/events#projectevent">ProjectEvent</a></code></td>
             <td>
                 Вызывается при выходе пользователя из текущего
                 <a href="#map-projectdetector">проекта 2ГИС</a>.
@@ -674,17 +674,17 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='map-entranceshow'>
             <td><code><b>entranceshow</b></code></td>
-            <td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code></td>
             <td>Вызывается при отображении входа в здание.</td>
         </tr>
         <tr id='map-entrancehide'>
             <td><code><b>entrancehide</b></code></td>
-            <td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code></td>
             <td>Вызывается при скрытии входа в здание.</td>
         </tr>
         <tr id='map-poihover'>
             <td><code><b>poihover</b></code></td>
-            <td><code><a href="/doc/maps/ru/manual/events#poievent">MetaEvent</a></code>
+            <td><code><a href="/doc/maps/ru/manual/events#poievent">MetaEvent</a></code></td>
             <td>Вызывается при наведении курсора мышки на точку интереса.</td>
         </tr>
         <tr id='map-poileave'>
@@ -1816,37 +1816,37 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='map-mappane'>
             <td><code><b>mapPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>&#x27;auto&#x27;</code></td>
             <td>Панель, содержащая в себе все другие панели</td>
         </tr>
         <tr id='map-tilepane'>
             <td><code><b>tilePane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>2</code></td>
             <td>Панель для тайловых слоев</td>
         </tr>
         <tr id='map-overlaypane'>
             <td><code><b>overlayPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>4</code></td>
             <td>Панель геометрий, таких как ломаные и многоугольники.</td>
         </tr>
         <tr id='map-shadowpane'>
             <td><code><b>shadowPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>5</code></td>
             <td>Панель для наложения теней (например, тень маркеров).</td>
         </tr>
         <tr id='map-markerpane'>
             <td><code><b>markerPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>6</code></td>
             <td>Панель маркеров.</td>
         </tr>
         <tr id='map-popuppane'>
             <td><code><b>popupPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>7</code></td>
             <td>Панель балунов.</td>
         </tr>
@@ -1870,7 +1870,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
         <tr id='locate-options-watch'>
             <td><code><b>watch</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 Если <code>true</code>, тогда постоянно отслеживает изменения местоположения (вместо определения
@@ -1880,7 +1880,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='locate-options-setview'>
             <td><code><b>setView</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 Если <code>true</code>, тогда автоматически устанавливает область просмотра карты в
@@ -1890,7 +1890,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='locate-options-maxzoom'>
             <td><code><b>maxZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>Infinity</code></td>
             <td>The maximum zoom for automatic view setting when using <code>setView</code> option.</td>
             <td>
@@ -1900,7 +1900,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='locate-options-timeout'>
             <td><code><b>timeout</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>10000</code></td>
             <td>
                 Количество миллисекунд ожидания ответа геолокации, перед тем как вызовется
@@ -1909,7 +1909,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='locate-options-maximumage'>
             <td><code><b>maximumAge</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>0</code></td>
             <td>
                 Максимальное время жизни данных местоположения. Если с момента последнего поиска
@@ -1919,7 +1919,7 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='locate-options-enablehighaccuracy'>
             <td><code><b>enableHighAccuracy</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 Включает функцию повышения точности, см. 
@@ -2037,7 +2037,7 @@ DG.Map &mdash; основной класс API, используется для 
     <tbody>
 	<tr id='fitbounds-options-paddingtopleft'>
 		<td><code><b>paddingTopLeft</b></code></td>
-		<td><code>Point </code>
+		<td><code>Point </code></td>
 		<td><code>[0, 0]</code></td>
         <td>
             Задает отступ от верхнего левого угла контейнера карты, который не должен учитываться
@@ -2047,19 +2047,19 @@ DG.Map &mdash; основной класс API, используется для 
         </tr>
         <tr id='fitbounds-options-paddingbottomright'>
             <td><code><b>paddingBottomRight</b></code></td>
-            <td><code>Point </code>
+            <td><code>Point </code></td>
             <td><code>[0, 0]</code></td>
             <td>То же самое, но для нижнего правого угла карты.</td>
         </tr>
         <tr id='fitbounds-options-padding'>
             <td><code><b>padding</b></code></td>
-            <td><code>Point </code>
+            <td><code>Point </code></td>
             <td><code>[0, 0]</code></td>
             <td>Эквивалентно установке и верхнего левого, и нижнего правого отступов в одинаковые значения.</td>
         </tr>
         <tr id='fitbounds-options-maxzoom'>
             <td><code><b>maxZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>null</code></td>
             <td>Максимальный возможный уровень зума.</td>
         </tr>

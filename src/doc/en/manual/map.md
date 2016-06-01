@@ -58,7 +58,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-prefercanvas'>
             <td><code><b>preferCanvas</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 Whether <a href="/doc/maps/en/manual/geometries#dgpath"><code>Path</code></a>s 
@@ -84,7 +84,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-zoomcontrol'>
             <td><code><b>zoomControl</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether a <a href="/doc/maps/en/manual/controls#control-zoom">zoom control</a> 
@@ -93,7 +93,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-fullscreencontrol'>
             <td><code><b>fullscreenControl</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether a <a href="/doc/maps/en/manual/controls#fullscreen">fullscreen control</a>
@@ -117,13 +117,13 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-closepopuponclick'>
             <td><code><b>closePopupOnClick</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>Set it to <code>false</code> if you don&#39;t want popups to close when user clicks the map.</td>
         </tr>
         <tr id='map-zoomsnap'>
             <td><code><b>zoomSnap</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>1</code></td>
             <td>
                 Forces the map&#39;s zoom level to always be a multiple of this,
@@ -136,7 +136,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-zoomdelta'>
             <td><code><b>zoomDelta</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>1</code></td>
             <td>
                 Controls how much the map&#39;s zoom level will change after a
@@ -149,13 +149,13 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-trackresize'>
             <td><code><b>trackResize</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>Whether the map automatically handles browser window resize to update itself.</td>
         </tr>
         <tr id='map-boxzoom'>
             <td><code><b>boxZoom</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether the map can be zoomed to a rectangular area specified by dragging
@@ -164,7 +164,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-doubleclickzoom'>
             <td><code><b>doubleClickZoom</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether the map can be zoomed in by double clicking on it and zoomed out by
@@ -174,7 +174,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-dragging'>
             <td><code><b>dragging</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>Whether the map be draggable with mouse/touch or not.</td>
         </tr>
@@ -196,7 +196,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-tilescheck'>
             <td><code><b>tilesCheck</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 <!-- TODO: translation -->
@@ -219,37 +219,37 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-center'>
             <td><code><b>center</b></code></td>
-            <td><code>LatLng </code>
+            <td><code>LatLng </code></td>
             <td><code>undefined</code></td>
             <td>Initial geographic center of the map</td>
         </tr>
         <tr id='map-zoom'>
             <td><code><b>zoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>undefined</code></td>
             <td>Initial map zoom level</td>
         </tr>
         <tr id='map-minzoom'>
             <td><code><b>minZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>undefined</code></td>
             <td>Minimum zoom level of the map. Overrides any <code>minZoom</code> option set on map layers.</td>
         </tr>
         <tr id='map-maxzoom'>
             <td><code><b>maxZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>undefined</code></td>
             <td>Maximum zoom level of the map. Overrides any <code>maxZoom</code> option set on map layers.</td>
         </tr>
         <tr id='map-layers'>
             <td><code><b>layers</b></code></td>
-            <td><code>Layer[] </code>
+            <td><code>Layer[] </code></td>
             <td><code>[]</code></td>
             <td>Array of layers that will be added to the map initially</td>
         </tr>
         <tr id='map-maxbounds'>
             <td><code><b>maxBounds</b></code></td>
-            <td><code>LatLngBounds </code>
+            <td><code>LatLngBounds </code></td>
             <td><code>null</code></td>
             <td>
                 When this option is set, the map restricts the view to the given geographical bounds,
@@ -258,7 +258,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-renderer'>
             <td><code><b>renderer</b></code></td>
-            <td><code>Renderer </code>
+            <td><code>Renderer </code></td>
             <td><code>*</code></td>
             <td>
                 The default method for drawing vector layers on the map.
@@ -269,7 +269,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-poi'>
             <td><code><b>poi</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 <!-- TODO: translation -->
@@ -292,7 +292,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-fadeanimation'>
             <td><code><b>fadeAnimation</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether the tile fade animation is enabled. By default it&#39;s enabled
@@ -301,7 +301,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-markerzoomanimation'>
             <td><code><b>markerZoomAnimation</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether markers animate their zoom with the zoom animation, if disabled they
@@ -311,7 +311,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-transform3dlimit'>
             <td><code><b>transform3DLimit</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>2^23</code></td>
             <td>
                 Defines the maximum size of a CSS translation transform. The default value should
@@ -321,7 +321,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-zoomanimation'>
             <td><code><b>zoomAnimation</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether the map zoom animation is enabled. By default it&#39;s enabled in all browsers
@@ -330,7 +330,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-zoomanimationthreshold'>
             <td><code><b>zoomAnimationThreshold</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>4</code></td>
             <td>Won&#39;t animate zoom if the zoom difference exceeds this value.</td>
         </tr>
@@ -351,7 +351,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-inertia'>
             <td><code><b>inertia</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>*</code></td>
             <td>
                 If enabled, panning of the map will have an inertia effect where the map builds
@@ -362,25 +362,25 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-inertiadeceleration'>
             <td><code><b>inertiaDeceleration</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>3000</code></td>
             <td>The rate with which the inertial movement slows down, in pixels/second².</td>
         </tr>
         <tr id='map-inertiamaxspeed'>
             <td><code><b>inertiaMaxSpeed</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>Infinity</code></td>
             <td>Max speed of the inertial movement, in pixels/second.</td>
         </tr>
         <tr id='map-easelinearity'>
             <td><code><b>easeLinearity</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>0.2</code></td>
             <td></td>
         </tr>
         <tr id='map-worldcopyjump'>
             <td><code><b>worldCopyJump</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 With this option enabled, the map tracks when you pan to another &quot;copy&quot;
@@ -390,7 +390,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-maxboundsviscosity'>
             <td><code><b>maxBoundsViscosity</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>0.0</code></td>
             <td>
                 If <code>maxBounds</code> is set, this option will control how solid the bounds
@@ -417,7 +417,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-keyboard'>
             <td><code><b>keyboard</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Makes the map focusable and allows users to navigate the map with keyboard
@@ -426,7 +426,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-keyboardpandelta'>
             <td><code><b>keyboardPanDelta</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>80</code></td>
             <td>Amount of pixels to pan when pressing an arrow key.</td>
         </tr>
@@ -447,7 +447,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-scrollwheelzoom'>
             <td><code><b>scrollWheelZoom</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Whether the map can be zoomed by using the mouse wheel. If passed
@@ -456,7 +456,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-wheeldebouncetime'>
             <td><code><b>wheelDebounceTime</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>40</code></td>
             <td>
                 Limits the rate at which a wheel can fire (in milliseconds). By default
@@ -465,7 +465,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-wheelpxperzoomlevel'>
             <td><code><b>wheelPxPerZoomLevel</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>50</code></td>
             <td>
                 How many scroll pixels (as reported by
@@ -491,7 +491,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
     <tbody>
         <tr id='map-tap'>
             <td><code><b>tap</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Enables mobile hacks for supporting instant taps (fixing 200ms click
@@ -500,7 +500,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-taptolerance'>
             <td><code><b>tapTolerance</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>15</code></td>
             <td>
                 The max number of pixels a user can shift his finger during touch
@@ -509,7 +509,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-touchzoom'>
             <td><code><b>touchZoom</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>*</code></td>
             <td>
                 Whether the map can be zoomed by touch-dragging with two fingers. If
@@ -520,7 +520,7 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-bounceatzoomlimits'>
             <td><code><b>bounceAtZoomLimits</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>true</code></td>
             <td>
                 Set it to false if you don&#39;t want the map to zoom beyond min/max zoom
@@ -642,31 +642,31 @@ initialize the map on the &quot;map&quot; div with a given center and zoom:
         </tr>
         <tr id='map-projectchange'>
             <td><code><b>projectchange</b></code></td>
-            <td><code><a href="/doc/maps/en/manual/events#projectevent">ProjectEvent</a></code>
+            <td><code><a href="/doc/maps/en/manual/events#projectevent">ProjectEvent</a></code></td>
             <td>
                 <!-- TODO: translation -->
             </td>
         </tr>
         <tr id='map-projectleave'>
             <td><code><b>projectleave</b></code></td>
-            <td><code><a href="/doc/maps/en/manual/events#projectevent">ProjectEvent</a></code>
+            <td><code><a href="/doc/maps/en/manual/events#projectevent">ProjectEvent</a></code></td>
             <td>
                 <!-- TODO: translation -->
             </td>
         </tr>
         <tr id='map-entranceshow'>
             <td><code><b>entranceshow</b></code></td>
-            <td><code><a href="/doc/maps/en/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/en/manual/events#event">Event</a></code></td>
             <td><!-- TODO: translation --></td>
         </tr>
         <tr id='map-entrancehide'>
             <td><code><b>entrancehide</b></code></td>
-            <td><code><a href="/doc/maps/en/manual/events#event">Event</a></code>
+            <td><code><a href="/doc/maps/en/manual/events#event">Event</a></code></td>
             <td><!-- TODO: translation --></td>
         </tr>
         <tr id='map-poihover'>
             <td><code><b>poihover</b></code></td>
-            <td><code><a href="/doc/maps/en/manual/events#poievent">MetaEvent</a></code>
+            <td><code><a href="/doc/maps/en/manual/events#poievent">MetaEvent</a></code></td>
             <td><!-- TODO: translation --></td>
         </tr>
         <tr id='map-poileave'>
@@ -1795,37 +1795,37 @@ Every map has the following default panes that differ only in zIndex.
     <tbody>
         <tr id='map-mappane'>
             <td><code><b>mapPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>&#x27;auto&#x27;</code></td>
             <td>Pane that contains all other map panes</td>
         </tr>
         <tr id='map-tilepane'>
             <td><code><b>tilePane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>2</code></td>
             <td>Pane for tile layers</td>
         </tr>
         <tr id='map-overlaypane'>
             <td><code><b>overlayPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>4</code></td>
             <td>Pane for overlays like polylines and polygons</td>
         </tr>
         <tr id='map-shadowpane'>
             <td><code><b>shadowPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>5</code></td>
             <td>Pane for overlay shadows (e.g. marker shadows)</td>
         </tr>
         <tr id='map-markerpane'>
             <td><code><b>markerPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>6</code></td>
             <td>Pane for marker icons</td>
         </tr>
         <tr id='map-popuppane'>
             <td><code><b>popupPane</b></code></td>
-            <td><code>HTMLElement </code>
+            <td><code>HTMLElement </code></td>
             <td><code>7</code></td>
             <td>Pane for popups.</td>
         </tr>
@@ -1848,7 +1848,7 @@ Some of the geolocation methods for <a href="#map"><code>Map</code></a> take in 
     <tbody>
         <tr id='locate-options-watch'>
             <td><code><b>watch</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 If <code>true</code>, starts continous watching of location changes (instead of detecting it
@@ -1858,7 +1858,7 @@ Some of the geolocation methods for <a href="#map"><code>Map</code></a> take in 
         </tr>
         <tr id='locate-options-setview'>
             <td><code><b>setView</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 If <code>true</code>, automatically sets the map view to the user location with respect to
@@ -1867,13 +1867,13 @@ Some of the geolocation methods for <a href="#map"><code>Map</code></a> take in 
         </tr>
         <tr id='locate-options-maxzoom'>
             <td><code><b>maxZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>Infinity</code></td>
             <td>The maximum zoom for automatic view setting when using <code>setView</code> option.</td>
         </tr>
         <tr id='locate-options-timeout'>
             <td><code><b>timeout</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>10000</code></td>
             <td>
                 Number of milliseconds to wait for a response from geolocation before firing a
@@ -1882,7 +1882,7 @@ Some of the geolocation methods for <a href="#map"><code>Map</code></a> take in 
         </tr>
         <tr id='locate-options-maximumage'>
             <td><code><b>maximumAge</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>0</code></td>
             <td>
                 Maximum age of detected location. If less than this amount of milliseconds
@@ -1891,7 +1891,7 @@ Some of the geolocation methods for <a href="#map"><code>Map</code></a> take in 
         </tr>
         <tr id='locate-options-enablehighaccuracy'>
             <td><code><b>enableHighAccuracy</b></code></td>
-            <td><code>Boolean </code>
+            <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>
                 Enables high accuracy, see
@@ -2005,7 +2005,7 @@ Options inherited from <a href='#pan-options'>Pan options</a>
     <tbody>
 	<tr id='fitbounds-options-paddingtopleft'>
 		<td><code><b>paddingTopLeft</b></code></td>
-		<td><code>Point </code>
+		<td><code>Point </code></td>
 		<td><code>[0, 0]</code></td>
 		<td>
             Sets the amount of padding in the top left corner of a map container that
@@ -2016,19 +2016,19 @@ Options inherited from <a href='#pan-options'>Pan options</a>
         </tr>
         <tr id='fitbounds-options-paddingbottomright'>
             <td><code><b>paddingBottomRight</b></code></td>
-            <td><code>Point </code>
+            <td><code>Point </code></td>
             <td><code>[0, 0]</code></td>
             <td>The same for the bottom right corner of the map.</td>
         </tr>
         <tr id='fitbounds-options-padding'>
             <td><code><b>padding</b></code></td>
-            <td><code>Point </code>
+            <td><code>Point </code></td>
             <td><code>[0, 0]</code></td>
             <td>Equivalent of setting both top left and bottom right padding to the same value.</td>
         </tr>
         <tr id='fitbounds-options-maxzoom'>
             <td><code><b>maxZoom</b></code></td>
-            <td><code>Number </code>
+            <td><code>Number </code></td>
             <td><code>null</code></td>
             <td>The maximum possible zoom to use.</td>
         </tr>
