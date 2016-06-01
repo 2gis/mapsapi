@@ -404,58 +404,57 @@ GeoJSON и отобразить их на карте. Расширяет <a href
 
 ### DG.GridLayer
 
-Generic class for handling a tiled grid of HTML elements. This is the base class for all tile layers and
-replaces <code>TileLayer.Canvas</code>. GridLayer can be extended to create a tiled grid of HTML Elements
-like <code>&lt;canvas&gt;</code>, <code>&lt;img&gt;</code> or <code>&lt;div&gt;</code>. GridLayer will
-handle creating and animating these DOM elements for you.
+Универсальный класс для обработки тайловой сетки из HTML элементов. Это базовый класс, от которого наследуются
+все тайловые слои. Поддерживает создание, анимацию и другие действия с элементами, представляющими тайл, такими
+как <code>&lt;canvas&gt;</code>, <code>&lt;img&gt;</code> или <code>&lt;div&gt;</code>.
 
-#### Synchronous usage
+#### Использование в синхронном коде
 
-To create a custom layer, extend GridLayer and impliment the <code>createTile()</code> method,
-which will be passed a <a href="/doc/maps/ru/manual/basic-types#dgpoint"><code>Point</code></a> object with the <code>x</code>,
-<code>y</code>, and <code>z</code> (zoom level) coordinates to draw your tile.
+Для того, чтобы создать собственный слой, нужно произвести наследование от GridLayer и реализовать метод
+<code>createTile()</code>, которому будет передан объект <a href="/doc/maps/ru/manual/basic-types#dgpoint"><code>Point</code></a>
+с <code>x</code>, <code>y</code> и <code>z</code> (уровень увеличения) координатами для отображения тайла.
 
     var CanvasLayer = DG.GridLayer.extend({
         createTile: function(coords){
-            // create a <canvas> element for drawing
+            // создаем элемент <canvas>
             var tile = DG.DomUtil.create('canvas', 'leaflet-tile');
-            // setup tile width and height according to the options
+            // устанавливаем размер тайла
             var size = this.getTileSize();
             tile.width = size.x;
             tile.height = size.y;
-            // get a canvas context and draw something on it using coords.x, coords.y and coords.z
+            // получаем объект контекста и рисуем что-нибудь на нем, используя coords.x, coords.y и coords.z
             var ctx = canvas.getContext('2d');
-            // return the tile so it can be rendered on screen
+            // возвращаем получившийся объект, чтобы его можно было отобразить на экране
             return tile;
         }
     });
 
-#### Asynchrohous usage
+#### Использование в асинхронном коде
 
-Tile creation can also be asyncronous, this is useful when using a third-party drawing library.
-Once the tile is finsihed drawing it can be passed to the done() callback.
+Создавать объекты тайлов можно и асинхронно. Когда объект тайла полностью создан, его можно вернуть в API карт,
+используя функцию обратного вызова done().
 
     var CanvasLayer = DG.GridLayer.extend({
         createTile: function(coords, done){
             var error;
-            // create a <canvas> element for drawing
+            // создаем элемент <canvas>
             var tile = DG.DomUtil.create('canvas', 'leaflet-tile');
-            // setup tile width and height according to the options
+            // устанавливаем размер тайла
             var size = this.getTileSize();
             tile.width = size.x;
             tile.height = size.y;
-            // draw something and pass the tile to the done() callback
+            // рисуем что-нибудь и возвращаем итоговый тайл, используя функцию обратного вызова done()
             done(error, tile);
         }
     });
 
-#### Creation
+#### Создание
 
 <table>
     <thead>
         <tr>
-            <th>Factory</th>
-            <th>Description</th>
+            <th>Конструктор</th>
+            <th>Описание</th>
         </tr>
 	</thead>
 	<tbody>
@@ -463,20 +462,20 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
             <td><code><b>DG.gridLayer</b>(
                 <nobr>&lt;GridLayer options&gt; <i>options?</i> )</nobr>
             </code></td>
-            <td>Creates a new instance of GridLayer with the supplied options.</td>
+            <td>Создает новый объект GridLayer.</td>
         </tr>
     </tbody>
 </table>
 
-#### Options
+#### Свойства
 
 <table>
     <thead>
         <tr>
-            <th>Option</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
+            <th>Свойство</th>
+            <th>Тип</th>
+            <th>Значение<br>по умолчанию</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
@@ -484,128 +483,128 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
             <td><code><b>tileSize</b></code></td>
             <td><code>Number|Point </code></td>
             <td><code>256</code></td>
-            <td>Width and height of tiles in the grid. Use a number if width and height are equal,
-                or <code>DG.point(width, height)</code> otherwise.</td>
+            <td>Ширина и высота тайлов. Используйте число, если ширина и высота одинаковые,
+                или объект <code>DG.point(ширина, высота)</code>, в противном случае.</td>
         </tr>
         <tr id="gridlayer-opacity">
             <td><code><b>opacity</b></code></td>
             <td><code>Number </code></td>
             <td><code>1.0</code></td>
-            <td>Opacity of the tiles. Can be used in the <code>createTile()</code> function.</td>
+            <td>Уровень полупрозрачности тайлов. Может использоваться в функции <code>createTile()</code>.</td>
         </tr>
         <tr id="gridlayer-updatewhenidle">
             <td><code><b>updateWhenIdle</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>depends</code></td>
-            <td>If <code>false</code>, new tiles are loaded during panning, otherwise only after it (for better
-                performance). <code>true</code> by default on mobile browsers, otherwise <code>false</code>.</td>
+            <td>Если значение <code>false</code>, новые тайлы подгружаются в процессе перемещения карты, в противном случае,
+                только после окончания перемещения карты по экрану (можно использовать для лучшей производительности).
+                <code>true</code> по умолчанию на мобильных устройствах, и <code>false</code> в остальных случаях.</td>
         </tr>
         <tr id="gridlayer-updateinterval">
             <td><code><b>updateInterval</b></code></td>
             <td><code>Number </code></td>
             <td><code>200</code></td>
-            <td>Tiles will not update more than once every <code>updateInterval</code> milliseconds.</td>
+            <td>Тайлы не будут обновляться чаще, чем раз в <code>updateInterval</code> миллисекунд.</td>
         </tr>
         <tr id="gridlayer-attribution">
             <td><code><b>attribution</b></code></td>
             <td><code>String </code></td>
             <td><code>null</code></td>
-            <td>String to be shown in the attribution control, describes the layer data, e.g. &quot;© Mapbox&quot;.</td>
+            <td>Информация, которая будет отображаться в строке об авторстве, например &quot;© 2GIS&quot;.</td>
         </tr>
         <tr id="gridlayer-zindex">
             <td><code><b>zIndex</b></code></td>
             <td><code>Number </code></td>
             <td><code>1</code></td>
-            <td>The explicit zIndex of the tile layer.</td>
+            <td>zIndex для тайлового слоя.</td>
         </tr>
         <tr id="gridlayer-bounds">
             <td><code><b>bounds</b></code></td>
             <td><code>LatLngBounds </code></td>
             <td><code>undefined</code></td>
-            <td>If set, tiles will only be loaded inside inside the set
+            <td>Если задан, тайлы будут загружаться только для указанного региона, заданного
                 <a href="/doc/maps/ru/manual/basic-types#dglatlngbounds"><code>LatLngBounds</code></a>.</td>
         </tr>
         <tr id="gridlayer-minzoom">
             <td><code><b>minZoom</b></code></td>
             <td><code>Number </code></td>
             <td><code>0</code></td>
-            <td>The minimum zoom level that tiles will be loaded at. By default the entire map.</td>
+            <td>Минимальный уровень масштабирования, при котором будут загружаться тайлы. По умолчанию - вся карта.</td>
         </tr>
         <tr id="gridlayer-maxzoom">
             <td><code><b>maxZoom</b></code></td>
             <td><code>Number </code></td>
             <td><code>undefined</code></td>
-            <td>The maximum zoom level that tiles will be loaded at.
-        maxZoom: undefined,</td>
+            <td>Максимальный уровень масштабирования, при котором будут загружаться тайлы. По умолчанию не задан.</td>
         </tr>
         <tr id="gridlayer-nowrap">
             <td><code><b>noWrap</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
-            <td>Whether the layer is wrapped around the antimeridian. If <code>true</code>, the
-                GridLayer will only be displayed once at low zoom levels.</td>
+            <td>Будет ли слой повторно отображаться при малом масштабе. Если параметр <code>true</code>, слой
+                будет отображен только один раз.</td>
         </tr>
         <tr id="gridlayer-pane">
             <td><code><b>pane</b></code></td>
             <td><code>String </code></td>
             <td><code>&#x27;tilePane&#x27;</code></td>
-            <td><code>Map pane</code> where the grid layer will be added.</td>
+            <td><code>Панель карты</code>, на которую будет добавлен слой.</td>
         </tr>
     </tbody>
 </table>
 
-#### Events
+#### События
 
 <table>
     <thead>
         <tr>
-            <th>Event</th>
-            <th>Data</th>
-            <th>Description</th>
+            <th>Событие</th>
+            <th>Данные</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
         <tr id="gridlayer-loading">
             <td><code><b>loading</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#event">Event</a></code></td>
-            <td>Fired when the grid layer starts loading tiles</td>
+            <td>Возникает, когда GridLayer начинает загружать тайлы.</td>
         </tr>
         <tr id="gridlayer-tileunload">
             <td><code><b>tileunload</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#tileevent">TileEvent</a></code></td>
-            <td>Fired when a tile is removed (e.g. when a tile goes off the screen).</td>
+            <td>Возникает, когда тайл удаляется с карты (например, при выходе его за пределы экрана).</td>
         </tr>
         <tr id="gridlayer-tileloadstart">
             <td><code><b>tileloadstart</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#tileevent">TileEvent</a></code></td>
-            <td>Fired when a tile is requested and starts loading.</td>
+            <td>Возникает, когда запрашивается тайл.</td>
         </tr>
         <tr id="gridlayer-tileerror">
             <td><code><b>tileerror</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#tileevent">TileEvent</a></code></td>
-            <td>Fired when there is an error loading a tile.</td>
+            <td>Возникает, при ошибке загрузки тайла.</td>
         </tr>
         <tr id="gridlayer-tileload">
             <td><code><b>tileload</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#tileevent">TileEvent</a></code></td>
-            <td>Fired when a tile loads.</td>
+            <td>Возникает, когда тайл загружен.</td>
         </tr>
         <tr id="gridlayer-load">
             <td><code><b>load</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#tileevent">TileEvent</a></code></td>
-            <td>Fired when the grid layer loaded all visible tiles.</td>
+            <td>Возникает, когда GridLayer загрузел все видимые тайлы.</td>
         </tr>
     </tbody>
 </table>
 
-#### Methods
+#### Методы
 
 <table>
     <thead>
         <tr>
-            <th>Method</th>
-            <th>Returns</th>
-            <th>Description</th>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
         </tr>
     </thead>
     <tbody>
@@ -613,26 +612,26 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
             <td><code><b>bringToFront</b>()</code></td>
 
             <td><code>this</code></td>
-            <td>Brings the tile layer to the top of all tile layers.</td>
+            <td>Позиционирует тайловый слой поверх остальных тайловых слоев.</td>
         </tr>
         <tr id="gridlayer-bringtoback">
             <td><code><b>bringToBack</b>()</code></td>
 
             <td><code>this</code></td>
-            <td>Brings the tile layer to the bottom of all tile layers.</td>
+            <td>Позиционирует тайловый слой под остальными тайловыми слоями.</td>
         </tr>
         <tr id="gridlayer-getattribution">
             <td><code><b>getAttribution</b>()</code></td>
 
             <td><code>String</code></td>
-            <td>Used by the <code>attribution control</code>, returns the
-                <a href="#gridlayer-attribution">attribution option</a>.</td>
+            <td>Используется элементом управления об авторстве, и возвращает соответствующие
+                <a href="#gridlayer-attribution">свойства</a>.</td>
         </tr>
         <tr id="gridlayer-getcontainer">
             <td><code><b>getContainer</b>()</code></td>
 
             <td><code>String</code></td>
-            <td>Returns the HTML element that contains the tiles for this layer.</td>
+            <td>Возвращает HTML элемент, который содержит тайлы для данного слоя.</td>
         </tr>
         <tr id="gridlayer-setopacity">
             <td><code><b>setOpacity</b>(
@@ -640,7 +639,7 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
             </code></td>
 
             <td><code>this</code></td>
-            <td>Changes the <a href="#gridlayer-opacity">opacity</a> of the grid layer.</td>
+            <td>Меняет значение <a href="#gridlayer-opacity">opacity</a> слоя.</td>
         </tr>
         <tr id="gridlayer-setzindex">
             <td><code><b>setZIndex</b>(
@@ -648,40 +647,39 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
             </code></td>
 
             <td><code>this</code></td>
-            <td>Changes the <a href="#gridlayer-zindex">zIndex</a> of the grid layer.</td>
+            <td>Меняет значение <a href="#gridlayer-zindex">zIndex</a> слоя.</td>
         </tr>
         <tr id="gridlayer-isloading">
             <td><code><b>isLoading</b>()</code></td>
 
             <td><code>Boolean</code></td>
-            <td>Returns <code>true</code> if any tile in the grid layer has not finished loading.</td>
+            <td>Возвращает <code>true</code>, если хотя бы один тайл загружен не до конца.</td>
         </tr>
         <tr id="gridlayer-redraw">
             <td><code><b>redraw</b>()</code></td>
 
             <td><code>this</code></td>
-            <td>Causes the layer to clear all the tiles and request them again.</td>
+            <td>Перересовывает все тайлы, запрашивая их по новой.</td>
         </tr>
         <tr id="gridlayer-gettilesize">
             <td><code><b>getTileSize</b>()</code></td>
 
             <td><code><a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a></code></td>
-            <td>Normalizes the <a href="#gridlayer-tilesize">tileSize option</a> into a point.
-                Used by the <code>createTile()</code> method.</td>
+            <td>Нормализует значение свойства <a href="#gridlayer-tilesize">tileSize</a>.</td>
         </tr>
     </tbody>
 </table>
 
-#### Extension methods
+#### Методы, используемые при наследовании
 
-Layers extending <a href="#dggridlayer"><code>DG.GridLayer</code></a> shall reimplement the following method.
+Слои, наследующие от <a href="#dggridlayer"><code>DG.GridLayer</code></a> должны поддерживать следующие методы.
 
 <table>
     <thead>
         <tr>
-            <th>Method</th>
-            <th>Returns</th>
-            <th>Description</th>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
         </tr>
 	</thead>
 	<tbody>
@@ -692,10 +690,9 @@ Layers extending <a href="#dggridlayer"><code>DG.GridLayer</code></a> shall reim
             </code></td>
 
             <td><code>HTMLElement</code></td>
-            <td>Called only internally, must be overriden by classes extending
-                <a href="#dggridlayer"><code>GridLayer</code></a>. Returns the <code>HTMLElement</code>
-                corresponding to the given <code>coords</code>. If the <code>done</code> callback
-                is specified, it must be called when the tile has finished loading and drawing.
+            <td>Вызывается только из API карт. Метод должен возвращать <code>HTMLElement</code> для позиции,
+                координаты которой передаются в <code>coords</code>. Если указана функция
+                обратного вызова <code>done</code>, она должна быть вызвана после загрузки и отрисовки тайла.
             </td>
         </tr>
     </tbody>

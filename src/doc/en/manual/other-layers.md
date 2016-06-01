@@ -510,7 +510,7 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
             <td><code><b>attribution</b></code></td>
             <td><code>String </code></td>
             <td><code>null</code></td>
-            <td>String to be shown in the attribution control, describes the layer data, e.g. &quot;© Mapbox&quot;.</td>
+            <td>String to be shown in the attribution control, describes the layer data, e.g. &quot;© 2GIS&quot;.</td>
         </tr>
         <tr id="gridlayer-zindex">
             <td><code><b>zIndex</b></code></td>
@@ -535,8 +535,7 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
             <td><code><b>maxZoom</b></code></td>
             <td><code>Number </code></td>
             <td><code>undefined</code></td>
-            <td>The maximum zoom level that tiles will be loaded at.
-        maxZoom: undefined,</td>
+            <td>The maximum zoom level that tiles will be loaded at.</td>
         </tr>
         <tr id="gridlayer-nowrap">
             <td><code><b>noWrap</b></code></td>
