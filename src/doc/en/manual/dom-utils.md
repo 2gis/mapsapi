@@ -4,7 +4,7 @@
 
 ### DG.DomEvent
 
-Utility functions to work with the [DOM events](https://developer.mozilla.org/docs/Web/API/Event).
+Utility functions to work with the <a href="https://developer.mozilla.org/docs/Web/API/Event">DOM events</a>.
 
 #### Functions
 
@@ -133,7 +133,7 @@ Utility functions to work with the [DOM events](https://developer.mozilla.org/do
                 Events from pointing devices without precise scrolling are mapped to
                 a best guess of between 50-60 pixels.</td>
         </tr>
-        <tr id="domevent-addlistener>
+        <tr id="domevent-addlistener">
             <td><code><b>addListener</b>(
                 <nobr><i>…</i> )</nobr>
             </code></td>
@@ -154,7 +154,7 @@ Utility functions to work with the [DOM events](https://developer.mozilla.org/do
 
 ### DG.DomUtil
 
-Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/API/Document_Object_Model) tree.
+Utility functions to work with the <a href="https://developer.mozilla.org/docs/Web/API/Document_Object_Model">DOM</a> tree.
 
 #### Functions
 
@@ -295,7 +295,7 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
         <tr id="domutil-settransform">
 		    <td><code><b>setTransform</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a>&gt; <i>offset</i>,</nobr>
+		        <nobr>&lt;<a href="/doc/maps/en/manual/basic-types#dgpoint">Point</a>&gt; <i>offset</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>scale?</i> )</nobr>
 		    </code></td>
 
@@ -307,7 +307,7 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
         <tr id="domutil-setposition">
     		<td><code><b>setPosition</b>(
     		    <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-    		    <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a>&gt; <i>position</i> )</nobr>
+    		    <nobr>&lt;<a href="/doc/maps/en/manual/basic-types#dgpoint">Point</a>&gt; <i>position</i> )</nobr>
     		</code></td>
 
     		<td><code></code></td>
@@ -320,7 +320,7 @@ Utility functions to work with the [DOM](https://developer.mozilla.org/docs/Web/
 		        <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
 		    </code></td>
 
-    		<td><code><a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a></code></td>
+    		<td><code><a href="/doc/maps/en/manual/basic-types#dgpoint">Point</a></code></td>
 		    <td>Returns the coordinates of an element previously positioned with setPosition.</td>
 	    </tr>
         <tr id="domutil-disabletextselection">
@@ -442,10 +442,10 @@ Used internally for panning animations, utilizing CSS3 Transitions for modern br
         </tr>
     </thead>
     <tbody>
-        <tr id='posanimation-run'>
+        <tr id="posanimation-run">
 		    <td><code><b>run</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/en/manual/basic-types#dgpoint'>Point</a>&gt; <i>newPos</i>,</nobr>
+		        <nobr>&lt;<a href="/doc/maps/en/manual/basic-types#dgpoint">Point</a>&gt; <i>newPos</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>duration?</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>easeLinearity?</i>)</nobr>
 		    </code></td>
@@ -456,13 +456,15 @@ Used internally for panning animations, utilizing CSS3 Transitions for modern br
                 argument of the <a href="http://cubic-bezier.com/#0,0,.5,1">cubic bezier curve</a>,
                 <code>0.5</code> by default).</td>
 	    </tr>
-	    <tr id='posanimation-stop'>
-		    <td><code><b>stop</b>()</nobr></code></td>
+	    <tr id="posanimation-stop">
+		    <td><code><b>stop</b>()</code></td>
 		    <td><code></code></td>
 		    <td>Stops the animation (if currently running).</td>
 	    </tr>
     </tbody>
 </table>
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
 
 ### DG.Draggable
 
@@ -507,24 +509,24 @@ that were positioned with [DG.DomUtil.setPosition](#domutil-setposition)
     </thead>
     <tbody>
     	<tr id="draggable-down">
-    		<td><code><b>down</b></td>
+    		<td><code><b>down</b></code></td>
     		<td><code><a href="/doc/maps/en/manual/events#event">Event</a></code></td>
             <td>Fired when a drag is about to start.</td>
     	</tr>
     	<tr id="draggable-dragstart">
-    		<td><code><b>dragstart</b></td>
+    		<td><code><b>dragstart</b></code></td>
     		<td><code><a href="/doc/maps/en/manual/events#event">Event</a></code></td>
             <td>Fired when a drag starts</td>
     	</tr>
     	<tr id="draggable-predrag">
-    		<td><code><b>predrag</b></td>
+    		<td><code><b>predrag</b></code></td>
     		<td><code><a href="/doc/maps/en/manual/events#event">Event</a></code></td>
             <td>Fired continuously during dragging <em>before</em> each corresponding
                 update of the element&#39;s position.
                 Fired continuously during dragging.</td>
 	    </tr>
 	    <tr id="draggable-dragend">
-    		<td><code><b>dragend</b></td>
+    		<td><code><b>dragend</b></code></td>
     		<td><code><a href="/doc/maps/en/manual/events#event">Event</a></code></td>
             <td>Fired when the drag ends.</td>
 	    </tr>
@@ -543,14 +545,16 @@ that were positioned with [DG.DomUtil.setPosition](#domutil-setposition)
     </thead>
     <tbody>
         <tr id="draggable-enable">
-            <td><code><b>enable</b>()</nobr></code></td>
+            <td><code><b>enable</b>()</code></td>
             <td><code></code></td>
             <td>Enables the dragging ability.</td>
         </tr>
         <tr id="draggable-disable">
-            <td><code><b>disable</b>()</nobr></code></td>
+            <td><code><b>disable</b>()</code></td>
             <td><code></code></td>
             <td>Disables the dragging ability.</td>
         </td>
     </tbody>
 </table>
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->

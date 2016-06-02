@@ -4,10 +4,10 @@
 
 ### DG.Class
 
-`DG.Class` powers the OOP facilities of maps API and is used to create almost all of the classes documented here.
+<code>DG.Class</code> powers the OOP facilities of maps API and is used to create almost all of the classes documented here.
 
 In addition to implementing a simple classical inheritance model, it introduces several special properties for
-convenient code organization — `options`, `includes` and `statics`.
+convenient code organization — <code>options</code>, <code>includes</code> and <code>statics</code>.
 
     var MyClass = DG.Class.extend({
         initialize: function (greeter) {
@@ -49,7 +49,7 @@ You use DG.Class.extend to define new classes, but you can use the same method o
     });
 
 This will create a class that inherits all methods and properties of the parent class (through a proper
-prototype chain), adding or overriding the ones you pass to extend. It will also properly react to `instanceof`:
+prototype chain), adding or overriding the ones you pass to extend. It will also properly react to <code>instanceof</code>:
 
     var a = new MyChildClass();
     a instanceof MyChildClass; // true
@@ -153,7 +153,7 @@ properties of the class, useful for defining constants:
 
 If you&#39;re a plugin developer, you often need to add additional initialization code to existing
 classes (e.g. editing hooks for <a href="/doc/maps/en/manual/geometries#polyline"><code>DG.Polyline</code></a>).
-Maps API comes with a way to do it easily using the <code>addInitHook</code> method:</p>
+Maps API comes with a way to do it easily using the <code>addInitHook</code> method:
 
     MyClass.addInitHook(function () {
         // ... do something in constructor additionally
@@ -231,7 +231,7 @@ define it as a function:
 
 #### Methods
 
-<table id='dgevented-methods'>
+<table id="dgevented-methods">
     <thead>
         <tr>
             <th>Method</th>
@@ -240,7 +240,7 @@ define it as a function:
         </tr>
     </thead>
     <tbody>
-        <tr id='evented-on'>
+        <tr id="evented-on">
             <td><code><b>on</b>(
                 <nobr>&lt;String&gt; <i>type</i>,
                 <nobr>&lt;Function&gt; <i>fn</i>,
@@ -252,7 +252,7 @@ define it as a function:
                 You can optionally specify the context of the listener (object the this keyword will point to).
                 You can also pass several space-separated types (e.g. <code>&#39;click dblclick&#39;</code>).</td>
         </tr>
-        <tr id='evented-on'>
+        <tr>
             <td><code><b>on</b>(
                 <nobr>&lt;Object&gt; <i>eventMap</i> )</nobr>
             </code></td>
@@ -260,7 +260,7 @@ define it as a function:
             <td><code>this</code></td>
             <td>Adds a set of type/listener pairs, e.g. <code>{click: onClick, mousemove: onMouseMove}</code></td>
         </tr>
-        <tr id='evented-off'>
+        <tr id="evented-off">
             <td><code><b>off</b>(
                 <nobr>&lt;String&gt; <i>type</i>,
                 <nobr>&lt;Function&gt; <i>fn?</i>,
@@ -273,7 +273,7 @@ define it as a function:
                 to <code>on</code>, you must pass the same context to <code>off</code> in order to remove
                 the listener.</td>
         </tr>
-        <tr id='evented-off'>
+        <tr>
             <td><code><b>off</b>(
                 <nobr>&lt;Object&gt; <i>eventMap</i> )</nobr>
             </code></td>
@@ -281,13 +281,13 @@ define it as a function:
             <td><code>this</code></td>
             <td>Removes a set of type/listener pairs.</td>
         </tr>
-        <tr id='evented-off'>
+        <tr>
             <td><code><b>off</b>()</code></td>
 
             <td><code>this</code></td>
             <td>Removes all listeners to all events on the object.</td>
         </tr>
-        <tr id='evented-fire'>
+        <tr id="evented-fire">
             <td><code><b>fire</b>(
                 <nobr>&lt;String&gt; <i>type</i>,
                 <nobr>&lt;Object&gt; <i>data?</i>,
@@ -299,7 +299,7 @@ define it as a function:
                 argument of the listener function will contain its properties. The event might can optionally
                 be propagated to event parents.</td>
         </tr>
-        <tr id='evented-listens'>
+        <tr id="evented-listens">
             <td><code><b>listens</b>(
                 <nobr>&lt;String&gt; <i>type</i> )</nobr>
             </code></td>
@@ -307,61 +307,61 @@ define it as a function:
             <td><code>Boolean</code></td>
             <td>Returns <code>true</code> if a particular event type has any listeners attached to it.</td>
         </tr>
-        <tr id='evented-once'>
+        <tr id="evented-once">
             <td><code><b>once</b>(<i>…</i>)</code></td>
 
             <td><code>this</code></td>
             <td>Behaves as <a href="#evented-on"><code>on(…)</code></a>, except the listener will only get
                 fired once and then removed.</td>
         </tr>
-        <tr id='evented-addeventparent'>
+        <tr id="evented-addeventparent">
             <td><code><b>addEventParent</b>(
-                <nobr>&lt;<a href='#dgevented">Evented</a>&gt; <i>obj</i> )</nobr>
+                <nobr>&lt;<a href="#dgevented">Evented</a>&gt; <i>obj</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
             <td>Adds an event parent - an <a href="#dgevented"><code>Evented</code></a> that will receive
                 propagated events</td>
         </tr>
-        <tr id='evented-removeeventparent'>
+        <tr id="evented-removeeventparent">
             <td><code><b>removeEventParent</b>(
-                <nobr>&lt;<a href='#dgevented'>Evented</a>&gt; <i>obj</i> )</nobr>
+                <nobr>&lt;<a href="#dgevented">Evented</a>&gt; <i>obj</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
             <td>Removes an event parent, so it will stop receiving propagated events</td>
         </tr>
-        <tr id='evented-addeventlistener'>
+        <tr id="evented-addeventlistener">
             <td><code><b>addEventListener</b>(<i>…</i>)</code></td>
 
             <td><code>this</code></td>
             <td>Alias to <a href="#evented-on"><code>on(…)</code></a></td>
         </tr>
-        <tr id='evented-removeeventlistener'>
+        <tr id="evented-removeeventlistener">
             <td><code><b>removeEventListener</b>(<i>…</i>)</code></td>
 
             <td><code>this</code></td>
             <td>Alias to <a href="#evented-off"><code>off(…)</code></a></td>
         </tr>
-        <tr id='evented-clearalleventlisteners'>
+        <tr id="evented-clearalleventlisteners">
             <td><code><b>clearAllEventListeners</b>(<i>…</i>)</code></td>
 
             <td><code>this</code></td>
             <td>Alias to <a href="#evented-off"><code>off()</code></a></td>
         </tr>
-        <tr id='evented-addonetimeeventlistener'>
+        <tr id="evented-addonetimeeventlistener">
             <td><code><b>addOneTimeEventListener</b>(<i>…</i>)</code></td>
 
             <td><code>this</code></td>
             <td>Alias to <a href="#evented-once"><code>once(…)</code></a></td>
         </tr>
-        <tr id='evented-fireevent'>
+        <tr id="evented-fireevent">
             <td><code><b>fireEvent</b>(<i>…</i>)</code></td>
 
             <td><code>this</code></td>
             <td>Alias to <a href="#evented-fire"><code>fire(…)</code></a></td>
         </tr>
-        <tr id='evented-haseventlisteners'>
+        <tr id="evented-haseventlisteners">
             <td><code><b>hasEventListeners</b>(<i>…</i>)</code></td>
 
             <td><code>Boolean</code></td>
@@ -381,7 +381,7 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
 
 #### Options
 
-<table id='dglayer-options'>
+<table id="dglayer-options">
     <thead>
         <tr>
             <th>Option</th>
@@ -403,7 +403,7 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
 
 #### Events
 
-<table id='dglayer-events'>
+<table id="dglayer-events">
     <thead>
         <tr>
             <th>Event</th>
@@ -425,9 +425,9 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
     </tbody>
 </table>
 
-#### Popup events
+##### Popup events
 
-<table id='dglayer-popup-events'>
+<table id="dglayer-popup-events">
     <thead>
         <tr>
             <th>Event</th>
@@ -452,7 +452,8 @@ options and events from <a href="#dgevented"><code>DG.Evented</code></a>.
 #### Methods
 
 Classes extending <a href="#dglayer"><code>DG.Layer</code></a> will inherit the following methods:
-<table id='dglayer-methods'>
+
+<table id="dglayer-methods">
     <thead>
         <tr>
             <th>Method</th>
@@ -495,7 +496,7 @@ Classes extending <a href="#dglayer"><code>DG.Layer</code></a> will inherit the 
     </tbody>
 </table>
 
-#### Popup methods
+##### Popup methods
 
 All layers share a set of methods convenient for binding popups to it.
 
@@ -506,7 +507,7 @@ All layers share a set of methods convenient for binding popups to it.
 Popups will also be automatically opened when the layer is clicked on and closed when the layer
 is removed from the map or another popup is opened.
 
-<table id='dglayer-popup-methods'>
+<table id="dglayer-popup-methods">
     <thead>
         <tr>
             <th>Method</th>
@@ -567,7 +568,7 @@ is removed from the map or another popup is opened.
     </tbody>
 </table>
 
-#### Extension methods
+##### Extension methods
 
 Every layer should extend from <a href="#dglayer"><code>DG.Layer</code></a> and (re-)implement the following methods.
 
@@ -580,7 +581,7 @@ Every layer should extend from <a href="#dglayer"><code>DG.Layer</code></a> and 
         </tr>
     </thead>
     <tbody>
-        <tr id='layer-onadd'>
+        <tr id="layer-onadd">
             <td><code><b>onAdd</b>(
                 <nobr>&lt;<a href="/doc/maps/en/manual/map#dgmap">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
@@ -590,32 +591,32 @@ Every layer should extend from <a href="#dglayer"><code>DG.Layer</code></a> and 
                 where they should belong and puts listeners on relevant map events. Called on
                 <a href="/doc/maps/en/manual/map#map-addlayer"><code>map.addLayer(layer)</code></a>.</td>
         </tr>
-        <tr id='layer-onremove'>
+        <tr id="layer-onremove">
             <td><code><b>onRemove</b>(
                 <nobr>&lt;<a href="/doc/maps/en/manual/map#dgmap">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
             <td>Should contain all clean up code that removes the layer&#39;s elements from the DOM and removes
-                listeners previously added in <a href='#layer-onadd"><code>onAdd</code></a>.
+                listeners previously added in <a href="#layer-onadd"><code>onAdd</code></a>.
                 Called on <a href="/doc/maps/en/manual/map#map-removelayer"><code>map.removeLayer(layer)</code></a>.</td>
         </tr>
-        <tr id='layer-getevents'>
+        <tr id="layer-getevents">
             <td><code><b>getEvents</b>()</code></td>
 
             <td><code>Object</code></td>
             <td>This optional method should return an object like <code>{ viewreset: this._reset }</code>
-                for <a href='#event-addeventlistener"><code>addEventListener</code></a>.
+                for <a href="#event-addeventlistener"><code>addEventListener</code></a>.
                 These events will be automatically added and removed from the map with your layer.</td>
         </tr>
-        <tr id='layer-getattribution'>
+        <tr id="layer-getattribution">
             <td><code><b>getAttribution</b>()</code></td>
 
             <td><code>String</code></td>
             <td>This optional method should return a string containing HTML to be shown on the
                 <code>Attribution control</code> whenever the layer is visible.</td>
         </tr>
-        <tr id='layer-beforeadd'>
+        <tr id="layer-beforeadd">
             <td><code><b>beforeAdd</b>(
                 <nobr>&lt;<a href="/doc/maps/en/manual/map#dgmap">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
@@ -627,6 +628,8 @@ Every layer should extend from <a href="#dglayer"><code>DG.Layer</code></a> and 
         </tr>
     </tbody>
 </table>
+
+Events inherited from <a href="#dgevented>Evented</a> <!-- TODO: include events -->
 
 ### DG.Control
 
@@ -834,7 +837,7 @@ Do not use this class directly, use <code>DG.SVG</code> and <code>DG.Canvas</cod
 
 ##### Options
 
-<table id='dgrenderer-options'>
+<table id="dgrenderer-options">
     <thead>
         <tr>
             <th>Option</th>
@@ -852,6 +855,18 @@ Do not use this class directly, use <code>DG.SVG</code> and <code>DG.Canvas</cod
         </tr>
     </tbody>
 </table>
+
+Options inherited from <a href="#dglayer>Layer</a> <!-- TODO: include options -->
+
+#### Events
+
+Events inherited from <a href="#dglayer>Layer</a> <!-- TODO: include events -->
+
+#### Methods
+
+Methods inherited from <a href="#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="#dgevented>Evented</a> <!-- TODO: include methods -->
 
 ### Event objects
 
@@ -924,6 +939,8 @@ The base event object. All other event objects contain these properties too.
     </tbody>
 </table>
 
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+
 #### LocationEvent
 
 <table>
@@ -978,6 +995,8 @@ The base event object. All other event objects contain these properties too.
     </tbody>
 </table>
 
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+
 #### ErrorEvent
 
 <table>
@@ -1002,6 +1021,8 @@ The base event object. All other event objects contain these properties too.
     </tbody>
 </table>
 
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+
 #### LayerEvent
 
 <table>
@@ -1015,11 +1036,13 @@ The base event object. All other event objects contain these properties too.
     <tbody>
         <tr id="layerevent-layer">
             <td><code><b>layer</b></code></td>
-            <td><code><a href='#dglayer'>ILayer</a></code></td>
+            <td><code><a href="#dglayer">ILayer</a></code></td>
             <td>The layer that was added or removed.</td>
         </tr>
     </tbody>
 </table>
+
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
 
 #### LayersControlEvent
 
@@ -1045,6 +1068,8 @@ The base event object. All other event objects contain these properties too.
     </tbody>
 </table>
 
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+
 #### TileEvent
 
 <table>
@@ -1064,6 +1089,8 @@ The base event object. All other event objects contain these properties too.
     </tbody>
 </table>
 
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+
 #### TileErrorEvent
 
 <table>
@@ -1082,6 +1109,8 @@ The base event object. All other event objects contain these properties too.
         </tr>
     </tbody>
 </table>
+
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
 
 #### ResizeEvent
 
@@ -1106,6 +1135,8 @@ The base event object. All other event objects contain these properties too.
         </tr>
     </tbody>
 </table>
+
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
 
 #### GeoJSON event
 
@@ -1140,6 +1171,8 @@ The base event object. All other event objects contain these properties too.
     </tbody>
 </table>
 
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+
 #### Popup event
 
 <table>
@@ -1157,6 +1190,8 @@ The base event object. All other event objects contain these properties too.
         </tr>
     </tbody>
 </table>
+
+Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
 
 #### DragEndEvent
 

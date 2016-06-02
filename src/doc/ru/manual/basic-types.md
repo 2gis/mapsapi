@@ -1,11 +1,9 @@
 ## Базовые типы данных
 
-{toc}
-
-### Описание
-
 В данном разделе описаны классы базовых типов данных, которые часто встречаются на страницах руководства API карт
 и необходимы для работы с многими объектами карты.
+
+{toc}
 
 ### DG.LatLng
 
@@ -40,14 +38,14 @@
             <td>Создает объект, представляющий географическую точку с определенной широтой и долготой
                 (и опционально высотой).</td>
         </tr>
-        <tr id="latlng-l-latlng">
+        <tr>
             <td><code><b>DG.latLng</b>(
                 <nobr>&lt;Array&gt; <i>coords</i> )</nobr>
             </code></td>
             <td>Ожидает массив вида <code>[Number, Number]</code> или <code>[Number, Number, Number]</code>
                 в качестве аргумента.</td>
         </tr>
-        <tr id="latlng-l-latlng">
+        <tr>
             <td><code><b>DG.latLng</b>(
                 <nobr>&lt;Object&gt; <i>coords</i> )</nobr>
             </code></td>
@@ -175,7 +173,7 @@
             </code></td>
             <td>Создает объект <a href="#dglatlngbounds"><code>LatLngBounds</code></a>, определяя юго-западный и северо-восточный углы прямоугольника.</td>
         </tr>
-        <tr id="latlngbounds-l-latlngbounds">
+        <tr>
             <td><code><b>DG.latLngBounds</b>(
                 <nobr>&lt;LatLng[]&gt; <i>latlngs</i>)</nobr>
             </code></td>
@@ -205,7 +203,7 @@
             <td><code>this</code></td>
             <td>Расширяет область таким образом, чтобы в них входила переданная точка.</td>
         </tr>
-        <tr id="latlngbounds-extend">
+        <tr>
             <td><code><b>extend</b>(
                 <nobr>&lt;<a href="#dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
@@ -383,107 +381,107 @@
         </tr>
     </thead>
     <tbody>
-        <tr id='point-clone'>
+        <tr id="point-clone">
             <td><code><b>clone</b>()</nobr></code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает копию оригинального объекта.</td>
         </tr>
-        <tr id='point-add'>
+        <tr id="point-add">
             <td><code><b>add</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает результат сложения координат заданной точки и текущей.</td>
         </tr>
-        <tr id='point-subtract'>
+        <tr id="point-subtract">
             <td><code><b>subtract</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает результат вычитания координат заданной точки из текущей.</td>
         </tr>
-        <tr id='point-divideby'>
+        <tr id="point-divideby">
             <td><code><b>divideBy</b>(
                 <nobr>&lt;Number&gt; <i>num</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает результат деления координат текущей точки на произвольное число.</td>
         </tr>
-        <tr id='point-multiplyby'>
+        <tr id="point-multiplyby">
             <td><code><b>multiplyBy</b>(
                 <nobr>&lt;Number&gt; <i>num</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает результат умножения координат текущей точки на произвольное число.</td>
         </tr>
-        <tr id='point-scaleby'>
+        <tr id="point-scaleby">
             <td><code><b>scaleBy</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>scale</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>scale</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает новую точку, каждая координата которой получена умножением на соответствующую координату
                 <code>scale</code>. В терминах линейной алгебры, данная операция производит умножение на
                 <a href="https://en.wikipedia.org/wiki/Scaling_%28geometry%29#Matrix_representation">матрицу масштабирования</a>,
                 заданную <code>scale</code>.</td>
         </tr>
-        <tr id='point-unscaleby'>
+        <tr id="point-unscaleby">
             <td><code><b>unscaleBy</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>scale</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>scale</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Обратная операция, относительно <code>scaleBy</code>.</td>
         </tr>
-        <tr id='point-round'>
+        <tr id="point-round">
             <td><code><b>round</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает копию оригинального объекта с округленными координатами.</td>
         </tr>
-        <tr id='point-floor'>
+        <tr id="point-floor">
             <td><code><b>floor</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает копию оригинального объекта с координатами, округленными вниз.</td>
         </tr>
-        <tr id='point-ceil'>
+        <tr id="point-ceil">
             <td><code><b>ceil</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает копию оригинального объекта с координатами, округленными вверх.</td>
         </tr>
-        <tr id='point-distanceto'>
+        <tr id="point-distanceto">
             <td><code><b>distanceTo</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Number</code></td>
             <td>Возвращает декартово расстояние между текущй и заданной точками.</td>
         </tr>
-        <tr id='point-equals'>
+        <tr id="point-equals">
             <td><code><b>equals</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Возвращает <code>true</code>, если заданная точка имеет аналогичные координаты.</td>
         </tr>
-        <tr id='point-contains'>
+        <tr id="point-contains">
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Возвращает <code>true</code>, если обе координаты заданной точки меньше (в абсолютных величинах) координат
                 текущей точки.</td>
         </tr>
-        <tr id='point-tostring'>
+        <tr id="point-tostring">
             <td><code><b>toString</b>()</code></td>
 
             <td><code>String</code></td>
@@ -566,67 +564,67 @@
         </tr>
     </thead>
     <tbody>
-        <tr id='bounds-extend'>
+        <tr id="bounds-extend">
             <td><code><b>extend</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
             <td>Расширяет область таким образом, чтобы в них входила переданная точка.</td>
         </tr>
-        <tr id='bounds-getcenter'>
+        <tr id="bounds-getcenter">
             <td><code><b>getCenter</b>(
                 <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает центральную точку области.</td>
         </tr>
-        <tr id='bounds-getbottomleft'>
+        <tr id="bounds-getbottomleft">
             <td><code><b>getBottomLeft</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает координаты левого-нижнего угла области.</td>
         </tr>
-        <tr id='bounds-gettopright'>
+        <tr id="bounds-gettopright">
             <td><code><b>getTopRight</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает координаты правого-верхнего угла области.</td>
         </tr>
-        <tr id='bounds-getsize'>
+        <tr id="bounds-getsize">
             <td><code><b>getSize</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Возвращает размер области.</td>
         </tr>
-        <tr id='bounds-contains'>
+        <tr id="bounds-contains">
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href='#dgbounds'>Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Возвращает <code>true</code>, если область содержит переданные границы.</td>
         </tr>
-        <tr id='bounds-contains'>
+        <tr id="bounds-contains">
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Возвращает <code>true</code>, если область содержит переданную точку.</td>
         </tr>
-        <tr id='bounds-intersects'>
+        <tr id="bounds-intersects">
             <td><code><b>intersects</b>(
-                <nobr>&lt;<a href='#dgbounds'>Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Возвращает <code>true</code>, если границы области пересекают переданные границы хотя бы в одной точке.</td>
         </tr>
-        <tr id='bounds-overlaps'>
+        <tr id="bounds-overlaps">
             <td><code><b>overlaps</b>(
-                <nobr>&lt;<a href='#dgbounds'>Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>

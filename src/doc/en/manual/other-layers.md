@@ -1,3 +1,7 @@
+## Other Layers
+
+{toc}
+
 ### DG.LayerGroup
 
 Used to group several layers and handle them as one. If you add it to the map,
@@ -29,7 +33,11 @@ well. Extends <a href="/doc/maps/en/manual/base-classes#dglayer"><code>DG.Layer<
 
 #### Options
 
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+
 #### Events
+
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
@@ -65,7 +73,7 @@ well. Extends <a href="/doc/maps/en/manual/base-classes#dglayer"><code>DG.Layer<
             <td><code>this</code></td>
             <td>Removes the given layer from the group.</td>
         </tr>
-        <tr id="layergroup-removelayer">
+        <tr>
             <td><code><b>removeLayer</b>(
                 <nobr>&lt;Number&gt; <i>id</i> )</nobr>
             </code></td>
@@ -142,6 +150,10 @@ well. Extends <a href="/doc/maps/en/manual/base-classes#dglayer"><code>DG.Layer<
     </tbody>
 </table>
 
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+
 ### DG.FeatureGroup
 
 Extended <a href="#dglayergroup"><code>DG.LayerGroup</code></a> that also has mouse events
@@ -173,7 +185,11 @@ Extended <a href="#dglayergroup"><code>DG.LayerGroup</code></a> that also has mo
 
 #### Options
 
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+
 #### Events
+
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
@@ -215,6 +231,12 @@ Extended <a href="#dglayergroup"><code>DG.LayerGroup</code></a> that also has mo
     </tbody>
 </table>
 
+Methods inherited from <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+
 ### DG.GeoJSON
 
 Represents a GeoJSON object or an array of GeoJSON objects. Allows you to parse
@@ -241,7 +263,7 @@ GeoJSON data and display it on the map. Extends <a href="#dgfeaturegroup"><code>
         <tr id="geojson-l-geojson">
             <td><code><b>DG.geoJSON</b>(
                 <nobr>&lt;Object&gt; <i>geojson?</i>,</nobr>
-                <nobr>&lt;<a href='#geojson-option'>GeoJSON options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#geojson-option">GeoJSON options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>Creates a GeoJSON layer. Optionally accepts an object in
                 <a href="http://geojson.org/geojson-spec.html">GeoJSON format</a> to display on the map
@@ -321,9 +343,21 @@ GeoJSON data and display it on the map. Extends <a href="#dgfeaturegroup"><code>
     </tbody>
 </table>
 
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+
 #### Events
 
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+
 #### Methods
+
+Methods inherited from <a href="#dgfeaturegroup>FeatureGroup</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
 
 #### Functions
 
@@ -358,7 +392,7 @@ There are several static functions which can be called without instantiating DG.
             <td>Creates a <a href="/doc/maps/en/manual/basic-types#dglatlng"><code>LatLng</code></a> object from an array
                 of 2 numbers (longitude, latitude) or 3 numbers (longitude, latitude, altitude) used in GeoJSON for points.</td>
         </tr>
-        <tr id="geojson-coordstolatlngs">
+        <tr>
             <td><code><b>coordsToLatLngs</b>(
                 <nobr>&lt;Array&gt; <i>coords</i>,</nobr>
                 <nobr>&lt;Number&gt; <i>levelsDeep?</i>,</nobr>
@@ -597,6 +631,8 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
     </tbody>
 </table>
 
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+
 #### Methods
 
 <table>
@@ -699,3 +735,7 @@ Layers extending <a href="#dggridlayer"><code>DG.GridLayer</code></a> shall reim
         </tr>
     </tbody>
 </table>
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->

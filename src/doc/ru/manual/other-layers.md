@@ -1,3 +1,7 @@
+## Дополнительные слои
+
+{toc}
+
 ### DG.LayerGroup
 
 Используется для группировки нескольких слоев, чтобы обрабатывать их как один. При добавлении
@@ -27,9 +31,13 @@
     </tbody>
 </table>
 
-#### Свойства
+#### Опции
+
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
 
 #### События
+
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -65,7 +73,7 @@
             <td><code>this</code></td>
             <td>Удаляет указанный слой из группы.</td>
         </tr>
-        <tr id="layergroup-removelayer">
+        <tr>
             <td><code><b>removeLayer</b>(
                 <nobr>&lt;Number&gt; <i>id</i> )</nobr>
             </code></td>
@@ -141,6 +149,10 @@
     </tbody>
 </table>
 
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+
 ### DG.FeatureGroup
 
 Расширяет <a href="#dglayergroup"><code>DG.LayerGroup</code></a>, добавляя обработку событий мышки
@@ -170,9 +182,13 @@
     </tbody>
 </table>
 
-#### Свойства
+#### Опции
+
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
 
 #### События
+
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -191,7 +207,7 @@
             </code></td>
 
             <td><code>this</code></td>
-            <td>Устанавливает указанные свойства векторного объекта для каждого слоя из группы, у которого реализован
+            <td>Устанавливает указанные опции векторного объекта для каждого слоя из группы, у которого реализован
                 метод <code>setStyle</code>.</td>
         </tr>
         <tr id="featuregroup-bringtofront">
@@ -215,6 +231,12 @@
         </tr>
     </tbody>
 </table>
+
+Методы, наследованные от <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
 
 ### DG.GeoJSON
 
@@ -242,21 +264,21 @@ GeoJSON и отобразить их на карте. Расширяет <a href
         <tr id="geojson-l-geojson">
             <td><code><b>DG.geoJSON</b>(
                 <nobr>&lt;Object&gt; <i>geojson?</i>,</nobr>
-                <nobr>&lt;<a href='#geojson-option'>GeoJSON options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#geojson-option">GeoJSON options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td>Создает слой GeoJSON. Опционально, принимает объект в формате
                 <a href="http://geojson.org/geojson-spec.html">GeoJSON</a> (возможна передача этого объекта позже,
-                 используя метод <code>addData</code>) и объект со <code>свойствами</code>.</td>
+                 используя метод <code>addData</code>) и объект с <code>опциями</code>.</td>
         </tr>
     </tbody>
 </table>
 
-#### Свойства
+#### Опции
 
 <table id="geojson-option">
     <thead>
         <tr>
-            <th>Свойство</th>
+            <th>Опция</th>
             <th>Тип</th>
             <th>Значение<br>по умолчанию</th>
             <th>Описание</th>
@@ -322,9 +344,21 @@ GeoJSON и отобразить их на карте. Расширяет <a href
     </tbody>
 </table>
 
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+
 #### События
 
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+
 #### Методы
+
+Методы, наследованные от <a href="#dgfeaturegroup>FeatureGroup</a> <!-- TODO: include methods -->
+
+Методы, наследованные от <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
 
 #### Статические функции
 
@@ -346,7 +380,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
             <td><code><a href="/doc/maps/ru/manual/base-classes#dglayer">Layer</a></code></td>
             <td>Создает <a href="/doc/maps/ru/manual/base-classes#dglayer"><code>Слой</code></a> на основе переданного
                 GeoJSON объекта. Может использовать собственные функции <a href="#geojson-pointtolayer"><code>pointToLayer</code></a>
-                и/или <a href="#geojson-coordstolatlng"><code>coordsToLatLng</code></a>, если они переданы в объекте свойств.</td>
+                и/или <a href="#geojson-coordstolatlng"><code>coordsToLatLng</code></a>, если они переданы в объекте опций.</td>
         </tr>
         <tr id="geojson-coordstolatlng">
             <td><code><b>coordsToLatLng</b>(
@@ -358,7 +392,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
                 двух чисел, переданных в формате (longitude, latitude), или трех чисел, в формате (longitude, latitude, altitude),
                 которые используются в GeoJSON для представления точек.</td>
         </tr>
-        <tr id="geojson-coordstolatlngs">
+        <tr>
             <td><code><b>coordsToLatLngs</b>(
                 <nobr>&lt;Array&gt; <i>coords</i>,</nobr>
                 <nobr>&lt;Number&gt; <i>levelsDeep?</i>,</nobr>
@@ -388,7 +422,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
 
             <td><code>Array</code></td>
             <td>Обратная операция для <a href="#geojson-coordstolatlngs"><code>coordsToLatLngs</code></a>
-                Свойство <code>closed</code> определяет, нужно ли добавлять первую точку в конец массива и используется
+                Опция <code>closed</code> определяет, нужно ли добавлять первую точку в конец массива и используется
                 только в случае, если <code>levelsDeep</code> равен 0.</td>
         </tr>
         <tr id="geojson-asfeature">
@@ -467,12 +501,12 @@ GeoJSON и отобразить их на карте. Расширяет <a href
     </tbody>
 </table>
 
-#### Свойства
+#### Опции
 
 <table>
     <thead>
         <tr>
-            <th>Свойство</th>
+            <th>Опция</th>
             <th>Тип</th>
             <th>Значение<br>по умолчанию</th>
             <th>Описание</th>
@@ -597,6 +631,8 @@ GeoJSON и отобразить их на карте. Расширяет <a href
     </tbody>
 </table>
 
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+
 #### Методы
 
 <table>
@@ -665,7 +701,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
             <td><code><b>getTileSize</b>()</code></td>
 
             <td><code><a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a></code></td>
-            <td>Нормализует значение свойства <a href="#gridlayer-tilesize">tileSize</a>.</td>
+            <td>Нормализует значение опции <a href="#gridlayer-tilesize">tileSize</a>.</td>
         </tr>
     </tbody>
 </table>
@@ -697,3 +733,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
         </tr>
     </tbody>
 </table>
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->

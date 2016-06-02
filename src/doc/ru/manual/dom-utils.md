@@ -4,7 +4,7 @@
 
 ### DG.DomEvent
 
-Класс для работы с [событиями DOM](https://developer.mozilla.org/ru/docs/Web/API/Event).
+Класс для работы с <a href="https://developer.mozilla.org/docs/Web/API/Event">событиями DOM</a>.
 
 #### Методы
 
@@ -135,7 +135,7 @@
                 в пикселях (отрицательного, при прокрутке вниз), из события DOM <code>mousewheel</code>.
                 Данные для события, от устройств без точного позиционирования, приближаются в диапазон 50-60px.</td>
         </tr>
-        <tr id="domevent-addlistener>
+        <tr id="domevent-addlistener">
             <td><code><b>addListener</b>(
                 <nobr><i>…</i> )</nobr>
             </code></td>
@@ -156,7 +156,7 @@
 
 ### DG.DomUtil
 
-Класс для работы с [DOM деревом](https://developer.mozilla.org/ru/docs/DOM/DOM_Reference).
+Класс для работы с <a href="https://developer.mozilla.org/ru/docs/DOM/DOM_Reference">DOM деревом</a>.
 
 #### Методы
 
@@ -299,7 +299,7 @@
         <tr id="domutil-settransform">
 		    <td><code><b>setTransform</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#dgpoint'>Point</a>&gt; <i>offset</i>,</nobr>
+		        <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>offset</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>scale?</i> )</nobr>
 		    </code></td>
 
@@ -311,7 +311,7 @@
         <tr id="domutil-setposition">
     		<td><code><b>setPosition</b>(
     		    <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-    		    <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#dgpoint'>Point</a>&gt; <i>position</i> )</nobr>
+    		    <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>position</i> )</nobr>
     		</code></td>
 
     		<td><code></code></td>
@@ -323,7 +323,7 @@
 		        <nobr>&lt;HTMLElement&gt; <i>el</i> )</nobr>
 		    </code></td>
 
-    		<td><code><a href='/doc/maps/ru/manual/#dgpoint'>Point</a></code></td>
+    		<td><code><a href="/doc/maps/ru/manual/#dgpoint">Point</a></code></td>
 		    <td>Возвращает координаты элемента, ранее установленные методом <code>setPosition</code>.</td>
 	    </tr>
         <tr id="domutil-disabletextselection">
@@ -444,10 +444,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr id='posanimation-run'>
+        <tr id="posanimation-run">
 		    <td><code><b>run</b>(
 		        <nobr>&lt;HTMLElement&gt; <i>el</i>,</nobr>
-		        <nobr>&lt;<a href='/doc/maps/ru/manual/basic-types#dgpoint'>Point</a>&gt; <i>newPos</i>,</nobr>
+		        <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a>&gt; <i>newPos</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>duration?</i>,</nobr>
 		        <nobr>&lt;Number&gt; <i>easeLinearity?</i>)</nobr>
 		    </code></td>
@@ -458,13 +458,15 @@
                 (третий аргумент <a target="_blank" href="http://cubic-bezier.com/#0,0,.5,1">кубической кривой Безье</a>,
                 по умолчанию <code>0.5</code>).</td>
 	    </tr>
-	    <tr id='posanimation-stop'>
-		    <td><code><b>stop</b>()</nobr></code></td>
+	    <tr id="posanimation-stop">
+		    <td><code><b>stop</b>()</code></td>
 		    <td><code></code></td>
 		    <td>Останавливает ранее запущенную анимацию.</td>
 	    </tr>
     </tbody>
 </table>
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
 
 ### DG.Draggable
 
@@ -508,22 +510,22 @@
     </thead>
     <tbody>
     	<tr id="draggable-down">
-    		<td><code><b>down</b></td>
+    		<td><code><b>down</b></code></td>
     		<td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code></td>
             <td>Вызывается перед началом перетаскивания.</td>
     	</tr>
     	<tr id="draggable-dragstart">
-    		<td><code><b>dragstart</b></td>
+    		<td><code><b>dragstart</b></code></td>
     		<td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code></td>
             <td>Вызывается в момент начала перетаскивания.</td>
     	</tr>
     	<tr id="draggable-predrag">
-    		<td><code><b>predrag</b></td>
+    		<td><code><b>predrag</b></code></td>
     		<td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code></td>
             <td>Вызывается в процессе перетаскивания <i>перед</i> каждым обновлением позиции элемента.</td>
 	    </tr>
 	    <tr id="draggable-dragend">
-    		<td><code><b>dragend</b></td>
+    		<td><code><b>dragend</b></code></td>
     		<td><code><a href="/doc/maps/ru/manual/events#event">Event</a></code></td>
             <td>Вызывается в момент окончания перетаскивания.</td>
 	    </tr>
@@ -542,14 +544,16 @@
     </thead>
     <tbody>
         <tr id="draggable-enable">
-            <td><code><b>enable</b>()</nobr></code></td>
+            <td><code><b>enable</b>()</code></td>
             <td><code></code></td>
             <td>Включает возможность перетаскивания.</td>
         </tr>
         <tr id="draggable-disable">
-            <td><code><b>disable</b>()</nobr></code></td>
+            <td><code><b>disable</b>()</code></td>
             <td><code></code></td>
             <td>Отключает возможность перетаскивания.</td>
         </td>
     </tbody>
 </table>
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->

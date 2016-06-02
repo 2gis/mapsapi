@@ -1,13 +1,13 @@
 ## Элементы управления
 
-{toc}
-
 Элементы управления — это компоненты интерфейса, с помощью которых пользователь может взаимодействовать с картой.
+
+{toc}
 
 ### DG.Control.Zoom
 
 Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию,
-если не передана опция <a href="/doc/maps/ru/manual/map#map-zoomcontrol"><code>zoomControl</code> со значением `false`.
+если не передана опция <a href="/doc/maps/ru/manual/map#map-zoomcontrol"><code>zoomControl</code> со значением <code>false</code>.
 Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
 #### Создание
@@ -22,19 +22,19 @@
     <tbody>
         <tr id="control-zoom-l-control-zoom">
             <td><code><b>DG.control.zoom</b>(
-                <nobr>&lt;<a href='#control-zoom-option'>DG.Control.Zoom options</a>&gt; <i>options</i> )</nobr>
+                <nobr>&lt;<a href="#control-zoom-option">DG.Control.Zoom options</a>&gt; <i>options</i> )</nobr>
             </code></td>
             <td>Создает элемент управления масштабом.</td>
 	    </tr>
 	</tbody>
 </table>
 
-#### Свойства
+#### Опции
 
 <table>
     <thead>
         <tr>
-            <th>Свойство</th>
+            <th>Опция</th>
             <th>Тип</th>
             <th>Значение<br>по умолчанию</th>
             <th>Описание</th>
@@ -68,11 +68,17 @@
     </tbody>
 </table>
 
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Методы
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
 ### DG.Control.Attribution
 
 Позволяет показать информацию об авторстве в небольшом текстовом контейнере на карте. Добавляется на карту по умолчанию,
-если значение свойства <a href="/doc/maps/ru/manual/map#map-attributioncontrol"><code>attributionControl</code> option</a>
-не выставлено в `false`. Компонует итоговый текст из слоев, вызывая их метод
+если значение опции <a href="/doc/maps/ru/manual/map#map-attributioncontrol"><code>attributionControl</code></a>
+не выставлено в <code>false</code>. Компонует итоговый текст из слоев, вызывая их метод
 <a href="/doc/maps/ru/manual/base-classes#layer-getattribution"><code>getAttribution</code></a>.
 Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
@@ -95,12 +101,12 @@
 	</tbody>
 </table>
 
-#### Свойства
+#### Опции
 
 <table>
     <thead>
         <tr>
-            <th>Свойство</th>
+            <th>Опция</th>
             <th>Тип</th>
             <th>Значение<br>по умолчанию</th>
             <th>Описание</th>
@@ -112,10 +118,12 @@
             <td><code>String </code></td>
             <td><code>&#x27;Leaflet&#x27;</code></td>
             <td>Текст в формате HTML, который будет отображен перед информацией об авторстве.
-                Для отключения необходимо передать `false`.</td>
+                Для отключения необходимо передать <code>false</code>.</td>
         </tr>
     </tbody>
 </table>
+
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 #### Методы
 
@@ -128,7 +136,7 @@
 	</tr>
 	</thead>
 	<tbody>
-        <tr id='control-attribution-setprefix'>
+        <tr id="control-attribution-setprefix">
             <td><code><b>setPrefix</b>(
                 <nobr>&lt;String&gt; <i>prefix</i> )</nobr>
             </code></td>
@@ -136,7 +144,7 @@
             <td><code>this</code></td>
             <td>Добавляет текст перед информацией об авторстве.</td>
         </tr>
-        <tr id='control-attribution-addattribution'>
+        <tr id="control-attribution-addattribution">
             <td><code><b>addAttribution</b>(
                 <nobr>&lt;String&gt; <i>text</i> )</nobr>
             </code></td>
@@ -144,7 +152,7 @@
             <td><code>this</code></td>
             <td>Добавляет информацию об авторстве (например, <code>&#39;Картографические данные 2GIS&#39;</code>).</td>
         </tr>
-        <tr id='control-attribution-removeattribution'>
+        <tr id="control-attribution-removeattribution">
             <td><code><b>removeAttribution</b>(
                 <nobr>&lt;String&gt; <i>text</i> )</nobr>
             </code></td>
@@ -154,6 +162,8 @@
         </tr>
     </tbody>
 </table>
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Scale
 
@@ -181,12 +191,12 @@
 	</tbody>
 </table>
 
-#### Свойства
+#### Опции
 
 <table>
     <thead>
         <tr>
-            <th>Свойство</th>
+            <th>Опция</th>
             <th>Тип</th>
             <th>Значение<br>по умолчанию</th>
             <th>Описание</th>
@@ -222,6 +232,12 @@
     </tbody>
 </table>
 
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Методы
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
 ### DG.Control.Ruler
 
 Элемент управления (кнопка), при клике на который включается линейка измерения расстояний на карте.
@@ -247,6 +263,14 @@
         </tr>
 	</tbody>
 </table>
+
+#### Опции
+
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Методы
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Traffic
 
@@ -274,11 +298,19 @@
 	</tbody>
 </table>
 
+#### Опции
+
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Методы
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
 ### DG.Control.Fullscreen
 
 Элемент управления (кнопка), при клике на который карта разворачивается на весь экран,
 повторный клик восстанавливает предыдущий размер. Добавляется на карту по умолчанию,
-если не передана опция <code>fullscreenControl</code> со значением `false`.
+если не передана опция <code>fullscreenControl</code> со значением <code>false</code>.
 Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.fullscreen().addTo(map);
@@ -301,6 +333,14 @@
         </tr>
 	</tbody>
 </table>
+
+#### Опции
+
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Методы
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 ### DG.Control.LocationControl
 
@@ -328,12 +368,12 @@
 	</tbody>
 </table>
 
-#### Свойства
+#### Опции
 
 <table>
     <thead>
         <tr>
-            <th>Свойство</th>
+            <th>Опция</th>
             <th>Тип</th>
             <th>Значение<br>по умолчанию</th>
             <th>Описание</th>
@@ -351,7 +391,7 @@
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>Динамическое обновление месторасположения пользователя, работает, если <code>watch</code> и
-                <code>setView</code> выставлены в `true`.</td>
+                <code>setView</code> выставлены в <code>true</code>.</td>
         </tr>
         <tr id="control-location-stopfollowingondrag">
             <td><code><b>stopFollowingOnDrag</b></code></td>
@@ -373,3 +413,9 @@
         </tr>
     </tbody>
 </table>
+
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Методы
+
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->

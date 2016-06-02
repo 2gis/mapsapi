@@ -1,11 +1,9 @@
 ## Basic Types
 
-{toc}
-
-### Description
-
 This section describes the classes of basic data types that are often found in the pages of maps API guide and
 required for use with many maps API objects.
+
+{toc}
 
 ### DG.LatLng
 
@@ -40,14 +38,14 @@ All methods that accept LatLng objects also accept them in a simple Array form a
             <td>Creates an object representing a geographical point with the given latitude and longitude
                 (and optionally altitude).</td>
         </tr>
-        <tr id="latlng-l-latlng">
+        <tr>
             <td><code><b>DG.latLng</b>(
                 <nobr>&lt;Array&gt; <i>coords</i> )</nobr>
             </code></td>
             <td>Expects an array of the form <code>[Number, Number]</code> or <code>[Number, Number, Number]</code>
                 instead.</td>
         </tr>
-        <tr id="latlng-l-latlng">
+        <tr>
             <td><code><b>DG.latLng</b>(
                 <nobr>&lt;Object&gt; <i>coords</i> )</nobr>
             </code></td>
@@ -176,7 +174,7 @@ so the bounds example above can be passed like this:
             <td>Creates a <a href="#dglatlngbounds"><code>LatLngBounds</code></a> object by defining south-west
                 and north-east corners of the rectangle.</td>
         </tr>
-        <tr id="latlngbounds-l-latlngbounds">
+        <tr>
             <td><code><b>DG.latLngBounds</b>(
                 <nobr>&lt;LatLng[]&gt; <i>latlngs</i>)</nobr>
             </code></td>
@@ -206,7 +204,7 @@ so the bounds example above can be passed like this:
             <td><code>this</code></td>
             <td>Extend the bounds to contain the given point.</td>
         </tr>
-        <tr id="latlngbounds-extend">
+        <tr>
             <td><code><b>extend</b>(
                 <nobr>&lt;<a href="#dglatlngbounds">LatLngBounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
@@ -226,7 +224,7 @@ so the bounds example above can be passed like this:
             <td><code><b>getCenter</b>()</code></td>
 
             <td><code><a href="#dglatlng">LatLng</a></code></td>
-            <tdReturns the center point of the bounds.</td>
+            <td>Returns the center point of the bounds.</td>
         </tr>
         <tr id="latlngbounds-getsouthwest">
             <td><code><b>getSouthWest</b>()</code></td>
@@ -387,108 +385,108 @@ All methods and options that accept Point objects also accept them in a simple A
         </tr>
     </thead>
     <tbody>
-        <tr id='point-clone'>
+        <tr id="point-clone">
             <td><code><b>clone</b>()</nobr></code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns a copy of the current point.</td>
         </tr>
-        <tr id='point-add'>
+        <tr id="point-add">
             <td><code><b>add</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the result of addition of the current and the given points.</td>
         </tr>
-        <tr id='point-subtract'>
+        <tr id="point-subtract">
             <td><code><b>subtract</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the result of subtraction of the given point from the current.</td>
         </tr>
-        <tr id='point-divideby'>
+        <tr id="point-divideby">
             <td><code><b>divideBy</b>(
                 <nobr>&lt;Number&gt; <i>num</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the result of division of the current point by the given number.</td>
         </tr>
-        <tr id='point-multiplyby'>
+        <tr id="point-multiplyby">
             <td><code><b>multiplyBy</b>(
                 <nobr>&lt;Number&gt; <i>num</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the result of multiplication of the current point by the given number.</td>
         </tr>
-        <tr id='point-scaleby'>
+        <tr id="point-scaleby">
             <td><code><b>scaleBy</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>scale</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>scale</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Multiply each coordinate of the current point by each coordinate of
                 <code>scale</code>. In linear algebra terms, multiply the point by the
                 <a href="https://en.wikipedia.org/wiki/Scaling_%28geometry%29#Matrix_representation">scaling matrix</a>
                 defined by <code>scale</code>.</td>
         </tr>
-        <tr id='point-unscaleby'>
+        <tr id="point-unscaleby">
             <td><code><b>unscaleBy</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>scale</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>scale</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Inverse of <code>scaleBy</code>. Divide each coordinate of the current point by
                 each coordinate of <code>scale</code>.</td>
         </tr>
-        <tr id='point-round'>
+        <tr id="point-round">
             <td><code><b>round</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns a copy of the current point with rounded coordinates.</td>
         </tr>
-        <tr id='point-floor'>
+        <tr id="point-floor">
             <td><code><b>floor</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns a copy of the current point with floored coordinates (rounded down).</td>
         </tr>
-        <tr id='point-ceil'>
+        <tr id="point-ceil">
             <td><code><b>ceil</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns a copy of the current point with ceiled coordinates (rounded up).</td>
         </tr>
-        <tr id='point-distanceto'>
+        <tr id="point-distanceto">
             <td><code><b>distanceTo</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Number</code></td>
             <td>Returns the cartesian distance between the current and the given points.</td>
         </tr>
-        <tr id='point-equals'>
+        <tr id="point-equals">
             <td><code><b>equals</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Returns <code>true</code> if the given point has the same coordinates.</td>
         </tr>
-        <tr id='point-contains'>
+        <tr id="point-contains">
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>otherPoint</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>otherPoint</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Returns <code>true</code> if both coordinates of the given point are less than
                 the corresponding current point coordinates (in absolute values).</td>
         </tr>
-        <tr id='point-tostring'>
+        <tr id="point-tostring">
             <td><code><b>toString</b>()</code></td>
 
             <td><code>String</code></td>
@@ -571,68 +569,68 @@ All methods that accept <a href="#dgbounds"><code>Bounds</code></a> objects also
         </tr>
     </thead>
     <tbody>
-        <tr id='bounds-extend'>
+        <tr id="bounds-extend">
             <td><code><b>extend</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
             <td>Extends the bounds to contain the given point.</td>
         </tr>
-        <tr id='bounds-getcenter'>
+        <tr id="bounds-getcenter">
             <td><code><b>getCenter</b>(
                 <nobr>&lt;Boolean&gt; <i>round?</i> )</nobr>
             </code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the center point of the bounds.</td>
         </tr>
-        <tr id='bounds-getbottomleft'>
+        <tr id="bounds-getbottomleft">
             <td><code><b>getBottomLeft</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the bottom-left point of the bounds.</td>
         </tr>
-        <tr id='bounds-gettopright'>
+        <tr id="bounds-gettopright">
             <td><code><b>getTopRight</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the top-right point of the bounds.</td>
         </tr>
-        <tr id='bounds-getsize'>
+        <tr id="bounds-getsize">
             <td><code><b>getSize</b>()</code></td>
 
-            <td><code><a href='#dgpoint'>Point</a></code></td>
+            <td><code><a href="#dgpoint">Point</a></code></td>
             <td>Returns the size of the given bounds.</td>
         </tr>
-        <tr id='bounds-contains'>
+        <tr id="bounds-contains">
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href='#dgbounds'>Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Returns <code>true</code> if the rectangle contains the given one.</td>
         </tr>
-        <tr id='bounds-contains'>
+        <tr id="bounds-contains">
             <td><code><b>contains</b>(
-                <nobr>&lt;<a href='#dgpoint'>Point</a>&gt; <i>point</i> )</nobr>
+                <nobr>&lt;<a href="#dgpoint">Point</a>&gt; <i>point</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Returns <code>true</code> if the rectangle contains the given poing.</td>
         </tr>
-        <tr id='bounds-intersects'>
+        <tr id="bounds-intersects">
             <td><code><b>intersects</b>(
-                <nobr>&lt;<a href='#dgbounds'>Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>
             <td>Returns <code>true</code> if the rectangle intersects the given bounds. Two bounds
                 intersect if they have at least one point in common.</td>
         </tr>
-        <tr id='bounds-overlaps'>
+        <tr id="bounds-overlaps">
             <td><code><b>overlaps</b>(
-                <nobr>&lt;<a href='#dgbounds'>Bounds</a>&gt; <i>otherBounds</i> )</nobr>
+                <nobr>&lt;<a href="#dgbounds">Bounds</a>&gt; <i>otherBounds</i> )</nobr>
             </code></td>
 
             <td><code>Boolean</code></td>

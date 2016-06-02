@@ -1,8 +1,8 @@
 ## Controls
 
-{toc}
-
 Controls is a user interface components by which a user can interact with the map.
+
+{toc}
 
 ### DG.Control.Zoom
 
@@ -22,7 +22,7 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>Control</code
     <tbody>
         <tr id="control-zoom-l-control-zoom">
             <td><code><b>DG.control.zoom</b>(
-                <nobr>&lt;<a href='#control-zoom-option'>DG.Control.Zoom options</a>&gt; <i>options</i> )</nobr>
+                <nobr>&lt;<a href="#control-zoom-option">DG.Control.Zoom options</a>&gt; <i>options</i> )</nobr>
             </code></td>
             <td>Creates a zoom control</td>
 	    </tr>
@@ -67,6 +67,12 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>Control</code
         </tr>
     </tbody>
 </table>
+
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Methods
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Attribution
 
@@ -117,6 +123,8 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
     </tbody>
 </table>
 
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
 #### Methods
 
 <table>
@@ -128,7 +136,7 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
 	</tr>
 	</thead>
 	<tbody>
-        <tr id='control-attribution-setprefix'>
+        <tr id="control-attribution-setprefix">
             <td><code><b>setPrefix</b>(
                 <nobr>&lt;String&gt; <i>prefix</i> )</nobr>
             </code></td>
@@ -136,7 +144,7 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
             <td><code>this</code></td>
             <td>Sets the text before the attributions.</td>
         </tr>
-        <tr id='control-attribution-addattribution'>
+        <tr id="control-attribution-addattribution">
             <td><code><b>addAttribution</b>(
                 <nobr>&lt;String&gt; <i>text</i> )</nobr>
             </code></td>
@@ -144,7 +152,7 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
             <td><code>this</code></td>
             <td>Adds an attribution text (e.g. <code>&#39;Vector data &amp;copy; Mapbox&#39;</code>).</td>
         </tr>
-        <tr id='control-attribution-removeattribution'>
+        <tr id="control-attribution-removeattribution">
             <td><code><b>removeAttribution</b>(
                 <nobr>&lt;String&gt; <i>text</i> )</nobr>
             </code></td>
@@ -154,6 +162,8 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
         </tr>
     </tbody>
 </table>
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Scale
 
@@ -221,6 +231,12 @@ A simple scale control that shows the scale of the current center of screen in m
     </tbody>
 </table>
 
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Methods
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
 ### DG.Control.Ruler
 
 When clicked opens a ruler - the tool for measurement of distances on a map.
@@ -247,6 +263,14 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
 	</tbody>
 </table>
 
+#### Options
+
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Methods
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
 ### DG.Control.Traffic
 
 The traffic control allows you to display traffic overlay data on a map.
@@ -272,6 +296,14 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
         </tr>
 	</tbody>
 </table>
+
+#### Options
+
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Methods
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Fullscreen
 
@@ -300,6 +332,14 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
         </tr>
 	</tbody>
 </table>
+
+#### Options
+
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Methods
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
 
 ### DG.Control.LocationControl
 
@@ -350,7 +390,7 @@ Control is disabled if geo-location API is not available.
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
             <td>Update user location dynamically or not, works if <code>watch</code> and <code>setView</code> options are
-                exposed to `true` in <code>locateOptions</code>.</td>
+                exposed to <code>true</code> in <code>locateOptions</code>.</td>
         </tr>
         <tr id="control-location-stopfollowingondrag">
             <td><code><b>stopFollowingOnDrag</b></code></td>
@@ -372,3 +412,9 @@ Control is disabled if geo-location API is not available.
         </tr>
     </tbody>
 </table>
+
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+
+#### Methods
+
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->

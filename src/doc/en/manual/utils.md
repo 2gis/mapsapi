@@ -341,12 +341,12 @@ Various utility functions.
     </thead>
     <tbody>
         <tr id="util-lastid">
-            <td><code><b>lastId</b>
+            <td><code><b>lastId</b></code></td>
             <td><code>Number</code></td>
             <td>Last unique ID used by <a href="#util-stamp"><code>stamp()</code></a></td>
         </tr>
         <tr id="util-emptyimageurl">
-            <td><code><b>emptyImageUrl</b>
+            <td><code><b>emptyImageUrl</b></code></td>
             <td><code>String</code></td>
             <td>Data URI string containing a base64-encoded empty GIF image.
                 Used as a hack to free memory from unused images on WebKit-powered
@@ -448,9 +448,9 @@ Various utility functions for polygon geometries.
 <a href="/doc/maps/en/manual/map#map-getlang">getLang</a>. Также имеется объект DG.Locale, который можно подмешать
 в любой <a href="/doc/maps/en/manual/external-modules">внешний модуль</a>, после чего в нем появится метод t,
 с помощью которого можно осуществить перевод. Классы модулей, к которым примешивается DG.Locale должны
-содержать внутри себя свойство `_map` и статическое свойство `Dictionary`.
+содержать внутри себя свойство <code>_map</code> и статическое свойство <code>Dictionary</code>.
 
-Базовым для всех словарей является словарь `DG.Dictionary`, в котором хранятся правила перевода слов во
+Базовым для всех словарей является словарь <code>DG.Dictionary</code>, в котором хранятся правила перевода слов во
 множественные формы (plural rules). При создании модуля, использующего свои словари, необходимо их разместить
 в папке lang. К примеру, если вы будете использовать итальянский и русский языки, тогда необходимо создать
 файлы lang/it.js и lang/ru.js. Примеры создания словарей рассмотрены ниже.
