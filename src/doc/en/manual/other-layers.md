@@ -504,7 +504,7 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
 
 #### Options
 
-<table>
+<table id='gridlayer-options'>
     <thead>
         <tr>
             <th>Option</th>
@@ -589,7 +589,7 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
 
 #### Events
 
-<table>
+<table id='gridlayer-events'>
     <thead>
         <tr>
             <th>Event</th>
@@ -635,7 +635,7 @@ Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a
 
 #### Methods
 
-<table>
+<table id='gridlayer-methods'>
     <thead>
         <tr>
             <th>Method</th>

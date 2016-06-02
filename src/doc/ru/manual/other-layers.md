@@ -503,7 +503,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
 
 #### Опции
 
-<table>
+<table id='gridlayer-options'>
     <thead>
         <tr>
             <th>Опция</th>
@@ -589,7 +589,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
 
 #### События
 
-<table>
+<table id='gridlayer-events'>
     <thead>
         <tr>
             <th>Событие</th>
@@ -635,7 +635,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
 
 #### Методы
 
-<table>
+<table id='gridlayer-methods'>
     <thead>
         <tr>
             <th>Метод</th>
