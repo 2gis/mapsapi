@@ -1211,3 +1211,46 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
         </tr>
     </tbody>
 </table>
+
+#### MetaEvent
+
+<table>
+    <thead>
+        <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>latlng</b></code></td>
+            <td><code><a href="/doc/maps/en/manual/basic-types#dglatlng">LatLng</a></code></td>
+            <td>The geographical coordinates of the metalayer's point.</td>
+        </tr>
+        <tr>
+            <td><code><b>meta</b></code></td>
+            <td><code>Object</code></td>
+            <td>Metalayer's data.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### LangEvent
+
+<table>
+    <thead>
+        <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>lang</b></code></td>
+            <td><code>String</code></td>
+            <td>The current map's language.</td>
+        </tr>
+    </tbody>
+</table>
