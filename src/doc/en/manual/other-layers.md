@@ -33,11 +33,11 @@ well. Extends <a href="/doc/maps/en/manual/base-classes#dglayer"><code>DG.Layer<
 
 #### Options
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### Events
 
-Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
@@ -150,9 +150,9 @@ Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a
     </tbody>
 </table>
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.FeatureGroup
 
@@ -185,11 +185,11 @@ Extended <a href="#dglayergroup"><code>DG.LayerGroup</code></a> that also has mo
 
 #### Options
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### Events
 
-Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
@@ -231,11 +231,11 @@ Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a
     </tbody>
 </table>
 
-Methods inherited from <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+Methods inherited from <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.GeoJSON
 
@@ -343,21 +343,21 @@ GeoJSON data and display it on the map. Extends <a href="#dgfeaturegroup"><code>
     </tbody>
 </table>
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### Events
 
-Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
-Methods inherited from <a href="#dgfeaturegroup>FeatureGroup</a> <!-- TODO: include methods -->
+Methods inherited from <a href="#dgfeaturegroup">FeatureGroup</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+Methods inherited from <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 #### Functions
 
@@ -631,7 +631,7 @@ Once the tile is finsihed drawing it can be passed to the done() callback.
     </tbody>
 </table>
 
-Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+Events inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
@@ -736,6 +736,6 @@ Layers extending <a href="#dggridlayer"><code>DG.GridLayer</code></a> shall reim
     </tbody>
 </table>
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->

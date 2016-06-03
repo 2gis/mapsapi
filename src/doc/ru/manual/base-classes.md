@@ -639,7 +639,7 @@
     </tbody>
 </table>
 
-События, наследованные от <a href="#dgevented>Evented</a> <!-- TODO: include events -->
+События, наследованные от <a href="#dgevented">Evented</a> <!-- TODO: include events -->
 
 ### DG.Control
 
@@ -871,17 +871,17 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Опции, наследованные от <a href="#dglayer>Layer</a> <!-- TODO: include options -->
+Опции, наследованные от <a href="#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### Events
 
-События, наследованные от <a href="#dglayer>Layer</a> <!-- TODO: include events -->
+События, наследованные от <a href="#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
-Методы, наследованные от <a href="#dglayer>Layer</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="#dgevented>Evented</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### Объекты событий
 
@@ -954,7 +954,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LocationEvent
 
@@ -1010,7 +1010,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### ErrorEvent
 
@@ -1036,7 +1036,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LayerEvent
 
@@ -1057,7 +1057,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LayersControlEvent
 
@@ -1083,7 +1083,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### TileEvent
 
@@ -1104,7 +1104,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### TileErrorEvent
 
@@ -1125,7 +1125,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### ResizeEvent
 
@@ -1151,7 +1151,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### GeoJSON event
 
@@ -1186,7 +1186,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### Popup event
 
@@ -1206,7 +1206,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event>Event</a> <!-- TODO: include properties -->
+Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### DragEndEvent
 

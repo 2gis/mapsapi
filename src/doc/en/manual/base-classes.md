@@ -629,7 +629,7 @@ Every layer should extend from <a href="#dglayer"><code>DG.Layer</code></a> and 
     </tbody>
 </table>
 
-Events inherited from <a href="#dgevented>Evented</a> <!-- TODO: include events -->
+Events inherited from <a href="#dgevented">Evented</a> <!-- TODO: include events -->
 
 ### DG.Control
 
@@ -856,17 +856,17 @@ Do not use this class directly, use <code>DG.SVG</code> and <code>DG.Canvas</cod
     </tbody>
 </table>
 
-Options inherited from <a href="#dglayer>Layer</a> <!-- TODO: include options -->
+Options inherited from <a href="#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### Events
 
-Events inherited from <a href="#dglayer>Layer</a> <!-- TODO: include events -->
+Events inherited from <a href="#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
-Methods inherited from <a href="#dglayer>Layer</a> <!-- TODO: include methods -->
+Methods inherited from <a href="#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Methods inherited from <a href="#dgevented>Evented</a> <!-- TODO: include methods -->
+Methods inherited from <a href="#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### Event objects
 
@@ -939,7 +939,7 @@ The base event object. All other event objects contain these properties too.
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LocationEvent
 
@@ -995,7 +995,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### ErrorEvent
 
@@ -1021,7 +1021,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LayerEvent
 
@@ -1042,7 +1042,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LayersControlEvent
 
@@ -1068,7 +1068,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### TileEvent
 
@@ -1089,7 +1089,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### TileErrorEvent
 
@@ -1110,7 +1110,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### ResizeEvent
 
@@ -1136,7 +1136,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### GeoJSON event
 
@@ -1171,7 +1171,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### Popup event
 
@@ -1191,7 +1191,7 @@ Properties inherited from <a href="#event>Event</a> <!-- TODO: include propertie
     </tbody>
 </table>
 
-Properties inherited from <a href="#event>Event</a> <!-- TODO: include properties -->
+Properties inherited from <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### DragEndEvent
 

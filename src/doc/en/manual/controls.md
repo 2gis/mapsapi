@@ -68,11 +68,11 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>Control</code
     </tbody>
 </table>
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Methods
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Attribution
 
@@ -123,7 +123,7 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
     </tbody>
 </table>
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Methods
 
@@ -163,7 +163,7 @@ Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Contr
     </tbody>
 </table>
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Scale
 
@@ -231,11 +231,11 @@ A simple scale control that shows the scale of the current center of screen in m
     </tbody>
 </table>
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Methods
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Ruler
 
@@ -265,11 +265,11 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
 
 #### Options
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Methods
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Traffic
 
@@ -299,11 +299,11 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
 
 #### Options
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Methods
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Fullscreen
 
@@ -335,11 +335,11 @@ Extends <a href="/doc/maps/en/manual/base-classes#dgcontrol"><code>DG.Control</c
 
 #### Options
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Methods
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.LocationControl
 
@@ -413,8 +413,8 @@ Control is disabled if geo-location API is not available.
     </tbody>
 </table>
 
-Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Options inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Methods
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol>Control</a> <!-- TODO: include options -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->

@@ -33,11 +33,11 @@
 
 #### Опции
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### События
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -149,9 +149,9 @@
     </tbody>
 </table>
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.FeatureGroup
 
@@ -184,11 +184,11 @@
 
 #### Опции
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### События
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -232,11 +232,11 @@
     </tbody>
 </table>
 
-Методы, наследованные от <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.GeoJSON
 
@@ -344,21 +344,21 @@ GeoJSON и отобразить их на карте. Расширяет <a href
     </tbody>
 </table>
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include options -->
+Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### События
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
-Методы, наследованные от <a href="#dgfeaturegroup>FeatureGroup</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="#dgfeaturegroup">FeatureGroup</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="#dglayergroup>LayerGroup</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 #### Статические функции
 
@@ -631,7 +631,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
     </tbody>
 </table>
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include events -->
+События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -734,6 +734,6 @@ GeoJSON и отобразить их на карте. Расширяет <a href
     </tbody>
 </table>
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer>Layer</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->

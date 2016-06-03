@@ -466,7 +466,7 @@
     </tbody>
 </table>
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.Draggable
 
@@ -556,4 +556,4 @@
     </tbody>
 </table>
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->

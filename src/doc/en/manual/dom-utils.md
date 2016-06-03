@@ -464,7 +464,7 @@ Used internally for panning animations, utilizing CSS3 Transitions for modern br
     </tbody>
 </table>
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.Draggable
 
@@ -557,4 +557,4 @@ that were positioned with [DG.DomUtil.setPosition](#domutil-setposition)
     </tbody>
 </table>
 
-Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented>Evented</a> <!-- TODO: include methods -->
+Methods inherited from <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
