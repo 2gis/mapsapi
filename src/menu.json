@@ -24,8 +24,8 @@
                 "content": {
                     "ru": {
                         "title": "Руководство",
-                        "uri": "maps/manual/loading",
-                        "_src":"manual/loading.md",
+                        "uri": "maps/ru/ru/manual/dg-loading",
+                        "_src":"ru/ru/manual/dg-loading.md",
                         "hide": false
                     }
                 },
@@ -34,8 +34,8 @@
                         "content": {
                             "ru": {
                                 "title": "Подключение API",
-                                "uri": "maps/manual/loading",
-                                "_src":"manual/loading.md",
+                                "uri": "maps/ru/ru/manual/dg-loading",
+                                "_src":"ru/ru/manual/dg-loading.md",
                                 "hide": false
                             }
                         },
@@ -45,8 +45,19 @@
                         "content": {
                             "ru": {
                                 "title": "Карта",
-                                "uri": "maps/manual/map",
-                                "_src":"manual/map.md",
+                                "uri": "maps/ru/manual/map",
+                                "_src":"ru/manual/map.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Базовые типы",
+                                "uri": "maps/ru/manual/basic-types",
+                                "_src":"ru/manual/basic-types.md",
                                 "hide": false
                             }
                         },
@@ -56,8 +67,8 @@
                         "content": {
                             "ru": {
                                 "title": "Базовые классы",
-                                "uri": "maps/manual/base-classes",
-                                "_src":"manual/base-classes.md",
+                                "uri": "maps/ru/manual/base-classes",
+                                "_src":"ru/manual/base-classes.md",
                                 "hide": false
                             }
                         },
@@ -67,8 +78,8 @@
                         "content": {
                             "ru": {
                                 "title": "Маркеры",
-                                "uri": "maps/manual/markers",
-                                "_src":"manual/markers.md",
+                                "uri": "maps/ru/manual/markers",
+                                "_src":"ru/manual/markers.md",
                                 "hide": false
                             }
                         },
@@ -77,9 +88,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Балуны",
-                                "uri": "maps/manual/popups",
-                                "_src":"manual/popup.md",
+                                "title": "Попапы",
+                                "uri": "maps/ru/manual/popup",
+                                "_src":"ru/manual/popup.md",
                                 "hide": false
                             }
                         },
@@ -89,19 +100,8 @@
                         "content": {
                             "ru": {
                                 "title": "Подсказки",
-                                "uri": "maps/manual/label",
-                                "_src":"manual/label.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "Геометрии",
-                                "uri": "maps/manual/geometries",
-                                "_src":"manual/geometries.md",
+                                "uri": "maps/ru/manual/label",
+                                "_src":"ru/manual/label.md",
                                 "hide": false
                             }
                         },
@@ -111,8 +111,8 @@
                         "content": {
                             "ru": {
                                 "title": "Элементы управления",
-                                "uri": "maps/manual/controls",
-                                "_src":"manual/controls.md",
+                                "uri": "maps/ru/manual/controls",
+                                "_src":"ru/manual/controls.md",
                                 "hide": false
                             }
                         },
@@ -121,9 +121,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Слои",
-                                "uri": "maps/manual/layers",
-                                "_src":"manual/layers.md",
+                                "title": "Векторные слои",
+                                "uri": "maps/ru/manual/vector-layers",
+                                "_src":"ru/manual/vector-layers.md",
                                 "hide": false
                             }
                         },
@@ -132,9 +132,20 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Группы",
-                                "uri": "maps/manual/groups",
-                                "_src":"manual/groups.md",
+                                "title": "Растровые слои",
+                                "uri": "maps/ru/manual/raster-layers",
+                                "_src":"ru/manual/raster-layers.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Прочие слои",
+                                "uri": "maps/ru/manual/other-layers",
+                                "_src":"ru/manual/other-layers.md",
                                 "hide": false
                             }
                         },
@@ -144,8 +155,8 @@
                         "content": {
                             "ru": {
                                 "title": "Внешние модули",
-                                "uri": "maps/manual/external-modules",
-                                "_src":"manual/external-modules.md",
+                                "uri": "maps/ru/manual/dg-external-modules",
+                                "_src":"ru/manual/dg-external-modules.md",
                                 "hide": false
                             }
                         },
@@ -155,8 +166,8 @@
                         "content": {
                             "ru": {
                                 "title": "Линейка",
-                                "uri": "maps/manual/ruler",
-                                "_src":"manual/ruler.md",
+                                "uri": "maps/ru/manual/dg-ruler",
+                                "_src":"ru/manual/dg-ruler.md",
                                 "hide": false
                             }
                         },
@@ -166,8 +177,8 @@
                         "content": {
                             "ru": {
                                 "title": "Метаслои",
-                                "uri": "maps/manual/metalayers",
-                                "_src":"manual/metalayers.md",
+                                "uri": "maps/ru/manual/dg-metalayers",
+                                "_src":"ru/manual/dg-metalayers.md",
                                 "hide": false
                             }
                         },
@@ -176,9 +187,20 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Пробки",
-                                "uri": "maps/manual/traffic",
-                                "_src":"manual/traffic.md",
+                                "title": "Слой пробок",
+                                "uri": "maps/ru/manual/dg-traffic",
+                                "_src":"ru/manual/dg-traffic.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Определение проекта",
+                                "uri": "maps/ru/manual/dg-project-detector",
+                                "_src":"ru/manual/dg-project-detector.md",
                                 "hide": false
                             }
                         },
@@ -188,19 +210,8 @@
                         "content": {
                             "ru": {
                                 "title": "AJAX-запросы",
-                                "uri": "maps/manual/ajax",
-                                "_src":"manual/ajax.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "GeoJSON-формат",
-                                "uri": "maps/manual/geojson",
-                                "_src":"manual/geojson.md",
+                                "uri": "maps/ru/manual/dg-ajax",
+                                "_src":"ru/manual/dg-ajax.md",
                                 "hide": false
                             }
                         },
@@ -210,19 +221,8 @@
                         "content": {
                             "ru": {
                                 "title": "WKT-формат",
-                                "uri": "maps/manual/wkt",
-                                "_src":"manual/wkt.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "События",
-                                "uri": "maps/manual/events",
-                                "_src":"manual/events.md",
+                                "uri": "maps/ru/manual/dg-wkt",
+                                "_src":"ru/manual/dg-wkt.md",
                                 "hide": false
                             }
                         },
@@ -232,8 +232,8 @@
                         "content": {
                             "ru": {
                                 "title": "Локализация",
-                                "uri": "maps/manual/locale",
-                                "_src":"manual/locale.md",
+                                "uri": "maps/ru/manual/dg-locale",
+                                "_src":"ru/manual/dg-locale.md",
                                 "hide": false
                             }
                         },
@@ -242,9 +242,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Утилиты",
-                                "uri": "maps/manual/utils",
-                                "_src":"manual/utils.md",
+                                "title": "Вспомогательные классы",
+                                "uri": "maps/ru/manual/utils",
+                                "_src":"ru/manual/utils.md",
                                 "hide": false
                             }
                         },
@@ -254,19 +254,8 @@
                         "content": {
                             "ru": {
                                 "title": "Работа с DOM",
-                                "uri": "maps/manual/dom-utils",
-                                "_src":"manual/dom-utils.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "Интерфейсы",
-                                "uri": "maps/manual/interfaces",
-                                "_src":"manual/interfaces.md",
+                                "uri": "maps/ru/manual/dom-utils",
+                                "_src":"ru/manual/dom-utils.md",
                                 "hide": false
                             }
                         },
@@ -276,8 +265,8 @@
                         "content": {
                             "ru": {
                                 "title": "Переход на версию 2.0",
-                                "uri": "maps/manual/migration",
-                                "_src":"manual/migration.md",
+                                "uri": "maps/ru/manual/dg-migration",
+                                "_src":"ru/manual/dg-migration.md",
                                 "hide": false
                             }
                         },
