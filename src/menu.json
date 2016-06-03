@@ -24,8 +24,8 @@
                 "content": {
                     "ru": {
                         "title": "Руководство",
-                        "uri": "maps/ru/ru/manual/dg-loading",
-                        "_src":"ru/ru/manual/dg-loading.md",
+                        "uri": "maps/ru/manual/dg-loading",
+                        "_src":"ru/manual/dg-loading.md",
                         "hide": false
                     }
                 },
