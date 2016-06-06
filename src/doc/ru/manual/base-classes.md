@@ -1,13 +1,13 @@
 ## Базовые классы
 
-Служебный функционал, необходимый для работы API карт и разработки
+Служебные классы библотеки, необходимые для работы API карт и разработки
 <a href="https://github.com/2gis/maps-api-2.0/blob/master/CONTRIBUTING.md#%D0%9A%D0%B0%D0%BA-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81%D0%BE%D0%B1%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8C" target="_blank">собственных модулей</a>.
 
 {toc}
 
 ### DG.Class
 
-<code>DG.Class</code> предоставляет возможность использовать ООП подход в разработке функционала API карт, и используется
+<code>DG.Class</code> предоставляет возможность использовать ООП подход в разработке API карт, и используется
 для реализации большинства классов, приведенных в этой документации.
 
 Кроме реализации простой классической модели наследования, имеются несколько свойств для удобной организации кода,
@@ -38,7 +38,7 @@
     new DG.Map('map');
     DG.map('map');      // эквивалентный вызов
 
-Вы можете повторить поведение для своих классов, т.к. подобные методы реализованы достаточно просто:
+Вы можете использовать такой подход в своих классах, т.к. подобные методы реализованы достаточно просто:
 
     DG.map = function (id, options) {
         return new DG.Map(id, options);
@@ -46,7 +46,7 @@
 
 #### Наследование
 
-Для определения новых классов используется функционал <code>DG.Class.extend</code>, также метод <code>extend</code> можно использовать
+Для определения новых классов используется <code>DG.Class.extend</code>, также метод <code>extend</code> можно использовать
 в любом другом классе, который наследуется от <code>DG.Class</code>:
 
     var MyChildClass = MyClass.extend({
@@ -54,7 +54,7 @@
     });
 
 Данный код создаст класс, который унаследует все методы и свойства родительского класса (через цепочку прототипов),
-при необходимости, добавляя или переопределяя родительские методы и свойства. Кроме того, корректно обрабатывается
+при необходимости добавляя или переопределяя родительские методы и свойства. Кроме того, корректно обрабатывается
 оператор <code>instanceof</code>:
 
     var a = new MyChildClass();
@@ -66,7 +66,7 @@
 
     var MyChildClass = MyClass.extend({
         initialize: function () {
-            MyClass.prototype.initialize.call("Yo");
+            MyClass.prototype.initialize.call(this, "Yo");
         },
 
         greet: function (name) {
@@ -102,7 +102,7 @@
     a.options.myOption2; // 'bar'
     a.options.myOption3; // 5
 
-Также, имеется метод <a href="/doc/maps/ru/manual/utils#util-setoptions"><code>DG.Util.setOptions</code></a>,
+Также существует метод <a href="/doc/maps/ru/manual/utils#util-setoptions"><code>DG.Util.setOptions</code></a>,
 который позволяет объединять опции, переданные в конструктор, с опциями, заданными по умолчанию:
 
     var MyClass = DG.Class.extend({
@@ -120,7 +120,7 @@
     var a = new MyClass({bla: 10});
     a.options; // {foo: 'bar', bla: 10}
 
-#### Включения
+#### Поддержка создания миксинов
 
 <code>includes</code> &mdash; ссылка на специальный объект, свойства и методы которого будут объединены со свойствами
 и методами экземпляров класса (такие объекты называются mixin-ами).
@@ -141,7 +141,7 @@
 
     MyClass.include(MyMixin);
 
-#### Статика
+#### Поддержка статических членов класса
 
 <code>statics</code> &mdash; ссылка на специальный объект, свойства и методы которого будут объединены со статическими
 свойствами и методами класса. Бывает удобно использовать для определения констант:
@@ -161,14 +161,14 @@
 дополнительные действия при инициализации объектов существующих классов (например, при инициализации
 объекта <a href="/doc/maps/ru/manual/geometries#polyline"><code>DG.Polyline</code></a>).
 
-Для подобного рода задач имеется метод <code>addInitHook</code>:
+Для подобного рода задач есть метод <code>addInitHook</code>:
 
     MyClass.addInitHook(function () {
         // ... выполнить дополнительные действия при вызове конструктора
         // например, добавить обработчики событий, установить значения свойств и т.п.
     });
 
-Альтернативный вариант вызова, если необходимо использовать статический вызов метода при инициализации:
+Также можно использовать сокращенную запись, если вам надо сделать всего лишь один дополнительный вызов метода:
 
     MyClass.addInitHook('methodName', arg1, arg2, …);
 
@@ -231,7 +231,7 @@
         alert(e.latlng);
     } );
 
-Для того, чтобы иметь возможность добавить и впоследствии удалить обработчик события, опишите обработчик
+Для того, чтобы можно было добавить и впоследствии удалить обработчик события, опишите обработчик
 с помощью внешней функции, ссылку на которую потом можно будет передать в методы данного класса:
 
     function onClick(e) { ... }
@@ -251,8 +251,8 @@
     <tbody>
         <tr id="evented-on">
             <td><code><b>on</b>(
-                <nobr>&lt;String&gt; <i>type</i>,
-                <nobr>&lt;Function&gt; <i>fn</i>,
+                <nobr>&lt;String&gt; <i>type</i></nobr>,
+                <nobr>&lt;Function&gt; <i>fn</i></nobr>,
                 <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
             </code></td>
 
@@ -273,15 +273,15 @@
         </tr>
         <tr id="evented-off">
             <td><code><b>off</b>(
-                <nobr>&lt;String&gt; <i>type</i>,
-                <nobr>&lt;Function&gt; <i>fn?</i>,
+                <nobr>&lt;String&gt; <i>type</i></nobr>,
+                <nobr>&lt;Function&gt; <i>fn?</i></nobr>,
                 <nobr>&lt;Object&gt; <i>context?</i> )</nobr>
             </code></td>
 
             <td><code>this</code></td>
-            <td>Удаляет ранее добавленную функцию обработчика событий. Если функция не указана, то удаляются
+            <td>Удаляет ранее добавленную функцию обработчика событий. Если функция не указана, то у объекта будут удалены
                 все обработчики для данного типа событий. Замечание: если методу <code>on</code> передавался
-                контекстный объект, этот-же объект должен быть передан и методу <code>off</code>.</td>
+                контекст, этот же контекст должен быть передан и методу <code>off</code>, для того чтобы обработчик был удален.</td>
         </tr>
         <tr>
             <td><code><b>off</b>(
@@ -299,8 +299,8 @@
         </tr>
         <tr id="evented-fire">
             <td><code><b>fire</b>(
-                <nobr>&lt;String&gt; <i>type</i>,
-                <nobr>&lt;Object&gt; <i>data?</i>,
+                <nobr>&lt;String&gt; <i>type</i></nobr>,
+                <nobr>&lt;Object&gt; <i>data?</i></nobr>,
                 <nobr>&lt;Boolean&gt; <i>propagate?</i> )</nobr>
             </code></td>
 
@@ -330,7 +330,7 @@
             </code></td>
 
             <td><code>this</code></td>
-            <td>Добавляет объект <a href="#dgevented"><code>Evented</code></a>, в качестве получателя событий от
+            <td>Добавляет объект <a href="#dgevented"><code>Evented</code></a> в качестве получателя событий от
                 текущего объекта.</td>
         </tr>
         <tr id="evented-removeeventparent">
@@ -498,7 +498,7 @@
             </code></td>
 
             <td><code>HTMLElement</code></td>
-            <td>Возвращает <code>HTMLElement</code>, представляющий панель на карте.
+            <td>Возвращает <code>HTMLElement</code>, представляющий панель на карте с данным именем.
                 Если аргумент <code>name</code> не задан, возвращает панель, в которой находится данный слой.</td>
         </tr>
     </tbody>
@@ -577,7 +577,7 @@
     </tbody>
 </table>
 
-##### Методы расширения функционала
+##### Методы расширения
 
 Каждый слой, который наследуется от <a href="#dglayer"><code>DG.Layer</code></a>, должен реализовать следующие методы.
 
@@ -615,15 +615,9 @@
 
             <td><code>Object</code></td>
             <td>Опциональный метод, который должен возвращать объект вида <code>{ viewreset: this._reset }</code>,
-                подходящего для вызова <a href="#event-addeventlistener"><code>addEventListener</code></a>.
+                подходящего для вызова <a href="#evented-addeventlistener"><code>addEventListener</code></a>.
                 Эти обработчики будут автоматически добавлены и удалены для событий карты вместе с операциями добавления
                 и удаления слоя.</td>
-        </tr>
-        <tr id="layer-getattribution">
-            <td><code><b>getAttribution</b>()</code></td>
-
-            <td><code>String</code></td>
-            <td>Опциональный метод, который должен возвращать строку, содержащую HTML для <code>Attribution control</code>.</td>
         </tr>
         <tr id="layer-beforeadd">
             <td><code><b>beforeAdd</b>(
@@ -632,14 +626,14 @@
 
             <td><code>this</code></td>
             <td>Опциональный метод, который вызывается из <a href="/doc/maps/ru/manual/map#map-addlayer"><code>map.addLayer(layer)</code></a>,
-                перед тем, как слой будет добавлен к карте и инициализированы соответствующие обработчики событий.
-                Объект карты может быть не до конца подготовлен к использованию (не загружены необходимые данные и т.п.),
+                перед тем как слой будет добавлен к карте и инициализированы соответствующие обработчики событий.
+                Объект карты может быть не до конца подготовлен к использованию (не загружены необходимые данные и т.п.)
                 в момент вызова. Поэтому метод можно использовать только для базовой инициализации структур данных слоя.</td>
         </tr>
     </tbody>
 </table>
 
-События, наследованные от <a href="#dgevented">Evented</a> <!-- TODO: include events -->
+События, унаследованные от <a href="#dgevented">Evented</a> <!-- TODO: include events -->
 
 ### DG.Control
 
@@ -753,7 +747,7 @@
 
 #### Методы расширения функционала
 
-Классы, наследующие от <a href="#dghandler"><code>Handler</code></a>, должны реализовать следующие методы:
+Классы, наследующие от <a href="#dghandler"><code>Handler</code></a>, должны реализовывать следующие методы:
 
 <table>
     <thead>
@@ -831,24 +825,23 @@ API карт использует сферическую проекцию Мер
         <tr id="projection-bounds">
             <td><code><b>bounds</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/basic-types#latlngbounds">LatLngBounds</a></code></td>
-            <td>Географические границы области, в пределах которой возможно осуществление преобразований
-                (у различных проекций эти значения отличаются)</td>
+            <td>Географические границы области, в пределах которой возможно осуществление преобразований.</td>
         </tr>
     </tbody>
 </table>
 
 ### DG.Renderer
 
-Базовый класс, использующийся для реализации движков рисования векторных и растровых слоев (<code>DG.SVG</code>,
-<code>DG.Canvas</code>). В общем случае, это слои для отображения геометрических объектов.
+Базовый класс, использующийся для реализации движков отображения векторных объектов (<code>DG.SVG</code>,
+<code>DG.Canvas</code>). В общем случае, используется для отображения геометрических объектов.
 
-Класс обеспечивает создание DOM элемента и обслуживание операций, связанных с его размерами и анимацией процесса
-масштабирования. <a href="#dgrenderer"><code>Renderer</code></a> является, по сути, эквивалентом группы слоев для
-всех элементов, которые наследуются от <a href="/doc/maps/ru/manual/geometries#dgpath"><code>DG.Path</code></a>.
-Все векторные элементы используют движок рисования, который может быть задан неявно (и тогда API карт примет решение
+Обслуживает операции, связанные с DOM-контейнером, его размерами и анимацией процесса
+масштабирования. <a href="#dgrenderer"><code>Renderer</code></a> выступает в качестве неявной группы слоев для
+всех элементов, которые наследуются от <a href="/doc/maps/ru/manual/vector-layers#dgpath"><code>DG.Path</code></a>.
+Все векторные элементы используют движок отображения, который может быть задан неявно (и тогда API карт примет решение
 о том, какой тип движка использовать для отображения) или явно (с помощью опции векторного слоя
-<a href="/doc/maps/ru/manual/geometries#path-renderer"><code>renderer</code></a>). Не стоит использовать данный класс
-непосредственно. Используйте классы, которые наследуют от него, такие как <code>DG.SVG</code> или <code>DG.Canvas</code>.
+<a href="/doc/maps/ru/manual/vector-layers#path-renderer"><code>renderer</code></a>). Не используйте этот класс
+напрямую. Используйте классы, которые наследуются от него, такие как <code>DG.SVG</code> или <code>DG.Canvas</code>.
 
 #### Опции
 
@@ -857,7 +850,7 @@ API карт использует сферическую проекцию Мер
         <tr>
             <th>Опция</th>
             <th>Тип</th>
-            <th>Значение<br>по умолчанию</th>
+            <th>Значение<br>Значение по умолчанию</th>
             <th>Описание</th>
         </tr>
         </thead><tbody>
@@ -865,38 +858,38 @@ API карт использует сферическую проекцию Мер
             <td><code><b>padding</b></code></td>
             <td><code>Number </code></td>
             <td><code>0.1</code></td>
-            <td>Насколько расширять границы отсечения выводимых объектов, относительно границ окна, в котором отображается карта.
-                Измеряется в относительных единицах, где 0.1 соответствует 10% размера окна, в каждом из направлений.</td>
+            <td>Насколько расширять границы отсечения выводимых объектов относительно границ окна, в котором отображается карта.
+                Измеряется в относительных единицах, где 0.1 соответствует 10% размера окна в каждом из направлений.</td>
         </tr>
     </tbody>
 </table>
 
-Опции, наследованные от <a href="#dglayer">Layer</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### Events
 
-События, наследованные от <a href="#dglayer">Layer</a> <!-- TODO: include events -->
+События, унаследованные от <a href="#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Methods
 
-Методы, наследованные от <a href="#dglayer">Layer</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="#dgevented">Evented</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### Объекты событий
 
-Когда класс, наследующий от <a href="#dgevented"><code>Evented</code></a>, инициирует событие,
-вызывается функция-обработчик, с аргументом, представляющим собой объект с данными о событии, например:
+Когда класс, унаследованный от <a href="#dgevented"><code>Evented</code></a>, инициирует событие,
+вызывается функция-обработчик с аргументом, представляющим собой объект с данными о событии, например:
 
     map.on('click', function(ev) {
         alert(ev.latlng); // ev объект с данными о событии (MouseEvent, в данном случае)
     });
 
-Информация, доступная в функции обработчике, зависит от типа события:
+Информация, которая попадает в функцию обработчик, зависит от типа события:
 
 #### Event
 
-Базовый объект события. Все остальные объекты также содержат нижеперечисленные опции.
+Базовый объект события и другие объекты событий содержат следующие свойства:
 
 <table>
     <thead>
@@ -954,7 +947,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LocationEvent
 
@@ -970,7 +963,7 @@ API карт использует сферическую проекцию Мер
         <tr id="locationevent-latlng">
             <td><code><b>latlng</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/basic-types#latlng">LatLng</a></code></td>
-            <td>Определенное географическое положение пользователя.</td>
+            <td>Географическое положение пользователя</td>
         </tr>
         <tr id="locationevent-bounds">
             <td><code><b>bounds</b></code></td>
@@ -1005,12 +998,12 @@ API карт использует сферическую проекцию Мер
         <tr id="locationevent-timestamp">
             <td><code><b>timestamp</b></code></td>
             <td><code>Number</code></td>
-            <td>Момент измерения местоположения.</td>
+            <td>Момент времени измерения местоположения.</td>
         </tr>
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### ErrorEvent
 
@@ -1036,7 +1029,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LayerEvent
 
@@ -1051,13 +1044,13 @@ API карт использует сферическую проекцию Мер
     <tbody>
         <tr id="layerevent-layer">
             <td><code><b>layer</b></code></td>
-            <td><code><a href="#dglayer">ILayer</a></code></td>
+            <td><code><a href="#dglayer">Layer</a></code></td>
             <td>Слой, который был добавлен или удален.</td>
         </tr>
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### LayersControlEvent
 
@@ -1072,7 +1065,7 @@ API карт использует сферическую проекцию Мер
     <tbody>
         <tr id="layerscontrolevent-layer">
             <td><code><b>layer</b></code></td>
-            <td><code><a href="#dglayer">ILayer</a></code></td>
+            <td><code><a href="#dglayer">Layer</a></code></td>
             <td>Слой, который был добавлен или удален.</td>
         </tr>
         <tr id="layerscontrolevent-name">
@@ -1083,7 +1076,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### TileEvent
 
@@ -1104,7 +1097,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### TileErrorEvent
 
@@ -1125,7 +1118,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### ResizeEvent
 
@@ -1141,17 +1134,17 @@ API карт использует сферическую проекцию Мер
         <tr id="resizeevent-oldsize">
             <td><code><b>oldSize</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a></code></td>
-            <td>Старый размер, до изменения.</td>
+            <td>Старый размер, до изменения размера.</td>
         </tr>
         <tr id="resizeevent-newsize">
             <td><code><b>newSize</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a></code></td>
-            <td>Новый размер, после изменения.</td>
+            <td>Новый размер, после изменения размера.</td>
         </tr>
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### GeoJSON event
 
@@ -1165,7 +1158,7 @@ API карт использует сферическую проекцию Мер
         </thead><tbody>
         <tr id="geojson-event-layer">
             <td><code><b>layer</b></code></td>
-            <td><code><a href="#dglayer">ILayer</a></code></td>
+            <td><code><a href="#dglayer">Layer</a></code></td>
             <td>Слой GeoJSON объекта, добавленного на карту.</td>
         </tr>
         <tr id="geojson-event-properties">
@@ -1186,7 +1179,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### Popup event
 
@@ -1206,7 +1199,7 @@ API карт использует сферическую проекцию Мер
     </tbody>
 </table>
 
-Свойства, наследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
+Свойства, унаследованные от <a href="#event">Event</a> <!-- TODO: include properties -->
 
 #### DragEndEvent
 

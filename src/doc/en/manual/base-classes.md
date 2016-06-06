@@ -606,15 +606,8 @@ Every layer should extend from <a href="#dglayer"><code>DG.Layer</code></a> and 
 
             <td><code>Object</code></td>
             <td>This optional method should return an object like <code>{ viewreset: this._reset }</code>
-                for <a href="#event-addeventlistener"><code>addEventListener</code></a>.
+                for <a href="#evented-addeventlistener"><code>addEventListener</code></a>.
                 These events will be automatically added and removed from the map with your layer.</td>
-        </tr>
-        <tr id="layer-getattribution">
-            <td><code><b>getAttribution</b>()</code></td>
-
-            <td><code>String</code></td>
-            <td>This optional method should return a string containing HTML to be shown on the
-                <code>Attribution control</code> whenever the layer is visible.</td>
         </tr>
         <tr id="layer-beforeadd">
             <td><code><b>beforeAdd</b>(
@@ -829,10 +822,10 @@ Maps API uses a Spherical Mercator projection. Assumes that Earth is a sphere.
 
 Base class for vector renderer implementations (<code>DG.SVG</code>, <code>DG.Canvas</code>). Handles the
 DOM container of the renderer, its bounds, and its zoom animation. A <a href="#dgrenderer"><code>Renderer</code></a>
-works as an implicit layer group for all <a href="/doc/maps/en/manual/geometries#dgpath"><code>DG.Path</code></a>s
+works as an implicit layer group for all <a href="/doc/maps/en/manual/vector-layers#dgpath"><code>DG.Path</code></a>s
 - the renderer itself can be added or removed to the map. All paths use a renderer, which can
 be implicit (the map will decide the type of renderer and use it automatically) or explicit
-(using the <a href="/doc/maps/en/manual/geometries#path-renderer"><code>renderer</code></a> option of the path).
+(using the <a href="/doc/maps/en/manual/vector-layers#path-renderer"><code>renderer</code></a> option of the path).
 Do not use this class directly, use <code>DG.SVG</code> and <code>DG.Canvas</code> instead.
 
 ##### Options
