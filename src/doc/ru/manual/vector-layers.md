@@ -776,7 +776,7 @@ and starts to diverge from a real circle closer to poles (due to projection dist
 
 Методы, унаследованные от [Evented](/doc/maps/ru/manual/base-classes#dgevented-methods) <!-- TODO: include methods -->
 
-### DG.svg
+### DG.Svg
 
 Данный класс позволяет отображать векторные слои с помощью [SVG](https://developer.mozilla.org/docs/Web/SVG).
 Наследуется от [Renderer](/doc/maps/ru/manual/base-classes#renderer).
@@ -876,7 +876,7 @@ VML в этом случае. В 2012 году VML был признан уст�
     </tbody>
 </table>
 
-### DG.canvas
+### DG.Canvas
 
 Позволяет отрисовывать векторные слои с помощью [canvas](https://developer.mozilla.org/docs/Web/API/Canvas_API).
 Наследуется от [Renderer](/doc/maps/ru/manual/base-classes#renderer).

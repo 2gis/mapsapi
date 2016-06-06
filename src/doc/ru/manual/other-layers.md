@@ -445,7 +445,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
 #### Использование в синхронном коде
 
 Для того, чтобы создать собственный слой, нужно произвести наследование от GridLayer и реализовать метод
-<code>createTile()</code>, которому будет передан объект <a href="/doc/maps/ru/manual/basic-types#dgpoint"><code>Point</code></a>
+<code>create()</code>, которому будет передан объект <a href="/doc/maps/ru/manual/basic-types#dgpoint"><code>Point</code></a>
 с <code>x</code>, <code>y</code> и <code>z</code> (уровень увеличения) координатами для отображения тайла.
 
     var CanvasLayer = DG.GridLayer.extend({
