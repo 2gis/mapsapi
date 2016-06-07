@@ -39,7 +39,7 @@
         <td><code><b>source</b></code></td>
         <td><code>String</code></td>
         <td><code><span class="string">''</span></td>
-        <td>Url по которому доступны тайлы допслоя.</td>
+        <td>Url, по которому доступны тайлы допслоя.</td>
     </tr>
     <tr>
         <td><code><b>subdomains</b></code></td>
@@ -169,7 +169,7 @@
         <td><code><b>source</b></code></td>
         <td><code>String</code></td>
         <td><code><span class="string">''</span></td>
-        <td>Url по которому доступны тайлы допслоя.</td>
+        <td>Url, по которому доступны тайлы допслоя.</td>
     </tr>
     <tr>
         <td><code><b>subdomains</b></code></td>
@@ -224,7 +224,7 @@
                 <nobr>&lt;Boolean&gt; <i>flush?</i>)</nobr>
             </code>
             <td><code>this</code></td>
-            <td>Устанавливает url по которому забираются метаданные. Если передан парметр flush=true,
+            <td>Устанавливает url, по которому забираются метаданные. Если передан парметр flush=true,
                 закешированные данные будут очищены.</td>
         </tr>
         <tr>
