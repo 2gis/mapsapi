@@ -7,7 +7,7 @@
 ### DG.Control.Zoom
 
 Базовый элемент управления масштабом с двумя кнопками (приблизить и отдалить). Добавляется на карту по умолчанию,
-если не передана опция <a href="/doc/maps/ru/manual/map#map-zoomcontrol"><code>zoomControl</code> со значением <code>false</code>.
+если не передана <a href="/doc/maps/ru/manual/map#map-zoomcontrol">опция <code>zoomControl</code></a> со значением <code>false</code>.
 Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
 #### Создание
@@ -68,11 +68,11 @@
     </tbody>
 </table>
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Attribution
 
@@ -123,7 +123,7 @@
     </tbody>
 </table>
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
@@ -163,7 +163,7 @@
     </tbody>
 </table>
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Scale
 
@@ -232,15 +232,15 @@
     </tbody>
 </table>
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Ruler
 
-Элемент управления (кнопка), при клике на который включается линейка измерения расстояний на карте.
+Кнопка включения отображения линейки для измерения расстояний на карте.
 Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.ruler().addTo(map);
@@ -259,22 +259,22 @@
             <td><code><b>DG.control.ruler</b>(
                 <nobr>&lt;<a href="#control-ruler-option">DG.Control.Ruler options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
-            <td>Создает элемент управления линейкой.</td>
+            <td>Создает кнопку включения отображения линейки.</td>
         </tr>
 	</tbody>
 </table>
 
 #### Опции
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Traffic
 
-Элемент управления (кнопка), при клике на который на карте отображается слой пробок.
+Кнопка включения отображения слоя пробок на карте.
 Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
     DG.control.traffic().addTo(map);
@@ -300,16 +300,16 @@
 
 #### Опции
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Fullscreen
 
-Элемент управления (кнопка), при клике на который карта разворачивается на весь экран,
-повторный клик восстанавливает предыдущий размер. Добавляется на карту по умолчанию,
+Кнопка включения полноэкранного отображения карты, повторный клик в кнопку
+восстанавливает исходный размер карты. Добавляется на карту по умолчанию,
 если не передана опция <code>fullscreenControl</code> со значением <code>false</code>.
 Расширяет <a href="/doc/maps/ru/manual/base-classes#dgcontrol"><code>DG.Control</code></a>.
 
@@ -336,11 +336,11 @@
 
 #### Опции
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.LocationControl
 
@@ -414,8 +414,8 @@
     </tbody>
 </table>
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
