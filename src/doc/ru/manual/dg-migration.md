@@ -44,7 +44,7 @@
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/map/#toc-init">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/map#пример-использования">Версия 2.0</a></td>
+            <td><a href="/doc/maps/ru/manual/map#dgmap">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -71,7 +71,7 @@
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/markers/#toc-base">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/markers/#класс-dgmarker">Версия 2.0</a></td>
+            <td><a href="/doc/maps/ru/manual/markers#dgmarker">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -95,7 +95,7 @@
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/utils/#fun-getAdaptiveAcon">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/markers#класс-dgicon">Версия 2.0</a></td>
+            <td><a href="/doc/maps/ru/manual/markers#dgicon">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -147,7 +147,7 @@
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/markers/#toc-dgmarkersgroup">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/groups#класс-dglayergroup">Версия 2.0</a></td></tr>
+            <td><a href="/doc/maps/ru/manual/other-layers#dglayergroup">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
@@ -165,13 +165,13 @@
     </tbody>
 </table>
 
-### Отображение маркера с привязанным балуном
+### Отображение маркера с привязанным попапом
 
 <table>
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/markers/#toc-dgmarkersballoon">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/markers#marker-bindpopup">Версия 2.0</a></td>
+            <td><a href="/doc/maps/ru/manual/base-classes#layer-bindpopup">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -194,13 +194,13 @@
     </tbody>
 </table>
 
-### Отображение балуна
+### Отображение попапа
 
 <table>
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/balloons/#balloon-intro">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/popups#описание">Версия 2.0</a></td>
+            <td><a href="/doc/maps/ru/manual/popup#dgpopup">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
@@ -230,7 +230,7 @@
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/controls/#toc-intro">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/controls#описание">Версия 2.0</a></td></tr>
+            <td><a href="/doc/maps/ru/manual/controls">Версия 2.0</a></td></tr>
     </thead>
     <tbody>
         <tr>
@@ -255,7 +255,7 @@
     <thead>
         <tr>
             <td><a href="/doc/maps/1.0/manual/events/#toc-intro">Версия 1.0</a></td>
-            <td><a href="/doc/maps/ru/manual/events#описание">Версия 2.0</a></td>
+            <td><a href="/doc/maps/ru/manual/base-classes#events">Версия 2.0</a></td>
         </tr>
     </thead>
     <tbody>
