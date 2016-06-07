@@ -1,6 +1,6 @@
 ## Линейка
 
-Отображает на карте линейку, позволяющую замерять расстояния между географическими точками.
+Отображает на карте линейку, позволяющую измерять расстояния между географическими точками.
 
 {toc}
 
@@ -32,7 +32,7 @@
         <tr>
             <td><code><b>DG.Ruler</b>(
                 <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dglatlng">LatLng</a>[]&gt; <i>latlngs</i>,</nobr>
-                <nobr>&lt;<a href="#опции">Ruler options</a>&gt; <i>options?</i> )</nobr>
+                <nobr>&lt;<a href="#dgruler-options">Ruler options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>DG.ruler(&hellip;)</code></td>
             <td>Создает объект линейки по переданному массиву географических точек и необязательному объекту опций.</td>
@@ -42,7 +42,7 @@
 
 #### Опции
 
-<table>
+<table id='dgruler-options'>
     <thead>
         <tr>
             <th>Опция</th>
@@ -74,7 +74,7 @@
     <tbody>
         <tr>
             <td><code><b>addTo</b>(
-                <nobr>&lt;<a href="/doc/maps/ru/manual/map#описание">Map</a>&gt; <i>map</i> )</nobr>
+                <nobr>&lt;<a href="/doc/maps/ru/manual/map#dgmap">Map</a>&gt; <i>map</i> )</nobr>
             </code></td>
             <td><code>this</code></td>
             <td>Добавляет линейку на карту.</td>
