@@ -33,11 +33,11 @@
 
 #### Опции
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### События
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
+События, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -149,9 +149,9 @@
     </tbody>
 </table>
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.FeatureGroup
 
@@ -184,11 +184,11 @@
 
 #### Опции
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### События
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
+События, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -226,17 +226,17 @@
             <td><code><b>getBounds</b>()</code></td>
 
             <td><code><a href="/doc/maps/ru/manual/basic-types#dglatlngbounds">LatLngBounds</a></code></td>
-            <td>Возвращает прямоугольные границы LatLngBounds объекта Feature Group (для корректной работы метода,
+            <td>Возвращает прямоугольные границы LatLngBounds объекта Feature Group (для корректной работы метода
                 слои в группе должны возвращать подобную информацию о себе).</td>
         </tr>
     </tbody>
 </table>
 
-Методы, наследованные от <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 ### DG.GeoJSON
 
@@ -266,7 +266,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
                 <nobr>&lt;Object&gt; <i>geojson?</i>,</nobr>
                 <nobr>&lt;<a href="#geojson-option">GeoJSON options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
-            <td>Создает слой GeoJSON. Опционально, принимает объект в формате
+            <td>Создает слой GeoJSON. Опционально принимает объект в формате
                 <a href="http://geojson.org/geojson-spec.html">GeoJSON</a> (возможна передача этого объекта позже,
                  используя метод <code>addData</code>) и объект с <code>опциями</code>.</td>
         </tr>
@@ -316,8 +316,8 @@ GeoJSON и отобразить их на карте. Расширяет <a href
             <td><code>Function </code></td>
             <td><code>*</code></td>
             <td><code>Функция</code>, которая будет вызвана после каждого создания и стилизации нового
-                <a href="/doc/maps/ru/manual/base-classes#dglayer"><code>Слоя</code></a>.
-                Удобно использовать для подключения обработчиков событий и всплывающих окон.
+                <a href="/doc/maps/ru/manual/base-classes#dglayer"><code>слоя</code></a>.
+                Удобно использовать для подключения обработчиков событий и попапов.
                 По умолчанию, никаких дополнительных действий не происходит:
                 <code class="lang-js">function (layer) {}
                 </code></td>
@@ -344,23 +344,25 @@ GeoJSON и отобразить их на карте. Расширяет <a href
     </tbody>
 </table>
 
-Опции, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include options -->
 
 #### События
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
+События, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
-Методы, наследованные от <a href="#dgfeaturegroup">FeatureGroup</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="#dgfeaturegroup">FeatureGroup</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="#dglayergroup">LayerGroup</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
 
 #### Статические функции
+
+Есть несколько статических функций, которые можно использовать без создания экземпляров класса DG.GeoJSON:
 
 <table>
     <thead>
@@ -518,7 +520,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
             <td><code>Number|Point </code></td>
             <td><code>256</code></td>
             <td>Ширина и высота тайлов. Используйте число, если ширина и высота одинаковые,
-                или объект <code>DG.point(ширина, высота)</code>, в противном случае.</td>
+                или объект <code>DG.point(ширина, высота)</code> в противном случае.</td>
         </tr>
         <tr id="gridlayer-opacity">
             <td><code><b>opacity</b></code></td>
@@ -575,7 +577,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
             <td><code><b>noWrap</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
-            <td>Будет ли слой повторно отображаться при малом масштабе. Если параметр <code>true</code>, слой
+            <td>Будет ли зацикливаться отображение слоя при малом масштабе. Если параметр <code>true</code>, слой
                 будет отображен только один раз.</td>
         </tr>
         <tr id="gridlayer-pane">
@@ -616,7 +618,7 @@ GeoJSON и отобразить их на карте. Расширяет <a href
         <tr id="gridlayer-tileerror">
             <td><code><b>tileerror</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#tileevent">TileEvent</a></code></td>
-            <td>Возникает, при ошибке загрузки тайла.</td>
+            <td>Возникает при ошибке загрузки тайла.</td>
         </tr>
         <tr id="gridlayer-tileload">
             <td><code><b>tileload</b></code></td>
@@ -626,12 +628,12 @@ GeoJSON и отобразить их на карте. Расширяет <a href
         <tr id="gridlayer-load">
             <td><code><b>load</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#tileevent">TileEvent</a></code></td>
-            <td>Возникает, когда GridLayer загрузел все видимые тайлы.</td>
+            <td>Возникает, когда GridLayer загрузил все видимые тайлы.</td>
         </tr>
     </tbody>
 </table>
 
-События, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
+События, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include events -->
 
 #### Методы
 
@@ -695,20 +697,21 @@ GeoJSON и отобразить их на карте. Расширяет <a href
             <td><code><b>redraw</b>()</code></td>
 
             <td><code>this</code></td>
-            <td>Перересовывает все тайлы, запрашивая их по новой.</td>
+            <td>Перересовывает все тайлы, запрашивая их повторно.</td>
         </tr>
         <tr id="gridlayer-gettilesize">
             <td><code><b>getTileSize</b>()</code></td>
 
             <td><code><a href="/doc/maps/ru/manual/basic-types#dgpoint">Point</a></code></td>
-            <td>Нормализует значение опции <a href="#gridlayer-tilesize">tileSize</a>.</td>
+            <td>Возвращает значение опции <a href="#gridlayer-tilesize">tileSize</a> приведенное к объекту
+                DG.Point. Используется методом <code>createTile()</code>.</td>
         </tr>
     </tbody>
 </table>
 
 #### Методы, используемые при наследовании
 
-Слои, наследующие от <a href="#dggridlayer"><code>DG.GridLayer</code></a> должны поддерживать следующие методы.
+Слои, наследующие от <a href="#dggridlayer"><code>DG.GridLayer</code></a> должны поддерживать следующие методы:
 
 <table>
     <thead>
@@ -726,14 +729,16 @@ GeoJSON и отобразить их на карте. Расширяет <a href
             </code></td>
 
             <td><code>HTMLElement</code></td>
-            <td>Вызывается только из API карт. Метод должен возвращать <code>HTMLElement</code> для позиции,
-                координаты которой передаются в <code>coords</code>. Если указана функция
-                обратного вызова <code>done</code>, она должна быть вызвана после загрузки и отрисовки тайла.
+            <td>Вызывается только из API карт. Метод должен быть переопределен теми классами, которые расширяют
+                <a href="#dggridlayer"><code>GridLayer</code></a>.
+                Метод должен возвращать <code>HTMLElement</code> для позиции, координаты которой передаются в
+                <code>coords</code>. Если указана функция обратного вызова <code>done</code>, она должна быть вызвана
+                после загрузки и отрисовки тайла.
             </td>
         </tr>
     </tbody>
 </table>
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dglayer">Layer</a> <!-- TODO: include methods -->
 
-Методы, наследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
+Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgevented">Evented</a> <!-- TODO: include methods -->
