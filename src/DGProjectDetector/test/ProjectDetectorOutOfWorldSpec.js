@@ -9,9 +9,6 @@ describe('DG.ProjectDetectorOut', function () {
         start,
         project1,
         project2,
-        edgeProject1 ,
-        edgeProject2 ,
-        edgeProject3 ,
         desert1,
         desert2;
 
@@ -21,11 +18,6 @@ describe('DG.ProjectDetectorOut', function () {
         start =        new DG.LatLng(54.98117239821992, 360 + 82.88922250270844);
         project1 =     new DG.LatLng(54.97902673261798, 360 + 82.819265127182);
         project2 =     new DG.LatLng(54.98620210307464, 360 + 73.41429233551025);
-
-        // have no idea what is the difference between these points
-        edgeProject1 = new DG.LatLng(56.0460, 82.86191493272783);
-        edgeProject2 = new DG.LatLng(56.0620, 82.86188274621965);
-        edgeProject3 = new DG.LatLng(56.0750, 82.86186128854753);
 
         desert1 =      new DG.LatLng(55.00, 360 + 80.00);
         desert2 =      new DG.LatLng(61.00, 360 + 90.00);
@@ -38,7 +30,7 @@ describe('DG.ProjectDetectorOut', function () {
     after(function() {
         document.body.removeChild(mapContainer);
         mapContainer = initZoom = maxZoom = maxDesertZoom = start = project1 = null;
-        project2 = edgeProject1 = edgeProject2 = edgeProject3 = desert1 = desert2 = null;
+        project2 = desert1 = desert2 = null;
     });
 
     beforeEach(function () {
@@ -92,14 +84,6 @@ describe('DG.ProjectDetectorOut', function () {
             expect(map.setView(desert2)).to.be(map);
             expect(map.getZoom()).to.be(maxDesertZoom);
             expect(map.getCenter()).to.be.equal(desert2);
-        });
-
-        it('go to from desert1 to desert2', function () {
-            map.setView(project1, maxZoom);
-
-            expect(map.setView(edgeProject1)).to.be(map);
-            expect(map.getZoom()).to.be(maxZoom);
-            expect(map.getCenter()).to.be.equal(edgeProject1);
         });
 
     });
@@ -193,24 +177,9 @@ describe('DG.ProjectDetectorOut', function () {
             expect(map.getBounds().contains(project1)).to.be.ok();
             expect(map.getZoom()).to.be(maxZoom);
         });
-
-        it('zoom in the project edge', function () {
-            map.setView(edgeProject1, 12);
-
-            expect(map.setZoomAround(edgeProject2, maxZoom)).to.be(map);
-            expect(map.getBounds().contains(edgeProject2)).to.be.ok();
-            expect(map.getZoom()).to.be(maxDesertZoom);
-        });
     });
 
     describe('#fitBounds', function () {
-
-        it('bound on project edge', function () {
-            map.setView(project1, 8);
-
-            expect(map.fitBounds(new DG.LatLngBounds(edgeProject1, edgeProject2))).to.be(map);
-            expect(map.getZoom()).to.be(14);
-        });
 
         it('bound on project1 from project1 small zoom', function () {
             map.setView(project1, 8);
@@ -224,20 +193,6 @@ describe('DG.ProjectDetectorOut', function () {
 
             expect(map.fitBounds(new DG.LatLngBounds(project1, start))).to.be(map);
             expect(map.getZoom()).to.be(15);
-        });
-
-        it('bound on desert from project1 max zoom', function () {
-            map.setView(project1, 18);
-
-            expect(map.fitBounds(new DG.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
-            expect(map.getZoom()).to.be(13);
-        });
-
-        it('bound on desert from desert small zoom', function () {
-            map.setView(edgeProject2, 8);
-
-            expect(map.fitBounds(new DG.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
-            expect(map.getZoom()).to.be(13);
         });
 
         it('bound on small square from project1 zero zoom', function () {
@@ -316,13 +271,6 @@ describe('DG.ProjectDetectorOut', function () {
             expect(map.getZoom()).to.be(15);
         });
 
-        it('bound on desert from project1 max zoom', function () {
-            map.setView(project1, 18);
-
-            expect(map.panInsideBounds(new DG.LatLngBounds(edgeProject2, edgeProject3))).to.be(map);
-            expect(map.getZoom()).to.be(13);
-        });
-
         it('bound on project1 from desert', function () {
             map.setView(desert1, maxDesertZoom);
 
@@ -347,14 +295,6 @@ describe('DG.ProjectDetectorOut', function () {
             expect(map.panBy([1901, 601]), {animate: false}).to.be(map);
             expect(map.getZoom()).to.be(16);
             expect(map.getCenter()).to.nearLatLng(DG.latLng(54.971628386497684, 442.8600454330445));
-        });
-
-        it('call on project edge from desert', function () {
-            map.setView(edgeProject1, maxZoom);
-
-            expect(map.panBy([0, -5000]), {animate: false}).to.be(map);
-            expect(map.getZoom()).to.be(maxDesertZoom);
-            expect(map.getCenter()).to.nearLatLng(DG.latLng(56.06097795660466, 82.86191493272783));
         });
 
         it('call on project viewport', function () {
