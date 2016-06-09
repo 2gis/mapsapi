@@ -115,9 +115,9 @@ DG.Traffic = DG.TileLayer.extend({
     },
 
     _processData: function (trafficData, coord) {
-        var map = this._map,
-            tileOriginPoint = coord.scaleBy(this.getTileSize()),
-            hints = {};
+        var tileOriginPoint = coord.scaleBy(this.getTileSize());
+        var polygonLngLatToPoints = DG.bind(this._polygonLngLatToPoints, this, tileOriginPoint);
+        var hints = {};
 
         if (!DG.Util.isArray(trafficData)) {    // TODO remove
             return [];
@@ -127,19 +127,40 @@ DG.Traffic = DG.TileLayer.extend({
             this[item.graph_id] = item.speed_text;
         }, hints);
 
-        return trafficData[0].map(function (item) {
-            var geoJson = DG.Wkt.toGeoJSON(item.geometry[0].object[0]);
+        return trafficData[0]
+            .map(function (item) {
+                return {
+                    id: item.graph_id,
+                    speed: hints[item.graph_id],
+                    geometry: DG.Wkt.toGeoJSON(item.geometry[0].object[0])
+                };
+            })
+            .filter(function (item) {
+                return item.geometry.type == 'Polygon' ||
+                    item.geometry.type == 'MultiPolygon';
+            })
+            .map(function (item) {
+                var geoJson = item.geometry;
 
-            geoJson.coordinates[0] = geoJson.coordinates[0].map(function (revertedLatlng) {
+                if (geoJson.type == 'Polygon') {
+                    geoJson.coordinates = polygonLngLatToPoints(geoJson.coordinates);
+                } else if (geoJson.type == 'MultiPolygon') {
+                    geoJson.coordinates = geoJson.coordinates.map(polygonLngLatToPoints);
+                }
+
+                return item;
+            });
+    },
+
+    _polygonLngLatToPoints: function (originPoint, polygon) {
+        var map = this._map;
+
+        return polygon.map(function (contour) {
+            return contour.map(function (lngLat) {
                 return map
-                        .project([revertedLatlng[1], revertedLatlng[0]]).round()
-                        .subtract(tileOriginPoint);
-            }); // TODO check with MultiPoigon and etc.
-            return {
-                id: item.graph_id,
-                speed: hints[item.graph_id],
-                geometry: geoJson
-            };
+                    .project([lngLat[1], lngLat[0]]).round()
+                    .subtract(originPoint);
+            });
         });
     },
 
