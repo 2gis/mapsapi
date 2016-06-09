@@ -22,8 +22,9 @@
             <nobr>&lt;<a href="#опции">DG.Meta.layer options</a>&gt; <i>options?</i> )</nobr>
         </code></td>
         <td><code>DG.Meta.layer(&hellip;)</code></td>
-        <td>Создает дополнительный слой с метаинформацией.</td>
-    </tr>
+        <td>Создает дополнительный слой с метаинформацией. Принимает в качестве параметра source URL,
+            по которому доступны тайлы допслоя.</td>
+        </tr>
 </table>
 
 #### Опции
@@ -34,19 +35,6 @@
         <th>Тип</th>
         <th>Значение<br>по умолчанию</th>
         <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>source</b></code></td>
-        <td><code>String</code></td>
-        <td><code><span class="string">''</span></td>
-        <td>Url, по которому доступны тайлы допслоя.</td>
-    </tr>
-    <tr>
-        <td><code><b>subdomains</b></code></td>
-        <td><code>String</code> или <code>String[]</code></td>
-        <td><code>'0123'</code></td>
-        <td>Поддомены тайлового сервиса. Могут передаваться одной строкой (где каждая буква &mdash;
-            имя поддомена) или массивом строк.</td>
     </tr>
     <tr>
         <td><code><b>tileSize</b></code></td>
@@ -86,7 +74,8 @@
 
 #### События
 
-Вы можете подписаться на следующие события используя <a href="/doc/maps/ru/manual/base-classes#dgevented">эти методы</a>.
+Вы можете подписаться на следующие события, используя
+<a href="/doc/maps/ru/manual/base-classes#dgevented">эти методы</a>.
 
 <table>
     <thead>
@@ -111,6 +100,26 @@
           <td><code><b>mousemove</b></code></td>
           <td><code><a href="/doc/maps/ru/manual/base-classes#metaevent">MetaEvent</a></code></td>
           <td>Вызывается при движении курсора мыши над объектом допслоя.</td>
+        </tr>
+        <tr>
+          <td><code><b>click</b></code></td>
+          <td><code><a href="/doc/maps/ru/manual/base-classes#metaevent">MetaEvent</a></code></td>
+          <td>Вызывается при клике мыши в допслой.</td>
+        </tr>
+        <tr>
+          <td><code><b>dblclick</b></code></td>
+          <td><code><a href="/doc/maps/ru/manual/base-classes#metaevent">MetaEvent</a></code></td>
+          <td>Вызывается при двойном клике мыши в допслой.</td>
+        </tr>
+        <tr>
+          <td><code><b>mousedown</b></code></td>
+          <td><code><a href="/doc/maps/ru/manual/base-classes#metaevent">MetaEvent</a></code></td>
+          <td>Вызывается при нажатии мыши, когда курсор находится над допслоем.</td>
+        </tr>
+        <tr>
+          <td><code><b>contextmenu</b></code></td>
+          <td><code><a href="/doc/maps/ru/manual/base-classes#metaevent">MetaEvent</a></code></td>
+          <td>Вызывается при клике правой кнопкой мыши в допслой.</td>
         </tr>
     </tbody>
 </table>
@@ -152,7 +161,8 @@
             <nobr>&lt;DG.Meta.layer options&gt; <i>options?</i> )</nobr>
         </code></td>
         <td><code>DG.Meta.origin(&hellip;)</code></td>
-        <td>Создает инстанс для работы с данными метаслоя.</td>
+        <td>Создает инстанс для работы с данными метаслоя. Принимает в качестве параметра source URL,
+            по которому доступны тайлы допслоя.</td>
     </tr>
 </table>
 
@@ -164,12 +174,6 @@
         <th>Тип</th>
         <th>По умолчанию</th>
         <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>source</b></code></td>
-        <td><code>String</code></td>
-        <td><code><span class="string">''</span></td>
-        <td>Url, по которому доступны тайлы допслоя.</td>
     </tr>
     <tr>
         <td><code><b>subdomains</b></code></td>
