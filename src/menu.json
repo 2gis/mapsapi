@@ -3,8 +3,8 @@
         "content": {
             "ru": {
                 "title": "API карт",
-                "uri": "maps/quickstart",
-                "_src":"quickstart/quickstart.md",
+                "uri": "maps/ru/quickstart",
+                "_src":"ru/quickstart/quickstart.md",
                 "hide": false
             }
         },
@@ -13,8 +13,8 @@
                 "content": {
                     "ru": {
                         "title": "Быстрый старт",
-                        "uri": "maps/quickstart",
-                        "_src":"quickstart/quickstart.md",
+                        "uri": "maps/ru/quickstart",
+                        "_src":"ru/quickstart/quickstart.md",
                         "hide": false
                     }
                 },
@@ -34,19 +34,8 @@
                         "content": {
                             "ru": {
                                 "title": "Подключение API",
-                                "uri": "maps/ru/ru/manual/dg-loading",
-                                "_src":"ru/ru/manual/dg-loading.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
-                                "title": "Карта",
-                                "uri": "maps/ru/manual/map",
-                                "_src":"ru/manual/map.md",
+                                "uri": "maps/ru/manual/dg-loading",
+                                "_src":"ru/manual/dg-loading.md",
                                 "hide": false
                             }
                         },
@@ -69,6 +58,17 @@
                                 "title": "Базовые классы",
                                 "uri": "maps/ru/manual/base-classes",
                                 "_src":"ru/manual/base-classes.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
+                                "title": "Карта",
+                                "uri": "maps/ru/manual/map",
+                                "_src":"ru/manual/map.md",
                                 "hide": false
                             }
                         },
@@ -209,7 +209,7 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "AJAX-запросы",
+                                "title": "Асинхронные запросы",
                                 "uri": "maps/ru/manual/dg-ajax",
                                 "_src":"ru/manual/dg-ajax.md",
                                 "hide": false
@@ -278,8 +278,8 @@
                 "content": {
                     "ru": {
                         "title": "Примеры",
-                        "uri": "maps/examples/base",
-                        "_src":"examples/base.md",
+                        "uri": "maps/ru/examples/base",
+                        "_src":"ru/examples/base.md",
                         "hide": false
                     }
                 },
@@ -288,8 +288,8 @@
                         "content": {
                             "ru": {
                                 "title": "Базовое использование",
-                                "uri": "maps/examples/base",
-                                "_src":"examples/base.md",
+                                "uri": "maps/ru/examples/base",
+                                "_src":"ru/examples/base.md",
                                 "hide": false
                             }
                         },
@@ -299,8 +299,8 @@
                         "content": {
                             "ru": {
                                 "title": "Работа с маркерами",
-                                "uri": "maps/examples/markers",
-                                "_src":"examples/markers.md",
+                                "uri": "maps/ru/examples/markers",
+                                "_src":"ru/examples/markers.md",
                                 "hide": false
                             }
                         },
@@ -310,8 +310,8 @@
                         "content": {
                             "ru": {
                                 "title": "Работа с балунами",
-                                "uri": "maps/examples/popups",
-                                "_src":"examples/popups.md",
+                                "uri": "maps/ru/examples/popups",
+                                "_src":"ru/examples/popups.md",
                                 "hide": false
                             }
                         },
@@ -321,8 +321,8 @@
                         "content": {
                             "ru": {
                                 "title": "Работа с границами",
-                                "uri": "maps/examples/bounds",
-                                "_src":"examples/bounds.md",
+                                "uri": "maps/ru/examples/bounds",
+                                "_src":"ru/examples/bounds.md",
                                 "hide": false
                             }
                         },
@@ -331,9 +331,9 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Работа с геометриями",
-                                "uri": "maps/examples/geometries",
-                                "_src":"examples/geometries.md",
+                                "title": "Работа с векторными слоями",
+                                "uri": "maps/ru/examples/vector-layers",
+                                "_src":"ru/examples/vector-layers.md",
                                 "hide": false
                             }
                         },
@@ -343,8 +343,8 @@
                         "content": {
                             "ru": {
                                 "title": "Элементы управления",
-                                "uri": "maps/examples/controls",
-                                "_src":"examples/controls.md",
+                                "uri": "maps/ru/examples/controls",
+                                "_src":"ru/examples/controls.md",
                                 "hide": false
                             }
                         },
@@ -354,8 +354,8 @@
                         "content": {
                             "ru": {
                                 "title": "Работа с API геоданных",
-                                "uri": "maps/examples/geocoding",
-                                "_src":"examples/geocoding.md",
+                                "uri": "maps/ru/examples/geocoding",
+                                "_src":"ru/examples/geocoding.md",
                                 "hide": false
                             }
                         },
@@ -365,8 +365,8 @@
                         "content": {
                             "ru": {
                                 "title": "Работа с GeoJSON",
-                                "uri": "maps/examples/geojson",
-                                "_src":"examples/geojson.md",
+                                "uri": "maps/ru/examples/geojson",
+                                "_src":"ru/examples/geojson.md",
                                 "hide": false
                             }
                         },
@@ -376,8 +376,8 @@
                         "content": {
                             "ru": {
                                 "title": "Работа с WKT",
-                                "uri": "maps/examples/wkt",
-                                "_src":"examples/wkt.md",
+                                "uri": "maps/ru/examples/wkt",
+                                "_src":"ru/examples/wkt.md",
                                 "hide": false
                             }
                         },
@@ -387,8 +387,8 @@
                         "content": {
                             "ru": {
                                 "title": "Обработка событий",
-                                "uri": "maps/examples/events",
-                                "_src":"examples/events.md",
+                                "uri": "maps/ru/examples/events",
+                                "_src":"ru/examples/events.md",
                                 "hide": false
                             }
                         },
@@ -398,8 +398,8 @@
                         "content": {
                             "ru": {
                                 "title": "Внешние модули",
-                                "uri": "maps/examples/external-modules",
-                                "_src":"examples/external-modules.md",
+                                "uri": "maps/ru/examples/external-modules",
+                                "_src":"ru/examples/external-modules.md",
                                 "hide": false
                             }
                         },
