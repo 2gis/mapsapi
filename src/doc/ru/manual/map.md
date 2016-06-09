@@ -1610,13 +1610,13 @@
 
 ##### Методы, унаследованные от Evented
 
-Методы, унаследованные от Evented, смотрите [здесь](/doc/maps/ru/manual/base-classes#dgevented-methods).
+Методы, унаследованные от Evented, смотрите <a href="/doc/maps/ru/manual/base-classes#dgevented-methods">здесь</a>.
 
 #### Свойства
 
 Свойства карты включают в себя обработчики взаимодействия, которые позволяют контролировать интерактивное поведение,
 подключение и отключение определенных возможностей карты, таких как перетаскивание и масштабирование тачем
-(см. методы [IHandler](/doc/maps/manual/interfaces#ihandler)). Например:
+(см. методы <a href="/doc/maps/ru/manual/base-classes#dghandler">Handler</a>). Например:
 
     map.doubleClickZoom.disable();
 

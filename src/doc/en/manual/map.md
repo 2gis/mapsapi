@@ -1602,7 +1602,7 @@ Initialize the map on the &quot;map&quot; div with a given center and zoom:
 
 ##### Methods inherited from Evented
 
-Methods inherited from Evented see [here](/doc/maps/en/manual/base-classes#dgevented-methods).
+Methods inherited from Evented see <a href="/doc/maps/en/manual/base-classes#dgevented-methods">here</a>.
 
 ### Properties
 
