@@ -186,7 +186,7 @@
             </code></td>
 
             <td><code>Object</code></td>
-            <td>Polyfill для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a></td>
+            <td>Полифил для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a></td>
         </tr>
         <tr id="util-bind">
             <td><code><b>bind</b>(
@@ -216,9 +216,9 @@
 
             <td><code>Function</code></td>
             <td>Возвращает обертку над функцией <code>fn</code>, которая гарантирует, что функция не будет
-                вызвана чаще, чем раз в указанный интервал времени <code>time</code> (например, используется
-                при запросах к тайлам во время перетаскивания карты), опционально можно передать контекст
-                (<code>context</code>), с которым будет вызываться функция.</td>
+                вызвана более чем один раз в заданный интервал времени <code>time</code>
+                (например, используется при запросах к тайлам во время перетаскивания карты), опционально
+                можно передать контекст (<code>context</code>), с которым будет вызываться функция.</td>
         </tr>
         <tr id="util-wrapnum">
             <td><code><b>wrapNum</b>(
@@ -254,7 +254,7 @@
             </code></td>
 
             <td><code>String</code></td>
-            <td>Polyfill для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/Trim">String.prototype.trim</a></td>
+            <td>Полифил для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/Trim">String.prototype.trim</a></td>
         </tr>
         <tr id="util-splitwords">
             <td><code><b>splitWords</b>(
@@ -270,8 +270,8 @@
             </code></td>
 
             <td><code>Object</code></td>
-            <td>Объединяет свойства <code>options</code> со свойствами объекта <code>obj</code>, возвращаяя
-            получившийся объект. See <code>Class options</code>. Также доступен под псевдонимом <code>DG.setOptions</code>.</td>
+            <td>Объединяет свойства <code>options</code> со свойствами объекта <code>obj</code>, возвращая
+                получившийся объект. См. <code>Class options</code>. Также доступен под псевдонимом <code>DG.setOptions</code>.</td>
         </tr>
         <tr id="util-getparamstring">
             <td><code><b>getParamString</b>(
@@ -283,7 +283,7 @@
             <td><code>String</code></td>
             <td>Преобразует объект в URL-строку, например, <nobr><code>{a: &quot;foo&quot;, b: &quot;bar&quot;}</code></nobr>
                 будет преобразован в <code>&#39;?a=foo&amp;b=bar&#39;</code>. Если задан параметр <code>existingUrl</code>
-                результирующая строка будет добавлена в конец строки из параметра. Также возможно приведение названий
+                результирующая строка будет подготовлена для добавления в конец переданного URL. Также возможно приведение названий
                 свойств к верхнему регистру (параметр <code>uppercase</code>). Простейший шаблонизатор также воспринимает
                 строки в формате <code>&#39;Hello {a}, {b}&#39;</code> и объект вида <code>{a: &#39;foo&#39;, b: &#39;bar&#39;}</code>.
                 При таком вызове метод возвращает строку <code>(&#39;Hello foo, bar&#39;)</code>.</td>
@@ -292,13 +292,13 @@
             <td><code><b>isArray</b>(<i>obj</i>)</code></td>
 
             <td><code>Boolean</code></td>
-            <td>Polyfill для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray">Array.isArray</a></td>
+            <td>Полифил для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray">Array.isArray</a></td>
         </tr>
         <tr id="util-indexof">
             <td><code><b>indexOf</b>()</code></td>
 
             <td><code>Number</code></td>
-            <td>Polyfill для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">Array.prototype.indexOf</a></td>
+            <td>Полифил для <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf">Array.prototype.indexOf</a></td>
         </tr>
         <tr id="util-requestanimframe">
             <td><code><b>requestAnimFrame</b>(
@@ -310,17 +310,17 @@
             <td><code>requestId: Number</code></td>
             <td>Использует планировщик для вызова функции <code>fn</code> при событии обновлении окна браузера (repaint).
                 Функция <code>fn</code> вызывается с контекстом <code>context</code>, если он задан. Когда задан параметр
-                <code>immediate</code>, <code>fn</code> функция вызывается сразу-же, если браузер не поддерживает нативно
+                <code>immediate</code>, <code>fn</code> функция вызывается сразу же, если браузер не поддерживает нативно
                 <a href="https://developer.mozilla.org/docs/Web/API/window/requestAnimationFrame"><code>window.requestAnimationFrame</code></a>,
                 в противном случае вызов откладывается, до возникновения события перерисовки. Возвращает id, который может
-                быть использован для отмены задания для планировщика.</td>
+                быть использован для отмены задания планировщика.</td>
         </tr>
         <tr id="util-cancelanimframe">
             <td><code><b>cancelAnimFrame</b>(
                 <nobr>&lt;Number&gt; <i>id</i> )</nobr>
             </code></td>
             <td><code></code></td>
-            <td>Cancels a previous <code>requestAnimFrame</code>. See also <a href="https://developer.mozilla.org/docs/Web/API/window/cancelAnimationFrame">window.cancelAnimationFrame</a>.</td>
+            <td>Отменяет предыдущий <code>requestAnimFrame</code>. См. также <a href="https://developer.mozilla.org/docs/Web/API/window/cancelAnimationFrame">window.cancelAnimationFrame</a>.</td>
         </tr>
     </tbody>
 </table>
@@ -402,7 +402,7 @@
 
 ### DG.PolyUtil
 
-Набор методов для обработки геометрии многоугольников.
+Набор служебных функций для работы с многоугольниками.
 
 #### Функции
 
