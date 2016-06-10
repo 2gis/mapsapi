@@ -309,7 +309,7 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Работа с балунами",
+                                "title": "Работа с попапами",
                                 "uri": "maps/ru/examples/popups",
                                 "_src":"ru/examples/popups.md",
                                 "hide": false

@@ -1681,7 +1681,7 @@
             <td><a href="/doc/maps/ru/manual/base-classes#dghandler"><code>Handler</code></a></td>
             <td>Обработчик определения <a href="#map-projectdetector">проекта 2ГИС</a>.</td>
         </tr>
-        <tr id="map-zoomControl">
+        <tr id="map-zoomcontrol">
             <td><code><b>zoomControl</b></code></td>
             <td><a href="/doc/maps/ru/manual/controls#dgcontrol.zoom"><code>Control.Zoom</code></a></td>
             <td>Элемент управления масштабом.</td>

@@ -26,7 +26,7 @@
 
 	var popup = DG.popup()
 		.setLatLng(latlng)
-		.setContent(&#39;&lt;p&gt;Привет мир!&lt;br /&gt;Это попап.&lt;/p&gt;&#39;)
+		.setContent('<p>Привет мир!<br />Это попап.</p>')
 		.openOn(map);
 
 #### Создание

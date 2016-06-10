@@ -579,7 +579,7 @@
 
 События попапа, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dglayer-popup-events">Layer</a> <!-- TODO: include popup events -->
 
-#### Methods
+#### Методы
 
 Методы, унаследованные от <a href="#dgicon-methods">Icon</a> <!-- TODO: include methods -->
 
