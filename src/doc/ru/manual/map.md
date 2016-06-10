@@ -1803,7 +1803,6 @@
             <td><code><b>maxZoom</b></code></td>
             <td><code>Number </code></td>
             <td><code>Infinity</code></td>
-            <td>The maximum zoom for automatic view setting when using <code>setView</code> option.</td>
             <td>Задает максимальный уровень масштабирования при автоматическом перемещения карты,
                 когда включена опция <code>setView</code>.
             </td>

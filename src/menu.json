@@ -100,8 +100,8 @@
                         "content": {
                             "ru": {
                                 "title": "Подсказки",
-                                "uri": "maps/ru/manual/label",
-                                "_src":"ru/manual/label.md",
+                                "uri": "maps/ru/manual/dg-label",
+                                "_src":"ru/manual/dg-label.md",
                                 "hide": false
                             }
                         },
