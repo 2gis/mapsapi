@@ -198,6 +198,17 @@
                     {
                         "content": {
                             "ru": {
+                                "title": "Входы в здания",
+                                "uri": "maps/ru/manual/dg-entrance",
+                                "_src":"ru/manual/dg-entrance.md",
+                                "hide": false
+                            }
+                        },
+                        "children": null
+                    },
+                    {
+                        "content": {
+                            "ru": {
                                 "title": "Определение проекта",
                                 "uri": "maps/ru/manual/dg-project-detector",
                                 "_src":"ru/manual/dg-project-detector.md",
