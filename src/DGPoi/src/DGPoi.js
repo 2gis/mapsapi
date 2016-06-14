@@ -42,27 +42,48 @@ DG.Poi = DG.Handler.extend({
     },
 
     _processData : function (data, coord) {
-        var map = this._map,
-            tileOriginPoint = coord.scaleBy(this._metaLayer.getTileSize());
+        var tileOriginPoint = coord.scaleBy(this._metaLayer.getTileSize());
+        var polygonLngLatToPoints = DG.bind(this._polygonLngLatToPoints, this, tileOriginPoint);
 
         if (data.responseText === '') {
             return [];
         }
 
-        return data.result.poi.map(function (item) {
-            var geoJson = DG.Wkt.toGeoJSON(item.hover);
+        return data.result.poi
+            .map(function (item) {
+                return {
+                    id: item.id,
+                    hint: item.links[0].name,
+                    linked: item.links[0],
+                    geometry: DG.Wkt.toGeoJSON(item.hover)
+                };
+            })
+            .filter(function (item) {
+                return item.geometry.type == 'Polygon' ||
+                    item.geometry.type == 'MultiPolygon';
+            })
+            .map(function (item) {
+                var geoJson = item.geometry;
 
-            geoJson.coordinates[0] = geoJson.coordinates[0].map(function (revertedLatlng) {
-                return map
-                        .project([revertedLatlng[1], revertedLatlng[0]]).round()
-                        .subtract(tileOriginPoint);
+                if (geoJson.type == 'Polygon') {
+                    geoJson.coordinates = polygonLngLatToPoints(geoJson.coordinates);
+                } else if (geoJson.type == 'MultiPolygon') {
+                    geoJson.coordinates = geoJson.coordinates.map(polygonLngLatToPoints);
+                }
+
+                return item;
             });
-            return {
-                id: item.id,
-                hint: item.links[0].name,
-                linked: item.links[0],
-                geometry: geoJson
-            };
+    },
+
+    _polygonLngLatToPoints: function (originPoint, polygon) {
+        var map = this._map;
+
+        return polygon.map(function (contour) {
+            return contour.map(function (lngLat) {
+                return map
+                    .project([lngLat[1], lngLat[0]]).round()
+                    .subtract(originPoint);
+            });
         });
     },
 

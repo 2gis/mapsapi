@@ -75,7 +75,8 @@ var deps = {
             'DGCustomization/src/DGMap.BaseLayer.js',
             'DGCustomization/src/DGMap.TilesCheck.js',
             'DGCustomization/src/DGMap.Drag.js',
-            'DGCustomization/src/DGMarker.js'
+            'DGCustomization/src/DGMarker.js',
+            'DGCustomization/src/DGPolyUtil.js'
         ],
         less: {
             all: [
@@ -187,8 +188,7 @@ var deps = {
         desc: '2GIS additional metalayers support',
         src: [
             'DGMeta/src/DGMeta.Layer.js',
-            'DGMeta/src/DGMeta.Origin.js',
-            'DGMeta/src/PolyUtilContains.js'
+            'DGMeta/src/DGMeta.Origin.js'
         ],
         deps: ['DGAjax', 'DGCore', 'DGCustomization', 'DGWkt', 'DGProjectDetector']
     },

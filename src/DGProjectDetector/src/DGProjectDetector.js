@@ -163,7 +163,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _testProjectContains: function (latlng, project) {
-        return this._inside(latlng, project.bound);
+        return DG.PolyUtil.inside([latlng.lng, latlng.lat], project.bound);
     },
 
     _centerInProject: function (project, checkMethod) {
@@ -172,48 +172,6 @@ DG.ProjectDetector = DG.Handler.extend({
         } catch (e) {
             return false;
         }
-    },
-
-    // from https://github.com/Turfjs/turf-inside/blob/master/index.js
-    _inside: function (latlng, polygon) {
-        var polys = polygon.coordinates;
-        var pt = [latlng.lng, latlng.lat];
-        // normalize to multipolygon
-        if (polygon.type === 'Polygon') polys = [polys];
-
-        var insidePoly = false;
-        var i = 0;
-        while (i < polys.length && !insidePoly) {
-            // check if it is in the outer ring first
-            if (this._inRing(pt, polys[i][0])) {
-                var inHole = false;
-                var k = 1;
-                // check for the point in any of the holes
-                while (k < polys[i].length && !inHole) {
-                    if (this._inRing(pt, polys[i][k])) {
-                        inHole = true;
-                    }
-                    k++;
-                }
-                if (!inHole) insidePoly = true;
-            }
-            i++;
-        }
-        return insidePoly;
-    },
-
-    // pt is [x,y] and ring is [[x,y], [x,y],..]
-    _inRing: function (pt, ring) {
-        var isInside = false;
-        for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-            var xi = ring[i][0], yi = ring[i][1];
-            var xj = ring[j][0], yj = ring[j][1];
-            var intersect = ((yi > pt[1]) !== (yj > pt[1])) &&
-                (pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi);
-
-            if (intersect) isInside = !isInside;
-        }
-        return isInside;
     },
 
     _zoomInProject: function (project) {

@@ -158,12 +158,16 @@ DG.Meta.Layer = DG.Layer.extend({
 
     _getHoveredObject: function (coords, mouseTileOffset) {
         for (var i = 0; i < this._currentTileData.length; i++) {
-            if (DG.PolyUtil.contains(mouseTileOffset, this._currentTileData[i].geometry.coordinates[0])) {
+            if (DG.PolyUtil.inside(mouseTileOffset, this._currentTileData[i].geometry, this._pointReduceHelper)) {
                 return this._currentTileData[i];
             }
         }
 
         return null;
+    },
+
+    _pointReduceHelper: function (point) {
+        return [point.x, point.y];
     },
 
     _setView: function (center, zoom, noPrune, noUpdate) {
