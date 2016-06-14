@@ -154,13 +154,13 @@
             <td><code><b>boxZoom</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>true</code></td>
-            <td>Может ли масштаб карты быть изменен с помощью box-масштабирования (shift + выделение мышкой).</td>
+            <td>Может ли масштаб карты быть изменен с помощью box-масштабирования (shift + выделение мышью).</td>
         </tr>
         <tr id="map-doubleclickzoom">
             <td><code><b>doubleClickZoom</b></code></td>
             <td><code>Boolean|String </code></td>
             <td><code>true</code></td>
-            <td>Разрешено ли увеличивать масштаб карты двойным кликом мышки (удерживание Shift позволяет уменьшать
+            <td>Разрешено ли увеличивать масштаб карты двойным кликом мыши (удерживание Shift позволяет уменьшать
                 масштаб). Если передано значение <code>center</code>, карта всегда масштабируется отностиельно центра
                 просматриваемой области, независимо от положения курсора.
             </td>
@@ -169,7 +169,7 @@
             <td><code><b>dragging</b></code></td>
             <td><code>Boolean </code></td>
             <td><code>true</code></td>
-            <td>Разрешено ли перетаскивать карту мышкой или тачем.</td>
+            <td>Разрешено ли перетаскивать карту мышью или тачем.</td>
         </tr>
         <tr id="map-geoclicker">
             <td><code><b>geoclicker</b></code></td>
@@ -385,7 +385,7 @@
             <td><code>Number </code></td>
             <td><code>0.0</code></td>
             <td>Если установлено свойство <code>maxBounds</code>, эта опция позволяет контролировать
-                &quot;прочность&quot; границ при перемещении карты мышкой или тачем. Значение по умолчанию
+                &quot;прочность&quot; границ при перемещении карты мышью или тачем. Значение по умолчанию
                 <code>0.0</code> &mdash; позволяет пользователю перемещать карту за ее границы с нормальной
                 скоростью, чем выше значение, тем меньше будет скорость при пермещении за пределы границы карты.
                 При значении <code>0.1</code>, границы становятся полностью &quot;непроницаемы&quot;, предотвращая любое
@@ -424,7 +424,7 @@
     </tbody>
 </table>
 
-##### Опции колеса мышки
+##### Опции колеса мыши
 
 <table>
     <thead>
@@ -440,17 +440,17 @@
             <td><code><b>scrollWheelZoom</b></code></td>
             <td><code>Boolean | String </code></td>
             <td><code>true</code></td>
-            <td>Можно ли изменять масштаб карты с помощью колеса мышки. Если в качестве параметра
+            <td>Можно ли изменять масштаб карты с помощью колеса мыши. Если в качестве параметра
                 передано значение <code>&#39;center&#39;</code>, изменение масштаба будет происходить
                 относительно центра просматриваемой области, вне зависимости от позиции указателя
-                мышки.
+                мыши.
             </td>
         </tr>
         <tr id="map-wheeldebouncetime">
             <td><code><b>wheelDebounceTime</b></code></td>
             <td><code>Number </code></td>
             <td><code>40</code></td>
-            <td>Ограничевает частоту, с которой прокрутка колеса мышки будет отправлять событие на изменение
+            <td>Ограничевает частоту, с которой прокрутка колеса мыши будет отправлять событие на изменение
                 масштаба (в милисекундах). По умолчанию, пользователь не может изменять масштаб карты
                 более чем один раз в 40 мс.
             </td>
@@ -650,12 +650,12 @@
         <tr id="map-poihover">
             <td><code><b>poihover</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#poievent">MetaEvent</a></code></td>
-            <td>Вызывается при наведении курсора мышки на точку интереса.</td>
+            <td>Вызывается при наведении курсора мыши на точку интереса.</td>
         </tr>
         <tr id="map-poileave">
             <td><code><b>poileave</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#poievent">MetaEvent</a></code></td>
-            <td>Вызывается, когда курсор мышки покидает область точки интереса.</td>
+            <td>Вызывается, когда курсор мыши покидает область точки интереса.</td>
         </tr>
         <tr id="map-langchange">
             <td><code><b>langchange</b></code></td>
@@ -718,32 +718,32 @@
         <tr id="map-mousedown">
             <td><code><b>mousedown</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-            <td>Вызывается при нажатии кнопки мышки над областью карты.</td>
+            <td>Вызывается при нажатии кнопки мыши над областью карты.</td>
         </tr>
         <tr id="map-mouseup">
             <td><code><b>mouseup</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-            <td>Вызывается, когда пользователь отпускает кнопку мышки над областью карты.</td>
+            <td>Вызывается, когда пользователь отпускает кнопку мыши над областью карты.</td>
         </tr>
         <tr id="map-mouseover">
             <td><code><b>mouseover</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-            <td>Вызывается при наведении курсора мышки на карту.</td>
+            <td>Вызывается при наведении курсора мыши на карту.</td>
         </tr>
         <tr id="map-mouseout">
             <td><code><b>mouseout</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-            <td>Вызывается, когда курсор мышки покидает область карты.</td>
+            <td>Вызывается, когда курсор мыши покидает область карты.</td>
         </tr>
         <tr id="map-mousemove">
             <td><code><b>mousemove</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-            <td>Вызывается, когда курсор мышки перемещается над картой.</td>
+            <td>Вызывается, когда курсор мыши перемещается над картой.</td>
         </tr>
         <tr id="map-contextmenu">
             <td><code><b>contextmenu</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-            <td>Вызывается при нажатии правой кнопки мышки на карте, предотвращает появление
+            <td>Вызывается при нажатии правой кнопки мыши на карте, предотвращает появление
                 стандартного контекстного меню браузера, если на это событие подписаны обработчики.
                 Также вызывается на мобильных устройствах, когда пользователь удерживает тач
                 в течение секунды (долгое нажатие).
@@ -757,7 +757,7 @@
         <tr id="map-preclick">
             <td><code><b>preclick</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-            <td>Вызывается перед кликом мышки на карте (полезно, если нужно выполнить
+            <td>Вызывается перед кликом мыши на карте (полезно, если нужно выполнить
                 какое-либо действие до вызова обработчика клика).
             </td>
         </tr>
@@ -1026,7 +1026,7 @@
             </td>
             <td><code>this</code></td>
             <td>Масштабирует карту, сохраняя при этом указанную точку в неподвижном состоянии
-                (например, используется для масштабировании при помощи колесика мышки и двойного клика).
+                (например, используется для масштабировании при помощи колесика мыши и двойного клика).
             </td>
         </tr>
         <tr id="map-setzoomaround">
@@ -1639,7 +1639,7 @@
         <tr id="map-boxzoom">
             <td><code><b>boxZoom</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#dghandler">Handler</a></code></td>
-            <td>Обработчик box-масштабирования (shift + выделение мышкой).</td>
+            <td>Обработчик box-масштабирования (shift + выделение мышью).</td>
         </tr>
         <tr id="map-doubleclickzoom">
             <td><code><b>doubleClickZoom</b></code></td>
@@ -1649,7 +1649,7 @@
         <tr id="map-dragging">
             <td><code><b>dragging</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#dghandler">Handler</a></code></td>
-            <td>Обработчик перетаскивания карты (мышкой и тачем).</td>
+            <td>Обработчик перетаскивания карты (мышью и тачем).</td>
         </tr>
         <tr id="map-keyboard">
             <td><code><b>keyboard</b></code></td>

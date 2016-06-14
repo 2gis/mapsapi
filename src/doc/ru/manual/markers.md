@@ -100,7 +100,7 @@
             <td><code>Boolean </code></td>
             <td><code>false</code></td>
 			<td>Если значение <code>true</code>, тогда маркер отобразится поверх остальных при наведении
-                на него мышкой.</td>
+                на него мышью.</td>
         </tr>
         <tr id="marker-riseoffset">
             <td><code><b>riseOffset</b></code></td>
@@ -141,22 +141,22 @@
         <tr id="marker-mousedown">
             <td><code><b>mousedown</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-			<td>Вызывается при нажатии кнопки мышки над маркером.</td>
+			<td>Вызывается при нажатии кнопки мыши над маркером.</td>
         </tr>
         <tr id="marker-mouseover">
             <td><code><b>mouseover</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-			<td>Вызывается при наведении курсора мышки на маркер.</td>
+			<td>Вызывается при наведении курсора мыши на маркер.</td>
         </tr>
         <tr id="marker-mouseout">
             <td><code><b>mouseout</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-			<td>Вызывается, когда курсор мышки покидает область маркера.</td>
+			<td>Вызывается, когда курсор мыши покидает область маркера.</td>
         </tr>
         <tr id="marker-contextmenu">
             <td><code><b>contextmenu</b></code></td>
             <td><code><a href="/doc/maps/ru/manual/base-classes#mouseevent">MouseEvent</a></code></td>
-			<td>Вызывается при нажатии правой кнопки мышки над маркером.</td>
+			<td>Вызывается при нажатии правой кнопки мыши над маркером.</td>
         </tr>
         <tr id="marker-move">
             <td><code><b>move</b></code></td>

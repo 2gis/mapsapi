@@ -155,7 +155,7 @@
 
 ### DG.FeatureGroup
 
-Расширяет <a href="#dglayergroup"><code>DG.LayerGroup</code></a>, добавляя обработку событий мышки
+Расширяет <a href="#dglayergroup"><code>DG.LayerGroup</code></a>, добавляя обработку событий мыши
 (получаемых от членов группы) и общий метод bindPopup.
 
     DG.featureGroup([marker1, marker2, polyline])
