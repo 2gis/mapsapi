@@ -123,7 +123,7 @@
     </tr>
     <tr>
         <td><code><b>show</b>(
-            <nobr>&lt;fitBoundsMap&gt; <i>boolean</i> )</nobr>
+            <nobr>&lt;fitBounds&gt; <i>boolean</i> )</nobr>
         </code></td>
 
         <td><code>this</code></td>
