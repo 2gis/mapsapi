@@ -518,7 +518,6 @@ var
     // Use when you need "baron" global var for another purposes
     baron.noConflict = function() {
         window.baron = _baron; // Restoring original value of "baron" global var
-
         return baron;
     };
 
@@ -528,12 +527,7 @@ var
         $.fn.baron = baron;
     }
     window.baron = baron; // Use noConflict method if you need window.baron var for another purposes
-    if (window['module'] && module.exports) {
-        module.exports = baron.noConflict();
-    }
-})(window);
-/* Fixable elements plugin for baron 0.6+ */
-(function(window, undefined) {
+
     var fix = function(userParams) {
         var elements, viewPortSize,
             params = { // Default params
@@ -744,9 +738,7 @@ var
 
         return this;
     };
-})(window);
-/* Controls plugin for baron 0.6+ */
-(function(window, undefined) {
+
     var controls = function(params) {
         var forward, backward, track, screen,
             self = this; // AAAAAA!!!!!11
@@ -810,9 +802,7 @@ var
 
         return this;
     };
-})(window);
-/* Pull to load plugin for baron 0.6+ */
-(function(window, undefined) {
+
     var pull = function(params) {
         var block = this.$(params.block),
             size = params.size || this.origin.size,
