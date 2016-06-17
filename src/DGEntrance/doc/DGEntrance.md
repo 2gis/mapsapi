@@ -60,7 +60,7 @@
         <td><code><b>interactive</b></code></td>
         <td><code>Boolean</td>
         <td><code>false</code></td>
-        <td>Если значение false, тогда обработчик действий мышки не вызывается.</td>
+        <td>Если значение false, тогда обработчик действий мыши не вызывается.</td>
     </tr>
     <tr>
         <td><code><b>autoClose</b></code></td>

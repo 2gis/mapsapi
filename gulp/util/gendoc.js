@@ -62,8 +62,8 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
     for (var i = 0, leng = mdData.length; i < leng; i++) {
         (function (i) {
             var mdFilePath = mdData[i].path,
-                htmlFileName = mdFilePath.match(/[^/]+(?=\.(md))/gi)[0] + '.html',
-                pluginDirName = mdFilePath.match(/^[\/]?([\w]+)/gi)[0],
+                htmlFileName = mdFilePath.match(/([\w_-]+)\.md$/i)[1] + '.html',
+                pluginDirName = mdFilePath.match(/\/?(.*)\/[.\w_-]+$/)[1],
                 renderer = new marked.Renderer(),
                 tocHtml = generateTableOfContents(marked.lexer(mdData[i].content.toString())),
                 headerRepeats = {},
