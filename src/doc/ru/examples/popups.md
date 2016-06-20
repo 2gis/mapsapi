@@ -177,9 +177,9 @@
 ### Поведение попапа с параметром sprawling
 
 <div id="map3" style="width: 300px; height: 150px;"></div>
-<input style="width: 300px;" type="button" id="sprawling" value="Балун с включенным параметром sprawling"><br />
-<input style="width: 300px;" type="button" id="no-sprawling" value="Балун без параметра sprawling"><br />
-<input style="width: 300px;" type="button" id="minWidth" value="Балун с минимальной шириной 320px">
+<input style="width: 300px;" type="button" id="sprawling" value="Попап с включенным параметром sprawling"><br />
+<input style="width: 300px;" type="button" id="no-sprawling" value="Попап без параметра sprawling"><br />
+<input style="width: 300px;" type="button" id="minWidth" value="Попап с минимальной шириной 320px">
 <script>
     DG.then(function () {
         var latLng = DG.latLng([54.98, 82.89]),
@@ -229,9 +229,9 @@
         </head>
         <body>
             <div id="map" style="width: 300px; height: 150px;"></div>
-            <input style="width: 300px;" type="button" id="sprawling" value="Балун с включенным параметром sprawling"><br />
-            <input style="width: 300px;" type="button" id="no-sprawling" value="Балун без параметра sprawling"><br />
-            <input style="width: 300px;" type="button" id="minWidth" value="Балун с минимальной шириной 320px">
+            <input style="width: 300px;" type="button" id="sprawling" value="Попап с включенным параметром sprawling"><br />
+            <input style="width: 300px;" type="button" id="no-sprawling" value="Попап без параметра sprawling"><br />
+            <input style="width: 300px;" type="button" id="minWidth" value="Попап с минимальной шириной 320px">
             <script>
                 DG.then(function () {
                     var latLng = DG.latLng([54.98, 82.89]),
