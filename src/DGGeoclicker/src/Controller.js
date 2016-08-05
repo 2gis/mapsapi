@@ -55,7 +55,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
             self._lastHandleClickArguments = args;
         }
 
-        if (meta && meta.linked && meta.linked.type != 'sight') {
+        if (meta && meta.linked && meta.linked.type != 'sight' && meta.linked.type != 'attraction') {
             if (meta.linked.type != 'branch' && meta.linked.type != 'building') {
                 return;
             }
