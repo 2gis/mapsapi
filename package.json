@@ -82,7 +82,7 @@
     "mocha": "^2.4.5",
     "mock-geolocation": "^1.0.11",
     "optimist": "^0.6.1",
-    "phantomjs-prebuilt": "^2.1.7",
+    "phantomjs-prebuilt": "2.1.11",
     "pixelsmith": "^2.1.0",
     "pretty-bytes": "^3.0.1",
     "prosthetic-hand": "^1.3.0",
