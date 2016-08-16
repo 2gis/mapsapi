@@ -510,7 +510,7 @@
         <tr id="map-bounceatzoomlimits">
             <td><code><b>bounceAtZoomLimits</b></code></td>
             <td><code>Boolean </code></td>
-            <td><code>true</code></td>
+            <td><code>false</code></td>
             <td>Если <code>true</code>, карта будет возвращаться к допустимому масштабу,
                 когда пользователь будет пытаться выйти за предельный максимальный/минимальный
                 масштаб карты с помощью масштабирования пальцами.

@@ -1,3 +1,9 @@
+// Fix a lot of bugs with pinch-zooming
+// See https://github.com/2gis/mapsapi/issues/327
+DG.Map.mergeOptions({
+    bounceAtZoomLimits: false
+});
+
 //Inject observing localization change
 var controlAddTo = DG.Control.prototype.addTo;
 
