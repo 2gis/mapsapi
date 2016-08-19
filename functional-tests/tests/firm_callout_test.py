@@ -166,9 +166,9 @@ class FirmCallout(MapsAPIBaseTest):
 
     @dataprovider([(
         config.aut['local'] + u'/base.html',
-        54.98271154250782,
-        82.88130998611452,
-        141265769373564
+        54.97883,
+        82.872775,
+        141265769707278
     )
     ])
     def firm_address_test(self, url, lat, lng, firm_id):
