@@ -30,7 +30,7 @@ gulp.task('buildScripts', ['concatScripts'], function () {
         var bundler = browserify(src, {
             debug: !util.env.release,
             entry: true,
-            standalone: 'DG',
+            standalone: util.env.npm ? 'DG': false,
             cache: {},
             packageCache: {}
         });
