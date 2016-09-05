@@ -57,7 +57,6 @@ DG.Label = DG.Layer.extend({
         this._el.style.zIndex = this._defaultZIndex + this.options.zIndexOffset;
 
         this._container = DG.DomUtil.create('div', this.options.className + '__content', this._el);
-        DG.DomUtil.disableTextSelection(this._container);
         DG.DomEvent
             .disableClickPropagation(this._el)
             .on(this._container, 'mousewheel', DG.DomEvent.stopPropagation)
