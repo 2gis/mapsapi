@@ -364,17 +364,6 @@
                     {
                         "content": {
                             "ru": {
-                                "title": "Работа с API геоданных",
-                                "uri": "maps/ru/examples/geocoding",
-                                "_src":"ru/examples/geocoding.md",
-                                "hide": false
-                            }
-                        },
-                        "children": null
-                    },
-                    {
-                        "content": {
-                            "ru": {
                                 "title": "Работа с GeoJSON",
                                 "uri": "maps/ru/examples/geojson",
                                 "_src":"ru/examples/geojson.md",

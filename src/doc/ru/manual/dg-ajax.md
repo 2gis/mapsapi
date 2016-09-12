@@ -6,13 +6,11 @@
 
 Функция DG.ajax позволяет отправлять кросс-доменные AJAX запросы.
 
-    var promise = DG.ajax('http://catalog.api.2gis.ru/2.0/search', {
+    var promise = DG.ajax('http://www.geonames.org/postalCodeLookupJSON', {
         type: 'get',
         data: {
-            key: '12345',
-            type: 'filial',
-            house: 141373143572328,
-            page: 1
+            postalcode: 10504,
+            country: 'US'
         },
         success: function(data) {
             console.log('success', data);
