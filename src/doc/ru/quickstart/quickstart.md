@@ -6,7 +6,7 @@
 * <span style="color:323232">показывать на карте различные объекты (маркеры, попапы, геометрические объекты);</span>
 * <span style="color:323232">производить поиск на карте: определять координаты геообъектов по их названиям и названия по координатам.</span>
 
-Исходный код API карт доступен на [github](https://github.com/2gis/mapsapi), проект открыт к предложениям и пул-реквестам.
+Исходный код API карт доступен на [GitHub](https://github.com/2gis/mapsapi), проект открыт к предложениям и пулл-реквестам.
 
 ### Начало работы
 
@@ -18,12 +18,12 @@
 
     <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
-Если вас интересует подключение кода API с помощью npm, перейдите в раздел [Подключение API](doc/ru/manual/dg-loading.md#npm).
+Если вас интересует подключение кода API с помощью npm, перейдите в раздел [Подключение API](/doc/maps/ru/manual/dg-loading#npm).
 
 #### Создайте контейнер карты
 
 Для создания контейнера, в котором будет отображаться карта, необходимо добавить блочный HTML-элемент необходимого вам размера:
-    
+
     <body>
         <div id="map" style="width:500px; height:400px"></div>
     </body>
@@ -94,19 +94,19 @@
             <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
             <script type="text/javascript">
                 var map;
-        
+
                 DG.then(function () {
                     map = DG.map('map', {
                         center: [54.98, 82.89],
                         zoom: 13
                     });
-        
+
                     DG.marker([54.98, 82.89]).addTo(map).bindPopup('Вы кликнули по мне!');
                 });
             </script>
         </head>
         <body>
-            <div id="map" style="width:500px; height:400px"></div>  
+            <div id="map" style="width:500px; height:400px"></div>
         </body>
     </html>
 
