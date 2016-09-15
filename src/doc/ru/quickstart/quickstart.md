@@ -18,7 +18,7 @@
 
     <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
-Если вас интересует подключение кода API с помощью npm, перейдите в раздел [Подключение API](doc/maps/ru/manual/dg-loading.md#npm).
+Если вас интересует подключение кода API с помощью npm, перейдите в раздел [Подключение API](/doc/maps/ru/manual/dg-loading#npm).
 
 #### Создайте контейнер карты
 
