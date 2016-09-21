@@ -90,11 +90,13 @@ DG.Poi = DG.Handler.extend({
     _layerEventsListeners : {
         mouseover: function (e) { // (Object)
             this._setCursor('pointer');
-            this._labelHelper
-                .setPosition(e.latlng)
-                .setContent(e.meta.hint)
-                .setZIndexOffset(300);
-            this._map.addLayer(this._labelHelper);
+            if (e.meta.hint && e.meta.hint.length) {
+                this._labelHelper
+                    .setPosition(e.latlng)
+                    .setContent(e.meta.hint)
+                    .setZIndexOffset(300);
+                this._map.addLayer(this._labelHelper);
+            }
             this._map.fire('poihover', {
                 latlng: e.latlng,
                 meta: e.meta
