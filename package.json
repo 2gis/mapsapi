@@ -12,7 +12,7 @@
     "start": "node app",
     "test": "gulp test",
     "lint": "gulp lint",
-    "prepublish": "gulp clean && gulp build --npm"
+    "pub": "gulp clean && gulp build --npm && npm publish"
   },
   "repository": {
     "type": "git",
