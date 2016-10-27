@@ -109,9 +109,8 @@
 
         // подписываемся на событие изменения текущего проекта 2GIS
         map.on('projectchange', function(e) {
-            var bounds = e.getProject().latLngBounds;
-
-            currentProjectBound = DG.rectangle(bounds, {
+            var bounds = e.getProject().bound;
+            currentProjectBound = DG.geoJSON(bounds, {
                 color:"#f03",
                 weight:1
             }).addTo(map);
@@ -145,8 +144,8 @@
 
                     // подписываемся на событие изменения текущего проекта 2GIS
                     map.on('projectchange', function(e) {
-                        var bounds = e.getProject().latLngBounds;
-                        currentProjectBound = DG.rectangle(bounds, {
+                        var bounds = e.getProject().bound;
+                        currentProjectBound = DG.geoJSON(bounds, {
                             color:"#f03",
                             weight:1
                         }).addTo(map);

@@ -2,10 +2,8 @@ DG.ProjectDetector = DG.Handler.extend({
     initialize: function (map) { // (Object)
         this._map = map;
         this._osmViewport = false;
-        this._project = null;
-        this._noProjectEventFired = false;
+        this._project = undefined;
         this._loadProjectList();
-        this._searchProject();
     },
 
     addHooks: function () {
@@ -54,11 +52,8 @@ DG.ProjectDetector = DG.Handler.extend({
             this._map.attributionControl._update(null, this._osmViewport);
         }
 
-        if (this._project && this._centerInProject(this._project) && this._zoomInProject(this._project)) { return; }
-
-        if (this._project) {
-            this._project = null;
-            this._map.fire('projectleave');
+        if (this._project && this._zoomInProject(this._project) && this._centerInProject(this._project)) {
+            return;
         }
 
         this._searchProject();
@@ -71,7 +66,7 @@ DG.ProjectDetector = DG.Handler.extend({
         }
     },
 
-    _checkProject: function (project) {
+    _checkProjectData: function (project) {
         function check (value) {
             return value !== undefined && value !== null;
         }
@@ -89,8 +84,6 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _loadProjectList: function () {
-        var self = this;
-
         DG.fallbackProjectsList = DG.fallbackProjectsList || [];
 
         if (!DG.projectsList) {
@@ -99,10 +92,12 @@ DG.ProjectDetector = DG.Handler.extend({
         delete DG.fallbackProjectsList;
 
         this._projectList = DG.projectsList
-            .filter(self._checkProject)
+            .filter(this._checkProjectData)
             .map(function (project) {
                 var bound = DG.Wkt.toGeoJSON(project.bounds);
                 var latLngBounds = DG.geoJSON(bound).getBounds();
+                var defaultPos = project.default_pos ? DG.latLng(project.default_pos.lat, project.default_pos.lon) : null;
+
 
                 /* eslint-disable camelcase */
                 return {
@@ -117,45 +112,62 @@ DG.ProjectDetector = DG.Handler.extend({
                     transport: !!project.flags.public_transport,
                     roads: !!project.flags.road_network,
                     country_code: project.country_code,
-                    domain: project.domain
+                    domain: project.domain,
+                    defaultPos: defaultPos
                 };
                 /* eslint-enable camelcase */
             });
     },
 
     _searchProject: function () {
-        var foundProjects = this._projectList
-            .filter(function (project) {
-                return (this._centerInProject(project) && this._zoomInProject(project));
-            }, this);
+        // Вначале отсеиваем регионы по зуму
+        var filteredByZoom = this._projectList.filter(this._zoomInProject, this);
 
-        var loaded = false;
+        // Находим проект в границы которого попадает центр карты
+        var foundProjects = filteredByZoom.filter(this._centerInProject, this);
 
-        try {
-            this._map._checkIfLoaded();
-            loaded = true;
-        } catch (e) {
-            loaded = false;
+        // Если такой проект не найден, то ищем проекты баунд боксы которых пересекаются с экраном
+        if (foundProjects.length === 0) {
+            var mapBounds = this._map.getBounds();
+            foundProjects = filteredByZoom.filter(DG.bind(this._testProjectIntersects, this, mapBounds));
+
+            if (foundProjects.length > 1) {
+                var mapCenter = this._map.getCenter();
+                var neareastProject = foundProjects[0];
+                for (var i = 1; i < foundProjects.length; i++) {
+                    var currentProject = foundProjects[i];
+                    if (currentProject.defaultPos &&
+                        mapCenter.distanceTo(neareastProject.defaultPos) >
+                        mapCenter.distanceTo(currentProject.defaultPos)
+                    ) {
+                        neareastProject = currentProject;
+                    }
+                }
+                foundProjects = [neareastProject];
+            }
         }
 
-        if (loaded && foundProjects.length === 0 && !this._noProjectEventFired) {
-            var self = this;
+        var newProject = foundProjects[0] || null;
+
+        if (this._project === newProject) {
+            return;
+        }
+
+        var self = this;
+
+        if (this._project !== null) {
+            this._project = null;
             setTimeout(function () {
                 self._map.fire('projectleave');
-                self._noProjectEventFired = true;
             }, 1);
         }
 
-        foundProjects.some(function (project) {
-            var self = this;
-
-            this._project = project;
+        if (newProject) {
+            this._project = newProject;
             setTimeout(function () {
-                self._map.fire('projectchange', {'getProject': self.getProject.bind(self)});
+                self._map.fire('projectchange', {getProject: self.getProject.bind(self)});
             }, 1);
-
-            return true;
-        }, this);
+        }
     },
 
     _testProjectIntersects: function (bounds, project) {
@@ -167,11 +179,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _centerInProject: function (project, checkMethod) {
-        try {
-            return this.isProjectHere(this._map.getCenter(), project, checkMethod);
-        } catch (e) {
-            return false;
-        }
+        return this.isProjectHere(this._map.getCenter(), project, checkMethod);
     },
 
     _zoomInProject: function (project) {

@@ -43,6 +43,8 @@ describe('DG Locale Module', function () {
 		});
 
 		it('should return default language (ru) if setLang was called with invalid argument: undefined, null, etc', function () {
+			getLangSpy.reset();
+    
 			map.setLang(null);
 			map.getLang();
 

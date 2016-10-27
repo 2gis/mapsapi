@@ -18,7 +18,7 @@
     "webApiKey": "ruregt3044",
     "webApiVersion": "2.0",
 
-    "regionListFields": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain",
+    "regionListFields": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain,items.default_pos",
     "firmInfoFields": "items.reviews,items.photos,items.links,items.external_content",
     "geoAdditionalFields": "items.geometry.selection,items.links,items.adm_div,items.address,items.floors,items.description",
     "geoclickerCatalogApiKey": "ruregt3044",
