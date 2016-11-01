@@ -23,7 +23,7 @@
     "dustjs-helpers": "1.7.3",
     "dustjs-linkedin": "2.7.2",
     "html5shiv": "^3.7.3",
-    "leaflet": "git://github.com/Leaflet/Leaflet.git#1e1926b480c460e197a293224b1c03eacd800ee2"
+    "leaflet": "git://github.com/Leaflet/Leaflet.git#v1.0.1"
   },
   "devDependencies": {
     "browserify": "^13.0.1",
