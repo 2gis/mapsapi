@@ -68,11 +68,11 @@
     </tbody>
 </table>
 
-Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Attribution
 
@@ -123,7 +123,7 @@
     </tbody>
 </table>
 
-Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
@@ -163,7 +163,7 @@
     </tbody>
 </table>
 
-Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Scale
 
@@ -232,11 +232,11 @@
     </tbody>
 </table>
 
-Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Ruler
 
@@ -266,11 +266,11 @@
 
 #### Опции
 
-Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Traffic
 
@@ -300,11 +300,11 @@
 
 #### Опции
 
-Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.Fullscreen
 
@@ -336,11 +336,11 @@
 
 #### Опции
 
-Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 ### DG.Control.LocationControl
 
@@ -414,8 +414,8 @@
     </tbody>
 </table>
 
-Опции, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Опции, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
 
 #### Методы
 
-Методы, унаследованные от <a href="/doc/maps/en/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
+Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgcontrol">Control</a> <!-- TODO: include options -->
