@@ -1,4 +1,4 @@
-## Work with map limits
+## Work with map bounds
 
 {toc}
 

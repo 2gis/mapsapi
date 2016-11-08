@@ -1,4 +1,4 @@
-## Work with pop-ups
+## Work with popups
 
 {toc}
 
