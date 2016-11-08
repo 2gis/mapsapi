@@ -4,8 +4,14 @@ var fs = require('fs'),
 
 function walkItem(menu, callback) { // (Object, Function)
     for (var item in menu) {
-        if (menu[item].content.ru._src) {
-            callback(menu[item].content.ru._src);
+        var content = menu[item].content;
+        if (content) {
+            if (content.ru && content.ru._src) {
+                callback(menu[item].content.ru._src);
+            }
+            if (content.en && content.en._src) {
+                callback(menu[item].content.en._src);
+            }
         }
         if (menu[item].children) {
             walkItem(menu[item].children, callback);
