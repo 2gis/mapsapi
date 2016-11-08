@@ -100,56 +100,60 @@
 #### Методы
 
 <table>
-    <tr>
-        <th>Метод</th>
-        <th>Возвращает</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>addTo</b>(
-            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
-        </code></td>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>addTo</b>(
+                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+            </code></td>
 
-        <td><code>this</code></td>
-        <td>Добавляет объект входов на карту.</td>
-    </tr>
-    <tr>
-        <td><code><b>removeFrom</b>(
-            <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
-        </code></td>
+            <td><code>this</code></td>
+            <td>Добавляет объект входов на карту.</td>
+        </tr>
+        <tr>
+            <td><code><b>removeFrom</b>(
+                <nobr>&lt;<a href="#map">Map</a>&gt; <i>map</i> )</nobr>
+            </code></td>
 
-        <td><code>this</code></td>
-        <td>Удаляет объект входов с карты.</td>
-    </tr>
-    <tr>
-        <td><code><b>show</b>(
-            <nobr>&lt;fitBounds&gt; <i>boolean</i> )</nobr>
-        </code></td>
+            <td><code>this</code></td>
+            <td>Удаляет объект входов с карты.</td>
+        </tr>
+        <tr>
+            <td><code><b>show</b>(
+                <nobr>&lt;fitBounds&gt; <i>boolean</i> )</nobr>
+            </code></td>
 
-        <td><code>this</code></td>
-        <td>Отображает входы на карте. Если <code>fitBounds</code> установлен в <code>true</code>, тогда границы карты
-            (и уровень масштаба) подстраиваются таким образом, чтобы пользователь увидел все входы на одном экране.</td>
-    </tr>
-    <tr>
-        <td><code><b>hide</b>()</code></td>
+            <td><code>this</code></td>
+            <td>Отображает входы на карте. Если <code>fitBounds</code> установлен в <code>true</code>, тогда границы карты
+                (и уровень масштаба) подстраиваются таким образом, чтобы пользователь увидел все входы на одном экране.</td>
+        </tr>
+        <tr>
+            <td><code><b>hide</b>()</code></td>
 
-        <td><code>this</code></td>
-        <td>Скрывает входы. Сами объекты не удаляются с карты и входы могут быть повторно отображены путем вызова метода
-            <code>show()</code>.</td>
-    </tr>
-    <tr>
-        <td><code><b>isShown</b>()</code></td>
-        <td><code>Boolean</code></td>
-        <td>Возвращает <code>true</code>, если входы в данный момент отображаются на карте.</td>
-    </tr>
-    <tr>
-        <td><code><b>setFillColor</b>()</code></td>
-        <td><code>String</code></td>
-        <td>Изменяет цвет заполнения стрелок.</td>
-    </tr>
-    <tr>
-        <td><code><b>setStrokeColor</b>()</code></td>
-        <td><code>String</code></td>
-        <td>Изменяет цвет обводки стрелок.</td>
-    </tr>
+            <td><code>this</code></td>
+            <td>Скрывает входы. Сами объекты не удаляются с карты и входы могут быть повторно отображены путем вызова метода
+                <code>show()</code>.</td>
+        </tr>
+        <tr>
+            <td><code><b>isShown</b>()</code></td>
+            <td><code>Boolean</code></td>
+            <td>Возвращает <code>true</code>, если входы в данный момент отображаются на карте.</td>
+        </tr>
+        <tr>
+            <td><code><b>setFillColor</b>()</code></td>
+            <td><code>String</code></td>
+            <td>Изменяет цвет заполнения стрелок.</td>
+        </tr>
+        <tr>
+            <td><code><b>setStrokeColor</b>()</code></td>
+            <td><code>String</code></td>
+            <td>Изменяет цвет обводки стрелок.</td>
+        </tr>
+    </tbody>
 </table>

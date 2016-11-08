@@ -22,42 +22,47 @@
 ### События
 
 <table>
-    <tr>
-        <th>Событие</th>
-        <th>Данные</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td>projectchange</td>
-        <td>ProjectEvent</td>
-        <td>Возникает, когда пользователь переходит из одного проекта в другой.</td>
-    </tr>
-    <tr>
-        <td>projectleave</td>
-        <td>ProjectEvent</td>
-        <td>Возникает, когда пользователь выходит за пределы текущего проекта.</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Событие</th>
+            <th>Данные</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>projectchange</td>
+            <td>ProjectEvent</td>
+            <td>Возникает, когда пользователь переходит из одного проекта в другой.</td>
+        </tr>
+        <tr>
+            <td>projectleave</td>
+            <td>ProjectEvent</td>
+            <td>Возникает, когда пользователь выходит за пределы текущего проекта.</td>
+        </tr>
+    </tbody>
 </table>
 
 #### Методы
 
 <table>
-    <tr>
-        <th>Метод</th>
-        <th>Параметры</th>
-        <th>Возвращает</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td>getProjectList</td>
-        <td>Нет</td>
-        <td>Object</td>
-        <td>Возвращает все доступные проекты.</td>
-    </tr>
-    <tr>
-        <td>getProject</td>
-        <td>Нет</td>
-        <td>Object</td>
-        <td>Возвращает текущий проект.</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Метод</th>
+            <th>Возвращает</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>getProjectList</td>
+            <td>Object</td>
+            <td>Возвращает все доступные проекты.</td>
+        </tr>
+        <tr>
+            <td>getProject</td>
+            <td>Object</td>
+            <td>Возвращает текущий проект.</td>
+        </tr>
+    </tbody>
 </table>
