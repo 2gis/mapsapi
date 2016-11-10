@@ -86,10 +86,6 @@ class FirmData(object):
         return self.response['items'][0]['reviews']['rating']
 
     @property
-    def photos(self):
-        return self.response['items'][0]['photos']['items']
-
-    @property
     def address_name(self):
         return self.response['items'][0]['address_name'].replace(u'\xa0', ' ')
 
@@ -138,7 +134,7 @@ class FirmData(object):
                 if item['subtype'] == 'common':
                     return item['count']
         except KeyError:
-            return len(self.photos())
+            return 0
 
 
 class GalleryData(object):
