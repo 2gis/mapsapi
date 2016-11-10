@@ -346,7 +346,7 @@
                                 "hide": false
                             },
                             "en": {
-                                "title": "Asynchronous requests",
+                                "title": "Asynchronous Requests",
                                 "uri": "maps/en/manual/dg-ajax",
                                 "_src":"en/manual/dg-ajax.md",
                                 "hide": false
