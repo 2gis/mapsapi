@@ -1,4 +1,3 @@
-/*global describe:false, it:false, expect:false, afterEach:false */
 describe('DG.ProjectDetectorInit', function () {
     var map,
         mapContainer,

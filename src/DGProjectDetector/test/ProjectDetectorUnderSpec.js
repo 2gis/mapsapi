@@ -1,4 +1,3 @@
-/*global describe:false, it:false, expect:false, beforeEach:false, afterEach:false, sinon:false */
 describe('DG.ProjectDetectorUnder', function () {
     var map,
         spy,
@@ -286,7 +285,7 @@ describe('DG.ProjectDetectorUnder', function () {
 
     });
 
-     describe('#panBy', function () {
+    describe('#panBy', function () {
 
         it('call with viewport size', function () {
             map.setView(project1, 16);
@@ -411,21 +410,22 @@ describe('DG.ProjectDetectorUnder', function () {
     });
 
     describe('#should fire', function () {
-
-        //TODO: uncomment when 'projectchange' event firing become sync
-        /*it('\'projectchange\' event', function () {
-            spy = sinon.spy();
-            map.on('projectchange', spy);
+        it('\'projectchange\' event', function (done) {
+            var onProjectChange = function () {
+                map.off('projectchange', onProjectChange);
+                done();
+            };
+            map.on('projectchange', onProjectChange);
             map.setView(project2, maxZoom);
-            expect(spy.called).to.be.ok();
-        });*/
+        });
 
-        it('\'projectleave\' event', function () {
-            spy = sinon.spy();
-            map.on('projectleave', spy);
-            map.setView(project1, 17);
+        it('\'projectleave\' event', function (done) {
+            var onProjectLeave = function () {
+                map.off('projectleave', onProjectLeave);
+                done();
+            };
+            map.on('projectleave', onProjectLeave);
             map.setView(desert1, maxZoom);
-            expect(spy.called).to.be.ok();
         });
     });
 });

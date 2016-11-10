@@ -5,7 +5,7 @@ describe('DG.TrafficControl', function() {
 
         centerNsk = [55.017493, 82.819576],
         centerSpb = [59.937706, 30.13249],
-        centerWithoutProject = [54.83391822270635, 80.34439086914064],
+        centerWithoutProject = [55.363990665081126, 77.81307220458986],
 
         mapContainer,
         map,
@@ -146,9 +146,14 @@ describe('DG.TrafficControl', function() {
                 expect(controlParent.className).not.contain(controlParentHiddenClass);
             });
 
-            it('add hide class to control parent element', function () {
+            it('add hide class to control parent element', function (done) {
+                var onProjectLeave = function (ev) {
+                    map.off('projectleave', onProjectLeave);
+                    expect(controlParent.className).to.contain(controlParentHiddenClass);
+                    done();
+                };
+                map.on('projectleave', onProjectLeave);
                 map.setView(centerWithoutProject, 15, {animate: false});
-                expect(controlParent.className).to.contain(controlParentHiddenClass);
             });
 
             it('remove hide class from control parent element', function () {
@@ -173,9 +178,15 @@ describe('DG.TrafficControl', function() {
                 expect(controlParent.className).to.contain(controlParentActiveClass);
             });
 
-            it('add hide class to control parent element', function () {
+            it('add hide class to control parent element', function (done) {
+                var onProjectLeave = function (ev) {
+                    map.off('projectleave', onProjectLeave);
+                    expect(controlParent.className).to.contain(controlParentHiddenClass);
+                    done();
+                };
+                map.on('projectleave', onProjectLeave);
+
                 map.setView(centerWithoutProject, 15, {animate: false});
-                expect(controlParent.className).to.contain(controlParentHiddenClass);
             });
 
             it('remove hide class from control parent element', function () {
