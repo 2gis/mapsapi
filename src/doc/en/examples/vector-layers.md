@@ -377,7 +377,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Animation of the polyline renderingn</title>
+            <title>Animation of the polyline rendering</title>
             <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>

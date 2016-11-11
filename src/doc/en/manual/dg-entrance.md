@@ -1,7 +1,7 @@
 ## DG.Entrance
 
 Allows to display an entrance to the building. The class supports simple animation and multiple inputs display.
-Objects of entrances themselves represent arrows which change its scale together with zooming, but not lower
+Objects of entrances themselves represent arrows which change their scale together with zooming, but not lower
 than the level 16, after which the arrows disappear from the map (until reaching an acceptable level of zooming).
 
 {toc}

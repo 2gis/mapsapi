@@ -46,7 +46,7 @@ Showing autonomous static labels on the map:
 
 #### Options
 
-When you call the <code>bindLabel</code> method, you can set the following options for the ToolTip:
+When you call the <code>bindLabel</code> method, you can set the following options for the tooltip:
 
 <table>
     <thead>
@@ -69,7 +69,7 @@ When you call the <code>bindLabel</code> method, you can set the following optio
             <td><b><code>className</code></b></td>
             <td><code>String</code></td>
             <td><code>'dg-label'</code></td>
-            <td>The CSS class that will be assigned to the DOM element of the ToolTip.</td>
+            <td>The CSS class that will be assigned to the DOM element of the tooltip.</td>
         </tr>
         <tr id="label-static">
             <td><b><code>static</code></b></td>

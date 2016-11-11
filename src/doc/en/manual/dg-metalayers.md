@@ -81,7 +81,7 @@ Inherits from <a href="/doc/maps/en/manual/base-classes#dglayer"><code>DG.Layer<
 
 #### Events
 
-You can subscribe on the following events using
+You can subscribe to the following events using
 <a href="/doc/maps/en/manual/base-classes#dgevented">these</a> methods.
 
 <table>

@@ -101,7 +101,7 @@ Map initialization on demand (useful when displaying the map in a popup window):
 
 ### The use of connection options
 
-The following is an example of calling the cards with the following set of options: <code>pkg=basic</code>, <code>skin=light</code>.
+The following is an example of calling the map with the following set of options: <code>pkg=basic</code>, <code>skin=light</code>.
 As the result we get a build with basic functionality in the light theme. All options can be viewed in the
 <a href="/doc/maps/en/manual/dg-loading#connectionoptions">Connection Options</a> section.
 

@@ -248,7 +248,7 @@ It is possible to open a popup on demand. For example, by clicking on a link or 
 
 ### Marker with a tip
 
-The marker has two kinds tips: a regular and a static ones. Both options are considered in the following example:
+The marker has two kinds of tips: a regular and a static ones. Both options are considered in the following example:
 
 <div id="map4" style="width: 100%; height: 400px;"></div>
 <script>
@@ -301,7 +301,7 @@ The marker has two kinds tips: a regular and a static ones. Both options are con
 
 ### Processing events of the group of markers
 
-When clicking on the marker, the map will be centered in his position:
+When clicking on the marker, the map will be centered in its position:
 
 <div id="map5" style="width: 100%; height: 400px;"></div>
 <script>
@@ -333,7 +333,7 @@ When clicking on the marker, the map will be centered in his position:
     <!DOCTYPE html>
     <html>
         <head>
-            <title>Processing of events of  markers group</title>
+            <title>Processing of events of markers group</title>
             <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
