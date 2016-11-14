@@ -90,7 +90,7 @@ class FirmInfo(BaseReq):
             'key': self.base_params['key'],
             'id': str(firm_id),
             'type': 'filial',
-            'fields': 'items.reviews,items.photos,items.links,items.external_content'
+            'fields': 'items.reviews,items.links,items.external_content'
         }
         url = "%s%s" % (self.api_url, method)
         return self.request(url, params)
