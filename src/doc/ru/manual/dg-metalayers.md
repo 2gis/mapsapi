@@ -11,65 +11,72 @@
 #### Создание
 
 <table>
-    <tr>
-        <th>Конструктор</th>
-        <th>Использование</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>DG.Meta.layer</b>(
-            <nobr>&lt;String&gt; <i>source</i>,</nobr>
-            <nobr>&lt;<a href="#опции">DG.Meta.layer options</a>&gt; <i>options?</i> )</nobr>
-        </code></td>
-        <td><code>DG.Meta.layer(&hellip;)</code></td>
-        <td>Создает дополнительный слой с метаинформацией. Принимает в качестве параметра source URL,
-            по которому доступны тайлы допслоя.</td>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
         </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.Meta.layer</b>(
+                <nobr>&lt;String&gt; <i>source</i>,</nobr>
+                <nobr>&lt;<a href="#опции">DG.Meta.layer options</a>&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td><code>DG.Meta.layer(&hellip;)</code></td>
+            <td>Создает дополнительный слой с метаинформацией. Принимает в качестве параметра source URL,
+                по которому доступны тайлы допслоя.</td>
+        </tr>
+    </tbody>
 </table>
 
 #### Опции
 
 <table>
-    <tr>
-        <th>Опция</th>
-        <th>Тип</th>
-        <th>Значение<br>по умолчанию</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>tileSize</b></code></td>
-        <td><code>Number</code></td>
-        <td><code>256</code></td>
-        <td>Размер тайла (ширина и высота в пикселях, предполагается что тайл квадратный).</td>
-    </tr>
-    <tr>
-        <td><code><b>minZoom</b></code></td>
-        <td><code>Number</code></td>
-        <td><code>0</code></td>
-        <td>Минимальный уровень зума.</td>
-    </tr>
-    <tr>
-        <td><code><b>maxZoom</b></code></td>
-        <td><code>Number</code></td>
-        <td><code>18</code></td>
-        <td>Максимальный уровень зума.</td>
-    </tr>
-    <tr>
-        <td><code><b>zoomOffset</b></code></td>
-        <td><code>Number</code></td>
-        <td><code>0</code></td>
-        <td>Значение, на которое будет смещен уровень масштабирования в адресе тайла.</td>
-    </tr>
-    <tr>
-        <td><code><b>eventBubbling</b></code></td>
-        <td><code>String</code></td>
-        <td><code><span class="string">'transparent'</span>||<span class="string">'layer'</span></td>
-        <td>Способ, которым мета-слой обрабатывает события. Принимает значения <b>layer</b>
-            или <b>transparent</b> (по-умолчанию):<ul><li>transparent &mdash; мета-слой принимает
-            все события и прокидывает их на карту</li><li>layer &mdash; мета-слой принимает
-            события и останавливает их после обработки</li></ul></td>
-    </tr>
-
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>Значение<br>по умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>tileSize</b></code></td>
+            <td><code>Number</code></td>
+            <td><code>256</code></td>
+            <td>Размер тайла (ширина и высота в пикселях, предполагается что тайл квадратный).</td>
+        </tr>
+        <tr>
+            <td><code><b>minZoom</b></code></td>
+            <td><code>Number</code></td>
+            <td><code>0</code></td>
+            <td>Минимальный уровень зума.</td>
+        </tr>
+        <tr>
+            <td><code><b>maxZoom</b></code></td>
+            <td><code>Number</code></td>
+            <td><code>18</code></td>
+            <td>Максимальный уровень зума.</td>
+        </tr>
+        <tr>
+            <td><code><b>zoomOffset</b></code></td>
+            <td><code>Number</code></td>
+            <td><code>0</code></td>
+            <td>Значение, на которое будет смещен уровень масштабирования в адресе тайла.</td>
+        </tr>
+        <tr>
+            <td><code><b>eventBubbling</b></code></td>
+            <td><code>String</code></td>
+            <td><code><span class="string">'transparent'</span>||<span class="string">'layer'</span></td>
+            <td>Способ, которым мета-слой обрабатывает события. Принимает значения <b>layer</b>
+                или <b>transparent</b> (по-умолчанию):<ul><li>transparent &mdash; мета-слой принимает
+                все события и прокидывает их на карту</li><li>layer &mdash; мета-слой принимает
+                события и останавливает их после обработки</li></ul></td>
+        </tr>
+    </tbody>
 </table>
 
 #### События
@@ -150,45 +157,53 @@
 #### Создание
 
 <table>
-    <tr>
-        <th>Конструктор</th>
-        <th>Использование</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>DG.Meta.origin</b>(
-            <nobr>&lt;String&gt; <i>source</i>,</nobr>
-            <nobr>&lt;DG.Meta.layer options&gt; <i>options?</i> )</nobr>
-        </code></td>
-        <td><code>DG.Meta.origin(&hellip;)</code></td>
-        <td>Создает инстанс для работы с данными метаслоя. Принимает в качестве параметра source URL,
-            по которому доступны тайлы допслоя.</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Конструктор</th>
+            <th>Использование</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>DG.Meta.origin</b>(
+                <nobr>&lt;String&gt; <i>source</i>,</nobr>
+                <nobr>&lt;DG.Meta.layer options&gt; <i>options?</i> )</nobr>
+            </code></td>
+            <td><code>DG.Meta.origin(&hellip;)</code></td>
+            <td>Создает инстанс для работы с данными метаслоя. Принимает в качестве параметра source URL,
+                по которому доступны тайлы допслоя.</td>
+        </tr>
+    </tbody>
 </table>
 
 #### Опции
 
 <table>
-    <tr>
-        <th>Опция</th>
-        <th>Тип</th>
-        <th>По умолчанию</th>
-        <th>Описание</th>
-    </tr>
-    <tr>
-        <td><code><b>subdomains</b></code></td>
-        <td><code>String</code> или <code>String[]</code></td>
-        <td><code>'0123'</code></td>
-        <td>Поддомены тайлового сервиса. Могут передаваться одной строкой (где каждая буква &mdash;
-            имя поддомена) или массивом строк.</td>
-    </tr>
-    <tr>
-        <td><code><b>dataFilter</b></code></td>
-        <td><code>Function</code></td>
-        <td><code>null</code></td>
-        <td>Опциональный параметр, который принимает функцию для фильтрации или преобразования метаданных,
-            полученных от сервера.</td>
-    </tr>
+    <thead>
+        <tr>
+            <th>Опция</th>
+            <th>Тип</th>
+            <th>По умолчанию</th>
+            <th>Описание</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code><b>subdomains</b></code></td>
+            <td><code>String</code> или <code>String[]</code></td>
+            <td><code>'0123'</code></td>
+            <td>Поддомены тайлового сервиса. Могут передаваться одной строкой (где каждая буква &mdash;
+                имя поддомена) или массивом строк.</td>
+        </tr>
+        <tr>
+            <td><code><b>dataFilter</b></code></td>
+            <td><code>Function</code></td>
+            <td><code>null</code></td>
+            <td>Опциональный параметр, который принимает функцию для фильтрации или преобразования метаданных,
+                полученных от сервера.</td>
+        </tr>
+    </tbody>
 </table>
 
 #### Методы

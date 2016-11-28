@@ -6,6 +6,12 @@
                 "uri": "maps/ru/quickstart",
                 "_src":"ru/quickstart/quickstart.md",
                 "hide": false
+            },
+            "en": {
+                "title": "Maps API",
+                "uri": "maps/en/quickstart",
+                "_src":"en/quickstart/quickstart.md",
+                "hide": false
             }
         },
         "children": [
@@ -15,6 +21,12 @@
                         "title": "Быстрый старт",
                         "uri": "maps/ru/quickstart",
                         "_src":"ru/quickstart/quickstart.md",
+                        "hide": false
+                    },
+                    "en": {
+                        "title": "Quick Start",
+                        "uri": "maps/en/quickstart",
+                        "_src":"en/quickstart/quickstart.md",
                         "hide": false
                     }
                 },
@@ -27,6 +39,12 @@
                         "uri": "maps/ru/manual/dg-loading",
                         "_src":"ru/manual/dg-loading.md",
                         "hide": false
+                    },
+                    "en": {
+                        "title": "Manual",
+                        "uri": "maps/en/manual/dg-loading",
+                        "_src":"en/manual/dg-loading.md",
+                        "hide": false
                     }
                 },
                 "children": [
@@ -36,6 +54,12 @@
                                 "title": "Подключение API",
                                 "uri": "maps/ru/manual/dg-loading",
                                 "_src":"ru/manual/dg-loading.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Loading API",
+                                "uri": "maps/en/manual/dg-loading",
+                                "_src":"en/manual/dg-loading.md",
                                 "hide": false
                             }
                         },
@@ -48,6 +72,12 @@
                                 "uri": "maps/ru/manual/basic-types",
                                 "_src":"ru/manual/basic-types.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Basic Types",
+                                "uri": "maps/en/manual/basic-types",
+                                "_src":"en/manual/basic-types.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -58,6 +88,12 @@
                                 "title": "Базовые классы",
                                 "uri": "maps/ru/manual/base-classes",
                                 "_src":"ru/manual/base-classes.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Base Classes",
+                                "uri": "maps/en/manual/base-classes",
+                                "_src":"en/manual/base-classes.md",
                                 "hide": false
                             }
                         },
@@ -70,6 +106,12 @@
                                 "uri": "maps/ru/manual/map",
                                 "_src":"ru/manual/map.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Map",
+                                "uri": "maps/en/manual/map",
+                                "_src":"en/manual/map.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -80,6 +122,12 @@
                                 "title": "Маркеры",
                                 "uri": "maps/ru/manual/markers",
                                 "_src":"ru/manual/markers.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Markers",
+                                "uri": "maps/en/manual/markers",
+                                "_src":"en/manual/markers.md",
                                 "hide": false
                             }
                         },
@@ -92,6 +140,12 @@
                                 "uri": "maps/ru/manual/popup",
                                 "_src":"ru/manual/popup.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Popups",
+                                "uri": "maps/en/manual/popup",
+                                "_src":"en/manual/popup.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -102,6 +156,12 @@
                                 "title": "Подсказки",
                                 "uri": "maps/ru/manual/dg-label",
                                 "_src":"ru/manual/dg-label.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Labels",
+                                "uri": "maps/en/manual/dg-label",
+                                "_src":"en/manual/dg-label.md",
                                 "hide": false
                             }
                         },
@@ -114,6 +174,12 @@
                                 "uri": "maps/ru/manual/controls",
                                 "_src":"ru/manual/controls.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Controls",
+                                "uri": "maps/en/manual/controls",
+                                "_src":"en/manual/controls.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -124,6 +190,12 @@
                                 "title": "Векторные слои",
                                 "uri": "maps/ru/manual/vector-layers",
                                 "_src":"ru/manual/vector-layers.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Vector Layers",
+                                "uri": "maps/en/manual/vector-layers",
+                                "_src":"en/manual/vector-layers.md",
                                 "hide": false
                             }
                         },
@@ -136,6 +208,12 @@
                                 "uri": "maps/ru/manual/raster-layers",
                                 "_src":"ru/manual/raster-layers.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Raster Layers",
+                                "uri": "maps/en/manual/raster-layers",
+                                "_src":"en/manual/raster-layers.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -146,6 +224,12 @@
                                 "title": "Прочие слои",
                                 "uri": "maps/ru/manual/other-layers",
                                 "_src":"ru/manual/other-layers.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Other Layers",
+                                "uri": "maps/en/manual/other-layers",
+                                "_src":"en/manual/other-layers.md",
                                 "hide": false
                             }
                         },
@@ -158,6 +242,12 @@
                                 "uri": "maps/ru/manual/dg-external-modules",
                                 "_src":"ru/manual/dg-external-modules.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "External Modules",
+                                "uri": "maps/en/manual/dg-external-modules",
+                                "_src":"en/manual/dg-external-modules.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -168,6 +258,12 @@
                                 "title": "Линейка",
                                 "uri": "maps/ru/manual/dg-ruler",
                                 "_src":"ru/manual/dg-ruler.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Ruler",
+                                "uri": "maps/en/manual/dg-ruler",
+                                "_src":"en/manual/dg-ruler.md",
                                 "hide": false
                             }
                         },
@@ -180,6 +276,12 @@
                                 "uri": "maps/ru/manual/dg-metalayers",
                                 "_src":"ru/manual/dg-metalayers.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Meta Layers",
+                                "uri": "maps/en/manual/dg-metalayers",
+                                "_src":"en/manual/dg-metalayers.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -190,6 +292,12 @@
                                 "title": "Слой пробок",
                                 "uri": "maps/ru/manual/dg-traffic",
                                 "_src":"ru/manual/dg-traffic.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Traffic",
+                                "uri": "maps/en/manual/dg-traffic",
+                                "_src":"en/manual/dg-traffic.md",
                                 "hide": false
                             }
                         },
@@ -202,6 +310,12 @@
                                 "uri": "maps/ru/manual/dg-entrance",
                                 "_src":"ru/manual/dg-entrance.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Entrances",
+                                "uri": "maps/en/manual/dg-entrance",
+                                "_src":"en/manual/dg-entrance.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -212,6 +326,12 @@
                                 "title": "Определение проекта",
                                 "uri": "maps/ru/manual/dg-project-detector",
                                 "_src":"ru/manual/dg-project-detector.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Project Detector",
+                                "uri": "maps/en/manual/dg-project-detector",
+                                "_src":"en/manual/dg-project-detector.md",
                                 "hide": false
                             }
                         },
@@ -224,6 +344,12 @@
                                 "uri": "maps/ru/manual/dg-ajax",
                                 "_src":"ru/manual/dg-ajax.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Asynchronous Requests",
+                                "uri": "maps/en/manual/dg-ajax",
+                                "_src":"en/manual/dg-ajax.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -234,6 +360,12 @@
                                 "title": "WKT-формат",
                                 "uri": "maps/ru/manual/dg-wkt",
                                 "_src":"ru/manual/dg-wkt.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "WKT",
+                                "uri": "maps/en/manual/dg-wkt",
+                                "_src":"en/manual/dg-wkt.md",
                                 "hide": false
                             }
                         },
@@ -246,6 +378,12 @@
                                 "uri": "maps/ru/manual/dg-locale",
                                 "_src":"ru/manual/dg-locale.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Localization",
+                                "uri": "maps/en/manual/dg-locale",
+                                "_src":"en/manual/dg-locale.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -257,6 +395,12 @@
                                 "uri": "maps/ru/manual/utils",
                                 "_src":"ru/manual/utils.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Utility",
+                                "uri": "maps/en/manual/utils",
+                                "_src":"en/manual/utils.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -267,6 +411,12 @@
                                 "title": "Работа с DOM",
                                 "uri": "maps/ru/manual/dom-utils",
                                 "_src":"ru/manual/dom-utils.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Working with DOM",
+                                "uri": "maps/en/manual/dom-utils",
+                                "_src":"en/manual/dom-utils.md",
                                 "hide": false
                             }
                         },
@@ -292,6 +442,12 @@
                         "uri": "maps/ru/examples/base",
                         "_src":"ru/examples/base.md",
                         "hide": false
+                    },
+                    "en": {
+                        "title": "Examples",
+                        "uri": "maps/en/examples/base",
+                        "_src":"en/examples/base.md",
+                        "hide": false
                     }
                 },
                 "children": [
@@ -301,6 +457,12 @@
                                 "title": "Базовое использование",
                                 "uri": "maps/ru/examples/base",
                                 "_src":"ru/examples/base.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Basic Usage",
+                                "uri": "maps/en/examples/base",
+                                "_src":"en/examples/base.md",
                                 "hide": false
                             }
                         },
@@ -313,6 +475,12 @@
                                 "uri": "maps/ru/examples/markers",
                                 "_src":"ru/examples/markers.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Work with Markers",
+                                "uri": "maps/en/examples/markers",
+                                "_src":"en/examples/markers.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -323,6 +491,12 @@
                                 "title": "Работа с попапами",
                                 "uri": "maps/ru/examples/popups",
                                 "_src":"ru/examples/popups.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Work with Popups",
+                                "uri": "maps/en/examples/popups",
+                                "_src":"en/examples/popups.md",
                                 "hide": false
                             }
                         },
@@ -335,6 +509,12 @@
                                 "uri": "maps/ru/examples/bounds",
                                 "_src":"ru/examples/bounds.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Work with Map Bounds",
+                                "uri": "maps/en/examples/bounds",
+                                "_src":"en/examples/bounds.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -345,6 +525,12 @@
                                 "title": "Работа с векторными слоями",
                                 "uri": "maps/ru/examples/vector-layers",
                                 "_src":"ru/examples/vector-layers.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Work with Vector Layers",
+                                "uri": "maps/en/examples/vector-layers",
+                                "_src":"en/examples/vector-layers.md",
                                 "hide": false
                             }
                         },
@@ -357,6 +543,12 @@
                                 "uri": "maps/ru/examples/controls",
                                 "_src":"ru/examples/controls.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Control Elements",
+                                "uri": "maps/en/examples/controls",
+                                "_src":"en/examples/controls.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -367,6 +559,12 @@
                                 "title": "Работа с GeoJSON",
                                 "uri": "maps/ru/examples/geojson",
                                 "_src":"ru/examples/geojson.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "Work with GeoJSON",
+                                "uri": "maps/en/examples/geojson",
+                                "_src":"en/examples/geojson.md",
                                 "hide": false
                             }
                         },
@@ -379,6 +577,12 @@
                                 "uri": "maps/ru/examples/wkt",
                                 "_src":"ru/examples/wkt.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Work with WKT",
+                                "uri": "maps/en/examples/wkt",
+                                "_src":"en/examples/wkt.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -390,6 +594,12 @@
                                 "uri": "maps/ru/examples/events",
                                 "_src":"ru/examples/events.md",
                                 "hide": false
+                            },
+                            "en": {
+                                "title": "Processing of Events",
+                                "uri": "maps/en/examples/events",
+                                "_src":"en/examples/events.md",
+                                "hide": false
                             }
                         },
                         "children": null
@@ -400,6 +610,12 @@
                                 "title": "Внешние модули",
                                 "uri": "maps/ru/examples/external-modules",
                                 "_src":"ru/examples/external-modules.md",
+                                "hide": false
+                            },
+                            "en": {
+                                "title": "External Modules",
+                                "uri": "maps/en/examples/external-modules",
+                                "_src":"en/examples/external-modules.md",
                                 "hide": false
                             }
                         },
