@@ -61,7 +61,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
 
         DG.popup([54.98, 82.89])
             .setLatLng([54.98, 82.89])
-            .setContent('I'm opened by default')
+            .setContent('I am opened by default')
             .openOn(map);
 
         myPopUp = DG.popup()
@@ -95,7 +95,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
 
                     DG.popup([54.98, 82.89])
                         .setLatLng([54.98, 82.89])
-                        .setContent('I'm opened by default')
+                        .setContent('I am opened by default')
                         .openOn(map);
 
                     myPopUp = DG.popup()
@@ -127,7 +127,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
             coordinates[1] = 82.89 + Math.random();
             DG.popup()
                 .setLatLng(coordinates)
-                .setContent('Я попап №' + i)
+                .setContent('I am popup №' + i)
                 .addTo(popups);
         }
 
@@ -161,7 +161,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
                         coordinates[1] = 82.89 + Math.random();
                         DG.popup()
                             .setLatLng(coordinates)
-                            .setContent('Я попап №' + i)
+                            .setContent('I am popup №' + i)
                             .addTo(popups);
                     }
 

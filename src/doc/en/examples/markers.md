@@ -22,7 +22,7 @@ A marker, clicking on which you open a popup with the information:
             zoom: 15
         });
 
-        DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я попап!');
+        DG.marker([54.98, 82.89]).addTo(map).bindPopup('I am a popup!');
     });
 </script>
 
@@ -41,7 +41,7 @@ A marker, clicking on which you open a popup with the information:
                         zoom: 15
                     });
 
-                    DG.marker([54.98, 82.89]).addTo(map).bindPopup('Я попап!');
+                    DG.marker([54.98, 82.89]).addTo(map).bindPopup('I am a popup!');
                 });
             </script>
         </body>

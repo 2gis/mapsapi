@@ -86,7 +86,7 @@ You clicked on: <span id="clicked_element">nowhere</span>
 
                     DG.polygon(coords)
                         .on('click', function() {
-                            clickedElement.innerHTML = 'многоугольник';
+                            clickedElement.innerHTML = 'polygon';
                         })
                         .addTo(map);
                 });
@@ -110,9 +110,8 @@ If you change the <a href="/doc/maps/en/manual/map#map-projectdetector">project<
 
         // subscribe to the changes of the current 2GIS project
         map.on('projectchange', function(e) {
-            var bounds = e.getProject().latLngBounds;
-
-            currentProjectBound = DG.rectangle(bounds, {
+            var bounds = e.getProject().bound;
+            currentProjectBound = DG.geoJSON(bounds, {
                 color:"#f03",
                 weight:1
             }).addTo(map);
@@ -146,8 +145,8 @@ If you change the <a href="/doc/maps/en/manual/map#map-projectdetector">project<
 
                     // subscribe to the changes of the current 2GIS project
                     map.on('projectchange', function(e) {
-                        var bounds = e.getProject().latLngBounds;
-                        currentProjectBound = DG.rectangle(bounds, {
+                        var bounds = e.getProject().bound;
+                        currentProjectBound = DG.geoJSON(bounds, {
                             color:"#f03",
                             weight:1
                         }).addTo(map);
