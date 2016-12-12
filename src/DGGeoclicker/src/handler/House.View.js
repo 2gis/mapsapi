@@ -17,7 +17,7 @@ DG.Geoclicker.Handler.House.include({
     _fillBody: function (house) { // // (Object) -> (DOMElement)
         var data = {},
             wrapper = DG.DomUtil.create('div', 'dg-building-callout__body'),
-            filials = house.links.branches;
+            filials = house.links && house.links.branches;
 
         var drilldown = this._getDrilldown(house);
 
@@ -39,7 +39,7 @@ DG.Geoclicker.Handler.House.include({
             this._totalPages = Math.ceil(house.links.branches.count / this._firmsOnPage);
         }
 
-        if (house.links.attractions && house.links.attractions.length) {
+        if (house.links && house.links.attractions && house.links.attractions.length) {
             data.attractions = house.links.attractions.reduce(function (attractions, attraction) {
                 if (attraction.name) {
                     attractions.push(attraction.name);
@@ -82,7 +82,7 @@ DG.Geoclicker.Handler.House.include({
 
     _fillFooter: function (house) { // (Object) -> (HTMLString)
         var btns = [];
-        var houseFilials = house.links.branches;
+        var houseFilials = house.links && house.links.branches;
 
         // Decide if we need to display 'more organisations' button
         if (
