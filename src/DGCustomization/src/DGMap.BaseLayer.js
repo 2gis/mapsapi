@@ -13,7 +13,7 @@ DG.Map.addInitHook(function () {
         }
     });
 
-    var tileUrl = DG.config.protocol + DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer;
+    var tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
 
     this.baseLayer = new BaseLayer(tileUrl, {
         subdomains: '0123',
