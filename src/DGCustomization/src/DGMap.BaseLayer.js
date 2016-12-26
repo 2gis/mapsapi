@@ -13,7 +13,9 @@ DG.Map.addInitHook(function () {
         }
     });
 
-    this.baseLayer = new BaseLayer(DG.config.protocol + DG.config.tileServer, {
+    var tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
+
+    this.baseLayer = new BaseLayer(tileUrl, {
         subdomains: '0123',
         errorTileUrl: this.getLang() === 'ru' ? errorRuUrl : errorUrl,
         detectRetina: DG.config.detectRetina,

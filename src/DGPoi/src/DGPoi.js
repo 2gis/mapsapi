@@ -11,7 +11,10 @@ DG.Poi = DG.Handler.extend({
     initialize: function (map, options) { // (Object)
         this._map = map;
         DG.Util.setOptions(this, options);
-        this._metaLayer = DG.Meta.layer(DG.config.protocol + DG.config.poiMetaServer, {
+
+        var url = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaPoiMetaServer : DG.config.poiMetaServer);
+
+        this._metaLayer = DG.Meta.layer(url, {
             minZoom: DG.config.poiLayerMinZoom,
             maxNativeZoom: 19,
             detectRetina: DG.config.detectRetina,
