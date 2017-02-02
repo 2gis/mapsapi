@@ -4,6 +4,7 @@ env:
 sudo: false
 node_js:
   - '4.2'
+  - '6'
 before_install:
   - npm install -g gulp
 install:
