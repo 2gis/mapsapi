@@ -4,7 +4,7 @@ var fs = require('fs');
 var config = require('../../app/config');
 var deps = require('../deps')(config);
 
-gulp.task('collectImagesStats', ['copySVG', 'rasterAndCopySVG', 'copyRaster'], function (cb) {
+gulp.task('collectImagesStats', ['copySVG', 'copyRaster'], function (cb) {
     var skins = deps.getSkinsList();
     var imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 

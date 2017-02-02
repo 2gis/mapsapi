@@ -8,7 +8,6 @@ var deps = require('../deps')(config);
 
 gulp.task('generateSprites', [
     'collectImagesUsageStats',
-    'rasterAndCopySVG',
     'copyRaster'
 ], function (cb) {
     var skins = deps.getSkinsList();
