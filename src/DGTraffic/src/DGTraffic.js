@@ -18,7 +18,7 @@ DG.Traffic = DG.TileLayer.extend({
             errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             subdomains: '012345679',
             maxNativeZoom: 18,
-            detectRetina: DG.config.detectRetina,
+            detectRetina: true,
             minZoom: DG.config.trafficLayerMinZoom
         };
 
