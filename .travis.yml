@@ -11,7 +11,6 @@ install:
 script:
   - gulp test
 after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  && rm -rf ./coverage
 notifications:
   slack:
     secure: a9AuzDgxCqlUF/eDEZuR1jbX8beIcdWKARvAvAh95eB3G/daWmo/A8SxOPCPW1VP34D/3lCrjF8HJZs3ItqAMuoLvWp3BFnmgTs8KkSIPVm9U7Q6Jcj9HhyCVPBUulprkf33Avj+eYIrUyaVTCZc8U4qaS8qZ5Djk1vCiJsBSk0=
