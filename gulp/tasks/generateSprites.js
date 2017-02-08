@@ -7,8 +7,7 @@ var config = require('../../app/config');
 var deps = require('../deps')(config);
 
 gulp.task('generateSprites', [
-    'collectImagesUsageStats',
-    'copyRaster'
+    'collectImagesUsageStats'
 ], function (cb) {
     var skins = deps.getSkinsList();
     var stats = deps.getImagesUsageStats(skins);
@@ -20,13 +19,13 @@ gulp.task('generateSprites', [
             stats[skinName].notRepeatableNotSprited.join(',');
 
         var pngList = [
-            'gulp/tmp/img/' + skinName + '/*.png',
-            '!gulp/tmp/img/' + skinName + '/*@2x.png',
-            '!gulp/tmp/img/' + skinName + '/{' + filesToExclude + '}.png'
+            'src/**/' + skinName + '/img/**/*.png',
+            '!src/**/' + skinName + '/img/**/*@2x.png',
+            '!src/**/' + skinName + '/img/**/{' + filesToExclude + '}.png'
         ];
         var png2xList = [
-            'gulp/tmp/img/' + skinName + '/*@2x.png',
-            '!gulp/tmp/img/' + skinName + '/{' + filesToExclude + '}@2x.png'
+            'src/**/' + skinName + '/img/**/*@2x.png',
+            '!src/**/' + skinName + '/img/**/{' + filesToExclude + '}@2x.png'
         ];
         var spriteData = gulp.src(pngList)
             .pipe(error.handle())
