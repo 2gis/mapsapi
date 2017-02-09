@@ -1,20 +1,16 @@
 var gulp = require('gulp');
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 
 var config = require('../../app/config');
 var deps = require('../deps')(config);
 
-function mkdirSync(path) {
-    try {
-        fs.mkdirSync(path);
-    } catch (e) {
-        if (e.code !== 'EEXIST') throw e;
-    }
-}
-
 gulp.task('collectImagesStats', ['copyImg'], function (cb) {
     var skins = deps.getSkinsList();
     var imagesStatsPerSkin = deps.getImagesFilesStats(skins);
+
+    mkdirp.sync('./gulp/tmp');
+    mkdirp.sync('./gulp/tmp/less');
 
     skins.forEach(function (skinName) {
         var skinImagesFilesStats = imagesStatsPerSkin[skinName];
@@ -46,8 +42,6 @@ gulp.task('collectImagesStats', ['copyImg'], function (cb) {
                 '}\n';
         }
 
-        mkdirSync('./gulp/tmp');
-        mkdirSync('./gulp/tmp/less');
         fs.writeFileSync('./gulp/tmp/less/images-files-statistics.' + skinName + '.less', statisticsString);
     });
 

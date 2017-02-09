@@ -7,7 +7,6 @@ var config = require('../../app/config');
 var deps = require('../deps')(config);
 
 gulp.task('copyImg', function () {
-
     return gulp.src(deps.getImgGlob(util.env))
         .pipe(error.handle())
         .pipe(rename(function (p) {
