@@ -1,4 +1,3 @@
-
 .dg-control-round__icon_name_locate {
     &:after {
         position: absolute;
@@ -8,15 +7,17 @@
         left: 0;
         margin: auto;
         content: '';
-        }
+    }
 
     .dg-control-round__icon_state_active&:after,
-    .no-touch .dg-control-round__icon_state_active&:hover:after,
+    .dg-control-round__icon_state_active&:hover:after,
     .dg-control-round__icon_state_active&:active:after {
         .notRepeatableBg('DGRoundControl__locateIconEnabled');
-        }
     }
+}
 
 @keyframes DGLocation__locateIconRequestingAnim {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
     }
+}

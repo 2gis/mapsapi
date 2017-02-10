@@ -1,13 +1,14 @@
 .leaflet-popup {
     margin-bottom: 0;
-    }
+}
 
 .leaflet-popup-tip-container {
     height: 0;
-    }
-    .leaflet-popup-tip {
-        display: none;
-        }
+}
+
+.leaflet-popup-tip {
+    display: none;
+}
 
 .leaflet-popup-content-wrapper {
     overflow: hidden;
@@ -20,10 +21,9 @@
     box-shadow: none;
     color: #e6e6e6;
     font-size: 14px;
-    transition:
-        opacity ease-out .2s,
-        max-height ease-out .2s,
-        height ease-out .2s;
+    transition: opacity ease-out .2s,
+    max-height ease-out .2s,
+    height ease-out .2s;
     transform-origin: 50% 100%;
 
     // Чтобы текст не заезжал под кнопку закрытия. Для не инлайновых боксов
@@ -35,55 +35,56 @@
         // но минимум проблем с не инлайновыми боксами
         height: 17px;
         content: '';
-        }
     }
-    .leaflet-popup-content {
-        position: relative;
-        margin: 16px;
-        width: auto;
-        line-height: 1.4;
-        }
+}
+
+.leaflet-popup-content {
+    position: relative;
+    margin: 16px;
+    width: auto;
+    line-height: 1.4;
+}
 
 .leaflet-popup a {
     outline: none;
-    }
+}
 
 .leaflet-popup-content p {
     margin: 0;
-    }
+}
 
 .leaflet-popup-scrolled {
     overflow: visible;
     border: 0;
-    }
+}
 
 .leaflet-popup-inner {
     position: relative;
     z-index: 0;
-    }
+}
 
 .leaflet-popup_show_true {
-    transition:
-        transform ease-in-out .2s,
-        opacity ease-in-out .2s,
-        height ease-out .2s;
+    transition: transform ease-in-out .2s,
+    opacity ease-in-out .2s,
+    height ease-out .2s;
     transform: scale(1);
-    }
+}
 
 .leaflet-popup_show_false {
     opacity: 0 !important;
     transition: all ease-in-out .1s;
     transform: scale(.2);
-    }
+}
 
 /* Коллаут показался, но контент ещё не загрузился */
 .leaflet-popup_preloader_true {
     width: 384px;
     height: 52px;
-    }
+}
 
 /* В коллауте ошибка вместо контента */
-.leaflet-popup_error_true {}
+.leaflet-popup_error_true {
+}
 
 .leaflet-map-pane .leaflet-popup-tip-container {
     position: absolute;
@@ -96,16 +97,17 @@
     background-repeat: no-repeat;
     transform: translateY(47px);
     pointer-events: none;
-    }
-    .leaflet-popup-tip {
-        display: none;
-        }
+}
+
+.leaflet-popup-tip {
+    display: none;
+}
 
 .leaflet-popup-tip-container_svg {
     .notRepeatableBg('DGPopup__popupShadow', true);
     background-position: 50% 95%;
     background-size: 36px 12px;
-    }
+}
 
 .leaflet-container a.leaflet-popup-close-button {
     position: absolute;
@@ -122,10 +124,10 @@
     line-height: 30px;
     cursor: pointer;
 
-    .no-touch &:hover {
+    &:hover {
         border-radius: 2px;
         transition: all .2s;
-        }
+    }
 
     &:active {
         color: #777777;
@@ -139,5 +141,5 @@
         width: 40px;
         height: 40px;
         content: '';
-        }
     }
+}

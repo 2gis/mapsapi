@@ -1,31 +1,28 @@
-
 .dg-zoom__out {
-    box-shadow:
-        0 0 0 1px #fff,
-        0 2px 3px 0 rgba(0,0,0,.3);
+    box-shadow: 0 0 0 1px #fff, 0 2px 3px 0 rgba(0, 0, 0, .3);
 
     &:after {
         border: solid #fff;
         border-width: 0 1px;
         background-color: #f0f0f0; // 94%
-        }
     }
+}
 
 .dg-zoom__button_type_in {
     .leaflet-disabled &:before,
     .leaflet-disabled &:after,
-    .no-touch .leaflet-disabled &:hover:before,
-    .no-touch .leaflet-disabled &:hover:after,
+    .leaflet-disabled &:hover:before,
+    .leaflet-disabled &:hover:after,
     .leaflet-disabled &:active:before,
     .leaflet-disabled &:active:after {
         background-color: #999; // 60%
-        }
     }
+}
 
 .dg-zoom__button_type_out {
     .leaflet-disabled &:after,
-    .no-touch .leaflet-disabled &:hover:after,
+    .leaflet-disabled &:hover:after,
     .leaflet-disabled &:active:after {
         background-color: #999; // 60%
-        }
     }
+}

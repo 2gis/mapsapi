@@ -1,20 +1,18 @@
-
 .dg-control-round {
     background-color: #f0f0f0; // 94%
-    box-shadow:
-        0 0 0 1px #fff,
-        0 2px 5px 0 rgba(0,0,0,.3);
+    box-shadow: 0 0 0 1px #fff, 0 2px 5px 0 rgba(0, 0, 0, .3);
+}
+
+.dg-control-round__icon {
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, .4);
+
+    .leaflet-disabled &,
+    .leaflet-disabled &:hover,
+    .leaflet-disabled &:active {
+        background-color: #e0e0e0; // 88%
     }
-    .dg-control-round__icon {
-        box-shadow: 0 0 1px 0 rgba(0,0,0,.4);
 
-        .leaflet-disabled &,
-        .no-touch .leaflet-disabled &:hover,
-        .leaflet-disabled &:active {
-            background-color: #e0e0e0; // 88%
-            }
-
-        .leaflet-disabled & {
-            box-shadow: none;
-            }
-        }
+    .leaflet-disabled & {
+        box-shadow: none;
+    }
+}
