@@ -26,27 +26,6 @@ DG.Map.include({
         }
     },
 
-    // TODO: remove this after update leaflet version higher than
-    // https://github.com/Leaflet/Leaflet/pull/4494/commits/d7fd6b30fd12183e6026c8fd79f7f545c30f193a
-    setMaxBounds: function (bounds) {
-        bounds = DG.latLngBounds(bounds);
-
-        if (!bounds.isValid()) {
-            this.options.maxBounds = null;
-            return this.off('moveend', this._panInsideMaxBounds);
-        } else if (this.options.maxBounds) {
-            this.off('moveend', this._panInsideMaxBounds);
-        }
-
-        this.options.maxBounds = bounds;
-
-        if (this._loaded) {
-            this._panInsideMaxBounds();
-        }
-
-        return this.on('moveend', this._panInsideMaxBounds);
-    },
-
     setView: function (center, zoom, options) {
         this._restrictZoom(center, zoom);
 

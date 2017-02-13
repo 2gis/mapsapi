@@ -74,8 +74,14 @@ DG.Meta.Layer = DG.Layer.extend({
     _resetView: DG.GridLayer.prototype._resetView,
     _resetGrid: DG.GridLayer.prototype._resetGrid,
     _invalidateAll: DG.GridLayer.prototype._invalidateAll,
-    _onMoveEnd: DG.GridLayer.prototype._onMoveEnd,
     _pxBoundsToTileRange: DG.GridLayer.prototype._pxBoundsToTileRange,
+
+    // Fix for https://github.com/Leaflet/Leaflet/compare/0726f12bbf33fcb18fe8bb541d5e3212bb1f5ab2...c263f2d8b1bd962b60474376cc4816a688052513#diff-f1e6be67599c594731fff6191c710420L579
+    _onMoveEnd: function () {
+        if (!this._map || this._map._animatingZoom) { return; }
+
+        this._resetView();
+    },
 
     _domEvents: {
         mousemove: function (event) { // (MouseEvent)
