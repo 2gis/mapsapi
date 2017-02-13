@@ -72,11 +72,4 @@ DG.Map.include({
     }
 });
 
-// Apply class to map container for detect when we dont need hover effects
-DG.Map.addInitHook(function () {
-    if (!DG.Browser.touch) {
-        DG.DomUtil.addClass(this._container, 'no-touch');
-    }
-});
-
 module.exports = DG;
