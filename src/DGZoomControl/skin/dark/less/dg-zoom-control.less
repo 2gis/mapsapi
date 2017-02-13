@@ -1,26 +1,26 @@
 .dg-zoom__out {
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .3);
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.3);
 
     &:after {
         background-color: #3d3d3d; // 24%
+        }
     }
-}
 
 .dg-zoom__button_type_in {
     .leaflet-disabled &:before,
     .leaflet-disabled &:after,
-    .leaflet-disabled &:hover:before,
-    .leaflet-disabled &:hover:after,
+    .no-touch .leaflet-disabled &:hover:before,
+    .no-touch .leaflet-disabled &:hover:after,
     .leaflet-disabled &:active:before,
     .leaflet-disabled &:active:after {
         background-color: #707070; // 44%
+        }
     }
-}
 
 .dg-zoom__button_type_out {
     .leaflet-disabled &:after,
-    .leaflet-disabled &:hover:after,
+    .no-touch .leaflet-disabled &:hover:after,
     .leaflet-disabled &:active:after {
         background-color: #707070; // 44%
+        }
     }
-}

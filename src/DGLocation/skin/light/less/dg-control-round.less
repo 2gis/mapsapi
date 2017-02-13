@@ -1,18 +1,18 @@
 .dg-control-round__icon_name_locate {
     &:after {
         .notRepeatableBgWithSizes('DGRoundControl__locateIcon_light');
-    }
+        }
 
-    &:hover:after,
+    .no-touch &:hover:after,
     &:active:after {
         .notRepeatableBg('DGRoundControl__locateIconHover_light');
-    }
+        }
 
     .dg-control-round__icon_state_requesting&:after,
-    .dg-control-round__icon_state_requesting&:hover:after,
+    .no-touch .dg-control-round__icon_state_requesting&:hover:after,
     .dg-control-round__icon_state_requesting&:active:after {
         .notRepeatableBgWithSizes('DGRoundControl__locateIconRequesting_light');
         animation: DGLocation__locateIconRequestingAnim 1s linear infinite;
         image-rendering: optimizeQuality;
+        }
     }
-}

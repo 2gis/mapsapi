@@ -10,11 +10,13 @@
         background-image: inherit;
         background-size: contain;
         background-repeat: no-repeat;
-        transition: opacity ease-in-out .2s, transform ease-in-out .2s;
+        transition:
+            opacity ease-in-out .2s,
+            transform ease-in-out .2s;
         transform: scale(1, 1);
         transform-origin: 50% 100%;
+        }
     }
-}
 
 .dg-customization__marker_type_mushroom {
     .notRepeatableBgWithSizes('DGCustomization__marker', true);
@@ -23,33 +25,30 @@
 
     &:focus {
         outline: 0;
-    }
+        }
 
-    &:hover {
+    .no-touch &:hover {
         .notRepeatableBg('DGCustomization__markerHover', true);
-    }
+        }
 
-    &:active {
+    &:active,
+    .no-touch &:active {
         .notRepeatableBg('DGCustomization__markerActive', true);
+        }
     }
-}
 
 @keyframes dg-customization__show-marker {
-    from {
-        opacity: 0;
+    from { opacity: 0; }
+    to { opacity: 1; }
     }
-    to {
-        opacity: 1;
-    }
-}
 
 .dg-customization__marker_appear {
     background-position: 999px;
 
     &:before {
         content: '';
+        }
     }
-}
 
 .dg-customization__marker_disappear {
     background-position: 999px;
@@ -61,21 +60,21 @@
         opacity: 0;
         transform: scale(1.2, 1.8);
         animation: dg-customization__marker-to-callout .2s;
+        }
     }
-}
 
 @keyframes dg-customization__marker-to-callout {
     0% {
         visibility: visible;
         opacity: 1;
         transform: scale(1, 1);
-    }
+        }
     100% {
         visibility: visible;
         opacity: 0;
         transform: scale(1.2, 1.8);
+        }
     }
-}
 
 .dg-dragging-false {
     touch-action: auto;
@@ -84,5 +83,5 @@
 
 .leaflet-image-layer,
 .leaflet-tile-container {
-    pointer-events: auto;
+	pointer-events: auto;
 }

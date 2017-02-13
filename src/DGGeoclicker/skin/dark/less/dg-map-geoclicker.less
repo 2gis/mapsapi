@@ -1,38 +1,39 @@
+
 .dg-map-geoclicker__address-header:first-child:before,
 .dg-map-geoclicker__address-drilldown:first-child:before {
     .notRepeatableBgWithSizes('DGBuildingCallout__marker_dark');
-}
+    }
 
 .dg-map-geoclicker__purpose {
     &:before {
         .notRepeatableBgWithSizes('DGGeoclicker__purpose_dark');
-    }
+        }
 
     &_type_street:before {
         .notRepeatableBgWithSizes('DGGeoclicker__purposeStreet_dark');
-    }
+        }
 
     &_type_sight:before {
         .notRepeatableBgWithSizes('DGGeoclicker__purposeSight_dark');
-    }
+        }
 
     &_type_settlement:before {
         .notRepeatableBgWithSizes('DGGeoclicker__purposeSettlement_dark');
+        }
     }
-}
 
 a.dg-map-geoclicker__show-more-sights-link {
     color: #ffe6aa;
 
-    &:hover {
+    .no-touch &:hover {
         color: #9cd;
-    }
+        }
 
     &:after {
         .notRepeatableBg('DGGeoclicker__arrowLeft_dark');
+        }
     }
-}
 
 .dg-map-geoclicker__drilldown {
     color: #aaa;
-}
+    }

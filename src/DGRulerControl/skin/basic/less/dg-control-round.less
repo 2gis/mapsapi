@@ -1,3 +1,4 @@
+
 .dg-control-round__icon_name_ruler {
     &:after {
         .notRepeatableBgWithSizes('DGRoundControl__rulerIcon');
@@ -8,16 +9,16 @@
         left: 0;
         margin: auto;
         content: '';
-    }
+        }
 
-    &:hover:after,
+    .no-touch &:hover:after,
     &:active:after {
         .notRepeatableBg('DGRoundControl__rulerIconHover');
-    }
+        }
 
     .dg-control-round__icon_state_active&:after,
-    .dg-control-round__icon_state_active&:hover:after,
+    .no-touch .dg-control-round__icon_state_active&:hover:after,
     .dg-control-round__icon_state_active&:active:after {
         .notRepeatableBg('DGRoundControl__rulerIconEnabled');
+        }
     }
-}

@@ -1,56 +1,56 @@
 a.dg-popup__link {
-    background-image: linear-gradient(to right, rgba(255, 230, 170, .3), rgba(255, 230, 170, .3) 100%);
+    background-image: linear-gradient(to right, rgba(255,230,170,.3), rgba(255,230,170,.3) 100%);
     color: #ffe6aa;
 
-    &:hover {
-        background-image: linear-gradient(to right, rgba(153, 204, 221, .3), rgba(153, 204, 221, .3) 100%);
+    .no-touch &:hover {
+        background-image: linear-gradient(to right, rgba(153,204,221,.3), rgba(153,204,221,.3) 100%);
         color: #9cd;
+        }
     }
-}
 
 .dg-popup__header-title {
     color: #ffc84b;
-}
+    }
 
 .dg-popup__footer-button-wrapper .dg-popup__footer-button,
 .dg-popup__footer-button-wrapper .dg-popup__footer-button:hover {
     color: #e6e6e6;
-}
+    }
 
 .dg-popup__footer-button {
-    background: rgba(0, 0, 0, .2);
-    box-shadow: 0 1px rgba(0, 0, 0, .1);
+    background: rgba(0,0,0,.2);
+    box-shadow: 0 1px rgba(0,0,0,.1);
 
-    &:hover {
+    .no-touch &:hover {
         background: #222;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+        box-shadow: 0 1px 3px rgba(0,0,0,.5);
+        }
     }
-}
 
 .dg-popup__rating {
     .repeatableBg('DGPopup__ratingStarOff_dark');
-}
+    }
 
 .dg-popup__link_type_photos:before {
     .notRepeatableBgWithSizes('DGPopup__photoIcon_dark');
-}
+    }
 
 .dg-popup__button_name_firm-card-back:before {
     .notRepeatableBg('DGPopup__backIcon_dark');
-}
+    }
 
 .dg-popup__button_name_firm-list-back:before {
     .notRepeatableBg('DGPopup__backIcon_dark');
-}
+    }
 
 .dg-popup__button_name_back:before {
     .notRepeatableBgWithSizes('DGPopup__backIcon_dark');
-}
+    }
 
 .dg-popup__button_name_goto:before {
     .notRepeatableBgWithSizes('DGPopup__pathIcon_dark');
-}
+    }
 
 .dg-popup__button_name_show-entrance:before {
     .notRepeatableBg('DGPopup__entranceIcon_dark');
-}
+    }
