@@ -14,5 +14,5 @@ API карт 2GIS [![Build Status](https://travis-ci.org/2gis/mapsapi.svg?branch
 
 Дополнительная информация:
 * текущая версия API карт — 2.0;
-* работает с использованием библиотеки [Leaflet](http://leafletjs.com) версии 0.8;
+* работает с использованием библиотеки [Leaflet](http://leafletjs.com);
 * правовая информация доступна [на сайте 2ГИС](http://law.2gis.ru/api-rules/#kart2).
