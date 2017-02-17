@@ -89,7 +89,7 @@ gulp.task('test', testRequirements, function (done) {
             junitReporter: test.getJunitReporter(),
             action: 'run',
             preprocessors: {
-                'gulp/tmp/testJS/src/**/*.js': ['coverage']
+                'src/**/*.js': ['coverage']
             },
             singleRun: true
             // Function localDone will be executed in the last iteration.
