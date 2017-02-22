@@ -608,9 +608,8 @@ require('../../../vendors/baron');
         _toggleTouchEvents: function (on) {
             var switcher = on ? 'off' : 'on';
 
-            DG.DomEvent
-                [switcher](this._contentNode, 'touchmove', this._onMove, this)
-                [switcher](this._contentNode, 'touchend', this._onEnd, this);
+            DG.DomEvent[switcher](this._contentNode, 'touchmove', this._onMove, this);
+            DG.DomEvent[switcher](this._contentNode, 'touchend', this._onEnd, this);
         }
 
     });
