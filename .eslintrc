@@ -21,7 +21,8 @@
     "no-multi-spaces": 0,
     "strict": 0,
     "key-spacing": 0,
-    "no-shadow": 0
+    "no-shadow": 0,
+    "no-console": 1
   },
   "globals": {
     "dust": true,
