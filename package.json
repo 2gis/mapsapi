@@ -44,7 +44,6 @@
     "gulp-derequire": "^2.1.0",
     "gulp-dust": "^3.0.0",
     "gulp-eslint": "^3.0.1",
-    "gulp-file": "0.2.0",
     "gulp-flatten": "0.2.0",
     "gulp-footer": "^1.0.5",
     "gulp-git": "^1.7.1",

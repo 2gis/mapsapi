@@ -3,7 +3,6 @@ var streamqueue = require('streamqueue');
 var concat = require('gulp-concat');
 var footer = require('gulp-footer');
 var es = require('event-stream');
-var file = require('gulp-file');
 var gulpif = require('gulp-if');
 var util = require('gulp-util');
 var map = require('map-stream');
