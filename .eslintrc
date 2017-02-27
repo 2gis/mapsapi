@@ -1,4 +1,5 @@
 {
+  "extends": "eslint:recommended",
   "rules": {
     "eqeqeq": 0,
     "camelcase": 2,
@@ -20,9 +21,10 @@
     "no-multi-spaces": 0,
     "strict": 0,
     "key-spacing": 0,
-    "no-shadow": 0
+    "no-shadow": 0,
+    "no-console": 1
   },
-    "globals": {
+  "globals": {
     "dust": true,
     "DG": true,
     "L": true,
@@ -30,7 +32,9 @@
     "module": false,
     "define": false
   },
-    "env": {
-    "browser": true
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true
   }
 }
