@@ -1,4 +1,5 @@
 var config = require('../../app/config.js');
+var stat = require('../util/stat');
 var source = require('vinyl-source-stream');
 var derequire = require('gulp-derequire');
 var browserify = require('browserify');
@@ -10,6 +11,7 @@ var gulpif = require('gulp-if');
 var util = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
+var map = require('map-stream');
 
 gulp.task('buildScripts', ['concatScripts'], function () {
     var isCustom = util.env.pkg || util.env.skin;
@@ -46,6 +48,7 @@ gulp.task('buildScripts', ['concatScripts'], function () {
             .pipe(derequire())
             .pipe(gulpif(util.env.release, uglify()))
             .pipe(gulpif(util.env.release, header(config.copyright)))
+            .pipe(map(stat.save))
             .pipe(gulp.dest('dist/js/'));
     }).reduce(function (prev, curr) {
         return es.merge(prev, curr);

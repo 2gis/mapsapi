@@ -6,7 +6,6 @@ var es = require('event-stream');
 var file = require('gulp-file');
 var gulpif = require('gulp-if');
 var util = require('gulp-util');
-var map = require('map-stream');
 var gulp = require('gulp');
 
 var config = require('../../app/config.js');
@@ -15,7 +14,6 @@ var deps = require('../deps')(config);
 var templateStream = require('../util/templateStream');
 var projectList = require('../util/projectList');
 var error = require('../util/error');
-var stat = require('../util/stat');
 
 var dependencies = util.env['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
 
@@ -57,7 +55,6 @@ gulp.task('concatScripts', dependencies, function () {
         }
 
         return stream
-            .pipe(map(stat.save))
             .pipe(gulpif(!util.env.release, sourcemaps.write()))
             .pipe(gulp.dest('gulp/tmp/js'));
     }).reduce(function (prev, curr) {
