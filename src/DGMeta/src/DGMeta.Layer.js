@@ -160,8 +160,8 @@ DG.Meta.Layer = DG.Layer.extend({
             meta: this._hoveredEntity,
             latlng: this._map.mouseEventToLatLng(mouseEvent)
         });
-        var dragType = type === 'mousedown' || (this._mouseDown && type === 'mousemove');
-        if (this.options.eventBubbling === 'layer' && !dragType) {
+        var isDragging = type === 'mousedown' || (this._mouseDown && type === 'mousemove');
+        if (this.options.eventBubbling === 'layer' && !isDragging) {
             DG.DomEvent.stop(mouseEvent);
         }
     },
