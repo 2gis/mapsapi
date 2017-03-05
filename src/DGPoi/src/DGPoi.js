@@ -27,17 +27,17 @@ DG.Poi = DG.Handler.extend({
         this._map.addLayer(this._metaLayer);
         if (!this.options.disableLabel) {
             this._labelHelper = DG.label();
-            this._metaLayer.on(this._layerEventsListeners, this);
         }
+        this._metaLayer.on(this._layerEventsListeners, this);
     },
 
     removeHooks: function () {
         this._map.removeLayer(this._metaLayer);
         if (!this.options.disableLabel) {
-            this._metaLayer.off(this._layerEventsListeners, this);
             this._map.removeLayer(this._labelHelper);
             this._labelHelper = null;
         }
+        this._metaLayer.off(this._layerEventsListeners, this);
     },
 
     getMetaLayer : function () {
@@ -93,7 +93,7 @@ DG.Poi = DG.Handler.extend({
     _layerEventsListeners : {
         mouseover: function (e) { // (Object)
             this._setCursor('pointer');
-            if (e.meta.hint && e.meta.hint.length) {
+            if (e.meta.hint && e.meta.hint.length && !this.options.disableLabel) {
                 this._labelHelper
                     .setPosition(e.latlng)
                     .setContent(e.meta.hint)
@@ -108,7 +108,9 @@ DG.Poi = DG.Handler.extend({
 
         mouseout: function (e) {
             this._setCursor('');
-            this._map.removeLayer(this._labelHelper);
+            if (!this.options.disableLabel) {
+                this._map.removeLayer(this._labelHelper);
+            }
             this._map.fire('poileave', {
                 latlng: e.latlng,
                 meta: e.meta
@@ -116,7 +118,9 @@ DG.Poi = DG.Handler.extend({
         },
 
         mousemove: function (e) { // (Object)
-            this._labelHelper.setPosition(e.latlng);
+            if (!this.options.disableLabel) {
+                this._labelHelper.setPosition(e.latlng);
+            }
         }
     },
 
