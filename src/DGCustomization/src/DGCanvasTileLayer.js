@@ -53,14 +53,9 @@ DG.CanvasTileLayer = DG.Layer.extend({
 
   onAdd: function () {
     this._initContainer();
-
     this._tiles = {};
-
-    // this._origin = this._map.getPixelOrigin();
-
     this._resetView();
     this._update();
-    // this._render();
   },
 
   beforeAdd: function (map) {
@@ -299,14 +294,13 @@ DG.CanvasTileLayer = DG.Layer.extend({
   },
 
   _render: function () {
-    this._pixelOffset = this._map.containerPointToLayerPoint([0, 0]);
+    this._pixelOffset = this._map.containerPointToLayerPoint(this._leftTopPoint);
     L.DomUtil.setPosition(this._container, this._pixelOffset);
 
-    var size = this._map.getSize();
     this._origin = this._map.getPixelOrigin();
     var tiles = this._tiles;
 
-    this._ctx.clearRect(0, 0, size.x * this._retinaFactor, size.y * this._retinaFactor);
+    this._ctx.clearRect(0, 0, this._size.x * this._retinaFactor, this._size.y * this._retinaFactor);
 
     for (var key in tiles) {
       this._renderTile(tiles[key]);
@@ -338,14 +332,14 @@ DG.CanvasTileLayer = DG.Layer.extend({
       tileSize.y * retinaFactor
     );
 
-    // this._ctx.beginPath();
-    // this._ctx.rect(
-    //   offset.x * retinaFactor,
-    //   offset.y * retinaFactor,
-    //   tileSize.x * retinaFactor,
-    //   tileSize.y * retinaFactor
-    // );
-    // this._ctx.stroke();
+    this._ctx.beginPath();
+    this._ctx.rect(
+      offset.x * retinaFactor,
+      offset.y * retinaFactor,
+      tileSize.x * retinaFactor,
+      tileSize.y * retinaFactor
+    );
+    this._ctx.stroke();
   },
 
   _getTilePos: function (coords, origin) {
@@ -536,12 +530,14 @@ DG.CanvasTileLayer = DG.Layer.extend({
     this._container = L.DomUtil.create('canvas', 'leaflet-layer leaflet-tile-container leaflet-zoom-animated');
     this._ctx = this._container.getContext('2d');
 
-    const size = this._map.getSize();
+    const tileSize = this.getTileSize();
+    this._leftTopPoint = tileSize.multiplyBy(-1);
+    this._size = this._map.getSize().add(tileSize.multiplyBy(2));
 
-    this._container.width = this._retinaFactor * size.x;
-    this._container.height = this._retinaFactor * size.y;
-    this._container.style.width = size.x + 'px';
-    this._container.style.height = size.y + 'px';
+    this._container.width = this._retinaFactor * this._size.x;
+    this._container.height = this._retinaFactor * this._size.y;
+    this._container.style.width = this._size.x + 'px';
+    this._container.style.height = this._size.y + 'px';
 
     this._updateZIndex();
 
