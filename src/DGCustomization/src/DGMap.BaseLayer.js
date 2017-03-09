@@ -18,7 +18,7 @@ DG.Map.addInitHook(function () {
     this.baseLayer = new DG.CanvasTileLayer(tileUrl, {
         subdomains: '0123',
         errorTileUrl: this.getLang() === 'ru' ? errorRuUrl : errorUrl,
-        detectRetina: DG.config.detectRetina,
+        // detectRetina: DG.config.detectRetina,
         maxZoom: 19,
         maxNativeZoom: 19,
         zIndex: 0

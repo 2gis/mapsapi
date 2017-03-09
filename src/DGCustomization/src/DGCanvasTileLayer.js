@@ -18,7 +18,6 @@ DG.CanvasTileLayer = DG.Layer.extend({
     subdomains: 'abc',
     errorTileUrl: '',
     zoomOffset: 0,
-    detectRetina: false,
 
     // @option noWrap: Boolean = false
     // Whether the layer is wrapped around the antimeridian. If `true`, the
@@ -38,7 +37,7 @@ DG.CanvasTileLayer = DG.Layer.extend({
   initialize: function (url, options) {
     this._url = url;
 
-    L.setOptions(this, options);
+    options = L.setOptions(this, options);
 
     if (typeof options.subdomains === 'string') {
       options.subdomains = options.subdomains.split('');
@@ -49,7 +48,7 @@ DG.CanvasTileLayer = DG.Layer.extend({
       this.on('tileunload', this._onTileRemove);
     }
 
-    this._renderLoop = L.bind(this._renderLoop, this);
+    this._retinaFactor = L.Browser.retina ? 2 : 1;
   },
 
   onAdd: function () {
@@ -130,10 +129,6 @@ DG.CanvasTileLayer = DG.Layer.extend({
     var options = this.options,
         zoom = this._tileZoom;
 
-    if (options.zoomReverse) {
-      zoom = options.maxZoom - zoom;
-    }
-
     zoom += options.zoomOffset;
 
     return options.maxNativeZoom !== null ? Math.min(zoom, options.maxNativeZoom) : zoom;
@@ -171,7 +166,7 @@ DG.CanvasTileLayer = DG.Layer.extend({
     this._tileZoom = null;
   },
 
-  _setView: function (center, zoom, noPrune, noUpdate, noRender) {
+  _setView: function (center, zoom, noPrune, noUpdate) {
     var tileZoom = Math.round(zoom);
     if ((this.options.maxZoom !== undefined && tileZoom > this.options.maxZoom) ||
         (this.options.minZoom !== undefined && tileZoom < this.options.minZoom)) {
@@ -304,52 +299,53 @@ DG.CanvasTileLayer = DG.Layer.extend({
   },
 
   _render: function () {
-    var pixelOffset = this._map.containerPointToLayerPoint([0, 0]);
+    this._pixelOffset = this._map.containerPointToLayerPoint([0, 0]);
+    L.DomUtil.setPosition(this._container, this._pixelOffset);
 
-    this._pixelOffset = pixelOffset;
-
-    // L.DomUtil.setPosition(this._container, pixelOffset);
-
-    if (L.Browser.any3d) {
-      L.DomUtil.setTransform(this._container, pixelOffset);
-    } else {
-      L.DomUtil.setPosition(this._container, pixelOffset);
-    }
-
-    var ctx = this._ctx;
     var size = this._map.getSize();
-    var origin = this._map.getPixelOrigin();
+    this._origin = this._map.getPixelOrigin();
     var tiles = this._tiles;
-    var tileSize = this.getTileSize();
 
-    ctx.clearRect(0, 0, size.x, size.y);
+    this._ctx.clearRect(0, 0, size.x * this._retinaFactor, size.y * this._retinaFactor);
 
     for (var key in tiles) {
-      var tile = tiles[key];
-
-      if (!tile.current) {
-        continue;
-      }
-
-      var tilePos = this._getTilePos(tile.coords, origin);
-      var offset = tilePos.subtract(pixelOffset);
-
-      ctx.drawImage(
-        tile.el,
-        0,
-        0,
-        tileSize.x,
-        tileSize.y,
-
-        offset.x,
-        offset.y,
-        tileSize.x, // TODO: retina?
-        tileSize.y
-      );
+      this._renderTile(tiles[key]);
     }
     
     this._zoom = this._map.getZoom();
-    this._origin = origin;
+  },
+
+  _renderTile: function (tile) {
+    if (!tile.current) {
+      return;
+    }
+
+    var retinaFactor = this._retinaFactor;
+    var tileSize = this.getTileSize();
+    var tilePos = this._getTilePos(tile.coords, this._origin);
+    var offset = tilePos.subtract(this._pixelOffset);
+
+    this._ctx.drawImage(
+      tile.el,
+      0,
+      0,
+      tileSize.x * retinaFactor,
+      tileSize.y * retinaFactor,
+
+      offset.x * retinaFactor,
+      offset.y * retinaFactor,
+      tileSize.x * retinaFactor,
+      tileSize.y * retinaFactor
+    );
+
+    // this._ctx.beginPath();
+    // this._ctx.rect(
+    //   offset.x * retinaFactor,
+    //   offset.y * retinaFactor,
+    //   tileSize.x * retinaFactor,
+    //   tileSize.y * retinaFactor
+    // );
+    // this._ctx.stroke();
   },
 
   _getTilePos: function (coords, origin) {
@@ -405,6 +401,8 @@ DG.CanvasTileLayer = DG.Layer.extend({
         tile: tile.el,
         coords: coords
       });
+
+      this._renderTile(tile);
     }
 
     if (this._noTilesToLoad()) {
@@ -539,8 +537,9 @@ DG.CanvasTileLayer = DG.Layer.extend({
     this._ctx = this._container.getContext('2d');
 
     const size = this._map.getSize();
-    this._container.width = size.x;
-    this._container.height = size.y;
+
+    this._container.width = this._retinaFactor * size.x;
+    this._container.height = this._retinaFactor * size.y;
     this._container.style.width = size.x + 'px';
     this._container.style.height = size.y + 'px';
 
