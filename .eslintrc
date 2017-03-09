@@ -14,7 +14,7 @@
     "keyword-spacing": 2,
     "no-lonely-if": 2,
     "comma-style": 2,
-    "indent": [2, 4, {"SwitchCase": 1}],
+    "indent": 0,
     "no-underscore-dangle": 0,
     "no-use-before-define": 0,
     "no-constant-condition": 0,

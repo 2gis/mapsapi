@@ -1,5 +1,5 @@
 DG.Map.mergeOptions({
-    tilesCheck: true
+    tilesCheck: false
 });
 
 DG.Map.TilesCheck = DG.Handler.extend({

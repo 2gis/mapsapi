@@ -76,6 +76,7 @@ var deps = {
             'DGCustomization/src/DGMap.TilesCheck.js',
             'DGCustomization/src/DGMap.Drag.js',
             'DGCustomization/src/DGMarker.js',
+            'DGCustomization/src/DGCanvasTileLayer.js',
             'DGCustomization/src/DGPolyUtil.js'
         ],
         less: {
