@@ -332,14 +332,14 @@ DG.CanvasTileLayer = DG.Layer.extend({
       tileSize.y * retinaFactor
     );
 
-    this._ctx.beginPath();
-    this._ctx.rect(
-      offset.x * retinaFactor,
-      offset.y * retinaFactor,
-      tileSize.x * retinaFactor,
-      tileSize.y * retinaFactor
-    );
-    this._ctx.stroke();
+    // this._ctx.beginPath();
+    // this._ctx.rect(
+    //   offset.x * retinaFactor,
+    //   offset.y * retinaFactor,
+    //   tileSize.x * retinaFactor,
+    //   tileSize.y * retinaFactor
+    // );
+    // this._ctx.stroke();
   },
 
   _getTilePos: function (coords, origin) {
