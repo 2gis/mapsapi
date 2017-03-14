@@ -2,10 +2,12 @@ DG.Map.addInitHook(function () {
     var errorUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX28t5R0k5UAAAAH0lEQVR4Xu3AAQkAAADCMPunNsdhWxwAAAAAAAAAwAEhAAABg2UP5AAAAABJRU5ErkJggg==';
     var errorRuUrl = DG.config.protocol + DG.config.baseUrl + '/img/nomap_ru.png';
 
-    var BaseLayer = DG.TileLayer.extend({
+    var TileLayer = DG.Browser.mobile ? DG.MobileTileLayer : DG.TileLayer;
+
+    var BaseLayer = TileLayer.extend({
         initialize: function (url, options) {
             this._isDg = true;
-            DG.TileLayer.prototype.initialize.call(this, url, options);
+            TileLayer.prototype.initialize.call(this, url, options);
         },
 
         getTiles: function () {
