@@ -199,6 +199,10 @@
 
     function extendConfig() {
         DG.extend(DG.config, __LOCAL_CONFIG__);
+
+        if (DG.customConfig) {
+            DG.extend(DG.config, DG.customConfig);
+        }
     }
 
     function prepareForInit() {
