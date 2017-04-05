@@ -16,3 +16,5 @@ nohup.out
 vendors/leaflet/dist/leaflet-src.js
 
 coverage
+jsconfig.json
+.vscode
