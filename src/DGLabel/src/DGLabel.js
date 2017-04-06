@@ -45,7 +45,7 @@ DG.Label = DG.Layer.extend({
         DG.Util.falseFn(this._container.offsetWidth); // we need reflow here
         this._container = null;
 
-        map.getPanes().markerPane.removeChild(this._el);
+        map.getPanes().tooltipPane.removeChild(this._el);
         this._el = null;
     },
 
@@ -53,7 +53,7 @@ DG.Label = DG.Layer.extend({
         this._el = DG.DomUtil.create(
                         'div',
                         this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
-                        this._map.getPanes().markerPane);
+                        this._map.getPanes().tooltipPane);
         this._el.style.zIndex = this._defaultZIndex + this.options.zIndexOffset;
 
         this._container = DG.DomUtil.create('div', this.options.className + '__content', this._el);
