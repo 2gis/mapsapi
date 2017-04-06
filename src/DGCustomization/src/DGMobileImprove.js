@@ -77,7 +77,7 @@ if (DG.Browser.mobile) {
                     }
                 }
 
-                const pos = this._startPos.add(offset)._round();
+                var pos = this._startPos.add(offset)._round();
                 this._moving = true;
 
                 L.Util.cancelAnimFrame(this._animRequest);

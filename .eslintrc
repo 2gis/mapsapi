@@ -30,11 +30,11 @@
     "L": true,
     "baron": true,
     "module": false,
-    "define": false
+    "define": false,
+    "Promise": true
   },
   "env": {
     "browser": true,
-    "commonjs": true,
-    "es6": true
+    "commonjs": true
   }
 }
