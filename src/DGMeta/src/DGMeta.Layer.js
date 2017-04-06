@@ -134,6 +134,7 @@ DG.Meta.Layer = DG.Layer.extend({
         },
 
         click: function (event) {
+            this._mouseDown = false;
             this._fireMouseEvent('click', event);
         },
 
@@ -142,6 +143,7 @@ DG.Meta.Layer = DG.Layer.extend({
         },
 
         mousedown: function (event) {
+            this._mouseDown = true;
             this._fireMouseEvent('mousedown', event);
         },
 
@@ -151,14 +153,16 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     _fireMouseEvent: function (type, mouseEvent) {
-        if (this._hoveredEntity) {
-            this.fire(type, {
-                meta: this._hoveredEntity,
-                latlng: this._map.mouseEventToLatLng(mouseEvent)
-            });
-            if (this.options.eventBubbling === 'layer') {
-                DG.DomEvent.stop(mouseEvent);
-            }
+        if (!this._hoveredEntity) {
+            return;
+        }
+        this.fire(type, {
+            meta: this._hoveredEntity,
+            latlng: this._map.mouseEventToLatLng(mouseEvent)
+        });
+        var isDragging = type === 'mousedown' || (this._mouseDown && type === 'mousemove');
+        if (this.options.eventBubbling === 'layer' && !isDragging) {
+            DG.DomEvent.stop(mouseEvent);
         }
     },
 
