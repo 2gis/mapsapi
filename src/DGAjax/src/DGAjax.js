@@ -19,7 +19,7 @@ DG.ajax = (function () {
         callbackPrefix = 'l_dg_ajax_callback_' + (+new Date()),
         lastValue, // data stored by the most recent JSONP callback
         xmlHttpRequest = 'XMLHttpRequest',
-        xDomainRequest = 'XDomainRequest',
+        xDomainRequest = 'XDomainRequest', // IE 8 and 9 only
         noop = function () {},
         defaultHeaders = {
             contentType: 'application/x-www-form-urlencoded',
@@ -33,7 +33,7 @@ DG.ajax = (function () {
                 js:   'application/javascript, text/javascript'
             }
         },
-        /*global XDomainRequest:false, ActiveXObject:false */
+        /*global XDomainRequest:false */
         xhr = function (o) {
             // is it x-domain
             if (o.crossDomain === true) {
@@ -45,10 +45,8 @@ DG.ajax = (function () {
                 } else {
                     throw new Error('Browser does not support cross-origin requests');
                 }
-            } else if (win[xmlHttpRequest]) {
-                return new XMLHttpRequest();
             } else {
-                return new ActiveXObject('Microsoft.XMLHTTP');
+                return new XMLHttpRequest();
             }
         },
 
@@ -218,7 +216,7 @@ DG.ajax = (function () {
         }
 
         http = xhr(o);
-        http.open(method, url, o.async === false ? false : true);
+        http.open(method, url, o.async !== false);
 
         setHeaders(http, o);
         setCredentials(http, o);
@@ -341,7 +339,7 @@ DG.ajax = (function () {
                     switch (type) {
                         case 'json':
                             try {
-                                resp = win.JSON ? win.JSON.parse(r) : eval('(' + r + ')');
+                                resp = win.JSON.parse(r);
                             } catch (err) {
                                 return error(resp, 'Could not parse JSON in response', err);
                             }
