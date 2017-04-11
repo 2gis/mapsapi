@@ -51,22 +51,20 @@
                 height: 14px;
                 }
 
-            .no-touch &:hover:before,
-            .no-touch &:hover:after {
+            &:hover:before,
+            &:hover:after {
                 background-color: #616161; // 38%
                 }
 
             &:active:before,
-            &:active:after,
-            .no-touch &:active:before,
-            .no-touch &:active:after {
+            &:active:after {
                 background-color: #575757; // 34%
                 }
 
             .leaflet-disabled &:before,
             .leaflet-disabled &:after,
-            .no-touch .leaflet-disabled &:hover:before,
-            .no-touch .leaflet-disabled &:hover:after,
+            .leaflet-disabled &:hover:before,
+            .leaflet-disabled &:hover:after,
             .leaflet-disabled &:active:before,
             .leaflet-disabled &:active:after {
                 box-shadow: none;
@@ -118,17 +116,17 @@
                 content: '';
                 }
 
-            .no-touch &:hover:after {
+            &:hover:after {
                 background: #616161; // 38%
                 }
 
             &:active:after,
-            .no-touch &:active:after {
+            &:active:after {
                 background: #575757; // 34%
                 }
 
             .leaflet-disabled &:after,
-            .no-touch .leaflet-disabled &:hover:after,
+            .leaflet-disabled &:hover:after,
             .leaflet-disabled &:active:after {
                 box-shadow: none;
                 }
