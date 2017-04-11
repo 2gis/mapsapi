@@ -5,8 +5,7 @@ var gulp = require('gulp');
 
 gulp.task('imageMinify', [
     'copyAssets',
-    'copyRaster',
-    'rasterAndCopySVG',
+    'copyImg',
     'generateSprites'
 ], function () {
     return gulp.src('dist/img/**/*.{png,gif,jpg,jpeg}')

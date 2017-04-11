@@ -22,15 +22,15 @@ var init = function (config) {
         if (pkg && pkg in packages && packages[pkg].modules.length > 0) {
             modulesListOrig = packages[pkg].modules;
 
-        // Modules list (example: 'Core,JSONP,TileLayer')
+            // Modules list (example: 'Core,JSONP,TileLayer')
         } else if (pkg && pkg.indexOf(',') != -1) {
             modulesListOrig = pkg.split(',');
 
-        // Modules single (example: 'Core')
+            // Modules single (example: 'Core')
         } else if (pkg && pkg in modules) {
             modulesListOrig.push(pkg);
 
-        // Others (null / full package)
+            // Others (null / full package)
         } else {
             modulesListOrig = modulesListOrig.concat(Object.keys(modules));
         }
@@ -138,20 +138,8 @@ var init = function (config) {
         var modules = source.deps;
 
         return getModulesList(options.pkg, modules)
-            .map(function(name) {
-                return 'src/' + name + '/**/img/**/*.{png,gif,jpg,jpeg}';
-            });
-    }
-
-    function getSVGGlob(options) {
-        options = options || {};
-
-        var source = config[options.source || 'source'];
-        var modules = source.deps;
-
-        return getModulesList(options.pkg, modules)
-            .map(function(name) {
-                return 'src/' + name + '/**/img/**/*.svg';
+            .map(function (name) {
+                return 'src/' + name + '/**/img/**/*.{png,gif,jpg,jpeg,svg}';
             });
     }
 
@@ -206,36 +194,38 @@ var init = function (config) {
         skins = skins || getSkinsList();
 
         var perSkinStats = {};
+        var imgModulesGlobs = getImgGlob();
 
-        skins.forEach(function (skinName) {
-            var imagesPaths = glob.sync(__dirname + '/../tmp/img/' + skinName + '/*');
-            var skinStats = {};
-
-            imagesPaths.forEach(function (imagePath) {
-                var basename = path.basename(imagePath);
+        imgModulesGlobs.forEach(function (imgGlob) {
+            glob.sync(imgGlob).forEach(function (imagePath) {
+                var skinName = imagePath.split('/')[3];
                 var extname = path.extname(imagePath);
-
                 var name = path.basename(imagePath, extname);
-
                 var imageDimensions;
 
-                if (!(name in skinStats)) {
-                    skinStats[name] = {};
+                if (skins.indexOf(skinName) === -1) {
+                    return; // continue
                 }
 
-                if (extname == '.svg') {
-                    skinStats[name].hasVectorVersion = true;
+                if (!(skinName in perSkinStats)) {
+                    perSkinStats[skinName] = {};
+                }
+
+                if (!(name in perSkinStats[skinName])) {
+                    perSkinStats[skinName][name] = {};
+                }
+
+                if (extname === '.svg') {
+                    perSkinStats[skinName][name].hasVectorVersion = true;
                 } else {
-                    skinStats[name].extension = extname.replace('.', '');
+                    perSkinStats[skinName][name].extension = extname.replace('.', '');
 
                     imageDimensions = imageSize(imagePath);
 
-                    skinStats[name].width = imageDimensions.width;
-                    skinStats[name].height = imageDimensions.height;
+                    perSkinStats[skinName][name].width = imageDimensions.width;
+                    perSkinStats[skinName][name].height = imageDimensions.height;
                 }
             });
-
-            perSkinStats[skinName] = skinStats;
         });
 
         return perSkinStats;
@@ -284,8 +274,7 @@ var init = function (config) {
         getImagesFilesStats: getImagesFilesStats,
         getImagesUsageStats: getImagesUsageStats,
 
-        getImgGlob: getImgGlob,
-        getSVGGlob: getSVGGlob
+        getImgGlob: getImgGlob
     };
 };
 

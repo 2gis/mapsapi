@@ -13,7 +13,7 @@ var deps = require('../deps')(config);
 gulp.task('collectImagesUsageStats', function () {
     var skins = deps.getSkinsList();
 
-    var imagesBasePath = path.resolve(__dirname + '/gulp/tmp/img_all');
+    var imagesBasePath = path.resolve(__dirname + '/../../dist/img');
 
     var statisticsStreams = skins.map(function (skinName) {
         var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');

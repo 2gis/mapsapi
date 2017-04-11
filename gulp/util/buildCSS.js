@@ -18,7 +18,7 @@ var stat = require('../util/stat');
 var error = require('./error');
 
 module.exports = function (options) {
-    var imagesBasePath = path.resolve(path.join(__dirname, '../../gulp/tmp/img_all'));
+    var imagesBasePath = path.resolve(__dirname + '/../../dist/img');
     var baseURL = config.appConfig.protocol + config.appConfig.baseUrl;
     var lessList = deps.getCSSFiles(options);
 

@@ -1,9 +1,7 @@
 language: node_js
-env:
-  - CXX=g++-4.8
 sudo: false
 node_js:
-  - '4.2'
+  - '6'
 before_install:
   - npm install -g gulp
 install:
@@ -11,14 +9,6 @@ install:
 script:
   - gulp test
 after_success: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  && rm -rf ./coverage
 notifications:
   slack:
     secure: a9AuzDgxCqlUF/eDEZuR1jbX8beIcdWKARvAvAh95eB3G/daWmo/A8SxOPCPW1VP34D/3lCrjF8HJZs3ItqAMuoLvWp3BFnmgTs8KkSIPVm9U7Q6Jcj9HhyCVPBUulprkf33Avj+eYIrUyaVTCZc8U4qaS8qZ5Djk1vCiJsBSk0=
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
