@@ -59,10 +59,12 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     _addDomEvents: function () {
+        DG.DomEvent.on(this._map.getPane('overlayPane'), this._domEvents, this);
         DG.DomEvent.on(this._map.getPane('tilePane'), this._domEvents, this);
     },
 
     _removeDomEvents: function () {
+        DG.DomEvent.off(this._map.getPane('overlayPane'), this._domEvents, this);
         DG.DomEvent.off(this._map.getPane('tilePane'), this._domEvents, this);
     },
 
