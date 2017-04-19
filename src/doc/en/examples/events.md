@@ -13,7 +13,7 @@ The following are examples of working with events. For more information go to th
 Sample subscriptions to various events (click on the marker map, geometry):
 
 You clicked on: <span id="clicked_element">nowhere</span>
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -53,7 +53,7 @@ You clicked on: <span id="clicked_element">nowhere</span>
     <html>
         <head>
             <title>Subscribe to events</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             You clicked on: <span id="clicked_element">nowhere</span>
@@ -130,7 +130,7 @@ If you change the <a href="/doc/maps/en/manual/map#map-projectdetector">project<
     <html>
         <head>
             <title>Subscribe to changes of 2GIS project</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>

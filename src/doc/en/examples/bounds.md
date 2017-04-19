@@ -11,7 +11,7 @@ the map, see the <a href="/doc/maps/en/manual/map">Map</a> documentation section
 
 The restriction of the viewable area by boundaries of Novosibirsk, as well as zoom levels ranging from 10 to 15:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -32,7 +32,7 @@ The restriction of the viewable area by boundaries of Novosibirsk, as well as zo
     <html>
         <head>
             <title>Limitation of boarders and scale</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -94,7 +94,7 @@ The restriction of the viewable area by boundaries of Novosibirsk, as well as zo
     <html>
         <head>
             <title>Map with a left panel</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
             <style>
                 #container {
                     height:400px;

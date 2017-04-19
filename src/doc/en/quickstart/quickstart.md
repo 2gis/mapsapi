@@ -16,7 +16,7 @@ The following is a simple example of creating a map.
 
 To connect API JavaScript code, add the following code to the head section of the HTML page:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
 If you are interested in including the API code using npm, go to the [Connection API](/doc/maps/en/manual/dg-loading#npm) section.
 
@@ -92,7 +92,7 @@ Resulting code:
     <html>
         <head>
             <title>API карт 2ГИС</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
             <script type="text/javascript">
                 var map;
 

@@ -11,7 +11,7 @@
 
 Ограничение просматриваемой области границами города Новосибирск, а также уровней масштабирования диапазоном от 10 до 15:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -32,7 +32,7 @@
     <html>
         <head>
             <title>Ограничение границ и масштаба</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -97,7 +97,7 @@
     <html>
         <head>
             <title>Карта с левой панелью</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
             <style>
                 #container {
                     height:400px;

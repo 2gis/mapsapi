@@ -9,7 +9,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
 
 ### Polyline display
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 500px;"></div>
 <script>
     DG.then(function() {
@@ -36,7 +36,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
     <html>
         <head>
             <title>Polyline display</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 500px;"></div>
@@ -98,7 +98,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
     <html>
         <head>
             <title>Display of rectangles</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -176,7 +176,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
     <html>
         <head>
             <title>Display polygons</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -244,7 +244,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
     <html>
         <head>
             <title>Display a circle and a round marker</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -303,7 +303,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
     <html>
         <head>
             <title>Vector layers with tips and pop-ups</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -378,7 +378,7 @@ use the <a href="/doc/maps/en/manual/vector-layers">Vector Layers</a> section of
     <html>
         <head>
             <title>Animation of the polyline rendering</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="playAnimation" type="button" value="Start animation" />

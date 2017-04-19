@@ -12,15 +12,15 @@ The following are examples of connection and usage of external modules. For more
 Example of clusterer enabling. Clusterer is often used to display big amount of markers. The module code and its documentation
 is available on <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">GitHub repository</a> of the author.
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
-<link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
-<link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
-<script src="http://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
+<link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
+<link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
+<script src="https://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
         // module code loading
-        return DG.plugin('http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
+        return DG.plugin('https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
     }).then(function() {
         map = DG.map('map', {
             center: DG.latLng(54.92, 82.82),
@@ -46,17 +46,17 @@ is available on <a href="https://github.com/Leaflet/Leaflet.markercluster" targe
     <html>
         <head>
             <title>Clusterer</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
-            <link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
-            <link rel="stylesheet" href="http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
-            <script src="http://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
+            <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
+            <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
+            <script src="https://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
                     // module code loading
-                    return DG.plugin('http://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
+                    return DG.plugin('https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.92, 82.82),
@@ -86,12 +86,12 @@ is available on <a href="https://github.com/Leaflet/Leaflet.markercluster" targe
 Example of the heat map enabling. The heat map allows you to visualize the quantitative data depending on
 a geographical region. The color intensity for each region depends on the values that correspond to it.
 
-<script src="http://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
 <div id="map1" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
         // Module code loading
-        return DG.plugin('http://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
+        return DG.plugin('https://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
     }).then(function() {
         map = DG.map('map1', {
             center: DG.latLng(54.89, 82.45),
@@ -106,15 +106,15 @@ a geographical region. The color intensity for each region depends on the values
     <html>
         <head>
             <title>Heat map</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
-            <script src="http://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/heat_realworld.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
             <script>
                 DG.then(function() {
                     // Module code loading
-                    return DG.plugin('http://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
+                    return DG.plugin('https://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.89, 82.45),
