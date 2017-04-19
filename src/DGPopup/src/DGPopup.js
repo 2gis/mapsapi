@@ -1,7 +1,7 @@
 require('../../../vendors/baron');
 
 // 2GIS-related popup content wrapper and offset
-(function () {
+(function() {
     var offsetX = DG.configTheme.balloonOptions.offset.x,
         offsetY = DG.configTheme.balloonOptions.offset.y,
         originalInitialize = DG.Popup.prototype.initialize,
@@ -10,23 +10,23 @@ require('../../../vendors/baron');
         originalAdjustPan = DG.Popup.prototype._adjustPan,
         graf = baron.noConflict();
 
-    var BaronDomHelper = function (element) {
+    var BaronDomHelper = function(element) {
         this[0] = element;
         this.length = 1;
     };
     BaronDomHelper.prototype = {
-        setAttribute: function (name, value) {
+        setAttribute: function(name, value) {
             this[0].setAttribute(name, value);
             return this;
         },
-        getAttribute: function (name) {
+        getAttribute: function(name) {
             return this[0].getAttribute(name);
         },
-        removeAttribute: function (name) {
+        removeAttribute: function(name) {
             this[0].removeAttribute(name);
             return this;
         },
-        css: function (style, value) {
+        css: function(style, value) {
             if (value) {
                 this[0].style[style] = value;
                 return this;
@@ -62,13 +62,13 @@ require('../../../vendors/baron');
 
         _isAutoPanPaddingUserDefined: false,
 
-        initialize: function (options, source) { // (Object, Object)
+        initialize: function(options, source) { // (Object, Object)
             this._popupStructure = {};
             this._isAutoPanPaddingUserDefined = options && options.hasOwnProperty('autoPanPadding');
             originalInitialize.call(this, options, source);
         },
 
-        onAdd: function (map) { // (Map)
+        onAdd: function(map) { // (Map)
             map.on({
                 entranceshow: this._closePopup,
                 resize: this.resize
@@ -77,7 +77,7 @@ require('../../../vendors/baron');
             this._animateOpening();
         },
 
-        onRemove: function (map) { // (Map)
+        onRemove: function(map) { // (Map)
             this._animateClosing();
             map.off({
                 entranceshow: this._closePopup,
@@ -97,9 +97,9 @@ require('../../../vendors/baron');
             }
         },
 
-        setContent: function (content) { // (DOMElement | Object | HTML) -> Popup
+        setContent: function(content) { // (DOMElement | Object | HTML) -> Popup
             if (!this._isNode(content) && typeof content === 'object') {
-                Object.keys(content).forEach(function (item) {
+                Object.keys(content).forEach(function(item) {
                     this['_' + item + 'Content'] = content[item];
                 }, this);
             } else {
@@ -111,33 +111,33 @@ require('../../../vendors/baron');
             return this;
         },
 
-        setHeaderContent: function (content) { // (HTML) -> Popup
+        setHeaderContent: function(content) { // (HTML) -> Popup
             this._headerContent = content;
             this.update();
 
             return this;
         },
 
-        setFooterContent: function (content) { // (HTML) -> Popup
+        setFooterContent: function(content) { // (HTML) -> Popup
             this._footerContent = content;
             this.update();
 
             return this;
         },
 
-        getContent: function () { // () -> HTML
+        getContent: function() { // () -> HTML
             return this._bodyContent;
         },
 
-        getHeaderContent: function () { // () -> HTML
+        getHeaderContent: function() { // () -> HTML
             return this._headerContent;
         },
 
-        getFooterContent: function () { // () -> HTML
+        getFooterContent: function() { // () -> HTML
             return this._footerContent;
         },
 
-        clear: function () { // () -> Popup
+        clear: function() { // () -> Popup
             Object.keys(this._popupStructure).forEach(this._clearElement, this);
 
             // think about move this set to another public method
@@ -145,37 +145,37 @@ require('../../../vendors/baron');
             return this;
         },
 
-        clearHeader: function () { // () -> Popup
+        clearHeader: function() { // () -> Popup
             return this._clearElement('header');
         },
 
-        clearFooter: function () { // () -> Popup
+        clearFooter: function() { // () -> Popup
             return this._clearElement('footer');
         },
 
-        findElement: function (element) { // (String) -> DOMElement
+        findElement: function(element) { // (String) -> DOMElement
             return this._contentNode.querySelector(element);
         },
 
-        _animateOpening: function () {
+        _animateOpening: function() {
             DG.DomUtil.addClass(this._innerContainer, this._popupShowClass);
             DG.DomUtil.removeClass(this._innerContainer, this._popupHideClass);
         },
 
-        _animateClosing: function () {
+        _animateClosing: function() {
             DG.DomUtil.addClass(this._innerContainer, this._popupHideClass);
             DG.DomUtil.removeClass(this._innerContainer, this._popupShowClass);
         },
 
-        _closePopup: function () {
+        _closePopup: function() {
             this._map.closePopup(this);
         },
 
-        _isNode: function (o) { // (Object) -> Boolean
+        _isNode: function(o) { // (Object) -> Boolean
             return (o.nodeName ? true : false);
         },
 
-        _close: function () {
+        _close: function() {
             if (this._map) {
                 if (DG.Browser.mobile && this._map.geoclicker &&
                     (this.options.closeOnClick || this._map.options.closePopupOnClick)) {
@@ -189,7 +189,7 @@ require('../../../vendors/baron');
             }
         },
 
-        _initLayout: function () {
+        _initLayout: function() {
             originalInitLayout.call(this);
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
 
@@ -224,20 +224,20 @@ require('../../../vendors/baron');
             this._innerContainer.appendChild(tip);
         },
 
-        _clearElement: function (elem) { // (DOMElement) -> Popup
+        _clearElement: function(elem) { // (DOMElement) -> Popup
             this['_' + elem + 'Content'] = null;
             this._detachEl(this._popupStructure[elem]);
             delete this._popupStructure[elem];
             return this;
         },
 
-        _updateScrollPosition: function () {
+        _updateScrollPosition: function() {
             if (this._baron) {
                 this._baron.update();
             }
         },
 
-        resize: function () {
+        resize: function() {
             var scrolled = this._updateLayout();
             this._updatePosition();
 
@@ -273,7 +273,7 @@ require('../../../vendors/baron');
             this._bindAdjustPanOnTransitionEnd();
         },
 
-        _adjustPan: function (e) {
+        _adjustPan: function(e) {
             if (!this._map) { return; }
 
             if (e) {
@@ -337,7 +337,7 @@ require('../../../vendors/baron');
             }
         },
 
-        _bindAdjustPanOnTransitionEnd: function () {
+        _bindAdjustPanOnTransitionEnd: function() {
             if (DG.DomUtil.TRANSITION) {
                 DG.DomEvent.on(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan, this);
             } else {
@@ -345,7 +345,7 @@ require('../../../vendors/baron');
             }
         },
 
-        _isContentHeightEnough: function () { // () -> Boolean
+        _isContentHeightEnough: function() { // () -> Boolean
             var options = this.options;
 
             if (!options.maxHeight) {
@@ -361,7 +361,7 @@ require('../../../vendors/baron');
             return popupHeight <= options.maxHeight;
         },
 
-        _initBaronScroller: function () {
+        _initBaronScroller: function() {
             var contentNode = this._popupStructure.body.parentNode,
                 scrollerWrapper = this._scrollerWrapper = DG.DomUtil.create('div', 'dg-scroller__wrapper', contentNode),
                 scroller = this._scroller = DG.DomUtil.create('div', 'dg-scroller', scrollerWrapper),
@@ -380,11 +380,11 @@ require('../../../vendors/baron');
             this._switchEvents();
         },
 
-        _onScroll: function (e) {
+        _onScroll: function(e) {
             this.fire('scroll', {originalEvent: e});
         },
 
-        _onClick: function (e) {
+        _onClick: function(e) {
             e.target = e.target || e.srcElement;
 
             if (!this._moving) {
@@ -392,7 +392,7 @@ require('../../../vendors/baron');
             }
         },
 
-        _onStart: function (e) {
+        _onStart: function(e) {
             this._moved = false;
 
             if (this._moving) { return; }
@@ -404,7 +404,7 @@ require('../../../vendors/baron');
             this._toggleTouchEvents();
         },
 
-        _onEnd: function (e) {
+        _onEnd: function(e) {
             this._toggleTouchEvents(true);
 
             this._onClick(e);
@@ -412,7 +412,7 @@ require('../../../vendors/baron');
             this._moving = false;
         },
 
-        _onMove: function (e) {
+        _onMove: function(e) {
 
             if (e.touches && e.touches.length > 1) {
                 this._moved = true;
@@ -429,40 +429,40 @@ require('../../../vendors/baron');
 
         },
 
-        _initBaron: function () {
+        _initBaron: function() {
             var context = this._scrollerWrapper;
             this._baron = graf({
                 scroller: '.dg-scroller',
                 bar: '.dg-scroller__bar',
                 track: '.dg-scroller__bar-wrapper',
-                $: function (selector) {
+                $: function(selector) {
                     var node = {}.toString.call(selector) === '[object String]' ?
                         context.querySelector(selector) : selector;
 
                     return new BaronDomHelper(node);
                 },
-                event: function (elem, event, func, mode) {
-                    event.split(' ').forEach(function (type) {
+                event: function(elem, event, func, mode) {
+                    event.split(' ').forEach(function(type) {
                         DG.DomEvent[mode || 'on'](elem, type, func);
                     });
                 }
             });
         },
 
-        _initHeader: function () {
+        _initHeader: function() {
             this._popupStructure.header = DG.DomUtil.create('header', 'dg-popup__header', this._contentNode);
         },
 
-        _initFooter: function () {
+        _initFooter: function() {
             this._popupStructure.footer = DG.DomUtil.create('footer', 'dg-popup__footer', this._contentNode);
         },
 
-        _initBodyContainer: function () {
+        _initBodyContainer: function() {
             this._popupStructure.wrapper = DG.DomUtil.create('div', 'dg-popup__container-wrapper', this._contentNode);
             this._popupStructure.body = DG.DomUtil.create('div', 'dg-popup__container', this._popupStructure.wrapper);
         },
 
-        update: function () {
+        update: function() {
             if (!this._map) { return; }
 
             if (!DG.Browser.ielt9) {
@@ -496,7 +496,7 @@ require('../../../vendors/baron');
             }
         },
 
-        _getDelta: function () { // () -> Number
+        _getDelta: function() { // () -> Number
             var delta = 0,
                 popup = this._popupStructure;
 
@@ -510,7 +510,7 @@ require('../../../vendors/baron');
             return delta;
         },
 
-        _updateLayout: function () {
+        _updateLayout: function() {
             var opts = this.options,
                 content = this._contentNode, // leaflet-popup-content
                 wrapper = this._wrapper, // leaflet-popup-content-wrapper
@@ -557,15 +557,15 @@ require('../../../vendors/baron');
             return result;
         },
 
-        _updatePopupStructure: function () {
-            Object.keys(this._popupStructure).forEach(function (item) {
+        _updatePopupStructure: function() {
+            Object.keys(this._popupStructure).forEach(function(item) {
                 this._insertContent(this['_' + item + 'Content'], this._popupStructure[item]);
             }, this);
 
             this.fire('contentupdate');
         },
 
-        _insertContent: function (content, node) { // (String | DOMElement, DOMElement)
+        _insertContent: function(content, node) { // (String | DOMElement, DOMElement)
             if (!content || !node) { return; }
 
             content = (typeof content === 'function') ? content(this._source || this) : content;
@@ -578,20 +578,20 @@ require('../../../vendors/baron');
             }
         },
 
-        _clearNode: function (node) { // (DOMElement)
+        _clearNode: function(node) { // (DOMElement)
             while (node.hasChildNodes()) {
                 node.removeChild(node.firstChild);
             }
         },
 
-        _detachEl: function (elem) { // (DOMElement) -> DOMElement
+        _detachEl: function(elem) { // (DOMElement) -> DOMElement
             if (elem.parentNode) {
                 elem.parentNode.removeChild(elem);
             }
             return elem;
         },
 
-        _switchEvents: function (on) { // (Boolean)
+        _switchEvents: function(on) { // (Boolean)
             var switcher = on ? 'off' : 'on';
 
             if (!DG.Browser.touch) {
@@ -605,7 +605,7 @@ require('../../../vendors/baron');
             }
         },
 
-        _toggleTouchEvents: function (on) {
+        _toggleTouchEvents: function(on) {
             var switcher = on ? 'off' : 'on';
 
             DG.DomEvent[switcher](this._contentNode, 'touchmove', this._onMove, this);
@@ -621,7 +621,7 @@ DG.Map.include({
     _markerShowClass: 'dg-customization__marker_appear',
     _markerHideClass: 'dg-customization__marker_disappear',
     _dgHideClass: 'dg-popup_hidden_true',
-    openPopup: function (popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
+    openPopup: function(popup, latlng, options) { // (Popup) or (String || HTMLElement, LatLng[, Object])
         if (!(popup instanceof L.Popup)) {
             var content = popup;
 
@@ -657,7 +657,7 @@ DG.Map.include({
         return this.addLayer(popup);
     },
 
-    closePopup: function (popup) {  // (Popup) -> Popup
+    closePopup: function(popup) {  // (Popup) -> Popup
         if (!popup || popup === this._popup) {
             popup = this._popup;
             this._popup = null;

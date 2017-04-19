@@ -1,6 +1,6 @@
 DG.Marker.include({
 
-    bindLabel: function (content, options) {
+    bindLabel: function(content, options) {
         if (this._label) {
             this._label.setContent(content);
             if (options) {
@@ -39,7 +39,7 @@ DG.Marker.include({
         return this;
     },
 
-    unbindLabel: function () {
+    unbindLabel: function() {
         if (this._label) {
             this
                 .hideLabel()
@@ -56,10 +56,10 @@ DG.Marker.include({
         return this;
     },
 
-    _onMarkerRemove: function () {
+    _onMarkerRemove: function() {
         if (this._label) {
             var content = this._label._content;
-            this.once('add', function () {
+            this.once('add', function() {
                 if (this._label) { return; } // new label added after removing marker
                 this.bindLabel(content);
             });
@@ -67,12 +67,12 @@ DG.Marker.include({
         }
     },
 
-    getLabel: function () {
+    getLabel: function() {
         return this._label ? this._label : null;
     },
 
     _originalUpdateZIndex: DG.Marker.prototype._updateZIndex,
-    _updateZIndex: function (offset) {
+    _updateZIndex: function(offset) {
         if (!this._zIndex) {
             this._zIndex = 0;
         }
@@ -81,14 +81,14 @@ DG.Marker.include({
         return this;
     },
 
-    _updateLabelZIndex: function () {
+    _updateLabelZIndex: function() {
         if (this._label && this._icon) {
             this._label.setZIndexOffset(this._icon.style.zIndex);
         }
         return this;
     },
 
-    showLabel : function () {
+    showLabel : function() {
         if (this._label) {
             this
                 .on('move', this._updatePosition)
@@ -98,7 +98,7 @@ DG.Marker.include({
         return this;
     },
 
-    hideLabel : function () {
+    hideLabel : function() {
         if (this._label) {
             this
                 .off('move', this._updatePosition)
@@ -107,17 +107,17 @@ DG.Marker.include({
         return this;
     },
 
-    _updatePosition : function () {
+    _updatePosition : function() {
         this._label.setPosition(this.getLatLng());
     },
 
-    _dragStartLabel: function () {
+    _dragStartLabel: function() {
         this._label.isMarkerDragging = true;
 
         this.hideLabel();
     },
 
-    _dragEndLabel: function () {
+    _dragEndLabel: function() {
         this._label.isMarkerDragging = false;
 
         if (this._label.isMouseOverMarker) {
@@ -125,7 +125,7 @@ DG.Marker.include({
         }
     },
 
-    _mouseOverLabel: function () {
+    _mouseOverLabel: function() {
         this._label.isMouseOverMarker = true;
 
         if (!this._label.isMarkerDragging) {
@@ -133,14 +133,14 @@ DG.Marker.include({
         }
     },
 
-    _mouseOutLabel: function () {
+    _mouseOutLabel: function() {
         this._label.isMouseOverMarker = false;
 
         this.hideLabel();
     }
 });
 
-DG.Marker.addInitHook(function () {
+DG.Marker.addInitHook(function() {
     if (typeof this.options.label !== 'undefined') {
         this.bindLabel(this.options.label);
     }

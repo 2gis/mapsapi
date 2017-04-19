@@ -1,5 +1,5 @@
 // from https://github.com/Turfjs/turf-inside/blob/master/index.js
-DG.PolyUtil.inside = function (point, polygon, pointReduce) {
+DG.PolyUtil.inside = function(point, polygon, pointReduce) {
     pointReduce = pointReduce || DG.PolyUtil._defaultPointReduce;
     var polys = polygon.coordinates;
     var pt = pointReduce(point);
@@ -33,7 +33,7 @@ DG.PolyUtil.inside = function (point, polygon, pointReduce) {
 };
 
 // pt is [x,y] and ring is [[x,y], [x,y],..]
-DG.PolyUtil._inRing = function (pt, ring, pointReduce) {
+DG.PolyUtil._inRing = function(pt, ring, pointReduce) {
     var isInside = false;
     for (var i = 0, j = ring.length - 1; i < ring.length; j = i++) {
         var pi = pointReduce(ring[i]);
@@ -50,6 +50,6 @@ DG.PolyUtil._inRing = function (pt, ring, pointReduce) {
     return isInside;
 };
 
-DG.PolyUtil._defaultPointReduce = function (point) {
+DG.PolyUtil._defaultPointReduce = function(point) {
     return point;
 };

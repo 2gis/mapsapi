@@ -17,7 +17,7 @@ DG.Entrance = DG.FeatureGroup.extend({
         autoClose: true
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         DG.LayerGroup.prototype.initialize.call(this);
 
         DG.setOptions(this, options);
@@ -34,17 +34,17 @@ DG.Entrance = DG.FeatureGroup.extend({
         this._isShown = false;
     },
 
-    onAdd: function (map) {
+    onAdd: function(map) {
         DG.LayerGroup.prototype.onAdd.call(this, map);
         this.show();
     },
 
-    onRemove: function (map) {
+    onRemove: function(map) {
         this.hide();
         DG.LayerGroup.prototype.onRemove.call(this, map);
     },
 
-    getEvents: function () {
+    getEvents: function() {
         var events = {};
 
         if (this.options.autoClose) {
@@ -57,14 +57,14 @@ DG.Entrance = DG.FeatureGroup.extend({
         return events;
     },
 
-    show: function (fitBounds) {
+    show: function(fitBounds) {
         if (this._layers) {
             if (fitBounds) {
                 this.fitBounds();
             }
             if (!this._isShown) {
                 this._isShown = true;
-                this.eachLayer(function (arrow) {
+                this.eachLayer(function(arrow) {
                     arrow.setVisibility(true);
                 });
                 if (this.options.enableAnimation) {
@@ -77,10 +77,10 @@ DG.Entrance = DG.FeatureGroup.extend({
         return this;
     },
 
-    hide: function () {
+    hide: function() {
         if (this._layers && this._isShown) {
             this._isShown = false;
-            this.eachLayer(function (arrow) {
+            this.eachLayer(function(arrow) {
                 arrow.setVisibility(false);
             });
             this._map.fire('entrancehide');
@@ -89,27 +89,27 @@ DG.Entrance = DG.FeatureGroup.extend({
         return this;
     },
 
-    isShown: function () {
+    isShown: function() {
         return this._isShown;
     },
 
-    getBounds: function () {
+    getBounds: function() {
         return this._bounds;
     },
 
-    setFillColor: function (color) {
-        this.eachLayer(function (arrow) {
+    setFillColor: function(color) {
+        this.eachLayer(function(arrow) {
             arrow.setStyle({fillColor: color});
         });
     },
 
-    setStrokeColor: function (color) {
-        this.eachLayer(function (arrow) {
+    setStrokeColor: function(color) {
+        this.eachLayer(function(arrow) {
             arrow.setStyle({color: color});
         });
     },
 
-    _initArrows: function () {
+    _initArrows: function() {
         var base = {
             color: this.options.strokeColor,
             fillColor: this.options.fillColor,
@@ -117,10 +117,10 @@ DG.Entrance = DG.FeatureGroup.extend({
         };
 
         this.options.vectors
-            .map(function (vector) {
+            .map(function(vector) {
                 return DG.Wkt.toLatLngs(vector);
             })
-            .forEach(function (latlngs) {
+            .forEach(function(latlngs) {
                 var options = DG.Util.create(base),
                     bounds = DG.latLngBounds(latlngs);
 
@@ -142,7 +142,7 @@ DG.Entrance = DG.FeatureGroup.extend({
     },
 
 
-    _animate: function () {
+    _animate: function() {
         if (this._isShown) {
             this._animations.bounce.start();
             this._animations.path.start();
@@ -150,14 +150,14 @@ DG.Entrance = DG.FeatureGroup.extend({
     },
 
     //  Current logic of next four methods extracted from original arrow's implementation
-    fitBounds: function () {
+    fitBounds: function() {
         var map = this._map, fitZoom,
             bounds = this.getBounds();
 
         if (!map.getBounds().contains(bounds) || !this._isAllowedZoom()) {
             fitZoom = this._getFitZoom();
             if (!map.projectDetector.getProject()) {
-                map.once('moveend', function () {
+                map.once('moveend', function() {
                     map.setZoom(this._getFitZoom());
                 }, this);
             }
@@ -167,15 +167,15 @@ DG.Entrance = DG.FeatureGroup.extend({
         return this;
     },
 
-    _getFitZoom: function () {
+    _getFitZoom: function() {
         return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
     },
 
-    _isAllowedZoom: function () {
+    _isAllowedZoom: function() {
         return this._map.getZoom() >= DG.Entrance.SHOW_FROM_ZOOM;
     },
 
-    _removeEntrance: function (e) {
+    _removeEntrance: function(e) {
         if (e.layer instanceof DG.Popup ||
             (e.layer instanceof DG.Entrance && e.layer !== this)) {
 
@@ -184,7 +184,7 @@ DG.Entrance = DG.FeatureGroup.extend({
     }
 });
 
-DG.entrance = function (options) {
+DG.entrance = function(options) {
     return new DG.Entrance(options);
 };
 

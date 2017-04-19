@@ -14,9 +14,9 @@ DG.Bezier = DG.Class.extend({
      * @param {Array<DG.Point>} coords Curve's control points in DG.Point format (up to four control points supported)
      * @param {boolean} [clone] Clone original points or not (Default)
      */
-    initialize: function (coords, clone) {
+    initialize: function(coords, clone) {
         if (clone) {
-            this.points = coords.map(function (coord) { return coord.clone(); });
+            this.points = coords.map(function(coord) { return coord.clone(); });
         } else {
             this.points = coords;
         }
@@ -25,7 +25,7 @@ DG.Bezier = DG.Class.extend({
         this._lut = [];
     },
 
-    getPoint: function (t) {
+    getPoint: function(t) {
         var p = this.points;
         var mt, mt2, t2;
         var a, b, c, d;
@@ -56,7 +56,7 @@ DG.Bezier = DG.Class.extend({
         );
     },
 
-    derivative: function (t) {
+    derivative: function(t) {
         var p = this.dpoints[0];
         var mt = 1 - t;
         var a, b, c;
@@ -76,7 +76,7 @@ DG.Bezier = DG.Class.extend({
         );
     },
 
-    getLength: function () {
+    getLength: function() {
         /* eslint-disable camelcase */
         var w_i = DG.Bezier.WEIGHT;
         var x_i = DG.Bezier.ABSCISSA;
@@ -95,7 +95,7 @@ DG.Bezier = DG.Class.extend({
         return z * sum;
     },
 
-    getCurveBefore: function (z) {
+    getCurveBefore: function(z) {
         var p = this.points;
         var z2, z3, mz, mz2, mz3;
         var b$3, b$4, c$4;
@@ -138,7 +138,7 @@ DG.Bezier = DG.Class.extend({
         return new DG.Bezier(curve);
     },
 
-    getCurveAfter: function (z) {
+    getCurveAfter: function(z) {
         var p = this.points;
         var n = this.order;
         var z2, z3, mz, mz2, mz3;
@@ -182,7 +182,7 @@ DG.Bezier = DG.Class.extend({
         return new DG.Bezier(curve);
     },
 
-    _getDerivatives: function () {
+    _getDerivatives: function() {
         var p = this.points;
         var d, c, j, list;
         var result = [];
@@ -202,7 +202,7 @@ DG.Bezier = DG.Class.extend({
         return result;
     },
 
-    getLUT: function (steps) {
+    getLUT: function(steps) {
         steps = steps || 125;
 
         if (this._lut.length !== steps + 1) {
@@ -216,7 +216,7 @@ DG.Bezier = DG.Class.extend({
         return this._lut;
     },
 
-    _setLUT2: function (steps) {
+    _setLUT2: function(steps) {
         var lut = this._lut = [];
         var p = this.points;
         var t, mt;
@@ -237,7 +237,7 @@ DG.Bezier = DG.Class.extend({
         lut.push({x: p[2].x, y: p[2].y, l: 0});
     },
 
-    _setLUT3: function (steps) {
+    _setLUT3: function(steps) {
         var lut = this._lut = [];
         var p = this.points;
         var t, t2, mt, mt2;
@@ -261,12 +261,12 @@ DG.Bezier = DG.Class.extend({
         lut.push({x: p[3].x, y: p[3].y, l: 0});
     },
 
-    clone: function () {
+    clone: function() {
         return new DG.Bezier(this.points, true);
     }
 });
 
-DG.bezier = function (coords) {
+DG.bezier = function(coords) {
     if (typeof coords === 'number' || coords instanceof DG.Point) {
         coords = Array.prototype.slice.call(arguments);
     }
@@ -319,7 +319,7 @@ DG.Bezier.ABSCISSA = [
 //  This curve is monotonically ordered by 'X' coordinate and has P[0] = {0, 0} and P[3] = {1, 1}
 //  We can utilize this facts to shortcut calculations
 DG.TimeBezier = DG.Bezier.extend({
-    initialize: function (controlPoint1, controlPoint2, clone) {
+    initialize: function(controlPoint1, controlPoint2, clone) {
         DG.Bezier.prototype.initialize.call(
             this,
             [DG.TimeBezier.START, controlPoint1, controlPoint2, DG.TimeBezier.END],
@@ -327,7 +327,7 @@ DG.TimeBezier = DG.Bezier.extend({
         );
     },
 
-    getYbyX: function (x) {
+    getYbyX: function(x) {
         var lut = this.getLUT();
         var max = lut.length - 1;
         var min = 0;
@@ -352,7 +352,7 @@ DG.TimeBezier = DG.Bezier.extend({
         return (lut[min].y + (lut[max].y - lut[min].y) * x);
     },
 
-    getLUT: function (steps) {
+    getLUT: function(steps) {
         var p = this.points;
         var t, t2, mt;
         var b, c, d;
@@ -384,7 +384,7 @@ DG.TimeBezier = DG.Bezier.extend({
         return lut;
     },
 
-    clone: function () {
+    clone: function() {
         return new DG.TimeBezier(this.points, true);
     }
 });
@@ -395,13 +395,13 @@ DG.TimeBezier.END = DG.point(1, 1);
 
 //  This is cubic Bezier describing circular arc
 DG.ArcBezier = DG.Bezier.extend({
-    initialize: function (coords, clone) {
+    initialize: function(coords, clone) {
         DG.Bezier.prototype.initialize.call(this, coords, clone);
         this.getLUT();
         this._setLutLengths();
     },
 
-    getTbyL: function (l) {
+    getTbyL: function(l) {
         var lut = this.getLUT();
         var max = lut.length - 1;
         var min = 0;
@@ -447,7 +447,7 @@ DG.ArcBezier = DG.Bezier.extend({
         return t;
     },
 
-    _setLutLengths: function () {
+    _setLutLengths: function() {
         var lut = this._lut;
         var dx, dy;
 
@@ -459,11 +459,11 @@ DG.ArcBezier = DG.Bezier.extend({
         }
     },
 
-    getLength: function () {
+    getLength: function() {
         return this._lut[this._lut.length - 1].l;
     },
 
-    clone: function () {
+    clone: function() {
         return new DG.ArcBezier(this.points, true);
     }
 });

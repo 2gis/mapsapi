@@ -1,30 +1,30 @@
 DG.ProjectDetector = DG.Handler.extend({
-    initialize: function (map) { // (Object)
+    initialize: function(map) { // (Object)
         this._map = map;
         this._osmViewport = false;
         this._project = undefined;
         this._loadProjectList();
     },
 
-    addHooks: function () {
+    addHooks: function() {
         this._map.on('move', this._projectWatch, this);
     },
 
-    removeHooks: function () {
+    removeHooks: function() {
         this._map.off('move', this._projectWatch, this);
     },
 
-    getProject: function () {
+    getProject: function() {
         if (!this._project) { return false; }
 
         return DG.Util.extend({}, this._project);
     },
 
-    getProjectsList: function () {
+    getProjectsList: function() {
         return this._projectList.slice(0);
     },
 
-    isProjectHere: function (coords, project, checkMethod) {
+    isProjectHere: function(coords, project, checkMethod) {
         if (!coords) { return null; }
 
         if (!(coords instanceof DG.LatLng) && !(coords instanceof DG.LatLngBounds)) {
@@ -46,7 +46,7 @@ DG.ProjectDetector = DG.Handler.extend({
         }
     },
 
-    _projectWatch: function () {
+    _projectWatch: function() {
         if (this._osmViewport === (this._project && this._centerInProject(this._project, 'contains'))) {
             this._osmViewport = !this._osmViewport;
             this._map.attributionControl._update(null, this._osmViewport);
@@ -66,8 +66,8 @@ DG.ProjectDetector = DG.Handler.extend({
         }
     },
 
-    _checkProjectData: function (project) {
-        function check (value) {
+    _checkProjectData: function(project) {
+        function check(value) {
             return value !== undefined && value !== null;
         }
 
@@ -83,7 +83,7 @@ DG.ProjectDetector = DG.Handler.extend({
                     check(project.time_zone.offset);
     },
 
-    _loadProjectList: function () {
+    _loadProjectList: function() {
         DG.fallbackProjectsList = DG.fallbackProjectsList || [];
 
         if (!DG.projectsList) {
@@ -93,7 +93,7 @@ DG.ProjectDetector = DG.Handler.extend({
 
         this._projectList = DG.projectsList
             .filter(this._checkProjectData)
-            .map(function (project) {
+            .map(function(project) {
                 var bound = DG.Wkt.toGeoJSON(project.bounds);
                 var latLngBounds = DG.geoJSON(bound).getBounds();
                 var defaultPos = project.default_pos ? DG.latLng(project.default_pos.lat, project.default_pos.lon) : null;
@@ -119,7 +119,7 @@ DG.ProjectDetector = DG.Handler.extend({
             });
     },
 
-    _searchProject: function () {
+    _searchProject: function() {
         // Вначале отсеиваем регионы по зуму
         var filteredByZoom = this._projectList.filter(this._zoomInProject, this);
 
@@ -157,32 +157,32 @@ DG.ProjectDetector = DG.Handler.extend({
 
         if (this._project !== null) {
             this._project = null;
-            setTimeout(function () {
+            setTimeout(function() {
                 self._map.fire('projectleave');
             }, 1);
         }
 
         if (newProject) {
             this._project = newProject;
-            setTimeout(function () {
+            setTimeout(function() {
                 self._map.fire('projectchange', {getProject: self.getProject.bind(self)});
             }, 1);
         }
     },
 
-    _testProjectIntersects: function (bounds, project) {
+    _testProjectIntersects: function(bounds, project) {
         return project.latLngBounds.intersects(bounds);
     },
 
-    _testProjectContains: function (latlng, project) {
+    _testProjectContains: function(latlng, project) {
         return DG.PolyUtil.inside([latlng.lng, latlng.lat], project.bound);
     },
 
-    _centerInProject: function (project, checkMethod) {
+    _centerInProject: function(project, checkMethod) {
         return this.isProjectHere(this._map.getCenter(), project, checkMethod);
     },
 
-    _zoomInProject: function (project) {
+    _zoomInProject: function(project) {
         return (this._map.getZoom() >= project.minZoom);
     }
 });

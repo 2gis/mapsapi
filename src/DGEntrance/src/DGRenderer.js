@@ -6,7 +6,7 @@
  */
 
 DG.extend(L.Canvas.prototype, {
-    _updateComplexPath: function (layer, closed) {
+    _updateComplexPath: function(layer, closed) {
         var i, j, k, d, x, y, _x, _y, $x, $y, points;
         var drawings = layer._drawings;
         var vertices = layer._vertices;
@@ -110,14 +110,14 @@ DG.extend(L.Canvas.prototype, {
 
 
 DG.extend(L.SVG.prototype, {
-    _updateComplexPath: function (layer, closed) {
+    _updateComplexPath: function(layer, closed) {
         this._setPath(layer, L.SVG.complexPointsToPath(layer._vertices, layer._drawings, closed));
     }
 });
 
 
 DG.extend(L.SVG, {
-    complexPointsToPath: function (vertices, drawings, closed) {
+    complexPointsToPath: function(vertices, drawings, closed) {
         var str = '';
         var svg = DG.Browser.svg;
         var i, j, k, n, d, points;

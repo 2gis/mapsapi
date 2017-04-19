@@ -12,7 +12,7 @@ DG.ComplexPath = DG.Path.extend({
         interactive: false
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         DG.setOptions(this, options);
 
         this._empty = [];
@@ -26,11 +26,11 @@ DG.ComplexPath = DG.Path.extend({
         this._drawings = [this._empty];
     },
 
-    getEvents: function () {
+    getEvents: function() {
         return {};
     },
 
-    _project: function () {
+    _project: function() {
         var opts = this.options,
             zoom, weight;
 
@@ -60,13 +60,13 @@ DG.ComplexPath = DG.Path.extend({
         }
     },
 
-    _update: function () {
+    _update: function() {
         if (this._map) {
             this._updatePath();
         }
     },
 
-    _updatePath: function () {  //  used in Canvas renderer
+    _updatePath: function() {  //  used in Canvas renderer
         this._renderer._updateComplexPath(this);
     }
 });

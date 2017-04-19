@@ -1,5 +1,5 @@
 DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
-    initialize: function (map) { // (Object)
+    initialize: function(map) { // (Object)
         this._map = map;
 
         var apiUrl = DG.config.protocol +
@@ -16,11 +16,11 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         this._firmInfoFields = DG.config.firmInfoFields;
     },
 
-    getLocations: function (options) { // (Object)
+    getLocations: function(options) { // (Object)
         // Callback will receive array of found results or void if errors occurred or nothing was found.
         var zoom = options.zoom,
             latlng = options.latlng,
-            beforeRequest = options.beforeRequest || function () {},
+            beforeRequest = options.beforeRequest || function() {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
 
@@ -30,12 +30,12 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
 
         beforeRequest();
 
-        return this.geoSearch(q, types, zoom).then(DG.bind(function (result) {
+        return this.geoSearch(q, types, zoom).then(DG.bind(function(result) {
             return this._filterResponse(result, types);
         }, this));
     },
 
-    firmsInHouse: function (houseId, parameters) { // (String, Function, Number)
+    firmsInHouse: function(houseId, parameters) { // (String, Function, Number)
         parameters = parameters || {};
 
         /* eslint-disable camelcase */
@@ -48,7 +48,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         return this._performRequest(params, this._urlFirmsInHouse);
     },
 
-    getFirmInfo: function (firmId) {
+    getFirmInfo: function(firmId) {
         return this._performRequest({
             type: 'filial',
             id: firmId,
@@ -56,7 +56,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         }, this._urlDetails);
     },
 
-    geoSearch: function (q, types, zoomlevel) { // (String, String, Number)
+    geoSearch: function(q, types, zoomlevel) { // (String, String, Number)
         /* eslint-disable camelcase */
         var params = {
             point: q,
@@ -69,7 +69,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         return this._performRequest(params, this._urlGeoSearch);
     },
 
-    geoGet: function (id) {
+    geoGet: function(id) {
         var params = {
             id: id,
             fields: this._geoFields
@@ -78,13 +78,13 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         return this._performRequest(params, this._urlGeoGet);
     },
 
-    cancelLastRequest: function () {
+    cancelLastRequest: function() {
         if (this._lastRequest) {
             this._lastRequest.abort();
         }
     },
 
-    getTypesByZoom: function (zoom) { // (Number) -> String|Null
+    getTypesByZoom: function(zoom) { // (Number) -> String|Null
         var types = {
                 'adm_div.settlement':   8,
                 'adm_div.city':         8,
@@ -98,7 +98,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             },
             selectedTypes = [];
 
-        Object.keys(types).forEach(function (type) {
+        Object.keys(types).forEach(function(type) {
             if (zoom >= types[type]) {
                 selectedTypes.push(type);
             }
@@ -111,7 +111,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         }
     },
 
-    _performRequest: function (params, url) { // (Object, String, Function, Function)
+    _performRequest: function(params, url) { // (Object, String, Function, Function)
         var data = DG.extend({key: this._key}, params);
         var type = 'get';
 
@@ -130,7 +130,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         return this._lastRequest;
     },
 
-    _filterResponse: function (response, allowedTypes) { // (Object, Array) -> Boolean|Object
+    _filterResponse: function(response, allowedTypes) { // (Object, Array) -> Boolean|Object
         var result = {}, i, item, found, data, type;
 
         if (this._isNotFound(response)) {
@@ -162,7 +162,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         }
     },
 
-    _isNotFound: function (response) { // (Object) -> Boolean
+    _isNotFound: function(response) { // (Object) -> Boolean
         return !response ||
                !!response.meta && !!response.meta.error ||
                !response.result ||

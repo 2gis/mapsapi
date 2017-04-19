@@ -8,14 +8,14 @@
  */
 
 DG.ArrowTipTransform = DG.VertexTransform.extend({
-    initialize: function (path, shape) {
+    initialize: function(path, shape) {
         this.drawings = shape.drawings; //  static mapping
         this._vertices = shape.vertices;
 
         this._setShape(path, shape);
     },
 
-    _setShape: function (path, shape) {
+    _setShape: function(path, shape) {
         var sp = shape.vertices[0];
         var width = Math.abs(sp.y);
         var pl = path.vertices[1].x;    //  negative value
@@ -31,7 +31,7 @@ DG.ArrowTipTransform = DG.VertexTransform.extend({
         this._vertices = this.load().unTranslate(sp).vertices;
     },
 
-    subShape: function (transform) {
+    subShape: function(transform) {
         this.load().unRotate(transform.angle).translate(transform.displ);
         return this;
     }

@@ -8,7 +8,7 @@ DG.Poi = DG.Handler.extend({
         disableLabel: false
     },
 
-    initialize: function (map, options) { // (Object)
+    initialize: function(map, options) { // (Object)
         this._map = map;
         DG.Util.setOptions(this, options);
 
@@ -23,7 +23,7 @@ DG.Poi = DG.Handler.extend({
         });
     },
 
-    addHooks: function () {
+    addHooks: function() {
         this._map.addLayer(this._metaLayer);
         if (!this.options.disableLabel) {
             this._labelHelper = DG.label();
@@ -31,7 +31,7 @@ DG.Poi = DG.Handler.extend({
         this._metaLayer.on(this._layerEventsListeners, this);
     },
 
-    removeHooks: function () {
+    removeHooks: function() {
         this._map.removeLayer(this._metaLayer);
         if (!this.options.disableLabel) {
             this._map.removeLayer(this._labelHelper);
@@ -40,11 +40,11 @@ DG.Poi = DG.Handler.extend({
         this._metaLayer.off(this._layerEventsListeners, this);
     },
 
-    getMetaLayer : function () {
+    getMetaLayer : function() {
         return this._metaLayer;
     },
 
-    _processData : function (data, coord) {
+    _processData : function(data, coord) {
         var tileOriginPoint = coord.scaleBy(this._metaLayer.getTileSize());
         var polygonLngLatToPoints = DG.bind(this._polygonLngLatToPoints, this, tileOriginPoint);
 
@@ -53,7 +53,7 @@ DG.Poi = DG.Handler.extend({
         }
 
         return data.result.poi
-            .map(function (item) {
+            .map(function(item) {
                 return {
                     id: item.id,
                     hint: item.links[0].name,
@@ -61,11 +61,11 @@ DG.Poi = DG.Handler.extend({
                     geometry: DG.Wkt.toGeoJSON(item.hover)
                 };
             })
-            .filter(function (item) {
+            .filter(function(item) {
                 return item.geometry.type == 'Polygon' ||
                     item.geometry.type == 'MultiPolygon';
             })
-            .map(function (item) {
+            .map(function(item) {
                 var geoJson = item.geometry;
 
                 if (geoJson.type == 'Polygon') {
@@ -78,11 +78,11 @@ DG.Poi = DG.Handler.extend({
             });
     },
 
-    _polygonLngLatToPoints: function (originPoint, polygon) {
+    _polygonLngLatToPoints: function(originPoint, polygon) {
         var map = this._map;
 
-        return polygon.map(function (contour) {
-            return contour.map(function (lngLat) {
+        return polygon.map(function(contour) {
+            return contour.map(function(lngLat) {
                 return map
                     .project([lngLat[1], lngLat[0]]).round()
                     .subtract(originPoint);
@@ -91,7 +91,7 @@ DG.Poi = DG.Handler.extend({
     },
 
     _layerEventsListeners : {
-        mouseover: function (e) { // (Object)
+        mouseover: function(e) { // (Object)
             this._setCursor('pointer');
             if (e.meta.hint && e.meta.hint.length && !this.options.disableLabel) {
                 this._labelHelper
@@ -106,7 +106,7 @@ DG.Poi = DG.Handler.extend({
             });
         },
 
-        mouseout: function (e) {
+        mouseout: function(e) {
             this._setCursor('');
             if (!this.options.disableLabel) {
                 this._map.removeLayer(this._labelHelper);
@@ -117,14 +117,14 @@ DG.Poi = DG.Handler.extend({
             });
         },
 
-        mousemove: function (e) { // (Object)
+        mousemove: function(e) { // (Object)
             if (!this.options.disableLabel) {
                 this._labelHelper.setPosition(e.latlng);
             }
         }
     },
 
-    _setCursor: function (cursor) { // (String)
+    _setCursor: function(cursor) { // (String)
         this._map.getContainer().style.cursor = cursor;
     }
 

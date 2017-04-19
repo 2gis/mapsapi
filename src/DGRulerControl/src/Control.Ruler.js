@@ -9,7 +9,7 @@ DG.Control.Ruler = DG.RoundControl.extend({
         Dictionary: {}
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         DG.setOptions(this, options);
         DG.extend(this, {
             _active: false,
@@ -19,10 +19,10 @@ DG.Control.Ruler = DG.RoundControl.extend({
     },
 
     _controlEvents: {
-        add: function () {
+        add: function() {
             this._drawingHelper = DG.ruler([]);
         },
-        click: function () {
+        click: function() {
             this._active = !this._active;
 
             if (this._active) {
@@ -33,7 +33,7 @@ DG.Control.Ruler = DG.RoundControl.extend({
                 this._finishDrawing();
             }
         },
-        remove: function () {
+        remove: function() {
             this.off(this._controlEvents, this);
             if (this._active) {
                 this._map.removeLayer(this._drawingHelper);
@@ -43,7 +43,7 @@ DG.Control.Ruler = DG.RoundControl.extend({
         }
     },
 
-    _startDrawing: function () { // ()
+    _startDrawing: function() { // ()
         this._map
             .addLayer(this._drawingHelper)
             .on('click', this._handleMapClick, this);
@@ -51,7 +51,7 @@ DG.Control.Ruler = DG.RoundControl.extend({
         this._map.fire('rulerstart');
     },
 
-    _finishDrawing: function () { // ()
+    _finishDrawing: function() { // ()
         this._map
             .off('click', this._handleMapClick, this)
             .removeLayer(this._drawingHelper);
@@ -61,16 +61,16 @@ DG.Control.Ruler = DG.RoundControl.extend({
         this._map.fire('rulerend');
     },
 
-    _handleMapClick: function (event) { // (MouseEvents)
+    _handleMapClick: function(event) { // (MouseEvents)
         this._drawingHelper.addLatLng(event.latlng);
     },
 
-    _renderTranslation: function () { // ()
+    _renderTranslation: function() { // ()
         this._link.title = this.t('button_title');
     }
 });
 
-DG.control.ruler = function (options) {
+DG.control.ruler = function(options) {
     return new DG.Control.Ruler(options);
 };
 
@@ -78,7 +78,7 @@ DG.Map.mergeOptions({
     rulerControl: false
 });
 
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (this.options.rulerControl) {
         this.rulerControl = DG.control.ruler(this.options.rulerControl);
         this.addControl(this.rulerControl);

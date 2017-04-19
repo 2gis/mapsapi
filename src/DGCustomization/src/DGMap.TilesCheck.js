@@ -3,7 +3,7 @@ DG.Map.mergeOptions({
 });
 
 DG.Map.TilesCheck = DG.Handler.extend({
-    initialize: function (map) {
+    initialize: function(map) {
         this._map = map;
         this._layer = map.baseLayer;
 
@@ -14,37 +14,37 @@ DG.Map.TilesCheck = DG.Handler.extend({
         this._loadEventCounter = 0;
     },
 
-    addHooks: function () {
+    addHooks: function() {
         this._map.on(this._mapEvents, this);
         this._layer.on(this._layerEvents, this);
     },
 
-    removeHooks: function () {
+    removeHooks: function() {
         this._map.off(this._mapEvents, this);
         this._layer.off(this._layerEvents, this);
     },
 
     _mapEvents: {
-        layeradd: function (e) {
+        layeradd: function(e) {
             if (e.layer == this._layer) {
                 this.enable();
             }
         },
 
-        layerremove: function (e) {
+        layerremove: function(e) {
             if (e.layer == this._layer) {
                 this.disable();
             }
         },
 
-        movestart: function () {
+        movestart: function() {
             this._stopWaiting();
 
             this._moveStartEventCounter++;
             this._isWaiting = true;
         },
 
-        moveend: function () {
+        moveend: function() {
             this._moveEndEventCounter++;
 
             if (!this._isWaiting && this._moveStartEventCounter !== this._moveEndEventCounter) { return; }
@@ -56,11 +56,11 @@ DG.Map.TilesCheck = DG.Handler.extend({
     },
 
     _layerEvents: {
-        loading: function () {
+        loading: function() {
             this._loadingEventCounter++;
         },
 
-        load: function () {
+        load: function() {
             this._loadEventCounter++;
 
             if (!this._isWaiting && this._loadingEventCounter !== this._loadEventCounter) { return; }
@@ -71,13 +71,13 @@ DG.Map.TilesCheck = DG.Handler.extend({
         }
     },
 
-    _stopWaiting: function () {
+    _stopWaiting: function() {
         this._isWaiting = false;
         this._isMoveEnd = false;
         this._isLoad = false;
     },
 
-    _checkWaiting: function () {
+    _checkWaiting: function() {
         if (this._isWaiting && this._isLoad && this._isMoveEnd) {
             this._stopWaiting();
             this._resetCounters();
@@ -85,7 +85,7 @@ DG.Map.TilesCheck = DG.Handler.extend({
         }
     },
 
-    _checkTiles: function () {
+    _checkTiles: function() {
         if (this._map.getTileLayersNumber() !== 0 || !this._map._loaded) { return; }
 
         var zoom = this._map.getZoom();
@@ -101,7 +101,7 @@ DG.Map.TilesCheck = DG.Handler.extend({
         this._map.zoomOut();
     },
 
-    _resetCounters: function () {
+    _resetCounters: function() {
         this._moveStartEventCounter = 0;
         this._moveEndEventCounter = 0;
 
