@@ -11,7 +11,7 @@ There are several ways to download it.
 
 First include the Maps API by adding the following code to the <code>head</code> section of the HTML page:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
 Then use the <code>DG.then</code> function, into which we will place the initialization code of the map:
 
@@ -51,7 +51,7 @@ in a declarative style using the [React](https://github.com/facebook/react) libr
 You can load the Maps API at the very moment when you need the map. To do this, you need to add the
 <code>lazy=true</code> parameter to the URL used to include API:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true"></script>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true"></script>
 
 Then, at the right time (for example, when pressing the button) you must call the <code>DG.then</code> function:
 

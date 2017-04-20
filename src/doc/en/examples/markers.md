@@ -13,7 +13,7 @@ For more information about markers, go to the <a href="/doc/maps/en/manual/marke
 
 A marker, clicking on which you open a popup with the information:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
@@ -30,7 +30,7 @@ A marker, clicking on which you open a popup with the information:
     <html>
         <head>
             <title>A marker with a popup</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -82,7 +82,7 @@ Marker coordinates: <div id="location">54.981, 82.891</div>
     <html>
         <head>
             <title>Draggable marker</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             Marker coordinates: <div id="location">LatLng(54.98, 82.89)</div>
@@ -131,7 +131,7 @@ You can select a custom icon or a simple div element for the marker instead of a
         });
 
         myIcon = DG.icon({
-            iconUrl: 'http://maps.api.2gis.ru/2.0/example_logo.png',
+            iconUrl: 'https://maps.api.2gis.ru/2.0/example_logo.png',
             iconSize: [48, 48]
         });
         DG.marker([54.98, 82.89], {
@@ -152,7 +152,7 @@ You can select a custom icon or a simple div element for the marker instead of a
     <html>
         <head>
             <title>A marker with a custom icon</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -168,7 +168,7 @@ You can select a custom icon or a simple div element for the marker instead of a
                     });
 
                     myIcon = DG.icon({
-                        iconUrl: 'http://maps.api.2gis.ru/2.0/example_logo.png',
+                        iconUrl: 'https://maps.api.2gis.ru/2.0/example_logo.png',
                         iconSize: [48, 48]
                     });
                     DG.marker([54.98, 82.89], {
@@ -218,7 +218,7 @@ It is possible to open a popup on demand. For example, by clicking on a link or 
     <html>
         <head>
             <title>Open a marker programmatically</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <button id='open-popup'>Open popup</button>
@@ -274,7 +274,7 @@ The marker has two kinds of tips: a regular and a static ones. Both options are 
     <html>
         <head>
             <title>Marker with a tip</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -334,7 +334,7 @@ When clicking on the marker, the map will be centered in its position:
     <html>
         <head>
             <title>Processing of events of markers group</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -402,7 +402,7 @@ An example of a marker that moves along a given trajectory:
     <html>
         <head>
             <title>Animated marker movement</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -478,7 +478,7 @@ Example of display and hiding of groups of markers with automatic detection of m
     <html>
         <head>
             <title>Display/removal of several markers, fitBounds</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="hide" type="button" value="hide markers" />

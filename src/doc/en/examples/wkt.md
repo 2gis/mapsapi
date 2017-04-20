@@ -9,7 +9,7 @@ For more information go to the <a href="/doc/maps/en/manual/dg-wkt">WKT</a> sect
 
 ### Display of simple vector layers
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -35,7 +35,7 @@ For more information go to the <a href="/doc/maps/en/manual/dg-wkt">WKT</a> sect
     <html>
         <head>
             <title>Display of simple vector layers</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -81,7 +81,7 @@ For more information go to the <a href="/doc/maps/en/manual/dg-wkt">WKT</a> sect
     <html>
         <head>
             <title>Display of compound vector layers</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
