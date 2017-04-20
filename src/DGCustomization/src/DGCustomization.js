@@ -19,6 +19,11 @@ DG.Control.include({
 // Add some browser detection
 DG.Browser.safari51 = DG.Browser.safari && navigator.userAgent.indexOf('Version/5.1') !== -1;
 
+var msPointer = navigator.msPointerEnabled && navigator.msMaxTouchPoints && !window.PointerEvent;
+var pointer = (window.PointerEvent && navigator.pointerEnabled && navigator.maxTouchPoints) || msPointer;
+var documentTouch = window.DocumentTouch && document instanceof window.DocumentTouch;
+DG.Browser.touchEnabled = pointer || 'ontouchstart' in window || documentTouch;
+
 // Applies 2GIS divIcon to marker
 DG.Marker.prototype.options.icon = DG.divIcon(DG.configTheme.markersData);
 

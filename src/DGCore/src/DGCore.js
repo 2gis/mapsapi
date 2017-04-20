@@ -74,12 +74,7 @@ DG.Map.include({
 
 // Apply class to map container for detect when we dont need hover effects
 DG.Map.addInitHook(function () {
-    var msPointer = navigator.msPointerEnabled && navigator.msMaxTouchPoints && !window.PointerEvent;
-    var pointer = (window.PointerEvent && navigator.pointerEnabled && navigator.maxTouchPoints) || msPointer;
-    var documentTouch = window.DocumentTouch && document instanceof window.DocumentTouch;
-    var touchEnabled = pointer || 'ontouchstart' in window || documentTouch;
-
-    if (!touchEnabled) {
+    if (!DG.Browser.touchEnabled) {
         DG.DomUtil.addClass(this._container, 'no-touch');
     }
 });
