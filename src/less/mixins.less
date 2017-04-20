@@ -19,23 +19,23 @@
     @height: 0;
     @originalWidth: 0;
     @originalHeight: 0;
-    }
+}
 
 .isSprited(@name) when (default()) {
     @isSprited: false;
-    }
+}
 
 .dataURIImage(@name) {
     .imageData(@name);
 
     & when (@hasVectorVersion) {
         background-image: data-uri('@{imagesBasePath}/@{filename}.svg');
-        }
+    }
 
     & when not (@hasVectorVersion) {
         background-image: data-uri('@{imagesBasePath}/@{filename}.@{extension}');
-        }
     }
+}
 
 .directImage(@name) {
     .imageData(@name);
@@ -45,8 +45,8 @@
 
     .leaflet-retina & when not (@extension = 'gif') {
         background-image: url('@{baseURL}/img/@{filename}@2x.@{extension}');
-        }
     }
+}
 
 .spriteImage(@name) {
     .spriteData(@name);
@@ -64,20 +64,20 @@
         // поэтому размеры проставляем заново, определённые выше скорей всего не подходят.
         background-position: @backgroundPositionLeft / 2 @backgroundPositionTop / 2;
         background-size: @totalWidth / 2 @totalHeight / 2;
-        }
     }
+}
 
 .repeatableBg(@name) {
     .imageData(@name);
 
     & when not (@ie8) and (@hasVectorVersion) {
         .dataURIImage(@name);
-        }
+    }
 
     & when (@ie8), not (@hasVectorVersion) {
         .directImage(@name);
-        }
     }
+}
 
 .notRepeatableBg(@name; @newerNotUseSprite: false) {
     background-repeat: no-repeat;
@@ -86,20 +86,20 @@
 
     & when not (@ie8) and (@hasVectorVersion) {
         .dataURIImage(@name);
-        }
+    }
 
     & when (@ie8), not (@hasVectorVersion) {
         .isSprited(@name);
 
         & when (@isSprited) and not (@newerNotUseSprite) {
             .spriteImage(@name);
-            }
+        }
 
         & when not (@isSprited), (@newerNotUseSprite) {
             .directImage(@name);
-            }
         }
     }
+}
 
 .notRepeatableBgWithSizes(@name; @newerNotUseSprite: false) {
     .imageData(@name);
@@ -110,7 +110,7 @@
         width: @width;
         height: @height;
         background-size: @originalWidth @originalHeight;
-        }
+    }
 
     & when (@ie8), not (@hasVectorVersion) {
         .isSprited(@name);
@@ -118,6 +118,6 @@
         & when not (@isSprited), (@newerNotUseSprite) {
             width: @width;
             height: @height;
-            }
         }
     }
+}

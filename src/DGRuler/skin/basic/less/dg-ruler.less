@@ -7,52 +7,54 @@
     top: 0;
     left: 0;
     z-index: 200;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.dg-ruler__label-spacer {
+    display: block;
+}
+
+.dg-ruler__label-container {
+    display: none;
+    padding: 2px 4px;
+    border: 4px solid #fff;
+    border-radius: 13px;
+    background: #0da5d5;
+    background-clip: padding-box;
+    color: #fff;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.dg-ruler__point {
+    display: inline-block;
+    margin: 2px 4px 0 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: white;
+}
+
+.dg-ruler__label-remove-link {
+    .notRepeatableBgWithSizes('DGRuler__removeIcon');
+    display: none;
+    margin: 1px 0 0 4px;
+    vertical-align: top;
+    transition: all .2s ease;
+
+    .no-touch &:hover {
+        transform: rotate(90deg);
     }
-    .dg-ruler__label-spacer {
-        display: block;
-        }
+}
 
-    .dg-ruler__label-container {
+.dg-ruler__remove-link-overlay {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    bottom: -7px;
+    width: 40px;
+
+    .no-touch & {
         display: none;
-        padding: 2px 4px;
-        border: 4px solid #fff;
-        border-radius: 13px;
-        background: #0da5d5;
-        background-clip: padding-box;
-        color: #fff;
-        white-space: nowrap;
-        font-size: 12px;
-        }
-        .dg-ruler__point {
-            display: inline-block;
-            margin: 2px 4px 0 0;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background: white;
-            }
-
-        .dg-ruler__label-remove-link {
-            .notRepeatableBgWithSizes('DGRuler__removeIcon');
-            display: none;
-            margin: 1px 0 0 4px;
-            vertical-align: top;
-            transition: all .2s ease;
-
-            .no-touch &:hover {
-                transform: rotate(90deg);
-                }
-            }
-
-        .dg-ruler__remove-link-overlay {
-            position: absolute;
-            top: -7px;
-            right: -7px;
-            bottom: -7px;
-            width: 40px;
-
-            .no-touch & {
-                display: none;
-                }
-            }
+    }
+}

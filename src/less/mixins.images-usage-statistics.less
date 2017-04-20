@@ -12,7 +12,7 @@
 
 .repeatableBg(@name: '') {
     @repeatableBgNames: ~`addToRepeatables(@{name})`;
-    }
+}
 
 @addToNotRepeatablesSprited: ~`addToNotRepeatablesSprited =
     (function () {
@@ -44,16 +44,16 @@
 
     & when not (@newerNotUseSprite) {
         @notRepeatableBgNamesSprited: ~`addToNotRepeatablesSprited(@{name})`;
-        }
+    }
     & when (@newerNotUseSprite) {
         @notRepeatableBgNamesNotSprited: ~`addToNotRepeatablesNotSprited(@{name})`;
-        }
     }
+}
 
 .notRepeatableBgWithSizes(@name; @newerNotUseSprite: false) {
     .notRepeatableBg(@name: ''; @newerNotUseSprite: false);
-    }
+}
 
 .alphaImage(@name: '') {
     @notRepeatableBgNamesNotSprited: ~`addToNotRepeatablesNotSprited(@{name})`;
-    }
+}
