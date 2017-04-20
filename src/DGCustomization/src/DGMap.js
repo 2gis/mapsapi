@@ -18,6 +18,8 @@ DG.Map.include({
         // See https://github.com/2gis/mapsapi/issues/343
         options = DG.extend({wheelPxPerZoomLevel: 10000}, options);
 
+        this.metaLayers = [];
+
         initMap.call(this, id, options);
 
         //  Project must be checked after BaseLayer init which occurs in InitHook (see orig method definition)
@@ -174,6 +176,65 @@ DG.Map.include({
 
                 return dgTileLayer.options.maxZoom;
             }
+        }
+    },
+
+    // Added meta layers events processing before map events
+    _fireDOMEvent: function(e, type, targets) {
+        if (e.type === 'click') {
+            // Fire a synthetic 'preclick' event which propagates up (mainly for closing popups).
+            // @event preclick: MouseEvent
+            // Fired before mouse click on the map (sometimes useful when you
+            // want something to happen on click before any existing click
+            // handlers start running).
+            var synth = L.Util.extend({}, e);
+            synth.type = 'preclick';
+            this._fireDOMEvent(synth, synth.type, targets);
+        }
+
+        if (e._stopped) { return; }
+
+        // Find the layer the event is propagating from and its parents.
+        targets = (targets || []).concat(this._findEventTargets(e, type));
+
+        if (!targets.length) { return; }
+
+        var target = targets[0];
+        if (type === 'contextmenu' && target.listens(type, true)) {
+            L.DomEvent.preventDefault(e);
+        }
+
+        var data = {
+            originalEvent: e
+        };
+
+        if (e.type !== 'keypress') {
+            var isMarker = target instanceof L.Marker;
+            data.containerPoint = isMarker ?
+                    this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
+            data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
+            data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
+        }
+
+        for (var i = 0; i < targets.length; i++) {
+            // Check metalayers before dispatch the event to the map
+            if (targets[i] === this) {
+                this.metaLayers.forEach(function(metaLayer) {
+                    var listener = metaLayer.mapEvents[type];
+                    if (listener) {
+                        listener.call(metaLayer, data);
+                    }
+                });
+                // If the event wasn't stopped in metalayers, dispatch it to the map
+                if (!data.originalEvent._stopped) {
+                    targets[i].fire(type, data, true);
+                }
+            } else {
+                targets[i].fire(type, data, true);
+            }
+
+            if (data.originalEvent._stopped ||
+                (targets[i].options.nonBubblingEvents && L.Util.indexOf(targets[i].options.nonBubblingEvents, type) !== -1)) { return; }
         }
     }
 });

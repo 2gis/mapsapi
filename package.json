@@ -12,6 +12,7 @@
     "start": "node app",
     "test": "gulp test",
     "lint": "gulp lint",
+    "dev": "gulp dev",
     "pub": "gulp clean && gulp build --npm && npm publish"
   },
   "repository": {

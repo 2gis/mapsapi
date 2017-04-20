@@ -30,9 +30,11 @@ DG.Entrance.include({
     _labelEvents : {
         mouseover: function(event) {
             this._map.addLayer(this._label.setPosition(event.latlng));
+            DG.DomEvent.stop(event);
         },
         mousemove: function(event) {
             this._label.setPosition(event.latlng);
+            DG.DomEvent.stop(event);
         },
         mouseout: function() {
             this._label.remove();
