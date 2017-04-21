@@ -9,7 +9,7 @@
 
 ### Отображение ломаной
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 500px;"></div>
 <script>
     DG.then(function() {
@@ -36,7 +36,7 @@
     <html>
         <head>
             <title>Отображение ломаной</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 500px;"></div>
@@ -98,7 +98,7 @@
     <html>
         <head>
             <title>Отображение прямоугольников</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -176,7 +176,7 @@
     <html>
         <head>
             <title>Отображение многоугольников</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -244,7 +244,7 @@
     <html>
         <head>
             <title>Отображение круга и круглого маркера</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -303,7 +303,7 @@
     <html>
         <head>
             <title>Векторные слои с подсказками и попапами</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -378,7 +378,7 @@
     <html>
         <head>
             <title>Анимация отрисовки ломаной</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="playAnimation" type="button" value="Запустить анимацию" />

@@ -9,7 +9,7 @@ The following are examples of the basic usage of the map. For more information a
 
 ### Create map
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -24,7 +24,7 @@ The following are examples of the basic usage of the map. For more information a
     <html>
         <head>
             <title>Map creation</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -71,7 +71,7 @@ Map initialization on demand (useful when displaying the map in a popup window):
     <html>
         <head>
             <title>Create map on demand</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?lazy=true"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js?lazy=true"></script>
         </head>
         <body>
             <input id="create" type="button" value="Display map" />
@@ -109,7 +109,7 @@ As the result we get a build with basic functionality in the light theme. All op
     <html>
         <head>
             <title>Use of connection options</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=basic&skin=light"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=basic&skin=light"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -155,7 +155,7 @@ When you click the button, the size of the container changes and the map adjusts
     <html>
         <head>
             <title>Change map size</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="changeSize" type="button" value="Change size" />
@@ -210,7 +210,7 @@ Example of static map display:
     <html>
         <head>
             <title>Disabling interaction options</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -262,7 +262,7 @@ An example of determining the user's geographic location:
     <html>
         <head>
             <title>Determination of user's location</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>

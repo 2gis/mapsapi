@@ -64,8 +64,8 @@ DG.Entrance.Arrow.SHAPE = {
 /* eslint-enable array-bracket-spacing */
 
 
-(function (vertices) {
+(function(vertices) {
     for (var i in vertices) {
-        vertices[i] = vertices[i].map(function (vertex) { return DG.point(vertex); });
+        vertices[i] = vertices[i].map(function(vertex) { return DG.point(vertex); });
     }
 })(DG.Entrance.Arrow.SHAPE.vertices);

@@ -19,7 +19,7 @@
     <tbody>
         <tr>
             <td>
-                <code>&lt;script src="http://maps.api.2gis.ru/1.0"&gt;&lt;/script&gt;
+                <code>&lt;script src="https://maps.api.2gis.ru/1.0"&gt;&lt;/script&gt;
 
                     DG.autoload(function() {
                         // инициализация карты
@@ -27,7 +27,7 @@
                     });</code>
             </td>
             <td>
-                <code>&lt;script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"&gt;&lt;/script&gt;
+                <code>&lt;script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"&gt;&lt;/script&gt;
                 
                 DG.then(function() {
                     // инициализация карты

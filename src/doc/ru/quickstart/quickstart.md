@@ -16,7 +16,7 @@
 
 Для подключения JavaScript кода API добавьте в секцию head HTML-страницы следующий код:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
 Если вас интересует подключение кода API с помощью npm, перейдите в раздел [Подключение API](/doc/maps/ru/manual/dg-loading#npm).
 
@@ -91,7 +91,7 @@
     <html>
         <head>
             <title>API карт 2ГИС</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
             <script type="text/javascript">
                 var map;
 

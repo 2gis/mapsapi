@@ -6,7 +6,7 @@ DG.RoundControl = DG.Control.extend({
         iconClass: 'default'
     },
 
-    onAdd: function (map) {
+    onAdd: function(map) {
         var controlClass = this._controlCLass = 'dg-control-round',
             controlIconClass = this._controlIconCLass = this._controlCLass + '__icon',
             container = DG.DomUtil.create('div', '');
@@ -38,12 +38,12 @@ DG.RoundControl = DG.Control.extend({
         return container;
     },
 
-    onRemove: function () {
+    onRemove: function() {
         this.fireEvent('remove');
         DG.DomEvent.off(this._link, 'click', this._toggleControl);
     },
 
-    setState: function (state) {
+    setState: function(state) {
         if (!this._link || !this._container) {
             return this;
         }
@@ -65,7 +65,7 @@ DG.RoundControl = DG.Control.extend({
         return this;
     },
 
-    _toggleControl: function (e) {
+    _toggleControl: function(e) {
         DG.DomEvent.stop(e);
         this.fireEvent('click');
     }
@@ -73,6 +73,6 @@ DG.RoundControl = DG.Control.extend({
 
 DG.RoundControl.include(DG.Locale);
 
-DG.roundControl = function (options) {
+DG.roundControl = function(options) {
     return new DG.RoundControl(options);
 };

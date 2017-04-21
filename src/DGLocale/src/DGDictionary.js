@@ -1,7 +1,7 @@
 DG.Dictionary = {};
 
 DG.Dictionary.ru = {
-    pluralRules: function (n) { // (Number)
+    pluralRules: function(n) { // (Number)
         if (n % 10 === 1 && n % 100 !== 11) { // 1, 21
             return 0;
         }
@@ -16,7 +16,7 @@ DG.Dictionary.ru = {
 };
 
 DG.Dictionary.en = {
-    pluralRules: function (n) { // (Number)
+    pluralRules: function(n) { // (Number)
         if (n === 1) { // 1
             return 0;
         } else {
@@ -26,7 +26,7 @@ DG.Dictionary.en = {
 };
 
 DG.Dictionary.it = {
-    pluralRules: function (n) { // (Number)
+    pluralRules: function(n) { // (Number)
         if (n === 1) { // 1
             return 0;
         } else {
@@ -36,13 +36,13 @@ DG.Dictionary.it = {
 };
 
 DG.Dictionary.cs = {
-    pluralRules: function (n) { // (Number)
+    pluralRules: function(n) { // (Number)
         return (n === 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;
     }
 };
 
 DG.Dictionary.es = {
-    pluralRules: function (n) { // (Number)
+    pluralRules: function(n) { // (Number)
         return (n >= 2) ? 1 : 0;
     }
 };

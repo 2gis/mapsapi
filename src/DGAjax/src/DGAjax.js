@@ -1,4 +1,4 @@
-DG.ajax = (function () {
+DG.ajax = (function() {
 
     var win = window,
         doc = document,
@@ -20,7 +20,7 @@ DG.ajax = (function () {
         lastValue, // data stored by the most recent JSONP callback
         xmlHttpRequest = 'XMLHttpRequest',
         xDomainRequest = 'XDomainRequest', // IE 8 and 9 only
-        noop = function () {},
+        noop = function() {},
         defaultHeaders = {
             contentType: 'application/x-www-form-urlencoded',
             requestedWith: xmlHttpRequest,
@@ -34,7 +34,7 @@ DG.ajax = (function () {
             }
         },
         /*global XDomainRequest:false */
-        xhr = function (o) {
+        xhr = function(o) {
             // is it x-domain
             if (o.crossDomain === true) {
                 var xhr = win[xmlHttpRequest] ? new XMLHttpRequest() : null;
@@ -51,7 +51,7 @@ DG.ajax = (function () {
         },
 
         globalSetupOptions = {
-            dataFilter: function (data) {
+            dataFilter: function(data) {
                 return data;
             }
         };
@@ -71,8 +71,8 @@ DG.ajax = (function () {
     // Segment location into parts
     ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [];
 
-    function handleReadyState (r, success, error) {
-        return function () {
+    function handleReadyState(r, success, error) {
+        return function() {
             // use _aborted to mitigate against IE err c00c023f
             // (can't read props on aborted request objects)
             if (r._aborted) {
@@ -89,7 +89,7 @@ DG.ajax = (function () {
         };
     }
 
-    function setHeaders (http, o) {
+    function setHeaders(http, o) {
         var headers = o.headers || {},
             h;
 
@@ -109,21 +109,21 @@ DG.ajax = (function () {
         }
     }
 
-    function setCredentials (http, o) {
+    function setCredentials(http, o) {
         if (typeof o.withCredentials !== 'undefined' && typeof http.withCredentials !== 'undefined') {
             http.withCredentials = !!o.withCredentials;
         }
     }
 
-    function generalCallback (data) {
+    function generalCallback(data) {
         lastValue = data;
     }
 
-    function urlappend (url, s) {
+    function urlappend(url, s) {
         return url + (/\?/.test(url) ? '&' : '?') + s;
     }
 
-    function handleJsonp (o, fn, err, url) {
+    function handleJsonp(o, fn, err, url) {
         var reqId = uniqid++,
             cbkey = o.jsonpCallback || 'callback', // the 'callback' key
             cbval = o.jsonpCallbackName || callbackPrefix,
@@ -158,14 +158,14 @@ DG.ajax = (function () {
             script.htmlFor = script.id = '_request_' + reqId;
         }
 
-        script.onerror = function () {
+        script.onerror = function() {
             script.onerror = script.onload = script.onreadystatechange = null;
             err({}, 'Request unknown error', {});
             lastValue = undefined;
             head.removeChild(script);
             loaded = 1;
         };
-        script.onload = script.onreadystatechange = function () {
+        script.onload = script.onreadystatechange = function() {
             if ((script[readyState] && script[readyState] !== 'complete' && script[readyState] !== 'loaded') || loaded) {
                 return false;
             }
@@ -185,7 +185,7 @@ DG.ajax = (function () {
 
         // Enable JSONP timeout
         return {
-            abort: function () {
+            abort: function() {
                 script.onerror = script.onload = script.onreadystatechange = null;
                 err({}, 'Request is aborted: timeout', {});
                 lastValue = undefined;
@@ -195,7 +195,7 @@ DG.ajax = (function () {
         };
     }
 
-    function getRequest (fn, err) {
+    function getRequest(fn, err) {
         var o = this.options,
             method = (o.type || 'GET').toUpperCase(),
             url = typeof o === 'string' ? o : o.url,
@@ -223,15 +223,15 @@ DG.ajax = (function () {
 
         if (win[xDomainRequest] && http instanceof win[xDomainRequest]) {
             http.onload = fn;
-            http.onprogress = function () {};
-            http.ontimeout = function () {};
+            http.onprogress = function() {};
+            http.ontimeout = function() {};
             http.onerror = err;
             sendWait = true;
         } else {
             http.onreadystatechange = handleReadyState(this, fn, err);
         }
         if (sendWait) {
-            setTimeout(function () {
+            setTimeout(function() {
                 http.send(data);
             }, 200);
         } else {
@@ -240,7 +240,7 @@ DG.ajax = (function () {
         return http;
     }
 
-    function buildParams (prefix, obj, traditional, add) {
+    function buildParams(prefix, obj, traditional, add) {
         var name, i, v,
             rbracket = /\[\]$/;
 
@@ -268,12 +268,12 @@ DG.ajax = (function () {
         }
     }
 
-    function setType (url) {
+    function setType(url) {
         var m = url.match(/\.(json|jsonp|html|xml)(\?|$)/);
         return m ? m[1] : 'js';
     }
 
-    function isCrossDomain (url) {
+    function isCrossDomain(url) {
         var parts = rurl.exec(url.toLowerCase());
         return !!(parts &&
                 (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] ||
@@ -282,15 +282,15 @@ DG.ajax = (function () {
             );
     }
 
-    function doRequest (o) {
+    function doRequest(o) {
 
         if (!('crossDomain' in o)) {
             o.crossDomain = isCrossDomain(o.url);
         }
 
         var self = {};
-        self.promise = new Promise(function (resolve, reject) {
-            self.abort = function () {
+        self.promise = new Promise(function(resolve, reject) {
+            self.abort = function() {
                 self._aborted = true;
                 reject('aborted');
             };
@@ -306,12 +306,12 @@ DG.ajax = (function () {
             var type = o.type === 'jsonp' ? o.type : (o.dataType || setType(self.url));
 
             if (o.timeout) {
-                self.timeout = setTimeout(function () {
+                self.timeout = setTimeout(function() {
                     self.abort();
                 }, o.timeout);
             }
 
-            function complete (resp) {
+            function complete(resp) {
                 if (o.timeout) {
                     clearTimeout(self.timeout);
                 }
@@ -323,7 +323,7 @@ DG.ajax = (function () {
                 }
             }
 
-            function success (resp) {
+            function success(resp) {
                 resp = (type !== 'jsonp') ? self.request : resp;
                 // use global data filter on response text
                 var filteredResponse = globalSetupOptions.dataFilter(resp.responseText, type),
@@ -360,7 +360,7 @@ DG.ajax = (function () {
                 complete(resp);
             }
 
-            function error (resp, msg, t) {
+            function error(resp, msg, t) {
                 resp = self.request;
                 self._responseArgs.resp = resp;
                 self._responseArgs.msg = msg;
@@ -375,7 +375,7 @@ DG.ajax = (function () {
         return self;
     }
 
-    function Ajax (url, options) {
+    function Ajax(url, options) {
 
         if (Object.prototype.toString.call(url) === '[object Object]') {
             options = url;
@@ -396,7 +396,7 @@ DG.ajax = (function () {
         return resultPromise;
     }
 
-    Ajax.setup = function (options) {
+    Ajax.setup = function(options) {
         options = options || {};
         for (var k in options) {
             if (options.hasOwnProperty(k)) {
@@ -405,12 +405,12 @@ DG.ajax = (function () {
         }
     };
 
-    Ajax.toQueryString = function (o, trad) {
+    Ajax.toQueryString = function(o, trad) {
         var prefix, i,
             traditional = trad || false,
             s = [],
             enc = encodeURIComponent,
-            add = function (key, value) {
+            add = function(key, value) {
                 // If value is a function, invoke it and return its value
                 if (typeof value == 'function') {
                     value = value();

@@ -11,7 +11,7 @@ with control elements use the <a href="/doc/maps/en/manual/controls">Controls</a
 
 If you need to obtain a "clear" map, with no extra control elements, then the following example will help you:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -28,7 +28,7 @@ If you need to obtain a "clear" map, with no extra control elements, then the fo
     <html>
         <head>
             <title>Hide control elements by default</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -66,7 +66,7 @@ If you need to obtain a "clear" map, with no extra control elements, then the fo
     <html>
         <head>
             <title>Dislay of control elements in different parts of the map</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>

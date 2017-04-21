@@ -19,8 +19,8 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         domClass : 'dg-ruler__label'
     },
 
-    addTo : function (map, layers) {
-        Object.keys(this._layers).forEach(function (name) {
+    addTo : function(map, layers) {
+        Object.keys(this._layers).forEach(function(name) {
             layers[name].addLayer(this._layers[name]);
         }, this);
 
@@ -28,8 +28,8 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         return DG.Marker.prototype.addTo.call(this.on('move', this._onMove), map);
     },
 
-    onRemove : function (map) {
-        Object.keys(this._layers).forEach(function (name) {
+    onRemove : function(map) {
+        Object.keys(this._layers).forEach(function(name) {
             this._viewport[name].removeLayer(this._layers[name]);
         }, this);
         this.off('move', this._onMove);
@@ -38,7 +38,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         return DG.Marker.prototype.onRemove.call(this, map);
     },
 
-    setText : function (text) {
+    setText : function(text) {
         if (this._iconCollapsed) {
             this.expand();
         }
@@ -46,41 +46,41 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         return this;
     },
 
-    setPointStyle : function (style) {
+    setPointStyle : function(style) {
         if (this._style !== style) {
-            Object.keys(this._style = style).forEach(function (name) {
+            Object.keys(this._style = style).forEach(function(name) {
                 this._layers[name].setStyle(style[name]);
             }, this);
         }
         return this;
     },
 
-    expand : function () {
+    expand : function() {
         this._iconCollapsed = false;
         this._iconNodes.container.style.display = 'block';
         this._iconNodes.spacer.style.display = 'none';
         return this;
     },
 
-    collapse : function () {
+    collapse : function() {
         this._iconCollapsed = true;
         this._iconNodes.container.style.display = 'none';
         this._iconNodes.spacer.style.display = 'block';
         return this;
     },
 
-    querySelector : function (selector) {
+    querySelector : function(selector) {
         return this._icon.querySelector('.' + DG.Ruler.LayeredMarker.domClass + '-' + selector);
     },
 
-    _onMove : function (event) {
+    _onMove : function(event) {
         var latlng = event.latlng;
-        Object.keys(this._layers).forEach(function (name) {
+        Object.keys(this._layers).forEach(function(name) {
             this._layers[name].setLatLng(latlng);
         }, this);
     },
 
-    _initIcon : function () {
+    _initIcon : function() {
         DG.Marker.prototype._initIcon.call(this);
         this._iconCollapsed = true;
         this._icon.style.width = '';
@@ -92,7 +92,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
     },
 
     // don't change icon zIndex
-    _setPos: function (pos) {
+    _setPos: function(pos) {
         L.DomUtil.setPosition(this._icon, pos);
 
         if (this._shadow) {
@@ -100,7 +100,7 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
         }
     },
 
-    _afterInit : function () {
+    _afterInit : function() {
         this._layers = this.options.layers || null;
         this.options.icon = DG.divIcon({
             className: DG.Ruler.LayeredMarker.domClass,
@@ -114,6 +114,6 @@ DG.Ruler.LayeredMarker = DG.Marker.extend({
 
 DG.Ruler.LayeredMarker.addInitHook('_afterInit');
 
-DG.Ruler.layeredMarker = function (latlng, options) {
+DG.Ruler.layeredMarker = function(latlng, options) {
     return new DG.Ruler.LayeredMarker(latlng, options);
 };

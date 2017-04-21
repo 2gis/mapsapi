@@ -26,7 +26,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
         }
     },
 
-    initialize: function (map, options) { // (Object, Object)
+    initialize: function(map, options) { // (Object, Object)
         this._options = options;
         this._handlers = {};
         this._catalogApi = new DG.Geoclicker.Provider.CatalogApi(map);
@@ -37,18 +37,18 @@ DG.Geoclicker.Controller = DG.Class.extend({
         this._lastHandleClickArguments = null;
     },
 
-    handlePopupClose: function (popup) { // (Object)
+    handlePopupClose: function(popup) { // (Object)
         if (popup === this._view.getPopup()) {
             this._lastHandleClickArguments = null;
             this._catalogApi.cancelLastRequest();
         }
     },
 
-    handleClick: function (latlng, zoom, meta) { // (Object, Number, Object)
+    handleClick: function(latlng, zoom, meta) { // (Object, Number, Object)
         var self = this,
             args = Array.prototype.slice.call(arguments, 0);
 
-        function beforeRequest () {
+        function beforeRequest() {
             var loader = self._view.initLoader();
             self._view._popup.clear();
             self._view.showPopup(latlng, loader);
@@ -71,15 +71,15 @@ DG.Geoclicker.Controller = DG.Class.extend({
                 latlng: latlng,
                 zoom: zoom,
                 beforeRequest: beforeRequest
-            }).then(function (result) {
+            }).then(function(result) {
                 self.handleResponse(result);
-            }, function (error) {
+            }, function(error) {
                 self.handleResponse(error);
             });
         }
     },
 
-    handleResponse: function (result) { // (Object)
+    handleResponse: function(result) { // (Object)
         var type;
 
         if (!result) {
@@ -109,7 +109,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
         this._runHandler('default');
     },
 
-    findHandler: function (result) { // (Object) -> String|Null
+    findHandler: function(result) { // (Object) -> String|Null
         for (var i in this.options.handlersSequence) {
             if (result[i]) {
                 return i;
@@ -119,21 +119,21 @@ DG.Geoclicker.Controller = DG.Class.extend({
         return null;
     },
 
-    getCatalogApi: function () { // () -> Object
+    getCatalogApi: function() { // () -> Object
         return this._catalogApi;
     },
 
-    getMap: function () {
+    getMap: function() {
         return this._map;
     },
 
-    reinvokeHandler: function () {
+    reinvokeHandler: function() {
         if (this._lastHandleClickArguments) {
             this.handleClick.apply(this, this._lastHandleClickArguments);
         }
     },
 
-    _runHandler: function (type, data) { // (String, Object) -> Boolean
+    _runHandler: function(type, data) { // (String, Object) -> Boolean
         data = data || {};
         this._initHandlerOnce(type);
         this._handlers[type].addClickEvent();
@@ -145,11 +145,11 @@ DG.Geoclicker.Controller = DG.Class.extend({
             handlerResult;
     },
 
-    _renderHandlerResult: function (result) {
+    _renderHandlerResult: function(result) {
         this._view.renderPopup(result);
     },
 
-    _initHandlerOnce: function (type) { // (String)
+    _initHandlerOnce: function(type) { // (String)
         if (!this._handlers[type]) {
             this._handlers[type] = new this.options.handlersSequence[type](this, this._view, this._map, this._options);
         }

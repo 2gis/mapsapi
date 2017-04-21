@@ -8,7 +8,7 @@ DG.Traffic = DG.TileLayer.extend({
         Dictionary: {}
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         this._tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTrafficTileServer : DG.config.trafficTileServer);
         this._metaUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTrafficMetaServer : DG.config.trafficMetaServer);
         this._timeUrl = DG.config.protocol + DG.config.trafficTimestampServer;
@@ -37,7 +37,7 @@ DG.Traffic = DG.TileLayer.extend({
 
     // #setTime(day [0-6], time[0-23]) ????
 
-    onAdd: function (map) {
+    onAdd: function(map) {
         this._updateLayerProject();
 
         map
@@ -56,7 +56,7 @@ DG.Traffic = DG.TileLayer.extend({
         DG.TileLayer.prototype.onAdd.call(this, map);
     },
 
-    onRemove: function (map) {
+    onRemove: function(map) {
         clearInterval(this._updateTimer);
 
         map
@@ -72,16 +72,16 @@ DG.Traffic = DG.TileLayer.extend({
         DG.TileLayer.prototype.onRemove.call(this, map);
     },
 
-    update: function () {
+    update: function() {
         var self = this;
         this._getTimestampString().then(
-            function (response) {
+            function(response) {
                 self.options.timestampString = '?' + response;
             },
-            function () {
+            function() {
                 self.options.timestampString = '?' + (new Date()).getTime();
             }).then(
-            function () {
+            function() {
                 self.fire('update', {timestamp: self.options.timestampString});
                 self._layerEventsListeners.mouseout.call(self);
                 self._metaLayer.getOrigin().setURL(self._prepareMetaURL(), self);
@@ -90,13 +90,13 @@ DG.Traffic = DG.TileLayer.extend({
         );
     },
 
-    getSubdomain: function () {
+    getSubdomain: function() {
         return this._layersOptions.subdomains[
             Math.floor(Math.random() * this._layersOptions.subdomains.length)
         ];
     },
 
-    _getTimestampString: function () {
+    _getTimestampString: function() {
         return DG.ajax(
             DG.Util.template(
                 this._timeUrl,
@@ -108,13 +108,13 @@ DG.Traffic = DG.TileLayer.extend({
         );
     },
 
-    _onTimer: function () {
+    _onTimer: function() {
         if (this.options.period === 0) {
             this.update();
         }
     },
 
-    _processData: function (trafficData, coord) {
+    _processData: function(trafficData, coord) {
         var tileOriginPoint = coord.scaleBy(this.getTileSize());
         var polygonLngLatToPoints = DG.bind(this._polygonLngLatToPoints, this, tileOriginPoint);
         var hints = {};
@@ -123,23 +123,23 @@ DG.Traffic = DG.TileLayer.extend({
             return [];
         }
 
-        trafficData[1].forEach(function (item) {
+        trafficData[1].forEach(function(item) {
             this[item.graph_id] = item.speed_text;
         }, hints);
 
         return trafficData[0]
-            .map(function (item) {
+            .map(function(item) {
                 return {
                     id: item.graph_id,
                     speed: hints[item.graph_id],
                     geometry: DG.Wkt.toGeoJSON(item.geometry[0].object[0])
                 };
             })
-            .filter(function (item) {
+            .filter(function(item) {
                 return item.geometry.type == 'Polygon' ||
                     item.geometry.type == 'MultiPolygon';
             })
-            .map(function (item) {
+            .map(function(item) {
                 var geoJson = item.geometry;
 
                 if (geoJson.type == 'Polygon') {
@@ -152,11 +152,11 @@ DG.Traffic = DG.TileLayer.extend({
             });
     },
 
-    _polygonLngLatToPoints: function (originPoint, polygon) {
+    _polygonLngLatToPoints: function(originPoint, polygon) {
         var map = this._map;
 
-        return polygon.map(function (contour) {
-            return contour.map(function (lngLat) {
+        return polygon.map(function(contour) {
+            return contour.map(function(lngLat) {
                 return map
                     .project([lngLat[1], lngLat[0]]).round()
                     .subtract(originPoint);
@@ -164,7 +164,7 @@ DG.Traffic = DG.TileLayer.extend({
         });
     },
 
-    _prepareMetaURL: function () {
+    _prepareMetaURL: function() {
         return DG.Util.template(this._metaUrl, DG.extend({
             x: '{x}',
             y: '{y}',
@@ -173,7 +173,7 @@ DG.Traffic = DG.TileLayer.extend({
         }, this.options));
     },
 
-    _updateLayerProject: function () {
+    _updateLayerProject: function() {
         var project = this._map.projectDetector.getProject();
         DG.setOptions(this, project && project.traffic ? {
             projectCode: project.code,
@@ -187,13 +187,13 @@ DG.Traffic = DG.TileLayer.extend({
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL());
     },
 
-    _onMapProjectChange: function () {
+    _onMapProjectChange: function() {
         this._updateLayerProject();
         this.redraw();
     },
 
     _layerEventsListeners: {
-        mouseover: function (e) { // (Object)
+        mouseover: function(e) { // (Object)
             this._setCursor('pointer');
             if (this._labelHelper && e.meta.speed) {
                 this._labelHelper
@@ -202,20 +202,20 @@ DG.Traffic = DG.TileLayer.extend({
                     .addTo(this._map);
             }
         },
-        mouseout: function () {
+        mouseout: function() {
             this._setCursor('');
             if (this._labelHelper) {
                 this._map.removeLayer(this._labelHelper);
             }
         },
-        mousemove: function (e) {
+        mousemove: function(e) {
             if (this._labelHelper) {
                 this._labelHelper.setPosition(e.latlng);
             }
         }
     },
 
-    _setCursor: function (cursor) { // (String)
+    _setCursor: function(cursor) { // (String)
         this._map.getContainer().style.cursor = cursor;
     }
 
@@ -223,6 +223,6 @@ DG.Traffic = DG.TileLayer.extend({
 
 DG.Traffic.include(DG.Locale);
 
-DG.traffic = function (options) { // (Object)
+DG.traffic = function(options) { // (Object)
     return new DG.Traffic(options);
 };

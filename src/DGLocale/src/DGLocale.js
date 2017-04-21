@@ -1,5 +1,5 @@
 DG.Locale = {
-    t: function (msg, argument) { // (String, Number) -> String
+    t: function(msg, argument) { // (String, Number) -> String
         var result,
             lang = this._map.getLang(),
             msgIsset = false,
@@ -30,14 +30,14 @@ DG.Locale = {
 };
 
 DG.Map.include({
-    setLang: function (lang) { // (String)
+    setLang: function(lang) { // (String)
         if (lang && Object.prototype.toString.call(lang) === '[object String]') {
             this.options.currentLang = lang;
             this.fire('langchange', {'lang': lang});
         }
     },
 
-    getLang: function () { // () -> String
+    getLang: function() { // () -> String
         // If the language hasn't been set before, set it to page language or
         // default language from config
         if (!this.options.currentLang) {

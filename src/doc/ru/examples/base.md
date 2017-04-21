@@ -9,7 +9,7 @@
 
 ### Создание карты
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -24,7 +24,7 @@
     <html>
         <head>
             <title>Создание карты</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -71,7 +71,7 @@
     <html>
         <head>
             <title>Создание карты по требованию</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?lazy=true"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js?lazy=true"></script>
         </head>
         <body>
             <input id="create" type="button" value="Показать карту" />
@@ -109,7 +109,7 @@
     <html>
         <head>
             <title>Использование опций подключения</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=basic&skin=light"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=basic&skin=light"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -155,7 +155,7 @@
     <html>
         <head>
             <title>Изменение размера карты</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="changeSize" type="button" value="Изменить размер" />
@@ -210,7 +210,7 @@
     <html>
         <head>
             <title>Отключение опций взаимодействия</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -262,7 +262,7 @@
     <html>
         <head>
             <title>Определение местоположения пользователя</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>

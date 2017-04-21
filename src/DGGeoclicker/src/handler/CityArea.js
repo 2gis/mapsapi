@@ -26,7 +26,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    handle: function (results, type) { // (Object, String) -> Promise
+    handle: function(results, type) { // (Object, String) -> Promise
         if (!results[type]) {
             return false;
         }
@@ -55,7 +55,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         return Promise.resolve(this._fillCityAreaObject(results, type));
     },
 
-    _fillCityAreaObject: function (results, type) {
+    _fillCityAreaObject: function(results, type) {
         var data = {
             name: this.t('noname'),
             drilldown: '',
@@ -79,23 +79,23 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         };
     },
 
-    _initStyles : function () {
+    _initStyles : function() {
         this._stylesInited = true;
 
-        Object.keys(this._polylineStyles).forEach(function (zoom) {
+        Object.keys(this._polylineStyles).forEach(function(zoom) {
             DG.extend(this._polylineStyles[zoom], this._polylineStyleDefault);
         }, this);
     },
 
-    _getPolyStyleNum: function () {
+    _getPolyStyleNum: function() {
         var mapZoom = this._map.getZoom();
 
-        return Object.keys(this._polylineStyles).filter(function (zoom) {
+        return Object.keys(this._polylineStyles).filter(function(zoom) {
             return mapZoom <= zoom;
         })[0] || false;
     },
 
-    _updateGeometry: function () {
+    _updateGeometry: function() {
         var newStyle = this._getPolyStyleNum();
 
         if (newStyle && newStyle !== this._geometryZoomStyle) {
@@ -104,7 +104,7 @@ DG.Geoclicker.Handler.CityArea = DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _clearPopup: function () {
+    _clearPopup: function() {
         this._map
                 .removeLayer(this._geometry)
                 .off('zoomend', this._updateGeometry, this);

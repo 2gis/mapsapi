@@ -7,7 +7,7 @@ DG.Meta.Origin = DG.Class.extend({
 
     _url: false,
 
-    initialize: function (url, options) { // (String, Object)
+    initialize: function(url, options) { // (String, Object)
         this._url = url;
         this._requests = {};
 
@@ -20,13 +20,13 @@ DG.Meta.Origin = DG.Class.extend({
         }
     },
 
-    getTileData: function (coord) { // (Object) -> Object
+    getTileData: function(coord) { // (Object) -> Object
         var tileKey = this.getTileKey(coord),
             self = this;
 
         if (typeof this._tileStorage[tileKey] === 'undefined' && typeof this._requests[tileKey] === 'undefined') {
             this._tileStorage[tileKey] = false;
-            this._requests[tileKey] = this._requestData(coord).then(function (data) {
+            this._requests[tileKey] = this._requestData(coord).then(function(data) {
                 self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
                 delete self._requests[tileKey];
             });
@@ -36,12 +36,12 @@ DG.Meta.Origin = DG.Class.extend({
         return this._tileStorage[tileKey];
     },
 
-    setTileData: function (key, data) { // (Object/String, Object) -> Object
+    setTileData: function(key, data) { // (Object/String, Object) -> Object
         if (typeof key !== 'string') {
             key = this.getTileKey(key);
         }
 
-        data.forEach(function (entity) {
+        data.forEach(function(entity) {
             if (entity.geometry.constructor !== Object) {
                 entity.geometry = DG.Wkt.toGeoJSON(entity.geometry);
             }
@@ -54,9 +54,9 @@ DG.Meta.Origin = DG.Class.extend({
         return this;
     },
 
-    flush: function () { // () -> Object
+    flush: function() { // () -> Object
         this._tileStorage = {};
-        Object.keys(this._requests).forEach(function (tileKey) {
+        Object.keys(this._requests).forEach(function(tileKey) {
             if (this[tileKey].abort) {
                 this[tileKey].abort();
             }
@@ -65,7 +65,7 @@ DG.Meta.Origin = DG.Class.extend({
         return this;
     },
 
-    setURL: function (url, flush) { // (String, Boolean) -> Object
+    setURL: function(url, flush) { // (String, Boolean) -> Object
         this._url = url;
         if (flush) {
             this.flush();
@@ -74,11 +74,11 @@ DG.Meta.Origin = DG.Class.extend({
         return this;
     },
 
-    getTileKey: function (coord) { // (Object)-> String
+    getTileKey: function(coord) { // (Object)-> String
         return [coord.x, coord.y, coord.z, coord.key].join(':');
     },
 
-    _requestData: function (key) { // (String)
+    _requestData: function(key) { // (String)
         if (this._url) {
             return this._performRequest(key);
         } else {
@@ -86,14 +86,14 @@ DG.Meta.Origin = DG.Class.extend({
         }
     },
 
-    _performRequest: function (coords) { // (Object) -> Promise
+    _performRequest: function(coords) { // (Object) -> Promise
         return DG.ajax(this._prepareURL(coords), {
             type: 'get',
             dataType: 'json'
         });
     },
 
-    _prepareURL: function (coords) { // (Object) -> String
+    _prepareURL: function(coords) { // (Object) -> String
         return DG.Util.template(this._url, {
             x: coords.x,
             y: coords.y,
@@ -106,6 +106,6 @@ DG.Meta.Origin = DG.Class.extend({
 
 });
 
-DG.Meta.origin = function (source, options) {
+DG.Meta.origin = function(source, options) {
     return new DG.Meta.Origin(source, options);
 };

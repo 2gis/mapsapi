@@ -2,7 +2,7 @@ DG.Control.Zoom.include(DG.Locale);
 DG.Control.Zoom.Dictionary = {};
 
 DG.Control.Zoom.include({
-    onAdd: function (map) {
+    onAdd: function(map) {
         var zoomName = 'dg-zoom',
             buttonTemplate = '<div class="dg-control-round__icon ' + zoomName + '__control ' + zoomName + '__button ' + zoomName + '__button_type_{type}"></div>',
             container = DG.DomUtil.create('div', zoomName);
@@ -21,7 +21,7 @@ DG.Control.Zoom.include({
     _originalCreateButton: DG.Control.Zoom.prototype._createButton,
 
     // set active state control on mobile devices
-    _createButton: function () {
+    _createButton: function() {
         var args = Array.prototype.slice.call(arguments);
         var link = this._originalCreateButton.apply(this, args);
 
@@ -30,11 +30,11 @@ DG.Control.Zoom.include({
         var iconActiveClass = 'dg-control-round__icon_state_active';
 
         DG.DomEvent
-            .on(link, 'touchstart', function () {
+            .on(link, 'touchstart', function() {
                 DG.DomUtil.addClass(link, linkActiveClass);
                 DG.DomUtil.addClass(icon, iconActiveClass);
             })
-            .on(link, 'touchend touchcancel', function () {
+            .on(link, 'touchend touchcancel', function() {
                 DG.DomUtil.removeClass(link, linkActiveClass);
                 DG.DomUtil.removeClass(icon, iconActiveClass);
             });
@@ -42,7 +42,7 @@ DG.Control.Zoom.include({
         return link;
     },
 
-    _renderTranslation: function () {
+    _renderTranslation: function() {
         if (!this._zoomInButton || !this._zoomOutButton) {
             return;
         }

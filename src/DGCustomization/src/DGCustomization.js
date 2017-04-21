@@ -8,12 +8,12 @@ DG.Map.mergeOptions({
 var controlAddTo = DG.Control.prototype.addTo;
 
 DG.Control.include({
-    addTo: function (map) {
+    addTo: function(map) {
         map.on('langchange', this._renderTranslation, this);
 
         return controlAddTo.call(this, map);
     },
-    _renderTranslation: function () {}
+    _renderTranslation: function() {}
 });
 
 // Add some browser detection
@@ -31,7 +31,7 @@ DG.Marker.prototype.options.icon = DG.divIcon(DG.configTheme.markersData);
 // support old option clickable
 var utilSetOptions = DG.Util.setOptions;
 
-DG.setOptions = L.setOptions = DG.Util.setOptions = function (obj, options) {
+DG.setOptions = L.setOptions = DG.Util.setOptions = function(obj, options) {
     if (options && typeof options.clickable !== 'undefined') {
         options.interactive = options.clickable;
     }

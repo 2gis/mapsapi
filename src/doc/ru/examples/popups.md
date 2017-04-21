@@ -9,7 +9,7 @@
 
 ### Открытие попапа при клике на маркер
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
@@ -26,7 +26,7 @@
     <html>
         <head>
             <title>Открытие попапа при клике на маркер</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -76,7 +76,7 @@
     <html>
         <head>
             <title>Открытие попапа по умолчанию и по требованию</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="showPopup" type="button" value="Открыть попап" />
@@ -140,7 +140,7 @@
     <html>
         <head>
             <title>Добавление нескольких попапов на карту</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -225,7 +225,7 @@
     <html>
         <head>
             <title>Поведение попапа с параметром sprawling</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 300px; height: 150px;"></div>

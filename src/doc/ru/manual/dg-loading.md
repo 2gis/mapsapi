@@ -11,7 +11,7 @@
 
 Сперва подключим API карт, поместив в секцию <code>head</code> HTML-страницы следующий код:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full"></script>
 
 Затем воспользуемся функцией <code>DG.then</code>, в которую поместим код инициализации карты:
 
@@ -51,7 +51,7 @@ API карт можно подключить через npm:
 Вы можете загрузить API карт именно в тот момент, когда карта станет нужна. Для этого в URL
 подключения API необходимо добавить параметр <code>lazy=true</code>:
 
-    <script src="http://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true"></script>
+    <script src="https://maps.api.2gis.ru/2.0/loader.js?pkg=full&lazy=true"></script>
 
 Затем в нужный момент времени (например, при нажатии на кнопку) необходимо вызвать функцию DG.then:
 

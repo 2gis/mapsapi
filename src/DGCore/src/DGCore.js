@@ -4,9 +4,9 @@ require('html5shiv');
 // DG inheritance
 var oldDG = window.DG;
 DG = new (
-    (function () {
-        var DgApi = function () {},
-            DgApiCore = function () {};
+    (function() {
+        var DgApi = function() {},
+            DgApiCore = function() {};
 
         DgApiCore.prototype = L;
         DgApi.prototype = new DgApiCore();
@@ -25,11 +25,11 @@ window.__dgApi__ = window.__dgApi__ || {};
 DG.version = window.__dgApi__.version;
 DG.Icon.Default.imagePath  = '../img/vendors/leaflet';
 
-DG.Map.addInitHook((function () {
+DG.Map.addInitHook((function() {
     var inited = false;
 
     // Analytics inited once
-    return function () {
+    return function() {
         if (!inited) {
             /*eslint-disable */
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -55,7 +55,7 @@ DG.Map.addInitHook((function () {
 
 // Improve IHandler
 DG.Map.include({
-    addHandler: function (name, HandlerClass) {
+    addHandler: function(name, HandlerClass) {
         if (!HandlerClass) { return this; }
 
         var options = this.options[name],
@@ -73,7 +73,7 @@ DG.Map.include({
 });
 
 // Apply class to map container for detect when we dont need hover effects
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (!DG.Browser.touchEnabled) {
         DG.DomUtil.addClass(this._container, 'no-touch');
     }

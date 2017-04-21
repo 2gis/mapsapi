@@ -5,7 +5,7 @@
  */
 
 DG.Entrance.Arrow = DG.FeatureGroup.extend({
-    initialize: function (options) {
+    initialize: function(options) {
         DG.LayerGroup.prototype.initialize.call(this);
 
         DG.setOptions(this, options);
@@ -25,7 +25,7 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         this._att = {}; // DG.ArrowTipTransform objects by zoom levels
     },
 
-    beforeAdd: function (map) {
+    beforeAdd: function(map) {
         //  this._map is not initialized yet, so we can freely addLayer(s)
         var opts = this.options;
 
@@ -58,7 +58,7 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         }));
     },
 
-    getEvents: function () {
+    getEvents: function() {
         return {
             zoomend: this._project,
             moveend: this._update,
@@ -66,7 +66,7 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         };
     },
 
-    setVisibility: function (isShown) {
+    setVisibility: function(isShown) {
         if (this._visibility.isShown !== isShown) {
             this._visibility.isShown = isShown;
             if (isShown) {
@@ -79,11 +79,11 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         }
     },
 
-    getBounds: function () {
+    getBounds: function() {
         return this.options.bounds;
     },
 
-    projection: function () {
+    projection: function() {
         var map = this._map || this._mapToAdd;
         var zoom = map ? map.getZoom() : 0;
         var vertices = this._shape.vertices[zoom];
@@ -120,7 +120,7 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         return this;
     },
 
-    _animation: function (e) {
+    _animation: function(e) {
         if (e.distance != undefined) {
             this._distance = e.distance;    //  bounce animation effect
         } else {
@@ -135,22 +135,22 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         }
     },
 
-    _project: function () {
+    _project: function() {
         this.projection().invoke('_project');
     },
 
-    _update: function () {
+    _update: function() {
         this.invoke('_update');
     },
 
-    _reset: function () {
+    _reset: function() {
         this._resetBounds();
 
         this._project();
         this._update();
     },
 
-    _resetBounds: function () {
+    _resetBounds: function() {
         //  Canvas renderer specific
         var z;
 
@@ -163,7 +163,7 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         }
     },
 
-    _setBounds: function (pl, pp, apt, att) {
+    _setBounds: function(pl, pp, apt, att) {
         var _apt = apt.subPath(1).translate(pl).vertices,
             _att = att.subShape(apt).translate(pl).vertices;
 
@@ -180,6 +180,6 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
     }
 });
 
-DG.entrance.arrow = function (options) {
+DG.entrance.arrow = function(options) {
     return new DG.Entrance.Arrow(options);
 };

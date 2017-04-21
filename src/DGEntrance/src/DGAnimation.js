@@ -16,7 +16,7 @@ DG.Animation = DG.Evented.extend({
         //repeat: 0
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         DG.setOptions(this, options);
 
         this._animID = -1;
@@ -26,7 +26,7 @@ DG.Animation = DG.Evented.extend({
         this._durations = null;
     },
 
-    start: function () {
+    start: function() {
         this.stop();
         this._prepare();
 
@@ -40,27 +40,27 @@ DG.Animation = DG.Evented.extend({
         this._animate();
     },
 
-    stop: function () {
+    stop: function() {
         if (this._running) {
             this._run(this._durations.getLength());
         }
     },
 
-    _prepare: function () {
+    _prepare: function() {
         this._animation = DG.Util.isArray(this.options.animation) ? this.options.animation : [this.options.animation];
 
         this._durations = new DG.Metric.Segments();
-        this._animation.forEach(function (animation) {
+        this._animation.forEach(function(animation) {
             this.push(animation.duration);
         }, this._durations);
     },
 
-    _animate: function () {
+    _animate: function() {
         this._animID = DG.Util.requestAnimFrame(this._animate, this);
         this._run();
     },
 
-    _run: function (elapsed) {
+    _run: function(elapsed) {
         var el, index, progress;
         //  Possible skip zero delta time but who cares?!
         elapsed = elapsed ? elapsed : new Date().getTime() - this._startTime;
@@ -77,11 +77,11 @@ DG.Animation = DG.Evented.extend({
         }
     },
 
-    _step: function (obj) {
+    _step: function(obj) {
         this.fire('step', obj);
     },
 
-    _complete: function () {
+    _complete: function() {
         DG.Util.cancelAnimFrame(this._animID);
 
         this._durations = null;
@@ -90,7 +90,7 @@ DG.Animation = DG.Evented.extend({
         this.fire('end');
     },
 
-    _getFrameValues: function (index, progress) {
+    _getFrameValues: function(index, progress) {
         var frames = this._animation[index].frames;
         var obj = {progress: progress};
         var fr, to;
@@ -110,7 +110,7 @@ DG.Animation = DG.Evented.extend({
     }
 });
 
-DG.animation = function (options) {
+DG.animation = function(options) {
     return new DG.Animation(options);
 };
 

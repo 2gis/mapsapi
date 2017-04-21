@@ -37,36 +37,36 @@ DG.Screenfull = DG.Class.extend({
         ]
     ],
 
-    initialize: function () {
+    initialize: function() {
         this.api = this._api();
     },
 
-    request: function (elem) {
+    request: function(elem) {
         var request = this.api.requestFullscreen;
 
         elem = elem || document.documentElement;
         elem[request](Element.ALLOW_KEYBOARD_INPUT);
     },
 
-    exit: function () {
+    exit: function() {
         document[this.api.exitFullscreen]();
     },
 
-    isFullscreen: function () {
+    isFullscreen: function() {
         return !!document[this.api.fullscreenElement];
     },
 
-    isAvailable: function () {
+    isAvailable: function() {
         return Boolean(this.api);
     },
 
-    _api: function () {
+    _api: function() {
         var api = {},
             apiMap = this._apiMap;
 
-        apiMap.forEach(function (val) {
+        apiMap.forEach(function(val) {
             if (val && val[1] in document) {
-                val.forEach(function (method, i) {
+                val.forEach(function(method, i) {
                     api[apiMap[0][i]] = method;
                 });
             }

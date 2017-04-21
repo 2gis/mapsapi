@@ -6,7 +6,7 @@
 var onDragEnd = DG.Map.Drag.prototype._onDragEnd;
 
 DG.Map.Drag.include({
-    _rememberTimeAndPosition: function () {
+    _rememberTimeAndPosition: function() {
         var time = this._lastTime = +new Date(),
             pos = this._lastPos = this._draggable._absPos || this._draggable._newPos;
 
@@ -20,7 +20,7 @@ DG.Map.Drag.include({
         }
     },
 
-    _onDrag: function (e) {
+    _onDrag: function(e) {
         if (this._map.options.inertia) {
             this._rememberTimeAndPosition();
         }
@@ -30,7 +30,7 @@ DG.Map.Drag.include({
             .fire('drag', e);
     },
 
-    _onDragEnd: function () {
+    _onDragEnd: function() {
         if (this._map.options.inertia && !DG.Browser.touch) {
             this._rememberTimeAndPosition();
         }

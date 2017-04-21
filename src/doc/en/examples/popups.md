@@ -9,7 +9,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
 
 ### Open a popup by clicking on a marker
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function () {
@@ -26,7 +26,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
     <html>
         <head>
             <title>Opens a popup when clicking on the marker</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -76,7 +76,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
     <html>
         <head>
             <title>Open a popup by default and on demand</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <input id="showPopup" type="button" value="Открыть попап" />
@@ -140,7 +140,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
     <html>
         <head>
             <title>Add several popups to the map</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
@@ -225,7 +225,7 @@ For more information go to the <a href="/doc/maps/en/manual/popup">Popups</a> se
     <html>
         <head>
             <title>Behaviour of the popup with the sprawling parameter</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 300px; height: 150px;"></div>

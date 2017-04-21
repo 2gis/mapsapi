@@ -9,14 +9,14 @@ DG.Label = DG.Layer.extend({
     _typeOfString : Object.prototype.toString.call('s'),
     _defaultZIndex: 100,
 
-    initialize: function (content, options) {
+    initialize: function(content, options) {
         DG.Util.setOptions(this, options);
 
         this._animated = DG.Browser.any3d;
         this._content = content;
     },
 
-    onAdd: function (map) {
+    onAdd: function(map) {
         this._map = map;
 
         if (!this._el) {
@@ -34,7 +34,7 @@ DG.Label = DG.Layer.extend({
             .on('zoomanim', this._onZoomAnimation, this);
     },
 
-    onRemove: function (map) {
+    onRemove: function(map) {
         map
             .off('viewreset', this._onViewReset, this)
             .off('zoomanim', this._onZoomAnimation, this);
@@ -49,7 +49,7 @@ DG.Label = DG.Layer.extend({
         this._el = null;
     },
 
-    _initDOM: function () {
+    _initDOM: function() {
         this._el = DG.DomUtil.create(
                         'div',
                         this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
@@ -63,19 +63,19 @@ DG.Label = DG.Layer.extend({
             .on(this._container, 'contextmenu', DG.DomEvent.stopPropagation);
     },
 
-    _onViewReset: function () {
+    _onViewReset: function() {
         if (this._visible && this._latlng) {
             DG.DomUtil.setPosition(this._el, this._map.latLngToLayerPoint(this._latlng).add(this.options.offset), DG.Browser.ie);
         }
     },
 
-    _onZoomAnimation: function (opt) {
+    _onZoomAnimation: function(opt) {
         if (this._latlng) {
             DG.DomUtil.setPosition(this._el, this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).add(this.options.offset));
         }
     },
 
-    setOffset: function (point) {
+    setOffset: function(point) {
         if (point instanceof DG.Point) {
             this.options.offset = point;
             this._onViewReset();
@@ -83,7 +83,7 @@ DG.Label = DG.Layer.extend({
         return this;
     },
 
-    setZIndexOffset: function (zIndex) {
+    setZIndexOffset: function(zIndex) {
         if (!isNaN(+zIndex)) {
             this.options.zIndexOffset = +zIndex;
             if (this._visible) {
@@ -93,7 +93,7 @@ DG.Label = DG.Layer.extend({
         return this;
     },
 
-    setContent: function (content) {
+    setContent: function(content) {
         if (Object.prototype.toString.call(content) !== this._typeOfString) {
             return this;
         }
@@ -104,7 +104,7 @@ DG.Label = DG.Layer.extend({
         return this;
     },
 
-    setPosition: function (latlng) {
+    setPosition: function(latlng) {
         if (!(latlng instanceof DG.LatLng)) {
             return this;
         }
@@ -115,6 +115,6 @@ DG.Label = DG.Layer.extend({
     }
 });
 
-DG.label = function (content, options) {
+DG.label = function(content, options) {
     return new DG.Label(content, options);
 };

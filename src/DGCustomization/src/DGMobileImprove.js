@@ -3,7 +3,7 @@
  */
 
 if (DG.Browser.mobile) {
-    (function () {
+    (function() {
         /**
          * Хакаем addClass и removeClass, чтобы они не работали для определённых классов
          * Сделано так, чтобы не менять кучу методов в кишках лифлета
@@ -11,7 +11,7 @@ if (DG.Browser.mobile) {
          * leaflet-dragging и leaflet-drag-target вызывает длинный recalculate style
          */
         var addClass = L.DomUtil.addClass;
-        L.DomUtil.addClass = function (el, name) {
+        L.DomUtil.addClass = function(el, name) {
             if (name === 'leaflet-dragging' ||
                 name === 'leaflet-drag-target'
             ) {
@@ -22,7 +22,7 @@ if (DG.Browser.mobile) {
         };
 
         var removeClass = L.DomUtil.removeClass;
-        L.DomUtil.removeClass = function (el, name) {
+        L.DomUtil.removeClass = function(el, name) {
             if (name === 'leaflet-dragging' ||
                 name === 'leaflet-drag-target'
             ) {
@@ -39,7 +39,7 @@ if (DG.Browser.mobile) {
              * Чтобы обновление dom происходило только при реальном изменении
              * Убраны классы leaflet-dragging и leaflet-drag-target
              */
-            _onMove: function (e) {
+            _onMove: function(e) {
                 // Ignore simulated events, since we handle both touch and
                 // mouse explicitly; otherwise we risk getting duplicates of
                 // touch events, see #4315.
@@ -96,7 +96,7 @@ if (DG.Browser.mobile) {
          * Длительность всех инерций при движении карты теперь 1 секунда
          */
         L.Map.Drag.include({
-            _onDragEnd: function (e) {
+            _onDragEnd: function(e) {
                 var map = this._map,
                     options = map.options,
 
@@ -128,7 +128,7 @@ if (DG.Browser.mobile) {
                     } else {
                         offset = map._limitOffset(offset, map.options.maxBounds);
 
-                        L.Util.requestAnimFrame(function () {
+                        L.Util.requestAnimFrame(function() {
                             map.panBy(offset, {
                                 duration: decelerationDuration,
                                 easeLinearity: ease,
@@ -147,7 +147,7 @@ L.MobileTileLayer = L.TileLayer.extend({
     /**
      * Быстрое навешивание событий, вместо L.DomUtil.on используем простое присваивание
      */
-    createTile: function (coords, done) {
+    createTile: function(coords, done) {
         var tile = document.createElement('img');
         tile.onload = L.bind(this._tileOnLoad, this, done, tile);
         tile.onerror = L.bind(this._tileOnError, this, done, tile);
@@ -169,7 +169,7 @@ L.MobileTileLayer = L.TileLayer.extend({
     /**
      * Убран класс leaflet-tile
      */
-    _initTile: function (tile) {
+    _initTile: function(tile) {
         tile.style.position = 'absolute';
 
         var tileSize = this.getTileSize();
@@ -191,7 +191,7 @@ L.MobileTileLayer = L.TileLayer.extend({
     /**
      * Убран класс leaflet-tile-container
      */
-    _updateLevels: function () {
+    _updateLevels: function() {
 
         var zoom = this._tileZoom,
             maxZoom = this.options.maxZoom;
@@ -235,7 +235,7 @@ L.MobileTileLayer = L.TileLayer.extend({
     /**
      * Убрано добавление тайлов через documentFragment
      */
-    _update: function (center) {
+    _update: function(center) {
         var map = this._map;
         if (!map) { return; }
         var zoom = map.getZoom();
@@ -280,7 +280,7 @@ L.MobileTileLayer = L.TileLayer.extend({
         }
 
         // sort tile queue to load tiles in order of their distance to center
-        queue.sort(function (a, b) {
+        queue.sort(function(a, b) {
             return a.distanceTo(tileCenter) - b.distanceTo(tileCenter);
         });
 
@@ -302,7 +302,7 @@ L.MobileTileLayer = L.TileLayer.extend({
     /**
      * Убран fadeAnimated и класс leaflet-tile-loaded
      */
-    _tileReady: function (coords, err, tile) {
+    _tileReady: function(coords, err, tile) {
         if (!this._map) { return; }
 
         if (err) {

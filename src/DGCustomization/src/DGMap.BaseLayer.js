@@ -1,16 +1,16 @@
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     var errorUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAAA1BMVEX28t5R0k5UAAAAH0lEQVR4Xu3AAQkAAADCMPunNsdhWxwAAAAAAAAAwAEhAAABg2UP5AAAAABJRU5ErkJggg==';
     var errorRuUrl = DG.config.protocol + DG.config.baseUrl + '/img/nomap_ru.png';
 
     var TileLayer = DG.Browser.mobile ? DG.MobileTileLayer : DG.TileLayer;
 
     var BaseLayer = TileLayer.extend({
-        initialize: function (url, options) {
+        initialize: function(url, options) {
             this._isDg = true;
             TileLayer.prototype.initialize.call(this, url, options);
         },
 
-        getTiles: function () {
+        getTiles: function() {
             return this._tiles;
         }
     });
@@ -26,7 +26,7 @@ DG.Map.addInitHook(function () {
         zIndex: 0
     }).addTo(this);
 
-    function updateErrorTileUrl () {
+    function updateErrorTileUrl() {
         var lang = this.getLang();
         var project = this.projectDetector && this.projectDetector.getProject();
 

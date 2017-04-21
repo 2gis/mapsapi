@@ -11,7 +11,7 @@ The following is an example of working with GeoJSON. For more information go to 
 
 Display of objects described in the GeoJSON format:
 
-<script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+<script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
@@ -63,7 +63,7 @@ Display of objects described in the GeoJSON format:
     <html>
         <head>
             <title>GeoJSON</title>
-            <script src="http://maps.api.2gis.ru/2.0/loader.js"></script>
+            <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
         </head>
         <body>
             <div id="map" style="width: 100%; height: 400px;"></div>
