@@ -25,16 +25,13 @@
     "no-console": 1
   },
   "globals": {
-    "dust": true,
     "DG": true,
     "L": true,
     "baron": true,
-    "module": false,
-    "define": false,
     "Promise": true
   },
   "env": {
     "browser": true,
-    "commonjs": true
+    "node": true
   }
 }
