@@ -11,19 +11,19 @@ DG.Control.Location = DG.RoundControl.extend({
         follow: true,  // follow with zoom and pan the user's location
         stopFollowingOnDrag: false, // if follow is true, stop following when map is dragged
         metric: true,
-        onLocationError: function (/*err*/) {
+        onLocationError: function(/*err*/) {
             // this event is called in case of any location error
             // that is not a time out error.
             // console.log(err.message);
         },
-        onLocationOutsideMapBounds: function (/*context*/) {
+        onLocationOutsideMapBounds: function(/*context*/) {
             // this event is repeatedly called when the location changes
             // console.log(context.t('outsideMapBoundsMsg'));
         },
         locateOptions: {}
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         DG.Util.setOptions(this, options);
 
         if (!navigator.geolocation) {
@@ -49,7 +49,7 @@ DG.Control.Location = DG.RoundControl.extend({
         });
     },
 
-    _initLocate: function () {
+    _initLocate: function() {
         this._layer = new DG.LayerGroup();
         this._layer.addTo(this._map);
 
@@ -60,7 +60,7 @@ DG.Control.Location = DG.RoundControl.extend({
         }, this);
     },
 
-    _handleLocate: function () {
+    _handleLocate: function() {
         if (this._active && (!this._event ||
             (this._map.getBounds().contains(this._event.latlng) ||
             this._isOutsideMapBounds()))) {
@@ -88,7 +88,7 @@ DG.Control.Location = DG.RoundControl.extend({
         }
     },
 
-    _onLocationFound: function (e) {
+    _onLocationFound: function(e) {
         // no need to do anything if the location has not changed
         if (this._event &&
             (this._event.latlng.lat === e.latlng.lat &&
@@ -110,14 +110,14 @@ DG.Control.Location = DG.RoundControl.extend({
         this._visualizeLocation();
     },
 
-    _startFollowing: function () {
+    _startFollowing: function() {
         this._following = true;
         if (this.options.stopFollowingOnDrag) {
             this._map.on('dragstart', this._stopFollowing);
         }
     },
 
-    _stopFollowing: function () {
+    _stopFollowing: function() {
         this._following = false;
         if (this.options.stopFollowingOnDrag) {
             this._map.off('dragstart', this._stopFollowing);
@@ -125,7 +125,7 @@ DG.Control.Location = DG.RoundControl.extend({
         this._visualizeLocation();
     },
 
-    _isOutsideMapBounds: function () {
+    _isOutsideMapBounds: function() {
         if (this._event === undefined) {
             return false;
         }
@@ -133,7 +133,7 @@ DG.Control.Location = DG.RoundControl.extend({
             !this._map.options.maxBounds.contains(this._event.latlng);
     },
 
-    _visualizeLocation: function () {
+    _visualizeLocation: function() {
         if (this._event.accuracy === undefined) {
             this._event.accuracy = 0;
         }
@@ -188,7 +188,7 @@ DG.Control.Location = DG.RoundControl.extend({
             this._marker.setLatLng(this._event.latlng);
         }
 
-        DG.DomEvent.on(this._marker, 'click', function () {
+        DG.DomEvent.on(this._marker, 'click', function() {
             this._map.fireEvent('dgLocateClick');
         }, this);
 
@@ -199,13 +199,13 @@ DG.Control.Location = DG.RoundControl.extend({
         this.setState('active');
     },
 
-    _resetVariables: function () {
+    _resetVariables: function() {
         this._active = false;
         this._following = false;
     },
 
 
-    _stopLocate: function () {
+    _stopLocate: function() {
         this._map.stopLocate();
         this._map.off('dragstart', this._stopFollowing);
 
@@ -218,7 +218,7 @@ DG.Control.Location = DG.RoundControl.extend({
         this._event = undefined;
     },
 
-    _onLocationError: function (err) {
+    _onLocationError: function(err) {
         // ignore time out error if the location is watched
         if (err.code === 3 && this._locateOptions.watch) {
             return;
@@ -230,7 +230,7 @@ DG.Control.Location = DG.RoundControl.extend({
         this._errorText.innerHTML = this.t('cant_find');
 
         var self = this;
-        setTimeout(function () {
+        setTimeout(function() {
             self._clearError();
         }, 3000);
 
@@ -238,7 +238,7 @@ DG.Control.Location = DG.RoundControl.extend({
         this.options.onLocationError(err);
     },
 
-    _clearError: function () {
+    _clearError: function() {
         if (this._error) {
             this._container.removeChild(this._error);
             this._error = undefined;
@@ -246,7 +246,7 @@ DG.Control.Location = DG.RoundControl.extend({
         }
     },
 
-    _renderTranslation: function () {
+    _renderTranslation: function() {
         if (this._link) {
             this._link.title = this.t('button_title');
         }
@@ -256,11 +256,11 @@ DG.Control.Location = DG.RoundControl.extend({
     }
 });
 
-DG.control.location = function (options) {
+DG.control.location = function(options) {
     return new DG.Control.Location(options);
 };
 
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (this.options.locationControl) {
         this.locationControl = DG.control.location(this.options.locationControl);
         this.addControl(this.locationControl);

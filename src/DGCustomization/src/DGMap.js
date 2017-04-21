@@ -12,7 +12,7 @@ DG.Map.include({
     _mapMaxZoomCache: null,
 
     //TODO try refactor it after up on new leaflet (> 0.7)
-    initialize: function (id, options) { // (HTMLElement or String, Object)
+    initialize: function(id, options) { // (HTMLElement or String, Object)
         // Override default wheelPxPerZoomLevel value to avoid zooming too fast
         // on mouse wheel rotation
         // See https://github.com/2gis/mapsapi/issues/343
@@ -26,7 +26,7 @@ DG.Map.include({
         }
     },
 
-    setView: function (center, zoom, options) {
+    setView: function(center, zoom, options) {
         this._restrictZoom(center, zoom);
 
         zoom = zoom === undefined ? this._zoom : this._limitZoom(zoom);
@@ -70,7 +70,7 @@ DG.Map.include({
         return this;
     },
 
-    panBy: function (offset, options) {
+    panBy: function(offset, options) {
         var map = panBy.call(this, offset, options);
 
         var zoom = this._restrictZoom(this.getCenter());
@@ -81,22 +81,22 @@ DG.Map.include({
         return map;
     },
 
-    getBoundsZoom: function (bounds, inside, padding) {
+    getBoundsZoom: function(bounds, inside, padding) {
         bounds = DG.latLngBounds(bounds);
         this._restrictZoom(bounds);
         return getBoundsZoom.call(this, bounds, inside, padding);
     },
 
-    getTileLayersNumber: function () {
+    getTileLayersNumber: function() {
         return this._tileLayersNumber;
     },
 
-    setMaxZoom: function (zoom) {
+    setMaxZoom: function(zoom) {
         this._mapMaxZoomCache = null;
         return setMaxZoom.call(this, zoom);
     },
 
-    _testAnimation: function (coords) {//if we jump to other project - disable animation
+    _testAnimation: function(coords) {//if we jump to other project - disable animation
         if (this.projectDetector.enabled()) {
             var projectFrom = this.projectDetector.getProject(),
                 projectTo = this.projectDetector.isProjectHere(coords);
@@ -109,7 +109,7 @@ DG.Map.include({
         return true;
     },
 
-    _updateTileLayers: function (e) {
+    _updateTileLayers: function(e) {
         if (!(e.layer instanceof DG.TileLayer) || e.layer._isDg) { return; }
 
         if (e.type === 'layeradd') {
@@ -119,7 +119,7 @@ DG.Map.include({
         }
     },
 
-    _getNewBounds: function (coords, zoom) {
+    _getNewBounds: function(coords, zoom) {
         if (coords instanceof DG.LatLngBounds) {
             return coords;
         }
@@ -133,7 +133,7 @@ DG.Map.include({
         return DG.latLngBounds(sw, ne);
     },
 
-    _restrictZoom: function (coords, zoom) {
+    _restrictZoom: function(coords, zoom) {
         if (this._layers &&
             this.projectDetector.enabled() &&
             (this._tileLayersNumber === 0)) {
@@ -178,14 +178,14 @@ DG.Map.include({
     }
 });
 
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     this.on('layeradd layerremove', this._updateTileLayers);
 });
 
 // Set css property touch-action to auto if dragging is false.
 // Need for scrolling page in mobile using our map dom element.
 // todo: I made issue in leaflet https://github.com/Leaflet/Leaflet/issues/4415
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (this.options.dragging == false && this.options.tap == false) {
         DG.DomUtil.addClass(this._container, 'dg-dragging-false');
     }

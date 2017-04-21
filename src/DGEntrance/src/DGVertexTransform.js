@@ -8,7 +8,7 @@
  */
 
 DG.VertexTransform = DG.Class.extend({
-    initialize: function (vertices) {
+    initialize: function(vertices) {
         this._vertices = vertices;
 
         this._scale = null;
@@ -19,56 +19,56 @@ DG.VertexTransform = DG.Class.extend({
         this.load();
     },
 
-    load: function () {
-        this.vertices = this._vertices.map(function (vertex) { return vertex.clone(); });
+    load: function() {
+        this.vertices = this._vertices.map(function(vertex) { return vertex.clone(); });
         this.vertices.clone = DG.VertexTransform.clone;
 
         return this;
     },
 
-    save: function () {
-        this._vertices = this.vertices.map(function (vertex) { return vertex.clone(); });
+    save: function() {
+        this._vertices = this.vertices.map(function(vertex) { return vertex.clone(); });
 
         return this;
     },
 
-    setScale: function (scale) {
+    setScale: function(scale) {
         this._scale = scale;
         return this;
     },
 
-    getScale: function () {
+    getScale: function() {
         return this._scale;
     },
 
-    setAngle: function (angle) {
+    setAngle: function(angle) {
         this._angle = angle;
         return this;
     },
 
-    getAngle: function () {
+    getAngle: function() {
         return this._angle;
     },
 
-    setTranslation: function (trans) {
+    setTranslation: function(trans) {
         this._trans = trans;
         return this;
     },
 
-    getTranslation: function () {
+    getTranslation: function() {
         return this._trans;
     },
 
-    setMatrix: function (matrix) {
+    setMatrix: function(matrix) {
         this._matrix = matrix;
         return this;
     },
 
-    getMatrix: function () {
+    getMatrix: function() {
         return this._matrix;
     },
 
-    scale: function (scale) {
+    scale: function(scale) {
         var v = this.vertices;
         var i = v.length;
 
@@ -81,12 +81,12 @@ DG.VertexTransform = DG.Class.extend({
         return this;
     },
 
-    unScale: function (scale) {
+    unScale: function(scale) {
         scale = scale || this._scale || 1;      //  Also safeguard against zero scale
         return this.scale(1 / scale);
     },
 
-    rotate: function (angle) {
+    rotate: function(angle) {
         var cos = angle ? angle.cos : (this._angle ? this._angle.cos : 1);
         var sin = angle ? angle.sin : (this._angle ? this._angle.sin : 0);
         var v = this.vertices;
@@ -103,14 +103,14 @@ DG.VertexTransform = DG.Class.extend({
         return this;
     },
 
-    unRotate: function (angle) {
+    unRotate: function(angle) {
         var cos = angle ? angle.cos : (this._angle ? this._angle.cos : 1);
         var sin = angle ? angle.sin : (this._angle ? this._angle.sin : 0);
 
         return this.rotate({cos: cos, sin: -sin});
     },
 
-    translate: function (trans) {
+    translate: function(trans) {
         var dx = trans ? trans.x : (this._trans ? this._trans.x : 0);
         var dy = trans ? trans.y : (this._trans ? this._trans.y : 0);
         var v = this.vertices;
@@ -124,14 +124,14 @@ DG.VertexTransform = DG.Class.extend({
         return this;
     },
 
-    unTranslate: function (trans) {
+    unTranslate: function(trans) {
         var dx = trans ? trans.x : (this._trans ? this._trans.x : 0);
         var dy = trans ? trans.y : (this._trans ? this._trans.y : 0);
 
         return this.translate({x: -dx, y: -dy});
     },
 
-    transform: function (matrix) {
+    transform: function(matrix) {
         var a, b, c, d, dx, dy;
         var v = this.vertices;
         var i = v.length;
@@ -159,7 +159,7 @@ DG.VertexTransform = DG.Class.extend({
     },
 
     statics: {
-        scale: function (vt, scale) {
+        scale: function(vt, scale) {
             var v = vt.vertices;
             var result = [];
             var x, y;
@@ -175,12 +175,12 @@ DG.VertexTransform = DG.Class.extend({
             return result;
         },
 
-        unScale: function (vt, scale) {
+        unScale: function(vt, scale) {
             scale = scale || 1;         //  Also safeguard against zero scale
             return DG.VertexTransform.scale(vt, 1 / scale);
         },
 
-        rotate: function (vt, angle) {
+        rotate: function(vt, angle) {
             var cos = angle ? angle.cos : 1;
             var sin = angle ? angle.sin : 0;
             var v = vt.vertices;
@@ -199,14 +199,14 @@ DG.VertexTransform = DG.Class.extend({
             return result;
         },
 
-        unRotate: function (vt, angle) {
+        unRotate: function(vt, angle) {
             var cos = angle ? angle.cos : 1;
             var sin = angle ? angle.sin : 0;
 
             return DG.VertexTransform.rotate(vt, {cos: cos, sin: -sin});
         },
 
-        translate: function (vt, trans) {
+        translate: function(vt, trans) {
             var dx = trans ? trans.x : 0;
             var dy = trans ? trans.y : 0;
             var v = vt.vertices;
@@ -223,19 +223,19 @@ DG.VertexTransform = DG.Class.extend({
             return result;
         },
 
-        unTranslate: function (vt, trans) {
+        unTranslate: function(vt, trans) {
             var dx = trans ? trans.x : 0;
             var dy = trans ? trans.y : 0;
 
             return DG.VertexTransform.translate(vt, {x: -dx, y: -dy});
         },
 
-        clone: function () {
+        clone: function() {
             //  'this' is an array
             return new DG.VertexTransform(this).save();
         },
 
-        getLength: function (vec1, vec2) {
+        getLength: function(vec1, vec2) {
             var dx, dy;
 
             if (typeof vec1 === 'number') {
@@ -249,7 +249,7 @@ DG.VertexTransform = DG.Class.extend({
             }
         },
 
-        getScaled: function (vec1, vec2, scale) {
+        getScaled: function(vec1, vec2, scale) {
             var dx, dy;
 
             if (typeof vec1 === 'number') {
@@ -263,7 +263,7 @@ DG.VertexTransform = DG.Class.extend({
             }
         },
 
-        getAngle: function (vec1, vec2, origin) {
+        getAngle: function(vec1, vec2, origin) {
             var l, sp, x1, y1, x2, y2;
 
             if (typeof vec1 === 'number') {
@@ -290,14 +290,14 @@ DG.VertexTransform = DG.Class.extend({
             }
         },
 
-        getAnglesSum: function (angle1, angle2) {
+        getAnglesSum: function(angle1, angle2) {
             return {
                 cos: angle1.cos * angle2.cos - angle1.sin * angle2.sin,
                 sin: angle1.sin * angle2.cos + angle1.cos * angle2.sin
             };
         },
 
-        getAnglesDif: function (angle1, angle2) {
+        getAnglesDif: function(angle1, angle2) {
             return {
                 cos: angle1.cos * angle2.cos + angle1.sin * angle2.sin,
                 sin: angle1.sin * angle2.cos - angle1.cos * angle2.sin

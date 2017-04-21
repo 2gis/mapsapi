@@ -7,12 +7,12 @@ DG.Geoclicker = DG.Handler.extend({
     pendingClick: 0,
     timeout: 250, // should be equal to 'delay' value in DoubleTap event
 
-    initialize: function (map, options) { // (Object)
+    initialize: function(map, options) { // (Object)
         this._map = map;
         this._controller = new DG.Geoclicker.Controller(map, options);
     },
 
-    addHooks: function () {
+    addHooks: function() {
         this._toggleEvents(true);
 
         this._map
@@ -20,7 +20,7 @@ DG.Geoclicker = DG.Handler.extend({
             .on('rulerend', this._unpause, this);
     },
 
-    removeHooks: function () {
+    removeHooks: function() {
         this._toggleEvents();
 
         this._map
@@ -28,7 +28,7 @@ DG.Geoclicker = DG.Handler.extend({
             .off('rulerend', this._unpause, this);
     },
 
-    _checkOpenPopup: function () {
+    _checkOpenPopup: function() {
         if (DG.Browser.mobile && this._map._popup &&
             (this._map._popup.options.closeOnClick ||
             this._map.options.closePopupOnClick)) {
@@ -36,29 +36,29 @@ DG.Geoclicker = DG.Handler.extend({
         }
     },
 
-    _pause: function () {
+    _pause: function() {
         this._toggleEvents();
     },
 
-    _unpause: function () {
+    _unpause: function() {
         // Reenable event handling only in case geoclicker is enabled
         if (this.enabled()) {
             this._toggleEvents(true);
         }
     },
 
-    _toggleEvents: function (flag) {
+    _toggleEvents: function(flag) {
         this._map[flag ? 'on' : 'off'](this._mapEventsListeners, this);
         if (this._map.poi) {
             this._map.poi.getMetaLayer()[flag ? 'on' : 'off']('click', this._onMetaClick, this);
         }
     },
 
-    getController: function () {
+    getController: function() {
         return this._controller;
     },
 
-    _onMetaClick: function (e) {
+    _onMetaClick: function(e) {
         this.clickCount = 0;
         clearTimeout(this.pendingClick);
         this.popupWasOpen = false;
@@ -67,15 +67,15 @@ DG.Geoclicker = DG.Handler.extend({
     },
 
     _mapEventsListeners: {
-        langchange: function () {
+        langchange: function() {
             this._controller.reinvokeHandler();
         },
 
-        popupclose: function (e) { // (Object)
+        popupclose: function(e) { // (Object)
             this._controller.handlePopupClose(e.popup);
         },
 
-        click: function (e) { // (Object)
+        click: function(e) { // (Object)
             if (this.clickCount === 0) {
                 this.clickCount = 1;
                 this._singleClick(e);
@@ -86,7 +86,7 @@ DG.Geoclicker = DG.Handler.extend({
             }
         },
 
-        dblclick: function () {
+        dblclick: function() {
             if (DG.Browser.ielt9) {
                 this.clickCount = 0;
                 this.popupWasOpen = false;
@@ -95,12 +95,12 @@ DG.Geoclicker = DG.Handler.extend({
         }
     },
 
-    _singleClick: function (e) { // (Object)
+    _singleClick: function(e) { // (Object)
         var self = this;
 
         clearTimeout(this.pendingClick);
 
-        this.pendingClick = setTimeout(function () {
+        this.pendingClick = setTimeout(function() {
             if (e.meta) {
                 self._checkOpenPopup();
                 self._map.closePopup();

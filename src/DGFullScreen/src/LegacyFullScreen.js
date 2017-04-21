@@ -7,7 +7,7 @@ if (!DG.screenfull.api ||
     DG.Screenfull.include({
         _fullscreenClass: 'DGFullScreen_legacy-mode',
         _fullscreenBodyClass: this._fullscreenClass + '-body',
-        _api: function () {
+        _api: function() {
             return {fullscreenchange: 'keyup'};
         },
 
@@ -25,18 +25,18 @@ if (!DG.screenfull.api ||
         _initialMapParams: {},
         _initialDocumentElementParams: {},
 
-        exit: function (container) { // (HTMLDivElement)
+        exit: function(container) { // (HTMLDivElement)
 
             DG.DomUtil.removeClass(container, this._fullscreenClass);
             DG.DomUtil.removeClass(document.body, this._fullscreenBodyClass);
 
             // restore map container params
-            this._mapParams.forEach(function (cssRule) {
+            this._mapParams.forEach(function(cssRule) {
                 container.style[cssRule] = this._initialMapParams[cssRule];
             }, this);
 
             // restore map container params
-            this._documentParams.forEach(function (cssRule) {
+            this._documentParams.forEach(function(cssRule) {
                 document.body.style[cssRule] = this._initialDocumentParams[cssRule];
             }, this);
 
@@ -44,7 +44,7 @@ if (!DG.screenfull.api ||
             document.documentElement.scrollTop = this._initialDocumentElementParams.scrollTop;
         },
 
-        request: function (container) { // (HTMLDivElement)
+        request: function(container) { // (HTMLDivElement)
             this._storePosition(container);
             // set full map mode style
             DG.DomUtil.addClass(container, this._fullscreenClass);
@@ -54,15 +54,15 @@ if (!DG.screenfull.api ||
             document.documentElement.scrollTop = '0px';
         },
 
-        _storePosition: function (container) { // (HTMLDivElement)
+        _storePosition: function(container) { // (HTMLDivElement)
 
             // store initial map container params
-            this._mapParams.forEach(function (cssRule) {
+            this._mapParams.forEach(function(cssRule) {
                 this._initialMapParams[cssRule] = container.style[cssRule];
             }, this);
 
             // store initial document.body params
-            this._documentParams.forEach(function (cssRule) {
+            this._documentParams.forEach(function(cssRule) {
                 this._initialDocumentParams[cssRule] = document.body.style[cssRule];
             }, this);
 
@@ -70,7 +70,7 @@ if (!DG.screenfull.api ||
             this._initialDocumentElementParams.scrollTop = document.documentElement.scrollTop;
         },
 
-        _onFullScreenStateChange: function (e) { // (Object)
+        _onFullScreenStateChange: function(e) { // (Object)
             if (!e) {
                 e = window.event;
             }

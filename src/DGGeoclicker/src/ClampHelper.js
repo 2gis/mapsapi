@@ -1,4 +1,4 @@
-DG.Geoclicker.clampHelper = function (el, lineClamp) {
+DG.Geoclicker.clampHelper = function(el, lineClamp) {
     var measure, text, lineWidth,
         lineStart, lineCount, wordStart,
         line, lineText, wasNewLine,
@@ -8,7 +8,7 @@ DG.Geoclicker.clampHelper = function (el, lineClamp) {
     // measurement element is made a child of the clamped element to get it's style
     measure = ce('span');
 
-    (function (s) {
+    (function(s) {
         s.position = 'absolute'; // prevent page reflow
         s.whiteSpace = 'pre'; // cross-browser width results
         s.visibility = 'hidden'; // prevent drawing
@@ -33,7 +33,7 @@ DG.Geoclicker.clampHelper = function (el, lineClamp) {
     // add measurement element within so it inherits styles
     el.appendChild(measure);
     // http://ejohn.org/blog/search-and-dont-replace/
-    text.replace(/ |-/g, function (m, pos) {
+    text.replace(/ |-/g, function(m, pos) {
         // ignore any further processing if we have total lines
         if (lineCount === lineClamp) {
             return;

@@ -1,6 +1,6 @@
 DG.Geoclicker.View = DG.Class.extend({
 
-    initialize: function (map, options) { // (Object, Object)
+    initialize: function(map, options) { // (Object, Object)
         this._map = map;
         this._popup = DG.popup({
             maxHeight: 300,
@@ -16,7 +16,7 @@ DG.Geoclicker.View = DG.Class.extend({
         }
     },
 
-    initLoader: function (isSmall) {
+    initLoader: function(isSmall) {
         var loader = document.createElement('div');
         loader.innerHTML = DG.dust('DGGeoclicker/loader', {
             small: isSmall,
@@ -26,14 +26,14 @@ DG.Geoclicker.View = DG.Class.extend({
         return loader.firstChild;
     },
 
-    showPopup: function (latlng, content) { // (Object)
+    showPopup: function(latlng, content) { // (Object)
         this._popup
             .setContent(content)
             .setLatLng(latlng)
             .openOn(this._map);
     },
 
-    render: function (options) { // (Object) -> String
+    render: function(options) { // (Object) -> String
         var html,
             data = {};
 
@@ -67,20 +67,20 @@ DG.Geoclicker.View = DG.Class.extend({
         return html;
     },
 
-    renderTemplate: function (name, data) {
+    renderTemplate: function(name, data) {
         return DG.dust('DGGeoclicker/' + name, data);
     },
 
-    renderPopup: function (options) { // (Object) -> String
+    renderPopup: function(options) { // (Object) -> String
         options.popup = true;
         return this.render(options);
     },
 
-    getPopup: function () { // () -> Object
+    getPopup: function() { // () -> Object
         return this._popup;
     },
 
-    _detectCssAnimation: function () {
+    _detectCssAnimation: function() {
         var animation = false,
             domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
             elm = document.createElement('div');

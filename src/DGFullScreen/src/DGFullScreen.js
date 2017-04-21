@@ -9,13 +9,13 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         iconClass: 'fullscreen'
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
         DG.Util.setOptions(this, options);
         this._isFullscreen = false;
         this.on('click', this._toggleFullscreen);
     },
 
-    _toggleFullscreen: function () {
+    _toggleFullscreen: function() {
         if (!this._isFullscreen) {
             this._toggle(true, 'request', 'on', 'requestfullscreen');
         } else {
@@ -26,11 +26,11 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         this._map.invalidateSize();
     },
 
-    _renderTranslation: function () {
+    _renderTranslation: function() {
         this._link.title = this.t(this._isFullscreen ? 'title_min' : 'title_max');
     },
 
-    _toggle: function (isEnabled, method, list, event) {
+    _toggle: function(isEnabled, method, list, event) {
         var container = this._map._container;
 
         this._isFullscreen = isEnabled;
@@ -41,14 +41,14 @@ DG.Control.Fullscreen = DG.RoundControl.extend({
         this._map.fire(event);
     },
 
-    _onFullScreenStateChange: function () {
+    _onFullScreenStateChange: function() {
         if (!DG.screenfull.isFullscreen()) {
             this._toggle(false, 'exit', 'on', 'cancelfullscreen');
         }
     }
 });
 
-DG.control.fullscreen = function (options) {
+DG.control.fullscreen = function(options) {
     return new DG.Control.Fullscreen(options);
 };
 
@@ -56,7 +56,7 @@ DG.Map.mergeOptions({
     fullscreenControl: true
 });
 
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (this.options.fullscreenControl) {
         this.fullscreenControl = DG.control.fullscreen(this.options.fullscreenControl);
 

@@ -1,6 +1,6 @@
 DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
 
-    handle: function (results) { // (Object, String) -> Promise
+    handle: function(results) { // (Object, String) -> Promise
         if (!results.attraction) {
             return false;
         }
@@ -11,7 +11,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         return Promise.resolve(this._fillSightObject(results));
     },
 
-    _fillSightObject: function (results) { // (Object) -> Object
+    _fillSightObject: function(results) { // (Object) -> Object
         var attraction = results.attraction,
             data = {},
             self = this,
@@ -53,7 +53,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
                 tmpl: 'popupFooterBtns',
                 data: footer
             }),
-            afterRender: function () {
+            afterRender: function() {
                 if (self._needShowMore) {
                     self._initShowMore();
                 }
@@ -62,7 +62,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         };
     },
 
-    _initPopupClose: function () {
+    _initPopupClose: function() {
         if (this._initedPopupClose) {
             return;
         }
@@ -71,18 +71,18 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         this._initedPopupClose = true;
     },
 
-    _clearPopup: function () {
+    _clearPopup: function() {
         this._initedPopupClose = false;
         this._clearEventHandlers();
     },
 
-    _showMoreText: function () {
+    _showMoreText: function() {
         this._desc.style.maxHeight = '100%';
         this._link.parentNode.removeChild(this._link);
         this._popup.resize();
     },
 
-    _initShowMore: function () {
+    _initShowMore: function() {
         this._link = this._popup.findElement('.dg-map-geoclicker__show-more-sights-link');
         this._desc = this._popup.findElement('.dg-map-geoclicker__sight-description');
 
@@ -91,7 +91,7 @@ DG.Geoclicker.Handler.Sight = DG.Geoclicker.Handler.Default.extend({
         }
     },
 
-    _checkDescFieldHeight: function (desc) {
+    _checkDescFieldHeight: function(desc) {
         var el = DG.DomUtil.create('div', ''),
             height;
 

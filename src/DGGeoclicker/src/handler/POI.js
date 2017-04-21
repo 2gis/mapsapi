@@ -1,6 +1,6 @@
 DG.Geoclicker.Handler.Poi = DG.Geoclicker.Handler.House.extend({
 
-    handle: function (results) { // (Object) -> Promise
+    handle: function(results) { // (Object) -> Promise
         if (!results.poi) {
             return false;
         }
@@ -29,7 +29,7 @@ DG.Geoclicker.Handler.Poi = DG.Geoclicker.Handler.House.extend({
             var self = this;
 
             return self._api.geoGet(results.poi.reference.id)
-                .then(function (result) {
+                .then(function(result) {
                     self._houseObject = self._fillHouseObject(result.result.items[0]);
                     return Promise.resolve(self._houseObject);
                 });

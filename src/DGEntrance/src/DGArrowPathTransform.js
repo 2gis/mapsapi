@@ -12,7 +12,7 @@
  */
 
 DG.ArrowPathTransform = DG.VertexTransform.extend({
-    initialize: function (path) {
+    initialize: function(path) {
         //  'path.offset' is initial points offset (-x / +x) to compensate arrow tip length
 
         //  Skip super initialization as we need only subset of DG.VertexTransform power
@@ -25,17 +25,17 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         this.subPath(1);
     },
 
-    load: function () {
+    load: function() {
         return this.subPath(1);
     },
 
-    save: function () {
+    save: function() {
         return this;    //  NoOp
     },
 
     //  Method constructs new path points with some displacement from original 'path'
     //  Outer corners will be smoothed by arcs (cubic Bézier curves)
-    _setPath: function (path) {
+    _setPath: function(path) {
         var transform = DG.ArrowPathTransform.transform;
         var vertices = this._vertices;
         var drawings = this._drawings;
@@ -124,7 +124,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         //  We need to reconstruct arc's indexes but too many variables already touched, reuse some of them
         ax = vertices[0].length;
         bx = vertices[1].length;
-        this._arcs = arcs[2].map(function (i) {
+        this._arcs = arcs[2].map(function(i) {
             cx = arcs[i].shift();
             if (i > 0) {
                 return new DG.ArcBezier(vertices[1].slice(bx - cx - 4, bx - cx));
@@ -134,7 +134,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         }).reverse();
 
         this._lengths.push(lengths.pop());
-        lengths.reverse().forEach(function (l, i) {
+        lengths.reverse().forEach(function(l, i) {
             this._lengths.push(this._arcs[i].getLength()).push(l);
         }, this);
 
@@ -149,17 +149,17 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
         };
     },
 
-    _setAngleAndDisplacement: function (vL, vR) { // Used in DG.ArrowTipTransform.subShape()
+    _setAngleAndDisplacement: function(vL, vR) { // Used in DG.ArrowTipTransform.subShape()
         this.angle = DG.VertexTransform.getAngle({x: vL.x - vR.x, y: vL.y - vR.y}, {x: 0, y: 1});
         this.displ = vR.clone();
     },
 
-    subPath: function (pathRatio) {
+    subPath: function(pathRatio) {
         pathRatio = pathRatio > 1 ? 1 : pathRatio;
 
         //  Shortcut border cases (0%-length sub-path and full-path)
         if (pathRatio === 0 || pathRatio === 1) {
-            this.vertices = this[pathRatio].vertices.map(function (vertex) { return vertex.clone(); });
+            this.vertices = this[pathRatio].vertices.map(function(vertex) { return vertex.clone(); });
             this.drawings = this[pathRatio].drawings;
             this._setAngleAndDisplacement(this.vertices[0], this.vertices[this.vertices.length - 1]);
             return this;
@@ -206,7 +206,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
                 vertexRight = vertices[1][vertexIndexRight];
                 this.vertices = arc.points.slice(1).reverse()
                     .concat(vertices[0].slice(vertexIndexLeft), vertices[1].slice(0, vertexIndexRight + 1))
-                    .map(function (vertex) { return vertex.clone(); });
+                    .map(function(vertex) { return vertex.clone(); });
                 this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft), 'C', drawings[1].slice(0, drawingIndexRight));
             } else {
                 arc = arc.getCurveBefore(arc.getTbyL(lengths.getSegLength(len)));
@@ -214,7 +214,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
                 vertexRight = arc.points[3];
                 this.vertices = vertices[0].slice(vertexIndexLeft)
                     .concat(vertices[1].slice(0, vertexIndexRight + 1), arc.points.slice(1))
-                    .map(function (vertex) { return vertex.clone(); });
+                    .map(function(vertex) { return vertex.clone(); });
                 this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft + 1), 'C', drawings[1].slice(0, drawingIndexRight + 1));
             }
         } else {
@@ -223,7 +223,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
             vertexRight = getScaled(vertices[1][vertexIndexRight], vertices[1][vertexIndexRight + 1], segRatio);
             this.vertices = [vertexLeft]
                 .concat(vertices[0].slice(vertexIndexLeft), vertices[1].slice(0, vertexIndexRight + 1), vertexRight)
-                .map(function (vertex) { return vertex.clone(); });
+                .map(function(vertex) { return vertex.clone(); });
             this.drawings = ['M'].concat(drawings[0].slice(drawingIndexLeft), 'C', drawings[1].slice(0, drawingIndexRight + 1));
         }
 
@@ -232,7 +232,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
     },
 
     statics: {
-        getAngles: function (path) {
+        getAngles: function(path) {
             var getAngle = DG.VertexTransform.getAngle;
             var fullAngle = {cos: 1, sin: 0};
             var vertices = path.vertices;
@@ -281,7 +281,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
 
         //  TODO - if length of 'latlngs' array is less than 2 or it is undefined next function produces exception
         //  check this condition in outer routines?!
-        getTranslatedPath: function (map, latlngs) {
+        getTranslatedPath: function(map, latlngs) {
             var path = new DG.VertexTransform([]);
             var i = latlngs.length - 1;
             var v = map.project(latlngs[i]);
@@ -297,7 +297,7 @@ DG.ArrowPathTransform = DG.VertexTransform.extend({
                 .unRotate();
         },
 
-        transform: function (rings, angle, vector) {
+        transform: function(rings, angle, vector) {
             var i = rings.length;
             var cos = angle.cos;
             var sin = angle.sin;

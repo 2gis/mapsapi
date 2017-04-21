@@ -5,7 +5,7 @@ DG.Control.Attribution.include({
         position: 'bottomright'
     },
 
-    _getLink: function (linkType) {
+    _getLink: function(linkType) {
         /* eslint-disable camelcase */
         var dictionary = {
             ru: {
@@ -51,7 +51,7 @@ DG.Control.Attribution.include({
         return dictionary[countryCode][linkType];
     },
 
-    onAdd: function (map) {
+    onAdd: function(map) {
         if (!map._copyright) {
             map._copyright = true;
             this._first = true;
@@ -72,7 +72,7 @@ DG.Control.Attribution.include({
         return this._container;
     },
 
-    _update: function (lang, osm, countryCode) {
+    _update: function(lang, osm, countryCode) {
         if (!this._map) { return; }
 
         if (typeof osm !== 'undefined') {
@@ -107,7 +107,7 @@ DG.Control.Attribution.include({
 
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
     },
-    _getData: function (lang) {
+    _getData: function(lang) {
         return {
             'osm': this._osm,
             'work_on': this.t('work_on'),
@@ -119,15 +119,15 @@ DG.Control.Attribution.include({
             'API_2GIS': this.t('API_2GIS')
         };
     },
-    _getAttributionHTML: function (lang) {
+    _getAttributionHTML: function(lang) {
         return DG.dust('DGAttribution/copyright', this._getData(lang));
     },
-    _renderTranslation: function (e) {
+    _renderTranslation: function(e) {
         this._update(e.lang);
     }
 });
 
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (!this._copyright) {
         DG.control.attribution().addTo(this);
     }

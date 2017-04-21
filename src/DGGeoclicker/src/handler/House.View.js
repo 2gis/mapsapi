@@ -1,20 +1,20 @@
 DG.Geoclicker.Handler.House.include({
-    _getAddressString: function (house) {
+    _getAddressString: function(house) {
         if (!house.address || !house.address.components) {
             return '';
         }
 
         return house.address.components
-            .filter(function (component) {
+            .filter(function(component) {
                 return component.type === 'street_number';
             })
-            .map(function (component) {
+            .map(function(component) {
                 return component.street + ', ' + component.number;
             })
             .join(' / ');
     },
 
-    _fillBody: function (house) { // // (Object) -> (DOMElement)
+    _fillBody: function(house) { // // (Object) -> (DOMElement)
         var data = {},
             wrapper = DG.DomUtil.create('div', 'dg-building-callout__body'),
             filials = house.links && house.links.branches;
@@ -40,7 +40,7 @@ DG.Geoclicker.Handler.House.include({
         }
 
         if (house.links && house.links.attractions && house.links.attractions.length) {
-            data.attractions = house.links.attractions.reduce(function (attractions, attraction) {
+            data.attractions = house.links.attractions.reduce(function(attractions, attraction) {
                 if (attraction.name) {
                     attractions.push(attraction.name);
                 }
@@ -61,7 +61,7 @@ DG.Geoclicker.Handler.House.include({
         return wrapper;
     },
 
-    _fillHeader: function (house) { // (Object) -> (HTMLString)
+    _fillHeader: function(house) { // (Object) -> (HTMLString)
         var header = {};
 
         if (house.building_name) {
@@ -80,7 +80,7 @@ DG.Geoclicker.Handler.House.include({
         return this._header;
     },
 
-    _fillFooter: function (house) { // (Object) -> (HTMLString)
+    _fillFooter: function(house) { // (Object) -> (HTMLString)
         var btns = [];
         var houseFilials = house.links && house.links.branches;
 
@@ -109,21 +109,21 @@ DG.Geoclicker.Handler.House.include({
         });
     },
 
-    _getShowAllData: function (filialsCount) {
+    _getShowAllData: function(filialsCount) {
         return {
             name: 'all',
             label: this.t('show_organization_in_building', filialsCount)
         };
     },
 
-    _fillHouseObject: function (house) { // (Object) -> (Object)
+    _fillHouseObject: function(house) { // (Object) -> (Object)
         var self = this;
 
         return {
             header: this._fillHeader(house),
             tmpl: this._fillBody(house),
             footer: this._fillFooter(house),
-            afterRender: function () {
+            afterRender: function() {
                 self._initShowMore();
                 self._initPopupClose();
             }

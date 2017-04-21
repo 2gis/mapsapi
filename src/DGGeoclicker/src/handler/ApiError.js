@@ -1,5 +1,5 @@
 DG.Geoclicker.Handler.ApiError = DG.Geoclicker.Handler.Default.extend({
-    handle: function () { // () -> Promise
+    handle: function() { // () -> Promise
         var header = this._view.render({
             tmpl: 'popupHeader',
             data: {
