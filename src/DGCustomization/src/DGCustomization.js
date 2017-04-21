@@ -19,6 +19,7 @@ DG.Control.include({
 // Add some browser detection
 DG.Browser.safari51 = DG.Browser.safari && navigator.userAgent.indexOf('Version/5.1') !== -1;
 
+// DG.Browser.touch checks whether touch events supported or not; touchEnabled checks if it's a touch device
 var msPointer = navigator.msPointerEnabled && navigator.msMaxTouchPoints && !window.PointerEvent;
 var pointer = (window.PointerEvent && navigator.pointerEnabled && navigator.maxTouchPoints) || msPointer;
 var documentTouch = window.DocumentTouch && document instanceof window.DocumentTouch;
