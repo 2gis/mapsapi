@@ -5,14 +5,14 @@ var mkdirp = require('mkdirp');
 var config = require('../../app/config');
 var deps = require('../deps')(config);
 
-gulp.task('collectImagesStats', ['copyImg'], function (cb) {
+gulp.task('collectImagesStats', ['copyImg'], function(cb) {
     var skins = deps.getSkinsList();
     var imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 
     mkdirp.sync('./gulp/tmp');
     mkdirp.sync('./gulp/tmp/less');
 
-    skins.forEach(function (skinName) {
+    skins.forEach(function(skinName) {
         var skinImagesFilesStats = imagesStatsPerSkin[skinName];
 
         var statisticsObject;
@@ -29,7 +29,7 @@ gulp.task('collectImagesStats', ['copyImg'], function (cb) {
             statisticsObject = skinImagesFilesStats[imageName];
             originalImageStatisticObject = skinImagesFilesStats[originalImageName];
 
-            imageExtension = (typeof statisticsObject.extension == 'undefined') ? 'svg' : statisticsObject.extension;
+            imageExtension = (typeof statisticsObject.extension === 'undefined') ? 'svg' : statisticsObject.extension;
 
             statisticsString += '.imageData(\'' + imageName + '\') { ' +
                 '@filename: \'' + imageName + '\'; ' +

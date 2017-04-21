@@ -1,10 +1,10 @@
 var projectList;
 
 module.exports = {
-    set: function (val) {
+    set: function(val) {
         projectList = val;
     },
-    get: function () {
+    get: function() {
         return projectList;
     }
 };

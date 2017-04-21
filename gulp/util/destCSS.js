@@ -5,7 +5,7 @@ var gulp = require('gulp');
 var config = require('../../app/config');
 var buildCSS = require('../util/buildCSS');
 
-module.exports = function () {
+module.exports = function() {
     var buildRules = [];
 
     var skins = config.skins;
@@ -14,7 +14,7 @@ module.exports = function () {
 
     if (util.env.pkg || util.env.skin) {
         // Custom build
-        buildRules = browsers.map(function (browser) {
+        buildRules = browsers.map(function(browser) {
             return {
                 suffix: browser === 'ie8' ? 'ie8' : null,
                 pkg: util.env.pkg || 'full',
@@ -24,9 +24,9 @@ module.exports = function () {
             };
         });
     } else {
-        packages.forEach(function (pkg) {
-            skins.forEach(function (skin) {
-                browsers.forEach(function (browser) {
+        packages.forEach(function(pkg) {
+            skins.forEach(function(skin) {
+                browsers.forEach(function(browser) {
                     buildRules.push({
                         suffix: [pkg, skin, browser].join('.').replace(/\.$/, ''),
                         pkg: pkg,
@@ -39,9 +39,9 @@ module.exports = function () {
         });
     }
 
-    return buildRules.map(function (buildRule) {
+    return buildRules.map(function(buildRule) {
         return buildCSS(buildRule).pipe(gulp.dest('dist/css/'));
-    }).reduce(function (prev, next) {
+    }).reduce(function(prev, next) {
         return es.merge(prev, next);
     });
 };

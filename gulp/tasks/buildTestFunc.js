@@ -3,7 +3,7 @@ var gulp = require('gulp');
 
 var buildEnd = require('../util/buildEnd.js');
 
-gulp.task('buildTestFunc', function (cb) {
+gulp.task('buildTestFunc', function(cb) {
     global.isTestBuild = true;
 
     runSequence('clean', [
@@ -11,7 +11,7 @@ gulp.task('buildTestFunc', function (cb) {
         'buildStyles',
         'doc',
         'copyPrivateAssets'
-    ], function () {
+    ], function() {
         buildEnd();
         cb();
     });

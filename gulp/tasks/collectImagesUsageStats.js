@@ -10,18 +10,18 @@ var error = require('../util/error');
 var config = require('../../app/config');
 var deps = require('../deps')(config);
 
-gulp.task('collectImagesUsageStats', function () {
+gulp.task('collectImagesUsageStats', function() {
     var skins = deps.getSkinsList();
 
     var imagesBasePath = path.resolve(__dirname + '/../../dist/img');
 
-    var statisticsStreams = skins.map(function (skinName) {
+    var statisticsStreams = skins.map(function(skinName) {
         var skinLessFiles = glob.sync('./src/**/' + skinName + '/less/*.less');
 
         skinLessFiles.unshift('./src/less/mixins.images-usage-statistics.less');
         skinLessFiles.unshift('./src/less/mixins.ie8.less');
 
-        skinLessFiles = skinLessFiles.map(function (lessFilePath) {
+        skinLessFiles = skinLessFiles.map(function(lessFilePath) {
             return lessFilePath + ':reference';
         });
 

@@ -22,7 +22,7 @@ function walkItem(menu, callback) { // (Object, Function)
 function getMdFileNames() { // (Object) -> Object
     var menu = require('../../src/menu.json'),
         result = [];
-    walkItem(menu, function (filepath) {
+    walkItem(menu, function(filepath) {
         result.push(filepath);
     });
     return result;
@@ -49,13 +49,13 @@ function getMdFilesData(list, subdir) { // (Array, String) -> Array
 function copyConfigFile(filepath, destpath) { // (String, String)
     var configName = filepath.match(/[^/]+$/)[0];
 
-    mkdirp(destpath, function () {
+    mkdirp(destpath, function() {
         fs.writeFileSync(destpath + '/' + configName, fs.readFileSync(filepath));
     });
 }
 
 function writeFile(dir, htmlFileName, html) {
-    mkdirp(dir, function () {
+    mkdirp(dir, function() {
         fs.writeFileSync(dir + '/' + htmlFileName, html);
     });
 }
@@ -66,7 +66,7 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
         mdData = getMdFilesData(mdFileNames, rootPath);
 
     for (var i = 0, leng = mdData.length; i < leng; i++) {
-        (function (i) {
+        (function(i) {
             var mdFilePath = mdData[i].path,
                 htmlFileName = mdFilePath.match(/([\w_-]+)\.md$/i)[1] + '.html',
                 pluginDirName = mdFilePath.match(/\/?(.*)\/[.\w_-]+$/)[1],
@@ -76,11 +76,11 @@ function generateDocumentation(config, rootPath, destPath) { // (Object, String,
                 dir = destPath + '/' + pluginDirName + '/',
                 html;
 
-            renderer.listitem = function (text) {
+            renderer.listitem = function(text) {
                 return '<li><div class="restore-color">' + text + '</div></li>';
             };
 
-            renderer.heading = function (text, level) {
+            renderer.heading = function(text, level) {
                 if (typeof headerRepeats[text] === 'undefined') {
                     headerRepeats[text] = 0;
                 } else {
@@ -112,12 +112,12 @@ function generateTableOfContents(tokens) { // (Array) -> String
         headerRepeats = {};
 
     // extract headers from all tokens
-    tokens.forEach(function (token) {
-        if (token.type = 'heading' && token.depth > startH) headers.push(token);
+    tokens.forEach(function(token) {
+        if (token.type === 'heading' && token.depth > startH) headers.push(token);
     });
 
     // assign number for each header
-    headers.forEach(function (header) {
+    headers.forEach(function(header) {
         if (typeof headerRepeats[header.text] === 'undefined') {
             headerRepeats[header.text] = 0;
         }

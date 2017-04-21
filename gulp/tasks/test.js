@@ -5,10 +5,7 @@ var path = require('path');
 var glob = require('glob');
 var _ = require('lodash');
 
-var error = require('../util/error');
 var test = require('../../test/test');
-var config = require('../../app/config.js');
-var deps = require('../deps')(config);
 var excludedTests = require('../../test/excludedTests.js') || [];
 
 var isTestDebug = util.env.d || util.env.debug;
@@ -16,7 +13,7 @@ var testRequirements = isTestDebug ? [] : ['buildTest'];
 var itemInChunk = util.env['items-in-chunk'] || 10;
 var multipleChunks = util.env['multiple-chunks'] || false;
 
-gulp.task('test', testRequirements, function (done) {
+gulp.task('test', testRequirements, function(done) {
     var cliOptions = _.cloneDeep(util.env);
     var modulesToTest = [];
     var currentChunk = 0;
@@ -25,8 +22,8 @@ gulp.task('test', testRequirements, function (done) {
         'dist/js/script.full.js',
         'node_modules/leaflet/spec/after.js',
         'node_modules/happen/happen.js',
-        "node_modules/prosthetic-hand/dist/prosthetic-hand.js",
-        "node_modules/leaflet/spec/suites/SpecHelper.js",
+        'node_modules/prosthetic-hand/dist/prosthetic-hand.js',
+        'node_modules/leaflet/spec/suites/SpecHelper.js',
         'node_modules/mock-geolocation/dist/geolocate.js',
         'test/after.js'
     ];
@@ -42,7 +39,7 @@ gulp.task('test', testRequirements, function (done) {
     var modulesToTestSourceList = [];
 
     if (modulesToTest.length) {
-        modulesToTest.forEach(function (moduleName) {
+        modulesToTest.forEach(function(moduleName) {
             modulesToTestSourceList = modulesToTestSourceList.concat(glob.sync('src/' + moduleName + '/test/*Spec.js'));
         });
     } else {
@@ -60,8 +57,8 @@ gulp.task('test', testRequirements, function (done) {
 
     var numberOfChunks = splittedModules.length;
 
-    console.log("\nITEMS IN CHUNK: " + itemInChunk);
-    console.log("NUMBER OF CHUNKS: " + numberOfChunks);
+    console.log('\nITEMS IN CHUNK: ' + itemInChunk);
+    console.log('NUMBER OF CHUNKS: ' + numberOfChunks);
 
     // Flag of existing errors.
     var totalErr = false;
@@ -93,7 +90,7 @@ gulp.task('test', testRequirements, function (done) {
             },
             singleRun: true
             // Function localDone will be executed in the last iteration.
-        }, currentChunk == numberOfChunks ? localDone : startServer).start();
+        }, currentChunk === numberOfChunks ? localDone : startServer).start();
     }
     startServer();
 });

@@ -17,7 +17,7 @@ var deps = require('../deps')(config);
 var stat = require('../util/stat');
 var error = require('./error');
 
-module.exports = function (options) {
+module.exports = function(options) {
     var imagesBasePath = path.resolve(__dirname + '/../../dist/img');
     var baseURL = config.appConfig.protocol + config.appConfig.baseUrl;
     var lessList = deps.getCSSFiles(options);
@@ -43,7 +43,7 @@ module.exports = function (options) {
         ];
     }
 
-    lessHeaderImports = lessHeaderImports.filter(function (src) {
+    lessHeaderImports = lessHeaderImports.filter(function(src) {
         var lessFileSrc = src.split(':')[0];
 
         try {

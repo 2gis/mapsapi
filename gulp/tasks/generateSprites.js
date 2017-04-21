@@ -8,11 +8,11 @@ var deps = require('../deps')(config);
 
 gulp.task('generateSprites', [
     'collectImagesUsageStats'
-], function (cb) {
+], function(cb) {
     var skins = deps.getSkinsList();
     var stats = deps.getImagesUsageStats(skins);
 
-    var statisticsStreams = skins.map(function (skinName) {
+    var statisticsStreams = skins.map(function(skinName) {
         // Adds comma to make glob’s {} working properly,
         // even there is only one should be excluded
         var filesToExclude = stats[skinName].repeatable.join(',') + ',' +

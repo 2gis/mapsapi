@@ -13,7 +13,7 @@ var gulp = require('gulp');
 var path = require('path');
 var map = require('map-stream');
 
-gulp.task('buildScripts', ['concatScripts'], function () {
+gulp.task('buildScripts', ['concatScripts'], function() {
     var isCustom = util.env.pkg || util.env.skin;
     var packages;
 
@@ -25,7 +25,7 @@ gulp.task('buildScripts', ['concatScripts'], function () {
         packages = Object.keys(config.packages);
     }
 
-    return packages.map(function (pkg) {
+    return packages.map(function(pkg) {
         var name = 'script.' + (!isCustom ? pkg + '.' : '') + 'js';
         var src = path.join('gulp', 'tmp', 'js', name);
 
@@ -50,7 +50,7 @@ gulp.task('buildScripts', ['concatScripts'], function () {
             .pipe(gulpif(util.env.release, header(config.copyright)))
             .pipe(map(stat.save))
             .pipe(gulp.dest('dist/js/'));
-    }).reduce(function (prev, curr) {
+    }).reduce(function(prev, curr) {
         return es.merge(prev, curr);
     });
 });

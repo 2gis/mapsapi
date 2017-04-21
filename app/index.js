@@ -78,7 +78,7 @@ function loadDir(dirPath) {
 
 // Load and serve JS files
 var jsFiles = loadDir('./dist/js');
-app.get('/js', function (req, res) {
+app.get('/js', function(req, res) {
     var params = getParams(req);
     var fileName = 'script.' + params.pkg + '.js';
 
@@ -91,7 +91,7 @@ app.get('/js', function (req, res) {
 
 // Load and serve CSS files
 var cssFiles = loadDir('./dist/css');
-app.get('/css', function (req, res) {
+app.get('/css', function(req, res) {
     var params = getParams(req);
 
     var fileName = 'styles.' +
@@ -116,11 +116,11 @@ var port = config.appConfig.port;
 
 if (cluster.isMaster) {
     cluster
-        .on('disconnect', function (worker) {
+        .on('disconnect', function(worker) {
             console.log('PID #' + worker.process.pid + ' died. spawning a new process...');
             cluster.fork();
         })
-        .on('fork', function (worker) {
+        .on('fork', function(worker) {
             console.log('PID #' + worker.process.pid + ' started!');
         });
 
@@ -130,7 +130,7 @@ if (cluster.isMaster) {
         cluster.fork({number: i});
     }
 } else {
-    app.listen(port, host, function () {
+    app.listen(port, host, function() {
         if (process.env.number == 0) {
             console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + port));
         }
