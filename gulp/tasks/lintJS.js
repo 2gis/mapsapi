@@ -7,5 +7,6 @@ gulp.task('lintJS', function () {
     return gulp.src('src/**/src/**/*.js')
         .pipe(error.handle())
         .pipe(eslint())
-        .pipe(eslint.format());
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
