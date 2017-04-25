@@ -185,9 +185,6 @@ L.MobileTileLayer = L.TileLayer.extend({
 
         tile.style.visibility = 'hidden';
 
-        // хак чтобы не было белых линий
-        tile.style.border = '1px solid transparent';
-
         tile.onselectstart = L.Util.falseFn;
         tile.onmousemove = L.Util.falseFn;
 
