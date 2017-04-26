@@ -229,7 +229,7 @@
         cd ~/mapsapi-folder
         npm install
 
-* Выполните сборку API карт из запуск сервера:
+* Выполните сборку API карт и запуск сервера:
 
         npm run dev
 
