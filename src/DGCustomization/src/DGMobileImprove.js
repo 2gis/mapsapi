@@ -171,7 +171,6 @@ L.MobileTileLayer = L.TileLayer.extend({
         return tile;
     },
 
-
     /**
      * Убран класс leaflet-tile
      * Добавлен хак для превью тайлов
