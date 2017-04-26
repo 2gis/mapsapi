@@ -9,8 +9,8 @@
     "api"
   ],
   "scripts": {
-    "start": "node app",
     "test": "gulp lint && gulp test",
+    "start": "npm run build && node app",
     "build": "gulp build --release",
     "dev": "gulp dev",
     "lint": "gulp lint",
