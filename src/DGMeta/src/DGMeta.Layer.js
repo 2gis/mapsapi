@@ -82,7 +82,7 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     _enableDispatchMouseEvents: function() {
-        this._dispatchMouseEvents = false;
+        this._dispatchMouseEvents = true;
     },
 
     _disableDispatchMouseEvents: function() {
