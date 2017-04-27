@@ -23,6 +23,7 @@ DG.Meta.Layer = DG.Layer.extend({
 
         this._currentTile = false;
         this._currentTileData = false;
+        this._dispatchMouseEvents = true;
 
         this._origin = DG.Meta.origin(source, {
             dataFilter: this.options.dataFilter
@@ -35,18 +36,23 @@ DG.Meta.Layer = DG.Layer.extend({
 
     onAdd: function(map) {
         this._resetView();
-        this._addDomEvents();
 
-        map.on('rulerstart', this._removeDomEvents, this);
-        map.on('rulerend', this._addDomEvents, this);
+        map.metaLayers.push(this);
+
+        map.on('rulerstart', this._disableDispatchMouseEvents, this);
+        map.on('rulerend', this._enableDispatchMouseEvents, this);
     },
 
     onRemove: function(map) {
-        this._removeDomEvents();
         this._tileZoom = null;
 
-        map.off('rulerstart', this._removeDomEvents, this);
-        map.off('rulerend', this._addDomEvents, this);
+        var index = map.metaLayers.indexOf(this);
+        if (index !== -1) {
+            map.metaLayers.splice(index, 1);
+        }
+
+        map.off('rulerstart', this._disableDispatchMouseEvents, this);
+        map.off('rulerend', this._enableDispatchMouseEvents, this);
     },
 
     getEvents: function() {
@@ -56,14 +62,6 @@ DG.Meta.Layer = DG.Layer.extend({
             zoom: this._resetView,
             moveend: this._onMoveEnd
         };
-    },
-
-    _addDomEvents: function() {
-        DG.DomEvent.on(this._map.getPane('tilePane'), this._domEvents, this);
-    },
-
-    _removeDomEvents: function() {
-        DG.DomEvent.off(this._map.getPane('tilePane'), this._domEvents, this);
     },
 
     _removeAllTiles: DG.GridLayer.prototype._removeAllTiles,
@@ -83,10 +81,18 @@ DG.Meta.Layer = DG.Layer.extend({
         this._resetView();
     },
 
-    _domEvents: {
-        mousemove: function(event) { // (MouseEvent)
+    _enableDispatchMouseEvents: function() {
+        this._dispatchMouseEvents = true;
+    },
+
+    _disableDispatchMouseEvents: function() {
+        this._dispatchMouseEvents = false;
+    },
+
+    mapEvents: {
+        mousemove: function(event) {
             var tileSize = this.getTileSize(),
-                layerPoint = this._map.mouseEventToLayerPoint(event),
+                layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
                 tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
                 tileCoord = tileOriginPoint.unscaleBy(tileSize).floor(),
                 mouseTileOffset,
@@ -153,12 +159,12 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     _fireMouseEvent: function(type, mouseEvent) {
-        if (!this._hoveredEntity) {
+        if (!this._hoveredEntity || !this._dispatchMouseEvents) {
             return;
         }
         this.fire(type, {
             meta: this._hoveredEntity,
-            latlng: this._map.mouseEventToLatLng(mouseEvent)
+            latlng: this._map.mouseEventToLatLng(mouseEvent.originalEvent)
         });
         var isDragging = type === 'mousedown' || (this._mouseDown && type === 'mousemove');
         if (this.options.eventBubbling === 'layer' && !isDragging) {
