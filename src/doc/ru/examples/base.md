@@ -253,7 +253,7 @@
             })
             .on('locationerror', function(e) {
                 DG.popup()
-                  .setLatLng([54.98, 82.89])
+                  .setLatLng(map.getCenter())
                   .setContent('Доступ к определению местоположения отключён')
                   .openOn(map);
             });
@@ -283,7 +283,7 @@
                         })
                         .on('locationerror', function(e) {
                             DG.popup()
-                              .setLatLng([54.98, 82.89])
+                              .setLatLng(map.getCenter())
                               .setContent('Доступ к определению местоположения отключён')
                               .openOn(map);
                         });

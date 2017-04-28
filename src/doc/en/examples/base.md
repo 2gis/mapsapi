@@ -253,7 +253,7 @@ An example of determining the user's geographic location:
             })
             .on('locationerror', function(e) {
                 DG.popup()
-                  .setLatLng([54.98, 82.89])
+                  .setLatLng(map.getCenter())
                   .setContent('Location access denied')
                   .openOn(map);
             });
@@ -283,7 +283,7 @@ An example of determining the user's geographic location:
                         })
                         .on('locationerror', function(e) {
                             DG.popup()
-                              .setLatLng([54.98, 82.89])
+                              .setLatLng(map.getCenter())
                               .setContent('Location access denied')
                               .openOn(map);
                         });
