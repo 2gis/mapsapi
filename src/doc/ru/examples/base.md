@@ -252,8 +252,10 @@
                 DG.marker([e.latitude, e.longitude]).addTo(map);
             })
             .on('locationerror', function(e) {
-                console.log(e);
-                alert("Location access denied.");
+                DG.popup()
+                  .setLatLng(map.getCenter())
+                  .setContent('Доступ к определению местоположения отключён')
+                  .openOn(map);
             });
     });
 </script>
@@ -280,8 +282,10 @@
                             DG.marker([e.latitude, e.longitude]).addTo(map);
                         })
                         .on('locationerror', function(e) {
-                            console.log(e);
-                            alert("Location access denied.");
+                            DG.popup()
+                              .setLatLng(map.getCenter())
+                              .setContent('Доступ к определению местоположения отключён')
+                              .openOn(map);
                         });
                 });
             </script>
