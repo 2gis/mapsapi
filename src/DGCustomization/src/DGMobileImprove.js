@@ -144,10 +144,15 @@ if (DG.Browser.mobile) {
 }
 
 L.MobileTileLayer = L.TileLayer.extend({
+    initialize: function(url, options) {
+        L.TileLayer.prototype.initialize.call(this, url, options);
+        this._previewUrl = DG.config.previewTileServer;
+    },
+
     /**
      * Быстрое навешивание событий, вместо L.DomUtil.on используем простое присваивание
      */
-    createTile: function(coords, done) {
+    createTile: function(coords, done, url) {
         var tile = document.createElement('img');
         tile.onload = L.bind(this._tileOnLoad, this, done, tile);
         tile.onerror = L.bind(this._tileOnError, this, done, tile);
@@ -161,13 +166,14 @@ L.MobileTileLayer = L.TileLayer.extend({
          http://www.w3.org/TR/WCAG20-TECHS/H67
         */
         tile.alt = '';
-        tile.src = this.getTileUrl(coords);
+        tile.src = this.getTileUrl(coords, url);
 
         return tile;
     },
 
     /**
      * Убран класс leaflet-tile
+     * Добавлен хак для превью тайлов
      */
     _initTile: function(tile) {
         tile.style.position = 'absolute';
@@ -175,6 +181,8 @@ L.MobileTileLayer = L.TileLayer.extend({
         var tileSize = this.getTileSize();
         tile.style.width = tileSize.x + 'px';
         tile.style.height = tileSize.y + 'px';
+
+        tile.style.visibility = 'hidden';
 
         tile.onselectstart = L.Util.falseFn;
         tile.onmousemove = L.Util.falseFn;
@@ -300,6 +308,56 @@ L.MobileTileLayer = L.TileLayer.extend({
     },
 
     /**
+     * Для тайла не нужно грузить превью, если уже показывается тайл с меньшего зума
+     */
+    _needPreviewTile: function(coords) {
+        var coords2 = L.point(
+            coords.x / 2,
+            coords.y / 2
+        )._floor();
+
+        coords2.z = coords.z - 1;
+
+        var key = this._tileCoordsToKey(coords2)
+
+        return !this._tiles[key];
+    },
+
+    /**
+     * Добавлена логика с превью тайлами
+     */
+    _addTile: function(coords, container) {
+        var tilePos = this._getTilePos(coords),
+            key = this._tileCoordsToKey(coords);
+
+        var wrapCoords = this._wrapCoords(coords);
+        var needPreview = this._needPreviewTile(wrapCoords);
+
+        var url = needPreview ? this._previewUrl : this._url;
+        var tile = this.createTile(wrapCoords, L.bind(this._tileReady, this, coords), url);
+
+        this._initTile(tile, needPreview);
+
+        L.DomUtil.setPosition(tile, tilePos);
+
+        // save tile in cache
+        this._tiles[key] = {
+            el: tile,
+            preview: needPreview,
+            coords: coords,
+            current: true
+        };
+
+        container.appendChild(tile);
+        // @event tileloadstart: TileEvent
+        // Fired when a tile is requested and starts loading.
+        this.fire('tileloadstart', {
+            tile: tile,
+            coords: coords
+        });
+    },
+
+    /**
      * Убран fadeAnimated и класс leaflet-tile-loaded
      */
     _tileReady: function(coords, err, tile) {
@@ -320,10 +378,35 @@ L.MobileTileLayer = L.TileLayer.extend({
         tile = this._tiles[key];
         if (!tile) { return; }
 
+        // Если у тайла уже есть оригинальная (не пожатая) картинка,
+        // то заменим превью на нее
+        if (tile.originalEl && tile.el.parentNode) {
+            tile.el.parentNode.replaceChild(tile.originalEl, tile.el);
+            tile.el = tile.originalEl;
+
+            tile.originalEl = null;
+            tile.preview = false;
+
+        // Если у тайла есть только превью, то добавим его на карту
+        // И начнем грузить оригинальный
+        } else if (tile.preview) {
+            tile.originalEl = this.createTile(this._wrapCoords(coords), L.bind(this._tileReady, this, coords), this._url);
+            this._initTile(tile.originalEl);
+            L.DomUtil.setPosition(tile.originalEl, this._getTilePos(coords));
+
+            if (!err) {
+                tile.el.style.visibility = '';
+            }
+
+            return;
+        }
+
         tile.loaded = +new Date();
         tile.active = true;
 
         if (!err) {
+            tile.el.style.visibility = '';
+
             // @event tileload: TileEvent
             // Fired when a tile loads.
             this.fire('tileload', {
@@ -346,5 +429,27 @@ L.MobileTileLayer = L.TileLayer.extend({
                 setTimeout(L.bind(this._pruneTiles, this), 250);
             }
         }
-    }
+    },
+
+    /**
+     * В отличие от оригинального метода, здесь url прокидывается параметром
+     */
+    getTileUrl: function(coords, url) {
+        var data = {
+            r: L.Browser.retina ? '@2x' : '',
+            s: this._getSubdomain(coords),
+            x: coords.x,
+            y: coords.y,
+            z: this._getZoomForUrl()
+        };
+        if (this._map && !this._map.options.crs.infinite) {
+            var invertedY = this._globalTileRange.max.y - coords.y;
+            if (this.options.tms) {
+                data['y'] = invertedY;
+            }
+            data['-y'] = invertedY;
+        }
+
+        return L.Util.template(url, L.extend(data, this.options));
+    },
 });
