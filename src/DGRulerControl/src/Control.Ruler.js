@@ -62,6 +62,9 @@ DG.Control.Ruler = DG.RoundControl.extend({
     },
 
     _handleMapClick: function(event) { // (MouseEvents)
+        if (!event.latlng) {
+            return; // supress Enter key click
+        }
         this._drawingHelper.addLatLng(event.latlng);
     },
 
