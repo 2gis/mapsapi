@@ -7,7 +7,7 @@ gulp.task('imageMinify', [
     'copyAssets',
     'copyImg',
     'generateSprites'
-], function () {
+], function() {
     return gulp.src('dist/img/**/*.{png,gif,jpg,jpeg}')
         .pipe(gulpif(util.env.release, imagemin()))
         .pipe(gulp.dest('dist/img'));

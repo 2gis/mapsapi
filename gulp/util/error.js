@@ -9,7 +9,7 @@ function errorNotify(err) {
     notify.onError({
         title: 'Build Error',
         message: '<%= error.message %>'
-    }, function () {
+    }, function() {
         console.error(util.colors.red('Build failure'));
 
         if (err.stack) {

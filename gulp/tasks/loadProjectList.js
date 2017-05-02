@@ -6,7 +6,7 @@ var projectList = require('../util/projectList');
 var config = require('../../app/config.js');
 var errorNotifier = require('../util/error');
 
-gulp.task('loadProjectList', function (cb) {
+gulp.task('loadProjectList', function(cb) {
     if (projectList.get()) {
         return cb();
     }
@@ -28,7 +28,7 @@ gulp.task('loadProjectList', function (cb) {
 
     var url = protocol + apiServer + '/' + apiVersion + '/region/list?key=' + apiKey + '&fields=' + fields;
 
-    request(url, function (err, res, body) {
+    request(url, function(err, res, body) {
         if (err) {
             var error = new util.PluginError({
                 plugin: 'loadProjectList',

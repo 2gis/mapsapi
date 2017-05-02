@@ -6,6 +6,6 @@ gulp.task('buildStyles', [
     'collectImagesStats',
     'generateSprites',
     'imageMinify'
-], function () {
+], function() {
     return destCSS();
 });

@@ -16,11 +16,11 @@ var error = require('../util/error');
 
 var dependencies = util.env['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
 
-function getStyleRequireStatement(package, skin) {
-    return `require('../../../dist/css/styles.${package}.${skin}.css');`;
+function getStyleRequireStatement(pack, skin) {
+    return 'require("../../../dist/css/styles.' + pack + '.' + skin + '.css");';
 }
 
-gulp.task('concatScripts', dependencies, function () {
+gulp.task('concatScripts', dependencies, function() {
     var isCustom = util.env.pkg || util.env.skin;
     var packages;
 
@@ -37,7 +37,7 @@ gulp.task('concatScripts', dependencies, function () {
         config.appConfig.tileServer = '';
     }
 
-    return packages.map(function (pkg) {
+    return packages.map(function(pkg) {
         var stream = streamqueue(
                 {objectMode: true},
                 gulp.src(deps.getJSFiles({pkg: pkg}), {base: '.'}),
@@ -56,7 +56,7 @@ gulp.task('concatScripts', dependencies, function () {
         return stream
             .pipe(gulpif(!util.env.release, sourcemaps.write()))
             .pipe(gulp.dest('gulp/tmp/js'));
-    }).reduce(function (prev, curr) {
+    }).reduce(function(prev, curr) {
         return es.merge(prev, curr);
     });
 });

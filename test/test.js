@@ -1,6 +1,6 @@
 var argv = require('optimist').argv;
 
-exports.getBrowsers = function () {
+exports.getBrowsers = function() {
     var browsers = ['PhantomJS'];
 
     if (argv.hasOwnProperty('ff')) {
@@ -22,7 +22,7 @@ exports.getBrowsers = function () {
     return browsers;
 };
 
-exports.getReporters = function (isDebug) {
+exports.getReporters = function(isDebug) {
     var reporters = isDebug ? ['mocha'] : ['dots'];
 
     reporters.push('coverage');
@@ -34,11 +34,11 @@ exports.getReporters = function (isDebug) {
     return reporters;
 };
 
-exports.getJunitReporter = function () {
+exports.getJunitReporter = function() {
     var junitReporter = {};
 
     if (argv.hasOwnProperty('junitOutput')) {
-        junitReporter["outputFile"] = argv.junitOutput;
+        junitReporter['outputFile'] = argv.junitOutput;
     }
 
     return junitReporter;

@@ -4,7 +4,7 @@ var runSequence = require('run-sequence');
 var util = require('gulp-util');
 var gulp = require('gulp');
 
-gulp.task('build', function (cb) {
+gulp.task('build', function(cb) {
     if (util.env.npm) {
         // Disable local config for npm builds
         config.appConfig = config.mainConfig;
@@ -20,7 +20,7 @@ gulp.task('build', function (cb) {
         'copyAssets',
         'copyIndexPage',
         'hooks'
-    ], function () {
+    ], function() {
         buildEnd();
         cb();
     });

@@ -67,7 +67,7 @@ function updateLoaderVersion(done) {
         loaderFileName = config.loader.name,
         version = require('../package.json').version;
 
-    fs.readFile(loaderPath + '/' + loaderFileName, {encoding: 'utf8'}, function (err, loaderContent) {
+    fs.readFile(loaderPath + '/' + loaderFileName, {encoding: 'utf8'}, function(err, loaderContent) {
         if (err) { throw err; }
 
         console.log('Set version of stat files: ' + version);

@@ -3,7 +3,7 @@ var glob = require('glob');
 var path = require('path');
 var imageSize = require('image-size');
 
-var init = function (config) {
+var init = function(config) {
     var packages = config.packages;
 
     // Generates a list of modules by pkg
@@ -14,7 +14,7 @@ var init = function (config) {
         var modulesListRes = [];
         var loadedModules = {};
 
-        if (typeof pkg == 'boolean') {
+        if (typeof pkg === 'boolean') {
             throw new Error('pkg param can\'t be empty');
         }
 
@@ -23,7 +23,7 @@ var init = function (config) {
             modulesListOrig = packages[pkg].modules;
 
             // Modules list (example: 'Core,JSONP,TileLayer')
-        } else if (pkg && pkg.indexOf(',') != -1) {
+        } else if (pkg && pkg.indexOf(',') !== -1) {
             modulesListOrig = pkg.split(',');
 
             // Modules single (example: 'Core')
@@ -66,19 +66,19 @@ var init = function (config) {
         var isLeaflet = options.source === 'leaflet';
 
         return getModulesList(options.pkg, modules, isLeaflet)
-            .map(function (name) {
+            .map(function(name) {
                 return modules[name];
             })
-            .map(function (module) {
+            .map(function(module) {
                 return module.src;
             })
-            .reduce(function (array, items) {
+            .reduce(function(array, items) {
                 return array.concat(items);
             })
-            .filter(function (item, index, list) { //filter dublicates
+            .filter(function(item, index, list) { //filter dublicates
                 return list.indexOf(item) == index;
             })
-            .map(function (file) {
+            .map(function(file) {
                 return sourcePath + file;
             });
     }
@@ -92,14 +92,14 @@ var init = function (config) {
         var skin = options.skin || config.appConfig.defaultSkin;
 
         return getModulesList(options.pkg, modules)
-            .map(function (name) {
+            .map(function(name) {
                 return modules[name];
             })
-            .map(function (module) {
+            .map(function(module) {
                 return module[options.type || 'less'];
             })
             .filter(Boolean)
-            .reduce(function (array, item) {
+            .reduce(function(array, item) {
                 var items = [];
 
                 if (!options.excludeBaseCss && item.all) {
@@ -112,20 +112,20 @@ var init = function (config) {
 
                 return array.concat(items);
             }, [])
-            .reduce(function (array, items) {
+            .reduce(function(array, items) {
                 return array.concat(items);
             }, [])
-            .reduce(function (array, item) { // if css have skin, we add basic theme
-                if (item.indexOf('{skin}') != -1) {
+            .reduce(function(array, item) { // if css have skin, we add basic theme
+                if (item.indexOf('{skin}') !== -1) {
                     array.push(item.replace('{skin}', 'basic'));
                 }
 
                 return array.concat(item);
             }, [])
-            .map(function (file) { // add selected theme
+            .map(function(file) { // add selected theme
                 return file.replace('{skin}', skin);
             })
-            .map(function (file) {
+            .map(function(file) {
                 return sourcePath + file;
             })
             .filter(fs.existsSync);
@@ -138,7 +138,7 @@ var init = function (config) {
         var modules = source.deps;
 
         return getModulesList(options.pkg, modules)
-            .map(function (name) {
+            .map(function(name) {
                 return 'src/' + name + '/**/img/**/*.{png,gif,jpg,jpeg,svg}';
             });
     }
@@ -150,14 +150,14 @@ var init = function (config) {
         var header = '';
 
         if (options.variables) {
-            Object.keys(options.variables).forEach(function (varableName) {
+            Object.keys(options.variables).forEach(function(varableName) {
                 header = header + '\n' + '@' + varableName + ': ' + options.variables[varableName] + ';';
             });
         }
 
         var importsBase = '';
 
-        if (typeof options.importsBase == 'string' && options.importsBase.length) {
+        if (typeof options.importsBase === 'string' && options.importsBase.length) {
             importsBase = options.importsBase.replace(/\/*$/, '/');
         }
 
@@ -178,10 +178,10 @@ var init = function (config) {
         var skinsDirectories = glob.sync(__dirname + '/../../src/**/skin/*');
         var skins = [];
 
-        skinsDirectories.forEach(function (directory) {
+        skinsDirectories.forEach(function(directory) {
             var skinName = path.basename(directory);
 
-            if (skins.indexOf(skinName) == -1) {
+            if (skins.indexOf(skinName) === -1) {
                 skins.push(skinName);
             }
         });
@@ -196,8 +196,8 @@ var init = function (config) {
         var perSkinStats = {};
         var imgModulesGlobs = getImgGlob();
 
-        imgModulesGlobs.forEach(function (imgGlob) {
-            glob.sync(imgGlob).forEach(function (imagePath) {
+        imgModulesGlobs.forEach(function(imgGlob) {
+            glob.sync(imgGlob).forEach(function(imagePath) {
                 var skinName = imagePath.split('/')[3];
                 var extname = path.extname(imagePath);
                 var name = path.basename(imagePath, extname);
@@ -237,7 +237,7 @@ var init = function (config) {
 
         var perSkinStats = {};
 
-        skins.forEach(function (skinName) {
+        skins.forEach(function(skinName) {
             var stats = {};
 
             var statsFilePath = __dirname + '/../tmp/less/images-usage-statistics.' + skinName + '.less';
@@ -251,8 +251,8 @@ var init = function (config) {
             stats.notRepeatableNotSprited = rawStats.notRepeatableNotSprited.split(',');
             // Repeatable images can be used as no-repeatable images,
             // so we should exclude repeatable images from no-repeatable images list
-            stats.notRepeatableSprited = rawStats.notRepeatableSprited.split(',').filter(function (name) {
-                return stats.repeatable.indexOf(name) == -1;
+            stats.notRepeatableSprited = rawStats.notRepeatableSprited.split(',').filter(function(name) {
+                return stats.repeatable.indexOf(name) === -1;
             });
 
             perSkinStats[skinName] = stats;
@@ -279,6 +279,6 @@ var init = function (config) {
 };
 
 
-if (typeof module != 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
     module.exports = init;
 }

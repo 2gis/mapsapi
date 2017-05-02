@@ -4,10 +4,10 @@ var stat = require('./stat');
 var config = require('../../app/config');
 var deps = require('../deps')(config);
 
-module.exports = function () {
+module.exports = function() {
     console.log('Build contains the next modules:');
 
-    deps.getModulesList(util.env.pkg).forEach(function (module) {
+    deps.getModulesList(util.env.pkg).forEach(function(module) {
         console.log('- ' + module);
     });
 
@@ -21,7 +21,7 @@ module.exports = function () {
 
     var statValues = stat.get();
 
-    Object.keys(statValues).forEach(function (file, val) {
+    Object.keys(statValues).forEach(function(file) {
         console.log('- ' + file + ': ' + statValues[file]);
     });
 

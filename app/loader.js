@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     var isJSRequested = false;
@@ -44,7 +44,7 @@
         script.setAttribute('type', 'text/javascript');
         script.setAttribute('src', baseURL + '/js/' + qs);
 
-        script.onerror = function (evt) {
+        script.onerror = function(evt) {
             runRejects(evt);
         };
 
@@ -122,13 +122,13 @@
         var style = document.createElement('style');
         style.type = 'text/css';
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
             DG.ajax(url, {
                 type: 'get',
 
                 dataType: 'html',
 
-                success: function (data) {
+                success: function(data) {
                     var head = document.getElementsByTagName('head')[0];
 
                     // Replace urls in CSS in case local config was changed
@@ -156,7 +156,7 @@
                     resolve();
                 },
 
-                error: function () {
+                error: function() {
                     reject();
                 }
             });
@@ -168,7 +168,7 @@
             DG.config.webApiServer + '/' +
             DG.config.webApiVersion + '/region/list';
 
-        return new Promise(function (resolve) {
+        return new Promise(function(resolve) {
             DG.ajax(url, {
                 type: DG.ajax.corsSupport ? 'get' : 'jsonp',
 
@@ -180,7 +180,7 @@
 
                 timeout: DG.config.loadProjectListTimeout,
 
-                success: function (data) {
+                success: function(data) {
                     var result = data.result;
 
                     if (result && result.items && result.items.length) {
@@ -190,7 +190,7 @@
                     resolve();
                 },
 
-                error: function (err) {
+                error: function(err) {
                     resolve();
                 }
             });
@@ -219,7 +219,7 @@
 
     function runRejects() {
         for (var i = 0, l = rejects.length; i < l; i++) {
-            if (typeof rejects[i] == 'function') {
+            if (typeof rejects[i] === 'function') {
                 rejects[i]();
             }
         }
@@ -237,7 +237,7 @@
         version: version
     };
 
-    var loaderDgThen = window.DG.then = function (resolve, reject) {
+    var loaderDgThen = window.DG.then = function(resolve, reject) {
         if (DG.then !== loaderDgThen) {
             return DG.then(resolve, reject);
         }
