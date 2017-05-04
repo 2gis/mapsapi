@@ -76,9 +76,6 @@ DG.Geoclicker = DG.Handler.extend({
         },
 
         click: function(e) { // (Object)
-            if (!e.latlng) {
-                return; // suppress Enter key click
-            }
             if (this.clickCount === 0) {
                 this.clickCount = 1;
                 this._singleClick(e);
