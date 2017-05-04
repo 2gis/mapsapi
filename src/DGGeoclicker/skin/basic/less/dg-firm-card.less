@@ -1,4 +1,3 @@
-
 .dg-firm-card__icon {
     position: relative;
     padding-left: 24px;
@@ -11,8 +10,8 @@
         background-position: 0 50%;
         background-repeat: no-repeat;
         content: '';
-        }
     }
+}
 
 .dg-firm-card__link {
     overflow: hidden;
@@ -21,13 +20,14 @@
     white-space: nowrap;
     word-wrap: normal;
     line-height: 16px;
-    }
-    .dg-firm-card__link a {
-        background-position: center bottom;
-        background-size: 10px 1px;
-        background-repeat: repeat-x;
-        text-decoration: none;
-        }
+}
+
+.dg-firm-card__link a {
+    background-position: center bottom;
+    background-size: 10px 1px;
+    background-repeat: repeat-x;
+    text-decoration: none;
+}
 
 .dg-firm-card__address {
     margin-bottom: 10px;
@@ -38,13 +38,14 @@
         top: 5px;
         left: 1px;
         content: '';
-        }
     }
-    .dg-firm-card__comment {
-        position: relative;
-        margin-left: 5px;
-        font-size: 12px;
-        }
+}
+
+.dg-firm-card__comment {
+    position: relative;
+    margin-left: 5px;
+    font-size: 12px;
+}
 
 .dg-firm-card__phone {
     overflow: hidden;
@@ -55,54 +56,56 @@
     &:before {
         top: 3px;
         left: 1px;
-        }
     }
+}
 
 .dg-firm-card__site {
     &:before {
         top: 3px;
-        }
     }
+}
 
 .dg-firm-card__email {
     &:before {
         top: 5px;
         height: 7px;
-        }
     }
+}
 
 .dg-firm-card__rubrics {
     overflow: hidden;
     margin-bottom: 4px;
     font-size: 12px;
     line-height: 16px;
+}
+
+.dg-firm-card__rubrics-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dg-firm-card__rubrics-list-item {
+    display: inline;
+    cursor: default;
+
+    &:before {
+        display: inline-block;
+        margin: 0 4px;
+        content: '•';
     }
-    .dg-firm-card__rubrics-list {
+
+    &:first-child:before {
         margin: 0;
-        padding: 0;
-        list-style: none;
-        }
-        .dg-firm-card__rubrics-list-item {
-            display: inline;
-            cursor: default;
-
-            &:before {
-                display: inline-block;
-                margin: 0 4px;
-                content: '•';
-                }
-
-            &:first-child:before {
-                margin: 0;
-                content: '';
-                }
-            }
+        content: '';
+    }
+}
 
 .dg-firm-card__aa {
     margin: 0 0 4px;
     padding: 0 0 0 24px;
     font-size: 12px;
-    }
+}
 
 .dg-firm-card__aa-list {
     display: inline;
@@ -110,24 +113,25 @@
     padding: 0;
     list-style: none;
     line-height: 16px;
+}
+
+.dg-firm-card__aa-list-item {
+    display: inline;
+    box-sizing: border-box;
+    max-width: 100%;
+    cursor: default;
+
+    &:before {
+        display: inline-block;
+        margin: 0 4px;
+        content: '•';
     }
-    .dg-firm-card__aa-list-item {
-        display: inline;
-        box-sizing: border-box;
-        max-width: 100%;
-        cursor: default;
 
-        &:before {
-            display: inline-block;
-            margin: 0 4px;
-            content: '•';
-            }
-
-        &:first-child:before {
-            margin: 0;
-            content: '';
-            }
-        }
+    &:first-child:before {
+        margin: 0;
+        content: '';
+    }
+}
 
 .dg-firm-card__aa-list-additional {
     display: inline;
@@ -135,8 +139,8 @@
     padding: 0;
     list-style: none;
     line-height: 16px;
-    }
+}
 
 .dg-firm-card__schedule {
     margin-bottom: 10px;
-    }
+}

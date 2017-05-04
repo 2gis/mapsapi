@@ -1,12 +1,12 @@
 .dg-control-round__icon_name_locate {
     &:after {
         .notRepeatableBgWithSizes('DGRoundControl__locateIcon_dark');
-        }
+    }
 
     .no-touch &:hover:after,
     &:active:after {
         .notRepeatableBg('DGRoundControl__locateIconHover_dark');
-        }
+    }
 
     .dg-control-round__icon_state_requesting&:after,
     .no-touch .dg-control-round__icon_state_requesting&:hover:after,
@@ -14,5 +14,5 @@
         .notRepeatableBgWithSizes('DGRoundControl__locateIconRequesting_dark');
         animation: DGLocation__locateIconRequestingAnim 1s linear infinite;
         image-rendering: optimizeQuality;
-        }
     }
+}

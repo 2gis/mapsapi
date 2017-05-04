@@ -1,38 +1,40 @@
 .dg-scroller {
-    }
+}
 
 .dg-scroller_hidden_true {
     overflow: auto;
-    }
+}
 
 .dg-scroller::-webkit-scrollbar {
     width: 0;
-    }
+}
 
 .dg-scroller__wrapper {
     position: relative;
     overflow: hidden;
-    }
-    .dg-scroller__bar-wrapper {
-        position: absolute;
-        top: 18px;
-        right: 3px;
-        bottom: 4px;
-        width: 7px;
-        border-radius: 5px;
-        }
+}
 
-    .dg-scroller_hidden_true .dg-scroller__bar-wrapper {
-        visibility: hidden;
-        }
+.dg-scroller__bar-wrapper {
+    position: absolute;
+    top: 18px;
+    right: 3px;
+    bottom: 4px;
+    width: 7px;
+    border-radius: 5px;
+}
 
-    .dg-popup__header + .dg-popup__container-wrapper .dg-scroller__bar-wrapper {
-        top: 4px;
-        }
-        .dg-scroller__bar {
-            position: absolute;
-            min-height: 20px;
-            width: 7px;
-            border-radius: 3px;
-            pointer-events: auto;
-            }
+.dg-scroller_hidden_true .dg-scroller__bar-wrapper {
+    visibility: hidden;
+}
+
+.dg-popup__header + .dg-popup__container-wrapper .dg-scroller__bar-wrapper {
+    top: 4px;
+}
+
+.dg-scroller__bar {
+    position: absolute;
+    min-height: 20px;
+    width: 7px;
+    border-radius: 3px;
+    pointer-events: auto;
+}

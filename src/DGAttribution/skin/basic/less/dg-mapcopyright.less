@@ -1,40 +1,44 @@
 .dg-attribution {
     background-color: transparent !important;
+}
+
+.dg-attribution__copyright {
+    margin: 0 55px 5px 0;
+    text-align: right;
+    white-space: nowrap;
+    font-size: 9px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.dg-attribution__links {
+    display: inline-block;
+    margin: 0;
+    padding: 0 5px 0 0;
+}
+
+.dg-attribution__link-item {
+    padding: 0;
+    list-style-type: none;
+}
+
+.leaflet-container .dg-attribution__link {
+    background: linear-gradient(to right, rgba(8, 8, 8, .3), rgba(8, 8, 8, .3) 100%) 0 95% repeat-x;
+    background-size: 10px 1px;
+    color: #333;
+    text-decoration: none;
+    font-size: 9px;
+    font-family: Helvetica, Arial, sans-serif;
+    cursor: pointer;
+
+    &:hover {
+        background-image: linear-gradient(to right, #080808, #080808 100%);
+        color: #333;
+        text-decoration: none;
     }
-    .dg-attribution__copyright {
-        margin: 0 55px 5px 0;
-        text-align: right;
-        white-space: nowrap;
-        font-size: 9px;
-        font-family: Helvetica, Arial, sans-serif;
-        }
-        .dg-attribution__links {
-            display: inline-block;
-            margin: 0;
-            padding: 0 5px 0 0;
-            }
-            .dg-attribution__link-item {
-                padding: 0;
-                list-style-type: none;
-                }
-                .leaflet-container .dg-attribution__link {
-                    background: linear-gradient(to right, rgba(8,8,8,.3), rgba(8,8,8,.3) 100%) 0 95% repeat-x;
-                    background-size: 10px 1px;
-                    color: #333;
-                    text-decoration: none;
-                    font-size: 9px;
-                    font-family: Helvetica, Arial, sans-serif;
-                    cursor: pointer;
+}
 
-                    &:hover {
-                        background-image: linear-gradient(to right, #080808, #080808 100%);
-                        color: #333;
-                        text-decoration: none;
-                        }
-                    }
-
-        .dg-attribution__logo-url {
-            .notRepeatableBgWithSizes('DGAttribution__logo');
-            position: absolute;
-            margin: 0 3px 0 0;
-            }
+.dg-attribution__logo-url {
+    .notRepeatableBgWithSizes('DGAttribution__logo');
+    position: absolute;
+    margin: 0 3px 0 0;
+}
