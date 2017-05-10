@@ -23,7 +23,7 @@
   "main": "dist/js/script.full.js",
   "dependencies": {
     "dustjs-helpers": "1.7.3",
-    "dustjs-linkedin": "2.7.2",
+    "dustjs-linkedin": "2.7.5",
     "html5shiv": "^3.7.3",
     "leaflet": "git://github.com/Leaflet/Leaflet.git#v1.0.1"
   },
