@@ -62,25 +62,8 @@ function getAppConfig() {
     return _.assign({}, getMainConfig(), getLocalConfig());
 }
 
-function updateLoaderVersion(done) {
-    var loaderPath = config.loader.dir,
-        loaderFileName = config.loader.name,
-        version = require('../package.json').version;
-
-    fs.readFile(loaderPath + '/' + loaderFileName, {encoding: 'utf8'}, function(err, loaderContent) {
-        if (err) { throw err; }
-
-        console.log('Set version of stat files: ' + version);
-
-        loaderContent = loaderContent.replace(/(version\s*=\s*['"]{1})()*.*(['"]{1})/g, '$1$2' + 'v' + version + '$3');
-        fs.writeFile(loaderPath + '/' + loaderFileName, loaderContent, done);
-    });
-}
-
 config.mainConfig = getMainConfig();
 config.localConfig = getLocalConfig();
 config.appConfig = getAppConfig();
-
-config.updateLoaderVersion = updateLoaderVersion;
 
 module.exports = config;
