@@ -9,10 +9,11 @@
     "api"
   ],
   "scripts": {
-    "start": "node app",
     "test": "gulp lint && gulp test",
-    "lint": "gulp lint",
+    "start": "npm run build && node app",
+    "build": "gulp build --release",
     "dev": "gulp dev",
+    "lint": "gulp lint",
     "pub": "gulp clean && gulp build --npm && npm publish"
   },
   "repository": {

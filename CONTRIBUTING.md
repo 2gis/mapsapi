@@ -12,11 +12,7 @@
     * [Прочие рекомендации](#Прочие-рекомендации)
 3. [Как внести изменения в исходный код](#Как-внести-изменения-в-исходный-код)
 4. [Установка локальной сборки API карт](#Установка-локальной-сборки-api-карт)
-5. [Установка окружения для разных ОС](#Установка-окружения-для-разных-ОС)
-    * [Mac OS X](#mac-os-x)
-    * [Ubuntu](#ubuntu)
-    * [Windows](#windows)
-6. [Стандарты кодирования](#Стандарты-кодирования)
+5. [Стандарты кодирования](#Стандарты-кодирования)
     * [JavaScript](#javascript)
     * [HTML и CSS](#html-и-css)
 
@@ -227,58 +223,17 @@
         git clone git@github.com:2gis/maps-api-2.0.git mapsapi-folder
 
     Примечание: если вы устанавливаете API карт не с текущего репозитория, а с его форка, тогда не забудьте указать первым параметром команды `clone` адрес форка вместо адреса репозитория 2ГИС.
-* Установите окружение:
-    * [Node.js](http://nodejs.org/);
-    * [gulpJS](http://gulpjs.com/);
-    Дополнительно вы можете [ознакомиться с инструкцией](#Установка-окружения-для-разных-ОС) по установке окружения для разных операционных систем.
+* Установите [Node.js](https://nodejs.org/)
 * Установите зависимости:
 
         cd ~/mapsapi-folder
-        sudo npm install
+        npm install
 
-* Выполните сборку API карт:
+* Выполните сборку API карт и запуск сервера:
 
-        gulp build
-
-* Запустите сервер приложения:
-
-        node app
+        npm run dev
 
 После выполнения описанных выше действий вы сможете открыть в браузере карту по адресу http://127.0.0.1:3000/2.0/
-
-## Установка окружения для разных ОС
-### Mac OS X
-
-* Установите homebrew перейдя по ссылке:
-
-        [http://brew.sh/index_ru.html](Руководство по установке brew)
-
-* Запустите `install_osx.sh`
-
-        sh install_osx.sh
-
-### Ubuntu
-
-* Запустите `install_ubuntu.sh`
-
-        sh install_osx.sh
-
-### Windows
-
-* Установите NodeJS с помощью [NodeJS Installer](http://nodejs.org/download/)
-
-* Установите Gulp из командной строки:
-
-        npm install -g gulp
-
-* Перейдите по ссылке [http://www.gtk.org/download/win64.php](http://www.gtk.org/download/win64.php)
-(или [http://www.gtk.org/download/win32.php](http://www.gtk.org/download/win32.php) для 32-разрядного NodeJS)
-
-* Скачайте архив с бинарной сборкой GTK+
-
-* Распакуйте в `C:\GTK`
-
-* Добавьте `C:\GTK\bin;` в системную переменную PATH (подробнее: [https://www.java.com/ru/download/help/path.xml](https://www.java.com/ru/download/help/path.xml))
 
 ## Стандарты кодирования
 
