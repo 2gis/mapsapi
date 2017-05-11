@@ -181,6 +181,10 @@ DG.Map.include({
 
     // Added meta layers events processing before map events
     _fireDOMEvent: function(e, type, targets) {
+        if (e.keyCode === 13) {
+            // https://github.com/Leaflet/Leaflet/issues/5499
+            return;
+        }
         if (e.type === 'click') {
             // Fire a synthetic 'preclick' event which propagates up (mainly for closing popups).
             // @event preclick: MouseEvent
