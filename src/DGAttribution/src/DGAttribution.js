@@ -11,7 +11,7 @@ DG.Control.Attribution.include({
             ru: {
                 copyright_logo: 'http://info.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'http://api.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://help.2gis.ru/licensing-agreement/'
+                copyright_license: 'http://law.2gis.ru/licensing-agreement/'
             },
 
             it: {
