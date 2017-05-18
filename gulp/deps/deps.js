@@ -158,6 +158,14 @@ var deps = {
         deps: ['DGCore', 'DGLocale', 'DGLabel', 'DGRoundControl']
     },
 
+    DGMagicZoom: {
+        desc: 'Double click and drag zoom',
+        src: [
+            'DGMagicZoom/src/DGMagicZoom.js'
+        ],
+        deps: ['DGCore']
+    },
+
     DGFullScreen: {
         desc: 'Full screen module',
         src: [
