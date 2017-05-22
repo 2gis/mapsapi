@@ -23,7 +23,8 @@ DG.Map.addInitHook(function() {
         detectRetina: DG.config.detectRetina,
         maxZoom: 19,
         maxNativeZoom: 19,
-        zIndex: 0
+        zIndex: 0,
+        updateWhenIdle: false // it's okay with preview tiles
     }).addTo(this);
 
     function updateErrorTileUrl() {
