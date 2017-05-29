@@ -146,7 +146,9 @@ if (DG.Browser.mobile) {
 L.MobileTileLayer = L.TileLayer.extend({
     initialize: function(url, options) {
         L.TileLayer.prototype.initialize.call(this, url, options);
-        this._previewUrl = DG.config.previewTileServer;
+
+        this._previewUrl = DG.config.protocol +
+            (DG.Browser.retina ? DG.config.previewRetinaTileServer : DG.config.previewTileServer);
     },
 
     /**
