@@ -52,8 +52,7 @@ gulp.task('buildScripts', ['concatScripts'], function() {
             .pipe(gulpif(
                 Boolean(util.env['leaflet-custom-build']),
                 insert.prepend('// leaflet-custom-build: ' + util.env['leaflet-custom-build'] + '\n')
-                )
-            )
+            ))
             .pipe(map(stat.save))
             .pipe(gulp.dest('dist/js/'));
     }).reduce(function(prev, curr) {
