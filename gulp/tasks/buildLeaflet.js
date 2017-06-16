@@ -46,7 +46,7 @@ function getLeafletFiles(compsBase32) {
     return files;
 }
 
-// leafletCustomBuild parameter for set id of leaflet build. See more in leaflet/build/build.html
+// leaflet-custom-build parameter for set id of leaflet build. See more in leaflet/build/build.html
 gulp.task('buildLeaflet', function () {
     var leafletCustomBuild = util.env['leaflet-custom-build'];
     return (leafletCustomBuild ? gulp.src(getLeafletFiles(leafletCustomBuild).map(function (file) {
