@@ -12,6 +12,7 @@ var util = require('gulp-util');
 var gulp = require('gulp');
 var path = require('path');
 var map = require('map-stream');
+var insert = require('gulp-insert');
 
 gulp.task('buildScripts', ['concatScripts'], function() {
     var isCustom = util.env.pkg || util.env.skin;
@@ -48,6 +49,11 @@ gulp.task('buildScripts', ['concatScripts'], function() {
             .pipe(derequire())
             .pipe(gulpif(util.env.release, uglify()))
             .pipe(gulpif(util.env.release, header(config.copyright)))
+            .pipe(gulpif(
+                Boolean(util.env['leaflet-custom-build']),
+                insert.prepend('// leaflet-custom-build: ' + util.env['leaflet-custom-build'] + '\n')
+                )
+            )
             .pipe(map(stat.save))
             .pipe(gulp.dest('dist/js/'));
     }).reduce(function(prev, curr) {
