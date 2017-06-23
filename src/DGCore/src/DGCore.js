@@ -3,7 +3,7 @@ require('html5shiv');
 
 // DG inheritance
 var oldDG = window.DG;
-DG = new (
+var DG = new (
     (function() {
         var DgApi = function() {},
             DgApiCore = function() {};
@@ -79,4 +79,5 @@ DG.Map.addInitHook(function() {
     }
 });
 
+window.DG = DG;
 module.exports = DG;
