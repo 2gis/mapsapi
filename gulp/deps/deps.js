@@ -77,7 +77,8 @@ var deps = {
             'DGCustomization/src/DGMap.Drag.js',
             'DGCustomization/src/DGMarker.js',
             'DGCustomization/src/DGPolyUtil.js',
-            'DGCustomization/src/DGMobileImprove.js'
+            'DGCustomization/src/DGMobileImprove.js',
+            'DGCustomization/src/OneFingerZoom.js'
         ],
         less: {
             all: [
