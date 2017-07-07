@@ -405,6 +405,7 @@ L.MobileTileLayer = L.TileLayer.extend({
 
         tile.loaded = +new Date();
         tile.active = true;
+        this._pruneTiles();
 
         if (!err) {
             tile.el.style.visibility = '';
