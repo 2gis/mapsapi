@@ -7,7 +7,6 @@ require('../../../vendors/baron');
         originalInitialize = DG.Popup.prototype.initialize,
         originalInitLayout = DG.Popup.prototype._initLayout,
         originalOnAdd = DG.Popup.prototype.onAdd,
-        originalAdjustPan = DG.Popup.prototype._adjustPan,
         graf = baron.noConflict();
 
     var BaronDomHelper = function(element) {
@@ -278,7 +277,6 @@ require('../../../vendors/baron');
 
             if (e) {
                 if (e.propertyName === 'max-height') {
-                    setTimeout(originalAdjustPan.bind(this), 1); //JSAPI-3409 fix safari glich
                     DG.DomEvent.off(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan);
                 }
 
@@ -316,6 +314,11 @@ require('../../../vendors/baron');
                 size = map.getSize(),
                 dx = 0,
                 dy = 0;
+
+            if (size.x === 0 || size.y === 0) {
+                // map isn't visible
+                return;
+            }
 
             if (containerPos.x + containerWidth + paddingBR.x > size.x) { // right
                 dx = containerPos.x + containerWidth - size.x + paddingBR.x;
