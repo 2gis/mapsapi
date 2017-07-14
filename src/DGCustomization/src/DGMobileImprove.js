@@ -310,19 +310,46 @@ L.MobileTileLayer = L.TileLayer.extend({
     },
 
     /**
-     * Для тайла не нужно грузить превью, если уже показывается тайл с меньшего зума
+     * We don't load preview tile:
+     * - after zoom-in if a tile from a lower zoom is already shown
+     * - after zoom-out if four tiles from a higher zoom is already shown
      */
     _needPreviewTile: function(coords) {
-        var coords2 = L.point(
-            coords.x / 2,
-            coords.y / 2
-        )._floor();
+        if (this._tileZoom - this._map.getZoom() > 0) {
+            // zoom in
+            return !this._existTileFromLowerZoom(coords);
+        } else {
+            // zoom out
+            return !this._existTilesFromHigherZoom(coords);
+        }
+    },
+
+    _existTileFromLowerZoom: function(coords) {
+        var coords2 = L.point(coords.x / 2, coords.y / 2)._floor();
 
         coords2.z = coords.z - 1;
 
-        var key = this._tileCoordsToKey(coords2)
+        var key = this._tileCoordsToKey(coords2);
 
-        return !this._tiles[key];
+        return this._tiles[key];
+    },
+
+    _existTilesFromHigherZoom: function(coords) {
+        var x = coords.x;
+        var y = coords.y;
+
+        for (var i = 2 * x; i < 2 * x + 2; i++) {
+            for (var j = 2 * y; j < 2 * y + 2; j++) {
+                var c = new L.Point(i, j);
+                c.z = coords.z + 1;
+                var key = this._tileCoordsToKey(c);
+                if (!this._tiles[key]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     },
 
     /**
