@@ -24,6 +24,9 @@ DG.Meta.Layer = DG.Layer.extend({
         this._currentTile = false;
         this._currentTileData = false;
         this._dispatchMouseEvents = true;
+        this._poi = {
+            timeoutId: null
+        };
 
         this._origin = DG.Meta.origin(source, {
             dataFilter: this.options.dataFilter
@@ -36,6 +39,7 @@ DG.Meta.Layer = DG.Layer.extend({
 
     onAdd: function(map) {
         this._resetView();
+        this._setNewViewport();
 
         map.metaLayers.push(this);
 
@@ -60,7 +64,9 @@ DG.Meta.Layer = DG.Layer.extend({
             viewprereset: this._invalidateAll,
             viewreset: this._resetView,
             zoom: this._resetView,
-            moveend: this._onMoveEnd
+            zoomend: this._setNewViewport,
+            moveend: this._onMoveEnd,
+            resize: this._setNewViewport
         };
     },
 
@@ -79,6 +85,7 @@ DG.Meta.Layer = DG.Layer.extend({
         if (!this._map || this._map._animatingZoom) { return; }
 
         this._resetView();
+        this._setNewViewport();
     },
 
     _enableDispatchMouseEvents: function() {
@@ -87,6 +94,117 @@ DG.Meta.Layer = DG.Layer.extend({
 
     _disableDispatchMouseEvents: function() {
         this._dispatchMouseEvents = false;
+    },
+
+    _setNewViewport: function() {
+        var poiCollectStatisticsDelay = 1000;
+        clearTimeout(this._poi.timeoutId);
+        this._poi.timeoutId = setTimeout(this._collectPoiStatistics.bind(this), poiCollectStatisticsDelay);
+    },
+
+    _collectPoiStatistics: function() {
+        console.clear();
+        var tileSize = this.getTileSize();
+        var bounds = this._map.getPixelBounds();
+        var min = bounds.min.unscaleBy(tileSize).floor();
+        var max = bounds.max.unscaleBy(tileSize).floor();
+        var z = this._getZoomForUrl();
+        var self = this;
+        var promises = [];
+
+        for (var x = min.x; x <= max.x; x++) {
+            for (var y = min.y; y <= max.y; y++) {
+                var coord = DG.point(x, y);
+                coord.z = z;
+                coord.key = tileSize.x + 'x' + tileSize.y;
+                promises.push(
+                    this._origin.getTileData(coord)
+                        .then(function(data) {
+                            return self._filterPoiInViewport(data);
+                        })
+                );
+            }
+        }
+
+        Promise.all(promises)
+            .then(function(tiles) {
+                var uniqIds = [];
+                tiles.forEach(function(tilePoiArray) {
+                    tilePoiArray.forEach(function(poi) {
+                        if (uniqIds.indexOf(poi.id) === -1) {
+                            uniqIds.push(poi.id);
+                            console.log(poi.hint, poi.id);
+                        }
+                    });
+                });
+            });
+    },
+
+    _filterPoiInViewport: function(data) {
+        var bounds = this._map.getBounds();
+        return new Promise(function(resolve) {
+            var result = [];
+            if (!data) {
+                resolve(result); // no poi in the metatile
+            }
+            for (var poiIndex = 0; poiIndex < data.length; poiIndex++) {
+                var poi = data[poiIndex];
+                if (!poi.hint) {
+                    continue; // skip parking, gate, etc.
+                }
+                var isPoiVisible = true;
+                var geometry = poi.geometry;
+                var polygonIndex, polygon, pointIndex, point;
+
+                if (geometry.type === 'Polygon') {
+                    for (polygonIndex = 0; polygonIndex < geometry.geoCoordinates.length; polygonIndex++) {
+                        if (!isPoiVisible) {
+                            break;
+                        }
+                        polygon = geometry.geoCoordinates[polygonIndex];
+                        for (pointIndex = 0; pointIndex < polygon.length; pointIndex++) {
+                            point = DG.latLng({
+                                lat: polygon[pointIndex][1],
+                                lng: polygon[pointIndex][0]
+                            });
+                            if (!bounds.contains(point)) {
+                                isPoiVisible = false;
+                                break;
+                            }
+                        }
+                    }
+                } else if (geometry.type === 'MultiPolygon') {
+
+                    for (var objIndex = 0; objIndex < geometry.geoCoordinates.length; objIndex++) {
+                        if (!isPoiVisible) {
+                            break;
+                        }
+                        var obj = geometry.geoCoordinates[objIndex];
+                        for (polygonIndex = 0; polygonIndex < obj.length; polygonIndex++) {
+                            if (!isPoiVisible) {
+                                break;
+                            }
+                            polygon = obj[polygonIndex];
+                            for (pointIndex = 0; pointIndex < polygon.length; pointIndex++) {
+                                point = DG.latLng({
+                                    lat: polygon[pointIndex][1],
+                                    lng: polygon[pointIndex][0]
+                                });
+                                if (!bounds.contains(point)) {
+                                    isPoiVisible = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (isPoiVisible) {
+                    result.push(poi);
+                }
+            }
+            resolve(result);
+        });
     },
 
     mapEvents: {
@@ -98,7 +216,8 @@ DG.Meta.Layer = DG.Layer.extend({
                 mouseTileOffset,
                 tileKey,
                 hoveredObject,
-                zoom = this._map.getZoom();
+                zoom = this._map.getZoom(),
+                self = this;
 
             if (zoom > (this.options.maxZoom + this.options.zoomOffset) ||
                 zoom < (this.options.minZoom - this.options.zoomOffset) ||
@@ -118,7 +237,10 @@ DG.Meta.Layer = DG.Layer.extend({
             }
 
             if (this._currentTileData === false) {
-                this._currentTileData = this._origin.getTileData(tileCoord);
+                this._origin.getTileData(tileCoord)
+                    .then(function(data) {
+                        self._currentTileData = data
+                    });
             } else {
                 mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
                 hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
