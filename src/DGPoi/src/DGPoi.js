@@ -1,5 +1,6 @@
 DG.Map.mergeOptions({
-    poi: !DG.Browser.mobile
+    poi: true
+    // poi: !DG.Browser.mobile
 });
 
 DG.Poi = DG.Handler.extend({
