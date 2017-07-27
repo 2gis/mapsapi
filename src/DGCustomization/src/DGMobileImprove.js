@@ -330,8 +330,8 @@ L.MobileTileLayer = L.TileLayer.extend({
         coords2.z = coords.z - 1;
 
         var key = this._tileCoordsToKey(coords2);
-
-        return this._tiles[key];
+        var tile = this._tiles[key];
+        return tile && !tile.preview;
     },
 
     _existTilesFromHigherZoom: function(coords) {
@@ -422,12 +422,6 @@ L.MobileTileLayer = L.TileLayer.extend({
             tile.originalEl = this.createTile(this._wrapCoords(coords), L.bind(this._tileReady, this, coords), this._url);
             this._initTile(tile.originalEl);
             L.DomUtil.setPosition(tile.originalEl, this._getTilePos(coords));
-
-            if (!err) {
-                tile.el.style.visibility = '';
-            }
-
-            return;
         }
 
         tile.loaded = +new Date();
@@ -441,6 +435,7 @@ L.MobileTileLayer = L.TileLayer.extend({
             // Fired when a tile loads.
             this.fire('tileload', {
                 tile: tile.el,
+                preview: tile.preview,
                 coords: coords
             });
         }
