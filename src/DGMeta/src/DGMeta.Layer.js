@@ -110,13 +110,14 @@ DG.Meta.Layer = DG.Layer.extend({
         var max = bounds.max.unscaleBy(tileSize).floor();
         var z = this._getZoomForUrl();
         var self = this;
+        var key = tileSize.x + 'x' + tileSize.y;
         var promises = [];
 
         for (var x = min.x; x <= max.x; x++) {
             for (var y = min.y; y <= max.y; y++) {
                 var coord = DG.point(x, y);
                 coord.z = z;
-                coord.key = tileSize.x + 'x' + tileSize.y;
+                coord.key = key;
                 promises.push(
                     this._origin.getTileData(coord)
                         .then(function(data) {
