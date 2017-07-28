@@ -105,9 +105,10 @@ DG.Meta.Layer = DG.Layer.extend({
     _collectPoiStatistics: function() {
         console.clear();
         var tileSize = this.getTileSize();
-        var bounds = this._map.getPixelBounds();
-        var min = bounds.min.unscaleBy(tileSize).floor();
-        var max = bounds.max.unscaleBy(tileSize).floor();
+        var geoBounds = this._map.getBounds();
+        var pixelBounds = this._map.getPixelBounds();
+        var min = pixelBounds.min.unscaleBy(tileSize).floor();
+        var max = pixelBounds.max.unscaleBy(tileSize).floor();
         var z = this._getZoomForUrl();
         var self = this;
         var key = tileSize.x + 'x' + tileSize.y;
@@ -121,7 +122,7 @@ DG.Meta.Layer = DG.Layer.extend({
                 promises.push(
                     this._origin.getTileData(coord)
                         .then(function(data) {
-                            return self._filterPoiInViewport(data);
+                            return self._filterPoiInViewport(data, geoBounds);
                         })
                 );
             }
@@ -141,12 +142,11 @@ DG.Meta.Layer = DG.Layer.extend({
             });
     },
 
-    _filterPoiInViewport: function(data) {
+    _filterPoiInViewport: function(data, bounds) {
         var result = [];
         if (!data) {
             return result; // no poi in the metatile
         }
-        var bounds = this._map.getBounds();
         for (var poiIndex = 0; poiIndex < data.length; poiIndex++) {
             var poi = data[poiIndex];
             if (!poi.hint) {
