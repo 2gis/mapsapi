@@ -141,27 +141,49 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     _filterPoiInViewport: function(data) {
+        var result = [];
+        if (!data) {
+            return result; // no poi in the metatile
+        }
         var bounds = this._map.getBounds();
-        return new Promise(function(resolve) {
-            var result = [];
-            if (!data) {
-                resolve(result); // no poi in the metatile
+        for (var poiIndex = 0; poiIndex < data.length; poiIndex++) {
+            var poi = data[poiIndex];
+            if (!poi.hint) {
+                continue; // skip parking, gate, etc.
             }
-            for (var poiIndex = 0; poiIndex < data.length; poiIndex++) {
-                var poi = data[poiIndex];
-                if (!poi.hint) {
-                    continue; // skip parking, gate, etc.
-                }
-                var isPoiVisible = true;
-                var geometry = poi.geometry;
-                var polygonIndex, polygon, pointIndex, point;
+            var isPoiVisible = true;
+            var geometry = poi.geometry;
+            var polygonIndex, polygon, pointIndex, point;
 
-                if (geometry.type === 'Polygon') {
-                    for (polygonIndex = 0; polygonIndex < geometry.geoCoordinates.length; polygonIndex++) {
+            if (geometry.type === 'Polygon') {
+                for (polygonIndex = 0; polygonIndex < geometry.geoCoordinates.length; polygonIndex++) {
+                    if (!isPoiVisible) {
+                        break;
+                    }
+                    polygon = geometry.geoCoordinates[polygonIndex];
+                    for (pointIndex = 0; pointIndex < polygon.length; pointIndex++) {
+                        point = DG.latLng({
+                            lat: polygon[pointIndex][1],
+                            lng: polygon[pointIndex][0]
+                        });
+                        if (!bounds.contains(point)) {
+                            isPoiVisible = false;
+                            break;
+                        }
+                    }
+                }
+            } else if (geometry.type === 'MultiPolygon') {
+
+                for (var objIndex = 0; objIndex < geometry.geoCoordinates.length; objIndex++) {
+                    if (!isPoiVisible) {
+                        break;
+                    }
+                    var obj = geometry.geoCoordinates[objIndex];
+                    for (polygonIndex = 0; polygonIndex < obj.length; polygonIndex++) {
                         if (!isPoiVisible) {
                             break;
                         }
-                        polygon = geometry.geoCoordinates[polygonIndex];
+                        polygon = obj[polygonIndex];
                         for (pointIndex = 0; pointIndex < polygon.length; pointIndex++) {
                             point = DG.latLng({
                                 lat: polygon[pointIndex][1],
@@ -173,38 +195,14 @@ DG.Meta.Layer = DG.Layer.extend({
                             }
                         }
                     }
-                } else if (geometry.type === 'MultiPolygon') {
-
-                    for (var objIndex = 0; objIndex < geometry.geoCoordinates.length; objIndex++) {
-                        if (!isPoiVisible) {
-                            break;
-                        }
-                        var obj = geometry.geoCoordinates[objIndex];
-                        for (polygonIndex = 0; polygonIndex < obj.length; polygonIndex++) {
-                            if (!isPoiVisible) {
-                                break;
-                            }
-                            polygon = obj[polygonIndex];
-                            for (pointIndex = 0; pointIndex < polygon.length; pointIndex++) {
-                                point = DG.latLng({
-                                    lat: polygon[pointIndex][1],
-                                    lng: polygon[pointIndex][0]
-                                });
-                                if (!bounds.contains(point)) {
-                                    isPoiVisible = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (isPoiVisible) {
-                    result.push(poi);
                 }
             }
-            resolve(result);
-        });
+
+            if (isPoiVisible) {
+                result.push(poi);
+            }
+        }
+        return result;
     },
 
     mapEvents: {
