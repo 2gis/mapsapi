@@ -275,12 +275,14 @@ require('../../../vendors/baron');
         _adjustPan: function(e) {
             if (!this._map) { return; }
 
-            if (e) {
+            if (e) { // animated popup is opening (height from 0 to max)
                 if (e.propertyName === 'max-height') {
+                    // when it's finished we are here
                     DG.DomEvent.off(this._wrapper, DG.DomUtil.TRANSITION_END, this._adjustPan);
+                } else {
+                    // here's intermediate steps - we don't need to process them
+                    return;
                 }
-
-                return;
             }
 
             var options = this.options;
