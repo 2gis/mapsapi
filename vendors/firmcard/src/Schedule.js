@@ -72,8 +72,10 @@ FirmCard.Schedule.prototype = {
         }
 
         // Конвертация int числа в номер дня недели (диапазон 0-6)
+        // отрицательные чила: -1 вернёт 6, -2 -> 5 и т.д
+        // положительные: 7 -> 0, 8 -> 1
         function dayNum(n) {
-            return n % 7;
+            return (n + 70) % 7;
         }
 
 
@@ -569,7 +571,7 @@ FirmCard.Schedule.prototype = {
         }
 
         // Вычисляем сегодняшний день недели (ссылку на объект дня в модели)
-        todayKey = weekKeysShort[(new Date(now).getDay()-firstdayOffset) % 7];
+        todayKey = weekKeysShort[dayNum(new Date(now).getDay() - firstdayOffset)];
         today = model[todayKey]; // Объект расписания - текущий день недели
         setTodayString(today); // Сделать объект для шаблона - строка, которая описывает время работы сегодня
 
