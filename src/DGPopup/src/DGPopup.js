@@ -174,6 +174,13 @@ require('../../../vendors/baron');
             return (o.nodeName ? true : false);
         },
 
+        _onCloseButtonClick: function(e) {
+            if (this._map) {
+                this._map.closePopup(this);
+            }
+            L.DomEvent.stop(e);
+        },
+
         _close: function() {
             if (this._map) {
                 if (DG.Browser.mobile && this._map.geoclicker &&
