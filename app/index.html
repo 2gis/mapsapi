@@ -69,7 +69,7 @@
     }
 
     function getMapOptions(options) {
-        const query = parseQuery();
+        var query = parseQuery();
         if (query.lng !== undefined && query.lat !== undefined) {
             options.center = [parseFloat(query.lat), parseFloat(query.lng)];
         }
