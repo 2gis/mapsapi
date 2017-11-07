@@ -28,7 +28,8 @@ DG.Traffic = DG.TileLayer.extend({
             detectRetina: options.detectRetina,
             maxNativeZoom: options.maxNativeZoom,
             dataFilter: DG.bind(this._processData, this),
-            minZoom: options.minZoom
+            minZoom: options.minZoom,
+            priorityGroup: 'traffic'
         });
         this._isDg = true;
         this._onTimer = DG.bind(this._onTimer, this);

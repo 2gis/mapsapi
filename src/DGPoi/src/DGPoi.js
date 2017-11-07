@@ -19,7 +19,8 @@ DG.Poi = DG.Handler.extend({
             maxNativeZoom: 19,
             detectRetina: DG.config.detectRetina,
             eventBubbling: 'layer',
-            dataFilter: DG.bind(this._processData, this)
+            dataFilter: DG.bind(this._processData, this),
+            priorityGroup: 'poi'
         });
     },
 

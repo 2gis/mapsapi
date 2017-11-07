@@ -494,6 +494,8 @@ require('../../../vendors/baron');
             this.resize();
 
             DG.DomEvent.on(this._wrapper, 'click', DG.DomEvent.stopPropagation);
+            DG.DomEvent.on(this._wrapper, 'mousemove', DG.DomEvent.stopPropagation);
+
             this._switchEvents();
 
             if (DG.Browser.ielt9) {
