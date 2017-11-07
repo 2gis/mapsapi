@@ -29,7 +29,8 @@
             zoomControl: false,
             fullscreenControl: false
         };
-        var map = window.map = DG.map('map', getMapOptions(options));
+        var query = parseQuery();
+        var map = window.map = DG.map('map', getMapOptions(query, options));
 
         var controlOptions = DG.Browser.mobile ? {position: 'bottomright'} : {};
         DG.control.zoom(controlOptions).addTo(map);
@@ -44,7 +45,11 @@
         <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
         (МФК «Сан Сити»), 13 этаж';
 
-        DG.marker([54.980156831455, 82.897440725094]).addTo(map).bindPopup(balloonHTML);
+        var marker = DG.marker([54.980156831455, 82.897440725094]).addTo(map).bindPopup(balloonHTML);
+
+        if (!query.lng && !query.lat) {
+            marker.openPopup();
+        }
 
         map.on('moveend', function() {
             if (!history.replaceState) {
@@ -72,8 +77,7 @@
         return res;
     }
 
-    function getMapOptions(options) {
-        var query = parseQuery();
+    function getMapOptions(query, options) {
         if (query.lng !== undefined && query.lat !== undefined) {
             options.center = [parseFloat(query.lat), parseFloat(query.lng)];
         }
