@@ -47,7 +47,7 @@
 
         var marker = DG.marker([54.980156831455, 82.897440725094]).addTo(map).bindPopup(balloonHTML);
 
-        if (!query.lng && !query.lat) {
+        if (query.lng !== undefined && query.lat !== undefined) {
             marker.openPopup();
         }
 
