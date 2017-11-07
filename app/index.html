@@ -21,7 +21,6 @@
 <script>
     DG.then(function () {
         // change control position on touch devices
-        var controlOptions = (DG.Browser.mobile) ? {position: 'bottomright'} : {};
         var options = {
             center: [54.980156831455, 82.897440725094],
             zoom: 13,
@@ -32,6 +31,7 @@
         };
         var map = window.map = DG.map('map', getMapOptions(options));
 
+        var controlOptions = DG.Browser.mobile ? {position: 'bottomright'} : {};
         DG.control.zoom(controlOptions).addTo(map);
         DG.control.traffic(controlOptions).addTo(map);
         DG.control.location(controlOptions).addTo(map);
