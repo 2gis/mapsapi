@@ -37,7 +37,7 @@ DG.Meta.Layer = DG.Layer.extend({
     onAdd: function(map) {
         this._resetView();
 
-        map.metaLayers.push(this);
+        map.metaLayers[this.options.priorityGroup] = this;
 
         map.on('rulerstart', this._disableDispatchMouseEvents, this);
         map.on('rulerend', this._enableDispatchMouseEvents, this);
@@ -46,10 +46,7 @@ DG.Meta.Layer = DG.Layer.extend({
     onRemove: function(map) {
         this._tileZoom = null;
 
-        var index = map.metaLayers.indexOf(this);
-        if (index !== -1) {
-            map.metaLayers.splice(index, 1);
-        }
+        map.metaLayers[this.options.priorityGroup] = undefined;
 
         map.off('rulerstart', this._disableDispatchMouseEvents, this);
         map.off('rulerend', this._enableDispatchMouseEvents, this);
@@ -89,52 +86,62 @@ DG.Meta.Layer = DG.Layer.extend({
         this._dispatchMouseEvents = false;
     },
 
+    getHoveredObject: function(event) {
+        var res = {
+            was: null,
+            now: null
+        };
+        var tileSize = this.getTileSize(),
+            layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
+            tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
+            tileCoord = tileOriginPoint.unscaleBy(tileSize).floor(),
+            mouseTileOffset,
+            tileKey,
+            hoveredObject,
+            zoom = this._map.getZoom();
+
+        if (zoom > (this.options.maxZoom + this.options.zoomOffset) ||
+            zoom < (this.options.minZoom - this.options.zoomOffset) ||
+            !this._isValidTile(tileCoord)) {
+            return res;
+        }
+
+        this._wrapCoords(tileCoord);
+
+        tileCoord.z = this._getZoomForUrl();
+        tileCoord.key = tileSize.x + 'x' + tileSize.y;
+        tileKey = this._origin.getTileKey(tileCoord);
+
+        if (tileKey !== this._currentTile) {
+            this._currentTile = tileKey;
+            this._currentTileData = false;
+        }
+
+        if (this._currentTileData === false) {
+            this._currentTileData = this._origin.getTileData(tileCoord);
+            return res;
+        }
+
+        mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
+        hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
+
+        res.was = this._hoveredEntity;
+        res.now = hoveredObject;
+
+        this._hoveredEntity = hoveredObject;
+
+        return res;
+    },
+
     mapEvents: {
         mousemove: function(event) {
-            var tileSize = this.getTileSize(),
-                layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
-                tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
-                tileCoord = tileOriginPoint.unscaleBy(tileSize).floor(),
-                mouseTileOffset,
-                tileKey,
-                hoveredObject,
-                zoom = this._map.getZoom();
-
-            if (zoom > (this.options.maxZoom + this.options.zoomOffset) ||
-                zoom < (this.options.minZoom - this.options.zoomOffset) ||
-                !this._isValidTile(tileCoord)) {
-                return;
-            }
-
-            this._wrapCoords(tileCoord);
-
-            tileCoord.z = this._getZoomForUrl();
-            tileCoord.key = tileSize.x + 'x' + tileSize.y;
-            tileKey = this._origin.getTileKey(tileCoord);
-
-            if (tileKey !== this._currentTile) {
-                this._currentTile = tileKey;
-                this._currentTileData = false;
-            }
-
-            if (this._currentTileData === false) {
-                this._currentTileData = this._origin.getTileData(tileCoord);
-            } else {
-                mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
-                hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
-
-                if (this._hoveredEntity !== hoveredObject) {
-                    this._fireMouseEvent('mouseout', event);
-
-                    this._hoveredEntity = hoveredObject;
-                    this._fireMouseEvent('mouseover', event);
-                }
-
-                this._fireMouseEvent('mousemove', event);
-            }
+            this._fireMouseEvent('mousemove', event);
         },
-        mouseout: function(event) {
-            this._fireMouseEvent('mouseout', event);
+        mouseover: function(event) {
+            this._fireMouseEvent('mouseover', event);
+        },
+        mouseout: function(event, hoveredObject) {
+            this._fireMouseEvent('mouseout', event, hoveredObject);
             this._hoveredEntity = null;
             this._currentTile = false;
         },
@@ -158,12 +165,12 @@ DG.Meta.Layer = DG.Layer.extend({
         }
     },
 
-    _fireMouseEvent: function(type, mouseEvent) {
-        if (!this._hoveredEntity || !this._dispatchMouseEvents) {
+    _fireMouseEvent: function(type, mouseEvent, hoveredObject) {
+        if ((!this._hoveredEntity && !hoveredObject) || !this._dispatchMouseEvents) {
             return;
         }
         this.fire(type, {
-            meta: this._hoveredEntity,
+            meta: hoveredObject || this._hoveredEntity,
             latlng: this._map.mouseEventToLatLng(mouseEvent.originalEvent)
         });
         var isDragging = type === 'mousedown' || (this._mouseDown && type === 'mousemove');

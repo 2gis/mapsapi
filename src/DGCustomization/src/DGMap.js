@@ -18,7 +18,11 @@ DG.Map.include({
         // See https://github.com/2gis/mapsapi/issues/343
         options = DG.extend({wheelPxPerZoomLevel: 10000}, options);
 
-        this.metaLayers = [];
+        this.metaLayers = {
+            poi: undefined,
+            traffic: undefined
+        };
+        this.markerWasHovered = false;
 
         initMap.call(this, id, options);
 
@@ -179,6 +183,109 @@ DG.Map.include({
         }
     },
 
+    _handleMetaLayers: function(eventType, data) {
+        var trafficLayer = this.metaLayers.traffic;
+        var poiLayer = this.metaLayers.poi;
+        var listener;
+
+        // no layers
+        if (!trafficLayer && !poiLayer) {
+            return;
+        }
+
+        // one layer
+        if ((!trafficLayer && poiLayer) || (trafficLayer && !poiLayer)) {
+            var layer = trafficLayer || poiLayer;
+            listener = layer.mapEvents[eventType];
+            if (listener) {
+                if (eventType === 'mousemove') {
+                    var obj = layer.getHoveredObject.call(layer, data);
+                    if (!obj.was && obj.now) {
+                        layer.mapEvents.mouseover.call(layer, data);
+                    }
+                    if (obj.was && !obj.now) {
+                        layer.mapEvents.mouseout.call(layer, data, obj.was);
+                    }
+                    if (obj.was && obj.now && obj.was.id !== obj.now.id) {
+                        layer.mapEvents.mouseout.call(layer, data, obj.was);
+                        layer.mapEvents.mouseover.call(layer, data);
+                    }
+                    if (obj.now) {
+                        layer.mapEvents.mousemove.call(layer, data);
+                    }
+                } else {
+                    listener.call(layer, data);
+                }
+            }
+            return;
+        }
+
+        // two layers, not mousemove
+        if (eventType !== 'mousemove') {
+            listener = trafficLayer.mapEvents[eventType];
+            if (listener) {
+                listener.call(trafficLayer, data);
+            }
+            listener = poiLayer.mapEvents[eventType];
+            if (listener) {
+                listener.call(poiLayer, data);
+            }
+            return;
+        }
+
+        // two layers, shitty mousemove
+        // possible transitions:
+        // 1. out -> poi
+        // 2. out -> traffic
+        // 3. poi -> out
+        // 4. poi -> poi
+        // 5. poi -> traffic
+        // 6. traffic -> out
+        // 7. traffic -> traffic
+        // 8. traffic -> poi
+        var traffic = trafficLayer.getHoveredObject.call(trafficLayer, data);
+        var poi = poiLayer.getHoveredObject.call(poiLayer, data);
+
+        var trafficOver = !traffic.was && traffic.now;
+        var trafficOut = traffic.was && !traffic.now;
+        var trafficChange = traffic.was && traffic.now && traffic.was.id !== traffic.now.id;
+        var trafficMove = traffic.now;
+        var poiOver = (!traffic.now && !poi.was && poi.now) || (trafficOut && poi.now);
+        var poiOut = (!traffic.was && poi.was && !poi.now) || (trafficOver && poi.was);
+        var poiChange = !traffic.now && poi.was && poi.now && poi.was.id !== poi.now.id;
+        var poiMove = !traffic.now && poi.now;
+
+        if (trafficChange) { // 7
+            trafficLayer.mapEvents.mouseout.call(trafficLayer, data, traffic.was);
+            trafficLayer.mapEvents.mouseover.call(trafficLayer, data);
+        }
+        if (poiChange) { // 4
+            poiLayer.mapEvents.mouseout.call(poiLayer, data, poi.was);
+            poiLayer.mapEvents.mouseover.call(poiLayer, data);
+        }
+
+        if (trafficOut) { // 6
+            trafficLayer.mapEvents.mouseout.call(trafficLayer, data, traffic.was);
+        }
+        if (poiOut) { // 3, 5
+            poiLayer.mapEvents.mouseout.call(poiLayer, data, poi.was);
+        }
+
+        if (trafficOver) { // 2, 5
+            trafficLayer.mapEvents.mouseover.call(trafficLayer, data);
+        }
+        if (poiOver) { // 1
+            poiLayer.mapEvents.mouseover.call(poiLayer, data);
+        }
+
+        if (trafficMove) {
+            trafficLayer.mapEvents.mousemove.call(trafficLayer, data);
+        }
+        if (poiMove) {
+            poiLayer.mapEvents.mousemove.call(poiLayer, data);
+        }
+    },
+
     // Added meta layers events processing before map events
     _fireDOMEvent: function(e, type, targets) {
         if (e.keyCode === 13) {
@@ -212,8 +319,24 @@ DG.Map.include({
             originalEvent: e
         };
 
+        var isMarker = target instanceof L.Marker;
+        if (isMarker) {
+            if (type === 'mouseover') {
+                this.markerWasHovered = true;
+
+                var trafficLayer = this.metaLayers.traffic;
+                if (trafficLayer) {
+                    trafficLayer.mapEvents.mouseout.call(trafficLayer, data);
+                }
+                var poiLayer = this.metaLayers.poi;
+                if (poiLayer) {
+                    poiLayer.mapEvents.mouseout.call(poiLayer, data);
+                }
+            } else if (type === 'mouseout') {
+                this.markerWasHovered = false;
+            }
+        }
         if (e.type !== 'keypress') {
-            var isMarker = target instanceof L.Marker;
             data.containerPoint = isMarker ?
                     this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
             data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
@@ -223,12 +346,14 @@ DG.Map.include({
         for (var i = 0; i < targets.length; i++) {
             // Check metalayers before dispatch the event to the map
             if (targets[i] === this) {
-                this.metaLayers.forEach(function(metaLayer) {
-                    var listener = metaLayer.mapEvents[type];
-                    if (listener) {
-                        listener.call(metaLayer, data);
+                if (type === 'mousemove') {
+                    if (!this.markerWasHovered) {
+                        this._handleMetaLayers(type, data);
                     }
-                });
+                } else {
+                    this._handleMetaLayers(type, data);
+                }
+
                 // If the event wasn't stopped in metalayers, dispatch it to the map
                 if (!data.originalEvent._stopped) {
                     targets[i].fire(type, data, true);
