@@ -19,39 +19,74 @@
 <div id="map"></div>
 
 <script>
-    var map,
-        options,
-        balloonHTML;
-
     DG.then(function () {
-        map = DG.map('map', {
+        // change control position on touch devices
+        var options = {
             center: [54.980156831455, 82.897440725094],
             zoom: 13,
             geoclicker: true,
             worldCopyJump: true,
             zoomControl: false,
             fullscreenControl: false
-        });
+        };
+        var query = parseQuery();
+        var map = window.map = DG.map('map', getMapOptions(query, options));
 
-        // change control position on touch devices
-        if (DG.Browser.mobile) {
-            options = { position: 'bottomright' };
-        }
-
-        DG.control.zoom(options).addTo(map);
-        DG.control.traffic(options).addTo(map);
-        DG.control.location(options).addTo(map);
-        DG.control.ruler(options).addTo(map);
+        var controlOptions = DG.Browser.mobile ? {position: 'bottomright'} : {};
+        DG.control.zoom(controlOptions).addTo(map);
+        DG.control.traffic(controlOptions).addTo(map);
+        DG.control.location(controlOptions).addTo(map);
+        DG.control.ruler(controlOptions).addTo(map);
         if (DG.screenfull.isAvailable()) {
-            DG.control.fullscreen(options).addTo(map);
+            DG.control.fullscreen(controlOptions).addTo(map);
         }
-        balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
+        var balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
         <img src="__BASE_URL__/img/2gis-logo.png" alt="2GIS" title="2GIS" width="154" height="66" style="border: none"></a>\n\
         <p>Компания «ДубльГИС»</p>Тел.: (383) 363-05-55<br />Адрес: г. Новосибирск, Карла Маркса площадь, 7<br />\n\
         (МФК «Сан Сити»), 13 этаж';
 
-        DG.marker([54.980156831455, 82.897440725094]).addTo(map).bindPopup(balloonHTML).openPopup();
+        var marker = DG.marker([54.980156831455, 82.897440725094]).addTo(map).bindPopup(balloonHTML);
+
+        if (query.lng === undefined && query.lat === undefined) {
+            // only open popup when no coordinates specified because it moves map to popup
+            marker.openPopup();
+        }
+
+        map.on('moveend', function() {
+            if (!history.replaceState) {
+                return; // ie <= 9
+            }
+
+            var center = map.getCenter();
+            history.replaceState({}, document.title,
+                '?lng=' + center.lng.toFixed(5) +
+                '&lat=' + center.lat.toFixed(5) +
+                '&zoom=' + map.getZoom()
+            );
+        });
     });
+
+    function parseQuery() {
+        var res = {};
+        location.search.slice(1).split('&')
+            .map(function(str) {
+                return str.split('=')
+            })
+            .forEach(function(couple) {
+                res[couple[0]] = couple[1];
+            });
+        return res;
+    }
+
+    function getMapOptions(query, options) {
+        if (query.lng !== undefined && query.lat !== undefined) {
+            options.center = [parseFloat(query.lat), parseFloat(query.lng)];
+        }
+        if (query.zoom !== undefined) {
+            options.zoom = parseInt(query.zoom, 10);
+        }
+        return options;
+    }
 </script>
 </body>
 </html>
