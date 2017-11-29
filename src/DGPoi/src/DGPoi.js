@@ -1,5 +1,6 @@
 DG.Map.mergeOptions({
-    poi: !DG.Browser.mobile
+    poi: true
+    // poi: !DG.Browser.mobile
 });
 
 DG.Poi = DG.Handler.extend({
@@ -62,15 +63,16 @@ DG.Poi = DG.Handler.extend({
                 };
             })
             .filter(function(item) {
-                return item.geometry.type == 'Polygon' ||
-                    item.geometry.type == 'MultiPolygon';
+                return item.geometry.type === 'Polygon' ||
+                    item.geometry.type === 'MultiPolygon';
             })
             .map(function(item) {
                 var geoJson = item.geometry;
+                geoJson.geoCoordinates = geoJson.coordinates;
 
-                if (geoJson.type == 'Polygon') {
+                if (geoJson.type === 'Polygon') {
                     geoJson.coordinates = polygonLngLatToPoints(geoJson.coordinates);
-                } else if (geoJson.type == 'MultiPolygon') {
+                } else if (geoJson.type === 'MultiPolygon') {
                     geoJson.coordinates = geoJson.coordinates.map(polygonLngLatToPoints);
                 }
 

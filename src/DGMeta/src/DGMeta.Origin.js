@@ -23,17 +23,20 @@ DG.Meta.Origin = DG.Class.extend({
     getTileData: function(coord) { // (Object) -> Object
         var tileKey = this.getTileKey(coord),
             self = this;
+        return new Promise(function(resolve) {
+            if (typeof self._tileStorage[tileKey] === 'undefined' && typeof self._requests[tileKey] === 'undefined') {
+                self._tileStorage[tileKey] = false;
+                self._requests[tileKey] = self._requestData(coord).then(function(data) {
+                    self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
+                    delete self._requests[tileKey];
 
-        if (typeof this._tileStorage[tileKey] === 'undefined' && typeof this._requests[tileKey] === 'undefined') {
-            this._tileStorage[tileKey] = false;
-            this._requests[tileKey] = this._requestData(coord).then(function(data) {
-                self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
-                delete self._requests[tileKey];
-            });
-            return false;
-        }
+                    resolve(self._tileStorage[tileKey]);
+                });
+                return;
+            }
 
-        return this._tileStorage[tileKey];
+            resolve(self._tileStorage[tileKey]);
+        });
     },
 
     setTileData: function(key, data) { // (Object/String, Object) -> Object
