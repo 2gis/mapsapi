@@ -148,7 +148,8 @@ DG.Meta.Layer = DG.Layer.extend({
                 this._fireMouseEvent('click', event);
                 return;
             }
-            // Если браузер мобильный, то что бы не ходить за пои в geo/search вот такой костыль который тащит данные из метатайла.
+            // If browser is mobile than load metatile for data of poi. Because mousemove don't work on mobile.
+            // On desktop metatail with data for poi loading by mousemove.
             var tileSize = this.getTileSize(),
                 layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
                 tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
