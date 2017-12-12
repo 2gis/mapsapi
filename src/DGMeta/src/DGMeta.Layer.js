@@ -148,7 +148,7 @@ DG.Meta.Layer = DG.Layer.extend({
                 this._fireMouseEvent('click', event);
                 return;
             }
-            // If browser is mobile than load metatile for data of poi. Because mousemove doesn't work on mobile.
+            // If browser is mobile then load metatile for data of poi. Because mousemove doesn't work on mobile.
             // On desktop metatile with data for poi loading by mousemove.
             var tileSize = this.getTileSize(),
                 layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
