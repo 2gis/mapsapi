@@ -98,7 +98,8 @@ DG.Meta.Layer = DG.Layer.extend({
                 mouseTileOffset,
                 tileKey,
                 hoveredObject,
-                zoom = this._map.getZoom();
+                zoom = this._map.getZoom(),
+                self = this;
 
             if (zoom > (this.options.maxZoom + this.options.zoomOffset) ||
                 zoom < (this.options.minZoom - this.options.zoomOffset) ||
@@ -118,7 +119,9 @@ DG.Meta.Layer = DG.Layer.extend({
             }
 
             if (this._currentTileData === false) {
-                this._currentTileData = this._origin.getTileData(tileCoord);
+                this._origin.getTileData(tileCoord, function(tileData) {
+                    self._currentTileData = tileData;
+                });
             } else {
                 mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
                 hoveredObject = this._getHoveredObject(tileCoord, mouseTileOffset);
