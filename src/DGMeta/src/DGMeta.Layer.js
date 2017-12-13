@@ -143,7 +143,7 @@ DG.Meta.Layer = DG.Layer.extend({
         },
 
         click: function(event) {
-            if (!DG.Browser.mobile) {
+            if (this._currentTileData) {
                 this._mouseDown = false;
                 this._fireMouseEvent('click', event);
                 return;
