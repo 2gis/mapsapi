@@ -160,6 +160,13 @@ Here&#39;s a more complicated way to open a popup on a map:
             <td><code>false</code></td>
             <td><!-- TODO: translation --></td>
         </tr>
+        <tr id="popup-textdirection">
+            <td><code><b>textDirection</b></code></td>
+            <td><code>string</code></td>
+            <td><code>'auto'</code></td>
+            <td>The direction of the popup content text. The following values are possible: <code>'auto'</code>,
+                <code>'rtl'</code>, <code>'ltr'</code>.</td>
+        </tr>
     </tbody>
 </table>
 

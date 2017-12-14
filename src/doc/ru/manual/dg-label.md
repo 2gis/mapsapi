@@ -33,9 +33,9 @@
     marker.bindLabel('Я статическая подсказка!', { static: true });
 
 <!--
-TODO: JSAPI-3564    
+TODO: JSAPI-3564
 Отображение автономной статической подсказки на карте:
-    
+
     DG.label('Я автономная подсказка!')
         .setLatLng([54.9502, 82.8980]);
         .addTo(map);
@@ -77,6 +77,13 @@ TODO: JSAPI-3564
             <td><code>false</code></td>
             <td>Если задано значение <code>true</code>, тогда всплывающая подсказка будет отображаться постоянно
                 (эта опция доступна только для подсказки у маркера).</td>
+        </tr>
+        <tr id="label-textdirection">
+            <td><code><b>textDirection</b></code></td>
+            <td><code>string</code></td>
+            <td><code>'auto'</code></td>
+            <td>Направление текста подсказки. Может принимать одно из следующих значений: <code>'auto'</code>,
+                <code>'rtl'</code>, <code>'ltr'</code>.</td>
         </tr>
     </tbody>
 </table>

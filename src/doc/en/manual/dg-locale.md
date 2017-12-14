@@ -28,7 +28,8 @@ Currently supports the following languages:
 * ru &mdash; Russian;
 * it &mdash; Italian;
 * cs &mdash; Czech;
-* es &mdash; Spanish.
+* es &mdash; Spanish;
+* ar &mdash; Arabic.
 
 ### DG.Locale
 

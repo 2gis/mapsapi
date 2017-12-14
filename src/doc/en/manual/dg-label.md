@@ -78,6 +78,13 @@ When you call the <code>bindLabel</code> method, you can set the following optio
             <td>If the value is set to <code>true</code>, then the tooltip will be always visible
                 (this option is available only for a marker tip).</td>
         </tr>
+        <tr id="label-textdirection">
+            <td><code><b>textDirection</b></code></td>
+            <td><code>string</code></td>
+            <td><code>'auto'</code></td>
+            <td>The direction of the label text. The following values are possible: <code>'auto'</code>,
+                <code>'rtl'</code>, <code>'ltr'</code>.</td>
+        </tr>
     </tbody>
 </table>
 
