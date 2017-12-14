@@ -108,15 +108,18 @@ DG.Control.Attribution.include({
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
     },
     _getData: function(lang) {
+        lang = lang || this._map.getLang();
+
         return {
             'osm': this._osm,
             'work_on': this.t('work_on'),
-            'lang': lang || this._map.getLang(),
+            'work_on_with_osm': this.t('work_on_with_osm'),
+            'lang': lang,
             'copyright_apilink': this._getLink('copyright_apilink'),
             'copyright_license': this._getLink('copyright_license'),
             'copyright_logo': this._getLink('copyright_logo'),
             'license_agreement': this.t('license_agreement'),
-            'API_2GIS': this.t('API_2GIS')
+            'dir': lang !== 'ar' ? 'ltr' : 'rtl',
         };
     },
     _getAttributionHTML: function(lang) {

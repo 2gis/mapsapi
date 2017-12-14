@@ -64,6 +64,14 @@ DG.Meta.Layer = DG.Layer.extend({
         };
     },
 
+    setUrl: function(url) {
+        this._hoveredEntity = null;
+        this._currentTile = false;
+        this._currentTileData = false;
+        this._dispatchMouseEvents = true;
+        this._origin.setURL(url, true);
+    },
+
     _removeAllTiles: DG.GridLayer.prototype._removeAllTiles,
     _getZoomForUrl: DG.TileLayer.prototype._getZoomForUrl,
     getTileSize: DG.TileLayer.prototype.getTileSize,

@@ -21,6 +21,8 @@ DG.Poi = DG.Handler.extend({
             eventBubbling: 'layer',
             dataFilter: DG.bind(this._processData, this)
         });
+
+        this._currentTilesLang = ''; // 'ar' | ''
     },
 
     addHooks: function() {
@@ -29,6 +31,9 @@ DG.Poi = DG.Handler.extend({
             this._labelHelper = DG.label();
         }
         this._metaLayer.on(this._layerEventsListeners, this);
+        this._map.on('langchange', this._updateUrl, this);
+        this._map.on('projectchange', this._updateUrl, this);
+        this._map.on('projectleave', this._updateUrl, this);
     },
 
     removeHooks: function() {
@@ -38,13 +43,33 @@ DG.Poi = DG.Handler.extend({
             this._labelHelper = null;
         }
         this._metaLayer.off(this._layerEventsListeners, this);
+        this._map.off('langchange', this._updateUrl, this);
+        this._map.off('projectchange', this._updateUrl, this);
+        this._map.off('projectleave', this._updateUrl, this);
     },
 
-    getMetaLayer : function() {
+    getMetaLayer: function() {
         return this._metaLayer;
     },
 
-    _processData : function(data, coord) {
+    _updateUrl: function() {
+        var url = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaPoiMetaServer : DG.config.poiMetaServer);
+        var lang = this._map.getLang();
+        var project = this._map.projectDetector && this._map.projectDetector.getProject();
+
+        // Change POI for arabic language in dubai project
+        if (this._currentTilesLang === '' && lang === 'ar' && project && project.country_code === 'ae') {
+            this._currentTilesLang = 'ar';
+            var arabicParameter = DG.Browser.retina ? '&ts=webapi_tileset_ar.hd' : '&ts=webapi_tileset_ar';
+            this._metaLayer.setUrl(url + arabicParameter);
+
+        } else if (this._currentTilesLang === 'ar' && (lang !== 'ar' || (!project || project.country_code !== 'ae'))) {
+            this._currentTilesLang = '';
+            this._metaLayer.setUrl(url);
+        }
+    },
+
+    _processData: function(data, coord) {
         var tileOriginPoint = coord.scaleBy(this._metaLayer.getTileSize());
         var polygonLngLatToPoints = DG.bind(this._polygonLngLatToPoints, this, tileOriginPoint);
 

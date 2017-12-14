@@ -44,7 +44,7 @@ describe('DG Locale Module', function () {
 
 		it('should return default language (ru) if setLang was called with invalid argument: undefined, null, etc', function () {
 			getLangSpy.reset();
-    
+
 			map.setLang(null);
 			map.getLang();
 
@@ -135,7 +135,6 @@ describe('DG Locale Module', function () {
 			plugin.t('regularly use 2GIS');
 
 			expect(TestPlugin.Dictionary).to.not.have.property('uk');
-			expect(setLangSpy.calledTwice).to.be.ok();
 			expect(tSpy.calledOnce).to.be.ok();
 			expect(tSpy.returnValues).to.eql(['регулярно используют 2GIS']);
 		});

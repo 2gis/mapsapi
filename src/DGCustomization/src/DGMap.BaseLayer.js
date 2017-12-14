@@ -27,7 +27,9 @@ DG.Map.addInitHook(function() {
         updateWhenIdle: false // it's okay with preview tiles
     }).addTo(this);
 
-    function updateErrorTileUrl() {
+    var currentTilesLang = ''; // 'ar' | ''
+
+    function updateTileUrl() {
         var lang = this.getLang();
         var project = this.projectDetector && this.projectDetector.getProject();
 
@@ -36,11 +38,22 @@ DG.Map.addInitHook(function() {
         } else {
             this.baseLayer.options.errorTileUrl = errorUrl;
         }
+
+        // Change 2GIS tiles for arabic language in dubai project
+        if (currentTilesLang === '' && lang === 'ar' && project && project.country_code === 'ae') {
+            currentTilesLang = 'ar';
+            var arabicParameter = DG.Browser.retina ? '&ts=webapi_tileset_ar.hd' : '&ts=webapi_tileset_ar';
+            this.baseLayer.setUrl(tileUrl + arabicParameter);
+
+        } else if (currentTilesLang === 'ar' && (lang !== 'ar' || (!project || project.country_code !== 'ae'))) {
+            currentTilesLang = '';
+            this.baseLayer.setUrl(tileUrl);
+        }
     }
 
     this.on({
-        langchange: updateErrorTileUrl,
-        projectchange: updateErrorTileUrl,
-        projectleave: updateErrorTileUrl
+        langchange: updateTileUrl,
+        projectchange: updateTileUrl,
+        projectleave: updateTileUrl
     }, this);
 });

@@ -7,8 +7,11 @@ DG.Locale = {
             exp;
 
         if (typeof this.constructor.Dictionary[lang] === 'undefined') {
-            lang = DG.config.defaultLang;
-            this._map.setLang(lang);
+            if (lang === 'ar') {
+                lang = 'en';
+            } else {
+                lang = DG.config.defaultLang;
+            }
         }
         dictionaryMsg = this.constructor.Dictionary[lang][msg];
         msgIsset = typeof dictionaryMsg !== 'undefined';
@@ -25,7 +28,7 @@ DG.Locale = {
         }
 
         result = DG.Util.template(result, {n: argument});
-        return result ? result : msg;
+        return result;
     }
 };
 

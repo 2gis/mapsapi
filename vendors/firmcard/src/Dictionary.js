@@ -12,7 +12,11 @@ FirmCard.prototype.dict = {
             exp;
 
         if (typeof this[lang] === 'undefined') {
-            lang = 'ru';
+            if (lang === 'ar') {
+                lang = 'en';
+            } else {
+                lang = 'ru';
+            }
         }
         dictionaryMsg = this[lang][msg];
         msgIsset = typeof dictionaryMsg !== 'undefined';
@@ -27,7 +31,7 @@ FirmCard.prototype.dict = {
             exp = this[lang].pluralRules(argument);
             result = argument + ' ' + dictionaryMsg[exp];
         }
-        return result ? result : msg;
+        return result;
     },
 
     ru: {

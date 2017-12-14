@@ -3,7 +3,8 @@ DG.Label = DG.Layer.extend({
     options: {
         offset: new DG.Point(12, 15),
         className: 'dg-label',
-        zIndexOffset: 0
+        zIndexOffset: 0,
+        textDirection: 'auto' // 'auto' | 'ltr' | 'rtl
     },
 
     _typeOfString : Object.prototype.toString.call('s'),
@@ -57,6 +58,8 @@ DG.Label = DG.Layer.extend({
         this._el.style.zIndex = this._defaultZIndex + this.options.zIndexOffset;
 
         this._container = DG.DomUtil.create('div', this.options.className + '__content', this._el);
+        this._container.setAttribute('dir', this.options.textDirection);
+
         DG.DomEvent
             .disableClickPropagation(this._el)
             .on(this._container, 'mousewheel', DG.DomEvent.stopPropagation)
