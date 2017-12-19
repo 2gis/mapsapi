@@ -26,6 +26,11 @@ DG.Map.include({
         if (this.options.center && this.options.zoom !== undefined) {
             this.setView(DG.latLng(this.options.center), this.options.zoom, {reset: true});
         }
+
+        this._lastMetalayer = {
+            layer: undefined,
+            entity: undefined
+        };
     },
 
     setView: function(center, zoom, options) {
@@ -223,23 +228,69 @@ DG.Map.include({
         for (var i = 0; i < targets.length; i++) {
             // Check metalayers before dispatch the event to the map
             if (targets[i] === this) {
-                this.metaLayers.forEach(function(metaLayer) {
-                    var listener = metaLayer.mapEvents[type];
-                    if (listener) {
-                        listener.call(metaLayer, data);
+                var metalayer = this._getCurrentMetaLayer(data);
+
+                if (type === 'mousemove') {
+                    if (this._lastMetalayer.entity && metalayer.entity &&
+                        this._lastMetalayer.entity.id === metalayer.entity.id) {
+                        this._fireMetalayerEvent('mousemove', metalayer, data);
+                    } else {
+                        // todo check removing debounce in events
+                        this._fireMetalayerEvent('mouseout', this._lastMetalayer, data);
+                        this._fireMetalayerEvent('mouseover', metalayer, data);
+                        this._fireMetalayerEvent('mousemove', metalayer, data);
+                        this._lastMetalayer = metalayer;
                     }
-                });
+                } else {
+                    this._fireMetalayerEvent(type, metalayer, data);
+                }
+
                 // If the event wasn't stopped in metalayers, dispatch it to the map
                 if (!data.originalEvent._stopped) {
                     targets[i].fire(type, data, true);
                 }
             } else {
+                // fixes L.circle([54.983136831455, 82.897440725094], 200).addTo(map);
+                // but blinks L.circle( [54.980156831455, 82.897440725094], 200, { renderer: L.canvas() } ).addTo(map);
+                this._fireMetalayerEvent('mouseout', this._lastMetalayer, data);
+                this._lastMetalayer = {
+                    layer: undefined,
+                    entity: undefined
+                };
                 targets[i].fire(type, data, true);
             }
 
             if (data.originalEvent._stopped ||
                 (targets[i].options.nonBubblingEvents && L.Util.indexOf(targets[i].options.nonBubblingEvents, type) !== -1)) { return; }
         }
+    },
+
+    _getCurrentMetaLayer: function(data) {
+        for (var j = this.metaLayers.length - 1; j >= 0; j--) {
+            var metaEntity = this.metaLayers[j].getHoveredObject(data);
+            if (metaEntity) {
+                return {
+                    layer: this.metaLayers[j],
+                    entity: metaEntity
+                };
+            }
+        }
+        return {
+            layer: undefined,
+            entity: undefined
+        };
+    },
+
+    _fireMetalayerEvent: function(type, metalayer, data) {
+        if (!metalayer.entity) {
+            return;
+        }
+        var listener = metalayer.layer.mapEvents[type];
+        if (!listener) {
+            return;
+        }
+        data.entity = metalayer.entity;
+        listener.call(metalayer.layer, data);
     }
 });
 

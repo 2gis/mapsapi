@@ -42,3 +42,20 @@ DG.setOptions = L.setOptions = DG.Util.setOptions = function(obj, options) {
 DG.Layer.mergeOptions({
     nonBubblingEvents: ['click', 'dblclick', 'mouseover', 'mouseout', 'contextmenu']
 });
+
+DG.DomEvent.getEventPath = function(event) {
+    if (event.path) {
+        return event.path; // chrome
+    }
+    var path = [];
+    var currentElem = event.target || event.srcElement;
+    while (currentElem) {
+        path.push(currentElem);
+        currentElem = currentElem.parentElement;
+    }
+    if (path.indexOf(window) === -1 && path.indexOf(document) === -1)
+        path.push(document);
+    if (path.indexOf(window) === -1)
+        path.push(window);
+    return path;
+};
