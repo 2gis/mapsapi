@@ -1,3 +1,3 @@
 DG.Control.Ruler.Dictionary.it = {
-	button_title : 'Righello'
+    button_title : 'Righello'
 };

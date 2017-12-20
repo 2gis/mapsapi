@@ -1,3 +1,3 @@
 DG.Control.Ruler.Dictionary.ar = {
-	button_title: 'مسطرة'
+    button_title: 'مسطرة'
 };

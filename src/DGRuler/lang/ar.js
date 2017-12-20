@@ -1,5 +1,5 @@
 DG.Ruler.Dictionary.ar = {
-	km : 'كم',
-	m : 'م',
-	delimiter : '.'
+    km : 'كم',
+    m : 'م',
+    delimiter : '.'
 };
