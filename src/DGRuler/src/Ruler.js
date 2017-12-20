@@ -339,7 +339,7 @@ DG.Ruler = DG.Layer.extend({
         return DG.Ruler.layeredMarker(latlng, {
             layers : layers,
             draggable : this.options.editable,
-            textDirection: this._map.getLang() !== 'ar'? 'auto' : 'rtl'
+            textDirection: this._map.getLang() !== 'ar' ? 'auto' : 'rtl'
         });
     },
 

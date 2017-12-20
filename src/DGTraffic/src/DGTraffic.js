@@ -54,7 +54,6 @@ DG.Traffic = DG.TileLayer.extend({
             this._updateTimer = setInterval(this._onTimer, this._updateInterval);
         }
 
-
         DG.TileLayer.prototype.onAdd.call(this, map);
     },
 
