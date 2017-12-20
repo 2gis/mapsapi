@@ -57,7 +57,7 @@ DG.Poi = DG.Handler.extend({
         var lang = this._map.getLang();
         var project = this._map.projectDetector && this._map.projectDetector.getProject();
 
-        // Change POI for arabic language in dubai project
+        // Change POI for Arabic language in Dubai project
         if (this._currentTilesLang === '' && lang === 'ar' && project && project.country_code === 'ae') {
             this._currentTilesLang = 'ar';
             var arabicParameter = DG.Browser.retina ? '&ts=webapi_tileset_ar.hd' : '&ts=webapi_tileset_ar';
