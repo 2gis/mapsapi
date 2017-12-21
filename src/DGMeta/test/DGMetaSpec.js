@@ -71,25 +71,23 @@ describe('DGMeta', function () {
 
     describe('#DG.Meta.Origin', function () {
         it('getTileData should NOT call ajax and return false', function () {
-            var data;
-
-            data = origin.getTileData('124:12:42:256x256');
-
-            expect(data).to.not.be.ok();
-            // ajax should not be called since empty url provided
-            expect(ajaxSpy.callCount).to.be.eql(0);
+            origin.getTileData('124:12:42:256x256', function (tileData) {
+                expect(tileData).to.not.be.ok();
+                // ajax should not be called since empty url provided
+                expect(ajaxSpy.callCount).to.be.eql(0);
+            });
         });
 
         it('flush should clear cache', function () {
-            var chain, data;
+            var chain;
 
             origin.setTileData({x: 124, y: 12, z: 42, key: '256x256'}, demoData);
             chain = origin.flush();
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
-
-            expect(data).to.not.be.ok();
-            // check for returning this
-            expect(chain.flush).to.be.a('function');
+            origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'}, function (tileData) {
+                expect(tileData).to.not.be.ok();
+                // check for returning this
+                expect(chain.flush).to.be.a('function');
+            });
         });
 
         it('setURL should set url and change getTileData behaviour', function () {
@@ -97,18 +95,18 @@ describe('DGMeta', function () {
                 flushStub = sinon.stub(DG.Meta.Origin.prototype, 'flush', function () {
                     flushSpy();
                 }),
-                data, chain;
+                chain;
 
             chain = origin.setURL('http://demo/data');
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
+            origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'}, function (tileData) {
+                expect(tileData).to.not.be.ok();
+                expect(ajaxSpy.callCount).to.be.eql(1);
+                expect(flushSpy.callCount).to.be.eql(0);
+                // check for returning this
+                expect(chain.setURL).to.be.a('function');
 
-            expect(data).to.not.be.ok();
-            expect(ajaxSpy.callCount).to.be.eql(1);
-            expect(flushSpy.callCount).to.be.eql(0);
-            // check for returning this
-            expect(chain.setURL).to.be.a('function');
-
-            flushStub.restore();
+                flushStub.restore();
+            });
         });
 
         it('setURL flush option call flush method', function () {
@@ -125,37 +123,37 @@ describe('DGMeta', function () {
         });
 
         it('getTileData should cache tileData', function () {
-            var data;
-
             origin.setURL('http://demo/data');
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
-
-            expect(data).to.not.be.ok();
-            expect(ajaxSpy.callCount).to.be.eql(1);
+            origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'}, function (tileData) {
+                expect(tileData).to.not.be.ok();
+                expect(ajaxSpy.callCount).to.be.eql(1);
+            });
         });
 
         it('setTileData by object key should write and cache tileData', function () {
-            var chain, data;
+            var chain;
 
             chain = origin.setTileData({x: 124, y: 12, z: 42, key: '256x256'}, demoData);
 
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
-            expect(data).to.be.a('object');
-            expect(ajaxSpy.callCount).to.be.eql(0);
-            // check for returning this
-            expect(chain.setTileData).to.be.a('function');
+            origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'}, function (tileData) {
+                expect(tileData).to.be.a('object');
+                expect(ajaxSpy.callCount).to.be.eql(0);
+                // check for returning this
+                expect(chain.setTileData).to.be.a('function');
+            });
         });
 
         it('setTileData by string key should write and cache tileData', function () {
-            var chain, data;
+            var chain;
 
             chain = origin.setTileData('124:12:42:256x256', demoData);
 
-            data = origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'});
-            expect(data).to.be.a('object');
-            expect(ajaxSpy.callCount).to.be.eql(0);
-            // check for returning this
-            expect(chain.setTileData).to.be.a('function');
+            origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'}, function (tileData) {
+                expect(tileData).to.be.a('object');
+                expect(ajaxSpy.callCount).to.be.eql(0);
+                // check for returning this
+                expect(chain.setTileData).to.be.a('function');
+            });
         });
 
         it('getTileKey should string tileKey representation', function () {

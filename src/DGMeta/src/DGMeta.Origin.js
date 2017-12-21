@@ -20,7 +20,7 @@ DG.Meta.Origin = DG.Class.extend({
         }
     },
 
-    getTileData: function(coord) { // (Object) -> Object
+    getTileData: function(coord, callback) { // (Object) -> Object
         var tileKey = this.getTileKey(coord),
             self = this;
 
@@ -29,11 +29,12 @@ DG.Meta.Origin = DG.Class.extend({
             this._requests[tileKey] = this._requestData(coord).then(function(data) {
                 self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
                 delete self._requests[tileKey];
+                callback(self._tileStorage[tileKey]);
             });
-            return false;
+            callback(false);
         }
 
-        return this._tileStorage[tileKey];
+        callback(this._tileStorage[tileKey]);
     },
 
     setTileData: function(key, data) { // (Object/String, Object) -> Object
