@@ -4,8 +4,7 @@
 
 ### Description
 
-Maps API provides a possibility to display elements of user interface in several languages. The translation of the
-tiles in this case is not provided, as the labels on the tiles correspond to the language of the displayed country.
+Maps API provides a possibility to display elements of user interface in several languages.
 
 The default language is the same as that of the root html tag:
 
@@ -21,6 +20,8 @@ Get or dynamically change the language using the corresponding methods of the ma
 
     map.setLang('it');
     map.getLang(); // returns 'it'
+
+or by initializing the map with the following option <a href="/doc/maps/en/manual/map#map-currentlang>currentLang</a>.
 
 Currently supports the following languages:
 

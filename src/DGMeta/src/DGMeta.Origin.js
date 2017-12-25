@@ -26,7 +26,11 @@ DG.Meta.Origin = DG.Class.extend({
 
         if (typeof this._tileStorage[tileKey] === 'undefined' && typeof this._requests[tileKey] === 'undefined') {
             this._tileStorage[tileKey] = false;
-            this._requests[tileKey] = this._requestData(coord).then(function(data) {
+            var currentRequest = this._requests[tileKey] = this._requestData(coord).then(function(data) {
+                if (self._requests[tileKey] !== currentRequest) {
+                    callback(false);
+                    return;
+                }
                 self.setTileData(tileKey, self.options.dataFilter ? self.options.dataFilter(data, coord) : data);
                 delete self._requests[tileKey];
                 callback(self._tileStorage[tileKey]);
@@ -62,6 +66,7 @@ DG.Meta.Origin = DG.Class.extend({
                 this[tileKey].abort();
             }
         }, this._requests);
+        this._requests = {};
 
         return this;
     },

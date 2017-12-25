@@ -25,7 +25,7 @@ DG.Map.addInitHook(function() {
         maxNativeZoom: 19,
         zIndex: 0,
         updateWhenIdle: false // it's okay with preview tiles
-    }).addTo(this);
+    });
 
     var currentTilesLang = ''; // 'ar' | ''
 
@@ -50,6 +50,10 @@ DG.Map.addInitHook(function() {
             this.baseLayer.setUrl(tileUrl);
         }
     }
+
+    updateTileUrl.call(this);
+
+    this.baseLayer.addTo(this);
 
     this.on({
         langchange: updateTileUrl,

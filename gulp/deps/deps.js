@@ -138,7 +138,7 @@ var deps = {
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
         ],
-        deps: ['DGCore']
+        deps: ['DGCore', 'DGProjectDetector']
     },
 
     DGLocation: {
