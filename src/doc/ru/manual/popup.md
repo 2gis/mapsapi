@@ -163,6 +163,13 @@
                 Выставьте значение <code>true</code>, если хотите, чтобы выбиралась максимальная ширина,
                 ограниченная только шириной карты.</td>
         </tr>
+        <tr id="label-textdirection">
+            <td><code><b>textDirection</b></code></td>
+            <td><code>string</code></td>
+            <td><code>'auto'</code></td>
+            <td>Направление текста контента попапа. Может принимать одно из следующих значений: <code>'auto'</code>,
+                <code>'rtl'</code>, <code>'ltr'</code>.</td>
+        </tr>
     </tbody>
 </table>
 

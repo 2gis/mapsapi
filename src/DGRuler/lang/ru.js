@@ -1,5 +1,5 @@
 DG.Ruler.Dictionary.ru = {
-	km : 'км',
-	m : 'м',
-	delimiter : ','
+    km : 'км',
+    m : 'м',
+    delimiter : ','
 };

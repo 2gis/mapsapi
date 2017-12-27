@@ -1,3 +1,3 @@
 DG.Control.Traffic.Dictionary.it = {
-	button_title: 'Colonna'
+    button_title: 'Colonna'
 };

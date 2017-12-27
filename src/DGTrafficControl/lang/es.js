@@ -1,3 +1,3 @@
 DG.Control.Traffic.Dictionary.es = {
-	button_title: 'Taco'
+    button_title: 'Taco'
 };

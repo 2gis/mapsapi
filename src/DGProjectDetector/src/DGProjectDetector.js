@@ -7,6 +7,7 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     addHooks: function() {
+        this._projectWatch();
         this._map.on('move', this._projectWatch, this);
     },
 
@@ -47,6 +48,10 @@ DG.ProjectDetector = DG.Handler.extend({
     },
 
     _projectWatch: function() {
+        if (!this._map._loaded) {
+            return;
+        }
+
         if (this._osmViewport === (this._project && this._centerInProject(this._project, 'contains'))) {
             this._osmViewport = !this._osmViewport;
             this._map.attributionControl._update(null, this._osmViewport);

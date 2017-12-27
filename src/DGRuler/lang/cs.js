@@ -1,5 +1,5 @@
 DG.Ruler.Dictionary.cs = {
-	km: 'km',
-	m: 'm',
-	delimiter: ','
+    km: 'km',
+    m: 'm',
+    delimiter: ','
 };

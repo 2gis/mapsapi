@@ -266,6 +266,12 @@ Initialize the map on the &quot;map&quot; div with a given center and zoom:
                 <!-- TODO: translation -->
             </td>
         </tr>
+        <tr id="map-currentlang">
+            <td><code><b>currentLang</b></code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>Language of user interface (see <a href="/doc/maps/en/manual/dg-locale/">Localization</a></td>
+        </tr>
     </tbody>
 </table>
 

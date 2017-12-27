@@ -46,3 +46,11 @@ DG.Dictionary.es = {
         return (n >= 2) ? 1 : 0;
     }
 };
+
+// Stub for Arabic language, we don't have cases with plural form usage
+// Actually Arabic has 6 plural forms
+DG.Dictionary.ar = {
+    pluralRules: function() {
+        return 0;
+    }
+};

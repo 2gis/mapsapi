@@ -1,3 +1,3 @@
 DG.Control.Traffic.Dictionary.cs = {
-	button_title: 'Zácpy'
+    button_title: 'Zácpy'
 };

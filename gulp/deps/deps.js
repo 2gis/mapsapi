@@ -102,7 +102,8 @@ var deps = {
             'DGZoomControl/lang/it.js',
             'DGZoomControl/lang/cs.js',
             'DGZoomControl/lang/en.js',
-            'DGZoomControl/lang/es.js'
+            'DGZoomControl/lang/es.js',
+            'DGZoomControl/lang/ar.js'
         ],
         less: {
             all: [
@@ -120,7 +121,8 @@ var deps = {
             'DGAttribution/lang/it.js',
             'DGAttribution/lang/cs.js',
             'DGAttribution/lang/en.js',
-            'DGAttribution/lang/es.js'
+            'DGAttribution/lang/es.js',
+            'DGAttribution/lang/ar.js'
         ],
         less: {
             all: [
@@ -136,7 +138,7 @@ var deps = {
             'DGLocale/src/DGDictionary.js',
             'DGLocale/src/DGLocale.js'
         ],
-        deps: ['DGCore']
+        deps: ['DGCore', 'DGProjectDetector']
     },
 
     DGLocation: {
@@ -147,7 +149,8 @@ var deps = {
             'DGLocation/lang/it.js',
             'DGLocation/lang/cs.js',
             'DGLocation/lang/en.js',
-            'DGLocation/lang/es.js'
+            'DGLocation/lang/es.js',
+            'DGLocation/lang/ar.js'
         ],
         less: {
             all: [
@@ -167,7 +170,8 @@ var deps = {
             'DGFullScreen/lang/it.js',
             'DGFullScreen/lang/cs.js',
             'DGFullScreen/lang/en.js',
-            'DGFullScreen/lang/es.js'
+            'DGFullScreen/lang/es.js',
+            'DGFullScreen/lang/ar.js'
         ],
         less: {
             all: [
@@ -291,7 +295,8 @@ var deps = {
             'DGTraffic/lang/it.js',
             'DGTraffic/lang/cs.js',
             'DGTraffic/lang/es.js',
-            'DGTraffic/lang/en.js'
+            'DGTraffic/lang/en.js',
+            'DGTraffic/lang/ar.js'
         ],
         deps: ['DGMeta', 'DGLabel', 'DGLocale']
     },
@@ -304,7 +309,8 @@ var deps = {
             'DGTrafficControl/lang/it.js',
             'DGTrafficControl/lang/cs.js',
             'DGTrafficControl/lang/es.js',
-            'DGTrafficControl/lang/en.js'
+            'DGTrafficControl/lang/en.js',
+            'DGTrafficControl/lang/ar.js'
         ],
         less: {
             all: [
@@ -326,7 +332,8 @@ var deps = {
             'DGRuler/lang/it.js',
             'DGRuler/lang/cs.js',
             'DGRuler/lang/es.js',
-            'DGRuler/lang/en.js'
+            'DGRuler/lang/en.js',
+            'DGRuler/lang/ar.js'
         ],
         less: {
             all: ['DGRuler/skin/{skin}/less/dg-ruler.less'],
@@ -343,7 +350,8 @@ var deps = {
             'DGRulerControl/lang/it.js',
             'DGRulerControl/lang/cs.js',
             'DGRulerControl/lang/es.js',
-            'DGRulerControl/lang/en.js'
+            'DGRulerControl/lang/en.js',
+            'DGRulerControl/lang/ar.js'
         ],
         less: {
             all: ['DGRulerControl/skin/{skin}/less/dg-control-round.less']

@@ -3,8 +3,10 @@
         <li class="dg-attribution__link-item">
             {?osm}
             © <a href="http://www.openstreetmap.org/copyright" target="_blank" class="dg-attribution__link">OpenStreetMap contributors</a>,{~s}
+            <a href="{copyright_apilink}" target="_blank" class="dg-attribution__link" dir="{dir}">{work_on_with_osm}</a>
+            {:else}
+            <a href="{copyright_apilink}" target="_blank" class="dg-attribution__link" dir="{dir}">{work_on}</a>
             {/osm}
-            <a href="{copyright_apilink}" target="_blank" class="dg-attribution__link">{^osm}{work_on}{~s}{/osm}{API_2GIS}</a>
         </li>
         <li class="dg-attribution__link-item">
             <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>

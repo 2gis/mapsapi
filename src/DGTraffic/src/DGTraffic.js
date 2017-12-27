@@ -47,6 +47,7 @@ DG.Traffic = DG.TileLayer.extend({
         if (!this.options.disableLabel) {
             this._metaLayer.on(this._layerEventsListeners, this);
             this._labelHelper = DG.label();
+            this._map.on('langchange', this._updateLang, this);
         }
 
         if (this._updateInterval) {
@@ -67,6 +68,7 @@ DG.Traffic = DG.TileLayer.extend({
             this._metaLayer.off(this._layerEventsListeners, this);
             this._map.removeLayer(this._labelHelper);
             this._labelHelper = null;
+            this._map.off('langchange', this._updateLang, this);
         }
 
         DG.TileLayer.prototype.onRemove.call(this, map);
@@ -94,6 +96,15 @@ DG.Traffic = DG.TileLayer.extend({
         return this._layersOptions.subdomains[
             Math.floor(Math.random() * this._layersOptions.subdomains.length)
         ];
+    },
+
+    _updateLang: function() {
+        var lang = this._map.getLang();
+        if (lang === 'ar') {
+            this._labelHelper.options.textDirection = 'rtl';
+        } else {
+            this._labelHelper.options.textDirection = 'auto';
+        }
     },
 
     _getTimestampString: function() {

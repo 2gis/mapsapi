@@ -1,3 +1,3 @@
 DG.Control.Ruler.Dictionary.en = {
-	button_title : 'Ruler'
+    button_title : 'Ruler'
 };

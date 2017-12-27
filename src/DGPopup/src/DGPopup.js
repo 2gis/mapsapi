@@ -39,7 +39,8 @@ require('../../../vendors/baron');
 
     DG.Popup.mergeOptions({
         border: 16,
-        mapControlsWidth: 60
+        mapControlsWidth: 60,
+        textDirection: 'auto' // 'auto' | 'ltr' | 'rtl
     });
 
     DG.Popup.include({
@@ -463,15 +464,18 @@ require('../../../vendors/baron');
 
         _initHeader: function() {
             this._popupStructure.header = DG.DomUtil.create('header', 'dg-popup__header', this._contentNode);
+            this._popupStructure.header.setAttribute('dir', this.options.textDirection);
         },
 
         _initFooter: function() {
             this._popupStructure.footer = DG.DomUtil.create('footer', 'dg-popup__footer', this._contentNode);
+            this._popupStructure.footer.setAttribute('dir', this.options.textDirection);
         },
 
         _initBodyContainer: function() {
             this._popupStructure.wrapper = DG.DomUtil.create('div', 'dg-popup__container-wrapper', this._contentNode);
             this._popupStructure.body = DG.DomUtil.create('div', 'dg-popup__container', this._popupStructure.wrapper);
+            this._popupStructure.body.setAttribute('dir', this.options.textDirection);
         },
 
         update: function() {
