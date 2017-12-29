@@ -279,7 +279,7 @@
             <td><code><b>currentLang</b></code></td>
             <td><code>string</code></td>
             <td><code>''</code></td>
-            <td>Язык пользовательского интерфейса карты (см. <a href="/doc/maps/ru/manual/dg-locale/">Локализация</a></td>
+            <td>Язык пользовательского интерфейса карты (см. <a href="/doc/maps/ru/manual/dg-locale/">Локализация</a>)</td>
         </tr>
     </tbody>
 </table>

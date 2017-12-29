@@ -16,12 +16,12 @@ The default language is the same as that of the root html tag:
 If the language is not specified in the root tag, then the default language — Russian — will be used.
 
 Get or dynamically change the language using the corresponding methods of the map
-<a href="/doc/maps/en/manual/map#map-getlang>getLang</a> and <a href="/doc/maps/en/manual/map#map-setlang>setLang</a>:
+<a href="/doc/maps/en/manual/map#map-getlang">getLang</a> and <a href="/doc/maps/en/manual/map#map-setlang">setLang</a>:
 
     map.setLang('it');
     map.getLang(); // returns 'it'
 
-or by initializing the map with the following option <a href="/doc/maps/en/manual/map#map-currentlang>currentLang</a>.
+or by initializing the map with the following option <a href="/doc/maps/en/manual/map#map-currentlang">currentLang</a>.
 
 Currently supports the following languages:
 
