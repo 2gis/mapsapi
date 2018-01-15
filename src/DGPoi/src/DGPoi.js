@@ -79,25 +79,32 @@ DG.Poi = DG.Handler.extend({
 
         return data.result.poi
             .map(function(item) {
+                var hovers = item.hovers !== undefined
+                    ? item.hovers
+                    : [item.hover];
+
                 return {
                     id: item.id,
                     hint: item.links[0].name,
                     linked: item.links[0],
-                    geometry: DG.Wkt.toGeoJSON(item.hover)
+                    geometry: hovers.map(DG.Wkt.toGeoJSON),
                 };
             })
-            .filter(function(item) {
-                return item.geometry.type == 'Polygon' ||
-                    item.geometry.type == 'MultiPolygon';
-            })
             .map(function(item) {
-                var geoJson = item.geometry;
+                var coordinates = item.geometry.reduce(function(result, item) {
+                    if (item.type === 'Polygon') {
+                        result.push(polygonLngLatToPoints(item.coordinates));
+                    } else if (item.type === 'MultiPolygon') {
+                        result = result.concat(item.coordinates.map(polygonLngLatToPoints));
+                    }
 
-                if (geoJson.type == 'Polygon') {
-                    geoJson.coordinates = polygonLngLatToPoints(geoJson.coordinates);
-                } else if (geoJson.type == 'MultiPolygon') {
-                    geoJson.coordinates = geoJson.coordinates.map(polygonLngLatToPoints);
-                }
+                    return result;
+                }, []);
+
+                item.geometry = {
+                    type: 'MultiPolygon',
+                    coordinates: coordinates,
+                };
 
                 return item;
             });
