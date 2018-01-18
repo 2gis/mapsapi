@@ -43,8 +43,8 @@
     "trafficTimestampServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
     "trafficScoreServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/score/0/",
 
-    "poiMetaServer": "//tile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
-    "retinaPoiMetaServer": "//rtile{s}.maps.2gis.com/?x={x}&y={y}&z={z}&v=1&type=poi",
+    "poiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1",
+    "retinaPoiMetaServer": "//rtile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1",
 
     "webApiServer": "//catalog.api.2gis.ru",
 
