@@ -60,8 +60,7 @@ DG.Poi = DG.Handler.extend({
         // Change POI for Arabic language in Dubai project
         if (this._currentTilesLang === '' && lang === 'ar' && project && project.country_code === 'ae') {
             this._currentTilesLang = 'ar';
-            var arabicParameter = DG.Browser.retina ? '&ts=webapi_tileset_ar.hd' : '&ts=webapi_tileset_ar';
-            this._metaLayer.setUrl(url + arabicParameter);
+            this._metaLayer.setUrl(url + '_ar');
 
         } else if (this._currentTilesLang === 'ar' && (lang !== 'ar' || (!project || project.country_code !== 'ae'))) {
             this._currentTilesLang = '';

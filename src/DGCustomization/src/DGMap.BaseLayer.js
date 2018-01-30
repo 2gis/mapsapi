@@ -42,8 +42,7 @@ DG.Map.addInitHook(function() {
         // Change 2GIS tiles for Arabic language in Dubai project
         if (currentTilesLang === '' && lang === 'ar' && project && project.country_code === 'ae') {
             currentTilesLang = 'ar';
-            var arabicParameter = DG.Browser.retina ? '&ts=webapi_tileset_ar.hd' : '&ts=webapi_tileset_ar';
-            this.baseLayer.setUrl(tileUrl + arabicParameter);
+            this.baseLayer.setUrl(tileUrl + '_ar');
 
         } else if (currentTilesLang === 'ar' && (lang !== 'ar' || (!project || project.country_code !== 'ae'))) {
             currentTilesLang = '';
