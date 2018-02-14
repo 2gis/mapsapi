@@ -7,7 +7,7 @@ if (DG.Browser.mobile) {
         /**
          * Хакаем addClass и removeClass, чтобы они не работали для определённых классов
          * Сделано так, чтобы не менять кучу методов в кишках лифлета
-         * 
+         *
          * leaflet-dragging и leaflet-drag-target вызывает длинный recalculate style
          */
         var addClass = L.DomUtil.addClass;
@@ -147,8 +147,12 @@ L.MobileTileLayer = L.TileLayer.extend({
     initialize: function(url, options) {
         L.TileLayer.prototype.initialize.call(this, url, options);
 
-        this._previewUrl = DG.config.protocol +
-            (DG.Browser.retina ? DG.config.previewRetinaTileServer : DG.config.previewTileServer);
+        this._previewUrl = options.previewUrl;
+    },
+
+    setPreviewUrl: function(url) {
+        this._previewUrl = url;
+        this.redraw();
     },
 
     /**

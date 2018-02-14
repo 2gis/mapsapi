@@ -16,6 +16,13 @@ DG.Map.addInitHook(function() {
     });
 
     var tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
+    var arabicTileUrl = DG.config.protocol +
+        (DG.Browser.retina ? DG.config.arabicRetinaTileServer : DG.config.arabicTileServer);
+
+    var previewTileUrl = DG.config.protocol +
+        (DG.Browser.retina ? DG.config.previewRetinaTileServer : DG.config.previewTileServer);
+    var arabicPreviewTileUrl = DG.config.protocol +
+        (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer);
 
     this.baseLayer = new BaseLayer(tileUrl, {
         subdomains: '0123',
@@ -24,7 +31,8 @@ DG.Map.addInitHook(function() {
         maxZoom: 19,
         maxNativeZoom: 19,
         zIndex: 0,
-        updateWhenIdle: false // it's okay with preview tiles
+        updateWhenIdle: false, // it's okay with preview tiles
+        previewUrl: previewTileUrl,
     });
 
     var currentTilesLang = ''; // 'ar' | ''
@@ -42,11 +50,17 @@ DG.Map.addInitHook(function() {
         // Change 2GIS tiles for Arabic language in Dubai project
         if (currentTilesLang === '' && lang === 'ar' && project && project.country_code === 'ae') {
             currentTilesLang = 'ar';
-            this.baseLayer.setUrl(tileUrl + '_ar');
+            this.baseLayer.setUrl(arabicTileUrl);
+            if (this.baseLayer.setPreviewUrl) {
+                this.baseLayer.setPreviewUrl(arabicPreviewTileUrl);
+            }
 
         } else if (currentTilesLang === 'ar' && (lang !== 'ar' || (!project || project.country_code !== 'ae'))) {
             currentTilesLang = '';
             this.baseLayer.setUrl(tileUrl);
+            if (this.baseLayer.setPreviewUrl) {
+                this.baseLayer.setPreviewUrl(previewTileUrl);
+            }
         }
     }
 
