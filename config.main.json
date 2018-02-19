@@ -31,10 +31,15 @@
 
     "baseUrl": "//maps.api.2gis.ru/2.0",
 
-    "tileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
-    "retinaTileServer": "//rtile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1",
-    "previewTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64",
-    "previewRetinaTileServer": "//rtile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64",
+    "tileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd",
+    "retinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd",
+    "previewTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd",
+    "previewRetinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd",
+
+    "arabicTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar",
+    "arabicRetinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar",
+    "arabicPreviewTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd_ar",
+    "arabicPreviewRetinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd_ar",
 
     "trafficTileServer": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
     "retinaTrafficTileServer": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/retina/{timestampString}",
@@ -43,8 +48,11 @@
     "trafficTimestampServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
     "trafficScoreServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/score/0/",
 
-    "poiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1",
-    "retinaPoiMetaServer": "//rtile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1",
+    "poiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_sd",
+    "retinaPoiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_hd",
+
+    "arabicPoiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar",
+    "arabicRetinaPoiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar",
 
     "webApiServer": "//catalog.api.2gis.ru",
 
