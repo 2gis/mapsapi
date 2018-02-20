@@ -36,7 +36,7 @@ DG.Path.include({
             this._label.setPosition(event.latlng);
             DG.DomEvent.stop(event);
         },
-        mouseout: function() {
+        mouseout: function(event) {
             this._map.removeLayer(this._label);
             DG.DomEvent.stop(event);
         },
