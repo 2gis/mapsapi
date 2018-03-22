@@ -152,7 +152,9 @@ DG.Meta.Layer = DG.Layer.extend({
 
         click: function(event) {
             // Stop click, because click could be to poi.
-            DG.DomEvent.stop(event);
+            if (DG.Browser.mobile) {
+                DG.DomEvent.stop(event);
+            }
             var tileSize = this.getTileSize(),
                 layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
                 tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
