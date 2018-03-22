@@ -35,10 +35,9 @@ DG.Meta.Origin = DG.Class.extend({
                 delete self._requests[tileKey];
                 callback(self._tileStorage[tileKey]);
             });
-            callback(false);
+        } else {
+            callback(this._tileStorage[tileKey]);
         }
-
-        callback(this._tileStorage[tileKey]);
     },
 
     setTileData: function(key, data) { // (Object/String, Object) -> Object
