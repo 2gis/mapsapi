@@ -169,7 +169,7 @@ DG.Meta.Layer = DG.Layer.extend({
                 var mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
                 self._hoveredEntity = self._getHoveredObject(tileCoord, mouseTileOffset);
                 // If not poi then fire click on map.
-                if (self._hoveredEntity === null) {
+                if (DG.Browser.mobile && self._hoveredEntity === null) {
                     this.map.fire('click', event);
                     return;
                 }
