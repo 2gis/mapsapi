@@ -41,6 +41,17 @@ DG.Meta.Layer = DG.Layer.extend({
 
         map.on('rulerstart', this._disableDispatchMouseEvents, this);
         map.on('rulerend', this._enableDispatchMouseEvents, this);
+        var self = this;
+        var tileSize = this.getTileSize();
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.TileLayer) {
+                // On every tile will be load meta tile.
+                layer.on('tileload', function(e) {
+                    e.coords.key = tileSize.x + 'x' + tileSize.y;
+                    self._origin.getTileData(e.coords, function() {});
+                });
+            }
+        });
     },
 
     onRemove: function(map) {
