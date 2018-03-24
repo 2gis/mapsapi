@@ -43,15 +43,18 @@ DG.Meta.Layer = DG.Layer.extend({
         map.on('rulerend', this._enableDispatchMouseEvents, this);
         var self = this;
         var tileSize = this.getTileSize();
-        map.eachLayer(function(layer) {
-            if (layer instanceof L.TileLayer) {
-                // On every tile will be load meta tile.
-                layer.on('tileload', function(e) {
-                    e.coords.key = tileSize.x + 'x' + tileSize.y;
-                    self._origin.getTileData(e.coords, function() {});
-                });
-            }
-        });
+
+        if (DG.Browser.mobile) {
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.TileLayer) {
+                    // On every tile will be load meta tile.
+                    layer.on('tileloadstart', function(e) {
+                        e.coords.key = tileSize.x + 'x' + tileSize.y;
+                        self._origin.getTileData(e.coords, function() {});
+                    });
+                }
+            });
+        }
     },
 
     onRemove: function(map) {
