@@ -50,7 +50,7 @@ DG.Meta.Layer = DG.Layer.extend({
                     // On every tile will be load meta tile.
                     layer.on('tileloadstart', function(e) {
                         e.coords.key = tileSize.x + 'x' + tileSize.y;
-                        self._origin.getTileData(e.coords, function() {});
+                        self._origin.getTileData(e.coords);
                     });
                 }
             });
@@ -165,10 +165,6 @@ DG.Meta.Layer = DG.Layer.extend({
         },
 
         click: function(event) {
-            // Stop click, because click could be to poi.
-            if (DG.Browser.mobile) {
-                DG.DomEvent.stop(event);
-            }
             var tileSize = this.getTileSize(),
                 layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
                 tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
@@ -182,11 +178,6 @@ DG.Meta.Layer = DG.Layer.extend({
                 self._currentTile = tileKey;
                 var mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
                 self._hoveredEntity = self._getHoveredObject(tileCoord, mouseTileOffset);
-                // If not poi then fire click on map.
-                if (DG.Browser.mobile && self._hoveredEntity === null) {
-                    this.map.fire('click', event);
-                    return;
-                }
 
                 self._mouseDown = false;
                 self._fireMouseEvent('click', event);
