@@ -44,7 +44,7 @@ DG.Meta.Layer = DG.Layer.extend({
 
         var self = this;
 
-        if (DG.Browser.touch && this.options.isPoi) {
+        if (DG.Browser.touchEnabled && this.options.isPoi) {
             map.eachLayer(function(layer) {
                 if (layer instanceof L.TileLayer) {
                     // On every tile will be load meta tile.
@@ -57,7 +57,7 @@ DG.Meta.Layer = DG.Layer.extend({
     onRemove: function(map) {
         var self = this;
 
-        if (DG.Browser.touch && this.options.isPoi) {
+        if (DG.Browser.touchEnabled && this.options.isPoi) {
             map.eachLayer(function(layer) {
                 if (layer instanceof L.TileLayer) {
                     // On every tile will be load meta tile.
