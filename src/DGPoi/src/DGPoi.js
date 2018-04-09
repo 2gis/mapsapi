@@ -19,7 +19,8 @@ DG.Poi = DG.Handler.extend({
             maxNativeZoom: 19,
             detectRetina: DG.config.detectRetina,
             eventBubbling: 'layer',
-            dataFilter: DG.bind(this._processData, this)
+            dataFilter: DG.bind(this._processData, this),
+            isPoi: true
         });
 
         this._currentTilesLang = ''; // 'ar' | ''
@@ -72,7 +73,7 @@ DG.Poi = DG.Handler.extend({
 
     _processData: function(data, coord) {
         var tileOriginPoint = coord.scaleBy(this._metaLayer.getTileSize());
-        var polygonLngLatToPoints = DG.bind(this._polygonLngLatToPoints, this, tileOriginPoint);
+        var polygonLngLatToPoints = DG.bind(this._polygonLngLatToPoints, this, tileOriginPoint, coord.z);
 
         if (data.responseText === '') {
             return [];
@@ -111,13 +112,13 @@ DG.Poi = DG.Handler.extend({
             });
     },
 
-    _polygonLngLatToPoints: function(originPoint, polygon) {
+    _polygonLngLatToPoints: function(originPoint, zoom, polygon) {
         var map = this._map;
 
         return polygon.map(function(contour) {
             return contour.map(function(lngLat) {
                 return map
-                    .project([lngLat[1], lngLat[0]]).round()
+                    .project([lngLat[1], lngLat[0]], zoom).round()
                     .subtract(originPoint);
             });
         });

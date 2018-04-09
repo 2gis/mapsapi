@@ -41,9 +41,31 @@ DG.Meta.Layer = DG.Layer.extend({
 
         map.on('rulerstart', this._disableDispatchMouseEvents, this);
         map.on('rulerend', this._enableDispatchMouseEvents, this);
+
+        var self = this;
+
+        if (DG.Browser.touchEnabled && this.options.isPoi) {
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.TileLayer) {
+                    // On every tile will be load meta tile.
+                    layer.on('tileloadstart', self._onTileLoadStart, self);
+                }
+            });
+        }
     },
 
     onRemove: function(map) {
+        var self = this;
+
+        if (DG.Browser.touchEnabled && this.options.isPoi) {
+            map.eachLayer(function(layer) {
+                if (layer instanceof L.TileLayer) {
+                    // On every tile will be load meta tile.
+                    layer.off('tileloadstart', self._onTileLoadStart);
+                }
+            });
+        }
+
         this._tileZoom = null;
 
         var index = map.metaLayers.indexOf(this);
@@ -87,6 +109,12 @@ DG.Meta.Layer = DG.Layer.extend({
         if (!this._map || this._map._animatingZoom) { return; }
 
         this._resetView();
+    },
+
+    _onTileLoadStart: function(e) {
+        var tileSize = this.getTileSize();
+        e.coords.key = tileSize.x + 'x' + tileSize.y;
+        this._origin.getTileData(e.coords);
     },
 
     _enableDispatchMouseEvents: function() {

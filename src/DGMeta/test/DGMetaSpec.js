@@ -90,25 +90,6 @@ describe('DGMeta', function () {
             });
         });
 
-        it('setURL should set url and change getTileData behaviour', function () {
-            var flushSpy = sinon.spy(),
-                flushStub = sinon.stub(DG.Meta.Origin.prototype, 'flush', function () {
-                    flushSpy();
-                }),
-                chain;
-
-            chain = origin.setURL('http://demo/data');
-            origin.getTileData({x: 124, y: 12, z: 42, key: '256x256'}, function (tileData) {
-                expect(tileData).to.not.be.ok();
-                expect(ajaxSpy.callCount).to.be.eql(1);
-                expect(flushSpy.callCount).to.be.eql(0);
-                // check for returning this
-                expect(chain.setURL).to.be.a('function');
-
-                flushStub.restore();
-            });
-        });
-
         it('setURL flush option call flush method', function () {
             var flushSpy = sinon.spy();
                 flushStub = sinon.stub(DG.Meta.Origin.prototype, 'flush', function () {

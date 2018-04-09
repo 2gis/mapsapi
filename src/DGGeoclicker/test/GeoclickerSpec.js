@@ -97,12 +97,22 @@ describe('DG.Geoclicker advance tests', function () {
 
             it('should send request', function() {
                 clock.tick(300);
-                expect(requests.length).to.be(1);
+                expect(requests.some(function (request) {
+                    return request.url.indexOf('geo/search') !== -1;
+                })).to.be(true);
             });
 
             it('should request url contain lat and lng', function() {
-                expect(requests[0].url).to.contain(latlng.lat);
-                expect(requests[0].url).to.contain(latlng.lng);
+                var geoSearchRequstUrl = '';
+
+                requests.forEach(function (request) {
+                    if (request.url.indexOf('geo/search') !== -1) {
+                        geoSearchRequstUrl = request.url;
+                    }
+                });
+
+                expect(geoSearchRequstUrl).to.contain(latlng.lat);
+                expect(geoSearchRequstUrl).to.contain(latlng.lng);
             });
 
             it('should open popup', function() {
