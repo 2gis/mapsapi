@@ -49,6 +49,12 @@ DG.Meta.Layer = DG.Layer.extend({
                 if (layer instanceof L.TileLayer) {
                     // On every tile will be load meta tile.
                     layer.on('tileloadstart', self._onTileLoadStart, self);
+                    // Load metatiles for already loaded tiles.
+                    for (var tile in layer._tiles) {
+                        self._onTileLoadStart.call(self, {
+                            coords: layer._tiles[tile].coords
+                        })
+                    }
                 }
             });
         }
