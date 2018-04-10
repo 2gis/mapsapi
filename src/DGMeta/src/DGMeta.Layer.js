@@ -53,7 +53,7 @@ DG.Meta.Layer = DG.Layer.extend({
                     for (var tile in layer._tiles) {
                         self._onTileLoadStart.call(self, {
                             coords: layer._tiles[tile].coords
-                        })
+                        });
                     }
                 }
             });
