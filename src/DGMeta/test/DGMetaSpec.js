@@ -1,4 +1,4 @@
-describe('DGMeta', function () {
+describe.skip('DGMeta', function () {
     var map, meta, ajaxSpy, ajaxStub, demoData, origin, poiCord, spy, div;
 
     beforeEach(function () {
