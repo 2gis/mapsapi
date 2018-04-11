@@ -59,3 +59,16 @@ DG.DomEvent.getEventPath = function(event) {
         path.push(window);
     return path;
 };
+
+L.Canvas.include({
+    _initContainer: function() {
+        var container = this._container = document.createElement('canvas');
+
+        L.DomEvent
+            .on(container, 'mousemove', this._onMouseMove, this)
+            .on(container, 'click dblclick mousedown mouseup contextmenu', this._onClick, this)
+            .on(container, 'mouseout', this._handleMouseOut, this);
+
+        this._ctx = container.getContext('2d');
+    }
+});
