@@ -252,7 +252,6 @@ DG.Map.include({
                 targets[i].fire(type, data, true);
                 if (this._lastMetalayer.entity && data.originalEvent._stopped) {
                     // fixes L.circle([54.983136831455, 82.897440725094], 200).addTo(map);
-                    // but blinks L.circle( [54.980156831455, 82.897440725094], 200, { renderer: L.canvas() } ).addTo(map);
                     this._fireMetalayerEvent('mouseout', this._lastMetalayer, data);
                     this._lastMetalayer = {
                         layer: undefined,
