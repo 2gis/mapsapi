@@ -61,6 +61,7 @@ DG.DomEvent.getEventPath = function(event) {
 };
 
 L.Canvas.include({
+    // overwrite the function without mousemove debounce as it breaks metalayers events
     _initContainer: function() {
         var container = this._container = document.createElement('canvas');
 
