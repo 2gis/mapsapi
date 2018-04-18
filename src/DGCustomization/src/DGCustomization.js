@@ -51,7 +51,7 @@ DG.DomEvent.getEventPath = function(event) {
     var currentElem = event.target || event.srcElement;
     while (currentElem) {
         path.push(currentElem);
-        currentElem = currentElem.parentElement;
+        currentElem = currentElem.parentElement || currentElem.parentNode;
     }
     if (path.indexOf(window) === -1 && path.indexOf(document) === -1)
         path.push(document);
