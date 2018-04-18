@@ -42,3 +42,34 @@ DG.setOptions = L.setOptions = DG.Util.setOptions = function(obj, options) {
 DG.Layer.mergeOptions({
     nonBubblingEvents: ['click', 'dblclick', 'mouseover', 'mouseout', 'contextmenu']
 });
+
+DG.DomEvent.getEventPath = function(event) {
+    if (event.path) {
+        return event.path; // chrome
+    }
+    var path = [];
+    var currentElem = event.target || event.srcElement;
+    while (currentElem) {
+        path.push(currentElem);
+        currentElem = currentElem.parentElement || currentElem.parentNode;
+    }
+    if (path.indexOf(window) === -1 && path.indexOf(document) === -1)
+        path.push(document);
+    if (path.indexOf(window) === -1)
+        path.push(window);
+    return path;
+};
+
+L.Canvas.include({
+    // overwrite the function without mousemove debounce as it breaks metalayers events
+    _initContainer: function() {
+        var container = this._container = document.createElement('canvas');
+
+        L.DomEvent
+            .on(container, 'mousemove', this._onMouseMove, this)
+            .on(container, 'click dblclick mousedown mouseup contextmenu', this._onClick, this)
+            .on(container, 'mouseout', this._handleMouseOut, this);
+
+        this._ctx = container.getContext('2d');
+    }
+});
