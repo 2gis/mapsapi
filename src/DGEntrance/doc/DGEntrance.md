@@ -66,7 +66,7 @@
         <td><code><b>autoClose</b></code></td>
         <td><code>Boolean</td>
         <td><code>true</code></td>
-        <td>Убирать ли входы после действий с картой.</td>
+        <td>Если значение true, то входы пропадут с карте после добавления новых слоев.</td>
     </tr>
 </table>
 
