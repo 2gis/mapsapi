@@ -102,13 +102,6 @@ DG.Meta.Layer = DG.Layer.extend({
     },
 
     getHoveredObject: function(event) {
-        var path = DG.DomEvent.getEventPath(event.originalEvent);
-        if (path.indexOf(this._map._panes.tilePane) === -1 &&
-            path.indexOf(this._map._panes.overlayPane) === -1) {
-            // not metalayer object over
-            return;
-        }
-
         var tileSize = this.getTileSize(),
             layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
             tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),

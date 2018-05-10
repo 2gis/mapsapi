@@ -266,13 +266,21 @@ DG.Map.include({
     },
 
     _getCurrentMetaLayer: function(data) {
-        for (var j = this.metaLayers.length - 1; j >= 0; j--) {
-            var metaEntity = this.metaLayers[j].getHoveredObject(data);
-            if (metaEntity) {
-                return {
-                    layer: this.metaLayers[j],
-                    entity: metaEntity
-                };
+        /**
+         * Suppose that user can interact with the metalayer only if there are no layers between cursor and map
+         * The only exception is canvas, because a canvas layer occupies the whole screen
+         */
+        if (data.originalEvent.target === this._container ||
+            data.originalEvent.target.tagName === 'CANVAS'
+        ) {
+            for (var j = this.metaLayers.length - 1; j >= 0; j--) {
+                var metaEntity = this.metaLayers[j].getHoveredObject(data);
+                if (metaEntity) {
+                    return {
+                        layer: this.metaLayers[j],
+                        entity: metaEntity
+                    };
+                }
             }
         }
         return {

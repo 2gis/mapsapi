@@ -189,6 +189,7 @@ L.MobileTileLayer = L.TileLayer.extend({
         tile.style.height = tileSize.y + 'px';
 
         tile.style.visibility = 'hidden';
+        tile.style.pointerEvents = 'none';
 
         tile.onselectstart = L.Util.falseFn;
         tile.onmousemove = L.Util.falseFn;
@@ -369,7 +370,7 @@ L.MobileTileLayer = L.TileLayer.extend({
         var url = needPreview ? this._previewUrl : this._url;
         var tile = this.createTile(wrapCoords, L.bind(this._tileReady, this, coords), url);
 
-        this._initTile(tile, needPreview);
+        this._initTile(tile);
 
         L.DomUtil.setPosition(tile, tilePos);
 
