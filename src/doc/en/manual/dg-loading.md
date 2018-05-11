@@ -41,11 +41,6 @@ After the package is installed, enable it using <code>require</code>:
 
 Please note that when you use the npm package, there is no need to use <code>DG.then</code>.
 
-### React component
-
-You can also use our [React component](https://github.com/2gis/2gis-maps-react) to work with the map
-in a declarative style using the [React](https://github.com/facebook/react) library.
-
 ### Download on demand
 
 You can load the Maps API at the very moment when you need the map. To do this, you need to add the
