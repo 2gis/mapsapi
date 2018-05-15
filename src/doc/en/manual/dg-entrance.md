@@ -92,7 +92,7 @@ Create and display the entrances to the building:
             <td><code><b>autoClose</b></code></td>
             <td><code>Boolean</td>
             <td><code>true</code></td>
-            <td>Whether to remove objects of entrances after any actions with the card.</td>
+            <td>Whether to remove objects of entrances after adding new layers to the map.</td>
         </tr>
     </tbody>
 </table>
@@ -138,7 +138,7 @@ Create and display the entrances to the building:
             <td><code><b>hide</b>()</code></td>
 
             <td><code>this</code></td>
-            <td>Hides entrances. The objects themselves are not deleted from the card and the entrances
+            <td>Hides entrances. The objects themselves are not deleted from the map and the entrances
                 can be re-displayed by calling the <code>show()</code> method.</td>
         </tr>
         <tr>
