@@ -273,7 +273,7 @@ DG.Map.include({
         if (
             // For all browsers which support pointer-events: none on tiles
             eventTarget === this._container ||
-            // And for IE10 or less targets will tiles
+            // And for IE10 or less where targets are tiles
             DG.Browser.ie && eventTarget.className === 'leaflet-tile leaflet-tile-loaded' ||
             // The only exception is canvas, because a canvas layer occupies the whole screen
             eventTarget.tagName === 'CANVAS'
