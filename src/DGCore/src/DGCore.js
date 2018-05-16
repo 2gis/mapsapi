@@ -35,14 +35,18 @@ DG.Map.addInitHook((function() {
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-            })(window,document,'script',DG.config.protocol+DG.config.googleAnalytics,'ga');
+            })(window,document,'script',DG.config.googleAnalytics,'ga');
             /*eslint-enable */
 
             inited = true;
         }
 
         /*eslint-disable */
-        ga('create', DG.config.gaCode, 'none', {name: 'mapsapi2gis'});
+        ga('create', DG.config.gaCode, {
+            storage: 'none', // don't store and use cookies thanks GDPR
+            name: 'mapsapi2gis'
+        });
+        ga('set', 'anonymizeIp', true);
         ga('mapsapi2gis.send', 'pageview');
         /*eslint-enable */
 
