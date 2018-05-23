@@ -57,7 +57,7 @@
     "webApiServer": "//catalog.api.2gis.ru",
 
     "analytics": "//maps.api.2gis.ru/analytics/track-user.png",
-    "googleAnalytics": "//www.google-analytics.com/analytics.js",
+    "googleAnalytics": "https://www.google-analytics.com/analytics.js",
 
     "loadProjectListTimeout": 5000
 }
