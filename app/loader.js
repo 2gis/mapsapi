@@ -3,7 +3,7 @@
 
     var isJSRequested = false;
     var rejects = [];
-    var version = 'v3.4.9';
+    var version = 'v3.4.10';
     var baseURL = '__BASE_URL__';
     var query = __QUERY__;
     var isLazy = query.lazy === 'true';
