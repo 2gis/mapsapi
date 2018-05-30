@@ -44,10 +44,10 @@ DG.Map.addInitHook((function() {
         /*eslint-disable */
         ga('create', DG.config.gaCode, {
             storage: 'none', // don't store and use cookies thanks GDPR
-            name: 'mapsapi2gis'
+            name: DG.config.gaName
         });
-        ga('set', 'anonymizeIp', true);
-        ga('mapsapi2gis.send', 'pageview');
+        ga(DG.config.gaName + '.set', 'anonymizeIp', true);
+        ga(DG.config.gaName + '.send', 'pageview');
         /*eslint-enable */
 
         var newImg = new Image();
