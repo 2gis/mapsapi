@@ -266,13 +266,26 @@ DG.Map.include({
     },
 
     _getCurrentMetaLayer: function(data) {
-        for (var j = this.metaLayers.length - 1; j >= 0; j--) {
-            var metaEntity = this.metaLayers[j].getHoveredObject(data);
-            if (metaEntity) {
-                return {
-                    layer: this.metaLayers[j],
-                    entity: metaEntity
-                };
+        // Not forget for IE8 with srcElement
+        var eventTarget = data.originalEvent.target || data.originalEvent.srcElement;
+
+        // Suppose that user can interact with the metalayer only if there are no layers between cursor and map
+        if (
+            // For all browsers which support pointer-events: none on tiles
+            eventTarget === this._container ||
+            // And for IE10 or less where targets are tiles
+            DG.Browser.ie && eventTarget.className === 'leaflet-tile leaflet-tile-loaded' ||
+            // The only exception is canvas, because a canvas layer occupies the whole screen
+            eventTarget.tagName === 'CANVAS'
+        ) {
+            for (var j = this.metaLayers.length - 1; j >= 0; j--) {
+                var metaEntity = this.metaLayers[j].getHoveredObject(data);
+                if (metaEntity) {
+                    return {
+                        layer: this.metaLayers[j],
+                        entity: metaEntity
+                    };
+                }
             }
         }
         return {
