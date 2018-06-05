@@ -91,7 +91,7 @@ var deps = {
                 'DGCustomization/skin/{skin}/less/dg-customization.ie.less'
             ]
         },
-        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector']
+        deps: ['DGCore', 'DGLocale', 'DGRoundControl', 'DGProjectDetector', 'DGMuseum']
     },
 
     DGZoomControl: {
@@ -357,8 +357,17 @@ var deps = {
             all: ['DGRulerControl/skin/{skin}/less/dg-control-round.less']
         },
         deps: ['DGRuler', 'DGRoundControl']
-    }
+    },
 
+    DGMuseum: {
+        desc: 'Museum module',
+        src: [
+            'DGMuseum/src/DGMuseum.js'
+        ],
+        less: {
+            all: ['DGMuseum/skin/{skin}/less/dg-museum.less']
+        }
+    }
 };
 
 if (typeof module !== 'undefined' && module.exports) {
