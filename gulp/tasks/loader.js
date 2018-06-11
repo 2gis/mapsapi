@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
 var gulpif = require('gulp-if');
 var uglify = require('gulp-uglify');
 var replace = require('gulp-replace');
@@ -13,6 +13,6 @@ gulp.task('loader', function() {
     gulp.src('app/loader.js')
         .pipe(error.handle())
         .pipe(replace(/__ORIGINAL_BASE_URL__/g, originalBaseUrl))
-        .pipe(gulpif(util.env.release, uglify()))
+        .pipe(gulpif(argv.release, uglify()))
         .pipe(gulp.dest('dist'));
 });

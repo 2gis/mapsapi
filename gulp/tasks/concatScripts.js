@@ -4,7 +4,7 @@ var concat = require('gulp-concat');
 var footer = require('gulp-footer');
 var es = require('event-stream');
 var gulpif = require('gulp-if');
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
 
 var config = require('../../app/config.js');
@@ -14,20 +14,20 @@ var templateStream = require('../util/templateStream');
 var projectList = require('../util/projectList');
 var error = require('../util/error');
 
-var dependencies = util.env['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
+var dependencies = argv['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
 
 function getStyleRequireStatement(pack, skin) {
     return 'require("../../../dist/css/styles.' + pack + '.' + skin + '.css");';
 }
 
 gulp.task('concatScripts', dependencies, function() {
-    var isCustom = util.env.pkg || util.env.skin;
+    var isCustom = argv.pkg || argv.skin;
     var packages;
 
     if (global.isTestBuild) {
         packages = ['full'];
     } else if (isCustom) {
-        packages = [util.env.pkg || 'full'];
+        packages = [argv.pkg || 'full'];
     } else {
         packages = Object.keys(config.packages);
     }
@@ -44,17 +44,17 @@ gulp.task('concatScripts', dependencies, function() {
                 templateStream(pkg)
             )
             .pipe(error.handle())
-            .pipe(gulpif(!util.env.release, sourcemaps.init()))
+            .pipe(gulpif(!argv.release, sourcemaps.init()))
             .pipe(concat('script.' + (!isCustom ? pkg + '.' : '') + 'js'))
             .pipe(footer(projectList.get()))
             .pipe(footer('DG.config = ' + JSON.stringify(config.appConfig) + ';'));
 
-        if (util.env.npm) {
+        if (argv.npm) {
             stream = stream.pipe(footer(getStyleRequireStatement(pkg, 'dark')));
         }
 
         return stream
-            .pipe(gulpif(!util.env.release, sourcemaps.write()))
+            .pipe(gulpif(!argv.release, sourcemaps.write()))
             .pipe(gulp.dest('gulp/tmp/js'));
     }).reduce(function(prev, curr) {
         return es.merge(prev, curr);

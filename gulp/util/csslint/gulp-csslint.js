@@ -1,7 +1,8 @@
 'use strict';
 
-var gutil = require('gulp-util');
-var c = gutil.colors;
+var log = require('fancy-log');
+var PluginError = require('plugin-error');
+var c = require('ansi-colors');
 var es = require('event-stream');
 var fs = require('fs');
 var csslint = require('./lib/csslint').CSSLint;
@@ -86,12 +87,12 @@ var defaultReporter = function (file) {
     var errorCount = file.csslint.errorCount;
     var plural = errorCount == 1 ? '' : 's';
 
-    gutil.log(c.cyan(errorCount) + ' error' + plural + ' found in ' + c.magenta(file.path));
+    log(c.cyan(errorCount) + ' error' + plural + ' found in ' + c.magenta(file.path));
 
     file.csslint.results.forEach(function (result) {
         var message = result.error;
 
-        gutil.log(
+        log(
             c.red('[') +
                 (typeof message.line != 'undefined' ?
                     c.yellow('L' + message.line) + c.red(':') + c.yellow('C' + message.col) :
@@ -129,7 +130,7 @@ cssLintPlugin.failReporter = function () {
             return cb(null, file);
         }
 
-        return cb(new gutil.PluginError('gulp-csslint', 'CSSLint failed for ' + file.relative), file);
+        return cb(new PluginError('gulp-csslint', 'CSSLint failed for ' + file.relative), file);
     });
 };
 

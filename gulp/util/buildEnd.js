@@ -1,4 +1,6 @@
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
+var log = require('fancy-log');
+var c = require('ansi-colors');
 
 var stat = require('./stat');
 var config = require('../../app/config');
@@ -7,14 +9,14 @@ var deps = require('../deps')(config);
 module.exports = function() {
     console.log('Build contains the next modules:');
 
-    deps.getModulesList(util.env.pkg).forEach(function(module) {
+    deps.getModulesList(argv.pkg).forEach(function(module) {
         console.log('- ' + module);
     });
 
-    if (util.env.sprite == 'true') {
-        util.log('Builded with sprites');
-    } else if (util.env.base64 != 'false' && typeof util.env.base64 != 'undefined') {
-        util.log('Builded with base64 encode');
+    if (argv.sprite == 'true') {
+        log('Builded with sprites');
+    } else if (argv.base64 != 'false' && typeof argv.base64 != 'undefined') {
+        log('Builded with base64 encode');
     }
 
     console.log('\nDist files statistic:');
@@ -25,5 +27,5 @@ module.exports = function() {
         console.log('- ' + file + ': ' + statValues[file]);
     });
 
-    util.log(util.colors.green('Build successfully complete'));
+    log(c.green('Build successfully complete'));
 };

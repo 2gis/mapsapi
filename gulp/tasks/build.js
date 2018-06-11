@@ -1,11 +1,11 @@
 var buildEnd = require('../util/buildEnd.js');
 var config = require('../../app/config.js');
 var runSequence = require('run-sequence');
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
 
-gulp.task('build', function(cb) {
-    if (util.env.npm) {
+gulp.task('build', function (cb) {
+    if (argv.npm) {
         // Disable local config for npm builds
         config.appConfig = config.mainConfig;
 

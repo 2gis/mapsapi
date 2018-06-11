@@ -1,5 +1,5 @@
 var es = require('event-stream');
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
 
 var config = require('../../app/config');
@@ -12,13 +12,13 @@ module.exports = function() {
     var packages = Object.keys(config.packages);
     var browsers = ['', 'ie8'];
 
-    if (util.env.pkg || util.env.skin) {
+    if (argv.pkg || argv.skin) {
         // Custom build
         buildRules = browsers.map(function(browser) {
             return {
                 suffix: browser === 'ie8' ? 'ie8' : null,
-                pkg: util.env.pkg || 'full',
-                skin: util.env.skin || config.appConfig.defaultSkin,
+                pkg: argv.pkg || 'full',
+                skin: argv.skin || config.appConfig.defaultSkin,
                 ie8: browser === 'ie8',
                 isTest: global.isTestBuild
             };
