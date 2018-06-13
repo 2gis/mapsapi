@@ -3,6 +3,7 @@ var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
 var path = require('path');
 var glob = require('glob');
+var log = require('fancy-log');
 var _ = require('lodash');
 
 var test = require('../../test/test');
@@ -57,8 +58,8 @@ gulp.task('test', testRequirements, function(done) {
 
     var numberOfChunks = splittedModules.length;
 
-    console.log('\nITEMS IN CHUNK: ' + itemInChunk);
-    console.log('NUMBER OF CHUNKS: ' + numberOfChunks);
+    log('\nITEMS IN CHUNK: ' + itemInChunk);
+    log('NUMBER OF CHUNKS: ' + numberOfChunks);
 
     // Flag of existing errors.
     var totalErr = false;
@@ -66,7 +67,7 @@ gulp.task('test', testRequirements, function(done) {
     // Function will be run recursive, because need execute chunks in order.
     function startServer(err) {
         totalErr = err || totalErr;
-        console.log('\nCHUNK #' + currentChunk.toString());
+        log('\nCHUNK #' + currentChunk.toString());
 
         var localeSourceList = sourcesList.concat(splittedModules[currentChunk]);
         currentChunk++;

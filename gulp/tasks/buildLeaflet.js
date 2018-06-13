@@ -1,5 +1,6 @@
 var concat = require('gulp-concat');
 var gulp = require('gulp');
+var log = require('fancy-log');
 var argv = require('minimist')(process.argv.slice(2));
 var path = require('path');
 
@@ -13,7 +14,7 @@ function getLeafletFiles(compsBase32) {
 
     if (compsBase32) {
         comps = parseInt(compsBase32, 32).toString(2).split('');
-        console.log('Managing dependencies...');
+        log('Managing dependencies...');
     }
 
     function addFiles(srcs) {
@@ -25,17 +26,17 @@ function getLeafletFiles(compsBase32) {
     for (var i in deps) {
         if (comps) {
             if (parseInt(comps.pop(), 2) === 1) {
-                console.log(' * ' + i);
+                log(' * ' + i);
                 addFiles(deps[i].src);
             } else {
-                console.log('   ' + i);
+                log('   ' + i);
             }
         } else {
             addFiles(deps[i].src);
         }
     }
 
-    console.log('\n');
+    log('\n');
 
     var files = [];
 
