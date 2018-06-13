@@ -1,5 +1,5 @@
 var Server = require('karma').Server;
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
 var path = require('path');
 var glob = require('glob');
@@ -8,13 +8,13 @@ var _ = require('lodash');
 var test = require('../../test/test');
 var excludedTests = require('../../test/excludedTests.js') || [];
 
-var isTestDebug = util.env.d || util.env.debug;
+var isTestDebug = argv.d || argv.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
-var itemInChunk = util.env['items-in-chunk'] || 10;
-var multipleChunks = util.env['multiple-chunks'] || false;
+var itemInChunk = argv['items-in-chunk'] || 10;
+var multipleChunks = argv['multiple-chunks'] || false;
 
 gulp.task('test', testRequirements, function(done) {
-    var cliOptions = _.cloneDeep(util.env);
+    var cliOptions = _.cloneDeep(argv);
     var modulesToTest = [];
     var currentChunk = 0;
 

@@ -1,5 +1,5 @@
 var request = require('request');
-var util = require('gulp-util');
+var PluginError = require('plugin-error');
 var gulp = require('gulp');
 
 var projectList = require('../util/projectList');
@@ -30,7 +30,7 @@ gulp.task('loadProjectList', function(cb) {
 
     request(url, function(err, res, body) {
         if (err) {
-            var error = new util.PluginError({
+            var error = new PluginError({
                 plugin: 'loadProjectList',
                 message: err
             });

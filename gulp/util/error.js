@@ -1,6 +1,6 @@
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
-var util = require('gulp-util');
+var c = require('ansi-colors');
 
 function errorNotify(err) {
     var args = Array.prototype.slice.call(arguments);
@@ -10,7 +10,7 @@ function errorNotify(err) {
         title: 'Build Error',
         message: '<%= error.message %>'
     }, function() {
-        console.error(util.colors.red('Build failure'));
+        console.error(c.red('Build failure'));
 
         if (err.stack) {
             console.error(err.stack);

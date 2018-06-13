@@ -8,20 +8,20 @@ var uglify = require('gulp-uglify');
 var header = require('gulp-header');
 var es = require('event-stream');
 var gulpif = require('gulp-if');
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
 var path = require('path');
 var map = require('map-stream');
 var insert = require('gulp-insert');
 
 gulp.task('buildScripts', ['concatScripts'], function() {
-    var isCustom = util.env.pkg || util.env.skin;
+    var isCustom = argv.pkg || argv.skin;
     var packages;
 
     if (global.isTestBuild) {
         packages = ['full'];
     } else if (isCustom) {
-        packages = [util.env.pkg || 'full'];
+        packages = [argv.pkg || 'full'];
     } else {
         packages = Object.keys(config.packages);
     }
@@ -31,9 +31,9 @@ gulp.task('buildScripts', ['concatScripts'], function() {
         var src = path.join('gulp', 'tmp', 'js', name);
 
         var bundler = browserify(src, {
-            debug: !util.env.release,
+            debug: !argv.release,
             entry: true,
-            standalone: util.env.npm ? 'DG': false,
+            standalone: argv.npm ? 'DG': false,
             cache: {},
             packageCache: {}
         });
@@ -47,11 +47,11 @@ gulp.task('buildScripts', ['concatScripts'], function() {
             .pipe(source(name))
             .pipe(buffer())
             .pipe(derequire())
-            .pipe(gulpif(util.env.release, uglify()))
-            .pipe(gulpif(util.env.release, header(config.copyright)))
+            .pipe(gulpif(argv.release, uglify()))
+            .pipe(gulpif(argv.release, header(config.copyright)))
             .pipe(gulpif(
-                Boolean(util.env['leaflet-custom-build']),
-                insert.prepend('// leaflet-custom-build: ' + util.env['leaflet-custom-build'] + '\n')
+                Boolean(argv['leaflet-custom-build']),
+                insert.prepend('// leaflet-custom-build: ' + argv['leaflet-custom-build'] + '\n')
             ))
             .pipe(map(stat.save))
             .pipe(gulp.dest('dist/js/'));

@@ -6,7 +6,7 @@ var header = require('gulp-header');
 var cache = require('gulp-cached');
 var gulpif = require('gulp-if');
 var less = require('gulp-less');
-var util = require('gulp-util');
+var argv = require('minimist')(process.argv.slice(2));
 var map = require('map-stream');
 var gulp = require('gulp');
 var path = require('path');
@@ -72,7 +72,7 @@ module.exports = function(options) {
         .pipe(autoprefixer({browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']}))
         .pipe(remember('css.' + options.suffix))
         .pipe(concat('styles.' + (options.suffix ? options.suffix + '.' : '') + 'css'))
-        .pipe(gulpif(util.env.release, clean()))
+        .pipe(gulpif(argv.release, clean()))
         .pipe(header(config.copyright))
         .pipe(map(stat.save));
 };
