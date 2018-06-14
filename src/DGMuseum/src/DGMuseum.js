@@ -5,8 +5,17 @@ var ie9 = (function() {
     return Boolean(all[0]);
 })();
 
+var wasPreviouslyDisabled = false;
+
+// Old Safari throws error when localStorage.getItem calls in private mode
+try {
+    wasPreviouslyDisabled = localStorage.getItem('DGMuseum') === 'false';
+} catch (err) {
+    // do nothing
+}
+
 DG.Map.mergeOptions({
-    museum: DG.Browser.ielt9 || ie9 || DG.Browser.opera12 || DG.Browser.safari51
+    museum: !wasPreviouslyDisabled && (DG.Browser.ielt9 || ie9 || DG.Browser.opera12 || DG.Browser.safari51)
 });
 
 DG.Map.Museum = DG.Handler.extend({
@@ -70,6 +79,14 @@ DG.Map.Museum = DG.Handler.extend({
 
     _onCloseButtonClick: function(e) {
         DG.DomEvent.stop(e);
+
+        // Old Safari throws error when localStorage.getItem calls in private mode
+        try {
+            localStorage.setItem('DGMuseum', 'false');
+        } catch (err) {
+            // do nothing
+        }
+
         this.disable();
     },
 
