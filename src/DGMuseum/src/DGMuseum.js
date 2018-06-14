@@ -7,7 +7,7 @@ var ie9 = (function() {
 
 var wasPreviouslyDisabled = false;
 
-// Old Safari throws error when localStorage.getItem calls in private mode
+// Old Safari throws error when localStorage.getItem is called in private mode
 try {
     wasPreviouslyDisabled = localStorage.getItem('DGMuseum') === 'false';
 } catch (err) {
@@ -80,7 +80,7 @@ DG.Map.Museum = DG.Handler.extend({
     _onCloseButtonClick: function(e) {
         DG.DomEvent.stop(e);
 
-        // Old Safari throws error when localStorage.getItem calls in private mode
+        // Old Safari throws error when localStorage.getItem is called in private mode
         try {
             localStorage.setItem('DGMuseum', 'false');
         } catch (err) {
