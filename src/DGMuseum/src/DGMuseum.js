@@ -5,6 +5,8 @@ var ie9 = (function() {
     return Boolean(all[0]);
 })();
 
+var safari51 = DG.Browser.safari && navigator.userAgent.indexOf('Version/5.1') !== -1;
+
 var wasPreviouslyDisabled = false;
 
 // Old Safari throws error when localStorage.getItem is called in private mode
@@ -15,7 +17,7 @@ try {
 }
 
 DG.Map.mergeOptions({
-    museum: !wasPreviouslyDisabled && (DG.Browser.ielt9 || ie9 || DG.Browser.opera12 || DG.Browser.safari51)
+    museum: !wasPreviouslyDisabled && (DG.Browser.ielt9 || ie9 || DG.Browser.opera12 || safari51)
 });
 
 DG.Map.Museum = DG.Handler.extend({
