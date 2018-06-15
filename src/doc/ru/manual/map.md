@@ -198,6 +198,12 @@
                 масштабирования нет тайлов.
             </td>
         </tr>
+        <tr id="map-museum">
+            <td><code><b>museum</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code></td>
+            <td>Будет ли отображаться сообщение о том, что браузер не поддерживается.</td>
+        </tr>
     </tbody>
 </table>
 

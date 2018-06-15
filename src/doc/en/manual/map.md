@@ -195,6 +195,12 @@ Initialize the map on the &quot;map&quot; div with a given center and zoom:
                 <!-- TODO: translation -->
             </td>
         </tr>
+        <tr id="map-museum">
+            <td><code><b>museum</b></code></td>
+            <td><code>Boolean</code></td>
+            <td><code>true</code></td>
+            <td>Whether the message about unsupported browser will be displayed.</td>
+        </tr>
     </tbody>
 </table>
 
