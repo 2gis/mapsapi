@@ -7,10 +7,10 @@ var config = require('../../app/config');
 var deps = require('../deps')(config);
 
 module.exports = function() {
-    console.log('Build contains the next modules:');
+    log('Build contains the next modules:');
 
     deps.getModulesList(argv.pkg).forEach(function(module) {
-        console.log('- ' + module);
+        log('- ' + module);
     });
 
     if (argv.sprite == 'true') {
@@ -19,12 +19,12 @@ module.exports = function() {
         log('Builded with base64 encode');
     }
 
-    console.log('\nDist files statistic:');
+    log('\nDist files statistic:');
 
     var statValues = stat.get();
 
     Object.keys(statValues).forEach(function(file) {
-        console.log('- ' + file + ': ' + statValues[file]);
+        log('- ' + file + ': ' + statValues[file]);
     });
 
     log(c.green('Build successfully complete'));
