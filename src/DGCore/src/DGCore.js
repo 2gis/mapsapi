@@ -44,7 +44,8 @@ DG.Map.addInitHook((function() {
         /*eslint-disable */
         ga('create', DG.config.gaCode, {
             storage: 'none', // don't store and use cookies thanks GDPR
-            name: DG.config.gaName
+            name: DG.config.gaName,
+            sampleRate: 50
         });
         ga(DG.config.gaName + '.set', 'anonymizeIp', true);
         ga(DG.config.gaName + '.send', 'pageview');
