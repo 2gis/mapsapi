@@ -198,6 +198,14 @@ require('../../../vendors/baron');
 
         _initLayout: function() {
             originalInitLayout.call(this);
+
+            // Prevents scroll events for div.leaflet-popup-content (this._contentNode) from web page scrolling when popup is opened
+            DG.DomEvent.on(this._contentNode,'mousewheel', function(e) {
+                if (e.path.indexOf(this._scroller) === -1) {
+                    e.preventDefault();
+                }
+            }, this);
+         
             this._innerContainer = DG.DomUtil.create('div', 'leaflet-popup-inner ' + this._popupHideClass, this._container);
 
             // Prevents mouse events from leaking through close button
