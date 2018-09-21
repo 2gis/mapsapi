@@ -200,8 +200,21 @@ require('../../../vendors/baron');
             originalInitLayout.call(this);
 
             // Prevents scroll events for div.leaflet-popup-content (this._contentNode) from web page scrolling when popup is opened
-            DG.DomEvent.on(this._contentNode,'mousewheel', function(e) {
-                if (e.path.indexOf(this._scroller) === -1) {
+            DG.DomEvent.on(this._contentNode, 'wheel', function(e) {
+                var eventPath;
+
+                if (e.composedPath) {
+                    eventPath = e.composedPath();
+                } else {
+                    var elem = e.target;
+                    eventPath = [];
+                    while (elem.parentNode) {
+                        eventPath.push(elem);
+                        elem = elem.parentNode;
+                    }
+                }
+
+                if (eventPath.indexOf(this._scroller) === -1 || eventPath.indexOf(this._barWrapper) !== -1) {
                     e.preventDefault();
                 }
             }, this);
