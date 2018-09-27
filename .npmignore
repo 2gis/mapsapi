@@ -18,5 +18,4 @@ coverage
 jsconfig.json
 .vscode
 
-package-lock.json
 yarn.lock
