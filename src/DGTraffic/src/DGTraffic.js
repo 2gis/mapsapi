@@ -1,7 +1,8 @@
 DG.Traffic = DG.TileLayer.extend({
     options: {
         period: 0,
-        disableLabel: false
+        disableLabel: false,
+        updateWhenIdle: false // display new traffic tiles on move for mobile
     },
 
     statics: {
