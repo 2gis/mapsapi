@@ -41,6 +41,9 @@ DG.Traffic = DG.TileLayer.extend({
     onAdd: function(map) {
         var self = this;
 
+        this._initContainer();
+        this._levels = {};
+        this._tiles = {};
         this._isOnRequest = true;
 
         if (this.options.period) {
@@ -83,6 +86,10 @@ DG.Traffic = DG.TileLayer.extend({
             }
     
             DG.TileLayer.prototype.onRemove.call(this, map);
+        } else {
+            L.DomUtil.remove(this._container);
+            map._removeZoomLimit(this);
+            this._container = null;
         }
     },
 
@@ -259,8 +266,15 @@ DG.Traffic = DG.TileLayer.extend({
             this._updateTimer = setInterval(this._onTimer, this._updateInterval);
         }
 
-        DG.TileLayer.prototype.onAdd.call(this, map);
+        this._resetView();
+        this._update();
         this._isOnRequest = false;
+    },
+
+    _update: function(center) {
+        if (this.options.timestampString !== undefined) {
+            DG.TileLayer.prototype._update.call(this, center);
+        }
     }
 
 });

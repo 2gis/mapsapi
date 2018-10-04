@@ -156,9 +156,14 @@ describe('DG.TrafficControl', function() {
                 map.setView(centerWithoutProject, 15, {animate: false});
             });
 
-            it('remove hide class from control parent element', function () {
+            it('remove hide class from control parent element', function (done) {
+                var onProjectChange = function (ev) {
+                    map.off('projectchange', onProjectChange);
+                    expect(controlParent.className).not.contain(controlParentHiddenClass);
+                    done();
+                }
+                map.on('projectchange', onProjectChange);
                 map.setView(centerSpb, 15, {animate: false});
-                expect(controlParent.className).not.contain(controlParentHiddenClass);
             });
 
             it('control parent element haven\'t active class', function () {
@@ -185,7 +190,6 @@ describe('DG.TrafficControl', function() {
                     done();
                 };
                 map.on('projectleave', onProjectLeave);
-
                 map.setView(centerWithoutProject, 15, {animate: false});
             });
 
