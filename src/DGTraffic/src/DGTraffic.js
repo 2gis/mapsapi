@@ -39,17 +39,16 @@ DG.Traffic = DG.TileLayer.extend({
     // #setTime(day [0-6], time[0-23]) ????
 
     onAdd: function(map) {
-        var self = this;
-
         this._initContainer();
         this._levels = {};
         this._tiles = {};
-        this._isOnRequest = true;
 
         if (this.options.period) {
             this.options.timestampString = '';
             this._onAddSetParams(map);
-        } else { 
+        } else {
+            var self = this;
+            this._isOnRequest = true; 
             this._getTimestampString()
             .then(
                 function(response) {
@@ -60,10 +59,9 @@ DG.Traffic = DG.TileLayer.extend({
                 })
             .then(
                 function() {
+                    self._isOnRequest = false;
                     if (self._map) { // if traffic layer has not been removed from map before server response and timestampString variable is assigned
                         self._onAddSetParams(map);
-                    } else {
-                        self._isOnRequest = false;
                     }
                 }
             )
@@ -268,11 +266,10 @@ DG.Traffic = DG.TileLayer.extend({
 
         this._resetView();
         this._update();
-        this._isOnRequest = false;
     },
 
     _update: function(center) {
-        if (this.options.timestampString !== undefined) {
+        if (!this._isOnRequest) {
             DG.TileLayer.prototype._update.call(this, center);
         }
     }
