@@ -50,21 +50,21 @@ DG.Traffic = DG.TileLayer.extend({
             var self = this;
             this._isOnRequest = true; 
             this._getTimestampString()
-            .then(
-                function(response) {
-                    self.options.timestampString = '?' + response;
-                },
-                function() {
-                    self.options.timestampString = '?' + (new Date()).getTime();
-                })
-            .then(
-                function() {
-                    self._isOnRequest = false;
-                    if (self._map) { // if traffic layer has not been removed from map before server response and timestampString variable is assigned
-                        self._onAddSetParams(map);
+                .then(
+                    function(response) {
+                        self.options.timestampString = '?' + response;
+                    },
+                    function() {
+                        self.options.timestampString = '?' + (new Date()).getTime();
+                    })
+                .then(
+                    function() {
+                        self._isOnRequest = false;
+                        if (self._map) { // if traffic layer has not been removed from map before server response and timestampString variable is assigned
+                            self._onAddSetParams(map);
+                        }
                     }
-                }
-            )
+                );
         }
     },
 
