@@ -24,7 +24,6 @@ DG.Traffic = DG.TileLayer.extend({
         };
 
         options = DG.setOptions(this, DG.extend(options || {}, this._layersOptions));
-        options.timestampString = options.period ? '' : ('?' +  (new Date()).getTime());
         this._metaLayer = DG.Meta.layer(null, {
             detectRetina: options.detectRetina,
             maxNativeZoom: options.maxNativeZoom,
@@ -32,6 +31,7 @@ DG.Traffic = DG.TileLayer.extend({
             minZoom: options.minZoom
         });
         this._isDg = true;
+        this._isOnRequest = false; // timestampString request flag
         this._onTimer = DG.bind(this._onTimer, this);
         DG.TileLayer.prototype.initialize.call(this, this._tileUrl, options);
     },
@@ -39,40 +39,56 @@ DG.Traffic = DG.TileLayer.extend({
     // #setTime(day [0-6], time[0-23]) ????
 
     onAdd: function(map) {
-        this._updateLayerProject();
+        this._initContainer();
+        this._levels = {};
+        this._tiles = {};
 
-        map
-            .addLayer(this._metaLayer)
-            .on('projectchange projectleave', this._onMapProjectChange, this);
-
-        if (!this.options.disableLabel) {
-            this._metaLayer.on(this._layerEventsListeners, this);
-            this._labelHelper = DG.label();
-            this._map.on('langchange', this._updateLang, this);
+        if (this.options.period) {
+            this.options.timestampString = '';
+            this._onAddSetParams(map);
+        } else {
+            var self = this;
+            this._isOnRequest = true; 
+            this._getTimestampString()
+                .then(
+                    function(response) {
+                        self.options.timestampString = '?' + response;
+                    },
+                    function() {
+                        self.options.timestampString = '?' + (new Date()).getTime();
+                    })
+                .then(
+                    function() {
+                        self._isOnRequest = false;
+                        if (self._map) { // if traffic layer has not been removed from map before server response and timestampString variable is assigned
+                            self._onAddSetParams(map);
+                        }
+                    }
+                );
         }
-
-        if (this._updateInterval) {
-            this._updateTimer = setInterval(this._onTimer, this._updateInterval);
-        }
-
-        DG.TileLayer.prototype.onAdd.call(this, map);
     },
 
     onRemove: function(map) {
-        clearInterval(this._updateTimer);
+        if (!this._isOnRequest) {
+            clearInterval(this._updateTimer);
 
-        map
-            .removeLayer(this._metaLayer)
-            .off('projectchange projectleave', this._onMapProjectChange, this);
-
-        if (!this.options.disableLabel) {
-            this._metaLayer.off(this._layerEventsListeners, this);
-            this._map.removeLayer(this._labelHelper);
-            this._labelHelper = null;
-            this._map.off('langchange', this._updateLang, this);
+            map
+                .removeLayer(this._metaLayer)
+                .off('projectchange projectleave', this._onMapProjectChange, this);
+    
+            if (!this.options.disableLabel) {
+                this._metaLayer.off(this._layerEventsListeners, this);
+                this._map.removeLayer(this._labelHelper);
+                this._labelHelper = null;
+                this._map.off('langchange', this._updateLang, this);
+            }
+    
+            DG.TileLayer.prototype.onRemove.call(this, map);
+        } else {
+            L.DomUtil.remove(this._container);
+            map._removeZoomLimit(this);
+            this._container = null;
         }
-
-        DG.TileLayer.prototype.onRemove.call(this, map);
     },
 
     update: function() {
@@ -229,6 +245,33 @@ DG.Traffic = DG.TileLayer.extend({
 
     _setCursor: function(cursor) { // (String)
         this._map.getContainer().style.cursor = cursor;
+    },
+
+    _onAddSetParams: function(map) {
+        this._updateLayerProject();
+
+        map
+            .addLayer(this._metaLayer)
+            .on('projectchange projectleave', this._onMapProjectChange, this);
+
+        if (!this.options.disableLabel) {
+            this._metaLayer.on(this._layerEventsListeners, this);
+            this._labelHelper = DG.label();
+            this._map.on('langchange', this._updateLang, this);
+        }
+
+        if (this._updateInterval) {
+            this._updateTimer = setInterval(this._onTimer, this._updateInterval);
+        }
+
+        this._resetView();
+        this._update();
+    },
+
+    _update: function(center) {
+        if (!this._isOnRequest) {
+            DG.TileLayer.prototype._update.call(this, center);
+        }
     }
 
 });
