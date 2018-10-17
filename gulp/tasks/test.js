@@ -11,8 +11,7 @@ var excludedTests = require('../../test/excludedTests.js') || [];
 
 var isTestDebug = argv.d || argv.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
-var itemInChunk = argv['items-in-chunk'] || 10;
-var multipleChunks = argv['multiple-chunks'] || false;
+var itemInChunk = 10; // items in chunk by default
 
 gulp.task('test', testRequirements, function(done) {
     var cliOptions = _.cloneDeep(argv);
@@ -49,10 +48,6 @@ gulp.task('test', testRequirements, function(done) {
     modulesToTestSourceList = modulesToTestSourceList.concat(glob.sync('node_modules/leaflet/spec/suites/**/*Spec.js'));
 
     modulesToTestSourceList = _.difference(modulesToTestSourceList, excludedTests);
-
-    if (!multipleChunks) {
-        itemInChunk = modulesToTestSourceList.length;
-    }
 
     var splittedModules = _.chunk(modulesToTestSourceList, itemInChunk);
 
