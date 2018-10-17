@@ -59,7 +59,7 @@ DG.Control.Traffic = DG.RoundControl.extend({
     _handleDom: function(method, score) {
         var a = this._link;
 
-        a.innerHTML = score || '';
+        a.innerHTML = isNaN(score) ? '' : score;
         DG.DomUtil[method + 'Class'](a, this._trafficClass);
         DG.DomUtil[method + 'Class'](a, this._trafficClass + '_color_' + this._scoreRate);
     },
