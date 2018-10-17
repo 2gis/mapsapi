@@ -8,5 +8,6 @@ module.exports = [
     'node_modules/leaflet/spec/suites/layer/PopupSpec.js',
     'node_modules/leaflet/spec/suites/layer/vector/CanvasSpec.js',
     'node_modules/leaflet/spec/suites/layer/marker/Icon.DefaultSpec.js',
-    'node_modules/leaflet/spec/suites/layer/TooltipSpec.js'
+    'node_modules/leaflet/spec/suites/layer/TooltipSpec.js',
+    'node_modules/leaflet/spec/suites/layer/vector/PathSpec.js'
 ];

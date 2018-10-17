@@ -214,6 +214,7 @@ describe('DG.TrafficControl', function() {
                 expect(controlParent.className).to.contain(controlParentActiveClass);
             });
 
+            // skipped due to unstable behavior on map.remove() after this test
             it.skip('add hide class to control parent element', function (done) {
                 var onProjectLeave = function (ev) {
                     map.off('projectleave', onProjectLeave);

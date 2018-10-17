@@ -11,7 +11,7 @@ var excludedTests = require('../../test/excludedTests.js') || [];
 
 var isTestDebug = argv.d || argv.debug;
 var testRequirements = isTestDebug ? [] : ['buildTest'];
-var itemInChunk = 10; // items in chunk by default
+var itemsInChunk = 10; // items in chunk by default
 
 gulp.task('test', testRequirements, function(done) {
     var cliOptions = _.cloneDeep(argv);
@@ -49,11 +49,11 @@ gulp.task('test', testRequirements, function(done) {
 
     modulesToTestSourceList = _.difference(modulesToTestSourceList, excludedTests);
 
-    var splittedModules = _.chunk(modulesToTestSourceList, itemInChunk);
+    var splittedModules = _.chunk(modulesToTestSourceList, itemsInChunk);
 
     var numberOfChunks = splittedModules.length;
 
-    log('\nITEMS IN CHUNK: ' + itemInChunk);
+    log('\nITEMS IN CHUNK: ' + itemsInChunk);
     log('NUMBER OF CHUNKS: ' + numberOfChunks);
 
     // Flag of existing errors.
