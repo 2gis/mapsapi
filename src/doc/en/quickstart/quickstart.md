@@ -118,6 +118,5 @@ and <a href="/doc/maps/en/examples/base">examples of use</a>.
 
 ### Technical support
 
-If you have any difficulties in working with the maps API &mdash; see the
-<a href="https://api2gis.uservoice.com">Ideas and questions</a> section or
+If you have any difficulties in working with the maps API &mdash;
 <a href="mailto:api@2gis.ru">email us</a> and we will help you to solve the problem.
