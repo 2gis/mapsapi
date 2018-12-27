@@ -81,6 +81,7 @@ DG.ProjectDetector = DG.Handler.extend({
                 check(project.code) &&
                 check(project.domain) &&
                 check(project.country_code) &&
+                check(project.flags) &&
                 project.zoom_level &&
                     check(project.zoom_level.min) &&
                     check(project.zoom_level.max) &&
