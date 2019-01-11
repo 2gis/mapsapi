@@ -88,12 +88,12 @@ DG.Map.TilesCheck = DG.Handler.extend({
     _checkTiles: function() {
         if (this._map.getTileLayersNumber() !== 0 || !this._map._loaded) { return; }
 
-        var zoom = this._map.getZoom();
+        var tileZoom = this._layer._tileZoom;
         var errorUrl = this._layer.options.errorTileUrl;
         var tiles = this._layer.getTiles();
 
         for (var i in tiles) {
-            if (tiles[i].coords.z === zoom && tiles[i].el.src !== errorUrl) {
+            if (tiles[i].coords.z === tileZoom && tiles[i].el.src !== errorUrl) {
                 return;
             }
         }
