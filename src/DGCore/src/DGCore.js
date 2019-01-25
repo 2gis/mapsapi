@@ -50,11 +50,6 @@ DG.Map.addInitHook((function() {
         ga(DG.config.gaName + '.set', 'anonymizeIp', true);
         ga(DG.config.gaName + '.send', 'pageview');
         /*eslint-enable */
-
-        var newImg = new Image();
-        newImg.src = DG.config.protocol + DG.config.analytics + '?' +
-            'sr=' + window.screen.width + 'x' + window.screen.height + '&' +
-            'v=' + DG.version;
     };
 })());
 
