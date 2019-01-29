@@ -83,7 +83,7 @@ app.get('/js', function(req, res) {
     var fileName = 'script.' + params.pkg + '.js';
 
     res.set('Content-Type', 'application/javascript; charset=utf-8');
-    res.set('Cache-Control', 'public, max-age=604800');
+    res.set('Cache-Control', 'public, max-age=84000');
     res.set('X-Powered-By', '2GIS Maps API Server');
 
     res.send(jsFiles[fileName]);
@@ -101,7 +101,7 @@ app.get('/css', function(req, res) {
         'css';
 
     res.set('Content-Type', 'text/css');
-    res.set('Cache-Control', 'public, max-age=604800');
+    res.set('Cache-Control', 'public, max-age=84000');
     res.set('X-Powered-By', '2GIS Maps API Server');
 
     res.send(cssFiles[fileName]);
