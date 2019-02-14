@@ -13,6 +13,7 @@ var gulp = require('gulp');
 var path = require('path');
 var map = require('map-stream');
 var insert = require('gulp-insert');
+var sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('buildScripts', ['concatScripts'], function() {
     var isCustom = argv.pkg || argv.skin;
@@ -35,7 +36,8 @@ gulp.task('buildScripts', ['concatScripts'], function() {
             entry: true,
             standalone: argv.npm ? 'DG': false,
             cache: {},
-            packageCache: {}
+            packageCache: {},
+            sourceMaps: argv.release
         });
 
         bundler.transform('browserify-css', {
@@ -47,12 +49,14 @@ gulp.task('buildScripts', ['concatScripts'], function() {
             .pipe(source(name))
             .pipe(buffer())
             .pipe(derequire())
+            .pipe(gulpif(argv.release, sourcemaps.init()))
             .pipe(gulpif(argv.release, uglify()))
             .pipe(gulpif(argv.release, header(config.copyright)))
             .pipe(gulpif(
                 Boolean(argv['leaflet-custom-build']),
                 insert.prepend('// leaflet-custom-build: ' + argv['leaflet-custom-build'] + '\n')
             ))
+            .pipe(gulpif(argv.release, sourcemaps.write('./')))
             .pipe(map(stat.save))
             .pipe(gulp.dest('dist/js/'));
     }).reduce(function(prev, curr) {

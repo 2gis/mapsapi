@@ -14,7 +14,7 @@
     "build": "gulp build --release",
     "dev": "gulp dev",
     "lint": "gulp lint",
-    "pub": "gulp clean && gulp build --npm && npm publish"
+    "pub": "gulp clean && gulp build --npm --release && npm publish"
   },
   "repository": {
     "type": "git",
