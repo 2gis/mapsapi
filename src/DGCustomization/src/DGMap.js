@@ -214,7 +214,9 @@ DG.Map.include({
         }
 
         var data = {
-            originalEvent: e
+            originalEvent: e,
+            eventTargets: targets,
+            eventTargetsMapIndex: targets.indexOf(this)
         };
 
         if (e.type !== 'keypress') {
@@ -268,6 +270,7 @@ DG.Map.include({
     _getCurrentMetaLayer: function(data) {
         // Not forget for IE8 with srcElement
         var eventTarget = data.originalEvent.target || data.originalEvent.srcElement;
+        var isClick = data.originalEvent.type === 'click';
 
         // Suppose that user can interact with the metalayer only if there are no layers between cursor and map
         if (
@@ -285,6 +288,11 @@ DG.Map.include({
                         layer: this.metaLayers[j],
                         entity: metaEntity
                     };
+                } else if (isClick) {
+                    return {
+                        layer: this.metaLayers[j],
+                        entity: undefined
+                    }
                 }
             }
         }
@@ -295,9 +303,14 @@ DG.Map.include({
     },
 
     _fireMetalayerEvent: function(type, metalayer, data) {
-        if (!metalayer.entity) {
+        if (!metalayer.entity && type !== 'click') {
             return;
         }
+
+        if (!metalayer.layer) {
+            return;
+        }
+
         var listener = metalayer.layer.mapEvents[type];
         if (!listener) {
             return;
