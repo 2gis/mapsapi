@@ -186,12 +186,13 @@ DG.Meta.Layer = DG.Layer.extend({
                 layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
                 tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
                 tileCoord = tileOriginPoint.unscaleBy(tileSize).floor(),
-                mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y),
-                tileKey;
+                mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
             tileCoord.z = this._getZoomForUrl();
             tileCoord.key = tileSize.x + 'x' + tileSize.y;
-            tileKey = this._origin.getTileKey(tileCoord);
+            var tileKey = this._origin.getTileKey(tileCoord);
             var self = this;
+
+            // In this function the tile meta data are processed by metalayer.
             var onTileData = function(currentTileData) {
                 self._currentTileData = currentTileData;
                 self._currentTileKey = tileKey;
@@ -204,6 +205,8 @@ DG.Meta.Layer = DG.Layer.extend({
                 }
             }
 
+            // For more information about the code below see:
+            // https://github.com/2gis/mapsapi/pull/501
             this._origin.getTileData(tileCoord, function(tileData) {
                 if (tileData) {
                     onTileData(tileData);

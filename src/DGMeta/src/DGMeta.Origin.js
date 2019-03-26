@@ -25,6 +25,7 @@ DG.Meta.Origin = DG.Class.extend({
             self = this,
             callback = typeof clb === 'function' ? clb : function() {};
 
+        // if the tile meta data request in progress, this function returns false, it is therefore synchronous.
         if (typeof this._tileStorage[tileKey] === 'undefined' && typeof this._requests[tileKey] === 'undefined') {
             this._tileStorage[tileKey] = false;
             var currentRequest = this._requests[tileKey] = this._requestData(coord).then(function(data) {

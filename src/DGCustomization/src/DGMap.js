@@ -213,6 +213,9 @@ DG.Map.include({
             L.DomEvent.preventDefault(e);
         }
 
+        // The eventTargets and eventTargetsMapIndex properties are used for fire events continuation to
+        // remaining targets when the event was stopped due to the tile meta data request in progress.
+        // In this case there is need to fire events to remaining targets asynchronously.
         var data = {
             originalEvent: e,
             eventTargets: targets,
@@ -289,6 +292,9 @@ DG.Map.include({
                         entity: metaEntity
                     };
                 } else if (isClick) {
+                    // Additional condition for click event, because there may not be the tile meta data.
+                    // E.g. when the tile meta data request in progress. In this case the metalayer must be
+                    // returned without an entity.
                     return {
                         layer: this.metaLayers[j],
                         entity: undefined
@@ -303,10 +309,13 @@ DG.Map.include({
     },
 
     _fireMetalayerEvent: function(type, metalayer, data) {
+        // There is need to continue if the event type is click, because there may not be the tile meta data.
+        // That's why it will be processed in the metalayer click handler.
         if (!metalayer.entity && type !== 'click') {
             return;
         }
 
+        // There is no need to fire metalayer event if the metalayer is undefined.
         if (!metalayer.layer) {
             return;
         }
