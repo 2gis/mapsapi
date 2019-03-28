@@ -186,19 +186,50 @@ DG.Meta.Layer = DG.Layer.extend({
                 layerPoint = this._map.mouseEventToLayerPoint(event.originalEvent),
                 tileOriginPoint = this._map.getPixelOrigin().add(layerPoint),
                 tileCoord = tileOriginPoint.unscaleBy(tileSize).floor(),
-                mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y),
-                tileKey = this._origin.getTileKey(tileCoord);
+                mouseTileOffset = DG.point(tileOriginPoint.x % tileSize.x, tileOriginPoint.y % tileSize.y);
             tileCoord.z = this._getZoomForUrl();
             tileCoord.key = tileSize.x + 'x' + tileSize.y;
+            var tileKey = this._origin.getTileKey(tileCoord);
             var self = this;
-            this._origin.getTileData(tileCoord, function(tileData) {
-                self._currentTileData = tileData;
+
+            // In this function the tile meta data are processed by metalayer.
+            var onTileData = function(currentTileData) {
+                self._currentTileData = currentTileData;
                 self._currentTileKey = tileKey;
                 self._lastEntity = self._getHoveredObject(mouseTileOffset);
                 self._mouseDown = false;
 
-                event.entity = self._lastEntity;
-                self._fireMetalayerEvent('click', event);
+                if (self._lastEntity) {
+                    event.entity = self._lastEntity;
+                    self._fireMetalayerEvent('click', event);
+                }
+            }
+
+            // For more information about the code below see:
+            // https://github.com/2gis/mapsapi/pull/501
+            this._origin.getTileData(tileCoord, function(tileData) {
+                if (tileData) {
+                    onTileData(tileData);
+                } else if (self._origin._requests[tileKey]) {
+                    DG.DomEvent.stop(event);
+                    self._origin._requests[tileKey].then(function() {
+                        delete event.originalEvent._stopped;
+                        onTileData(self._origin._tileStorage[tileKey]);
+                        if (!event.originalEvent._stopped) {
+                            var targets = event.eventTargets;
+                            for (var i = event.eventTargetsMapIndex; i < targets.length; i++) {
+                                targets[i].fire('click', event, true);
+                                if (
+                                    event.originalEvent._stopped ||
+                                    (targets[i].options.nonBubblingEvents &&
+                                    L.Util.indexOf(targets[i].options.nonBubblingEvents, 'click') !== -1)
+                                ) {
+                                    return;
+                                }
+                            }
+                        }
+                    });
+                }
             });
         },
 
