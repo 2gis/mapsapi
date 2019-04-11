@@ -79,7 +79,15 @@ DG.Poi = DG.Handler.extend({
             return [];
         }
 
-        return data.result.poi
+        var houses = (data.result.geom || []).map(function(item) {
+            return {
+                id: item.id,
+                hint: item.id,
+                geometry: [DG.Wkt.toGeoJSON(item.geometry)],
+            };
+        })
+
+        var poi = (data.result.poi || [])
             .map(function(item) {
                 var hovers = item.hovers !== undefined
                     ? item.hovers
@@ -91,25 +99,26 @@ DG.Poi = DG.Handler.extend({
                     linked: item.links[0],
                     geometry: hovers.map(DG.Wkt.toGeoJSON),
                 };
-            })
-            .map(function(item) {
-                var coordinates = item.geometry.reduce(function(result, item) {
-                    if (item.type === 'Polygon') {
-                        result.push(polygonLngLatToPoints(item.coordinates));
-                    } else if (item.type === 'MultiPolygon') {
-                        result = result.concat(item.coordinates.map(polygonLngLatToPoints));
-                    }
-
-                    return result;
-                }, []);
-
-                item.geometry = {
-                    type: 'MultiPolygon',
-                    coordinates: coordinates,
-                };
-
-                return item;
             });
+
+        return poi.concat(houses).map(function(item) {
+            var coordinates = item.geometry.reduce(function(result, item) {
+                if (item.type === 'Polygon') {
+                    result.push(polygonLngLatToPoints(item.coordinates));
+                } else if (item.type === 'MultiPolygon') {
+                    result = result.concat(item.coordinates.map(polygonLngLatToPoints));
+                }
+
+                return result;
+            }, []);
+
+            item.geometry = {
+                type: 'MultiPolygon',
+                coordinates: coordinates,
+            };
+
+            return item;
+        });
     },
 
     _polygonLngLatToPoints: function(originPoint, zoom, polygon) {

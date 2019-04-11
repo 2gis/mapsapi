@@ -30,7 +30,7 @@
 
     "protocol": "http:",
 
-    "baseUrl": "//maps.api.2gis.ru/2.0",
+    "baseUrl": "//demo.webmaps-dev.os-n3.hw:3000",
 
     "tileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd",
     "retinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd",
@@ -49,7 +49,7 @@
     "trafficTimestampServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/speed/time/",
     "trafficScoreServer": "//traffic{s}.maps.2gis.com/{projectCode}/meta/score/0/",
 
-    "poiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_sd",
+    "poiMetaServer": "//tileserver-test-api.web-staging.2gis.ru/poi?x={x}&y={y}&z={z}&ts=online_sd",
     "retinaPoiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_hd",
 
     "arabicPoiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar",
