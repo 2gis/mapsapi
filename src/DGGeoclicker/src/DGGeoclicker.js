@@ -16,7 +16,7 @@ DG.Geoclicker = DG.Handler.extend({
         this._toggleEvents(true);
 
         // Monitor geoclicker usage statistics
-        // TODO: remove after successfull research
+        // TODO: remove after successful research
         if (typeof ga !== undefined) {
             // eslint-disable-next-line no-undef
             ga(DG.config.gaName + '.send', 'event', 'Geoclicker', 'Enable');
