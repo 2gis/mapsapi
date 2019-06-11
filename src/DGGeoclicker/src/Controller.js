@@ -48,6 +48,14 @@ DG.Geoclicker.Controller = DG.Class.extend({
         var self = this,
             args = Array.prototype.slice.call(arguments, 0);
 
+
+        // Monitor geoclicker user usage statistics
+        // TODO: remove after successful research
+        if (typeof ga !== undefined) {
+            // eslint-disable-next-line no-undef
+            ga(DG.config.gaName + '.send', 'event', 'Geoclicker', 'Use');
+        }
+
         function beforeRequest() {
             var loader = self._view.initLoader();
             self._view._popup.clear();
