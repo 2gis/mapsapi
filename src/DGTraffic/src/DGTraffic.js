@@ -48,7 +48,7 @@ DG.Traffic = DG.TileLayer.extend({
             this._onAddSetParams(map);
         } else {
             var self = this;
-            this._isOnRequest = true; 
+            this._isOnRequest = true;
             this._getTimestampString()
                 .then(
                     function(response) {
@@ -75,14 +75,14 @@ DG.Traffic = DG.TileLayer.extend({
             map
                 .removeLayer(this._metaLayer)
                 .off('projectchange projectleave', this._onMapProjectChange, this);
-    
+
             if (!this.options.disableLabel) {
                 this._metaLayer.off(this._layerEventsListeners, this);
                 this._map.removeLayer(this._labelHelper);
                 this._labelHelper = null;
                 this._map.off('langchange', this._updateLang, this);
             }
-    
+
             DG.TileLayer.prototype.onRemove.call(this, map);
         } else {
             L.DomUtil.remove(this._container);
@@ -209,7 +209,7 @@ DG.Traffic = DG.TileLayer.extend({
             minZoom: Math.max(project.minZoom, this._layersOptions.minZoom),
             maxZoom: project.maxZoom
         } : {
-            maxZoom: 0,
+            maxZoom: 20,
             minZoom: 0
         });
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL());
