@@ -209,7 +209,7 @@ DG.Traffic = DG.TileLayer.extend({
             minZoom: Math.max(project.minZoom, this._layersOptions.minZoom),
             maxZoom: project.maxZoom
         } : {
-            maxZoom: 20,
+            maxZoom: project ? project.maxZoom : DG.config.projectLeaveMaxZoom,
             minZoom: 0
         });
         this._metaLayer.getOrigin().setURL(this._prepareMetaURL());
