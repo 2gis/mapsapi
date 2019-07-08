@@ -1,29 +1,24 @@
 //Web app of 2GIS Maps API 2.0
 var express = require('express');
-var cluster = require('cluster');
 var cors = require('cors');
-var cpuCount = require('os').cpus().length;
-var clc = require('cli-color');
 var config = require('./config.js');
 var _ = require('lodash');
 var fs = require('fs');
 
 // Init application
 var app = express();
+app.disable('x-powered-by');
 app.use(cors());
 
 // Serve loader
 var loader = fs.readFileSync('./dist/loader.js', {encoding: 'utf8'});
 app.get('/loader.js', function(req, res) {
     var localConfig = _.cloneDeep(config.localConfig);
-
-    // Set correct protocol according to GET param
-    var protocol = req.query.ssl ? 'https:' : 'http:';
+    var protocol = config.appConfig.protocol;
 
     localConfig.protocol = protocol;
 
     res.set('Content-Type', 'application/javascript; charset=utf-8');
-    res.set('X-Powered-By', '2GIS Maps API Server');
 
     var result = loader
         .replace(/__LOCAL_CONFIG__/g, JSON.stringify(localConfig))
@@ -40,11 +35,13 @@ indexFile = indexFile.replace(/__BASE_URL__/g, config.appConfig.baseUrl);
 
 // Serve index file
 function serveIndexFile(req, res) {
-    res.set('X-Powered-By', '2GIS Maps API Server');
     res.send(indexFile);
 }
 app.get('/', serveIndexFile);
 app.get('/index.html', serveIndexFile);
+app.get('/healthcheck', function(req, res) {
+    res.sendStatus(200);
+});
 
 function getParams(req) {
     var pkg = req.query.pkg;
@@ -84,7 +81,6 @@ app.get('/js', function(req, res) {
 
     res.set('Content-Type', 'application/javascript; charset=utf-8');
     res.set('Cache-Control', 'public, max-age=84000');
-    res.set('X-Powered-By', '2GIS Maps API Server');
 
     res.send(jsFiles[fileName]);
 });
@@ -102,7 +98,6 @@ app.get('/css', function(req, res) {
 
     res.set('Content-Type', 'text/css');
     res.set('Cache-Control', 'public, max-age=84000');
-    res.set('X-Powered-By', '2GIS Maps API Server');
 
     res.send(cssFiles[fileName]);
 });
@@ -114,25 +109,6 @@ app.use(express.static(__dirname + '/../dist'));
 var host = config.appConfig.host;
 var port = config.appConfig.port;
 
-if (cluster.isMaster) {
-    cluster
-        .on('disconnect', function(worker) {
-            console.log('PID #' + worker.process.pid + ' died. spawning a new process...');
-            cluster.fork();
-        })
-        .on('fork', function(worker) {
-            console.log('PID #' + worker.process.pid + ' started!');
-        });
-
-    console.log('Maps API 2.0 server will run in ' + cpuCount + ' threads. Spawning the new processes...');
-
-    for (var i = 0; i < cpuCount; i++) {
-        cluster.fork({number: i});
-    }
-} else {
-    app.listen(port, host, function() {
-        if (process.env.number == 0) {
-            console.log(clc.green('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + port));
-        }
-    });
-}
+app.listen(port, host, function() {
+    console.log('Maps API 2.0 server listening on ' + (host ? host + ':' : '') + port);
+});
