@@ -124,7 +124,8 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         this._lastRequest = DG.ajax(url, {
             type: type,
             data: data,
-            timeout: this._timeoutMs
+            timeout: this._timeoutMs,
+            withCredentials: true
         });
 
         return this._lastRequest;
