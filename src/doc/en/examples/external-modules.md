@@ -13,14 +13,14 @@ Example of clusterer enabling. Clusterer is often used to display big amount of 
 is available on <a href="https://github.com/Leaflet/Leaflet.markercluster" target="_blank">GitHub repository</a> of the author.
 
 <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
-<link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
-<link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 <script src="https://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
 <div id="map" style="width: 100%; height: 400px;"></div>
 <script>
     DG.then(function() {
         // module code loading
-        return DG.plugin('https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
+        return DG.plugin('https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js');
     }).then(function() {
         map = DG.map('map', {
             center: DG.latLng(54.92, 82.82),
@@ -47,8 +47,8 @@ is available on <a href="https://github.com/Leaflet/Leaflet.markercluster" targe
         <head>
             <title>Clusterer</title>
             <script src="https://maps.api.2gis.ru/2.0/loader.js"></script>
-            <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.css" />
-            <link rel="stylesheet" href="https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/MarkerCluster.Default.css" />
+            <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+            <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
             <script src="https://maps.api.2gis.ru/2.0/cluster_realworld.js"></script>
         </head>
         <body>
@@ -56,7 +56,7 @@ is available on <a href="https://github.com/Leaflet/Leaflet.markercluster" targe
             <script>
                 DG.then(function() {
                     // module code loading
-                    return DG.plugin('https://2gis.github.io/mapsapi/vendors/Leaflet.markerCluster/leaflet.markercluster-src.js');
+                    return DG.plugin('https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.92, 82.82),
@@ -91,7 +91,7 @@ a geographical region. The color intensity for each region depends on the values
 <script>
     DG.then(function() {
         // Module code loading
-        return DG.plugin('https://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
+        return DG.plugin('https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js');
     }).then(function() {
         map = DG.map('map1', {
             center: DG.latLng(54.89, 82.45),
@@ -114,7 +114,7 @@ a geographical region. The color intensity for each region depends on the values
             <script>
                 DG.then(function() {
                     // Module code loading
-                    return DG.plugin('https://2gis.github.io/mapsapi/vendors/HeatLayer/heatLayer.js');
+                    return DG.plugin('https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js');
                 }).then(function() {
                     map = DG.map('map', {
                         center: DG.latLng(54.89, 82.45),
