@@ -61,7 +61,7 @@ L.Canvas.include({
 // TODO: remove after successful research
 if (DG.Path) {
     var pathInitialize = DG.Path.prototype.onAdd;
-    var logedGeometryTypes = {};
+    var loggedGeometryTypes = {};
 
     DG.Path.include({
         onAdd: function(map) {
@@ -80,8 +80,8 @@ if (DG.Path) {
             }
 
             // Don't send event twice for same type
-            if (!logedGeometryTypes[type]) {
-                logedGeometryTypes[type] = true;
+            if (!loggedGeometryTypes[type]) {
+                loggedGeometryTypes[type] = true;
 
                 if (typeof ga !== undefined) {
                     // eslint-disable-next-line no-undef
