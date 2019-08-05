@@ -56,3 +56,40 @@ L.Canvas.include({
         this._ctx = container.getContext('2d');
     }
 });
+
+// Monitor geometry usage
+// TODO: remove after successful research
+if (DG.Path) {
+    var pathInitialize = DG.Path.prototype.onAdd;
+    var loggedGeometryTypes = {};
+
+    DG.Path.include({
+        onAdd: function(map) {
+            var type = 'Unknown';
+
+            if (DG.Rectangle && this instanceof DG.Rectangle) {
+                type = 'Rectangle';
+            } else if (DG.Circle && this instanceof DG.Circle) {
+                type = 'Circle';
+            } else if (DG.CircleMarker && this instanceof DG.CircleMarker) {
+                type = 'CircleMarker'
+            } else if (DG.Polygon && this instanceof DG.Polygon) {
+                type = 'Polygon';
+            } else if (DG.Polyline && this instanceof DG.Polyline) {
+                type = 'Polyline';
+            }
+
+            // Don't send event twice for same type
+            if (!loggedGeometryTypes[type]) {
+                loggedGeometryTypes[type] = true;
+
+                if (typeof ga !== undefined) {
+                    // eslint-disable-next-line no-undef
+                    ga(DG.config.gaName + '.send', 'event', 'Geometry', 'Use', type);
+                }
+            }
+
+            return pathInitialize.call(this, map);
+        },
+    });
+}
