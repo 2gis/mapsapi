@@ -11,7 +11,7 @@
     "ppnotLink": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
     "photosLink": "http://2gis.{domain}/photos/{id}",
 
-    "poiLayerMinZoom": 11,
+    "poiLayerMinZoom": 0,
 
     "detectRetina": false,
 
