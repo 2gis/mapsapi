@@ -113,14 +113,14 @@ DG.Control.Location = DG.RoundControl.extend({
     _startFollowing: function() {
         this._following = true;
         if (this.options.stopFollowingOnDrag) {
-            this._map.on('dragstart', this._stopFollowing);
+            this._map.on('dragstart', this._stopFollowing, this);
         }
     },
 
     _stopFollowing: function() {
         this._following = false;
         if (this.options.stopFollowingOnDrag) {
-            this._map.off('dragstart', this._stopFollowing);
+            this._map.off('dragstart', this._stopFollowing, this);
         }
         this._visualizeLocation();
     },
