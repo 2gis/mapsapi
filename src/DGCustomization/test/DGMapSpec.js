@@ -84,19 +84,19 @@ describe('DGMap', function () {
 
     describe('#panBy', function () {
         it('should set zoom to 13 after panBy to place without project', function () {
-            map.setView([55.005582426668404, 82.93081283569337], 15, {animate: false});
+            map.setView([55.005582426668404, 82.93081283569337], 18, {animate: false});
             map.panBy([1e15, 0]);
-            expect(map.getZoom()).to.be(13);
+            expect(map.getZoom()).to.be(16);
         });
     });
 
     describe('#getBoundsZoom', function () {
-        it('should return 13', function () {
+        it('should return 16', function () {
             var sw = DG.latLng(54.97369439559682, 80.59043041467668),
                 ne = DG.latLng(54.97441793550156, 80.59262982606889),
                 b = DG.latLngBounds(sw, ne);
 
-            expect(map.getBoundsZoom(b)).to.be(13);
+            expect(map.getBoundsZoom(b)).to.be(16);
         });
     });
 });
