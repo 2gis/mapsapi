@@ -22,7 +22,7 @@
     "firmInfoFields": "items.reviews,items.links,items.external_content",
     "geoAdditionalFields": "items.geometry.selection,items.links,items.adm_div,items.address,items.floors,items.description",
     "geoclickerCatalogApiKey": "ruregt3044",
-    "projectLeaveMaxZoom": 13,
+    "projectLeaveMaxZoom": 16,
     "flampUrl": "http://flamp.ru/r/",
     "flampGoogleAnalytics": "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
     "gaCode": "UA-38243181-2",

@@ -45,12 +45,13 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     },
 
     _firmCardSetup: function() { //() -> Object
+        var project = this._controller.getMap().projectDetector.getProject();
         return {
             render: this._view.renderTemplate,
             lang: this._map.getLang(),
-            domain: this._controller.getMap().projectDetector.getProject().domain,
+            domain: project ? project.domain : 'ru',
             ajax: DG.bind(this._api.getFirmInfo, this._api),
-            timezoneOffset: this._controller.getMap().projectDetector.getProject().timeOffset,
+            timezoneOffset: project ? project.timeOffset : 0,
             map: this._map,
             popup: this._popup,
             isMobile: DG.Browser.mobile,

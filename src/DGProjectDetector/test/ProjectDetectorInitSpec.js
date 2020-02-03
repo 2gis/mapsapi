@@ -2,7 +2,7 @@ describe('DG.ProjectDetectorInit', function () {
     var map,
         mapContainer,
         maxZoom = 18,
-        maxDesertZoom = 13,
+        maxDesertZoom = 16,
         project1,
         desert1;
 

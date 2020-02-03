@@ -51,13 +51,18 @@ DG.Geoclicker.Handler.Default = DG.Class.extend({
     },
 
     _getDirectionsUrl: function(name) {
+        var project = this._map.projectDetector.getProject();
+        if (!project) {
+            return '';
+        }
+
         return DG.Util.template(DG.config.ppnotLink, {
-            'domain': this._map.projectDetector.getProject().domain,
-            'projectCode': this._map.projectDetector.getProject().code,
+            'domain': project.domain,
+            'projectCode': project.code,
             'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
             'zoom': this._map.getZoom(),
             'name': encodeURIComponent(name),
-            'rsType': this._map.projectDetector.getProject().transport ? 'bus' : 'car',
+            'rsType': project.transport ? 'bus' : 'car',
             'point': this._popup._latlng.lng + ',' + this._popup._latlng.lat
         });
     },

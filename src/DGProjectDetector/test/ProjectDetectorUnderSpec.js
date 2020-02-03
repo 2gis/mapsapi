@@ -1,10 +1,9 @@
 describe('DG.ProjectDetectorUnder', function () {
     var map,
-        spy,
         mapContainer,
         initZoom = 1,
         maxZoom = 18,
-        maxDesertZoom = 13,
+        maxDesertZoom = 16,
         start,
         project1,
         project2,

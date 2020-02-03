@@ -168,7 +168,8 @@ DG.Entrance = DG.FeatureGroup.extend({
     },
 
     _getFitZoom: function() {
-        return this._map.projectDetector.getProject().maxZoom || DG.Entrance.SHOW_FROM_ZOOM;
+        var project = this._map.projectDetector.getProject();
+        return project ? project.maxZoom : DG.Entrance.SHOW_FROM_ZOOM;
     },
 
     _isAllowedZoom: function() {
