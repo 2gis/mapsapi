@@ -144,7 +144,8 @@ DG.Control.Location = DG.RoundControl.extend({
             if (this._isOutsideMapBounds()) {
                 this.options.onLocationOutsideMapBounds(this);
             } else if (this._locateOptions.setView) {
-                var zoom = this._map.projectDetector.getProject().maxZoom || DG.config.projectLeaveMaxZoom;
+                var project = this._map.projectDetector.getProject();
+                var zoom = project ? project.maxZoom : DG.config.projectLeaveMaxZoom;
                 zoom = Math.min(this._locateOptions.maxZoom, zoom);
                 this._map.setView(this._event.latlng, zoom);
             }
