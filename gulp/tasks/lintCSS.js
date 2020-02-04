@@ -1,10 +1,10 @@
-
 var gulp = require('gulp');
 
 var csslint = require('../util/csslint/gulp-csslint');
 var error = require('../util/error');
+var {buildStyles} = require('./buildStyles');
 
-gulp.task('lintCSS', ['buildStyles'], function() {
+function lintCSS() {
     return gulp.src('dist/css/**.css')
         .pipe(error.handle())
         .pipe(csslint({
@@ -27,4 +27,6 @@ gulp.task('lintCSS', ['buildStyles'], function() {
             'zero-units': false
         }))
         .pipe(csslint.reporter());
-});
+}
+
+exports.lintCSS = gulp.series(buildStyles, lintCSS);

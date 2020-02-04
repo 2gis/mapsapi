@@ -61,7 +61,7 @@ DG.Map.include({
 
             // try animating pan or zoom
             var animated = (this._zoom !== zoom) ?
-            this._tryAnimatedZoom && this._tryAnimatedZoom(center, zoom, options.zoom) :
+                this._tryAnimatedZoom && this._tryAnimatedZoom(center, zoom, options.zoom) :
                 this._tryAnimatedPan(center, options.pan);
 
             if (animated) {
@@ -225,7 +225,7 @@ DG.Map.include({
         if (e.type !== 'keypress') {
             var isMarker = target instanceof L.Marker;
             data.containerPoint = isMarker ?
-                    this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
+                this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
             data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
             data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
         }

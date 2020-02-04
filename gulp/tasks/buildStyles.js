@@ -1,11 +1,12 @@
 var gulp = require('gulp');
 
-var destCSS = require('../util/destCSS');
+var { destCSS } = require('../util/destCSS');
+var { collectImagesStats } = require('./collectImagesStats');
+var { generateSprites } = require('./generateSprites');
+var { imageMinify } = require('./imageMinify');
 
-gulp.task('buildStyles', [
-    'collectImagesStats',
-    'generateSprites',
-    'imageMinify'
-], function() {
-    return destCSS();
-});
+exports.buildStyles = gulp.series(gulp.parallel(
+    collectImagesStats,
+    generateSprites,
+    imageMinify
+), destCSS);

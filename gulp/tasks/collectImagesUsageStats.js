@@ -1,6 +1,6 @@
 var header = require('gulp-header');
 var rename = require('gulp-rename');
-var es = require('event-stream');
+var mergeStream = require('merge-stream');
 var less = require('gulp-less');
 var gulp = require('gulp');
 var path = require('path');
@@ -10,7 +10,7 @@ var error = require('../util/error');
 var config = require('../../app/config');
 var deps = require('../deps')(config);
 
-gulp.task('collectImagesUsageStats', function() {
+exports.collectImagesUsageStats = function collectImagesUsageStats() {
     var skins = deps.getSkinsList();
 
     var imagesBasePath = path.resolve(__dirname + '/../../dist/img');
@@ -48,5 +48,5 @@ gulp.task('collectImagesUsageStats', function() {
             .pipe(gulp.dest('gulp/tmp/less/'));
     });
 
-    return es.concat.apply(null, statisticsStreams);
-});
+    return mergeStream(statisticsStreams);
+};

@@ -1,3 +1,5 @@
 var gulp = require('gulp');
+var { lintJS } = require('./lintJS');
+var { lintCSS } = require('./lintCSS');
 
-gulp.task('lint', ['lintJS', 'lintCSS']);
+exports.lint = gulp.parallel(lintJS, lintCSS);

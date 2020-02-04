@@ -1,10 +1,8 @@
-var gulp = require('gulp');
-
 var spawn = require('child_process').spawn;
 
 var server = null;
 
-gulp.task('server', function(cb) {
+exports.server = function server(cb) {
     function start() {
         server = spawn('node', ['app'], {stdio: 'inherit'});
         cb();
@@ -16,7 +14,7 @@ gulp.task('server', function(cb) {
     } else {
         start();
     }
-});
+};
 
 process.on('exit', function() {
     if (server) {

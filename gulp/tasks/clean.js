@@ -1,6 +1,5 @@
-var gulp = require('gulp');
 var del = require('del');
 
-gulp.task('clean', function() {
+exports.clean = function clean() {
     return del(['dist', 'gulp/tmp']);
-});
+};

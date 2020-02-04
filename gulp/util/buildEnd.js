@@ -1,12 +1,11 @@
 var argv = require('minimist')(process.argv.slice(2));
 var log = require('fancy-log');
-var c = require('ansi-colors');
 
 var stat = require('./stat');
 var config = require('../../app/config');
 var deps = require('../deps')(config);
 
-module.exports = function() {
+exports.buildEnd = function buildEnd(done) {
     log('Build contains the next modules:');
 
     deps.getModulesList(argv.pkg).forEach(function(module) {
@@ -27,5 +26,6 @@ module.exports = function() {
         log('- ' + file + ': ' + statValues[file]);
     });
 
-    log(c.green('Build successfully complete'));
+    log('Build successfully complete');
+    done();
 };

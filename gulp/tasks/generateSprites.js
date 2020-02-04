@@ -1,14 +1,13 @@
 var spritesmith = require('gulp.spritesmith');
-var es = require('event-stream');
+var mergeStream = require('merge-stream');
 var gulp = require('gulp');
 
 var error = require('../util/error');
 var config = require('../../app/config');
 var deps = require('../deps')(config);
+var { collectImagesUsageStats } = require('./collectImagesUsageStats');
 
-gulp.task('generateSprites', [
-    'collectImagesUsageStats'
-], function(cb) {
+function generateSprites() {
     var skins = deps.getSkinsList();
     var stats = deps.getImagesUsageStats(skins);
 
@@ -45,7 +44,7 @@ gulp.task('generateSprites', [
                 engine: 'pixelsmith'
             }));
 
-        return es.concat(
+        return mergeStream(
             spriteData.img
                 .pipe(gulp.dest('dist/img/')),
 
@@ -60,7 +59,7 @@ gulp.task('generateSprites', [
         );
     });
 
-    var stream = es.concat.apply(null, statisticsStreams);
+    return mergeStream(statisticsStreams);
+}
 
-    stream.on('end', cb);
-});
+exports.generateSprites = gulp.series(collectImagesUsageStats, generateSprites);
