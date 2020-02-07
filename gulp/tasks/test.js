@@ -15,7 +15,7 @@ var isTestDebug = argv.d || argv.debug;
 var testRequirements = isTestDebug ? [] : [buildTest];
 var itemsInChunk = 10; // items in chunk by default
 
-function testt(done) {
+function performTest(done) {
     var cliOptions = _.cloneDeep(argv);
     var modulesToTest = [];
     var currentChunk = 0;
@@ -93,4 +93,4 @@ function testt(done) {
     startServer();
 }
 
-exports.test = gulp.series(...testRequirements, testt);
+exports.test = gulp.series(...testRequirements, performTest);

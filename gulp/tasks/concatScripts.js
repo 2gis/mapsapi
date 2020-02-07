@@ -59,9 +59,9 @@ function concatScripts() {
     }));
 }
 
-const projeListTask = argv['project-list'] !== false ? [loadProjectList] : [];
+const projectListTask = argv['project-list'] !== false ? [loadProjectList] : [];
 
 exports.concatScripts = gulp.series(gulp.parallel(
-    ...projeListTask,
+    ...projectListTask,
     buildLeaflet
 ), concatScripts);
