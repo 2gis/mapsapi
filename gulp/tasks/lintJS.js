@@ -3,10 +3,10 @@ var gulp = require('gulp');
 
 var error = require('../util/error');
 
-gulp.task('lintJS', function() {
+exports.lintJS = function lintJS() {
     return gulp.src('src/**/src/**/*.js')
         .pipe(error.handle())
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
-});
+};

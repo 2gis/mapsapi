@@ -52,9 +52,9 @@ DG.Label = DG.Layer.extend({
 
     _initDOM: function() {
         this._el = DG.DomUtil.create(
-                        'div',
-                        this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
-                        this._map.getPanes().tooltipPane);
+            'div',
+            this.options.className + ' leaflet-zoom-' + (this._animated ? 'animated' : 'hide'),
+            this._map.getPanes().tooltipPane);
         this._el.style.zIndex = this._defaultZIndex + this.options.zIndexOffset;
 
         this._container = DG.DomUtil.create('div', this.options.className + '__content', this._el);

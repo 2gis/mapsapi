@@ -1,6 +1,6 @@
-var runSequence = require('run-sequence');
 var gulp = require('gulp');
+var { build } = require('./build');
+var { server } = require('./server');
+var { watch } = require('./watch');
 
-gulp.task('dev', function(cb) {
-    runSequence('build', 'server', 'watch', cb);
-});
+exports.dev = gulp.series(build, server, watch);

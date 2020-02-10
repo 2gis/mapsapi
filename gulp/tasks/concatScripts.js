@@ -2,7 +2,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var streamqueue = require('streamqueue');
 var concat = require('gulp-concat');
 var footer = require('gulp-footer');
-var es = require('event-stream');
+var mergeStream = require('merge-stream');
 var gulpif = require('gulp-if');
 var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
@@ -13,14 +13,14 @@ var deps = require('../deps')(config);
 var templateStream = require('../util/templateStream');
 var projectList = require('../util/projectList');
 var error = require('../util/error');
-
-var dependencies = argv['project-list'] !== false ? ['loadProjectList', 'buildLeaflet'] : ['buildLeaflet'];
+var { loadProjectList } = require('./loadProjectList');
+var { buildLeaflet } = require('./buildLeaflet');
 
 function getStyleRequireStatement(pack, skin) {
     return 'require("../../../dist/css/styles.' + pack + '.' + skin + '.css");';
 }
 
-gulp.task('concatScripts', dependencies, function() {
+function concatScripts() {
     var isCustom = argv.pkg || argv.skin;
     var packages;
 
@@ -37,7 +37,7 @@ gulp.task('concatScripts', dependencies, function() {
         config.appConfig.tileServer = '';
     }
 
-    return packages.map(function(pkg) {
+    return mergeStream(packages.map(function(pkg) {
         var stream = streamqueue(
                 {objectMode: true},
                 gulp.src(deps.getJSFiles({pkg: pkg}), {base: '.'}),
@@ -56,7 +56,12 @@ gulp.task('concatScripts', dependencies, function() {
         return stream
             .pipe(gulpif(!argv.release, sourcemaps.write()))
             .pipe(gulp.dest('gulp/tmp/js'));
-    }).reduce(function(prev, curr) {
-        return es.merge(prev, curr);
-    });
-});
+    }));
+}
+
+const projectListTask = argv['project-list'] !== false ? [loadProjectList] : [];
+
+exports.concatScripts = gulp.series(gulp.parallel(
+    ...projectListTask,
+    buildLeaflet
+), concatScripts);

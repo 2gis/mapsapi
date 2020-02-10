@@ -1,12 +1,11 @@
 var request = require('request');
 var PluginError = require('plugin-error');
-var gulp = require('gulp');
 
 var projectList = require('../util/projectList');
 var config = require('../../app/config.js');
 var errorNotifier = require('../util/error');
 
-gulp.task('loadProjectList', function(cb) {
+exports.loadProjectList = function loadProjectList(cb) {
     if (projectList.get()) {
         return cb();
     }
@@ -52,4 +51,4 @@ gulp.task('loadProjectList', function(cb) {
 
         cb();
     });
-});
+};

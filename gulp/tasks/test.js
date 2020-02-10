@@ -6,14 +6,16 @@ var glob = require('glob');
 var log = require('fancy-log');
 var _ = require('lodash');
 
+var { buildTest } = require('./buildTest');
+
 var test = require('../../test/test');
 var excludedTests = require('../../test/excludedTests.js') || [];
 
 var isTestDebug = argv.d || argv.debug;
-var testRequirements = isTestDebug ? [] : ['buildTest'];
+var testRequirements = isTestDebug ? [] : [buildTest];
 var itemsInChunk = 10; // items in chunk by default
 
-gulp.task('test', testRequirements, function(done) {
+function performTest(done) {
     var cliOptions = _.cloneDeep(argv);
     var modulesToTest = [];
     var currentChunk = 0;
@@ -89,4 +91,6 @@ gulp.task('test', testRequirements, function(done) {
         }, currentChunk === numberOfChunks ? localDone : startServer).start();
     }
     startServer();
-});
+}
+
+exports.test = gulp.series(...testRequirements, performTest);

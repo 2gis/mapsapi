@@ -4,8 +4,9 @@ var mkdirp = require('mkdirp');
 
 var config = require('../../app/config');
 var deps = require('../deps')(config);
+var { copyImg } = require('./copyImg');
 
-gulp.task('collectImagesStats', ['copyImg'], function(cb) {
+function collectImagesStats(cb) {
     var skins = deps.getSkinsList();
     var imagesStatsPerSkin = deps.getImagesFilesStats(skins);
 
@@ -46,4 +47,6 @@ gulp.task('collectImagesStats', ['copyImg'], function(cb) {
     });
 
     cb();
-});
+}
+
+exports.collectImagesStats = gulp.series(copyImg, collectImagesStats);

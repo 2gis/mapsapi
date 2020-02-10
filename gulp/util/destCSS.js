@@ -1,11 +1,11 @@
-var es = require('event-stream');
+var mergeStream = require('merge-stream');
 var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
 
 var config = require('../../app/config');
-var buildCSS = require('../util/buildCSS');
+var { buildCSS } = require('../util/buildCSS');
 
-module.exports = function() {
+exports.destCSS = function destCSS() {
     var buildRules = [];
 
     var skins = config.skins;
@@ -39,9 +39,7 @@ module.exports = function() {
         });
     }
 
-    return buildRules.map(function(buildRule) {
+    return mergeStream(buildRules.map(function(buildRule) {
         return buildCSS(buildRule).pipe(gulp.dest('dist/css/'));
-    }).reduce(function(prev, next) {
-        return es.merge(prev, next);
-    });
+    }));
 };

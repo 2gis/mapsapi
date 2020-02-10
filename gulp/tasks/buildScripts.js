@@ -6,7 +6,7 @@ var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var header = require('gulp-header');
-var es = require('event-stream');
+var mergeStream = require('merge-stream');
 var gulpif = require('gulp-if');
 var argv = require('minimist')(process.argv.slice(2));
 var gulp = require('gulp');
@@ -14,8 +14,9 @@ var path = require('path');
 var map = require('map-stream');
 var insert = require('gulp-insert');
 var sourcemaps = require('gulp-sourcemaps');
+var { concatScripts } = require('./concatScripts');
 
-gulp.task('buildScripts', ['concatScripts'], function() {
+function buildScripts() {
     var isCustom = argv.pkg || argv.skin;
     var packages;
 
@@ -27,7 +28,7 @@ gulp.task('buildScripts', ['concatScripts'], function() {
         packages = Object.keys(config.packages);
     }
 
-    return packages.map(function(pkg) {
+    return mergeStream(packages.map(function(pkg) {
         var name = 'script.' + (!isCustom ? pkg + '.' : '') + 'js';
         var src = path.join('gulp', 'tmp', 'js', name);
 
@@ -59,7 +60,7 @@ gulp.task('buildScripts', ['concatScripts'], function() {
             .pipe(gulpif(argv.release, sourcemaps.write('./')))
             .pipe(map(stat.save))
             .pipe(gulp.dest('dist/js/'));
-    }).reduce(function(prev, curr) {
-        return es.merge(prev, curr);
-    });
-});
+    }));
+}
+
+exports.buildScripts = gulp.series(concatScripts, buildScripts);

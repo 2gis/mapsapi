@@ -18,11 +18,11 @@ DG.Geoclicker.Controller = DG.Class.extend({
 
             'apiError': DG.Geoclicker.Handler.ApiError
 
-//            station_platform
-//            project
-//            station
-//            crossbroad
-//            metro
+            // station_platform
+            // project
+            // station
+            // crossbroad
+            // metro
         }
     },
 

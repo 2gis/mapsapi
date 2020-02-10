@@ -167,14 +167,13 @@ DG.Entrance.Arrow = DG.FeatureGroup.extend({
         var _apt = apt.subPath(1).translate(pl).vertices,
             _att = att.subShape(apt).translate(pl).vertices;
 
-/*
         //  TODO: Additional logic for animation on Canvas
-        if (this.options.distance) {
-            pl = DG.VertexTransform.getScaled(pl, pp, 1);
-            _apt = _apt.concat(apt.subPath(1).translate(pl).vertices);
-            _att = _att.concat(att.subShape(apt).translate(pl).vertices);
-        }
-*/
+        // if (this.options.distance) {
+        //     pl = DG.VertexTransform.getScaled(pl, pp, 1);
+        //     _apt = _apt.concat(apt.subPath(1).translate(pl).vertices);
+        //     _att = _att.concat(att.subShape(apt).translate(pl).vertices);
+        // }
+
         apt._pxBounds = new DG.Bounds(_apt);
         att._pxBounds = new DG.Bounds(_att);
     }

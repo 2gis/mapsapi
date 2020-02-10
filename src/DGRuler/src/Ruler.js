@@ -213,8 +213,8 @@ DG.Ruler = DG.Layer.extend({
                 latlng = this._nearestPoint(point._legs.middle, event.latlng);
 
             this._lineMarkerHelper
-                    .setLatLng(latlng)
-                    .setText(this._getFormatedDistance(point, point.getLatLng().distanceTo(latlng)));
+                .setLatLng(latlng)
+                .setText(this._getFormatedDistance(point, point.getLatLng().distanceTo(latlng)));
         },
         layeradd: function() { // ()
             Object.keys(this._layers).forEach(function(name) {
@@ -325,8 +325,8 @@ DG.Ruler = DG.Layer.extend({
 
     _addCloseHandler: function(event) { // (Event)
         event.target
-                .on('click', this._deletePoint, this)
-                .querySelector('remove-link').style.display = 'inline-block';
+            .on('click', this._deletePoint, this)
+            .querySelector('remove-link').style.display = 'inline-block';
     },
 
     _createPoint: function(latlng, style) { // (LatLng, Object) -> Ruler.LayeredMarker

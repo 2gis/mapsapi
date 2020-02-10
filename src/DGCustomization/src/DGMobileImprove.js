@@ -72,7 +72,7 @@ if (DG.Browser.mobile) {
                     this._lastTarget = e.target || e.srcElement;
                     // IE and Edge do not give the <use> element, so fetch it
                     // if necessary
-                    if ((window.SVGElementInstance) && (this._lastTarget instanceof SVGElementInstance)) {
+                    if ((window.SVGElementInstance) && (this._lastTarget instanceof window.SVGElementInstance)) {
                         this._lastTarget = this._lastTarget.correspondingUseElement;
                     }
                 }
@@ -264,7 +264,7 @@ L.MobileTileLayer = L.TileLayer.extend({
             queue = [],
             margin = this.options.keepBuffer,
             noPruneRange = new L.Bounds(tileRange.getBottomLeft().subtract([margin, -margin]),
-                                      tileRange.getTopRight().add([margin, -margin]));
+                tileRange.getTopRight().add([margin, -margin]));
 
         for (var key in this._tiles) {
             var c = this._tiles[key].coords;

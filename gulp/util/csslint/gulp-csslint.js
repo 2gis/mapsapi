@@ -1,8 +1,5 @@
-'use strict';
-
 var log = require('fancy-log');
 var PluginError = require('plugin-error');
-var c = require('ansi-colors');
 var es = require('event-stream');
 var fs = require('fs');
 var csslint = require('./lib/csslint').CSSLint;
@@ -87,17 +84,15 @@ var defaultReporter = function (file) {
     var errorCount = file.csslint.errorCount;
     var plural = errorCount == 1 ? '' : 's';
 
-    log(c.cyan(errorCount) + ' error' + plural + ' found in ' + c.magenta(file.path));
+    log(errorCount + ' error' + plural + ' found in ' + file.path);
 
     file.csslint.results.forEach(function (result) {
         var message = result.error;
 
-        log(
-            c.red('[') +
-                (typeof message.line != 'undefined' ?
-                    c.yellow('L' + message.line) + c.red(':') + c.yellow('C' + message.col) :
-                    c.yellow('GENERAL')
-                ) + c.red('] ') + message.message + ' ' + message.rule.desc + ' (' + message.rule.id + ')'
+        log('[' + (typeof message.line != 'undefined'
+                ? 'L' + message.line + ':' + 'C' + message.col
+                : 'GENERAL'
+            ) + '] ' + message.message + ' ' + message.rule.desc + ' (' + message.rule.id + ')'
         );
     });
 };

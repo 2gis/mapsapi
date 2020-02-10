@@ -1,5 +1,4 @@
 // Inspired by Sindre Sorhus screenfull
-/*global Element */
 DG.Screenfull = DG.Class.extend({
     _apiMap: [
         [
