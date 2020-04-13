@@ -16,6 +16,49 @@ DG.Control.include({
     _renderTranslation: function() {}
 });
 
+// Just a copy of toPoint function
+// https://github.com/Leaflet/Leaflet/blob/e079588573d0b0c649df95c3d6005373e87f323a/src/geometry/Point.js#L198-L222
+function toPoint(x, y, round) {
+    if (x instanceof DG.Point) {
+        return x;
+    }
+    if (DG.Util.isArray(x)) {
+        return new DG.Point(x[0], x[1]);
+    }
+    if (x === undefined || x === null) {
+        return x;
+    }
+    if (typeof x === 'object' && 'x' in x && 'y' in x) {
+        return new DG.Point(x.x, x.y);
+    }
+    return new DG.Point(x, y, round);
+}
+
+// Add ability to pass HTMLElement in DG.divIcon html parameter
+// See https://github.com/Leaflet/Leaflet/pull/6571
+// TODO: Remove it after updating leaflet at least to v1.5.0
+DG.DivIcon.include({
+    createIcon: function(oldIcon) {
+        var div = (oldIcon && oldIcon.tagName === 'DIV') ? oldIcon : document.createElement('div'),
+            options = this.options;
+
+        if (options.html instanceof Element) {
+            DG.DomUtil.empty(div);
+            div.appendChild(options.html);
+        } else {
+            div.innerHTML = options.html !== false ? options.html : '';
+        }
+
+        if (options.bgPos) {
+            var bgPos = toPoint(options.bgPos);
+            div.style.backgroundPosition = (-bgPos.x) + 'px ' + (-bgPos.y) + 'px';
+        }
+        this._setIconStyles(div, 'icon');
+
+        return div;
+    },
+});
+
 // Add some browser detection
 DG.Browser.safari51 = DG.Browser.safari && navigator.userAgent.indexOf('Version/5.1') !== -1;
 
