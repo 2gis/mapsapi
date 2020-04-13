@@ -220,7 +220,7 @@
 
 * Склонируйте репозиторий:
 
-        git clone git@github.com:2gis/maps-api-2.0.git mapsapi-folder
+        git clone git@github.com:2gis/mapsapi.git mapsapi-folder
 
     Примечание: если вы устанавливаете API карт не с текущего репозитория, а с его форка, тогда не забудьте указать первым параметром команды `clone` адрес форка вместо адреса репозитория 2ГИС.
 * Установите [Node.js](https://nodejs.org/)
