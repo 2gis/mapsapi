@@ -15,8 +15,10 @@
         [51.7307, 36.1894],
         [51.7297, 36.1926],
         [51.7299, 36.1968],
-        [51.7307, 36.1968]]
-    DG.ruler(latLngs).addTo(map);
+        [51.7307, 36.1968]
+    ];
+
+    DG.ruler().addTo(map).setLatLngs(latLngs);
 
 #### Создание
 
@@ -31,11 +33,10 @@
     <tbody>
         <tr>
             <td><code><b>DG.Ruler</b>(
-                <nobr>&lt;<a href="/doc/maps/ru/manual/basic-types#dglatlng">LatLng</a>[]&gt; <i>latlngs</i>,</nobr>
                 <nobr>&lt;<a href="#dgruler-options">Ruler options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>DG.ruler(&hellip;)</code></td>
-            <td>Создает объект линейки по переданному массиву географических точек и необязательному объекту опций.</td>
+            <td>Создает объект линейки по необязательному объекту опций.</td>
         </tr>
     </tbody>
 </table>

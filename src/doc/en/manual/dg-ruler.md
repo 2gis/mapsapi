@@ -15,8 +15,10 @@ Create and display a ruler on the map:
         [51.7307, 36.1894],
         [51.7297, 36.1926],
         [51.7299, 36.1968],
-        [51.7307, 36.1968]]
-    DG.ruler(latLngs).addTo(map);
+        [51.7307, 36.1968]
+    ];
+
+    DG.ruler().addTo(map).setLatLngs(latLngs);
 
 #### Creation
 
@@ -31,11 +33,10 @@ Create and display a ruler on the map:
     <tbody>
         <tr>
             <td><code><b>DG.Ruler</b>(
-                <nobr>&lt;<a href="/doc/maps/en/manual/basic-types#dglatlng">LatLng</a>[]&gt; <i>latlngs</i>,</nobr>
                 <nobr>&lt;<a href="#dgruler-options">Ruler options</a>&gt; <i>options?</i> )</nobr>
             </code></td>
             <td><code>DG.ruler(&hellip;)</code></td>
-            <td>Creates the ruler object by the given array of geographical points and optional object of options.</td>
+            <td>Creates the ruler instance by the given optional object of options.</td>
         </tr>
     </tbody>
 </table>

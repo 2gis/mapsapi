@@ -10,7 +10,7 @@ DG.Ruler = DG.Layer.extend({
         Dictionary: {}
     },
 
-    initialize: function(latlngs, options) { // (Array, Object)
+    initialize: function(options) { // (Object)
         DG.Util.setOptions(this, options);
 
         this._layers = {
@@ -34,10 +34,6 @@ DG.Ruler = DG.Layer.extend({
             delete this._lineMouseEvents.mousemove;
         } else {
             delete this._lineMouseEvents.click;
-        }
-
-        if (latlngs && latlngs.length) {
-            this.setLatLngs(latlngs);
         }
     },
 
