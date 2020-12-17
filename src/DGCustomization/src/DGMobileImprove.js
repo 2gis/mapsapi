@@ -391,7 +391,7 @@ L.MobileTileLayer = L.TileLayer.extend({
         });
     },
 
-    _previewReady: function (coords, err, tile) {
+    _previewReady: function(coords, err, tile) {
         if (!this._map) { return; }
 
         var key = this._tileCoordsToKey(coords);
