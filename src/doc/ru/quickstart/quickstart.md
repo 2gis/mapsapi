@@ -1,4 +1,4 @@
-## [Все возможности API&SDK 2ГИС](http://dev.2gis.ru/)
+## [Все возможности API&SDK 2ГИС](https://dev.2gis.ru/)
 ## [Полная обновлённая документация](https://docs.2gis.com/ru)
 
 
