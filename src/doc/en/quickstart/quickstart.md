@@ -1,3 +1,7 @@
+## [All capabilities of 2GIS API&SDK](https://dev.2gis.com/)
+## [Full updated documentation](https://docs.2gis.com/en)
+
+
 ## General information
 
 With maps API you can:
