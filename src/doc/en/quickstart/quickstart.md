@@ -1,5 +1,8 @@
-## [All capabilities of 2GIS API&SDK](https://dev.2gis.com/)
-## [Full updated documentation](https://docs.2gis.com/en)
+## All capabilities of 2GIS API&SDK:
+[dev.2gis.com](https://dev.2gis.com/)
+
+## Full updated documentation:
+[docs.2gis.com/en](https://docs.2gis.com/en)
 
 
 ## General information
