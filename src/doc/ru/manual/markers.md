@@ -6,7 +6,7 @@
 
 Маркер представляет собой маленькую картинку, которая связана с определенным местом на карте.
 
-	DG.marker([54.98, 82.89]).addTo(map);
+    DG.marker([54.98, 82.89]).addTo(map);
 
 #### Создание
 
@@ -112,7 +112,7 @@
             <td><code><b>pane</b></code></td>
             <td><code>String </code></td>
             <td><code>&#x27;markerPane&#x27;</code></td>
-            <td>Панель карты, на которую будет доабвлен маркер.</td>
+            <td>Панель карты, на которую будет добавлен маркер.</td>
         </tr>
     </tbody>
 </table>
@@ -330,14 +330,13 @@
 
 Методы, унаследованные от <a href="/doc/maps/ru/manual/base-classes#dgevented-methods">Evented</a> <!-- TODO: include methods -->
 
-
 #### Обработчики взаимодействия
 
 Свойства маркера включают в себя обработчики взаимодействия, которые позволяют контролировать
 интерактивное поведение маркера, а также подключение и отключение определенных возможностей,
 таких как перетаскивание (см. методы Handler). Например:
 
-	marker.dragging.disable();
+    marker.dragging.disable();
 
 <table>
     <thead>
@@ -355,7 +354,6 @@
         </tr>
     </tbody>
 </table>
-
 
 ### DG.Icon
 
@@ -519,7 +517,7 @@
 Наследуется от <a href="#dgicon"><code>Icon</code></a>, но игнорирует опции теней и <code>iconUrl</code>.
 
     // вы можете установить стиль класса .my-div-icon в CSS
-    var myIcon = DG.divIcon({className: 'my-div-icon'}); 
+    var myIcon = DG.divIcon({className: 'my-div-icon'});
 
     DG.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
 
