@@ -43,3 +43,66 @@
     .notRepeatableBgWithSizes('DGAttribution__logo');
     margin: 0 3px 0 0;
 }
+
+
+.dg-attribution__open2gis-button {
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    padding: 4px 6px 4px 4px;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    font-family: suisseintl;
+    line-height: 14px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 9px;
+    cursor: pointer;
+    transition: all .1s;
+    height: 22px;
+
+    .no-touch &:hover {
+        transition: all .2s; /* @TODO: all? */
+        background: #e7f3ff;
+    }
+}
+
+
+.dg-attribution__open2gis-icon-button:before {
+    display: inline-block;
+    margin: -1px 4px 0 0;
+    width: 12px;
+    height: 12px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    content: '';
+    vertical-align: middle;
+}
+
+.dg-attribution__button-wrapper {
+    margin-left: 3px;
+    .dg-attribution__open2gis-button {
+    color: #454C4F;
+
+         .no-touch &:hover {
+          color: #286482;
+        }
+    }
+}
+
+
+
+.dg-attribution__open2gis-button_name_open:before {
+    .notRepeatableBgWithSizes('DGAttribution_pin');
+}
+
+@font-face {
+    font-family: suisseintl;
+    src: url(/fonts/SuisseIntl-SemiBold.ttf) format('truetype');
+    font-display: swap;
+    font-weight: 600;
+    font-style: normal;
+}

@@ -12,5 +12,19 @@
             <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>
         </li>
     </ul>
+    {?logotype}
     <a href="{copyright_logo}" target="_blank" class="dg-attribution__logo-url"></a>
+    {:else}
+        {#btn}
+            <div class="dg-attribution__button-wrapper">
+                <a class="dg-attribution__open2gis-button_name_{name} dg-attribution__open2gis-button dg-attribution__open2gis-icon-button"
+                    {?open2gis_link}
+                        href={open2gis_link} target="_blank"
+                    {:else}
+                        href="javascript:void(0)"
+                    {/open2gis_link}
+                    >{label}</a>
+            </div>
+        {/btn}
+    {/logotype}
 </div>
