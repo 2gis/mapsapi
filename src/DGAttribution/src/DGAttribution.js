@@ -51,12 +51,46 @@ DG.Control.Attribution.include({
         return dictionary[countryCode][linkType];
     },
 
-    onAdd: function(map) {
+    _markerToRoute: undefined,
+
+    _checkMarkerLayers: function () {
+        var markerLayers = [];
+        var prevMarker = this._markerToRoute;
+        var _map = this._map;
+        this._map.eachLayer(function (layer) {
+            if (layer._icon && _map.getBounds().contains(layer._latlng)) {
+                markerLayers.push(layer)
+            }
+        });
+
+        this._markerToRoute = markerLayers.length != 1 ? undefined : markerLayers[0];
+
+        if (prevMarker !== this._markerToRoute) { this._update(); }
+    },
+
+    _mapEvents: {
+
+        layeradd: function () {
+            this._checkMarkerLayers();
+        },
+
+        layerremove: function () {
+            this._checkMarkerLayers();
+        },
+
+        moveend: function () {
+            this._checkMarkerLayers();
+        }
+    },
+
+    onAdd: function (map) {
         if (!map._copyright) {
             map._copyright = true;
             this._first = true;
         }
         this._logotype = map.options.logotype;
+
+        this._map.on(this._mapEvents, this);
 
         map.attributionControl = this;
         this._container = DG.DomUtil.create('div', 'dg-attribution');
@@ -71,13 +105,15 @@ DG.Control.Attribution.include({
         this._update();
 
         DG.DomEvent
-            .on(this._container, 'touchstart', (e) => {
-                if (e.target.href === this._open2gis) {
-                    this._open2gis = this._getOpenUrl();
-                    e.target.href = this._open2gis
-                }
-            })
+            .on(this._container, 'touchstart', this._updateLink, this)
         return this._container;
+    },
+
+    _updateLink: function (e) {
+        if (e.target.href === this._open2gis) {
+            this._open2gis = this._getOpenUrl();
+            e.target.href = this._open2gis
+        }
     },
 
     _update: function (lang, osm, countryCode) {
@@ -118,6 +154,16 @@ DG.Control.Attribution.include({
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
 
     },
+    _isNotProject: function () {
+        if (!this._map.projectDetector) {
+            return true;
+        }
+        var project = this._map.projectDetector.getProject();
+        if (!project) {
+            return true;
+        }
+        return false;
+    },
     _getOpenUrl: function () {
         if (!this._map.projectDetector) {
             return '';
@@ -126,23 +172,37 @@ DG.Control.Attribution.include({
         if (!project) {
             return '';
         }
-        return DG.Util.template(DG.config.openLink, {
-            'domain': project.domain,
-            'projectCode': project.code,
-            'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
-            'zoom': this._map.getZoom(),
-        });
+        if (this._markerToRoute) {
+            return DG.Util.template(DG.config.ppnotLink, {
+                'domain': project.domain,
+                'projectCode': project.code,
+                'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
+                'zoom': this._map.getZoom(),
+                'name': encodeURIComponent(''),
+                'rsType': project.transport ? 'bus' : 'car',
+                'point': this._markerToRoute._latlng.lng + ',' + this._markerToRoute._latlng.lat
+            });
+        } else {
+            return DG.Util.template(DG.config.openLink, {
+                'domain': project.domain,
+                'projectCode': project.code,
+                'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
+                'zoom': this._map.getZoom(),
+            });
+        }
     },
     _getData: function (lang) {
         lang = lang || this._map.getLang();
         var btn =
         {
             name: 'open',
-            label: this.t('open_on'),
+            label: this._markerToRoute ? this.t('route_on') : this.t('open_on'),
         }
+        var isNotTranslate = btn.label == 'open_on' || btn.label == 'route_on';
+
         return {
             'osm': this._osm,
-            'logotype': this.t('open_on') == 'open_on' || this._logotype,
+            'logotype': isNotTranslate || this._isNotProject() || this._logotype,
             'work_on': this.t('work_on'),
             'work_on_with_osm': this.t('work_on_with_osm'),
             'lang': lang,
