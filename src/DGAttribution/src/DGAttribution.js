@@ -173,7 +173,7 @@ DG.Control.Attribution.include({
             return '';
         }
         if (this._markerToRoute) {
-            return DG.Util.template(DG.config.ppnotLink, {
+            return DG.Util.template(DG.config.ppnotLink2gis, {
                 'domain': project.domain,
                 'projectCode': project.code,
                 'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
