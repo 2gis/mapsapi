@@ -7,11 +7,8 @@
 
     "trafficLayerMinZoom": 10,
     "trafficLayerUpdateInterval": 300000,
-
-    "ppnotLink2gisUnProject": "{gislink}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}/openLink=true",
-    "openLinkUnProject":  "{gislink}/center/{center}/zoom/{zoom}/openLink=true",
-    "openLink":  "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/openLink=true",
-    "ppnotLink2gis": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}/openLink=true",
+    "ppnotLink2gis": "{gislink}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}/openLink=true",
+    "openLink2gis":  "{gislink}/center/{center}/zoom/{zoom}/openLink=true",
     "ppnotLink": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
     "photosLink": "http://2gis.{domain}/photos/{id}",
 

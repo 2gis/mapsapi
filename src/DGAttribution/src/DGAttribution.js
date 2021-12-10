@@ -129,7 +129,7 @@ DG.Control.Attribution.include({
     _updateLink: function (e) {
         if (e.target.href === this._open2gis) {
             this._open2gis = this._getOpenUrl();
-            e.target.href = this._open2gis
+            e.target.href = this._open2gis;
         }
     },
 
@@ -173,42 +173,18 @@ DG.Control.Attribution.include({
     },
 
     _getOpenUrl: function () {
-        if (this._map.projectDetector) {
-            var project = this._map.projectDetector.getProject();
-            if (project) {
-                if (this._markerToRoute) {
-                    return DG.Util.template(DG.config.ppnotLink2gis, {
-                        'domain': project.domain,
-                        'projectCode': project.code,
-                        'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
-                        'zoom': this._map.getZoom(),
-                        'name': encodeURIComponent(''),
-                        'rsType': project.transport ? 'bus' : 'car',
-                        'point': this._markerToRoute._latlng.lng + ',' + this._markerToRoute._latlng.lat
-                    });
-                } else {
-                    return DG.Util.template(DG.config.openLink, {
-                        'domain': project.domain,
-                        'projectCode': project.code,
-                        'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
-                        'zoom': this._map.getZoom(),
-                    });
-                }
-            }
-        };
-
         if (this._markerToRoute) {
-            return DG.Util.template(DG.config.ppnotLink2gisUnProject, {
+            var z = this._map.getZoom();
+            return DG.Util.template(DG.config.ppnotLink2gis, {
                 'gislink': this._getLink('open_link'),
                 'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
                 'zoom': this._map.getZoom(),
-                'name': encodeURIComponent(''),
-                'rsType': project.transport ? 'bus' : 'car',
+                'rsType': z > 11 ? 'bus' : 'car',
                 'point': this._markerToRoute._latlng.lng + ',' + this._markerToRoute._latlng.lat
             });
         }
 
-        return DG.Util.template(DG.config.openLinkUnProject, {
+        return DG.Util.template(DG.config.openLink2gis, {
             'gislink': this._getLink('open_link'),
             'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
             'zoom': this._map.getZoom(),
