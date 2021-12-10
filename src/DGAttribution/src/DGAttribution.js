@@ -12,36 +12,42 @@ DG.Control.Attribution.include({
                 copyright_logo: 'http://info.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'http://api.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_license: 'http://law.2gis.ru/api-rules/',
+                open_link: 'http://2gis.ru',
             },
 
             it: {
                 copyright_logo: 'http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.it/licensing-agreement/'
+                copyright_license: 'http://law.2gis.it/licensing-agreement/',
+                open_link: 'http://2gis.ru',
             },
 
             cz: {
                 copyright_logo: 'http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.cz/api-rules/'
+                copyright_license: 'http://law.2gis.cz/api-rules/',
+                open_link: 'http://2gis.ru',
             },
 
             cl: {
                 copyright_logo: 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.cl/api-rules/'
+                copyright_license: 'http://law.2gis.cl/api-rules/',
+                open_link: 'http://2gis.ru',
             },
 
             cy: {
                 copyright_logo: 'http://info.2gis.com.cy/lemesos?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'http://info.2gis.com.cy/lemesos?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.com.cy/api-rules/'
+                copyright_license: 'http://law.2gis.com.cy/api-rules/',
+                open_link: 'http://2gis.ru',
             },
 
             ae: {
                 copyright_logo: 'http://info.2gis.ae/dubai?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'http://info.2gis.ae/dubai?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_license: 'http://law.2gis.ae/api-rules/',
+                open_link: 'http://2gis.ae',
             }
         };
         /* eslint-enable camelcase */
@@ -52,16 +58,16 @@ DG.Control.Attribution.include({
     },
 
     _markerToRoute: undefined,
+    _markers: [],
 
     _checkMarkerLayers: function () {
         var markerLayers = [];
         var prevMarker = this._markerToRoute;
-        var _map = this._map;
-        this._map.eachLayer(function (layer) {
-            if (layer._icon && _map.getBounds().contains(layer._latlng)) {
-                markerLayers.push(layer)
+        for (var i = 0; i < this._markers.length; i++) {
+            if (this._map.getBounds().contains(this._markers[i]._latlng)) {
+                markerLayers.push(this._markers[i])
             }
-        });
+        }
 
         this._markerToRoute = markerLayers.length != 1 ? undefined : markerLayers[0];
 
@@ -70,11 +76,22 @@ DG.Control.Attribution.include({
 
     _mapEvents: {
 
-        layeradd: function () {
+        layeradd: function (e) {
+            if (e.layer instanceof DG.Marker) {
+                this._markers.push(e.layer)
+            }
             this._checkMarkerLayers();
         },
 
-        layerremove: function () {
+        layerremove: function (e) {
+            if (e.layer instanceof DG.Marker) {
+                this._markers = [];
+                this._map.eachLayer(function (layer) {
+                    if (layer._icon && _map.getBounds().contains(layer._latlng)) {
+                        markerLayers.push(layer)
+                    }
+                })
+            }
             this._checkMarkerLayers();
         },
 
@@ -154,42 +171,48 @@ DG.Control.Attribution.include({
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
 
     },
-    _isNotProject: function () {
-        if (!this._map.projectDetector) {
-            return true;
-        }
-        var project = this._map.projectDetector.getProject();
-        if (!project) {
-            return true;
-        }
-        return false;
-    },
+
     _getOpenUrl: function () {
-        if (!this._map.projectDetector) {
-            return '';
-        }
-        var project = this._map.projectDetector.getProject();
-        if (!project) {
-            return '';
-        }
+        if (this._map.projectDetector) {
+            var project = this._map.projectDetector.getProject();
+            if (project) {
+                if (this._markerToRoute) {
+                    return DG.Util.template(DG.config.ppnotLink2gis, {
+                        'domain': project.domain,
+                        'projectCode': project.code,
+                        'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
+                        'zoom': this._map.getZoom(),
+                        'name': encodeURIComponent(''),
+                        'rsType': project.transport ? 'bus' : 'car',
+                        'point': this._markerToRoute._latlng.lng + ',' + this._markerToRoute._latlng.lat
+                    });
+                } else {
+                    return DG.Util.template(DG.config.openLink, {
+                        'domain': project.domain,
+                        'projectCode': project.code,
+                        'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
+                        'zoom': this._map.getZoom(),
+                    });
+                }
+            }
+        };
+
         if (this._markerToRoute) {
-            return DG.Util.template(DG.config.ppnotLink2gis, {
-                'domain': project.domain,
-                'projectCode': project.code,
+            return DG.Util.template(DG.config.ppnotLink2gisUnProject, {
+                'gislink': this._getLink('open_link'),
                 'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
                 'zoom': this._map.getZoom(),
                 'name': encodeURIComponent(''),
                 'rsType': project.transport ? 'bus' : 'car',
                 'point': this._markerToRoute._latlng.lng + ',' + this._markerToRoute._latlng.lat
             });
-        } else {
-            return DG.Util.template(DG.config.openLink, {
-                'domain': project.domain,
-                'projectCode': project.code,
-                'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
-                'zoom': this._map.getZoom(),
-            });
         }
+
+        return DG.Util.template(DG.config.openLinkUnProject, {
+            'gislink': this._getLink('open_link'),
+            'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
+            'zoom': this._map.getZoom(),
+        });
     },
     _getData: function (lang) {
         lang = lang || this._map.getLang();
@@ -202,7 +225,7 @@ DG.Control.Attribution.include({
 
         return {
             'osm': this._osm,
-            'logotype': isNotTranslate || this._isNotProject() || this._logotype,
+            'logotype': isNotTranslate || this._logotype,
             'work_on': this.t('work_on'),
             'work_on_with_osm': this.t('work_on_with_osm'),
             'lang': lang,
