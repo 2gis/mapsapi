@@ -61,17 +61,8 @@ DG.Control.Attribution.include({
     _markers: [],
 
     _checkMarkerLayers: function () {
-        var markerLayers = [];
-        var prevMarker = this._markerToRoute;
-        for (var i = 0; i < this._markers.length; i++) {
-            if (this._map.getBounds().contains(this._markers[i]._latlng)) {
-                markerLayers.push(this._markers[i])
-            }
-        }
-
-        this._markerToRoute = markerLayers.length != 1 ? undefined : markerLayers[0];
-
-        if (prevMarker !== this._markerToRoute) { this._update(); }
+        this._markerToRoute = this._markers.length != 1 ? undefined :  this._markers[0];
+        this._update(); 
     },
 
     _mapEvents: {
@@ -85,14 +76,15 @@ DG.Control.Attribution.include({
 
         layerremove: function (e) {
             if (e.layer instanceof DG.Marker) {
-                this._markers = [];
-                this._map.eachLayer(function (layer) {
-                    if (layer._icon && _map.getBounds().contains(layer._latlng)) {
-                        markerLayers.push(layer)
+                var currentMarkers = [];
+                for (var i = 0; i < this._markers.length; i++) {
+                    if (this._markers[i] !== e.layer) {
+                        currentMarkers.push(this._markers[i])
                     }
-                })
+                }
+                this._markers = currentMarkers;
+                this._checkMarkerLayers();
             }
-            this._checkMarkerLayers();
         },
 
         moveend: function () {
@@ -127,7 +119,7 @@ DG.Control.Attribution.include({
     },
 
     _updateLink: function (e) {
-        if (e.target.href === this._open2gis) {
+        if (e.target.name === "linkButton") {
             this._open2gis = this._getOpenUrl();
             e.target.href = this._open2gis;
         }
@@ -175,18 +167,18 @@ DG.Control.Attribution.include({
     _getOpenUrl: function () {
         if (this._markerToRoute) {
             var z = this._map.getZoom();
-            return DG.Util.template(DG.config.ppnotLink2gis, {
+            return DG.Util.template(DG.config.ppLink2gis, {
                 'gislink': this._getLink('open_link'),
-                'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
+                'center': this._map.getCenter().lng + '%2C' + this._map.getCenter().lat,
                 'zoom': this._map.getZoom(),
                 'rsType': z > 11 ? 'bus' : 'car',
-                'point': this._markerToRoute._latlng.lng + ',' + this._markerToRoute._latlng.lat
+                'point': this._markerToRoute._latlng.lng + '%2C' + this._markerToRoute._latlng.lat
             });
         }
 
         return DG.Util.template(DG.config.openLink2gis, {
             'gislink': this._getLink('open_link'),
-            'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
+            'center': this._map.getCenter().lng + '%2C' + this._map.getCenter().lat,
             'zoom': this._map.getZoom(),
         });
     },
@@ -197,11 +189,13 @@ DG.Control.Attribution.include({
             name: 'open',
             label: this._markerToRoute ? this.t('route_on') : this.t('open_on'),
         }
-        var isNotTranslate = btn.label == 'open_on' || btn.label == 'route_on';
+
+        // If dontshow link button if button dont have translate to current language or map options logotype set true
+        var isHideButton  = btn.label == 'open_on' || btn.label == 'route_on' || this._logotype;
 
         return {
             'osm': this._osm,
-            'logotype': isNotTranslate || this._logotype,
+            'logotype': isHideButton,
             'work_on': this.t('work_on'),
             'work_on_with_osm': this.t('work_on_with_osm'),
             'lang': lang,
@@ -209,6 +203,7 @@ DG.Control.Attribution.include({
             'copyright_license': this._getLink('copyright_license'),
             'copyright_logo': this._getLink('copyright_logo'),
             'open2gis_link': this._open2gis,
+            'open2gis_name': 'linkButton',
             'license_agreement': this.t('license_agreement'),
             'dir': lang !== 'ar' ? 'ltr' : 'rtl',
             'btn': btn
