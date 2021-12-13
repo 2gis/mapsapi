@@ -61,8 +61,8 @@ DG.Control.Attribution.include({
     _markers: [],
 
     _checkMarkerLayers: function () {
-        this._markerToRoute = this._markers.length != 1 ? undefined :  this._markers[0];
-        this._update(); 
+        this._markerToRoute = this._markers.length != 1 ? undefined : this._markers[0];
+        this._update();
     },
 
     _mapEvents: {
@@ -70,8 +70,10 @@ DG.Control.Attribution.include({
         layeradd: function (e) {
             if (e.layer instanceof DG.Marker) {
                 this._markers.push(e.layer)
+                if (this._markers.length <= 2) {
+                    this._checkMarkerLayers();
+                }
             }
-            this._checkMarkerLayers();
         },
 
         layerremove: function (e) {
@@ -83,13 +85,12 @@ DG.Control.Attribution.include({
                     }
                 }
                 this._markers = currentMarkers;
+                if (this._markers.length <= 1) {
                 this._checkMarkerLayers();
+                }
             }
         },
 
-        moveend: function () {
-            this._checkMarkerLayers();
-        }
     },
 
     onAdd: function (map) {
@@ -191,7 +192,7 @@ DG.Control.Attribution.include({
         }
 
         // Do not show link button if button don't have translate to current language or map options logotype set true
-        var isHideButton  = btn.label == 'open_on' || btn.label == 'route_on' || this._logotype;
+        var isHideButton = btn.label == 'open_on' || btn.label == 'route_on' || this._logotype;
 
         return {
             'osm': this._osm,
