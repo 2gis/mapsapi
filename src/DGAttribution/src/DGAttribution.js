@@ -190,7 +190,7 @@ DG.Control.Attribution.include({
             label: this._markerToRoute ? this.t('route_on') : this.t('open_on'),
         }
 
-        // If dontshow link button if button dont have translate to current language or map options logotype set true
+        // Do not show link button if button don't have translate to current language or map options logotype set true
         var isHideButton  = btn.label == 'open_on' || btn.label == 'route_on' || this._logotype;
 
         return {
