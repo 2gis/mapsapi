@@ -5,7 +5,7 @@ DG.Control.Attribution.include({
         position: 'bottomright'
     },
 
-    _getLink: function (linkType) {
+    _getLink: function(linkType) {
         /* eslint-disable camelcase */
         var dictionary = {
             ru: {
@@ -70,17 +70,18 @@ DG.Control.Attribution.include({
 
         this._update();
 
+        var self = this;
         DG.DomEvent
-            .on(this._container, 'touchstart', (e) => {
-                if (e.target.href === this._open2gis) {
-                    this._open2gis = this._getOpenUrl();
-                    e.target.href = this._open2gis
+            .on(this._container, 'touchstart', function(e) {
+                if (e.target.href === self._open2gis) {
+                    self._open2gis = self._getOpenUrl();
+                    e.target.href = self._open2gis
                 }
             })
         return this._container;
     },
 
-    _update: function (lang, osm, countryCode) {
+    _update: function(lang, osm, countryCode) {
         if (!this._map) { return; }
 
         this._open2gis = this._getOpenUrl();
@@ -118,7 +119,7 @@ DG.Control.Attribution.include({
         this._container.innerHTML = copyright + prefixAndAttribs.join(' | ');
 
     },
-    _getOpenUrl: function () {
+    _getOpenUrl: function() {
         if (!this._map.projectDetector) {
             return '';
         }
@@ -133,7 +134,7 @@ DG.Control.Attribution.include({
             'zoom': this._map.getZoom(),
         });
     },
-    _getData: function (lang) {
+    _getData: function(lang) {
         lang = lang || this._map.getLang();
         var btn =
         {
@@ -155,15 +156,15 @@ DG.Control.Attribution.include({
             'btn': btn
         };
     },
-    _getAttributionHTML: function (lang) {
+    _getAttributionHTML: function(lang) {
         return DG.dust('DGAttribution/copyright', this._getData(lang));
     },
-    _renderTranslation: function (e) {
+    _renderTranslation: function(e) {
         this._update(e.lang);
     }
 });
 
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (!this._copyright) {
         DG.control.attribution().addTo(this);
     }
