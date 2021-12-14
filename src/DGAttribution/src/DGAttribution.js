@@ -5,7 +5,7 @@ DG.Control.Attribution.include({
         position: 'bottomright'
     },
 
-    _getLink: function (linkType) {
+    _getLink: function(linkType) {
         /* eslint-disable camelcase */
         var dictionary = {
             ru: {
@@ -165,6 +165,7 @@ DG.Control.Attribution.include({
 
     },
 
+
     _getOpenUrl: function () {
         if (this._markerToRoute) {
             var z = this._map.getZoom();
@@ -183,7 +184,7 @@ DG.Control.Attribution.include({
             'zoom': this._map.getZoom(),
         });
     },
-    _getData: function (lang) {
+    _getData: function(lang) {
         lang = lang || this._map.getLang();
         var btn =
         {
@@ -210,15 +211,15 @@ DG.Control.Attribution.include({
             'btn': btn
         };
     },
-    _getAttributionHTML: function (lang) {
+    _getAttributionHTML: function(lang) {
         return DG.dust('DGAttribution/copyright', this._getData(lang));
     },
-    _renderTranslation: function (e) {
+    _renderTranslation: function(e) {
         this._update(e.lang);
     }
 });
 
-DG.Map.addInitHook(function () {
+DG.Map.addInitHook(function() {
     if (!this._copyright) {
         DG.control.attribution().addTo(this);
     }
