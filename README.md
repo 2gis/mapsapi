@@ -1,10 +1,4 @@
-# API карт 2GIS [![Build Status][build-badge]][build-link] [![Coverage Status][coverage-badge]][coverage-link] [![npm][npm-badge]][npm-link]
-
-[build-badge]: https://travis-ci.org/2gis/mapsapi.svg?branch=master
-[build-link]: https://travis-ci.org/2gis/mapsapi
-
-[coverage-badge]: https://img.shields.io/coveralls/2gis/mapsapi.svg?branch=master&service=github
-[coverage-link]: https://coveralls.io/r/2gis/mapsapi
+# API карт 2GIS [![npm][npm-badge]][npm-link]
 
 [npm-badge]: https://img.shields.io/npm/v/2gis-maps.svg
 [npm-link]: https://www.npmjs.com/package/2gis-maps
