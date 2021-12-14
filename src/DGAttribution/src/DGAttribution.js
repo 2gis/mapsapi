@@ -86,7 +86,7 @@ DG.Control.Attribution.include({
                 }
                 this._markers = currentMarkers;
                 if (this._markers.length <= 1) {
-                this._checkMarkerLayers();
+                    this._checkMarkerLayers();
                 }
             }
         },
