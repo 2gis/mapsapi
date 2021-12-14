@@ -99,6 +99,7 @@ DG.Control.Attribution.include({
             this._first = true;
         }
         this._logotype = map.options.logotype;
+        this._open2gis = this._getLink('open_link')
 
         this._map.on(this._mapEvents, this);
 
@@ -128,8 +129,6 @@ DG.Control.Attribution.include({
 
     _update: function(lang, osm, countryCode) {
         if (!this._map) { return; }
-
-        this._open2gis = this._getOpenUrl();
 
         if (typeof osm !== 'undefined') {
             this._osm = osm;
@@ -168,19 +167,18 @@ DG.Control.Attribution.include({
 
     _getOpenUrl: function() {
         if (this._markerToRoute) {
-            var z = this._map.getZoom();
             return DG.Util.template(DG.config.ppLink2gis, {
                 'gislink': this._getLink('open_link'),
-                'center': this._map.getCenter().lng + '%2C' + this._map.getCenter().lat,
+                'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
                 'zoom': this._map.getZoom(),
-                'rsType': z > 11 ? 'bus' : 'car',
-                'point': this._markerToRoute._latlng.lng + '%2C' + this._markerToRoute._latlng.lat
+                'rsType': this._map.getZoom() > 11 ? 'bus' : 'car',
+                'point': this._markerToRoute._latlng.lng + ',' + this._markerToRoute._latlng.lat
             });
         }
 
         return DG.Util.template(DG.config.openLink2gis, {
             'gislink': this._getLink('open_link'),
-            'center': this._map.getCenter().lng + '%2C' + this._map.getCenter().lat,
+            'center': this._map.getCenter().lng + ',' + this._map.getCenter().lat,
             'zoom': this._map.getZoom(),
         });
     },
