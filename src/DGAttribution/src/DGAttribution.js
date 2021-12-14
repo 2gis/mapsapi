@@ -60,14 +60,14 @@ DG.Control.Attribution.include({
     _markerToRoute: undefined,
     _markers: [],
 
-    _checkMarkerLayers: function () {
+    _checkMarkerLayers: function() {
         this._markerToRoute = this._markers.length != 1 ? undefined : this._markers[0];
         this._update();
     },
 
     _mapEvents: {
 
-        layeradd: function (e) {
+        layeradd: function(e) {
             if (e.layer instanceof DG.Marker) {
                 this._markers.push(e.layer)
                 if (this._markers.length <= 2) {
@@ -76,7 +76,7 @@ DG.Control.Attribution.include({
             }
         },
 
-        layerremove: function (e) {
+        layerremove: function(e) {
             if (e.layer instanceof DG.Marker) {
                 var currentMarkers = [];
                 for (var i = 0; i < this._markers.length; i++) {
@@ -93,7 +93,7 @@ DG.Control.Attribution.include({
 
     },
 
-    onAdd: function (map) {
+    onAdd: function(map) {
         if (!map._copyright) {
             map._copyright = true;
             this._first = true;
@@ -119,14 +119,14 @@ DG.Control.Attribution.include({
         return this._container;
     },
 
-    _updateLink: function (e) {
-        if (e.target.name === "linkButton") {
+    _updateLink: function(e) {
+        if (e.target.name === 'linkButton') {
             this._open2gis = this._getOpenUrl();
             e.target.href = this._open2gis;
         }
     },
 
-    _update: function (lang, osm, countryCode) {
+    _update: function(lang, osm, countryCode) {
         if (!this._map) { return; }
 
         this._open2gis = this._getOpenUrl();
@@ -166,7 +166,7 @@ DG.Control.Attribution.include({
     },
 
 
-    _getOpenUrl: function () {
+    _getOpenUrl: function() {
         if (this._markerToRoute) {
             var z = this._map.getZoom();
             return DG.Util.template(DG.config.ppLink2gis, {
