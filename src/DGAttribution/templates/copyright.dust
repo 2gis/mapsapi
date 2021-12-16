@@ -19,7 +19,7 @@
             <div class="dg-attribution__button-wrapper">
                 <a class="dg-attribution__open2gis-button_name_{name} dg-attribution__open2gis-button dg-attribution__open2gis-icon-button"
                     {?open2gis_link}
-                        href={open2gis_link} target="_blank"
+                        href={open2gis_link} target="_blank" name={open2gis_name}
                     {:else}
                         href="javascript:void(0)"
                     {/open2gis_link}
