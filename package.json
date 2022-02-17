@@ -22,13 +22,13 @@
   },
   "main": "dist/js/script.full.js",
   "dependencies": {
+    "cors": "^2.7.1",
     "dustjs-helpers": "1.7.3",
-    "dustjs-linkedin": "2.7.5",
+    "dustjs-linkedin": "3.0.1",
+    "express": "^4.13.4",
     "html5shiv": "^3.7.3",
     "leaflet": "1.0.1",
-    "express": "^4.13.4",
-    "cors": "^2.7.1",
-    "lodash": "^4.8.2"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "browserify": "^13.0.1",
