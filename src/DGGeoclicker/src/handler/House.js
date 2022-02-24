@@ -108,7 +108,9 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
 
         options.firmCard.backBtn = DG.bind(this._showListPopup, this);
 
-        this._shortFirmList._toggleEventHandlers(true);
+        if (this._shortFirmList) {
+            this._shortFirmList._toggleEventHandlers(true);
+        }
 
         this._firmList = new FirmCard.List(results, options);
 
@@ -164,7 +166,9 @@ DG.Geoclicker.Handler.House = DG.Geoclicker.Handler.Default.extend({
     _showHousePopup: function() {
         this._popup.off('scroll', this._onScroll);
         this._clearAndRenderPopup(this._houseObject);
-        this._shortFirmList._toggleEventHandlers();
+        if (this._shortFirmList) {
+            this._shortFirmList._toggleEventHandlers();
+        }
     },
 
     _onFirmListClick: function() {
