@@ -5,49 +5,49 @@ DG.Control.Attribution.include({
         position: 'bottomright'
     },
 
-    _getLink: function(linkType) {
+    _getLink: function (linkType) {
         /* eslint-disable camelcase */
         var dictionary = {
             ru: {
-                copyright_logo: 'http://info.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_apilink: 'http://api.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.ru/api-rules/',
-                open_link: 'http://2gis.ru',
+                copyright_logo: 'https://2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'https://dev.2gis.ru/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'https://law.2gis.ru/api-rules/',
+                open_link: 'https://2gis.ru',
             },
 
             it: {
-                copyright_logo: 'http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_apilink: 'http://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.it/licensing-agreement/',
-                open_link: 'http://2gis.ru',
+                copyright_logo: 'https://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'https://dev.2gis.com/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'https://law.2gis.it/licensing-agreement/',
+                open_link: 'https://2gis.ru',
             },
 
             cz: {
-                copyright_logo: 'http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_apilink: 'http://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.cz/api-rules/',
-                open_link: 'http://2gis.ru',
+                copyright_logo: 'https://praha.2gis.cz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'https://dev.2gis.com/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'https://law.2gis.cz/api-rules/',
+                open_link: 'https://2gis.ru',
             },
 
             cl: {
-                copyright_logo: 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_apilink: 'http://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.cl/api-rules/',
-                open_link: 'http://2gis.ru',
+                copyright_logo: 'https://santiago.2gis.cl/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'https://dev.2gis.com/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'https://law.2gis.cl/api-rules/',
+                open_link: 'https://2gis.ru',
             },
 
             cy: {
-                copyright_logo: 'http://info.2gis.com.cy/lemesos?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_apilink: 'http://info.2gis.com.cy/lemesos?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.com.cy/api-rules/',
-                open_link: 'http://2gis.ru',
+                copyright_logo: 'https://info.2gis.com.cy/lemesos?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'https://dev.2gis.com/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'https://law.2gis.com.cy/api-rules/',
+                open_link: 'https://2gis.ru',
             },
 
             ae: {
-                copyright_logo: 'http://info.2gis.ae/dubai?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_apilink: 'http://info.2gis.ae/dubai?utm_source=copyright&utm_medium=map&utm_campaign=partners',
-                copyright_license: 'http://law.2gis.ae/api-rules/',
-                open_link: 'http://2gis.ae',
+                copyright_logo: 'https://2gis.ae/dubai?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'http://dev.2gis.com/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'https://law.2gis.ae/api-rules/',
+                open_link: 'https://2gis.ae',
             }
         };
         /* eslint-enable camelcase */
