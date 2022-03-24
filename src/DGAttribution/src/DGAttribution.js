@@ -5,7 +5,7 @@ DG.Control.Attribution.include({
         position: 'bottomright'
     },
 
-    _getLink: function (linkType) {
+    _getLink: function(linkType) {
         /* eslint-disable camelcase */
         var dictionary = {
             ru: {
