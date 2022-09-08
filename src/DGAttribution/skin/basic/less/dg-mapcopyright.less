@@ -1,100 +1,97 @@
+/* !important is overused here to protect copyright styles from occasional change */
+
 .dg-attribution {
     background-color: transparent !important;
-}
 
-.dg-attribution__copyright {
-    display: flex;
-    align-items: center;
-    margin: 0 0 5px;
-    text-align: right;
-    white-space: nowrap;
-    font-size: 9px;
-    font-family: Helvetica, Arial, sans-serif;
-}
-
-.dg-attribution__links {
-    display: inline-block;
-    margin: 0;
-    padding: 0 5px 0 0;
-}
-
-.dg-attribution__link-item {
-    padding: 0;
-    list-style-type: none;
-}
-
-.leaflet-container .dg-attribution__link {
-    background: linear-gradient(to right, rgba(8, 8, 8, .3), rgba(8, 8, 8, .3) 100%) 0 95% repeat-x;
-    background-size: 10px 1px;
-    color: #333;
-    text-decoration: none;
-    font-size: 9px;
-    font-family: Helvetica, Arial, sans-serif;
-    cursor: pointer;
-
-    &:hover {
-        background-image: linear-gradient(to right, #080808, #080808 100%);
-        color: #333;
-        text-decoration: none;
+    .dg-attribution__copyright {
+        display: flex !important;
+        align-items: center !important;
+        text-align: right !important;
+        white-space: nowrap !important;
+        font-size: 9px !important;
+        font-family: Helvetica, Arial, sans-serif !important;
     }
-}
 
-.dg-attribution__logo-url {
-    .notRepeatableBgWithSizes('DGAttribution__logo');
-    margin: 0 3px 0 0;
-}
-
-
-.dg-attribution__open2gis-button {
-    background: #ffffff;
-    border-radius: 4px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-    padding: 4px 6px 4px 4px;
-    position: relative;
-    display: inline-block;
-    box-sizing: border-box;
-    text-align: left;
-    text-decoration: none;
-    line-height: 14px;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 9px;
-    cursor: pointer;
-    transition: all .1s;
-    height: 22px;
-    min-width: 101px;
-
-    .no-touch &:hover {
-        transition: all .2s; /* @TODO: all? */
-        background: #e7f3ff;
+    .dg-attribution__links {
+        display: inline-block !important;
+        margin: 0 !important;
+        padding: 0 5px 0 0 !important;
     }
-}
 
+    .dg-attribution__link-item {
+        padding: 0 !important;
+        list-style-type: none !important;
+    }
 
-.dg-attribution__open2gis-icon-button:before {
-    display: inline-block;
-    margin: -1px 4px 0 0;
-    width: 12px;
-    height: 12px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    content: '';
-    vertical-align: middle;
-}
+    .dg-attribution__logo-url {
+        .notRepeatableBgWithSizes('DGAttribution__logo');
+        margin: 0 3px 0 0 !important;
+    }
 
-.dg-attribution__button-wrapper {
-    margin-left: 3px;
     .dg-attribution__open2gis-button {
-    color: #454C4F;
+        background: #ffffff !important;
+        border-radius: 4px !important;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2) !important;
+        padding: 4px 6px 4px 4px !important;
+        position: relative !important;
+        display: inline-block !important;
+        box-sizing: border-box !important;
+        text-align: left !important;
+        text-decoration: none !important;
+        line-height: 14px !important;
+        font-style: normal !important;
+        font-weight: 600 !important;
+        font-size: 9px !important;
+        cursor: pointer !important;
+        transition: all .1s !important;
+        height: 22px !important;
+        min-width: 101px !important;
 
-         .no-touch &:hover {
-          color: #286482;
+        .no-touch &:hover {
+            transition: background .2s !important;
+            background: #e7f3ff !important;
         }
     }
+
+    .dg-attribution__open2gis-icon-button:before {
+        display: inline-block !important;
+        margin: -1px 4px 0 0 !important;
+        width: 12px !important;
+        height: 12px !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        content: '' !important;
+        vertical-align: middle !important;
+    }
+
+    .dg-attribution__button-wrapper {
+        margin-left: 3px !important;
+        .dg-attribution__open2gis-button {
+            color: #454C4F !important;
+
+            .no-touch &:hover {
+                color: #286482 !important;
+            }
+        }
+    }
+
+    .dg-attribution__open2gis-button_name_open:before {
+        .notRepeatableBgWithSizes('DGAttribution_pin');
+    }
 }
 
+.leaflet-container .dg-attribution .dg-attribution__link {
+    background: linear-gradient(to right, rgba(8, 8, 8, .3), rgba(8, 8, 8, .3) 100%) 0 95% repeat-x !important;
+    background-size: 10px 1px !important;
+    color: #333 !important;
+    text-decoration: none !important;
+    font-size: 9px !important;
+    font-family: Helvetica, Arial, sans-serif !important;
+    cursor: pointer !important;
 
-
-.dg-attribution__open2gis-button_name_open:before {
-    .notRepeatableBgWithSizes('DGAttribution_pin');
+    &:hover {
+        background-image: linear-gradient(to right, #080808, #080808 100%) !important;
+        color: #333 !important;
+        text-decoration: none !important;
+    }
 }
