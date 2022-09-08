@@ -229,7 +229,7 @@
         cd ~/mapsapi-folder
         npm install
 
-* В файлы `config.main.json` замените параметр `baseUrl` на пустую строку: `"baseUrl": ""`.
+* В файле `config.main.json` замените параметр `baseUrl` на пустую строку: `"baseUrl": ""`.
 * Выполните сборку API карт и запуск сервера:
 
         npm run dev
