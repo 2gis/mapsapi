@@ -127,12 +127,8 @@ DG.Control.Attribution.include({
         }
     },
 
-    _update: function(lang, osm, countryCode) {
+    _update: function(lang, countryCode) {
         if (!this._map) { return; }
-
-        if (typeof osm !== 'undefined') {
-            this._osm = osm;
-        }
 
         if (typeof countryCode !== 'undefined') {
             this._countryCode = countryCode;
@@ -194,10 +190,8 @@ DG.Control.Attribution.include({
         var isHideButton = btn.label == 'open_on' || btn.label == 'route_on' || this._logotype;
 
         return {
-            'osm': this._osm,
             'logotype': isHideButton,
             'work_on': this.t('work_on'),
-            'work_on_with_osm': this.t('work_on_with_osm'),
             'lang': lang,
             'copyright_apilink': this._getLink('copyright_apilink'),
             'copyright_license': this._getLink('copyright_license'),

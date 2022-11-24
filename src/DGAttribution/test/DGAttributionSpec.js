@@ -6,7 +6,6 @@ describe('DG.Control.Attribution', function() {
             es: 'licencia',
             cs: 'smlouva'
         },
-        osmCopyright = 'OpenStreetMap',
 
         latLngWithoutProject = [54.83391822270635, 80.34439086914064],
         latLngCenterNsk = [55.017493, 82.819576],
@@ -25,7 +24,7 @@ describe('DG.Control.Attribution', function() {
     });
 
     after(function() {
-        dictionaryLicense = osmCopyright = latLngWithoutProject = latLngCenterNsk = mapContainer = map = attribution = null;
+        dictionaryLicense = latLngWithoutProject = latLngCenterNsk = mapContainer = map = attribution = null;
     });
 
     describe('check init', function() {
@@ -46,20 +45,6 @@ describe('DG.Control.Attribution', function() {
                 map.setLang(el);
                 expect(attribution.innerHTML).to.contain(dictionaryLicense[el]);
             });
-        });
-    });
-
-    describe('project leave', function() {
-        it('should add osm copyright', function() {
-            map.setView(latLngWithoutProject, 15, {animate: false});
-            expect(attribution.innerHTML).to.contain(osmCopyright);
-        });
-    });
-
-    describe('project enter', function() {
-        it('should remove osm copyright', function() {
-            map.setView(latLngCenterNsk, 19, {animate: false});
-            expect(attribution.innerHTML).not.contain(osmCopyright);
         });
     });
 });
