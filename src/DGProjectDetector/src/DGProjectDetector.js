@@ -1,7 +1,6 @@
 DG.ProjectDetector = DG.Handler.extend({
     initialize: function(map) { // (Object)
         this._map = map;
-        this._osmViewport = false;
         this._project = undefined;
         this._loadProjectList();
     },
@@ -52,11 +51,6 @@ DG.ProjectDetector = DG.Handler.extend({
             return;
         }
 
-        if (this._osmViewport === (this._project && this._centerInProject(this._project, 'contains'))) {
-            this._osmViewport = !this._osmViewport;
-            this._map.attributionControl._update(null, this._osmViewport);
-        }
-
         if (this._project && this._zoomInProject(this._project) && this._centerInProject(this._project)) {
             return;
         }
@@ -64,10 +58,7 @@ DG.ProjectDetector = DG.Handler.extend({
         this._searchProject();
 
         if (this._project) {
-            if (this._osmViewport === (this._project && this._centerInProject(this._project, 'contains'))) {
-                this._osmViewport = !this._osmViewport;
-            }
-            this._map.attributionControl._update(null, this._osmViewport, this._project.country_code);
+            this._map.attributionControl._update(null, this._project.country_code);
         }
     },
 
