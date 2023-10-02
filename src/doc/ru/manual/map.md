@@ -1805,7 +1805,7 @@
         <tr id="locate-options-setview">
             <td><code><b>setView</b></code></td>
             <td><code>Boolean </code></td>
-            <td><code>false</code></td>
+            <td><code>true</code></td>
             <td>Если <code>true</code>, то автоматически устанавливает область просмотра карты в
                 точку местоположения пользователя, в соответствии с точностью определения.
                 В случае ошибки поиска, отображаетcя карта мира.

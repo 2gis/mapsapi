@@ -1788,7 +1788,7 @@ This is a plain javascript object with the following optional components:
         <tr id="locate-options-setview">
             <td><code><b>setView</b></code></td>
             <td><code>Boolean </code></td>
-            <td><code>false</code></td>
+            <td><code>true</code></td>
             <td>If <code>true</code>, automatically sets the map view to the user location with respect to
                 detection accuracy, or to world view if geolocation failed.
             </td>
