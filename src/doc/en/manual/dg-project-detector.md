@@ -55,7 +55,7 @@ Subscribe to the projectleave event:
     </thead>
     <tbody>
         <tr>
-            <td>getProjectList</td>
+            <td>getProjectsList</td>
             <td>Object</td>
             <td>Returns all available projects.</td>
         </tr>
