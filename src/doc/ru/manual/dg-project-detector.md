@@ -55,7 +55,7 @@
     </thead>
     <tbody>
         <tr>
-            <td>getProjectList</td>
+            <td>getProjectsList</td>
             <td>Object</td>
             <td>Возвращает все доступные проекты.</td>
         </tr>
