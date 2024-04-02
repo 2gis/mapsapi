@@ -14,11 +14,14 @@ describe('DG.ProjectDetectorUnder', function () {
         mapContainer = document.createElement('div');
 
         start =        new DG.LatLng(54.98117239821992, 82.88922250270844);
+
+        // Где-то где есть проект
         project1 =     new DG.LatLng(54.97902673261798, 82.819265127182);
         project2 =     new DG.LatLng(54.98620210307464, 73.41429233551025);
 
-        desert1 =      new DG.LatLng(55.00, 80.00);
-        desert2 =      new DG.LatLng(61.00, 90.00);
+        // Где-то в лесу, там где нет проекта
+        desert1 =      new DG.LatLng(59.56, 86.32);
+        desert2 =      new DG.LatLng(65.38, 87.39);
 
         document.body.appendChild(mapContainer);
         mapContainer.style.width = 1900 + 'px';
@@ -165,7 +168,7 @@ describe('DG.ProjectDetectorUnder', function () {
             map.setView(project1, 17);
 
             expect(map.setZoomAround(project2, maxZoom)).to.be(map);
-            expect(map.getZoom()).to.be(maxDesertZoom);
+            expect(map.getZoom()).to.be(maxZoom);
         });
 
         it('zoom in the project', function () {
@@ -393,7 +396,6 @@ describe('DG.ProjectDetectorUnder', function () {
     });
 
     describe('#isProjectHere', function () {
-
         it('without params', function () {
             expect(map.projectDetector.isProjectHere()).to.not.be.ok();
         });

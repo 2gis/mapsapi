@@ -8,8 +8,13 @@ describe('DG.ProjectDetectorInit', function () {
 
     before(function () {
         mapContainer = document.createElement('div');
-        project1 = new DG.LatLng(55.00, 83.00);
-        desert1 = new DG.LatLng(55.00, 80.00);
+
+        // Где-то где есть проект
+        project1 = new DG.LatLng(54.97902673261798, 82.819265127182);
+
+        // Где-то в лесу, там где нет проекта
+        desert1 = new DG.LatLng(59.56, 86.32);
+        
         document.body.appendChild(mapContainer);
         mapContainer.style.width = 1900 + 'px';
         mapContainer.style.height = 600 + 'px';

@@ -7,7 +7,7 @@
 
     "trafficLayerMinZoom": 10,
     "trafficLayerUpdateInterval": 300000,
-    "ppLink2gis": "{gislink}/directions/tab/{rsType}/points/{point}?m={center}%2F{zoom}&routeLink=true",
+    "ppLink2gis": "{gislink}/directions/tab/{rsType}/points/|{point}?m={center}%2F{zoom}&routeLink=true",
     "openLink2gis": "{gislink}/?m={center}%2F{zoom}&openLink=true",
     "ppnotLink": "http://2gis.{domain}/{projectCode}/center/{center}/zoom/{zoom}/routeTab/rsType/{rsType}/to/{point}╎{name}",
     "photosLink": "http://2gis.{domain}/photos/{id}",

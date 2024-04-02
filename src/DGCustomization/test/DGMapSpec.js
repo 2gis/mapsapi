@@ -92,11 +92,13 @@ describe('DGMap', function () {
 
     describe('#getBoundsZoom', function () {
         it('should return 16', function () {
-            var sw = DG.latLng(54.97369439559682, 80.59043041467668),
-                ne = DG.latLng(54.97441793550156, 80.59262982606889),
+            // тут должен быть баунд территории, которая не содержить проекта,
+            // при этом такой, что при призуме к нему будет зум > 16
+            var sw = DG.latLng(67.521706581271, 97.5729274749756),
+                ne = DG.latLng(67.52332271114147, 97.57734775543214),
                 b = DG.latLngBounds(sw, ne);
 
-            expect(map.getBoundsZoom(b)).to.be(16);
+            expect(map.getBoundsZoom(b)).to.be(16); // 16 - это максимальный зум карты в месте где нет проекта
         });
     });
 });
