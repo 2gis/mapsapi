@@ -1,6 +1,6 @@
 {
   "name": "2gis-maps",
-  "version": "3.7.3",
+  "version": "3.7.4",
   "description": "Interactive 2GIS maps API, based on Leaflet",
   "license": "SEE LICENSE IN FILE",
   "keywords": [
