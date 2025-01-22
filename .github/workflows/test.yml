@@ -6,6 +6,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set env var to fix PhantomJS
+        run: |
+          echo "OPENSSL_CONF=/tmp/openssl.cnf"
+
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
@@ -17,10 +21,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - name: Set env var to fix PhantomJS
-        run: |
-          echo "OPENSSL_CONF=/tmp/openssl.cnf"
 
       - name: Test ✔️
         run: |
