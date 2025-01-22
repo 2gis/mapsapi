@@ -3,7 +3,7 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: servebox/phantomjs
 
     steps:
       - name: Checkout 🛎️
@@ -17,10 +17,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - name: Set env var to fix PhantomJS
-        run: |
-          echo "OPENSSL_CONF=/etc/ssl"
 
       - name: Test ✔️
         run: |
