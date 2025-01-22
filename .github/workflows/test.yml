@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Set env var to fix PhantomJS
         run: |
-          echo "OPENSSL_CONF=/tmp/openssl.cnf"
+          echo "OPENSSL_CONF=/tmp/openssl.cnf" >> "$GITHUB_ENV"
 
       - name: Checkout 🛎️
         uses: actions/checkout@v2
