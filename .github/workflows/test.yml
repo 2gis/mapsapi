@@ -18,6 +18,10 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Set env var to fix PhantomJS
+        run: |
+          echo "OPENSSL_CONF=/etc/ssl"
+
       - name: Test ✔️
         run: |
           npm ci
