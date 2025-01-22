@@ -78,6 +78,7 @@ require('../../../vendors/baron');
 
             // Monitor popups usage
             // TODO: remove after successful research
+            //
             if (typeof ga !== undefined) {
                 // eslint-disable-next-line no-undef
                 ga(DG.config.gaName + '.send', 'event', 'Popup', 'Use');
