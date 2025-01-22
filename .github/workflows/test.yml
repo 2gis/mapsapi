@@ -3,7 +3,7 @@ on: push
 
 jobs:
   test:
-    runs-on: servebox/phantomjs
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout 🛎️
