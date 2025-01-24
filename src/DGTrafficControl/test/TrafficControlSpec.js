@@ -5,7 +5,7 @@ describe('DG.TrafficControl', function() {
 
         centerNsk = [55.017493, 82.819576],
         centerSpb = [59.937706, 30.13249],
-        centerWithoutProject = [55.363990665081126, 77.81307220458986];
+        centerWithoutProject = [77.81307220458986, 55.363990665081126]; // севернее Новой земли
 
     after(function () {
         controlClass = controlParentActiveClass = controlParentHiddenClass = centerNsk = null;
@@ -179,8 +179,7 @@ describe('DG.TrafficControl', function() {
                 expect(controlParent.className).not.contain(controlParentHiddenClass);
             });
 
-            // TODO: unskip after fixing TILES-7238
-            it.skip('add hide class to control parent element', function (done) {
+            it('add hide class to control parent element', function (done) {
                 var onProjectLeave = function (ev) {
                     map.off('projectleave', onProjectLeave);
                     expect(controlParent.className).to.contain(controlParentHiddenClass);
