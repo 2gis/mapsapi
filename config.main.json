@@ -26,8 +26,6 @@
     "projectLeaveMaxZoom": 16,
     "flampUrl": "http://flamp.ru/r/",
     "flampGoogleAnalytics": "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
-    "gaCode": "UA-38243181-2",
-    "gaName": "mapsapi2gis",
 
     "protocol": "http:",
 
@@ -57,8 +55,6 @@
     "arabicRetinaPoiMetaServer": "//tile{s}.maps.2gis.com/poi?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar",
 
     "webApiServer": "//catalog.api.2gis.ru",
-
-    "googleAnalytics": "https://www.google-analytics.com/analytics.js",
 
     "loadProjectListTimeout": 5000
 }
