@@ -4,14 +4,14 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
 
         var apiUrl = DG.config.protocol +
             DG.config.webApiServer + '/' +
-            DG.config.webApiVersion + '/';
+            DG.config.catalogVersion + '/';
 
-        this._urlGeoSearch = apiUrl + 'geo/search';
-        this._urlGeoGet = apiUrl + 'geo/get';
-        this._urlDetails = apiUrl + 'catalog/branch/get';
-        this._urlFirmsInHouse = apiUrl + 'catalog/branch/list';
+        this._urlGeoSearch = apiUrl + 'items/geocode';
+        this._urlGeoGet = apiUrl + 'items/byid';
+        this._urlDetails = apiUrl + 'items/byid';
+        this._urlFirmsInHouse = apiUrl + 'items';
 
-        this._key = DG.config.geoclickerCatalogApiKey;
+        this._key = this._map.options.key || DG.config.geoclickerCatalogApiKey;
         this._geoFields = DG.config.geoAdditionalFields;
         this._firmInfoFields = DG.config.firmInfoFields;
     },
@@ -135,6 +135,11 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         var result = {}, i, item, found, data, type;
 
         if (this._isNotFound(response)) {
+            if(response.meta.code === 403){
+                console.error(response.meta.error.message);
+                return response
+            }
+
             return false;
         }
 

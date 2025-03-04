@@ -15,14 +15,38 @@ DG.Map.addInitHook(function() {
         }
     });
 
-    var tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
-    var arabicTileUrl = DG.config.protocol +
+    var apiKey = this.options.key;
+
+    this.error = false;
+    const handleTileError = ()=>{
+        var errorMessage = DG.DomUtil.create('div', 'error-message');
+        if(!this.error){
+            errorMessage.innerHTML = 'The key will be a mandatory option soon.. Please contact api@2gis.com to get MapAPI key.';
+            document.body.appendChild(errorMessage);
+            this.error = true;
+        }
+    }
+
+    var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
+    var arabicTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.arabicRetinaTileServer : DG.config.arabicTileServer);
 
-    var previewTileUrl = DG.config.protocol +
+    var previewTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.previewRetinaTileServer : DG.config.previewTileServer);
-    var arabicPreviewTileUrl = DG.config.protocol +
+    var arabicPreviewTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer);
+
+    if(!apiKey){
+        tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServerOldVersion : DG.config.tileServerOldVersion);
+        arabicTileUrl = DG.config.protocol +
+            (DG.Browser.retina ? DG.config.arabicRetinaTileServerOldVersion : DG.config.arabicTileServerOldVersion);
+
+        previewTileUrl = DG.config.protocol +
+            (DG.Browser.retina ? DG.config.previewRetinaTileServerOldVersion : DG.config.previewTileServerOldVersion);
+        arabicPreviewTileUrl = DG.config.protocol +
+            (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServerOldVersion : DG.config.arabicPreviewTileServerOldVersion);
+    }
+
 
     this.baseLayer = new BaseLayer(tileUrl, {
         subdomains: '0123',
@@ -33,6 +57,7 @@ DG.Map.addInitHook(function() {
         zIndex: 0,
         updateWhenIdle: false, // it's okay with preview tiles
         previewUrl: previewTileUrl,
+        key: apiKey,
     });
 
     var currentTilesLang = ''; // 'ar' | ''
@@ -63,6 +88,8 @@ DG.Map.addInitHook(function() {
             }
         }
     }
+
+    this.baseLayer.on('tileerror', handleTileError);
 
     updateTileUrl.call(this);
 

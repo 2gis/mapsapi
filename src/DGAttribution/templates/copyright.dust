@@ -6,6 +6,7 @@
         <li class="dg-attribution__link-item">
             <a href="{copyright_license}" target="_blank" class="dg-attribution__link">{license_agreement}</a>
         </li>
+        <li class="dg-attribution__warning-message">{has_not_key}</li>
     </ul>
     {?logotype}
     <a href="{copyright_logo}" target="_blank" class="dg-attribution__logo-url"></a>
