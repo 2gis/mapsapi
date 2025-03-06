@@ -134,7 +134,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         var result = {}, i, item, found, data, type;
 
         if (this._isNotFound(response)) {
-            if(response.meta.code === 403){
+            if (response.meta.code === 403) {
                 console.error(response.meta.error.message);
                 return response
             }

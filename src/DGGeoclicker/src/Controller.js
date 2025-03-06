@@ -71,13 +71,13 @@ DG.Geoclicker.Controller = DG.Class.extend({
                 latlng: latlng,
                 zoom: zoom,
             }).then(function(result) {
-                    if(!result['meta'] || result['meta']['code'] !== 403){
-                        initShowPopup()
-                    }
+                if (!result['meta'] || result['meta']['code'] !== 403) {
+                    initShowPopup()
+                }
                 self.handleResponse(result);
             }, function(error) {
                 self.handleResponse(error);
-            }).catch((error) => {
+            }).catch(function(error) {
                 console.error(error);
             });
         }

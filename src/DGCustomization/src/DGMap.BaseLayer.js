@@ -18,9 +18,9 @@ DG.Map.addInitHook(function() {
     var apiKey = this.options.key;
 
     this.isErrorWasShown = false;
-    const handleTileError = ()=>{
+    function handleTileError() {
         var errorMessage = DG.DomUtil.create('div', 'error-message');
-        if(!this.isErrorWasShown){
+        if (!this.isErrorWasShown) {
             errorMessage.innerHTML = 'The "key" option will become mandatory soon. Please contact api@2gis.com to get MapAPI key';
             document.body.appendChild(errorMessage);
             this.isErrorWasShown = true;
@@ -36,7 +36,7 @@ DG.Map.addInitHook(function() {
     var arabicPreviewTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer);
 
-    if(!apiKey){
+    if (!apiKey) {
         tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServerOldVersion : DG.config.tileServerOldVersion);
         arabicTileUrl = DG.config.protocol +
             (DG.Browser.retina ? DG.config.arabicRetinaTileServerOldVersion : DG.config.arabicTileServerOldVersion);
