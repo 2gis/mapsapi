@@ -21,7 +21,7 @@ DG.Map.addInitHook(function() {
     const handleTileError = ()=>{
         var errorMessage = DG.DomUtil.create('div', 'error-message');
         if(!this.error){
-            errorMessage.innerHTML = 'The key will be a mandatory option soon.. Please contact api@2gis.com to get MapAPI key.';
+            errorMessage.innerHTML = 'The "key" option will become mandatory soon. Please contact api@2gis.com to get MapAPI key';
             document.body.appendChild(errorMessage);
             this.error = true;
         }
