@@ -206,8 +206,7 @@ DG.Control.Attribution.include({
         return {
             'logotype': isHideButton,
             'work_on': this.t('work_on'),
-            // TODO remove before mrg, this logic need too add before one month day X
-            'has_not_key': this._key ? null : this.t('has_not_key'),
+            'has_no_key': this._key || !DG.config.showNecessaryKeyMessage ? null : this.t('has_no_key'),
             'lang': lang,
             'copyright_apilink': this._getLink('copyright_apilink'),
             'copyright_license': this._getLink('copyright_license'),

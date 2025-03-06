@@ -17,13 +17,13 @@ DG.Map.addInitHook(function() {
 
     var apiKey = this.options.key;
 
-    this.error = false;
+    this.isErrorWasShown = false;
     const handleTileError = ()=>{
         var errorMessage = DG.DomUtil.create('div', 'error-message');
-        if(!this.error){
+        if(!this.isErrorWasShown){
             errorMessage.innerHTML = 'The "key" option will become mandatory soon. Please contact api@2gis.com to get MapAPI key';
             document.body.appendChild(errorMessage);
-            this.error = true;
+            this.isErrorWasShown = true;
         }
     }
 

@@ -69,5 +69,7 @@
 
     "webApiServer": "//catalog.api.2gis.ru",
 
-    "loadProjectListTimeout": 5000
+    "loadProjectListTimeout": 5000,
+
+    "showNecessaryKeyMessage": false
 }
