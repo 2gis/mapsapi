@@ -134,8 +134,8 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         var result = {}, i, item, found, data, type;
 
         if (this._isNotFound(response)) {
-            if (response.meta.code === 403) {
-                console.error(response.meta.error.message);
+            if (response && response.meta && response.meta.code === 403) {
+                console.error('The catalog service is unavailable Please contact api@2gis.com to get the MapAPI key');
                 return response
             }
 

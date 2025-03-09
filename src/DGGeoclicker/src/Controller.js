@@ -70,16 +70,16 @@ DG.Geoclicker.Controller = DG.Class.extend({
             this._catalogApi.getLocations({
                 latlng: latlng,
                 zoom: zoom,
+                beforeRequest: initShowPopup
             }).then(function(result) {
                 if (!result['meta'] || result['meta']['code'] !== 403) {
                     initShowPopup()
                 }
+                self._view._popup._closePopup()
                 self.handleResponse(result);
             }, function(error) {
                 self.handleResponse(error);
-            }).catch(function(error) {
-                console.error(error);
-            });
+            })
         }
     },
 

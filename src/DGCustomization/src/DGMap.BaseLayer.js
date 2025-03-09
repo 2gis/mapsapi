@@ -19,10 +19,20 @@ DG.Map.addInitHook(function() {
 
     this.isErrorWasShown = false;
     function handleTileError() {
-        var errorMessage = DG.DomUtil.create('div', 'error-message');
+        var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
         if (!this.isErrorWasShown) {
-            errorMessage.innerHTML = 'The "key" option will become mandatory soon. Please contact api@2gis.com to get MapAPI key';
-            document.body.appendChild(errorMessage);
+            errorMessage.innerHTML = 'Your MapGL key is invalid. Please contact api@2gis.com to get MapGL key.';
+
+            // Находим элемент с id "map"
+            var mapContainer = document.getElementById('map');
+
+            if (mapContainer) {
+                // Добавляем сообщение внутрь контейнера карты
+                mapContainer.appendChild(errorMessage);
+            } else {
+                console.warn('Map container with id "map" not found.');
+            }
+
             this.isErrorWasShown = true;
         }
     }
@@ -37,14 +47,14 @@ DG.Map.addInitHook(function() {
         (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer);
 
     if (!apiKey) {
-        tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServerOldVersion : DG.config.tileServerOldVersion);
+        tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinatileServerDeprecated : DG.config.tileServerDeprecated);
         arabicTileUrl = DG.config.protocol +
-            (DG.Browser.retina ? DG.config.arabicRetinaTileServerOldVersion : DG.config.arabicTileServerOldVersion);
+            (DG.Browser.retina ? DG.config.arabicRetinatileServerDeprecated : DG.config.arabictileServerDeprecated);
 
         previewTileUrl = DG.config.protocol +
-            (DG.Browser.retina ? DG.config.previewRetinaTileServerOldVersion : DG.config.previewTileServerOldVersion);
+            (DG.Browser.retina ? DG.config.previewRetinatileServerDeprecated : DG.config.previewtileServerDeprecated);
         arabicPreviewTileUrl = DG.config.protocol +
-            (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServerOldVersion : DG.config.arabicPreviewTileServerOldVersion);
+            (DG.Browser.retina ? DG.config.arabicPreviewRetinatileServerDeprecated : DG.config.arabicPreviewtileServerDeprecated);
     }
 
 

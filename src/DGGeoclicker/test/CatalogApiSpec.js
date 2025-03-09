@@ -12,7 +12,9 @@ describe('DG.Geoclicker.Provider.CatalogApi', function () {
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.98117239821992, 82.88922250270844),
-            zoom: 17
+            zoom: 17,
+            // TODO need special test key
+            key: 'ruregt3044'
         });
         catalogApi = new DG.Geoclicker.Provider.CatalogApi(map);
         spy =  sinon.spy(catalogApi, "getTypesByZoom");
@@ -44,11 +46,11 @@ describe('DG.Geoclicker.Provider.CatalogApi', function () {
                     12: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district',
                     13: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district',
                     14: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building',
-                    15: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi',
-                    16: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi',
-                    17: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi,attraction',
-                    18: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi,attraction',
-                    19: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,poi,attraction'
+                    15: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place',
+                    16: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place',
+                    17: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,attraction',
+                    18: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,attraction',
+                    19: 'adm_div.settlement,adm_div.city,adm_div.division,adm_div.district,street,building,adm_div.place,attraction'
                 },
                 zoom;
 

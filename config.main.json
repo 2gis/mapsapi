@@ -33,15 +33,15 @@
 
     "baseUrl": "",
 
-    "tileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd",
-    "retinaTileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd",
-    "previewTileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd",
-    "previewRetinaTileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd",
+    "tileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd",
+    "retinatileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd",
+    "previewtileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd",
+    "previewRetinatileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd",
 
-    "arabicTileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar",
-    "arabicRetinaTileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar",
-    "arabicPreviewTileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd_ar",
-    "arabicPreviewRetinaTileServerOldVersion": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd_ar",
+    "arabictileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar",
+    "arabicRetinatileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar",
+    "arabicPreviewtileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd_ar",
+    "arabicPreviewRetinatileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd_ar",
 
 
     "tileServer": "//tileserver.web-staging.2gis.ru/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd&key={key}",

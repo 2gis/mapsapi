@@ -98,15 +98,15 @@ describe('DG.Geoclicker advance tests', function () {
             it('should send request', function() {
                 clock.tick(300);
                 expect(requests.some(function (request) {
-                    return request.url.indexOf('geo/search') !== -1;
+                    return request.url.indexOf('items/geocode') !== -1;
                 })).to.be(true);
             });
 
-            it('should request url contain lat and lng', function() {
+                it('should request url contain lat and lng', function() {
                 var geoSearchRequstUrl = '';
 
                 requests.forEach(function (request) {
-                    if (request.url.indexOf('geo/search') !== -1) {
+                    if (request.url.indexOf('items/geocode') !== -1) {
                         geoSearchRequstUrl = request.url;
                     }
                 });
