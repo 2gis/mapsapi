@@ -35,6 +35,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
 
         this._renderHandlerResult = DG.bind(this._renderHandlerResult, this);
         this._lastHandleClickArguments = null;
+        this._hasCatalogKey = false;
     },
 
     handlePopupClose: function(popup) { // (Object)
@@ -70,12 +71,14 @@ DG.Geoclicker.Controller = DG.Class.extend({
             this._catalogApi.getLocations({
                 latlng: latlng,
                 zoom: zoom,
-                beforeRequest: initShowPopup
+                beforeRequest: initShowPopup,
+                hasCatalogKey: this._hasCatalogKey,
             }).then(function(result) {
                 if (!result['meta'] || result['meta']['code'] !== 403) {
-                    initShowPopup()
+                    initShowPopup();
+                    self._hasCatalogKey = true;
                 }
-                self._view._popup._closePopup()
+
                 self.handleResponse(result);
             }, function(error) {
                 self.handleResponse(error);

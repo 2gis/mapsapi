@@ -20,6 +20,7 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
         // Callback will receive array of found results or void if errors occurred or nothing was found.
         var zoom = options.zoom,
             latlng = options.latlng,
+            hasCatalogKey = options.hasCatalogKey,
             beforeRequest = options.beforeRequest || function() {},
             types = this.getTypesByZoom(zoom),
             q = latlng.lng + ',' + latlng.lat;
@@ -28,7 +29,9 @@ DG.Geoclicker.Provider.CatalogApi = DG.Class.extend({
             return Promise.reject('no type');
         }
 
-        beforeRequest();
+        if (hasCatalogKey) {
+            beforeRequest();
+        }
 
         return this.geoSearch(q, types, zoom).then(DG.bind(function(result) {
             return this._filterResponse(result, types);

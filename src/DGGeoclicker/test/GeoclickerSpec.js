@@ -87,6 +87,7 @@ describe('DG.Geoclicker advance tests', function () {
                 xhr.onCreate = function (req) { requests.push(req); };
 
                 map.fire('click', {latlng: latlng});
+                map.geoclicker.getController()._hasCatalogKey = true;
             });
 
             after(function () {
