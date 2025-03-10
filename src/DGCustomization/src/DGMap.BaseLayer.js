@@ -23,11 +23,9 @@ DG.Map.addInitHook(function() {
         if (!this.isErrorWasShown) {
             errorMessage.innerHTML = 'Your MapGL key is invalid. Please contact api@2gis.com to get MapGL key.';
 
-            // Находим элемент с id "map"
             var mapContainer = document.getElementById('map');
 
             if (mapContainer) {
-                // Добавляем сообщение внутрь контейнера карты
                 mapContainer.appendChild(errorMessage);
             } else {
                 console.warn('Map container with id "map" not found.');
