@@ -82,7 +82,7 @@ DG.Geoclicker.Controller = DG.Class.extend({
                 self.handleResponse(result);
             }, function(error) {
                 self.handleResponse(error);
-            })
+            });
         }
     },
 
