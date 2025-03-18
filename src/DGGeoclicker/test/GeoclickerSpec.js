@@ -35,7 +35,8 @@ describe('DG.Geoclicker', function () {
         it('should be active by default', function () {
             map = new DG.Map(mapContainer, {
                 center: new DG.LatLng(54.98117239821992, 82.88922250270844),
-                zoom: 17
+                zoom: 17,
+                key: process.env.MY_SECRET_KEY,
             });
 
             expect(map.geoclicker.enabled()).to.be.equal(true);
@@ -52,10 +53,13 @@ describe('DG.Geoclicker advance tests', function () {
         mapContainer = document.createElement('div');
         document.body.appendChild(mapContainer);
 
+        console.log('TEST_SECRET_KEY',process);
+
         map = new DG.Map(mapContainer, {
             center: [55.017493, 82.819576],
             zoom: 15,
-            geoclicker: true
+            geoclicker: true,
+            key: process.env.MY_SECRET_KEY,
         });
     });
 
