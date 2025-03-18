@@ -31,7 +31,7 @@
     "protocol": "http:",
     "secureProtocol": "https:",
 
-    "baseUrl": "",
+    "baseUrl": "//maps.api.2gis.ru/2.0",
 
     "tileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd",
     "retinatileServerDeprecated": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd",
