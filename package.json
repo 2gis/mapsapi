@@ -23,6 +23,7 @@
     "main": "dist/js/script.full.js",
     "dependencies": {
         "cors": "^2.7.1",
+        "dotenv": "^16.4.7",
         "dustjs-helpers": "1.7.3",
         "dustjs-linkedin": "3.0.1",
         "express": "^4.13.4",

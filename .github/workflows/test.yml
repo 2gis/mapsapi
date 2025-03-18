@@ -25,7 +25,7 @@ jobs:
 
       - name: Test ✔️
         env:
-          MY_SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
+          MY_SECRET_KEY: ${{ secrets.TEST_SECRET_KEY }}
         run: |
           npm ci
           npm test
