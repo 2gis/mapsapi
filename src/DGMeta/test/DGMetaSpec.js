@@ -9,6 +9,7 @@ describe.skip('DGMeta', function () {
         map = new DG.Map(div, {
             center : new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 17,
+            key: window.__karma__.config.secretKey,
         });
 
         demoData = [{
