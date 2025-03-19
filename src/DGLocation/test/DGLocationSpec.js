@@ -14,6 +14,7 @@ describe('DG.Location', function () {
             center: [55.017493, 82.819576],
             zoom: 15,
             locationControl: true,
+            key: window.__karma__.config.secretKey,
         });
         control = DG.control.location();
 
