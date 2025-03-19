@@ -42,7 +42,6 @@ describe('DG.Wkt', function() {
             map = new DG.Map(document.createElement('div'), {
                 center: [55.017493, 82.819576],
                 zoom: 15,
-                key: window.__karma__.config.secretKey
             });
         });
 

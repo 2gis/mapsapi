@@ -8,7 +8,6 @@ describe('DG Locale Module', function () {
             center : new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 10,
             fullScreenControl: false,
-            key: window.__karma__.config.secretKey
         });
 		getLangSpy = sinon.spy(map, 'getLang');
 		setLangSpy = sinon.spy(map, 'setLang');

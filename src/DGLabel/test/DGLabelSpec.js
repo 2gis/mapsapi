@@ -10,7 +10,6 @@ describe('DG.Label', function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(69.349552990994837, 87.75222519148015),
             zoom: 17,
-            key: window.__karma__.config.secretKey
         });
     });
 

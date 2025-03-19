@@ -11,7 +11,6 @@ describe('DG.traffic', function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.980156831455, 82.897440725094),
             zoom: 17,
-            key: window.__karma__.config.secretKey
         });
         xhr = sinon.useFakeXMLHttpRequest();
         requests = [];

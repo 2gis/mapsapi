@@ -19,7 +19,6 @@ describe('DG.Control.Attribution', function() {
         map = new DG.Map(mapContainer, {
             center: latLngCenterNsk,
             zoom: 15,
-            key: window.__karma__.config.secretKey
         });
         attribution = mapContainer.getElementsByClassName('dg-attribution')[0];
     });

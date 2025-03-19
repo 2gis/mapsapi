@@ -24,7 +24,6 @@ describe('DG.TrafficControl', function() {
             map = new DG.Map(mapContainer, {
                 center: centerSpb,
                 zoom: 15,
-                key: window.__karma__.config.secretKey
             });
 
             control = mapContainer.getElementsByClassName(controlClass);
@@ -155,7 +154,6 @@ describe('DG.TrafficControl', function() {
             map = new DG.Map(mapContainer, {
                 center: centerSpb,
                 zoom: 15,
-                key: window.__karma__.config.secretKey
             });
 
             trafficControl = DG.control.traffic();
