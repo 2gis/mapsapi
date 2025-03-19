@@ -11,8 +11,7 @@ describe.skip('DG.FullScreen', function () {
             center: [54.98117239821992, 82.88922250270844],
             'zoom': 17,
             'geoclicker': true,
-            'zoomAnimation': false,
-            key: window.__karma__.config.secretKey
+            'zoomAnimation': false
         });
 
         classControl = 'dg-control-round__icon_name_fullscreen';

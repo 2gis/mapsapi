@@ -37,8 +37,7 @@ describe('DG.ProjectDetectorInit', function () {
                 center: project1,
                 'zoom': 19,
                 'geoclicker': true,
-                'zoomAnimation': false,
-                key: window.__karma__.config.secretKey
+                'zoomAnimation': false
             });
             expect(map.getZoom()).to.be.equal(maxZoom);
         });
@@ -48,8 +47,7 @@ describe('DG.ProjectDetectorInit', function () {
                 center: desert1,
                 'zoom': 19,
                 'geoclicker': true,
-                'zoomAnimation': false,
-                key: window.__karma__.config.secretKey
+                'zoomAnimation': false
             });
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
@@ -60,8 +58,7 @@ describe('DG.ProjectDetectorInit', function () {
                 'zoom': 19,
                 'maxZoom': 15,
                 'geoclicker': true,
-                'zoomAnimation': false,
-                key: window.__karma__.config.secretKey
+                'zoomAnimation': false
             });
             expect(map.getZoom()).to.be.equal(15);
         });
@@ -72,8 +69,7 @@ describe('DG.ProjectDetectorInit', function () {
                 'zoom': 19,
                 'maxZoom': 15,
                 'geoclicker': true,
-                'zoomAnimation': false,
-                key: window.__karma__.config.secretKey
+                'zoomAnimation': false
             });
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
