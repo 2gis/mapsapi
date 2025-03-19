@@ -14,7 +14,8 @@ describe('DG.Geoclicker.Controller', function () {
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.98117239821992, 82.88922250270844),
-            zoom: initZoom
+            zoom: initZoom,
+            key: window.__karma__.config.secretKey
         });
         controller = map.geoclicker.getController();
     });

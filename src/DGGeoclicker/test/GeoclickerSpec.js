@@ -33,7 +33,6 @@ describe('DG.Geoclicker', function () {
         });
 
         it('should be active by default', function () {
-            console.log('TEST',window.__karma__.config,'secretKey',window.__karma__.config.secretKey,'client',window.__karma__.config.client)
             map = new DG.Map(mapContainer, {
                 center: new DG.LatLng(54.98117239821992, 82.88922250270844),
                 zoom: 17,

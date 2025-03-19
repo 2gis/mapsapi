@@ -14,7 +14,7 @@ describe('DG.ProjectDetectorInit', function () {
 
         // Где-то в лесу, там где нет проекта
         desert1 = new DG.LatLng(59.56, 86.32);
-        
+
         document.body.appendChild(mapContainer);
         mapContainer.style.width = 1900 + 'px';
         mapContainer.style.height = 600 + 'px';
@@ -37,7 +37,8 @@ describe('DG.ProjectDetectorInit', function () {
                 center: project1,
                 'zoom': 19,
                 'geoclicker': true,
-                'zoomAnimation': false
+                'zoomAnimation': false,
+                key: window.__karma__.config.secretKey
             });
             expect(map.getZoom()).to.be.equal(maxZoom);
         });
@@ -47,7 +48,8 @@ describe('DG.ProjectDetectorInit', function () {
                 center: desert1,
                 'zoom': 19,
                 'geoclicker': true,
-                'zoomAnimation': false
+                'zoomAnimation': false,
+                key: window.__karma__.config.secretKey
             });
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
@@ -58,7 +60,8 @@ describe('DG.ProjectDetectorInit', function () {
                 'zoom': 19,
                 'maxZoom': 15,
                 'geoclicker': true,
-                'zoomAnimation': false
+                'zoomAnimation': false,
+                key: window.__karma__.config.secretKey
             });
             expect(map.getZoom()).to.be.equal(15);
         });
@@ -69,7 +72,8 @@ describe('DG.ProjectDetectorInit', function () {
                 'zoom': 19,
                 'maxZoom': 15,
                 'geoclicker': true,
-                'zoomAnimation': false
+                'zoomAnimation': false,
+                key: window.__karma__.config.secretKey
             });
             expect(map.getZoom()).to.be.equal(maxDesertZoom);
         });
