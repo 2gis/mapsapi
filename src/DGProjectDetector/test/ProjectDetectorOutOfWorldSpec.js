@@ -21,7 +21,7 @@ describe('DG.ProjectDetectorOut', function () {
 
         // Где-то в лесу, там где нет проекта
         desert1 =      new DG.LatLng(59.56, 360 + 86.32);
-        desert2 =      new DG.LatLng(65.38, 360 + 87.39);      
+        desert2 =      new DG.LatLng(65.38, 360 + 87.39);
 
         document.body.appendChild(mapContainer);
         mapContainer.style.width = 1900 + 'px';
@@ -37,6 +37,7 @@ describe('DG.ProjectDetectorOut', function () {
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: start,
+            key: window.__karma__.config.secretKey,
             'zoom': initZoom,
             'geoclicker': true,
             'zoomAnimation': false

@@ -37,6 +37,7 @@ describe('DG.ProjectDetectorUnder', function () {
     beforeEach(function () {
         map = new DG.Map(mapContainer, {
             center: start,
+            key: window.__karma__.config.secretKey,
             'zoom': initZoom,
             'geoclicker': true,
             'zoomAnimation': false
