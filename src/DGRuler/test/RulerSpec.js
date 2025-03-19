@@ -19,6 +19,7 @@ describe('DG.Ruler', function () {
         map = new DG.Map(document.createElement('div'), {
             center: new DG.LatLng(51.7302800, 36.1938900),
             zoom: 17,
+            key: window.__karma__.config.secretKey,
         });
         ruler = DG.ruler();
         map.addLayer(ruler);
