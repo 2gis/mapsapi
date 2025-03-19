@@ -13,6 +13,7 @@ describe('DG.Geoclicker.Provider.CatalogApi', function () {
         map = new DG.Map(mapContainer, {
             center: new DG.LatLng(54.98117239821992, 82.88922250270844),
             zoom: 17,
+            key: window.__karma__.config.secretKey,
         });
         catalogApi = new DG.Geoclicker.Provider.CatalogApi(map);
         spy =  sinon.spy(catalogApi, "getTypesByZoom");
