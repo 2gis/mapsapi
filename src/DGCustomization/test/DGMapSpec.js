@@ -11,6 +11,7 @@ describe('DGMap', function () {
         map = new DG.Map(mapContainer, {
             center: center,
             zoom: 15,
+            key: window.__karma__.config.secretKey,
         });
         document.body.appendChild(mapContainer);
         map.setLang('ru');

@@ -7,6 +7,7 @@ describe('DGCustomization', function() {
         map = new DG.Map(mapContainer, {
             center: [54.980206086231, 82.898068362003],
             zoom: 15,
+            key: window.__karma__.config.secretKey,
         });
 
         document.body.appendChild(mapContainer);
