@@ -44,18 +44,6 @@ DG.Map.addInitHook(function() {
     var arabicPreviewTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer);
 
-    if (!apiKey) {
-        tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinatileServerDeprecated : DG.config.tileServerDeprecated);
-        arabicTileUrl = DG.config.protocol +
-            (DG.Browser.retina ? DG.config.arabicRetinatileServerDeprecated : DG.config.arabictileServerDeprecated);
-
-        previewTileUrl = DG.config.protocol +
-            (DG.Browser.retina ? DG.config.previewRetinatileServerDeprecated : DG.config.previewtileServerDeprecated);
-        arabicPreviewTileUrl = DG.config.protocol +
-            (DG.Browser.retina ? DG.config.arabicPreviewRetinatileServerDeprecated : DG.config.arabicPreviewtileServerDeprecated);
-    }
-
-
     this.baseLayer = new BaseLayer(tileUrl, {
         subdomains: '0123',
         errorTileUrl: this.getLang() === 'ru' ? errorRuUrl : errorUrl,
