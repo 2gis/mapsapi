@@ -21,7 +21,7 @@ DG.Map.addInitHook(function() {
     function handleTileError() {
         var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
         if (!this.isErrorWasShown) {
-            errorMessage.innerHTML = 'Your MapAPI key is invalid. Please contact api@2gis.com to get MapAPI key.';
+            errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
 
             var mapContainer = document.getElementById('map');
 
