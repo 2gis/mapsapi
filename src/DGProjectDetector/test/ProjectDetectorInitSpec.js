@@ -14,7 +14,7 @@ describe('DG.ProjectDetectorInit', function () {
 
         // Где-то в лесу, там где нет проекта
         desert1 = new DG.LatLng(59.56, 86.32);
-        
+
         document.body.appendChild(mapContainer);
         mapContainer.style.width = 1900 + 'px';
         mapContainer.style.height = 600 + 'px';
@@ -35,6 +35,7 @@ describe('DG.ProjectDetectorInit', function () {
         it('in project', function () {
             map = new DG.Map(mapContainer, {
                 center: project1,
+                key: window.__karma__.config.secretKey,
                 'zoom': 19,
                 'geoclicker': true,
                 'zoomAnimation': false
@@ -45,6 +46,7 @@ describe('DG.ProjectDetectorInit', function () {
         it('in desert', function () {
             map = new DG.Map(mapContainer, {
                 center: desert1,
+                key: window.__karma__.config.secretKey,
                 'zoom': 19,
                 'geoclicker': true,
                 'zoomAnimation': false
@@ -55,6 +57,7 @@ describe('DG.ProjectDetectorInit', function () {
         it('in project with max zoom', function () {
             map = new DG.Map(mapContainer, {
                 center: project1,
+                key: window.__karma__.config.secretKey,
                 'zoom': 19,
                 'maxZoom': 15,
                 'geoclicker': true,
@@ -66,6 +69,7 @@ describe('DG.ProjectDetectorInit', function () {
         it('in desert with max zoom', function () {
             map = new DG.Map(mapContainer, {
                 center: desert1,
+                key: window.__karma__.config.secretKey,
                 'zoom': 19,
                 'maxZoom': 15,
                 'geoclicker': true,

@@ -18,6 +18,7 @@
 
     "webApiKey": "ruregt3044",
     "webApiVersion": "2.0",
+    "catalogVersion": "3.0",
 
     "regionListFields": "items.bounds,items.zoom_level,items.time_zone,items.code,items.flags,items.country_code,items.domain,items.default_pos",
     "firmInfoFields": "items.reviews,items.links,items.external_content",
@@ -28,18 +29,19 @@
     "flampGoogleAnalytics": "utm_source=api2gis&utm_medium=api&utm_campaign=geoclicker",
 
     "protocol": "http:",
+    "secureProtocol": "https:",
 
     "baseUrl": "//maps.api.2gis.ru/2.0",
 
-    "tileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd",
-    "retinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd",
-    "previewTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd",
-    "previewRetinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd",
+    "tileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd&key={key}",
+    "retinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd&key={key}",
+    "previewTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd&key={key}",
+    "previewRetinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd&key={key}",
 
-    "arabicTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar",
-    "arabicRetinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar",
-    "arabicPreviewTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd_ar",
-    "arabicPreviewRetinaTileServer": "//tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd_ar",
+    "arabicTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar&key={key}",
+    "arabicRetinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar&key={key}",
+    "arabicPreviewTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd_ar&key={key}",
+    "arabicPreviewRetinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd_ar&key={key}",
 
     "trafficTileServer": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
     "retinaTrafficTileServer": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/retina/{timestampString}",

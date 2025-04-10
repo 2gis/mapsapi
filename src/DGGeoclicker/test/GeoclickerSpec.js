@@ -24,7 +24,8 @@ describe('DG.Geoclicker', function () {
 
             map = new DG.Map(mapContainer, {
                 center: new DG.LatLng(54.98117239821992, 82.88922250270844),
-                zoom: 17
+                zoom: 17,
+                key: window.__karma__.config.secretKey,
             });
 
             expect(map.geoclicker.enabled()).to.be.equal(false);
@@ -35,7 +36,8 @@ describe('DG.Geoclicker', function () {
         it('should be active by default', function () {
             map = new DG.Map(mapContainer, {
                 center: new DG.LatLng(54.98117239821992, 82.88922250270844),
-                zoom: 17
+                zoom: 17,
+                key: window.__karma__.config.secretKey,
             });
 
             expect(map.geoclicker.enabled()).to.be.equal(true);
@@ -55,7 +57,8 @@ describe('DG.Geoclicker advance tests', function () {
         map = new DG.Map(mapContainer, {
             center: [55.017493, 82.819576],
             zoom: 15,
-            geoclicker: true
+            geoclicker: true,
+            key: window.__karma__.config.secretKey,
         });
     });
 
@@ -87,6 +90,7 @@ describe('DG.Geoclicker advance tests', function () {
                 xhr.onCreate = function (req) { requests.push(req); };
 
                 map.fire('click', {latlng: latlng});
+                map.geoclicker.getController()._hasCatalogKey = true;
             });
 
             after(function () {
@@ -98,15 +102,15 @@ describe('DG.Geoclicker advance tests', function () {
             it('should send request', function() {
                 clock.tick(300);
                 expect(requests.some(function (request) {
-                    return request.url.indexOf('geo/search') !== -1;
+                    return request.url.indexOf('items/geocode') !== -1;
                 })).to.be(true);
             });
 
-            it('should request url contain lat and lng', function() {
+                it('should request url contain lat and lng', function() {
                 var geoSearchRequstUrl = '';
 
                 requests.forEach(function (request) {
-                    if (request.url.indexOf('geo/search') !== -1) {
+                    if (request.url.indexOf('items/geocode') !== -1) {
                         geoSearchRequstUrl = request.url;
                     }
                 });

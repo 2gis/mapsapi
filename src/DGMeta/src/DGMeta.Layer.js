@@ -121,6 +121,7 @@ DG.Meta.Layer = DG.Layer.extend({
 
         tileCoord.z = this._getZoomForUrl();
         tileCoord.key = tileSize.x + 'x' + tileSize.y;
+        tileCoord.apiKey = self._map.options.key;
         tileKey = this._origin.getTileKey(tileCoord);
 
         if (tileKey === this._currentTileKey) {

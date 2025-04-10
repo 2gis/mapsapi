@@ -1,6 +1,6 @@
 {
   "name": "2gis-maps",
-  "version": "3.7.5",
+  "version": "4.0.0",
   "description": "Interactive 2GIS maps API, based on Leaflet",
   "license": "SEE LICENSE IN FILE",
   "keywords": [
@@ -23,6 +23,7 @@
   "main": "dist/js/script.full.js",
   "dependencies": {
     "cors": "^2.7.1",
+    "dotenv": "^8.6.0",
     "dustjs-helpers": "1.7.3",
     "dustjs-linkedin": "3.0.1",
     "express": "^4.13.4",

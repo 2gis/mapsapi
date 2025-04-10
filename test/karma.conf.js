@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = function(config) {
     config.set({
         basePath: '../',
@@ -8,7 +9,8 @@ module.exports = function(config) {
             captureConsole: true,
             mocha: {
                 timeout: 480000
-            }
+            },
+            secretKey: process.env.TEST_SECRET_KEY || 'default_secret_key'
         },
 
         // use dots reporter, as travis terminal does not support escaping sequences

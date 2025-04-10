@@ -10,7 +10,8 @@ describe('DGMap', function () {
         mapContainer = document.createElement('div');
         map = new DG.Map(mapContainer, {
             center: center,
-            zoom: 15
+            zoom: 15,
+            key: window.__karma__.config.secretKey,
         });
         document.body.appendChild(mapContainer);
         map.setLang('ru');

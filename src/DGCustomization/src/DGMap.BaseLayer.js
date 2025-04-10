@@ -15,13 +15,33 @@ DG.Map.addInitHook(function() {
         }
     });
 
-    var tileUrl = DG.config.protocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
-    var arabicTileUrl = DG.config.protocol +
+    var apiKey = this.options.key;
+
+    this.isErrorWasShown = false;
+    function handleTileError() {
+        var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
+        if (!this.isErrorWasShown) {
+            errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
+
+            var mapContainer = document.getElementById('map');
+
+            if (mapContainer) {
+                mapContainer.appendChild(errorMessage);
+            } else {
+                console.warn('Map container with id "map" not found.');
+            }
+
+            this.isErrorWasShown = true;
+        }
+    }
+
+    var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
+    var arabicTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.arabicRetinaTileServer : DG.config.arabicTileServer);
 
-    var previewTileUrl = DG.config.protocol +
+    var previewTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.previewRetinaTileServer : DG.config.previewTileServer);
-    var arabicPreviewTileUrl = DG.config.protocol +
+    var arabicPreviewTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer);
 
     this.baseLayer = new BaseLayer(tileUrl, {
@@ -33,6 +53,7 @@ DG.Map.addInitHook(function() {
         zIndex: 0,
         updateWhenIdle: false, // it's okay with preview tiles
         previewUrl: previewTileUrl,
+        key: apiKey,
     });
 
     var currentTilesLang = ''; // 'ar' | ''
@@ -63,6 +84,8 @@ DG.Map.addInitHook(function() {
             }
         }
     }
+
+    this.baseLayer.on('tileerror', handleTileError);
 
     updateTileUrl.call(this);
 

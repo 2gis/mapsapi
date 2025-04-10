@@ -105,7 +105,8 @@ DG.Meta.Origin = DG.Class.extend({
             x: coords.x,
             y: coords.y,
             z: coords.z,
-            s: this._getSubdomain(coords)
+            s: this._getSubdomain(coords),
+            key: coords.apiKey
         });
     },
 

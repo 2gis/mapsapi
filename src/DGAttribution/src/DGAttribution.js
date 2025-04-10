@@ -1,10 +1,10 @@
 /**
  * Компонент отвечающий за копирайт на карте. В нем выводяться различные ссылки плюс логотип или кнопка.
- * 
+ *
  * 1. Если в опциях карты передан logotype: true то будет логотип 2GIS
  * 2. Если на карте нет маркеров, то будет кнопка "Открыть в 2ГИС" и ссылка на 2ГИС (openLink2gis config.main.json)
  * 3. Если на карте есть 1 маркер, то будет кнопка "Доехать с 2ГИС" и ссылка на 2ГИС с параметрами для построения маршрута до этого маркера (ppLink2gis config.main.json)
- * 
+ *
  * Компонент подписывается на события добавления и удаления слоев в карте, метод _mapEvents).
  * Если добавляется/удаляется маркер, то он добавляется/удаляется в массив _markers,
  * а затем первый маркер из этого массива сохраняется в _markerToRoute.
@@ -111,6 +111,7 @@ DG.Control.Attribution.include({
             map._copyright = true;
             this._first = true;
         }
+        this._key = map.options.key;
         this._logotype = map.options.logotype;
         this._open2gis = this._getLink('open_link')
 
@@ -205,6 +206,7 @@ DG.Control.Attribution.include({
         return {
             'logotype': isHideButton,
             'work_on': this.t('work_on'),
+            'has_no_key': this._key ? null : this.t('has_no_key'),
             'lang': lang,
             'copyright_apilink': this._getLink('copyright_apilink'),
             'copyright_license': this._getLink('copyright_license'),

@@ -9,6 +9,7 @@ describe.skip('DG.FullScreen', function () {
 
         map = new DG.Map(mapContainer, {
             center: [54.98117239821992, 82.88922250270844],
+            key: window.__karma__.config.secretKey,
             'zoom': 17,
             'geoclicker': true,
             'zoomAnimation': false
