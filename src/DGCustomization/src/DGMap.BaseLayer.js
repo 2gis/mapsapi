@@ -15,7 +15,7 @@ DG.Map.addInitHook(function() {
         }
     });
 
-    var apiKey = this.options.key;
+    var apiKey = this.options.key || DG.config.key;
 
     this.isErrorWasShown = false;
     function handleTileError() {

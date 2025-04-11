@@ -32,6 +32,7 @@
     "secureProtocol": "https:",
 
     "baseUrl": "//maps.api.2gis.ru/2.0",
+    "key": "",
 
     "tileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd&key={key}",
     "retinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd&key={key}",
