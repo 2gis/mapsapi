@@ -28,7 +28,7 @@
             worldCopyJump: true,
             zoomControl: false,
             fullscreenControl: false,
-            key: DG.config.key,
+            key: DG.config.key || 'Your API access key',
         };
         var query = parseQuery();
         var map = window.map = DG.map('map', getMapOptions(query, options));
