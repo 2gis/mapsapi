@@ -111,7 +111,7 @@ DG.Control.Attribution.include({
             map._copyright = true;
             this._first = true;
         }
-        this._key = map.options.key;
+        this._key = map.options.key || DG.config.key;
         this._logotype = map.options.logotype;
         this._open2gis = this._getLink('open_link')
 
