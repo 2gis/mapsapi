@@ -6,7 +6,8 @@ DG.ApiKeyValidator = DG.Class.extend({
         this.attempts = 0;
         this.lastTimeout = undefined;
         this.request = null;
-        this.keyRequestInterval = [0];
+        this.MAX_ATTEMPTS = 4;
+        this.keyRequestInterval = [0, 2, 2, 2];
     },
 
     validate: function(callback) {
@@ -60,7 +61,7 @@ DG.ApiKeyValidator = DG.Class.extend({
     _handleError: function(callback) {
         this.attempts++;
 
-        if (this.attempts < this._getMaxAttempts()) {
+        if (this.attempts < this.MAX_ATTEMPTS) {
             this._makeAttempt(callback);
         } else {
             this.isLoading = false;
@@ -71,10 +72,6 @@ DG.ApiKeyValidator = DG.Class.extend({
                 },
             });
         }
-    },
-
-    _getMaxAttempts: function() {
-        return 4;
     },
 
     _clearLastTimeout: function() {
