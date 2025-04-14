@@ -1,12 +1,12 @@
 DG.ApiKeyValidator = DG.Class.extend({
     initialize: function(apiKey) {
         this.apiKey = apiKey;
-        this.endpoint = 'https://keys.api.2gis.com/public/v1/keys/' + apiKey + '/services/mapgl-js-api';
+        this.endpoint = DG.config.keyServer + apiKey + DG.config.keyServices;
         this.isLoading = false;
         this.attempts = 0;
         this.lastTimeout = undefined;
         this.request = null;
-        this.keyRequestInterval = [0, 2, 4, 16];
+        this.keyRequestInterval = [0];
     },
 
     validate: function(callback) {
@@ -64,10 +64,9 @@ DG.ApiKeyValidator = DG.Class.extend({
             this._makeAttempt(callback);
         } else {
             this.isLoading = false;
-            console.error('Could not validate API key after multiple attempts');
             callback({
                 meta: {
-                    code: 500,
+                    code: 400,
                     message: 'Failed to validate API key'
                 },
             });
@@ -84,4 +83,9 @@ DG.ApiKeyValidator = DG.Class.extend({
             this.lastTimeout = undefined;
         }
     },
+
+    destroy: function() {
+        this._clearLastTimeout();
+        this.isLoading = false;
+    }
 });

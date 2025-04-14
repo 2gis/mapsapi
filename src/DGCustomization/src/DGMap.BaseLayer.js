@@ -35,6 +35,20 @@ DG.Map.addInitHook(function() {
         }
     }
 
+    var validator = new DG.ApiKeyValidator(apiKey);
+    validator.validate(function(response) {
+        // TODO пока на 400 ошибку (пользователь без ключа) не показываем ошибку (на релизе уже показываем)
+        if (response.meta.code === 500 || !response.result) {
+            return;
+        }
+
+
+        // TODO статус код может быть throttling или blocked
+        if (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok') {
+            handleTileError.call(this);
+        }
+    });
+
     var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
     var arabicTileUrl = DG.config.secureProtocol +
         (DG.Browser.retina ? DG.config.arabicRetinaTileServer : DG.config.arabicTileServer);
@@ -84,13 +98,6 @@ DG.Map.addInitHook(function() {
             }
         }
     }
-
-    var validator = new DG.ApiKeyValidator(apiKey);
-    validator.validate(function(response) {
-        if (response.meta.code === 403) {
-            handleTileError.call(this);
-        }
-    });
 
     updateTileUrl.call(this);
 
