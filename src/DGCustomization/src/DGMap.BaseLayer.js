@@ -38,7 +38,7 @@ DG.Map.addInitHook(function() {
     var validator = new DG.ApiKeyValidator(apiKey);
     validator.validate(function(response) {
         // TODO пока на 400 ошибку (пользователь без ключа) не показываем ошибку (на релизе уже показываем)
-        if (response.meta.code === 500 || !response.result) {
+        if (response.meta.code === 400 || !response.result) {
             return;
         }
 
