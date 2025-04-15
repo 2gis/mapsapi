@@ -35,7 +35,7 @@
     "key": "",
 
     "keyServer": "https://keys.api.2gis.com/public/v1/keys/",
-    "keyServices": "/services/mapgl-js-api",
+    "keyServices": "/services/tiles-raster-api",
 
     "tileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd&key={key}",
     "retinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd&key={key}",
