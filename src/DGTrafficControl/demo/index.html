@@ -15,7 +15,8 @@
         DG.then(function () {
             map = new DG.Map('map', {
                 'center': new DG.LatLng(59.92160287366319, 30.313425064086918),
-                'zoom': 15
+                'zoom': 15,
+                key: DG.config.key || 'Your API access key'
             });
 
             map.addControl(DG.control.traffic());

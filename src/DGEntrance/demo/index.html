@@ -38,7 +38,8 @@
 
         map = new DG.Map('map', {
             center: [54.980206086231, 82.898068362003],
-            zoom: 18
+            zoom: 18,
+            key: DG.config.key || 'Your API access key'
         });
         balloonHTML = '<a href="http://www.2gis.ru/" target="_blank">\n\
             <img src="2gis-logo.png" alt="2GIS" title="2GIS" width="146" height="70" style="border: none"></a>\n\
