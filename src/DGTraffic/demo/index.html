@@ -18,7 +18,8 @@
             map = new DG.Map('map', {
                 "center": new DG.LatLng(54.95070983406191, 83.0569839477539),
                 "zoom": 11,
-                "geoclicker": false
+                "geoclicker": false,
+                key: DG.config.key || 'Your API access key'
             });
 
             var traffic = new DG.Traffic();

@@ -10,7 +10,8 @@ module.exports = function(config) {
             mocha: {
                 timeout: 480000
             },
-            secretKey: process.env.TEST_SECRET_KEY || 'default_secret_key'
+            secretKey: process.env.TEST_SECRET_KEY || '',
+            secretInvalidKey: process.env.TEST_REACHED_LIMITS_SECRET_KEY  || ''
         },
 
         // use dots reporter, as travis terminal does not support escaping sequences

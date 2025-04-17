@@ -55,7 +55,8 @@
         //{APP_CORE}/src/{Plugin}/demo/index.html
         map = new DG.Map('map', {
             center: new DG.LatLng(54.980206086231, 82.898068362003),
-            zoom: 13
+            zoom: 13,
+            key: DG.config.key || 'Your API access key'
         });
         map.addControl(new DG.LocaleExample());
         var langMenu = DG.DomUtil.get('langMenu');

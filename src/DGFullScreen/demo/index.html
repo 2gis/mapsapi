@@ -16,7 +16,8 @@
 
     map = new DG.Map('map', {
         center: new DG.LatLng(54.980206086231, 82.898068362003),
-        zoom:12
+        zoom:12,
+        key: DG.config.key || 'Your API access key'
         // возможно отключить кнопку фулскрина передав опцию
         //fullscreenControl: false
     });

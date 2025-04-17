@@ -15,7 +15,8 @@
         DG.then(function () {
             var map = new DG.Map('map', {
                 center: new DG.LatLng(54.980206086231, 82.898068362003),
-                zoom: 12
+                zoom: 12,
+                key: DG.config.key || 'Your API access key'
             });
 
             var markerStatic = DG.marker([54.950206086231, 82.898068362003], {

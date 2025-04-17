@@ -19,7 +19,8 @@
 
         var map = new DG.Map('map', {
                 center: new DG.LatLng(55.0412876099625, 82.9175228440822),
-                zoom: 17
+                zoom: 17,
+                key: DG.config.key || 'Your API access key'
             }),
             converter = function (coords) {
                 return map.containerPointToLatLng(coords);
