@@ -42,8 +42,6 @@ DG.Map.addInitHook(function() {
             return;
         }
 
-
-        // TODO статус код может быть throttling или blocked
         if (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok') {
             handleTileError.call(this);
         }
