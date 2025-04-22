@@ -37,12 +37,8 @@ DG.Map.addInitHook(function() {
 
     var validator = new DG.ApiKeyValidator(apiKey);
     validator.validate(function(response) {
-        // TODO пока на 400 ошибку (пользователь без ключа) не показываем ошибку (на релизе уже показываем)
-        if (response.meta.code === 400 || !response.result) {
-            return;
-        }
 
-        if (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok') {
+        if (response.meta.code === 400 || !response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok') {
             handleTileError.call(this);
         }
     });

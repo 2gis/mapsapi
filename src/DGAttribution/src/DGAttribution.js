@@ -111,7 +111,9 @@ DG.Control.Attribution.include({
             map._copyright = true;
             this._first = true;
         }
-        this._key = map.options.key || DG.config.key;
+        // TODO у нас на бекенде сейчас пустой ключ и пока мы его не добавили будет браться ключ по дефолту из конфигов, как только мы его туда положим копирайт об ошибке пропадёт потом можно убрать без последствий
+        this._freeKey = 'c5e4d7ec-f9d0-470f-b7f0-278f622f20e2';
+        this._key = map.options.key || DG.config.key !== this._freeKey;
         this._logotype = map.options.logotype;
         this._open2gis = this._getLink('open_link')
 
