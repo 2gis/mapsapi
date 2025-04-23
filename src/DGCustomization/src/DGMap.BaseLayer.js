@@ -27,8 +27,6 @@ DG.Map.addInitHook(function() {
 
             if (mapContainer) {
                 mapContainer.appendChild(errorMessage);
-            } else {
-                console.warn('Map container with id "map" not found.');
             }
 
             this.isErrorWasShown = true;
