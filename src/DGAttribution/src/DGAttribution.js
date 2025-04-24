@@ -112,7 +112,7 @@ DG.Control.Attribution.include({
             this._first = true;
         }
 
-        this._key = map.options.key || DG.config.key !== DG.config.defaultKey;
+        this._isDefaultKey = !map.options.key;
         this._logotype = map.options.logotype;
         this._open2gis = this._getLink('open_link')
 
@@ -207,7 +207,7 @@ DG.Control.Attribution.include({
         return {
             'logotype': isHideButton,
             'work_on': this.t('work_on'),
-            'has_no_key': this._key ? null : this.t('has_no_key'),
+            'has_no_key': this._isDefaultKey ? null : this.t('has_no_key'),
             'lang': lang,
             'copyright_apilink': this._getLink('copyright_apilink'),
             'copyright_license': this._getLink('copyright_license'),
