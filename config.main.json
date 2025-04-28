@@ -32,7 +32,10 @@
     "secureProtocol": "https:",
 
     "baseUrl": "//maps.api.2gis.ru/2.0",
-    "key": "",
+    "key": "c5e4d7ec-f9d0-470f-b7f0-278f622f20e2",
+
+    "keyServer": "https://keys.api.2gis.com/public/v1/keys/",
+    "keyServices": "/services/tiles-raster-api",
 
     "tileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd&key={key}",
     "retinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd&key={key}",

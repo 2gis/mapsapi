@@ -17,7 +17,8 @@
             var map = new DG.Map('map', {
                 center: new DG.LatLng(51.7302800, 36.1938900),
                 zoom: 17,
-                geoclicker: true
+                geoclicker: true,
+                key: DG.config.key || 'Your API access key'
             });
 
             var marker = DG.marker(map.getCenter()).addTo(map);

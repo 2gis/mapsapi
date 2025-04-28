@@ -39,7 +39,8 @@
         var map = new DG.Map('map', {
             center: new DG.LatLng(54.980206086231, 82.898068362003),
             zoom: 17,
-            geoclicker: true
+            geoclicker: true,
+            key: DG.config.key || 'Your API access key'
         });
 
         function test_get(){

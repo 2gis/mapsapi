@@ -16,7 +16,8 @@
         var currentProjectBound,
             map = new DG.Map('map', {
                 center:new DG.LatLng(54.980206086231, 82.898068362003),
-                zoom:10
+                zoom:10,
+                key: DG.config.key || 'Your API access key'
             });
 
         map.on('projectchange', function (e) {
