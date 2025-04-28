@@ -36,7 +36,7 @@ DG.Map.addInitHook(function() {
     var validator = new DG.ApiKeyValidator(apiKey);
     validator.validate(function(response) {
 
-        if (response.meta.code === 400 || response.result && (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok')) {
+        if (response.meta.code === 400 || response.meta.code === 404 || response.result && (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok')) {
             handleTileError.call(this);
         }
     });
