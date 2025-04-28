@@ -43,22 +43,22 @@ DG.ApiKeyValidator = DG.Class.extend({
                         this.isLoading = false;
                         callback(response);
                     } catch (e) {
-                        this._handleError(callback);
+                        this._handleError(callback, xhr.status);
                     }
                 } else {
-                    this._handleError(callback);
+                    this._handleError(callback, xhr.status);
                 }
             }
         }.bind(this);
 
         xhr.onerror = function() {
-            this._handleError(callback);
+            this._handleError(callback, xhr.status);
         }.bind(this);
 
         xhr.send();
     },
 
-    _handleError: function(callback) {
+    _handleError: function(callback, status) {
         this.attempts++;
 
         if (this.attempts < this.MAX_ATTEMPTS) {
@@ -67,7 +67,7 @@ DG.ApiKeyValidator = DG.Class.extend({
             this.isLoading = false;
             callback({
                 meta: {
-                    code: 400,
+                    code: status,
                     message: 'Failed to validate API key'
                 },
             });
