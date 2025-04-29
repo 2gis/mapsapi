@@ -207,7 +207,7 @@ DG.Control.Attribution.include({
         return {
             'logotype': isHideButton,
             'work_on': this.t('work_on'),
-            'has_no_key': this._isDefaultKey ? null : this.t('has_no_key'),
+            'has_no_key': this._isDefaultKey ? this.t('has_no_key') : null,
             'lang': lang,
             'copyright_apilink': this._getLink('copyright_apilink'),
             'copyright_license': this._getLink('copyright_license'),
