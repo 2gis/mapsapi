@@ -23,7 +23,7 @@ DG.Map.addInitHook(function() {
         if (!this.isErrorWasShown) {
             errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
 
-            var mapContainer = this.map.getContainer();
+            var mapContainer = this.map.getContainer() || this.map;
 
             if (mapContainer) {
                 mapContainer.appendChild(errorMessage);
