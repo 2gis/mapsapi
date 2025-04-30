@@ -17,29 +17,8 @@ DG.Map.addInitHook(function() {
 
     var apiKey = this.options.key || DG.config.key;
 
-    this.isErrorWasShown = false;
-    function handleTileError() {
-        var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
-        if (!this.isErrorWasShown) {
-            errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
-
-            var mapContainer = this.getContainer();
-
-            if (mapContainer) {
-                mapContainer.appendChild(errorMessage);
-            }
-
-            this.isErrorWasShown = true;
-        }
-    }
-
     var validator = new DG.ApiKeyValidator(apiKey);
-    validator.validate(function(response) {
-
-        if (response.meta.code === 400 || response.meta.code === 404 || response.result && (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok')) {
-            handleTileError.bind(this)();
-        }
-    }.bind(this));
+    validator.validateKeyResponse(this);
 
     var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
     var arabicTileUrl = DG.config.secureProtocol +

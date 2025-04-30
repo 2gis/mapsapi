@@ -8,6 +8,7 @@ DG.ApiKeyValidator = DG.Class.extend({
         this.request = null;
         this.MAX_ATTEMPTS = 4;
         this.keyRequestInterval = [0, 2, 2, 2];
+        this.isErrorWasShown = false;
     },
 
     validate: function(callback) {
@@ -20,6 +21,15 @@ DG.ApiKeyValidator = DG.Class.extend({
         this._makeAttempt(callback);
     },
 
+    validateKeyResponse: function(map) {
+        this.map = map;
+        this.validate(function(response) {
+            if (!response || this._isResponseInvalid(response)) {
+                this._showError();
+            }
+        }.bind(this));
+    },
+
     _makeAttempt: function(callback) {
         if (this.attempts > 0) {
             this.lastTimeout = window.setTimeout(function() {
@@ -28,6 +38,33 @@ DG.ApiKeyValidator = DG.Class.extend({
             }.bind(this), this.keyRequestInterval[this.attempts] * 1000);
         } else {
             this._executeRequest(callback);
+        }
+    },
+
+    _isResponseInvalid: function(response) {
+        return (
+            response.meta.code === 400 ||
+            response.meta.code === 404 ||
+            response.result &&
+            (!response.result.service.is_active ||
+                !response.result.is_active ||
+                response.result.service.status.code !== 'ok'
+            )
+        );
+    },
+
+    _showError: function() {
+        var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
+        if (!this.isErrorWasShown) {
+            errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
+
+            var mapContainer = this.getContainer();
+
+            if (mapContainer) {
+                mapContainer.appendChild(errorMessage);
+            }
+
+            this.isErrorWasShown = true;
         }
     },
 
