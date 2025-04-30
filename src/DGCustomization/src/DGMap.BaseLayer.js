@@ -23,9 +23,7 @@ DG.Map.addInitHook(function() {
         if (!this.isErrorWasShown) {
             errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
 
-            // В дев режиме можно напрямую получить контейнер, но после build обращение к карте идёт через this
-            var containerIsAvailable = this.map.getContainer;
-            var mapContainer = containerIsAvailable ? this.map.getContainer() : this.map;
+            var mapContainer = this.map.getContainer()
 
             if (mapContainer) {
                 mapContainer.appendChild(errorMessage);
@@ -39,9 +37,9 @@ DG.Map.addInitHook(function() {
     validator.validate(function(response) {
 
         if (response.meta.code === 400 || response.meta.code === 404 || response.result && (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok')) {
-            handleTileError.call(this);
+            handleTileError();
         }
-    });
+    }.bind(this));
 
     var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
     var arabicTileUrl = DG.config.secureProtocol +
