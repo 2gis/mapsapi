@@ -23,7 +23,7 @@ DG.Map.addInitHook(function() {
         if (!this.isErrorWasShown) {
             errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
 
-            var mapContainer = this.map.getContainer()
+            var mapContainer = this.getContainer();
 
             if (mapContainer) {
                 mapContainer.appendChild(errorMessage);
@@ -37,7 +37,7 @@ DG.Map.addInitHook(function() {
     validator.validate(function(response) {
 
         if (response.meta.code === 400 || response.meta.code === 404 || response.result && (!response.result.service.is_active || !response.result.is_active || response.result.service.status.code !== 'ok')) {
-            handleTileError();
+            handleTileError.bind(this)();
         }
     }.bind(this));
 
