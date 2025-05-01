@@ -1,5 +1,5 @@
 DG.ApiKeyValidator = DG.Class.extend({
-    initialize: function(apiKey) {
+    initialize: function(apiKey, mapContainer) {
         this.apiKey = apiKey;
         this.endpoint = DG.config.keyServer + apiKey + DG.config.keyServices;
         this.isLoading = false;
@@ -9,6 +9,7 @@ DG.ApiKeyValidator = DG.Class.extend({
         this.MAX_ATTEMPTS = 4;
         this.keyRequestInterval = [0, 2, 2, 2];
         this.isErrorWasShown = false;
+        this.mapContainer = mapContainer;
     },
 
     validate: function(callback) {
@@ -21,8 +22,7 @@ DG.ApiKeyValidator = DG.Class.extend({
         this._makeAttempt(callback);
     },
 
-    validateKeyResponse: function(map) {
-        this.map = map;
+    validateKeyResponse: function() {
         this.validate(function(response) {
             if (!response || this._isResponseInvalid(response)) {
                 this._showError();
@@ -58,10 +58,8 @@ DG.ApiKeyValidator = DG.Class.extend({
         if (!this.isErrorWasShown) {
             errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
 
-            var mapContainer = this.map.getContainer();
-
-            if (mapContainer) {
-                mapContainer.appendChild(errorMessage);
+            if (this.mapContainer) {
+                this.mapContainer.appendChild(errorMessage);
             }
 
             this.isErrorWasShown = true;

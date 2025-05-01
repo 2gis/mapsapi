@@ -16,9 +16,9 @@ DG.Map.addInitHook(function() {
     });
 
     var apiKey = this.options.key || DG.config.key;
-
-    var validator = new DG.ApiKeyValidator(apiKey);
-    validator.validateKeyResponse(this);
+    var mapContainer = this.getContainer();
+    var validator = new DG.ApiKeyValidator(apiKey, mapContainer);
+    validator.validateKeyResponse();
 
     var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
     var arabicTileUrl = DG.config.secureProtocol +
