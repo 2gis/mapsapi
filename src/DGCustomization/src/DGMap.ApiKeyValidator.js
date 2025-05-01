@@ -69,30 +69,16 @@ DG.ApiKeyValidator = DG.Class.extend({
     },
 
     _executeRequest: function(callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', this.endpoint, true);
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    try {
-                        var response = JSON.parse(xhr.responseText);
-                        this.isLoading = false;
-                        callback(response);
-                    } catch (e) {
-                        this._handleError(callback, xhr.status);
-                    }
-                } else {
-                    this._handleError(callback, xhr.status);
-                }
-            }
-        }.bind(this);
-
-        xhr.onerror = function() {
-            this._handleError(callback, xhr.status);
-        }.bind(this);
-
-        xhr.send();
+        this.request = DG.ajax(this.endpoint, {
+            type: 'GET',
+            success: function(response) {
+                this.isLoading = false;
+                callback(response);
+            }.bind(this),
+            error: function(xhr) {
+                this._handleError(callback, xhr.status);
+            }.bind(this)
+        });
     },
 
     _handleError: function(callback, status) {
@@ -120,6 +106,10 @@ DG.ApiKeyValidator = DG.Class.extend({
 
     destroy: function() {
         this._clearLastTimeout();
+        if (this.request && this.request.abort) {
+            this.request.abort();
+            this.request = null;
+        }
         this.isLoading = false;
     }
 });
