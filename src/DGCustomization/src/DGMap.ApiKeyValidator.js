@@ -106,10 +106,6 @@ DG.ApiKeyValidator = DG.Class.extend({
 
     destroy: function() {
         this._clearLastTimeout();
-        if (this.request && this.request.abort) {
-            this.request.abort();
-            this.request = null;
-        }
         this.isLoading = false;
     }
 });
