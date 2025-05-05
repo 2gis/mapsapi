@@ -1,5 +1,5 @@
 DG.ApiKeyValidator = DG.Class.extend({
-    initialize: function(apiKey) {
+    initialize: function(apiKey, mapContainer) {
         this.apiKey = apiKey;
         this.endpoint = DG.config.keyServer + apiKey + DG.config.keyServices;
         this.isLoading = false;
@@ -8,6 +8,8 @@ DG.ApiKeyValidator = DG.Class.extend({
         this.request = null;
         this.MAX_ATTEMPTS = 4;
         this.keyRequestInterval = [0, 2, 2, 2];
+        this.isErrorWasShown = false;
+        this.mapContainer = mapContainer;
     },
 
     validate: function(callback) {
@@ -18,6 +20,14 @@ DG.ApiKeyValidator = DG.Class.extend({
         this.isLoading = true;
         this.attempts = 0;
         this._makeAttempt(callback);
+    },
+
+    validateKeyResponse: function() {
+        this.validate(function(response) {
+            if (!response || this._isResponseInvalid(response)) {
+                this._showError();
+            }
+        }.bind(this));
     },
 
     _makeAttempt: function(callback) {
@@ -31,31 +41,39 @@ DG.ApiKeyValidator = DG.Class.extend({
         }
     },
 
+    _isResponseInvalid: function(response) {
+        return (
+            response.meta.code === 400 ||
+            response.meta.code === 404 ||
+            response.result &&
+            (!response.result.service.is_active ||
+                !response.result.is_active ||
+                response.result.service.status.code !== 'ok'
+            )
+        );
+    },
+
+    _showError: function() {
+
+        if (!this.isErrorWasShown && this.mapContainer) {
+            var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
+            errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
+            this.mapContainer.appendChild(errorMessage);
+            this.isErrorWasShown = true;
+        }
+    },
+
     _executeRequest: function(callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', this.endpoint, true);
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    try {
-                        var response = JSON.parse(xhr.responseText);
-                        this.isLoading = false;
-                        callback(response);
-                    } catch (e) {
-                        this._handleError(callback, xhr.status);
-                    }
-                } else {
-                    this._handleError(callback, xhr.status);
-                }
-            }
-        }.bind(this);
-
-        xhr.onerror = function() {
-            this._handleError(callback, xhr.status);
-        }.bind(this);
-
-        xhr.send();
+        this.request = DG.ajax(this.endpoint, {
+            type: 'GET',
+            success: function(response) {
+                this.isLoading = false;
+                callback(response);
+            }.bind(this),
+            error: function(xhr) {
+                this._handleError(callback, xhr.status);
+            }.bind(this)
+        });
     },
 
     _handleError: function(callback, status) {
