@@ -54,14 +54,11 @@ DG.ApiKeyValidator = DG.Class.extend({
     },
 
     _showError: function() {
-        var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
-        if (!this.isErrorWasShown) {
+
+        if (!this.isErrorWasShown && this.mapContainer) {
+            var errorMessage = DG.DomUtil.create('div', 'dg-error-message');
             errorMessage.innerHTML = 'Your RasterJS API key is invalid. Please contact api@2gis.com to get RasterJS API key.';
-
-            if (this.mapContainer) {
-                this.mapContainer.appendChild(errorMessage);
-            }
-
+            this.mapContainer.appendChild(errorMessage);
             this.isErrorWasShown = true;
         }
     },
