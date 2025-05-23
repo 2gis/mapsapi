@@ -18,16 +18,17 @@ DG.Map.addInitHook(function() {
     var apiKey = this.options.key || DG.config.key;
     var mapContainer = this.getContainer();
     var validator = new DG.ApiKeyValidator(apiKey, mapContainer);
+    var showCommPoi = (this.options.showCommPoi ? '' : '&layerType=nc');
     validator.validateKeyResponse();
 
-    var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer);
+    var tileUrl = DG.config.secureProtocol + (DG.Browser.retina ? DG.config.retinaTileServer : DG.config.tileServer) + showCommPoi;
     var arabicTileUrl = DG.config.secureProtocol +
-        (DG.Browser.retina ? DG.config.arabicRetinaTileServer : DG.config.arabicTileServer);
+        (DG.Browser.retina ? DG.config.arabicRetinaTileServer : DG.config.arabicTileServer) + showCommPoi;
 
     var previewTileUrl = DG.config.secureProtocol +
-        (DG.Browser.retina ? DG.config.previewRetinaTileServer : DG.config.previewTileServer);
+        (DG.Browser.retina ? DG.config.previewRetinaTileServer : DG.config.previewTileServer) + showCommPoi;
     var arabicPreviewTileUrl = DG.config.secureProtocol +
-        (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer);
+        (DG.Browser.retina ? DG.config.arabicPreviewRetinaTileServer : DG.config.arabicPreviewTileServer) + showCommPoi;
 
     this.baseLayer = new BaseLayer(tileUrl, {
         subdomains: '0123',
