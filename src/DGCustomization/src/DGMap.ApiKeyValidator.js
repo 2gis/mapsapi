@@ -48,7 +48,7 @@ DG.ApiKeyValidator = DG.Class.extend({
             response.result &&
             (!response.result.service.is_active ||
                 !response.result.is_active ||
-                response.result.service.status.code !== 'ok'
+                !['ok', 'exceeded'].includes(response.result.service.status.code)
             )
         );
     },
