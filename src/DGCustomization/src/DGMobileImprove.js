@@ -426,6 +426,23 @@ L.MobileTileLayer = L.TileLayer.extend({
         tile = this._tiles[key];
         if (!tile) { return; }
 
+        // Если у тайла уже есть оригинальная (не пожатая) картинка,
+        // то заменим превью на нее
+        if (tile.originalEl && tile.el.parentNode) {
+            tile.el.parentNode.replaceChild(tile.originalEl, tile.el);
+            tile.el = tile.originalEl;
+
+            tile.originalEl = null;
+            tile.preview = false;
+
+        // Если у тайла есть только превью, то добавим его на карту
+        // И начнем грузить оригинальный
+        } else if (tile.preview) {
+            tile.originalEl = this.createTile(this._wrapCoords(coords), L.bind(this._tileReady, this, coords), this._url);
+            this._initTile(tile.originalEl);
+            L.DomUtil.setPosition(tile.originalEl, this._getTilePos(coords));
+        }
+
         tile.loaded = +new Date();
         tile.active = true;
         this._pruneTiles();
