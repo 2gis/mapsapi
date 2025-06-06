@@ -358,9 +358,9 @@ L.MobileTileLayer = L.TileLayer.extend({
     },
 
     _isAppleDevice: function() {
-        var appleMobileRE = /ip(hone|od)/i; // Для iPhone и iPod
-        var appleTabletRE = /ipad/i; // Для iPad
-        var touchMacRE = /Macintosh/i; // Для устройств macOS с тач-экранами
+        var appleMobileRE = /ip(hone|od)/i;
+        var appleTabletRE = /ipad/i;
+        var touchMacRE = /Macintosh/i;
 
         var ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
 
@@ -368,11 +368,9 @@ L.MobileTileLayer = L.TileLayer.extend({
             return false;
         }
 
-        // Проверяем iPhone, iPod и iPad
         var isAppleMobile = appleMobileRE.test(ua);
         var isAppleTablet = appleTabletRE.test(ua);
 
-        // Проверяем macOS с тач-скрином (например, iPadOS, который может определяться как Mac)
         var isTouchMac =
             navigator.maxTouchPoints > 1 && touchMacRE.test(ua) && ua.indexOf('Safari') !== -1;
 
