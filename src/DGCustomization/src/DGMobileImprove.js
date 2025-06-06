@@ -368,7 +368,7 @@ L.MobileTileLayer = L.TileLayer.extend({
         var needPreview = this._needPreviewTile(wrapCoords);
 
         var url = needPreview ? this._previewUrl : this._url;
-        var tile = this.createTile(wrapCoords, L.bind(this._tileReady, this, coords), url);
+        var tile = this.createTile(wrapCoords, L.bind(needPreview ? this._previewReady : this._tileReady, this, coords), url);
 
         this._initTile(tile);
 
