@@ -146,7 +146,7 @@ if (DG.Browser.mobile) {
 L.MobileTileLayer = L.TileLayer.extend({
     initialize: function(url, options) {
         L.TileLayer.prototype.initialize.call(this, url, options);
-
+        this._appleDevice = this._isAppleDevice()
         this._previewUrl = options.previewUrl;
     },
 
@@ -388,7 +388,7 @@ L.MobileTileLayer = L.TileLayer.extend({
         var needPreview = this._needPreviewTile(wrapCoords);
 
         var url = needPreview ? this._previewUrl : this._url;
-        var showPreviewForIphone = this._isAppleDevice() && needPreview;
+        var showPreviewForIphone = this._appleDevice && needPreview;
         var tile = this.createTile(wrapCoords, L.bind(showPreviewForIphone ? this._previewReady : this._tileReady, this, coords), url);
 
         this._initTile(tile);
@@ -447,7 +447,7 @@ L.MobileTileLayer = L.TileLayer.extend({
         tile = this._tiles[key];
         if (!tile) { return; }
 
-        if (!this._isAppleDevice()) {
+        if (!this._appleDevice) {
         // Если у тайла уже есть оригинальная (не пожатая) картинка,
         // то заменим превью на нее
             if (tile.originalEl && tile.el.parentNode) {
