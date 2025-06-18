@@ -146,7 +146,7 @@ if (DG.Browser.mobile) {
 L.MobileTileLayer = L.TileLayer.extend({
     initialize: function(url, options) {
         L.TileLayer.prototype.initialize.call(this, url, options);
-
+        this._appleDevice = this._isAppleDevice()
         this._previewUrl = options.previewUrl;
     },
 
@@ -357,6 +357,26 @@ L.MobileTileLayer = L.TileLayer.extend({
         return true;
     },
 
+    _isAppleDevice: function() {
+        var appleMobileRE = /ip(hone|od)/i;
+        var appleTabletRE = /ipad/i;
+        var touchMacRE = /Macintosh/i;
+
+        var ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+
+        if (!ua) {
+            return false;
+        }
+
+        var isAppleMobile = appleMobileRE.test(ua);
+        var isAppleTablet = appleTabletRE.test(ua);
+
+        var isTouchMac =
+            navigator.maxTouchPoints > 1 && touchMacRE.test(ua) && ua.indexOf('Safari') !== -1;
+
+        return isAppleMobile || isAppleTablet || isTouchMac;
+    },
+
     /**
      * Добавлена логика с превью тайлами
      */
@@ -368,7 +388,8 @@ L.MobileTileLayer = L.TileLayer.extend({
         var needPreview = this._needPreviewTile(wrapCoords);
 
         var url = needPreview ? this._previewUrl : this._url;
-        var tile = this.createTile(wrapCoords, L.bind(this._tileReady, this, coords), url);
+        var showPreviewForIphone = this._appleDevice && needPreview;
+        var tile = this.createTile(wrapCoords, L.bind(showPreviewForIphone ? this._previewReady : this._tileReady, this, coords), url);
 
         this._initTile(tile);
 
@@ -389,6 +410,20 @@ L.MobileTileLayer = L.TileLayer.extend({
             tile: tile,
             coords: coords
         });
+    },
+
+    _previewReady: function(coords, err, tile) {
+        if (!this._map) { return; }
+
+        var key = this._tileCoordsToKey(coords);
+
+        tile = this._tiles[key];
+        if (!tile) { return; }
+
+
+        tile.el.onload = L.bind(this._tileReady, this, coords, err, tile);
+        tile.el.onerror = L.bind(this._tileReady, this, coords, err, tile);
+        tile.el.src = this.getTileUrl(coords, this._url);
     },
 
     /**
@@ -412,23 +447,24 @@ L.MobileTileLayer = L.TileLayer.extend({
         tile = this._tiles[key];
         if (!tile) { return; }
 
+        if (!this._appleDevice) {
         // Если у тайла уже есть оригинальная (не пожатая) картинка,
         // то заменим превью на нее
-        if (tile.originalEl && tile.el.parentNode) {
-            tile.el.parentNode.replaceChild(tile.originalEl, tile.el);
-            tile.el = tile.originalEl;
+            if (tile.originalEl && tile.el.parentNode) {
+                tile.el.parentNode.replaceChild(tile.originalEl, tile.el);
+                tile.el = tile.originalEl;
 
-            tile.originalEl = null;
-            tile.preview = false;
+                tile.originalEl = null;
+                tile.preview = false;
 
-        // Если у тайла есть только превью, то добавим его на карту
-        // И начнем грузить оригинальный
-        } else if (tile.preview) {
-            tile.originalEl = this.createTile(this._wrapCoords(coords), L.bind(this._tileReady, this, coords), this._url);
-            this._initTile(tile.originalEl);
-            L.DomUtil.setPosition(tile.originalEl, this._getTilePos(coords));
+                // Если у тайла есть только превью, то добавим его на карту
+                // И начнем грузить оригинальный
+            } else if (tile.preview) {
+                tile.originalEl = this.createTile(this._wrapCoords(coords), L.bind(this._tileReady, this, coords), this._url);
+                this._initTile(tile.originalEl);
+                L.DomUtil.setPosition(tile.originalEl, this._getTilePos(coords));
+            }
         }
-
         tile.loaded = +new Date();
         tile.active = true;
         this._pruneTiles();
