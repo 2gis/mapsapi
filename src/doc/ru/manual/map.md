@@ -67,6 +67,13 @@
                 отрисовываются с помощью <a href="/doc/maps/ru/manual/vector-layers#dgsvg"><code>SVG</code></a> рендерера.
             </td>
         </tr>
+        <tr id="map-protocol">
+            <td><code><b>protocol</b></code></td>
+            <td><code>String </code></td>
+            <td><code>''</code></td>
+            <td>Сетевой проток, используемый в запросах к тайлам.
+            </td>
+        </tr>
     </tbody>
 </table>
 

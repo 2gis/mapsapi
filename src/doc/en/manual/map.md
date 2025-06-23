@@ -66,6 +66,13 @@ Initialize the map on the &quot;map&quot; div with a given center and zoom:
                 rendered in a <a href="/doc/maps/en/manual/vector-layers#dgsvg"><code>SVG</code></a> renderer.
             </td>
         </tr>
+        <tr id="map-protocol">
+            <td><code><b>protocol</b></code></td>
+            <td><code>String </code></td>
+            <td><code>''</code></td>
+            <td>Network protocol used in tiles requests.
+            </td>
+        </tr>
     </tbody>
 </table>
 
