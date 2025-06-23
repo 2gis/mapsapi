@@ -21,7 +21,7 @@ DG.Map.addInitHook(function() {
     var showCommPoi = (this.options.showCommPoi ? '' : '&layerType=nc');
     validator.validateKeyResponse();
 
-    let protocol = this.options.protocol || DG.config.secureProtocol;
+    var protocol = this.options.protocol || DG.config.secureProtocol;
     // Check that last symbol is colon, and if not add it
     if (protocol[protocol.length - 1] !== ':') {
         protocol = protocol + ':';
