@@ -37,15 +37,15 @@
     "keyServer": "https://keys.api.2gis.com/public/v1/keys/",
     "keyServices": "/services/tiles-raster-api",
 
-    "tileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd&key={key}",
-    "retinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd&key={key}",
-    "previewTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd&key={key}",
-    "previewRetinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd&key={key}",
+    "tileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd&key={key}",
+    "retinaTileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd&key={key}",
+    "previewTileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd&key={key}",
+    "previewRetinaTileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd&key={key}",
 
-    "arabicTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar&key={key}",
-    "arabicRetinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar&key={key}",
-    "arabicPreviewTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd_ar&key={key}",
-    "arabicPreviewRetinaTileServer": "//tile{s}.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd_ar&key={key}",
+    "arabicTileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_sd_ar&key={key}",
+    "arabicRetinaTileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&ts=online_hd_ar&key={key}",
+    "arabicPreviewTileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_sd_ar&key={key}",
+    "arabicPreviewRetinaTileServer": "//tile{s}-sdk.maps.2gis.com/v2/tiles?x={x}&y={y}&z={z}&v=1&size=64&ts=online_hd_ar&key={key}",
 
     "trafficTileServer": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/{timestampString}",
     "retinaTrafficTileServer": "//traffic{s}.maps.2gis.com/{projectCode}/traffic/{z}/{x}/{y}/speed/{period}/retina/{timestampString}",
