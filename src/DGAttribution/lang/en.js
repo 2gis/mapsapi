@@ -1,5 +1,5 @@
 DG.Control.Attribution.Dictionary.en = {
     license_agreement: 'License agreement',
-    has_no_key: 'RasterJS API will be paid starting July 1. Contact api@2gis.ru to get a key',
+    has_no_key: 'A key is required for proper operation of Raster JS API. Help: api@2gis.ru',
     work_on: 'Uses 2GIS API'
 };
