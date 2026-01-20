@@ -12,6 +12,17 @@ DG.Map.addInitHook(function() {
 
         getTiles: function() {
             return this._tiles;
+        },
+
+        createTile: function(coords, done, url) {
+            var tile = TileLayer.prototype.createTile.call(this, coords, done, url);
+
+            // Всегда добавляем, чтобы заставить браузер отправлять Origin заголовок.
+            // Иначе ложно срабатывает защита для ключей, которым включили проверку
+            // по Origin.
+            tile.crossOrigin = '';
+
+            return tile;
         }
     });
 
