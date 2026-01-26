@@ -46,6 +46,7 @@ DG.Map.addInitHook(function() {
         updateWhenIdle: false, // it's okay with preview tiles
         previewUrl: previewTileUrl,
         key: apiKey,
+        crossOrigin: true // force Origin request header
     });
 
     var currentTilesLang = ''; // 'ar' | ''
