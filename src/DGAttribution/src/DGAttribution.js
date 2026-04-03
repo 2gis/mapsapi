@@ -28,6 +28,13 @@ DG.Control.Attribution.include({
                 open_link: 'https://2gis.ru',
             },
 
+            kz: {
+                copyright_logo: 'https://2gis.kz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_apilink: 'https://dev.2gis.kz/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
+                copyright_license: 'https://law.2gis.kz/api-rules/',
+                open_link: 'https://2gis.kz',
+            },
+
             it: {
                 copyright_logo: 'https://2gis.it/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
                 copyright_apilink: 'https://dev.2gis.com/?utm_source=copyright&utm_medium=map&utm_campaign=partners',
