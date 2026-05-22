@@ -1,0 +1,72 @@
+name: Release Preparation
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      # 1. Клонируем репозиторий
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          # Remove this before merge, it's for testing purposes only
+          ref: automate-release
+          fetch-depth: 0
+
+      # 2. Настраиваем Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '12'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bump version
+        run: |
+          npm version ${{ github.event.inputs.version_type }} --no-git-tag-version
+
+      - name: Update loader.js
+        run: node scripts/update-loader-version.js
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Release ${{ steps.version.outputs.version }}
+          title: Release ${{ steps.version.outputs.version }}
+          branch: release-${{ steps.version.outputs.version }}
+          base: master
+          body: |
+            ## Release ${{ steps.version.outputs.version }}
+                        
+            **Что изменилось:**
+            - Обновлен `package.json`
+            - Обновлен `app/loader.js`
+            - Обновлен `package-lock.json`
+            
+            **Проверка:**
+            - [ ] Локальный запуск (`npm run start`)
+            - [ ] Проверка на staging (после мержа)
+            
+            Closes #issue_number # (если есть)
+          labels: |
+            release
+            automated-pr
