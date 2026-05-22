@@ -9,12 +9,12 @@ const loaderPath = path.join(__dirname, '../app/loader.js');
 
 let content = fs.readFileSync(loaderPath, 'utf8');
 
-const regex = /const version = '.*?'/; 
+const regex = /var version = '.*?'/; 
 
 if (regex.test(content)) {
-    content = content.replace(regex, `const version = '${newVersion}'`);
+    content = content.replace(regex, `var version = 'v${newVersion}'`);
     fs.writeFileSync(loaderPath, content);
-    console.log(`✅ Версия в loader.js обновлена на ${newVersion}`);
+    console.log(`✅ Версия в loader.js обновлена на v${newVersion}`);
 } else {
     console.error('❌ Не удалось найти версию в app/loader.js. Проверьте регулярное выражение в скрипте.');
     process.exit(1);
