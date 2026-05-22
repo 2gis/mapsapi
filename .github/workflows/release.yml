@@ -1,4 +1,4 @@
-name: Release Preparation
+name: Release
 
 on:
   workflow_dispatch:
@@ -38,8 +38,10 @@ jobs:
         run: npm ci
 
       - name: Bump version
+        id: bump
         run: |
           npm version ${{ github.event.inputs.version_type }} --no-git-tag-version
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Update loader.js
         run: node scripts/update-loader-version.js
@@ -48,12 +50,12 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v5
         with:
-          commit-message: Release ${{ steps.version.outputs.version }}
-          title: Release ${{ steps.version.outputs.version }}
-          branch: release-${{ steps.version.outputs.version }}
+          commit-message: Release ${{ steps.bump.outputs.version }}
+          title: Release ${{ steps.bump.outputs.version }}
+          branch: release-${{ steps.bump.outputs.version }}
           base: master
           body: |
-            ## Release ${{ steps.version.outputs.version }}
+            ## Release ${{ steps.bump.outputs.version }}
                         
             **Что изменилось:**
             - Обновлен `package.json`
