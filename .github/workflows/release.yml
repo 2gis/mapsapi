@@ -25,8 +25,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
-          # Remove this before merge, it's for testing purposes only
-          ref: automate-release
           fetch-depth: 0
 
       # 2. Настраиваем Node.js
