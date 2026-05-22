@@ -29,25 +29,8 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
         with:
-          path: './dist'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-
-      - name: Add PR comment with preview link
-        if: github.event.action != 'closed'
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |            
-            [демка](${{ steps.deployment.outputs.page_url }})
-          reactions: rocket
-
-      - name: Clean up preview
-        if: github.event.action == 'closed'
-        run: |
-          echo "Превью для PR #${{ github.event.pull_request.number }} будет удалено"
+            source-dir: ./dist/
+            preview-branch: gh-pages
