@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      # 1. Клонируем репозиторий
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # 2. Настраиваем Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '12'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bump version
+        id: bump
+        run: |
+          npm version ${{ github.event.inputs.version_type }} --no-git-tag-version
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Update loader.js
+        run: node scripts/update-loader-version.js
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Release ${{ steps.bump.outputs.version }}
+          title: Release ${{ steps.bump.outputs.version }}
+          branch: release-${{ steps.bump.outputs.version }}
+          base: master
+          body: |
+            ## Release ${{ steps.bump.outputs.version }}
+                        
+            **Что изменилось:**
+            - Обновлен `package.json`
+            - Обновлен `app/loader.js`
+            - Обновлен `package-lock.json`
+            
+            **Проверка:**
+            - [ ] Локальный запуск (`npm run start`)
+            - [ ] Проверка на staging (после мержа)
+            
+            Closes #issue_number # (если есть)
+          labels: |
+            release
+            automated-pr
