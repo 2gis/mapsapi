@@ -40,8 +40,8 @@ DG.Map.addInitHook(function() {
         subdomains: '0123',
         errorTileUrl: this.getLang() === 'ru' ? errorRuUrl : errorUrl,
         detectRetina: DG.config.detectRetina,
-        maxZoom: 19,
-        maxNativeZoom: 19,
+        maxZoom: 20,
+        maxNativeZoom: 20,
         zIndex: 0,
         updateWhenIdle: false, // it's okay with preview tiles
         previewUrl: previewTileUrl,

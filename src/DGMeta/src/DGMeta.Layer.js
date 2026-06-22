@@ -6,7 +6,7 @@ DG.Meta.Layer = DG.Layer.extend({
         tileSize: 256,
 
         minZoom: 0,
-        maxZoom: 19,
+        maxZoom: 20,
         zoomOffset: 0,
         eventBubbling: 'transparent'
         // maxNativeZoom: <Number>,
