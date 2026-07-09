@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+# Node
+node_modules
+npm-debug.log
+package-lock.json
+
+# Development
+*.md
+!.gitignore
+
+# Build artifacts (will be copied from host)
+# dist/ не включаем - он будет скопирован из хоста
+
+# Testing
+test/
+functional-tests/
+
+# Source
+src/
+gulp/
+vendors/
+assets/
+
+# App (Express.js - не нужен для статической версии)
+app/
+
+# Config (будет применен при сборке)
+config.local.json
+
+# Misc
+.DS_Store
+*.log
